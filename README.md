@@ -87,7 +87,12 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     /// Convert the Tron address to a hexadecimal format.
     final String hexTronAddress = tronAddress.toString(false); 
     ```
+ 
+ ### Transaction
+
   - Ethreum transaction
+
+    Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ethereum/transaction).
 
     ```
     /// Connect to the WebSocket service
@@ -190,7 +195,10 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
 
     ```
   - Contract intraction
-    Tron and Ethereum
+
+    Tron and Ethereum 
+    Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/contract).
+
     ```
     /// For Tron: If the output parameters include an address, set isTron to true.
     /// If it doesn't, set isTron to false to receive an ETH address instead of a Tron address.
@@ -211,6 +219,7 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
 
     ```
     Tron with Http Node
+    Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/tron/transactions/smart_contract).
 
     ```
     final contract = ContractABI.fromJson(tronContract["entrys"]!, isTron: true);
@@ -236,8 +245,9 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     ));
     ```
   - Tron transaction
+    Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/tron/transactions).
+    
     Transfer TRX
-
     ```
     /// intialize private key, address, receiver and ....
     final seed = BytesUtils.fromHexString(
@@ -330,6 +340,8 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     await rpc.request(TronRequestBroadcastHex(transaction: transaction.toHex));
     ```
   
+### EIP712
+
   - EIP-712
     ```
     /// Create an EIP-712 message
@@ -381,8 +393,12 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     final _ = privateKey.sign(encodeTypes, hashMessage: false).toHex();
     ```
 
+### JSON-RPC
+
   - JSON-RPC
-    Explore all available methods in the ethereum/rpc/methods/ directory.
+
+    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ethereum/rpc/methds).
+
     ```
     /// HTTP RPC Service
     final httpRpc = RPCHttpService("https://bsc-testnet.drpc.org/");
@@ -423,7 +439,9 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     ```
 
   - Tron Full-Http node
-    Explore over 90 classes to interact with the Tron HTTP node,
+    
+    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/tron/provider/methods).
+    
     ```
     /// Tron Provider Initialization
     final rpc = TronProvider(TronHTTPProvider(url: "https://api.trongrid.io"));
