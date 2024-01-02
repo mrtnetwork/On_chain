@@ -1,5 +1,5 @@
 name: on_chain
-description: Streamline Ethereum and Tron contract management. Effortlessly create, sign, and send transactions for a robust blockchain experience.
+description: Streamline Ethereum and Tron operations. Effortlessly create transactions, interact with smart contracts, sign, and send transactions for a seamless blockchain experience.
 version: 0.0.1
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
