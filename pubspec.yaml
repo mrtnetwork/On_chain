@@ -4,7 +4,7 @@ version: 0.0.1
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
 Author: mrhaydari.t@gmail.com
-publish_to: none
+
 topics:
   - tron
   - ethereum
