@@ -1,0 +1,67 @@
+import 'package:on_chain/tron/address/tron_address.dart';
+import 'package:on_chain/tron/models/contract/base_contract/base.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
+class MarketSellAssetContract extends TronBaseContract {
+  /// Create a new [MarketSellAssetContract] instance by parsing a JSON map.
+  factory MarketSellAssetContract.fromJson(Map<String, dynamic> json) {
+    return MarketSellAssetContract(
+      ownerAddress: TronAddress(json["owner_address"]),
+      sellTokenId: BytesUtils.tryFromHexString(json["sell_token_id"]),
+      sellTokenQuantity: BigintUtils.tryParse(json["sell_token_quantity"]),
+      buyTokenId: BytesUtils.tryFromHexString(json["buy_token_id"]),
+      buyTokenQuantity: BigintUtils.tryParse(json["buy_token_quantity"]),
+    );
+  }
+
+  /// Create a new [MarketSellAssetContract] instance with specified parameters.
+  MarketSellAssetContract(
+      {required this.ownerAddress,
+      List<int>? sellTokenId,
+      this.sellTokenQuantity,
+      List<int>? buyTokenId,
+      this.buyTokenQuantity})
+      : sellTokenId = BytesUtils.tryToBytes(sellTokenId, unmodifiable: true),
+        buyTokenId = BytesUtils.tryToBytes(buyTokenId, unmodifiable: true);
+
+  /// Account address
+  final TronAddress ownerAddress;
+  final List<int>? sellTokenId;
+  final BigInt? sellTokenQuantity;
+  final List<int>? buyTokenId;
+  final BigInt? buyTokenQuantity;
+
+  @override
+  List<int> get fieldIds => [1, 2, 3, 4, 5];
+
+  @override
+  List get values => [
+        ownerAddress,
+        sellTokenId,
+        sellTokenQuantity,
+        buyTokenId,
+        buyTokenQuantity
+      ];
+
+  /// Convert the [MarketSellAssetContract] object to a JSON representation.
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "owner_address": ownerAddress.toString(),
+      "sell_token_id": BytesUtils.tryToHexString(sellTokenId),
+      "sell_token_quantity": sellTokenQuantity?.toString(),
+      "buy_token_id": BytesUtils.tryToHexString(buyTokenId),
+      "buy_token_quantity": buyTokenQuantity?.toString(),
+    };
+  }
+
+  /// Convert the [MarketSellAssetContract] object to its string representation.
+  @override
+  String toString() {
+    return "MarketSellAssetContract{${toJson()}}";
+  }
+
+  @override
+  TransactionContractType get contractType =>
+      TransactionContractType.marketSellAssetContract;
+}

@@ -1,0 +1,88 @@
+part of "package:on_chain/abi/abi.dart";
+
+/// ABICoder implementation for encoding and decoding tuple types.
+class TupleCoder implements ABICoder<List<dynamic>> {
+  /// Creates an instance of the TupleCoder class.
+  const TupleCoder();
+
+  /// Encodes a tuple of dynamic values to ABI-encoded bytes.
+  @override
+  EncoderResult abiEncode(AbiParameter params, List<dynamic> input) {
+    bool isDynamic = false;
+    List<EncoderResult> encoded = [];
+    if (input.length != params.components.length) {
+      throw _ABIValidator.invalidArgrumentsLength;
+    }
+    for (int i = 0; i < params.components.length; i++) {
+      final paramComponent = params.components[i];
+      EncoderResult result = paramComponent.abiEncode(input[i]);
+      if (result.isDynamic) {
+        isDynamic = true;
+      }
+      encoded.add(result);
+    }
+    if (isDynamic) {
+      return EncoderResult(
+          isDynamic: true, encoded: _ABIUtils.encodeDynamicParams(encoded));
+    }
+    final re = encoded.map((e) => e.encoded).toList();
+    return EncoderResult(isDynamic: false, encoded: [for (var i in re) ...i]);
+  }
+
+  /// Decodes a tuple of dynamic values from the given ABI-encoded bytes.
+  @override
+  DecoderResult<List<dynamic>> decode(AbiParameter params, List<int> bytes) {
+    int consumed = 0;
+
+    if (params.components.isEmpty) {
+      return DecoderResult(result: [], consumed: consumed);
+    }
+    int dynamicConsumed = 0;
+    List<dynamic> result = [];
+    for (int index = 0; index < params.components.length; index++) {
+      AbiParameter childParam = params.components[index];
+      DecoderResult<dynamic> decodedResult;
+
+      if (childParam.isDynamic) {
+        DecoderResult<BigInt> offsetResult = const NumbersCoder().decode(
+          AbiParameter.uint32,
+          bytes.sublist(consumed),
+        );
+
+        decodedResult = _ABIUtils.decodeParamFromAbiParameter(
+          childParam,
+          bytes.sublist(offsetResult.result.toInt()),
+        );
+
+        consumed += offsetResult.consumed;
+        dynamicConsumed += decodedResult.consumed;
+      } else {
+        decodedResult = _ABIUtils.decodeParamFromAbiParameter(
+            childParam, bytes.sublist(consumed));
+        consumed += decodedResult.consumed;
+      }
+
+      result.add(decodedResult.result);
+    }
+    return DecoderResult(result: result, consumed: consumed + dynamicConsumed);
+  }
+
+  /// Legacy EIP-712 encoding for tuple values.
+  /// Optionally keeps the size unchanged based on the `keepSize` parameter.
+  @override
+  EncoderResult legacyEip712Encode(
+      AbiParameter params, List<dynamic> input, bool keepSize) {
+    List<EncoderResult> encoded = [];
+    if (input.length != params.components.length) {
+      throw _ABIValidator.invalidArgrumentsLength;
+    }
+    for (int i = 0; i < params.components.length; i++) {
+      final paramComponent = params.components[i];
+      EncoderResult result =
+          paramComponent.legacyEip712Encode(input[i], keepSize);
+      encoded.add(result);
+    }
+    final re = encoded.map((e) => e.encoded).toList();
+    return EncoderResult(isDynamic: false, encoded: [for (var i in re) ...i]);
+  }
+}
