@@ -1,6 +1,7 @@
 import 'package:on_chain/address/core.dart';
 import 'package:blockchain_utils/bip/address/trx_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ethereum/address/evm_address.dart';
 
 /// Class representing a Tron address, implementing the BaseHexAddress interface
 class TronAddress implements BaseHexAddress {
@@ -28,7 +29,7 @@ class TronAddress implements BaseHexAddress {
   factory TronAddress(String address, {bool? visible}) {
     try {
       if (visible == null) {
-        if (StringUtils.isHex(address)) {
+        if (StringUtils.isHexBytes(address)) {
           return TronAddress.fromBytes(BytesUtils.fromHexString(address));
         }
         final decode = TrxAddrDecoder().decodeAddr(address);
@@ -84,4 +85,18 @@ class TronAddress implements BaseHexAddress {
 
   /// Constant representing the length of the Tron address in bytes
   static const int lengthInBytes = 21;
+
+  /// To Ethereum address
+  ETHAddress toETHAddress() {
+    final toBytes = BytesUtils.fromHexString(_hexAddress);
+
+    /// remove tron 0x41 prefix from bytes
+    return ETHAddress.fromBytes(
+        toBytes.sublist(toBytes.length - ETHAddress.lengthInBytes));
+  }
+
+  @override
+  String toHex() {
+    return _hexAddress;
+  }
 }

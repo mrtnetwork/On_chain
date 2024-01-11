@@ -22,20 +22,17 @@ class TronHelper {
   static List<TransactionContractType> decodePermissionOperation(
       final String operations) {
     List<TransactionContractType> accountPermissions = [];
-    final bytes = BytesUtils.fromHexString(operations);
-    for (int index = 0; index < bytes.length; index++) {
-      int byte = bytes[index];
-      int bitIndex = 0;
-      while (bitIndex < 8) {
-        if ((byte & (1 << bitIndex)) != 0) {
-          int permissionValue = index * 8 + bitIndex;
-          final findPermission =
+    final operationBytes = BytesUtils.fromHexString(operations);
+    for (int i = 0; i < 32; i++) {
+      for (int j = 0; j < 8; j++) {
+        if ((operationBytes[i] >> j & 0x1) == 1) {
+          final int permissionValue = i * 8 + j;
+          final operation =
               TransactionContractType.findByValue(permissionValue);
-          if (findPermission != null) {
-            accountPermissions.add(findPermission);
+          if (operation != null) {
+            accountPermissions.add(operation);
           }
         }
-        bitIndex++;
       }
     }
     return accountPermissions;
@@ -45,12 +42,10 @@ class TronHelper {
   static List<int> encodePermissionOperations(
       List<TransactionContractType> values) {
     final valuesInt = values.map((e) => e.value).toList();
-    final List<int> newBuffer = List<int>.filled(32, 0);
+    final List<int> operationBuffer = List<int>.filled(32, 0);
     for (int value in valuesInt) {
-      final int byteIndex = value ~/ 8;
-      final int bitIndex = value % 8;
-      newBuffer[byteIndex] |= (1 << bitIndex);
+      operationBuffer[value ~/ 8] |= (1 << (value % 8));
     }
-    return List<int>.from(newBuffer);
+    return List<int>.from(operationBuffer);
   }
 }

@@ -2,31 +2,31 @@ import 'package:on_chain/tron/models/contract/base_contract/common.dart';
 import 'package:on_chain/tron/models/contract/account/permission_type.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-class TronAccount {
+class TronAccountModel {
   final String? accountName;
   final String address;
   final BigInt balance;
   final BigInt createTime;
   final BigInt? latestOperationTime;
-  final List<FrozenSupply> frozenSupply;
+  final List<FrozenSupplyModel> frozenSupply;
   final String? assetIssuedName;
   final int? freeNetUsage;
   final BigInt? latestConsumeFreeTime;
   final int netWindowSize;
   final bool netWindowOptimized;
-  final TronAccountResource accountResource;
-  final AccountPermission ownerPermission;
+  final TronAccountResourceModel accountResource;
+  final AccountPermissionModel ownerPermission;
 
-  final List<AccountPermission> activePermissions;
-  final AccountPermission? witnessPermission;
-  final List<FrozenV2> frozenV2;
-  final List<UnfrozenV2> unfrozenV2;
-  final List<AssetV2> assetV2;
+  final List<AccountPermissionModel> activePermissions;
+  final AccountPermissionModel? witnessPermission;
+  final List<FrozenV2Model> frozenV2;
+  final List<UnfrozenV2Model> unfrozenV2;
+  final List<AssetV2Model> assetV2;
   final String? assetIssuedID;
-  final List<FreeAssetNetUsageV2> freeAssetNetUsageV2;
+  final List<FreeAssetNetUsageV2Model> freeAssetNetUsageV2;
   final bool assetOptimized;
 
-  const TronAccount._({
+  const TronAccountModel._({
     this.accountName,
     required this.address,
     required this.balance,
@@ -50,47 +50,49 @@ class TronAccount {
     required this.assetOptimized,
   });
 
-  factory TronAccount.fromJson(Map<String, dynamic> json) {
-    return TronAccount._(
+  factory TronAccountModel.fromJson(Map<String, dynamic> json) {
+    return TronAccountModel._(
       accountName: json['account_name'],
       address: json['address'],
       balance: BigintUtils.parse(json['balance'] ?? BigInt.zero),
       createTime: BigintUtils.parse(json['create_time']),
       latestOperationTime: BigintUtils.tryParse(json['latest_opration_time']),
       frozenSupply: (json['frozen_supply'] as List?)
-              ?.map((supply) => FrozenSupply.fromJson(supply))
+              ?.map((supply) => FrozenSupplyModel.fromJson(supply))
               .toList() ??
-          <FrozenSupply>[],
+          <FrozenSupplyModel>[],
       assetIssuedName: json['asset_issued_name'],
       freeNetUsage: json['free_net_usage'],
       latestConsumeFreeTime:
           BigintUtils.tryParse(json['latest_consume_free_time']),
       netWindowSize: json['net_window_size'],
       netWindowOptimized: json['net_window_optimized'],
-      accountResource: TronAccountResource.fromJson(json['account_resource']),
-      ownerPermission: AccountPermission.fromJson(json['owner_permission']),
+      accountResource:
+          TronAccountResourceModel.fromJson(json['account_resource']),
+      ownerPermission:
+          AccountPermissionModel.fromJson(json['owner_permission']),
       activePermissions: (json['active_permission'] as List<dynamic>)
-          .map((permission) => AccountPermission.fromJson(permission))
+          .map((permission) => AccountPermissionModel.fromJson(permission))
           .toList(),
       witnessPermission: json["witness_permission"] == null
           ? null
-          : AccountPermission.fromJson(json['witness_permission']),
+          : AccountPermissionModel.fromJson(json['witness_permission']),
       frozenV2: (json['frozenV2'] as List<dynamic>)
-          .map((frozen) => FrozenV2.fromJson(frozen))
+          .map((frozen) => FrozenV2Model.fromJson(frozen))
           .toList(),
       unfrozenV2: (json['unfrozenV2'] as List?)
-              ?.map((unfrozen) => UnfrozenV2.fromJson(unfrozen))
+              ?.map((unfrozen) => UnfrozenV2Model.fromJson(unfrozen))
               .toList() ??
-          <UnfrozenV2>[],
+          <UnfrozenV2Model>[],
       assetV2: (json['assetV2'] as List?)
-              ?.map((asset) => AssetV2.fromJson(asset))
+              ?.map((asset) => AssetV2Model.fromJson(asset))
               .toList() ??
-          <AssetV2>[],
+          <AssetV2Model>[],
       assetIssuedID: json['asset_issued_ID'],
       freeAssetNetUsageV2: (json['free_asset_net_usageV2'] as List?)
-              ?.map((usage) => FreeAssetNetUsageV2.fromJson(usage))
+              ?.map((usage) => FreeAssetNetUsageV2Model.fromJson(usage))
               .toList() ??
-          <FreeAssetNetUsageV2>[],
+          <FreeAssetNetUsageV2Model>[],
       assetOptimized: json['asset_optimized'],
     );
   }
@@ -124,15 +126,15 @@ class TronAccount {
   }
 }
 
-class AccountPermission {
+class AccountPermissionModel {
   final String type;
   final int? id;
   final String? permissionName;
   final BigInt threshold;
   final String? operations;
-  final List<PermissionKeys> keys;
+  final List<PermissionKeysModel> keys;
 
-  AccountPermission._({
+  AccountPermissionModel._({
     required this.type,
     this.id,
     required this.permissionName,
@@ -141,17 +143,17 @@ class AccountPermission {
     required this.keys,
   });
 
-  factory AccountPermission.fromJson(Map<String, dynamic> json) {
-    return AccountPermission._(
+  factory AccountPermissionModel.fromJson(Map<String, dynamic> json) {
+    return AccountPermissionModel._(
       type: json['type'] ?? PermissionType.owner.name,
       id: json['id'],
       permissionName: json['permission_name'],
       threshold: BigintUtils.parse(json['threshold']),
       operations: json['operations'],
       keys: (json['keys'] as List?)
-              ?.map((e) => PermissionKeys.fromJson(e))
+              ?.map((e) => PermissionKeysModel.fromJson(e))
               .toList() ??
-          <PermissionKeys>[],
+          <PermissionKeysModel>[],
     );
   }
 
@@ -170,10 +172,10 @@ class AccountPermission {
   }
 }
 
-class PermissionKeys {
-  PermissionKeys._({required this.address, required this.weight});
-  factory PermissionKeys.fromJson(Map<String, dynamic> json) {
-    return PermissionKeys._(
+class PermissionKeysModel {
+  PermissionKeysModel._({required this.address, required this.weight});
+  factory PermissionKeysModel.fromJson(Map<String, dynamic> json) {
+    return PermissionKeysModel._(
         address: json["address"], weight: BigintUtils.parse(json["weight"]));
   }
   final String address;
@@ -185,17 +187,17 @@ class PermissionKeys {
   }
 }
 
-class FrozenSupply {
+class FrozenSupplyModel {
   final BigInt frozenBalance;
   final BigInt expireTime;
 
-  FrozenSupply._({
+  FrozenSupplyModel._({
     required this.frozenBalance,
     required this.expireTime,
   });
 
-  factory FrozenSupply.fromJson(Map<String, dynamic> json) {
-    return FrozenSupply._(
+  factory FrozenSupplyModel.fromJson(Map<String, dynamic> json) {
+    return FrozenSupplyModel._(
       frozenBalance: BigInt.from(json['frozen_balance']),
       expireTime: BigInt.from(json['expire_time']),
     );
@@ -212,17 +214,17 @@ class FrozenSupply {
   }
 }
 
-class FrozenV2 {
+class FrozenV2Model {
   final BigInt amount;
   final String type;
 
-  FrozenV2._({
+  FrozenV2Model._({
     required this.amount,
     required this.type,
   });
 
-  factory FrozenV2.fromJson(Map<String, dynamic> json) {
-    return FrozenV2._(
+  factory FrozenV2Model.fromJson(Map<String, dynamic> json) {
+    return FrozenV2Model._(
       amount: BigintUtils.tryParse(json["amount"]) ?? BigInt.zero,
       type: json['type'] ?? ResourceCode.bandWidth.name,
     );
@@ -239,19 +241,19 @@ class FrozenV2 {
   }
 }
 
-class UnfrozenV2 {
+class UnfrozenV2Model {
   final String? type;
   final BigInt unfreezeAmount;
   final BigInt unfreezeExpireTime;
 
-  UnfrozenV2._({
+  UnfrozenV2Model._({
     required this.type,
     required this.unfreezeAmount,
     required this.unfreezeExpireTime,
   });
 
-  factory UnfrozenV2.fromJson(Map<String, dynamic> json) {
-    return UnfrozenV2._(
+  factory UnfrozenV2Model.fromJson(Map<String, dynamic> json) {
+    return UnfrozenV2Model._(
       type: json['type'],
       unfreezeAmount: BigintUtils.parse(json['unfreeze_amount']),
       unfreezeExpireTime: BigintUtils.parse(json['unfreeze_expire_time']),
@@ -270,17 +272,17 @@ class UnfrozenV2 {
   }
 }
 
-class AssetV2 {
+class AssetV2Model {
   final String key;
   final BigInt value;
 
-  AssetV2._({
+  AssetV2Model._({
     required this.key,
     required this.value,
   });
 
-  factory AssetV2.fromJson(Map<String, dynamic> json) {
-    return AssetV2._(
+  factory AssetV2Model.fromJson(Map<String, dynamic> json) {
+    return AssetV2Model._(
       key: json['key'],
       value: BigintUtils.parse(json["value"]),
     );
@@ -297,17 +299,17 @@ class AssetV2 {
   }
 }
 
-class FreeAssetNetUsageV2 {
+class FreeAssetNetUsageV2Model {
   final String key;
   final BigInt value;
 
-  FreeAssetNetUsageV2._({
+  FreeAssetNetUsageV2Model._({
     required this.key,
     required this.value,
   });
 
-  factory FreeAssetNetUsageV2.fromJson(Map<String, dynamic> json) {
-    return FreeAssetNetUsageV2._(
+  factory FreeAssetNetUsageV2Model.fromJson(Map<String, dynamic> json) {
+    return FreeAssetNetUsageV2Model._(
       key: json['key'],
       value: BigintUtils.parse(json['value']),
     );
@@ -324,19 +326,19 @@ class FreeAssetNetUsageV2 {
   }
 }
 
-class TronAccountResource {
+class TronAccountResourceModel {
   final int energyWindowSize;
   final BigInt? delegatedFrozenV2BalanceForEnergy;
   final bool energyWindowOptimized;
 
-  TronAccountResource._({
+  TronAccountResourceModel._({
     required this.energyWindowSize,
     required this.delegatedFrozenV2BalanceForEnergy,
     required this.energyWindowOptimized,
   });
 
-  factory TronAccountResource.fromJson(Map<String, dynamic> json) {
-    return TronAccountResource._(
+  factory TronAccountResourceModel.fromJson(Map<String, dynamic> json) {
+    return TronAccountResourceModel._(
       energyWindowSize: json['energy_window_size'],
       delegatedFrozenV2BalanceForEnergy:
           BigintUtils.tryParse(json['delegated_frozenV2_balance_for_energy']),

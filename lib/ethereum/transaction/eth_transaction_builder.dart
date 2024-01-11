@@ -236,7 +236,7 @@ class ETHTransactionBuilder {
       _gasPrice = await rpc.request(RPCGetGasPrice());
     } else {
       final historical = await rpc.request(RPCGetFeeHistory(
-          blockCount: 20,
+          blockCount: 10,
           newestBlock: BlockTagOrNumber.pending,
           rewardPercentiles: [25, 50, 75]));
       if (historical == null) {
@@ -281,8 +281,8 @@ class ETHTransactionBuilder {
     if (_type == null) {
       final historical = await rpc.request(RPCGetFeeHistory(
           blockCount: 20,
-          newestBlock: BlockTagOrNumber.pending,
-          rewardPercentiles: [25, 50, 75]));
+          newestBlock: BlockTagOrNumber.latest,
+          rewardPercentiles: [25, 60, 90]));
       if (historical != null) {
         _type = ETHTransactionType.eip1559;
       } else {

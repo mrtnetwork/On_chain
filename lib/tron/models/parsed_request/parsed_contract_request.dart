@@ -77,7 +77,7 @@ class ParsedSmartContractRequest {
 
   String? get error => isSuccess
       ? null
-      : (respose["result"]["message"] as String?)?.split(":").last.trim() ??
+      : (respose["result"]["message"] as String?) ??
           "${respose["transaction"]?["ret"]}";
   @override
   String toString() {

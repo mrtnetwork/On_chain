@@ -1,6 +1,6 @@
 name: on_chain
 description: Streamline Ethereum and Tron operations. Effortlessly create transactions, interact with smart contracts, sign, and send transactions for a seamless blockchain experience.
-version: 0.0.1
+version: 1.0.0
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
 Author: mrhaydari.t@gmail.com
@@ -17,7 +17,7 @@ environment:
 
 
 dependencies:
-  blockchain_utils: ^1.5.0
+  blockchain_utils: ^1.6.0
 
 dev_dependencies:
   test: ^1.24.6

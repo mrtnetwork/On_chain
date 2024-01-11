@@ -6,7 +6,7 @@ import 'package:on_chain/tron/provider/models/account_resource.dart';
 /// Query the resource information of an account(bandwidth,energy,etc).
 /// [developers.tron.network](https://developers.tron.network/reference/getaccountresource).
 class TronRequestGetAccountResource
-    extends TVMRequestParam<AccountResource, Map<String, dynamic>> {
+    extends TVMRequestParam<AccountResourceModel, Map<String, dynamic>> {
   TronRequestGetAccountResource({required this.address, this.visible = true});
 
   /// Address
@@ -24,8 +24,8 @@ class TronRequestGetAccountResource
   }
 
   @override
-  AccountResource onResonse(result) {
-    return AccountResource.fromJson(result);
+  AccountResourceModel onResonse(result) {
+    return AccountResourceModel.fromJson(result);
   }
 
   @override

@@ -21,7 +21,7 @@ void main() async {
   }
 
   /// now get all permission (active and owner)
-  final List<AccountPermission> permissions = [
+  final List<AccountPermissionModel> permissions = [
     sig.ownerPermission,
     ...sig.activePermissions
   ];

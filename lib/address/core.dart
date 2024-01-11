@@ -11,4 +11,6 @@
 abstract class BaseHexAddress {
   /// Converts the hexadecimal address to a bytes.
   List<int> toBytes();
+
+  String toHex();
 }

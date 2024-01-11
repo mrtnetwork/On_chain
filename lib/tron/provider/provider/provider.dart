@@ -22,6 +22,7 @@ class TronProvider {
     final data = request.method.isPost
         ? await rpc.post(params, timeout)
         : await rpc.get(params, timeout);
+
     return request.onResonse(data);
   }
 }

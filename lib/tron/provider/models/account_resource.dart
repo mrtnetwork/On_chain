@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-class AccountResource {
+class AccountResourceModel {
   final BigInt freeNetUsed;
   final BigInt freeNetLimit;
   final BigInt netLimit;
@@ -16,7 +16,7 @@ class AccountResource {
   int get howManyVote => tronPowerLimit - tronPowerUsed;
   BigInt get howManyBandwIth => totalBandWith - totalBandWithUsed;
 
-  AccountResource({
+  AccountResourceModel({
     required this.freeNetUsed,
     required this.freeNetLimit,
     required this.netLimit,
@@ -34,7 +34,7 @@ class AccountResource {
     }
   }
 
-  factory AccountResource.empty() => AccountResource(
+  factory AccountResourceModel.empty() => AccountResourceModel(
       freeNetUsed: BigInt.zero,
       freeNetLimit: BigInt.zero,
       netLimit: BigInt.zero,
@@ -44,8 +44,8 @@ class AccountResource {
       tronPowerLimit: 0,
       tronPowerUsed: 0);
 
-  factory AccountResource.fromJson(Map<String, dynamic> json) {
-    return AccountResource(
+  factory AccountResourceModel.fromJson(Map<String, dynamic> json) {
+    return AccountResourceModel(
       freeNetLimit: BigintUtils.tryParse(json["freeNetLimit"]) ?? BigInt.zero,
       freeNetUsed: BigintUtils.tryParse(json["freeNetUsed"]) ?? BigInt.zero,
       netLimit: BigintUtils.tryParse(json["NetLimit"]) ?? BigInt.zero,

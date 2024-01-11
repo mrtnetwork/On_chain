@@ -49,4 +49,12 @@ class ETHAddress implements BaseHexAddress {
   String toString() {
     return address;
   }
+
+  /// Constant representing the length of the ETH address in bytes
+  static const int lengthInBytes = 21;
+
+  @override
+  String toHex() {
+    return address;
+  }
 }

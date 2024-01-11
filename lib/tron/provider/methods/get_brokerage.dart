@@ -1,6 +1,6 @@
+import 'package:on_chain/tron/address/tron_address.dart';
 import 'package:on_chain/tron/provider/core/request.dart';
 import 'package:on_chain/tron/provider/methods/request_methods.dart';
-import 'package:on_chain/tron/provider/models/account_info.dart';
 
 /// Get SR brokerage ratio
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-getbrokerage).
@@ -9,7 +9,7 @@ class TronRequestGetBrokerage
   TronRequestGetBrokerage({required this.address, this.visible = true});
 
   /// Super representative's account address
-  final TronAccount address;
+  final TronAddress address;
   @override
   final bool visible;
 
