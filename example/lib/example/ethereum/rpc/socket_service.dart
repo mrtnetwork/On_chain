@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:on_chain/ethereum/rpc/core/core.dart';
-import 'package:on_chain/ethereum/rpc/core/service.dart';
+import 'package:on_chain/ethereum/src/rpc/core/core.dart';
+import 'package:on_chain/ethereum/src/rpc/core/service.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 enum WebsocketStatus { connecting, connect, discounnect }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:on_chain/ethereum/rpc/core/core.dart';
-import 'package:on_chain/ethereum/rpc/core/service.dart';
+import 'package:on_chain/ethereum/src/rpc/core/core.dart';
+import 'package:on_chain/ethereum/src/rpc/core/service.dart';
 import 'package:http/http.dart';
 
 class RPCHttpService with JSONRPCService {

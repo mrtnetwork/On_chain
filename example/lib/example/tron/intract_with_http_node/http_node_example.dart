@@ -28,5 +28,5 @@ void main() async {
 
   /// Extensive Tron Interaction
   /// Explore over 90 classes to interact with the Tron HTTP node,
-  /// covering a wide range of functionalities. Find them in the package:on_chain/tron/provider/provider/provider.dart file.
+  /// covering a wide range of functionalities. Find them in the package:on_chain/tron/src/provider/provider/provider.dart file.
 }

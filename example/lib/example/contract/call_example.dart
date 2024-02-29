@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:example/example/contract/abi.dart';
 import 'package:example/example/ethereum/rpc/http_service.dart';
 import 'package:on_chain/on_chain.dart';
@@ -95,7 +96,7 @@ void main() async {
       function: contract.functionFromName("checkError"),
       params: [],
     ));
-  } on RPCException catch (e) {
+  } on RPCError catch (e) {
     final revertErrors = contract.decodeError(e.data);
   }
 
@@ -112,7 +113,7 @@ void main() async {
         ]
       ],
     ));
-  } on RPCException catch (e) {
+  } on RPCError catch (e) {
     final revertErrors = contract.decodeError(e.data);
   }
 

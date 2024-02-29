@@ -1,0 +1,65 @@
+import 'package:on_chain/tron/src/address/tron_address.dart';
+import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
+/// Injects capital into the transaction.
+/// The purpose of injecting capital into the trading pair
+/// is to prevent price fluctuation from affecting the transaction.
+class ExchangeInjectContract extends TronBaseContract {
+  /// Create a new [ExchangeInjectContract] instance by parsing a JSON map.
+  factory ExchangeInjectContract.fromJson(Map<String, dynamic> json) {
+    return ExchangeInjectContract(
+      ownerAddress: TronAddress(json["owner_address"]),
+      exchangeId: BigintUtils.tryParse(json["exchange_id"]),
+      tokenId: BytesUtils.tryFromHexString(json["token_id"]),
+      quant: BigintUtils.tryParse(json["quant"]),
+    );
+  }
+
+  /// Create a new [ExchangeInjectContract] instance with specified parameters.
+  ExchangeInjectContract(
+      {required this.ownerAddress,
+      this.exchangeId,
+      List<int>? tokenId,
+      this.quant})
+      : tokenId = BytesUtils.tryToBytes(tokenId);
+
+  /// Account address
+  final TronAddress ownerAddress;
+
+  /// Exchange id
+  final BigInt? exchangeId;
+
+  /// The id of the token to be injected
+  final List<int>? tokenId;
+
+  /// The amount of tokens to be injected
+  final BigInt? quant;
+
+  @override
+  List<int> get fieldIds => [1, 2, 3, 4];
+
+  @override
+  List get values => [ownerAddress, exchangeId, tokenId, quant];
+
+  /// Convert the [ExchangeInjectContract] object to a JSON representation.
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "owner_address": ownerAddress.toString(),
+      "exchange_id": exchangeId?.toString(),
+      "token_id": BytesUtils.tryToHexString(tokenId),
+      "quant": quant?.toString(),
+    }..removeWhere((key, value) => value == null);
+  }
+
+  /// Convert the [ExchangeInjectContract] object to its string representation.
+  @override
+  String toString() {
+    return "ExchangeInjectContract{${toJson()}}";
+  }
+
+  @override
+  TransactionContractType get contractType =>
+      TransactionContractType.exchangeInjectContract;
+}

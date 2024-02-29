@@ -11,12 +11,15 @@ import 'package:on_chain/on_chain.dart';
 ///
 /// I recommend employing this approach for all transactions, reserving the use of the API solely for transaction confirmation
 void main() async {
-  final seed = BytesUtils.fromHexString(
-      "6fed8bf347b201c4ff0379c9173a042163dbd5f1110bcb983ac8615dcbb98c853f7c1b524dcebdf47e2d19778d0b30e25065d5a5012d83b874ab7034e95a713f");
+  final mnemonic =
+      Bip39MnemonicGenerator().fromWordsNumber(Bip39WordsNum.wordsNum24);
+  final seed = Bip39SeedGenerator(mnemonic).generate();
+
   final bip44 = Bip44.fromSeed(seed, Bip44Coins.tron);
   final prv = TronPrivateKey.fromBytes(bip44.privateKey.raw);
   final publicKey = prv.publicKey();
   final address = publicKey.toAddress();
+
   final receiverAddress = TronAddress("TF3cDajEAaJ8jFXFB2KF3XSUbTpZWzuSrp");
   final rpc =
       TronProvider(TronHTTPProvider(url: "https://api.shasta.trongrid.io"));

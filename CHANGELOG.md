@@ -1,3 +1,6 @@
+## 2.0.0
+- Added support for the Solana network.
+
 ## 1.0.0
 - Resolved encoding and decoding issues with Tron operations..
 - Corrected Eip1559 fee calculation in ETHTransactionBuilder.

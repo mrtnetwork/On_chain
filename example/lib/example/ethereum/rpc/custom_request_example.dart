@@ -1,4 +1,6 @@
-import 'package:on_chain/ethereum/ethereum.dart';
+import 'package:on_chain/ethereum/src/models/models.dart';
+import 'package:on_chain/ethereum/src/rpc/rpc.dart';
+import 'package:on_chain/ethereum/src/utils/helper.dart';
 
 import 'http_service.dart';
 

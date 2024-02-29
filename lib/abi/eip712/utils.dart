@@ -2,6 +2,8 @@ part of "package:on_chain/abi/abi.dart";
 
 /// Internal utility class for common operations related to EIP-712 encoding and decoding.
 class _EIP712Utils {
+  _EIP712Utils();
+
   /// Prefix bytes used in EIP-191 signatures.
   static const List<int> eip191PrefixBytes = [25, 1];
 
@@ -145,8 +147,7 @@ class _EIP712Utils {
         (previous, t) => [
           ...previous,
           ...getDependencies(typedData, t.type, previous)
-              .where((dependency) => !previous.contains(dependency))
-              .toList(),
+              .where((dependency) => !previous.contains(dependency)),
         ],
       ),
     ];

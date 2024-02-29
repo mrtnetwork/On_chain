@@ -37,6 +37,45 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
 
 - All Features of Tron: Harness the full potential of Tron's blockchain by leveraging all its features, including shielded transfers, market transactions, resource delegation, contract management, and more. Empower your Dart applications with comprehensive functionality for a rich and dynamic Tron blockchain experience.
 
+### Solana
+
+Delve confidently into the Solana blockchain ecosystem with the Onchain Plugin for Dart, your gateway to seamless integration with Solana's powerful network. Empower your Dart applications to navigate the Solana landscape with ease, from account creation to asset transfers and execution of a diverse range of smart contracts. Uncover the full potential of Solana's network, harnessing its scalability and performance to drive innovation and growth in your projects. Explore the multitude of Solana contracts, including smart contracts, and unlock new possibilities for your Dart applications to flourish within the dynamic Solana blockchain ecosystem.
+
+- Transaction: Versioned Transaction Generation, Serialization, and Deserialization.
+
+- Sign: Effortlessly Sign Transactions
+
+- Instructions: The plugin offers numerous pre-built instructions, simplifying the process of creating your own transactions. Here are some examples:
+  
+  - addressLockupTable
+  - associatedTokenAccount
+  - computeBudget
+  - ed25519
+  - memo
+  - nameService
+  - secp256k1
+  - splToken
+  - splTokenMetaData
+  - splTokenSwap
+  - stake
+  - stakePool
+  - system
+  - tokenLending
+  - vote
+  - Metaplex
+    - auctionHouse
+    - auctioneer
+    - bubblegum
+    - candyMachineCore
+    - fixedPriceSale
+    - gumdrop
+    - hydra
+    - nftPacks
+    - tokenEntangler
+    - tokenMetaData
+
+- Custom Programs: The plugin facilitates the Solana Buffer layout structure, enabling effortless encoding and decoding of pertinent data
+
 ## EXAMPLES
 
 ### Key and addresses
@@ -62,6 +101,7 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     /// Derive the Ethereum address associated with the public key.
     final EthereumAddress ethereumAddress = publicKey.toAddress(); 
 
+
     /// Tron
     /// Initialize a Tron private key.
     final TronPrivateKey tronPrivateKey = TronPrivateKey("..."); 
@@ -86,6 +126,24 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
 
     /// Convert the Tron address to a hexadecimal format.
     final String hexTronAddress = tronAddress.toString(false); 
+
+
+    /// Solana
+    /// Initialize a Solana private key.
+    final SolanaPrivateKey solanaPrivateKey = SolanaPrivateKey.fromSeedHex("...");
+
+    /// Generate a cryptographic signature for a solana transaction serialized.
+    final String solanaSign = solanaPrivateKey.sign("txDigestBytes");
+
+    /// Obtain the corresponding Solana public key.
+    final SolanaPublicKey solanaPublicKey = solanaPrivateKey.publicKey();
+
+    /// Verify signature.
+    final bool verifySignature =
+        solanaPublicKey.verify("messageBytes", "signatureBytes");
+
+    /// Derive the Solana address associated with the public key.
+    final SolAddress solanaAddress = solanaPublicKey.toAddress();
     ```
  
  ### Transaction
@@ -343,6 +401,54 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     await rpc.request(TronRequestBroadcastHex(transaction: transaction.toHex));
     ```
   
+  - Solana transaction
+    
+    Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/solana).
+    
+    Transfer SOL
+    ```
+    /// Set up the RPC service with the Solana devnet endpoint.
+    final service = RPCHttpService("https://api.devnet.solana.com");
+
+    /// Initialize the Solana RPC client.
+    final rpc = SolanaRPC(service);
+
+    /// Define the owner's private key and derive the owner's public key.
+    final ownerPrivateKey = SolanaPrivateKey.fromSeedHex(
+      "4e27902b3df33d7857dc9d218a3b34a6550e9c7621a6d601d06240a517d22017");
+    final owner = ownerPrivateKey.publicKey().toAddress();
+
+    /// Define the recipient's address.
+    final receiver = SolAddress("9eaiUBgyT7EY1go2qrCmdRZMisYkGdtrrem3TgP9WSDb");
+
+    /// Retrieve the latest block hash.
+    final blockHash = await rpc.request(const SolanaRPCGetLatestBlockhash());
+
+    /// Create a transfer instruction to move funds from the owner to the receiver.
+    final transferInstruction = SystemProgram.transfer(
+        from: owner,
+        layout: SystemTransferLayout(lamports: SolanaUtils.toLamports("0.001")),
+        to: receiver);
+
+    /// Construct a Solana transaction with the transfer instruction.
+    final transaction = SolanaTransaction(
+        instructions: [transferInstruction],
+        recentBlockhash: blockHash.blockhash,
+        payerKey: owner,
+        type: TransactionType.v0);
+
+    /// Sign the transaction with the owner's private key.
+    final ownerSignature = ownerPrivateKey.sign(transaction.serializeMessage());
+    transaction.addSignature(owner, ownerSignature);
+
+    /// Serialize the transaction.
+    final serializedTransaction = transaction.serializeString();
+
+    /// Send the transaction to the Solana network.
+    await rpc.request(
+      SolanaRPCSendTransaction(encodedTransaction: serializedTransaction));
+
+    ```
 ### EIP712
 
   - EIP-712
@@ -395,12 +501,61 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     /// Sign the encoded types with the private key, setting hashMessage to false
     final _ = privateKey.sign(encodeTypes, hashMessage: false).toHex();
     ```
+### Solana-Specific
+The plugin offers extensive support for pre-built programs, each comprising four key sections:
+
+1. Layouts: These receive the desired data for each program and decode it for transaction processing.
+2. Programs: These are responsible for generating instructions.
+3. Account: This section manages accounts associated with the program.
+4. RPC: Utilized for obtaining accounts linked to the program.
+5. Utils: Provides various program utilities.
+
+Example:
+```
+ /// Define the layout for initializing the candy machine.
+  final initializeCandyMachineLayout =
+      MetaplexCandyMachineInitializeCandyMachineLayout(
+          data: CandyMachineData(
+              itemsAvailable: BigInt.two,
+              symbol: "MRT",
+              sellerFeeBasisPoints: 100,
+              maxSupply: BigInt.from(1000),
+              isMutable: false,
+              creators: [Creator(address: address, verified: true, share: 0)]));
+
+  /// Find the mint counter PDA.
+  final mint = MetaplexCandyMachineProgramUtils.findMintCounterPda(
+      id: id, user: user, candyGuard: candyGuard, candyMachine: candyMachine);
+
+  /// Initialize the candy machine.
+  final instruction = MetaplexCandyMachineCoreProgram.initializeCandyMachine(
+      candyMachine: candyMachine,
+      authorityPda: authorityPda,
+      authority: authority,
+      payer: payer,
+      collectionMetadata: collectionMetadata,
+      collectionMint: collectionMint,
+      collectionMasterEdition: collectionMasterEdition,
+      collectionUpdateAuthority: collectionUpdateAuthority,
+      collectionAuthorityRecord: collectionAuthorityRecord,
+      tokenMetadataProgram: tokenMetadataProgram,
+      layout: layout);
+
+  /// Request the candy machine account information from the RPC.
+  final CandyMachineAccount account =
+      await rpc.request(SolanaRPCGetCandyMachineAccount(account: account));
+
+  /// Extract the authority from the candy machine account.
+  final authority = account.authority;
+
+```
+
 
 ### JSON-RPC
 
   - JSON-RPC
 
-    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ethereum/rpc/methds).
+    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ethereum/src/rpc/methds).
 
     ```
     /// HTTP RPC Service
@@ -443,7 +598,7 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
 
   - Tron Full-Http node
     
-    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/tron/provider/methods).
+    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/tron/src/provider/methods).
     
     ```
     /// Tron Provider Initialization
@@ -467,6 +622,62 @@ Dive into the Tron Virtual Machine (TVM) networks with confidence. The Onchain P
     /// Get Latest Block Information
     final block = await rpc.request(TronRequestGetNowBlock());
     ```
+  - Solana RPC
+    
+    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/tron/provider/methods).
+    
+    ```
+    /// Initialize the Solana RPC client with the devnet endpoint.
+    final service = SolanaRPC(RPCHttpService("https://api.devnet.solana.com"));
+
+    /// Retrieve the account information for a specific address.
+    final accountModel = await service.request(const SolanaRPCGetAccountInfo(
+      account: SolAddress.unchecked(
+          "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
+
+    /// Retrieve the account information for a specific address with context.
+    final accountModelWithContext = await service.requestWithContext(
+      const SolanaRPCGetAccountInfo(
+          account: SolAddress.unchecked(
+              "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
+
+    /// Retrieve the account information for a specific address and return as JSON.
+    final accountResponseInJson = await service.requestDynamic(
+        const SolanaRPCGetAccountInfo(
+            account: SolAddress.unchecked(
+                "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
+    ```
+
+### BIP-39, Addresses, and HD Wallet Key Management Process
+```
+  /// Generate a 12-word mnemonic phrase.
+  final mnemonic =
+      Bip39MnemonicGenerator().fromWordsNumber(Bip39WordsNum.wordsNum12);
+
+  /// Generate a seed from the mnemonic phrase with a specific passphrase.
+  final seed = Bip39SeedGenerator(mnemonic).generate("MRTNETWORK");
+
+  /// Define the cryptocurrency coins.
+  final solanaCoin = Bip44Coins.solana;
+  final tronCoin = Bip44Coins.tron;
+  final ethereumCoin = Bip44Coins.ethereum;
+
+  /// Derive the default derivation paths for Solana, Tron, and Ethereum.
+  final solanaDefaultPath = Bip44.fromSeed(seed, solanaCoin).deriveDefaultPath;
+  final tronDefaultPath = Bip44.fromSeed(seed, tronCoin).deriveDefaultPath;
+  final ethereumDefaultPath =
+      Bip44.fromSeed(seed, ethereumCoin).deriveDefaultPath;
+
+  /// Generate private keys for Solana, Tron, and Ethereum from their respective derivation paths.
+  final solanaPrivateKey =
+      SolanaPrivateKey.fromSeed(solanaDefaultPath.privateKey.raw);
+  final tronPrivateKey =
+      TronPrivateKey.fromBytes(tronDefaultPath.privateKey.raw);
+  final ethereumPrivateKey =
+      ETHPrivateKey.fromBytes(ethereumDefaultPath.privateKey.raw);
+
+```
+
 
 
 ## Contributing

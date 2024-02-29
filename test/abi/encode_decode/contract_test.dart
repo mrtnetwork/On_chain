@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:on_chain/contract/fragments.dart';
-import 'package:on_chain/ethereum/address/evm_address.dart';
-import 'package:on_chain/tron/address/tron_address.dart';
+import 'package:on_chain/ethereum/src/address/evm_address.dart';
+import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
