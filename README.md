@@ -553,7 +553,7 @@ Example:
 
 ### JSON-RPC
 
-  - JSON-RPC
+  - Ethereum
 
     Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ethereum/src/rpc/methds).
 
@@ -595,7 +595,6 @@ Example:
     }
 
     ```
-
   - Tron Full-Http node
     
     Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/tron/src/provider/methods).
@@ -624,7 +623,7 @@ Example:
     ```
   - Solana RPC
     
-    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/tron/provider/methods).
+    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/solana/src/rpc/methods).
     
     ```
     /// Initialize the Solana RPC client with the devnet endpoint.
