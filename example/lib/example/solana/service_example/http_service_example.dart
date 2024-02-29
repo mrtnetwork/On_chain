@@ -23,5 +23,4 @@ void main() async {
       const SolanaRPCGetAccountInfo(
           account: SolAddress.unchecked(
               "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
-  print(accountResponseInJson);
 }

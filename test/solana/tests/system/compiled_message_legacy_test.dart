@@ -82,8 +82,8 @@ void _systemCreateAccountWithSeed() {
     final ownerSignature =
         owner.privateKey.sign(transaction.serializeMessage());
     transaction.addSignature(owner.address, ownerSignature);
-    final serhex = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final serhex =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -115,8 +115,8 @@ void _transfer() {
     final ownerSignature =
         owner.privateKey.sign(transaction.serializeMessage());
     transaction.addSignature(owner.address, ownerSignature);
-    final serhex = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final serhex =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());

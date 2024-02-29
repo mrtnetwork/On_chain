@@ -17,8 +17,8 @@ class StakePoolProgramHelper {
     required SolAddress depositStake,
     required SolAddress? poolTokenReceiverAccount,
   }) async {
-    final stakePool = await rpc.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await rpc
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -92,8 +92,8 @@ class StakePoolProgramHelper {
       throw MessageException('Not enough SOL to deposit into pool.');
     }
 
-    final stakePool = await connection.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await connection
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -151,8 +151,8 @@ class StakePoolProgramHelper {
     required BigInt poolAmountLamports,
     SolAddress? solWithdrawAuthority,
   }) async {
-    final stakePool = await connection.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await connection
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -163,8 +163,8 @@ class StakePoolProgramHelper {
       owner: tokenOwner,
     );
 
-    final tokenAccount = await connection.request(
-        SolanaRPCGetAccountInfo(account: poolTokenAccount.address));
+    final tokenAccount = await connection
+        .request(SolanaRPCGetAccountInfo(account: poolTokenAccount.address));
     if (tokenAccount == null) {
       throw MessageException("Token account not found.");
     }
@@ -224,8 +224,8 @@ class StakePoolProgramHelper {
     required BigInt lamports,
     BigInt? ephemeralStakeSeed,
   }) async {
-    final stakePool = await connection.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await connection
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -314,8 +314,8 @@ class StakePoolProgramHelper {
     BigInt lamports, {
     BigInt? ephemeralStakeSeed,
   }) async {
-    final stakePool = await connection.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await connection
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -478,8 +478,8 @@ class StakePoolProgramHelper {
     required BigInt ephemeralStakeSeed,
     required BigInt lamports,
   }) async {
-    final stakePool = await connection.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await connection
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -553,8 +553,8 @@ class StakePoolProgramHelper {
     required String symbol,
     required String uri,
   }) async {
-    final stakePool = await rpc.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await rpc
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -589,8 +589,8 @@ class StakePoolProgramHelper {
     required String symbol,
     required String uri,
   }) async {
-    final stakePool = await rpc.request(
-        SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
+    final stakePool = await rpc
+        .request(SolanaRPCGetStakePoolAccount(address: stakePoolAddress));
     if (stakePool == null) {
       throw MessageException("Stake pool account does not found.");
     }
@@ -685,8 +685,8 @@ class StakePoolProgramHelper {
     // Sort from highest to lowest balance
     accounts.sort(compareFn ?? (a, b) => b.lamports.compareTo(a.lamports));
 
-    final reserveStake = await connection.request(
-        SolanaRPCGetAccountInfo(account: stakePool.reserveStake));
+    final reserveStake = await connection
+        .request(SolanaRPCGetAccountInfo(account: stakePool.reserveStake));
 
     final reserveStakeBalance =
         (reserveStake?.lamports ?? BigInt.zero) - minBalanceForRentExemption;

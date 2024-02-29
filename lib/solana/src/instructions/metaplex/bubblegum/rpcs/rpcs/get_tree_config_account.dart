@@ -13,7 +13,7 @@ class SolanaRPCGetTreeConfigAccount extends SolanaRPCRequest<TreeConfig?> {
 
   @override
   String get method => SolanaRPCMethods.getAccountInfo.value;
-  final SolAddress  account;
+  final SolAddress account;
 
   @override
   List<dynamic> toJson() {

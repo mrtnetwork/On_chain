@@ -39,8 +39,8 @@ void _v0() {
       account5.privateKey
     ]);
 
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -81,8 +81,8 @@ void _legacy() {
       account5.privateKey
     ]);
 
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());

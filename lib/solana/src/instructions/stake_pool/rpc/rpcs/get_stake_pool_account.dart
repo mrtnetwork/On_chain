@@ -31,7 +31,6 @@ class SolanaRPCGetStakePoolAccount extends SolanaRPCRequest<StakePoolAccount?> {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return StakePoolAccount.fromBuffer(
-        data: accountInfo.toBytesData(),
-        address: address);
+        data: accountInfo.toBytesData(), address: address);
   }
 }

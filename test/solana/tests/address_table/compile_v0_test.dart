@@ -34,8 +34,8 @@ void _createLookupTable() {
         type: TransactionType.v0);
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     expect(unsigned,
         "8001000204f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd767e2472c5129c3b712a778535721fc7490afae188b8719897cda512071501901e0277a6af97339b7ac88d1892c90446f50002309266f62e53c1182449820000000000000000000000000000000000000000000000000000000000000000000000e66f07ae6ad93c9ea60272507db1a2d2089bbb67540ff6e291f98bcf5df4bc89010204010000030d00000000196c8e1000000000fe00");
     expect(signed,
@@ -59,8 +59,8 @@ void _freezeLookupTable() {
         type: TransactionType.v0);
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     expect(unsigned,
         "8001000103f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760e662ddb6836d891e4d1d6d13086c47007011e0dbcc953c7f197de1c75a377bb0277a6af97339b7ac88d1892c90446f50002309266f62e53c118244982000000e66f07ae6ad93c9ea60272507db1a2d2089bbb67540ff6e291f98bcf5df4bc890102020100040100000000");
     expect(signed,
@@ -93,8 +93,8 @@ void _extendLookupTable() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     expect(unsigned,
         "8001000103f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760e662ddb6836d891e4d1d6d13086c47007011e0dbcc953c7f197de1c75a377bb0277a6af97339b7ac88d1892c90446f50002309266f62e53c118244982000000e66f07ae6ad93c9ea60272507db1a2d2089bbb67540ff6e291f98bcf5df4bc8901020201004c020000000200000000000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd763d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d00");
     expect(signed,
@@ -121,8 +121,8 @@ void _deactivateLookupTable() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     expect(unsigned,
         "8001000103f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760e662ddb6836d891e4d1d6d13086c47007011e0dbcc953c7f197de1c75a377bb0277a6af97339b7ac88d1892c90446f50002309266f62e53c118244982000000e66f07ae6ad93c9ea60272507db1a2d2089bbb67540ff6e291f98bcf5df4bc890102020100040300000000");
     expect(signed,
@@ -152,8 +152,8 @@ void _closeLookupTable() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     expect(unsigned,
         "8001000104f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760e662ddb6836d891e4d1d6d13086c47007011e0dbcc953c7f197de1c75a377bb3d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d0277a6af97339b7ac88d1892c90446f50002309266f62e53c118244982000000e66f07ae6ad93c9ea60272507db1a2d2089bbb67540ff6e291f98bcf5df4bc89010303010002040400000000");
     expect(signed,

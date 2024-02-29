@@ -9,8 +9,7 @@ void main() async {
           authority: owner.address, recentSlot: BigInt.from(277777145));
   final accountInfo = await QuickWalletForTest.rpc.request(
       SolanaRPCGetAccountInfo(
-          account: tableAddress.address,
-          encoding: SolanaRPCEncoding.base64));
+          account: tableAddress.address, encoding: SolanaRPCEncoding.base64));
   final tableAccount = AddressLookupTableAccount.fromBuffer(
       accountData: accountInfo!.toBytesData(),
       accountKey: tableAddress.address);

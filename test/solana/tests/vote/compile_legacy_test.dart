@@ -35,8 +35,8 @@ void _initializeAccount() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -67,8 +67,8 @@ void _authorize() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -103,8 +103,8 @@ void _authorizeWithSeed() {
         type: TransactionType.legacy);
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -135,8 +135,8 @@ void _withdraw() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());

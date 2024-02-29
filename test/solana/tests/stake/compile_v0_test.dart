@@ -42,8 +42,8 @@ void _initialize() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey, account5.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -74,8 +74,8 @@ void _delegate() {
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
 
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -107,8 +107,8 @@ void _authorize() {
         type: TransactionType.v0);
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -145,8 +145,8 @@ void _authorizeWithSeed() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey, account1.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -185,8 +185,8 @@ void _split() {
 
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey, account6.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -217,8 +217,8 @@ void _merge() {
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
 
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -247,8 +247,8 @@ void _withdraw() {
         type: TransactionType.v0);
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
@@ -275,8 +275,8 @@ void _deactivate() {
         type: TransactionType.v0);
     final unsigned = transaction.serializeMessageString();
     transaction.sign([owner.privateKey]);
-    final signed = transaction.serializeString(
-        encoding: TransactionSerializeEncoding.hex);
+    final signed =
+        transaction.serializeString(encoding: TransactionSerializeEncoding.hex);
     final decodeTransaction =
         SolanaTransaction.deserialize(transaction.serialize());
     expect(decodeTransaction.serialize(), transaction.serialize());
