@@ -756,6 +756,7 @@ Example:
                 "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
     ```
   - Cardano (blockfrost)
+  
     Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ada/src/provider/blockfrost/methods).
     
     ```
