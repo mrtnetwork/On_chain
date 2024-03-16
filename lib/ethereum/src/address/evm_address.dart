@@ -1,9 +1,9 @@
-import 'package:on_chain/address/core.dart';
+import 'package:on_chain/solidity/address/core.dart';
 import 'package:blockchain_utils/bip/address/eth_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// Class representing an Ethereum address, implementing the [BaseHexAddress] interface.
-class ETHAddress implements BaseHexAddress {
+class ETHAddress implements SolidityAddress {
   /// Private constructor for creating an instance of [ETHAddress] with a given Ethereum address
   const ETHAddress._(this.address);
 

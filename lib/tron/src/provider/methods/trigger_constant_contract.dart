@@ -1,4 +1,4 @@
-import 'package:on_chain/contract/fragments.dart';
+import 'package:on_chain/solidity/contract/fragments.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';

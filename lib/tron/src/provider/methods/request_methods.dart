@@ -1,242 +1,244 @@
-enum RequestType { post, get }
+
+
+import 'package:on_chain/global_types/provider_request.dart';
 
 class TronHTTPMethods {
   final String uri;
-  final RequestType requestType;
-  bool get isPost => requestType == RequestType.post;
+  final HTTPRequestType requestType;
+  bool get isPost => requestType == HTTPRequestType.post;
   const TronHTTPMethods._(this.uri, this.requestType);
 
   static const TronHTTPMethods validateaddress =
-      TronHTTPMethods._("wallet/validateaddress", RequestType.post);
+      TronHTTPMethods._("wallet/validateaddress", HTTPRequestType.post);
   static const TronHTTPMethods broadcasttransaction =
-      TronHTTPMethods._("wallet/broadcasttransaction", RequestType.post);
+      TronHTTPMethods._("wallet/broadcasttransaction", HTTPRequestType.post);
   static const TronHTTPMethods broadcasthex =
-      TronHTTPMethods._("wallet/broadcasthex", RequestType.post);
+      TronHTTPMethods._("wallet/broadcasthex", HTTPRequestType.post);
   static const TronHTTPMethods createtransaction =
-      TronHTTPMethods._("wallet/createtransaction", RequestType.post);
+      TronHTTPMethods._("wallet/createtransaction", HTTPRequestType.post);
 
   static const TronHTTPMethods createaccount =
-      TronHTTPMethods._("wallet/createaccount", RequestType.post);
+      TronHTTPMethods._("wallet/createaccount", HTTPRequestType.post);
   static const TronHTTPMethods getaccount =
-      TronHTTPMethods._("wallet/getaccount", RequestType.post);
+      TronHTTPMethods._("wallet/getaccount", HTTPRequestType.post);
   static const TronHTTPMethods updateaccount =
-      TronHTTPMethods._("wallet/updateaccount", RequestType.post);
+      TronHTTPMethods._("wallet/updateaccount", HTTPRequestType.post);
 
   static const TronHTTPMethods accountpermissionupdate =
-      TronHTTPMethods._("wallet/accountpermissionupdate", RequestType.post);
+      TronHTTPMethods._("wallet/accountpermissionupdate", HTTPRequestType.post);
 
   static const TronHTTPMethods getaccountbalance =
-      TronHTTPMethods._("wallet/getaccountbalance", RequestType.post);
+      TronHTTPMethods._("wallet/getaccountbalance", HTTPRequestType.post);
   static const TronHTTPMethods getaccountresource =
-      TronHTTPMethods._("wallet/getaccountresource", RequestType.post);
+      TronHTTPMethods._("wallet/getaccountresource", HTTPRequestType.post);
   static const TronHTTPMethods getaccountnet =
-      TronHTTPMethods._("wallet/getaccountnet", RequestType.post);
+      TronHTTPMethods._("wallet/getaccountnet", HTTPRequestType.post);
   static const TronHTTPMethods freezebalance =
-      TronHTTPMethods._("wallet/freezebalance", RequestType.post);
+      TronHTTPMethods._("wallet/freezebalance", HTTPRequestType.post);
   static const TronHTTPMethods unfreezebalance =
-      TronHTTPMethods._("wallet/unfreezebalance", RequestType.post);
+      TronHTTPMethods._("wallet/unfreezebalance", HTTPRequestType.post);
   static const TronHTTPMethods getdelegatedresource =
-      TronHTTPMethods._("wallet/getdelegatedresource", RequestType.post);
+      TronHTTPMethods._("wallet/getdelegatedresource", HTTPRequestType.post);
 
   static const TronHTTPMethods getdelegatedresourceaccountindex =
       TronHTTPMethods._(
-          "wallet/getdelegatedresourceaccountindex", RequestType.post);
+          "wallet/getdelegatedresourceaccountindex", HTTPRequestType.post);
   static const TronHTTPMethods freezebalancev2 =
-      TronHTTPMethods._("wallet/freezebalancev2", RequestType.post);
+      TronHTTPMethods._("wallet/freezebalancev2", HTTPRequestType.post);
 
   static const TronHTTPMethods unfreezebalancev2 =
-      TronHTTPMethods._("wallet/unfreezebalancev2", RequestType.post);
+      TronHTTPMethods._("wallet/unfreezebalancev2", HTTPRequestType.post);
   static const TronHTTPMethods cancelallunfreezev2 =
-      TronHTTPMethods._("wallet/cancelallunfreezev2", RequestType.post);
+      TronHTTPMethods._("wallet/cancelallunfreezev2", HTTPRequestType.post);
   static const TronHTTPMethods delegateresource =
-      TronHTTPMethods._("wallet/delegateresource", RequestType.post);
+      TronHTTPMethods._("wallet/delegateresource", HTTPRequestType.post);
   static const TronHTTPMethods undelegateresource =
-      TronHTTPMethods._("wallet/undelegateresource", RequestType.post);
+      TronHTTPMethods._("wallet/undelegateresource", HTTPRequestType.post);
 
   static const TronHTTPMethods withdrawexpireunfreeze =
-      TronHTTPMethods._("wallet/withdrawexpireunfreeze", RequestType.post);
+      TronHTTPMethods._("wallet/withdrawexpireunfreeze", HTTPRequestType.post);
   static const TronHTTPMethods getavailableunfreezecount =
-      TronHTTPMethods._("wallet/getavailableunfreezecount", RequestType.post);
+      TronHTTPMethods._("wallet/getavailableunfreezecount", HTTPRequestType.post);
   static const TronHTTPMethods getcanwithdrawunfreezeamount = TronHTTPMethods._(
-      "wallet/getcanwithdrawunfreezeamount", RequestType.post);
+      "wallet/getcanwithdrawunfreezeamount", HTTPRequestType.post);
   static const TronHTTPMethods getcandelegatedmaxsize =
-      TronHTTPMethods._("wallet/getcandelegatedmaxsize", RequestType.post);
+      TronHTTPMethods._("wallet/getcandelegatedmaxsize", HTTPRequestType.post);
   static const TronHTTPMethods getdelegatedresourcev2 =
-      TronHTTPMethods._("wallet/getdelegatedresourcev2", RequestType.post);
+      TronHTTPMethods._("wallet/getdelegatedresourcev2", HTTPRequestType.post);
   static const TronHTTPMethods getdelegatedresourceaccountindexv2 =
       TronHTTPMethods._(
-          "wallet/getdelegatedresourceaccountindexv2", RequestType.post);
+          "wallet/getdelegatedresourceaccountindexv2", HTTPRequestType.post);
   static const TronHTTPMethods getblock =
-      TronHTTPMethods._("wallet/getblock", RequestType.post);
+      TronHTTPMethods._("wallet/getblock", HTTPRequestType.post);
   static const TronHTTPMethods getblockbynum =
-      TronHTTPMethods._("wallet/getblockbynum", RequestType.post);
+      TronHTTPMethods._("wallet/getblockbynum", HTTPRequestType.post);
 
   static const TronHTTPMethods getblockbyid =
-      TronHTTPMethods._("wallet/getblockbyid", RequestType.post);
+      TronHTTPMethods._("wallet/getblockbyid", HTTPRequestType.post);
   static const TronHTTPMethods getblockbylatestnum =
-      TronHTTPMethods._("wallet/getblockbylatestnum", RequestType.post);
+      TronHTTPMethods._("wallet/getblockbylatestnum", HTTPRequestType.post);
   static const TronHTTPMethods getblockbylimitnext =
-      TronHTTPMethods._("wallet/getblockbylimitnext", RequestType.post);
+      TronHTTPMethods._("wallet/getblockbylimitnext", HTTPRequestType.post);
   static const TronHTTPMethods getnowblock =
-      TronHTTPMethods._("wallet/getnowblock", RequestType.post);
+      TronHTTPMethods._("wallet/getnowblock", HTTPRequestType.post);
   static const TronHTTPMethods gettransactionbyid =
-      TronHTTPMethods._("wallet/gettransactionbyid", RequestType.post);
+      TronHTTPMethods._("wallet/gettransactionbyid", HTTPRequestType.post);
 
   static const TronHTTPMethods gettransactioninfobyid =
-      TronHTTPMethods._("wallet/gettransactioninfobyid", RequestType.post);
+      TronHTTPMethods._("wallet/gettransactioninfobyid", HTTPRequestType.post);
   static const TronHTTPMethods gettransactioninfobyblocknum = TronHTTPMethods._(
-      "wallet/gettransactioninfobyblocknum", RequestType.post);
+      "wallet/gettransactioninfobyblocknum", HTTPRequestType.post);
   static const TronHTTPMethods listnodes =
-      TronHTTPMethods._("wallet/listnodes", RequestType.get);
+      TronHTTPMethods._("wallet/listnodes", HTTPRequestType.get);
   static const TronHTTPMethods getnodeinfo =
-      TronHTTPMethods._("wallet/getnodeinfo", RequestType.get);
+      TronHTTPMethods._("wallet/getnodeinfo", HTTPRequestType.get);
   static const TronHTTPMethods getchainparameters =
-      TronHTTPMethods._("wallet/getchainparameters", RequestType.get);
+      TronHTTPMethods._("wallet/getchainparameters", HTTPRequestType.get);
   static const TronHTTPMethods getblockbalance =
-      TronHTTPMethods._("wallet/getblockbalance", RequestType.post);
+      TronHTTPMethods._("wallet/getblockbalance", HTTPRequestType.post);
   static const TronHTTPMethods getenergyprices =
-      TronHTTPMethods._("wallet/getenergyprices", RequestType.get);
+      TronHTTPMethods._("wallet/getenergyprices", HTTPRequestType.get);
   static const TronHTTPMethods getbandwidthprices =
-      TronHTTPMethods._("wallet/getbandwidthprices", RequestType.get);
+      TronHTTPMethods._("wallet/getbandwidthprices", HTTPRequestType.get);
   static const TronHTTPMethods getburntrx =
-      TronHTTPMethods._("wallet/getburntrx", RequestType.get);
+      TronHTTPMethods._("wallet/getburntrx", HTTPRequestType.get);
   static const TronHTTPMethods getapprovedlist =
-      TronHTTPMethods._("wallet/getapprovedlist", RequestType.post);
+      TronHTTPMethods._("wallet/getapprovedlist", HTTPRequestType.post);
 
   static const TronHTTPMethods getassetissuebyaccount =
-      TronHTTPMethods._("wallet/getassetissuebyaccount", RequestType.post);
+      TronHTTPMethods._("wallet/getassetissuebyaccount", HTTPRequestType.post);
   static const TronHTTPMethods getassetissuebyid =
-      TronHTTPMethods._("wallet/getassetissuebyid", RequestType.post);
+      TronHTTPMethods._("wallet/getassetissuebyid", HTTPRequestType.post);
   static const TronHTTPMethods getassetissuebyname =
-      TronHTTPMethods._("wallet/getassetissuebyname", RequestType.post);
+      TronHTTPMethods._("wallet/getassetissuebyname", HTTPRequestType.post);
   static const TronHTTPMethods getassetissuelist =
-      TronHTTPMethods._("wallet/getassetissuelist", RequestType.get);
+      TronHTTPMethods._("wallet/getassetissuelist", HTTPRequestType.get);
 
   static const TronHTTPMethods getassetissuelistbyname =
-      TronHTTPMethods._("wallet/getassetissuelistbyname", RequestType.post);
+      TronHTTPMethods._("wallet/getassetissuelistbyname", HTTPRequestType.post);
   static const TronHTTPMethods getpaginatedassetissuelist =
-      TronHTTPMethods._("wallet/getpaginatedassetissuelist", RequestType.post);
+      TronHTTPMethods._("wallet/getpaginatedassetissuelist", HTTPRequestType.post);
   static const TronHTTPMethods transferasset =
-      TronHTTPMethods._("wallet/transferasset", RequestType.post);
+      TronHTTPMethods._("wallet/transferasset", HTTPRequestType.post);
   static const TronHTTPMethods createassetissue =
-      TronHTTPMethods._("wallet/createassetissue", RequestType.post);
+      TronHTTPMethods._("wallet/createassetissue", HTTPRequestType.post);
   static const TronHTTPMethods participateassetissue =
-      TronHTTPMethods._("wallet/participateassetissue", RequestType.post);
+      TronHTTPMethods._("wallet/participateassetissue", HTTPRequestType.post);
   static const TronHTTPMethods unfreezeasset =
-      TronHTTPMethods._("wallet/unfreezeasset", RequestType.post);
+      TronHTTPMethods._("wallet/unfreezeasset", HTTPRequestType.post);
   static const TronHTTPMethods updateasset =
-      TronHTTPMethods._("wallet/updateasset", RequestType.post);
+      TronHTTPMethods._("wallet/updateasset", HTTPRequestType.post);
 
   static const TronHTTPMethods getcontract =
-      TronHTTPMethods._("wallet/getcontract", RequestType.post);
+      TronHTTPMethods._("wallet/getcontract", HTTPRequestType.post);
   static const TronHTTPMethods getcontractinfo =
-      TronHTTPMethods._("wallet/getcontractinfo", RequestType.post);
+      TronHTTPMethods._("wallet/getcontractinfo", HTTPRequestType.post);
 
   ///
   static const TronHTTPMethods triggersmartcontract =
-      TronHTTPMethods._("wallet/triggersmartcontract", RequestType.post);
+      TronHTTPMethods._("wallet/triggersmartcontract", HTTPRequestType.post);
   static const TronHTTPMethods triggerconstantcontract =
-      TronHTTPMethods._("wallet/triggerconstantcontract", RequestType.post);
+      TronHTTPMethods._("wallet/triggerconstantcontract", HTTPRequestType.post);
   static const TronHTTPMethods deploycontract =
-      TronHTTPMethods._("wallet/deploycontract", RequestType.post);
+      TronHTTPMethods._("wallet/deploycontract", HTTPRequestType.post);
   static const TronHTTPMethods updatesetting =
-      TronHTTPMethods._("wallet/updatesetting", RequestType.post);
+      TronHTTPMethods._("wallet/updatesetting", HTTPRequestType.post);
   static const TronHTTPMethods updateenergylimit =
-      TronHTTPMethods._("wallet/updateenergylimit", RequestType.post);
+      TronHTTPMethods._("wallet/updateenergylimit", HTTPRequestType.post);
   static const TronHTTPMethods clearabi =
-      TronHTTPMethods._("wallet/clearabi", RequestType.post);
+      TronHTTPMethods._("wallet/clearabi", HTTPRequestType.post);
   static const TronHTTPMethods estimateenergy =
-      TronHTTPMethods._("wallet/estimateenergy", RequestType.post);
+      TronHTTPMethods._("wallet/estimateenergy", HTTPRequestType.post);
   static const TronHTTPMethods getexpandedspendingkey =
-      TronHTTPMethods._("wallet/getexpandedspendingkey", RequestType.post);
+      TronHTTPMethods._("wallet/getexpandedspendingkey", HTTPRequestType.post);
 
   static const TronHTTPMethods getakfromask =
-      TronHTTPMethods._("wallet/getakfromask", RequestType.post);
+      TronHTTPMethods._("wallet/getakfromask", HTTPRequestType.post);
   static const TronHTTPMethods getnkfromnsk =
-      TronHTTPMethods._("wallet/getnkfromnsk", RequestType.post);
+      TronHTTPMethods._("wallet/getnkfromnsk", HTTPRequestType.post);
   static const TronHTTPMethods getincomingviewingkey =
-      TronHTTPMethods._("wallet/getincomingviewingkey", RequestType.post);
+      TronHTTPMethods._("wallet/getincomingviewingkey", HTTPRequestType.post);
   static const TronHTTPMethods getzenpaymentaddress =
-      TronHTTPMethods._("wallet/getzenpaymentaddress", RequestType.post);
+      TronHTTPMethods._("wallet/getzenpaymentaddress", HTTPRequestType.post);
   static const TronHTTPMethods createshieldedcontractparameters =
       TronHTTPMethods._(
-          "wallet/createshieldedcontractparameters", RequestType.post);
+          "wallet/createshieldedcontractparameters", HTTPRequestType.post);
   static const TronHTTPMethods createspendauthsig =
-      TronHTTPMethods._("wallet/createspendauthsig", RequestType.post);
+      TronHTTPMethods._("wallet/createspendauthsig", HTTPRequestType.post);
   static const TronHTTPMethods gettriggerinputforshieldedtrc20contract =
       TronHTTPMethods._(
-          "wallet/gettriggerinputforshieldedtrc20contract", RequestType.post);
+          "wallet/gettriggerinputforshieldedtrc20contract", HTTPRequestType.post);
   static const TronHTTPMethods scanshieldedtrc20notesbyivk =
-      TronHTTPMethods._("wallet/scanshieldedtrc20notesbyivk", RequestType.post);
+      TronHTTPMethods._("wallet/scanshieldedtrc20notesbyivk", HTTPRequestType.post);
   static const TronHTTPMethods scanshieldedtrc20notesbyovk =
-      TronHTTPMethods._("wallet/scanshieldedtrc20notesbyovk", RequestType.post);
+      TronHTTPMethods._("wallet/scanshieldedtrc20notesbyovk", HTTPRequestType.post);
   static const TronHTTPMethods isshieldedtrc20contractnotespent =
       TronHTTPMethods._(
-          "wallet/isshieldedtrc20contractnotespent", RequestType.post);
+          "wallet/isshieldedtrc20contractnotespent", HTTPRequestType.post);
 
   static const TronHTTPMethods getspendingkey =
-      TronHTTPMethods._("wallet/getspendingkey", RequestType.get);
+      TronHTTPMethods._("wallet/getspendingkey", HTTPRequestType.get);
 
   static const TronHTTPMethods getdiversifier =
-      TronHTTPMethods._("wallet/getdiversifier", RequestType.get);
+      TronHTTPMethods._("wallet/getdiversifier", HTTPRequestType.get);
   static const TronHTTPMethods getnewshieldedaddress =
-      TronHTTPMethods._("wallet/getnewshieldedaddress", RequestType.get);
+      TronHTTPMethods._("wallet/getnewshieldedaddress", HTTPRequestType.get);
 
   static const TronHTTPMethods listwitnesses =
-      TronHTTPMethods._("wallet/listwitnesses", RequestType.get);
+      TronHTTPMethods._("wallet/listwitnesses", HTTPRequestType.get);
   static const TronHTTPMethods getnextmaintenancetime =
-      TronHTTPMethods._("wallet/getnextmaintenancetime", RequestType.get);
+      TronHTTPMethods._("wallet/getnextmaintenancetime", HTTPRequestType.get);
 
   static const TronHTTPMethods updatewitness =
-      TronHTTPMethods._("wallet/updatewitness", RequestType.post);
+      TronHTTPMethods._("wallet/updatewitness", HTTPRequestType.post);
 
   static const TronHTTPMethods getBrokerage =
-      TronHTTPMethods._("wallet/getBrokerage", RequestType.post);
+      TronHTTPMethods._("wallet/getBrokerage", HTTPRequestType.post);
 
   static const TronHTTPMethods updateBrokerage =
-      TronHTTPMethods._("wallet/updateBrokerage", RequestType.post);
+      TronHTTPMethods._("wallet/updateBrokerage", HTTPRequestType.post);
 
   static const TronHTTPMethods votewitnessaccount =
-      TronHTTPMethods._("wallet/votewitnessaccount", RequestType.post);
+      TronHTTPMethods._("wallet/votewitnessaccount", HTTPRequestType.post);
   static const TronHTTPMethods getReward =
-      TronHTTPMethods._("wallet/getReward", RequestType.post);
+      TronHTTPMethods._("wallet/getReward", HTTPRequestType.post);
   static const TronHTTPMethods withdrawbalance =
-      TronHTTPMethods._("wallet/withdrawbalance", RequestType.post);
+      TronHTTPMethods._("wallet/withdrawbalance", HTTPRequestType.post);
   static const TronHTTPMethods proposaldelete =
-      TronHTTPMethods._("wallet/proposaldelete", RequestType.post);
+      TronHTTPMethods._("wallet/proposaldelete", HTTPRequestType.post);
   static const TronHTTPMethods proposalapprove =
-      TronHTTPMethods._("wallet/proposalapprove", RequestType.post);
+      TronHTTPMethods._("wallet/proposalapprove", HTTPRequestType.post);
 
   static const TronHTTPMethods proposalcreate =
-      TronHTTPMethods._("wallet/proposalcreate", RequestType.post);
+      TronHTTPMethods._("wallet/proposalcreate", HTTPRequestType.post);
   static const TronHTTPMethods getproposalbyid =
-      TronHTTPMethods._("wallet/getproposalbyid", RequestType.post);
+      TronHTTPMethods._("wallet/getproposalbyid", HTTPRequestType.post);
 
   static const TronHTTPMethods listproposals =
-      TronHTTPMethods._("wallet/listproposals", RequestType.get);
+      TronHTTPMethods._("wallet/listproposals", HTTPRequestType.get);
 
   static const TronHTTPMethods listexchanges =
-      TronHTTPMethods._("wallet/listexchanges", RequestType.get);
+      TronHTTPMethods._("wallet/listexchanges", HTTPRequestType.get);
 
   static const TronHTTPMethods getexchangebyid =
-      TronHTTPMethods._("wallet/getexchangebyid", RequestType.post);
+      TronHTTPMethods._("wallet/getexchangebyid", HTTPRequestType.post);
   static const TronHTTPMethods exchangecreate =
-      TronHTTPMethods._("wallet/exchangecreate", RequestType.post);
+      TronHTTPMethods._("wallet/exchangecreate", HTTPRequestType.post);
   static const TronHTTPMethods exchangeinject =
-      TronHTTPMethods._("wallet/exchangeinject", RequestType.post);
+      TronHTTPMethods._("wallet/exchangeinject", HTTPRequestType.post);
   static const TronHTTPMethods exchangewithdraw =
-      TronHTTPMethods._("wallet/exchangewithdraw", RequestType.post);
+      TronHTTPMethods._("wallet/exchangewithdraw", HTTPRequestType.post);
   static const TronHTTPMethods exchangetransaction =
-      TronHTTPMethods._("wallet/exchangetransaction", RequestType.post);
+      TronHTTPMethods._("wallet/exchangetransaction", HTTPRequestType.post);
   static const TronHTTPMethods gettransactionfrompending =
-      TronHTTPMethods._("wallet/gettransactionfrompending", RequestType.post);
+      TronHTTPMethods._("wallet/gettransactionfrompending", HTTPRequestType.post);
 
   static const TronHTTPMethods gettransactionlistfrompending =
       TronHTTPMethods._(
-          "wallet/gettransactionlistfrompending", RequestType.get);
+          "wallet/gettransactionlistfrompending", HTTPRequestType.get);
 
   static const TronHTTPMethods getpendingsize =
-      TronHTTPMethods._("wallet/getpendingsize", RequestType.get);
+      TronHTTPMethods._("wallet/getpendingsize", HTTPRequestType.get);
   static const List<TronHTTPMethods> values = [
     validateaddress,
     broadcasttransaction,

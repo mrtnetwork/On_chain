@@ -1,4 +1,4 @@
-import 'package:on_chain/contract/fragments.dart';
+import 'package:on_chain/solidity/contract/fragments.dart';
 import 'package:on_chain/ethereum/src/models/block_tag.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';

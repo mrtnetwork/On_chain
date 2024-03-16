@@ -1,4 +1,4 @@
-import 'package:on_chain/abi/abi.dart';
+import 'package:on_chain/solidity/abi/abi.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 

@@ -1,0 +1,1 @@
+enum HTTPRequestType { post, get }

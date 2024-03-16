@@ -1,5 +1,5 @@
-import 'package:on_chain/abi/abi.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
+import 'package:on_chain/solidity/solidity.dart';
 
 void main() {
   /// Create an EIP-712 message

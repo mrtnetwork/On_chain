@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/example/ethereum/rpc/socket_service.dart';
-import 'package:on_chain/contract/contract_abi.dart';
 import 'package:on_chain/ethereum/ethereum.dart';
+import 'package:on_chain/solidity/contract/contract_abi.dart';
 
 import 'abi_1.dart';
 

@@ -1,10 +1,10 @@
-import 'package:on_chain/address/core.dart';
+import 'package:on_chain/solidity/address/core.dart';
 import 'package:blockchain_utils/bip/address/trx_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 
 /// Class representing a Tron address, implementing the BaseHexAddress interface
-class TronAddress implements BaseHexAddress {
+class TronAddress implements SolidityAddress {
   /// Private constructor for internal use, initializing with address and hexAddress
   const TronAddress._(this._address, this._hexAddress);
 
