@@ -1,3 +1,6 @@
+## 3.0.1
+- Update dependencies.
+
 ## 3.0.0
 - Added support for the Cardano network.
 
