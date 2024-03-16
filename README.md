@@ -76,6 +76,28 @@ Delve confidently into the Solana blockchain ecosystem with the Onchain Plugin f
 
 - Custom Programs: The plugin facilitates the Solana Buffer layout structure, enabling effortless encoding and decoding of pertinent data
 
+### Cardano
+
+Dive confidently into the Cardano blockchain ecosystem with "on_chain" - your gateway to seamless integration with Cardano's powerful network. Empower your Dart applications to navigate the Cardano landscape with ease, from account creation to asset transfers and execution of a diverse range of smart contracts. Uncover the full potential of Cardano's network, harnessing its scalability and performance to drive innovation and growth in your projects. Explore the multitude of Cardano contracts, including smart contracts, and unlock new possibilities for your Dart applications to flourish within the dynamic Cardano blockchain ecosystem.
+
+- Transaction: Generate and construct Cardano transactions across both the Byron and Shelley eras. Serialization, and Deserialization.
+
+- Sign: Effortlessly Sign Transactions
+
+- Addresses: Comprehensive address support, base, reward, pointer, enterprise, as well as both Byron and legacy Byron formats.
+
+- HD-Wallet: Seed generator for legacy and Icarus formats, alongside HD wallet management for both Shelley and Byron era
+
+- Transactions: The plugin boasts extensive support for a variety of Cardano transactions. 
+Here are some examples:
+
+  - Mint
+  - Plutus
+  - NativeScripts
+  - Certificate (Stake, Pool, MIR)
+  - Metadata
+  - Withdrawals
+
 ## EXAMPLES
 
 ### Key and addresses
@@ -144,6 +166,33 @@ Delve confidently into the Solana blockchain ecosystem with the Onchain Plugin f
 
     /// Derive the Solana address associated with the public key.
     final SolAddress solanaAddress = solanaPublicKey.toAddress();
+
+    /// Cardano
+    // Define a private key
+    final privateKey = AdaPrivateKey.fromBytes(...);
+
+    // Create a Byron address
+    final byronAddress =
+      ADAByronAddress.fromPublicKey(publicKey: ..., chaincode: ...);
+
+    // Generate a legacy Byron address
+    final byronLegacyAddress = ADAByronAddress.legacy(
+        publicKey: .., chaincode: .., hdPathKey:.., hdPath: '');
+
+    // Construct a Shelley base address
+    final shellyBase = ADABaseAddress(
+        "addr_test1qzkrh0ytcw257np6x6lxp74a6p4erj7rqt9azycnckgp2f27p5uc85frnln985tjn0xv8fmdv4t696d3j9zvu0ktx0gs62w8wv");
+
+    // Formulate a Shelley reward address
+    final shellyReward = ADARewardAddress("stake...");
+
+    // Create a Shelley pointer address
+    final shellyPointer = ADAPointerAddress.fromPublicKey(
+        pubkeyBytes: ...Bip32KholawMstKeyGeneratorConst.masterKeyHmacKey,
+       pointer: Pointer(slot: slot, txIndex: txIndex, certIndex: certIndex));
+
+    // Define an enterprise address
+    final enterpriseAddress = ADAEnterpriseAddress("...");
     ```
  
  ### Transaction
@@ -449,6 +498,66 @@ Delve confidently into the Solana blockchain ecosystem with the Onchain Plugin f
       SolanaRPCSendTransaction(encodedTransaction: serializedTransaction));
 
     ```
+
+
+  - Cardano Transaction
+    Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/cardano).
+    
+    Transfer ADA
+    ```
+    /// Create a BIP32 derivation from a seed
+    final bip32 = CardanoIcarusBip32.fromSeed(List<int>.filled(20, 12));
+
+    /// Derive a spending key from the BIP32 derivation path
+    final spend = bip32.derivePath("1852'/1815'/0'/0/0");
+
+    /// Extract the private key from the spending key
+    final privateKey = AdaPrivateKey.fromBytes(spend.privateKey.raw);
+
+    /// Define the sender enterprise address
+    ADAEnterpriseAddress addr = ADAEnterpriseAddress(
+        "addr_test1vp0q6wvr6y3elejn69efhnxr5akk24azaxcez3xw8m9n85gmr5qny",
+        network: ADANetwork.testnetPreprod);
+
+    /// Define the receiver enterprise address
+    ADAEnterpriseAddress receiver = ADAEnterpriseAddress(
+        "addr_test1vp0q6wvr6y3elejn69efhnxr5akk24azaxcez3xw8m9n85gmr5qny",
+        network: ADANetwork.testnetPreprod);
+
+    /// Set up the Blockfrost provider
+    final provider = BlockforestProvider(BlockforestHTTPProvider(
+        url: "https://cardano-preprod.blockfrost.io/api/v0/",
+        projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
+
+    /// Define transaction inputs and outputs
+    final input = TransactionInput(
+        transactionId: TransactionHash.fromHex(
+            "6419830644a3310e8ddf55998154bd07afe9f4a73872b6dd4d39ac43ff59ad8c"),
+        index: 0);
+    final output = TransactionOutput(
+        address: receiver, amount: Value(coin: ADAHelper.toLovelaces("1")));
+    final change = TransactionOutput(
+        address: addr,
+       amount: Value(
+          coin: ADAHelper.toLovelaces("10000") - ADAHelper.toLovelaces("1.2")));
+    final fee = ADAHelper.toLovelaces("0.2");
+
+    /// Construct the transaction body
+    final body =
+        TransactionBody(inputs: [input], outputs: [change, output], fee: fee);
+
+    /// Create the ADA transaction with witness
+    final transaction = ADATransaction(
+        body: body,
+       witnessSet: TransactionWitnessSet(vKeys: [
+          privateKey.createSignatureWitness(body.toHash().data),
+        ]));
+
+    /// Submit the transaction via Blockfrost provider
+    await provider.request(BlockfrostRequestSubmitTransaction(
+        transactionCborBytes: transaction.serialize()));
+    ```
+
 ### EIP712
 
   - EIP-712
@@ -646,7 +755,29 @@ Example:
             account: SolAddress.unchecked(
                 "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
     ```
+  - Cardano (blockfrost)
+    Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ada/src/provider/blockfrost/methods).
+    
+    ```
+    /// Set up the Blockfrost provider with the specified URL and project ID
+    final provider = BlockforestProvider(BlockforestHTTPProvider(
+      url: "https://cardano-preprod.blockfrost.io/api/v0/",
+      projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 
+    /// Retrieve UTXOs for a specific Cardano address
+    final List<ADAAccountUTXOResponse> accountUtxos = await provider.request(
+      BlockfrostRequestAddressUTXOs(ADAAddress.fromAddress(
+          "addr_test1vp0q6wvr6y3elejn69efhnxr5akk24azaxcez3xw8m9n85gmr5qny")));
+
+    /// Fetch the latest epoch's protocol parameters
+    final ADAEpochParametersResponse protocolParams =
+      await provider.request(BlockfrostRequestLatestEpochProtocolParameters());
+
+    /// Get UTXOs associated with a specific transaction
+    final ADATransactionUTXOSResponse transaction = await provider.request(
+      BlockfrostRequestTransactionUTXOs(
+          "69edd1c1c4fdc282e3fe1d90f368a228d7702316dc33e494e5bee7db81d6183b"));
+    ```
 ### BIP-39, Addresses, and HD Wallet Key Management Process
 ```
   /// Generate a 12-word mnemonic phrase.
@@ -674,6 +805,33 @@ Example:
       TronPrivateKey.fromBytes(tronDefaultPath.privateKey.raw);
   final ethereumPrivateKey =
       ETHPrivateKey.fromBytes(ethereumDefaultPath.privateKey.raw);
+  
+  
+  /// Cardano
+  /// Generate a mnemonic using 15 words
+  final mnemonic =
+      Bip39MnemonicGenerator().fromWordsNumber(Bip39WordsNum.wordsNum15);
+
+  /// Generate seeds for Cardano Icarus and legacy Byron wallets using the mnemonic
+  final seed = CardanoIcarusSeedGenerator(mnemonic.toStr()).generate();
+  final legacySeed =
+      CardanoByronLegacySeedGenerator(mnemonic.toStr()).generate();
+
+  /// Create a CIP-1852 object from the seed for Cardano Icarus
+  final cip1852 = Cip1852.fromSeed(seed, Cip1852Coins.cardanoIcarus);
+
+  /// Initialize Cardano Shelley from the CIP-1852 object
+  final shelly = CardanoShelley.fromCip1852Object(cip1852);
+
+  /// Extract private keys for payment and stake from the Shelley wallet
+  final payment = shelly.bip44.privateKey;
+  final stake = shelly.bip44Sk.privateKey;
+
+  /// Derive a BIP-44 wallet from the legacy seed for Cardano Byron Ledger
+  final bip44 = Bip44.fromSeed(legacySeed, Bip44Coins.cardanoByronLedger);
+
+  /// Create a Cardano Byron Legacy wallet from the legacy seed
+  final byron = CardanoByronLegacy.fromSeed(legacySeed);
 
 ```
 

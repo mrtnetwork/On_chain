@@ -50,8 +50,9 @@ void _basicConvertion() {
     final metadata = TransactionMetadata.fromJsonSchema(
         json: decode, jsonSchema: MetadataJsonSchema.basicConversions);
     expect(
-        metadata.toJsonSchema(config: MetadataSchemaConfig(
-            jsonSchema: MetadataJsonSchema.basicConversions)),
+        metadata.toJsonSchema(
+            config: MetadataSchemaConfig(
+                jsonSchema: MetadataJsonSchema.basicConversions)),
         decode);
     expect(metadata.serializeHex(),
         "a3448badf00d44deadbeef0905636f626aa1616182a10502a0");

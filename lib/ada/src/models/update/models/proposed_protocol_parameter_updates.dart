@@ -22,8 +22,7 @@ class ProposedProtocolParameterUpdates with ADASerialization {
   factory ProposedProtocolParameterUpdates.fromJson(Map<String, dynamic> json) {
     return ProposedProtocolParameterUpdates({
       for (final i in json.entries)
-        GenesisHash.fromHex(i.key):
-            ProtocolParamUpdate.fromJson(i.value)
+        GenesisHash.fromHex(i.key): ProtocolParamUpdate.fromJson(i.value)
     });
   }
   ProposedProtocolParameterUpdates copyWith(

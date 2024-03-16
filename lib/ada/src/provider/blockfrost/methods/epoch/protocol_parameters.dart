@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the protocol parameters for the epoch specified.
 /// https://blockfrost.dev/api/protocol-parameters
-class BlockfrostRequestProtocolParameters
-    extends BlockforestRequestParam<ADAEpochParametersResponse, Map<String, dynamic>> {
+class BlockfrostRequestProtocolParameters extends BlockforestRequestParam<
+    ADAEpochParametersResponse, Map<String, dynamic>> {
   BlockfrostRequestProtocolParameters(this.epoch);
 
   /// Number of the epoch

@@ -22,6 +22,8 @@ class BlockfrostRequestTransactionMetadataInCBOR
   @override
   List<ADATransactionMetadataCBORResponse> onResonse(
       List<Map<String, dynamic>> result) {
-    return result.map((e) => ADATransactionMetadataCBORResponse.fromJson(e)).toList();
+    return result
+        .map((e) => ADATransactionMetadataCBORResponse.fromJson(e))
+        .toList();
   }
 }

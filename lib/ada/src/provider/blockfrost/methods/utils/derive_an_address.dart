@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Derive Shelley address from an xpub
 /// https://blockfrost.dev/api/derive-an-address
-class BlockfrostRequestDeriveAnAddress
-    extends BlockforestRequestParam<ADADeriveAddressResponse, Map<String, dynamic>> {
+class BlockfrostRequestDeriveAnAddress extends BlockforestRequestParam<
+    ADADeriveAddressResponse, Map<String, dynamic>> {
   BlockfrostRequestDeriveAnAddress(
       {required this.xpub, required this.role, required this.index});
 

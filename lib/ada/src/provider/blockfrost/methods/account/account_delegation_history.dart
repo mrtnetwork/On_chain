@@ -6,7 +6,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about the delegation of a specific account.
 /// https://blockfrost.dev/api/account-delegation-history
 class BlockfrostRequestAccountDelegationHistory extends BlockforestRequestParam<
-    List<ADAStakeAccountDelegationHistoryResponse>, List<Map<String, dynamic>>> {
+    List<ADAStakeAccountDelegationHistoryResponse>,
+    List<Map<String, dynamic>>> {
   BlockfrostRequestAccountDelegationHistory(this.stakeAddress,
       {BlockforestRequestFilterParams? filter})
       : super(filter: filter);

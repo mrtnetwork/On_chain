@@ -1,5 +1,6 @@
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
+
 void main() {
   test("protocol param update", () {
     final protocol = ProtocolParamUpdate(

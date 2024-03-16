@@ -61,7 +61,6 @@ class PlutusDataUtils {
 
   static PlutusData parsePlutus(dynamic value, PlutusJsonSchema schame) {
     _validateType(value);
-    print("schame $schame ${value is Map}");
     if (schame == PlutusJsonSchema.basicConversions) {
       if (value is int || value is BigInt) {
         return _encodeNumbers(value);

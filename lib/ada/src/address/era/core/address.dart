@@ -4,6 +4,7 @@ import 'package:on_chain/ada/src/address/era/byron/byron.dart';
 import 'package:on_chain/ada/src/address/era/shelly/shelly.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+
 /// Represents an abstract class for ADA addresses with serialization capabilities.
 abstract class ADAAddress with ADASerialization {
   /// Abstract property representing the ADA network.
@@ -78,7 +79,6 @@ abstract class ADAAddress with ADASerialization {
     }
     return address;
   }
-
 
   /// Returns the string representation of the ADAAddress.
   @override

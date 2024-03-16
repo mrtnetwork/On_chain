@@ -21,7 +21,8 @@ class BlockfrostRequestStakePoolDelegators extends BlockforestRequestParam<
   List<String> get pathParameters => [poolId];
 
   @override
-  List<ADAPoolDelegatorInfoResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAPoolDelegatorInfoResponse> onResonse(
+      List<Map<String, dynamic>> result) {
     return result.map((e) => ADAPoolDelegatorInfoResponse.fromJson(e)).toList();
   }
 }

@@ -25,7 +25,6 @@ class BlockfrostRequestSpecificBlockInASlotInAnEpoch
 
   @override
   ADABlockResponse onResonse(Map<String, dynamic> result) {
-    // TODO: implement onResonse
     return ADABlockResponse.fromJson(result);
   }
 }

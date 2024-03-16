@@ -19,7 +19,10 @@ class BlockfrostRequestTransactionWithdrawal extends BlockforestRequestParam<
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionWithdrawalResponse> onResonse(List<Map<String, dynamic>> result) {
-    return result.map((e) => ADATransactionWithdrawalResponse.fromJson(e)).toList();
+  List<ADATransactionWithdrawalResponse> onResonse(
+      List<Map<String, dynamic>> result) {
+    return result
+        .map((e) => ADATransactionWithdrawalResponse.fromJson(e))
+        .toList();
   }
 }

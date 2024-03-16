@@ -10,7 +10,8 @@ class ADAStakeAccountWithdrawalHistoryResponse {
     required this.amount,
   });
 
-  factory ADAStakeAccountWithdrawalHistoryResponse.fromJson(Map<String, dynamic> json) {
+  factory ADAStakeAccountWithdrawalHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
     return ADAStakeAccountWithdrawalHistoryResponse(
       txHash: json['tx_hash'],
       amount: json['amount'],

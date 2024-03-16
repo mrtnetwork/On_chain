@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the information about the latest, therefore current, epoch..
 /// https://blockfrost.dev/api/latest-epoch
-class BlockfrostRequestLatestEpoch
-    extends BlockforestRequestParam<ADAEpochInfoResponse, Map<String, dynamic>> {
+class BlockfrostRequestLatestEpoch extends BlockforestRequestParam<
+    ADAEpochInfoResponse, Map<String, dynamic>> {
   BlockfrostRequestLatestEpoch();
 
   /// Latest epoch

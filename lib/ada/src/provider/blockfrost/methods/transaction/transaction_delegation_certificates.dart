@@ -5,7 +5,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about delegation certificates of a specific transaction.
 /// https://blockfrost.dev/api/transaction-delegation-certificates
 class BlockfrostRequestTransactionDelegationCertificates
-    extends BlockforestRequestParam<List<ADATransactionDelegationCertificateResponse>,
+    extends BlockforestRequestParam<
+        List<ADATransactionDelegationCertificateResponse>,
         List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionDelegationCertificates(this.hash);
 

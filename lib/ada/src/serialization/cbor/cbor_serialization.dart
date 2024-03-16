@@ -5,8 +5,6 @@ mixin ADASerialization {
   /// Converts the object to a CBOR object.
   CborObject toCbor();
 
- 
-
   /// Converts the object to a JSON representation.
   dynamic toJson();
 

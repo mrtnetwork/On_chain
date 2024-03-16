@@ -40,7 +40,6 @@ class CborSignedValue implements CborNumeric {
     if (value is int || (value as BigInt).isValidInt) {
       return CborIntValue(toInt()).encode();
     }
-    print("come safe int $value");
     return CborSafeIntValue(value).encode();
   }
 

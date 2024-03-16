@@ -19,7 +19,10 @@ class BlockfrostRequestTransactionRedeemers extends BlockforestRequestParam<
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionRedeemerResponse> onResonse(List<Map<String, dynamic>> result) {
-    return result.map((e) => ADATransactionRedeemerResponse.fromJson(e)).toList();
+  List<ADATransactionRedeemerResponse> onResonse(
+      List<Map<String, dynamic>> result) {
+    return result
+        .map((e) => ADATransactionRedeemerResponse.fromJson(e))
+        .toList();
   }
 }

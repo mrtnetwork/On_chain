@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Stake pool registration metadata.
 /// https://blockfrost.dev/api/stake-pool-metadata
-class BlockfrostRequestStakePoolMetadata
-    extends BlockforestRequestParam<ADAPoolMetadataResponse, Map<String, dynamic>> {
+class BlockfrostRequestStakePoolMetadata extends BlockforestRequestParam<
+    ADAPoolMetadataResponse, Map<String, dynamic>> {
   BlockfrostRequestStakePoolMetadata(this.poolId);
 
   final String poolId;

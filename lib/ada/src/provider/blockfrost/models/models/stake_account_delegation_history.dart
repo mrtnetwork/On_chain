@@ -18,7 +18,8 @@ class ADAStakeAccountDelegationHistoryResponse {
     required this.poolId,
   });
 
-  factory ADAStakeAccountDelegationHistoryResponse.fromJson(Map<String, dynamic> json) {
+  factory ADAStakeAccountDelegationHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
     return ADAStakeAccountDelegationHistoryResponse(
       activeEpoch: json['active_epoch'],
       txHash: json['tx_hash'],

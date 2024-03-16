@@ -45,7 +45,8 @@ class ADAPoolRegistrationCertificateResponse {
     this.metadata,
   });
 
-  factory ADAPoolRegistrationCertificateResponse.fromJson(Map<String, dynamic> json) {
+  factory ADAPoolRegistrationCertificateResponse.fromJson(
+      Map<String, dynamic> json) {
     return ADAPoolRegistrationCertificateResponse(
       certIndex: json['cert_index'],
       poolId: json['pool_id'],

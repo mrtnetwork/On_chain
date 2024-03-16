@@ -21,7 +21,8 @@ class BlockfrostRequestStakeDistribution extends BlockforestRequestParam<
   List<String> get pathParameters => [epoch.toString()];
 
   @override
-  List<ADAStakeDistributionResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAStakeDistributionResponse> onResonse(
+      List<Map<String, dynamic>> result) {
     return result.map((e) => ADAStakeDistributionResponse.fromJson(e)).toList();
   }
 }

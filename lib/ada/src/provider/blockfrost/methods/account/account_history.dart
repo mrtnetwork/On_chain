@@ -22,7 +22,10 @@ class BlockfrostRequestAccountHistory extends BlockforestRequestParam<
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  List<ADAStakeAccountHistoryResponse> onResonse(List<Map<String, dynamic>> result) {
-    return result.map((e) => ADAStakeAccountHistoryResponse.fromJson(e)).toList();
+  List<ADAStakeAccountHistoryResponse> onResonse(
+      List<Map<String, dynamic>> result) {
+    return result
+        .map((e) => ADAStakeAccountHistoryResponse.fromJson(e))
+        .toList();
   }
 }

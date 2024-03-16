@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Information about a specific script.
 /// https://blockfrost.dev/api/specific-script
-class BlockfrostRequestSpecificScript
-    extends BlockforestRequestParam<ADAScriptInfoResponse, Map<String, dynamic>> {
+class BlockfrostRequestSpecificScript extends BlockforestRequestParam<
+    ADAScriptInfoResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificScript(this.script);
 
   /// Hash of the script

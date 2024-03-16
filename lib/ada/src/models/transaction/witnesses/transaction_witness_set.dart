@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus/plutus.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/types/list.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_script/language/language.dart';
 import 'package:on_chain/ada/src/models/native_script/core/native_script.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_script/redeemer_tag/redeemer.dart';

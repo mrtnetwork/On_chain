@@ -1,3 +1,7 @@
+## 3.0.0
+- Added support for the Cardano network.
+
+
 ## 2.0.0
 - Added support for the Solana network.
 

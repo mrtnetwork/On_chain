@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return content of the requested transaction.
 /// https://blockfrost.dev/api/specific-transaction
-class BlockfrostRequestSpecificTransaction
-    extends BlockforestRequestParam<ADATransactionInfoResponse, Map<String, dynamic>> {
+class BlockfrostRequestSpecificTransaction extends BlockforestRequestParam<
+    ADATransactionInfoResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificTransaction(this.hash);
 
   /// Hash of the requested transaction

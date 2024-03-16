@@ -10,7 +10,8 @@ class ADABlockAddressTransactionsResponse {
     required this.transactions,
   });
 
-  factory ADABlockAddressTransactionsResponse.fromJson(Map<String, dynamic> json) {
+  factory ADABlockAddressTransactionsResponse.fromJson(
+      Map<String, dynamic> json) {
     var transactionsList = json['transactions'] as List;
     List<String> transactions =
         transactionsList.map((item) => item['tx_hash'] as String).toList();

@@ -19,7 +19,6 @@ class BlockfrostRequestScripts
 
   @override
   List<String> onResonse(List<Map<String, dynamic>> result) {
-    // TODO: implement onResonse
     return result.map<String>((e) => e["script_hash"]).toList();
   }
 }

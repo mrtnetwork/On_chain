@@ -18,7 +18,8 @@ class ADATransactionSummaryInfoResponse {
     required this.blockTime,
   });
 
-  factory ADATransactionSummaryInfoResponse.fromJson(Map<String, dynamic> json) {
+  factory ADATransactionSummaryInfoResponse.fromJson(
+      Map<String, dynamic> json) {
     return ADATransactionSummaryInfoResponse(
       txHash: json['tx_hash'],
       txIndex: json['tx_index'],

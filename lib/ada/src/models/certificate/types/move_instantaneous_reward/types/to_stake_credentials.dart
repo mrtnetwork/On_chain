@@ -46,6 +46,4 @@ class MIRToStakeCredentials extends MIR {
         entry.key.toJson(): entry.value.toString()
     };
   }
-
- 
 }

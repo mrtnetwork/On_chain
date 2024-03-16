@@ -23,7 +23,6 @@ class ADAPoolRetirementResponse {
       };
   @override
   String toString() {
-    // TODO: implement toString
     return "ADAPoolRetirementResponse${toJson()}";
   }
 }

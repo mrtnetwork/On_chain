@@ -22,8 +22,9 @@ class ADAAccountSummaryResponse {
 
   factory ADAAccountSummaryResponse.fromJson(Map<String, dynamic> json) {
     var receivedSumList = json['received_sum'] as List;
-    List<ADAAmountResponse> receivedSum =
-        receivedSumList.map((item) => ADAAmountResponse.fromJson(item)).toList();
+    List<ADAAmountResponse> receivedSum = receivedSumList
+        .map((item) => ADAAmountResponse.fromJson(item))
+        .toList();
 
     var sentSumList = json['sent_sum'] as List;
     List<ADAAmountResponse> sentSum =

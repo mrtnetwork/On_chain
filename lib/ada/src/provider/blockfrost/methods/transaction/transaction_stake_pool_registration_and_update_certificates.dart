@@ -5,7 +5,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about stake pool registration and update certificates of a specific transaction.
 /// https://blockfrost.dev/api/transaction-stake-pool-registration-and-update-certificates
 class BlockfrostRequestTransactionStakePoolRegistrationAndUpdateCertificates
-    extends BlockforestRequestParam<List<ADAPoolRegistrationCertificateResponse>,
+    extends BlockforestRequestParam<
+        List<ADAPoolRegistrationCertificateResponse>,
         List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionStakePoolRegistrationAndUpdateCertificates(
       this.hash);

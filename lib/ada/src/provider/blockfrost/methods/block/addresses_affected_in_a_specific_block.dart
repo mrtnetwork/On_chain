@@ -25,6 +25,8 @@ class BlockfrostRequestAddressesAffectedInASpecificBlock
   @override
   List<ADABlockAddressTransactionsResponse> onResonse(
       List<Map<String, dynamic>> result) {
-    return result.map((e) => ADABlockAddressTransactionsResponse.fromJson(e)).toList();
+    return result
+        .map((e) => ADABlockAddressTransactionsResponse.fromJson(e))
+        .toList();
   }
 }

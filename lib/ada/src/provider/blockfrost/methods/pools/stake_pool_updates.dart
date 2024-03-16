@@ -21,7 +21,8 @@ class BlockfrostRequestStakePoolUpdates extends BlockforestRequestParam<
   List<String> get pathParameters => [poolId];
 
   @override
-  List<ADAStakePoolUpdateResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAStakePoolUpdateResponse> onResonse(
+      List<Map<String, dynamic>> result) {
     return result.map((e) => ADAStakePoolUpdateResponse.fromJson(e)).toList();
   }
 }

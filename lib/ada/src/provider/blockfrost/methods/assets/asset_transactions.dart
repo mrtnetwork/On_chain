@@ -20,7 +20,10 @@ class BlockfrostRequestAssetTransactions extends BlockforestRequestParam<
   List<String> get pathParameters => [asset];
 
   @override
-  List<ADATransactionSummaryInfoResponse> onResonse(List<Map<String, dynamic>> result) {
-    return result.map((e) => ADATransactionSummaryInfoResponse.fromJson(e)).toList();
+  List<ADATransactionSummaryInfoResponse> onResonse(
+      List<Map<String, dynamic>> result) {
+    return result
+        .map((e) => ADATransactionSummaryInfoResponse.fromJson(e))
+        .toList();
   }
 }

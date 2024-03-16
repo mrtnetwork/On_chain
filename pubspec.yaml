@@ -17,8 +17,7 @@ environment:
 
 
 dependencies:
-  blockchain_utils: 
-    path: ../blockchain_utils
+  blockchain_utils: ^2.1.0
 
 dev_dependencies:
   test: ^1.25.2

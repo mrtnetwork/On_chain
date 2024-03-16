@@ -13,8 +13,8 @@ class ADAHelper {
 
   static Tuple<PolicyID, AssetName> separatePolcyAndAssetName(String hex) {
     final toBytes = BytesUtils.fromHexString(hex);
-    final PolicyID policyID =
-        PolicyID(toBytes.sublist(0, AdaTransactionConstant.blake2b224DigestSize));
+    final PolicyID policyID = PolicyID(
+        toBytes.sublist(0, AdaTransactionConstant.blake2b224DigestSize));
     final AssetName assetName =
         AssetName(toBytes.sublist(AdaTransactionConstant.blake2b224DigestSize));
     return Tuple(policyID, assetName);

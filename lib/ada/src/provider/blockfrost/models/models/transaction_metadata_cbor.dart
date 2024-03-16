@@ -10,7 +10,8 @@ class ADATransactionMetadataCBORResponse {
     required this.metadata,
   });
 
-  factory ADATransactionMetadataCBORResponse.fromJson(Map<String, dynamic> json) {
+  factory ADATransactionMetadataCBORResponse.fromJson(
+      Map<String, dynamic> json) {
     return ADATransactionMetadataCBORResponse(
       label: json['label'],
       metadata: json['metadata'],

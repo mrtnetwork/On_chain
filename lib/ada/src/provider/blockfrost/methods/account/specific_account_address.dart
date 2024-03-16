@@ -5,8 +5,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about a specific stake account.
 /// https://blockfrost.dev/api/specific-account-address
-class BlockfrostRequestSpecificAccountAddress
-    extends BlockforestRequestParam<ADAStakeAccountResponse, Map<String, dynamic>> {
+class BlockfrostRequestSpecificAccountAddress extends BlockforestRequestParam<
+    ADAStakeAccountResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificAccountAddress(this.stakeAddress);
 
   /// stake address.

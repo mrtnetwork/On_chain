@@ -6,7 +6,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about the registrations and deregistrations of a specific account.
 /// https://blockfrost.dev/api/account-registration-history
 class BlockfrostRequestAccountRegistrationHistory
-    extends BlockforestRequestParam<List<ADAStakeAccountRegistrationHistoryResponse>,
+    extends BlockforestRequestParam<
+        List<ADAStakeAccountRegistrationHistoryResponse>,
         List<Map<String, dynamic>>> {
   BlockfrostRequestAccountRegistrationHistory(this.stakeAddress,
       {BlockforestRequestFilterParams? filter})
