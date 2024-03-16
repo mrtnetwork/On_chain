@@ -7,13 +7,13 @@ import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 /// Represents an abstract class for ADA addresses with serialization capabilities.
 abstract class ADAAddress with ADASerialization {
   /// Abstract property representing the ADA network.
-  abstract final AdaNetwork network;
+  abstract final ADANetwork network;
 
   /// Abstract property representing the address string.
   abstract final String address;
 
   /// Abstract property representing the type of ADA address.
-  abstract final AdaAddressType addressType;
+  abstract final ADAAddressType addressType;
 
   /// Abstract property representing the Bech32 address.
   abstract final String bech32Address;
@@ -23,20 +23,20 @@ abstract class ADAAddress with ADASerialization {
 
   /// Factory method to create an ADAAddress instance from a given address string.
   static T fromAddress<T extends ADAAddress>(String address,
-      {AdaNetwork? network}) {
+      {ADANetwork? network}) {
     final type = AdaAddressUtils.findAddrType(address);
     final ADAAddress addr;
     switch (type) {
-      case AdaAddressType.base:
+      case ADAAddressType.base:
         addr = ADABaseAddress(address, network: network);
         break;
-      case AdaAddressType.pointer:
+      case ADAAddressType.pointer:
         addr = ADAPointerAddress(address, network: network);
         break;
-      case AdaAddressType.reward:
+      case ADAAddressType.reward:
         addr = ADARewardAddress(address, network: network);
         break;
-      case AdaAddressType.enterprise:
+      case ADAAddressType.enterprise:
         addr = ADAEnterpriseAddress(address, network: network);
         break;
       default:

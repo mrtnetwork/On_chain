@@ -9,7 +9,7 @@ void main() async {
 
   ADAEnterpriseAddress receiver = ADAEnterpriseAddress(
       "addr_test1vp0q6wvr6y3elejn69efhnxr5akk24azaxcez3xw8m9n85gmr5qny",
-      network: AdaNetwork.testnetPreprod);
+      network: ADANetwork.testnetPreprod);
 
   final provider = BlockforestProvider(BlockforestHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",

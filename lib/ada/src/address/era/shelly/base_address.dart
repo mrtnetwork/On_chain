@@ -20,10 +20,10 @@ class ADABaseAddress extends ADAShellyAddress {
 
   /// The ADA network associated with the address.
   @override
-  final AdaNetwork network;
+  final ADANetwork network;
 
   @override
-  AdaAddressType get addressType => AdaAddressType.base;
+  ADAAddressType get addressType => ADAAddressType.base;
 
   const ADABaseAddress._(
       {required this.paymentCredential,
@@ -33,9 +33,9 @@ class ADABaseAddress extends ADAShellyAddress {
       : super.init();
 
   /// Factory method to create an ADABaseAddress instance from a given address string.
-  factory ADABaseAddress(String address, {AdaNetwork? network}) {
+  factory ADABaseAddress(String address, {ADANetwork? network}) {
     final decode = AdaAddressUtils.decodeAddres(address,
-        addrType: AdaAddressType.base, network: network);
+        addrType: ADAAddressType.base, network: network);
     return ADABaseAddress._(
         paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
         stakeCredential: AdaAddressUtils.toCerdential(decode.stakeHashBytes!),
@@ -47,7 +47,7 @@ class ADABaseAddress extends ADAShellyAddress {
   factory ADABaseAddress.fromCredential(
       {required StakeCred baseCredential,
       required StakeCred stakeCredential,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaShelleyAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(baseCredential), {
       "net_tag": network,
@@ -64,7 +64,7 @@ class ADABaseAddress extends ADAShellyAddress {
   factory ADABaseAddress.fromPublicKey(
       {required List<int> basePubkeyBytes,
       required List<int> stakePubkeyBytes,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final baseCredential =
         AdaAddressUtils.publicKeyToCredential(basePubkeyBytes);
     final stakeCredential =
@@ -84,7 +84,7 @@ class ADABaseAddress extends ADAShellyAddress {
   /// Factory method to create an ADABaseAddress instance from a Shelley wallet.
   factory ADABaseAddress.shellyWallet(
       {required CardanoShelley shelleyWallet,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final baseCredential = AdaAddressUtils.publicKeyToCredential(
         shelleyWallet.bip44.publicKey.compressed);
     final stakeCredential = AdaAddressUtils.publicKeyToCredential(

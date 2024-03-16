@@ -16,7 +16,7 @@ void main() async {
   final stakePrivateKey =
       AdaPrivateKey.fromBytes(internal10.bip44Sk.privateKey.raw);
   final addr = ADABaseAddress.shellyWallet(
-      shelleyWallet: internal10, network: AdaNetwork.testnetPreprod);
+      shelleyWallet: internal10, network: ADANetwork.testnetPreprod);
 
   final provider = BlockforestProvider(BlockforestHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",

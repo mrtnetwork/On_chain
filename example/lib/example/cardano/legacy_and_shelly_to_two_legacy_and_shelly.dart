@@ -14,13 +14,13 @@ void main() async {
   final receiver = ADABaseAddress.fromPublicKey(
       basePubkeyBytes: byronLegacy.masterPublicKey.compressed,
       stakePubkeyBytes: byronLegacy.masterPublicKey.compressed,
-      network: AdaNetwork.testnet);
+      network: ADANetwork.testnet);
   final receiver2 = ADAByronAddress.fromPublicKey(
       chaincode: pubkey.chainCode.toBytes(),
       publicKey: pubkey.compressed,
-      network: AdaNetwork.testnetPreprod);
+      network: ADANetwork.testnetPreprod);
   final addr = ADAByronAddress.legacy(
-    network: AdaNetwork.testnetPreprod,
+    network: ADANetwork.testnetPreprod,
     chaincode: BytesUtils.fromHexString(
         "0a45cc2bb6a5327ec85fe580145ca465bd4876212e84cf74f7d61e67e2736dc1"),
     hdPath: "m/0'/2'",

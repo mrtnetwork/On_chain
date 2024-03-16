@@ -104,7 +104,7 @@ abstract class PlutusData
   /// Constructs a [PlutusData] instance from an address.
   factory PlutusData.fromAddress(ADAShellyAddress address) {
     PlutusData? stakeData;
-    if (address.addressType == AdaAddressType.base) {
+    if (address.addressType == ADAAddressType.base) {
       stakeData = ConstrPlutusData(
         alternative: BigInt.zero,
         data: PlutusList([

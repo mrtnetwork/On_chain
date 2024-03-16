@@ -23,7 +23,7 @@ class TransactionBody with ADASerialization {
   final ScriptDataHash? scriptDataHash;
   final List<TransactionInput>? collateral;
   final List<Ed25519KeyHash>? requiredSigners;
-  final AdaNetwork? network;
+  final ADANetwork? network;
   final TransactionOutput? collateralReturn;
   final BigInt? totalCollateral;
   final List<TransactionInput>? referenceInputs;
@@ -90,7 +90,7 @@ class TransactionBody with ADASerialization {
         scriptDataHash: cbor.getValueFromIntKey<CborBytesValue?>(11)?.to<ScriptDataHash, CborBytesValue>((e) => ScriptDataHash.deserialize(e)),
         collateral: cbor.getValueFromIntKey<CborListValue?>(13)?.to<List<TransactionInput>, CborListValue<CborObject>>((e) => e.value.map((e) => TransactionInput.deserialize(e.cast())).toList()),
         requiredSigners: cbor.getValueFromIntKey<CborListValue?>(14)?.to<List<Ed25519KeyHash>, CborListValue<CborObject>>((e) => e.value.map((e) => Ed25519KeyHash.deserialize(e.cast())).toList()),
-        network: cbor.getValueFromIntKey<CborIntValue?>(15)?.to<AdaNetwork, CborIntValue>((e) => AdaNetwork.fromTag(e.value)),
+        network: cbor.getValueFromIntKey<CborIntValue?>(15)?.to<ADANetwork, CborIntValue>((e) => ADANetwork.fromTag(e.value)),
         collateralReturn: cbor.getValueFromIntKey<CborObject?>(16)?.to<TransactionOutput, CborObject>((e) => TransactionOutput.deserialize(e)),
         totalCollateral: cbor.getValueFromIntKey<CborObject?>(17)?.getInteger(),
         referenceInputs: cbor.getValueFromIntKey<CborListValue?>(18)?.to<List<TransactionInput>, CborListValue<CborObject>>((e) => e.value.map((e) => TransactionInput.deserialize(e.cast())).toList()));
@@ -109,7 +109,7 @@ class TransactionBody with ADASerialization {
     ScriptDataHash? scriptDataHash,
     List<TransactionInput>? collateral,
     List<Ed25519KeyHash>? requiredSigners,
-    AdaNetwork? network,
+    ADANetwork? network,
     TransactionOutput? collateralReturn,
     BigInt? totalCollateral,
     List<TransactionInput>? referenceInputs,
@@ -221,7 +221,7 @@ class TransactionBody with ADASerialization {
             .toList(),
         network: json["network_id"] == null
             ? null
-            : AdaNetwork.fromTag(json["network_id"]),
+            : ADANetwork.fromTag(json["network_id"]),
         collateralReturn: json["collateral_return"] == null
             ? null
             : TransactionOutput.fromJson(json["collateral_return"]),

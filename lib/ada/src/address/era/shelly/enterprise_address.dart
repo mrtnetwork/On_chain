@@ -8,19 +8,19 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
   @override
   final String address;
   @override
-  final AdaNetwork network;
+  final ADANetwork network;
 
   @override
-  AdaAddressType get addressType => AdaAddressType.enterprise;
+  ADAAddressType get addressType => ADAAddressType.enterprise;
   const ADAEnterpriseAddress._(
       {required this.paymentCredential,
       required this.address,
       required this.network})
       : super.init();
 
-  factory ADAEnterpriseAddress(String address, {AdaNetwork? network}) {
+  factory ADAEnterpriseAddress(String address, {ADANetwork? network}) {
     final decode = AdaAddressUtils.decodeAddres(address,
-        addrType: AdaAddressType.enterprise, network: network);
+        addrType: ADAAddressType.enterprise, network: network);
     return ADAEnterpriseAddress._(
         paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
         address: address,
@@ -28,7 +28,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
   }
   factory ADAEnterpriseAddress.fromCredential(
       {required StakeCred credential,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential), {"net_tag": network});
     return ADAEnterpriseAddress._(
@@ -36,7 +36,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
   }
   factory ADAEnterpriseAddress.fromPublicKey(
       {required List<int> pubkeyBytes,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final credential = AdaAddressUtils.publicKeyToCredential(pubkeyBytes);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential), {"net_tag": network});
@@ -45,7 +45,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
   }
   factory ADAEnterpriseAddress.fromBip32(
       {required CardanoByronLegacyBip32 bip32,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final credential =
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
@@ -55,7 +55,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
   }
   factory ADAEnterpriseAddress.fromIcarus(
       {required CardanoIcarusBip32 bip32,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final credential =
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
@@ -64,7 +64,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
         paymentCredential: credential, address: encode, network: network);
   }
   factory ADAEnterpriseAddress.fromCip1852(
-      {required Cip1852 cip1852, AdaNetwork network = AdaNetwork.mainnet}) {
+      {required Cip1852 cip1852, ADANetwork network = ADANetwork.mainnet}) {
     final credential =
         AdaAddressUtils.publicKeyToCredential(cip1852.publicKey.compressed);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(

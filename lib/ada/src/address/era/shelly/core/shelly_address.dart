@@ -18,16 +18,16 @@ abstract class ADAShellyAddress extends ADAAddress {
   const ADAShellyAddress.init() : super.init();
 
   /// Factory method to create an ADAShellyAddress instance from a given address string.
-  factory ADAShellyAddress.fromAddress(String address, {AdaNetwork? network}) {
+  factory ADAShellyAddress.fromAddress(String address, {ADANetwork? network}) {
     final type = AdaAddressUtils.findAddrType(address);
     switch (type) {
-      case AdaAddressType.base:
+      case ADAAddressType.base:
         return ADABaseAddress(address, network: network);
-      case AdaAddressType.pointer:
+      case ADAAddressType.pointer:
         return ADAPointerAddress(address, network: network);
-      case AdaAddressType.reward:
+      case ADAAddressType.reward:
         return ADARewardAddress(address, network: network);
-      case AdaAddressType.enterprise:
+      case ADAAddressType.enterprise:
         return ADAEnterpriseAddress(address, network: network);
       default:
         throw MessageException(

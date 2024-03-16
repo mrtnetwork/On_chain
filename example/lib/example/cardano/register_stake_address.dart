@@ -11,7 +11,7 @@ void main() async {
   final receiver = ADABaseAddress.fromPublicKey(
       basePubkeyBytes: spend.publicKey.compressed,
       stakePubkeyBytes: spend2.publicKey.compressed,
-      network: AdaNetwork.testnetPreprod);
+      network: ADANetwork.testnetPreprod);
 
   final provider = BlockforestProvider(BlockforestHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",

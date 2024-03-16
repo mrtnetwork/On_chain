@@ -10,10 +10,10 @@ void main() async {
   final adaPrivateKey = AdaPrivateKey.fromBytes(privateKey.raw);
   final receiverLegacy = ADAByronAddress(
       "KjgoiXJS2coQ3nS6mdqjBvy1HnFKgiZEeTbNTtncA1HgTEDnbkhXkFKBQn5DxXiGZ4nZp25VtcqvMfpg4QRPdVELJE8LpWkyLav3kcKyXc2w",
-      network: AdaNetwork.testnetPreprod);
+      network: ADANetwork.testnetPreprod);
   final multiSig = ADAByronAddress(
     "KjgoiXJS2coqEj7BmUEY9TSJxppxySTBNDskVreRH2VN9TGV2SX1b8BRstVaPAA7eWCsEFLg8VKj47mNLJ5M21qPiaZqxphEYDBjdwvg44ot",
-    network: AdaNetwork.testnetPreprod,
+    network: ADANetwork.testnetPreprod,
   );
   final provider = BlockforestProvider(BlockforestHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",

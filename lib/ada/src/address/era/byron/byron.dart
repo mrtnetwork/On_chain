@@ -15,20 +15,20 @@ class ADAByronAddress extends ADAAddress {
   String get bech32Address => extendedAddress.toBech32();
 
   /// Extended address containing additional information.
-  final AdaByronAddr extendedAddress;
+  final ADAByronAddr extendedAddress;
 
   /// The ADA network associated with this address.
   @override
-  final AdaNetwork network;
+  final ADANetwork network;
 
   /// Constructor for ADAByronAddress.
   const ADAByronAddress._(this.address, this.extendedAddress, this.network)
       : super.init();
 
   /// Factory constructor to create an ADAByronAddress instance from a given address string.
-  factory ADAByronAddress(String address, {AdaNetwork? network}) {
+  factory ADAByronAddress(String address, {ADANetwork? network}) {
     final decode = AdaAddressUtils.decodeAddres(address,
-        addrType: AdaAddressType.byron, network: network);
+        addrType: ADAAddressType.byron, network: network);
     return ADAByronAddress._(decode.byronAddrPayload!.encode(),
         decode.byronAddrPayload!, decode.network);
   }
@@ -39,7 +39,7 @@ class ADAByronAddress extends ADAAddress {
       required List<int> chaincode,
       List<int>? hdPathKey,
       String? hdPath,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     if (hdPath != null && hdPathKey != null) {
       return ADAByronAddress.legacy(
           publicKey: publicKey,
@@ -56,7 +56,7 @@ class ADAByronAddress extends ADAAddress {
   /// Factory constructor to create an ADAByronAddress instance from a Bip32 structure.
   factory ADAByronAddress.fromBip32(
       {required CardanoByronLegacyBip32 bip32,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
         bip32.publicKey.compressed, {
       "net_tag": network,
@@ -68,7 +68,7 @@ class ADAByronAddress extends ADAAddress {
   /// Factory constructor to create an ADAByronAddress instance from an Icarus structure.
   factory ADAByronAddress.fromIcarus(
       {required CardanoIcarusBip32 bip32,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
         bip32.publicKey.compressed, {
       "net_tag": network,
@@ -82,7 +82,7 @@ class ADAByronAddress extends ADAAddress {
       {required CardanoByronLegacy bip32,
       required Bip32KeyIndex firstIndex,
       required Bip32KeyIndex secondIndex,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final publicKey =
         bip32.getPublicKey(firstIndex: firstIndex, secondIndex: secondIndex);
     final encode = AdaByronLegacyAddrEncoder()
@@ -101,7 +101,7 @@ class ADAByronAddress extends ADAAddress {
       required List<int> chaincode,
       required List<int> hdPathKey,
       required String hdPath,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(publicKey, {
       "net_tag": network,
       "chain_code": chaincode,
@@ -118,9 +118,9 @@ class ADAByronAddress extends ADAAddress {
 
   /// Deserializes a CBOR object into an ADAByronAddress instance.
   static ADAByronAddress deserialize(CborBytesValue cbor,
-      {AdaNetwork? network}) {
+      {ADANetwork? network}) {
     final CborListValue cborList = CborObject.fromCbor(cbor.value).cast();
-    final addr = AdaByronAddr.deserialize(cborList.encode());
+    final addr = ADAByronAddr.deserialize(cborList.encode());
     return ADAByronAddress(addr.encode(), network: network);
   }
 
@@ -138,5 +138,5 @@ class ADAByronAddress extends ADAAddress {
 
   /// Returns the address type, which is ADAAddressType.byron.
   @override
-  AdaAddressType get addressType => AdaAddressType.byron;
+  ADAAddressType get addressType => ADAAddressType.byron;
 }

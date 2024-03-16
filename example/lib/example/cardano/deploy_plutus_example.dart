@@ -16,11 +16,11 @@ void main() async {
   final externalAddress = ADABaseAddress.fromPublicKey(
       basePubkeyBytes: external.bip44.publicKey.compressed,
       stakePubkeyBytes: external.bip44Sk.publicKey.compressed,
-      network: AdaNetwork.testnetPreprod);
+      network: ADANetwork.testnetPreprod);
   final internalAddress = ADABaseAddress.fromPublicKey(
       basePubkeyBytes: internal.bip44.publicKey.compressed,
       stakePubkeyBytes: internal.bip44Sk.publicKey.compressed,
-      network: AdaNetwork.testnetPreprod);
+      network: ADANetwork.testnetPreprod);
 
   PlutusList plutusData = PlutusData.fromJsonSchema(
       json: StringUtils.toJson(

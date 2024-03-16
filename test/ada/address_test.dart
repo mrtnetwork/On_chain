@@ -18,7 +18,7 @@ void _byron() {
         "a201581e581cfc15b0b8bb8d0e5f9f7a01c0477b47bd32e10aea16046fad41e56c2c024101");
     print(byron.serializeHex());
     expect(decode.address, byron.address);
-    expect(decode.network, AdaNetwork.testnetPreprod);
+    expect(decode.network, ADANetwork.testnetPreprod);
     expect(decode.bech32Address,
         "addr_test1stvpskz9sdvpca5q87fsveqf3600axweryz7dntnj08296rv5tknu74sj23qzkq7tqw0c9dshzac6rjlnaaqrsz80drm6vhppt4pvpr044q72mpvqfqszqq6ygskuqcnwnent");
   });
@@ -28,7 +28,7 @@ void _byron() {
     final decode = ADAByronAddress.deserialize(byron.toCbor().cast());
     expect(BytesUtils.toHexString(byron.attributeSerialize()), "a0");
     expect(decode.address, byron.address);
-    expect(decode.network, AdaNetwork.mainnet);
+    expect(decode.network, ADANetwork.mainnet);
     expect(decode.bech32Address,
         "addr1stvpskppsdvpcnv5w5qaazp0vnd6gakrg24udvce0xlper865q05yjc80xsqqxjqshtfvvnugpx");
   });
@@ -39,7 +39,7 @@ void _byron() {
     expect(
         BytesUtils.toHexString(byron.attributeSerialize()), "a102451a4170cb17");
     expect(decode.address, byron.address);
-    expect(decode.network, AdaNetwork.testnet);
+    expect(decode.network, ADANetwork.testnet);
     expect(decode.bech32Address,
         "addr_test1stvpskpgsdvpcewkhhcnc6lkmgah6004km90dwe47jy0e5ynhqw7fqkls7ssy3g6g9cvk9cqrg6u9k8e7fgu5t");
   });
@@ -50,14 +50,14 @@ void _byron() {
     expect(
         BytesUtils.toHexString(byron.attributeSerialize()), "a102451a4170cb17");
     expect(decode.address, byron.address);
-    expect(decode.network, AdaNetwork.testnet);
+    expect(decode.network, ADANetwork.testnet);
   });
   test("byron redemption mainnet", () {
     final byron = ADAByronAddress(
         "Ae2tdPwUPEZ3MHKkpT5Bpj549vrRH7nBqYjNXnCV8G2Bc2YxNcGHEa8ykDp");
     final decode = ADAAddress.deserialize(byron.toCbor().cast());
     expect(BytesUtils.toHexString(byron.attributeSerialize()), "a0");
-    expect(byron.extendedAddress.payload.type, AdaByronAddrTypes.redemption);
+    expect(byron.extendedAddress.payload.type, ADAByronAddrTypes.redemption);
     expect(byron.bech32Address,
         "addr1stvpskppsdvpcsv5r57g6w5sleyn2pgffcugl2qze4wsgw4dm9eqv6mygjsqyxsf475qxec7dra");
     expect(decode.address, byron.address);
@@ -68,7 +68,7 @@ void _byron() {
     final byron = ADAByronAddress.fromPublicKey(
         chaincode: spend.publicKey.chainCode.toBytes(),
         publicKey: spend.publicKey.compressed,
-        network: AdaNetwork.mainnet);
+        network: ADANetwork.mainnet);
 
     expect(byron.address,
         "Ae2tdPwUPEZHtBmjZBF4YpMkK9tMSPTE2ADEZTPN97saNkhG78TvXdp3GDk");
@@ -85,13 +85,13 @@ void _shelly() {
     ADABaseAddress addr = ADABaseAddress.fromPublicKey(
         basePubkeyBytes: spend.publicKey.compressed,
         stakePubkeyBytes: stake.publicKey.compressed,
-        network: AdaNetwork.testnet);
+        network: ADANetwork.testnet);
     expect(addr.address,
         "addr_test1qz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3jcu5d8ps7zex2k2xt3uqxgjqnnj83ws8lhrn648jjxtwq2ytjqp");
     addr = ADABaseAddress.fromPublicKey(
         basePubkeyBytes: spend.publicKey.compressed,
         stakePubkeyBytes: stake.publicKey.compressed,
-        network: AdaNetwork.mainnet);
+        network: ADANetwork.mainnet);
     expect(addr.address,
         "addr1qx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3jcu5d8ps7zex2k2xt3uqxgjqnnj83ws8lhrn648jjxtwqfjkjv7");
     final decode = ADAAddress.fromBytes(addr.serialize());
@@ -105,13 +105,13 @@ void _shelly() {
     ADABaseAddress addr = ADABaseAddress.fromPublicKey(
         basePubkeyBytes: spend.publicKey.compressed,
         stakePubkeyBytes: stake.publicKey.compressed,
-        network: AdaNetwork.testnet);
+        network: ADANetwork.testnet);
     expect(addr.address,
         "addr_test1qpu5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5ewvxwdrt70qlcpeeagscasafhffqsxy36t90ldv06wqrk2qum8x5w");
     addr = ADABaseAddress.fromPublicKey(
         basePubkeyBytes: spend.publicKey.compressed,
         stakePubkeyBytes: stake.publicKey.compressed,
-        network: AdaNetwork.mainnet);
+        network: ADANetwork.mainnet);
     expect(addr.address,
         "addr1q9u5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5ewvxwdrt70qlcpeeagscasafhffqsxy36t90ldv06wqrk2qld6xc3");
     final decode = ADAAddress.fromBytes(addr.serialize());
@@ -122,11 +122,11 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy);
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAEnterpriseAddress addr = ADAEnterpriseAddress.fromPublicKey(
-        pubkeyBytes: spend.publicKey.compressed, network: AdaNetwork.testnet);
+        pubkeyBytes: spend.publicKey.compressed, network: ADANetwork.testnet);
     expect(addr.address,
         "addr_test1vz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzerspjrlsz");
     addr = ADAEnterpriseAddress.fromPublicKey(
-        pubkeyBytes: spend.publicKey.compressed, network: AdaNetwork.mainnet);
+        pubkeyBytes: spend.publicKey.compressed, network: ADANetwork.mainnet);
     expect(addr.address,
         "addr1vx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzers66hrl8");
     final decode = ADAAddress.fromBytes(addr.serialize());
@@ -137,11 +137,11 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy2);
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAEnterpriseAddress addr = ADAEnterpriseAddress.fromPublicKey(
-        pubkeyBytes: spend.publicKey.compressed, network: AdaNetwork.testnet);
+        pubkeyBytes: spend.publicKey.compressed, network: ADANetwork.testnet);
     expect(addr.address,
         "addr_test1vpu5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg57c2qv");
     addr = ADAEnterpriseAddress.fromPublicKey(
-        pubkeyBytes: spend.publicKey.compressed, network: AdaNetwork.mainnet);
+        pubkeyBytes: spend.publicKey.compressed, network: ADANetwork.mainnet);
     expect(addr.address,
         "addr1v9u5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg0kvk0f");
     final decode = ADAAddress.fromBytes(addr.serialize());
@@ -153,14 +153,14 @@ void _shelly() {
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAPointerAddress addr = ADAPointerAddress.fromPublicKey(
         pubkeyBytes: spend.publicKey.compressed,
-        network: AdaNetwork.testnet,
+        network: ADANetwork.testnet,
         pointer: Pointer(
             slot: BigInt.one, txIndex: BigInt.two, certIndex: BigInt.from(3)));
     expect(addr.address,
         "addr_test1gz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzerspqgpsqe70et");
     addr = ADAPointerAddress.fromPublicKey(
         pubkeyBytes: spend.publicKey.compressed,
-        network: AdaNetwork.mainnet,
+        network: ADANetwork.mainnet,
         pointer: Pointer(
             slot: BigInt.from(24157),
             txIndex: BigInt.from(177),
@@ -187,7 +187,7 @@ void _shelly() {
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAPointerAddress addr = ADAPointerAddress.fromPublicKey(
         pubkeyBytes: spend.publicKey.compressed,
-        network: AdaNetwork.testnet,
+        network: ADANetwork.testnet,
         pointer: Pointer(
             slot: BigInt.one, txIndex: BigInt.two, certIndex: BigInt.from(3)));
     expect(addr.address,
@@ -201,7 +201,7 @@ void _shelly() {
 
     addr = ADAPointerAddress.fromPublicKey(
         pubkeyBytes: spend.publicKey.compressed,
-        network: AdaNetwork.mainnet,
+        network: ADANetwork.mainnet,
         pointer: Pointer(
             slot: BigInt.from(24157),
             txIndex: BigInt.from(177),
@@ -213,11 +213,11 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy);
     final spend = bip32.derivePath("1852'/1815'/0'/2/0");
     ADARewardAddress addr = ADARewardAddress.fromPublicKey(
-        pubkeyBytes: spend.publicKey.compressed, network: AdaNetwork.testnet);
+        pubkeyBytes: spend.publicKey.compressed, network: ADANetwork.testnet);
     expect(addr.address,
         "stake_test1uqevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqp8n5xl");
     addr = ADARewardAddress.fromPublicKey(
-        pubkeyBytes: spend.publicKey.compressed, network: AdaNetwork.mainnet);
+        pubkeyBytes: spend.publicKey.compressed, network: ADANetwork.mainnet);
     expect(addr.address,
         "stake1uyevw2xnsc0pvn9t9r9c7qryfqfeerchgrlm3ea2nefr9hqxdekzz");
     final decode = ADAAddress.fromBytes(addr.serialize());
@@ -237,7 +237,7 @@ void _shelly() {
     ADABaseAddress addr = ADABaseAddress.fromCredential(
         baseCredential: StakeCredScript(scriptHash.data),
         stakeCredential: StakeCredScript(scriptHash.data),
-        network: AdaNetwork.testnet);
+        network: ADANetwork.testnet);
     expect(addr.address,
         "addr_test1xr0de0mz3m9xmgtlmqqzu06s0uvfsczskdec8k7v4jhr7077mjlk9rk2dkshlkqq9cl4qlccnps9pvmns0duet9w8uls8flvxc");
     addr = ADABaseAddress.fromCredential(

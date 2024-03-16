@@ -18,9 +18,9 @@ class ADAPointerAddress extends ADAShellyAddress {
 
   /// The ADA network associated with the address.
   @override
-  final AdaNetwork network;
+  final ADANetwork network;
   @override
-  AdaAddressType get addressType => AdaAddressType.pointer;
+  ADAAddressType get addressType => ADAAddressType.pointer;
 
   /// Constructor for ADAPointerAddress.
   const ADAPointerAddress._({
@@ -31,9 +31,9 @@ class ADAPointerAddress extends ADAShellyAddress {
   }) : super.init();
 
   /// Factory method to create an ADAPointerAddress instance from a given address string.
-  factory ADAPointerAddress(String address, {AdaNetwork? network}) {
+  factory ADAPointerAddress(String address, {ADANetwork? network}) {
     final decode = AdaAddressUtils.decodeAddres(address,
-        network: network, addrType: AdaAddressType.pointer);
+        network: network, addrType: ADAAddressType.pointer);
     return ADAPointerAddress._(
         paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
         pointer: decode.pointer!,
@@ -45,7 +45,7 @@ class ADAPointerAddress extends ADAShellyAddress {
   factory ADAPointerAddress.fromCredential(
       {required StakeCred paymentCredential,
       required Pointer pointer,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaPointerAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(paymentCredential),
         {"pointer": pointer, "net_tag": network});
@@ -60,7 +60,7 @@ class ADAPointerAddress extends ADAShellyAddress {
   factory ADAPointerAddress.fromPublicKey(
       {required List<int> pubkeyBytes,
       required Pointer pointer,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final credential = AdaAddressUtils.publicKeyToCredential(pubkeyBytes);
     final encode = AdaPointerAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential),
@@ -76,7 +76,7 @@ class ADAPointerAddress extends ADAShellyAddress {
   factory ADAPointerAddress.fromBip32(
       {required CardanoByronLegacyBip32 bip32,
       required Pointer pointer,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final credential =
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaPointerAddrEncoder().encodeCredential(
@@ -93,7 +93,7 @@ class ADAPointerAddress extends ADAShellyAddress {
   factory ADAPointerAddress.fromIcarus(
       {required CardanoIcarusBip32 bip32,
       required Pointer pointer,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final credential =
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaPointerAddrEncoder().encodeCredential(
@@ -110,7 +110,7 @@ class ADAPointerAddress extends ADAShellyAddress {
   factory ADAPointerAddress.fromCip1852(
       {required Cip1852 cip1585,
       required Pointer pointer,
-      AdaNetwork network = AdaNetwork.mainnet}) {
+      ADANetwork network = ADANetwork.mainnet}) {
     final credential =
         AdaAddressUtils.publicKeyToCredential(cip1585.publicKey.compressed);
     final encode = AdaPointerAddrEncoder().encodeCredential(

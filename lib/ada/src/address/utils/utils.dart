@@ -18,7 +18,7 @@ class AdaAddressUtils {
   ///
   /// Returns a [AdaGenericAddrDecoderResult] object containing the decoded address.
   static AdaGenericAddrDecoderResult decodeAddres(String address,
-      {AdaAddressType? addrType, AdaNetwork? network}) {
+      {ADAAddressType? addrType, ADANetwork? network}) {
     final decodeAddr =
         AdaGenericAddrDecoder().decode(address, {"net_tag": network});
     if (addrType != null) {
@@ -37,7 +37,7 @@ class AdaAddressUtils {
   /// Returns an [ADAAddress] object.
   static ADAAddress encodeBytes(List<int> addrBytes) {
     try {
-      final byron = AdaByronAddr.deserialize(addrBytes).encode();
+      final byron = ADAByronAddr.deserialize(addrBytes).encode();
       return ADAAddress.fromAddress(byron);
     } catch (e) {
       return ADAAddress.fromAddress(AdaShelleyAddrUtils.encodeBytes(addrBytes));
@@ -53,12 +53,12 @@ class AdaAddressUtils {
   /// Returns a byte list representing the decoded address.
   static List<int> decodeShellyAddress(
     String address, {
-    AdaNetwork? network,
+    ADANetwork? network,
     bool keepPrefix = true,
   }) {
     final decode =
         AdaGenericAddrDecoder().decode(address, {"net_tag": network});
-    if (decode.type == AdaAddressType.byron) {
+    if (decode.type == ADAAddressType.byron) {
       throw MessageException("Invalid shelly address.",
           details: {"address": address, "type": decode.type});
     }
@@ -127,8 +127,8 @@ class AdaAddressUtils {
   ///
   /// [addr]: The ADA address.
   ///
-  /// Returns the [AdaAddressType] of the address.
-  static AdaAddressType findAddrType(String addr) {
+  /// Returns the [ADAAddressType] of the address.
+  static ADAAddressType findAddrType(String addr) {
     final decodeAddr = AdaGenericAddrDecoder().decode(addr);
     return decodeAddr.type;
   }

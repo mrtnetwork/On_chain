@@ -13,15 +13,15 @@ void main() async {
   final receiver = ADABaseAddress.fromPublicKey(
       basePubkeyBytes: byronLegacyWallet.masterPublicKey.compressed,
       stakePubkeyBytes: byronLegacyWallet.masterPublicKey.compressed,
-      network: AdaNetwork.testnet);
+      network: ADANetwork.testnet);
   final receiver2 = ADAByronAddress.fromPublicKey(
       chaincode: pubkey.chainCode.toBytes(),
       publicKey: pubkey.compressed,
-      network: AdaNetwork.testnetPreprod);
+      network: ADANetwork.testnetPreprod);
 
   final multiSig = ADAByronAddress(
     "KjgoiXJS2coqEj7BmUEY9TSJxppxySTBNDskVreRH2VN9TGV2SX1b8BRstVaPAA7eWCsEFLg8VKj47mNLJ5M21qPiaZqxphEYDBjdwvg44ot",
-    network: AdaNetwork.testnetPreprod,
+    network: ADANetwork.testnetPreprod,
   );
 
   final provider = BlockforestProvider(BlockforestHTTPProvider(
