@@ -1,5 +1,5 @@
 # ON CHAIN Dart Package
-Onchain Plugin for Dart—an advanced cross-platform solution that seamlessly integrates with Ethereum and Tron blockchains, supporting key features such as Legacy EIP1559, EIP2930, EIP71, and now, the cutting-edge EIP721 standard. This plugin empowers developers with comprehensive capabilities for Ethereum transactions, smart contracts, and token standards, including NFTs through EIP721. Beyond Ethereum, it facilitates a wide range of Tron operations, including account creation, asset transfer, and smart contract executions.
+Onchain Plugin for Dart—an advanced cross-platform solution that seamlessly integrates with Ethereum, Tron, Solana and Cardano blockchains, supporting key features such as Legacy EIP1559, EIP2930, EIP71, and now, the cutting-edge EIP721 standard. This plugin empowers developers with comprehensive capabilities for Ethereum transactions, smart contracts, and token standards, including NFTs through EIP721. Beyond Ethereum, it facilitates a wide range of Tron, Solana and Cardano operations, including account creation, asset transfer, stake, pool, metaplex and smart contract executions.
 
 ## Features
 

@@ -1,5 +1,5 @@
 name: on_chain
-description: Streamline Ethereum, Solana and Tron operations. Effortlessly create transactions, interact with smart contracts, sign, and send transactions for a seamless blockchain experience.
+description: Streamline Ethereum,Tron, Solana and Cardano operations. Effortlessly create transactions, interact with smart contracts, sign, and send transactions for a seamless blockchain experience.
 version: 3.0.0
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
@@ -8,7 +8,7 @@ Author: mrhaydari.t@gmail.com
 topics:
   - tron
   - ethereum
-  - smartcontract
+  - cardano
   - solana
   - wallet
   

@@ -71,13 +71,9 @@ class CborUnsignedValue implements CborNumeric {
   /// override equal operation
   @override
   operator ==(other) {
-    if (other is! CborSafeIntValue &&
-        other is! CborIntValue &&
-        other is! CborUnsignedValue) return false;
-    other as CborObject;
-
-    return value ==
-        (other.value is int ? BigInt.from(other.value) : other.value);
+    if (other is! CborNumeric) return false;
+    if (other is CborBigIntValue) return false;
+    return other.toBigInt() == toBigInt();
   }
 
   /// override hashcode

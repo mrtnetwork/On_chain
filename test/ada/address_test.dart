@@ -16,7 +16,6 @@ void _byron() {
     final decode = ADAByronAddress.deserialize(byron.toCbor().cast());
     expect(BytesUtils.toHexString(byron.attributeSerialize()),
         "a201581e581cfc15b0b8bb8d0e5f9f7a01c0477b47bd32e10aea16046fad41e56c2c024101");
-    print(byron.serializeHex());
     expect(decode.address, byron.address);
     expect(decode.network, ADANetwork.testnetPreprod);
     expect(decode.bech32Address,
