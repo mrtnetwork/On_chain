@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Create a TRX transfer transaction. If to_address does not exist, then create the account on the blockchain.
 class TransferContract extends TronBaseContract {
@@ -17,6 +18,13 @@ class TransferContract extends TronBaseContract {
       ownerAddress: TronAddress(json['owner_address']),
       toAddress: TronAddress(json['to_address']),
     );
+  }
+  factory TransferContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return TransferContract(
+        amount: decode.getField(3),
+        toAddress: TronAddress.fromBytes(decode.getField(2)),
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)));
   }
 
   /// Transaction initiator address

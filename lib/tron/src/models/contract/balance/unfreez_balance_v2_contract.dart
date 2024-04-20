@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Unstake some TRX staked in Stake2.0,
 /// release the corresponding amount of bandwidth or energy,
@@ -12,6 +13,15 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
         ownerAddress: TronAddress(json["owner_address"]),
         unfreezeBalance: BigintUtils.parse(json["unfreeze_balance"]),
         resource: ResourceCode.fromName(json["resource"]));
+  }
+  factory UnfreezeBalanceV2Contract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return UnfreezeBalanceV2Contract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        resource: decode
+            .getResult(3)
+            ?.to<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
+        unfreezeBalance: decode.getField(2));
   }
 
   /// Create a new [UnfreezeBalanceV2Contract] instance with specified parameters.

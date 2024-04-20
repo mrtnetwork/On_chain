@@ -4,6 +4,7 @@ import 'package:on_chain/ada/src/models/transaction/output/models/asset_name.dar
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 class ADAHelper {
+  static const String adaUnit = "lovelace";
   static final BigRational _adaDecimal = BigRational(BigInt.from(10).pow(6));
 
   static BigInt toLovelaces(String amount) {

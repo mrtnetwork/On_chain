@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Withdraws the transaction pair.
 class ExchangeWithdrawContract extends TronBaseContract {
@@ -12,6 +13,14 @@ class ExchangeWithdrawContract extends TronBaseContract {
       tokenId: BytesUtils.tryFromHexString(json["token_id"]),
       quant: BigintUtils.tryParse(json["quant"]),
     );
+  }
+  factory ExchangeWithdrawContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ExchangeWithdrawContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        exchangeId: decode.getField(2),
+        tokenId: decode.getField(3),
+        quant: decode.getField(4));
   }
 
   /// Create a new [ExchangeWithdrawContract] instance with specified parameters.

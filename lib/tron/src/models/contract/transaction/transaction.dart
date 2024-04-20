@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/transaction_raw.dart';
 import 'package:blockchain_utils/binary/utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class Transaction extends TronProtocolBufferImpl {
   /// Create a new [Transaction] instance by parsing a JSON map.
@@ -18,6 +19,13 @@ class Transaction extends TronProtocolBufferImpl {
       : signature = signature
             .map((e) => BytesUtils.toBytes(e, unmodifiable: true))
             .toList();
+
+  factory Transaction.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return Transaction(
+        rawData: TransactionRaw.deserialize(decode.getField(1)),
+        signature: decode.getField(2));
+  }
 
   /// The raw data of the transaction.
   final TransactionRaw rawData;

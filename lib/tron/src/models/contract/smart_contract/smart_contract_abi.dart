@@ -1,4 +1,5 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 import 'smart_contract_abi_entry.dart';
 
@@ -14,6 +15,14 @@ class SmartContractABI extends TronProtocolBufferImpl {
                 ?.map((e) => SmartContractABIEntry.fromJson(e))
                 .toList() ??
             <SmartContractABIEntry>[]);
+  }
+  factory SmartContractABI.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return SmartContractABI(
+        entrys: decode
+            .getFields<List<int>>(1)
+            .map((e) => SmartContractABIEntry.deserialize(e))
+            .toList());
   }
   final List<SmartContractABIEntry> entrys;
 

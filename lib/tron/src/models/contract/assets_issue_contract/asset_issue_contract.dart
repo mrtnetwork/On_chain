@@ -2,6 +2,7 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/assets_issue_contract/frozensupply.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class AssetIssueContract extends TronBaseContract {
   /// Create a new [AssetIssueContract] instance by parsing a JSON map.
@@ -62,6 +63,33 @@ class AssetIssueContract extends TronBaseContract {
             frozenSupply != null ? List.unmodifiable(frozenSupply) : null,
         description = BytesUtils.tryToBytes(description, unmodifiable: true),
         url = BytesUtils.tryToBytes(url, unmodifiable: true);
+
+  factory AssetIssueContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return AssetIssueContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        name: decode.getField(2),
+        abbr: decode.getField(3),
+        totalSupply: decode.getField(4),
+        frozenSupply: decode
+            .getFields<List<int>>(5)
+            .map((e) => AssetIssueContractFrozenSupply.deserialize(e))
+            .toList(),
+        trxNum: decode.getField(6),
+        precision: decode.getField(7),
+        num: decode.getField(8),
+        startTime: decode.getField(9),
+        endTime: decode.getField(10),
+        order: decode.getField(11),
+        voteScore: decode.getField(16),
+        description: decode.getField(20),
+        url: decode.getField(21),
+        freeAssetNetLimit: decode.getField(22),
+        publicFreeAssetNetLimit: decode.getField(23),
+        publicFreeAssetNetUsage: decode.getField(24),
+        publicLatestFreeNetTime: decode.getField(25),
+        id: decode.getField(41));
+  }
 
   /// issuer address
   final TronAddress ownerAddress;

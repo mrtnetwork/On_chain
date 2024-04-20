@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/binary/binary.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/numbers/numbers.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
@@ -9,8 +10,12 @@ class Assets with ADASerialization {
   final Map<AssetName, BigInt> assets;
 
   /// Constructs an instance of Assets.
-  Assets(Map<AssetName, BigInt> assets)
+  Assets._(Map<AssetName, BigInt> assets)
       : assets = Map<AssetName, BigInt>.unmodifiable(assets);
+  factory Assets(Map<AssetName, BigInt> assets) {
+    final keys = assets.keys.toList()..sort();
+    return Assets._({for (final i in keys) i: assets[i]!});
+  }
 
   /// Constructs an instance of Assets from a CBOR object.
   factory Assets.deserialize(CborMapValue cbor) {
@@ -47,6 +52,32 @@ class Assets with ADASerialization {
     return {for (final i in assets.entries) i.key.toJson(): i.value.toString()};
   }
 
+  Assets operator +(Assets other) {
+    final values = Map<AssetName, BigInt>.from(assets);
+    for (final i in other.assets.entries) {
+      if (values.containsKey(i.key)) {
+        values[i.key] = values[i.key]! + i.value;
+      } else {
+        values[i.key] = i.value;
+      }
+    }
+    return Assets(values);
+  }
+
+  Assets operator -(Assets other) {
+    final values = Map<AssetName, BigInt>.from(assets);
+    for (final i in other.assets.entries) {
+      if (!values.containsKey(i.key)) continue;
+      final val = values[i.key]! - i.value;
+      if (val <= BigInt.zero) {
+        values.remove(i.key);
+      } else {
+        values[i.key] = val;
+      }
+    }
+    return Assets(values);
+  }
+
   @override
   operator ==(other) {
     if (other is! Assets) return false;
@@ -58,5 +89,8 @@ class Assets with ADASerialization {
   }
 
   @override
-  int get hashCode => assets.hashCode;
+  int get hashCode => assets.entries.fold(
+      mask32,
+      (previousValue, element) =>
+          previousValue ^ (element.key.hashCode ^ element.value.hashCode));
 }

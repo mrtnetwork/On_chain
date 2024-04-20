@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Delegate bandwidth or energy resources to other accounts in Stake2.0.
 class DelegateResourceContract extends TronBaseContract {
@@ -13,6 +14,17 @@ class DelegateResourceContract extends TronBaseContract {
         lock: json["lock"],
         resource: ResourceCode.fromName(json["resource"]),
         lockPeriod: BigintUtils.tryParse(json["lock_period"]));
+  }
+  factory DelegateResourceContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return DelegateResourceContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        resource: decode.getResult(2)?.to<ResourceCode, int>(
+            (e) => ResourceCode.fromValue(decode.getField(2))),
+        balance: decode.getField(3),
+        receiverAddress: TronAddress.fromBytes(decode.getField(4)),
+        lock: decode.getField(5),
+        lockPeriod: decode.getField(6));
   }
 
   /// Create a new [DelegateResourceContract] instance with specified parameters.

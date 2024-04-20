@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class WitnessUpdateContract extends TronBaseContract {
   /// Create a new [WitnessUpdateContract] instance by parsing a JSON map.
@@ -12,6 +13,12 @@ class WitnessUpdateContract extends TronBaseContract {
       ownerAddress: ownerAddress,
       updateUrl: updateUrl,
     );
+  }
+  factory WitnessUpdateContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return WitnessUpdateContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        updateUrl: decode.getField(2));
   }
 
   /// Create a new [WitnessUpdateContract] instance with specified parameters.

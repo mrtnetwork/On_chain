@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Unstake the TRX staked during Stake1.0, release the obtained bandwidth or energy and TP.
 /// This operation will cause automatically cancel all votes.
@@ -13,6 +14,15 @@ class UnfreezeBalanceContract extends TronBaseContract {
           ? null
           : TronAddress(json["receiver_address"]),
     );
+  }
+  factory UnfreezeBalanceContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return UnfreezeBalanceContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        resource: decode
+            .getResult(10)
+            ?.to<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
+        receiverAddress: TronAddress.fromBytes(decode.getField(15)));
   }
 
   /// Create a new [UnfreezeBalanceContract] instance with specified parameters.

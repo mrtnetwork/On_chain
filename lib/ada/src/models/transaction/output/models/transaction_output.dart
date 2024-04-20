@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
+import 'package:on_chain/ada/src/models/transaction/output/models/multi_assets.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/core/data_option.dart';
 import 'package:on_chain/ada/src/models/data_options/core/data_option_type.dart';
@@ -108,5 +109,26 @@ class TransactionOutput with ADASerialization {
       "plutus_data": plutusData?.toJson(),
       "script_ref": scriptRef?.toJson()
     };
+  }
+
+  /// In the Babbage era, unspent transaction outputs will be required to contain at least
+  /// [coinsPerUtxoSize] its epoch porotocol parameters variable
+  /// in this case this output value should not be lower than result
+  BigInt minAda(int coinsPerUtxoSize) {
+    return BigInt.from((160 + serialize().length) * coinsPerUtxoSize);
+  }
+}
+
+extension QuickTransactionOutput on List<TransactionOutput> {
+  BigInt get sumOflovelace {
+    return fold<BigInt>(BigInt.zero,
+        (previousValue, element) => previousValue + element.amount.coin);
+  }
+
+  MultiAsset get multiAsset {
+    return fold(
+        MultiAsset({}),
+        (previousValue, element) =>
+            previousValue + (element.amount.multiAsset ?? MultiAsset.empty));
   }
 }

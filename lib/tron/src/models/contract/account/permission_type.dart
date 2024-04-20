@@ -44,7 +44,7 @@ class PermissionType implements TronEnumerate {
   /// Returns the [PermissionType] associated with the given [value].
   ///
   /// Throws an error if no match is found.
-  static PermissionType fromValue(int value,
+  static PermissionType fromValue(int? value,
       {PermissionType? defaultPermission}) {
     return values.firstWhere((element) => element.value == value,
         orElse: defaultPermission == null ? null : () => defaultPermission);

@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Update the origin_energy_limit parameter of a smart contract
 class UpdateEnergyLimitContract extends TronBaseContract {
@@ -18,6 +19,14 @@ class UpdateEnergyLimitContract extends TronBaseContract {
       {required this.ownerAddress,
       required this.contractAddress,
       this.originEnergyLimit});
+
+  factory UpdateEnergyLimitContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return UpdateEnergyLimitContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        contractAddress: TronAddress.fromBytes(decode.getField(2)),
+        originEnergyLimit: decode.getField(3));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

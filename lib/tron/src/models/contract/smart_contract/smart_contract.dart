@@ -2,6 +2,7 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/smart_contract_abi.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class SmartContract extends TronProtocolBufferImpl {
   /// Create a new [SmartContract] instance by parsing a JSON map.
@@ -21,6 +22,24 @@ class SmartContract extends TronProtocolBufferImpl {
         contractAddress: json["contract_address"] == null
             ? null
             : TronAddress(json["contract_address"]));
+  }
+  factory SmartContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return SmartContract(
+        originAddress: TronAddress.fromBytes(decode.getField(1)),
+        bytecode: decode.getField(4),
+        callValue: decode.getField(5),
+        abi: decode.getResult(3)?.to<SmartContractABI, List<int>>(
+            (e) => SmartContractABI.deserialize(e)),
+        consumeUserResourcePercent: decode.getField(6),
+        name: decode.getField(7),
+        originEnergyLimit: decode.getField(8),
+        trxHash: decode.getField(10),
+        codeHash: decode.getField(9),
+        version: decode.getField(11),
+        contractAddress: decode
+            .getResult(2)
+            ?.to<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)));
   }
 
   /// Create a new [SmartContract] instance with specified parameters.

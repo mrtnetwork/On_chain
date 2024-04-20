@@ -56,7 +56,6 @@ void main() async {
     mint: mint,
     auxiliaryDataHash: auxiliary.toHash(),
   );
-
   final transaction = ADATransaction(
       body: body,
       data: auxiliary,

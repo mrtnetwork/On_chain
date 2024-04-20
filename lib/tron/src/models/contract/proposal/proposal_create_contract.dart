@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Creates a proposal transaction.
 class ProposalCreateContract extends TronBaseContract {
@@ -15,6 +16,12 @@ class ProposalCreateContract extends TronBaseContract {
                   MapEntry(BigintUtils.parse(key), BigintUtils.parse(value)),
             ),
     );
+  }
+  factory ProposalCreateContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ProposalCreateContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        parameters: decode.getMap<BigInt, BigInt>(2));
   }
 
   /// Create a new [ProposalCreateContract] instance with specified parameters.

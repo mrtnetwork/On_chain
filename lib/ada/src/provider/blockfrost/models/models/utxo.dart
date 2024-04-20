@@ -1,8 +1,17 @@
+import 'package:blockchain_utils/bip/address/ada/ada_addres_type.dart';
+import 'package:on_chain/ada/src/address/era/core/address.dart';
+import 'package:on_chain/ada/src/models/ada_models.dart';
 import 'amount.dart';
 
 class ADAAccountUTXOResponse {
   /// Bech32 encoded address - useful when querying by payment_cred
   final String address;
+
+  ADAAddress get toAdddress => ADAAddress.fromAddress(address);
+  ADAAddressType get type => toAdddress.addressType;
+
+  TransactionInput get toInput => TransactionInput(
+      index: outputIndex, transactionId: TransactionHash.fromHex(txHash));
 
   /// Transaction hash of the UTXO
   final String txHash;
@@ -28,15 +37,42 @@ class ADAAccountUTXOResponse {
   /// The hash of the reference script of the output
   final String? referenceScriptHash;
 
+  TransactionInput get input => TransactionInput(
+      index: outputIndex, transactionId: TransactionHash.fromHex(txHash));
+
+  late final BigInt sumOflovelace = amount.fold(
+      BigInt.zero,
+      (previousValue, element) =>
+          previousValue +
+          (element.islovelace ? BigInt.parse(element.quantity) : BigInt.zero));
+
+  late final MultiAsset multiAsset = _multiAsset;
+  bool get haveAsset => _multiAsset.assets.isNotEmpty;
+
+  MultiAsset get _multiAsset {
+    final Map<PolicyID, Assets> assets = {};
+    for (final i in amount) {
+      if (i.islovelace) continue;
+      final assetInfo = i.policyAndAssetName!;
+      final asset = Assets({assetInfo.item2: BigInt.parse(i.quantity)});
+      if (assets.containsKey(assetInfo.item1)) {
+        assets[assetInfo.item1] = assets[assetInfo.item1]! + asset;
+      } else {
+        assets[assetInfo.item1] = asset;
+      }
+    }
+    return MultiAsset(assets);
+  }
+
   ADAAccountUTXOResponse({
     required this.address,
     required this.txHash,
-    required this.txIndex,
+    this.txIndex,
     required this.outputIndex,
     required this.block,
-    required this.dataHash,
-    required this.inlineDatum,
-    required this.referenceScriptHash,
+    this.dataHash,
+    this.inlineDatum,
+    this.referenceScriptHash,
     required this.amount,
   });
 
@@ -69,5 +105,17 @@ class ADAAccountUTXOResponse {
   @override
   String toString() {
     return "ADAAccountUTXOResponse${toJson()}";
+  }
+}
+
+extension QuicketADAUtxoCalculation on List<ADAAccountUTXOResponse> {
+  BigInt get sumOflovelace {
+    return fold(BigInt.zero,
+        (previousValue, element) => previousValue + element.sumOflovelace);
+  }
+
+  MultiAsset get multiAsset {
+    return fold(MultiAsset({}),
+        (previousValue, element) => previousValue + element.multiAsset);
   }
 }

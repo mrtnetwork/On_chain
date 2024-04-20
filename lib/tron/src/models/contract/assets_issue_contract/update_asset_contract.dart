@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Update basic TRC10 token information.
 class UpdateAssetContract extends TronBaseContract {
@@ -24,6 +25,15 @@ class UpdateAssetContract extends TronBaseContract {
       this.newPublicLimit})
       : url = BytesUtils.tryToBytes(url, unmodifiable: true),
         description = BytesUtils.tryToBytes(description, unmodifiable: true);
+  factory UpdateAssetContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return UpdateAssetContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        description: decode.getField(2),
+        url: decode.getField(3),
+        newLimit: decode.getField(4),
+        newPublicLimit: decode.getField(5));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

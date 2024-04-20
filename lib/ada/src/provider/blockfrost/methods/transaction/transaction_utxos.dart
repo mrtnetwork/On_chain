@@ -8,7 +8,7 @@ class BlockfrostRequestTransactionUTXOs extends BlockforestRequestParam<
     ADATransactionUTXOSResponse, Map<String, dynamic>> {
   BlockfrostRequestTransactionUTXOs(this.hash);
 
-  /// Hash of the requested transaction
+  /// Hash of the requested transaction2
   final String hash;
 
   /// Transaction UTXOs

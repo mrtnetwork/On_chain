@@ -2,6 +2,7 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/any.dart';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class TransactionContract extends TronProtocolBufferImpl {
   /// Create a new [TransactionContract] instance by parsing a JSON map.
@@ -28,6 +29,17 @@ class TransactionContract extends TronProtocolBufferImpl {
       this.permissionId})
       : provider = BytesUtils.tryToBytes(provider, unmodifiable: true),
         contractName = BytesUtils.tryToBytes(contractName, unmodifiable: true);
+
+  factory TransactionContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return TransactionContract(
+        type: TransactionContractType.findByValue(decode.getField(1)) ??
+            TransactionContractType.accountCreateContract,
+        parameter: Any.deserialize(decode.getField(2)),
+        provider: decode.getField(3),
+        contractName: decode.getField(4),
+        permissionId: decode.getField(5));
+  }
   final TransactionContractType type;
   final Any parameter;
   final List<int>? provider;

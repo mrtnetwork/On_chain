@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class VoteWitnessContractVote extends TronProtocolBufferImpl {
   /// Create a new [VoteWitnessContractVote] instance by parsing a JSON map.
@@ -13,9 +14,17 @@ class VoteWitnessContractVote extends TronProtocolBufferImpl {
       voteCount: voteCount,
     );
   }
+  factory VoteWitnessContractVote.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return VoteWitnessContractVote(
+      voteAddress: TronAddress.fromBytes(decode.getField(1)),
+      voteCount: decode.getField(2),
+    );
+  }
 
   /// Create a new [VoteWitnessContractVote] instance with specified parameters.
   VoteWitnessContractVote({required this.voteAddress, required this.voteCount});
+
   final TronAddress voteAddress;
   final BigInt voteCount;
 

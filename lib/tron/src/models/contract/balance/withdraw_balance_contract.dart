@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class WithdrawBalanceContract extends TronBaseContract {
   /// Create a new [WithdrawBalanceContract] instance by parsing a JSON map.
@@ -11,6 +12,11 @@ class WithdrawBalanceContract extends TronBaseContract {
 
   /// Create a new [WithdrawBalanceContract] instance with specified parameters.
   WithdrawBalanceContract({required this.ownerAddress});
+  factory WithdrawBalanceContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return WithdrawBalanceContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)));
+  }
   final TronAddress ownerAddress;
 
   @override

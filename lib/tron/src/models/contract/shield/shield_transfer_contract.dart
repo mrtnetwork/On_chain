@@ -2,6 +2,7 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/shield/receive_description.dart';
 import 'package:on_chain/tron/src/models/contract/shield/spend_description.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class ShieldedTransferContract extends TronBaseContract {
   /// Create a new [ShieldedTransferContract] instance by parsing a JSON map.
@@ -21,6 +22,24 @@ class ShieldedTransferContract extends TronBaseContract {
           BytesUtils.tryFromHexString(json["transparent_to_address"]),
       toAmount: BigintUtils.tryParse(json["to_amount"]),
     );
+  }
+
+  factory ShieldedTransferContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ShieldedTransferContract(
+        transparentFromAddress: decode.getField(1),
+        fromAmount: decode.getField(2),
+        spendDescription: decode
+            .getFields(3)
+            .map((e) => SpendDescription.deserialize(e))
+            .toList(),
+        receiveDescription: decode
+            .getFields(4)
+            .map((e) => ReceiveDescription.deserialize(e))
+            .toList(),
+        bindingSignature: decode.getField(5),
+        transparentToAddress: decode.getField(6),
+        toAmount: decode.getField(7));
   }
 
   /// Create a new [ShieldedTransferContract] instance with specified parameters.

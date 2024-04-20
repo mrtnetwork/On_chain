@@ -54,9 +54,8 @@ class SystemProgram extends TransactionInstruction {
     return SystemProgram(
         layout: layout,
         keys: [
-          AccountMeta(publicKey: from, isSigner: true, isWritable: true),
-          AccountMeta(
-              publicKey: newAccountPubKey, isSigner: true, isWritable: true)
+          from.toSignerAndWritable(),
+          newAccountPubKey.toSignerAndWritable()
         ],
         programId: SystemProgramConst.programId);
   }

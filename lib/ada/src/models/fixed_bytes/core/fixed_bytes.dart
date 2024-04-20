@@ -28,7 +28,8 @@ abstract class FixedBytes
   }
 
   @override
-  int get hashCode => data.hashCode;
+  int get hashCode => data.fold<int>(
+      mask32, (previousValue, element) => previousValue ^ element.hashCode);
 
   @override
   int compareTo(other) {

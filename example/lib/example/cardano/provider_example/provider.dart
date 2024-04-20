@@ -34,14 +34,15 @@ class BlockforestHTTPProvider implements BlockfrostServiceProvider {
   @override
   Future<dynamic> post(BlockforestRequestDetails params,
       [Duration? timeout]) async {
-    final response = await client.post(
-      Uri.parse(params.url(url, version)),
-      headers: {
-        "Accept": "application/json",
-        if (projectId != null) ...{"project_id": projectId!},
-        ...params.header
-      },
-    ).timeout(timeout ?? defaultRequestTimeout);
+    final response = await client
+        .post(Uri.parse(params.url(url, version)),
+            headers: {
+              "Accept": "application/json",
+              if (projectId != null) ...{"project_id": projectId!},
+              ...params.header
+            },
+            body: params.body)
+        .timeout(timeout ?? defaultRequestTimeout);
     final data = json.decode(response.body);
     return data;
   }

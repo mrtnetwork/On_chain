@@ -21,6 +21,7 @@ class _Utils {
 
 /// Mint data.
 class SolanaMintAccount extends LayoutSerializable {
+  static int get size => _Utils.mintSize;
   final SolAddress address;
 
   /// Optional authority used to mint new tokens. The mint authority may only

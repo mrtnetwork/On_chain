@@ -62,6 +62,8 @@ class ADAEpochParametersResponse {
   /// Cost models
   final Map<String, dynamic> costModels;
 
+  final int coinsPerUtxoSize;
+
   ADAEpochParametersResponse({
     required this.epoch,
     required this.minFeeA,
@@ -82,34 +84,35 @@ class ADAEpochParametersResponse {
     required this.minUtxo,
     required this.minPoolCost,
     required this.nonce,
+    required this.coinsPerUtxoSize,
     this.extraEntropy,
     required this.costModels,
   });
 
   factory ADAEpochParametersResponse.fromJson(Map<String, dynamic> json) {
     return ADAEpochParametersResponse(
-      epoch: json['epoch'],
-      minFeeA: json['min_fee_a'],
-      minFeeB: json['min_fee_b'],
-      maxBlockSize: json['max_block_size'],
-      maxTxSize: json['max_tx_size'],
-      maxBlockHeaderSize: json['max_block_header_size'],
-      keyDeposit: json['key_deposit'],
-      poolDeposit: json['pool_deposit'],
-      eMax: json['e_max'],
-      nOpt: json['n_opt'],
-      a0: json['a0'],
-      rho: json['rho'],
-      tau: json['tau'],
-      decentralisationParam: json['decentralisation_param'],
-      extraEntropy: json['extra_entropy'],
-      protocolMajorVer: json['protocol_major_ver'],
-      protocolMinorVer: json['protocol_minor_ver'],
-      minUtxo: json['min_utxo'],
-      minPoolCost: json['min_pool_cost'],
-      nonce: json['nonce'],
-      costModels: Map<String, dynamic>.from(json['cost_models'] ?? {}),
-    );
+        epoch: json['epoch'],
+        minFeeA: json['min_fee_a'],
+        minFeeB: json['min_fee_b'],
+        maxBlockSize: json['max_block_size'],
+        maxTxSize: json['max_tx_size'],
+        maxBlockHeaderSize: json['max_block_header_size'],
+        keyDeposit: json['key_deposit'],
+        poolDeposit: json['pool_deposit'],
+        eMax: json['e_max'],
+        nOpt: json['n_opt'],
+        a0: json['a0'],
+        rho: json['rho'],
+        tau: json['tau'],
+        decentralisationParam: json['decentralisation_param'],
+        extraEntropy: json['extra_entropy'],
+        protocolMajorVer: json['protocol_major_ver'],
+        protocolMinorVer: json['protocol_minor_ver'],
+        minUtxo: json['min_utxo'],
+        minPoolCost: json['min_pool_cost'],
+        nonce: json['nonce'],
+        costModels: Map<String, dynamic>.from(json['cost_models'] ?? {}),
+        coinsPerUtxoSize: int.parse(json["coins_per_utxo_size"].toString()));
   }
 
   Map<String, dynamic> toJson() => {
@@ -134,6 +137,7 @@ class ADAEpochParametersResponse {
         'min_pool_cost': minPoolCost,
         'nonce': nonce,
         'cost_models': costModels,
+        "coins_per_utxo_size": coinsPerUtxoSize
       };
 
   @override

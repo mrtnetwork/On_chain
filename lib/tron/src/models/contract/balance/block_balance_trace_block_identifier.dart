@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class BlockBalanceTraceBlockIdentifier extends TronProtocolBufferImpl {
   /// Create a new [BlockBalanceTraceBlockIdentifier] instance with specified parameters.
@@ -12,6 +13,11 @@ class BlockBalanceTraceBlockIdentifier extends TronProtocolBufferImpl {
       hash: BytesUtils.tryFromHexString(json["hash"]),
       number: BigintUtils.tryParse(json["number"]),
     );
+  }
+  factory BlockBalanceTraceBlockIdentifier.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return BlockBalanceTraceBlockIdentifier(
+        hash: decode.getField(1), number: decode.getField(2));
   }
 
   /// block hash

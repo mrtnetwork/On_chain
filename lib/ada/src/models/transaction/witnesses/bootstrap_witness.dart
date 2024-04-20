@@ -2,8 +2,12 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
+import 'witness.dart';
+
 /// Represents a bootstrap (Byron) witness.
-class BootstrapWitness with ADASerialization {
+class BootstrapWitness
+    with ADASerialization
+    implements ADABaseTransactionWitness {
   final Vkey vkey;
   final Ed25519Signature signature;
   final List<int> chainCode;
@@ -65,4 +69,7 @@ class BootstrapWitness with ADASerialization {
       "attributes": BytesUtils.toHexString(attributes)
     };
   }
+
+  @override
+  bool get isByron => true;
 }

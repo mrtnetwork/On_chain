@@ -14,6 +14,17 @@ class SolanaAccountInfo {
 
     return account;
   }
+  Map<String, dynamic> toJson() {
+    return {
+      "executable": executable,
+      "lamports": lamports.toString(),
+      "owner": owner.address,
+      "rentEpoch": rentEpoch,
+      "space": space,
+      "data": data
+    };
+  }
+
   const SolanaAccountInfo(
       {required this.executable,
       required this.lamports,

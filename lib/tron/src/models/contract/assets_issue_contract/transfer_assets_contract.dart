@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Transfer TRC10 token.
 class TransferAssetContract extends TronBaseContract {
@@ -21,6 +22,14 @@ class TransferAssetContract extends TronBaseContract {
       required this.toAddress,
       required this.amount})
       : assetName = BytesUtils.toBytes(assetName, unmodifiable: true);
+  factory TransferAssetContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return TransferAssetContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(2)),
+        toAddress: TronAddress.fromBytes(decode.getField(3)),
+        assetName: decode.getField(1),
+        amount: decode.getField(4));
+  }
 
   /// Token id
   final List<int> assetName;

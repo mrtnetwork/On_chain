@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Approves proposed transaction.
 class ProposalApproveContract extends TronBaseContract {
@@ -11,6 +12,13 @@ class ProposalApproveContract extends TronBaseContract {
       proposalId: BigintUtils.tryParse(json["proposal_id"]),
       isAddApproval: json["is_add_approval"],
     );
+  }
+  factory ProposalApproveContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ProposalApproveContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        proposalId: decode.getField(2),
+        isAddApproval: decode.getField(3));
   }
 
   /// Create a new [ProposalApproveContract] instance with specified parameters.

@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Participate the transaction of exchange pair
 class ExchangeTransactionContract extends TronBaseContract {
@@ -23,6 +24,15 @@ class ExchangeTransactionContract extends TronBaseContract {
       this.quant,
       this.expected})
       : tokenId = BytesUtils.tryToBytes(tokenId);
+  factory ExchangeTransactionContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ExchangeTransactionContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        exchangeId: decode.getField(2),
+        tokenId: decode.getField(3),
+        quant: decode.getField(4),
+        expected: decode.getField(5));
+  }
 
   /// Trader's wallet address
   final TronAddress ownerAddress;

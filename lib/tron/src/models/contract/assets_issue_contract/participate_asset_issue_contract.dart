@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Participate in an asset issue.
 class ParticipateAssetIssueContract extends TronBaseContract {
@@ -21,6 +22,14 @@ class ParticipateAssetIssueContract extends TronBaseContract {
       required List<int> assetName,
       required this.amount})
       : assetName = BytesUtils.toBytes(assetName, unmodifiable: true);
+  factory ParticipateAssetIssueContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ParticipateAssetIssueContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        toAddress: TronAddress.fromBytes(decode.getField(2)),
+        assetName: decode.getField(3),
+        amount: decode.getField(4));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

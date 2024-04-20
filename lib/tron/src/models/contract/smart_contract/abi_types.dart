@@ -69,6 +69,12 @@ class SmartContractAbiEntryType implements TronEnumerate {
         (element) => element.name.toLowerCase() == name.toLowerCase());
   }
 
+  static SmartContractAbiEntryType fromValue(int? value,
+      {SmartContractAbiEntryType? orElese}) {
+    return values.firstWhere((element) => element.value == value,
+        orElse: orElese == null ? null : () => orElese);
+  }
+
   @override
   String toString() {
     return name;
@@ -130,6 +136,12 @@ class SmartContractAbiStateMutabilityType implements TronEnumerate {
   static SmartContractAbiStateMutabilityType fromName(String name) {
     return values.firstWhere(
         (element) => element.name.toLowerCase() == name.toLowerCase());
+  }
+
+  static SmartContractAbiStateMutabilityType fromValue(int? value,
+      {SmartContractAbiStateMutabilityType? orElese}) {
+    return values.firstWhere((element) => element.value == value,
+        orElse: orElese == null ? null : () => orElese);
   }
 
   @override

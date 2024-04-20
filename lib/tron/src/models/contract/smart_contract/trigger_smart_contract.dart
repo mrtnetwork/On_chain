@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class TriggerSmartContract extends TronBaseContract {
   /// Create a new [TriggerSmartContract] instance by parsing a JSON map.
@@ -24,6 +25,16 @@ class TriggerSmartContract extends TronBaseContract {
       this.callTokenValue,
       this.tokenId})
       : data = BytesUtils.tryToBytes(data, unmodifiable: true);
+  factory TriggerSmartContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return TriggerSmartContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        contractAddress: TronAddress.fromBytes(decode.getField(2)),
+        callValue: decode.getField(3),
+        data: decode.getField(4),
+        callTokenValue: decode.getField(5),
+        tokenId: decode.getField(6));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

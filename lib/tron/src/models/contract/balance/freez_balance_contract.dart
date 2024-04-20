@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// This interface has been deprecated, please use FreezeBalanceV2 to stake TRX to obtain resources.
 class FreezeBalanceContract extends TronBaseContract {
@@ -14,6 +15,19 @@ class FreezeBalanceContract extends TronBaseContract {
       receiverAddress: json["receiver_address"] == null
           ? null
           : TronAddress(json["receiver_address"]),
+    );
+  }
+  factory FreezeBalanceContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return FreezeBalanceContract(
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      frozenBalance: decode.getField(2),
+      frozenDuration: decode.getField(3),
+      resource: ResourceCode.fromValue(decode.getField(10),
+          orElse: ResourceCode.bandWidth),
+      receiverAddress: decode
+          .getResult(15)
+          ?.to<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
     );
   }
 

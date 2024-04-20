@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/balance/transaction_balance_trace_operation.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class TransactionBalanceTrace extends TronProtocolBufferImpl {
   /// Create a new [TransactionBalanceTrace] instance by parsing a JSON map.
@@ -27,6 +28,19 @@ class TransactionBalanceTrace extends TronProtocolBufferImpl {
         operation = operation == null
             ? null
             : List<TransactionBalanceTraceOperation>.unmodifiable(operation);
+
+  factory TransactionBalanceTrace.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return TransactionBalanceTrace(
+        transactionIdentifier: decode.getField(1),
+        operation: decode
+            .getFields(2)
+            .map((e) => TransactionBalanceTraceOperation.deserialize(e))
+            .toList(),
+        type: decode.getField(3),
+        status: decode.getField(4));
+  }
+
   final List<int>? transactionIdentifier;
   final List<TransactionBalanceTraceOperation>? operation;
   final String? type;

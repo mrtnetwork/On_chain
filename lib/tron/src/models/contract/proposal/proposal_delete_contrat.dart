@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Deletes Proposal Transaction.
 class ProposalDeleteContract extends TronBaseContract {
@@ -14,6 +15,12 @@ class ProposalDeleteContract extends TronBaseContract {
 
   /// Create a new [ProposalDeleteContract] instance with specified parameters.
   ProposalDeleteContract({required this.ownerAddress, this.proposalId});
+  factory ProposalDeleteContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ProposalDeleteContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        proposalId: decode.getField(2));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

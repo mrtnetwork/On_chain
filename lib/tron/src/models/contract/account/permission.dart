@@ -2,6 +2,7 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/account/key.dart';
 import 'package:on_chain/tron/src/models/contract/account/permission_type.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class Permission extends TronProtocolBufferImpl {
   /// Create a new [Permission] instance by parsing a JSON map.
@@ -27,6 +28,21 @@ class Permission extends TronProtocolBufferImpl {
     List<TronKey>? keys,
   })  : operations = BytesUtils.tryToBytes(operations, unmodifiable: true),
         keys = keys == null ? null : List<TronKey>.unmodifiable(keys);
+  factory Permission.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return Permission(
+        type: PermissionType.fromValue(decode.getField(1),
+            defaultPermission: PermissionType.owner),
+        id: decode.getField(2),
+        permissionName: decode.getField(3),
+        operations: decode.getField(6),
+        keys: decode
+            .getFields<List<int>>(7)
+            .map((e) => TronKey.deserialize(e))
+            .toList(),
+        parentId: decode.getField(5),
+        threshold: decode.getField(4));
+  }
   final PermissionType? type;
   final int? id;
   final String? permissionName;

@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class TronKey extends TronProtocolBufferImpl {
   /// Create a new [TronKey] instance by parsing a JSON map.
@@ -8,6 +9,13 @@ class TronKey extends TronProtocolBufferImpl {
     return TronKey(
         address: TronAddress(json["address"]),
         weight: BigintUtils.parse(json["weight"]));
+  }
+  factory TronKey.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+
+    return TronKey(
+        address: TronAddress.fromBytes(decode.getField(1)),
+        weight: decode.getField(2));
   }
 
   /// Create a new [TronKey] instance with specified parameters.

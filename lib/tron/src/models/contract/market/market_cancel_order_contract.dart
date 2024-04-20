@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class MarketCancelOrderContract extends TronBaseContract {
   /// Create a new [MarketCancelOrderContract] instance by parsing a JSON map.
@@ -14,6 +15,12 @@ class MarketCancelOrderContract extends TronBaseContract {
   /// Create a new [MarketCancelOrderContract] instance with specified parameters.
   MarketCancelOrderContract({required this.ownerAddress, List<int>? orderId})
       : orderId = BytesUtils.tryToBytes(orderId, unmodifiable: true);
+  factory MarketCancelOrderContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return MarketCancelOrderContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        orderId: decode.getField(2));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

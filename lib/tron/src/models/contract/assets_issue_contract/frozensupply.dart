@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class AssetIssueContractFrozenSupply extends TronProtocolBufferImpl {
   /// Create a new [AssetIssueContractFrozenSupply] instance with specified parameters.
@@ -12,6 +13,12 @@ class AssetIssueContractFrozenSupply extends TronProtocolBufferImpl {
         frozenAmount: BigintUtils.parse(json["frozen_amount"]),
         frozenDays: BigintUtils.parse(json["frozen_days"]));
   }
+  factory AssetIssueContractFrozenSupply.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return AssetIssueContractFrozenSupply(
+        frozenAmount: decode.getField(1), frozenDays: decode.getField(2));
+  }
+
   final BigInt frozenAmount;
   final BigInt frozenDays;
   @override

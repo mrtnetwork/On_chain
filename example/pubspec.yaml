@@ -34,7 +34,8 @@ dependencies:
     path: ../
   web_socket_channel: ^2.4.0
   http: ^1.1.0
-  blockchain_utils: ^2.1.1
+  blockchain_utils:
+    path: ../../blockchain_utils
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

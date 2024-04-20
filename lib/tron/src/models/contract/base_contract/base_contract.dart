@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 import 'package:on_chain/tron/src/protbuf/encoder.dart';
 
 import 'transaction_type.dart';
@@ -47,6 +48,10 @@ abstract class TronProtocolBufferImpl {
 
   /// Gets the hexadecimal representation of the protocol buffer data.
   String get toHex => BytesUtils.toHexString(toBuffer());
+
+  static List<ProtocolBufferDecoderResult> decode(List<int> bytes) {
+    return ProtocolBufferDecoder.decode(bytes);
+  }
 }
 
 /// contracts

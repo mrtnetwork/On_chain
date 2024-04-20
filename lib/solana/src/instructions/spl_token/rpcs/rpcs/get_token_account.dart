@@ -16,7 +16,7 @@ class SolanaRPCGetTokenAccount extends SolanaRPCRequest<SolanaTokenAccount?> {
   @override
   List<dynamic> toJson() {
     return [
-      account,
+      account.address,
       SolanaRPCUtils.createConfig([
         commitment?.toJson(),
         SolanaRPCEncoding.base64.toJson(),

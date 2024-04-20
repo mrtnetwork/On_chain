@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class SpendDescription extends TronProtocolBufferImpl {
   /// Create a new [SpendDescription] instance by parsing a JSON map.
@@ -31,6 +32,16 @@ class SpendDescription extends TronProtocolBufferImpl {
         spendAuthoritySignature =
             BytesUtils.tryToBytes(spendAuthoritySignature, unmodifiable: true),
         zkproof = BytesUtils.tryToBytes(zkproof, unmodifiable: true);
+  factory SpendDescription.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return SpendDescription(
+        valueCommitment: decode.getField(1),
+        anchor: decode.getField(2),
+        nullifier: decode.getField(3),
+        rk: decode.getField(4),
+        zkproof: decode.getField(5),
+        spendAuthoritySignature: decode.getField(6));
+  }
   final List<int>? valueCommitment;
   final List<int>? anchor;
   final List<int>? nullifier;

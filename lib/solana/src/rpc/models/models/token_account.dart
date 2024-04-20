@@ -19,4 +19,17 @@ class TokenAccountResponse {
         account: account,
         tokenAccount: tokenAccount);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "pubkey": pubkey.address,
+      "account": account.toJson(),
+      "token_account": tokenAccount.serialize()
+    };
+  }
+
+  @override
+  String toString() {
+    return "TokenAccountResponse{${toJson()}}";
+  }
 }

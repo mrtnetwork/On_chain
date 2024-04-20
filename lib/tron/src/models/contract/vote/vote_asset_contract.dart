@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class VoteAssetContract extends TronBaseContract {
   /// Create a new [VoteAssetContract] instance by parsing a JSON map.
@@ -25,6 +26,17 @@ class VoteAssetContract extends TronBaseContract {
       this.support,
       this.count})
       : voteAddress = List<TronAddress>.unmodifiable(voteAddress);
+
+  factory VoteAssetContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return VoteAssetContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        voteAddress:
+            decode.getFields(2).map((e) => TronAddress.fromBytes(e)).toList(),
+        support: decode.getField(3),
+        count: decode.getField(5));
+  }
+
   final TronAddress ownerAddress;
   final List<TronAddress> voteAddress;
   final bool? support;

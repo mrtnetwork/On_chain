@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Modify account name
 class AccountUpdateContract extends TronBaseContract {
@@ -16,6 +17,13 @@ class AccountUpdateContract extends TronBaseContract {
     required this.ownerAddress,
     required List<int> accountName,
   }) : accountName = BytesUtils.toBytes(accountName, unmodifiable: true);
+
+  factory AccountUpdateContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return AccountUpdateContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        accountName: decode.getField(2));
+  }
 
   /// Owner_address is the account address to be modified
   final TronAddress ownerAddress;

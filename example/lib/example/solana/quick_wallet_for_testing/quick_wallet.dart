@@ -15,7 +15,7 @@ class QuickWalletForTest {
   QuickWalletForTest._(this.privateKey);
   final SolanaPrivateKey privateKey;
   late final SolAddress address = privateKey.publicKey().toAddress();
-  static final rpc = solanaRPC("https://api.devnet.solana.com");
+  static final rpc = solanaRPC("https://api.testnet.solana.com");
 
   Future<String> faucent([SolAddress? addr]) async {
     final f = await rpc.request(SolanaRPCRequestAirdrop(

@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Creates a trading pair.
 class ExchangeCreateContract extends TronBaseContract {
@@ -13,6 +14,15 @@ class ExchangeCreateContract extends TronBaseContract {
       secondTokenId: BytesUtils.tryFromHexString(json["second_token_id"]),
       secondTokenBalance: BigintUtils.tryParse(json["second_token_balance"]),
     );
+  }
+  factory ExchangeCreateContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ExchangeCreateContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        firstTokenId: decode.getField(2),
+        firstTokenBalance: decode.getField(3),
+        secondTokenId: decode.getField(4),
+        secondTokenBalance: decode.getField(5));
   }
 
   /// Create a new [ExchangeCreateContract] instance with specified parameters.

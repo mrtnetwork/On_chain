@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Injects capital into the transaction.
 /// The purpose of injecting capital into the trading pair
@@ -14,6 +15,14 @@ class ExchangeInjectContract extends TronBaseContract {
       tokenId: BytesUtils.tryFromHexString(json["token_id"]),
       quant: BigintUtils.tryParse(json["quant"]),
     );
+  }
+  factory ExchangeInjectContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ExchangeInjectContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        exchangeId: decode.getField(2),
+        tokenId: decode.getField(3),
+        quant: decode.getField(4));
   }
 
   /// Create a new [ExchangeInjectContract] instance with specified parameters.

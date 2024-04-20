@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class SetAccountIdContract extends TronBaseContract {
   /// Create a new [SetAccountIdContract] instance by parsing a JSON map.
@@ -16,6 +17,13 @@ class SetAccountIdContract extends TronBaseContract {
     required List<int> accountId,
     required this.ownerAddress,
   }) : accountId = BytesUtils.toBytes(accountId, unmodifiable: true);
+
+  factory SetAccountIdContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return SetAccountIdContract(
+        accountId: decode.getField(1),
+        ownerAddress: TronAddress.fromBytes(decode.getField(2)));
+  }
   final List<int> accountId;
   final TronAddress ownerAddress;
 

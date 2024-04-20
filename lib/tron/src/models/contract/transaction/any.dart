@@ -12,10 +12,142 @@ import 'package:on_chain/tron/src/models/contract/storage_contract/update_broker
 
 import 'package:on_chain/tron/src/models/contract/vote/vote.dart';
 import 'package:on_chain/tron/src/models/contract/witness/witness.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class Any extends TronProtocolBufferImpl {
   /// Create a new [Any] instance with specified parameters.
   Any({required this.typeUrl, required this.value});
+  factory Any.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    final String typeUrl = decode.getField(1);
+    final contractType = TransactionContractType.findByName(
+        typeUrl.split("type.googleapis.com/protocol.").last);
+    final List<int> contractBytes = decode.getField(2);
+    TronBaseContract contract;
+    switch (contractType) {
+      case TransactionContractType.transferContract:
+        contract = TransferContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.assetIssueContract:
+        contract = AssetIssueContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.cancelAllUnfreezeV2Contract:
+        contract = CancelAllUnfreezeV2Contract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.updateAssetContract:
+        contract = UpdateAssetContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.participateAssetIssueContract:
+        contract = ParticipateAssetIssueContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.transferAssetContract:
+        contract = TransferAssetContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.accountCreateContract:
+        contract = AccountCreateContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.accountUpdateContract:
+        contract = AccountUpdateContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.freezeBalanceV2Contract:
+        contract = FreezeBalanceV2Contract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.unfreezeBalanceV2Contract:
+        contract = UnfreezeBalanceV2Contract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.withdrawBalanceContract:
+        contract = WithdrawBalanceContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.withdrawExpireUnfreezeContract:
+        contract = WithdrawExpireUnfreezeContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.delegateResourceContract:
+        contract = DelegateResourceContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.unDelegateResourceContract:
+        contract = UnDelegateResourceContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.unfreezeBalanceContract:
+        contract = UnfreezeBalanceContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.freezeBalanceContract:
+        contract = FreezeBalanceContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.accountPermissionUpdateContract:
+        contract = AccountPermissionUpdateContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.triggerSmartContract:
+        contract = TriggerSmartContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.createSmartContract:
+        contract = CreateSmartContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.setAccountIdContract:
+        contract = SetAccountIdContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.exchangeCreateContract:
+        contract = ExchangeCreateContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.exchangeInjectContract:
+        contract = ExchangeInjectContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.exchangeTransactionContract:
+        contract = ExchangeTransactionContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.exchangeWithdrawContract:
+        contract = ExchangeWithdrawContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.marketCancelOrderContract:
+        contract = MarketCancelOrderContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.marketSellAssetContract:
+        contract = MarketSellAssetContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.proposalApproveContract:
+        contract = ProposalApproveContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.proposalCreateContract:
+        contract = ProposalCreateContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.proposalDeleteContract:
+        contract = ProposalDeleteContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.shieldedTransferContract:
+        contract = ShieldedTransferContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.clearABIContract:
+        contract = ClearABIContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.updateEnergyLimitContract:
+        contract = UpdateEnergyLimitContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.updateSettingContract:
+        contract = UpdateSettingContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.updateBrokerageContract:
+        contract = UpdateBrokerageContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.voteAssetContract:
+        contract = VoteAssetContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.voteWitnessContract:
+        contract = VoteWitnessContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.unfreezeAssetContract:
+        contract = UnfreezeAssetContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.witnessUpdateContract:
+        contract = WitnessUpdateContract.deserialize(contractBytes);
+        break;
+      case TransactionContractType.witnessCreateContract:
+        contract = WitnessCreateContract.deserialize(contractBytes);
+        break;
+      default:
+        throw MessageException("Unsupported contract",
+            details: {"contract": contractType.name});
+    }
+    return Any(typeUrl: typeUrl, value: contract);
+  }
 
   /// Create a new [Any] instance by parsing a JSON map.
   factory Any.fromJson(Map<String, dynamic> json) {

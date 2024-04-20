@@ -2,6 +2,7 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/account/authority.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/transaction_contract.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class TransactionRaw extends TronProtocolBufferImpl {
   /// Create a new [TransactionRaw] instance by parsing a JSON map.
@@ -23,6 +24,26 @@ class TransactionRaw extends TronProtocolBufferImpl {
       auths:
           (json["auths"] as List?)?.map((e) => Authority.fromJson(e)).toList(),
     );
+  }
+  factory TransactionRaw.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return TransactionRaw(
+        refBlockBytes: decode.getField(1),
+        refBlockNum: decode.getField(3),
+        refBlockHash: decode.getField(4),
+        expiration: decode.getField(8),
+        auths: decode
+            .getFields<List<int>>(9)
+            .map((e) => Authority.deserialize(e))
+            .toList(),
+        data: decode.getField(10),
+        contract: decode
+            .getFields<List<int>>(11)
+            .map((e) => TransactionContract.deserialize(e))
+            .toList(),
+        scripts: decode.getField(12),
+        timestamp: decode.getField(14),
+        feeLimit: decode.getField(18));
   }
 
   /// Create a new [TransactionRaw] instance with specified parameters.

@@ -2,6 +2,7 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/smart_contract.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// Deploys a contract
 class CreateSmartContract extends TronBaseContract {
@@ -21,6 +22,14 @@ class CreateSmartContract extends TronBaseContract {
       required this.newContract,
       this.callTokenValue,
       this.tokenId});
+  factory CreateSmartContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return CreateSmartContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        newContract: SmartContract.deserialize(decode.getField(2)),
+        callTokenValue: decode.getField(3),
+        tokenId: decode.getField(4));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

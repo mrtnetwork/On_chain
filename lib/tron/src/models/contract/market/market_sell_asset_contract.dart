@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class MarketSellAssetContract extends TronBaseContract {
   /// Create a new [MarketSellAssetContract] instance by parsing a JSON map.
@@ -23,6 +24,15 @@ class MarketSellAssetContract extends TronBaseContract {
       this.buyTokenQuantity})
       : sellTokenId = BytesUtils.tryToBytes(sellTokenId, unmodifiable: true),
         buyTokenId = BytesUtils.tryToBytes(buyTokenId, unmodifiable: true);
+  factory MarketSellAssetContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return MarketSellAssetContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        sellTokenId: decode.getField(2),
+        sellTokenQuantity: decode.getField(3),
+        buyTokenId: decode.getField(4),
+        buyTokenQuantity: decode.getField(5));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

@@ -35,6 +35,8 @@ class AssetName with ADASerialization implements Comparable<AssetName> {
   /// Converts the asset name to a hexadecimal string.
   String toHex() => BytesUtils.toHexString(data);
 
+  String name() => StringUtils.decode(data);
+
   @override
   CborObject toCbor() {
     return CborBytesValue(data);
@@ -52,5 +54,6 @@ class AssetName with ADASerialization implements Comparable<AssetName> {
   }
 
   @override
-  int get hashCode => data.hashCode;
+  int get hashCode => data.fold<int>(
+      mask32, (previousValue, element) => previousValue ^ element);
 }

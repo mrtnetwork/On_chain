@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// To clear the ABI info of a smart contract.
 class ClearABIContract extends TronBaseContract {
@@ -13,6 +14,12 @@ class ClearABIContract extends TronBaseContract {
 
   /// Create a new [ClearABIContract] instance with specified parameters.
   ClearABIContract({required this.ownerAddress, required this.contractAddress});
+  factory ClearABIContract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return ClearABIContract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        contractAddress: TronAddress.fromBytes(decode.getField(2)));
+  }
 
   /// Owner address of the smart contract
   final TronAddress ownerAddress;

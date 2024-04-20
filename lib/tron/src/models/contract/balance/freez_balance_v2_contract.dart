@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 /// In Stake2.0, stake an amount of TRX to obtain bandwidth or energy,
 /// and obtain equivalent TRON Power(TP) according to the staked amount
@@ -16,6 +17,16 @@ class FreezeBalanceV2Contract extends TronBaseContract {
   /// Create a new [FreezeBalanceV2Contract] instance with specified parameters.
   FreezeBalanceV2Contract(
       {required this.ownerAddress, required this.frozenBalance, this.resource});
+
+  factory FreezeBalanceV2Contract.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return FreezeBalanceV2Contract(
+        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+        frozenBalance: decode.getField(2),
+        resource: decode
+            .getResult(3)
+            ?.to<ResourceCode, int>((e) => ResourceCode.fromValue(e)));
+  }
 
   /// Account address
   final TronAddress ownerAddress;

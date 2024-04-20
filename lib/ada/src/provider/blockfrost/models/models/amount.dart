@@ -1,3 +1,7 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/models/ada_models.dart';
+import 'package:on_chain/ada/src/utils/ada_helper.dart';
+
 class ADAAmountResponse {
   /// The unit of the value
   final String unit;
@@ -11,7 +15,7 @@ class ADAAmountResponse {
   /// True if the latest minting transaction includes metadata
   final bool? hasNftOnchainMetadata;
 
-  ADAAmountResponse({
+  const ADAAmountResponse({
     required this.unit,
     required this.quantity,
     this.decimals,
@@ -33,6 +37,12 @@ class ADAAmountResponse {
         'decimals': decimals,
         'hasNftOnchainMetadata': hasNftOnchainMetadata
       };
+  bool get islovelace => unit == ADAHelper.adaUnit;
+
+  Tuple<PolicyID, AssetName>? get policyAndAssetName {
+    if (islovelace) return null;
+    return ADAHelper.separatePolcyAndAssetName(unit);
+  }
 
   @override
   String toString() {

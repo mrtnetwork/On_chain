@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/abi_types.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/smart_contract_abi_entry_param.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class SmartContractABIEntry extends TronProtocolBufferImpl {
   /// Create a new [SmartContractABIEntry] instance by parsing a JSON map.
@@ -38,6 +39,25 @@ class SmartContractABIEntry extends TronProtocolBufferImpl {
         outputs = outputs == null
             ? null
             : List<SmartContractBABIEntryParam>.unmodifiable(outputs);
+  factory SmartContractABIEntry.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return SmartContractABIEntry(
+        anonymous: decode.getField(1),
+        constant: decode.getField(2),
+        name: decode.getField(3),
+        inputs: decode
+            .getFields(4)
+            .map((e) => SmartContractBABIEntryParam.deserialize(e))
+            .toList(),
+        outputs: decode
+            .getFields(5)
+            .map((e) => SmartContractBABIEntryParam.deserialize(e))
+            .toList(),
+        type: SmartContractAbiEntryType.fromValue(decode.getField(6)),
+        payable: decode.getField(7),
+        stateMutability:
+            SmartContractAbiStateMutabilityType.fromValue(decode.getField(8)));
+  }
   final bool? anonymous;
   final bool? constant;
   final String? name;

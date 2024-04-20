@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class AccountTrace extends TronProtocolBufferImpl {
   /// Create a new [AccountTrace] instance with specified parameters.
@@ -11,6 +12,11 @@ class AccountTrace extends TronProtocolBufferImpl {
       balance: BigintUtils.tryParse(json["balance"]),
       placeholder: BigintUtils.tryParse(json["placeholder"]),
     );
+  }
+  factory AccountTrace.deserialize(List<int> bytes) {
+    final decode = TronProtocolBufferImpl.decode(bytes);
+    return AccountTrace(
+        balance: decode.getField(1), placeholder: decode.getField(99));
   }
   final BigInt? balance;
   final BigInt? placeholder;
