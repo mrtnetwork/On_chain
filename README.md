@@ -1,4 +1,5 @@
 # ON CHAIN Dart Package
+
 Onchain Plugin for Dart—an advanced cross-platform solution that seamlessly integrates with Ethereum, Tron, Solana and Cardano blockchains, supporting key features such as Legacy EIP1559, EIP2930, EIP71, and now, the cutting-edge EIP721 standard. This plugin empowers developers with comprehensive capabilities for Ethereum transactions, smart contracts, and token standards, including NFTs through EIP721. Beyond Ethereum, it facilitates a wide range of Tron, Solana and Cardano operations, including account creation, asset transfer, stake, pool, metaplex and smart contract executions.
 
 ## Features
@@ -13,13 +14,11 @@ Unleash the potential of your Dart applications on the Ethereum Virtual Machine 
 
 - EIP2930 (Access List): Streamline contract interactions with the Ethereum blockchain using Access Lists, enhancing efficiency and reducing transaction costs by specifying accounts with direct access permissions.
 
-
 - Interact with Contract: Seamlessly engage with Ethereum smart contracts, unlocking the full potential of decentralized applications through efficient contract interactions within your Dart projects.
 
 - Interact with Ethereum Node (JSON RPC): Facilitate direct communication with Ethereum nodes through JSON RPC, enabling your Dart applications to access and query blockchain data in a standardized and efficient manner.
 
 - EIP712 (Legacy, v3, v4): Implement Ethereum Improvement Proposal 712 standards for structured and secure message signing, supporting legacy as well as versions 3 and 4 to ensure compatibility and compliance across diverse Ethereum ecosystems.
-
 
 ### TVM Networks
 
@@ -88,7 +87,7 @@ Dive confidently into the Cardano blockchain ecosystem with "on_chain" - your ga
 
 - HD-Wallet: Seed generator for legacy and Icarus formats, alongside HD wallet management for both Shelley and Byron era
 
-- Transactions: The plugin boasts extensive support for a variety of Cardano transactions. 
+- Transactions: The plugin boasts extensive support for a variety of Cardano transactions.
 Here are some examples:
 
   - Mint
@@ -101,9 +100,10 @@ Here are some examples:
 ## EXAMPLES
 
 ### Key and addresses
-  - Private and public key
 
-    ```
+- Private and public key
+
+    ```dart
     /// Ethereum
     /// Initialize an Ethereum private key.
     final ETHPrivateKey ethereumPrivateKey = ETHPrivateKey("..."); 
@@ -194,14 +194,14 @@ Here are some examples:
     // Define an enterprise address
     final enterpriseAddress = ADAEnterpriseAddress("...");
     ```
- 
- ### Transaction
 
-  - Ethreum transaction
+### Transaction
+
+- Ethreum transaction
 
     Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ethereum/transaction).
 
-    ```
+    ```dart
     /// Connect to the WebSocket service
     final wsocketService = await RPCWebSocketService.connect(
         "wss://polygon-mumbai-bor.publicnode.com");
@@ -301,13 +301,14 @@ Here are some examples:
       await rpc.request(RPCSendRawTransaction(transaction: signedSerialized));
 
     ```
+
   - Contract intraction
 
-    Tron and Ethereum 
-    
+    Tron and Ethereum
+
     Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/contract).
 
-    ```
+    ```dart
     /// For Tron: If the output parameters include an address, set isTron to true.
     /// If it doesn't, set isTron to false to receive an ETH address instead of a Tron address.
     final contract = ContractABI.fromJson(tronContract["entrys"]!, isTron: true);
@@ -326,11 +327,12 @@ Here are some examples:
         ]));
 
     ```
+
     Tron with Http Node
-    
+
     Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/tron/transactions/smart_contract).
 
-    ```
+    ```dart
     final contract = ContractABI.fromJson(tronContract["entrys"]!, isTron: true);
     final rpc =
         TronProvider(TronHTTPProvider(url: "https://api.shasta.trongrid.io"));
@@ -353,12 +355,14 @@ Here are some examples:
       ],
     ));
     ```
+
   - Tron transaction
-    
+
     Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/tron/transactions).
-    
+
     Transfer TRX
-    ```
+
+    ```dart
     /// intialize private key, address, receiver and ....
     final seed = BytesUtils.fromHexString(
         "6fed8bf347b201c4ff0379c9173a042163dbd5f1110bcb983ac8615dcbb98c853f7c1b524dcebdf47e2d19778d0b30e25065d5a5012d83b874ab7034e95a713f");
@@ -414,7 +418,8 @@ Here are some examples:
     ```
 
     Frozen balance (bandwidth, energy)
-    ```
+
+    ```dart
     /// create contract
     final contract = FreezeBalanceV2Contract(
         ownerAddress: ownerAddress,
@@ -451,11 +456,12 @@ Here are some examples:
     ```
   
   - Solana transaction
-    
+
     Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/solana).
-    
+
     Transfer SOL
-    ```
+
+    ```dart
     /// Set up the RPC service with the Solana devnet endpoint.
     final service = RPCHttpService("https://api.devnet.solana.com");
 
@@ -499,13 +505,13 @@ Here are some examples:
 
     ```
 
-
   - Cardano Transaction
   
     Check out all the examples at the provided [link](https://github.com/mrtnetwork/On_chain/tree/main/example/lib/example/cardano).
-    
+
     Transfer ADA
-    ```
+
+    ```dart
     /// Create a BIP32 derivation from a seed
     final bip32 = CardanoIcarusBip32.fromSeed(List<int>.filled(20, 12));
 
@@ -561,8 +567,9 @@ Here are some examples:
 
 ### EIP712
 
-  - EIP-712
-    ```
+- EIP-712
+
+    ```dart
     /// Create an EIP-712 message
     final Eip712TypedData eip712 = Eip712TypedData(
       types: {
@@ -611,7 +618,9 @@ Here are some examples:
     /// Sign the encoded types with the private key, setting hashMessage to false
     final _ = privateKey.sign(encodeTypes, hashMessage: false).toHex();
     ```
+
 ### Solana-Specific
+
 The plugin offers extensive support for pre-built programs, each comprising four key sections:
 
 1. Layouts: These receive the desired data for each program and decode it for transaction processing.
@@ -621,7 +630,8 @@ The plugin offers extensive support for pre-built programs, each comprising four
 5. Utils: Provides various program utilities.
 
 Example:
-```
+
+```dart
  /// Define the layout for initializing the candy machine.
   final initializeCandyMachineLayout =
       MetaplexCandyMachineInitializeCandyMachineLayout(
@@ -660,14 +670,13 @@ Example:
 
 ```
 
-
 ### JSON-RPC
 
-  - Ethereum
+- Ethereum
 
     Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ethereum/src/rpc/methds).
 
-    ```
+    ```dart
     /// HTTP RPC Service
     final httpRpc = RPCHttpService("https://bsc-testnet.drpc.org/");
     // Initialize an HTTP RPC service for interacting with the Binance Smart Chain (BSC) testnet.
@@ -702,14 +711,15 @@ Example:
     /// Methods Reference
     /// Explore all available methods in the ethereum/rpc/methods/ directory.
     /// These methods encapsulate various Ethereum RPC calls for convenient usage.
-    }
+  
 
     ```
+
   - Tron Full-Http node
-    
+
     Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/tron/src/provider/methods).
-    
-    ```
+
+    ```dart
     /// Tron Provider Initialization
     final rpc = TronProvider(TronHTTPProvider(url: "https://api.trongrid.io"));
     // Initialize a Tron Provider using an HTTP endpoint to interact with the Tron blockchain.
@@ -731,11 +741,12 @@ Example:
     /// Get Latest Block Information
     final block = await rpc.request(TronRequestGetNowBlock());
     ```
+
   - Solana RPC
-    
+
     Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/solana/src/rpc/methods).
-    
-    ```
+
+    ```dart
     /// Initialize the Solana RPC client with the devnet endpoint.
     final service = SolanaRPC(RPCHttpService("https://api.devnet.solana.com"));
 
@@ -756,11 +767,12 @@ Example:
             account: SolAddress.unchecked(
                 "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
     ```
+
   - Cardano (blockfrost)
   
     Discover the full spectrum of methods in the [link](https://github.com/mrtnetwork/On_chain/tree/main/lib/ada/src/provider/blockfrost/methods).
-    
-    ```
+
+    ```dart
     /// Set up the Blockfrost provider with the specified URL and project ID
     final provider = BlockforestProvider(BlockforestHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
@@ -780,8 +792,10 @@ Example:
       BlockfrostRequestTransactionUTXOs(
           "69edd1c1c4fdc282e3fe1d90f368a228d7702316dc33e494e5bee7db81d6183b"));
     ```
+
 ### BIP-39, Addresses, and HD Wallet Key Management Process
-```
+
+```dart
   /// Generate a 12-word mnemonic phrase.
   final mnemonic =
       Bip39MnemonicGenerator().fromWordsNumber(Bip39WordsNum.wordsNum12);
@@ -837,17 +851,14 @@ Example:
 
 ```
 
-
-
 ## Contributing
 
 Contributions are welcome! Please follow these guidelines:
- - Fork the repository and create a new branch.
- - Make your changes and ensure tests pass.
- - Submit a pull request with a detailed description of your changes.
 
-## Feature requests and bugs #
+- Fork the repository and create a new branch.
+- Make your changes and ensure tests pass.
+- Submit a pull request with a detailed description of your changes.
+
+## Feature requests and bugs
 
 Please file feature requests and bugs in the issue tracker.
-
-

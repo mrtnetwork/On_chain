@@ -1,3 +1,7 @@
+## 3.1.0
+- Update dependencies.
+- Constructors for Tron Native Contracts for Deserialization from Protobuf
+
 ## 3.0.1
 - Update dependencies.
 
