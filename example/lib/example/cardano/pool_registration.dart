@@ -44,7 +44,7 @@ void main() async {
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
   final parameters =
       await provider.request(BlockfrostRequestLatestEpochProtocolParameters());
-  final poolDeposit = BigInt.parse(parameters.poolDeposit);
+  final poolDeposit = parameters.poolDeposit;
   final input = TransactionInput(
       transactionId: TransactionHash.fromHex(
           "afa75f7ab3e172f8772178766be3830bbf659eee5c4f00fd3966e2c40b3d2d91"),

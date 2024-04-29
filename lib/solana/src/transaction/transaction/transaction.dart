@@ -217,6 +217,10 @@ class SolanaTransaction {
     return true;
   }
 
+  /// signers of the transaction
+  List<SolAddress> get signers =>
+      message.accountKeys.sublist(0, message.header.numRequiredSignatures);
+
   /// Adds a signature to the transaction.
   void addSignature(SolAddress address, List<int> signature,
       {bool verifySignature = true}) {

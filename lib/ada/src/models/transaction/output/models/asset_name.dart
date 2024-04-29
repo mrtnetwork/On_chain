@@ -1,4 +1,7 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/string/string.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents an asset name.
@@ -19,6 +22,10 @@ class AssetName with ADASerialization implements Comparable<AssetName> {
   factory AssetName.fromHex(String assetNameHex) {
     return AssetName(BytesUtils.fromHexString(assetNameHex));
   }
+
+  factory AssetName.fromString(String assetName) {
+    return AssetName(StringUtils.encode(assetName));
+  }
   AssetName copyWith({List<int>? data}) {
     return AssetName(data ?? this.data);
   }
@@ -35,7 +42,7 @@ class AssetName with ADASerialization implements Comparable<AssetName> {
   /// Converts the asset name to a hexadecimal string.
   String toHex() => BytesUtils.toHexString(data);
 
-  String name() => StringUtils.decode(data);
+  late final String name = StringUtils.tryDecode(data) ?? "";
 
   @override
   CborObject toCbor() {

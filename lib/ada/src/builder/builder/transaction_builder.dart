@@ -1,26 +1,46 @@
-import 'dart:developer';
-
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
 import 'package:on_chain/ada/src/builder/builder/tranasction_builder_utils.dart';
 import 'package:on_chain/ada/src/models/ada_models.dart';
 import 'package:on_chain/ada/src/provider/provider.dart';
+import 'certificate_builder.dart';
+import 'deposit.dart';
+import 'mint_builder.dart';
 
 typedef ONSignADA = ADABaseTransactionWitness Function(
     {required List<int> digest, required ADAAddress address});
 
 class ADATransactionBuilder {
+  BigInt? _fee;
+  BigInt? get fee => _fee;
+
+  final List<ADAAccountUTXOResponse> utxos;
+  final GeneralTransactionMetadata? metadata;
+  final List<ADAMinsBuilder> mints;
+  final List<ADACertificateBuilder> certificates;
+  final List<ADADepositBuilder> deposits;
+  final List<ADADepositBuilder> refundDeposits;
+  List<TransactionOutput> _outputs;
+  List<TransactionOutput> get outputs => List<TransactionOutput>.from(_outputs);
+
   ADATransactionBuilder({
     required this.utxos,
     required List<TransactionOutput> outputs,
+    List<ADAMinsBuilder> mints = const [],
+    List<ADADepositBuilder> deposits = const [],
+    List<ADADepositBuilder> refundDeposits = const [],
+    final List<ADACertificateBuilder> certificates = const [],
     this.metadata,
-  }) : _outputs = List<TransactionOutput>.unmodifiable(outputs);
-  final List<ADAAccountUTXOResponse> utxos;
-  final GeneralTransactionMetadata? metadata;
-  List<TransactionOutput> _outputs;
-  List<TransactionOutput> get outputs => List<TransactionOutput>.from(_outputs);
-  BigInt? _fee;
-  BigInt? get fee => _fee;
+  })  : _outputs = List<TransactionOutput>.unmodifiable(outputs),
+        mints = List<ADAMinsBuilder>.unmodifiable(mints),
+        deposits = List<ADADepositBuilder>.unmodifiable(deposits),
+        certificates = List<ADACertificateBuilder>.unmodifiable(certificates),
+        refundDeposits = List<ADADepositBuilder>.unmodifiable(refundDeposits);
+
+  Mint? getMint() {
+    if (mints.isEmpty) return null;
+    return Mint(mints.map((e) => e.toMintInfo()).toList());
+  }
 
   void setFee(BigInt fee) => _fee = fee;
 
@@ -33,8 +53,19 @@ class ADATransactionBuilder {
   }
 
   List<ADAAddress> get signers {
-    final Set<String> addresses = utxos.map((e) => e.address).toSet();
+    final Set<String> addresses = {
+      ...utxos.map((e) => e.address),
+      ...mints.map((e) => e.owner.address),
+      ...certificates
+          .where((element) => element.signer != null)
+          .map((e) => e.signer!.address)
+    }.toSet();
     return addresses.map((e) => ADAAddress.fromAddress(e)).toList();
+  }
+
+  List<NativeScript>? get transactionNativeScripts {
+    final scripts = mints.map((e) => e.toScript()).toList();
+    return scripts.isEmpty ? null : scripts;
   }
 
   TransactionOutput? _changeOutput(ADAAddress addr) {
@@ -62,22 +93,23 @@ class ADATransactionBuilder {
     if (utxos.isEmpty || _outputs.isEmpty) {
       throw MessageException("Utxos and outputs must not be not empty.");
     }
-    // final change = _changeOutput(onChangeAddress ?? utxos.first.toAdddress);
     final outs = _outputs.map((e) {
       if (e.amount.coin == BigInt.zero) {
         return e.copyWith(amount: e.amount.copyWith(coin: maxU64));
       }
       return e;
     }).toList();
-    log("outs: $outs");
     final transactionSigners = signers;
     final aux = auxiliaryData;
+
     final ADATransaction transaction = ADATransaction(
       data: aux,
       body: TransactionBody(
           inputs: utxos.map((e) => e.toInput).toList(),
           outputs: outs,
+          mint: getMint(),
           fee: BigInt.from(mask32),
+          certs: certificates.map((e) => e.certificate).toList(),
           auxiliaryDataHash: aux?.toHash()),
       witnessSet: TransactionWitnessSet(
         bootstraps: transactionSigners
@@ -85,6 +117,7 @@ class ADATransactionBuilder {
             .map((e) =>
                 ADATransactionBuilderUtils.fakeBootStrapWitness(e.address))
             .toList(),
+        nativeScripts: transactionNativeScripts,
         vKeys: transactionSigners
             .where((element) => element.addressType != ADAAddressType.byron)
             .map((e) => ADATransactionBuilderUtils.fakeVkeyWitnessWitness())
@@ -113,8 +146,9 @@ class ADATransactionBuilder {
   }
 
   AuxiliaryData? get auxiliaryData {
-    if (metadata == null) return null;
-    return AuxiliaryData(metadata: metadata);
+    if (metadata == null && mints.isEmpty) return null;
+    return AuxiliaryData(
+        metadata: metadata, nativeScripts: transactionNativeScripts);
   }
 
   TransactionBody buildTxBody({AuxiliaryDataHash? auxHash}) {
@@ -122,10 +156,14 @@ class ADATransactionBuilder {
       throw MessageException(
           "cannot build transaction body before calculation fee.");
     }
+    final mint = getMint();
+
     return TransactionBody(
         fee: fee!,
         inputs: utxos.map((e) => e.toInput).toList(),
         outputs: outputs,
+        certs: certificates.map((e) => e.certificate).toList(),
+        mint: mint,
         auxiliaryDataHash: auxHash);
   }
 
@@ -141,18 +179,28 @@ class ADATransactionBuilder {
       final wit = onSignADA(address: i, digest: bodyHash);
       witnesses.add(wit);
     }
+    final vkeys = witnesses.whereType<Vkeywitness>().toList();
+    final bootstraps = witnesses.whereType<BootstrapWitness>().toList();
     return ADATransaction(
         body: trBody,
         data: aux,
         witnessSet: TransactionWitnessSet(
-            vKeys: witnesses.whereType<Vkeywitness>().toList(),
-            bootstraps: witnesses.whereType<BootstrapWitness>().toList()));
+            vKeys: vkeys,
+            nativeScripts: transactionNativeScripts,
+            bootstraps: bootstraps));
   }
 
   void _validateAmounts() {
-    final lovelence =
-        utxos.sumOflovelace - (outputs.sumOflovelace + (fee ?? BigInt.zero));
+    final BigInt depositAmouts = deposits.fold(BigInt.zero,
+        (previousValue, element) => previousValue + element.deposit);
+    final BigInt refundAmounts = refundDeposits.fold(BigInt.zero,
+        (previousValue, element) => previousValue + element.deposit);
+    final lovelence = utxos.sumOflovelace +
+        refundAmounts -
+        (outputs.sumOflovelace + (fee ?? BigInt.zero)) -
+        depositAmouts;
     final asset = utxos.multiAsset - outputs.multiAsset;
+
     if (lovelence != BigInt.zero || asset != MultiAsset.empty) {
       throw MessageException(
           "The amount of inputs and outputs is not calculated correctly",

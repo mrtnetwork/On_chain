@@ -1,3 +1,7 @@
+## 3.2.0
+
+- Introducing a Transaction Builder for Cardano: Simplify Transaction Creation and Signing.
+
 ## 3.1.0
 - Update dependencies.
 - Constructors for Tron Native Contracts for Deserialization from Protobuf

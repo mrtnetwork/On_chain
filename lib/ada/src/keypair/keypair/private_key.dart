@@ -66,7 +66,6 @@ class AdaPrivateKey {
   /// The [digest] represents the message to be signed.
   /// Returns a Vkeywitness object containing the verification key and signature.
   Vkeywitness createSignatureWitness(List<int> digest) {
-    print("vkey ${publicKey().toVerificationKey().toHex()}");
     return Vkeywitness(
         vKey: publicKey().toVerificationKey(),
         signature: Ed25519Signature(sign(digest)));

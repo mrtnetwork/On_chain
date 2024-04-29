@@ -19,6 +19,8 @@ abstract class ADAAddress with ADASerialization {
   /// Abstract property representing the Bech32 address.
   abstract final String bech32Address;
 
+  bool get isRewardAddress => addressType == ADAAddressType.reward;
+
   /// Default constructor for ADAAddress.
   const ADAAddress.init();
 
@@ -91,4 +93,16 @@ abstract class ADAAddress with ADASerialization {
   String toJson() {
     return address;
   }
+
+  @override
+  operator ==(other) {
+    return identical(this, other) ||
+        (other is ADAAddress &&
+            other.runtimeType == runtimeType &&
+            address == other.address);
+  }
+
+  @override
+  int get hashCode =>
+      address.hashCode ^ addressType.hashCode ^ network.hashCode;
 }

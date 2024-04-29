@@ -1,3 +1,5 @@
+import 'package:blockchain_utils/numbers/bigint_utils.dart';
+
 class ADAEpochParametersResponse {
   /// Epoch number
   final int epoch;
@@ -18,10 +20,10 @@ class ADAEpochParametersResponse {
   final int maxBlockHeaderSize;
 
   /// The amount of a key registration deposit in Lovelaces
-  final String keyDeposit;
+  final BigInt keyDeposit;
 
   /// The amount of a pool registration deposit in Lovelaces
-  final String poolDeposit;
+  final BigInt poolDeposit;
 
   /// Epoch bound on pool retirement
   final int eMax;
@@ -97,8 +99,8 @@ class ADAEpochParametersResponse {
         maxBlockSize: json['max_block_size'],
         maxTxSize: json['max_tx_size'],
         maxBlockHeaderSize: json['max_block_header_size'],
-        keyDeposit: json['key_deposit'],
-        poolDeposit: json['pool_deposit'],
+        keyDeposit: BigintUtils.parse(json['key_deposit']),
+        poolDeposit: BigintUtils.parse(json['pool_deposit']),
         eMax: json['e_max'],
         nOpt: json['n_opt'],
         a0: json['a0'],
@@ -122,8 +124,8 @@ class ADAEpochParametersResponse {
         'max_block_size': maxBlockSize,
         'max_tx_size': maxTxSize,
         'max_block_header_size': maxBlockHeaderSize,
-        'key_deposit': keyDeposit,
-        'pool_deposit': poolDeposit,
+        'key_deposit': keyDeposit.toString(),
+        'pool_deposit': poolDeposit.toString(),
         'e_max': eMax,
         'n_opt': nOpt,
         'a0': a0,

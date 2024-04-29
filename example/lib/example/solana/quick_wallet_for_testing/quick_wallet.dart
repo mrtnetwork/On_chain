@@ -19,7 +19,7 @@ class QuickWalletForTest {
 
   Future<String> faucent([SolAddress? addr]) async {
     final f = await rpc.request(SolanaRPCRequestAirdrop(
-        account: addr ?? address, lamports: 2000000000));
+        account: addr ?? address, lamports: 1000000000));
     return f;
   }
 
