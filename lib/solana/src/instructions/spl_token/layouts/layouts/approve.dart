@@ -1,6 +1,7 @@
 // Manages the layout structure for the SPL token approve operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents the layout for the SPL token approve operation.
 class SPLTokenApproveLayout extends SPLTokenProgramLayout {
@@ -10,9 +11,11 @@ class SPLTokenApproveLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenApproveLayout instance.
   SPLTokenApproveLayout({required this.amount});
 
-  /// Structure structure for SPLTokenApproveLayout.
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u8("instruction"), LayoutUtils.u64("amount")]);
+  /// StructLayout structure for SPLTokenApproveLayout.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "amount")
+  ]);
 
   /// Constructs an SPLTokenApproveLayout instance from buffer.
   factory SPLTokenApproveLayout.fromBuffer(List<int> bytes) {
@@ -25,7 +28,7 @@ class SPLTokenApproveLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

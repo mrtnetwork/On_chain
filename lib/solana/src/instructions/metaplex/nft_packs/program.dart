@@ -1,7 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
-
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 
 class MetaplexNFTPacksProgram extends TransactionInstruction {
@@ -17,7 +16,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
     return MetaplexNFTPacksProgram(
         keys: [packSet.toWritable(), authority.toSigner()],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksActivateLayout());
+        layout: const MetaplexNFTPacksActivateLayout());
   }
   factory MetaplexNFTPacksProgram.addCardToPack(
       {required SolAddress packSet,
@@ -81,7 +80,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
           tokenProgram.toReadOnly(),
         ],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksAddVoucherToPackLayout());
+        layout: const MetaplexNFTPacksAddVoucherToPackLayout());
   }
   factory MetaplexNFTPacksProgram.claimPack(
       {required SolAddress packSet,
@@ -130,7 +129,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
           packConfig.toWritable(),
         ],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksCleanUpLayout());
+        layout: const MetaplexNFTPacksCleanUpLayout());
   }
   factory MetaplexNFTPacksProgram.closePack({
     required SolAddress packSet,
@@ -140,7 +139,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
     return MetaplexNFTPacksProgram(
         keys: [packSet.toWritable(), authority.toSigner(), clock.toReadOnly()],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksClosePackLayout());
+        layout: const MetaplexNFTPacksClosePackLayout());
   }
   factory MetaplexNFTPacksProgram.deactivate({
     required SolAddress packSet,
@@ -149,7 +148,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
     return MetaplexNFTPacksProgram(
         keys: [packSet.toWritable(), authority.toSigner()],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksDeactivateLayout());
+        layout: const MetaplexNFTPacksDeactivateLayout());
   }
   factory MetaplexNFTPacksProgram.deletePack({
     required SolAddress packSet,
@@ -163,7 +162,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
           refunder.toWritable()
         ],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksDeletePackLayout());
+        layout: const MetaplexNFTPacksDeletePackLayout());
   }
   factory MetaplexNFTPacksProgram.deletePackCard(
       {required SolAddress packSet,
@@ -188,7 +187,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
           tokenProgram.toReadOnly()
         ],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksDeletePackCardLayout());
+        layout: const MetaplexNFTPacksDeletePackCardLayout());
   }
   factory MetaplexNFTPacksProgram.deletePackConfig({
     required SolAddress packSet,
@@ -204,7 +203,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
           authority.toSigner()
         ],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksDeletePackConfigLayout());
+        layout: const MetaplexNFTPacksDeletePackConfigLayout());
   }
   factory MetaplexNFTPacksProgram.deletePackVoucher({
     required SolAddress packSet,
@@ -220,7 +219,7 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
           refunder.toWritable(),
         ],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksDeletePackVoucherLayout());
+        layout: const MetaplexNFTPacksDeletePackVoucherLayout());
   }
   factory MetaplexNFTPacksProgram.editPack(
       {required SolAddress packSet,
@@ -293,6 +292,6 @@ class MetaplexNFTPacksProgram extends TransactionInstruction {
           newAuthority.toReadOnly()
         ],
         programId: MetaplexNFTPacksProgramConst.programId,
-        layout: MetaplexNFTPacksTransferPackAuthorityLayout());
+        layout: const MetaplexNFTPacksTransferPackAuthorityLayout());
   }
 }

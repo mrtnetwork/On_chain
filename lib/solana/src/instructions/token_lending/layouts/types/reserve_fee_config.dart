@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 /// Additional fee information on a reserve
 ///
@@ -31,11 +31,11 @@ class ReserveFeesConfig {
         hostFeePercentage: json["hostFeePercentage"]);
   }
 
-  static Structure layout = LayoutUtils.struct([
-    LayoutUtils.u64('borrowFeeWad'),
-    LayoutUtils.u64('flashLoanFeeWad'),
-    LayoutUtils.u8('hostFeePercentage')
-  ], "fees");
+  static StructLayout layout = LayoutConst.struct([
+    LayoutConst.u64(property: 'borrowFeeWad'),
+    LayoutConst.u64(property: 'flashLoanFeeWad'),
+    LayoutConst.u8(property: 'hostFeePercentage')
+  ], property: "fees");
 
   Map<String, dynamic> serialize() {
     return {

@@ -1,7 +1,8 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/collection_details.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/meta_data_v2.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 ///
 class MetaplexTokenMetaDataCreateMetadataAccountV3Layout
@@ -29,16 +30,16 @@ class MetaplexTokenMetaDataCreateMetadataAccountV3Layout
             : CollectionDetailsV1.fromJson(decode["collectionDetails"]));
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
     MetaDataV2.staticLayout,
-    LayoutUtils.boolean(property: "isMutable"),
-    LayoutUtils.optional(CollectionDetailsV1.staticLayout,
+    LayoutConst.boolean(property: "isMutable"),
+    LayoutConst.optional(CollectionDetailsV1.staticLayout,
         property: "collectionDetails"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => MetaplexTokenMetaDataProgramInstruction

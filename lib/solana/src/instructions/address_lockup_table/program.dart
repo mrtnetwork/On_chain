@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/constant.dart';
 import 'package:on_chain/solana/src/instructions/system/constant.dart';
@@ -58,7 +58,7 @@ class AddressLookupTableProgram extends TransactionInstruction {
     required SolAddress lookupTable,
   }) {
     return AddressLookupTableProgram(
-      layout: AddressLookupFreezeLookupTableLayout(),
+      layout: const AddressLookupFreezeLookupTableLayout(),
       keys: [
         lookupTable.toWritable(),
         authority.toSigner(),
@@ -106,7 +106,7 @@ class AddressLookupTableProgram extends TransactionInstruction {
     required SolAddress lookupTable,
   }) {
     return AddressLookupTableProgram(
-      layout: AddressLookupDeactiveLookupTableLayout(),
+      layout: const AddressLookupDeactiveLookupTableLayout(),
       keys: [
         lookupTable.toWritable(),
         authority.toSigner(),
@@ -127,7 +127,7 @@ class AddressLookupTableProgram extends TransactionInstruction {
     required SolAddress recipient,
   }) {
     return AddressLookupTableProgram(
-      layout: AddressLookupCloseLookupTableLayout(),
+      layout: const AddressLookupCloseLookupTableLayout(),
       keys: [
         lookupTable.toWritable(),
         authority.toSigner(),

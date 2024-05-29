@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/core/program_layout.dart';
 
 /// Represents an unknown program layout.
 class UnknownProgramLayout extends ProgramLayout {
@@ -9,8 +10,8 @@ class UnknownProgramLayout extends ProgramLayout {
   get instruction => null;
 
   @override
-  Structure get layout =>
-      LayoutUtils.struct([LayoutUtils.blob(data.length, property: "data")]);
+  StructLayout get layout =>
+      LayoutConst.struct([LayoutConst.blob(data.length, property: "data")]);
 
   /// Serializes the unknown program layout.
   @override

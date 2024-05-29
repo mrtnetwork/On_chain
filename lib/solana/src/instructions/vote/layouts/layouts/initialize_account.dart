@@ -1,6 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/vote/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// InitializeAccount layout.
 class VoteProgramInitializeAccountLayout extends VoteProgramLayout {
@@ -27,18 +29,18 @@ class VoteProgramInitializeAccountLayout extends VoteProgramLayout {
       commission: voteData["commission"],
     );
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u32("instruction"),
-    LayoutUtils.struct([
-      LayoutUtils.publicKey("nodePubkey"),
-      LayoutUtils.publicKey("authorizedVoter"),
-      LayoutUtils.publicKey("authorizedWithdrawer"),
-      LayoutUtils.u8("commission")
-    ], "voteInit")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    LayoutConst.struct([
+      SolanaLayoutUtils.publicKey("nodePubkey"),
+      SolanaLayoutUtils.publicKey("authorizedVoter"),
+      SolanaLayoutUtils.publicKey("authorizedWithdrawer"),
+      LayoutConst.u8(property: "commission")
+    ], property: "voteInit")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => VoteProgramInstruction.initializeAccount.insturction;

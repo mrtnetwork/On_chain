@@ -1,14 +1,16 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/leaf_schame_record.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [191, 204, 149, 234, 213, 165, 13, 65];
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
     LeafSchemaV1.staticLayout,
-    LayoutUtils.u32("index"),
-    LayoutUtils.publicKey("merkleTree"),
+    LayoutConst.u32(property: "index"),
+    SolanaLayoutUtils.publicKey("merkleTree"),
   ]);
 }
 
@@ -32,7 +34,7 @@ class Voucher extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

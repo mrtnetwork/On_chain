@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 /// Emits the token-metadata as return data layout.
 class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
@@ -25,15 +25,15 @@ class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// The layout structure for this emit instruction.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.optionU64("start"),
-    LayoutUtils.optionU64("end")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.optionU64(property: "start"),
+    LayoutConst.optionU64(property: "end")
   ]);
 
   /// Gets the layout structure of this emit instruction.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Gets the instruction bytes for the emit instruction.
   @override

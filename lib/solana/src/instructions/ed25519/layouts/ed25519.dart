@@ -1,10 +1,14 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/signer/solana/solana_signer.dart';
 import 'package:on_chain/solana/src/instructions/ed25519/constant.dart';
 import 'package:on_chain/solana/src/keypair/private_key.dart';
 import 'package:on_chain/solana/src/keypair/public_key.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-/// Structure for the Ed25519 program.
+/// StructLayout for the Ed25519 program.
 class Ed25519ProgramLayout extends ProgramLayout {
   /// Number of signatures.
   final int numSignatures;
@@ -139,20 +143,20 @@ class Ed25519ProgramLayout extends ProgramLayout {
     );
   }
 
-  /// Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("numSignatures"),
-    LayoutUtils.u8('padding'),
-    LayoutUtils.u16('signatureOffset'),
-    LayoutUtils.u16('signatureInstructionIndex'),
-    LayoutUtils.u16('publicKeyOffset'),
-    LayoutUtils.u16('publicKeyInstructionIndex'),
-    LayoutUtils.u16('messageDataOffset'),
-    LayoutUtils.u16('messageDataSize'),
-    LayoutUtils.u16('messageInstructionIndex'),
+  /// StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "numSignatures"),
+    LayoutConst.u8(property: 'padding'),
+    LayoutConst.u16(property: 'signatureOffset'),
+    LayoutConst.u16(property: 'signatureInstructionIndex'),
+    LayoutConst.u16(property: 'publicKeyOffset'),
+    LayoutConst.u16(property: 'publicKeyInstructionIndex'),
+    LayoutConst.u16(property: 'messageDataOffset'),
+    LayoutConst.u16(property: 'messageDataSize'),
+    LayoutConst.u16(property: 'messageInstructionIndex'),
   ]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction = -1;
@@ -181,11 +185,11 @@ class Ed25519ProgramLayout extends ProgramLayout {
 
   @override
   List<int> toBytes() {
-    final LayoutByteWriter data = LayoutByteWriter(length);
-    layout.encode(serialize(), data);
+    final data = List<int>.filled(length, 0);
+    data.setAll(0, layout.serialize(serialize()));
     data.setAll(publicKeyOffset, publicKey.toBytes(false));
     data.setAll(signatureOffset, signature);
     data.setAll(messageDataOffset, message);
-    return data.toBytes();
+    return data;
   }
 }

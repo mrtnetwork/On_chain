@@ -1,6 +1,7 @@
 // Manages the layout structure for the SPL token burn checked operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Burns tokens by removing them from an account layout.
 class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
@@ -16,11 +17,11 @@ class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
     required this.decimals,
   });
 
-  /// Structure structure for SPLTokenBurnCheckedLayout.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u64("amount"),
-    LayoutUtils.u8("decimals")
+  /// StructLayout structure for SPLTokenBurnCheckedLayout.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "amount"),
+    LayoutConst.u8(property: "decimals")
   ]);
 
   /// Constructs an SPLTokenBurnCheckedLayout instance from buffer.
@@ -35,7 +36,7 @@ class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

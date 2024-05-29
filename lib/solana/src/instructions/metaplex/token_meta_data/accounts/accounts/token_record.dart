@@ -1,17 +1,19 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8("key"),
-    LayoutUtils.u8("bump"),
-    LayoutUtils.wrap(TokenState.staticLayout, property: "state"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "ruleSetRevision"),
-    LayoutUtils.optionPubkey(property: "delegate"),
-    LayoutUtils.optional(TokenDelegateRole.staticLayout,
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: "key"),
+    LayoutConst.u8(property: "bump"),
+    LayoutConst.wrap(TokenState.staticLayout, property: "state"),
+    LayoutConst.optional(LayoutConst.u64(), property: "ruleSetRevision"),
+    SolanaLayoutUtils.optionPubkey(property: "delegate"),
+    LayoutConst.optional(TokenDelegateRole.staticLayout,
         property: "delegateRole"),
-    LayoutUtils.optionPubkey(property: "lockedTransfer"),
+    SolanaLayoutUtils.optionPubkey(property: "lockedTransfer"),
   ]);
 }
 
@@ -46,7 +48,7 @@ class TokenRecord extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/types/types/member_ship_model.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
   final int bumpSeed;
@@ -29,17 +29,17 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
         membershipModel: MembershipModel.fromValue(decode["membershipModel"]));
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("bumpSeed"),
-    LayoutUtils.u8("nativeAccountBumpSeed"),
-    LayoutUtils.string("name"),
-    LayoutUtils.u64("totalShares"),
-    LayoutUtils.u8("membershipModel")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "bumpSeed"),
+    LayoutConst.u8(property: "nativeAccountBumpSeed"),
+    LayoutConst.string(property: "name"),
+    LayoutConst.u64(property: "totalShares"),
+    LayoutConst.u8(property: "membershipModel")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/payload_type.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class Payload extends LayoutSerializable {
   final Map<String, PayloadType> map;
@@ -10,12 +11,12 @@ class Payload extends LayoutSerializable {
       for (final i in payload.entries) i.key: PayloadType.fromJson(i.value)
     });
   }
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.map(LayoutUtils.string(), PayloadType.staticLayout,
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.map(LayoutConst.string(), PayloadType.staticLayout,
         property: "payload"),
   ]);
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

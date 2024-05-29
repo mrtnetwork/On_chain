@@ -1,8 +1,9 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/constant.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Utility class for handling address lookup table accounts.
 class _Utils {
@@ -10,41 +11,44 @@ class _Utils {
   static final BigInt u64Max = BigInt.parse('0xffffffffffffffff');
 
   /// Layout definition for the lookup table metadata.
-  static Structure lookupTableMetaLayout = LayoutUtils.struct([
-    LayoutUtils.u32("typeIndex"),
-    LayoutUtils.u64("deactivationSlot"),
-    LayoutUtils.u64("lastExtendedSlot"),
-    LayoutUtils.u8("lastExtendedStartIndex"),
-    LayoutUtils.u8(),
-    LayoutUtils.seq(LayoutUtils.publicKey("publicKey"),
-        LayoutUtils.offset(LayoutUtils.u8(), -1),
+  static StructLayout lookupTableMetaLayout = LayoutConst.struct([
+    LayoutConst.u32(property: "typeIndex"),
+    LayoutConst.u64(property: "deactivationSlot"),
+    LayoutConst.u64(property: "lastExtendedSlot"),
+    LayoutConst.u8(property: "lastExtendedStartIndex"),
+    LayoutConst.padding(LayoutConst.u8(), propery: "padding"),
+    LayoutConst.seq(SolanaLayoutUtils.publicKey("publicKey"),
+        LayoutConst.offset(LayoutConst.padding(LayoutConst.u8()), -1),
         property: "authority")
   ]);
 
   /// Create a layout for the addresses based on the number of serialized addresses.
   static Layout addressesLayout(int numSerializedAddresses) {
-    return LayoutUtils.struct([
-      LayoutUtils.array(
-          LayoutUtils.publicKey("publicKey"), numSerializedAddresses,
+    return LayoutConst.struct([
+      LayoutConst.array(
+          SolanaLayoutUtils.publicKey("publicKey"), numSerializedAddresses,
           property: 'addresses')
     ]);
   }
 
   /// Decode the account data into a structured map.
   static Map<String, dynamic> decode(List<int> accountData) {
-    final meta = lookupTableMetaLayout.decode(accountData);
     final serializedAddressesLen =
         accountData.length - AddressLookupTableProgramConst.lockupTableMetaSize;
     if (serializedAddressesLen < 0 ||
         serializedAddressesLen % SolanaTransactionConstant.publicKeyLength !=
             0) {
-      throw MessageException("Lookup table is invalid");
+      throw const MessageException("Lookup table is invalid");
     }
+    final meta = lookupTableMetaLayout.deserialize(accountData).value;
+
     final numSerializedAddresses =
         serializedAddressesLen ~/ SolanaTransactionConstant.publicKeyLength;
     final addressLayout = addressesLayout(numSerializedAddresses);
-    final decodeAddresses = addressLayout.decode(accountData
-        .sublist(AddressLookupTableProgramConst.lockupTableMetaSize));
+    final decodeAddresses = addressLayout
+        .deserialize(accountData
+            .sublist(AddressLookupTableProgramConst.lockupTableMetaSize))
+        .value;
     final List<SolAddress> authority = (meta['authority'] as List).cast();
     return {
       'deactivationSlot': meta['deactivationSlot'],

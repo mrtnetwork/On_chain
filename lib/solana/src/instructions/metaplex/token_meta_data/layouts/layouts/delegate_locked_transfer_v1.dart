@@ -1,7 +1,9 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/payload.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexTokenMetaDataDelegateLockedTransferV1Layout
     extends MetaplexTokenMetaDataDelegateProgramLayout {
@@ -31,16 +33,16 @@ class MetaplexTokenMetaDataDelegateLockedTransferV1Layout
         amount: decode["amount"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("discriminator"),
-    LayoutUtils.u64("amount"),
-    LayoutUtils.publicKey("lockedAddress"),
-    LayoutUtils.optional(Payload.staticLayout, property: "authorizationData"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "discriminator"),
+    LayoutConst.u64(property: "amount"),
+    SolanaLayoutUtils.publicKey("lockedAddress"),
+    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexHydraDistributeNftLayout extends MetaplexHydraProgramLayout {
   final bool distributeForMint;
@@ -15,13 +15,13 @@ class MetaplexHydraDistributeNftLayout extends MetaplexHydraProgramLayout {
         distributeForMint: decode["distributeForMint"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.boolean(property: "distributeForMint"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.boolean(property: "distributeForMint"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

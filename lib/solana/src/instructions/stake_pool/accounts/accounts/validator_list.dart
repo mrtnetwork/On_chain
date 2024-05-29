@@ -1,11 +1,12 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8('accountType'),
-    LayoutUtils.u32('maxValidators'),
-    LayoutUtils.vec(ValidatorStakeInfo.staticLayout, property: 'validators'),
+  static StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'accountType'),
+    LayoutConst.u32(property: 'maxValidators'),
+    LayoutConst.vec(ValidatorStakeInfo.staticLayout, property: 'validators'),
   ]);
 }
 
@@ -24,7 +25,7 @@ class StakeValidatorListAccount extends LayoutSerializable {
       required this.maxValidators});
 
   factory StakeValidatorListAccount.fromBuffer(List<int> data) {
-    final decode = _Utils.layout.decode(data);
+    final decode = _Utils.layout.deserialize(data).value;
     return StakeValidatorListAccount(
         accountType: StakePoolAccountType.fromValue(decode["accountType"]),
         validators: (decode["validators"] as List)
@@ -34,7 +35,7 @@ class StakeValidatorListAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

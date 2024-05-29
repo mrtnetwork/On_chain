@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolPayment extends LayoutSerializable {
   final BigInt lamports;
@@ -11,12 +13,13 @@ class SolPayment extends LayoutSerializable {
         lamports: json["lamports"], destination: json["destination"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct(
-      [LayoutUtils.u64("lamports"), LayoutUtils.publicKey("destination")],
-      "solPayment");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "lamports"),
+    SolanaLayoutUtils.publicKey("destination")
+  ], property: "solPayment");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"lamports": lamports, "destination": destination};

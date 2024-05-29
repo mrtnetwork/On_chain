@@ -1,12 +1,13 @@
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static Structure layout = LayoutUtils.struct([
-    LayoutUtils.u64('instructionDiscriminator'),
-    LayoutUtils.u32("length"),
+  static StructLayout layout = LayoutConst.struct([
+    LayoutConst.u64(property: 'instructionDiscriminator'),
+    LayoutConst.u32(property: "length"),
     ExtraAccountMetaList.staticLayout,
-  ], "extraAccountMetaList");
+  ], property: "extraAccountMetaList");
 }
 
 class ExtraAccountMetaAccountData extends LayoutSerializable {
@@ -29,7 +30,7 @@ class ExtraAccountMetaAccountData extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -15,7 +15,7 @@ void _initializeAccount() {
   test("initializeAccount", () {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = VoteProgramInitializeAccountLayout(
         authorizedVoter: account1.address,
         authorizedWithdrawer: account1.address,
@@ -51,7 +51,7 @@ void _authorize() {
   test("authorize", () {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = VoteProgramAuthorizeLayout(
         newAuthorized: account1.address, voteAuthorizationType: 1);
     final program = VoteProgram.authorize(
@@ -85,7 +85,7 @@ void _authorizeWithSeed() {
 
     final account1 = QuickWalletForTest(index: 405);
 
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = VoteProgramAuthorizeWithSeedLayout(
         newAuthorized: account1.address,
         voteAuthorizationType: 1,
@@ -120,7 +120,7 @@ void _withdraw() {
   test("withdraw", () {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = VoteProgramWithdrawLayout(lamports: BigInt.from(25000));
     final program = VoteProgram.withdraw(
         authorizedWithdrawerPubkey: account1.address,

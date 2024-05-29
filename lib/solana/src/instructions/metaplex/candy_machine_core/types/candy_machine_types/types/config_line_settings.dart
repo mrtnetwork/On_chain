@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class ConfigLineSettings extends LayoutSerializable {
   final String prefixName;
@@ -22,16 +23,16 @@ class ConfigLineSettings extends LayoutSerializable {
         isSequential: json["isSequential"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.string("prefixName"),
-    LayoutUtils.u32("nameLength"),
-    LayoutUtils.string("prefixUri"),
-    LayoutUtils.u32("uriLength"),
-    LayoutUtils.boolean(property: "isSequential"),
-  ], "configLineSettings");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.string(property: "prefixName"),
+    LayoutConst.u32(property: "nameLength"),
+    LayoutConst.string(property: "prefixUri"),
+    LayoutConst.u32(property: "uriLength"),
+    LayoutConst.boolean(property: "isSequential"),
+  ], property: "configLineSettings");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

@@ -142,42 +142,42 @@ class TransactionBody with ADASerialization {
       0: CborListValue.fixedLength(inputs.map((e) => e.toCbor()).toList()),
       1: CborListValue.fixedLength(outputs.map((e) => e.toCbor()).toList()),
       2: CborUnsignedValue.u64(fee),
-      if (ttl != null) ...{CborIntValue(3): CborUnsignedValue.u64(ttl!)},
+      if (ttl != null) ...{const CborIntValue(3): CborUnsignedValue.u64(ttl!)},
       if (certs?.isNotEmpty ?? false) ...{
-        CborIntValue(4):
+        const CborIntValue(4):
             CborListValue.fixedLength(certs!.map((e) => e.toCbor()).toList())
       },
       if (withdrawals != null) ...{
-        CborIntValue(5): withdrawals!.toCbor(),
+        const CborIntValue(5): withdrawals!.toCbor(),
       },
-      if (update != null) ...{CborIntValue(6): update!.toCbor()},
+      if (update != null) ...{const CborIntValue(6): update!.toCbor()},
       if (auxiliaryDataHash != null) ...{7: auxiliaryDataHash!.toCbor()},
       if (validityStartInterval != null) ...{
-        CborIntValue(8): CborUnsignedValue.u64(validityStartInterval!)
+        const CborIntValue(8): CborUnsignedValue.u64(validityStartInterval!)
       },
-      if (mint != null) ...{CborIntValue(9): mint!.toCbor()},
+      if (mint != null) ...{const CborIntValue(9): mint!.toCbor()},
       if (scriptDataHash != null) ...{
-        CborIntValue(11): scriptDataHash!.toCbor()
+        const CborIntValue(11): scriptDataHash!.toCbor()
       },
       if (collateral?.isNotEmpty ?? false) ...{
-        CborIntValue(13): CborListValue.fixedLength(
+        const CborIntValue(13): CborListValue.fixedLength(
             collateral!.map((e) => e.toCbor()).toList())
       },
       if (requiredSigners?.isNotEmpty ?? false) ...{
-        CborIntValue(14): CborListValue.fixedLength(
+        const CborIntValue(14): CborListValue.fixedLength(
             requiredSigners!.map((e) => e.toCbor()).toList())
       },
       if (network != null) ...{
-        CborIntValue(15): CborIntValue(network!.value),
+        const CborIntValue(15): CborIntValue(network!.value),
       },
       if (collateralReturn != null) ...{
-        CborIntValue(16): collateralReturn!.toCbor()
+        const CborIntValue(16): collateralReturn!.toCbor()
       },
       if (totalCollateral != null) ...{
-        CborIntValue(17): CborUnsignedValue.u64(totalCollateral!),
+        const CborIntValue(17): CborUnsignedValue.u64(totalCollateral!),
       },
       if (referenceInputs?.isNotEmpty ?? false) ...{
-        CborIntValue(18): CborListValue.fixedLength(
+        const CborIntValue(18): CborListValue.fixedLength(
             referenceInputs!.map((e) => e.toCbor()).toList())
       }
     });

@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class ConfigLine extends LayoutSerializable {
   final String name;
@@ -8,11 +9,13 @@ class ConfigLine extends LayoutSerializable {
     return ConfigLine(name: json["name"], uri: json["uri"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct(
-      [LayoutUtils.string("name"), LayoutUtils.string("uri")], "configLine");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "uri")
+  ], property: "configLine");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"name": name, "uri": uri};

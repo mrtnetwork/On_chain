@@ -33,7 +33,7 @@ void _create() {
 
 void _createWithSeed() {
   test("createWithSeed", () {
-    final String seed = "account1";
+    const String seed = "account1";
     // final blockHash = await owner.recentBlockhash();
     final layout = SystemCreateWithSeedLayout(
         lamports: BigInt.from(250000000),
@@ -61,7 +61,7 @@ void _transfer() {
 
 void _transferWithSeed() {
   test("transferWithSeed", () {
-    final String seed = "account1";
+    const String seed = "account1";
     final layout = SystemTransferWithSeedLayout(
         lamports: SolanaUtils.toLamports("0.001"),
         seed: seed,
@@ -75,7 +75,7 @@ void _transferWithSeed() {
 
 void _assign() {
   test("assign", () {
-    final layout = SystemAssignLayout(programId: SystemProgramConst.programId);
+    const layout = SystemAssignLayout(programId: SystemProgramConst.programId);
     expect(layout.toHex(),
         "010000000000000000000000000000000000000000000000000000000000000000000000");
     final decode = SystemAssignLayout.fromBuffer(layout.toBytes());
@@ -109,7 +109,7 @@ void _nonceInitialize() {
 
 void _nonceAdvance() {
   test("nonceAdvance", () {
-    final layout = SystemAdvanceNonceLayout();
+    const layout = SystemAdvanceNonceLayout();
     expect(layout.toHex(), "04000000");
     final decode = SystemAdvanceNonceLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());

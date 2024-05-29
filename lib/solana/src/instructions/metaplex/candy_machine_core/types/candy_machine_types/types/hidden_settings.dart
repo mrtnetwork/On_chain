@@ -1,5 +1,6 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class CandyMachineHiddenSettings extends LayoutSerializable {
   final String name;
@@ -14,14 +15,14 @@ class CandyMachineHiddenSettings extends LayoutSerializable {
         name: json["name"], uri: json["uri"], hash: json["hash"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.string("name"),
-    LayoutUtils.string("uri"),
-    LayoutUtils.blob(32, property: "hash")
-  ], "hiddenSettings");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "uri"),
+    LayoutConst.blob(32, property: "hash")
+  ], property: "hiddenSettings");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

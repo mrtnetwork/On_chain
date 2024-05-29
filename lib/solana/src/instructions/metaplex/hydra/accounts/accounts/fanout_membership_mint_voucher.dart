@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [
@@ -13,12 +15,12 @@ class _Utils {
     181
   ];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("fanout"),
-    LayoutUtils.publicKey("fanoutMint"),
-    LayoutUtils.u64("lastInflow"),
-    LayoutUtils.u8("bumpSeed")
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("fanout"),
+    SolanaLayoutUtils.publicKey("fanoutMint"),
+    LayoutConst.u64(property: "lastInflow"),
+    LayoutConst.u8(property: "bumpSeed")
   ]);
 }
 
@@ -46,7 +48,7 @@ class FanoutMembershipMintVoucher extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

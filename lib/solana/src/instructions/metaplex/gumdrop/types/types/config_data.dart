@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/fixed_price_sale.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class GumdropConfigData extends LayoutSerializable {
   final String uuid;
@@ -31,18 +32,18 @@ class GumdropConfigData extends LayoutSerializable {
         retainAuthority: json["retainAuthority"],
         maxNumberOfLines: json["maxNumberOfLines"]);
   }
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.string("uuid"),
-    LayoutUtils.string("symbol"),
-    LayoutUtils.u16("sellerFeeBasisPoints"),
-    LayoutUtils.vec(Creator.creatorLayout, property: "creators"),
-    LayoutUtils.u64("maxSupply"),
-    LayoutUtils.boolean(property: "isMutable"),
-    LayoutUtils.boolean(property: "retainAuthority"),
-    LayoutUtils.u32("maxNumberOfLines"),
-  ], "configData");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.string(property: "uuid"),
+    LayoutConst.string(property: "symbol"),
+    LayoutConst.u16(property: "sellerFeeBasisPoints"),
+    LayoutConst.vec(Creator.creatorLayout, property: "creators"),
+    LayoutConst.u64(property: "maxSupply"),
+    LayoutConst.boolean(property: "isMutable"),
+    LayoutConst.boolean(property: "retainAuthority"),
+    LayoutConst.u32(property: "maxNumberOfLines"),
+  ], property: "configData");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,15 +1,16 @@
 // Manages the layout structure for syncing native tokens in SPL.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// sync Native layout.
 class SPLTokenSyncNativeLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenSyncNativeLayout instance.
   SPLTokenSyncNativeLayout();
 
-  /// Structure structure for syncing native tokens in SPL.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  /// StructLayout structure for syncing native tokens in SPL.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   /// Constructs an SPLTokenSyncNativeLayout instance from buffer.
   factory SPLTokenSyncNativeLayout.fromBuffer(List<int> bytes) {
@@ -22,7 +23,7 @@ class SPLTokenSyncNativeLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

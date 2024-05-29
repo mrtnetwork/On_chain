@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Stake account authority info
 class StakeAuthorized extends LayoutSerializable {
@@ -14,12 +16,13 @@ class StakeAuthorized extends LayoutSerializable {
         staker: json["staker"], withdrawer: json["withdrawer"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct(
-      [LayoutUtils.publicKey("staker"), LayoutUtils.publicKey("withdrawer")],
-      "authorized");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey("staker"),
+    SolanaLayoutUtils.publicKey("withdrawer")
+  ], property: "authorized");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake/types/types/delegation.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeStake extends LayoutSerializable {
   final StakeDelegation delegation;
@@ -12,13 +13,13 @@ class StakeStake extends LayoutSerializable {
         creditsObserved: json["creditsObserved"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
+  static final StructLayout staticLayout = LayoutConst.struct([
     StakeDelegation.staticLayout,
-    LayoutUtils.u64("creditsObserved"),
-  ], "stake");
+    LayoutConst.u64(property: "creditsObserved"),
+  ], property: "stake");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

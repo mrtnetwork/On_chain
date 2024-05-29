@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
-
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 import 'listing_config_version.dart';
 
 class Bid extends LayoutSerializable {
@@ -13,13 +14,13 @@ class Bid extends LayoutSerializable {
         amount: json["amount"], buyerTradeState: json["buyerTradeState"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8("version"),
-    LayoutUtils.u64("amount"),
-    LayoutUtils.publicKey("buyerTradeState")
-  ], "highestBid");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "version"),
+    LayoutConst.u64(property: "amount"),
+    SolanaLayoutUtils.publicKey("buyerTradeState")
+  ], property: "highestBid");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

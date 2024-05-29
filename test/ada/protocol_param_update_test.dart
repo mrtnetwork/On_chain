@@ -21,7 +21,7 @@ void main() {
           numerator: BigInt.from(10), denominator: BigInt.from(11)),
       d: null,
       extraEntropy: null,
-      protocolVersion: ProtocolVersion(major: 12, minor: 13),
+      protocolVersion: const ProtocolVersion(major: 12, minor: 13),
       minPoolCost: BigInt.from(14),
       adaPerUtxoByte: BigInt.from(15),
       costModel: Costmdls(

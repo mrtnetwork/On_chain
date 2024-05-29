@@ -1,10 +1,11 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static const List<int> discriminator = [153, 222, 52, 216, 192, 152, 175, 80];
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.boolean(property: "used"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    LayoutConst.boolean(property: "used"),
   ]);
 }
 
@@ -22,7 +23,7 @@ class PayoutTicket extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

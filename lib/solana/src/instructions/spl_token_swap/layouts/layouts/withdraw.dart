@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Withdraw both types of tokens from the pool layout.
 class SPLTokenSwapWithdrawLayout extends SPLTokenSwapProgramLayout {
@@ -36,14 +37,14 @@ class SPLTokenSwapWithdrawLayout extends SPLTokenSwapProgramLayout {
   }
 
   /// The layout structure for withdrawing tokens.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8('instruction'),
-    LayoutUtils.u64('poolTokenAmount'),
-    LayoutUtils.u64('minimumTokenA'),
-    LayoutUtils.u64('minimumTokenB'),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'poolTokenAmount'),
+    LayoutConst.u64(property: 'minimumTokenA'),
+    LayoutConst.u64(property: 'minimumTokenB'),
   ]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

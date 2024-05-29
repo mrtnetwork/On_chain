@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexCandyMachineSetCandyMachineAuthorityLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -19,13 +20,13 @@ class MetaplexCandyMachineSetCandyMachineAuthorityLayout
     return MetaplexCandyMachineSetCandyMachineAuthorityLayout(
         newAuthority: decode["newAuthority"]);
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.publicKey("newAuthority")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    SolanaLayoutUtils.publicKey("newAuthority")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction => MetaplexCandyMachineProgramInstruction

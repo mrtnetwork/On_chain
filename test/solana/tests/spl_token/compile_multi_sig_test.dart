@@ -15,7 +15,7 @@ void _v0() {
     final account1 = QuickWalletForTest(index: 405);
     final account3 = QuickWalletForTest(index: 407);
     final account5 = QuickWalletForTest(index: 408);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = SPLTokenProgram.approveChecked(
         account: owner.address,
         delegate: account3.address,
@@ -57,7 +57,7 @@ void _legacy() {
     final account1 = QuickWalletForTest(index: 405);
     final account3 = QuickWalletForTest(index: 407);
     final account5 = QuickWalletForTest(index: 408);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = SPLTokenProgram.approveChecked(
         account: owner.address,
         delegate: account3.address,

@@ -2,7 +2,9 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/payload.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/token_standard.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout
     extends MetaplexTokenMetaDataUpdateProgramLayout {
@@ -39,20 +41,20 @@ class MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout
         newUpdateAuthority: decode["newUpdateAuthority"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("discriminator"),
-    LayoutUtils.optionPubkey(property: "newUpdateAuthority"),
-    LayoutUtils.optional(LayoutUtils.boolean(),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "discriminator"),
+    SolanaLayoutUtils.optionPubkey(property: "newUpdateAuthority"),
+    LayoutConst.optional(LayoutConst.boolean(),
         property: "primarySaleHappened"),
-    LayoutUtils.optional(LayoutUtils.boolean(), property: "isMutable"),
-    LayoutUtils.optional(MetaDataTokenStandard.staticLayout,
+    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
+    LayoutConst.optional(MetaDataTokenStandard.staticLayout,
         property: "tokenStandard"),
-    LayoutUtils.optional(Payload.staticLayout, property: "authorizationData"),
+    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => MetaplexTokenMetaDataProgramInstruction

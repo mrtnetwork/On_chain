@@ -1,24 +1,18 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
 
 /// Abstract class for objects that can be serialized using a specific layout.
 abstract class LayoutSerializable {
   const LayoutSerializable();
 
   /// The layout representing the structure of the object for serialization.
-  abstract final Structure layout;
+  abstract final StructLayout layout;
 
   /// Serializes the object to a map.
   Map<String, dynamic> serialize();
 
   /// Converts the object to bytes using Borsh serialization.
   List<int> toBytes() {
-    final LayoutByteWriter data = LayoutByteWriter(layout.span);
-    final size = layout.encode(serialize(), data);
-    if (layout.span < 0) {
-      return data.sublist(0, size);
-    }
-    return data.toBytes();
+    return layout.serialize(serialize());
   }
 
   /// Converts the object to a hexadecimal string.
@@ -33,10 +27,10 @@ abstract class LayoutSerializable {
   /// - [validator] (optional): A map used for validation.
   static Map<String, dynamic> decode(
       {required List<int> bytes,
-      required Structure layout,
+      required StructLayout layout,
       Map<String, dynamic> validator = const {}}) {
     try {
-      final decode = layout.decode(bytes);
+      final decode = layout.deserialize(bytes).value;
 
       for (final i in validator.entries) {
         if (i.value is List) {
@@ -53,7 +47,7 @@ abstract class LayoutSerializable {
       }
       return decode;
     } catch (e) {
-      throw MessageException("cannot validate borsh bytes");
+      throw const MessageException("cannot validate borsh bytes");
     }
   }
 }

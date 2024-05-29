@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexGumdropCloseDistributorLayout
     extends MetaplexGumdropProgramLayout {
@@ -18,15 +18,15 @@ class MetaplexGumdropCloseDistributorLayout
         walletBump: decode["walletBump"], bump: decode["bump"]);
   }
 
-  /// Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("bump"),
-    LayoutUtils.u8("walletBump"),
+  /// StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "bump"),
+    LayoutConst.u8(property: "walletBump"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

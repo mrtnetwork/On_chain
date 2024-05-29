@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-final _owner =
+const _owner =
     SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
 void main() {
   group("metaData", () {
@@ -19,7 +19,7 @@ void main() {
 
 void _createMetadataAccountV3() {
   test("createMetadataAccountV3", () {
-    final layout = MetaplexTokenMetaDataCreateMetadataAccountV3Layout(
+    const layout = MetaplexTokenMetaDataCreateMetadataAccountV3Layout(
         isMutable: true,
         metaDataV2: MetaDataV2(
           name: "mrtnetwork",
@@ -37,7 +37,7 @@ void _createMetadataAccountV3() {
   test("createMetadataAccountV3_2", () {
     final layout = MetaplexTokenMetaDataCreateMetadataAccountV3Layout(
         isMutable: true,
-        metaDataV2: MetaDataV2(
+        metaDataV2: const MetaDataV2(
           name: "mrtnetwork",
           symbol: "mrt",
           uri: "https://github.com/mrtnetwork",
@@ -54,7 +54,7 @@ void _createMetadataAccountV3() {
   test("createMetadataAccountV3_3", () {
     final layout = MetaplexTokenMetaDataCreateMetadataAccountV3Layout(
         isMutable: true,
-        metaDataV2: MetaDataV2(
+        metaDataV2: const MetaDataV2(
             name: "mrtnetwork",
             symbol: "mrt",
             uri: "https://github.com/mrtnetwork",
@@ -75,7 +75,7 @@ void _createMetadataAccountV3() {
             symbol: "mrt",
             uri: "https://github.com/mrtnetwork",
             sellerFeeBasisPoints: 1,
-            collection: Collection(verified: false, key: _owner),
+            collection: const Collection(verified: false, key: _owner),
             uses: Uses(
                 useMethod: UseMethod.burn,
                 remaining: BigInt.two,
@@ -96,10 +96,10 @@ void _createMetadataAccountV3() {
             symbol: "mrt",
             uri: "https://github.com/mrtnetwork",
             sellerFeeBasisPoints: 1,
-            collection: Collection(verified: false, key: _owner),
+            collection: const Collection(verified: false, key: _owner),
             creators: [
-              Creator(address: _owner, verified: true, share: 0),
-              Creator(address: _owner, verified: false, share: 2)
+              const Creator(address: _owner, verified: true, share: 0),
+              const Creator(address: _owner, verified: false, share: 2)
             ],
             uses: Uses(
                 useMethod: UseMethod.burn,
@@ -123,9 +123,9 @@ void _createV1() {
         uri: "https://github.com/mrtnetwork",
         primarySaleHappened: false,
         isMutable: true,
-        creators: [Creator(address: _owner, verified: true, share: 0)],
+        creators: [const Creator(address: _owner, verified: true, share: 0)],
         tokenStandard: MetaDataTokenStandard.nonFungibleEdition,
-        collection: Collection(
+        collection: const Collection(
           verified: false,
           key: _owner,
         ),
@@ -170,7 +170,7 @@ void _createV1() {
 
 void _approve() {
   test("apporove", () {
-    final layout = MetaplexTokenMetaDataApproveCollectionAuthorityLayout();
+    const layout = MetaplexTokenMetaDataApproveCollectionAuthorityLayout();
     expect(layout.toHex(), "17");
     final decode =
         MetaplexTokenMetaDataApproveCollectionAuthorityLayout.fromBuffer(
@@ -214,7 +214,7 @@ void _burnV1() {
 
 void _delegate() {
   test("delegate", () {
-    final layout = MetaplexTokenMetaDataDelegateCollectionV1Layout();
+    const layout = MetaplexTokenMetaDataDelegateCollectionV1Layout();
     expect(layout.toHex(), "2c0000");
     final decode = MetaplexTokenMetaDataDelegateCollectionV1Layout.fromBuffer(
         layout.toBytes());

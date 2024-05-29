@@ -1,7 +1,9 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
     extends MetaplexTokenMetaDataUpdateProgramLayout {
@@ -56,26 +58,26 @@ class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
             : MetaDataTokenStandard.fromJson(decode["tokenStandard"]));
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("discriminator"),
-    LayoutUtils.optionPubkey(property: "newUpdateAuthority"),
-    LayoutUtils.optional(MetaDataData.staticLayout, property: "data"),
-    LayoutUtils.optional(LayoutUtils.boolean(),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "discriminator"),
+    SolanaLayoutUtils.optionPubkey(property: "newUpdateAuthority"),
+    LayoutConst.optional(MetaDataData.staticLayout, property: "data"),
+    LayoutConst.optional(LayoutConst.boolean(),
         property: "primarySaleHappened"),
-    LayoutUtils.optional(LayoutUtils.boolean(), property: "isMutable"),
-    LayoutUtils.wrap(CollectionToggle.staticLayout, property: "collection"),
-    LayoutUtils.wrap(CollectionDetailsToggle.staticLayout,
+    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
+    LayoutConst.wrap(CollectionToggle.staticLayout, property: "collection"),
+    LayoutConst.wrap(CollectionDetailsToggle.staticLayout,
         property: "collectionDetails"),
-    LayoutUtils.wrap(UsesToggle.staticLayout, property: "uses"),
-    LayoutUtils.wrap(RuleSetToggle.staticLayout, property: "ruleSet"),
-    LayoutUtils.optional(MetaDataTokenStandard.staticLayout,
+    LayoutConst.wrap(UsesToggle.staticLayout, property: "uses"),
+    LayoutConst.wrap(RuleSetToggle.staticLayout, property: "ruleSet"),
+    LayoutConst.optional(MetaDataTokenStandard.staticLayout,
         property: "tokenStandard"),
-    LayoutUtils.optional(Payload.staticLayout, property: "authorizationData"),
+    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => MetaplexTokenMetaDataProgramInstruction

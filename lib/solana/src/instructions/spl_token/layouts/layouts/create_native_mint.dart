@@ -1,15 +1,16 @@
 // Manages the layout structure for creating a native SPL token mint.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Creates the native mint layout.
 class SPLTokenCreateNativeMintLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenCreateNativeMintLayout instance.
   SPLTokenCreateNativeMintLayout();
 
-  /// Structure structure for SPLTokenCreateNativeMintLayout.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  /// StructLayout structure for SPLTokenCreateNativeMintLayout.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   /// Constructs an SPLTokenCreateNativeMintLayout instance from buffer.
   factory SPLTokenCreateNativeMintLayout.fromBuffer(List<int> bytes) {
@@ -22,7 +23,7 @@ class SPLTokenCreateNativeMintLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

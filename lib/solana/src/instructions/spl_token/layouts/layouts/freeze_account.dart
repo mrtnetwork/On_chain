@@ -1,15 +1,16 @@
 // Manages the layout structure for freezing an SPL token account.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Freeze an Initialized account.
 class SPLTokenFreezAccountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenFreezAccountLayout instance.
   SPLTokenFreezAccountLayout();
 
-  /// Structure structure for SPLTokenFreezAccountLayout.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  /// StructLayout structure for SPLTokenFreezAccountLayout.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   /// Constructs an SPLTokenFreezAccountLayout instance from buffer.
   factory SPLTokenFreezAccountLayout.fromBuffer(List<int> bytes) {
@@ -22,7 +23,7 @@ class SPLTokenFreezAccountLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

@@ -120,18 +120,18 @@ class AuxiliaryData with ADASerialization {
         []);
     return CborTagValue(
         CborMapValue.fixedLength({
-          if (metadata != null) ...{CborIntValue(0): metadata!.toCbor()},
+          if (metadata != null) ...{const CborIntValue(0): metadata!.toCbor()},
           if (nativeScripts?.isNotEmpty ?? false) ...{
-            CborIntValue(1): CborListValue.fixedLength(
+            const CborIntValue(1): CborListValue.fixedLength(
                 nativeScripts!.map((e) => e.toCbor()).toList())
           },
           if (plutusScripts != null) ...{
-            CborIntValue(2): CborListValue.fixedLength(plutusScripts!
+            const CborIntValue(2): CborListValue.fixedLength(plutusScripts!
                 .where((element) => element.language == Language.plutusV1)
                 .map((e) => e.toCbor())
                 .toList())
           },
-          if (plutusV2.value.isNotEmpty) ...{CborIntValue(3): plutusV2},
+          if (plutusV2.value.isNotEmpty) ...{const CborIntValue(3): plutusV2},
         }),
         TransactionMetadataUtils.auxiliaryDataCborTag);
   }

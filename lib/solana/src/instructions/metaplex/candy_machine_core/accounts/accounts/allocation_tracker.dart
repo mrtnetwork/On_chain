@@ -1,8 +1,9 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static final Structure layout =
-      LayoutUtils.struct([LayoutUtils.u32("count")]);
+  static final StructLayout layout =
+      LayoutConst.struct([LayoutConst.u32(property: "count")]);
 }
 
 class AllocationTrackerAccount extends LayoutSerializable {
@@ -16,7 +17,7 @@ class AllocationTrackerAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [
@@ -13,17 +15,17 @@ class _Utils {
     134
   ];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("bookkeeper"),
-    LayoutUtils.publicKey("buyer"),
-    LayoutUtils.publicKey("seller"),
-    LayoutUtils.publicKey("auctionHouse"),
-    LayoutUtils.publicKey("metadata"),
-    LayoutUtils.u64("tokenSize"),
-    LayoutUtils.u64("price"),
-    LayoutUtils.u8("bump"),
-    LayoutUtils.i64("createdAt"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("bookkeeper"),
+    SolanaLayoutUtils.publicKey("buyer"),
+    SolanaLayoutUtils.publicKey("seller"),
+    SolanaLayoutUtils.publicKey("auctionHouse"),
+    SolanaLayoutUtils.publicKey("metadata"),
+    LayoutConst.u64(property: "tokenSize"),
+    LayoutConst.u64(property: "price"),
+    LayoutConst.u8(property: "bump"),
+    LayoutConst.i64(property: "createdAt"),
   ]);
 }
 
@@ -67,7 +69,7 @@ class PurchaseReceipt extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

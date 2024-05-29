@@ -1,7 +1,9 @@
 // Manages the layout structure for initializing an SPL token mint.
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 ///  Initializes a new mint layout.
 class SPLTokenInitializeMintLayout extends SPLTokenProgramLayout {
@@ -21,12 +23,12 @@ class SPLTokenInitializeMintLayout extends SPLTokenProgramLayout {
     this.freezeAuthority,
   });
 
-  /// Structure structure for SPLTokenInitializeMintLayout.
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("decimals"),
-    LayoutUtils.publicKey("mintAuthority"),
-    LayoutUtils.optionPubkey(property: "freezeAuthority", keepSize: true)
+  /// StructLayout structure for SPLTokenInitializeMintLayout.
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "decimals"),
+    SolanaLayoutUtils.publicKey("mintAuthority"),
+    SolanaLayoutUtils.optionPubkey(property: "freezeAuthority", keepSize: true)
   ]);
 
   /// Constructs an SPLTokenInitializeMintLayout instance from buffer.
@@ -44,7 +46,7 @@ class SPLTokenInitializeMintLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   /// Instruction associated with the layout.
   @override

@@ -55,14 +55,14 @@ void _systemCreateAccount() {
 void _systemCreateAccountWithSeed() {
   test("createWithSeed", () {
     final owner = QuickWalletForTest(index: 255);
-    final String seed = "account1";
+    const String seed = "account1";
     final layout = SystemCreateWithSeedLayout(
         lamports: BigInt.from(250000000),
         programId: SystemProgramConst.programId,
         space: BigInt.from(200),
         seed: seed,
         base: owner.address);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final create = SystemProgram.createAccountWithSeed(
         from: owner.address,
         baseAccount: owner.address,
@@ -101,7 +101,7 @@ void _transfer() {
     final layout =
         SystemTransferLayout(lamports: SolanaUtils.toLamports("0.001"));
 
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final create = SystemProgram.transfer(
         from: owner.address, layout: layout, to: receiver.address);
 
@@ -131,9 +131,9 @@ void _transferWithSeed() {
   test("transfer with seed", () {
     final owner = QuickWalletForTest(index: 255);
     final receiver = QuickWalletForTest(index: 257);
-    final String seed = "account1";
+    const String seed = "account1";
 
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = SystemTransferWithSeedLayout(
         lamports: SolanaUtils.toLamports("0.001"),
         seed: seed,
@@ -173,8 +173,8 @@ void _assign() {
   test("assign", () {
     final owner = QuickWalletForTest(index: 255);
 
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
-    final layout = SystemAssignLayout(programId: SystemProgramConst.programId);
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const layout = SystemAssignLayout(programId: SystemProgramConst.programId);
 
     final create = SystemProgram.assign(layout: layout, account: owner.address);
 
@@ -204,8 +204,8 @@ void _assign() {
 void _assingWithSeed() {
   test("assignWithSeed", () {
     final owner = QuickWalletForTest(index: 255);
-    final String seed = "account1";
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String seed = "account1";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = SystemAssignWithSeedLayout(
         programId: SystemProgramConst.programId,
         base: owner.address,
@@ -253,7 +253,7 @@ void _nonceInitialize() {
             lamports: SolanaUtils.toLamports("0.1"),
             space: BigInt.from(80),
             programId: SystemProgramConst.programId));
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final create = SystemProgram.nonceInitialize(
         layout: layout, noncePubKey: nonceAccount.address);
 
@@ -282,7 +282,7 @@ void _nonceAdvance() {
     final owner = QuickWalletForTest(index: 255);
     final nonceAccount = QuickWalletForTest(index: 300);
 
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
 
     final program = SystemProgram.nonceAdvance(
         authorizedPubkey: owner.address, noncePubKey: nonceAccount.address);
@@ -313,7 +313,7 @@ void _nonceWithdraw() {
     final nonceAccount = QuickWalletForTest(index: 300);
     final receiver = QuickWalletForTest(index: 301);
 
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = SystemWithdrawNonceLayout(lamports: BigInt.from(10000000));
 
     final program = SystemProgram.nonceWithdraw(
@@ -346,7 +346,7 @@ void _nonceAuthorize() {
   test("nonceAuthorize", () {
     final owner = QuickWalletForTest(index: 255);
     final nonceAccount = QuickWalletForTest(index: 300);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = SystemAuthorizeNonceAccountLayout(authorized: owner.address);
     final program = SystemProgram.nonceAuthorize(
         authorizedPubkey: owner.address,
@@ -376,7 +376,7 @@ void _nonceAuthorize() {
 void _allocate() {
   test("allocate", () {
     final owner = QuickWalletForTest(index: 255);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = SystemAllocateLayout(space: BigInt.from(350));
     final program =
         SystemProgram.allocate(accountPubkey: owner.address, layout: layout);
@@ -404,7 +404,7 @@ void _allocate() {
 void _allocateWithcSeed() {
   test("allocateWithcSeed", () {
     final owner = QuickWalletForTest(index: 255);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = SystemAllocateWithSeedLayout(
         space: BigInt.from(350),
         base: owner.address,

@@ -32,7 +32,7 @@ void _metadataFromJson() {
         json: decode, jsonSchema: MetadataJsonSchema.noConversions);
     expect(
         metadata.toJsonSchema(
-            config: MetadataSchemaConfig(
+            config: const MetadataSchemaConfig(
                 jsonSchema: MetadataJsonSchema.noConversions)),
         decode);
     expect(metadata.serializeHex(),
@@ -51,7 +51,7 @@ void _basicConvertion() {
         json: decode, jsonSchema: MetadataJsonSchema.basicConversions);
     expect(
         metadata.toJsonSchema(
-            config: MetadataSchemaConfig(
+            config: const MetadataSchemaConfig(
                 jsonSchema: MetadataJsonSchema.basicConversions)),
         decode);
     expect(metadata.serializeHex(),
@@ -97,7 +97,7 @@ void _detailedSchema() {
     expect(
         decode,
         metadata.toJsonSchema(
-            config: MetadataSchemaConfig(
+            config: const MetadataSchemaConfig(
                 jsonSchema: MetadataJsonSchema.detailedSchema)));
 
     expect(metadata.serializeHex(),
@@ -130,7 +130,7 @@ void _detailedSchema() {
     expect(
         decode,
         metadata.toJsonSchema(
-            config: MetadataSchemaConfig(
+            config: const MetadataSchemaConfig(
                 jsonSchema: MetadataJsonSchema.detailedSchema)));
 
     expect(metadata.serializeHex(),
@@ -148,7 +148,7 @@ void _detailedSchema() {
 void _auxiliaryData() {
   test("AuxiliaryData", () {
     final gmd = GeneralTransactionMetadata(metadata: {
-      BigInt.from(100): TransactionMetadataText(value: "string md")
+      BigInt.from(100): const TransactionMetadataText(value: "string md")
     });
     AuxiliaryData aux = AuxiliaryData();
     expect(aux.serializeHex(), "d90103a0");

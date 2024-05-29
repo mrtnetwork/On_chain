@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Deposit some stake into the pool layout
 class StakePoolDepositStakeLayout extends StakePoolProgramLayout {
@@ -10,13 +11,13 @@ class StakePoolDepositStakeLayout extends StakePoolProgramLayout {
         layout: _layout,
         bytes: bytes,
         instruction: StakePoolProgramInstruction.depositStake.insturction);
-    return StakePoolDepositStakeLayout();
+    return const StakePoolDepositStakeLayout();
   }
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
   @override
   int get instruction => StakePoolProgramInstruction.depositStake.insturction;
 

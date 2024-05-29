@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class PriorVoters extends LayoutSerializable {
   final List<PriorVoter> voters;
@@ -16,13 +17,13 @@ class PriorVoters extends LayoutSerializable {
             .toList());
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.array(PriorVoter.staticLayout, 32, property: 'voters'),
-    LayoutUtils.u64("id"),
-    LayoutUtils.boolean(property: "isEmpty"),
-  ], "priorVoters");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.array(PriorVoter.staticLayout, 32, property: 'voters'),
+    LayoutConst.u64(property: "id"),
+    LayoutConst.boolean(property: "isEmpty"),
+  ], property: "priorVoters");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,21 +1,23 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaTokenAccountUtils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.publicKey('mint'),
-    LayoutUtils.publicKey('owner'),
-    LayoutUtils.u64('amount'),
-    LayoutUtils.boolean32('delegateOption'),
-    LayoutUtils.publicKey('delegate'),
-    LayoutUtils.u8('state'),
-    LayoutUtils.boolean32('isNativeOption'),
-    LayoutUtils.u64('rentExemptReserve'),
-    LayoutUtils.u64('delegatedAmount'),
-    LayoutUtils.boolean32('closeAuthorityOption'),
-    LayoutUtils.publicKey('closeAuthority'),
+  static final StructLayout layout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('owner'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.boolean32(property: 'delegateOption'),
+    SolanaLayoutUtils.publicKey('delegate'),
+    LayoutConst.u8(property: 'state'),
+    LayoutConst.boolean32(property: 'isNativeOption'),
+    LayoutConst.u64(property: 'rentExemptReserve'),
+    LayoutConst.u64(property: 'delegatedAmount'),
+    LayoutConst.boolean32(property: 'closeAuthorityOption'),
+    SolanaLayoutUtils.publicKey('closeAuthority'),
   ]);
 
   static int get accountSize => layout.span;
@@ -102,7 +104,7 @@ class SolanaTokenAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => SolanaTokenAccountUtils.layout;
+  StructLayout get layout => SolanaTokenAccountUtils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

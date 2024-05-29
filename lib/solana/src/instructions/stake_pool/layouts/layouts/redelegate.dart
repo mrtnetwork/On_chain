@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Redelegate active stake on a validator layout.
 class StakePoolReDelegateLayout extends StakePoolProgramLayout {
@@ -36,16 +37,16 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
 
   @override
   int get instruction => StakePoolProgramInstruction.redelegate.insturction;
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.ns64("lamports"),
-    LayoutUtils.ns64("sourceTransientStakeSeed"),
-    LayoutUtils.ns64("ephemeralStakeSeed"),
-    LayoutUtils.ns64("destinationTransientStakeSeed")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.ns64(property: "lamports"),
+    LayoutConst.ns64(property: "sourceTransientStakeSeed"),
+    LayoutConst.ns64(property: "ephemeralStakeSeed"),
+    LayoutConst.ns64(property: "destinationTransientStakeSeed")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   Map<String, dynamic> serialize() {

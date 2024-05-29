@@ -1,6 +1,7 @@
 // Manages the layout structure for checked minting tokens to  account for an SPL token.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Mints new tokens to an account layout.
 class SPLTokenMintToCheckedLayout extends SPLTokenProgramLayout {
@@ -13,11 +14,11 @@ class SPLTokenMintToCheckedLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenMintToCheckedLayout instance.
   SPLTokenMintToCheckedLayout({required this.amount, required this.decimals});
 
-  /// Structure structure for minting tokens to a checked account.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u64("amount"),
-    LayoutUtils.u8("decimals")
+  /// StructLayout structure for minting tokens to a checked account.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "amount"),
+    LayoutConst.u8(property: "decimals")
   ]);
 
   /// Constructs an SPLTokenMintToCheckedLayout instance from buffer.
@@ -35,7 +36,7 @@ class SPLTokenMintToCheckedLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

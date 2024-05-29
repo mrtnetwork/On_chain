@@ -1,43 +1,47 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/stake/types/types.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8('accountType'),
-    LayoutUtils.publicKey('manager'),
-    LayoutUtils.publicKey('staker'),
-    LayoutUtils.publicKey('stakeDepositAuthority'),
-    LayoutUtils.u8('stakeWithdrawBumpSeed'),
-    LayoutUtils.publicKey('validatorList'),
-    LayoutUtils.publicKey('reserveStake'),
-    LayoutUtils.publicKey('poolMint'),
-    LayoutUtils.publicKey('managerFeeAccount'),
-    LayoutUtils.publicKey('tokenProgramId'),
-    LayoutUtils.u64('totalLamports'),
-    LayoutUtils.u64('poolTokenSupply'),
-    LayoutUtils.u64('lastUpdateEpoch'),
+  static StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'accountType'),
+    SolanaLayoutUtils.publicKey('manager'),
+    SolanaLayoutUtils.publicKey('staker'),
+    SolanaLayoutUtils.publicKey('stakeDepositAuthority'),
+    LayoutConst.u8(property: 'stakeWithdrawBumpSeed'),
+    SolanaLayoutUtils.publicKey('validatorList'),
+    SolanaLayoutUtils.publicKey('reserveStake'),
+    SolanaLayoutUtils.publicKey('poolMint'),
+    SolanaLayoutUtils.publicKey('managerFeeAccount'),
+    SolanaLayoutUtils.publicKey('tokenProgramId'),
+    LayoutConst.u64(property: 'totalLamports'),
+    LayoutConst.u64(property: 'poolTokenSupply'),
+    LayoutConst.u64(property: 'lastUpdateEpoch'),
     StakeLockup.staticLayout,
-    LayoutUtils.wrap(StakePoolFee.staticLayout, property: 'epochFee'),
-    LayoutUtils.optional(StakePoolFee.staticLayout, property: "nextEpochFee"),
-    LayoutUtils.optionPubkey(property: 'preferredDepositValidatorVoteAddress'),
-    LayoutUtils.optionPubkey(property: 'preferredWithdrawValidatorVoteAddress'),
-    LayoutUtils.wrap(StakePoolFee.staticLayout, property: 'stakeDepositFee'),
-    LayoutUtils.wrap(StakePoolFee.staticLayout, property: 'stakeWithdrawalFee'),
-    LayoutUtils.optional(StakePoolFee.staticLayout,
+    LayoutConst.wrap(StakePoolFee.staticLayout, property: 'epochFee'),
+    LayoutConst.optional(StakePoolFee.staticLayout, property: "nextEpochFee"),
+    SolanaLayoutUtils.optionPubkey(
+        property: 'preferredDepositValidatorVoteAddress'),
+    SolanaLayoutUtils.optionPubkey(
+        property: 'preferredWithdrawValidatorVoteAddress'),
+    LayoutConst.wrap(StakePoolFee.staticLayout, property: 'stakeDepositFee'),
+    LayoutConst.wrap(StakePoolFee.staticLayout, property: 'stakeWithdrawalFee'),
+    LayoutConst.optional(StakePoolFee.staticLayout,
         property: "nextStakeWithdrawalFee"),
-    LayoutUtils.u8('stakeReferralFee'),
-    LayoutUtils.optionPubkey(property: 'solDepositAuthority'),
-    LayoutUtils.wrap(StakePoolFee.staticLayout, property: 'solDepositFee'),
-    LayoutUtils.u8('solReferralFee'),
-    LayoutUtils.optional(LayoutUtils.publicKey(),
+    LayoutConst.u8(property: 'stakeReferralFee'),
+    SolanaLayoutUtils.optionPubkey(property: 'solDepositAuthority'),
+    LayoutConst.wrap(StakePoolFee.staticLayout, property: 'solDepositFee'),
+    LayoutConst.u8(property: 'solReferralFee'),
+    LayoutConst.optional(SolanaLayoutUtils.publicKey(),
         property: "solWithdrawAuthority"),
-    LayoutUtils.wrap(StakePoolFee.staticLayout, property: 'solWithdrawalFee'),
-    LayoutUtils.optional(StakePoolFee.staticLayout,
+    LayoutConst.wrap(StakePoolFee.staticLayout, property: 'solWithdrawalFee'),
+    LayoutConst.optional(StakePoolFee.staticLayout,
         property: "nextSolWithdrawalFee"),
-    LayoutUtils.u64('lastEpochPoolTokenSupply'),
-    LayoutUtils.u64('lastEpochTotalLamports'),
+    LayoutConst.u64(property: 'lastEpochPoolTokenSupply'),
+    LayoutConst.u64(property: 'lastEpochTotalLamports'),
   ]);
 }
 
@@ -187,7 +191,7 @@ class StakePoolAccount extends LayoutSerializable {
 
   factory StakePoolAccount.fromBuffer(
       {required List<int> data, required SolAddress address}) {
-    final decode = _Utils.layout.decode(data);
+    final decode = _Utils.layout.deserialize(data).value;
     return StakePoolAccount(
         address: address,
         accountType: StakePoolAccountType.fromValue(decode["accountType"]),
@@ -231,7 +235,7 @@ class StakePoolAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,10 +1,11 @@
 import 'package:on_chain/solana/src/instructions/system/layouts/layouts.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class SystemProgramLayout extends ProgramLayout {
   const SystemProgramLayout();
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u32("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
       final decode =

@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/bubblegum.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class UsesToggle extends LayoutSerializable {
   const UsesToggle._(this.name, this.value, this.fileds);
@@ -10,7 +11,7 @@ class UsesToggle extends LayoutSerializable {
     final key = json["usesToggle"]["key"];
     final List<dynamic> value = json["usesToggle"]["value"];
     switch (key) {
-      case "None":
+      case "NoneLayout":
         return none;
       case "Clear":
         return clear;
@@ -18,22 +19,22 @@ class UsesToggle extends LayoutSerializable {
         return UsesToggle.set(uses: Uses.fromJson(value[0]));
     }
   }
-  static const UsesToggle none = UsesToggle._("None", 0, null);
+  static const UsesToggle none = UsesToggle._("NoneLayout", 0, null);
   static const UsesToggle clear = UsesToggle._("Clear", 1, null);
   factory UsesToggle.set({required Uses uses}) {
     return UsesToggle._("Set", 2, [uses]);
   }
 
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.none("None"),
-      LayoutUtils.none("Clear"),
-      LayoutUtils.tuple([Uses.staticLayout], property: "Set"),
-    ], LayoutUtils.u8(), property: "usesToggle")
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.none(property: "NoneLayout"),
+      LayoutConst.none(property: "Clear"),
+      LayoutConst.tuple([Uses.staticLayout], property: "Set"),
+    ], property: "usesToggle")
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Fee rate as a ratio, minted on [UpdateStakePoolBalance] as a proportion of
 /// the rewards
@@ -16,13 +17,13 @@ class StakePoolFee extends LayoutSerializable {
         denominator: json["denominator"], numerator: json["numerator"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u64("denominator"),
-    LayoutUtils.u64("numerator"),
-  ], "fee");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "denominator"),
+    LayoutConst.u64(property: "numerator"),
+  ], property: "fee");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

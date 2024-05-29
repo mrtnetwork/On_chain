@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/constant.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/constant.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/models/pda/pda.dart';
 
 class StakePoolProgramUtils {
@@ -36,7 +36,7 @@ class StakePoolProgramUtils {
       "transient".codeUnits,
       voteAccountAddress.toBytes(),
       stakePoolAddress.toBytes(),
-      LayoutUtils.i64().serialize(seed)
+      LayoutConst.i64().serialize(seed)
     ], programId: programId);
   }
 
@@ -48,7 +48,7 @@ class StakePoolProgramUtils {
     return ProgramDerivedAddress.find(seedBytes: [
       "ephemeral".codeUnits,
       stakePoolAddress.toBytes(),
-      LayoutUtils.i64().serialize(seed)
+      LayoutConst.i64().serialize(seed)
     ], programId: programId);
   }
 

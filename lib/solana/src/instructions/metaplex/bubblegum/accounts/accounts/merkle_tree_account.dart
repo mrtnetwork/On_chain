@@ -1,24 +1,27 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final headerLayout = LayoutUtils.struct([
-    LayoutUtils.u8("discriminator"),
-    LayoutUtils.wrap(ConcurrentMerkleTreeHeader.staticLayout,
+  static final headerLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "discriminator"),
+    LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
         property: "treeHeader")
   ]);
-  static Structure layout(
+  static StructLayout layout(
           {required int maxBufferSize, required int maxDepth}) =>
-      LayoutUtils.struct([
-        LayoutUtils.u8("discriminator"),
-        LayoutUtils.wrap(ConcurrentMerkleTreeHeader.staticLayout,
+      LayoutConst.struct([
+        LayoutConst.u8(property: "discriminator"),
+        LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
             property: "treeHeader"),
-        LayoutUtils.wrap(
+        LayoutConst.wrap(
             ConcurrentMerkleTree.staticLayout(
                 maxBufferSize: maxBufferSize, maxDepth: maxDepth),
             property: "tree"),
-        LayoutUtils.greedyArray(LayoutUtils.publicKey(), property: "canopy"),
+        LayoutConst.greedyArray(SolanaLayoutUtils.publicKey(),
+            property: "canopy"),
       ]);
 }
 
@@ -53,7 +56,7 @@ class MerkleTree extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout(
+  StructLayout get layout => _Utils.layout(
       maxBufferSize: treeHeader.field.maxBufferSize,
       maxDepth: treeHeader.field.maxDepth);
 

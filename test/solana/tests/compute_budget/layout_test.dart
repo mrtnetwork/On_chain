@@ -12,7 +12,7 @@ void main() {
 
 void _requestHeap() {
   test("request heap frame", () {
-    final layout = ComputeBudgetRequestHeapFrameLayout(bytes: 12);
+    const layout = ComputeBudgetRequestHeapFrameLayout(bytes: 12);
     expect(layout.toHex(), "010c000000");
     final decode =
         ComputeBudgetRequestHeapFrameLayout.fromBuffer(layout.toBytes());
@@ -32,7 +32,7 @@ void _requestUnits() {
 
 void _unitLimit() {
   test("unit limit", () {
-    final layout = ComputeBudgetSetComputeUnitLimitLayout(units: 50);
+    const layout = ComputeBudgetSetComputeUnitLimitLayout(units: 50);
     expect(layout.toHex(), "0232000000");
     final decode =
         ComputeBudgetSetComputeUnitLimitLayout.fromBuffer(layout.toBytes());

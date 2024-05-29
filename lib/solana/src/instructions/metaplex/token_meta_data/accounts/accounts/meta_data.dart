@@ -1,24 +1,26 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/bubblegum.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8("key"),
-    LayoutUtils.publicKey("updateAuthority"),
-    LayoutUtils.publicKey("mint"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: "key"),
+    SolanaLayoutUtils.publicKey("updateAuthority"),
+    SolanaLayoutUtils.publicKey("mint"),
     MetaDataData.staticLayout,
-    LayoutUtils.boolean(property: "primarySaleHappened"),
-    LayoutUtils.boolean(property: "isMutable"),
-    LayoutUtils.optional(LayoutUtils.u8(), property: "editionNonce"),
-    LayoutUtils.optional(MetaDataTokenStandard.staticLayout,
+    LayoutConst.boolean(property: "primarySaleHappened"),
+    LayoutConst.boolean(property: "isMutable"),
+    LayoutConst.optional(LayoutConst.u8(), property: "editionNonce"),
+    LayoutConst.optional(MetaDataTokenStandard.staticLayout,
         property: "tokenStandard"),
-    LayoutUtils.optional(Collection.staticLayout, property: "collection"),
-    LayoutUtils.optional(Uses.staticLayout, property: "uses"),
-    LayoutUtils.optional(CollectionDetailsV1.staticLayout,
+    LayoutConst.optional(Collection.staticLayout, property: "collection"),
+    LayoutConst.optional(Uses.staticLayout, property: "uses"),
+    LayoutConst.optional(CollectionDetailsV1.staticLayout,
         property: "collectionDetails"),
-    LayoutUtils.optional(ProgrammableConfigRecord.staticLayout,
+    LayoutConst.optional(ProgrammableConfigRecord.staticLayout,
         property: "programmableConfigRecord"),
   ]);
 }
@@ -78,7 +80,7 @@ class Metadata extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

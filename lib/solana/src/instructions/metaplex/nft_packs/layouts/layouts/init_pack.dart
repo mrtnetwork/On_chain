@@ -1,7 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/pack_distribution_type.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksInitPackLayout extends MetaplexNFTPacksProgramLayout {
   final List<int> name;
@@ -40,20 +41,20 @@ class MetaplexNFTPacksInitPackLayout extends MetaplexNFTPacksProgramLayout {
         redeemEndDate: decode["redeemEndDate"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.blob(32, property: "name"),
-    LayoutUtils.string("description"),
-    LayoutUtils.string("uri"),
-    LayoutUtils.boolean(property: "mutable"),
-    LayoutUtils.u8("distributionType"),
-    LayoutUtils.u32("allowedAmountToRedeem"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "redeemStartDate"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "redeemEndDate"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.blob(32, property: "name"),
+    LayoutConst.string(property: "description"),
+    LayoutConst.string(property: "uri"),
+    LayoutConst.boolean(property: "mutable"),
+    LayoutConst.u8(property: "distributionType"),
+    LayoutConst.u32(property: "allowedAmountToRedeem"),
+    LayoutConst.optional(LayoutConst.u64(), property: "redeemStartDate"),
+    LayoutConst.optional(LayoutConst.u64(), property: "redeemEndDate"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

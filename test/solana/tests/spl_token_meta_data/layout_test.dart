@@ -60,7 +60,7 @@ void _updateMetaData() {
 
 void _remove() {
   test("remove", () {
-    final layout = SPLTokenMetaDataRemoveFieldLayout(
+    const layout = SPLTokenMetaDataRemoveFieldLayout(
         key: "https://github.com/mrtnetwork", idempotent: false);
     expect(layout.toHex(),
         "ea122038598d25b5001d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b");
@@ -69,7 +69,7 @@ void _remove() {
     expect(layout.toBytes(), decode.toBytes());
   });
   test("remove_1", () {
-    final layout = SPLTokenMetaDataRemoveFieldLayout(
+    const layout = SPLTokenMetaDataRemoveFieldLayout(
         key: "https://github.com/mrtnetwork", idempotent: true);
     expect(layout.toHex(),
         "ea122038598d25b5011d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b");
@@ -78,7 +78,7 @@ void _remove() {
     expect(layout.toBytes(), decode.toBytes());
   });
   test("remove_3", () {
-    final layout =
+    const layout =
         SPLTokenMetaDataRemoveFieldLayout(key: "Name", idempotent: true);
     expect(layout.toHex(), "ea122038598d25b501040000004e616d65");
     final decode =
@@ -89,7 +89,7 @@ void _remove() {
 
 void _updateAuthority() {
   test("updateAuthority", () {
-    final layout = SPLTokenMetaDataUpdateAuthorityLayout();
+    const layout = SPLTokenMetaDataUpdateAuthorityLayout();
     expect(layout.toHex(),
         "d7e4a6e45464567b0000000000000000000000000000000000000000000000000000000000000000");
     final decode =
@@ -126,7 +126,7 @@ void _emit() {
     expect(layout.toBytes(), decode.toBytes());
   });
   test("emit_2", () {
-    final layout = SPLTokenMetaDataEmitLayout();
+    const layout = SPLTokenMetaDataEmitLayout();
     expect(layout.toHex(), "faa6b4fa0d0cb8460000");
     final decode = SPLTokenMetaDataEmitLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());

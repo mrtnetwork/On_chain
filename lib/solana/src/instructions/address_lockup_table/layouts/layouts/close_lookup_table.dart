@@ -1,7 +1,8 @@
 import 'package:on_chain/solana/src/instructions/address_lockup_table/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-/// Structure for the AddressLookupCloseLookupTable instruction.
+/// StructLayout for the AddressLookupCloseLookupTable instruction.
 class AddressLookupCloseLookupTableLayout
     extends AddressLookupTableProgramLayout {
   const AddressLookupCloseLookupTableLayout();
@@ -13,15 +14,15 @@ class AddressLookupCloseLookupTableLayout
         bytes: data,
         instruction:
             AddressLookupTableProgramInstruction.closeLookupTable.insturction);
-    return AddressLookupCloseLookupTableLayout();
+    return const AddressLookupCloseLookupTableLayout();
   }
 
-  /// Structure layout definition.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u32("instruction")]);
+  /// StructLayout layout definition.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/associated_token_account/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// RecoverNestedLayout layout
 class AssociatedTokenAccountProgramRecoverNestedLayout
@@ -13,12 +14,12 @@ class AssociatedTokenAccountProgramRecoverNestedLayout
         bytes: data,
         instruction:
             AssociatedTokenAccountProgramInstruction.recoverNested.insturction);
-    return AssociatedTokenAccountProgramRecoverNestedLayout();
+    return const AssociatedTokenAccountProgramRecoverNestedLayout();
   }
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int? get instruction =>

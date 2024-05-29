@@ -1,7 +1,7 @@
-// Manages the layout structure for converting UI amount to amount in SPL.
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/string/string.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// uiAmount To Amount layout.
 class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
@@ -12,10 +12,10 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
   SPLTokenUiAmountToAmountLayout({required String amount})
       : amount = StringUtils.encode(amount);
 
-  /// Structure structure for converting UI amount to amount in SPL.
-  static Structure _layout(int length) => LayoutUtils.struct([
-        LayoutUtils.u8("instruction"),
-        LayoutUtils.blob(length, property: "amount"),
+  /// StructLayout structure for converting UI amount to amount in SPL.
+  static StructLayout _layout(int length) => LayoutConst.struct([
+        LayoutConst.u8(property: "instruction"),
+        LayoutConst.blob(length, property: "amount"),
       ]);
 
   /// Constructs an SPLTokenUiAmountToAmountLayout instance from buffer.
@@ -31,7 +31,7 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  late final Structure layout = _layout(amount.length);
+  late final StructLayout layout = _layout(amount.length);
 
   /// Instruction associated with the layout.
   @override

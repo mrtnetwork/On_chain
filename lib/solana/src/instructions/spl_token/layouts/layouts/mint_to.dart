@@ -1,6 +1,7 @@
 // Manages the layout structure for minting tokens for an SPL token.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Mints new tokens to an account layout.
 class SPLTokenMintToLayout extends SPLTokenProgramLayout {
@@ -10,9 +11,11 @@ class SPLTokenMintToLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenMintToLayout instance.
   SPLTokenMintToLayout({required this.amount});
 
-  /// Structure structure for minting tokens.
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u8("instruction"), LayoutUtils.u64("amount")]);
+  /// StructLayout structure for minting tokens.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "amount")
+  ]);
 
   /// Constructs an SPLTokenMintToLayout instance from buffer.
   factory SPLTokenMintToLayout.fromBuffer(List<int> bytes) {
@@ -26,7 +29,7 @@ class SPLTokenMintToLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

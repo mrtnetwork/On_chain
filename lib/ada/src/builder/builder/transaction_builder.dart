@@ -91,7 +91,7 @@ class ADATransactionBuilder {
 
   int estimateSize({ADAAddress? onChangeAddress}) {
     if (utxos.isEmpty || _outputs.isEmpty) {
-      throw MessageException("Utxos and outputs must not be not empty.");
+      throw const MessageException("Utxos and outputs must not be not empty.");
     }
     final outs = _outputs.map((e) {
       if (e.amount.coin == BigInt.zero) {
@@ -135,7 +135,7 @@ class ADATransactionBuilder {
 
   TransactionOutput? onChangeAddress(ADAAddress onChangeAddress) {
     if (_fee == null) {
-      throw MessageException(
+      throw const MessageException(
           "please calculation the transaction fees befor using change address.");
     }
     final change = _changeOutput(onChangeAddress);
@@ -153,7 +153,7 @@ class ADATransactionBuilder {
 
   TransactionBody buildTxBody({AuxiliaryDataHash? auxHash}) {
     if (fee == null) {
-      throw MessageException(
+      throw const MessageException(
           "cannot build transaction body before calculation fee.");
     }
     final mint = getMint();

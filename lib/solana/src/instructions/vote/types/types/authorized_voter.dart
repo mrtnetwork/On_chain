@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class AuthorizedVoter extends LayoutSerializable {
   final BigInt epoch;
@@ -10,11 +12,12 @@ class AuthorizedVoter extends LayoutSerializable {
         epoch: json["epoch"], authorizedVoter: json["authorizedVoter"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct(
-      [LayoutUtils.u64("epoch"), LayoutUtils.publicKey("authorizedVoter")],
-      "authorizedVoter");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "epoch"),
+    SolanaLayoutUtils.publicKey("authorizedVoter")
+  ], property: "authorizedVoter");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

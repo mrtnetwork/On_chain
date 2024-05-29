@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Allocate account system layout
 class SystemAllocateLayout extends SystemProgramLayout {
@@ -14,10 +15,12 @@ class SystemAllocateLayout extends SystemProgramLayout {
         instruction: SystemProgramInstruction.allocate.insturction);
     return SystemAllocateLayout(space: decode["space"]);
   }
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u32("instruction"), LayoutUtils.ns64("space")]);
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    LayoutConst.ns64(property: "space")
+  ]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => SystemProgramInstruction.allocate.insturction;

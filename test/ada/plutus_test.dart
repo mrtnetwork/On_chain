@@ -121,7 +121,7 @@ _plutusDataBasicJson() {
         json: plutusJson, schema: PlutusJsonSchema.basicConversions);
     expect(
         fromJson.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.basicConversions)),
         plutusJson);
     expect(fromJson.serializeHex(),
@@ -149,7 +149,7 @@ void _plutusDataDetailedSerialization() {
         schema: PlutusJsonSchema.detailedSchema) as PlutusList;
     expect(
         fromJson.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.detailedSchema)),
         plutusJson);
     expect(fromJson.serializeHex(),
@@ -157,7 +157,7 @@ void _plutusDataDetailedSerialization() {
     final deserialize = PlutusData.fromCborBytes(fromJson.serialize());
     expect(
         deserialize.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.detailedSchema)),
         plutusJson);
     expect(deserialize.serializeHex(), fromJson.serializeHex());
@@ -1360,7 +1360,7 @@ void _plutusDataFromAddress() {
     final plutusData = PlutusData.fromAddress(addr);
     expect(
         plutusData.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.detailedSchema)),
         StringUtils.toJson(
             "{\"constructor\": 0, \"fields\": [{\"constructor\": 1, \"fields\": [{\"bytes\": \"dc3b534f7621f6c83304bbb99e0f44ca168c3f0932b1b521ee0030a6\"}]}, {\"constructor\": 1, \"fields\": []}]}"));
@@ -1371,7 +1371,7 @@ void _plutusDataFromAddress() {
     final plutusData = PlutusData.fromAddress(addr);
     expect(
         plutusData.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.detailedSchema)),
         StringUtils.toJson(
             "{\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"bytes\": \"88ac6bd19c1a17ed88051b1586536cd1cc408be21efb7ada33be6afd\"}]}, {\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"bytes\": \"88ac6bd19c1a17ed88051b1586536cd1cc408be21efb7ada33be6afd\"}]}]}]}]}"));
@@ -1382,7 +1382,7 @@ void _plutusDataFromAddress() {
     final plutusData = PlutusData.fromAddress(addr);
     expect(
         plutusData.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.detailedSchema)),
         StringUtils.toJson(
             "{\"constructor\": 0, \"fields\": [{\"constructor\": 1, \"fields\": [{\"bytes\": \"dc3b534f7621f6c83304bbb99e0f44ca168c3f0932b1b521ee0030a6\"}]}, {\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"constructor\": 1, \"fields\": [{\"bytes\": \"dc3b534f7621f6c83304bbb99e0f44ca168c3f0932b1b521ee0030a6\"}]}]}]}]}"));
@@ -1393,7 +1393,7 @@ void _plutusDataFromAddress() {
     final plutusData = PlutusData.fromAddress(addr);
     expect(
         plutusData.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.detailedSchema)),
         StringUtils.toJson(
             "{\"constructor\": 0, \"fields\": [{\"constructor\": 1, \"fields\": [{\"bytes\": \"dc3b534f7621f6c83304bbb99e0f44ca168c3f0932b1b521ee0030a6\"}]}, {\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"bytes\": \"88ac6bd19c1a17ed88051b1586536cd1cc408be21efb7ada33be6afd\"}]}]}]}]}"));
@@ -1404,7 +1404,7 @@ void _plutusDataFromAddress() {
     final plutusData = PlutusData.fromAddress(addr);
     expect(
         plutusData.toJsonSchema(
-            config: PlutusSchemaConfig(
+            config: const PlutusSchemaConfig(
                 jsonSchema: PlutusJsonSchema.detailedSchema)),
         StringUtils.toJson(
             "{\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"bytes\": \"88ac6bd19c1a17ed88051b1586536cd1cc408be21efb7ada33be6afd\"}]}, {\"constructor\": 0, \"fields\": [{\"constructor\": 0, \"fields\": [{\"constructor\": 1, \"fields\": [{\"bytes\": \"dc3b534f7621f6c83304bbb99e0f44ca168c3f0932b1b521ee0030a6\"}]}]}]}]}"));

@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class RuleSetToggle extends LayoutSerializable {
   const RuleSetToggle._(this.name, this.value, this.fileds);
@@ -10,7 +12,7 @@ class RuleSetToggle extends LayoutSerializable {
     final key = json["ruleSetToggle"]["key"];
     final List<dynamic> value = json["ruleSetToggle"]["value"];
     switch (key) {
-      case "None":
+      case "NoneLayout":
         return none;
       case "Clear":
         return clear;
@@ -18,22 +20,22 @@ class RuleSetToggle extends LayoutSerializable {
         return RuleSetToggle.set(address: value[0]);
     }
   }
-  static const RuleSetToggle none = RuleSetToggle._("None", 0, null);
+  static const RuleSetToggle none = RuleSetToggle._("NoneLayout", 0, null);
   static const RuleSetToggle clear = RuleSetToggle._("Clear", 1, null);
   factory RuleSetToggle.set({required SolAddress address}) {
     return RuleSetToggle._("Set", 2, [address]);
   }
 
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.none("None"),
-      LayoutUtils.none("Clear"),
-      LayoutUtils.tuple([LayoutUtils.publicKey()], property: "Set"),
-    ], LayoutUtils.u8(), property: "ruleSetToggle")
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.none(property: "NoneLayout"),
+      LayoutConst.none(property: "Clear"),
+      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: "Set"),
+    ], property: "ruleSetToggle")
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

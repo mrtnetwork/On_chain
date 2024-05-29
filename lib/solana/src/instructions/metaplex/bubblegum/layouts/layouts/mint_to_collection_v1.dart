@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexBubblegumMintToCollectionV1Layout
     extends MetaplexBubblegumProgramLayout {
@@ -17,11 +17,11 @@ class MetaplexBubblegumMintToCollectionV1Layout
         metaData: MetaData.fromJson(decode["metaData"]));
   }
 
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.blob(8, property: "instruction"), MetaData.staticLayout]);
+  static final StructLayout _layout = LayoutConst.struct(
+      [LayoutConst.blob(8, property: "instruction"), MetaData.staticLayout]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

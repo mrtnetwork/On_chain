@@ -1,10 +1,11 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static final Structure layout =
-      LayoutUtils.struct([LayoutUtils.u8("key"), LayoutUtils.vecU8("ledger")]);
+  static final StructLayout layout = LayoutConst.struct(
+      [LayoutConst.u8(property: "key"), LayoutConst.vecU8(property: "ledger")]);
 }
 
 class EditionMarkerV2 extends LayoutSerializable {
@@ -22,7 +23,7 @@ class EditionMarkerV2 extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {"key": key.value, "ledger": ledger};

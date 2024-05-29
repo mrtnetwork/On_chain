@@ -59,9 +59,9 @@ class SingleHostAddr extends Relay {
   CborObject toCbor() {
     return CborListValue.fixedLength([
       type.toCbor(),
-      port == null ? CborNullValue() : CborIntValue(port!),
-      ipv4?.toCbor() ?? CborNullValue(),
-      ipv6?.toCbor() ?? CborNullValue()
+      port == null ? const CborNullValue() : CborIntValue(port!),
+      ipv4?.toCbor() ?? const CborNullValue(),
+      ipv6?.toCbor() ?? const CborNullValue()
     ]);
   }
 

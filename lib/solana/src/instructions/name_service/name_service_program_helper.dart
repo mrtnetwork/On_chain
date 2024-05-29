@@ -48,7 +48,7 @@ class NameServiceProgramHelper {
       final account =
           await rpc.request(SolanaRPCNameRegistryAccount(account: parentName));
       if (account == null) {
-        throw MessageException("Account not found.");
+        throw const MessageException("Account not found.");
       }
       nameParentOwner = account.owner;
     }
@@ -99,7 +99,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw MessageException("Account not found.");
+        throw const MessageException("Account not found.");
       }
       signer = account.owner;
     }
@@ -141,7 +141,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw MessageException("Account not found.");
+        throw const MessageException("Account not found.");
       }
       currentNameOwner = account.owner;
     }
@@ -184,7 +184,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw MessageException("Account not found.");
+        throw const MessageException("Account not found.");
       }
       nameOwner = account.owner;
     }
@@ -228,7 +228,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw MessageException("Account not found.");
+        throw const MessageException("Account not found.");
       }
       nameOwner = account.owner;
     }

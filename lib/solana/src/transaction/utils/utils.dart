@@ -1,11 +1,13 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/tuple/tuple.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
 import 'package:on_chain/solana/src/transaction/core/core.dart';
 import 'package:on_chain/solana/src/transaction/message/legacy.dart';
 import 'package:on_chain/solana/src/transaction/message/message_v0.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaTransactionUtils {
   /// encode int to bytes
@@ -81,31 +83,33 @@ class SolanaTransactionUtils {
       List<CompiledInstruction> compiledInstructions) {
     var serializedLength = 0;
     final serializedInstructions =
-        LayoutByteWriter.filled(SolanaTransactionConstant.packetDataSize, 0);
+        List<int>.filled(SolanaTransactionConstant.packetDataSize, 0);
     for (var instruction in compiledInstructions) {
       final encodedAccountKeyIndexesLength =
           SolanaTransactionUtils._encodeLength(instruction.accounts.length);
       final encodedDataLength =
           SolanaTransactionUtils._encodeLength(instruction.data.length);
-      final instructionLayout = LayoutUtils.struct([
-        LayoutUtils.u8('programIdIndex'),
-        LayoutUtils.blob(encodedAccountKeyIndexesLength.length,
+      final instructionLayout = LayoutConst.struct([
+        LayoutConst.u8(property: 'programIdIndex'),
+        LayoutConst.blob(encodedAccountKeyIndexesLength.length,
             property: 'encodedAccountKeyIndexesLength'),
-        LayoutUtils.array(LayoutUtils.u8(), instruction.accounts.length,
+        LayoutConst.array(LayoutConst.u8(), instruction.accounts.length,
             property: 'accountKeyIndexes'),
-        LayoutUtils.blob(encodedDataLength.length,
+        LayoutConst.blob(encodedDataLength.length,
             property: 'encodedDataLength'),
-        LayoutUtils.blob(instruction.data.length, property: 'data')
+        LayoutConst.blob(instruction.data.length, property: 'data')
       ]);
-      serializedLength += instructionLayout.encode({
+      final encode = instructionLayout.serialize({
         'programIdIndex': instruction.programIdIndex,
         'encodedAccountKeyIndexesLength': encodedAccountKeyIndexesLength,
         'accountKeyIndexes': instruction.accounts,
         'encodedDataLength': encodedDataLength,
         'data': instruction.data
-      }, serializedInstructions, offset: serializedLength);
+      });
+      serializedInstructions.setAll(serializedLength, encode);
+      serializedLength += encode.length;
     }
-    return serializedInstructions.toBytes().sublist(0, serializedLength);
+    return serializedInstructions.sublist(0, serializedLength);
   }
 
   /// serialize message V0 to bytes
@@ -121,31 +125,30 @@ class SolanaTransactionUtils {
     final encodedAddressTableLookupsLength =
         SolanaTransactionUtils._encodeLength(
             message.addressTableLookups.length);
-    final messageLayout = LayoutUtils.struct([
-      LayoutUtils.u8('prefix'),
-      LayoutUtils.struct([
-        LayoutUtils.u8('numRequiredSignatures'),
-        LayoutUtils.u8('numReadonlySignedAccounts'),
-        LayoutUtils.u8('numReadonlyUnsignedAccounts')
-      ], 'header'),
-      LayoutUtils.blob(encodedStaticAccountKeysLength.length,
+    final messageLayout = LayoutConst.struct([
+      LayoutConst.u8(property: 'prefix'),
+      LayoutConst.struct([
+        LayoutConst.u8(property: 'numRequiredSignatures'),
+        LayoutConst.u8(property: 'numReadonlySignedAccounts'),
+        LayoutConst.u8(property: 'numReadonlyUnsignedAccounts')
+      ], property: 'header'),
+      LayoutConst.blob(encodedStaticAccountKeysLength.length,
           property: 'staticAccountKeysLength'),
-      LayoutUtils.array(LayoutUtils.publicKey(), message.accountKeys.length,
+      LayoutConst.array(
+          SolanaLayoutUtils.publicKey(), message.accountKeys.length,
           property: 'staticAccountKeys'),
-      LayoutUtils.publicKey('recentBlockhash'),
-      LayoutUtils.blob(encodedInstructionsLength.length,
+      SolanaLayoutUtils.publicKey('recentBlockhash'),
+      LayoutConst.blob(encodedInstructionsLength.length,
           property: 'instructionsLength'),
-      LayoutUtils.blob(serializedInstructions.length,
+      LayoutConst.blob(serializedInstructions.length,
           property: 'serializedInstructions'),
-      LayoutUtils.blob(encodedAddressTableLookupsLength.length,
+      LayoutConst.blob(encodedAddressTableLookupsLength.length,
           property: 'addressTableLookupsLength'),
-      LayoutUtils.blob(serializedAddressTableLookups.length,
+      LayoutConst.blob(serializedAddressTableLookups.length,
           property: 'serializedAddressTableLookups')
     ]);
-    final serializedMessage =
-        LayoutByteWriter.filled(SolanaTransactionConstant.packetDataSize, 0);
     const messageVersion0Prefix = 1 << 7;
-    final serializedMessageLength = messageLayout.encode({
+    return messageLayout.serialize({
       'prefix': messageVersion0Prefix,
       'header': message.header.toJson(),
       'staticAccountKeysLength': encodedStaticAccountKeysLength,
@@ -155,42 +158,43 @@ class SolanaTransactionUtils {
       'serializedInstructions': serializedInstructions,
       'addressTableLookupsLength': encodedAddressTableLookupsLength,
       'serializedAddressTableLookups': serializedAddressTableLookups
-    }, serializedMessage);
-    return serializedMessage.toBytes().sublist(0, serializedMessageLength);
+    });
   }
 
   /// serialize address table
   static List<int> serializeAddressTableLookups(
       List<AddressTableLookup> addressTableLookups) {
-    var serializedLength = 0;
+    int serializedLength = 0;
     final serializedAddressTableLookups =
-        LayoutByteWriter.filled(SolanaTransactionConstant.packetDataSize, 0);
-    for (var lookup in addressTableLookups) {
+        List<int>.filled(SolanaTransactionConstant.packetDataSize, 0);
+    for (final lookup in addressTableLookups) {
       final encodedWritableIndexesLength =
           SolanaTransactionUtils._encodeLength(lookup.writableIndexes.length);
       final encodedReadonlyIndexesLength =
           SolanaTransactionUtils._encodeLength(lookup.readonlyIndexes.length);
 
-      final addressTableLookupLayout = LayoutUtils.struct([
-        LayoutUtils.publicKey('accountKey'),
-        LayoutUtils.blob(encodedWritableIndexesLength.length,
+      final addressTableLookupLayout = LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('accountKey'),
+        LayoutConst.blob(encodedWritableIndexesLength.length,
             property: 'encodedWritableIndexesLength'),
-        LayoutUtils.array(LayoutUtils.u8(), lookup.writableIndexes.length,
+        LayoutConst.array(LayoutConst.u8(), lookup.writableIndexes.length,
             property: 'writableIndexes'),
-        LayoutUtils.blob(encodedReadonlyIndexesLength.length,
+        LayoutConst.blob(encodedReadonlyIndexesLength.length,
             property: 'encodedReadonlyIndexesLength'),
-        LayoutUtils.array(LayoutUtils.u8(), lookup.readonlyIndexes.length,
+        LayoutConst.array(LayoutConst.u8(), lookup.readonlyIndexes.length,
             property: 'readonlyIndexes')
       ]);
-      serializedLength += addressTableLookupLayout.encode({
+      final encode = addressTableLookupLayout.serialize({
         'accountKey': lookup.accountKey,
         'encodedWritableIndexesLength': encodedWritableIndexesLength,
         'writableIndexes': lookup.writableIndexes,
         'encodedReadonlyIndexesLength': encodedReadonlyIndexesLength,
         'readonlyIndexes': lookup.readonlyIndexes
-      }, serializedAddressTableLookups, offset: serializedLength);
+      });
+      serializedAddressTableLookups.setAll(serializedLength, encode);
+      serializedLength += encode.length;
     }
-    return serializedAddressTableLookups.toBytes().sublist(0, serializedLength);
+    return serializedAddressTableLookups.sublist(0, serializedLength);
   }
 
   /// convert bytes to Message V0
@@ -306,39 +310,38 @@ class SolanaTransactionUtils {
 
     final instructionCount =
         SolanaTransactionUtils._encodeLength(instructions.length);
-    LayoutByteWriter instructionBuffer =
-        LayoutByteWriter.filled(SolanaTransactionConstant.packetDataSize);
+    List<int> instructionBuffer =
+        List<int>.filled(SolanaTransactionConstant.packetDataSize, 0);
     instructionBuffer.setAll(0, instructionCount);
     int instructionBufferLength = instructionCount.length;
     for (var instruction in instructions) {
-      final instructionLayout = LayoutUtils.struct([
-        LayoutUtils.u8('programIdIndex'),
-        LayoutUtils.blob((instruction['keyIndicesCount'] as List).length,
+      final instructionLayout = LayoutConst.struct([
+        LayoutConst.u8(property: 'programIdIndex'),
+        LayoutConst.blob((instruction['keyIndicesCount'] as List).length,
             property: 'keyIndicesCount'),
-        LayoutUtils.array(LayoutUtils.u8('keyIndex'),
+        LayoutConst.array(LayoutConst.u8(property: 'keyIndex'),
             (instruction['keyIndices'] as List).length,
             property: 'keyIndices'),
-        LayoutUtils.blob((instruction['dataLength'] as List).length,
+        LayoutConst.blob((instruction['dataLength'] as List).length,
             property: 'dataLength'),
-        LayoutUtils.array(
-            LayoutUtils.u8('userdatum'), (instruction['data'] as List).length,
+        LayoutConst.array(LayoutConst.u8(property: 'userdatum'),
+            (instruction['data'] as List).length,
             property: 'data'),
       ]);
 
-      final length = instructionLayout.encode(instruction, instructionBuffer,
-          offset: instructionBufferLength);
-      instructionBufferLength += length;
+      final encode = instructionLayout.serialize(instruction);
+      instructionBuffer.setAll(instructionBufferLength, encode);
+      instructionBufferLength += encode.length;
     }
-    instructionBuffer = LayoutByteWriter.from(
-        instructionBuffer.toBytes().sublist(0, instructionBufferLength));
-    final signDataLayout = LayoutUtils.struct([
-      LayoutUtils.blob(1, property: 'numRequiredSignatures'),
-      LayoutUtils.blob(1, property: 'numReadonlySignedAccounts'),
-      LayoutUtils.blob(1, property: 'numReadonlyUnsignedAccounts'),
-      LayoutUtils.blob(keyCount.length, property: 'keyCount'),
-      LayoutUtils.array(LayoutUtils.blob(32, property: 'key'), numKeys,
+    instructionBuffer = instructionBuffer.sublist(0, instructionBufferLength);
+    final signDataLayout = LayoutConst.struct([
+      LayoutConst.blob(1, property: 'numRequiredSignatures'),
+      LayoutConst.blob(1, property: 'numReadonlySignedAccounts'),
+      LayoutConst.blob(1, property: 'numReadonlyUnsignedAccounts'),
+      LayoutConst.blob(keyCount.length, property: 'keyCount'),
+      LayoutConst.array(LayoutConst.blob(32, property: 'key'), numKeys,
           property: 'keys'),
-      LayoutUtils.blob(32, property: 'recentBlockhash'),
+      LayoutConst.blob(32, property: 'recentBlockhash'),
     ]);
     final transaction = {
       'numRequiredSignatures': <int>[message.header.numRequiredSignatures],
@@ -352,12 +355,14 @@ class SolanaTransactionUtils {
       'keys': message.accountKeys.map((key) => key.toBytes()).toList(),
       'recentBlockhash': message.recentBlockhash.toBytes(),
     };
+    final List<int> signedData = List<int>.filled(2048, 0);
+    // final signData = LayoutByteWriter.filled(2048);
+    final encode = signDataLayout.serialize(transaction);
+    signedData.setAll(0, encode);
+    signedData.setAll(encode.length, instructionBuffer);
+    // signData.setAll(length, instructionBuffer.toBytes());
 
-    final signData = LayoutByteWriter.filled(2048);
-    final length = signDataLayout.encode(transaction, signData);
-    signData.setAll(length, instructionBuffer.toBytes());
-
-    return signData.toBytes().sublist(0, length + instructionBufferLength);
+    return signedData.sublist(0, encode.length + instructionBufferLength);
   }
 
   /// convert Bytes to legacy message
@@ -366,7 +371,7 @@ class SolanaTransactionUtils {
     int numRequiredSignatures = byteArray.removeAt(0);
     if (numRequiredSignatures !=
         (numRequiredSignatures & SolanaTransactionConstant.versionPrefixMask)) {
-      throw MessageException('invalid versioned Message');
+      throw const MessageException('invalid versioned Message');
     }
     int numReadonlySignedAccounts = byteArray.removeAt(0);
     int numReadonlyUnsignedAccounts = byteArray.removeAt(0);
@@ -437,22 +442,18 @@ class SolanaTransactionUtils {
     final encodedSignaturesLength =
         SolanaTransactionUtils._encodeLength(signatures.length);
 
-    final transactionLayout = LayoutUtils.struct([
-      LayoutUtils.blob(encodedSignaturesLength.length,
+    final transactionLayout = LayoutConst.struct([
+      LayoutConst.blob(encodedSignaturesLength.length,
           property: 'encodedSignaturesLength'),
-      LayoutUtils.array(
-          LayoutUtils.blob(64, property: "signature"), signatures.length,
+      LayoutConst.array(
+          LayoutConst.blob(64, property: "signature"), signatures.length,
           property: 'signatures'),
-      LayoutUtils.blob(serializedMessage.length, property: 'serializedMessage')
+      LayoutConst.blob(serializedMessage.length, property: 'serializedMessage')
     ]);
-    final serializedTransaction = LayoutByteWriter.filled(2048);
-    final serializedTransactionLength = transactionLayout.encode({
+    return transactionLayout.serialize({
       'encodedSignaturesLength': encodedSignaturesLength,
       'signatures': signatures,
       'serializedMessage': serializedMessage
-    }, serializedTransaction);
-    return serializedTransaction
-        .toBytes()
-        .sublist(0, serializedTransactionLength);
+    });
   }
 }

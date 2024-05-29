@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/binary/binary.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
   final List<int> mintArgs;
@@ -17,14 +17,14 @@ class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
     return MetaplexCandyMachineMintLayout(
         mintArgs: (decode["mintArgs"] as List).cast(), group: decode["group"]);
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.vecU8("mintArgs"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "group")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.vecU8(property: "mintArgs"),
+    LayoutConst.optional(LayoutConst.string(), property: "group")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

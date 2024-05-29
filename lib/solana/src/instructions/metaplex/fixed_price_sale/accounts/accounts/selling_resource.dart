@@ -1,20 +1,22 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [15, 32, 69, 235, 249, 39, 18, 167];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("store"),
-    LayoutUtils.publicKey("owner"),
-    LayoutUtils.publicKey("resource"),
-    LayoutUtils.publicKey("vault"),
-    LayoutUtils.publicKey("vaultOwner"),
-    LayoutUtils.u64("supply"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "maxSupply"),
-    LayoutUtils.u8("state")
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("store"),
+    SolanaLayoutUtils.publicKey("owner"),
+    SolanaLayoutUtils.publicKey("resource"),
+    SolanaLayoutUtils.publicKey("vault"),
+    SolanaLayoutUtils.publicKey("vaultOwner"),
+    LayoutConst.u64(property: "supply"),
+    LayoutConst.optional(LayoutConst.u64(), property: "maxSupply"),
+    LayoutConst.u8(property: "state")
   ]);
 }
 
@@ -55,7 +57,7 @@ class SellingResource extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -86,11 +86,13 @@ class TransactionOutput with ADASerialization {
     if (scriptRef != null ||
         plutusData?.type == TransactionDataOptionType.data) {
       return CborMapValue.fixedLength({
-        CborIntValue(0): address.toCbor(),
-        CborIntValue(1): amount.toCbor(),
-        if (plutusData != null) ...{CborIntValue(2): plutusData!.toCbor(false)},
+        const CborIntValue(0): address.toCbor(),
+        const CborIntValue(1): amount.toCbor(),
+        if (plutusData != null) ...{
+          const CborIntValue(2): plutusData!.toCbor(false)
+        },
         if (scriptRef != null) ...{
-          CborIntValue(3): scriptRef!.toScriptRefCbor()
+          const CborIntValue(3): scriptRef!.toScriptRefCbor()
         }
       });
     }

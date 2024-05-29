@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/instructions/stake/types/types/authorized.dart';
 import 'package:on_chain/solana/src/instructions/stake/types/types/lockup.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeMeta extends LayoutSerializable {
   final StakeLockup lockup;
@@ -17,14 +18,14 @@ class StakeMeta extends LayoutSerializable {
         rentExemptReserve: json["rentExemptReserve"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u64("rentExemptReserve"),
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "rentExemptReserve"),
     StakeAuthorized.staticLayout,
     StakeLockup.staticLayout,
-  ], "meta");
+  ], property: "meta");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

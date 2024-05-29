@@ -1,6 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Initialize nonce account system layout
 class SystemInitializeNonceAccountLayout extends SystemProgramLayout {
@@ -15,11 +17,13 @@ class SystemInitializeNonceAccountLayout extends SystemProgramLayout {
             SystemProgramInstruction.initializeNonceAccount.insturction);
     return SystemInitializeNonceAccountLayout(authorized: decode["authorized"]);
   }
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u32("instruction"), LayoutUtils.publicKey("authorized")]);
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    SolanaLayoutUtils.publicKey("authorized")
+  ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
   @override
   int get instruction =>
       SystemProgramInstruction.initializeNonceAccount.insturction;

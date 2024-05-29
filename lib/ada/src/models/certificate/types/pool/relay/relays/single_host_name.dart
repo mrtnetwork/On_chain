@@ -36,7 +36,7 @@ class SingleHostName extends Relay {
   CborObject toCbor() {
     return CborListValue.fixedLength([
       type.toCbor(),
-      port == null ? CborNullValue() : CborIntValue(port!),
+      port == null ? const CborNullValue() : CborIntValue(port!),
       CborStringValue(dnsName)
     ]);
   }

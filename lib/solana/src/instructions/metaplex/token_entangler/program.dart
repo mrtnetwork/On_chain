@@ -1,8 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/associated_token_account/constant.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
-
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 
 class MetaplexTokenEntanglerProgram extends TransactionInstruction {
@@ -93,7 +92,7 @@ class MetaplexTokenEntanglerProgram extends TransactionInstruction {
           rent.toReadOnly()
         ],
         programId: MetaplexTokenEntanglerProgramConst.programId,
-        layout: MetaplexTokenEntanglerSwapLayout());
+        layout: const MetaplexTokenEntanglerSwapLayout());
   }
   factory MetaplexTokenEntanglerProgram.updateEntangledPair(
       {required SolAddress authority,

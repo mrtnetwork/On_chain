@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexTokenEntanglerCreateEntangledPairLayout
     extends MetaplexTokenEntanglerProgramLayout {
@@ -33,18 +33,18 @@ class MetaplexTokenEntanglerCreateEntangledPairLayout
         paysEveryTime: decode["paysEveryTime"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("bump"),
-    LayoutUtils.u8("tokenAEscrowBump"),
-    LayoutUtils.u8("reverseBump"),
-    LayoutUtils.u8("tokenBEscrowBump"),
-    LayoutUtils.u64("price"),
-    LayoutUtils.boolean(property: "paysEveryTime"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "bump"),
+    LayoutConst.u8(property: "tokenAEscrowBump"),
+    LayoutConst.u8(property: "reverseBump"),
+    LayoutConst.u8(property: "tokenBEscrowBump"),
+    LayoutConst.u64(property: "price"),
+    LayoutConst.boolean(property: "paysEveryTime"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

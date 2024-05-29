@@ -49,7 +49,7 @@ void _transfer() {
 
 void _delete() {
   test("delete", () {
-    final layout = NameServiceDeleteLayout();
+    const layout = NameServiceDeleteLayout();
     expect(layout.toHex(), "03");
     final decode = NameServiceDeleteLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -58,7 +58,7 @@ void _delete() {
 
 void _realloc() {
   test("realloc", () {
-    final layout = NameServiceReallocLayout(space: 500);
+    const layout = NameServiceReallocLayout(space: 500);
     expect(layout.toHex(), "04f4010000");
     final decode = NameServiceReallocLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());

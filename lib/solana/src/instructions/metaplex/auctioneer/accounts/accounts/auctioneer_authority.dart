@@ -1,9 +1,12 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static const List<int> discriminator = [228, 74, 255, 245, 96, 83, 197, 12];
-  static final Structure layout = LayoutUtils.struct(
-      [LayoutUtils.blob(8, property: "discriminator"), LayoutUtils.u8("bump")]);
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    LayoutConst.u8(property: "bump")
+  ]);
 }
 
 class AuctioneerAuthority extends LayoutSerializable {
@@ -20,7 +23,7 @@ class AuctioneerAuthority extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

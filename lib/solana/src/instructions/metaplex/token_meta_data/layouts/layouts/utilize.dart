@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexTokenMetaDataUtilizeLayout
     extends MetaplexTokenMetaDataProgramLayout {
@@ -16,11 +17,13 @@ class MetaplexTokenMetaDataUtilizeLayout
         numberOfUses: decode["numberOfUses"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u8("instruction"), LayoutUtils.u64("numberOfUses")]);
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "numberOfUses")
+  ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

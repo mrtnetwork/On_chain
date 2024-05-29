@@ -1,7 +1,8 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/collection_toggle.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/payload.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout
     extends MetaplexTokenMetaDataUpdateProgramLayout {
@@ -25,15 +26,15 @@ class MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout
             : Payload.fromJson(decode["authorizationData"]));
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("discriminator"),
-    LayoutUtils.wrap(CollectionToggle.staticLayout, property: "collection"),
-    LayoutUtils.optional(Payload.staticLayout, property: "authorizationData")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "discriminator"),
+    LayoutConst.wrap(CollectionToggle.staticLayout, property: "collection"),
+    LayoutConst.optional(Payload.staticLayout, property: "authorizationData")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => MetaplexTokenMetaDataProgramInstruction

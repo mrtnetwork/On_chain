@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexBubblegumCompressLayout extends MetaplexBubblegumProgramLayout {
   const MetaplexBubblegumCompressLayout();
@@ -9,14 +9,14 @@ class MetaplexBubblegumCompressLayout extends MetaplexBubblegumProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: MetaplexBubblegumProgramInstruction.compress.insturction);
-    return MetaplexBubblegumCompressLayout();
+    return const MetaplexBubblegumCompressLayout();
   }
 
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.blob(8, property: "instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

@@ -1,6 +1,6 @@
+import 'package:on_chain/solana/src/borsh_serialization/core/program_layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/layouts.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/constant.dart';
 import 'package:on_chain/solana/src/instructions/system/constant.dart';
 import 'package:on_chain/solana/src/models/models.dart';
@@ -204,7 +204,7 @@ class MetaplexHydraProgram extends TransactionInstruction {
           destination.toWritable(),
         ],
         programId: MetaplexHydraProgramConst.programId,
-        layout: MetaplexHydraRemoveMemberLayout());
+        layout: const MetaplexHydraRemoveMemberLayout());
   }
   factory MetaplexHydraProgram.setForTokenMemberStake(
       {required SolAddress authority,
@@ -266,7 +266,7 @@ class MetaplexHydraProgram extends TransactionInstruction {
           tokenMetadataProgram.toReadOnly()
         ],
         programId: MetaplexHydraProgramConst.programId,
-        layout: MetaplexHydraSignMetadataLayout());
+        layout: const MetaplexHydraSignMetadataLayout());
   }
   factory MetaplexHydraProgram.transferShares({
     required SolAddress authority,
@@ -309,6 +309,6 @@ class MetaplexHydraProgram extends TransactionInstruction {
           instructions.toReadOnly(),
         ],
         programId: MetaplexHydraProgramConst.programId,
-        layout: MetaplexHydraUnstakeLayout());
+        layout: const MetaplexHydraUnstakeLayout());
   }
 }

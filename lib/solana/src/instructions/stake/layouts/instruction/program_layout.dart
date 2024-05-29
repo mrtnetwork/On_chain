@@ -1,11 +1,12 @@
 import 'package:blockchain_utils/exception/exception.dart';
 import 'package:on_chain/solana/src/instructions/stake/layouts/layouts.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class StakeProgramLayout extends ProgramLayout {
   const StakeProgramLayout();
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u32("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
       final decode =
@@ -30,7 +31,7 @@ abstract class StakeProgramLayout extends ProgramLayout {
         case StakeProgramInstruction.withdraw:
           return StakeWithdrawLayout.fromBuffer(data);
         default:
-          throw MessageException("unknown program layout");
+          throw const MessageException("unknown program layout");
       }
     } catch (e) {
       return UnknownProgramLayout(data);

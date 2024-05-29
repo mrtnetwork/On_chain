@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class ReservationV1 extends LayoutSerializable {
   const ReservationV1(
@@ -16,14 +18,14 @@ class ReservationV1 extends LayoutSerializable {
   final int spotsRemaining;
   final int totalSpots;
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.publicKey("address"),
-    LayoutUtils.u8("spotsRemaining"),
-    LayoutUtils.u8("totalSpots"),
-  ], "reservationV1");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey("address"),
+    LayoutConst.u8(property: "spotsRemaining"),
+    LayoutConst.u8(property: "totalSpots"),
+  ], property: "reservationV1");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexAuctionHouseCloseEscrowAccountLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -19,14 +19,14 @@ class MetaplexAuctionHouseCloseEscrowAccountLayout
         escrowPaymentBump: decode["escrowPaymentBump"]);
   }
 
-  /// Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("escrowPaymentBump"),
+  /// StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "escrowPaymentBump"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

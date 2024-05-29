@@ -8,12 +8,12 @@ class SubscribeTransactionLogsFilter {
 
   /// subscribe to all transactions except for simple vote transactions
   factory SubscribeTransactionLogsFilter.all() {
-    return SubscribeTransactionLogsFilter._("all", null);
+    return const SubscribeTransactionLogsFilter._("all", null);
   }
 
   /// subscribe to all transactions, including simple vote transactions
   factory SubscribeTransactionLogsFilter.allWithVotes() {
-    return SubscribeTransactionLogsFilter._("allWithVotes", null);
+    return const SubscribeTransactionLogsFilter._("allWithVotes", null);
   }
 
   /// subscribe to only transactions mentioning this address

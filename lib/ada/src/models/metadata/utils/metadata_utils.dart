@@ -56,7 +56,7 @@ class TransactionMetadataUtils {
   static TransactionMetadata _parseDetailed(
       dynamic value, MetadataJsonSchema jsonSchema) {
     if (value is! Map<String, dynamic> || value.length != 1) {
-      throw MessageException(
+      throw const MessageException(
           "DetailedSchema requires types to be tagged objects");
     }
     final entry = value.entries.first;
@@ -81,19 +81,19 @@ class TransactionMetadataUtils {
         return _encodeArray(v, jsonSchema);
       case "map":
         if (v is! List) {
-          throw MessageException(
+          throw const MessageException(
             r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
           );
         }
         final Map<TransactionMetadata, TransactionMetadata> values = {};
         for (final i in v) {
           if (i is! Map) {
-            throw MessageException(
+            throw const MessageException(
               r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
             );
           }
           if (!i.containsKey("k") || !i.containsKey("v")) {
-            throw MessageException(
+            throw const MessageException(
               r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
             );
           }
@@ -185,7 +185,7 @@ class TransactionMetadataUtils {
       throw MessageException("Invalid metadata format. type not allowed.",
           details: {"Value": val, "Type": "${val.runtimeType}"});
     }
-    throw MessageException("null not allowed in metadata");
+    throw const MessageException("null not allowed in metadata");
   }
 
   static dynamic encodeKey(

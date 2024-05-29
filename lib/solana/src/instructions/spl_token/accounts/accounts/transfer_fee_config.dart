@@ -1,15 +1,17 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.publicKey('transferFeeConfigAuthority'),
-    LayoutUtils.publicKey('withdrawWithheldAuthority'),
-    LayoutUtils.u64('withheldAmount'),
-    LayoutUtils.wrap(TransferFee.staticLayout, property: "olderTransferFee"),
-    LayoutUtils.wrap(TransferFee.staticLayout, property: "newerTransferFee"),
+  static final StructLayout layout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey('transferFeeConfigAuthority'),
+    SolanaLayoutUtils.publicKey('withdrawWithheldAuthority'),
+    LayoutConst.u64(property: 'withheldAmount'),
+    LayoutConst.wrap(TransferFee.staticLayout, property: "olderTransferFee"),
+    LayoutConst.wrap(TransferFee.staticLayout, property: "newerTransferFee"),
   ]);
 
   static int get accountSize => layout.span;
@@ -23,7 +25,7 @@ class _Utils {
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw MessageException("Invalid extionsion bytes");
+      throw const MessageException("Invalid extionsion bytes");
     }
   }
 
@@ -35,7 +37,7 @@ class _Utils {
               extensionType: ExtensionType.transferFeeConfig);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw MessageException("Invalid extionsion bytes");
+      throw const MessageException("Invalid extionsion bytes");
     }
   }
 }
@@ -84,7 +86,7 @@ class TransferFeeConfig extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

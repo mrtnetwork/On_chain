@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'uses_method.dart';
 
 class Uses extends LayoutSerializable {
@@ -13,13 +14,13 @@ class Uses extends LayoutSerializable {
         remaining: json["remaining"],
         total: json["total"]);
   }
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8("useMethod"),
-    LayoutUtils.u64("remaining"),
-    LayoutUtils.u64("total")
-  ], "uses");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "useMethod"),
+    LayoutConst.u64(property: "remaining"),
+    LayoutConst.u64(property: "total")
+  ], property: "uses");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

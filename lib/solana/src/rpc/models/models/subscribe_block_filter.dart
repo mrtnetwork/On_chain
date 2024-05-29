@@ -7,7 +7,7 @@ class SubscribeBlockFilter {
 
   /// include all transactions in block
   factory SubscribeBlockFilter.all() {
-    return SubscribeBlockFilter._(null);
+    return const SubscribeBlockFilter._(null);
   }
 
   /// return only transactions that mention the provided public key (as base-58 encoded string).

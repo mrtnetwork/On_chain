@@ -1,5 +1,6 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'concurrent_merkle_tree_header_data_v1.dart';
 
 class ConcurrentMerkleTreeHeader extends LayoutSerializable {
@@ -26,15 +27,15 @@ class ConcurrentMerkleTreeHeader extends LayoutSerializable {
     return ConcurrentMerkleTreeHeader._("V1", 0, header);
   }
 
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.wrap(ConcurrentMerkleTreeHeaderDataV1.staticLayout,
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.wrap(ConcurrentMerkleTreeHeaderDataV1.staticLayout,
           property: "V1")
-    ], LayoutUtils.u8(), property: "concurrentMerkleTreeHeader")
+    ], property: "concurrentMerkleTreeHeader")
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

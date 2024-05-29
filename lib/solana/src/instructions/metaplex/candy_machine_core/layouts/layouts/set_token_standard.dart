@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/token_standard.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexCandyMachineSetTokenStandardLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -18,14 +18,14 @@ class MetaplexCandyMachineSetTokenStandardLayout
     return MetaplexCandyMachineSetTokenStandardLayout(
         tokenStandard: MetaDataTokenStandard.fromJson(decode["tokenStandard"]));
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.wrap(MetaDataTokenStandard.staticLayout,
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
         property: "tokenStandard")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

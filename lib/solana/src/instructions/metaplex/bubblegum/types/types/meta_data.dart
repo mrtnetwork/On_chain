@@ -3,7 +3,8 @@ import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/token_standard.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/uses.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types/creator.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaData extends LayoutSerializable {
   final String name;
@@ -58,23 +59,23 @@ class MetaData extends LayoutSerializable {
         LayoutSerializable.decode(bytes: bytes, layout: staticLayout);
     return MetaData.fromJson(decode);
   }
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.string("name"),
-    LayoutUtils.string("symbol"),
-    LayoutUtils.string("uri"),
-    LayoutUtils.u16("sellerFeeBasisPoints"),
-    LayoutUtils.boolean(property: "primarySaleHappened"),
-    LayoutUtils.boolean(property: "isMutable"),
-    LayoutUtils.optional(LayoutUtils.u8(), property: "editionNonce"),
-    LayoutUtils.optional(LayoutUtils.u8(), property: "tokenStandard"),
-    LayoutUtils.optional(Collection.staticLayout, property: "collection"),
-    LayoutUtils.optional(Uses.staticLayout, property: "uses"),
-    LayoutUtils.u8("tokenProgramVersion"),
-    LayoutUtils.vec(Creator.creatorLayout, property: "creators")
-  ], "metaData");
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "symbol"),
+    LayoutConst.string(property: "uri"),
+    LayoutConst.u16(property: "sellerFeeBasisPoints"),
+    LayoutConst.boolean(property: "primarySaleHappened"),
+    LayoutConst.boolean(property: "isMutable"),
+    LayoutConst.optional(LayoutConst.u8(), property: "editionNonce"),
+    LayoutConst.optional(LayoutConst.u8(), property: "tokenStandard"),
+    LayoutConst.optional(Collection.staticLayout, property: "collection"),
+    LayoutConst.optional(Uses.staticLayout, property: "uses"),
+    LayoutConst.u8(property: "tokenProgramVersion"),
+    LayoutConst.vec(Creator.creatorLayout, property: "creators")
+  ], property: "metaData");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

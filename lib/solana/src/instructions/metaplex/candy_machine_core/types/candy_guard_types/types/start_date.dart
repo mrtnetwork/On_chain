@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StartDate extends LayoutSerializable {
   final BigInt date;
@@ -8,11 +9,12 @@ class StartDate extends LayoutSerializable {
     return StartDate(date: json["date"]);
   }
 
-  static final Structure staticLayout =
-      LayoutUtils.struct([LayoutUtils.i64("date")], "startDate");
+  static final StructLayout staticLayout = LayoutConst.struct(
+      [LayoutConst.i64(property: "date")],
+      property: "startDate");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"date": date};

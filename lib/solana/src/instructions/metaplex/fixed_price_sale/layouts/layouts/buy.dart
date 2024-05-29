@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexFixedPriceSaleBuyLayout
     extends MetaplexFixedPriceSaleProgramLayout {
@@ -18,14 +18,14 @@ class MetaplexFixedPriceSaleBuyLayout
         vaultOwnerBump: decode["vaultOwnerBump"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("tradeHistoryBump"),
-    LayoutUtils.u8("vaultOwnerBump"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "tradeHistoryBump"),
+    LayoutConst.u8(property: "vaultOwnerBump"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

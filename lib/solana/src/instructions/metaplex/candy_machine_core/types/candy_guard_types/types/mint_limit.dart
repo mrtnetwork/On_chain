@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MintLimit extends LayoutSerializable {
   final int id;
@@ -9,13 +10,13 @@ class MintLimit extends LayoutSerializable {
     return MintLimit(id: json["id"], limit: json["limit"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8("id"),
-    LayoutUtils.u16("limit"),
-  ], "mintLimit");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "id"),
+    LayoutConst.u16(property: "limit"),
+  ], property: "mintLimit");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"id": id, "limit": limit};

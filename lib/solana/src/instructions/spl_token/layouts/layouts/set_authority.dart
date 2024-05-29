@@ -2,7 +2,9 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Sets a new authority of a mint or account layout.
 class SPLTokenSetAuthorityLayout extends SPLTokenProgramLayout {
@@ -15,11 +17,11 @@ class SPLTokenSetAuthorityLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenSetAuthorityLayout instance.
   SPLTokenSetAuthorityLayout({required this.authorityType, this.newAuthority});
 
-  /// Structure structure for setting authority in SPL tokens.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("authorityType"),
-    LayoutUtils.optionPubkey(property: "newAuthority", keepSize: true)
+  /// StructLayout structure for setting authority in SPL tokens.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "authorityType"),
+    SolanaLayoutUtils.optionPubkey(property: "newAuthority", keepSize: true)
   ]);
 
   /// Constructs an SPLTokenSetAuthorityLayout instance from buffer.
@@ -35,7 +37,7 @@ class SPLTokenSetAuthorityLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

@@ -1,20 +1,22 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/account_type.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/clean_up_action.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static Structure layout(int? cleanUpAction) => LayoutUtils.struct([
-        LayoutUtils.u8("accountType"),
-        LayoutUtils.vec(
-            LayoutUtils.tuple(
-                [LayoutUtils.u32(), LayoutUtils.u32(), LayoutUtils.u32()]),
+  static StructLayout layout(int? cleanUpAction) => LayoutConst.struct([
+        LayoutConst.u8(property: "accountType"),
+        LayoutConst.vec(
+            LayoutConst.tuple(
+                [LayoutConst.u32(), LayoutConst.u32(), LayoutConst.u32()]),
             property: "weight"),
-        LayoutUtils.u8("cleanUpAction"),
+        LayoutConst.u8(property: "cleanUpAction"),
         if (cleanUpAction == 0)
-          LayoutUtils.tuple([
-            LayoutUtils.u32(),
-            LayoutUtils.u32(),
+          LayoutConst.tuple([
+            LayoutConst.u32(),
+            LayoutConst.u32(),
           ], property: "fields")
       ]);
 }
@@ -34,7 +36,7 @@ class PackConfig extends LayoutSerializable {
       required CleanUpAction actionToDo}) {
     for (final i in weight) {
       if (i.length != 3) {
-        throw MessageException(
+        throw const MessageException(
             "Each inner list in the weight parameter must have a length of 3");
       }
     }
@@ -56,7 +58,7 @@ class PackConfig extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout(actionToDo.kind);
+  StructLayout get layout => _Utils.layout(actionToDo.kind);
   @override
   Map<String, dynamic> serialize() {
     return {

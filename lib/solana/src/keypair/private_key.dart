@@ -41,7 +41,7 @@ class SolanaPrivateKey {
         privateKey.publicKey.compressed
             .sublist(Ed25519KeysConst.pubKeyPrefix.length),
         publicBytes)) {
-      throw MessageException("Invalid keypair");
+      throw const MessageException("Invalid keypair");
     }
     return SolanaPrivateKey._(privateKey);
   }

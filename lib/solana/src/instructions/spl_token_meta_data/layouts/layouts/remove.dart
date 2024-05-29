@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 /// Removes a key-value pair in a token-metadata account layout.
 class SPLTokenMetaDataRemoveFieldLayout extends SPLTokenMetaDataProgramLayout {
@@ -27,15 +27,15 @@ class SPLTokenMetaDataRemoveFieldLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// Creates a static layout based on fields.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.boolean(property: "idempotent"),
-    LayoutUtils.string("key"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.boolean(property: "idempotent"),
+    LayoutConst.string(property: "key"),
   ]);
 
   /// The layout structure of this remove field instruction.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Gets the instruction bytes for the remove field instruction.
   @override

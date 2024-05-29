@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_machine_types/types/candy_machine_data.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/token_standard.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexCandyMachineInitializeCandyMachineV2Layout
     extends MetaplexCandyMachineProgramLayout {
@@ -21,15 +21,15 @@ class MetaplexCandyMachineInitializeCandyMachineV2Layout
         data: CandyMachineData.fromJson(decode["candyMachineData"]),
         tokenStandard: MetaDataTokenStandard.fromJson(decode["tokenStandard"]));
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
     CandyMachineData.staticLayout,
-    LayoutUtils.wrap(MetaDataTokenStandard.staticLayout,
+    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
         property: "tokenStandard")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction => MetaplexCandyMachineProgramInstruction

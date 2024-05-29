@@ -1,6 +1,7 @@
 // Manages the layout structure for the SPL token approve checked operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Update the interest rate layout.
 class SPLToken2022InterestBearingMintUpdateRateLayout
@@ -9,11 +10,11 @@ class SPLToken2022InterestBearingMintUpdateRateLayout
   final int rate;
   SPLToken2022InterestBearingMintUpdateRateLayout({required this.rate});
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.wrap(InterestBearingMintInstruction.staticLayout,
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
         property: "interestBearingMint"),
-    LayoutUtils.u16("rate"),
+    LayoutConst.u16(property: "rate"),
   ]);
 
   factory SPLToken2022InterestBearingMintUpdateRateLayout.fromBuffer(
@@ -28,7 +29,7 @@ class SPLToken2022InterestBearingMintUpdateRateLayout
   }
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

@@ -17,14 +17,14 @@ class CleanUpAction {
     throw MessageException('Invalid or unknown cleanUpAction',
         details: {"kind": kind});
   }
-  factory CleanUpAction.sort() => CleanUpAction._(1, "Sort", null);
-  factory CleanUpAction.none() => CleanUpAction._(2, "None", null);
+  factory CleanUpAction.sort() => const CleanUpAction._(1, "Sort", null);
+  factory CleanUpAction.none() => const CleanUpAction._(2, "NoneLayout", null);
   factory CleanUpAction.change(List<int> fields) {
     if (fields.length != 2) {
       throw MessageException("Expected exactly 2 fields",
           details: {"fields": fields});
     }
-    return CleanUpAction._(0, "None", fields);
+    return CleanUpAction._(0, "NoneLayout", fields);
   }
 
   @override

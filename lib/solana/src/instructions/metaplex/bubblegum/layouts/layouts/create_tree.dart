@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexBubblegumCreateTreeLayout extends MetaplexBubblegumProgramLayout {
   final int maxDepth;
@@ -23,15 +23,15 @@ class MetaplexBubblegumCreateTreeLayout extends MetaplexBubblegumProgramLayout {
         maxDepth: decode["maxDepth"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u32("maxDepth"),
-    LayoutUtils.u32("maxBufferSize"),
-    LayoutUtils.optional(LayoutUtils.boolean(), property: "public")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u32(property: "maxDepth"),
+    LayoutConst.u32(property: "maxBufferSize"),
+    LayoutConst.optional(LayoutConst.boolean(), property: "public")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

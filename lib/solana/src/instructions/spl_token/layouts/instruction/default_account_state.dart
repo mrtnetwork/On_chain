@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/exception/exception.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class DefaultAccountStateInstruction extends LayoutSerializable {
   const DefaultAccountStateInstruction._(this.name);
@@ -18,13 +19,13 @@ class DefaultAccountStateInstruction extends LayoutSerializable {
     update
   ];
 
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum(
-        values.map((e) => LayoutUtils.none(e.name)).toList(), LayoutUtils.u8(),
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum(
+        values.map((e) => LayoutConst.none(property: e.name)).toList(),
         property: "defaultAccountState")
   ]);
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

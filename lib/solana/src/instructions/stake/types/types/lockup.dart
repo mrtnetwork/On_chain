@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Stake account lockup info
 class StakeLockup extends LayoutSerializable {
@@ -26,14 +28,14 @@ class StakeLockup extends LayoutSerializable {
     timestamp: BigInt.zero,
   );
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.i64("timestamp"),
-    LayoutUtils.u64("epoch"),
-    LayoutUtils.publicKey("custodian")
-  ], "lockup");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.i64(property: "timestamp"),
+    LayoutConst.u64(property: "epoch"),
+    SolanaLayoutUtils.publicKey("custodian")
+  ], property: "lockup");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

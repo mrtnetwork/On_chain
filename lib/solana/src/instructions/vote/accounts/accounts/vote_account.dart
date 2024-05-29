@@ -1,28 +1,30 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/vote/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static Structure layout(int version) => LayoutUtils.struct([
-        LayoutUtils.publicKey('nodePubkey'),
-        LayoutUtils.publicKey('authorizedWithdrawer'),
-        LayoutUtils.u8('commission'),
+  static StructLayout layout(int version) => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('nodePubkey'),
+        SolanaLayoutUtils.publicKey('authorizedWithdrawer'),
+        LayoutConst.u8(property: 'commission'),
         if (version > 1)
-          LayoutUtils.rustVec(
-              LayoutUtils.struct([
-                LayoutUtils.u8(),
+          LayoutConst.rustVec(
+              LayoutConst.struct([
+                LayoutConst.u8(),
                 ...Lockout.staticLayout.fields,
-              ], "lockout"),
+              ], property: "lockout"),
               property: 'votes')
         else
-          LayoutUtils.rustVec(Lockout.staticLayout, property: 'votes'),
-        LayoutUtils.optional(LayoutUtils.u64(), property: "rootSlot"),
-        LayoutUtils.rustVec(AuthorizedVoter.staticLayout,
+          LayoutConst.rustVec(Lockout.staticLayout, property: 'votes'),
+        LayoutConst.optional(LayoutConst.u64(), property: "rootSlot"),
+        LayoutConst.rustVec(AuthorizedVoter.staticLayout,
             property: 'authorizedVoters'),
         PriorVoters.staticLayout,
-        LayoutUtils.rustVec(EpochCredits.staticLayout,
+        LayoutConst.rustVec(EpochCredits.staticLayout,
             property: 'epochCredits'),
-        LayoutUtils.wrap(BlockTimestamp.staticLayout,
+        LayoutConst.wrap(BlockTimestamp.staticLayout,
             property: "lastTimestamp"),
       ]);
 }
@@ -51,7 +53,7 @@ class VoteAccount extends LayoutSerializable {
       required this.votes,
       required this.version});
   factory VoteAccount.fromBuffer(List<int> data) {
-    final version = LayoutUtils.u32().decode(data.sublist(0, 4));
+    final version = LayoutConst.u32().deserialize(data.sublist(0, 4)).value;
     final decode = LayoutSerializable.decode(
         bytes: data.sublist(4), layout: _Utils.layout(version));
     return VoteAccount(
@@ -73,7 +75,7 @@ class VoteAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout(version);
+  StructLayout get layout => _Utils.layout(version);
   @override
   Map<String, dynamic> serialize() {
     return {

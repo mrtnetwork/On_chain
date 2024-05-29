@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexCandyMachineSetCollectionLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -11,13 +11,13 @@ class MetaplexCandyMachineSetCollectionLayout
         bytes: data,
         instruction:
             MetaplexCandyMachineProgramInstruction.setCollection.insturction);
-    return MetaplexCandyMachineSetCollectionLayout();
+    return const MetaplexCandyMachineSetCollectionLayout();
   }
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.blob(8, property: "instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

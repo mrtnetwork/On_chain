@@ -1,15 +1,16 @@
 // Manages the layout structure for closing an SPL token account.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents the layout for closing an SPL token account.
 class SPLTokenCloseAccountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenCloseAccountLayout instance.
   SPLTokenCloseAccountLayout();
 
-  /// Structure structure for SPLTokenCloseAccountLayout.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  /// StructLayout structure for SPLTokenCloseAccountLayout.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   /// Constructs an SPLTokenCloseAccountLayout instance from buffer.
   factory SPLTokenCloseAccountLayout.fromBuffer(List<int> bytes) {
@@ -22,7 +23,7 @@ class SPLTokenCloseAccountLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

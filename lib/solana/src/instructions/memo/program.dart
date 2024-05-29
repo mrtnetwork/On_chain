@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/memo/layouts/memo.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/instructions/memo/constant.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';

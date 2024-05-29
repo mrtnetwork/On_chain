@@ -1,12 +1,14 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class NameRegistryAccountUtils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.publicKey('parentName'),
-    LayoutUtils.publicKey('owner'),
-    LayoutUtils.publicKey('classAccount'),
+  static final StructLayout layout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey('parentName'),
+    SolanaLayoutUtils.publicKey('owner'),
+    SolanaLayoutUtils.publicKey('classAccount'),
   ]);
   static const int hiddenDataOffset = 96;
 }
@@ -34,7 +36,7 @@ class NameRegistryAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => NameRegistryAccountUtils.layout;
+  StructLayout get layout => NameRegistryAccountUtils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

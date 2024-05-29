@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/models/models.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexBubblegumProgram extends TransactionInstruction {
   MetaplexBubblegumProgram({
@@ -87,7 +87,7 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
           ...anchorRemainingAccounts
         ],
         programId: MetaplexBubblegumProgramConst.programId,
-        layout: MetaplexBubblegumCompressLayout());
+        layout: const MetaplexBubblegumCompressLayout());
   }
   factory MetaplexBubblegumProgram.createTree({
     required SolAddress treeAuthority,
@@ -329,7 +329,7 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
           ...anchorRemainingAccounts
         ],
         programId: MetaplexBubblegumProgramConst.programId,
-        layout: MetaplexBubblegumSetTreeDelegateLayout());
+        layout: const MetaplexBubblegumSetTreeDelegateLayout());
   }
   factory MetaplexBubblegumProgram.transfer({
     required SolAddress treeAuthority,

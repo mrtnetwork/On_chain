@@ -1,6 +1,7 @@
 // Manages the layout structure for transferring tokens in SPL.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Transfers tokens layout.
 class SPLTokenTransferLayout extends SPLTokenProgramLayout {
@@ -10,10 +11,10 @@ class SPLTokenTransferLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenTransferLayout instance.
   SPLTokenTransferLayout({required this.amount});
 
-  /// Structure structure for transferring tokens in SPL.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u64("amount"),
+  /// StructLayout structure for transferring tokens in SPL.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "amount"),
   ]);
 
   /// Constructs an SPLTokenTransferLayout instance from buffer.
@@ -28,7 +29,7 @@ class SPLTokenTransferLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

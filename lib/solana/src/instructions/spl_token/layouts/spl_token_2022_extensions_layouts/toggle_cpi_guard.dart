@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Allow or lock all token operations to happen via CPI as normal.
 class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
@@ -8,9 +9,9 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
 
   SPLToken2022ToggleCpiGuardLayout({required this.guard});
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.wrap(CpiGuardInstructionInstruction.staticLayout,
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.wrap(CpiGuardInstructionInstruction.staticLayout,
         property: "guard"),
   ]);
 
@@ -24,7 +25,7 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
   }
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

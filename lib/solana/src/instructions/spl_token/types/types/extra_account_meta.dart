@@ -1,5 +1,6 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class ExtraAccountMeta extends LayoutSerializable {
   final int discriminator;
@@ -20,14 +21,14 @@ class ExtraAccountMeta extends LayoutSerializable {
         isWritable: json["isWritable"]);
   }
 
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8('discriminator'),
-    LayoutUtils.blob(32, property: 'addressConfig'),
-    LayoutUtils.boolean(property: 'isSigner'),
-    LayoutUtils.boolean(property: 'isWritable'),
-  ], "extraAccountMeta");
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.blob(32, property: 'addressConfig'),
+    LayoutConst.boolean(property: 'isSigner'),
+    LayoutConst.boolean(property: 'isWritable'),
+  ], property: "extraAccountMeta");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

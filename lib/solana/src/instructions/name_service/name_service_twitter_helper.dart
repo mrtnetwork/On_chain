@@ -160,7 +160,7 @@ class NameServiceProgramTwitterHelper {
     final registry = await rpc.request(
         SolanaRPCNameRegistryAccount(account: twitterHandleRegistryKey));
     if (registry == null) {
-      throw MessageException("Account not found.");
+      throw const MessageException("Account not found.");
     }
 
     return registry;
@@ -181,7 +181,7 @@ class NameServiceProgramTwitterHelper {
     final reverseRegistryState = await rpc.request(
         SolanaRPCReverseTwitterRegistryAccount(account: reverseRegistryKey));
     if (reverseRegistryState == null) {
-      throw MessageException("Account not found.");
+      throw const MessageException("Account not found.");
     }
     return reverseRegistryState;
   }
@@ -234,7 +234,7 @@ class NameServiceProgramTwitterHelper {
               offset: 64, bytes: SolAddress.defaultPubKey.address),
         ]));
     if (filteredAccounts.length != 1) {
-      throw MessageException(
+      throw const MessageException(
           'Account not found or more than one registry found.');
     }
     final account = filteredAccounts[0];

@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/change_log.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/path.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class ConcurrentMerkleTree extends LayoutSerializable {
   final BigInt sequenceNumber;
@@ -26,21 +27,21 @@ class ConcurrentMerkleTree extends LayoutSerializable {
             .toList(),
         rightMostPath: Path.fromJson(json["rightMostPath"]));
   }
-  static Structure staticLayout(
+  static StructLayout staticLayout(
           {required int maxBufferSize, required int maxDepth}) =>
-      LayoutUtils.struct([
-        LayoutUtils.u64("sequenceNumber"),
-        LayoutUtils.u64("activeIndex"),
-        LayoutUtils.u64("bufferSize"),
-        LayoutUtils.array(
+      LayoutConst.struct([
+        LayoutConst.u64(property: "sequenceNumber"),
+        LayoutConst.u64(property: "activeIndex"),
+        LayoutConst.u64(property: "bufferSize"),
+        LayoutConst.array(
             ChangeLog.staticLayout(maxDepth: maxDepth), maxBufferSize,
             property: "changeLogs"),
-        LayoutUtils.wrap(Path.staticLayout(maxDepth: maxDepth),
+        LayoutConst.wrap(Path.staticLayout(maxDepth: maxDepth),
             property: "rightMostPath"),
-      ], "concurrentMerkleTree");
+      ], property: "concurrentMerkleTree");
 
   @override
-  Structure get layout => staticLayout(
+  StructLayout get layout => staticLayout(
       maxBufferSize: changeLogs.length, maxDepth: rightMostPath.proof.length);
 
   @override

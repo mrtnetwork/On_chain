@@ -1,15 +1,16 @@
 // Manages the layout structure for revoking SPL tokens.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Revokes the delegate's authority layout.
 class SPLTokenRevokeLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenRevokeLayout instance.
   SPLTokenRevokeLayout();
 
-  /// Structure structure for revoking SPL tokens.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  /// StructLayout structure for revoking SPL tokens.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   /// Constructs an SPLTokenRevokeLayout instance from buffer.
   factory SPLTokenRevokeLayout.fromBuffer(List<int> bytes) {
@@ -22,7 +23,7 @@ class SPLTokenRevokeLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

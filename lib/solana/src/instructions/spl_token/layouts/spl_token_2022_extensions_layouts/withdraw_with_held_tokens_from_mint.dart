@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SPLToken2022WithdrawWithheldTokensFromMintLayout
     extends SPLTokenProgramLayout {
@@ -15,13 +16,13 @@ class SPLToken2022WithdrawWithheldTokensFromMintLayout
     return SPLToken2022WithdrawWithheldTokensFromMintLayout();
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("transferFee"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "transferFee"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

@@ -23,7 +23,7 @@ void main() {
 
 void _updateValidatorListBalance() {
   test("updateValidatorListBalance", () {
-    final layout = StakePoolUpdateValidatorListBalanceLayout(
+    const layout = StakePoolUpdateValidatorListBalanceLayout(
         noMerge: false, startIndex: 12);
     expect(layout.toHex(), "060c00000000");
     final decode =
@@ -31,7 +31,7 @@ void _updateValidatorListBalance() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test("updateValidatorListBalance_1", () {
-    final layout = StakePoolUpdateValidatorListBalanceLayout(
+    const layout = StakePoolUpdateValidatorListBalanceLayout(
         noMerge: true, startIndex: 1000);
     expect(layout.toHex(), "06e803000001");
     final decode =
@@ -42,7 +42,7 @@ void _updateValidatorListBalance() {
 
 void _updateStakePoolBalance() {
   test("updateStakePoolBalance", () {
-    final layout = StakePoolUpdateStakePoolBalanceLayout();
+    const layout = StakePoolUpdateStakePoolBalanceLayout();
     expect(layout.toHex(), "07");
     final decode =
         StakePoolUpdateStakePoolBalanceLayout.fromBuffer(layout.toBytes());
@@ -53,7 +53,7 @@ void _updateStakePoolBalance() {
 // StakePoolCleanupRemovedValidatorEntriesLayout()
 void _cleanupRemovedValidatorEntries() {
   test("cleanupRemovedValidatorEntries", () {
-    final layout = StakePoolCleanupRemovedValidatorEntriesLayout();
+    const layout = StakePoolCleanupRemovedValidatorEntriesLayout();
     expect(layout.toHex(), "08");
     final decode = StakePoolCleanupRemovedValidatorEntriesLayout.fromBuffer(
         layout.toBytes());
@@ -145,7 +145,7 @@ void _decreaseAdditionalValidatorStake() {
 
 void _depositStake() {
   test("depositStake", () {
-    final layout = StakePoolDepositStakeLayout();
+    const layout = StakePoolDepositStakeLayout();
     expect(layout.toHex(), "09");
     final decode = StakePoolDepositStakeLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());

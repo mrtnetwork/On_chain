@@ -1,27 +1,29 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [219, 190, 213, 55, 0, 227, 198, 154];
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("store"),
-    LayoutUtils.publicKey("sellingResource"),
-    LayoutUtils.publicKey("treasuryMint"),
-    LayoutUtils.publicKey("treasuryHolder"),
-    LayoutUtils.publicKey("treasuryOwner"),
-    LayoutUtils.publicKey("owner"),
-    LayoutUtils.string("name"),
-    LayoutUtils.string("description"),
-    LayoutUtils.boolean(property: "mutable"),
-    LayoutUtils.u64("price"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "piecesInOneWallet"),
-    LayoutUtils.u64("startDate"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "endDate"),
-    LayoutUtils.u8("state"),
-    LayoutUtils.u64("fundsCollected"),
-    LayoutUtils.optional(GatingConfig.staticLayout, property: "gatingConfig")
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("store"),
+    SolanaLayoutUtils.publicKey("sellingResource"),
+    SolanaLayoutUtils.publicKey("treasuryMint"),
+    SolanaLayoutUtils.publicKey("treasuryHolder"),
+    SolanaLayoutUtils.publicKey("treasuryOwner"),
+    SolanaLayoutUtils.publicKey("owner"),
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "description"),
+    LayoutConst.boolean(property: "mutable"),
+    LayoutConst.u64(property: "price"),
+    LayoutConst.optional(LayoutConst.u64(), property: "piecesInOneWallet"),
+    LayoutConst.u64(property: "startDate"),
+    LayoutConst.optional(LayoutConst.u64(), property: "endDate"),
+    LayoutConst.u8(property: "state"),
+    LayoutConst.u64(property: "fundsCollected"),
+    LayoutConst.optional(GatingConfig.staticLayout, property: "gatingConfig")
   ]);
 }
 
@@ -87,7 +89,7 @@ class Market extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

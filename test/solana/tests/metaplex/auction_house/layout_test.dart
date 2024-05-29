@@ -48,7 +48,7 @@ void main() {
 
 void _auctionHouse() {
   test("create", () {
-    final layout = MetaplexAuctionHouseCreateAuctionHouseLayout(
+    const layout = MetaplexAuctionHouseCreateAuctionHouseLayout(
       bump: 1,
       feePayerBump: 1,
       treasuryBump: 1,
@@ -62,7 +62,7 @@ void _auctionHouse() {
     expect(layout.toBytes(), decode.toBytes());
   });
   test("create_2", () {
-    final layout = MetaplexAuctionHouseCreateAuctionHouseLayout(
+    const layout = MetaplexAuctionHouseCreateAuctionHouseLayout(
       bump: 100,
       feePayerBump: 100,
       treasuryBump: 100,
@@ -76,7 +76,7 @@ void _auctionHouse() {
     expect(layout.toBytes(), decode.toBytes());
   });
   test("create_3", () {
-    final layout = MetaplexAuctionHouseCreateAuctionHouseLayout(
+    const layout = MetaplexAuctionHouseCreateAuctionHouseLayout(
       bump: 25,
       feePayerBump: 50,
       treasuryBump: 75,
@@ -93,7 +93,7 @@ void _auctionHouse() {
 
 void _delegateAuctioneer() {
   test("delegateAuctioneer", () {
-    final layout = MetaplexAuctionHouseDelegateAuctioneerLayout(scopes: [
+    const layout = MetaplexAuctionHouseDelegateAuctioneerLayout(scopes: [
       AuthorityScope.buy,
       AuthorityScope.deposit,
       AuthorityScope.executeSale
@@ -104,14 +104,14 @@ void _delegateAuctioneer() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test("delegateAuctioneer_2", () {
-    final layout = MetaplexAuctionHouseDelegateAuctioneerLayout(scopes: []);
+    const layout = MetaplexAuctionHouseDelegateAuctioneerLayout(scopes: []);
     expect(layout.toHex(), "6ab20c7a4aadfbde00000000");
     final decode = MetaplexAuctionHouseDelegateAuctioneerLayout.fromBuffer(
         layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });
   test("delegateAuctioneer_3", () {
-    final layout = MetaplexAuctionHouseDelegateAuctioneerLayout(
+    const layout = MetaplexAuctionHouseDelegateAuctioneerLayout(
         scopes: AuthorityScope.values);
     expect(layout.toHex(), "6ab20c7a4aadfbde0700000000010203040506");
     final decode = MetaplexAuctionHouseDelegateAuctioneerLayout.fromBuffer(
@@ -344,7 +344,7 @@ void _cancel() {
 
 void _cancelBidReceipt() {
   test("cancelBidReceipt", () {
-    final layout = MetaplexAuctionHouseCancelBidReceiptLayout();
+    const layout = MetaplexAuctionHouseCancelBidReceiptLayout();
     expect(layout.toHex(), "f66c1be5dc2ab02b");
 
     final decode =
@@ -355,7 +355,7 @@ void _cancelBidReceipt() {
 
 void _cancelListingReceipt() {
   test("cancelListingReceipt", () {
-    final layout = MetaplexAuctionHouseCancelListingReceiptLayout();
+    const layout = MetaplexAuctionHouseCancelListingReceiptLayout();
     expect(layout.toHex(), "ab3b8a7ef6bd5b0b");
 
     final decode = MetaplexAuctionHouseCancelListingReceiptLayout.fromBuffer(
@@ -366,7 +366,7 @@ void _cancelListingReceipt() {
 
 void _cancelRemainingAccounts() {
   test("cancelRemainingAccounts", () {
-    final layout = MetaplexAuctionHouseCancelRemainingAccountsLayout();
+    const layout = MetaplexAuctionHouseCancelRemainingAccountsLayout();
     expect(layout.toHex(), "6b4da1fb4681bd9c");
 
     final decode = MetaplexAuctionHouseCancelRemainingAccountsLayout.fromBuffer(
@@ -377,7 +377,7 @@ void _cancelRemainingAccounts() {
 
 void _closeEscrowAccount() {
   test("closeEscrowAccount", () {
-    final layout =
+    const layout =
         MetaplexAuctionHouseCloseEscrowAccountLayout(escrowPaymentBump: 255);
     expect(layout.toHex(), "d12ad0b38c4e122bff");
 
@@ -470,7 +470,7 @@ void _executeSale() {
 
 void _executeSaleRemainingAccounts() {
   test("executeSaleRemainingAccounts", () {
-    final layout = MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout();
+    const layout = MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout();
     expect(layout.toHex(), "9f0cabfe8dc67a07");
 
     final decode =
@@ -482,7 +482,7 @@ void _executeSaleRemainingAccounts() {
 
 void _printBidReceipt() {
   test("printBidReceipt", () {
-    final layout = MetaplexAuctionHousePrintBidReceiptLayout(receiptBump: 112);
+    const layout = MetaplexAuctionHousePrintBidReceiptLayout(receiptBump: 112);
     expect(layout.toHex(), "5ef95ae6ef4044da70");
 
     final decode =
@@ -493,7 +493,7 @@ void _printBidReceipt() {
 
 void _printListingReceipt() {
   test("printListingReceipt", () {
-    final layout =
+    const layout =
         MetaplexAuctionHousePrintListingReceiptLayout(receiptBump: 112);
     expect(layout.toHex(), "cf6b2ca04bdec31b70");
 
@@ -505,7 +505,7 @@ void _printListingReceipt() {
 
 void _printPurchaseReceipt() {
   test("printPurchaseReceipt", () {
-    final layout = MetaplexAuctionHousePrintPurchaseReceiptLayout(
+    const layout = MetaplexAuctionHousePrintPurchaseReceiptLayout(
         purchaseReceiptBump: 112);
     expect(layout.toHex(), "e39afb07b438648f70");
 
@@ -551,7 +551,7 @@ void _sell() {
 
 void _sellRemainingAccounts() {
   test("sellRemainingAccounts", () {
-    final layout = MetaplexAuctionHouseSellRemainingAccountsLayout();
+    const layout = MetaplexAuctionHouseSellRemainingAccountsLayout();
     expect(layout.toHex(), "7117c72919cbea1e");
 
     final decode = MetaplexAuctionHouseSellRemainingAccountsLayout.fromBuffer(
@@ -562,7 +562,7 @@ void _sellRemainingAccounts() {
 
 void _updateAuctioneer() {
   test("updateAuctioneer", () {
-    final layout = MetaplexAuctionHouseUpdateAuctioneerLayout(scopes: [
+    const layout = MetaplexAuctionHouseUpdateAuctioneerLayout(scopes: [
       AuthorityScope.buy,
       AuthorityScope.cancel,
       AuthorityScope.sell
@@ -577,7 +577,7 @@ void _updateAuctioneer() {
 
 void _updateAuctionHouse() {
   test("updateAuctionHouse", () {
-    final layout = MetaplexAuctionHouseUpdateAuctionHouseLayout();
+    const layout = MetaplexAuctionHouseUpdateAuctionHouseLayout();
     expect(layout.toHex(), "54d702acf100f5db000000");
 
     final decode = MetaplexAuctionHouseUpdateAuctionHouseLayout.fromBuffer(
@@ -585,7 +585,7 @@ void _updateAuctionHouse() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test("updateAuctionHouse_1", () {
-    final layout =
+    const layout =
         MetaplexAuctionHouseUpdateAuctionHouseLayout(sellerFeeBasisPoints: 24);
     expect(layout.toHex(), "54d702acf100f5db0118000000");
 
@@ -594,7 +594,7 @@ void _updateAuctionHouse() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test("updateAuctionHouse_2", () {
-    final layout = MetaplexAuctionHouseUpdateAuctionHouseLayout(
+    const layout = MetaplexAuctionHouseUpdateAuctionHouseLayout(
       sellerFeeBasisPoints: 24,
       requiresSignOff: true,
     );
@@ -605,7 +605,7 @@ void _updateAuctionHouse() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test("updateAuctionHouse_3", () {
-    final layout = MetaplexAuctionHouseUpdateAuctionHouseLayout(
+    const layout = MetaplexAuctionHouseUpdateAuctionHouseLayout(
         sellerFeeBasisPoints: 24,
         requiresSignOff: true,
         canChangeSalePrice: false);
@@ -655,7 +655,7 @@ void _withdrawFromTreasury() {
 
 void _auctioneer() {
   test("auctioneer", () {
-    final layout = Auctioneer(
+    const layout = Auctioneer(
         auctionHouse: SolAddress.unchecked(
             "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ"),
         auctioneerAuthority: SolAddress.unchecked(
@@ -669,9 +669,9 @@ void _auctioneer() {
 }
 
 void _bidReceipt() {
-  final owner =
+  const owner =
       SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
-  final account1 =
+  const account1 =
       SolAddress.unchecked("57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ");
   test("bidReceipt", () {
     final layout = BidReceipt(
@@ -739,9 +739,9 @@ void _bidReceipt() {
 }
 
 void _listeningReceipt() {
-  final owner =
+  const owner =
       SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
-  final account1 =
+  const account1 =
       SolAddress.unchecked("57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ");
   test("listeningReceipt", () {
     final layout = ListingReceipt(
@@ -786,7 +786,7 @@ void _listeningReceipt() {
 }
 
 void _purchaseReceipt() {
-  final owner =
+  const owner =
       SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
   test("purchaseReceipt", () {
     final layout = PurchaseReceipt(

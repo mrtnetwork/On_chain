@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MintCounter extends LayoutSerializable {
   final int count;
@@ -8,12 +9,12 @@ class MintCounter extends LayoutSerializable {
     return MintCounter(count: json["count"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u16("count"),
-  ], "mintCounter");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u16(property: "count"),
+  ], property: "mintCounter");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"count": count};

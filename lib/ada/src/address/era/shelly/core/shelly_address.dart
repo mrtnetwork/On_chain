@@ -30,7 +30,7 @@ abstract class ADAShellyAddress extends ADAAddress {
       case ADAAddressType.enterprise:
         return ADAEnterpriseAddress(address, network: network);
       default:
-        throw MessageException(
+        throw const MessageException(
             "Invalid shelly address. for byron address please use ByronAddress.");
     }
   }

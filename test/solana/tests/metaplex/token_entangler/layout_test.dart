@@ -28,7 +28,7 @@ void _createEntangledPair() {
 
 void _swap() {
   test("swap", () {
-    final layout = MetaplexTokenEntanglerSwapLayout();
+    const layout = MetaplexTokenEntanglerSwapLayout();
     expect(layout.toHex(), "f8c69e91e17587c8");
     final decode =
         MetaplexTokenEntanglerSwapLayout.fromBuffer(layout.toBytes());
@@ -48,7 +48,7 @@ void _updateEntangledPair() {
 }
 
 void _entangledPair() {
-  final owner =
+  const owner =
       SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
   test("EntangledPair", () {
     final layout = EntangledPair(

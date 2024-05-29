@@ -1,5 +1,6 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/string/string.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents the layout for a memo in a Solana transaction.
 class MemoLayout extends ProgramLayout {
@@ -16,7 +17,7 @@ class MemoLayout extends ProgramLayout {
   }
 
   @override
-  Structure get layout => throw UnimplementedError();
+  StructLayout get layout => throw UnimplementedError();
 
   @override
   int get instruction => throw UnimplementedError();

@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/binary/binary.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class AllowList extends LayoutSerializable {
   final List<int> merkleRoot;
@@ -10,12 +11,12 @@ class AllowList extends LayoutSerializable {
     return AllowList(merkleRoot: (json["merkleRoot"] as List).cast());
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.blob(32, property: "merkleRoot"),
-  ], "allowList");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.blob(32, property: "merkleRoot"),
+  ], property: "allowList");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"merkleRoot": merkleRoot};

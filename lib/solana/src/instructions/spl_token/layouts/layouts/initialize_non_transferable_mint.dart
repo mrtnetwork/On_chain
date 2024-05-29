@@ -1,6 +1,7 @@
 // Manages the layout structure for initializing a non-transferable mint for an SPL token.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initialize the non transferable extension for the given mint account layout.
 class SPLTokenInitializeNonTransferableMintLayout
@@ -8,9 +9,9 @@ class SPLTokenInitializeNonTransferableMintLayout
   /// Constructs an SPLTokenInitializeNonTransferableMintLayout instance.
   SPLTokenInitializeNonTransferableMintLayout();
 
-  /// Structure structure for initializing a non-transferable mint.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  /// StructLayout structure for initializing a non-transferable mint.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   /// Constructs an SPLTokenInitializeNonTransferableMintLayout instance from buffer.
   factory SPLTokenInitializeNonTransferableMintLayout.fromBuffer(
@@ -26,7 +27,7 @@ class SPLTokenInitializeNonTransferableMintLayout
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

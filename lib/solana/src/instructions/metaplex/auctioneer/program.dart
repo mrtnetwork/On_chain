@@ -1,7 +1,7 @@
+import 'package:on_chain/solana/src/borsh_serialization/core/program_layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/associated_token_account/constant.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/layouts/layouts.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/spl_token.dart';
 import 'package:on_chain/solana/src/instructions/system/system.dart';
 import 'package:on_chain/solana/src/models/models.dart';
@@ -34,7 +34,7 @@ class MetaplexAuctioneerProgram extends TransactionInstruction {
           systemProgram.toReadOnly(),
         ],
         programId: MetaplexAuctioneerProgramConst.programId,
-        layout: MetaplexAuctioneerAuthorizeLayout());
+        layout: const MetaplexAuctioneerAuthorizeLayout());
   }
 
   /// Create a private buy bid by creating a `buyer_trade_state` account and an `escrow_payment` account and funding the escrow with the necessary SOL or SPL token amount.

@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_guard_types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class GuardSet extends LayoutSerializable {
   final BotTax? botTax;
@@ -72,37 +73,37 @@ class GuardSet extends LayoutSerializable {
         token2022Payment: Token2022Payment.fromJson(json["token2022Payment"]));
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.optional(BotTax.staticLayout, property: "botTax"),
-    LayoutUtils.optional(SolPayment.staticLayout, property: "solPayment"),
-    LayoutUtils.optional(TokenPayment.staticLayout, property: "tokenPayment"),
-    LayoutUtils.optional(StartDate.staticLayout, property: "startDate"),
-    LayoutUtils.optional(ThirdPartySigner.staticLayout,
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.optional(BotTax.staticLayout, property: "botTax"),
+    LayoutConst.optional(SolPayment.staticLayout, property: "solPayment"),
+    LayoutConst.optional(TokenPayment.staticLayout, property: "tokenPayment"),
+    LayoutConst.optional(StartDate.staticLayout, property: "startDate"),
+    LayoutConst.optional(ThirdPartySigner.staticLayout,
         property: "thirdPartySigner"),
-    LayoutUtils.optional(TokenGate.staticLayout, property: "tokenGate"),
-    LayoutUtils.optional(Gatekeeper.staticLayout, property: "gatekeeper"),
-    LayoutUtils.optional(EndDate.staticLayout, property: "endDate"),
-    LayoutUtils.optional(AllowList.staticLayout, property: "allowList"),
-    LayoutUtils.optional(MintLimit.staticLayout, property: "mintLimit"),
-    LayoutUtils.optional(NFTPayment.staticLayout, property: "nftPayment"),
-    LayoutUtils.optional(RedeemedAmount.staticLayout,
+    LayoutConst.optional(TokenGate.staticLayout, property: "tokenGate"),
+    LayoutConst.optional(Gatekeeper.staticLayout, property: "gatekeeper"),
+    LayoutConst.optional(EndDate.staticLayout, property: "endDate"),
+    LayoutConst.optional(AllowList.staticLayout, property: "allowList"),
+    LayoutConst.optional(MintLimit.staticLayout, property: "mintLimit"),
+    LayoutConst.optional(NFTPayment.staticLayout, property: "nftPayment"),
+    LayoutConst.optional(RedeemedAmount.staticLayout,
         property: "redeemedAmount"),
-    LayoutUtils.optional(AddressGate.staticLayout, property: "addressGate"),
-    LayoutUtils.optional(NftGate.staticLayout, property: "nftGate"),
-    LayoutUtils.optional(NftBurn.staticLayout, property: "nftBurn"),
-    LayoutUtils.optional(TokenBurn.staticLayout, property: "tokenBurn"),
-    LayoutUtils.optional(FreezeSolPayment.staticLayout,
+    LayoutConst.optional(AddressGate.staticLayout, property: "addressGate"),
+    LayoutConst.optional(NftGate.staticLayout, property: "nftGate"),
+    LayoutConst.optional(NftBurn.staticLayout, property: "nftBurn"),
+    LayoutConst.optional(TokenBurn.staticLayout, property: "tokenBurn"),
+    LayoutConst.optional(FreezeSolPayment.staticLayout,
         property: "freezeSolPayment"),
-    LayoutUtils.optional(FreezeTokenPayment.staticLayout,
+    LayoutConst.optional(FreezeTokenPayment.staticLayout,
         property: "freezeTokenPayment"),
-    LayoutUtils.optional(ProgramGate.staticLayout, property: "programGate"),
-    LayoutUtils.optional(Allocation.staticLayout, property: "allocation"),
-    LayoutUtils.optional(Token2022Payment.staticLayout,
+    LayoutConst.optional(ProgramGate.staticLayout, property: "programGate"),
+    LayoutConst.optional(Allocation.staticLayout, property: "allocation"),
+    LayoutConst.optional(Token2022Payment.staticLayout,
         property: "token2022Payment"),
-  ], "guards");
+  ], property: "guards");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

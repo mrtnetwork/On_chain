@@ -1,8 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/associated_token_account/constant.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 
@@ -106,7 +106,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           tokenProgram.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataBurnEditionNftLayout());
+        layout: const MetaplexTokenMetaDataBurnEditionNftLayout());
   }
   factory MetaplexTokenMetaDataProgram.burnNft({
     required SolAddress metadata,
@@ -128,7 +128,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           if (collectionMetadata != null) collectionMetadata.toWritable()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataburnNftLayout());
+        layout: const MetaplexTokenMetaDataburnNftLayout());
   }
   factory MetaplexTokenMetaDataProgram.burnV1({
     required SolAddress authority,
@@ -193,7 +193,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           sysvarInstructions.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataCloseEscrowAccountLayout());
+        layout: const MetaplexTokenMetaDataCloseEscrowAccountLayout());
   }
   factory MetaplexTokenMetaDataProgram.collect({
     required SolAddress authority,
@@ -205,7 +205,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           recipient.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataCollectLayout());
+        layout: const MetaplexTokenMetaDataCollectLayout());
   }
   factory MetaplexTokenMetaDataProgram.convertMasterEditionV1ToV2({
     required SolAddress masterEdition,
@@ -219,7 +219,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           printingMint.toWritable()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout());
+        layout: const MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout());
   }
   factory MetaplexTokenMetaDataProgram.createEscrowAccount({
     required SolAddress escrow,
@@ -245,7 +245,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           if (authority != null) authority.toSigner()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataCreateEscrowAccountLayout());
+        layout: const MetaplexTokenMetaDataCreateEscrowAccountLayout());
   }
   factory MetaplexTokenMetaDataProgram.createMasterEdition({
     required SolAddress edition,
@@ -271,7 +271,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           rent.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataCreateMasterEditionLayout());
+        layout: const MetaplexTokenMetaDataCreateMasterEditionLayout());
   }
   factory MetaplexTokenMetaDataProgram.createMasterEditionV3({
     required SolAddress edition,
@@ -317,7 +317,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           rent.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataCreateMetadataAccountLayout());
+        layout: const MetaplexTokenMetaDataCreateMetadataAccountLayout());
   }
   factory MetaplexTokenMetaDataProgram.createMetadataAccountV2({
     required SolAddress metadata,
@@ -339,7 +339,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           if (rent != null) rent.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataCreateMetadataAccountV2Layout());
+        layout: const MetaplexTokenMetaDataCreateMetadataAccountV2Layout());
   }
   factory MetaplexTokenMetaDataProgram.createMetadataAccountV3({
     required SolAddress metadata,
@@ -469,7 +469,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
         layout:
-            MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout());
+            const MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout());
   }
   factory MetaplexTokenMetaDataProgram.freezeDelegatedAccount({
     required SolAddress delegate,
@@ -487,7 +487,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           tokenProgram.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataFreezeDelegatedAccountLayout());
+        layout: const MetaplexTokenMetaDataFreezeDelegatedAccountLayout());
   }
   factory MetaplexTokenMetaDataProgram.lockV1({
     required SolAddress authority,
@@ -565,7 +565,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
               MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataMigrateLayout());
+        layout: const MetaplexTokenMetaDataMigrateLayout());
   }
   factory MetaplexTokenMetaDataProgram.mintNewEditionFromMasterEditionViaToken({
     required SolAddress newMetadata,
@@ -735,7 +735,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           metadata.toWritable(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataPuffMetadataLayout());
+        layout: const MetaplexTokenMetaDataPuffMetadataLayout());
   }
   factory MetaplexTokenMetaDataProgram.removeCreatorVerification(
       {required SolAddress metadata, required SolAddress creator}) {
@@ -745,7 +745,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           creator.toSigner(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataRemoveCreatorVerificationLayout());
+        layout: const MetaplexTokenMetaDataRemoveCreatorVerificationLayout());
   }
   factory MetaplexTokenMetaDataProgram.revoke({
     required SolAddress delegate,
@@ -804,7 +804,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           mint.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataRevokeCollectionAuthorityLayout());
+        layout: const MetaplexTokenMetaDataRevokeCollectionAuthorityLayout());
   }
   factory MetaplexTokenMetaDataProgram.revokeUseAuthority({
     required SolAddress useAuthorityRecord,
@@ -830,7 +830,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           if (rent != null) rent.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataRevokeUseAuthorityLayout());
+        layout: const MetaplexTokenMetaDataRevokeUseAuthorityLayout());
   }
   factory MetaplexTokenMetaDataProgram.setAndVerifyCollection({
     required SolAddress metadata,
@@ -855,7 +855,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
             collectionAuthorityRecord.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataSetAndVerifyCollectionLayout());
+        layout: const MetaplexTokenMetaDataSetAndVerifyCollectionLayout());
   }
   factory MetaplexTokenMetaDataProgram.setAndVerifySizedCollectionItem({
     required SolAddress metadata,
@@ -880,7 +880,8 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
             collectionAuthorityRecord.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout());
+        layout:
+            const MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout());
   }
   factory MetaplexTokenMetaDataProgram.setCollectionSize({
     required SolAddress collectionMetadata,
@@ -911,7 +912,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           if (edition != null) edition.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataSetTokenStandardLayout());
+        layout: const MetaplexTokenMetaDataSetTokenStandardLayout());
   }
   factory MetaplexTokenMetaDataProgram.signMetadata({
     required SolAddress metadata,
@@ -920,7 +921,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     return MetaplexTokenMetaDataProgram(
         keys: [metadata.toWritable(), creator.toSigner()],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataSignMetadataLayout());
+        layout: const MetaplexTokenMetaDataSignMetadataLayout());
   }
   factory MetaplexTokenMetaDataProgram.thawDelegatedAccount({
     required SolAddress delegate,
@@ -938,7 +939,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           tokenProgram.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataThawDelegatedAccountLayout());
+        layout: const MetaplexTokenMetaDataThawDelegatedAccountLayout());
   }
   factory MetaplexTokenMetaDataProgram.transferOutOfEscrow({
     required SolAddress escrow,
@@ -1098,7 +1099,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
             collectionAuthorityRecord.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataUnverifyCollectionLayout());
+        layout: const MetaplexTokenMetaDataUnverifyCollectionLayout());
   }
   factory MetaplexTokenMetaDataProgram.unverifySizedCollectionItem({
     required SolAddress metadata,
@@ -1121,7 +1122,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
             collectionAuthorityRecord.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataUnverifySizedCollectionItemLayout());
+        layout: const MetaplexTokenMetaDataUnverifySizedCollectionItemLayout());
   }
   factory MetaplexTokenMetaDataProgram.update({
     required SolAddress authority,
@@ -1178,7 +1179,8 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
           token.toReadOnly(),
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout());
+        layout:
+            const MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout());
   }
   factory MetaplexTokenMetaDataProgram.useV1({
     required SolAddress authority,
@@ -1233,7 +1235,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
   }) {
     if (burner != null) {
       if (useAuthorityRecord == null) {
-        throw MessageException(
+        throw const MessageException(
             "When providing 'burner' then 'accounts.useAuthorityRecord' need(s) to be provided as well.");
       }
     }
@@ -1298,7 +1300,7 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
             collectionAuthorityRecord.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataVerifyCollectionLayout());
+        layout: const MetaplexTokenMetaDataVerifyCollectionLayout());
   }
   factory MetaplexTokenMetaDataProgram.verifySizedCollection({
     required SolAddress metadata,
@@ -1321,6 +1323,6 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
             collectionAuthorityRecord.toReadOnly()
         ],
         programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: MetaplexTokenMetaDataVerifySizedCollectionItemLayout());
+        layout: const MetaplexTokenMetaDataVerifySizedCollectionItemLayout());
   }
 }

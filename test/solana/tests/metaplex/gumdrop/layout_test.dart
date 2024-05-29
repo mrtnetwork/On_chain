@@ -4,9 +4,9 @@ import 'package:test/test.dart';
 final List<int> _proof1 = List<int>.filled(32, 10);
 final List<int> _proof2 = List<int>.filled(32, 20);
 final List<int> _proof3 = List<int>.filled(32, 30);
-final SolAddress _owner =
+const SolAddress _owner =
     SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
-final SolAddress _account1 =
+const SolAddress _account1 =
     SolAddress.unchecked("57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ");
 void main() {
   group("gumdrop", () {
@@ -91,7 +91,7 @@ void _claimEdition() {
 
 void _closeDistributor() {
   test("closeDistributor", () {
-    final layout =
+    const layout =
         MetaplexGumdropCloseDistributorLayout(walletBump: 253, bump: 1);
     expect(layout.toHex(), "ca38b48f2e686a7001fd");
     final decode =
@@ -102,7 +102,7 @@ void _closeDistributor() {
 
 void _closeDistributorTokenAccount() {
   test("closeDistributorTokenAccount", () {
-    final layout = MetaplexGumdropCloseDistributorTokenAccountLayout(bump: 1);
+    const layout = MetaplexGumdropCloseDistributorTokenAccountLayout(bump: 1);
     expect(layout.toHex(), "9cae99786696868e01");
     final decode = MetaplexGumdropCloseDistributorTokenAccountLayout.fromBuffer(
         layout.toBytes());
@@ -143,7 +143,7 @@ void _proveClaim() {
 
 void _recoverUpdateAuthority() {
   test("recoverUpdateAuthority", () {
-    final layout =
+    const layout =
         MetaplexGumdropRecoverUpdateAuthorityLayout(bump: 1, walletBump: 253);
     expect(layout.toHex(), "8efbd174576424bf01fd");
     final decode = MetaplexGumdropRecoverUpdateAuthorityLayout.fromBuffer(
@@ -193,7 +193,9 @@ void _config() {
           uuid: "uuid",
           symbol: "MRT",
           sellerFeeBasisPoints: 1,
-          creators: [Creator(address: _account1, verified: false, share: 0)],
+          creators: [
+            const Creator(address: _account1, verified: false, share: 0)
+          ],
           maxSupply: BigInt.from(1111),
           isMutable: true,
           retainAuthority: false,

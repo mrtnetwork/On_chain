@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Advance nonce account system layout
 class SystemAdvanceNonceLayout extends SystemProgramLayout {
@@ -10,13 +11,13 @@ class SystemAdvanceNonceLayout extends SystemProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: SystemProgramInstruction.advanceNonceAccount.insturction);
-    return SystemAdvanceNonceLayout();
+    return const SystemAdvanceNonceLayout();
   }
 
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u32("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

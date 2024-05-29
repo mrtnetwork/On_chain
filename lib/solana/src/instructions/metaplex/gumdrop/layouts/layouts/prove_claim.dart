@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/binary/binary.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
   final List<int> claimPrefix;
@@ -42,20 +43,20 @@ class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
         proof: (decode["proof"] as List).cast());
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.vecU8("claimPrefix"),
-    LayoutUtils.u8("claimBump"),
-    LayoutUtils.u64("index"),
-    LayoutUtils.u64("amount"),
-    LayoutUtils.publicKey("claimantSecret"),
-    LayoutUtils.publicKey("resource"),
-    LayoutUtils.vecU8("resourceNonce"),
-    LayoutUtils.vec(LayoutUtils.blob(32), property: "proof"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.vecU8(property: "claimPrefix"),
+    LayoutConst.u8(property: "claimBump"),
+    LayoutConst.u64(property: "index"),
+    LayoutConst.u64(property: "amount"),
+    SolanaLayoutUtils.publicKey("claimantSecret"),
+    SolanaLayoutUtils.publicKey("resource"),
+    LayoutConst.vecU8(property: "resourceNonce"),
+    LayoutConst.vec(LayoutConst.blob(32), property: "proof"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

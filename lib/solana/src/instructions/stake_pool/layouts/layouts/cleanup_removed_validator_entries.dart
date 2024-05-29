@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Cleans up validator stake account entries layout.
 class StakePoolCleanupRemovedValidatorEntriesLayout
@@ -13,15 +14,15 @@ class StakePoolCleanupRemovedValidatorEntriesLayout
         bytes: bytes,
         instruction: StakePoolProgramInstruction
             .cleanupRemovedValidatorEntries.insturction);
-    return StakePoolCleanupRemovedValidatorEntriesLayout();
+    return const StakePoolCleanupRemovedValidatorEntriesLayout();
   }
   @override
   int get instruction =>
       StakePoolProgramInstruction.cleanupRemovedValidatorEntries.insturction;
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   Map<String, dynamic> serialize() {

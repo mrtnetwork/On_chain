@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types/creator.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class UpdateMetaData extends LayoutSerializable {
   final String? name;
@@ -36,20 +37,20 @@ class UpdateMetaData extends LayoutSerializable {
         LayoutSerializable.decode(bytes: bytes, layout: staticLayout);
     return UpdateMetaData.fromJson(decode);
   }
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.optional(LayoutUtils.string(), property: "name"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "symbol"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "uri"),
-    LayoutUtils.optional(LayoutUtils.vec(Creator.creatorLayout),
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.optional(LayoutConst.string(), property: "name"),
+    LayoutConst.optional(LayoutConst.string(), property: "symbol"),
+    LayoutConst.optional(LayoutConst.string(), property: "uri"),
+    LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
         property: "creators"),
-    LayoutUtils.optional(LayoutUtils.u16(), property: "sellerFeeBasisPoints"),
-    LayoutUtils.optional(LayoutUtils.boolean(),
+    LayoutConst.optional(LayoutConst.u16(), property: "sellerFeeBasisPoints"),
+    LayoutConst.optional(LayoutConst.boolean(),
         property: "primarySaleHappened"),
-    LayoutUtils.optional(LayoutUtils.boolean(), property: "isMutable"),
-  ], "updateMetaData");
+    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
+  ], property: "updateMetaData");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

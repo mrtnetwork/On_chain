@@ -1,5 +1,6 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Any additional metadata about the token as key-value pairs. The program
 /// must avoid storing the same key twice.
@@ -10,20 +11,20 @@ class AdditionalMetadata extends LayoutSerializable {
   factory AdditionalMetadata.fromJson(Map<String, dynamic> json) {
     final List<String> values = (json["values"] as List).cast();
     if (values.length != 2) {
-      throw MessageException("invalid AdditionalMetadata data length");
+      throw const MessageException("invalid AdditionalMetadata data length");
     }
     return AdditionalMetadata(key: values[0], value: values[1]);
   }
 
-  static final staticLayout = LayoutUtils.struct([
-    LayoutUtils.tuple([
-      LayoutUtils.string("key"),
-      LayoutUtils.string("value"),
+  static final staticLayout = LayoutConst.struct([
+    LayoutConst.tuple([
+      LayoutConst.string(property: "key"),
+      LayoutConst.string(property: "value"),
     ], property: "values")
-  ], "additionalMetadata");
+  ], property: "additionalMetadata");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types/gating_config.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexFixedPriceSaleCreateMarketLayout
     extends MetaplexFixedPriceSaleProgramLayout {
@@ -45,21 +45,21 @@ class MetaplexFixedPriceSaleCreateMarketLayout
             : GatingConfig.fromJson(decode["gatingConfig"]));
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("treasuryOwnerBump"),
-    LayoutUtils.string("name"),
-    LayoutUtils.string("description"),
-    LayoutUtils.boolean(property: "mutable"),
-    LayoutUtils.u64("price"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "piecesInOneWallet"),
-    LayoutUtils.u64("startDate"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "endDate"),
-    LayoutUtils.optional(GatingConfig.staticLayout, property: "gatingConfig"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "treasuryOwnerBump"),
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "description"),
+    LayoutConst.boolean(property: "mutable"),
+    LayoutConst.u64(property: "price"),
+    LayoutConst.optional(LayoutConst.u64(), property: "piecesInOneWallet"),
+    LayoutConst.u64(property: "startDate"),
+    LayoutConst.optional(LayoutConst.u64(), property: "endDate"),
+    LayoutConst.optional(GatingConfig.staticLayout, property: "gatingConfig"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

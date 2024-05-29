@@ -1,6 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/name_service/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Transfer ownership of a name record
 class NameServiceTransferLayout extends NameServiceProgramLayout {
@@ -21,14 +23,14 @@ class NameServiceTransferLayout extends NameServiceProgramLayout {
   }
 
   /// The layout structure.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.publicKey("newOwnerKey"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    SolanaLayoutUtils.publicKey("newOwnerKey"),
   ]);
 
   /// The layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// The instruction associated with the layout.
   @override

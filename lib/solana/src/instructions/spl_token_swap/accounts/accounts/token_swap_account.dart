@@ -1,23 +1,26 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SPLTokenSwapAccountUtils {
-  static Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8('version'),
-    LayoutUtils.boolean(property: 'isInitialized'),
-    LayoutUtils.u8('bumpSeed'),
-    LayoutUtils.publicKey('poolTokenProgramId'),
-    LayoutUtils.publicKey('tokenAccountA'),
-    LayoutUtils.publicKey('tokenAccountB'),
-    LayoutUtils.publicKey('tokenPool'),
-    LayoutUtils.publicKey('mintA'),
-    LayoutUtils.publicKey('mintB'),
-    LayoutUtils.publicKey('feeAccount'),
+  static StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'version'),
+    LayoutConst.boolean(property: 'isInitialized'),
+    LayoutConst.u8(property: 'bumpSeed'),
+    SolanaLayoutUtils.publicKey('poolTokenProgramId'),
+    SolanaLayoutUtils.publicKey('tokenAccountA'),
+    SolanaLayoutUtils.publicKey('tokenAccountB'),
+    SolanaLayoutUtils.publicKey('tokenPool'),
+    SolanaLayoutUtils.publicKey('mintA'),
+    SolanaLayoutUtils.publicKey('mintB'),
+    SolanaLayoutUtils.publicKey('feeAccount'),
     TokenSwapFees.staticLayout,
-    LayoutUtils.u8('curveType'),
-    LayoutUtils.blob(32, property: 'curveParameters'),
+    LayoutConst.u8(property: 'curveType'),
+    LayoutConst.blob(32, property: 'curveParameters'),
   ]);
   static int get size => layout.span;
 }
@@ -98,7 +101,7 @@ class SPLTokenSwapAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => SPLTokenSwapAccountUtils.layout;
+  StructLayout get layout => SPLTokenSwapAccountUtils.layout;
 
   @override
   Map<String, dynamic> serialize() {

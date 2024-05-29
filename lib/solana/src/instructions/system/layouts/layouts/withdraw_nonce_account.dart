@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Withdraw nonce account system layout
 class SystemWithdrawNonceLayout extends SystemProgramLayout {
@@ -13,11 +14,13 @@ class SystemWithdrawNonceLayout extends SystemProgramLayout {
         instruction: SystemProgramInstruction.withdrawNonceAccount.insturction);
     return SystemWithdrawNonceLayout(lamports: decode["lamports"]);
   }
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u32("instruction"), LayoutUtils.ns64("lamports")]);
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    LayoutConst.ns64(property: "lamports")
+  ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

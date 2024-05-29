@@ -1,14 +1,16 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [190, 117, 218, 114, 66, 112, 56, 41];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("market"),
-    LayoutUtils.publicKey("wallet"),
-    LayoutUtils.u64("alreadyBought"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("market"),
+    SolanaLayoutUtils.publicKey("wallet"),
+    LayoutConst.u64(property: "alreadyBought"),
   ]);
 }
 
@@ -35,7 +37,7 @@ class TradeHistory extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

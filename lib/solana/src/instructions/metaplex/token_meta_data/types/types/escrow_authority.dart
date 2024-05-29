@@ -1,6 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class EscrowAuthority extends LayoutSerializable {
   final String name;
@@ -21,18 +23,18 @@ class EscrowAuthority extends LayoutSerializable {
       case "Creator":
         return EscrowAuthority.creator(creator: (value as List)[0]);
       default:
-        throw MessageException("Invalid escrowAuthority version");
+        throw const MessageException("Invalid escrowAuthority version");
     }
   }
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.none("TokenOwner"),
-      LayoutUtils.tuple([LayoutUtils.publicKey()], property: "Creator")
-    ], LayoutUtils.u8(), property: "escrowAuthority")
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.none(property: "TokenOwner"),
+      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: "Creator")
+    ], property: "escrowAuthority")
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

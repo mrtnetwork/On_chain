@@ -1,6 +1,7 @@
 // Manages the layout structure for converting SPL token amount to UI amount.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Convert an Amount of tokens to a UiAmount layout.
 class SPLTokenAmountToUiAmountLayout extends SPLTokenProgramLayout {
@@ -10,9 +11,11 @@ class SPLTokenAmountToUiAmountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenAmountToUiAmountLayout instance.
   SPLTokenAmountToUiAmountLayout({required this.amount});
 
-  /// Structure structure for SPLTokenAmountToUiAmountLayout.
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u8("instruction"), LayoutUtils.u64("amount")]);
+  /// StructLayout structure for SPLTokenAmountToUiAmountLayout.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "amount")
+  ]);
 
   /// Constructs an SPLTokenAmountToUiAmountLayout instance from buffer.
   factory SPLTokenAmountToUiAmountLayout.fromBuffer(List<int> bytes) {
@@ -25,7 +28,7 @@ class SPLTokenAmountToUiAmountLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

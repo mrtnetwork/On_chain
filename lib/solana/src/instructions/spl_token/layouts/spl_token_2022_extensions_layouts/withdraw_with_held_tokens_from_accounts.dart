@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Transfer all withheld tokens to an account layout.
 class SPLToken2022WithdrawWithheldTokensFromAccountsLayout
@@ -20,14 +21,14 @@ class SPLToken2022WithdrawWithheldTokensFromAccountsLayout
         numTokenAccounts: decode["numTokenAccounts"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("transferFee"),
-    LayoutUtils.u8("numTokenAccounts"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "transferFee"),
+    LayoutConst.u8(property: "numTokenAccounts"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

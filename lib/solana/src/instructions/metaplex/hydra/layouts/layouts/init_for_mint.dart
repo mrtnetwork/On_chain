@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
   final int bumpSeed;
@@ -14,13 +14,13 @@ class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
     return MetaplexHydraInitForMintLayout(bumpSeed: decode["bumpSeed"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("bumpSeed")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "bumpSeed")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

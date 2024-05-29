@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class GatingConfig extends LayoutSerializable {
   final SolAddress collection;
@@ -14,14 +16,14 @@ class GatingConfig extends LayoutSerializable {
         gatingTime: json["gatingTime"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.publicKey("collection"),
-    LayoutUtils.boolean(property: "expireOnUse"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "gatingTime")
-  ], "gatingConfig");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey("collection"),
+    LayoutConst.boolean(property: "expireOnUse"),
+    LayoutConst.optional(LayoutConst.u64(), property: "gatingTime")
+  ], property: "gatingConfig");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

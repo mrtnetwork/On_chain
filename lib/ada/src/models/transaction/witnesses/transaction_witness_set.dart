@@ -101,27 +101,27 @@ class TransactionWitnessSet with ADASerialization {
         [];
     return CborMapValue.fixedLength({
       if (vKeys?.isNotEmpty ?? false) ...{
-        CborIntValue(0):
+        const CborIntValue(0):
             CborListValue.fixedLength(vKeys!.map((e) => e.toCbor()).toList())
       },
       if (nativeScripts?.isNotEmpty ?? false) ...{
-        CborIntValue(1): CborListValue.fixedLength(
+        const CborIntValue(1): CborListValue.fixedLength(
             nativeScripts!.map((e) => e.toCbor()).toList()),
       },
       if (bootstraps?.isNotEmpty ?? false) ...{
-        CborIntValue(2): CborListValue.fixedLength(
+        const CborIntValue(2): CborListValue.fixedLength(
             bootstraps!.map((e) => e.toCbor()).toList()),
       },
       if (plutusScripts != null) ...{
-        CborIntValue(3): CborListValue.fixedLength(
+        const CborIntValue(3): CborListValue.fixedLength(
             plutusVersion1.map((e) => e.toCbor()).toList()),
         if (plutusVersion2.isNotEmpty)
-          CborIntValue(6): CborListValue.fixedLength(
+          const CborIntValue(6): CborListValue.fixedLength(
               plutusVersion2.map((e) => e.toCbor()).toList()),
       },
-      if (plutusData != null) ...{CborIntValue(4): plutusData!.toCbor()},
+      if (plutusData != null) ...{const CborIntValue(4): plutusData!.toCbor()},
       if (redeemers?.isNotEmpty ?? false) ...{
-        CborIntValue(5): CborListValue.fixedLength(
+        const CborIntValue(5): CborListValue.fixedLength(
             redeemers!.map((e) => e.toCbor()).toList()),
       },
     });

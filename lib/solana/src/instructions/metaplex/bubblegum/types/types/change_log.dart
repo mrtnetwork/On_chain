@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class ChangeLog extends LayoutSerializable {
   final SolAddress root;
@@ -16,15 +18,16 @@ class ChangeLog extends LayoutSerializable {
         pathNodes: (json["pathNodes"] as List).cast(),
         index: json["index"]);
   }
-  static Structure staticLayout({required int maxDepth}) => LayoutUtils.struct([
-        LayoutUtils.publicKey("root"),
-        LayoutUtils.array(LayoutUtils.publicKey(), maxDepth,
+  static StructLayout staticLayout({required int maxDepth}) =>
+      LayoutConst.struct([
+        SolanaLayoutUtils.publicKey("root"),
+        LayoutConst.array(SolanaLayoutUtils.publicKey(), maxDepth,
             property: "pathNodes"),
-        LayoutUtils.u64("index")
-      ], "changeLog");
+        LayoutConst.u64(property: "index")
+      ], property: "changeLog");
 
   @override
-  Structure get layout => staticLayout(maxDepth: pathNodes.length);
+  StructLayout get layout => staticLayout(maxDepth: pathNodes.length);
 
   @override
   Map<String, dynamic> serialize() {

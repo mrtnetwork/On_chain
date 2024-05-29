@@ -1,7 +1,9 @@
 // Manages the layout structure for initializing an SPL token mint with close authority.
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Initialize the close account authority on a new mint layout.
 class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
@@ -11,10 +13,10 @@ class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenInitializeMintCloseAuthorityLayout instance.
   SPLTokenInitializeMintCloseAuthorityLayout({this.closeAuthority});
 
-  /// Structure structure for SPLTokenInitializeMintCloseAuthorityLayout.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.optionPubkey(property: "closeAuthority", keepSize: true)
+  /// StructLayout structure for SPLTokenInitializeMintCloseAuthorityLayout.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    SolanaLayoutUtils.optionPubkey(property: "closeAuthority", keepSize: true)
   ]);
 
   /// Constructs an SPLTokenInitializeMintCloseAuthorityLayout instance from buffer.
@@ -31,7 +33,7 @@ class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

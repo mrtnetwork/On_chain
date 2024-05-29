@@ -24,7 +24,7 @@ abstract class BlockforestRequestParam<RESULT, RESPONSE>
   }
 
   /// Converts the request parameters to [BlockforestRequestDetails] with a unique identifier.
-  BlockforestRequestDetails toRequest(int _) {
+  BlockforestRequestDetails toRequest(int v) {
     final pathParams = BlockforestProviderUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
       throw MessageException("Invalid Path Parameters.", details: {
@@ -42,7 +42,7 @@ abstract class BlockforestRequestParam<RESULT, RESPONSE>
           .normalizePath()
           .toString();
     }
-    return BlockforestRequestDetails(id: _, pathParams: params);
+    return BlockforestRequestDetails(id: v, pathParams: params);
   }
 }
 
@@ -54,8 +54,8 @@ abstract class BlockforestPostRequestParam<RESULT, RESPONSE>
   final Map<String, String>? header = null;
 
   @override
-  BlockforestRequestDetails toRequest(int _) {
-    final request = super.toRequest(_);
+  BlockforestRequestDetails toRequest(int v) {
+    final request = super.toRequest(v);
     return request.copyWith(
         body: body, header: header, requestType: HTTPRequestType.post);
   }

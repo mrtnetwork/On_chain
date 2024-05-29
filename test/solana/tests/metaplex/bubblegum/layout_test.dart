@@ -14,7 +14,7 @@ final _metaDataArgs = MetaData(
     isMutable: true,
     editionNonce: 123,
     tokenStandard: TokenStandard.fungibleAsset,
-    collection: Collection(
+    collection: const Collection(
         verified: true,
         key: SolAddress.unchecked(
             "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ")),
@@ -88,7 +88,7 @@ void _cancelRedeem() {
 
 void _compress() {
   test("compress", () {
-    final layout = MetaplexBubblegumCompressLayout();
+    const layout = MetaplexBubblegumCompressLayout();
     expect(layout.toHex(), "52c1b075b01573fd");
     final decode = MetaplexBubblegumCompressLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -97,7 +97,7 @@ void _compress() {
 
 void _createTree() {
   test("createTree", () {
-    final layout = MetaplexBubblegumCreateTreeLayout(
+    const layout = MetaplexBubblegumCreateTreeLayout(
         maxDepth: 80, maxBufferSize: 801, public: false);
     expect(layout.toHex(), "a553888e59ca2fdc50000000210300000100");
     final decode =
@@ -105,7 +105,7 @@ void _createTree() {
     expect(layout.toBytes(), decode.toBytes());
   });
   test("createTree_1", () {
-    final layout =
+    const layout =
         MetaplexBubblegumCreateTreeLayout(maxDepth: 80, maxBufferSize: 801);
     expect(layout.toHex(), "a553888e59ca2fdc500000002103000000");
     final decode =
@@ -113,7 +113,7 @@ void _createTree() {
     expect(layout.toBytes(), decode.toBytes());
   });
   test("createTree_2", () {
-    final layout = MetaplexBubblegumCreateTreeLayout(
+    const layout = MetaplexBubblegumCreateTreeLayout(
         maxDepth: 80, maxBufferSize: 801, public: true);
     expect(layout.toHex(), "a553888e59ca2fdc50000000210300000101");
     final decode =
@@ -186,7 +186,7 @@ void _metaData() {
         isMutable: true,
         editionNonce: null,
         tokenStandard: null,
-        collection: Collection(
+        collection: const Collection(
             verified: true,
             key: SolAddress.unchecked(
                 "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ")),
@@ -217,7 +217,7 @@ void _metaData() {
         isMutable: true,
         editionNonce: 123,
         tokenStandard: TokenStandard.fungibleAsset,
-        collection: Collection(
+        collection: const Collection(
             verified: true,
             key: SolAddress.unchecked(
                 "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ")),
@@ -314,7 +314,7 @@ void _setAndVerifyCollection() {
         nonce: BigInt.from(312312),
         index: 123,
         message: _metaDataArgs,
-        collection: SolAddress.unchecked(
+        collection: const SolAddress.unchecked(
             "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ"));
     expect(layout.toHex(),
         "ebf279d89eeab4ea0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a14141414141414141414141414141414141414141414141414141414141414141e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1ef8c30400000000007b000000030000004d5254040000004d5254320a000000474f4f474c452e636f6d0c000001017b010101013d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d0101b3b556070000000083400300000000000001000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76000c3d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d");
@@ -326,7 +326,7 @@ void _setAndVerifyCollection() {
 
 void _setDecompressibleState() {
   test("setDecompressibleState", () {
-    final layout = MetaplexBubblegumSetDecompressibleStateLayout(
+    const layout = MetaplexBubblegumSetDecompressibleStateLayout(
         decompressibleState: DecompressibleState.disabled);
     expect(layout.toHex(), "52689806956f640d01");
     final decode = MetaplexBubblegumSetDecompressibleStateLayout.fromBuffer(
@@ -337,7 +337,7 @@ void _setDecompressibleState() {
 
 void _setTreeDelegate() {
   test("setTreeDelegate", () {
-    final layout = MetaplexBubblegumSetTreeDelegateLayout();
+    const layout = MetaplexBubblegumSetTreeDelegateLayout();
     expect(layout.toHex(), "fd764225be319a66");
     final decode =
         MetaplexBubblegumSetTreeDelegateLayout.fromBuffer(layout.toBytes());
@@ -396,7 +396,7 @@ void _unverifyCreator() {
 
 void _updateMetaData() {
   test("updateMetaData", () {
-    final layout = UpdateMetaData(
+    const layout = UpdateMetaData(
         name: null,
         symbol: null,
         uri: null,
@@ -409,7 +409,7 @@ void _updateMetaData() {
     expect(decode.toHex(), layout.toHex());
   });
   test("updateMetaData_1", () {
-    final layout = UpdateMetaData(
+    const layout = UpdateMetaData(
         name: "MRTNETWORK",
         symbol: "MRT",
         uri: "https://github.com/mrtnetwork",
@@ -423,7 +423,7 @@ void _updateMetaData() {
     expect(decode.toHex(), layout.toHex());
   });
   test("updateMetaData_2", () {
-    final layout = UpdateMetaData(
+    const layout = UpdateMetaData(
         name: "MRTNETWORK",
         symbol: "MRT",
         uri: "https://github.com/mrtnetwork",
@@ -437,7 +437,7 @@ void _updateMetaData() {
     expect(decode.toHex(), layout.toHex());
   });
   test("updateMetaData_3", () {
-    final layout = UpdateMetaData(
+    const layout = UpdateMetaData(
         name: "MRTNETWORK",
         symbol: "MRT",
         uri: "https://github.com/mrtnetwork",
@@ -465,7 +465,7 @@ void _updateMetaData() {
 
 void _updateMetaDataInstruction() {
   test("updateMetaDataInstruction", () {
-    final updateArgs = UpdateMetaData(
+    const updateArgs = UpdateMetaData(
         name: "MRTNETWORK",
         symbol: "MRT",
         uri: "https://github.com/mrtnetwork",
@@ -536,17 +536,17 @@ void _voucher() {
   test("voucher", () {
     final layout = Voucher(
         leafSchema: LeafSchemaV1(
-            id: SolAddress.unchecked(
+            id: const SolAddress.unchecked(
                 "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
-            owner: SolAddress.unchecked(
+            owner: const SolAddress.unchecked(
                 "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ"),
-            delegate: SolAddress.unchecked(
+            delegate: const SolAddress.unchecked(
                 "6jwLNd4w4RfZsj5WCszKB4wKHmU2gX24JLq2DH42No5s"),
             nonce: BigInt.from(32),
             dataHash: _dataHash,
             creatorHash: _creatorHash),
         index: 80,
-        merkleTree: SolAddress.unchecked(
+        merkleTree: const SolAddress.unchecked(
             "GyJCfBvFFbVPiREaPFh9Tx7NcFijs2ZWtNaowb4ih6kJ"));
     expect(layout.toHex(),
         "bfcc95ead5a50d4100f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd763d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca200000000000000014141414141414141414141414141414141414141414141414141414141414141e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e50000000ed4b474820db73c8c296fccf275489da999d74ced22bd13a1cfa8b787857e9b3");
@@ -559,9 +559,9 @@ void _voucher() {
 void _treeConfig() {
   test("TreeConfig", () {
     final layout = TreeConfig(
-        treeCreator: SolAddress.unchecked(
+        treeCreator: const SolAddress.unchecked(
             "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
-        treeDelegate: SolAddress.unchecked(
+        treeDelegate: const SolAddress.unchecked(
             "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ"),
         totalMintCapacity: BigInt.from(12312390),
         numMinted: BigInt.from(123123),
@@ -577,11 +577,11 @@ void _treeConfig() {
 void _computeHash() {
   test("computeCompressedNFTHash", () {
     final computeHash = MetaplexBubblegumProgramUtils.computeCompressedNFTHash(
-        assetId: SolAddress.unchecked(
+        assetId: const SolAddress.unchecked(
             "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
-        delegate: SolAddress.unchecked(
+        delegate: const SolAddress.unchecked(
             "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
-        owner: SolAddress.unchecked(
+        owner: const SolAddress.unchecked(
             "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
         metaData: _metaDataArgs,
         treeNonce: BigInt.from(21));

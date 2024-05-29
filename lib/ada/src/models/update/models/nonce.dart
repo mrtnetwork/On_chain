@@ -18,7 +18,7 @@ class Nonce with ADASerialization {
   factory Nonce.deserialize(CborListValue cbor) {
     final int hasHash = cbor.getIndex(0);
     if (hasHash != 0 && hasHash != 1) {
-      throw MessageException("Invalid Nonce cbor bytes.");
+      throw const MessageException("Invalid Nonce cbor bytes.");
     }
     return Nonce(hasHash == 0 ? null : cbor.getIndex(1));
   }

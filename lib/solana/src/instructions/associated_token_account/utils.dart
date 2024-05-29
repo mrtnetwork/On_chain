@@ -15,7 +15,8 @@ class AssociatedTokenAccountProgramUtils {
     bool allowOwnerOffCurve = false,
   }) {
     if (!allowOwnerOffCurve && !owner.isOnCurve) {
-      throw MessageException("Public key address is not valid on the curve.");
+      throw const MessageException(
+          "Public key address is not valid on the curve.");
     }
     return ProgramDerivedAddress.find(
         seedBytes: [owner.toBytes(), tokenProgramId.toBytes(), mint.toBytes()],

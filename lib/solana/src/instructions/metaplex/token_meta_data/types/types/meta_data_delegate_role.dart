@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/exception/exception.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetadataDelegateRole {
   final String name;
@@ -33,9 +33,9 @@ class MetadataDelegateRole {
     collectionItem,
     programmableConfigItem
   ];
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum(
-        values.map((e) => LayoutUtils.none(e.name)).toList(), LayoutUtils.u8(),
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum(
+        values.map((e) => LayoutConst.none(property: e.name)).toList(),
         property: "metaDataTokenStandard")
   ]);
   static MetadataDelegateRole fromValue(int? value) {

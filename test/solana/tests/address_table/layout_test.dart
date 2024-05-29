@@ -28,7 +28,7 @@ void _createLookupTable() {
 
 void _freezeLookupTable() {
   test("freezeLookupTable", () {
-    final layout = AddressLookupFreezeLookupTableLayout();
+    const layout = AddressLookupFreezeLookupTableLayout();
     expect(layout.toHex(), "01000000");
     final decode =
         AddressLookupFreezeLookupTableLayout.fromBuffer(layout.toBytes());
@@ -51,7 +51,7 @@ void _extendLookupTable() {
 
 void _deactivateLookupTable() {
   test("deactivateLookupTable", () {
-    final layout = AddressLookupDeactiveLookupTableLayout();
+    const layout = AddressLookupDeactiveLookupTableLayout();
     expect(layout.toHex(), "03000000");
     final decode =
         AddressLookupDeactiveLookupTableLayout.fromBuffer(layout.toBytes());
@@ -61,7 +61,7 @@ void _deactivateLookupTable() {
 
 void _closeLookupTable() {
   test("closeLookupTable", () {
-    final layout = AddressLookupCloseLookupTableLayout();
+    const layout = AddressLookupCloseLookupTableLayout();
     expect(layout.toHex(), "04000000");
     final decode =
         AddressLookupCloseLookupTableLayout.fromBuffer(layout.toBytes());

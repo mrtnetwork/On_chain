@@ -1,6 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Initialize a new mint with interest accrual layout.
 class SPLToken2022InterestBearingMintInitializeLayout
@@ -13,12 +15,12 @@ class SPLToken2022InterestBearingMintInitializeLayout
   SPLToken2022InterestBearingMintInitializeLayout(
       {required this.rate, required this.rateAuthority});
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.wrap(InterestBearingMintInstruction.staticLayout,
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
         property: "interestBearingMint"),
-    LayoutUtils.publicKey("rateAuthority"),
-    LayoutUtils.u16("rate"),
+    SolanaLayoutUtils.publicKey("rateAuthority"),
+    LayoutConst.u16(property: "rate"),
   ]);
 
   factory SPLToken2022InterestBearingMintInitializeLayout.fromBuffer(
@@ -33,7 +35,7 @@ class SPLToken2022InterestBearingMintInitializeLayout
   }
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

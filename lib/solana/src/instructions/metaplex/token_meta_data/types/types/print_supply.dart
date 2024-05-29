@@ -1,5 +1,6 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class PrintSupply extends LayoutSerializable {
   final List<BigInt>? fields;
@@ -11,7 +12,7 @@ class PrintSupply extends LayoutSerializable {
   static const PrintSupply unlimited = PrintSupply._(null, "Unlimited", 2);
   factory PrintSupply.limited({required List<BigInt> fields}) {
     if (fields.length != 1) {
-      throw MessageException(
+      throw const MessageException(
           "The fields list must contain exactly one element for a limited print supply.");
     }
     return PrintSupply._(fields, "Limited", 1);
@@ -34,16 +35,16 @@ class PrintSupply extends LayoutSerializable {
     return "PrintSupply.$kind";
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.none("Zero"),
-      LayoutUtils.tuple([LayoutUtils.u64()], property: "Limited"),
-      LayoutUtils.none("Unlimited"),
-    ], LayoutUtils.u8(), property: "print_supply")
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.none(property: "Zero"),
+      LayoutConst.tuple([LayoutConst.u64()], property: "Limited"),
+      LayoutConst.none(property: "Unlimited"),
+    ], property: "print_supply")
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

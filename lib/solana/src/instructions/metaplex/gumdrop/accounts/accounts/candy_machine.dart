@@ -1,19 +1,21 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/types/types/candy_machine_data.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [51, 173, 177, 113, 25, 241, 109, 189];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("authority"),
-    LayoutUtils.publicKey("wallet"),
-    LayoutUtils.optional(LayoutUtils.publicKey(), property: "tokenMint"),
-    LayoutUtils.publicKey("config"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("authority"),
+    SolanaLayoutUtils.publicKey("wallet"),
+    LayoutConst.optional(SolanaLayoutUtils.publicKey(), property: "tokenMint"),
+    SolanaLayoutUtils.publicKey("config"),
     GumdropCandyMachineData.staticLayout,
-    LayoutUtils.u64("itemsRedeemed"),
-    LayoutUtils.u8("bump")
+    LayoutConst.u64(property: "itemsRedeemed"),
+    LayoutConst.u8(property: "bump")
   ]);
 }
 
@@ -50,7 +52,7 @@ class GumdropCandyMachine extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

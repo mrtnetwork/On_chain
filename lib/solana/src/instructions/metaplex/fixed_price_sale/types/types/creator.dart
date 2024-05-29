@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class Creator extends LayoutSerializable {
   final SolAddress address;
@@ -15,14 +17,14 @@ class Creator extends LayoutSerializable {
         share: json["share"]);
   }
 
-  static final Structure creatorLayout = LayoutUtils.struct([
-    LayoutUtils.publicKey("address"),
-    LayoutUtils.boolean(property: "verified"),
-    LayoutUtils.u8("share"),
-  ], "creator");
+  static final StructLayout creatorLayout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey("address"),
+    LayoutConst.boolean(property: "verified"),
+    LayoutConst.u8(property: "share"),
+  ], property: "creator");
 
   @override
-  Structure get layout => creatorLayout;
+  StructLayout get layout => creatorLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"address": address, "verified": verified, "share": share};

@@ -38,7 +38,8 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
       {MetadataSchemaConfig config = const MetadataSchemaConfig(
           jsonSchema: MetadataJsonSchema.noConversions)}) {
     if (config.jsonSchema == MetadataJsonSchema.noConversions) {
-      throw MessageException("bytes not allowed in JSON in specified schema.");
+      throw const MessageException(
+          "bytes not allowed in JSON in specified schema.");
     }
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
       return {"bytes": BytesUtils.toHexString(value)};

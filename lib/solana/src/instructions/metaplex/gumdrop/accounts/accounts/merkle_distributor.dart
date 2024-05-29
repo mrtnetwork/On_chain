@@ -1,16 +1,18 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [77, 119, 139, 70, 84, 247, 12, 26];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("base"),
-    LayoutUtils.u8("bump"),
-    LayoutUtils.blob(32, property: "root"),
-    LayoutUtils.publicKey("temporal"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("base"),
+    LayoutConst.u8(property: "bump"),
+    LayoutConst.blob(32, property: "root"),
+    SolanaLayoutUtils.publicKey("temporal"),
   ]);
 }
 
@@ -39,7 +41,7 @@ class MerkleDistributor extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

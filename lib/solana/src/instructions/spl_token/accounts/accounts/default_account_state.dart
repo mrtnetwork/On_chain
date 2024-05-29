@@ -1,9 +1,11 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static final Structure layout = LayoutUtils.struct([LayoutUtils.u8('state')]);
+  static final StructLayout layout =
+      LayoutConst.struct([LayoutConst.u8(property: 'state')]);
 
   static int get accountSize => layout.span;
 
@@ -15,7 +17,7 @@ class _Utils {
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw MessageException("Invalid extionsion bytes");
+      throw const MessageException("Invalid extionsion bytes");
     }
   }
 
@@ -27,7 +29,7 @@ class _Utils {
               extensionType: ExtensionType.defaultAccountState);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw MessageException("Invalid extionsion bytes");
+      throw const MessageException("Invalid extionsion bytes");
     }
   }
 }
@@ -50,7 +52,7 @@ class DefaultAccountState extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {"state": accountState.value};

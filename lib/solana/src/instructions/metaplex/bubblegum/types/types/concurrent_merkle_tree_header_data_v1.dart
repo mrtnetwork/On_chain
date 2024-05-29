@@ -1,6 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class ConcurrentMerkleTreeHeaderDataV1 extends LayoutSerializable {
   final int maxBufferSize;
@@ -23,16 +25,16 @@ class ConcurrentMerkleTreeHeaderDataV1 extends LayoutSerializable {
         creationSlot: json["creationSlot"],
         padding: (json["padding"] as List).cast());
   }
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u32("maxBufferSize"),
-    LayoutUtils.u32("maxDepth"),
-    LayoutUtils.publicKey("authority"),
-    LayoutUtils.u64("creationSlot"),
-    LayoutUtils.blob(6, property: "padding")
-  ], "concurrentMerkleTreeHeaderDataV1");
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u32(property: "maxBufferSize"),
+    LayoutConst.u32(property: "maxDepth"),
+    SolanaLayoutUtils.publicKey("authority"),
+    LayoutConst.u64(property: "creationSlot"),
+    LayoutConst.blob(6, property: "padding")
+  ], property: "concurrentMerkleTreeHeaderDataV1");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

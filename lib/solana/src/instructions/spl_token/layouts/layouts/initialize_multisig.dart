@@ -1,6 +1,7 @@
 // Manages the layout structure for initializing a multisignature account for an SPL token.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initialize Multisig account layout.
 class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
@@ -13,10 +14,10 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
     required this.numberOfRequiredSignatures,
   });
 
-  /// Structure structure for initializing a multisignature account.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("numberOfRequiredSignatures")
+  /// StructLayout structure for initializing a multisignature account.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "numberOfRequiredSignatures")
   ]);
 
   /// Constructs an SPLTokenInitializeMultisigLayout instance from buffer.
@@ -33,7 +34,7 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

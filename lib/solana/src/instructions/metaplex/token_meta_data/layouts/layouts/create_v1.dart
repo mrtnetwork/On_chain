@@ -5,7 +5,9 @@ import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layout
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/collection_details.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/print_supply.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/token_standard.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexTokenMetaDataCreateV1Layout
     extends MetaplexTokenMetaDataProgramLayout {
@@ -73,32 +75,32 @@ class MetaplexTokenMetaDataCreateV1Layout
         sellerFeeBasisPoints: decode["sellerFeeBasisPoints"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("discriminator"),
-    LayoutUtils.string("name"),
-    LayoutUtils.string("symbol"),
-    LayoutUtils.string("uri"),
-    LayoutUtils.u16("sellerFeeBasisPoints"),
-    LayoutUtils.optional(LayoutUtils.vec(Creator.creatorLayout),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "discriminator"),
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "symbol"),
+    LayoutConst.string(property: "uri"),
+    LayoutConst.u16(property: "sellerFeeBasisPoints"),
+    LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
         property: "creators"),
-    LayoutUtils.boolean(property: "primarySaleHappened"),
-    LayoutUtils.boolean(property: "isMutable"),
-    LayoutUtils.wrap(MetaDataTokenStandard.staticLayout,
+    LayoutConst.boolean(property: "primarySaleHappened"),
+    LayoutConst.boolean(property: "isMutable"),
+    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
         property: "tokenStandard"),
-    LayoutUtils.optional(Collection.staticLayout, property: "collection"),
-    LayoutUtils.optional(Uses.staticLayout, property: "uses"),
-    LayoutUtils.optional(CollectionDetailsV1.staticLayout,
+    LayoutConst.optional(Collection.staticLayout, property: "collection"),
+    LayoutConst.optional(Uses.staticLayout, property: "uses"),
+    LayoutConst.optional(CollectionDetailsV1.staticLayout,
         property: "collectionDetails"),
-    LayoutUtils.optionPubkey(property: "ruleSet"),
-    LayoutUtils.optional(LayoutUtils.u8(), property: "decimals"),
-    LayoutUtils.optional(PrintSupply.staticLayout, property: "printSupply")
+    SolanaLayoutUtils.optionPubkey(property: "ruleSet"),
+    LayoutConst.optional(LayoutConst.u8(), property: "decimals"),
+    LayoutConst.optional(PrintSupply.staticLayout, property: "printSupply")
   ]);
 
   static const int discriminator = 0;
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

@@ -5,9 +5,9 @@ class MembershipModel {
   final int value;
   const MembershipModel._(this.name, this.value);
 
-  static final wallet = MembershipModel._("Wallet", 0);
-  static final token = MembershipModel._("Token", 1);
-  static final nft = MembershipModel._("NFT", 2);
+  static const wallet = MembershipModel._("Wallet", 0);
+  static const token = MembershipModel._("Token", 1);
+  static const nft = MembershipModel._("NFT", 2);
   static final List<MembershipModel> values = [wallet, token, nft];
 
   static MembershipModel fromValue(int? value) {

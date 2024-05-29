@@ -1,6 +1,6 @@
-// Imports the necessary package for interacting with blockchain utilities.
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents a field in SPL token metadata.
 class SPLTokenMetaDataField extends LayoutSerializable {
@@ -58,20 +58,20 @@ class SPLTokenMetaDataField extends LayoutSerializable {
     }
   }
 
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.string("Name"),
-      LayoutUtils.string("Symbol"),
-      LayoutUtils.string("Uri"),
-      LayoutUtils.struct([
-        LayoutUtils.string("key"),
-        LayoutUtils.string("value"),
-      ], "Field")
-    ], LayoutUtils.u8(), property: "tokenMetaDataField")
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.string(property: "Name"),
+      LayoutConst.string(property: "Symbol"),
+      LayoutConst.string(property: "Uri"),
+      LayoutConst.struct([
+        LayoutConst.string(property: "key"),
+        LayoutConst.string(property: "value"),
+      ], property: "Field")
+    ], property: "tokenMetaDataField")
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

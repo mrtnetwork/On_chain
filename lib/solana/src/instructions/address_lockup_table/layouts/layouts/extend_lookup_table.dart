@@ -1,10 +1,10 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/core/core.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
-import 'package:on_chain/solana/src/layout/utils/layout_utils.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
-/// Structure for the AddressExtendLookupTable instruction.
+/// StructLayout for the AddressExtendLookupTable instruction.
 class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
   /// List of Public Keys to be added to the lookup table.
   final List<SolAddress> addresses;
@@ -23,19 +23,19 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
         addresses: (decode["addresses"] as List).cast<SolAddress>());
   }
 
-  // Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u32("instruction"),
-    LayoutUtils.u64(),
-    LayoutUtils.seq(
-      LayoutUtils.publicKey("publicKey"),
-      LayoutUtils.offset(LayoutUtils.u32(), -8),
+  // StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    LayoutConst.padding(LayoutConst.u64(), propery: "paddingLength"),
+    LayoutConst.seq(
+      SolanaLayoutUtils.publicKey("publicKey"),
+      LayoutConst.rustVecOffset(),
       property: "addresses",
     )
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

@@ -156,7 +156,7 @@ void _realloc() {
     final initialize = NameServiceProgram.realloc(
       nameOwnerKey: owner.address,
       nameAccountKey: account1.address,
-      layout: NameServiceReallocLayout(space: 500),
+      layout: const NameServiceReallocLayout(space: 500),
       payerKey: owner.address,
       systemProgramId: SystemProgramConst.programId,
       nameProgramId: NameServiceProgramConst.programId,

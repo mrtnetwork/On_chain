@@ -161,76 +161,76 @@ class ProtocolParamUpdate with ADASerialization {
   CborObject toCbor() {
     return CborMapValue.fixedLength({
       if (minfeeA != null) ...{
-        CborIntValue(0): CborUnsignedValue.u64(minfeeA!),
+        const CborIntValue(0): CborUnsignedValue.u64(minfeeA!),
       },
       if (minFeeB != null) ...{
-        CborIntValue(1): CborUnsignedValue.u64(minFeeB!),
+        const CborIntValue(1): CborUnsignedValue.u64(minFeeB!),
       },
       if (maxBlockBodySize != null) ...{
-        CborIntValue(2): CborUnsignedValue.u32(maxBlockBodySize!),
+        const CborIntValue(2): CborUnsignedValue.u32(maxBlockBodySize!),
       },
       if (maxTxSize != null) ...{
-        CborIntValue(3): CborUnsignedValue.u32(maxTxSize!),
+        const CborIntValue(3): CborUnsignedValue.u32(maxTxSize!),
       },
       if (maxBlockHeaderSize != null) ...{
-        CborIntValue(4): CborUnsignedValue.u32(maxBlockHeaderSize!),
+        const CborIntValue(4): CborUnsignedValue.u32(maxBlockHeaderSize!),
       },
       if (keyDeposit != null) ...{
-        CborIntValue(5): CborUnsignedValue.u64(keyDeposit!),
+        const CborIntValue(5): CborUnsignedValue.u64(keyDeposit!),
       },
       if (poolDeposit != null) ...{
-        CborIntValue(6): CborUnsignedValue.u64(poolDeposit!),
+        const CborIntValue(6): CborUnsignedValue.u64(poolDeposit!),
       },
       if (maxEpoch != null) ...{
-        CborIntValue(7): CborUnsignedValue.u32(maxEpoch!),
+        const CborIntValue(7): CborUnsignedValue.u32(maxEpoch!),
       },
       if (nOpt != null) ...{
-        CborIntValue(8): CborUnsignedValue.u32(nOpt!),
+        const CborIntValue(8): CborUnsignedValue.u32(nOpt!),
       },
       if (poolPledgeInfluence != null) ...{
-        CborIntValue(9): poolPledgeInfluence!.toCbor(),
+        const CborIntValue(9): poolPledgeInfluence!.toCbor(),
       },
       if (expansionRate != null) ...{
-        CborIntValue(10): expansionRate!.toCbor(),
+        const CborIntValue(10): expansionRate!.toCbor(),
       },
       if (treasuryGrowthRate != null) ...{
-        CborIntValue(11): treasuryGrowthRate!.toCbor(),
+        const CborIntValue(11): treasuryGrowthRate!.toCbor(),
       },
       if (d != null) ...{
-        CborIntValue(12): d!.toCbor(),
+        const CborIntValue(12): d!.toCbor(),
       },
       if (extraEntropy != null) ...{
-        CborIntValue(13): extraEntropy!.toCbor(),
+        const CborIntValue(13): extraEntropy!.toCbor(),
       },
       if (protocolVersion != null) ...{
-        CborIntValue(14): protocolVersion!.toCbor(),
+        const CborIntValue(14): protocolVersion!.toCbor(),
       },
       if (minPoolCost != null) ...{
-        CborIntValue(16): CborUnsignedValue.u64(minPoolCost!),
+        const CborIntValue(16): CborUnsignedValue.u64(minPoolCost!),
       },
       if (adaPerUtxoByte != null) ...{
-        CborIntValue(17): CborUnsignedValue.u64(adaPerUtxoByte!),
+        const CborIntValue(17): CborUnsignedValue.u64(adaPerUtxoByte!),
       },
       if (costModel != null) ...{
-        CborIntValue(18): costModel!.toCbor(),
+        const CborIntValue(18): costModel!.toCbor(),
       },
       if (executionCosts != null) ...{
-        CborIntValue(19): executionCosts!.toCbor(),
+        const CborIntValue(19): executionCosts!.toCbor(),
       },
       if (maxTxExUnits != null) ...{
-        CborIntValue(20): maxTxExUnits!.toCbor(),
+        const CborIntValue(20): maxTxExUnits!.toCbor(),
       },
       if (maxBlockExUnits != null) ...{
-        CborIntValue(21): maxBlockExUnits!.toCbor(),
+        const CborIntValue(21): maxBlockExUnits!.toCbor(),
       },
       if (maxValueSize != null) ...{
-        CborIntValue(22): CborUnsignedValue.u32(maxValueSize!),
+        const CborIntValue(22): CborUnsignedValue.u32(maxValueSize!),
       },
       if (collateralPercentage != null) ...{
-        CborIntValue(23): CborUnsignedValue.u32(collateralPercentage!),
+        const CborIntValue(23): CborUnsignedValue.u32(collateralPercentage!),
       },
       if (maxCollateralInputs != null) ...{
-        CborIntValue(24): CborUnsignedValue.u32(maxCollateralInputs!),
+        const CborIntValue(24): CborUnsignedValue.u32(maxCollateralInputs!),
       },
     });
   }

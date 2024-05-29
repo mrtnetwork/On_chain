@@ -1,6 +1,7 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/name_service/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Create an empty name record layout.
 class NameServiceCreateLayout extends NameServiceProgramLayout {
@@ -42,16 +43,16 @@ class NameServiceCreateLayout extends NameServiceProgramLayout {
   }
 
   /// Generates the layout structure.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.vecU8("hashedName"),
-    LayoutUtils.u64("lamports"),
-    LayoutUtils.u32("space"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.vecU8(property: "hashedName"),
+    LayoutConst.u64(property: "lamports"),
+    LayoutConst.u32(property: "space"),
   ]);
 
   /// The layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// The instruction associated with the layout.
   @override

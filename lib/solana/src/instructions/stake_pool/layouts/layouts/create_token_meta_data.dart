@@ -1,6 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/string/string.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/constant.dart';
 
 /// Create token metadata for the stake-pool token in the
@@ -27,7 +29,7 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
     if (nameBytesLength > StakePoolProgramConst.metadataMaxNameLength ||
         uriBytesLength > StakePoolProgramConst.metadataMaxUriLength ||
         symbolBytesLength > StakePoolProgramConst.metadataMaxSymbolLength) {
-      throw MessageException("Some fields exceed the maximum data limit.",
+      throw const MessageException("Some fields exceed the maximum data limit.",
           details: {
             "metadataMaxNameLength":
                 StakePoolProgramConst.metadataMaxNameLength,
@@ -48,15 +50,15 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
     return StakePoolCreateTokenMetaDataLayout(
         name: decode["name"], uri: decode["uri"], symbol: decode["symbol"]);
   }
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.string("name"),
-    LayoutUtils.string("symbol"),
-    LayoutUtils.string("uri"),
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "symbol"),
+    LayoutConst.string(property: "uri"),
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   int get instruction =>

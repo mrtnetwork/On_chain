@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Decrease active stake on a validator layout.
 class StakePoolDecreaseValidatorStakeWithReserveLayout
@@ -24,10 +25,10 @@ class StakePoolDecreaseValidatorStakeWithReserveLayout
       transientStakeSeed: decode["transientStakeSeed"],
     );
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.ns64("lamports"),
-    LayoutUtils.ns64("transientStakeSeed")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.ns64(property: "lamports"),
+    LayoutConst.ns64(property: "transientStakeSeed")
   ]);
 
   @override
@@ -35,7 +36,7 @@ class StakePoolDecreaseValidatorStakeWithReserveLayout
       StakePoolProgramInstruction.decreaseValidatorStakeWithReserve.insturction;
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   Map<String, dynamic> serialize() {

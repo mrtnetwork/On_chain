@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeWithdrawLayout extends StakeProgramLayout {
   final BigInt lamports;
@@ -16,11 +17,13 @@ class StakeWithdrawLayout extends StakeProgramLayout {
         instruction: StakeProgramInstruction.withdraw.insturction);
     return StakeWithdrawLayout._(decode["lamports"]);
   }
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u32("instruction"), LayoutUtils.ns64("lamports")]);
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    LayoutConst.ns64(property: "lamports")
+  ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => StakeProgramInstruction.withdraw.insturction;

@@ -1,6 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksEditPackLayout extends MetaplexNFTPacksProgramLayout {
   final List<int>? name;
@@ -23,16 +25,16 @@ class MetaplexNFTPacksEditPackLayout extends MetaplexNFTPacksProgramLayout {
         mutable: decode["mutable"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.optional(LayoutUtils.blob(32), property: "name"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "desciption"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "uri"),
-    LayoutUtils.optional(LayoutUtils.boolean(), property: "mutable"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.optional(LayoutConst.blob(32), property: "name"),
+    LayoutConst.optional(LayoutConst.string(), property: "desciption"),
+    LayoutConst.optional(LayoutConst.string(), property: "uri"),
+    LayoutConst.optional(LayoutConst.boolean(), property: "mutable"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/instructions/stake/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/stake/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeInitializeLayout extends StakeProgramLayout {
   /// Authorities of the new stake account
@@ -10,8 +11,8 @@ class StakeInitializeLayout extends StakeProgramLayout {
   final StakeLockup lockup;
 
   const StakeInitializeLayout._(this.authorized, this.lockup);
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u32("instruction"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
     StakeAuthorized.staticLayout,
     StakeLockup.staticLayout,
   ]);
@@ -32,7 +33,7 @@ class StakeInitializeLayout extends StakeProgramLayout {
   }
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => StakeProgramInstruction.initialize.insturction;

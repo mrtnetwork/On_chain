@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/spl_token/types/types/extra_account_meta.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class ExtraAccountMetaList extends LayoutSerializable {
   final int count;
@@ -17,13 +18,13 @@ class ExtraAccountMetaList extends LayoutSerializable {
             .toList());
   }
 
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u32('count'),
-    LayoutUtils.greedyArray(ExtraAccountMeta.staticLayout,
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u32(property: 'count'),
+    LayoutConst.greedyArray(ExtraAccountMeta.staticLayout,
         property: "extraAccounts")
-  ], "extraAccountMetaList");
+  ], property: "extraAccountMetaList");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

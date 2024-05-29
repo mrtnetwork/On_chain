@@ -8,19 +8,19 @@ class ZlibDecoder {
     final int cmf = bitReader.readByte();
     int cm = cmf & 15;
     if (cm != 8) {
-      throw MessageException('invalid CM');
+      throw const MessageException('invalid CM');
     }
     int cinfo = (cmf >> 4) & 15; // Compression info
     if (cinfo > 7) {
-      throw MessageException('invalid CINFO');
+      throw const MessageException('invalid CINFO');
     }
     int flg = bitReader.readByte();
     if ((cmf * 256 + flg) % 31 != 0) {
-      throw MessageException('CMF+FLG checksum failed');
+      throw const MessageException('CMF+FLG checksum failed');
     }
     int fdict = (flg >> 5) & 1;
     if (fdict != 0) {
-      throw MessageException('preset dictionary not supported');
+      throw const MessageException('preset dictionary not supported');
     }
     List<int> out = _inflate(bitReader); // decompress DEFLATE data
 
@@ -82,7 +82,7 @@ class ZlibDecoder {
       } else if (type == 2) {
         _dynamicBlock(bitReader, out);
       } else {
-        throw MessageException('Invalid compressed type');
+        throw const MessageException('Invalid compressed type');
       }
     }
     return out;
@@ -172,7 +172,7 @@ class ZlibDecoder {
           bl.add(0);
         }
       } else {
-        throw MessageException('invalid symbol');
+        throw const MessageException('invalid symbol');
       }
     }
     _HuffmanTree literalLengthTree = _blListToTree(

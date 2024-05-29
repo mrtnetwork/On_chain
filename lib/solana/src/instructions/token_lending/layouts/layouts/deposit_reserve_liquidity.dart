@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Deposit liquidity into a reserve in exchange for collateral layout.
 class TokenLendingDepositReserveLiquidityLayout
@@ -18,13 +19,13 @@ class TokenLendingDepositReserveLiquidityLayout
     return TokenLendingDepositReserveLiquidityLayout(
         liquidityAmount: decode["liquidityAmount"]);
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u64("liquidityAmount"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "liquidityAmount"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

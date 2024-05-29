@@ -1,6 +1,6 @@
 // Imports the necessary packages for interacting with blockchain utilities and Solana's layout structure.
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/types/types/field.dart';
 
 /// Updates a field in a token-metadata account layout.
@@ -25,15 +25,15 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// Creates a static layout based on the provided value length and key length.
-  static final _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.wrap(SPLTokenMetaDataField.staticLayout,
+  static final _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.wrap(SPLTokenMetaDataField.staticLayout,
         property: "metaDataField")
   ]);
 
   /// The layout structure of this update instruction.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Gets the instruction bytes for the update instruction.
   @override

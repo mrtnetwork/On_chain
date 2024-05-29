@@ -75,7 +75,7 @@ class SPLToken2022Utils {
 
       return extensionBytes!;
     } catch (e) {
-      throw MessageException("Invalid extionsion bytes");
+      throw const MessageException("Invalid extionsion bytes");
     }
   }
 }

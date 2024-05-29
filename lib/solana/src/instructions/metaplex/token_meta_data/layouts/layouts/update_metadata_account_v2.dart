@@ -1,7 +1,9 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/meta_data_v2.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexTokenMetaDataUpdateMetadataAccountV2Layout
     extends MetaplexTokenMetaDataProgramLayout {
@@ -31,17 +33,17 @@ class MetaplexTokenMetaDataUpdateMetadataAccountV2Layout
         newUpdateAuthority: decode["newUpdateAuthority"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.optional(MetaDataV2.staticLayout, property: "data"),
-    LayoutUtils.optionPubkey(property: "newUpdateAuthority"),
-    LayoutUtils.optional(LayoutUtils.boolean(),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.optional(MetaDataV2.staticLayout, property: "data"),
+    SolanaLayoutUtils.optionPubkey(property: "newUpdateAuthority"),
+    LayoutConst.optional(LayoutConst.boolean(),
         property: "primarySaleHappened"),
-    LayoutUtils.optional(LayoutUtils.boolean(), property: "isMutable"),
+    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => MetaplexTokenMetaDataProgramInstruction

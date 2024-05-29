@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class Lockout extends LayoutSerializable {
   const Lockout({required this.slot, required this.confirmationCount});
@@ -8,11 +9,12 @@ class Lockout extends LayoutSerializable {
   }
   final BigInt slot;
   final int confirmationCount;
-  static final Structure staticLayout = LayoutUtils.struct(
-      [LayoutUtils.u64("slot"), LayoutUtils.u32("confirmationCount")],
-      "lockout");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "slot"),
+    LayoutConst.u32(property: "confirmationCount")
+  ], property: "lockout");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class GumdropCandyMachineData extends LayoutSerializable {
   final String uuid;
@@ -19,15 +20,15 @@ class GumdropCandyMachineData extends LayoutSerializable {
         goLiveDate: json["goLiveDate"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.string("uuid"),
-    LayoutUtils.u64("price"),
-    LayoutUtils.u64("itemsAvailable"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "goLiveDate")
-  ], "candyMachineData");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.string(property: "uuid"),
+    LayoutConst.u64(property: "price"),
+    LayoutConst.u64(property: "itemsAvailable"),
+    LayoutConst.optional(LayoutConst.u64(), property: "goLiveDate")
+  ], property: "candyMachineData");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

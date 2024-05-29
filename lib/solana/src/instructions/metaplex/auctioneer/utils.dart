@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/models/pda/pda.dart';
 import 'constant.dart';
 
@@ -19,7 +19,7 @@ class MetaplexAuctioneerProgramUtils {
       tokenAccount.toBytes(),
       treasuryMint.toBytes(),
       tokenMint.toBytes(),
-      LayoutUtils.u64().serialize(tokenSize)
+      LayoutConst.u64().serialize(tokenSize)
     ], programId: MetaplexAuctioneerProgramConst.programId);
   }
 

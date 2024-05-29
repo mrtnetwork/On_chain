@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeDeactivateLayout extends StakeProgramLayout {
   const StakeDeactivateLayout();
@@ -9,12 +10,12 @@ class StakeDeactivateLayout extends StakeProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: StakeProgramInstruction.deactivate.insturction);
-    return StakeDeactivateLayout();
+    return const StakeDeactivateLayout();
   }
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u32("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => StakeProgramInstruction.deactivate.insturction;

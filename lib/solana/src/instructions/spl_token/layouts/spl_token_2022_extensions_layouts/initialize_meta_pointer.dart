@@ -1,6 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Initialize a new mint with a metadata pointer layout.
 class SPLToken2022InitializeMetadataPointerLayout
@@ -13,12 +15,12 @@ class SPLToken2022InitializeMetadataPointerLayout
   SPLToken2022InitializeMetadataPointerLayout(
       {this.authority, this.metadataAddress});
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.wrap(MetadataPointerInstruction.staticLayout,
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
         property: "metadataPointer"),
-    LayoutUtils.publicKey("authority"),
-    LayoutUtils.publicKey("metadataAddress"),
+    SolanaLayoutUtils.publicKey("authority"),
+    SolanaLayoutUtils.publicKey("metadataAddress"),
   ]);
 
   factory SPLToken2022InitializeMetadataPointerLayout.fromBuffer(
@@ -38,7 +40,7 @@ class SPLToken2022InitializeMetadataPointerLayout
   }
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

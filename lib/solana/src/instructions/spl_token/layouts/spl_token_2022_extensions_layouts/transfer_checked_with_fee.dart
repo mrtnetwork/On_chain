@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Transfer, providing expected mint information and fees layout.
 class SPLToken2022TransferCheckedWithFeeLayout extends SPLTokenProgramLayout {
@@ -29,16 +30,16 @@ class SPLToken2022TransferCheckedWithFeeLayout extends SPLTokenProgramLayout {
         fee: decode["fee"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("transferFee"),
-    LayoutUtils.u64("amount"),
-    LayoutUtils.u8("decimals"),
-    LayoutUtils.u64("fee"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "transferFee"),
+    LayoutConst.u64(property: "amount"),
+    LayoutConst.u8(property: "decimals"),
+    LayoutConst.u64(property: "fee"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

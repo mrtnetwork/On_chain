@@ -1,25 +1,28 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/types/types/member_ship_model.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [164, 101, 210, 92, 222, 14, 75, 156];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("authority"),
-    LayoutUtils.string("name"),
-    LayoutUtils.publicKey("accountKey"),
-    LayoutUtils.u64("totalShares"),
-    LayoutUtils.u64("totalMembers"),
-    LayoutUtils.u64("totalInflow"),
-    LayoutUtils.u64("lastSnapshotAmount"),
-    LayoutUtils.u8("bumpSeed"),
-    LayoutUtils.u8("accountOwnerBumpSeed"),
-    LayoutUtils.u64("totalAvailableShares"),
-    LayoutUtils.u8("membershipModel"),
-    LayoutUtils.optional(LayoutUtils.publicKey(), property: "membershipMint"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "totalStakedShares")
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("authority"),
+    LayoutConst.string(property: "name"),
+    SolanaLayoutUtils.publicKey("accountKey"),
+    LayoutConst.u64(property: "totalShares"),
+    LayoutConst.u64(property: "totalMembers"),
+    LayoutConst.u64(property: "totalInflow"),
+    LayoutConst.u64(property: "lastSnapshotAmount"),
+    LayoutConst.u8(property: "bumpSeed"),
+    LayoutConst.u8(property: "accountOwnerBumpSeed"),
+    LayoutConst.u64(property: "totalAvailableShares"),
+    LayoutConst.u8(property: "membershipModel"),
+    LayoutConst.optional(SolanaLayoutUtils.publicKey(),
+        property: "membershipMint"),
+    LayoutConst.optional(LayoutConst.u64(), property: "totalStakedShares")
   ]);
 }
 
@@ -74,7 +77,7 @@ class Fanout extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

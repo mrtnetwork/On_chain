@@ -46,7 +46,7 @@ class CompiledKeys {
   Tuple<MessageHeader, List<SolAddress>> getMessageComponents() {
     final mapEntries = _keyMetaMap.entries.toList();
     if (mapEntries.length > SolanaTransactionConstant.maximumAccountKeys) {
-      throw MessageException("Max static account keys length exceeded");
+      throw const MessageException("Max static account keys length exceeded");
     }
     final writableSigners = mapEntries
         .where((entry) => entry.value.isSigner && entry.value.isWritable)
@@ -66,11 +66,11 @@ class CompiledKeys {
         numReadonlySignedAccounts: readonlySigners.length,
         numReadonlyUnsignedAccounts: readonlyNonSigners.length);
     if (writableSigners.isEmpty) {
-      throw MessageException("Expected at least one writable signer key");
+      throw const MessageException("Expected at least one writable signer key");
     }
     final payerAddress = writableSigners[0].key;
     if (payerAddress != payer.address) {
-      throw MessageException(
+      throw const MessageException(
           "Expected first writable signer key to be the fee payer");
     }
     final List<SolAddress> staticAccountKeys = List<SolAddress>.unmodifiable([
@@ -156,6 +156,6 @@ class _KeyMeta {
   }
 
   factory _KeyMeta.defaultKey() {
-    return _KeyMeta(isInvoked: false, isSigner: false, isWritable: false);
+    return const _KeyMeta(isInvoked: false, isSigner: false, isWritable: false);
   }
 }

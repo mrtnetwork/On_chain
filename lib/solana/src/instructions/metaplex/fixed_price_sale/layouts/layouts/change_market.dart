@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexFixedPriceSaleChangeMarketLayout
     extends MetaplexFixedPriceSaleProgramLayout {
@@ -30,18 +30,18 @@ class MetaplexFixedPriceSaleChangeMarketLayout
   final BigInt? newPrice;
   final BigInt? newPiecesInOneWallet;
 
-  /// Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "newName"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "newDescription"),
-    LayoutUtils.optional(LayoutUtils.boolean(), property: "mutable"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "newPrice"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "newPiecesInOneWallet"),
+  /// StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.optional(LayoutConst.string(), property: "newName"),
+    LayoutConst.optional(LayoutConst.string(), property: "newDescription"),
+    LayoutConst.optional(LayoutConst.boolean(), property: "mutable"),
+    LayoutConst.optional(LayoutConst.u64(), property: "newPrice"),
+    LayoutConst.optional(LayoutConst.u64(), property: "newPiecesInOneWallet"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

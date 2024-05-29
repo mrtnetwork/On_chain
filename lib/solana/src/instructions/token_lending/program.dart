@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/models/models.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Instructions supported by the lending program.
 class TokenLendingProgram extends TransactionInstruction {
@@ -224,7 +224,7 @@ class TokenLendingProgram extends TransactionInstruction {
           SPLTokenProgramConst.tokenProgramId.toReadOnly(),
         ],
         programId: TokenLendingProgramConst.lendingProgramId,
-        layout: TokenLendingInitObligationLayout());
+        layout: const TokenLendingInitObligationLayout());
   }
 
   /// Initializes a new lending market reserve.
@@ -407,7 +407,7 @@ class TokenLendingProgram extends TransactionInstruction {
           ...borrowReserves.map((e) => e.toReadOnly())
         ],
         programId: TokenLendingProgramConst.lendingProgramId,
-        layout: TokenLendingRefreshObligationLayout());
+        layout: const TokenLendingRefreshObligationLayout());
   }
 
   /// Accrue interest and update market price of liquidity on a reserve.
@@ -426,7 +426,7 @@ class TokenLendingProgram extends TransactionInstruction {
           SystemProgramConst.sysvarClockPubkey.toReadOnly(),
         ],
         programId: TokenLendingProgramConst.lendingProgramId,
-        layout: TokenLendingRefreshReserveLayout());
+        layout: const TokenLendingRefreshReserveLayout());
   }
 
   /// Repay borrowed liquidity to a reserve. Requires a refreshed obligation

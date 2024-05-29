@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class AddCardToPack extends LayoutSerializable {
   final int maxSupply;
@@ -16,13 +17,13 @@ class AddCardToPack extends LayoutSerializable {
         index: json["index"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u32("maxSupply"),
-    LayoutUtils.u16("weight"),
-    LayoutUtils.u32("index"),
-  ], "addCardToPack");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u32(property: "maxSupply"),
+    LayoutConst.u16(property: "weight"),
+    LayoutConst.u32(property: "index"),
+  ], property: "addCardToPack");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

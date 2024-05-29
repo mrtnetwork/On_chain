@@ -1,10 +1,11 @@
 import 'package:on_chain/solana/src/instructions/associated_token_account/layouts/layouts.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class AssociatedTokenAccountProgramLayout extends ProgramLayout {
   const AssociatedTokenAccountProgramLayout();
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
       if (data.isEmpty) {

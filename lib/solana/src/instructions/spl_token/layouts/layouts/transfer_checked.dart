@@ -1,6 +1,7 @@
 // Manages the layout structure for transferring checked tokens in SPL.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// transfer checked layout.
 class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
@@ -16,11 +17,11 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
     required this.decimals,
   });
 
-  /// Structure structure for transferring checked tokens in SPL.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u64("amount"),
-    LayoutUtils.u8("decimals"),
+  /// StructLayout structure for transferring checked tokens in SPL.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "amount"),
+    LayoutConst.u8(property: "decimals"),
   ]);
 
   /// Constructs an SPLTokenTransferCheckedLayout instance from buffer.
@@ -38,7 +39,7 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

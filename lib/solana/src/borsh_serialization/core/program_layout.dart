@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/core/borsh_serializable.dart';
 
 /// Abstract class for Borsh serializable programs.
 abstract class ProgramLayout implements LayoutSerializable {
@@ -7,7 +7,7 @@ abstract class ProgramLayout implements LayoutSerializable {
 
   /// The layout representing the structure of the program.
   @override
-  abstract final Structure layout;
+  abstract final StructLayout layout;
 
   /// The instruction of the program.
   abstract final dynamic instruction;
@@ -19,13 +19,7 @@ abstract class ProgramLayout implements LayoutSerializable {
   /// Converts the program to bytes using Borsh serialization.
   @override
   List<int> toBytes() {
-    final LayoutByteWriter data = LayoutByteWriter(layout.span);
-    final size =
-        layout.encode({"instruction": instruction, ...serialize()}, data);
-    if (layout.span < 0) {
-      return data.sublist(0, size);
-    }
-    return data.toBytes();
+    return layout.serialize({"instruction": instruction, ...serialize()});
   }
 
   /// Converts the program to a hexadecimal string.
@@ -41,12 +35,12 @@ abstract class ProgramLayout implements LayoutSerializable {
   /// - [instruction] (optional): The expected instruction index.
   /// - [discriminator] (optional): The expected discriminator.
   static Map<String, dynamic> decodeAndValidateStruct({
-    required Structure layout,
+    required StructLayout layout,
     required List<int> bytes,
     int? instruction,
     int? discriminator,
   }) {
-    final decode = layout.decode(bytes);
+    final decode = layout.deserialize(bytes).value;
     if (instruction != null) {
       if (decode["instruction"] != instruction) {
         throw MessageException("invalid instruction index", details: {

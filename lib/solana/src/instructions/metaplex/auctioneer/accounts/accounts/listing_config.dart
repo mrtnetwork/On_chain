@@ -1,21 +1,22 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static const List<int> discriminator = [183, 196, 26, 41, 131, 46, 184, 115];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.u8("version"),
-    LayoutUtils.i64("startTime"),
-    LayoutUtils.i64("endTime"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    LayoutConst.u8(property: "version"),
+    LayoutConst.i64(property: "startTime"),
+    LayoutConst.i64(property: "endTime"),
     Bid.staticLayout,
-    LayoutUtils.u8("bump"),
-    LayoutUtils.u64("reservePrice"),
-    LayoutUtils.u64("minBidIncrement"),
-    LayoutUtils.u32("timeExtPeriod"),
-    LayoutUtils.u32("timeExtDelta"),
-    LayoutUtils.boolean(property: "allowHighBidCancel")
+    LayoutConst.u8(property: "bump"),
+    LayoutConst.u64(property: "reservePrice"),
+    LayoutConst.u64(property: "minBidIncrement"),
+    LayoutConst.u32(property: "timeExtPeriod"),
+    LayoutConst.u32(property: "timeExtDelta"),
+    LayoutConst.boolean(property: "allowHighBidCancel")
   ]);
 }
 
@@ -58,7 +59,7 @@ class ListingConfig extends LayoutSerializable {
         allowHighBidCancel: decode["allowHighBidCancel"]);
   }
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

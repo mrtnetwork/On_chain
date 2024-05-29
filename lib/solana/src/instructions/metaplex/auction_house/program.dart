@@ -3,7 +3,7 @@ import 'package:on_chain/solana/src/instructions/associated_token_account/consta
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexAuctionHouseProgram extends TransactionInstruction {
   MetaplexAuctionHouseProgram({
@@ -468,7 +468,7 @@ class MetaplexAuctionHouseProgram extends TransactionInstruction {
           instruction.toReadOnly(),
         ],
         programId: MetaplexAuctionHouseProgramConst.programId,
-        layout: MetaplexAuctionHouseCancelBidReceiptLayout());
+        layout: const MetaplexAuctionHouseCancelBidReceiptLayout());
   }
 
   /// Cancel an active listing receipt by setting the `canceled_at` field to the current time.
@@ -484,7 +484,7 @@ class MetaplexAuctionHouseProgram extends TransactionInstruction {
           instruction.toReadOnly(),
         ],
         programId: MetaplexAuctionHouseProgramConst.programId,
-        layout: MetaplexAuctionHouseCancelListingReceiptLayout());
+        layout: const MetaplexAuctionHouseCancelListingReceiptLayout());
   }
   factory MetaplexAuctionHouseProgram.cancelRemainingAccounts({
     required SolAddress metadataProgram,
@@ -514,7 +514,7 @@ class MetaplexAuctionHouseProgram extends TransactionInstruction {
           systemProgram.toReadOnly()
         ],
         programId: MetaplexAuctionHouseProgramConst.programId,
-        layout: MetaplexAuctionHouseCancelRemainingAccountsLayout());
+        layout: const MetaplexAuctionHouseCancelRemainingAccountsLayout());
   }
 
   /// Close the escrow account of the user.
@@ -682,7 +682,7 @@ class MetaplexAuctionHouseProgram extends TransactionInstruction {
           sysvarInstructions.toReadOnly()
         ],
         programId: MetaplexAuctionHouseProgramConst.programId,
-        layout: MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout());
+        layout: const MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout());
   }
 
   /// Create a bid receipt by creating a `bid_receipt` account.
@@ -830,7 +830,7 @@ class MetaplexAuctionHouseProgram extends TransactionInstruction {
           sysvarInstructions.toReadOnly(),
         ],
         programId: MetaplexAuctionHouseProgramConst.programId,
-        layout: MetaplexAuctionHouseSellRemainingAccountsLayout());
+        layout: const MetaplexAuctionHouseSellRemainingAccountsLayout());
   }
   factory MetaplexAuctionHouseProgram.updateAuctioneer({
     required SolAddress auctionHouse,

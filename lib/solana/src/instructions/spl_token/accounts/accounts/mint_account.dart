@@ -1,19 +1,20 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
-
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 import 'token_account.dart';
 
 class _Utils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.boolean32('mintAuthorityOption'),
-    LayoutUtils.publicKey('mintAuthority'),
-    LayoutUtils.u64('supply'),
-    LayoutUtils.u8('decimals'),
-    LayoutUtils.boolean(property: 'isInitialized'),
-    LayoutUtils.boolean32('freezeAuthorityOption'),
-    LayoutUtils.publicKey('freezeAuthority'),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.boolean32(property: 'mintAuthorityOption'),
+    SolanaLayoutUtils.publicKey('mintAuthority'),
+    LayoutConst.u64(property: 'supply'),
+    LayoutConst.u8(property: 'decimals'),
+    LayoutConst.boolean(property: 'isInitialized'),
+    LayoutConst.boolean32(property: 'freezeAuthorityOption'),
+    SolanaLayoutUtils.publicKey('freezeAuthority'),
   ]);
 
   static int get mintSize => layout.span;
@@ -63,7 +64,7 @@ class SolanaMintAccount extends LayoutSerializable {
     final bool freezeAuthorityOption = decode["freezeAuthorityOption"];
     if (data.length > _Utils.mintSize) {
       if (data.length <= SolanaTokenAccountUtils.accountSize) {
-        throw MessageException("Invalid account size");
+        throw const MessageException("Invalid account size");
       }
       final accountType = SolanaTokenAccountType.fromValue(
           data[SolanaTokenAccountUtils.accountSize]);
@@ -85,7 +86,7 @@ class SolanaMintAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

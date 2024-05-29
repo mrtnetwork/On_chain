@@ -25,7 +25,7 @@ class ConstrPlutusData extends PlutusData {
     final BigInt? alternative =
         PlutusDataUtils.cborTagToAlternative(cbor.tags.first);
     if (alternative == null) {
-      throw MessageException("Invalid ConstrPlutusData tag.");
+      throw const MessageException("Invalid ConstrPlutusData tag.");
     }
     return ConstrPlutusData(
         alternative: alternative,

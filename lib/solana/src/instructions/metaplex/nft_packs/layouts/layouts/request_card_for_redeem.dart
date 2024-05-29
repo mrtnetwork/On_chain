@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksRequestCardForRedeemLayout
     extends MetaplexNFTPacksProgramLayout {
@@ -16,11 +17,13 @@ class MetaplexNFTPacksRequestCardForRedeemLayout
     return MetaplexNFTPacksRequestCardForRedeemLayout(index: decode["index"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct(
-      [LayoutUtils.u8("instruction"), LayoutUtils.u32("index")]);
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u32(property: "index")
+  ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

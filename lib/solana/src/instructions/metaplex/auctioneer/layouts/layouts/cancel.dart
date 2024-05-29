@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 /// auctioneer cancel Layout.
 class MetaplexAuctioneerCancelLayout extends MetaplexAuctioneerProgramLayout {
@@ -23,16 +23,16 @@ class MetaplexAuctioneerCancelLayout extends MetaplexAuctioneerProgramLayout {
         tokenSize: decode["tokenSize"]);
   }
 
-  /// Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("auctioneerAuthorityBump"),
-    LayoutUtils.u64("buyerPrice"),
-    LayoutUtils.u64("tokenSize"),
+  /// StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "auctioneerAuthorityBump"),
+    LayoutConst.u64(property: "buyerPrice"),
+    LayoutConst.u64(property: "tokenSize"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

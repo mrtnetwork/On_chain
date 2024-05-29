@@ -48,7 +48,7 @@ class MessageHeader {
       List<AddressTableLookup> addressTableLookups = const []}) {
     if (index >= numStaticAccountKeys) {
       if (addressTableLookups.isEmpty) {
-        throw MessageException(
+        throw const MessageException(
             "Invalid index. The index must be lower than numStaticAccountKeys.");
       }
       final lookupAccountKeysIndex = index - numStaticAccountKeys;

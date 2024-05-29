@@ -2,7 +2,8 @@ import 'package:blockchain_utils/binary/utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexBubblegumSetAndVerifyCollectionLayout
     extends MetaplexBubblegumProgramLayout {
@@ -42,19 +43,19 @@ class MetaplexBubblegumSetAndVerifyCollectionLayout
         collection: decode["collection"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.blob(32, property: "root"),
-    LayoutUtils.blob(32, property: "dataHash"),
-    LayoutUtils.blob(32, property: "creatorHash"),
-    LayoutUtils.u64("nonce"),
-    LayoutUtils.u32("index"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.blob(32, property: "root"),
+    LayoutConst.blob(32, property: "dataHash"),
+    LayoutConst.blob(32, property: "creatorHash"),
+    LayoutConst.u64(property: "nonce"),
+    LayoutConst.u32(property: "index"),
     MetaData.staticLayout,
-    LayoutUtils.publicKey("collection")
+    SolanaLayoutUtils.publicKey("collection")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

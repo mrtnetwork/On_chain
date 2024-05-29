@@ -69,7 +69,7 @@ class SolanaTransaction {
     } else {
       if (type == TransactionType.legacy &&
           addressLookupTableAccounts.isNotEmpty) {
-        throw MessageException(
+        throw const MessageException(
             "Do not use addressLookupTableAccounts in legacy transactions.");
       }
     }
@@ -90,7 +90,7 @@ class SolanaTransaction {
     }
     if (signatures.isNotEmpty) {
       if (signatures.length != message.header.numRequiredSignatures) {
-        throw MessageException(
+        throw const MessageException(
             "The expected length of signatures should match the number of required signatures.");
       }
     } else {
@@ -176,7 +176,8 @@ class SolanaTransaction {
   List<int> serialize({bool verifySignatures = false}) {
     if (verifySignatures) {
       if (!areSignaturesReady()) {
-        throw MessageException("Not all transaction signatures are ready.");
+        throw const MessageException(
+            "Not all transaction signatures are ready.");
       }
     }
     return SolanaTransactionUtils.serializeTransaction(message, _signatures);
@@ -225,7 +226,7 @@ class SolanaTransaction {
   void addSignature(SolAddress address, List<int> signature,
       {bool verifySignature = true}) {
     if (signature.length != SolanaTransactionConstant.signatureLengthInBytes) {
-      throw MessageException("Signature must be 64 bytes long");
+      throw const MessageException("Signature must be 64 bytes long");
     }
     final signerPubkeys =
         message.accountKeys.sublist(0, message.header.numRequiredSignatures);
@@ -239,7 +240,7 @@ class SolanaTransaction {
         !address
             .toPublicKey()
             .verify(message: serializeMessage(), signature: signature)) {
-      throw MessageException("Signature verification failed.");
+      throw const MessageException("Signature verification failed.");
     }
     List<List<int>> currentSigs = List.from(_signatures);
     currentSigs[signerIndex] = List<int>.unmodifiable(signature);

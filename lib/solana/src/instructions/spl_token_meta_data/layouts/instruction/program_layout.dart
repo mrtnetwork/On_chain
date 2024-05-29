@@ -1,6 +1,9 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/layouts.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class SPLTokenMetaDataProgramLayout extends ProgramLayout {
   /// Getter for instruction (to be implemented by subclasses)
@@ -8,8 +11,8 @@ abstract class SPLTokenMetaDataProgramLayout extends ProgramLayout {
   abstract final List<int> instruction;
 
   const SPLTokenMetaDataProgramLayout();
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.blob(8, property: "instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
       final decode =
@@ -37,11 +40,11 @@ abstract class SPLTokenMetaDataProgramLayout extends ProgramLayout {
 
   /// Static method to decode and validate the structure
   static Map<String, dynamic> decodeAndValidateStruct({
-    required Structure layout,
+    required StructLayout layout,
     required List<int> bytes,
     required List<int> instructionBytes,
   }) {
-    final decode = layout.decode(bytes);
+    final decode = layout.deserialize(bytes).value;
     final instcutionData = decode["instruction"];
     if (!bytesEqual(instcutionData, instructionBytes)) {
       throw MessageException("invalid instruction bytes", details: {

@@ -1,7 +1,8 @@
 import 'package:on_chain/solana/src/instructions/compute_budget/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-/// Structure for the ComputeBudgetRequestHeapFrame instruction.
+/// StructLayout for the ComputeBudgetRequestHeapFrame instruction.
 class ComputeBudgetRequestHeapFrameLayout extends ComputeBudgetProgramLayout {
   /// Requested transaction-wide program heap size in bytes. Must be multiple of 1024. Applies to each program, including CPIs.
   final int bytes;
@@ -18,14 +19,14 @@ class ComputeBudgetRequestHeapFrameLayout extends ComputeBudgetProgramLayout {
             ComputeBudgetProgramInstruction.requestHeapFrame.insturction);
     return ComputeBudgetRequestHeapFrameLayout(bytes: decode["bytes"]);
   }
-  // Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u32("bytes"),
+  // StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u32(property: "bytes"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

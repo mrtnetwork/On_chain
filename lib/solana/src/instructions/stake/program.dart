@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/instructions/stake/constant.dart';
 import 'package:on_chain/solana/src/instructions/stake/layouts/layouts.dart';
@@ -44,7 +44,7 @@ class StakeProgram extends TransactionInstruction {
       required SolAddress authorizedPubkey,
       required SolAddress votePubkey}) {
     return StakeProgram(
-        layout: StakeDelegateLayout(),
+        layout: const StakeDelegateLayout(),
         keys: [
           stakePubkey.toWritable(),
           votePubkey.toReadOnly(),
@@ -114,7 +114,7 @@ class StakeProgram extends TransactionInstruction {
       required SolAddress authorizedPubkey,
       required SolAddress sourceStakePubKey}) {
     return StakeProgram(
-        layout: StakeMergeLayout(),
+        layout: const StakeMergeLayout(),
         keys: [
           stakePubkey.toWritable(),
           sourceStakePubKey.toWritable(),
@@ -149,7 +149,7 @@ class StakeProgram extends TransactionInstruction {
   factory StakeProgram.deactivate(
       {required SolAddress stakePubkey, required SolAddress authorizedPubkey}) {
     return StakeProgram(
-        layout: StakeDeactivateLayout(),
+        layout: const StakeDeactivateLayout(),
         keys: [
           stakePubkey.toWritable(),
           SystemProgramConst.sysvarClockPubkey.toReadOnly(),

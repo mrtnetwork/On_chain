@@ -32,7 +32,7 @@ void _initialize() {
 
 void _delegate() {
   test("delegate", () {
-    final layout = StakeDelegateLayout();
+    const layout = StakeDelegateLayout();
     expect(layout.toHex(), "02000000");
     final decode = StakeDelegateLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -78,7 +78,7 @@ void _split() {
 
 void _merge() {
   test("merge", () {
-    final layout = StakeMergeLayout();
+    const layout = StakeMergeLayout();
     expect(layout.toHex(), "07000000");
     final decode = StakeMergeLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -96,7 +96,7 @@ void _withdraw() {
 
 void _deactivate() {
   test("deactivate", () {
-    final layout = StakeDeactivateLayout();
+    const layout = StakeDeactivateLayout();
     expect(layout.toHex(), "05000000");
     final decode = StakeDeactivateLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -105,7 +105,7 @@ void _deactivate() {
 
 void _stakeAccount() {
   test("stake account", () {
-    final String data =
+    const String data =
         "0200000080d5220000000000e03d7ac0e2379e10e044d66eaf54a03ec7c8a3b3aa3647b7789bf1cdeec29a5ce03d7ac0e2379e10e044d66eaf54a03ec7c8a3b3aa3647b7789bf1cdeec29a5c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000efd5afd1efdeb7c6f13444faaf30e996ec9f602db349494dd5565f62614dc388e88fee86210000008802000000000000ffffffffffffffff000000000000d03fe17b0a000000000000000000";
     final dataBytes = BytesUtils.fromHexString(data);
 

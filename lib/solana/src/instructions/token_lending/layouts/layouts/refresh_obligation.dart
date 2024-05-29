@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Refresh an obligation's layout.
 class TokenLendingRefreshObligationLayout extends TokenLendingProgramLayout {
@@ -11,12 +12,12 @@ class TokenLendingRefreshObligationLayout extends TokenLendingProgramLayout {
         bytes: data,
         instruction:
             TokenLendingProgramInstruction.refreshObligation.insturction);
-    return TokenLendingRefreshObligationLayout();
+    return const TokenLendingRefreshObligationLayout();
   }
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

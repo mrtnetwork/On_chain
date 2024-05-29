@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
   const MetaplexAuctionHouseProgramLayout();
@@ -10,7 +11,7 @@ abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
   }
 
   static Map<String, dynamic> decodeAndValidateStruct({
-    required Structure layout,
+    required StructLayout layout,
     required List<int> bytes,
     required List<int> instruction,
   }) {

@@ -1,11 +1,12 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types/creator.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static const List<int> discriminator = [66, 131, 48, 36, 100, 130, 177, 11];
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.vec(Creator.creatorLayout, property: "creators"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    LayoutConst.vec(Creator.creatorLayout, property: "creators"),
   ]);
 }
 
@@ -24,7 +25,7 @@ class PrimaryMetadataCreators extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

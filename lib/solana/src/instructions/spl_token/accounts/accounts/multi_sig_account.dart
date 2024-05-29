@@ -1,13 +1,15 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaMultiSigAccountUtils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8('numberOfSigners'),
-    LayoutUtils.u8('numberOfPossibleSigners'),
-    LayoutUtils.boolean(property: 'isInitialized'),
-    LayoutUtils.array(LayoutUtils.publicKey(), 11, property: "signers"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'numberOfSigners'),
+    LayoutConst.u8(property: 'numberOfPossibleSigners'),
+    LayoutConst.boolean(property: 'isInitialized'),
+    LayoutConst.array(SolanaLayoutUtils.publicKey(), 11, property: "signers"),
   ]);
 
   static int get multisigSize => layout.span;
@@ -56,7 +58,7 @@ class SolanaMultiSigAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => SolanaMultiSigAccountUtils.layout;
+  StructLayout get layout => SolanaMultiSigAccountUtils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

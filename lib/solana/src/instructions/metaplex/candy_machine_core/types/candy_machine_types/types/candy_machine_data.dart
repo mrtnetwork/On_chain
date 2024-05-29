@@ -1,7 +1,8 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_machine_types/types/config_line_settings.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_machine_types/types/hidden_settings.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types/creator.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class CandyMachineData extends LayoutSerializable {
   final BigInt itemsAvailable;
@@ -38,18 +39,18 @@ class CandyMachineData extends LayoutSerializable {
             : CandyMachineHiddenSettings.fromJson(json["hiddenSettings"]));
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u64("itemsAvailable"),
-    LayoutUtils.string("symbol"),
-    LayoutUtils.u16("sellerFeeBasisPoints"),
-    LayoutUtils.u64("maxSupply"),
-    LayoutUtils.boolean(property: "isMutable"),
-    LayoutUtils.vec(Creator.creatorLayout, property: "creators"),
-    LayoutUtils.optional(ConfigLineSettings.staticLayout,
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "itemsAvailable"),
+    LayoutConst.string(property: "symbol"),
+    LayoutConst.u16(property: "sellerFeeBasisPoints"),
+    LayoutConst.u64(property: "maxSupply"),
+    LayoutConst.boolean(property: "isMutable"),
+    LayoutConst.vec(Creator.creatorLayout, property: "creators"),
+    LayoutConst.optional(ConfigLineSettings.staticLayout,
         property: "configLineSettings"),
-    LayoutUtils.optional(CandyMachineHiddenSettings.staticLayout,
+    LayoutConst.optional(CandyMachineHiddenSettings.staticLayout,
         property: "hiddenSettings")
-  ], "candyMachineData");
+  ], property: "candyMachineData");
 
   @override
   Map<String, dynamic> serialize() {
@@ -66,7 +67,7 @@ class CandyMachineData extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   String toString() {

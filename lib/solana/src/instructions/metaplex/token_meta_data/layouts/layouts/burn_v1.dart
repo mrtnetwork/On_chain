@@ -1,9 +1,10 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexTokenMetaDataBurnV1Layout
     extends MetaplexTokenMetaDataProgramLayout {
-  static final int discriminator = 0;
+  static const int discriminator = 0;
   final BigInt amount;
   const MetaplexTokenMetaDataBurnV1Layout({required this.amount});
 
@@ -17,14 +18,14 @@ class MetaplexTokenMetaDataBurnV1Layout
     return MetaplexTokenMetaDataBurnV1Layout(amount: decode["amount"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u8("discriminator"),
-    LayoutUtils.u64("amount")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: "discriminator"),
+    LayoutConst.u64(property: "amount")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

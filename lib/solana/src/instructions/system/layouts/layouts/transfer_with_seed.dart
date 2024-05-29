@@ -1,6 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Transfer with seed layout
 class SystemTransferWithSeedLayout extends SystemProgramLayout {
@@ -24,15 +26,15 @@ class SystemTransferWithSeedLayout extends SystemProgramLayout {
         seed: decode["seed"],
         programId: decode["programId"]);
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u32("instruction"),
-    LayoutUtils.u64('lamports'),
-    LayoutUtils.rustString('seed'),
-    LayoutUtils.publicKey('programId'),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    LayoutConst.u64(property: 'lamports'),
+    LayoutConst.rustString(property: 'seed'),
+    SolanaLayoutUtils.publicKey('programId'),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => SystemProgramInstruction.transferWithSeed.insturction;

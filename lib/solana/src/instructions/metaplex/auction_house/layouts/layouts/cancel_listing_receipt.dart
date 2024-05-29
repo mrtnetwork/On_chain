@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexAuctionHouseCancelListingReceiptLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -13,15 +13,15 @@ class MetaplexAuctionHouseCancelListingReceiptLayout
         bytes: data,
         instruction: MetaplexAuctionHouseProgramInstruction
             .cancelListingReceipt.insturction);
-    return MetaplexAuctionHouseCancelListingReceiptLayout();
+    return const MetaplexAuctionHouseCancelListingReceiptLayout();
   }
 
-  /// Structure layout definition.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.blob(8, property: "instruction")]);
+  /// StructLayout layout definition.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

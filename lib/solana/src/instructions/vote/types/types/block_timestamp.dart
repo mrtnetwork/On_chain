@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class BlockTimestamp extends LayoutSerializable {
   final BigInt slot;
@@ -8,12 +9,12 @@ class BlockTimestamp extends LayoutSerializable {
     return BlockTimestamp(slot: json["slot"], timestamp: json["timestamp"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u64("slot"),
-    LayoutUtils.i64("timestamp"),
-  ], "blockTimestamp");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "slot"),
+    LayoutConst.i64(property: "timestamp"),
+  ], property: "blockTimestamp");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,8 +1,9 @@
-// Manages the layout structure for a Solana program involving Ethereum's secp256k1 signatures.
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/signer/eth/evm_signer.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class Secp256k1Layout extends ProgramLayout {
   /// Ethereum address used in the layout.
@@ -65,8 +66,8 @@ class Secp256k1Layout extends ProgramLayout {
       required List<int> signature,
       required int recoveryId,
       int instructionIndex = 0}) {
-    final int ethAddressOffset = 12;
-    final int signatureOffset = ethAddressOffset + ETHAddress.lengthInBytes;
+    const int ethAddressOffset = 12;
+    const int signatureOffset = ethAddressOffset + ETHAddress.lengthInBytes;
     return Secp256k1Layout(
         ethAddress: address,
         numSignatures: 1,
@@ -121,24 +122,24 @@ class Secp256k1Layout extends ProgramLayout {
         recoveryId: decode["recoveryId"]);
   }
 
-  /// Structure structure for Secp256k1Layout.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("numSignatures"),
-    LayoutUtils.u16("signatureOffset"),
-    LayoutUtils.u8("signatureInstructionIndex"),
-    LayoutUtils.u16("ethAddressOffset"),
-    LayoutUtils.u8("ethAddressInstructionIndex"),
-    LayoutUtils.u16("messageDataOffset"),
-    LayoutUtils.u16("messageDataSize"),
-    LayoutUtils.u8("messageInstructionIndex"),
-    LayoutUtils.blob(ETHAddress.lengthInBytes, property: "ethAddress"),
-    LayoutUtils.blob(ETHSignerConst.ethSignatureLength, property: "signature"),
-    LayoutUtils.u8("recoveryId")
+  /// StructLayout structure for Secp256k1Layout.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "numSignatures"),
+    LayoutConst.u16(property: "signatureOffset"),
+    LayoutConst.u8(property: "signatureInstructionIndex"),
+    LayoutConst.u16(property: "ethAddressOffset"),
+    LayoutConst.u8(property: "ethAddressInstructionIndex"),
+    LayoutConst.u16(property: "messageDataOffset"),
+    LayoutConst.u16(property: "messageDataSize"),
+    LayoutConst.u8(property: "messageInstructionIndex"),
+    LayoutConst.blob(ETHAddress.lengthInBytes, property: "ethAddress"),
+    LayoutConst.blob(ETHSignerConst.ethSignatureLength, property: "signature"),
+    LayoutConst.u8(property: "recoveryId")
   ]);
 
   /// Gets the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override
@@ -167,10 +168,9 @@ class Secp256k1Layout extends ProgramLayout {
   /// Converts the layout into bytes.
   @override
   List<int> toBytes() {
-    final LayoutByteWriter data =
-        LayoutByteWriter(_layout.span + message.length);
-    layout.encode(serialize(), data);
+    final data = List<int>.filled(_layout.span + message.length, 0);
+    data.setAll(0, layout.serialize(serialize()));
     data.setAll(messageDataOffset, message);
-    return data.toBytes();
+    return data;
   }
 }

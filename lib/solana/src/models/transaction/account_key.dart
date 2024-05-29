@@ -47,7 +47,7 @@ class MessageAccountKeys {
   List<CompiledInstruction> compileInstructions(
       List<TransactionInstruction> instructions) {
     if (length > SolanaTransactionConstant.maximumAccountKeys) {
-      throw MessageException(
+      throw const MessageException(
           'Account index overflow encountered during compilation');
     }
     Map<String, int> keyIndexMap = {};
@@ -57,7 +57,7 @@ class MessageAccountKeys {
     int findKeyIndex(String key) {
       final keyIndex = keyIndexMap[key];
       if (keyIndex == null) {
-        throw MessageException(
+        throw const MessageException(
             'Encountered an unknown instruction account key during compilation');
       }
       return keyIndex;

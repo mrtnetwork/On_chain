@@ -1,5 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
   const MetaplexCandyMachineProgramLayout();
@@ -10,11 +13,11 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
   }
 
   static Map<String, dynamic> decodeAndValidateStruct({
-    required Structure layout,
+    required StructLayout layout,
     required List<int> bytes,
     required List<int> instruction,
   }) {
-    final decode = layout.decode(bytes);
+    final decode = layout.deserialize(bytes).value;
     final instcutionData = decode["instruction"];
     if (!bytesEqual(instcutionData, instruction)) {
       throw MessageException("invalid instruction bytes", details: {

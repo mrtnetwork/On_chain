@@ -18,7 +18,7 @@ void _createLookupTable() {
     final tableAddress =
         AddressLookupTableProgramUtils.findAddressLookupTableProgram(
             authority: owner.address, recentSlot: BigInt.from(277769241));
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final layout = AddressLookupCreateLookupTableLayout(
         bumpSeed: tableAddress.bump, recentSlot: BigInt.from(277769241));
     final program = AddressLookupTableProgram.createLookupTable(
@@ -48,7 +48,7 @@ void _createLookupTable() {
 void _freezeLookupTable() {
   test("freezeLookupTable", () {
     final owner = QuickWalletForTest(index: 406);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final tableAddress =
         AddressLookupTableProgramUtils.findAddressLookupTableProgram(
             authority: owner.address, recentSlot: BigInt.from(277777145));
@@ -75,7 +75,7 @@ void _extendLookupTable() {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
 
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final tableAddress =
         AddressLookupTableProgramUtils.findAddressLookupTableProgram(
             authority: owner.address, recentSlot: BigInt.from(277777145));
@@ -107,7 +107,7 @@ void _extendLookupTable() {
 void _deactivateLookupTable() {
   test("deactivateLookupTable", () {
     final owner = QuickWalletForTest(index: 406);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final tableAddress =
         AddressLookupTableProgramUtils.findAddressLookupTableProgram(
             authority: owner.address, recentSlot: BigInt.from(277777145));
@@ -136,7 +136,7 @@ void _closeLookupTable() {
   test("closeLookupTable", () {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
-    final blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final tableAddress =
         AddressLookupTableProgramUtils.findAddressLookupTableProgram(
             authority: owner.address, recentSlot: BigInt.from(277777145));

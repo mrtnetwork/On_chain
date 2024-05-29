@@ -1,10 +1,9 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/name_service/constant.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/instructions/system/constant.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
-
 import 'layouts/layouts.dart';
 
 /// Instructions supported by the generic Name Registry program
@@ -140,7 +139,7 @@ class NameServiceProgram extends TransactionInstruction {
         refundTargetKey.toWritable(),
       ],
       programId: nameProgramId,
-      layout: NameServiceDeleteLayout(),
+      layout: const NameServiceDeleteLayout(),
     );
   }
 

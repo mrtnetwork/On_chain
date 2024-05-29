@@ -1,7 +1,7 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_guard_types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexCandyMachineRouteLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -22,15 +22,15 @@ class MetaplexCandyMachineRouteLayout
         guard: GuardType.fromValue(decode["guard"]),
         group: decode["group"]);
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("guard"),
-    LayoutUtils.vecU8("data"),
-    LayoutUtils.optional(LayoutUtils.string(), property: "group"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "guard"),
+    LayoutConst.vecU8(property: "data"),
+    LayoutConst.optional(LayoutConst.string(), property: "group"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

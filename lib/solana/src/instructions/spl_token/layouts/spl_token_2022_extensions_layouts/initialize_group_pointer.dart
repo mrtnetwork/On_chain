@@ -1,6 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Initialize the group pointer extension for the given mint account layout.
 class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
@@ -27,17 +29,17 @@ class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
           : decode["groupAddress"],
     );
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.wrap(GroupPointerInstruction.staticLayout,
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.wrap(GroupPointerInstruction.staticLayout,
         property: "groupPointer"),
-    LayoutUtils.publicKey("authority"),
-    LayoutUtils.publicKey("groupAddress"),
+    SolanaLayoutUtils.publicKey("authority"),
+    SolanaLayoutUtils.publicKey("groupAddress"),
   ]);
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class Allocation extends LayoutSerializable {
   final int id;
@@ -9,13 +10,13 @@ class Allocation extends LayoutSerializable {
     return Allocation(id: json["id"], limit: json["limit"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8("id"),
-    LayoutUtils.u32("limit"),
-  ], "allocation");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "id"),
+    LayoutConst.u32(property: "limit"),
+  ], property: "allocation");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"id": id, "limit": limit};

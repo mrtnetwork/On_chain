@@ -11,7 +11,7 @@ void main() {
 
 void _associatedToken() {
   test("associatedTokenAccount", () {
-    final layout = AssociatedTokenAccountProgramInitializeLayout();
+    const layout = AssociatedTokenAccountProgramInitializeLayout();
     expect(layout.toBytes(), []);
     final decode = AssociatedTokenAccountProgramInitializeLayout.fromBuffer(
         layout.toBytes());
@@ -21,7 +21,7 @@ void _associatedToken() {
 
 void _associatedTokenAccountIdempotent() {
   test("associatedTokenAccountIdempotent", () {
-    final layout = AssociatedTokenAccountProgramIdempotentLayout();
+    const layout = AssociatedTokenAccountProgramIdempotentLayout();
     expect(layout.toHex(), "01");
     final decode = AssociatedTokenAccountProgramIdempotentLayout.fromBuffer(
         layout.toBytes());
@@ -31,7 +31,7 @@ void _associatedTokenAccountIdempotent() {
 
 void _recoverNested() {
   test("recoverNested", () {
-    final layout = AssociatedTokenAccountProgramRecoverNestedLayout();
+    const layout = AssociatedTokenAccountProgramRecoverNestedLayout();
     expect(layout.toHex(), "02");
     final decode = AssociatedTokenAccountProgramRecoverNestedLayout.fromBuffer(
         layout.toBytes());

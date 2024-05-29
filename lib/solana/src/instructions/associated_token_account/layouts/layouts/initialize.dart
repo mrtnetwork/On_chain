@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/associated_token_account/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// AssociatedTokenAccount layout
 class AssociatedTokenAccountProgramInitializeLayout
@@ -13,11 +14,11 @@ class AssociatedTokenAccountProgramInitializeLayout
         bytes: data,
         instruction:
             AssociatedTokenAccountProgramInstruction.initialize.insturction);
-    return AssociatedTokenAccountProgramInitializeLayout();
+    return const AssociatedTokenAccountProgramInitializeLayout();
   }
-  static final Structure _layout = LayoutUtils.struct([]);
+  static final StructLayout _layout = LayoutConst.struct([]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int? get instruction =>

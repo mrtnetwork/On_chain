@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/types/reserve_fee_config.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 /// Reserve configuration
 class ReserveConfig {
@@ -49,16 +49,16 @@ class ReserveConfig {
         maxBorrowRate: json["maxBorrowRate"],
         feesConfig: ReserveFeesConfig.fromJson(json["fees"]));
   }
-  static Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8('optimalUtilizationRate'),
-    LayoutUtils.u8('loanToValueRatio'),
-    LayoutUtils.u8('liquidationBonus'),
-    LayoutUtils.u8('liquidationThreshold'),
-    LayoutUtils.u8('minBorrowRate'),
-    LayoutUtils.u8('optimalBorrowRate'),
-    LayoutUtils.u8('maxBorrowRate'),
+  static StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'optimalUtilizationRate'),
+    LayoutConst.u8(property: 'loanToValueRatio'),
+    LayoutConst.u8(property: 'liquidationBonus'),
+    LayoutConst.u8(property: 'liquidationThreshold'),
+    LayoutConst.u8(property: 'minBorrowRate'),
+    LayoutConst.u8(property: 'optimalBorrowRate'),
+    LayoutConst.u8(property: 'maxBorrowRate'),
     ReserveFeesConfig.layout
-  ], "config");
+  ], property: "config");
 
   Map<String, dynamic> serialize() {
     return {

@@ -1,20 +1,21 @@
 import 'package:on_chain/solana/src/instructions/stake/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static Structure layout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.none("Uninitialized"),
-      LayoutUtils.struct([
+  static StructLayout layout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.none(property: "Uninitialized"),
+      LayoutConst.struct([
         StakeMeta.staticLayout,
-      ], "Initialized"),
-      LayoutUtils.struct([
+      ], property: "Initialized"),
+      LayoutConst.struct([
         StakeMeta.staticLayout,
         StakeStake.staticLayout,
-        LayoutUtils.u8("stakeFlags")
-      ], "Stake"),
-      LayoutUtils.none("Uninitialized")
-    ], LayoutUtils.u32(), property: "stakeAccount")
+        LayoutConst.u8(property: "stakeFlags")
+      ], property: "Stake"),
+      LayoutConst.none(property: "Uninitialized")
+    ], discriminant: LayoutConst.u32(), property: "stakeAccount")
   ]);
 }
 
@@ -54,7 +55,7 @@ class StakeAccount extends LayoutSerializable {
     }
   }
   factory StakeAccount.fromBuffer(List<int> bytes) {
-    final decode = _Utils.layout.decode(bytes);
+    final decode = _Utils.layout.deserialize(bytes).value;
     return StakeAccount.fromJson(decode);
   }
 
@@ -72,7 +73,7 @@ class StakeAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   String toString() {

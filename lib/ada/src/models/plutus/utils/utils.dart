@@ -129,7 +129,7 @@ class PlutusDataUtils {
       throw MessageException("Invalid plutus format. type not allowed.",
           details: {"Value": val, "Type": "${val.runtimeType}"});
     }
-    throw MessageException("null not allowed in plutus data");
+    throw const MessageException("null not allowed in plutus data");
   }
 
   static PlutusData _encodeMap(Map value, PlutusJsonSchema jsonSchema) {
@@ -144,7 +144,7 @@ class PlutusDataUtils {
 
   static PlutusData _parseDetailed(dynamic value, PlutusJsonSchema schame) {
     if (value is! Map<String, dynamic>) {
-      throw MessageException(
+      throw const MessageException(
           "DetailedSchema requires types to be tagged objects");
     }
     if (value.length == 1) {
@@ -160,19 +160,19 @@ class PlutusDataUtils {
           return _encodeString(schame: schame, value: v, isKey: false);
         case "map":
           if (v is! List) {
-            throw MessageException(
+            throw const MessageException(
               r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
             );
           }
           final Map<PlutusData, PlutusData> values = {};
           for (final i in v) {
             if (i is! Map) {
-              throw MessageException(
+              throw const MessageException(
                 r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
               );
             }
             if (!i.containsKey("k") || !i.containsKey("v")) {
-              throw MessageException(
+              throw const MessageException(
                 r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
               );
             }
@@ -185,17 +185,17 @@ class PlutusDataUtils {
       }
     } else {
       if (value.length != 2) {
-        throw MessageException(
+        throw const MessageException(
             "detailed schemas must either have only one of the following keys: \"int\", \"bytes\", \"list\" or \"map\", or both of these 2 keys: \"constructor\" + \"fields\"");
       }
       final constructor = value["constructor"];
       if (constructor is! int && constructor is! BigInt) {
-        throw MessageException(
+        throw const MessageException(
             "tagged constructors must contain an unsigned integer called \"constructor\"");
       }
       final fileds = value["fields"];
       if (fileds is! List) {
-        throw MessageException(
+        throw const MessageException(
             "tagged constructors must contian a list called \"fields\"");
       }
       final List<PlutusData> plutusList = [];

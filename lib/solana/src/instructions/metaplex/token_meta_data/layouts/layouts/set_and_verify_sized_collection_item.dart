@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout
     extends MetaplexTokenMetaDataProgramLayout {
@@ -12,14 +13,14 @@ class MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout
         bytes: data,
         instruction: MetaplexTokenMetaDataProgramInstruction
             .setAndVerifySizedCollectionItem.insturction);
-    return MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout();
+    return const MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout();
   }
 
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => MetaplexTokenMetaDataProgramInstruction

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/instructions/system/constant.dart';
 import 'package:on_chain/solana/src/instructions/system/layouts/layouts.dart';
@@ -158,7 +158,7 @@ class SystemProgram extends TransactionInstruction {
     required SolAddress noncePubKey,
   }) {
     return SystemProgram(
-        layout: SystemAdvanceNonceLayout(),
+        layout: const SystemAdvanceNonceLayout(),
         keys: [
           noncePubKey.toWritable(),
           SystemProgramConst.sysvarRecentBlockhashesPubkey.toReadOnly(),

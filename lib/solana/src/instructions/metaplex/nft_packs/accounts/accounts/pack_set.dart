@@ -2,26 +2,28 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/account_type.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/pack_distribution_type.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/pack_set_state.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8("accountType"),
-    LayoutUtils.publicKey("store"),
-    LayoutUtils.publicKey("authority"),
-    LayoutUtils.string("description"),
-    LayoutUtils.string("uri"),
-    LayoutUtils.blob(32, property: "name"),
-    LayoutUtils.u32("packCards"),
-    LayoutUtils.u32("packVouchers"),
-    LayoutUtils.u64("totalWeight"),
-    LayoutUtils.u64("totalEditions"),
-    LayoutUtils.boolean(property: "mutable"),
-    LayoutUtils.u8("packState"),
-    LayoutUtils.u8("distributionType"),
-    LayoutUtils.u32("allowedAmountToRedeem"),
-    LayoutUtils.u64("redeemStartDate"),
-    LayoutUtils.optional(LayoutUtils.u64(), property: "redeemEndDate")
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: "accountType"),
+    SolanaLayoutUtils.publicKey("store"),
+    SolanaLayoutUtils.publicKey("authority"),
+    LayoutConst.string(property: "description"),
+    LayoutConst.string(property: "uri"),
+    LayoutConst.blob(32, property: "name"),
+    LayoutConst.u32(property: "packCards"),
+    LayoutConst.u32(property: "packVouchers"),
+    LayoutConst.u64(property: "totalWeight"),
+    LayoutConst.u64(property: "totalEditions"),
+    LayoutConst.boolean(property: "mutable"),
+    LayoutConst.u8(property: "packState"),
+    LayoutConst.u8(property: "distributionType"),
+    LayoutConst.u32(property: "allowedAmountToRedeem"),
+    LayoutConst.u64(property: "redeemStartDate"),
+    LayoutConst.optional(LayoutConst.u64(), property: "redeemEndDate")
   ]);
 }
 
@@ -83,7 +85,7 @@ class PackSet extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

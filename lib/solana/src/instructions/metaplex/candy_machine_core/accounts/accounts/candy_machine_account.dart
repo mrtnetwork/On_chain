@@ -1,21 +1,23 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/types.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/token_standard.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [51, 173, 177, 113, 25, 241, 109, 189];
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.wrap(CandyMachineAccountVersion.staticLayout,
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    LayoutConst.wrap(CandyMachineAccountVersion.staticLayout,
         property: "version"),
-    LayoutUtils.wrap(MetaDataTokenStandard.staticLayout,
+    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
         property: "tokenStandard"),
-    LayoutUtils.blob(6, property: "features"),
-    LayoutUtils.publicKey("authority"),
-    LayoutUtils.publicKey("mintAuthority"),
-    LayoutUtils.publicKey("collectionMint"),
-    LayoutUtils.u64("itemsRedeemed"),
+    LayoutConst.blob(6, property: "features"),
+    SolanaLayoutUtils.publicKey("authority"),
+    SolanaLayoutUtils.publicKey("mintAuthority"),
+    SolanaLayoutUtils.publicKey("collectionMint"),
+    LayoutConst.u64(property: "itemsRedeemed"),
     CandyMachineData.staticLayout
   ]);
 }
@@ -55,7 +57,7 @@ class CandyMachineAccount extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
 
   @override
   Map<String, dynamic> serialize() {

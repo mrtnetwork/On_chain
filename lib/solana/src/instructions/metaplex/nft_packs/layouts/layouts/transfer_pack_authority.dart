@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksTransferPackAuthorityLayout
     extends MetaplexNFTPacksProgramLayout {
@@ -12,14 +13,14 @@ class MetaplexNFTPacksTransferPackAuthorityLayout
         bytes: data,
         instruction: MetaplexNFTPacksProgramInstruction
             .transferPackAuthority.insturction);
-    return MetaplexNFTPacksTransferPackAuthorityLayout();
+    return const MetaplexNFTPacksTransferPackAuthorityLayout();
   }
 
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

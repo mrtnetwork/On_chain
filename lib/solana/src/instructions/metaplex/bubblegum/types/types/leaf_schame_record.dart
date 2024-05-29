@@ -1,6 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class LeafSchemaV1 extends LayoutSerializable {
   LeafSchemaV1({
@@ -30,18 +32,18 @@ class LeafSchemaV1 extends LayoutSerializable {
   final BigInt nonce;
   final List<int> dataHash;
   final List<int> creatorHash;
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u8("version"),
-    LayoutUtils.publicKey("id"),
-    LayoutUtils.publicKey("owner"),
-    LayoutUtils.publicKey("delegate"),
-    LayoutUtils.u64("nonce"),
-    LayoutUtils.blob(32, property: "dataHash"),
-    LayoutUtils.blob(32, property: "creatorHash"),
-  ], "leafschema");
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u8(property: "version"),
+    SolanaLayoutUtils.publicKey("id"),
+    SolanaLayoutUtils.publicKey("owner"),
+    SolanaLayoutUtils.publicKey("delegate"),
+    LayoutConst.u64(property: "nonce"),
+    LayoutConst.blob(32, property: "dataHash"),
+    LayoutConst.blob(32, property: "creatorHash"),
+  ], property: "leafschema");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

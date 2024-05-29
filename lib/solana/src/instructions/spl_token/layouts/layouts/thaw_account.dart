@@ -1,15 +1,16 @@
 // Manages the layout structure for thawing an account in SPL.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Thaw a Frozen account layout.
 class SPLTokenThawAccountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenThawAccountLayout instance.
   SPLTokenThawAccountLayout();
 
-  /// Structure structure for thawing an account in SPL.
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  /// StructLayout structure for thawing an account in SPL.
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
 
   /// Constructs an SPLTokenThawAccountLayout instance from buffer.
   factory SPLTokenThawAccountLayout.fromBuffer(List<int> bytes) {
@@ -22,7 +23,7 @@ class SPLTokenThawAccountLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Instruction associated with the layout.
   @override

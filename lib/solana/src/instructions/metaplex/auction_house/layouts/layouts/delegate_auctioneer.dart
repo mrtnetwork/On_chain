@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/types/types/authority_scope.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexAuctionHouseDelegateAuctioneerLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -21,14 +21,14 @@ class MetaplexAuctionHouseDelegateAuctioneerLayout
             .toList());
   }
 
-  /// Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.vec(LayoutUtils.u8(), property: "scopes")
+  /// StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.vec(LayoutConst.u8(), property: "scopes")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

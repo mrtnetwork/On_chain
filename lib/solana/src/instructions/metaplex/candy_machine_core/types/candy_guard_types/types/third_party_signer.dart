@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class ThirdPartySigner extends LayoutSerializable {
   final SolAddress signerKey;
@@ -9,11 +11,12 @@ class ThirdPartySigner extends LayoutSerializable {
     return ThirdPartySigner(signerKey: json["signerKey"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct(
-      [LayoutUtils.publicKey("signerKey")], "thirdPartySigner");
+  static final StructLayout staticLayout = LayoutConst.struct(
+      [SolanaLayoutUtils.publicKey("signerKey")],
+      property: "thirdPartySigner");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"signerKey": signerKey};

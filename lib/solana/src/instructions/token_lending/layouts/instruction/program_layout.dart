@@ -1,10 +1,11 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/layouts.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class TokenLendingProgramLayout extends ProgramLayout {
   const TokenLendingProgramLayout();
-  static final Structure _layout =
-      LayoutUtils.struct([LayoutUtils.u8("instruction")]);
+  static final StructLayout _layout =
+      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
       final decode =

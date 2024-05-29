@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class BotTax extends LayoutSerializable {
   final BigInt lamports;
@@ -10,13 +11,13 @@ class BotTax extends LayoutSerializable {
         lamports: json["lamports"], lastInstruction: json["lastInstruction"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u64("lamports"),
-    LayoutUtils.boolean(property: "lastInstruction")
-  ], "botTax");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: "lamports"),
+    LayoutConst.boolean(property: "lastInstruction")
+  ], property: "botTax");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"lastInstruction": lastInstruction, "lamports": lamports};

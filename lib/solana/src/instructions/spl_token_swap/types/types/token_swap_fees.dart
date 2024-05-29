@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Encapsulates all fee information and calculations for swap operations
 class TokenSwapFees extends LayoutSerializable {
@@ -62,18 +63,18 @@ class TokenSwapFees extends LayoutSerializable {
   }
 
   /// The layout structure for creating a token swap.
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.u64('tradeFeeNumerator'),
-    LayoutUtils.u64('tradeFeeDenominator'),
-    LayoutUtils.u64('ownerTradeFeeNumerator'),
-    LayoutUtils.u64('ownerTradeFeeDenominator'),
-    LayoutUtils.u64('ownerWithdrawFeeNumerator'),
-    LayoutUtils.u64('ownerWithdrawFeeDenominator'),
-    LayoutUtils.u64('hostFeeNumerator'),
-    LayoutUtils.u64('hostFeeDenominator'),
-  ], "fees");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: 'tradeFeeNumerator'),
+    LayoutConst.u64(property: 'tradeFeeDenominator'),
+    LayoutConst.u64(property: 'ownerTradeFeeNumerator'),
+    LayoutConst.u64(property: 'ownerTradeFeeDenominator'),
+    LayoutConst.u64(property: 'ownerWithdrawFeeNumerator'),
+    LayoutConst.u64(property: 'ownerWithdrawFeeDenominator'),
+    LayoutConst.u64(property: 'hostFeeNumerator'),
+    LayoutConst.u64(property: 'hostFeeDenominator'),
+  ], property: "fees");
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

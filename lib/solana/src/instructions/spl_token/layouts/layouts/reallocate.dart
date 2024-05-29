@@ -1,7 +1,8 @@
 // Manages the layout structure for reallocating SPL token extensions.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// use reallocation to increase the data size layout.
 class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
@@ -9,10 +10,10 @@ class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
   SPLTokenReallocateLayout({required List<ExtensionType> extensionTypes})
       : extensionTypes = List<ExtensionType>.unmodifiable(extensionTypes);
 
-  /// Structure structure for reallocating SPL token extensions.
-  static Structure _layout({required int length}) => LayoutUtils.struct([
-        LayoutUtils.u8("instruction"),
-        LayoutUtils.array(LayoutUtils.u16(), length, property: 'extensionTypes')
+  /// StructLayout structure for reallocating SPL token extensions.
+  static StructLayout _layout({required int length}) => LayoutConst.struct([
+        LayoutConst.u8(property: "instruction"),
+        LayoutConst.array(LayoutConst.u16(), length, property: 'extensionTypes')
       ]);
 
   /// Constructs an SPLTokenReallocateLayout instance from buffer.
@@ -31,7 +32,7 @@ class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
 
   /// Returns the layout structure.
   @override
-  late final Structure layout = _layout(length: extensionTypes.length);
+  late final StructLayout layout = _layout(length: extensionTypes.length);
 
   /// New extension types to include in the reallocated account
   final List<ExtensionType> extensionTypes;

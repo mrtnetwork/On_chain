@@ -1,9 +1,8 @@
 import 'package:blockchain_utils/binary/binary.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/types/types.dart';
-import 'package:on_chain/solana/src/layout/core/core.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
-import 'package:on_chain/solana/src/layout/utils/layout_utils.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initializes a new swap layout
 class SPLTokenSwapInitSwapLayout extends SPLTokenSwapProgramLayout {
@@ -38,14 +37,14 @@ class SPLTokenSwapInitSwapLayout extends SPLTokenSwapProgramLayout {
   }
 
   /// The layout structure for creating a token swap.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8('instruction'),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'instruction'),
     TokenSwapFees.staticLayout,
-    LayoutUtils.u8('curveType'),
-    LayoutUtils.blob(32, property: 'curveParameters'),
+    LayoutConst.u8(property: 'curveType'),
+    LayoutConst.blob(32, property: 'curveParameters'),
   ]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => SPLTokenSwapProgramInstruction.initSwap.insturction;

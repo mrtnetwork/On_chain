@@ -1,23 +1,25 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [240, 71, 225, 94, 200, 75, 84, 231];
 
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "discriminator"),
-    LayoutUtils.publicKey("tradeState"),
-    LayoutUtils.publicKey("bookkeeper"),
-    LayoutUtils.publicKey("auctionHouse"),
-    LayoutUtils.publicKey("seller"),
-    LayoutUtils.publicKey("metadata"),
-    LayoutUtils.optionPubkey(property: "purchaseReceipt"),
-    LayoutUtils.u64("price"),
-    LayoutUtils.u64("tokenSize"),
-    LayoutUtils.u8("bump"),
-    LayoutUtils.u8("tradeStateBump"),
-    LayoutUtils.i64("createdAt"),
-    LayoutUtils.optional(LayoutUtils.i64(), property: "canceledAt")
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "discriminator"),
+    SolanaLayoutUtils.publicKey("tradeState"),
+    SolanaLayoutUtils.publicKey("bookkeeper"),
+    SolanaLayoutUtils.publicKey("auctionHouse"),
+    SolanaLayoutUtils.publicKey("seller"),
+    SolanaLayoutUtils.publicKey("metadata"),
+    SolanaLayoutUtils.optionPubkey(property: "purchaseReceipt"),
+    LayoutConst.u64(property: "price"),
+    LayoutConst.u64(property: "tokenSize"),
+    LayoutConst.u8(property: "bump"),
+    LayoutConst.u8(property: "tradeStateBump"),
+    LayoutConst.i64(property: "createdAt"),
+    LayoutConst.optional(LayoutConst.i64(), property: "canceledAt")
   ]);
 }
 
@@ -88,7 +90,7 @@ class ListingReceipt extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   String toString() {
     return "ListingReceipt${serialize()}";

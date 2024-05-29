@@ -21,7 +21,8 @@ class SolAddress {
   /// Constructs a Solana address without checking the curve of the bytes.
   factory SolAddress.uncheckBytes(List<int> keyBytes) {
     if (keyBytes.length != 32) {
-      throw MessageException("The public key must have a length of 32 bytes.");
+      throw const MessageException(
+          "The public key must have a length of 32 bytes.");
     }
     return SolAddress._(Base58Encoder.encode(keyBytes));
   }

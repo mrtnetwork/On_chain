@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class StakeDelegation extends LayoutSerializable {
   final SolAddress voterPubkey;
@@ -23,16 +25,16 @@ class StakeDelegation extends LayoutSerializable {
         warmupCooldownRate: json["warmupCooldownRate"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.publicKey("voterPubkey"),
-    LayoutUtils.u64("stake"),
-    LayoutUtils.u64("activationEpoch"),
-    LayoutUtils.u64("deactivationEpoch"),
-    LayoutUtils.f64("warmupCooldownRate")
-  ], "delegation");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey("voterPubkey"),
+    LayoutConst.u64(property: "stake"),
+    LayoutConst.u64(property: "activationEpoch"),
+    LayoutConst.u64(property: "deactivationEpoch"),
+    LayoutConst.f64(property: "warmupCooldownRate")
+  ], property: "delegation");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

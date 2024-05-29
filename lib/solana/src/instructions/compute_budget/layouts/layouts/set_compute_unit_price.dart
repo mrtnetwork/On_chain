@@ -1,9 +1,8 @@
 import 'package:on_chain/solana/src/instructions/compute_budget/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/core/core.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
-import 'package:on_chain/solana/src/layout/utils/layout_utils.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-/// Structure for the ComputeBudgetSetComputeUnitPrice instruction.
+/// StructLayout for the ComputeBudgetSetComputeUnitPrice instruction.
 class ComputeBudgetSetComputeUnitPriceLayout
     extends ComputeBudgetProgramLayout {
   /// Transaction compute unit price used for prioritization fees.
@@ -22,14 +21,14 @@ class ComputeBudgetSetComputeUnitPriceLayout
     return ComputeBudgetSetComputeUnitPriceLayout(
         microLamports: decode["microLamports"]);
   }
-  // Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u64("microLamports"),
+  // StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "microLamports"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

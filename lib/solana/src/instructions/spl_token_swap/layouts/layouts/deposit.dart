@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Deposit both types of tokens into the pool layoyt.
 class SPLTokenSwapDepositLayout extends SPLTokenSwapProgramLayout {
@@ -36,14 +37,14 @@ class SPLTokenSwapDepositLayout extends SPLTokenSwapProgramLayout {
   }
 
   /// The layout structure for depositing tokens.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8('instruction'),
-    LayoutUtils.u64('poolTokenAmount'),
-    LayoutUtils.u64('maximumTokenA'),
-    LayoutUtils.u64('maximumTokenB'),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'poolTokenAmount'),
+    LayoutConst.u64(property: 'maximumTokenA'),
+    LayoutConst.u64(property: 'maximumTokenB'),
   ]);
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

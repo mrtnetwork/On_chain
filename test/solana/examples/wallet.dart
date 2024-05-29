@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/solana.dart';
 

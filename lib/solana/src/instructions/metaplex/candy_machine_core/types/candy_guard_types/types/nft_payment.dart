@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class NFTPayment extends LayoutSerializable {
   final SolAddress requiredCollection;
@@ -13,13 +15,13 @@ class NFTPayment extends LayoutSerializable {
         destination: json["destination"]);
   }
 
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.publicKey("requiredCollection"),
-    LayoutUtils.publicKey("destination")
-  ], "nftPayment");
+  static final StructLayout staticLayout = LayoutConst.struct([
+    SolanaLayoutUtils.publicKey("requiredCollection"),
+    SolanaLayoutUtils.publicKey("destination")
+  ], property: "nftPayment");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {

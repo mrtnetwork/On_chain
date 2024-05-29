@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 /// Initializes a TLV layout.
 class SPLTokenMetaDataInitializeLayout extends SPLTokenMetaDataProgramLayout {
@@ -37,16 +37,16 @@ class SPLTokenMetaDataInitializeLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// Creates a static layout based on the provided lengths of name, symbol, and URI bytes.
-  static final Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.string("name"),
-    LayoutUtils.string("symbol"),
-    LayoutUtils.string("uri"),
+  static final StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.string(property: "name"),
+    LayoutConst.string(property: "symbol"),
+    LayoutConst.string(property: "uri"),
   ]);
 
   /// The layout structure of this create instruction.
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   /// Gets the instruction bytes for the create instruction.
   @override

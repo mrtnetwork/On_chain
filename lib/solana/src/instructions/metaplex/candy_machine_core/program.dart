@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/constant.dart';
 import 'package:on_chain/solana/src/instructions/system/constant.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'constant.dart';
 
@@ -51,7 +51,7 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
           authority.toSignerAndWritable(),
         ],
         programId: programId,
-        layout: MetaplexCandyMachineDeleteCandyGuardLayout());
+        layout: const MetaplexCandyMachineDeleteCandyGuardLayout());
   }
   factory MetaplexCandyMachineCoreProgram.deleteCandyMachine(
       {required SolAddress candyMachine,
@@ -64,7 +64,7 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
           authority.toSignerAndWritable(),
         ],
         programId: programId,
-        layout: MetaplexCandyMachineDeleteCandyMachineLayout());
+        layout: const MetaplexCandyMachineDeleteCandyMachineLayout());
   }
   factory MetaplexCandyMachineCoreProgram.initializeCandyMachine({
     required SolAddress candyMachine,
@@ -176,7 +176,7 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
           recentSlothashes.toReadOnly()
         ],
         programId: programId,
-        layout: MetaplexCandyMachineMintFromCandyMachineLayout());
+        layout: const MetaplexCandyMachineMintFromCandyMachineLayout());
   }
   factory MetaplexCandyMachineCoreProgram.mintFromCandyMachineV2({
     required SolAddress candyMachine,
@@ -234,7 +234,7 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
           authorizationRules?.toReadOnly() ?? programId.toReadOnly()
         ],
         programId: programId,
-        layout: MetaplexCandyMachineMintFromCandyMachineV2Layout());
+        layout: const MetaplexCandyMachineMintFromCandyMachineV2Layout());
   }
   factory MetaplexCandyMachineCoreProgram.mint({
     required SolAddress candyGuard,
@@ -397,22 +397,25 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyMachine.toWritable(),
-      authority.toSigner(),
-      authorityPda.toWritable(),
-      payer.toSigner(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toReadOnly(),
-      collectionAuthorityRecord.toWritable(),
-      newCollectionUpdateAuthority.toSignerAndWritable(),
-      newCollectionMetadata.toReadOnly(),
-      newCollectionMint.toReadOnly(),
-      newCollectionMasterEdition.toReadOnly(),
-      newCollectionAuthorityRecord.toWritable(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-    ], programId: programId, layout: MetaplexCandyMachineSetCollectionLayout());
+    return MetaplexCandyMachineCoreProgram(
+        keys: [
+          candyMachine.toWritable(),
+          authority.toSigner(),
+          authorityPda.toWritable(),
+          payer.toSigner(),
+          collectionMint.toReadOnly(),
+          collectionMetadata.toReadOnly(),
+          collectionAuthorityRecord.toWritable(),
+          newCollectionUpdateAuthority.toSignerAndWritable(),
+          newCollectionMetadata.toReadOnly(),
+          newCollectionMint.toReadOnly(),
+          newCollectionMasterEdition.toReadOnly(),
+          newCollectionAuthorityRecord.toWritable(),
+          tokenMetadataProgram.toReadOnly(),
+          systemProgram.toReadOnly(),
+        ],
+        programId: programId,
+        layout: const MetaplexCandyMachineSetCollectionLayout());
   }
   factory MetaplexCandyMachineCoreProgram.setCollectionV2({
     required SolAddress candyMachine,
@@ -458,7 +461,7 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
           authorizationRules?.toReadOnly() ?? programId.toReadOnly()
         ],
         programId: programId,
-        layout: MetaplexCandyMachineSetCollectionV2Layout());
+        layout: const MetaplexCandyMachineSetCollectionV2Layout());
   }
   factory MetaplexCandyMachineCoreProgram.setMintAuthority({
     required SolAddress candyMachine,
@@ -474,7 +477,7 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
           mintAuthority.toSigner()
         ],
         programId: programId,
-        layout: MetaplexCandyMachineSetMintAuthorityLayout());
+        layout: const MetaplexCandyMachineSetMintAuthorityLayout());
   }
   factory MetaplexCandyMachineCoreProgram.setTokenStandard({
     required SolAddress candyMachine,
@@ -529,7 +532,7 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
       candyMachine.toWritable(),
       candyMachineAuthority.toSigner(),
       candyMachineProgram.toReadOnly(),
-    ], programId: programId, layout: MetaplexCandyMachineUnwrapLayout());
+    ], programId: programId, layout: const MetaplexCandyMachineUnwrapLayout());
   }
   factory MetaplexCandyMachineCoreProgram.updateCandyGuard({
     required SolAddress candyGuard,
@@ -574,6 +577,6 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
       candyMachine.toWritable(),
       candyMachineProgram.toReadOnly(),
       candyMachineAuthority.toSigner(),
-    ], programId: programId, layout: MetaplexCandyMachineWrapLayout());
+    ], programId: programId, layout: const MetaplexCandyMachineWrapLayout());
   }
 }

@@ -1,7 +1,8 @@
 // Manages the layout structure for the SPL token approve checked operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Require memos or Stop requiring memos layout.
 class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
@@ -10,9 +11,9 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
 
   SPLToken2022ToggleMemoTransferLayout({required this.memoTransfer});
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.wrap(MemoTransferInstruction.staticLayout,
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.wrap(MemoTransferInstruction.staticLayout,
         property: "memoTransfer"),
   ]);
 
@@ -27,7 +28,7 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
   }
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   final int instruction =

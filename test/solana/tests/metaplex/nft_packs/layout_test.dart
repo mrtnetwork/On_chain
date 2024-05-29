@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-final _owner =
+const _owner =
     SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
 void main() {
   group("nftPacks", () {
@@ -30,7 +30,7 @@ void main() {
 
 void _activate() {
   test("activate", () {
-    final layout = MetaplexNFTPacksActivateLayout();
+    const layout = MetaplexNFTPacksActivateLayout();
     expect(layout.toHex(), "03");
     final decode = MetaplexNFTPacksActivateLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -39,7 +39,7 @@ void _activate() {
 
 void _addCardToPack() {
   test("addCardToPack", () {
-    final layout = MetaplexNFTPacksAddCardToPackLayout(
+    const layout = MetaplexNFTPacksAddCardToPackLayout(
         addCardToPack: AddCardToPack(
       maxSupply: 1,
       weight: 0,
@@ -54,7 +54,7 @@ void _addCardToPack() {
 
 void _addVoucherToPack() {
   test("addVoucherToPack", () {
-    final layout = MetaplexNFTPacksAddVoucherToPackLayout();
+    const layout = MetaplexNFTPacksAddVoucherToPackLayout();
     expect(layout.toHex(), "02");
     final decode =
         MetaplexNFTPacksAddVoucherToPackLayout.fromBuffer(layout.toBytes());
@@ -64,7 +64,7 @@ void _addVoucherToPack() {
 
 void _claimPack() {
   test("claimPack", () {
-    final layout = MetaplexNFTPacksClaimPackLayout(index: 1);
+    const layout = MetaplexNFTPacksClaimPackLayout(index: 1);
     expect(layout.toHex(), "0601000000");
     final decode = MetaplexNFTPacksClaimPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -73,7 +73,7 @@ void _claimPack() {
 
 void _cleanUp() {
   test("cleanUp", () {
-    final layout = MetaplexNFTPacksCleanUpLayout();
+    const layout = MetaplexNFTPacksCleanUpLayout();
     expect(layout.toHex(), "0d");
     final decode = MetaplexNFTPacksCleanUpLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -82,7 +82,7 @@ void _cleanUp() {
 
 void _closePack() {
   test("closePack", () {
-    final layout = MetaplexNFTPacksClosePackLayout();
+    const layout = MetaplexNFTPacksClosePackLayout();
     expect(layout.toHex(), "05");
     final decode = MetaplexNFTPacksClosePackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -91,7 +91,7 @@ void _closePack() {
 
 void _deactivate() {
   test("deactivate", () {
-    final layout = MetaplexNFTPacksDeactivateLayout();
+    const layout = MetaplexNFTPacksDeactivateLayout();
     expect(layout.toHex(), "04");
     final decode =
         MetaplexNFTPacksDeactivateLayout.fromBuffer(layout.toBytes());
@@ -101,7 +101,7 @@ void _deactivate() {
 
 void _deletePack() {
   test("deletePack", () {
-    final layout = MetaplexNFTPacksDeletePackLayout();
+    const layout = MetaplexNFTPacksDeletePackLayout();
     expect(layout.toHex(), "08");
     final decode =
         MetaplexNFTPacksDeletePackLayout.fromBuffer(layout.toBytes());
@@ -111,7 +111,7 @@ void _deletePack() {
 
 void _deletePackCard() {
   test("deletePackCard", () {
-    final layout = MetaplexNFTPacksDeletePackCardLayout();
+    const layout = MetaplexNFTPacksDeletePackCardLayout();
     expect(layout.toHex(), "09");
     final decode =
         MetaplexNFTPacksDeletePackCardLayout.fromBuffer(layout.toBytes());
@@ -121,7 +121,7 @@ void _deletePackCard() {
 
 void _deletePackConfig() {
   test("deletePackConfig", () {
-    final layout = MetaplexNFTPacksDeletePackConfigLayout();
+    const layout = MetaplexNFTPacksDeletePackConfigLayout();
     expect(layout.toHex(), "0e");
     final decode =
         MetaplexNFTPacksDeletePackConfigLayout.fromBuffer(layout.toBytes());
@@ -131,7 +131,7 @@ void _deletePackConfig() {
 
 void _deletePackVoucher() {
   test("deletePackVoucher", () {
-    final layout = MetaplexNFTPacksDeletePackVoucherLayout();
+    const layout = MetaplexNFTPacksDeletePackVoucherLayout();
     expect(layout.toHex(), "0a");
     final decode =
         MetaplexNFTPacksDeletePackVoucherLayout.fromBuffer(layout.toBytes());
@@ -233,7 +233,7 @@ void _initPack() {
 
 void _requestCardForRedeem() {
   test("requestCardForRedeem", () {
-    final layout = MetaplexNFTPacksRequestCardForRedeemLayout(index: 12);
+    const layout = MetaplexNFTPacksRequestCardForRedeemLayout(index: 12);
     expect(layout.toHex(), "0c0c000000");
     final decode =
         MetaplexNFTPacksRequestCardForRedeemLayout.fromBuffer(layout.toBytes());
@@ -243,7 +243,7 @@ void _requestCardForRedeem() {
 
 void _transferPackAuthority() {
   test("transferPackAuthority", () {
-    final layout = MetaplexNFTPacksTransferPackAuthorityLayout();
+    const layout = MetaplexNFTPacksTransferPackAuthorityLayout();
     expect(layout.toHex(), "07");
     final decode = MetaplexNFTPacksTransferPackAuthorityLayout.fromBuffer(
         layout.toBytes());
@@ -253,7 +253,7 @@ void _transferPackAuthority() {
 
 void _provingProcess() {
   test("ProvingProcess", () {
-    final layout = ProvingProcess(
+    const layout = ProvingProcess(
         accountType: NFTPacksAccountType.packCard,
         walletKey: _owner,
         isExhausted: false,
@@ -267,26 +267,11 @@ void _provingProcess() {
     final decode = ProvingProcess.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });
-  // test("ProvingProcess_1", () {
-  //   final layout = ProvingProcess(
-  //       accountType: NFTPacksAccountType.packCard,
-  //       walletKey: _owner,
-  //       isExhausted: false,
-  //       voucherMint: _owner,
-  //       packSet: _owner,
-  //       cardsRedeemed: 2,
-  //       cardsToRedeem: {});
-
-  //   expect(layout.toHex(),
-  //       "02f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd7600f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760200000000000000");
-  //   final decode = ProvingProcess.fromBuffer(layout.toBytes());
-  //   expect(decode.toBytes(), layout.toBytes());
-  // });
 }
 
 void _packVoucher() {
   test("PackVoucher", () {
-    final layout = PackVoucher(
+    const layout = PackVoucher(
       accountType: NFTPacksAccountType.packSet,
       packSet: _owner,
       master: _owner,
@@ -398,7 +383,7 @@ void _packConfig() {
 
 void _packcard() {
   test("packcard", () {
-    final layout = PackCard(
+    const layout = PackCard(
       accountType: NFTPacksAccountType.packSet,
       packSet: _owner,
       master: _owner,

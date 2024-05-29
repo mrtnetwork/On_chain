@@ -23,7 +23,7 @@ class SolanaUtils {
     List<int> seedBytes = [];
     for (final i in seeds) {
       if (i.length > maxSeedLength) {
-        throw MessageException("Max seed length exceeded");
+        throw const MessageException("Max seed length exceeded");
       }
       seedBytes = [...seedBytes, ...i];
     }
@@ -38,7 +38,8 @@ class SolanaUtils {
         continue;
       }
     }
-    throw MessageException("Unable to find a viable program address nonce");
+    throw const MessageException(
+        "Unable to find a viable program address nonce");
   }
 
   /// Finds a program address for the given seeds and program ID.
@@ -52,7 +53,8 @@ class SolanaUtils {
 
     seedBytes = QuickCrypto.sha256Hash(seedBytes);
     if (Ed25519PublicKey.isValidBytes(seedBytes)) {
-      throw MessageException("Invalid seeds, address must fall off the curve");
+      throw const MessageException(
+          "Invalid seeds, address must fall off the curve");
     }
     return SolAddress.uncheckBytes(seedBytes);
   }

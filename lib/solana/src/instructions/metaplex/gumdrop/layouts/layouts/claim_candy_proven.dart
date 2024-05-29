@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexGumdropClaimCandyProvenLayout
     extends MetaplexGumdropProgramLayout {
@@ -21,15 +21,15 @@ class MetaplexGumdropClaimCandyProvenLayout
         index: decode["index"]);
   }
 
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
-    LayoutUtils.u8("walletBump"),
-    LayoutUtils.u8("claimBump"),
-    LayoutUtils.u64("index")
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.u8(property: "walletBump"),
+    LayoutConst.u8(property: "claimBump"),
+    LayoutConst.u64(property: "index")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   List<int> get instruction =>

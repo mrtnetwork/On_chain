@@ -1,7 +1,10 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/exception/exception.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Initializes a new lending market layout
 class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
@@ -19,15 +22,15 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
   factory TokenLendingInitLendingMarketLayout(
       {required SolAddress owner, required List<int> quoteCurrency}) {
     if (quoteCurrency.length != 32) {
-      throw MessageException("quoteCurrency must not exceed 32 bytes.");
+      throw const MessageException("quoteCurrency must not exceed 32 bytes.");
     }
     return TokenLendingInitLendingMarketLayout._(
         owner: owner, quoteCurrency: quoteCurrency);
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.publicKey("owner"),
-    LayoutUtils.blob(32, property: "quoteCurrency"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    SolanaLayoutUtils.publicKey("owner"),
+    LayoutConst.blob(32, property: "quoteCurrency"),
   ]);
 
   factory TokenLendingInitLendingMarketLayout.fromBuffer(List<int> data) {
@@ -41,7 +44,7 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
   }
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

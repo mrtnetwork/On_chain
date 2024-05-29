@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/types/reserve_confing.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initializes a new lending market reserve layout.
 class TokenLendingInitReserveLayout extends TokenLendingProgramLayout {
@@ -22,14 +23,14 @@ class TokenLendingInitReserveLayout extends TokenLendingProgramLayout {
         liquidityAmount: decode["liquidityAmount"],
         config: ReserveConfig.fromJson(decode["config"]));
   }
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u64("liquidityAmount"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u64(property: "liquidityAmount"),
     ReserveConfig.layout
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction => TokenLendingProgramInstruction.initReserve.insturction;

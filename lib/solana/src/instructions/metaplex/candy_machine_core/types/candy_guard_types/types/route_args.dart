@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/binary/binary.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 import 'guard_type.dart';
 
@@ -15,11 +16,12 @@ class RouteArgs extends LayoutSerializable {
         data: (json["data"] as List).cast());
   }
 
-  static final Structure staticLayout = LayoutUtils.struct(
-      [LayoutUtils.u8("guard"), LayoutUtils.vecU8("data")], "routeArgs");
+  static final StructLayout staticLayout = LayoutConst.struct(
+      [LayoutConst.u8(property: "guard"), LayoutConst.vecU8(property: "data")],
+      property: "routeArgs");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {"guard": guard.value, "data": data};

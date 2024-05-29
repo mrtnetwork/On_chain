@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/constant.dart';
 import 'package:on_chain/solana/src/instructions/stake/constant.dart';
@@ -34,7 +34,7 @@ class StakePoolProgram extends TransactionInstruction {
     required SolAddress validatorList,
   }) {
     return StakePoolProgram(
-        layout: StakePoolCleanupRemovedValidatorEntriesLayout(),
+        layout: const StakePoolCleanupRemovedValidatorEntriesLayout(),
         keys: [
           stakePool.toReadOnly(),
           validatorList.toWritable(),
@@ -104,7 +104,7 @@ class StakePoolProgram extends TransactionInstruction {
     required SolAddress poolMint,
   }) {
     return StakePoolProgram(
-        layout: StakePoolUpdateStakePoolBalanceLayout(),
+        layout: const StakePoolUpdateStakePoolBalanceLayout(),
         keys: [
           stakePool.toWritable(),
           withdrawAuthority.toReadOnly(),
@@ -437,7 +437,7 @@ class StakePoolProgram extends TransactionInstruction {
     required SolAddress poolMint,
   }) {
     return StakePoolProgram(
-        layout: StakePoolDepositStakeLayout(),
+        layout: const StakePoolDepositStakeLayout(),
         keys: [
           stakePool.toWritable(),
           validatorList.toWritable(),

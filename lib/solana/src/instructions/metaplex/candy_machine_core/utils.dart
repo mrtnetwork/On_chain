@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/constant.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/models/pda/pda.dart';
 
 class MetaplexCandyMachineProgramUtils {
@@ -20,7 +20,7 @@ class MetaplexCandyMachineProgramUtils {
           MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
     return ProgramDerivedAddress.find(seedBytes: [
       "mint_limit".codeUnits,
-      LayoutUtils.u8().serialize(id),
+      LayoutConst.u8().serialize(id),
       user.toBytes(),
       candyGuard.toBytes(),
       candyMachine.toBytes()
@@ -77,7 +77,7 @@ class MetaplexCandyMachineProgramUtils {
           MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
     return ProgramDerivedAddress.find(seedBytes: [
       "allocation".codeUnits,
-      LayoutUtils.u8().serialize(id),
+      LayoutConst.u8().serialize(id),
       candyGuard.toBytes(),
       candyMachine.toBytes()
     ], programId: programId);

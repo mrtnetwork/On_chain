@@ -1,9 +1,8 @@
 import 'package:on_chain/solana/src/instructions/address_lockup_table/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/core/core.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
-import 'package:on_chain/solana/src/layout/utils/layout_utils.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-/// Structure for the AddressLookupCreateLookupTable instruction.
+/// StructLayout for the AddressLookupCreateLookupTable instruction.
 class AddressLookupCreateLookupTableLayout
     extends AddressLookupTableProgramLayout {
   /// A recent slot must be used in the derivation path for each initialized table.
@@ -29,15 +28,15 @@ class AddressLookupCreateLookupTableLayout
         recentSlot: decode["recentSlot"], bumpSeed: decode["bumpSeed"]);
   }
 
-  // Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u32("instruction"),
-    LayoutUtils.u64("recentSlot"),
-    LayoutUtils.u8("bumpSeed")
+  // StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u32(property: "instruction"),
+    LayoutConst.u64(property: "recentSlot"),
+    LayoutConst.u8(property: "bumpSeed")
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

@@ -18,7 +18,7 @@ void main() {
 
 void _authorize() {
   test("authorize", () {
-    final layout = MetaplexAuctioneerAuthorizeLayout();
+    const layout = MetaplexAuctioneerAuthorizeLayout();
     expect(layout.toHex(), "adc166d2db897178");
     final decode =
         MetaplexAuctioneerAuthorizeLayout.fromBuffer(layout.toBytes());
@@ -205,7 +205,7 @@ void _bid() {
   test("bid", () {
     final bid = Bid(
         amount: BigInt.from(123),
-        buyerTradeState: SolAddress.unchecked(
+        buyerTradeState: const SolAddress.unchecked(
             "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ"));
     expect(
         "007b000000000000003d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d",
@@ -220,7 +220,7 @@ void _listingConfig() {
       endTime: BigInt.from(1231231),
       bid: Bid(
         amount: BigInt.from(213123123),
-        buyerTradeState: SolAddress.unchecked(
+        buyerTradeState: const SolAddress.unchecked(
             "57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ"),
       ),
       bump: 22,
@@ -239,7 +239,7 @@ void _listingConfig() {
 
 void _auctioneerAuthority() {
   test("auctioneerAuthority", () {
-    final layout = AuctioneerAuthority(bump: 22);
+    const layout = AuctioneerAuthority(bump: 22);
     expect(layout.toHex(), "e44afff56053c50c16");
     final decode = AuctioneerAuthority.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());

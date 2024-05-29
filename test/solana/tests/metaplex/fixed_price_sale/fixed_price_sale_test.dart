@@ -25,7 +25,7 @@ void main() {
 
 void _buy() {
   test("buy", () {
-    final layout = MetaplexFixedPriceSaleBuyLayout(
+    const layout = MetaplexFixedPriceSaleBuyLayout(
       tradeHistoryBump: 255,
       vaultOwnerBump: 1,
     );
@@ -161,7 +161,7 @@ void _createMarket() {
         price: BigInt.from(123123123),
         startDate: BigInt.from(123123),
         endDate: BigInt.from(124678678),
-        gatingConfig: GatingConfig(
+        gatingConfig: const GatingConfig(
             collection: SolAddress.unchecked(
                 "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
             expireOnUse: true));
@@ -182,7 +182,7 @@ void _createMarket() {
         startDate: BigInt.from(123123),
         endDate: BigInt.from(124678678),
         gatingConfig: GatingConfig(
-            collection: SolAddress.unchecked(
+            collection: const SolAddress.unchecked(
                 "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
             expireOnUse: true,
             gatingTime: BigInt.from(11111)));
@@ -243,16 +243,16 @@ void _resumeMarket() {
 }
 
 void _savePrimaryMetadataCreators() {
-  final owner =
+  const owner =
       SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
-  final account1 =
+  const account1 =
       SolAddress.unchecked("57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ");
   test("savePrimaryMetadataCreators", () {
     final layout = MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout(
         primaryMetadataCreatorsBump: 1,
         creators: [
-          Creator(address: owner, verified: false, share: 13),
-          Creator(address: account1, verified: true, share: 14),
+          const Creator(address: owner, verified: false, share: 13),
+          const Creator(address: account1, verified: true, share: 14),
         ]);
     expect(layout.toHex(),
         "42f0d52eb93cc0fe0102000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76000d3d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d010e");
@@ -285,7 +285,7 @@ void _withdraw() {
 }
 
 void _market() {
-  final owner =
+  const owner =
       SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
   test("market", () {
     final layout = Market(
@@ -383,7 +383,7 @@ void _market() {
 
 void _payoutTicket() {
   test("PayoutTicket", () {
-    final layout = PayoutTicket(used: true);
+    const layout = PayoutTicket(used: true);
     expect(layout.toHex(), "99de34d8c098af5001");
     final decode = PayoutTicket.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
@@ -392,9 +392,9 @@ void _payoutTicket() {
 
 void _primaryMetadataCreators() {
   test("PrimaryMetadataCreators", () {
-    final owner =
+    const owner =
         SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
-    final layout = PrimaryMetadataCreators(
+    const layout = PrimaryMetadataCreators(
         creators: [Creator(address: owner, verified: true, share: 0)]);
     expect(layout.toHex(),
         "428330246482b10b01000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760100");
@@ -403,18 +403,18 @@ void _primaryMetadataCreators() {
     expect(decode.toHex(), layout.toHex());
   });
   test("PrimaryMetadataCreators_1", () {
-    final layout = PrimaryMetadataCreators(creators: []);
+    const layout = PrimaryMetadataCreators(creators: []);
     expect(layout.toHex(), "428330246482b10b00000000");
 
     final decode = PrimaryMetadataCreators.fromBuffer(layout.toBytes());
     expect(decode.toHex(), layout.toHex());
   });
   test("PrimaryMetadataCreators_2", () {
-    final owner =
+    const owner =
         SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
-    final account1 =
+    const account1 =
         SolAddress.unchecked("57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ");
-    final layout = PrimaryMetadataCreators(creators: [
+    const layout = PrimaryMetadataCreators(creators: [
       Creator(address: owner, verified: true, share: 0),
       Creator(address: account1, verified: false, share: 1)
     ]);
@@ -428,7 +428,7 @@ void _primaryMetadataCreators() {
 
 void _sellingResource() {
   test("sellingResource", () {
-    final owner =
+    const owner =
         SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
     final layout = SellingResource(
       store: owner,
@@ -447,7 +447,7 @@ void _sellingResource() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test("sellingResource_1", () {
-    final owner =
+    const owner =
         SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
     final layout = SellingResource(
       store: owner,
@@ -469,9 +469,9 @@ void _sellingResource() {
 
 void _store() {
   test("store", () {
-    final owner =
+    const owner =
         SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
-    final layout = Store(admin: owner, name: "mrt", description: "mrtnetwork");
+    const layout = Store(admin: owner, name: "mrt", description: "mrtnetwork");
     expect(layout.toHex(),
         "8230f7f4b6bf1e1af6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76030000006d72740a0000006d72746e6574776f726b");
 
@@ -482,7 +482,7 @@ void _store() {
 
 void _tradeHistory() {
   test("tradeHistory", () {
-    final owner =
+    const owner =
         SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
     final layout = TradeHistory(
       market: owner,

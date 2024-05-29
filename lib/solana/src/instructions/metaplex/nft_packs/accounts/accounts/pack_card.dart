@@ -1,16 +1,18 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/account_type.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final Structure layout = LayoutUtils.struct([
-    LayoutUtils.u8("accountType"),
-    LayoutUtils.publicKey("packSet"),
-    LayoutUtils.publicKey("master"),
-    LayoutUtils.publicKey("metadata"),
-    LayoutUtils.publicKey("tokenAccount"),
-    LayoutUtils.u32("maxSupply"),
-    LayoutUtils.u16("weight"),
+  static final StructLayout layout = LayoutConst.struct([
+    LayoutConst.u8(property: "accountType"),
+    SolanaLayoutUtils.publicKey("packSet"),
+    SolanaLayoutUtils.publicKey("master"),
+    SolanaLayoutUtils.publicKey("metadata"),
+    SolanaLayoutUtils.publicKey("tokenAccount"),
+    LayoutConst.u32(property: "maxSupply"),
+    LayoutConst.u16(property: "weight"),
   ]);
 }
 
@@ -46,7 +48,7 @@ class PackCard extends LayoutSerializable {
   }
 
   @override
-  Structure get layout => _Utils.layout;
+  StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {

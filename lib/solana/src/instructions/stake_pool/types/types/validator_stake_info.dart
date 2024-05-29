@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
-
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 import 'validator_stake_info_status.dart';
 
 /// Information about a validator in the pool
@@ -44,18 +45,18 @@ class ValidatorStakeInfo extends LayoutSerializable {
         voteAccountAddress: json["voteAccountAddress"]);
   }
 
-  static final staticLayout = LayoutUtils.struct([
-    LayoutUtils.u64('activeStakeLamports'),
-    LayoutUtils.u64('transientStakeLamports'),
-    LayoutUtils.u64('lastUpdateEpoch'),
-    LayoutUtils.u64('transientSeedSuffixStart'),
-    LayoutUtils.u64('transientSeedSuffixEnd'),
-    LayoutUtils.u8('status'),
-    LayoutUtils.publicKey('voteAccountAddress'),
-  ], "validatorStakeInfo");
+  static final staticLayout = LayoutConst.struct([
+    LayoutConst.u64(property: 'activeStakeLamports'),
+    LayoutConst.u64(property: 'transientStakeLamports'),
+    LayoutConst.u64(property: 'lastUpdateEpoch'),
+    LayoutConst.u64(property: 'transientSeedSuffixStart'),
+    LayoutConst.u64(property: 'transientSeedSuffixEnd'),
+    LayoutConst.u8(property: 'status'),
+    SolanaLayoutUtils.publicKey('voteAccountAddress'),
+  ], property: "validatorStakeInfo");
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

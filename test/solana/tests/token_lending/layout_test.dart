@@ -71,7 +71,7 @@ void _depositReserveLiquidity() {
 void _initLendingMarket() {
   test("initLendingMarket", () {
     final layout = TokenLendingInitLendingMarketLayout(
-        owner: SolAddress.unchecked(
+        owner: const SolAddress.unchecked(
             "HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf"),
         quoteCurrency: List<int>.filled(32, 0));
     expect(layout.toHex(),
@@ -84,7 +84,7 @@ void _initLendingMarket() {
 
 void _initObligation() {
   test("initObligation", () {
-    final layout = TokenLendingInitObligationLayout();
+    const layout = TokenLendingInitObligationLayout();
     expect(layout.toHex(), "06");
     final decode =
         TokenLendingInitObligationLayout.fromBuffer(layout.toBytes());
@@ -159,7 +159,7 @@ void _redeemReserveCollateral() {
 
 void _refreshObligation() {
   test("refreshObligation", () {
-    final layout = TokenLendingRefreshObligationLayout();
+    const layout = TokenLendingRefreshObligationLayout();
     expect(layout.toHex(), "07");
     final decode =
         TokenLendingRefreshObligationLayout.fromBuffer(layout.toBytes());
@@ -169,7 +169,7 @@ void _refreshObligation() {
 
 void _refreshReserve() {
   test("refreshReserve", () {
-    final layout = TokenLendingRefreshReserveLayout();
+    const layout = TokenLendingRefreshReserveLayout();
     expect(layout.toHex(), "03");
     final decode =
         TokenLendingRefreshReserveLayout.fromBuffer(layout.toBytes());

@@ -1,9 +1,8 @@
 import 'package:on_chain/solana/src/instructions/compute_budget/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/core/core.dart';
-import 'package:on_chain/solana/src/layout/program_layouts/core/program_layout.dart';
-import 'package:on_chain/solana/src/layout/utils/layout_utils.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-/// Structure for the ComputeBudgetSetComputeUnitLimit instruction.
+/// StructLayout for the ComputeBudgetSetComputeUnitLimit instruction.
 class ComputeBudgetSetComputeUnitLimitLayout
     extends ComputeBudgetProgramLayout {
   /// Transaction-wide compute unit limit.
@@ -21,14 +20,14 @@ class ComputeBudgetSetComputeUnitLimitLayout
             ComputeBudgetProgramInstruction.setComputeUnitLimit.insturction);
     return ComputeBudgetSetComputeUnitLimitLayout(units: decode["units"]);
   }
-  // Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u32("units"),
+  // StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u32(property: "units"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

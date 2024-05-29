@@ -1,7 +1,8 @@
 import 'package:on_chain/solana/src/instructions/compute_budget/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-/// Structure for the ComputeBudgetRequestUnits instruction.
+/// StructLayout for the ComputeBudgetRequestUnits instruction.
 class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
   /// Units to request for transaction-wide compute.
   final int units;
@@ -26,15 +27,15 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
       additionalFee: decode["additionalFee"],
     );
   }
-  // Structure layout definition.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.u8("instruction"),
-    LayoutUtils.u32("units"),
-    LayoutUtils.u32("additionalFee"),
+  // StructLayout layout definition.
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u32(property: "units"),
+    LayoutConst.u32(property: "additionalFee"),
   ]);
 
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   @override
   int get instruction =>

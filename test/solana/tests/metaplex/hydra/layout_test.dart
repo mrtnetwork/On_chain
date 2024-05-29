@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-final _owner =
+const _owner =
     SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
 void main() {
   group("hydra", () {
@@ -46,7 +46,7 @@ void _addMemberWallet() {
 
 void _distributeNft() {
   test("distributeNft", () {
-    final layout = MetaplexHydraDistributeNftLayout(distributeForMint: true);
+    const layout = MetaplexHydraDistributeNftLayout(distributeForMint: true);
     expect(layout.toHex(), "6cf0445190533a9901");
     final decode =
         MetaplexHydraDistributeNftLayout.fromBuffer(layout.toBytes());
@@ -56,7 +56,7 @@ void _distributeNft() {
 
 void _distributeToken() {
   test("distributeToken", () {
-    final layout = MetaplexHydraDistributeTokenLayout(distributeForMint: true);
+    const layout = MetaplexHydraDistributeTokenLayout(distributeForMint: true);
     expect(layout.toHex(), "7e692e871c2475d401");
     final decode =
         MetaplexHydraDistributeTokenLayout.fromBuffer(layout.toBytes());
@@ -66,7 +66,7 @@ void _distributeToken() {
 
 void _distributeWallet() {
   test("distributeWallet", () {
-    final layout = MetaplexHydraDistributeWalletLayout(distributeForMint: true);
+    const layout = MetaplexHydraDistributeWalletLayout(distributeForMint: true);
     expect(layout.toHex(), "fca8a74228c9b6a301");
     final decode =
         MetaplexHydraDistributeWalletLayout.fromBuffer(layout.toBytes());
@@ -91,7 +91,7 @@ void _init() {
 
 void _initForMint() {
   test("initForMint", () {
-    final layout = MetaplexHydraInitForMintLayout(bumpSeed: 1);
+    const layout = MetaplexHydraInitForMintLayout(bumpSeed: 1);
     expect(layout.toHex(), "8c96e8c35ddb23aa01");
     final decode = MetaplexHydraInitForMintLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
@@ -100,7 +100,7 @@ void _initForMint() {
 
 void _removeMember() {
   test("removeMember", () {
-    final layout = MetaplexHydraRemoveMemberLayout();
+    const layout = MetaplexHydraRemoveMemberLayout();
     expect(layout.toHex(), "092d24a3f5289655");
     final decode = MetaplexHydraRemoveMemberLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
@@ -130,7 +130,7 @@ void _setTokenMemberStake() {
 
 void _signMetadata() {
   test("signMetadata", () {
-    final layout = MetaplexHydraSignMetadataLayout();
+    const layout = MetaplexHydraSignMetadataLayout();
     expect(layout.toHex(), "bc43a33100963f59");
     final decode = MetaplexHydraSignMetadataLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
@@ -149,7 +149,7 @@ void _transferShares() {
 
 void _unstake() {
   test("unstake", () {
-    final layout = MetaplexHydraUnstakeLayout();
+    const layout = MetaplexHydraUnstakeLayout();
     expect(layout.toHex(), "d9a088ae953e4f85");
     final decode = MetaplexHydraUnstakeLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());

@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Updates the token-metadata authority layout.
 class SPLTokenMetaDataUpdateAuthorityLayout
@@ -30,15 +31,15 @@ class SPLTokenMetaDataUpdateAuthorityLayout
   }
 
   /// The layout structure of the update authority instruction.
-  static final Structure _layout = LayoutUtils.struct([
-    LayoutUtils.blob(8, property: "instruction"),
+  static final StructLayout _layout = LayoutConst.struct([
+    LayoutConst.blob(8, property: "instruction"),
     // Define the layout for the new authority public key.
-    LayoutUtils.publicKey("new_authority"),
+    SolanaLayoutUtils.publicKey("new_authority"),
   ]);
 
   /// Gets the layout structure of this update authority instruction.
   @override
-  Structure get layout => _layout;
+  StructLayout get layout => _layout;
 
   /// Gets the instruction bytes for the update authority instruction.
   @override

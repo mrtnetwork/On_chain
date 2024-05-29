@@ -1,5 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/layout/layout.dart';
+import 'package:blockchain_utils/layout/layout.dart';
+import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class PayloadType extends LayoutSerializable {
   final String name;
@@ -36,19 +38,19 @@ class PayloadType extends LayoutSerializable {
   factory PayloadType.number({required BigInt number}) {
     return PayloadType._("Number", 3, [number]);
   }
-  static Structure staticLayout = LayoutUtils.struct([
-    LayoutUtils.rustEnum([
-      LayoutUtils.tuple([LayoutUtils.publicKey()], property: "Pubkey"),
-      LayoutUtils.tuple([LayoutUtils.vec(LayoutUtils.vecU8())],
+  static StructLayout staticLayout = LayoutConst.struct([
+    LayoutConst.rustEnum([
+      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: "Pubkey"),
+      LayoutConst.tuple([LayoutConst.vec(LayoutConst.vecU8())],
           property: "Seeds"),
-      LayoutUtils.tuple([LayoutUtils.vec(LayoutUtils.blob(32))],
+      LayoutConst.tuple([LayoutConst.vec(LayoutConst.blob(32))],
           property: "MerkleProof"),
-      LayoutUtils.tuple([LayoutUtils.u64()], property: "Number")
-    ], LayoutUtils.u8(), property: "payloadType")
+      LayoutConst.tuple([LayoutConst.u64()], property: "Number")
+    ], property: "payloadType")
   ]);
 
   @override
-  Structure get layout => staticLayout;
+  StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {

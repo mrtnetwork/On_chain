@@ -73,13 +73,13 @@ class MessageV0 implements VersionedMessage {
     if (lookupKeys != null) {
       if (numAccountKeysFromLookups !=
           lookupKeys.writable.length + lookupKeys.readonly.length) {
-        throw MessageException(
+        throw const MessageException(
             'Failed to get account keys because of a mismatch in the number of account keys from lookups');
       }
     } else if (addressLookupTableAccounts.isNotEmpty) {
       lookupKeys = _resolveAddressTableLookups(addressLookupTableAccounts);
     } else if (addressTableLookups.isNotEmpty) {
-      throw MessageException(
+      throw const MessageException(
           'Failed to get account keys because address table lookups were not resolved');
     }
     return MessageAccountKeys(accountKeys, lookupKeys);
