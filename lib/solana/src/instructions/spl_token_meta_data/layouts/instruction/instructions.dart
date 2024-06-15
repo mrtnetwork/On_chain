@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/utils/binary/utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SPLTokenMetaDataProgramSplDiscriminate
@@ -32,8 +32,8 @@ class SPLTokenMetaDataProgramSplDiscriminate
   ];
   static SPLTokenMetaDataProgramSplDiscriminate? getInstruction(dynamic value) {
     try {
-      return values
-          .firstWhere((element) => bytesEqual(value, element.insturction));
+      return values.firstWhere(
+          (element) => BytesUtils.bytesEqual(value, element.insturction));
     } on StateError {
       return null;
     }

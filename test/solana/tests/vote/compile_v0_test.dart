@@ -162,7 +162,7 @@ void _transferWithLookup() {
     final tableAccount = AddressLookupTableAccount.fromBuffer(
         accountData: StringUtils.encode(
             "AQAAAP//////////8DWPEAAAAAAAAfbB2syLF0sQ2sGHux7n/tgZt36EWR3Bgn3DiUOl2712AAD2wdrMixdLENrBh7se5/7YGbd+hFkdwYJ9w4lDpdu9dj0EJ1aNtYEXVGUYUa4bWCPVK3APyDUHgkGHGrKwylBd9sHazIsXSxDawYe7Huf+2Bm3foRZHcGCfcOJQ6XbvXY=",
-            StringEncoding.base64),
+            type: StringEncoding.base64),
         accountKey: tableAddress.address);
 
     final instractuions = tableAccount.addresses

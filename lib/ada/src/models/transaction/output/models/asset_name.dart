@@ -1,7 +1,5 @@
-import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/compare/compare.dart';
-import 'package:blockchain_utils/string/string.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents an asset name.
@@ -57,7 +55,7 @@ class AssetName with ADASerialization implements Comparable<AssetName> {
   @override
   bool operator ==(other) {
     return identical(this, other) ||
-        (other is AssetName && bytesEqual(data, other.data));
+        (other is AssetName && BytesUtils.bytesEqual(data, other.data));
   }
 
   @override

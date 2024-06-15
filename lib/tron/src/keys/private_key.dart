@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/exception/exception.dart';
-import 'package:blockchain_utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/keys/secp256k1_keys_ecdsa.dart';
 import 'package:blockchain_utils/signer/tron/tron_signer.dart';
 

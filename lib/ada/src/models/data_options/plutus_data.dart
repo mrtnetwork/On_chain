@@ -19,7 +19,7 @@ class DataOptionData extends DataOption {
     TransactionDataOptionType.deserialize(cbor.getIndex(0),
         validate: TransactionDataOptionType.data);
     final CborTagValue cborTag = cbor.getIndex(1);
-    if (!bytesEqual(cborTag.tags, _plutusDataOptionTag)) {
+    if (!BytesUtils.bytesEqual(cborTag.tags, _plutusDataOptionTag)) {
       throw MessageException("Invalid date option tag.",
           details: {"Tag": cborTag.tags, "Excepted": _plutusDataOptionTag});
     }

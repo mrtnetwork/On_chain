@@ -21,7 +21,7 @@ class TransactionSerializeEncoding {
       case TransactionSerializeEncoding.base58:
         return Base58Encoder.encode(data);
       case TransactionSerializeEncoding.base64:
-        return StringUtils.decode(data, StringEncoding.base64);
+        return StringUtils.decode(data, type: StringEncoding.base64);
       default:
         return BytesUtils.toHexString(data);
     }
@@ -121,7 +121,8 @@ class SolanaTransaction {
     final signerPubkeys = message.item1.accountKeys
         .sublist(0, message.item1.header.numRequiredSignatures);
     for (int i = 0; i < message.item2.length; i++) {
-      if (bytesEqual(emptySignatureBytes, message.item2.elementAt(i))) {
+      if (BytesUtils.bytesEqual(
+          emptySignatureBytes, message.item2.elementAt(i))) {
         continue;
       }
       transaction.addSignature(

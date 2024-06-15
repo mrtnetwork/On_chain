@@ -72,7 +72,9 @@ void main() {
         "f84c8301388113847e5e3f4b847e5e3f5a8253d894bfd365373f559cd398a408b975fd18b16632d34885174876e8009d68747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726bc0");
     final decode = RLPDecoder.decode(encode);
     for (int i = 0; i < decode.length; i++) {
-      expect(iterableIsEqual(decode.elementAt(i), obj.elementAt(i)), true);
+      expect(
+          CompareUtils.iterableIsEqual(decode.elementAt(i), obj.elementAt(i)),
+          true);
     }
   });
 
@@ -210,7 +212,9 @@ void main() {
         "f888148475c5b0518253d894bfd365373f559cd398a408b975fd18b16632d34885174876e8009d68747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b83027125a0ed53cc2cda5a3ac0d955a447b8d22b11ef1f30297c371624296f30a7cc6d3295a01be9224304280ac8b6009c1e9510f57a03327af800dced2418cf9ec97b2f8e0b");
     final decode = RLPDecoder.decode(encode);
     for (int i = 0; i < decode.length; i++) {
-      expect(iterableIsEqual(decode.elementAt(i), obj.elementAt(i)), true);
+      expect(
+          CompareUtils.iterableIsEqual(decode.elementAt(i), obj.elementAt(i)),
+          true);
     }
   });
 }

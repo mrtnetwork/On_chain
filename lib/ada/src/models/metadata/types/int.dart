@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/metadata/core/meta_data.dart';
 

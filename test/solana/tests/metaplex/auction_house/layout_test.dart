@@ -125,7 +125,7 @@ void _auctionHouseAccount() {
   test("auctionHouseAccount", () {
     final List<int> programData = StringUtils.encode(
         "KGzXa9VV9TBhYdbyGKVutCAwaEF7v5udopDzn8Go/n1yo5i1Xn9tWyIU9CxmruBe7Pb4j0pc2jL4PS2XufanxbRV/wr0Y85rPQQnVo21gRdUZRhRrhtYI9UrcA/INQeCQYcasrDKUF1VSkOnuOGmDawbgAvjEPlOVfj7dBV4C3gXfD7eGqC3ygabiFf+q4GE+2h/Y0YYwDXaxDncGus7VZig8AAAAAAB9sHazIsXSxDawYe7Huf+2Bm3foRZHcGCfcOJQ6XbvXb2wdrMixdLENrBh7se5/7YGbd+hFkdwYJ9w4lDpdu9dv/+/gEAAAAAAQzeZQus/JsmBSXZ+1sE26OWX1l05ja2tewNh5iUSU6FAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        StringEncoding.base64);
+        type: StringEncoding.base64);
     final account = AuctionHouse.fromBuffer(programData);
     expect(account.auctionHouseFeeAccount.address,
         "7Z95SWdaLeBp5hSAfoCUeyaeijtmbsVjhwnzV1cVpceN");

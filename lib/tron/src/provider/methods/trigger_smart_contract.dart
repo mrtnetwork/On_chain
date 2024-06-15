@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/models/contract/smart_contract/trigger_smart_c
 import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
-import 'package:blockchain_utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 /// Returns TransactionExtention, which contains the unsigned Transaction
 /// [developers.tron.network](https://developers.tron.network/reference/triggersmartcontract).

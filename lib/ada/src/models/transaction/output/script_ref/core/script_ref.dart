@@ -13,7 +13,7 @@ abstract class ScriptRef with ADASerialization {
   factory ScriptRef.deserialize(CborObject cbor) {
     if (cbor.hasType<CborTagValue>()) {
       final cborTag = cbor.cast<CborTagValue>();
-      if (!bytesEqual(cborTag.tags, _tag)) {
+      if (!BytesUtils.bytesEqual(cborTag.tags, _tag)) {
         throw MessageException("Invalid ScriptRef cbor tag.",
             details: {"Excepted": _tag, "Tag": cborTag.tags});
       }

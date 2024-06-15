@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/numbers/bigint_utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/rpc/core/core.dart';
 import 'package:on_chain/solana/src/rpc/core/methods.dart';
 import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';

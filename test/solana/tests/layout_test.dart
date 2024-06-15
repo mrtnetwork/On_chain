@@ -73,18 +73,18 @@ void main() {}
 //     final b = LayoutByteWriter.filled(3, 0xFF);
 
 //     expect(cst.encode('', b), 0);
-//     expect(bytesEqual(BytesUtils.fromHexString('ffffff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('ffffff'), b.toBytes()), true);
 //     expect(cst.encode('A', b), 1);
-//     expect(bytesEqual(BytesUtils.fromHexString('41ffff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('41ffff'), b.toBytes()), true);
 
 //     expect(cst.encode('B', b, offset: 1), 1);
-//     expect(bytesEqual(BytesUtils.fromHexString('4142ff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('4142ff'), b.toBytes()), true);
 
 //     expect(cst.encode("5", b), 1);
-//     expect(bytesEqual(BytesUtils.fromHexString('3542ff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('3542ff'), b.toBytes()), true);
 
 //     expect(cst.encode('abc', b), 3);
-//     expect(bytesEqual(BytesUtils.fromHexString('616263'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('616263'), b.toBytes()), true);
 //   });
 
 //   test('in LayoutConst.struct', () {
@@ -104,7 +104,7 @@ void main() {}
 //     b.fillRange(0, b.length, 0xFF);
 //     expect(seqq.encode(['hi', 'u', 'c'], b), 2 + 1 + 1);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString('68697563ff'), b.toBytes()), true);
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString('68697563ff'), b.toBytes()), true);
 //   });
 // }
 
@@ -114,7 +114,7 @@ void main() {}
 //     final b = LayoutByteWriter.fromHex('61006263003500');
 //     expect(seqq.decode(b.toBytes()), ['a', 'bc', '5']);
 //     expect(seqq.encode(['hi', 'u', 'c'], b), (1 + 1) + (2 + 1) + (1 + 1));
-//     expect(bytesEqual(BytesUtils.fromHexString("68690075006300"), b.toBytes()),
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString("68690075006300"), b.toBytes()),
 //         true);
 //   });
 //   test('in LayoutConst.struct', () {
@@ -135,14 +135,14 @@ void main() {}
 //     expect(StringUtils.encode('A').length, 1);
 //     expect(cst.encode('', b), 1);
 
-//     expect(bytesEqual(BytesUtils.fromHexString('00ffffff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('00ffffff'), b.toBytes()), true);
 //     expect(cst.encode('A', b), 1 + 1);
 
-//     expect(bytesEqual(BytesUtils.fromHexString('4100ffff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('4100ffff'), b.toBytes()), true);
 //     expect(cst.encode('B', b, offset: 1), 1 + 1);
-//     expect(bytesEqual(BytesUtils.fromHexString('414200ff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('414200ff'), b.toBytes()), true);
 //     expect(cst.encode("5", b), 1 + 1);
-//     expect(bytesEqual(BytesUtils.fromHexString('350000ff'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('350000ff'), b.toBytes()), true);
 //   });
 //   test('#decode', () {
 //     final cst = CString();
@@ -181,7 +181,7 @@ void main() {}
 //     expect(hdr.decode(b.toBytes()), {"id": 1, "ver": 2});
 //     final du = pld.decode(b.toBytes(), offset: 2);
 //     expect(du["ver"], 2);
-//     expect(bytesEqual(expectedBlob, du["LayoutConst.blob"]), true);
+//     expect(BytesUtils.bytesEqual(expectedBlob, du["LayoutConst.blob"]), true);
 //     pld.addVariant(
 //         variant: 2,
 //         layout: SequenceLayout(
@@ -208,11 +208,11 @@ void main() {}
 //     expect(hdr.decode(b.toBytes()), {"id": 1, "ver": 2});
 //     final du = pld.decode(b.toBytes(), offset: 2);
 //     expect(du["ver"], 2);
-//     expect(bytesEqual(expectedBlob, du["LayoutConst.blob"]), true);
+//     expect(BytesUtils.bytesEqual(expectedBlob, du["LayoutConst.blob"]), true);
 //     var dp = pkt.decode(b.toBytes());
 //     expect(dp["hdr"], {"id": 1, "ver": 2});
 //     expect(dp["u"]["ver"], 2);
-//     expect(bytesEqual(expectedBlob, dp["u"]["LayoutConst.blob"]), true);
+//     expect(BytesUtils.bytesEqual(expectedBlob, dp["u"]["LayoutConst.blob"]), true);
 
 //     pld.addVariant(
 //         variant: 2,
@@ -240,16 +240,16 @@ void main() {}
 //     final blo = LayoutConst.blob(LayoutConst.greedy(), property: 'b');
 //     final b = LayoutByteWriter.from(StringUtils.encode('ABCDx'));
 //     expect(
-//         bytesEqual(StringUtils.encode("ABCDx"), blo.decode(b.toBytes())), true);
+//         BytesUtils.bytesEqual(StringUtils.encode("ABCDx"), blo.decode(b.toBytes())), true);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             StringUtils.encode("Dx"), blo.decode(b.toBytes(), offset: 3)),
 //         true);
 
 //     b.fillRange(0, b.length, 0);
 //     expect(blo.encode(BytesUtils.fromHexString('0203'), b, offset: 2), 2);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("0000020300"), b.toBytes()), true);
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("0000020300"), b.toBytes()), true);
 //   });
 //   test('final length', () {
 //     final llo = LayoutConst.u8(property: 'l');
@@ -264,7 +264,7 @@ void main() {}
 //     final span = st.getSpan(b.toBytes());
 //     expect(span, 5);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("0403040506"),
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("0403040506"),
 //             b.toBytes().sublist(0, span)),
 //         true);
 
@@ -277,13 +277,13 @@ void main() {}
 //     final b = LayoutByteWriter.fromHex("0102030405");
 //     var bv = bl.decode(b.toBytes());
 //     expect(bv.length, bl.span);
-//     expect(bytesEqual(BytesUtils.fromHexString("010203"), bv), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString("010203"), bv), true);
 //     bv = bl.decode(b.toBytes(), offset: 2);
 //     expect(bl.getSpan(b.toBytes()), bl.span);
-//     expect(bytesEqual(BytesUtils.fromHexString("030405"), bv), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString("030405"), bv), true);
 //     expect(bl.encode(BytesUtils.fromHexString('112233'), b, offset: 1), 3);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("0111223305"), b.toBytes()), true);
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("0111223305"), b.toBytes()), true);
 //   });
 //   test('ctor', () {
 //     final bl = RawBytesLayout(3, property: 'bl');
@@ -314,7 +314,7 @@ void main() {}
 //       final b = LayoutByteWriter.filled(6, 0xa5);
 
 //       st.encode(obj, b, offset: 1);
-//       expect(bytesEqual(BytesUtils.fromHexString('a501686900a5'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('a501686900a5'), b.toBytes()),
 //           true);
 
 //       expect(st.decode(b.toBytes(), offset: 1), obj);
@@ -322,7 +322,7 @@ void main() {}
 //       b.fillRange(0, b.length, 0x5a);
 
 //       st.encode(obj, b, offset: 1);
-//       expect(bytesEqual(BytesUtils.fromHexString('5a005a5a5a5a'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('5a005a5a5a5a'), b.toBytes()),
 //           true);
 //       expect(
 //           st.decode(b.toBytes(), offset: 1),
@@ -333,7 +333,7 @@ void main() {}
 //       obj = {"v": v2.variant};
 //       b.fillRange(0, b.length, 0x5a);
 //       st.encode(obj, b, offset: 1);
-//       expect(bytesEqual(BytesUtils.fromHexString('5a025a5a5a5a'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('5a025a5a5a5a'), b.toBytes()),
 //           true);
 //       expect(st.decode(b.toBytes(), offset: 1), {...obj, "u": {}});
 //     });
@@ -355,7 +355,7 @@ void main() {}
 //       Map<String, dynamic> obj = {"v": v255.variant};
 //       expect(un.encode(obj, b), 1 + 0);
 //       expect(
-//           bytesEqual(
+//           BytesUtils.bytesEqual(
 //               BytesUtils.fromHexString('ffa5a5'), b.toBytes().sublist(0, 3)),
 //           true);
 //       expect(v255.layout, null);
@@ -370,7 +370,7 @@ void main() {}
 
 //       // expect(un.getSpan(b.toBytes()), 5);
 //       expect(
-//           bytesEqual(
+//           BytesUtils.bytesEqual(
 //               BytesUtils.fromHexString('00ffff'), b.toBytes().sublist(0, 3)),
 //           true);
 //       expect(v0.layout, null);
@@ -383,7 +383,7 @@ void main() {}
 //       expect(v1.getSpan(b.toBytes()), 5);
 //       expect(un.getSpan(b.toBytes()), 5);
 //       expect(
-//           bytesEqual(BytesUtils.fromHexString('0178563412ffff'),
+//           BytesUtils.bytesEqual(BytesUtils.fromHexString('0178563412ffff'),
 //               b.toBytes().sublist(0, 7)),
 //           true);
 //       expect(un.decode(b.toBytes()), obj);
@@ -393,7 +393,7 @@ void main() {}
 //       expect(v2.getSpan(b.toBytes()), 9);
 //       expect(un.getSpan(b.toBytes()), 9);
 //       expect(
-//           bytesEqual(BytesUtils.fromHexString('0200000000004a9340ffff'),
+//           BytesUtils.bytesEqual(BytesUtils.fromHexString('0200000000004a9340ffff'),
 //               b.toBytes().sublist(0, 11)),
 //           true);
 //       expect(un.decode(b.toBytes()), obj);
@@ -404,7 +404,7 @@ void main() {}
 //       expect(v3.getSpan(b.toBytes()), 5);
 //       expect(un.getSpan(b.toBytes()), 5);
 //       expect(
-//           bytesEqual(BytesUtils.fromHexString('0368692100ffff'),
+//           BytesUtils.bytesEqual(BytesUtils.fromHexString('0368692100ffff'),
 //               b.toBytes().sublist(0, 7)),
 //           true);
 //       expect(un.decode(b.toBytes()), obj);
@@ -436,7 +436,7 @@ void main() {}
 //       VariantLayout? vlo = un.defaultGetSourceVariant(src);
 //       expect(vlo, null);
 //       expect(un.encode(src, b), un.span);
-//       expect(bytesEqual(BytesUtils.fromHexString('0578563412'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('0578563412'), b.toBytes()),
 //           true);
 
 //       // Unregistered variant without default content
@@ -457,7 +457,7 @@ void main() {}
 
 //       expect(vlo?.encode(src, b), 1);
 //       expect(un.getSpan(b.toBytes()), 5);
-//       expect(bytesEqual(BytesUtils.fromHexString('00ffffffff'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('00ffffffff'), b.toBytes()),
 //           true);
 
 //       // Registered variant with compatible content (ignore discriminator)
@@ -469,10 +469,10 @@ void main() {}
 //       vlo = un.defaultGetSourceVariant(src);
 //       expect(vlo, v1);
 //       expect(vlo?.encode(src, b), un.span);
-//       expect(bytesEqual(BytesUtils.fromHexString('010000d441'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('010000d441'), b.toBytes()),
 //           true);
 //       expect(un.encode(src, b), un.span);
-//       expect(bytesEqual(BytesUtils.fromHexString('010000d441'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('010000d441'), b.toBytes()),
 //           true);
 
 //       src = {
@@ -481,10 +481,10 @@ void main() {}
 //       vlo = un.defaultGetSourceVariant(src);
 //       expect(vlo, v2);
 //       expect(vlo?.encode(src, b), un.span);
-//       expect(bytesEqual(BytesUtils.fromHexString('0201020304'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('0201020304'), b.toBytes()),
 //           true);
 //       expect(un.encode(src, b), un.span);
-//       expect(bytesEqual(BytesUtils.fromHexString('0201020304'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('0201020304'), b.toBytes()),
 //           true);
 
 //       src = {"str": 'hi'};
@@ -493,7 +493,7 @@ void main() {}
 //       b.fillRange(0, b.length, 0xFF);
 //       expect(vlo?.encode(src, b), 1 + 2 + 1);
 //       expect(
-//           bytesEqual(BytesUtils.fromHexString('03686900FF'),
+//           BytesUtils.bytesEqual(BytesUtils.fromHexString('03686900FF'),
 //               b.toBytes().sublist(0, 5)),
 //           true);
 //       assert(0 > vlo!.layout!.span);
@@ -527,7 +527,7 @@ void main() {}
 //       expect(obj["u"]["LayoutConst.u32"], 0x06050403);
 //       final b2 = LayoutByteWriter.filled(st.span, 0);
 //       expect(st.encode(obj, b2), st.span);
-//       expect(bytesEqual(b2.toBytes(), b.toBytes()), true);
+//       expect(BytesUtils.bytesEqual(b2.toBytes(), b.toBytes()), true);
 
 //       un.addVariant(variant: 0, layout: LayoutConst.u32(), property: 'v0');
 //       obj = st.decode(b.toBytes());
@@ -625,7 +625,7 @@ void main() {}
 //       expect(obj["payload"], [1, 2, 3, 4, 5, 6, 7, 8]);
 //       LayoutByteWriter b2 = LayoutByteWriter.filled(un.span, 0);
 //       expect(un.encode(obj, b2), dlo.span + vlo.span);
-//       expect(bytesEqual(b2.toBytes(), b.toBytes()), true);
+//       expect(BytesUtils.bytesEqual(b2.toBytes(), b.toBytes()), true);
 //     });
 //     test('inStruct', () {
 //       final dlo = LayoutConst.u8(property: 'uid');
@@ -651,7 +651,7 @@ void main() {}
 //       LayoutByteWriter b2 = LayoutByteWriter.filled(st.span, 0);
 //       expect(st.encode(obj, b2), st.span);
 //       expect(
-//           bytesEqual(
+//           BytesUtils.bytesEqual(
 //               BytesUtils.fromHexString('325402031705fdff'), b2.toBytes()),
 //           true);
 //     });
@@ -713,7 +713,7 @@ void main() {}
 //         "v3": {"a": 1, "b": 1, "c": 257}
 //       });
 //       expect(un.discriminator.encode(v2.variant, b), dlo.span);
-//       expect(bytesEqual(BytesUtils.fromHexString('0201010101'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('0201010101'), b.toBytes()),
 //           true);
 //       final obj = {
 //         "v3": {"a": 5, "b": 6, "c": 1540}
@@ -722,7 +722,7 @@ void main() {}
 //       expect(v3.encode(obj, b), un.span);
 //       expect(un.span != vlo.span + lo3.span, true);
 //       expect(un.decode(b.toBytes()), obj);
-//       expect(bytesEqual(BytesUtils.fromHexString('0305060406'), b.toBytes()),
+//       expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('0305060406'), b.toBytes()),
 //           true);
 
 //       final v0 = un.addVariant(variant: 0, property: 'v0');
@@ -758,7 +758,7 @@ void main() {}
 //       o["content"][7] = 7;
 //       expect(un.encode(o, b), dlo.span + vlo.span);
 //       expect(
-//           bytesEqual(
+//           BytesUtils.bytesEqual(
 //               BytesUtils.fromHexString("050000000300000007"), b.toBytes()),
 //           true);
 //     });
@@ -783,7 +783,7 @@ void main() {}
 //       expect(al.encode(0x94, b, offset: 4), 1);
 //       expect(bl.encode(0x74, b, offset: 4), 1);
 //       expect(
-//           bytesEqual(BytesUtils.fromHexString('8091027484940607'), b.toBytes()),
+//           BytesUtils.bytesEqual(BytesUtils.fromHexString('8091027484940607'), b.toBytes()),
 //           true);
 //     });
 //     test('ctor', () {
@@ -842,7 +842,7 @@ void main() {}
 //       expect(d.encode({"s": 'hi!'}, b), 5);
 //       expect(un.getSpan(b.toBytes()), 5);
 //       expect(
-//           bytesEqual(BytesUtils.fromHexString('0168692100'),
+//           BytesUtils.bytesEqual(BytesUtils.fromHexString('0168692100'),
 //               b.toBytes().sublist(0, 5)),
 //           true);
 //     });
@@ -1000,7 +1000,7 @@ void main() {}
 //     final obj = {"s": 'ab'};
 //     st.encode(obj, b, offset: 1);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("a5616200a5"), b.toBytes()), true);
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("a5616200a5"), b.toBytes()), true);
 //     expect(3, st.getSpan(b.toBytes(), offset: 1));
 //     expect(st.decode(b.toBytes(), offset: 1), obj);
 //   });
@@ -1036,7 +1036,7 @@ void main() {}
 //     expect(cst.span, 12);
 //     expect(cst.encode(obj, b), cst.span);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             BytesUtils.fromHexString("785634121798ffcfc7c01dfe"), b.toBytes()),
 //         true);
 //     expect(cst.decode(b.toBytes()), obj);
@@ -1070,7 +1070,7 @@ void main() {}
 //     obj = {"LayoutConst.u16": 0x1234, "LayoutConst.s16be": -5432};
 //     expect(st.encode(obj, b), st.span);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("3412a5eac8"), b.toBytes()), true);
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("3412a5eac8"), b.toBytes()), true);
 //   });
 //   test('padding', () {
 //     final st = StructLayout([
@@ -1088,7 +1088,7 @@ void main() {}
 //     obj = {"LayoutConst.u16": 0x1234, "LayoutConst.s16be": -5432};
 //     expect(st.encode(obj, b), st.span);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("3412ffeac8"), b.toBytes()), true);
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("3412ffeac8"), b.toBytes()), true);
 //     expect(st.decode(b.toBytes()), obj);
 //   });
 //   test('basics', () {
@@ -1112,7 +1112,7 @@ void main() {}
 //     };
 //     expect(st.encode(obj, b), st.span);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("153412eac8"), b.toBytes()), true);
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("153412eac8"), b.toBytes()), true);
 //     expect(st.decode(b.toBytes()), obj);
 //   });
 // }
@@ -1127,7 +1127,7 @@ void main() {}
 //     expect(seqq.getSpan(b.toBytes()), 4);
 //     expect(seqq.decode(b.toBytes()), [0x4241, 0x4443]);
 //     expect(seqq.encode(seqq.decode(b.toBytes()), db, offset: 1), 4);
-//     expect(bytesEqual(StringUtils.encode("-ABCD-"), db.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(StringUtils.encode("-ABCD-"), db.toBytes()), true);
 //     expect(seqq.getSpan(b.toBytes(), offset: 1), 4);
 //     expect(seqq.decode(b.toBytes(), offset: 1), [0x4342, 0x4544]);
 //   });
@@ -1156,7 +1156,7 @@ void main() {}
 //     final span = st.getSpan(b.toBytes());
 //     expect(span, 9);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("026f6e650074776f00"),
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("026f6e650074776f00"),
 //             b.toBytes().sublist(0, span)),
 //         true);
 //   });
@@ -1180,7 +1180,7 @@ void main() {}
 //     final span = st.getSpan(b.toBytes());
 //     expect(span, 6);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("050506070809"),
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("050506070809"),
 //             b.toBytes().sublist(0, span)),
 //         true);
 //   });
@@ -1202,7 +1202,7 @@ void main() {}
 //     expect(seq.span, 15);
 //     expect(seq.encode(tv, b), seq.span);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString('0110270000000000000003bcfeffff'),
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString('0110270000000000000003bcfeffff'),
 //             b.toBytes()),
 //         true);
 //     expect(seq.decode(b.toBytes()), tv);
@@ -1212,7 +1212,7 @@ void main() {}
 //         ], b, offset: st.span),
 //         1 * st.span);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString('0110270000027856341203bcfeffff'),
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString('0110270000027856341203bcfeffff'),
 //             b.toBytes()),
 //         true);
 //   });
@@ -1262,27 +1262,27 @@ void main() {}
 //     expect(le.decode(b.toBytes()), 0);
 //     expect(le.encode(f, b), 8);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("300fc1f41022b143"), b.toBytes()),
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("300fc1f41022b143"), b.toBytes()),
 //         true);
 //     expect(le.decode(b.toBytes()), f);
 //     expect(be.decode(b.toBytes()), fe);
 //     expect(be.encode(f, b), 8);
 //     expect(
-//         bytesEqual(BytesUtils.fromHexString("43b12210f4c10f30"), b.toBytes()),
+//         BytesUtils.bytesEqual(BytesUtils.fromHexString("43b12210f4c10f30"), b.toBytes()),
 //         true);
 //     expect(be.decode(b.toBytes()), f);
 //     expect(le.decode(b.toBytes()), fe);
 //     b = LayoutByteWriter.filled(10, 0xa5);
 //     le.encode(f, b, offset: 1);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             BytesUtils.fromHexString("a5300fc1f41022b143a5"), b.toBytes()),
 //         true);
 
 //     expect(f, le.decode(b.toBytes(), offset: 1));
 //     be.encode(f, b, offset: 1);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             BytesUtils.fromHexString("a543b12210f4c10f30a5"), b.toBytes()),
 //         true);
 //     expect(f, be.decode(b.toBytes(), offset: 1));
@@ -1310,17 +1310,17 @@ void main() {}
 //     expect(le.decode(b.toBytes()), f);
 //     expect(be.decode(b.toBytes()), fe);
 //     expect(be.encode(f, b), 4);
-//     expect(bytesEqual(BytesUtils.fromHexString('47f12010'), b.toBytes()), true);
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('47f12010'), b.toBytes()), true);
 //     expect(be.decode(b.toBytes()), f);
 //     expect(le.decode(b.toBytes()), fe);
 
 //     b = LayoutByteWriter.filled(6, 0xa5);
 //     le.encode(f, b, offset: 1);
-//     expect(bytesEqual(BytesUtils.fromHexString('a51020f147a5'), b.toBytes()),
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('a51020f147a5'), b.toBytes()),
 //         true);
 //     expect(f, le.decode(b.toBytes(), offset: 1));
 //     be.encode(f, b, offset: 1);
-//     expect(bytesEqual(BytesUtils.fromHexString('a547f12010a5'), b.toBytes()),
+//     expect(BytesUtils.bytesEqual(BytesUtils.fromHexString('a547f12010a5'), b.toBytes()),
 //         true);
 //     expect(f, be.decode(b.toBytes(), offset: 1));
 //   });
@@ -1368,13 +1368,13 @@ void main() {}
 //     b = LayoutByteWriter.filled(10, 0xa5);
 //     le.encode(BigInt.one, b, offset: 1);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             BytesUtils.fromHexString("a50100000000000000a5"), b.toBytes()),
 //         true);
 //     expect(BigInt.one, le.decode(b.toBytes(), offset: 1));
 //     be.encode(BigInt.one, b, offset: 1);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             BytesUtils.fromHexString("a50000000000000001a5"), b.toBytes()),
 //         true);
 //     expect(BigInt.one, be.decode(b.toBytes(), offset: 1));
@@ -1431,13 +1431,13 @@ void main() {}
 //     b = LayoutByteWriter.filled(10, 0xa5);
 //     le.encode(BigInt.one, b, offset: 1);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             BytesUtils.fromHexString("a50100000000000000a5"), b.toBytes()),
 //         true);
 //     expect(BigInt.one, le.decode(b.toBytes(), offset: 1));
 //     be.encode(BigInt.one, b, offset: 1);
 //     expect(
-//         bytesEqual(
+//         BytesUtils.bytesEqual(
 //             BytesUtils.fromHexString("a50000000000000001a5"), b.toBytes()),
 //         true);
 //     expect(BigInt.one, be.decode(b.toBytes(), offset: 1));
@@ -1725,7 +1725,6 @@ void main() {}
 //     expect(enc.decode(bytes.toBytes(), offset: 2), 0xA534);
 //   });
 // }
-
 
 // void main() {
 //   test("bitSequance", () {

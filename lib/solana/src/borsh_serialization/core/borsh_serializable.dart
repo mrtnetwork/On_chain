@@ -34,7 +34,7 @@ abstract class LayoutSerializable {
 
       for (final i in validator.entries) {
         if (i.value is List) {
-          if (!iterableIsEqual(i.value, decode[i.key])) {
+          if (!CompareUtils.iterableIsEqual(i.value, decode[i.key])) {
             throw MessageException("cannot validate borsh bytes",
                 details: {"excepted": validator, "instruction": decode});
           }

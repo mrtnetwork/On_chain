@@ -64,16 +64,16 @@ class ContractABI {
   AbiFunctionFragment functionFromSelector(String selectorHex) {
     final selector = BytesUtils.fromHexString(selectorHex)
         .sublist(0, ABIConst.selectorLength);
-    return functions
-        .singleWhere((element) => bytesEqual(selector, element.selector));
+    return functions.singleWhere(
+        (element) => BytesUtils.bytesEqual(selector, element.selector));
   }
 
   /// Retrieves an error fragment from the contract ABI from selector.
   AbiErrorFragment errorFromSelector(String selectorHex) {
     final selector = BytesUtils.fromHexString(selectorHex)
         .sublist(0, ABIConst.selectorLength);
-    return errors
-        .singleWhere((element) => bytesEqual(selector, element.selector));
+    return errors.singleWhere(
+        (element) => BytesUtils.bytesEqual(selector, element.selector));
   }
 
   /// solidity revert Error fragment
@@ -87,11 +87,11 @@ class ContractABI {
       if (error is String) {
         final inBytes = BytesUtils.fromHexString(error);
         final errorSelector = inBytes.sublist(0, ABIConst.selectorLength);
-        if (bytesEqual(errorSelector, revert.selector)) {
+        if (BytesUtils.bytesEqual(errorSelector, revert.selector)) {
           return revert.decodeError(inBytes);
         }
-        final errorFragment = errors.singleWhere(
-            (element) => bytesEqual(element.selector, errorSelector));
+        final errorFragment = errors.singleWhere((element) =>
+            BytesUtils.bytesEqual(element.selector, errorSelector));
 
         return errorFragment.decodeError(inBytes);
       }

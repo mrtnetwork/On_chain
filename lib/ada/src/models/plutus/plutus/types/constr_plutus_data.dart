@@ -16,7 +16,7 @@ class ConstrPlutusData extends PlutusData {
 
   /// Deserializes a [ConstrPlutusData] instance from CBOR.
   factory ConstrPlutusData.deserialize(CborTagValue cbor) {
-    if (bytesEqual(cbor.tags, [PlutusDataUtils.generalFormTag])) {
+    if (BytesUtils.bytesEqual(cbor.tags, [PlutusDataUtils.generalFormTag])) {
       final CborListValue data = cbor.getValue<CborListValue>();
       return ConstrPlutusData(
           alternative: data.getIndex<CborObject>(0).getInteger(),

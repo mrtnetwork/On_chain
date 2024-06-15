@@ -1,6 +1,6 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/transaction_raw.dart';
-import 'package:blockchain_utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
 
 class Transaction extends TronProtocolBufferImpl {

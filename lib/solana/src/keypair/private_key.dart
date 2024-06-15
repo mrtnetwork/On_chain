@@ -37,7 +37,7 @@ class SolanaPrivateKey {
     // Create a private key from the seed bytes.
     final privateKey = Ed25519PrivateKey.fromBytes(seedBytes);
     // Check if the extracted public bytes match the public key derived from the private key.
-    if (!bytesEqual(
+    if (!BytesUtils.bytesEqual(
         privateKey.publicKey.compressed
             .sublist(Ed25519KeysConst.pubKeyPrefix.length),
         publicBytes)) {

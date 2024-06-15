@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/utils/binary/utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexBubblegumProgramInstruction implements ProgramLayoutInstruction {
@@ -87,8 +87,8 @@ class MetaplexBubblegumProgramInstruction implements ProgramLayoutInstruction {
   ];
   static MetaplexBubblegumProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values
-          .firstWhere((element) => bytesEqual(element.insturction, value));
+      return values.firstWhere(
+          (element) => BytesUtils.bytesEqual(element.insturction, value));
     } on StateError {
       return null;
     }

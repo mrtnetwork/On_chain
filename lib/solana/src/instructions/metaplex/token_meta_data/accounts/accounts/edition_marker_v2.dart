@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';

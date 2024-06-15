@@ -21,7 +21,7 @@ class SolanaRPCEncoding {
       case SolanaRPCEncoding.base58:
         return Base58Decoder.decode(data);
       default:
-        return StringUtils.encode(data, StringEncoding.base64);
+        return StringUtils.encode(data, type: StringEncoding.base64);
     }
   }
 

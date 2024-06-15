@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/binary/binary.dart';
-import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/utils/utils.dart';
+
 import 'package:blockchain_utils/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -19,7 +19,7 @@ abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
   }) {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode["instruction"];
-    if (!bytesEqual(instcutionData, instruction)) {
+    if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
       throw MessageException("invalid instruction bytes", details: {
         "expected": BytesUtils.toHexString(instruction),
         "instruction": BytesUtils.toBinary(instcutionData)

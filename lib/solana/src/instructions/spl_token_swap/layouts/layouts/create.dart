@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/types/types.dart';
 import 'package:blockchain_utils/layout/layout.dart';

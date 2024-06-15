@@ -165,7 +165,7 @@ class AbiFunctionFragment implements AbiBaseFragment {
     List<int> encodeBytes = List.from(encodedParams);
     if (encodeBytes.length > ABIConst.selectorLength) {
       final encodeSelector = encodeBytes.sublist(0, ABIConst.selectorLength);
-      if (bytesEqual(encodeSelector, selector)) {
+      if (BytesUtils.bytesEqual(encodeSelector, selector)) {
         encodeBytes = encodeBytes.sublist(ABIConst.selectorLength);
       }
     }

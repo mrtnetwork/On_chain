@@ -24,7 +24,7 @@ abstract class FixedBytes
     return identical(this, other) ||
         (other is FixedBytes &&
             other.runtimeType == runtimeType &&
-            bytesEqual(other.data, data));
+            BytesUtils.bytesEqual(other.data, data));
   }
 
   @override

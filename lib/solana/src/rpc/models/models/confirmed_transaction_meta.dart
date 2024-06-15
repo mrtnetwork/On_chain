@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/numbers/bigint_utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/models/lockup/accout_lookup_key.dart';
 
 import 'compiled_inner_instruction.dart';

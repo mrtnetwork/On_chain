@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/binary/binary.dart';
-import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/utils/utils.dart';
+
 import 'package:blockchain_utils/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/layouts.dart';
@@ -46,7 +46,7 @@ abstract class SPLTokenMetaDataProgramLayout extends ProgramLayout {
   }) {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode["instruction"];
-    if (!bytesEqual(instcutionData, instructionBytes)) {
+    if (!BytesUtils.bytesEqual(instcutionData, instructionBytes)) {
       throw MessageException("invalid instruction bytes", details: {
         "expected": BytesUtils.toHexString(instructionBytes),
         "instruction": BytesUtils.toBinary(instcutionData)

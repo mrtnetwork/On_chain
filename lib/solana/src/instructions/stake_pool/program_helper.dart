@@ -722,7 +722,7 @@ class StakePoolProgramHelper {
         if (!skipFee && inverseFee.numerator != BigInt.zero) {
           availableForWithdrawal = BigRational(
             availableForWithdrawal * inverseFee.denominator,
-            inverseFee.numerator,
+            denominator: inverseFee.numerator,
           ).toBigInt();
         }
 
@@ -768,7 +768,8 @@ class StakePoolProgramHelper {
     }
     final numerator = stakeLamports * stakePoolAccount.poolTokenSupply;
     if (numerator == BigInt.zero) return BigInt.zero;
-    return BigRational(numerator, stakePoolAccount.totalLamports).toBigInt();
+    return BigRational(numerator, denominator: stakePoolAccount.totalLamports)
+        .toBigInt();
   }
 
   static List<List<T>> _arrayChunk<T>(List<T> array, int size) {

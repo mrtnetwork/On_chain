@@ -26,7 +26,7 @@ class TransactionMetadataUtils {
           });
     }
     if (cbor is CborTagValue) {
-      if (!bytesEqual(cbor.tags, auxiliaryDataCborTag)) {
+      if (!BytesUtils.bytesEqual(cbor.tags, auxiliaryDataCborTag)) {
         throw MessageException("Invalid AuxiliaryData cbor tag.",
             details: {"Exepted": auxiliaryDataCborTag, "Tag": cbor.tags});
       }

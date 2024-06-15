@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/binary/utils.dart';
-import 'package:blockchain_utils/string/string.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/blockfrost.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
@@ -32,7 +31,8 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUT
 
   @override
   String get body => StringUtils.fromJson({
-        "cbor": StringUtils.decode(transactionCborBytes, StringEncoding.base64),
+        "cbor": StringUtils.decode(transactionCborBytes,
+            type: StringEncoding.base64),
         "additionalUtxoSet": additionalUtxoSet,
       });
 }

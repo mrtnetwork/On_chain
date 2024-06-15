@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:blockchain_utils/signer/eth/evm_signer.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';

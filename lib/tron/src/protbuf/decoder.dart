@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/exception/exception.dart';
-import 'package:blockchain_utils/string/string.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 class ProtocolBufferDecoder {
   static List<ProtocolBufferDecoderResult> decode(List<int> bytes) {
