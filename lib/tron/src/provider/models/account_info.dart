@@ -24,7 +24,7 @@ class TronAccountModel {
   final List<AssetV2Model> assetV2;
   final String? assetIssuedID;
   final List<FreeAssetNetUsageV2Model> freeAssetNetUsageV2;
-  final bool assetOptimized;
+  final bool? assetOptimized;
 
   const TronAccountModel._({
     this.accountName,

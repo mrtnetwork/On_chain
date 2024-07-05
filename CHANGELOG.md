@@ -1,3 +1,7 @@
+## 3.6.0
+
+- add signAndBuildTransactionAsync method to support building cardano transactions asynchronously.
+
 ## 3.5.0
 
 - Update dependencies.
