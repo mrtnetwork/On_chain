@@ -51,7 +51,8 @@ class HeaderBody with ADASerialization {
             cbor.sublist(operationIndex, operationIndex + 4)),
         prevHash: cbor
             .getIndex<CborObject?>(2)
-            ?.to<BlockHash, CborBytesValue>((e) => BlockHash.deserialize(e)),
+            ?.castTo<BlockHash, CborBytesValue>(
+                (e) => BlockHash.deserialize(e)),
         protocolVersion:
             ProtocolVersion.deserialize(cbor.sublist(protocolVersionIndex)),
         vrfvKey: VRFVKey.deserialize(cbor.getIndex(4)));

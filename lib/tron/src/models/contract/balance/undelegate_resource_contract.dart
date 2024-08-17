@@ -29,7 +29,7 @@ class UnDelegateResourceContract extends TronBaseContract {
         balance: decode.getField(3),
         resource: decode
             .getResult(2)
-            ?.to<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
+            ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
         receiverAddress: TronAddress.fromBytes(decode.getField(4)));
   }
 

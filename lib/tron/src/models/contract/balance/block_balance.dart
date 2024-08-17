@@ -24,7 +24,7 @@ class BlockBalanceTrace extends TronProtocolBufferImpl {
     return BlockBalanceTrace(
       blockIdentifier: decode
           .getResult(1)
-          ?.to<BlockBalanceTraceBlockIdentifier, List<int>>(
+          ?.castTo<BlockBalanceTraceBlockIdentifier, List<int>>(
               (e) => BlockBalanceTraceBlockIdentifier.deserialize(e)),
       timestamp: decode.getField(2),
     );

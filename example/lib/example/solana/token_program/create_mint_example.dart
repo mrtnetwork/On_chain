@@ -6,6 +6,7 @@ void main() async {
   final freezeAuthority = QuickWalletForTest(index: 1112);
   final mintAccount = QuickWalletForTest(index: 1111);
   final mintAccSpace = SolanaMintAccount.size;
+
   final rent = await QuickWalletForTest.rpc
       .request(SolanaRPCGetMinimumBalanceForRentExemption(size: mintAccSpace));
   final createAccount = SystemProgram.createAccount(

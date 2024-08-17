@@ -9,7 +9,8 @@ class FunctionCoder implements ABICoder<List<int>> {
   @override
   DecoderResult<List<int>> decode(AbiParameter params, List<int> bytes) {
     final decode = const BytesCoder().decode(AbiParameter.function, bytes);
-    return DecoderResult(result: decode.result, consumed: decode.consumed);
+    return DecoderResult(
+        result: decode.result, consumed: decode.consumed, name: params.name);
   }
 
   /// Encodes a function signature (bytes) to ABI-encoded bytes.

@@ -24,7 +24,7 @@ class ADATransaction with ADASerialization {
         body: TransactionBody.deserialize(cbor.getIndex(0)),
         witnessSet: TransactionWitnessSet.deserialize(cbor.getIndex(1)),
         isValid: cbor.getIndex(2),
-        data: cbor.getIndex<CborObject?>(3)?.to<AuxiliaryData, CborObject>(
+        data: cbor.getIndex<CborObject?>(3)?.castTo<AuxiliaryData, CborObject>(
             (e) => AuxiliaryData.deserialize(e)));
   }
   factory ADATransaction.fromJson(Map<String, dynamic> json) {

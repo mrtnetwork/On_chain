@@ -19,7 +19,7 @@ class DelegateResourceContract extends TronBaseContract {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return DelegateResourceContract(
         ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        resource: decode.getResult(2)?.to<ResourceCode, int>(
+        resource: decode.getResult(2)?.castTo<ResourceCode, int>(
             (e) => ResourceCode.fromValue(decode.getField(2))),
         balance: decode.getField(3),
         receiverAddress: TronAddress.fromBytes(decode.getField(4)),

@@ -29,7 +29,7 @@ class SmartContract extends TronProtocolBufferImpl {
         originAddress: TronAddress.fromBytes(decode.getField(1)),
         bytecode: decode.getField(4),
         callValue: decode.getField(5),
-        abi: decode.getResult(3)?.to<SmartContractABI, List<int>>(
+        abi: decode.getResult(3)?.castTo<SmartContractABI, List<int>>(
             (e) => SmartContractABI.deserialize(e)),
         consumeUserResourcePercent: decode.getField(6),
         name: decode.getField(7),
@@ -39,7 +39,7 @@ class SmartContract extends TronProtocolBufferImpl {
         version: decode.getField(11),
         contractAddress: decode
             .getResult(2)
-            ?.to<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)));
+            ?.castTo<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)));
   }
 
   /// Create a new [SmartContract] instance with specified parameters.

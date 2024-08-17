@@ -13,7 +13,8 @@ class NumbersCoder implements ABICoder<BigInt> {
     final nBytes = bytes.sublist(0, ABIConst.uintBytesLength);
     final big = BigintUtils.fromBytes(nBytes, sign: sign);
     _ABIValidator.isValidNumber(params.type, big);
-    return DecoderResult(result: big, consumed: ABIConst.uintBytesLength);
+    return DecoderResult(
+        result: big, consumed: ABIConst.uintBytesLength, name: params.name);
   }
 
   /// Encodes a numeric value (BigInt) to ABI-encoded bytes.
@@ -21,7 +22,9 @@ class NumbersCoder implements ABICoder<BigInt> {
   EncoderResult abiEncode(AbiParameter params, BigInt input) {
     _ABIValidator.isValidNumber(params.type, input);
     return EncoderResult(
-        isDynamic: false, encoded: BigintUtils.toBytes(input, length: 32));
+        isDynamic: false,
+        encoded: BigintUtils.toBytes(input, length: 32),
+        name: params.name);
   }
 
   /// Legacy EIP-712 encoding for numeric values (BigInt).
@@ -34,6 +37,7 @@ class NumbersCoder implements ABICoder<BigInt> {
     return EncoderResult(
         isDynamic: false,
         encoded: BigintUtils.toBytes(input.toUnsigned(size * 8),
-            length: keepSize ? 32 : size));
+            length: keepSize ? 32 : size),
+        name: params.name);
   }
 }

@@ -5,12 +5,12 @@ import 'package:on_chain/ethereum/src/address/evm_address.dart';
 
 /// Class representing a Tron address, implementing the BaseHexAddress interface
 class TronAddress implements SolidityAddress {
-  /// Private constructor for internal use, initializing with address and hexAddress
-  const TronAddress._(this._address, this._hexAddress);
-
   /// Private fields to store the address and its hexadecimal representation
   final String _address;
   final String _hexAddress;
+
+  /// Private constructor for internal use, initializing with address and hexAddress
+  const TronAddress._(this._address, this._hexAddress);
 
   /// Factory method to create a TronAddress from a Tron public key represented as a list of integers
   factory TronAddress.fromPublicKey(List<int> keyBytes) {
@@ -99,4 +99,13 @@ class TronAddress implements SolidityAddress {
   String toHex() {
     return _hexAddress;
   }
+
+  @override
+  operator ==(other) {
+    if (other is! TronAddress) return false;
+    return _address == other._address;
+  }
+
+  @override
+  int get hashCode => _address.hashCode ^ _hexAddress.hashCode;
 }

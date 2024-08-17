@@ -30,7 +30,7 @@ class AccountCreateContract extends TronBaseContract {
       /// Account type. The external account type is Normal, and this field will not be displayed in the return value
       type: decode
               .getResult(3)
-              ?.to<AccountType, int>((e) => AccountType.fromValue(e)) ??
+              ?.castTo<AccountType, int>((e) => AccountType.fromValue(e)) ??
           AccountType.normal,
     );
   }

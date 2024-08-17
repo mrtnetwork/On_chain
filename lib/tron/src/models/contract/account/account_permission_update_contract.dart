@@ -26,7 +26,7 @@ class AccountPermissionUpdateContract extends TronBaseContract {
         owner: Permission.deserialize(decode.getField(2)),
         witness: decode
             .getResult(3)
-            ?.to<Permission, List<int>>((e) => Permission.deserialize(e)),
+            ?.castTo<Permission, List<int>>((e) => Permission.deserialize(e)),
         actives: decode
             .getFields<List<int>>(4)
             .map((e) => Permission.deserialize(e))

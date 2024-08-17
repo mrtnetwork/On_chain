@@ -38,12 +38,12 @@ class TransactionWitnessSet with ADASerialization {
   factory TransactionWitnessSet.deserialize(CborMapValue cbor) {
     final v1 = cbor
         .getValueFromIntKey<CborListValue?>(3)
-        ?.to<List<PlutusScript>, CborListValue<CborObject>>((e) {
+        ?.castTo<List<PlutusScript>, CborListValue<CborObject>>((e) {
       return e.value.map((i) => PlutusScript.deserialize(i.cast())).toList();
     });
     final v2 = cbor
         .getValueFromIntKey<CborListValue?>(6)
-        ?.to<List<PlutusScript>, CborListValue<CborObject>>((e) => e.value
+        ?.castTo<List<PlutusScript>, CborListValue<CborObject>>((e) => e.value
             .map((i) =>
                 PlutusScript.deserialize(i.cast(), language: Language.plutusV2))
             .toList());
@@ -53,23 +53,21 @@ class TransactionWitnessSet with ADASerialization {
             ?.value
             .map((e) => Vkeywitness.deserialize(e))
             .toList(),
-        nativeScripts: cbor
-            .getValueFromIntKey<CborListValue?>(1)
-            ?.to<List<NativeScript>, CborListValue<CborObject>>((e) => e.value
-                .map((e) => NativeScript.deserialize(e.cast()))
-                .toList()),
+        nativeScripts: cbor.getValueFromIntKey<CborListValue?>(1)?.castTo<List<NativeScript>, CborListValue<CborObject>>((e) =>
+            e.value.map((e) => NativeScript.deserialize(e.cast())).toList()),
         bootstraps: cbor
             .getValueFromIntKey<CborListValue?>(2)
-            ?.to<List<BootstrapWitness>, CborListValue<CborObject>>((e) => e.value
+            ?.castTo<List<BootstrapWitness>, CborListValue<CborObject>>((e) => e.value
                 .map((e) => BootstrapWitness.deserialize(e.cast()))
                 .toList()),
         plutusScripts:
             v1 == null && v2 == null ? null : [...v1 ?? [], ...v2 ?? []],
-        plutusData: cbor
-            .getValueFromIntKey<CborListValue?>(4)
-            ?.to<PlutusList, CborListValue>((e) => PlutusList.deserialize(e)),
-        redeemers: cbor.getValueFromIntKey<CborListValue?>(5)?.to<List<Redeemer>, CborListValue<CborObject>>(
-            (e) => e.value.map((i) => Redeemer.deserialize(i.cast())).toList()));
+        plutusData: cbor.getValueFromIntKey<CborListValue?>(4)?.castTo<PlutusList, CborListValue>(
+            (e) => PlutusList.deserialize(e)),
+        redeemers: cbor
+            .getValueFromIntKey<CborListValue?>(5)
+            ?.castTo<List<Redeemer>, CborListValue<CborObject>>(
+                (e) => e.value.map((i) => Redeemer.deserialize(i.cast())).toList()));
   }
   TransactionWitnessSet copyWith({
     List<Vkeywitness>? vKeys,

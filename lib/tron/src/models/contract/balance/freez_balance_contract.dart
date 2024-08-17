@@ -27,7 +27,7 @@ class FreezeBalanceContract extends TronBaseContract {
           orElse: ResourceCode.bandWidth),
       receiverAddress: decode
           .getResult(15)
-          ?.to<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
+          ?.castTo<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
     );
   }
 

@@ -11,7 +11,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
     bool isDynamic = false;
     List<EncoderResult> encoded = [];
     if (input.length != params.components.length) {
-      throw _ABIValidator.invalidArgrumentsLength;
+      throw const SolidityAbiException("Invalid argument length detected.");
     }
     for (int i = 0; i < params.components.length; i++) {
       final paramComponent = params.components[i];
@@ -23,10 +23,13 @@ class TupleCoder implements ABICoder<List<dynamic>> {
     }
     if (isDynamic) {
       return EncoderResult(
-          isDynamic: true, encoded: _ABIUtils.encodeDynamicParams(encoded));
+          isDynamic: true,
+          encoded: _ABIUtils.encodeDynamicParams(encoded),
+          name: params.name);
     }
     final re = encoded.map((e) => e.encoded).toList();
-    return EncoderResult(isDynamic: false, encoded: [for (var i in re) ...i]);
+    return EncoderResult(
+        isDynamic: false, encoded: [for (var i in re) ...i], name: params.name);
   }
 
   /// Decodes a tuple of dynamic values from the given ABI-encoded bytes.
@@ -35,7 +38,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
     int consumed = 0;
 
     if (params.components.isEmpty) {
-      return DecoderResult(result: [], consumed: consumed);
+      return DecoderResult(result: [], consumed: consumed, name: params.name);
     }
     int dynamicConsumed = 0;
     List<dynamic> result = [];
@@ -44,10 +47,8 @@ class TupleCoder implements ABICoder<List<dynamic>> {
       DecoderResult<dynamic> decodedResult;
 
       if (childParam.isDynamic) {
-        DecoderResult<BigInt> offsetResult = const NumbersCoder().decode(
-          AbiParameter.uint32,
-          bytes.sublist(consumed),
-        );
+        DecoderResult<BigInt> offsetResult = const NumbersCoder()
+            .decode(AbiParameter.uint32, bytes.sublist(consumed));
 
         decodedResult = _ABIUtils.decodeParamFromAbiParameter(
           childParam,
@@ -64,7 +65,10 @@ class TupleCoder implements ABICoder<List<dynamic>> {
 
       result.add(decodedResult.result);
     }
-    return DecoderResult(result: result, consumed: consumed + dynamicConsumed);
+    return DecoderResult(
+        result: result,
+        consumed: consumed + dynamicConsumed,
+        name: params.name);
   }
 
   /// Legacy EIP-712 encoding for tuple values.
@@ -74,7 +78,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
       AbiParameter params, List<dynamic> input, bool keepSize) {
     List<EncoderResult> encoded = [];
     if (input.length != params.components.length) {
-      throw _ABIValidator.invalidArgrumentsLength;
+      throw const SolidityAbiException("Invalid argument length detected.");
     }
     for (int i = 0; i < params.components.length; i++) {
       final paramComponent = params.components[i];
@@ -83,6 +87,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
       encoded.add(result);
     }
     final re = encoded.map((e) => e.encoded).toList();
-    return EncoderResult(isDynamic: false, encoded: [for (var i in re) ...i]);
+    return EncoderResult(
+        isDynamic: false, encoded: [for (var i in re) ...i], name: params.name);
   }
 }

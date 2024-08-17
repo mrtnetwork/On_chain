@@ -25,10 +25,10 @@ class SingleHostAddr extends Relay {
       port: cbor.getIndex<CborIntValue?>(1)?.value,
       ipv4: cbor
           .getIndex<CborBytesValue?>(2)
-          ?.to<Ipv4, CborBytesValue>((e) => Ipv4.deserialize(e)),
+          ?.castTo<Ipv4, CborBytesValue>((e) => Ipv4.deserialize(e)),
       ipv6: cbor
           .getIndex<CborBytesValue?>(3)
-          ?.to<Ipv6, CborBytesValue>((e) => Ipv6.deserialize(e)),
+          ?.castTo<Ipv6, CborBytesValue>((e) => Ipv6.deserialize(e)),
     );
   }
 

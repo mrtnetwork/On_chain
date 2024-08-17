@@ -23,7 +23,7 @@ class TransactionBalanceTraceOperation extends TronProtocolBufferImpl {
         operationIdentifier: decode.getField(1),
         address: decode
             .getResult(2)
-            ?.to<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
+            ?.castTo<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
         amount: decode.getField(3));
   }
 

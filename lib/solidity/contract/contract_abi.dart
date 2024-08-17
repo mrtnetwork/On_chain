@@ -61,11 +61,25 @@ class ContractABI {
       functions.singleWhere((element) => element.name == name);
 
   /// Retrieves a function fragment from the contract ABI based from selector.
-  AbiFunctionFragment functionFromSelector(String selectorHex) {
-    final selector = BytesUtils.fromHexString(selectorHex)
-        .sublist(0, ABIConst.selectorLength);
+  AbiFunctionFragment functionFromSelector(List<int> selectorBytes) {
+    final selector = selectorBytes.sublist(0, ABIConst.selectorLength);
     return functions.singleWhere(
         (element) => BytesUtils.bytesEqual(selector, element.selector));
+  }
+
+  /// Retrieves a function fragment from the contract ABI based from selector.
+  AbiFunctionFragment functionFromSelectorHex(String selectorHex) {
+    return functionFromSelector(BytesUtils.fromHexString(selectorHex));
+  }
+
+  AbiFunctionFragment? findFunctionFromSelector(List<int> selectorBytes) {
+    try {
+      final selector = selectorBytes.sublist(0, ABIConst.selectorLength);
+      return functions.singleWhere(
+          (element) => BytesUtils.bytesEqual(selector, element.selector));
+    } on StateError {
+      return null;
+    }
   }
 
   /// Retrieves an error fragment from the contract ABI from selector.

@@ -49,10 +49,12 @@ class TransactionOutput with ADASerialization {
           amount: Value.deserialize(cbor.getIndex<CborObject>(1)),
           plutusData: cbor
               .getIndex<CborObject?>(2)
-              ?.to<DataOption, CborObject>((e) => DataOption.deserialize(e)),
+              ?.castTo<DataOption, CborObject>(
+                  (e) => DataOption.deserialize(e)),
           scriptRef: cbor
               .getIndex<CborObject?>(3)
-              ?.to<ScriptRef, CborListValue>((e) => ScriptRef.deserialize(e)));
+              ?.castTo<ScriptRef, CborListValue>(
+                  (e) => ScriptRef.deserialize(e)));
     }
     final CborMapValue<CborObject, CborObject> cborMap = cbor.cast();
     final address =
@@ -62,10 +64,10 @@ class TransactionOutput with ADASerialization {
         amount: Value.deserialize(cborMap.getValueFromIntKey(1)),
         plutusData: cborMap
             .getValueFromIntKey<CborObject?>(2)
-            ?.to<DataOption, CborObject>((e) => DataOption.deserialize(e)),
+            ?.castTo<DataOption, CborObject>((e) => DataOption.deserialize(e)),
         scriptRef: cborMap
             .getValueFromIntKey<CborTagValue?>(3)
-            ?.to<ScriptRef, CborTagValue>((e) => ScriptRef.deserialize(e)));
+            ?.castTo<ScriptRef, CborTagValue>((e) => ScriptRef.deserialize(e)));
   }
   TransactionOutput copyWith({
     ADAAddress? address,

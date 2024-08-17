@@ -43,6 +43,10 @@ void main() {
 
     expect(test1.encodeHex(),
         "133a8cb1be5f78d001317fe4426e33a19b1dfc687f3da76d11fc8f65884f282f");
+    EIP712Base json = EIP712Base.fromJson(test1.toJson());
+
+    expect(json.encodeHex(),
+        "133a8cb1be5f78d001317fe4426e33a19b1dfc687f3da76d11fc8f65884f282f");
 
     final Eip712TypedData test2 = Eip712TypedData.fromJson({
       "domain": {
@@ -70,6 +74,9 @@ void main() {
     });
     expect(test2.encodeHex(),
         "c782eff790ec37ff428c9718c596f8113fd6c461043196505fd9b6a917204907");
+    json = EIP712Base.fromJson(test2.toJson());
+    expect(json.encodeHex(),
+        "c782eff790ec37ff428c9718c596f8113fd6c461043196505fd9b6a917204907");
   });
 
   test("v3", () {
@@ -77,7 +84,6 @@ void main() {
       "domain": {
         "chainId": BigInt.from(80001),
         "name": "Example App",
-        // "verifyingContract": "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
         "version": "1",
       },
       "message": {
@@ -98,6 +104,10 @@ void main() {
       },
     }, version: EIP712Version.v3);
     expect(test1.encodeHex(),
+        "184dd59e6ca7b7b98ad9b5e02c0e38ab6951bdd854a16d2cf7aaaf6a5ad485d3");
+
+    EIP712Base json = EIP712Base.fromJson(test1.toJson());
+    expect(json.encodeHex(),
         "184dd59e6ca7b7b98ad9b5e02c0e38ab6951bdd854a16d2cf7aaaf6a5ad485d3");
   });
 }

@@ -81,7 +81,7 @@ extension QuickCborObject on CborObject {
   /// Converts the value of the [CborObject] to the specified type [E] using the provided function [toe].
   ///
   /// Throws a [MessageException] if the value cannot be converted to type [T].
-  E to<E, T>(E Function(T e) toe) {
+  E castTo<E, T>(E Function(T e) toe) {
     if (this is T) {
       return toe(this as T);
     }

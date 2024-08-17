@@ -72,7 +72,8 @@ class PoolParams with ADASerialization {
           .toList(),
       poolMetadata: cbor
           .getIndex<CborListValue?>(8)
-          ?.to<PoolMetadata, CborListValue>((e) => PoolMetadata.deserialize(e)),
+          ?.castTo<PoolMetadata, CborListValue>(
+              (e) => PoolMetadata.deserialize(e)),
     );
   }
   PoolParams copyWith({

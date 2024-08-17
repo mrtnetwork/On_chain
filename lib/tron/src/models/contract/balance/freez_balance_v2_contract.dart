@@ -25,7 +25,7 @@ class FreezeBalanceV2Contract extends TronBaseContract {
         frozenBalance: decode.getField(2),
         resource: decode
             .getResult(3)
-            ?.to<ResourceCode, int>((e) => ResourceCode.fromValue(e)));
+            ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)));
   }
 
   /// Account address

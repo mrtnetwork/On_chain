@@ -2,13 +2,13 @@ import 'package:on_chain/solidity/address/core.dart';
 import 'package:blockchain_utils/bip/address/eth_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-/// Class representing an Ethereum address, implementing the [BaseHexAddress] interface.
+/// Class representing an Ethereum address, implementing the [SolidityAddress] interface.
 class ETHAddress implements SolidityAddress {
-  /// Private constructor for creating an instance of [ETHAddress] with a given Ethereum address
-  const ETHAddress._(this.address);
-
   /// The Ethereum address string.
   final String address;
+
+  /// Private constructor for creating an instance of [ETHAddress] with a given Ethereum address
+  const ETHAddress._(this.address);
 
   /// Creates an [ETHAddress] instance from a public key represented as a bytes.
   factory ETHAddress.fromPublicKey(List<int> keyBytes) {
@@ -45,11 +45,6 @@ class ETHAddress implements SolidityAddress {
     return BytesUtils.fromHexString(address);
   }
 
-  @override
-  String toString() {
-    return address;
-  }
-
   /// Constant representing the length of the ETH address in bytes
   static const int lengthInBytes = 20;
 
@@ -57,4 +52,18 @@ class ETHAddress implements SolidityAddress {
   String toHex() {
     return address;
   }
+
+  @override
+  String toString() {
+    return address;
+  }
+
+  @override
+  operator ==(other) {
+    if (other is! ETHAddress) return false;
+    return address == other.address;
+  }
+
+  @override
+  int get hashCode => address.hashCode;
 }

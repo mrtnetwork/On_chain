@@ -155,6 +155,14 @@ class AbiFunctionFragment implements AbiBaseFragment {
     return abi.result;
   }
 
+  // /// Decodes the output of the function from the encoded output bytes.
+  // List<dynamic> decodeOutput(List<int> encodedOutput) {
+  //   final abi =
+  //       AbiParameter(name: "", type: "tuple", components: List.from(outputs))
+  //           .decode(encodedOutput);
+  //   return abi.result;
+  // }
+
   /// Decodes the output of the function from the encoded hexadecimal string output.
   List<dynamic> decodeOutputHex(String encodedOutput) {
     return decodeOutput(BytesUtils.fromHexString(encodedOutput));

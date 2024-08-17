@@ -43,4 +43,19 @@ class EVMRPC {
     final data = await rpc.call(params, timeout);
     return request.onResonse(_findResult(data, params));
   }
+
+  Future<dynamic> requestDynamic(String method, dynamic params,
+      [Duration? timeout]) async {
+    final id = ++_id;
+    final requestParams = {
+      "jsonrpc": "2.0",
+      "method": method,
+      "params": params,
+      "id": id
+    };
+    final ETHRequestDetails request = ETHRequestDetails(
+        id: id, method: method, params: StringUtils.fromJson(requestParams));
+    final data = await rpc.call(request, timeout);
+    return _findResult(data, request);
+  }
 }

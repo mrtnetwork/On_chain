@@ -21,7 +21,7 @@ class UnfreezeBalanceContract extends TronBaseContract {
         ownerAddress: TronAddress.fromBytes(decode.getField(1)),
         resource: decode
             .getResult(10)
-            ?.to<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
+            ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
         receiverAddress: TronAddress.fromBytes(decode.getField(15)));
   }
 

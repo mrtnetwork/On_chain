@@ -37,7 +37,8 @@ abstract class ABICoder<T> {
     // Use the corrected type or the original type if not modified
     correctType ??= type;
     if (!_types.containsKey(correctType)) {
-      throw MessageException("Unsuported ABI type", details: {"type": type});
+      throw SolidityAbiException("Unsuported ABI type. codec not found",
+          details: {"type": type});
     }
     // Return the corresponding ABICoder instance
     return _types[correctType]! as ABICoder<T>;
@@ -58,7 +59,7 @@ class AbiParameter {
   static const AbiParameter uint32 = AbiParameter(name: "", type: "uint32");
 
   /// The name of the parameter.
-  final String name;
+  final String? name;
 
   /// The type of the parameter.
   final String type;
@@ -105,7 +106,8 @@ class AbiParameter {
       type: type ?? this.type,
       baseType: baseType ?? this.baseType,
       indexed: indexed ?? this.indexed,
-      components: components ?? List.from(this.components),
+      components: components ??
+          List<AbiParameter>.unmodifiable(components ?? this.components),
       internalType: internalType ?? this.internalType,
     );
   }
@@ -113,14 +115,15 @@ class AbiParameter {
   /// Factory method to create an AbiParameter instance from a JSON representation.
   factory AbiParameter.fromJson(Map<String, dynamic> json, bool tronTypes) {
     final List<dynamic> inputs = json["components"] ?? [];
+    final String name = json["name"] ?? "";
     return AbiParameter(
-      name: json["name"] ?? "",
+      name: name.isEmpty ? null : name,
       type: json["type"],
       internalType: json["internalType"],
       indexed: json["indexed"] ?? false,
       tronTypes: tronTypes,
-      components:
-          inputs.map((e) => AbiParameter.fromJson(e, tronTypes)).toList(),
+      components: List<AbiParameter>.unmodifiable(
+          inputs.map((e) => AbiParameter.fromJson(e, tronTypes)).toList()),
     );
   }
 
@@ -184,8 +187,11 @@ class EncoderResult {
   /// The encoded data as a bytes.
   final List<int> encoded;
 
+  final String? name;
+
   /// Constructor for EncoderResult.
-  const EncoderResult({required this.isDynamic, required this.encoded});
+  const EncoderResult(
+      {required this.isDynamic, required this.encoded, required this.name});
 }
 
 /// Represents the result of decoding data using ABI decoding.
@@ -196,8 +202,11 @@ class DecoderResult<T> {
   /// The number of bytes consumed during decoding.
   final int consumed;
 
+  final String? name;
+
   /// Constructor for DecoderResult.
-  const DecoderResult({required this.result, required this.consumed});
+  const DecoderResult(
+      {required this.result, required this.consumed, required this.name});
 
   /// Overrides the default toString method to provide a readable representation of DecoderResult.
   @override

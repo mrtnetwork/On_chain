@@ -48,3 +48,4 @@ export "sign_transaction.dart";
 export "submit_hash_rate.dart";
 export "submit_work.dart";
 export "uninstall_filter.dart";
+export 'subscribes/subscribe.dart';

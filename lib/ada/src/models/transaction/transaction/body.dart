@@ -71,29 +71,28 @@ class TransactionBody with ADASerialization {
         ttl: cbor.getValueFromIntKey<CborObject?>(3)?.getInteger(),
         withdrawals: cbor
             .getValueFromIntKey<CborObject?>(5)
-            ?.to<Withdrawals, CborMapValue>((e) => Withdrawals.deserialize(e)),
+            ?.castTo<Withdrawals, CborMapValue>(
+                (e) => Withdrawals.deserialize(e)),
         auxiliaryDataHash: cbor
             .getValueFromIntKey<CborObject?>(7)
-            ?.to<AuxiliaryDataHash, CborBytesValue>(
+            ?.castTo<AuxiliaryDataHash, CborBytesValue>(
                 (CborBytesValue e) => AuxiliaryDataHash.deserialize(e)),
         certs: cbor
             .getValueFromIntKey<CborObject?>(4)
-            ?.to<List<Certificate>, CborListValue<CborObject>>(
-                (CborListValue<CborObject> e) => e.value
-                    .map((e) => Certificate.deserialize(e.cast()))
-                    .toList()),
+            ?.castTo<List<Certificate>, CborListValue<CborObject>>((CborListValue<CborObject> e) =>
+                e.value.map((e) => Certificate.deserialize(e.cast())).toList()),
         update: cbor
             .getValueFromIntKey<CborListValue?>(6)
-            ?.to<Update, CborListValue>((e) => Update.deserialize(e)),
+            ?.castTo<Update, CborListValue>((e) => Update.deserialize(e)),
         validityStartInterval: cbor.getValueFromIntKey<CborObject?>(8)?.getInteger(),
-        mint: cbor.getValueFromIntKey<CborMapValue?>(9)?.to<Mint, CborMapValue>((e) => Mint.deserialize(e.cast())),
-        scriptDataHash: cbor.getValueFromIntKey<CborBytesValue?>(11)?.to<ScriptDataHash, CborBytesValue>((e) => ScriptDataHash.deserialize(e)),
-        collateral: cbor.getValueFromIntKey<CborListValue?>(13)?.to<List<TransactionInput>, CborListValue<CborObject>>((e) => e.value.map((e) => TransactionInput.deserialize(e.cast())).toList()),
-        requiredSigners: cbor.getValueFromIntKey<CborListValue?>(14)?.to<List<Ed25519KeyHash>, CborListValue<CborObject>>((e) => e.value.map((e) => Ed25519KeyHash.deserialize(e.cast())).toList()),
-        network: cbor.getValueFromIntKey<CborIntValue?>(15)?.to<ADANetwork, CborIntValue>((e) => ADANetwork.fromTag(e.value)),
-        collateralReturn: cbor.getValueFromIntKey<CborObject?>(16)?.to<TransactionOutput, CborObject>((e) => TransactionOutput.deserialize(e)),
+        mint: cbor.getValueFromIntKey<CborMapValue?>(9)?.castTo<Mint, CborMapValue>((e) => Mint.deserialize(e.cast())),
+        scriptDataHash: cbor.getValueFromIntKey<CborBytesValue?>(11)?.castTo<ScriptDataHash, CborBytesValue>((e) => ScriptDataHash.deserialize(e)),
+        collateral: cbor.getValueFromIntKey<CborListValue?>(13)?.castTo<List<TransactionInput>, CborListValue<CborObject>>((e) => e.value.map((e) => TransactionInput.deserialize(e.cast())).toList()),
+        requiredSigners: cbor.getValueFromIntKey<CborListValue?>(14)?.castTo<List<Ed25519KeyHash>, CborListValue<CborObject>>((e) => e.value.map((e) => Ed25519KeyHash.deserialize(e.cast())).toList()),
+        network: cbor.getValueFromIntKey<CborIntValue?>(15)?.castTo<ADANetwork, CborIntValue>((e) => ADANetwork.fromTag(e.value)),
+        collateralReturn: cbor.getValueFromIntKey<CborObject?>(16)?.castTo<TransactionOutput, CborObject>((e) => TransactionOutput.deserialize(e)),
         totalCollateral: cbor.getValueFromIntKey<CborObject?>(17)?.getInteger(),
-        referenceInputs: cbor.getValueFromIntKey<CborListValue?>(18)?.to<List<TransactionInput>, CborListValue<CborObject>>((e) => e.value.map((e) => TransactionInput.deserialize(e.cast())).toList()));
+        referenceInputs: cbor.getValueFromIntKey<CborListValue?>(18)?.castTo<List<TransactionInput>, CborListValue<CborObject>>((e) => e.value.map((e) => TransactionInput.deserialize(e.cast())).toList()));
   }
   TransactionBody copyWith({
     List<TransactionInput>? inputs,

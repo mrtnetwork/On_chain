@@ -23,7 +23,8 @@ class BytesCoder implements ABICoder<List<int>> {
     _ABIValidator.validateBytesLength(bytes, size);
     return DecoderResult(
         result: remainingBytes.sublist(0, size),
-        consumed: consumed + partsCount * ABIConst.uintBytesLength);
+        consumed: consumed + partsCount * ABIConst.uintBytesLength,
+        name: params.name);
   }
 
   /// Encodes a byte array to ABI-encoded bytes.
@@ -38,14 +39,15 @@ class BytesCoder implements ABICoder<List<int>> {
           .encoded;
       encoded.setAll(0, number);
       encoded.setAll(ABIConst.uintBytesLength, input);
-      return EncoderResult(isDynamic: true, encoded: encoded);
+      return EncoderResult(
+          isDynamic: true, encoded: encoded, name: params.name);
     }
     final size = _ABIUtils.bytesSize(params.type);
     _ABIValidator.validateBytes(params.type,
         bytes: input, minLength: size!, maxLength: size);
     final bytes = List<int>.filled(ABIConst.uintBytesLength, 0);
     bytes.setAll(0, input);
-    return EncoderResult(isDynamic: false, encoded: bytes);
+    return EncoderResult(isDynamic: false, encoded: bytes, name: params.name);
   }
 
   /// Legacy EIP-712 encoding for byte arrays.
@@ -55,8 +57,8 @@ class BytesCoder implements ABICoder<List<int>> {
       AbiParameter params, List<int> input, bool keepSize) {
     final size = _ABIUtils.bytesSize(params.type);
     if (size != null && input.length != size) {
-      throw _ABIValidator.invalidBytesLength;
+      throw const SolidityAbiException("Invalid bytes length");
     }
-    return EncoderResult(isDynamic: false, encoded: input);
+    return EncoderResult(isDynamic: false, encoded: input, name: params.name);
   }
 }

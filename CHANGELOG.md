@@ -1,3 +1,7 @@
+## 3.8.0
+
+- Update dependencies.
+
 ## 3.7.0
 
 - Update dependencies.

@@ -17,7 +17,7 @@ class Authority extends TronProtocolBufferImpl {
     return Authority(
         account: decode
             .getResult(1)
-            ?.to<AccountId, List<int>>((e) => AccountId.deserialize(e)),
+            ?.castTo<AccountId, List<int>>((e) => AccountId.deserialize(e)),
         permissionName: decode.getField(2));
   }
 

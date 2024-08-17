@@ -14,11 +14,8 @@ abstract class ETHRequestParams {
 
 /// Represents the details of an Ethereum JSON-RPC request.
 class ETHRequestDetails {
-  const ETHRequestDetails({
-    required this.id,
-    required this.method,
-    required this.params,
-  });
+  const ETHRequestDetails(
+      {required this.id, required this.method, required this.params});
 
   /// The unique identifier for the JSON-RPC request.
   final int id;

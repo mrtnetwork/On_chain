@@ -17,7 +17,6 @@ class BlockfrostRequestBlockchainGenesis extends BlockforestRequestParam<
 
   @override
   ADAGenesisParametersResponse onResonse(Map<String, dynamic> result) {
-    print("result $result");
     return ADAGenesisParametersResponse.fromJson(result);
   }
 }

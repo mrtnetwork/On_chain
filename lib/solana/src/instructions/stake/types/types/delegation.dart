@@ -3,21 +3,21 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class StakeDelegation extends LayoutSerializable {
+class SolanaStakeDelegation extends LayoutSerializable {
   final SolAddress voterPubkey;
   final BigInt stake;
   final BigInt activationEpoch;
   final BigInt deactivationEpoch;
   final double warmupCooldownRate;
 
-  const StakeDelegation(
+  const SolanaStakeDelegation(
       {required this.voterPubkey,
       required this.stake,
       required this.activationEpoch,
       required this.deactivationEpoch,
       required this.warmupCooldownRate});
-  factory StakeDelegation.fromJson(Map<String, dynamic> json) {
-    return StakeDelegation(
+  factory SolanaStakeDelegation.fromJson(Map<String, dynamic> json) {
+    return SolanaStakeDelegation(
         voterPubkey: json["voterPubkey"],
         stake: json["stake"],
         activationEpoch: json["activationEpoch"],
@@ -49,6 +49,6 @@ class StakeDelegation extends LayoutSerializable {
 
   @override
   String toString() {
-    return "StakeDelegation${serialize()}";
+    return "SolanaStakeDelegation${serialize()}";
   }
 }

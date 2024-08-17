@@ -69,9 +69,11 @@ class _ABIUtils {
     String sizeString = abi.type.substring(arrayParenthesisStart);
     int size = -1;
     if (sizeString != '[]') {
-      size = int.parse(sizeString.substring(1, sizeString.length - 1));
-      if (size.isNaN) {
-        throw ArgumentError('Invalid fixed array size');
+      final parseSize =
+          int.tryParse(sizeString.substring(1, sizeString.length - 1));
+      if (parseSize == null) {
+        throw const SolidityAbiException(
+            "Invalid array type name. size in invalid.");
       }
     }
     return Tuple(
@@ -102,39 +104,28 @@ class _ABIValidator {
   /// Regular expression for detecting size in ABI type.
   static final RegExp sizeDetectRegex = RegExp(r'\d+');
 
-  /// Exception message for invalid argument length.
-  static const MessageException invalidArgrumentsLength =
-      MessageException("Invalid argument length detected.");
-
-  /// Exception message for invalid bytes parameter.
-  static const MessageException invalidBytesParam =
-      MessageException("Invalid bytes input");
-
-  /// Exception message for invalid bytes length.
-  static const MessageException invalidBytesLength =
-      MessageException("Invalid bytes length");
-
   /// Validates bytes based on type, checking for length constraints.
   ///
-  /// Throws [invalidBytesParam] if the type is not "bytes" and
-  /// [invalidBytesLength] if the length constraints are violated.
+  /// Throws [SolidityAbiException] if the type is not "bytes" and
+  /// [SolidityAbiException] if the length constraints are violated.
   static validateBytes(String typeName,
       {List<int>? bytes, int? maxLength, int? minLength}) {
     if (typeName.contains("bytes")) {
       if (bytes != null) {
         if (maxLength != null) {
           if (bytes.length > maxLength) {
-            throw invalidBytesLength;
+            throw const SolidityAbiException("Invalid bytes length");
           }
         }
         if (minLength != null) {
           if (bytes.length < minLength) {
-            throw invalidBytesLength;
+            throw const SolidityAbiException("Invalid bytes length");
           }
         }
       }
     } else {
-      throw invalidBytesParam;
+      throw const SolidityAbiException(
+          "Invalid data provided for bytes codec.");
     }
   }
 
@@ -144,25 +135,26 @@ class _ABIValidator {
   static bool isSignNumber(String type) {
     if (type.startsWith("int")) return true;
     if (type.startsWith("uint")) return false;
-    throw ArgumentException("invalid type expected int or uint got $type");
+    throw const SolidityAbiException("Invalid integer type name.");
   }
 
   /// Validates a boolean type.
   ///
-  /// Throws [ArgumentException] if the type is "bool" and the value is not BigInt.one or BigInt.zero.
+  /// Throws [SolidityAbiException] if the type is "bool" and the value is not BigInt.one or BigInt.zero.
   static void validateBoolean(AbiParameter param, BigInt val) {
     if (param.type == "bool" && (val == BigInt.one || val == BigInt.zero)) {
       return;
     }
-    throw const ArgumentException("invalid boolean");
+    throw const SolidityAbiException(
+        "Invalid data provided for boolean codec.");
   }
 
   /// Validates the length of bytes to avoid decoding errors.
   ///
-  /// Throws [ArgumentError] if there are not enough bytes left to decode.
+  /// Throws [SolidityAbiException] if there are not enough bytes left to decode.
   static void validateBytesLength(List<int> bytes, int length) {
     if (bytes.length < length) {
-      throw ArgumentError("Not enough bytes left to decode");
+      throw const SolidityAbiException("Not enough bytes left to decode");
     }
   }
 
@@ -171,7 +163,7 @@ class _ABIValidator {
   /// This method ensures that the bit length and sign of the provided [value]
   /// match the expected characteristics based on the given [type].
   ///
-  /// Throws [MessageException] if the provided [value] does not match the
+  /// Throws [SolidityAbiException] if the provided [value] does not match the
   /// expected bit length and sign for the given [type].
   static void isValidNumber(String type, BigInt value) {
     int bitLength;
@@ -181,10 +173,14 @@ class _ABIValidator {
         final spl = type.split("int");
         bitLength = int.parse(spl[1]);
         sign = true;
-      } else {
+      } else if (type.startsWith("uint")) {
         final spl = type.split("uint");
         bitLength = int.parse(spl[1]);
         sign = true;
+      } else {
+        throw SolidityAbiException(
+            "Invalid type name provided for number codec.",
+            details: {"type": type, "value": value});
       }
 
       if (sign) {
@@ -196,9 +192,10 @@ class _ABIValidator {
           return;
         }
       }
-      // ignore: empty_catches
-    } catch (e) {}
-    throw MessageException("invalid number for this type",
+    } catch (e) {
+      if (e is SolidityAbiException) rethrow;
+    }
+    throw SolidityAbiException("Invalid data provided for number codec.",
         details: {"type": type, "value": value});
   }
 }

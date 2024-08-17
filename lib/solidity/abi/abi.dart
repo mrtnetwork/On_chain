@@ -32,6 +32,7 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 part 'utils/utils.dart';
+part 'exception/abi_exception.dart';
 part 'types/address.dart';
 part 'types/array.dart';
 part 'types/boolean.dart';

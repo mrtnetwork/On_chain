@@ -3,18 +3,18 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeStake extends LayoutSerializable {
-  final StakeDelegation delegation;
+  final SolanaStakeDelegation delegation;
   final BigInt creditsObserved;
 
   const StakeStake({required this.delegation, required this.creditsObserved});
   factory StakeStake.fromJson(Map<String, dynamic> json) {
     return StakeStake(
-        delegation: StakeDelegation.fromJson(json["delegation"]),
+        delegation: SolanaStakeDelegation.fromJson(json["delegation"]),
         creditsObserved: json["creditsObserved"]);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    StakeDelegation.staticLayout,
+    SolanaStakeDelegation.staticLayout,
     LayoutConst.u64(property: "creditsObserved"),
   ], property: "stake");
 

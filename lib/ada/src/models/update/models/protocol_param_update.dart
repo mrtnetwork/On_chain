@@ -77,28 +77,28 @@ class ProtocolParamUpdate with ADASerialization {
         nOpt: cbor.getValueFromIntKey<CborIntValue?>(8)?.value,
         poolPledgeInfluence: cbor
             .getValueFromIntKey<CborTagValue?>(9)
-            ?.to<UnitInterval, CborTagValue>(
+            ?.castTo<UnitInterval, CborTagValue>(
                 (e) => UnitInterval.deserialize(e)),
-        expansionRate: cbor.getValueFromIntKey<CborTagValue?>(10)?.to<UnitInterval, CborTagValue>(
+        expansionRate: cbor.getValueFromIntKey<CborTagValue?>(10)?.castTo<UnitInterval, CborTagValue>(
             (e) => UnitInterval.deserialize(e)),
         treasuryGrowthRate: cbor
             .getValueFromIntKey<CborTagValue?>(11)
-            ?.to<UnitInterval, CborTagValue>(
+            ?.castTo<UnitInterval, CborTagValue>(
                 (e) => UnitInterval.deserialize(e)),
-        d: cbor.getValueFromIntKey<CborTagValue?>(12)?.to<UnitInterval, CborTagValue>(
+        d: cbor.getValueFromIntKey<CborTagValue?>(12)?.castTo<UnitInterval, CborTagValue>(
             (e) => UnitInterval.deserialize(e)),
         extraEntropy: cbor
             .getValueFromIntKey<CborListValue?>(13)
-            ?.to<Nonce, CborListValue>((e) => Nonce.deserialize(e)),
+            ?.castTo<Nonce, CborListValue>((e) => Nonce.deserialize(e)),
         protocolVersion: cbor
             .getValueFromIntKey<CborListValue?>(14)
-            ?.to<ProtocolVersion, CborListValue>((e) => ProtocolVersion.deserialize(e)),
+            ?.castTo<ProtocolVersion, CborListValue>((e) => ProtocolVersion.deserialize(e)),
         minPoolCost: cbor.getValueFromIntKey<CborObject?>(16)?.getInteger(),
         adaPerUtxoByte: cbor.getValueFromIntKey<CborObject?>(17)?.getInteger(),
-        costModel: cbor.getValueFromIntKey<CborMapValue?>(18)?.to<Costmdls, CborMapValue>((e) => Costmdls.deserialize(e)),
-        executionCosts: cbor.getValueFromIntKey<CborListValue?>(19)?.to<ExUnitPrices, CborListValue>((e) => ExUnitPrices.deserialize(e)),
-        maxTxExUnits: cbor.getValueFromIntKey<CborListValue?>(20)?.to<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
-        maxBlockExUnits: cbor.getValueFromIntKey<CborListValue?>(21)?.to<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
+        costModel: cbor.getValueFromIntKey<CborMapValue?>(18)?.castTo<Costmdls, CborMapValue>((e) => Costmdls.deserialize(e)),
+        executionCosts: cbor.getValueFromIntKey<CborListValue?>(19)?.castTo<ExUnitPrices, CborListValue>((e) => ExUnitPrices.deserialize(e)),
+        maxTxExUnits: cbor.getValueFromIntKey<CborListValue?>(20)?.castTo<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
+        maxBlockExUnits: cbor.getValueFromIntKey<CborListValue?>(21)?.castTo<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
         maxValueSize: cbor.getValueFromIntKey<CborIntValue?>(22)?.value,
         collateralPercentage: cbor.getValueFromIntKey<CborIntValue?>(23)?.value,
         maxCollateralInputs: cbor.getValueFromIntKey<CborIntValue?>(24)?.value);

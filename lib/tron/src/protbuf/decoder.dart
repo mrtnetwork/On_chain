@@ -203,7 +203,7 @@ extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
     });
   }
 
-  E to<E, T>(E Function(T e) toe) {
+  E castTo<E, T>(E Function(T e) toe) {
     return toe(cast<T>());
   }
 }

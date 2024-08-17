@@ -7,7 +7,7 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 class RPCGetCode extends ETHRPCRequest<String?> {
   RPCGetCode({
     required this.address,
-    BlockTagOrNumber? tag = BlockTagOrNumber.finalized,
+    BlockTagOrNumber? tag = BlockTagOrNumber.pending,
   }) : super(blockNumber: tag);
 
   /// eth_getCode
