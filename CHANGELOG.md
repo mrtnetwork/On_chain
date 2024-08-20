@@ -1,3 +1,7 @@
+## 3.9.0
+
+- Fix issue with Ethereum RLP encoding related to leading zero in signature S.
+
 ## 3.8.0
 
 - Update dependencies.

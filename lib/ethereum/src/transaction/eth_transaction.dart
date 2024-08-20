@@ -65,6 +65,22 @@ class _ETHTransactionUtils {
     return (BigInt.from(v) - BigInt.from(35)) ~/ BigInt.two;
   }
 
+  static List<int> trimLeadingZero(List<int> bytes) {
+    List<int> data = bytes;
+    while (data.isNotEmpty) {
+      if (data[0] != 0) break;
+      data = data.sublist(1);
+    }
+    return data;
+  }
+
+  static List<int> leadingZero32Bytes(List<int> bytes) {
+    if (bytes.length >= 32) return bytes;
+    final data = List.filled(32, 0);
+    data.setAll(32 - bytes.length, bytes);
+    return data;
+  }
+
   /// Returns the parity for a given integer [v].
   /// Returns 0 if [v] is 27, otherwise returns 1.
   static int parity(int v) => (v == 27) ? 0 : 1;
@@ -92,8 +108,10 @@ class _ETHTransactionUtils {
     ETHSignature? sig;
     BigInt chainId = BigInt.zero;
     if (decode.length > 6) {
-      final List<int> rBytes = List<int>.from(decode[7]);
-      final List<int> sBytes = List<int>.from(decode[8]);
+      final List<int> rBytes =
+          _ETHTransactionUtils.leadingZero32Bytes(List<int>.from(decode[7]));
+      final List<int> sBytes =
+          _ETHTransactionUtils.leadingZero32Bytes(List<int>.from(decode[8]));
       final v = IntUtils.fromBytes(decode[6]);
       if (rBytes.isEmpty && sBytes.isEmpty) {
         chainId = BigInt.from(v);
@@ -130,8 +148,11 @@ class _ETHTransactionUtils {
         .toList();
     ETHSignature? sig;
     if (decode.length > 8) {
-      final sigBytes =
-          List<int>.from([...decode[9], ...decode[10], ...decode[8]]);
+      final List<int> rBytes =
+          _ETHTransactionUtils.leadingZero32Bytes(List<int>.from(decode[9]));
+      final List<int> sBytes =
+          _ETHTransactionUtils.leadingZero32Bytes(List<int>.from(decode[10]));
+      final sigBytes = List<int>.from([...rBytes, ...sBytes, ...decode[8]]);
       sig = ETHSignature.fromBytes(sigBytes);
     }
     return ETHTransaction._(
@@ -164,8 +185,11 @@ class _ETHTransactionUtils {
         .toList();
     ETHSignature? sig;
     if (decode.length > 9) {
-      final sigBytes =
-          List<int>.from([...decode[10], ...decode[11], ...decode[9]]);
+      final List<int> rBytes =
+          _ETHTransactionUtils.leadingZero32Bytes(List<int>.from(decode[10]));
+      final List<int> sBytes =
+          _ETHTransactionUtils.leadingZero32Bytes(List<int>.from(decode[11]));
+      final sigBytes = List<int>.from([...rBytes, ...sBytes, ...decode[9]]);
       sig = ETHSignature.fromBytes(sigBytes);
     }
     return ETHTransaction._(
@@ -374,9 +398,10 @@ class ETHTransaction {
     if (sig != null) {
       fields.add(
           _ETHTransactionUtils.intToBytes(_ETHTransactionUtils.parity(sig.v)));
-      fields.add(sig.rBytes);
-      fields.add(sig.sBytes);
+      fields.add(_ETHTransactionUtils.trimLeadingZero(sig.rBytes));
+      fields.add(_ETHTransactionUtils.trimLeadingZero(sig.sBytes));
     }
+
     return [ETHTransactionType.eip1559.prefix, ...RLPEncoder.encode(fields)];
   }
 
@@ -396,8 +421,8 @@ class ETHTransaction {
     if (sig != null) {
       fields.add(
           _ETHTransactionUtils.intToBytes(_ETHTransactionUtils.parity(sig.v)));
-      fields.add(sig.rBytes);
-      fields.add(sig.sBytes);
+      fields.add(_ETHTransactionUtils.trimLeadingZero(sig.rBytes));
+      fields.add(_ETHTransactionUtils.trimLeadingZero(sig.sBytes));
     }
     return [ETHTransactionType.eip2930.prefix, ...RLPEncoder.encode(fields)];
   }
@@ -432,8 +457,8 @@ class ETHTransaction {
       throw const MessageException("Mismatch chainID/Signature.V");
     }
     fields.add(BigintUtils.toBytes(v, length: BigintUtils.bitlengthInBytes(v)));
-    fields.add(sig.rBytes);
-    fields.add(sig.sBytes);
+    fields.add(_ETHTransactionUtils.trimLeadingZero(sig.rBytes));
+    fields.add(_ETHTransactionUtils.trimLeadingZero(sig.sBytes));
     return RLPEncoder.encode(fields);
   }
 
