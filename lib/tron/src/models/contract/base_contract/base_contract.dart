@@ -1,3 +1,5 @@
+import 'package:on_chain/tron/src/address/tron_address.dart';
+import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
@@ -19,12 +21,12 @@ abstract class TronProtocolBufferImpl {
   /// Converts the protocol buffer data to a byte buffer.
   List<int> toBuffer() {
     if (values.length != fieldIds.length) {
-      throw MessageException(
+      throw TronPluginException(
           "The values and field IDs must have the same length.",
           details: {
             "values": values,
             "fieldIds": fieldIds,
-            "class": runtimeType.toString(),
+            "class": runtimeType.toString()
           });
     }
     final bytes = DynamicByteTracker();
@@ -40,7 +42,6 @@ abstract class TronProtocolBufferImpl {
       } else {
         encode = ProtocolBufferEncoder.encode(tagNumber, value);
       }
-
       bytes.add(encode);
     }
     return bytes.toBytes();
@@ -58,4 +59,18 @@ abstract class TronProtocolBufferImpl {
 abstract class TronBaseContract extends TronProtocolBufferImpl {
   TransactionContractType get contractType;
   String get typeURL => "type.googleapis.com/protocol.${contractType.name}";
+
+  /// the owner of contract.
+  TronAddress get ownerAddress;
+
+  /// the trx amount of contract;
+  /// if contract need any trx amount for spending, stack, freez or ....
+  BigInt get trxAmount => BigInt.zero;
+
+  T cast<T extends TronBaseContract>() {
+    if (this is! T) {
+      throw const TronPluginException("Incorrect contract casting.");
+    }
+    return this as T;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 
 /// Enum representing different types of permissions within a Tron account.
@@ -37,8 +38,10 @@ class PermissionType implements TronEnumerate {
   /// Returns `null` if no match is found.
   static PermissionType fromName(String? name,
       {PermissionType? defaultPermission}) {
-    return values.firstWhere((element) => element.name == name,
-        orElse: defaultPermission == null ? null : () => defaultPermission);
+    return values.firstWhere((element) => element.name == name, orElse: () {
+      if (defaultPermission != null) return defaultPermission;
+      throw const TronPluginException("No permission Type is found.");
+    });
   }
 
   /// Returns the [PermissionType] associated with the given [value].
@@ -46,7 +49,9 @@ class PermissionType implements TronEnumerate {
   /// Throws an error if no match is found.
   static PermissionType fromValue(int? value,
       {PermissionType? defaultPermission}) {
-    return values.firstWhere((element) => element.value == value,
-        orElse: defaultPermission == null ? null : () => defaultPermission);
+    return values.firstWhere((element) => element.value == value, orElse: () {
+      if (defaultPermission != null) return defaultPermission;
+      throw const TronPluginException("No permission Type is found.");
+    });
   }
 }

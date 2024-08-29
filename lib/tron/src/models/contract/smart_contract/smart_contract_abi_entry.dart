@@ -2,24 +2,33 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/abi_types.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/smart_contract_abi_entry_param.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class SmartContractABIEntry extends TronProtocolBufferImpl {
   /// Create a new [SmartContractABIEntry] instance by parsing a JSON map.
   factory SmartContractABIEntry.fromJson(Map<String, dynamic> json) {
     return SmartContractABIEntry(
-      type: SmartContractAbiEntryType.fromName(json["type"]),
-      stateMutability:
-          SmartContractAbiStateMutabilityType.fromName(json["stateMutability"]),
-      anonymous: json["anonymous"],
-      inputs: (json["inputs"] as List?)
+      anonymous: OnChainUtils.parseBoolean(
+          value: json["anonymous"], name: "anonymous"),
+      type: SmartContractAbiEntryType.fromName(
+          OnChainUtils.parseString(value: json["type"], name: "type")),
+      stateMutability: OnChainUtils.parseString<String?>(
+                  value: json["stateMutability"], name: "stateMutability") ==
+              null
+          ? null
+          : SmartContractAbiStateMutabilityType.fromName(
+              json["stateMutability"]),
+      inputs: OnChainUtils.parseList(value: json["inputs"], name: "inputs")
           ?.map((e) => SmartContractBABIEntryParam.fromJson(e))
           .toList(),
-      outputs: (json["outputs"] as List?)
+      outputs: OnChainUtils.parseList(value: json["outputs"], name: "outputs")
           ?.map((e) => SmartContractBABIEntryParam.fromJson(e))
           .toList(),
-      constant: json["constant"],
-      name: json["name"],
-      payable: json["payable"],
+      constant:
+          OnChainUtils.parseBoolean(value: json["constant"], name: "constant"),
+      name: OnChainUtils.parseString(value: json["name"], name: "name"),
+      payable:
+          OnChainUtils.parseBoolean(value: json["payable"], name: "payable"),
     );
   }
 
@@ -55,8 +64,10 @@ class SmartContractABIEntry extends TronProtocolBufferImpl {
             .toList(),
         type: SmartContractAbiEntryType.fromValue(decode.getField(6)),
         payable: decode.getField(7),
-        stateMutability:
-            SmartContractAbiStateMutabilityType.fromValue(decode.getField(8)));
+        stateMutability: decode.getField<int?>(8) == null
+            ? null
+            : SmartContractAbiStateMutabilityType.fromValue(
+                decode.getField(8)));
   }
   final bool? anonymous;
   final bool? constant;
@@ -70,7 +81,7 @@ class SmartContractABIEntry extends TronProtocolBufferImpl {
   List<int> get fieldIds => [1, 2, 3, 4, 5, 6, 7, 8];
   @override
   List get values => [
-        anonymous,
+        anonymous == false ? null : anonymous,
         constant,
         name,
         inputs,

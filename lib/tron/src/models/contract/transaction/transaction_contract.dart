@@ -3,20 +3,27 @@ import 'package:on_chain/tron/src/models/contract/transaction/any.dart';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class TransactionContract extends TronProtocolBufferImpl {
   /// Create a new [TransactionContract] instance by parsing a JSON map.
   factory TransactionContract.fromJson(Map<String, dynamic> json) {
-    final type = TransactionContractType.findByName(json["type"]);
-    final any = Any.fromJson(json["parameter"]);
-    final int? permissionId =
-        IntUtils.tryParse(json["permission_id"] ?? json["Permission_id"]);
+    final type = TransactionContractType.findByName(
+        OnChainUtils.parseString(value: json["type"], name: "type"));
+    final any = Any.fromJson(OnChainUtils.parseMap(
+        value: json["parameter"], name: "parameter", throwOnNull: true)!);
+    final int? permissionId = OnChainUtils.parseInt(
+        value: json["permission_id"] ?? json["Permission_id"],
+        name: "permission_id");
+
     return TransactionContract(
       type: type,
       parameter: any,
       permissionId: permissionId,
-      provider: StringUtils.tryEncode(json["provider"]),
-      contractName: StringUtils.tryEncode(json["contract_name"]),
+      provider:
+          OnChainUtils.parseBytes(value: json["provider"], name: "provider"),
+      contractName: OnChainUtils.parseBytes(
+          value: json["contract_name"], name: "contract_name"),
     );
   }
 

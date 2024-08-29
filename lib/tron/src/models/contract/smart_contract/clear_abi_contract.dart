@@ -1,14 +1,17 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 /// To clear the ABI info of a smart contract.
 class ClearABIContract extends TronBaseContract {
   /// Create a new [ClearABIContract] instance by parsing a JSON map.
   factory ClearABIContract.fromJson(Map<String, dynamic> json) {
     return ClearABIContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      contractAddress: TronAddress(json["contract_address"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      contractAddress: OnChainUtils.parseTronAddress(
+          value: json["contract_address"], name: "contract_address"),
     );
   }
 
@@ -22,6 +25,7 @@ class ClearABIContract extends TronBaseContract {
   }
 
   /// Owner address of the smart contract
+  @override
   final TronAddress ownerAddress;
 
   /// Smart contract address

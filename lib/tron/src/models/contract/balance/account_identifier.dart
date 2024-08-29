@@ -1,11 +1,14 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 class AccountIdentifier extends TronProtocolBufferImpl {
   /// Create a new [AccountIdentifier] instance by parsing a JSON map.
   factory AccountIdentifier.fromJson(Map<String, dynamic> json) {
-    return AccountIdentifier(address: TronAddress(json["address"]));
+    return AccountIdentifier(
+        address: OnChainUtils.parseTronAddress(
+            value: json["address"], name: "address"));
   }
 
   factory AccountIdentifier.deserialize(List<int> bytes) {

@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
+import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base_contract.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 
@@ -16,7 +17,7 @@ class ProtocolBufferEncoder {
     if (value.bitLength <= _int64BitLength) {
       return;
     }
-    throw MessageException("Value overflows 64-bit signed integer range",
+    throw TronPluginException("Value overflows 64-bit signed integer range",
         details: {"input": value});
   }
 
@@ -25,7 +26,7 @@ class ProtocolBufferEncoder {
     if (value.bitLength <= int32BitLength) {
       return;
     }
-    throw MessageException("Value overflows 32-bit signed integer range",
+    throw TronPluginException("Value overflows 32-bit signed integer range",
         details: {"input": value});
   }
 
@@ -52,7 +53,7 @@ class ProtocolBufferEncoder {
     } else if (value is Map) {
       return _encodeMap(fieldNumber, value);
     }
-    throw MessageException("unsupported type",
+    throw TronPluginException("unsupported type",
         details: {"runtime": value.runtimeType, "value": value});
   }
 

@@ -1,17 +1,20 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 /// Update the consume_user_resource_percent parameter of a smart contract
 class UpdateSettingContract extends TronBaseContract {
   /// Create a new [UpdateSettingContract] instance by parsing a JSON map.
   factory UpdateSettingContract.fromJson(Map<String, dynamic> json) {
     return UpdateSettingContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      contractAddress: TronAddress(json["contract_address"]),
-      consumeUserResourcePercent:
-          BigintUtils.tryParse(json["consume_user_resource_percent"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      contractAddress: OnChainUtils.parseTronAddress(
+          value: json["contract_address"], name: "contract_address"),
+      consumeUserResourcePercent: OnChainUtils.parseBigInt(
+          value: json["consume_user_resource_percent"],
+          name: "consume_user_resource_percent"),
     );
   }
 
@@ -29,6 +32,7 @@ class UpdateSettingContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Contract address

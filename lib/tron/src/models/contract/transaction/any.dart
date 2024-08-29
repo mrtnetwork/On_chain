@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/tron/src/models/contract/account/accout.dart';
+import 'package:on_chain/tron/src/exception/exception.dart';
+import 'package:on_chain/tron/src/models/contract/account/account.dart';
 import 'package:on_chain/tron/src/models/contract/assets_issue_contract/asset.dart';
 import 'package:on_chain/tron/src/models/contract/balance/balance.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
@@ -13,15 +13,20 @@ import 'package:on_chain/tron/src/models/contract/storage_contract/update_broker
 import 'package:on_chain/tron/src/models/contract/vote/vote.dart';
 import 'package:on_chain/tron/src/models/contract/witness/witness.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class Any extends TronProtocolBufferImpl {
   /// Create a new [Any] instance with specified parameters.
   Any({required this.typeUrl, required this.value});
+
   factory Any.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     final String typeUrl = decode.getField(1);
-    final contractType = TransactionContractType.findByName(
-        typeUrl.split("type.googleapis.com/protocol.").last);
+    final parts = typeUrl.split("type.googleapis.com/protocol.");
+    if (parts.length != 2) {
+      throw const TronPluginException("Invalid contract typeUrl.");
+    }
+    final contractType = TransactionContractType.findByName(parts.last);
     final List<int> contractBytes = decode.getField(2);
     TronBaseContract contract;
     switch (contractType) {
@@ -143,7 +148,7 @@ class Any extends TronProtocolBufferImpl {
         contract = WitnessCreateContract.deserialize(contractBytes);
         break;
       default:
-        throw MessageException("Unsupported contract",
+        throw TronPluginException("Unsupported contract",
             details: {"contract": contractType.name});
     }
     return Any(typeUrl: typeUrl, value: contract);
@@ -151,10 +156,15 @@ class Any extends TronProtocolBufferImpl {
 
   /// Create a new [Any] instance by parsing a JSON map.
   factory Any.fromJson(Map<String, dynamic> json) {
-    final String typeUrl = json["type_url"];
-    final contractType = TransactionContractType.findByName(
-        typeUrl.split("type.googleapis.com/protocol.").last);
-    final Map<String, dynamic> contractDetails = json["value"];
+    final String typeUrl =
+        OnChainUtils.parseString(value: json["type_url"], name: "type_url");
+    final parts = typeUrl.split("type.googleapis.com/protocol.");
+    if (parts.length != 2) {
+      throw const TronPluginException("Invalid contract typeUrl");
+    }
+    final contractType = TransactionContractType.findByName(parts.last);
+    final Map<String, dynamic> contractDetails = OnChainUtils.parseMap(
+        value: json["value"], name: "value", throwOnNull: true)!;
     TronBaseContract contract;
     switch (contractType) {
       case TransactionContractType.transferContract:
@@ -275,7 +285,7 @@ class Any extends TronProtocolBufferImpl {
         contract = WitnessCreateContract.fromJson(contractDetails);
         break;
       default:
-        throw MessageException("Unsupported contract",
+        throw TronPluginException("Unsupported contract",
             details: {"contract": contractType.name});
     }
     return Any(typeUrl: typeUrl, value: contract);

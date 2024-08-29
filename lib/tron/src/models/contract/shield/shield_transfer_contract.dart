@@ -1,3 +1,4 @@
+import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/shield/receive_description.dart';
 import 'package:on_chain/tron/src/models/contract/shield/spend_description.dart';
@@ -111,4 +112,7 @@ class ShieldedTransferContract extends TronBaseContract {
   @override
   TransactionContractType get contractType =>
       TransactionContractType.shieldedTransferContract;
+
+  @override
+  TronAddress get ownerAddress => throw UnimplementedError();
 }

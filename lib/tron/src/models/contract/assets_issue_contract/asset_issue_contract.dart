@@ -3,36 +3,49 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/assets_issue_contract/frozensupply.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 class AssetIssueContract extends TronBaseContract {
   /// Create a new [AssetIssueContract] instance by parsing a JSON map.
   factory AssetIssueContract.fromJson(Map<String, dynamic> json) {
     return AssetIssueContract(
-      ownerAddress: TronAddress(json['owner_address']),
-      name: StringUtils.encode(json['name']),
-      abbr: StringUtils.encode(json['abbr']),
-      totalSupply: BigInt.from(json['total_supply']),
-      frozenSupply: (json['frozen_supply'] as List<dynamic>?)
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json['owner_address'], name: "owner_address"),
+      name: OnChainUtils.parseBytes(value: json['name'], name: "name"),
+      abbr: OnChainUtils.parseBytes(value: json['abbr'], name: "abbr"),
+      totalSupply: OnChainUtils.parseBigInt(
+          value: json['total_supply'], name: "total_supply"),
+      frozenSupply: OnChainUtils.parseList(
+              value: json['frozen_supply'], name: "frozen_supply")
           ?.map((frozenSupplyJson) =>
               AssetIssueContractFrozenSupply.fromJson(frozenSupplyJson))
           .toList(),
-      trxNum: json['trx_num'],
-      precision: json['precision'],
-      num: json['num'],
-      startTime: BigintUtils.parse(json['start_time']),
-      endTime: BigintUtils.parse(json['end_time']),
-      order: BigintUtils.tryParse(json['order']),
-      voteScore: json['vote_score'],
-      description: StringUtils.tryEncode(json['description']),
-      url: StringUtils.tryEncode(json['url']),
-      freeAssetNetLimit: BigintUtils.tryParse(json['free_asset_netimit']),
-      publicFreeAssetNetLimit:
-          BigintUtils.tryParse(json['public_free_asset_netimit']),
-      publicFreeAssetNetUsage:
-          BigintUtils.tryParse(json['public_free_asset_net_usage']),
-      publicLatestFreeNetTime:
-          BigintUtils.tryParse(json['publicatest_free_net_time']),
-      id: json['id'],
+      trxNum: OnChainUtils.parseInt(value: json['trx_num'], name: "trx_num"),
+      precision:
+          OnChainUtils.parseInt(value: json['precision'], name: "precision"),
+      num: OnChainUtils.parseInt(value: json["num"], name: "num"),
+      startTime: OnChainUtils.parseBigInt(
+          value: json['start_time'], name: "start_time"),
+      endTime:
+          OnChainUtils.parseBigInt(value: json['end_time'], name: "end_time"),
+      order: OnChainUtils.parseBigInt(value: json['order'], name: "order"),
+      voteScore:
+          OnChainUtils.parseInt(value: json["vote_score"], name: "vote_score"),
+      description: OnChainUtils.parseBytes(
+          value: json['description'], name: "description"),
+      url: OnChainUtils.parseBytes(value: json['url'], name: "url"),
+      freeAssetNetLimit: OnChainUtils.parseBigInt(
+          value: json['free_asset_netimit'], name: "name"),
+      publicFreeAssetNetLimit: OnChainUtils.parseBigInt(
+          value: json['public_free_asset_netimit'],
+          name: "public_free_asset_netimit"),
+      publicFreeAssetNetUsage: OnChainUtils.parseBigInt(
+          value: json['public_free_asset_net_usage'],
+          name: "public_free_asset_net_usage"),
+      publicLatestFreeNetTime: OnChainUtils.parseBigInt(
+          value: json["publicatest_free_net_time"],
+          name: "publicatest_free_net_time"),
+      id: OnChainUtils.parseString(value: json['id'], name: "id"),
     );
   }
 
@@ -59,8 +72,9 @@ class AssetIssueContract extends TronBaseContract {
     this.id,
   })  : name = BytesUtils.toBytes(name, unmodifiable: true),
         abbr = BytesUtils.toBytes(abbr, unmodifiable: true),
-        frozenSupply =
-            frozenSupply != null ? List.unmodifiable(frozenSupply) : null,
+        frozenSupply = (frozenSupply?.isNotEmpty ?? false)
+            ? List.unmodifiable(frozenSupply!)
+            : null,
         description = BytesUtils.tryToBytes(description, unmodifiable: true),
         url = BytesUtils.tryToBytes(url, unmodifiable: true);
 
@@ -92,6 +106,7 @@ class AssetIssueContract extends TronBaseContract {
   }
 
   /// issuer address
+  @override
   final TronAddress ownerAddress;
 
   /// token name

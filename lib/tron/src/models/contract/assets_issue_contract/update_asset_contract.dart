@@ -2,17 +2,22 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 /// Update basic TRC10 token information.
 class UpdateAssetContract extends TronBaseContract {
   /// Create a new [UpdateAssetContract] instance by parsing a JSON map.
   factory UpdateAssetContract.fromJson(Map<String, dynamic> json) {
     return UpdateAssetContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      description: StringUtils.tryEncode(json['description']),
-      url: StringUtils.tryEncode(json['url']),
-      newLimit: BigintUtils.tryParse(json['new_limit']),
-      newPublicLimit: BigintUtils.tryParse(json['new_public_limit']),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      description: OnChainUtils.parseBytes(
+          value: json["description"], name: "description"),
+      url: OnChainUtils.parseBytes(value: json["url"], name: "url"),
+      newLimit:
+          OnChainUtils.parseBigInt(value: json["new_limit"], name: "new_limit"),
+      newPublicLimit: OnChainUtils.parseBigInt(
+          value: json["new_public_limit"], name: "new_public_limit"),
     );
   }
 
@@ -36,6 +41,7 @@ class UpdateAssetContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Description

@@ -40,6 +40,7 @@ class FreezeBalanceContract extends TronBaseContract {
       this.receiverAddress});
 
   /// Owner address
+  @override
   final TronAddress ownerAddress;
 
   /// TRX stake amount

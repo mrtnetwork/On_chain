@@ -8,7 +8,7 @@ import 'tron_test_abi.dart';
 void main() async {
   /// For Tron: If the output parameters include an address, set isTron to true.
   /// If it doesn't, set isTron to false to receive an ETH address instead of a Tron address.
-  final contract = ContractABI.fromJson(tronContract["entrys"]!, isTron: true);
+  final contract = ContractABI.fromJson(tronContract["entrys"]!);
   final rpc =
       TronProvider(TronHTTPProvider(url: "https://api.shasta.trongrid.io"));
   final call1 = await rpc.request(TronRequestTriggerConstantContract.fromMethod(

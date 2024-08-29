@@ -1,32 +1,57 @@
+import 'package:on_chain/tron/src/address/tron_address.dart';
+import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/account/authority.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/transaction_contract.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class TransactionRaw extends TronProtocolBufferImpl {
   /// Create a new [TransactionRaw] instance by parsing a JSON map.
   factory TransactionRaw.fromJson(Map<String, dynamic> json) {
-    final contractList = (json['contract'] as List)
-        .map((contract) => TransactionContract.fromJson(contract))
+    final contractList = OnChainUtils.parseList(
+            value: json["contract"], name: "contract", throwOnNull: true)!
+        .map((e) => TransactionContract.fromJson(OnChainUtils.parseMap(
+            value: e, name: "contract", throwOnNull: true)!))
         .toList();
+    if (contractList.length != 1) {
+      throw const TronPluginException(
+          "Transaction must contain exactly one contract.");
+    }
 
     return TransactionRaw(
       contract: contractList,
-      refBlockBytes: BytesUtils.fromHexString(json['ref_block_bytes']),
-      refBlockHash: BytesUtils.fromHexString(json['ref_block_hash']),
-      expiration: BigintUtils.parse(json['expiration']),
-      timestamp: BigintUtils.parse(json['timestamp']),
-      data: StringUtils.tryEncode(json["data"]),
-      feeLimit: BigintUtils.tryParse(json["fee_limit"]),
-      refBlockNum: BigintUtils.tryParse(json["ref_block_num"]),
-      scripts: BytesUtils.tryFromHexString(json['scripts']),
-      auths:
-          (json["auths"] as List?)?.map((e) => Authority.fromJson(e)).toList(),
+      refBlockBytes: OnChainUtils.parseHex(
+          value: json['ref_block_bytes'], name: "ref_block_bytes"),
+      refBlockHash: OnChainUtils.parseHex(
+          value: json['ref_block_hash'], name: "ref_block_hash"),
+      expiration: OnChainUtils.parseBigInt(
+          value: json['expiration'], name: "expiration"),
+      timestamp:
+          OnChainUtils.parseBigInt(value: json['timestamp'], name: "timestamp"),
+      data: OnChainUtils.parseBytes(value: json["data"], name: "data"),
+      feeLimit:
+          OnChainUtils.parseBigInt(value: json["fee_limit"], name: "fee_limit"),
+      refBlockNum: OnChainUtils.parseBigInt(
+          value: json["ref_block_num"], name: "ref_block_num"),
+      scripts: OnChainUtils.parseHex(value: json["scripts"], name: "scripts"),
+      auths: OnChainUtils.parseList(value: json["auths"], name: "auths")
+          ?.map((e) => Authority.fromJson(OnChainUtils.parseMap(
+              value: e, name: "auths", throwOnNull: true)!))
+          .toList(),
     );
   }
   factory TransactionRaw.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
+    final contracts = decode
+        .getFields<List<int>>(11)
+        .map((e) => TransactionContract.deserialize(e))
+        .toList();
+    if (contracts.length != 1) {
+      throw const TronPluginException(
+          "Transaction must contain exactly one contract.");
+    }
     return TransactionRaw(
         refBlockBytes: decode.getField(1),
         refBlockNum: decode.getField(3),
@@ -37,10 +62,7 @@ class TransactionRaw extends TronProtocolBufferImpl {
             .map((e) => Authority.deserialize(e))
             .toList(),
         data: decode.getField(10),
-        contract: decode
-            .getFields<List<int>>(11)
-            .map((e) => TransactionContract.deserialize(e))
-            .toList(),
+        contract: contracts,
         scripts: decode.getField(12),
         timestamp: decode.getField(14),
         feeLimit: decode.getField(18));
@@ -62,7 +84,7 @@ class TransactionRaw extends TronProtocolBufferImpl {
         refBlockHash = BytesUtils.toBytes(refBlockHash, unmodifiable: true),
         data = BytesUtils.tryToBytes(data, unmodifiable: true),
         scripts = BytesUtils.tryToBytes(scripts, unmodifiable: true),
-        auths = auths == null ? null : List.unmodifiable(auths),
+        auths = auths == null ? null : List<Authority>.unmodifiable(auths),
         contract = List<TransactionContract>.unmodifiable(contract);
 
   /// The reference block bytes of the transaction.
@@ -99,9 +121,9 @@ class TransactionRaw extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "ref_block_bytes": BytesUtils.tryToHexString(refBlockBytes),
+      "ref_block_bytes": BytesUtils.toHexString(refBlockBytes),
       "ref_block_num": refBlockNum?.toString(),
-      "ref_block_hash": BytesUtils.tryToHexString(refBlockHash),
+      "ref_block_hash": BytesUtils.toHexString(refBlockHash),
       "expiration": expiration.toString(),
       "auths": auths?.map((auth) => auth.toJson()).toList(),
       "data": StringUtils.tryDecode(data),
@@ -161,6 +183,34 @@ class TransactionRaw extends TronProtocolBufferImpl {
 
   /// bytes length of encoded transaction
   late final int length = toBuffer().length;
+
+  TronAddress get ownerAddress {
+    if (contract.isEmpty) {
+      throw const TronPluginException("Transaction contains no contract.");
+    }
+    return contract[0].parameter.value.ownerAddress;
+  }
+
+  T getContract<T extends TronBaseContract>() {
+    if (contract.isEmpty) {
+      throw const TronPluginException("Transaction contains no contract.");
+    }
+    return contract[0].parameter.value.cast();
+  }
+
+  int? permissionId() {
+    if (contract.isEmpty) {
+      throw const TronPluginException("Transaction contains no contract.");
+    }
+    return contract[0].permissionId;
+  }
+
+  TransactionContractType get type {
+    if (contract.isEmpty) {
+      throw const TronPluginException("Transaction contains no contract.");
+    }
+    return contract[0].type;
+  }
 
   /// Convert the [TransactionRaw] object to its string representation.
   @override

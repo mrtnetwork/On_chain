@@ -2,13 +2,16 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class SetAccountIdContract extends TronBaseContract {
   /// Create a new [SetAccountIdContract] instance by parsing a JSON map.
   factory SetAccountIdContract.fromJson(Map<String, dynamic> json) {
     return SetAccountIdContract(
-      accountId: StringUtils.encode(json["account_id"]),
-      ownerAddress: TronAddress(json["owner_address"]),
+      accountId: OnChainUtils.parseBytes(
+          value: json["account_id"], name: "account_id"),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
     );
   }
 
@@ -25,6 +28,7 @@ class SetAccountIdContract extends TronBaseContract {
         ownerAddress: TronAddress.fromBytes(decode.getField(2)));
   }
   final List<int> accountId;
+  @override
   final TronAddress ownerAddress;
 
   @override
@@ -39,7 +43,7 @@ class SetAccountIdContract extends TronBaseContract {
     return {
       "owner_address": ownerAddress.toString(),
       "account_id": StringUtils.decode(accountId)
-    }..removeWhere((key, value) => value == null);
+    };
   }
 
   /// Convert the [SetAccountIdContract] object to its string representation.

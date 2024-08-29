@@ -61,7 +61,7 @@ void main() {
       ],
       "stateMutability": "payable",
       "type": "function"
-    }, false);
+    });
     final params = [
       [
         [
@@ -94,7 +94,7 @@ void main() {
       ],
       "stateMutability": "nonpayable",
       "type": "function"
-    }, false);
+    });
     final params = [];
     final encodeHex = fragment.encodeHex(params);
     expect(encodeHex, encoded);
@@ -163,7 +163,7 @@ void main() {
       ],
       "stateMutability": "payable",
       "type": "function"
-    }, false);
+    });
     final params = [
       [
         ETHAddress("0x305AEdB55Cd62106e075f0fE6cbDF0DA52FeDbDB"),
@@ -202,7 +202,7 @@ void main() {
       "payable": false,
       "stateMutability": "view",
       "type": "function"
-    }, false);
+    });
     final params = [
       "METNETWORKMETNETWORKMETNETWORKMETNETWORKMETNETWORKMETNETWORKMETNETWORKMETNETWORKMETNETWORKMETNETWORK"
     ];
@@ -275,7 +275,7 @@ void main() {
       ],
       "stateMutability": "payable",
       "type": "function"
-    }, true);
+    });
     final params = [
       [
         TronAddress.fromEthAddress(BytesUtils.fromHexString(

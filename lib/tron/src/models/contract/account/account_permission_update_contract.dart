@@ -2,18 +2,23 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/account/permission.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 /// Update the account's permission.
 class AccountPermissionUpdateContract extends TronBaseContract {
   /// Create a new [AccountPermissionUpdateContract] instance by parsing a JSON map.
   factory AccountPermissionUpdateContract.fromJson(Map<String, dynamic> json) {
     return AccountPermissionUpdateContract(
-        ownerAddress: TronAddress(json["owner_address"]),
-        owner: Permission.fromJson(json["owner"]),
-        witness: json["witness"] == null
-            ? null
-            : Permission.fromJson(json["witness"]),
-        actives: (json["actives"] as List?)
+        ownerAddress: OnChainUtils.parseTronAddress(
+            value: json["owner_address"], name: "owner_address"),
+        owner: Permission.fromJson(OnChainUtils.parseMap(
+            value: json["owner"], name: "owner", throwOnNull: true)!),
+        witness:
+            OnChainUtils.parseMap(value: json["witness"], name: "witness") ==
+                    null
+                ? null
+                : Permission.fromJson(json["witness"]),
+        actives: OnChainUtils.parseList(value: json["actives"], name: "actives")
                 ?.map((e) => Permission.fromJson(e))
                 .toList() ??
             <Permission>[]);
@@ -42,6 +47,7 @@ class AccountPermissionUpdateContract extends TronBaseContract {
       : actives = List<Permission>.unmodifiable(actives);
 
   /// account address
+  @override
   final TronAddress ownerAddress;
 
   /// The owner permission of the account.

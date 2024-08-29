@@ -27,7 +27,6 @@
 library abi;
 
 import 'package:on_chain/solidity/address/core.dart';
-import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 

@@ -38,7 +38,7 @@ void main() async {
     "name": "transfer",
     "stateMutability": "nonpayable",
     "type": "function"
-  }, false);
+  });
 
   /// Request EIP-1559 historical fee data from the RPC service
   final eip1559HistoricalFee = await rpc.request(RPCGetFeeHistory(

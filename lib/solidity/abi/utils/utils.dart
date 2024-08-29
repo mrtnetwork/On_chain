@@ -78,10 +78,7 @@ class _ABIUtils {
     }
     return Tuple(
         AbiParameter(
-            type: arrayParamType,
-            name: '',
-            components: abi.components,
-            tronTypes: abi.tronTypes),
+            type: arrayParamType, name: '', components: abi.components),
         size);
   }
 }

@@ -15,9 +15,7 @@ class AddressCoder implements ABICoder<SolidityAddress> {
     final addrBytes = bytes.sublist(
         ABIConst.uintBytesLength - addrLength, ABIConst.uintBytesLength);
     return DecoderResult(
-        result: params.tronTypes
-            ? TronAddress.fromEthAddress(addrBytes)
-            : ETHAddress.fromBytes(addrBytes),
+        result: SolidityAddress.fromBytes(addrBytes),
         consumed: ABIConst.uintBytesLength,
         name: params.name);
   }

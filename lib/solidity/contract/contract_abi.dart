@@ -12,11 +12,10 @@ class ContractABI {
   ContractABI._(this.fragments);
 
   /// Factory method to create a ContractABI instance from JSON.
-  factory ContractABI.fromJson(List<Map<String, dynamic>> abi,
-      {bool isTron = false}) {
+  factory ContractABI.fromJson(List<Map<String, dynamic>> abi) {
     try {
       final fragments = abi.map((e) {
-        return AbiBaseFragment.fromJson(e, isTron);
+        return AbiBaseFragment.fromJson(e);
       }).toList();
       return ContractABI._(fragments);
     } catch (e) {

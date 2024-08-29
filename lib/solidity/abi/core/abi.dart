@@ -65,7 +65,7 @@ class AbiParameter {
   final String type;
 
   /// Flag indicating whether Tron types are used.
-  final bool tronTypes;
+  // final bool tronTypes;
 
   /// The base type, if applicable.
   final String? baseType;
@@ -84,7 +84,6 @@ class AbiParameter {
     /// The name of the parameter.
     required this.name,
     required this.type,
-    this.tronTypes = false,
     this.baseType,
     this.indexed = false,
     this.components = const [],
@@ -113,7 +112,7 @@ class AbiParameter {
   }
 
   /// Factory method to create an AbiParameter instance from a JSON representation.
-  factory AbiParameter.fromJson(Map<String, dynamic> json, bool tronTypes) {
+  factory AbiParameter.fromJson(Map<String, dynamic> json) {
     final List<dynamic> inputs = json["components"] ?? [];
     final String name = json["name"] ?? "";
     return AbiParameter(
@@ -121,9 +120,8 @@ class AbiParameter {
       type: json["type"],
       internalType: json["internalType"],
       indexed: json["indexed"] ?? false,
-      tronTypes: tronTypes,
       components: List<AbiParameter>.unmodifiable(
-          inputs.map((e) => AbiParameter.fromJson(e, tronTypes)).toList()),
+          inputs.map((e) => AbiParameter.fromJson(e)).toList()),
     );
   }
 

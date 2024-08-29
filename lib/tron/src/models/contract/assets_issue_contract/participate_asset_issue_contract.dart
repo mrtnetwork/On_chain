@@ -2,16 +2,20 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 /// Participate in an asset issue.
 class ParticipateAssetIssueContract extends TronBaseContract {
   /// Create a new [ParticipateAssetIssueContract] instance by parsing a JSON map.
   factory ParticipateAssetIssueContract.fromJson(Map<String, dynamic> json) {
     return ParticipateAssetIssueContract(
-      ownerAddress: TronAddress(json['owner_address']),
-      toAddress: TronAddress(json['to_address']),
-      assetName: StringUtils.encode(json['asset_name']),
-      amount: BigintUtils.parse(json['amount']),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      toAddress: OnChainUtils.parseTronAddress(
+          value: json["to_address"], name: "to_address"),
+      assetName: OnChainUtils.parseBytes(
+          value: json["asset_name"], name: "asset_name"),
+      amount: OnChainUtils.parseBigInt(value: json["amount"], name: "amount"),
     );
   }
 
@@ -32,6 +36,7 @@ class ParticipateAssetIssueContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Issuer's address

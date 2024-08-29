@@ -30,6 +30,7 @@ class UnfreezeBalanceContract extends TronBaseContract {
       {required this.ownerAddress, this.resource, this.receiverAddress});
 
   /// Transaction initiator address
+  @override
   final TronAddress ownerAddress;
 
   /// Resource type

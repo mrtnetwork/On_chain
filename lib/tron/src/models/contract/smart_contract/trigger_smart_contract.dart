@@ -2,17 +2,23 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 class TriggerSmartContract extends TronBaseContract {
   /// Create a new [TriggerSmartContract] instance by parsing a JSON map.
   factory TriggerSmartContract.fromJson(Map<String, dynamic> json) {
     return TriggerSmartContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      contractAddress: TronAddress(json["contract_address"]),
-      data: BytesUtils.tryFromHexString(json["data"]),
-      callTokenValue: BigintUtils.tryParse(json["call_token_value"]),
-      callValue: BigintUtils.tryParse(json["call_value"]),
-      tokenId: BigintUtils.tryParse(json["token_id"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      contractAddress: OnChainUtils.parseTronAddress(
+          value: json["contract_address"], name: "contract_address"),
+      data: OnChainUtils.parseHex(value: json["data"], name: "data"),
+      callTokenValue: OnChainUtils.parseBigInt(
+          value: json["call_token_value"], name: "call_token_value"),
+      callValue: OnChainUtils.parseBigInt(
+          value: json["call_value"], name: "call_value"),
+      tokenId:
+          OnChainUtils.parseBigInt(value: json["token_id"], name: "token_id"),
     );
   }
 
@@ -37,6 +43,7 @@ class TriggerSmartContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Contract address
@@ -67,7 +74,7 @@ class TriggerSmartContract extends TronBaseContract {
     return {
       "owner_address": ownerAddress.toString(),
       "contract_address": contractAddress.toString(),
-      "data": BytesUtils.tryToHexString(data!),
+      "data": BytesUtils.tryToHexString(data),
       "call_value": callValue?.toString(),
       "call_token_value": callTokenValue?.toString(),
       "token_id": tokenId?.toString()
@@ -83,4 +90,7 @@ class TriggerSmartContract extends TronBaseContract {
   @override
   TransactionContractType get contractType =>
       TransactionContractType.triggerSmartContract;
+
+  @override
+  BigInt get trxAmount => callValue ?? BigInt.zero;
 }

@@ -8,4 +8,13 @@ class SolidityAbiException extends BlockchainUtilsException {
   final String message;
 
   const SolidityAbiException(this.message, {this.details});
+
+  @override
+  String toString() {
+    String msg = message;
+    if (details?.isNotEmpty ?? false) {
+      msg += ' Details: $details';
+    }
+    return msg;
+  }
 }

@@ -36,7 +36,7 @@ void main() async {
     "name": "transfer",
     "stateMutability": "nonpayable",
     "type": "function"
-  }, false);
+  });
 
   /// Build an Ethereum transaction for a contract call (transfer)
   final tr = ETHTransactionBuilder.contract(

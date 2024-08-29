@@ -1,18 +1,24 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/smart_contract.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 /// Deploys a contract
 class CreateSmartContract extends TronBaseContract {
   /// Create a new [CreateSmartContract] instance by parsing a JSON map.
   factory CreateSmartContract.fromJson(Map<String, dynamic> json) {
     return CreateSmartContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      newContract: SmartContract.fromJson(json["new_contract"]),
-      callTokenValue: BigintUtils.tryParse(json["call_token_value"]),
-      tokenId: BigintUtils.tryParse(json["token_id"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      newContract: SmartContract.fromJson(OnChainUtils.parseMap(
+          value: json["new_contract"],
+          name: "new_contract",
+          throwOnNull: true)!),
+      callTokenValue: OnChainUtils.parseBigInt(
+          value: json["call_token_value"], name: "call_token_value"),
+      tokenId:
+          OnChainUtils.parseBigInt(value: json["token_id"], name: "token_id"),
     );
   }
 
@@ -32,6 +38,7 @@ class CreateSmartContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Deployed contract data, the fields contained in it
@@ -69,4 +76,9 @@ class CreateSmartContract extends TronBaseContract {
   @override
   TransactionContractType get contractType =>
       TransactionContractType.createSmartContract;
+
+  @override
+  BigInt get trxAmount => newContract.callValue ?? BigInt.zero;
+
+  bool get hasTokenTransfer => callTokenValue != null && tokenId != null;
 }

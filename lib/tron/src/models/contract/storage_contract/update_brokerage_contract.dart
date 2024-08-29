@@ -1,7 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class UpdateBrokerageContract extends TronBaseContract {
   /// Create a new [UpdateBrokerageContract] instance with specified parameters.
@@ -10,8 +10,10 @@ class UpdateBrokerageContract extends TronBaseContract {
   /// Create a new [UpdateBrokerageContract] instance by parsing a JSON map.
   factory UpdateBrokerageContract.fromJson(Map<String, dynamic> json) {
     return UpdateBrokerageContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      brokerage: IntUtils.tryParse(json["brokerage"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      brokerage:
+          OnChainUtils.parseInt(value: json["brokerage"], name: "brokerage"),
     );
   }
   factory UpdateBrokerageContract.deserialize(List<int> bytes) {
@@ -22,6 +24,7 @@ class UpdateBrokerageContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Dividend ratio, from 0 to 100, 1 represents 1%

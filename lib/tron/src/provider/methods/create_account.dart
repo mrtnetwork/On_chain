@@ -1,5 +1,5 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
-import 'package:on_chain/tron/src/models/contract/account/accout.dart';
+import 'package:on_chain/tron/src/models/contract/account/account.dart';
 import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';

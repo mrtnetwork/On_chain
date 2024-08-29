@@ -2,16 +2,22 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class MarketSellAssetContract extends TronBaseContract {
   /// Create a new [MarketSellAssetContract] instance by parsing a JSON map.
   factory MarketSellAssetContract.fromJson(Map<String, dynamic> json) {
     return MarketSellAssetContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      sellTokenId: BytesUtils.tryFromHexString(json["sell_token_id"]),
-      sellTokenQuantity: BigintUtils.tryParse(json["sell_token_quantity"]),
-      buyTokenId: BytesUtils.tryFromHexString(json["buy_token_id"]),
-      buyTokenQuantity: BigintUtils.tryParse(json["buy_token_quantity"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      sellTokenId: OnChainUtils.parseBytes(
+          value: json["sell_token_id"], name: "sell_token_id"),
+      sellTokenQuantity: OnChainUtils.parseBigInt(
+          value: json["sell_token_quantity"], name: "sell_token_quantity"),
+      buyTokenId: OnChainUtils.parseBytes(
+          value: json["buy_token_id"], name: "buy_token_id"),
+      buyTokenQuantity: OnChainUtils.parseBigInt(
+          value: json["buy_token_quantity"], name: "buy_token_quantity"),
     );
   }
 
@@ -35,6 +41,7 @@ class MarketSellAssetContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
   final List<int>? sellTokenId;
   final BigInt? sellTokenQuantity;
@@ -62,7 +69,7 @@ class MarketSellAssetContract extends TronBaseContract {
       "sell_token_quantity": sellTokenQuantity?.toString(),
       "buy_token_id": BytesUtils.tryToHexString(buyTokenId),
       "buy_token_quantity": buyTokenQuantity?.toString(),
-    };
+    }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [MarketSellAssetContract] object to its string representation.

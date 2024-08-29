@@ -2,17 +2,23 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 /// Creates a trading pair.
 class ExchangeCreateContract extends TronBaseContract {
   /// Create a new [ExchangeCreateContract] instance by parsing a JSON map.
   factory ExchangeCreateContract.fromJson(Map<String, dynamic> json) {
     return ExchangeCreateContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      firstTokenId: BytesUtils.tryFromHexString(json["first_token_id"]),
-      firstTokenBalance: BigintUtils.tryParse(json["first_token_balance"]),
-      secondTokenId: BytesUtils.tryFromHexString(json["second_token_id"]),
-      secondTokenBalance: BigintUtils.tryParse(json["second_token_balance"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      firstTokenId: OnChainUtils.parseBytes(
+          value: json["first_token_id"], name: "first_token_id"),
+      firstTokenBalance: OnChainUtils.parseBigInt(
+          value: json["first_token_balance"], name: "first_token_balance"),
+      secondTokenId: OnChainUtils.parseBytes(
+          value: json["second_token_id"], name: "second_token_id"),
+      secondTokenBalance: OnChainUtils.parseBigInt(
+          value: json["second_token_balance"], name: "second_token_balance"),
     );
   }
   factory ExchangeCreateContract.deserialize(List<int> bytes) {
@@ -37,6 +43,7 @@ class ExchangeCreateContract extends TronBaseContract {
             BytesUtils.tryToBytes(secondTokenId, unmodifiable: true);
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// First token id
@@ -68,11 +75,11 @@ class ExchangeCreateContract extends TronBaseContract {
   Map<String, dynamic> toJson() {
     return {
       "owner_address": ownerAddress.toString(),
-      "first_token_id": BytesUtils.tryToHexString(firstTokenId),
+      "first_token_id": StringUtils.tryDecode(firstTokenId),
       "first_token_balance": firstTokenBalance?.toString(),
-      "second_token_id": BytesUtils.tryToHexString(secondTokenId),
+      "second_token_id": StringUtils.tryDecode(secondTokenId),
       "second_token_balance": secondTokenBalance?.toString(),
-    };
+    }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [ExchangeCreateContract] object to its string representation.

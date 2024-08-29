@@ -1,7 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 /// Unstake some TRX staked in Stake2.0,
 /// release the corresponding amount of bandwidth or energy,
@@ -10,9 +10,13 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
   /// Create a new [UnfreezeBalanceV2Contract] instance by parsing a JSON map.
   factory UnfreezeBalanceV2Contract.fromJson(Map<String, dynamic> json) {
     return UnfreezeBalanceV2Contract(
-        ownerAddress: TronAddress(json["owner_address"]),
-        unfreezeBalance: BigintUtils.parse(json["unfreeze_balance"]),
-        resource: ResourceCode.fromName(json["resource"]));
+        ownerAddress: OnChainUtils.parseTronAddress(
+            value: json["owner_address"], name: "owner_address"),
+        unfreezeBalance: OnChainUtils.parseBigInt(
+            value: json["unfreeze_balance"], name: "unfreeze_balance"),
+        resource: ResourceCode.fromName(
+            OnChainUtils.parseString(value: json["resource"], name: "resource"),
+            orElse: ResourceCode.bandWidth));
   }
   factory UnfreezeBalanceV2Contract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -31,6 +35,7 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
       this.resource});
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Unstake amount, unit is sun
@@ -43,8 +48,11 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
   List<int> get fieldIds => [1, 2, 3];
 
   @override
-  List get values =>
-      [ownerAddress, unfreezeBalance, resource?.value == 0 ? null : resource];
+  List get values => [
+        ownerAddress,
+        unfreezeBalance,
+        resource == ResourceCode.bandWidth ? null : resource,
+      ];
 
   /// Convert the [UnfreezeBalanceV2Contract] object to a JSON representation.
   @override
@@ -53,7 +61,7 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
       "owner_address": ownerAddress.toString(),
       "unfreeze_balance": unfreezeBalance.toString(),
       "resource": resource?.name
-    };
+    }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [UnfreezeBalanceV2Contract] object to its string representation.

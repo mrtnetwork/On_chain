@@ -1,3 +1,7 @@
+import 'package:blockchain_utils/bip/address/eth_addr.dart';
+import 'package:blockchain_utils/bip/coin_conf/coins_conf.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 /// An abstract class representing a hexadecimal address in solidity smart conteract system.
 /// such as Ethereum and Tron (visible address).
 ///
@@ -8,9 +12,34 @@
 /// Implementations for specific blockchain addresses, such as Ethereum
 /// (`ETHAddress`) and Tron (`TronAddress`), will provide concrete
 /// implementations for these methods.
-abstract class SolidityAddress {
-  /// Converts the hexadecimal address to a bytes.
-  List<int> toBytes();
+class SolidityAddress {
+  final String _hexAddress;
+  const SolidityAddress.unsafe(this._hexAddress);
+  factory SolidityAddress(String address, {bool skipChecksum = true}) {
+    address = StringUtils.strip0x(address);
+    if (address.length > EthAddrConst.addrLen &&
+        address.toLowerCase().startsWith("41")) {
+      address = address.substring(2);
+    }
+    EthAddrDecoder().decodeAddr(
+        "${CoinsConf.ethereum.params.addrPrefix}$address",
+        {"skip_chksum_enc": skipChecksum});
+    return SolidityAddress.unsafe(EthAddrUtils.toChecksumAddress(address));
+  }
+  factory SolidityAddress.fromBytes(List<int> bytes,
+      {bool skipChecksum = true}) {
+    return SolidityAddress(BytesUtils.toHexString(bytes));
+  }
 
-  String toHex();
+  /// Converts the hexadecimal address to a bytes.
+  List<int> toBytes() {
+    return BytesUtils.fromHexString(_hexAddress);
+  }
+
+  String toHex() => _hexAddress;
+
+  @override
+  String toString() {
+    return _hexAddress;
+  }
 }

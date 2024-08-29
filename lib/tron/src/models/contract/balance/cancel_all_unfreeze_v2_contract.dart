@@ -1,6 +1,7 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 /// Cancel unstakings, all unstaked funds still in the waiting period will be re-staked,
 /// all unstaked funds that exceeded the 14-day waiting period will be automatically
@@ -9,7 +10,8 @@ class CancelAllUnfreezeV2Contract extends TronBaseContract {
   /// Create a new [CancelAllUnfreezeV2Contract] instance by parsing a JSON map.
   factory CancelAllUnfreezeV2Contract.fromJson(Map<String, dynamic> json) {
     return CancelAllUnfreezeV2Contract(
-        ownerAddress: TronAddress(json["owner_address"]));
+        ownerAddress: OnChainUtils.parseTronAddress(
+            value: json["owner_address"], name: "owner_address"));
   }
 
   /// Create a new [CancelAllUnfreezeV2Contract] instance with specified parameters.
@@ -21,6 +23,7 @@ class CancelAllUnfreezeV2Contract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   @override

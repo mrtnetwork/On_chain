@@ -2,16 +2,20 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 /// Withdraws the transaction pair.
 class ExchangeWithdrawContract extends TronBaseContract {
   /// Create a new [ExchangeWithdrawContract] instance by parsing a JSON map.
   factory ExchangeWithdrawContract.fromJson(Map<String, dynamic> json) {
     return ExchangeWithdrawContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      exchangeId: BigintUtils.tryParse(json["exchange_id"]),
-      tokenId: BytesUtils.tryFromHexString(json["token_id"]),
-      quant: BigintUtils.tryParse(json["quant"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      exchangeId: OnChainUtils.parseBigInt(
+          value: json["exchange_id"], name: "exchange_id"),
+      tokenId:
+          OnChainUtils.parseBytes(value: json["token_id"], name: "token_id"),
+      quant: OnChainUtils.parseBigInt(value: json["quant"], name: "quant"),
     );
   }
   factory ExchangeWithdrawContract.deserialize(List<int> bytes) {
@@ -32,6 +36,7 @@ class ExchangeWithdrawContract extends TronBaseContract {
       : tokenId = BytesUtils.tryToBytes(tokenId);
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Exchange id

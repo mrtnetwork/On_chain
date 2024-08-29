@@ -1,3 +1,4 @@
+import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 
 /// Enum representing different types of transaction contracts on the Tron blockchain.
@@ -146,7 +147,9 @@ class TransactionContractType implements TronEnumerate {
   ///
   /// Case-sensitive matching is performed.
   static TransactionContractType findByName(String name) {
-    return values.firstWhere((element) => element.name == name);
+    return values.firstWhere((element) => element.name == name,
+        orElse: () =>
+            throw const TronPluginException("Contact does not found."));
   }
 
   /// Finds and returns a [TransactionContractType] by its [value].

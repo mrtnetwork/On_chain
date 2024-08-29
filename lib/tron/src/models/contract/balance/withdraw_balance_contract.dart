@@ -17,6 +17,7 @@ class WithdrawBalanceContract extends TronBaseContract {
     return WithdrawBalanceContract(
         ownerAddress: TronAddress.fromBytes(decode.getField(1)));
   }
+  @override
   final TronAddress ownerAddress;
 
   @override

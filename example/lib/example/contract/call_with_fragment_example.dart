@@ -31,7 +31,7 @@ void main() async {
       ],
       "stateMutability": "pure",
       "type": "function"
-    }, false),
+    }),
     params: [
       BigInt.from(12),
       BigInt.from(150),

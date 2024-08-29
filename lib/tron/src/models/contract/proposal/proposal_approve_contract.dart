@@ -1,16 +1,19 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 /// Approves proposed transaction.
 class ProposalApproveContract extends TronBaseContract {
   /// Create a new [ProposalApproveContract] instance by parsing a JSON map.
   factory ProposalApproveContract.fromJson(Map<String, dynamic> json) {
     return ProposalApproveContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      proposalId: BigintUtils.tryParse(json["proposal_id"]),
-      isAddApproval: json["is_add_approval"],
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      proposalId: OnChainUtils.parseBigInt(
+          value: json["proposal_id"], name: "proposal_id"),
+      isAddApproval: OnChainUtils.parseBoolean(
+          value: json["is_add_approval"], name: "is_add_approval"),
     );
   }
   factory ProposalApproveContract.deserialize(List<int> bytes) {
@@ -26,6 +29,7 @@ class ProposalApproveContract extends TronBaseContract {
       {required this.ownerAddress, this.proposalId, this.isAddApproval});
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Proposal id
@@ -47,7 +51,7 @@ class ProposalApproveContract extends TronBaseContract {
       "owner_address": ownerAddress.toString(),
       "proposal_id": proposalId?.toString(),
       "is_add_approval": isAddApproval,
-    };
+    }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [ProposalApproveContract] object to its string representation.

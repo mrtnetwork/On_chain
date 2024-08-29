@@ -23,7 +23,7 @@ void main() async {
   final rpc =
       TronProvider(TronHTTPProvider(url: "https://api.shasta.trongrid.io"));
 
-  final contract = ContractABI.fromJson(trc20Abi, isTron: true);
+  final contract = ContractABI.fromJson(trc20Abi);
 
   final function = contract.functionFromName("transfer");
 

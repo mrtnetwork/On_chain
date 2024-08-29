@@ -38,7 +38,7 @@ void main() async {
     "name": "transfer",
     "stateMutability": "nonpayable",
     "type": "function"
-  }, false);
+  });
 
   /// Request gas price from the RPC service
   final gasPrice = await rpc.request(RPCGetGasPrice());

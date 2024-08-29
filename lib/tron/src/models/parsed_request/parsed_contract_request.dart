@@ -55,8 +55,12 @@ class ParsedSmartContractRequest {
       if (outputs.isEmpty) {
         decodeResult = [];
       } else {
-        decodeResult =
-            fragment.decodeOutput(BytesUtils.fromHexString(outputs.first));
+        try {
+          decodeResult =
+              fragment.decodeOutput(BytesUtils.fromHexString(outputs.first));
+        } catch (_) {
+          decodeResult = null;
+        }
       }
     }
 

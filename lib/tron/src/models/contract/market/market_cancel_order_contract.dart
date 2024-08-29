@@ -2,13 +2,16 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class MarketCancelOrderContract extends TronBaseContract {
   /// Create a new [MarketCancelOrderContract] instance by parsing a JSON map.
   factory MarketCancelOrderContract.fromJson(Map<String, dynamic> json) {
     return MarketCancelOrderContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      orderId: BytesUtils.tryFromHexString(json["order_id"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      orderId:
+          OnChainUtils.parseBytes(value: json["order_id"], name: "order_id"),
     );
   }
 
@@ -23,6 +26,7 @@ class MarketCancelOrderContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
   final List<int>? orderId;
 
@@ -38,7 +42,7 @@ class MarketCancelOrderContract extends TronBaseContract {
     return {
       "owner_address": ownerAddress.toString(),
       "order_id": BytesUtils.tryToHexString(orderId)
-    };
+    }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [MarketCancelOrderContract] object to its string representation.

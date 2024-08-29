@@ -1,5 +1,5 @@
 import 'package:on_chain/ethereum/src/models/log_entry.dart';
-import 'package:on_chain/utils/number_utils.dart';
+import 'package:on_chain/utils/utils/number_utils.dart';
 
 /// Represents the receipt of an Ethereum transaction.
 class TransactionReceipt {

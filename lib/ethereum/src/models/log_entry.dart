@@ -1,4 +1,4 @@
-import 'package:on_chain/utils/number_utils.dart';
+import 'package:on_chain/utils/utils/number_utils.dart';
 
 /// Represents an entry in Ethereum transaction logs.
 class LogEntry {

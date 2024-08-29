@@ -1,3 +1,4 @@
+import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 
 /// Enum representing different types of entries in a smart contract's ABI (Application Binary Interface).
@@ -66,13 +67,19 @@ class SmartContractAbiEntryType implements TronEnumerate {
   /// Case-insensitive matching is performed.
   static SmartContractAbiEntryType fromName(String name) {
     return values.firstWhere(
-        (element) => element.name.toLowerCase() == name.toLowerCase());
+      (element) => element.name.toLowerCase() == name.toLowerCase(),
+      orElse: () => throw const TronPluginException(
+          "SmartContractAbiEntryType was not found."),
+    );
   }
 
   static SmartContractAbiEntryType fromValue(int? value,
       {SmartContractAbiEntryType? orElese}) {
-    return values.firstWhere((element) => element.value == value,
-        orElse: orElese == null ? null : () => orElese);
+    return values.firstWhere((element) => element.value == value, orElse: () {
+      if (orElese != null) return orElese;
+      throw const TronPluginException(
+          "SmartContractAbiEntryType was not found.");
+    });
   }
 
   @override
@@ -135,13 +142,20 @@ class SmartContractAbiStateMutabilityType implements TronEnumerate {
   /// Case-insensitive matching is performed.
   static SmartContractAbiStateMutabilityType fromName(String name) {
     return values.firstWhere(
-        (element) => element.name.toLowerCase() == name.toLowerCase());
+        (element) => element.name.toLowerCase() == name.toLowerCase(),
+        orElse: () {
+      throw const TronPluginException(
+          "SmartContractAbiStateMutabilityType was not found.");
+    });
   }
 
   static SmartContractAbiStateMutabilityType fromValue(int? value,
       {SmartContractAbiStateMutabilityType? orElese}) {
-    return values.firstWhere((element) => element.value == value,
-        orElse: orElese == null ? null : () => orElese);
+    return values.firstWhere((element) => element.value == value, orElse: () {
+      if (orElese != null) return orElese;
+      throw const TronPluginException(
+          "SmartContractAbiStateMutabilityType was not found.");
+    });
   }
 
   @override

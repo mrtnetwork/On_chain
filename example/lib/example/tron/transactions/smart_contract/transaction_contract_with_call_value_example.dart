@@ -18,8 +18,7 @@ void main() async {
   final rpc =
       TronProvider(TronHTTPProvider(url: "https://api.shasta.trongrid.io"));
 
-  final contract =
-      ContractABI.fromJson(payableContractTest["entrys"]!, isTron: true);
+  final contract = ContractABI.fromJson(payableContractTest["entrys"]!);
 
   final function = contract.functionFromName("PayWithTRX");
 

@@ -1,4 +1,4 @@
-export 'account/accout.dart';
+export 'account/account.dart';
 export 'assets_issue_contract/asset.dart';
 export 'balance/balance.dart';
 export 'base_contract/base.dart';

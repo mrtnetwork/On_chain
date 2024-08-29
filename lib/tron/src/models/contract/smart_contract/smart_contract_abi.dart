@@ -1,5 +1,6 @@
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 import 'smart_contract_abi_entry.dart';
 
@@ -11,7 +12,7 @@ class SmartContractABI extends TronProtocolBufferImpl {
   /// Create a new [SmartContractABI] instance by parsing a JSON map.
   factory SmartContractABI.fromJson(Map<String, dynamic> json) {
     return SmartContractABI(
-        entrys: (json["entrys"] as List?)
+        entrys: OnChainUtils.parseList(value: json["entrys"], name: "entrys")
                 ?.map((e) => SmartContractABIEntry.fromJson(e))
                 .toList() ??
             <SmartContractABIEntry>[]);

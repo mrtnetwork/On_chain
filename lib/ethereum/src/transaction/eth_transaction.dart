@@ -2,7 +2,7 @@ import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/rlp/decode.dart';
 import 'package:on_chain/ethereum/src/rlp/encode.dart';
 import 'package:on_chain/ethereum/src/models/access_list.dart';
-import 'package:on_chain/utils/number_utils.dart';
+import 'package:on_chain/utils/utils/number_utils.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// Represents the type of an Ethereum transaction.

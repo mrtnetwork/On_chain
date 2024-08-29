@@ -3,18 +3,27 @@ import 'package:on_chain/tron/src/models/contract/account/key.dart';
 import 'package:on_chain/tron/src/models/contract/account/permission_type.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 class Permission extends TronProtocolBufferImpl {
   /// Create a new [Permission] instance by parsing a JSON map.
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
-        type: PermissionType.fromName(json["type"]),
-        id: json["id"],
-        permissionName: json["permission_name"],
-        operations: BytesUtils.tryFromHexString(json["operations"]),
-        keys: (json["keys"] as List?)?.map((e) => TronKey.fromJson(e)).toList(),
-        parentId: json["parent_id"],
-        threshold: BigintUtils.tryParse(json["threshold"]));
+        type: PermissionType.fromName(
+            OnChainUtils.parseString(value: json["type"], name: "type"),
+            defaultPermission: PermissionType.owner),
+        id: OnChainUtils.parseInt(value: json["id"], name: "id"),
+        permissionName: OnChainUtils.parseString(
+            value: json["permission_name"], name: "permission_name"),
+        operations: OnChainUtils.parseHex(
+            value: json["operations"], name: "operations"),
+        keys: OnChainUtils.parseList(value: json["keys"], name: "keys")
+            ?.map((e) => TronKey.fromJson(e))
+            .toList(),
+        parentId:
+            OnChainUtils.parseInt(value: json["parent_id"], name: "parent_id"),
+        threshold: OnChainUtils.parseBigInt(
+            value: json["threshold"], name: "threshold"));
   }
 
   /// Factory method to create a new [Permission] instance with specified parameters.
@@ -75,8 +84,15 @@ class Permission extends TronProtocolBufferImpl {
   List<int> get fieldIds => [1, 2, 3, 4, 5, 6, 7];
 
   @override
-  List get values =>
-      [type, id, permissionName, threshold, parentId, operations, keys];
+  List get values => [
+        type == PermissionType.owner ? null : type,
+        id,
+        permissionName,
+        threshold,
+        parentId,
+        operations,
+        keys,
+      ];
 
   /// Convert the [Permission] object to a JSON representation.
   @override
@@ -89,7 +105,7 @@ class Permission extends TronProtocolBufferImpl {
       "id": id,
       "parent_id": parentId,
       "operations": BytesUtils.tryToHexString(operations),
-    };
+    }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [Permission] object to its string representation.

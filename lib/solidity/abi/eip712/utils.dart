@@ -81,11 +81,13 @@ class _EIP712Utils {
     }
     switch (type) {
       case "address":
-        if (value is TronAddress) {
-          return value.toAddress();
-        } else {
-          return (value as ETHAddress).address;
+        if (value is String) {
+          return value;
         }
+        if (value is SolidityAddress) {
+          return value.toHex();
+        }
+        break;
       case "bool":
       case "string":
         return value;
@@ -100,19 +102,17 @@ class _EIP712Utils {
   /// If the value is a string, it is parsed to create an ETHAddress or TronAddress.
   /// Throws a [SolidityAbiException] for invalid input.
   static SolidityAddress ensureIsAddress(dynamic value) {
-    if (value is ETHAddress) return value;
-    if (value is List<int>) {
-      if (value.length == TronAddress.lengthInBytes) {
-        return TronAddress.fromBytes(value);
-      }
-      return ETHAddress.fromBytes(value);
-    } else if (value is String) {
-      try {
-        return ETHAddress(value);
-      } catch (e) {
+    try {
+      if (value is SolidityAddress) return value;
+      if (value is List<int>) {
+        return SolidityAddress.fromBytes(value);
+      } else if (value is String) {
+        if (StringUtils.isHexBytes(value)) {
+          return SolidityAddress(value);
+        }
         return TronAddress(value);
       }
-    }
+    } catch (_) {}
     throw SolidityAbiException("Invalid data provided for address codec.",
         details: {"input": value});
   }

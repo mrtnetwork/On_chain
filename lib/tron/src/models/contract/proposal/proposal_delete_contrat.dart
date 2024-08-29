@@ -1,15 +1,17 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 /// Deletes Proposal Transaction.
 class ProposalDeleteContract extends TronBaseContract {
   /// Create a new [ProposalDeleteContract] instance by parsing a JSON map.
   factory ProposalDeleteContract.fromJson(Map<String, dynamic> json) {
     return ProposalDeleteContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      proposalId: BigintUtils.tryParse(json["proposal_id"]),
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json["owner_address"], name: "owner_address"),
+      proposalId: OnChainUtils.parseBigInt(
+          value: json["proposal_id"], name: "proposal_id"),
     );
   }
 
@@ -23,6 +25,7 @@ class ProposalDeleteContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// 	Proposal id

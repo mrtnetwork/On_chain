@@ -3,20 +3,22 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 
 import 'package:on_chain/tron/src/models/contract/vote/vote_witness_contract_vote.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils.dart';
 
 class VoteWitnessContract extends TronBaseContract {
   /// Create a new [VoteWitnessContract] instance by parsing a JSON map.
   factory VoteWitnessContract.fromJson(Map<String, dynamic> json) {
-    final ownerAddress = TronAddress(json['owner_address']);
-    final votes = (json['votes'] as List?)
-        ?.map((vote) => VoteWitnessContractVote.fromJson(vote))
-        .toList();
-    final support = json['support'];
-
     return VoteWitnessContract(
-      ownerAddress: ownerAddress,
-      votes: votes,
-      support: support,
+      ownerAddress: OnChainUtils.parseTronAddress(
+          value: json['owner_address'], name: "owner_address"),
+      votes:
+          OnChainUtils.parseList<dynamic>(value: json["votes"], name: "votes")
+              ?.map((vote) => VoteWitnessContractVote.fromJson(
+                  OnChainUtils.parseMap(
+                      value: vote, name: "vote", throwOnNull: true)!))
+              .toList(),
+      support:
+          OnChainUtils.parseBoolean(value: json["support"], name: "support"),
     );
   }
 
@@ -38,6 +40,7 @@ class VoteWitnessContract extends TronBaseContract {
             .toList(),
         support: decode.getField(3));
   }
+  @override
   final TronAddress ownerAddress;
   final List<VoteWitnessContractVote>? votes;
   final bool? support;
@@ -55,7 +58,7 @@ class VoteWitnessContract extends TronBaseContract {
       "owner_address": ownerAddress.toString(),
       "votes": votes?.map((vote) => vote.toJson()).toList(),
       "support": support,
-    };
+    }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [VoteWitnessContract] object to its string representation.

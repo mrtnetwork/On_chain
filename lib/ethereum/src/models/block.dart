@@ -1,5 +1,5 @@
 import 'package:on_chain/ethereum/src/models/transaction.dart';
-import 'package:on_chain/utils/number_utils.dart';
+import 'package:on_chain/utils/utils/number_utils.dart';
 
 /// Represents a withdrawal in the context of Ethereum block.
 class Withdrawal {

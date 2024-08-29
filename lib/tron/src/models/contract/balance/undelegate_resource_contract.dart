@@ -34,6 +34,7 @@ class UnDelegateResourceContract extends TronBaseContract {
   }
 
   /// Account address
+  @override
   final TronAddress ownerAddress;
 
   /// Resource type
@@ -64,7 +65,7 @@ class UnDelegateResourceContract extends TronBaseContract {
       "receiver_address": receiverAddress.toString(),
       "balance": balance.toString(),
       "resource": resource?.name
-    };
+    }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [UnDelegateResourceContract] object to its string representation.

@@ -7,9 +7,10 @@ class Transaction extends TronProtocolBufferImpl {
   /// Create a new [Transaction] instance by parsing a JSON map.
   factory Transaction.fromJson(Map<String, dynamic> json) {
     final rawData = TransactionRaw.fromJson(json['raw_data']);
-    final signature = (json['signature'] as List)
-        .map((s) => BytesUtils.fromHexString(s))
-        .toList();
+    final signature = (json['signature'] as List?)
+            ?.map((s) => BytesUtils.fromHexString(s))
+            .toList() ??
+        [];
 
     return Transaction(rawData: rawData, signature: signature);
   }
@@ -24,7 +25,7 @@ class Transaction extends TronProtocolBufferImpl {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return Transaction(
         rawData: TransactionRaw.deserialize(decode.getField(1)),
-        signature: decode.getField(2));
+        signature: decode.getField<List<List<int>>?>(2) ?? const []);
   }
 
   /// The raw data of the transaction.
@@ -46,7 +47,7 @@ class Transaction extends TronProtocolBufferImpl {
   Map<String, dynamic> toJson() {
     return {
       "raw_data": rawData.toJson(),
-      "signature": signature.map((s) => BytesUtils.toHexString(s)).toList(),
+      "signature": signature.map((s) => BytesUtils.toHexString(s)).toList()
     };
   }
 

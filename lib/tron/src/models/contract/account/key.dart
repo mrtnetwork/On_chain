@@ -1,14 +1,16 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
+import 'package:on_chain/utils/utils/utils.dart';
 
 class TronKey extends TronProtocolBufferImpl {
   /// Create a new [TronKey] instance by parsing a JSON map.
   factory TronKey.fromJson(Map<String, dynamic> json) {
     return TronKey(
-        address: TronAddress(json["address"]),
-        weight: BigintUtils.parse(json["weight"]));
+        address: OnChainUtils.parseTronAddress(
+            value: json["address"], name: "address"),
+        weight:
+            OnChainUtils.parseBigInt(value: json["weight"], name: "weight"));
   }
   factory TronKey.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -48,10 +50,7 @@ class TronKey extends TronProtocolBufferImpl {
   /// Convert the [TronKey] object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "address": address,
-      "weight": weight,
-    };
+    return {"address": address, "weight": weight};
   }
 
   /// Convert the [TronKey] object to its string representation.

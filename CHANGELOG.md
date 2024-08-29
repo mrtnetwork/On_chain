@@ -1,3 +1,7 @@
+## 4.0.0
+
+- Fix tron objects descrialization 
+
 ## 3.9.0
 
 - Fix issue with Ethereum RLP encoding related to leading zero in signature S.
