@@ -1,6 +1,11 @@
+## 4.0.1
+
+- Resolve issues with TRON model deserialization on the web.
+
+
 ## 4.0.0
 
-- Fix tron objects descrialization 
+- Resolve issues with TRON model deserialization.
 
 ## 3.9.0
 

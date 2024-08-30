@@ -7,6 +7,7 @@ class ProtocolBufferDecoder {
     int index = 0;
     while (index < bytes.length) {
       final decodeTag = _decodeVarint(bytes.sublist(index));
+
       index += decodeTag.consumed;
       final int tag = decodeTag.value;
       final int fieldId = tag >> 3;
@@ -58,7 +59,7 @@ class ProtocolBufferDecoder {
     int index = 0;
     while (true) {
       int byte = data[index++];
-      value |= BigInt.from((byte & 0x7F) << shift);
+      value |= BigInt.from((byte & 0x7F)) << shift;
       if ((byte & 0x80) == 0) {
         break;
       }
