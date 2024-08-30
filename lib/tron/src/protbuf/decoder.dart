@@ -70,7 +70,7 @@ class ProtocolBufferDecoder {
 
   static _Result _decodeInt(List<int> data) {
     final index = data.indexWhere((element) => (element & 0x80) == 0);
-    if (index <= 4) {
+    if (index < 4) {
       return _decodeVarint(data);
     }
     return _decodeBigVarint(data);
@@ -176,6 +176,8 @@ extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
         }
         return (value == 1 ? true : false) as T;
       }
+    } else if (value is BigInt && 0 is T) {
+      return (value as BigInt).toInt() as T;
     }
     throw TronPluginException("Invalid type.",
         details: {"type": "$T", "Excepted": value.runtimeType.toString()});

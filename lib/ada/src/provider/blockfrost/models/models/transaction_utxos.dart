@@ -8,7 +8,7 @@ class ADATransactionUTXOSResponse {
   /// List of outputs
   final List<ADATransactionOutput> outputs;
 
-  ADATransactionUTXOSResponse({
+  const ADATransactionUTXOSResponse({
     required this.hash,
     required this.inputs,
     required this.outputs,
@@ -16,12 +16,11 @@ class ADATransactionUTXOSResponse {
 
   factory ADATransactionUTXOSResponse.fromJson(Map<String, dynamic> json) {
     return ADATransactionUTXOSResponse(
-      hash: json['hash'],
-      inputs: List<ADATransactionInput>.from((json['inputs'] as List)
-          .map((inputJson) => ADATransactionInput.fromJson(inputJson))),
-      outputs: List<ADATransactionOutput>.from((json['outputs'] as List)
-          .map((outputJson) => ADATransactionOutput.fromJson(outputJson))),
-    );
+        hash: json['hash'],
+        inputs: List<ADATransactionInput>.from((json['inputs'] as List)
+            .map((inputJson) => ADATransactionInput.fromJson(inputJson))),
+        outputs: List<ADATransactionOutput>.from((json['outputs'] as List)
+            .map((outputJson) => ADATransactionOutput.fromJson(outputJson))));
   }
 
   Map<String, dynamic> toJson() {
@@ -63,10 +62,14 @@ class ADATransactionInput {
   /// Whether the input is a reference transaction input
   final bool reference;
 
+  /// inputs amounts
+  final List<ADATransactionAmount> amount;
+
   ADATransactionInput({
     required this.address,
     required this.txHash,
     required this.outputIndex,
+    required this.amount,
     this.dataHash,
     this.inlineDatum,
     this.referenceScriptHash,
@@ -84,6 +87,10 @@ class ADATransactionInput {
       referenceScriptHash: json['reference_script_hash'],
       collateral: json['collateral'],
       reference: json['reference'],
+      amount: (json['amount'] as List?)
+              ?.map((e) => ADATransactionAmount.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 
@@ -97,6 +104,7 @@ class ADATransactionInput {
       'reference_script_hash': referenceScriptHash,
       'collateral': collateral,
       'reference': reference,
+      'amount': amount.map((e) => e.toJson()).toList()
     };
   }
 
@@ -125,9 +133,13 @@ class ADATransactionOutput {
   /// The hash of the reference script of the output
   final String? referenceScriptHash;
 
+  /// output amounts
+  final List<ADATransactionAmount> amount;
+
   ADATransactionOutput({
     required this.address,
     required this.outputIndex,
+    required this.amount,
     this.dataHash,
     this.inlineDatum,
     required this.collateral,
@@ -142,6 +154,10 @@ class ADATransactionOutput {
       inlineDatum: json['inline_datum'],
       collateral: json['collateral'],
       referenceScriptHash: json['reference_script_hash'],
+      amount: (json['amount'] as List?)
+              ?.map((e) => ADATransactionAmount.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 
@@ -153,11 +169,24 @@ class ADATransactionOutput {
       'inline_datum': inlineDatum,
       'collateral': collateral,
       'reference_script_hash': referenceScriptHash,
+      'amount': amount.map((e) => e.toJson()).toList()
     };
   }
 
   @override
   String toString() {
     return "ADATransactionOutput${toJson()}";
+  }
+}
+
+class ADATransactionAmount {
+  final String unit;
+  final String quantity;
+  const ADATransactionAmount({required this.unit, required this.quantity});
+  factory ADATransactionAmount.fromJson(Map<String, dynamic> json) {
+    return ADATransactionAmount(unit: json["unit"], quantity: json["quantity"]);
+  }
+  Map<String, dynamic> toJson() {
+    return {"unit": unit, "quantity": quantity};
   }
 }

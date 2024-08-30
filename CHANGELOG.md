@@ -1,6 +1,7 @@
 ## 4.0.1
 
 - Resolve issues with TRON model deserialization on the web.
+- Add amount to `ADATransactionOutput` model #9
 
 
 ## 4.0.0

@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/tron.dart';
 import 'package:test/test.dart';
 
@@ -83,7 +84,8 @@ void issueTrc10() {
     final transaction = Transaction.fromJson(issueJson);
     expect(transaction.rawData.txID,
         "f8c7adadffe7b5baed4169287eaa9088739a66bec193855265e84d3f4ce29d4c");
-    final decBuffer = Transaction.deserialize(transaction.toBuffer());
+    final decBuffer = Transaction.deserialize(BytesUtils.fromHexString(
+        "0aca010a02f5b722086b94058b90a9d3894098958fc398325aab01080612a6010a2f747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e41737365744973737565436f6e747261637412730a1541084937b3f86ea7bbca86f2809809a65ed8a7ada9120a4d52544e4554574f524b1a034d525420e087b7a12530013806400148e0bc8bc3983250e0f4a4ec9832a2010e4d5254205445535420544f4b454eaa011d68747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b70b8c08bc39832"));
     expect(transaction.rawData.txID, decBuffer.rawData.txID);
     final decodeJson = Transaction.fromJson(decBuffer.toJson());
     expect(transaction.rawData.txID, decodeJson.rawData.txID);
