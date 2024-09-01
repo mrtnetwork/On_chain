@@ -12,4 +12,11 @@ class CompiledInnerInstruction {
             .map((e) => CompiledInstruction.fromJson(e))
             .toList());
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "index": index,
+      "instructions": instructions.map((e) => e.toJson()).toList()
+    };
+  }
 }

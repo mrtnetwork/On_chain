@@ -19,7 +19,7 @@ class SPLToken2022InitializeTransferHookLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.transferFeeExtension.insturction,
+      instruction: SPLTokenProgramInstruction.transferHookExtension.insturction,
     );
     return SPLToken2022InitializeTransferHookLayout(
         authority: decode["authority"],
@@ -28,8 +28,8 @@ class SPLToken2022InitializeTransferHookLayout extends SPLTokenProgramLayout {
 
   static final StructLayout _layout = LayoutConst.struct([
     LayoutConst.u8(property: "instruction"),
-    // LayoutConst.wrap(TransferHookInstruction.staticLayout,
-    //     property: "transferHook"),
+    LayoutConst.wrap(TransferHookInstruction.staticLayout,
+        property: "transferHook"),
     SolanaLayoutUtils.publicKey("authority"),
     SolanaLayoutUtils.publicKey("transferHookProgramId")
   ]);
@@ -38,8 +38,8 @@ class SPLToken2022InitializeTransferHookLayout extends SPLTokenProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.transferHookExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.transferHookExtension;
 
   @override
   Map<String, dynamic> serialize() {

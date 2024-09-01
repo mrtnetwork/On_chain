@@ -56,7 +56,8 @@ class VoteProgramAuthorizeWithSeedLayout extends VoteProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => VoteProgramInstruction.authorizeWithSeed.insturction;
+  VoteProgramInstruction get instruction =>
+      VoteProgramInstruction.authorizeWithSeed;
 
   @override
   Map<String, dynamic> serialize() {

@@ -35,8 +35,8 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.uiAmountToAmount.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.uiAmountToAmount;
 
   /// Serializes the layout data.
   @override

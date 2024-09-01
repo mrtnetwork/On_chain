@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/constant.dart';
 
 class MetaplexTokenEntanglerProgramInstruction
     implements ProgramLayoutInstruction {
@@ -28,8 +30,14 @@ class MetaplexTokenEntanglerProgramInstruction
     try {
       return values.firstWhere(
           (element) => BytesUtils.bytesEqual(element.insturction, value));
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexTokenEntangler";
+
+  @override
+  SolAddress get programAddress => MetaplexTokenEntanglerProgramConst.programId;
 }

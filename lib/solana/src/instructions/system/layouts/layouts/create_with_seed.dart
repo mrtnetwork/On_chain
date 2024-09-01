@@ -51,7 +51,8 @@ class SystemCreateWithSeedLayout extends SystemProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction => SystemProgramInstruction.createWithSeed.insturction;
+  SystemProgramInstruction get instruction =>
+      SystemProgramInstruction.createWithSeed;
   @override
   Map<String, dynamic> serialize() {
     return {

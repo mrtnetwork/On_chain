@@ -24,8 +24,8 @@ class MetaplexAuctionHouseCancelRemainingAccountsLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction => MetaplexAuctionHouseProgramInstruction
-      .cancelRemainingAccounts.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.cancelRemainingAccounts;
 
   @override
   Map<String, dynamic> serialize() {

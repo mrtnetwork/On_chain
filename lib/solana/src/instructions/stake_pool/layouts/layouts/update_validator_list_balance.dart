@@ -33,8 +33,8 @@ class StakePoolUpdateValidatorListBalanceLayout extends StakePoolProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.updateValidatorListBalance.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.updateValidatorListBalance;
   @override
   Map<String, dynamic> serialize() {
     return {"startIndex": startIndex, "noMerge": noMerge};

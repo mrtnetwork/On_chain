@@ -1,3 +1,5 @@
+import 'package:on_chain/solana/src/exception/exception.dart';
+
 /// For preflight checks and transaction processing, Solana nodes choose which bank state to query based on a commitment
 /// requirement set by the client. The commitment describes how finalized a block is at that point in time.
 /// When querying the ledger state, it's recommended to use lower levels of commitment to report progress and
@@ -21,6 +23,15 @@ class Commitment {
 
   /// the node will query its most recent block. Note that the block may still be skipped by the cluster.
   static const Commitment finalized = Commitment._("finalized");
+  static const List<Commitment> values = [processed, confirmed, finalized];
+  static Commitment fromName(String value, {Commitment? defaultValue}) {
+    return values.firstWhere((e) => e.value == value, orElse: () {
+      if (defaultValue == null) {
+        throw const SolanaPluginException("Invalid commitment");
+      }
+      return defaultValue;
+    });
+  }
 
   @override
   String toString() {

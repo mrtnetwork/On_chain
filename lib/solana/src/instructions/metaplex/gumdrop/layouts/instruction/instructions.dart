@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/constant.dart';
 
 class MetaplexGumdropProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -43,14 +45,23 @@ class MetaplexGumdropProgramInstruction implements ProgramLayoutInstruction {
     claimEdition,
     closeDistributor,
     closeDistributorTokenAccount,
-    newDistributor
+    newDistributor,
+    recoverUpdateAuthority,
+    proveClaim,
+    claimCandyProven
   ];
   static MetaplexGumdropProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere(
           (element) => BytesUtils.bytesEqual(element.insturction, value));
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexGumdrop";
+
+  @override
+  SolAddress get programAddress => MetaplexGumdropProgramConst.programId;
 }

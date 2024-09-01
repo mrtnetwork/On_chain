@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/spl_token_swap/constant.dart';
 
 class SPLTokenSwapProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -29,8 +31,14 @@ class SPLTokenSwapProgramInstruction implements ProgramLayoutInstruction {
   static SPLTokenSwapProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere((element) => element.insturction == value);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "SPLTokenSwap";
+
+  @override
+  SolAddress get programAddress => SPLTokenSwapConst.tokenSwapProgramId;
 }

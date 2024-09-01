@@ -22,11 +22,16 @@ class AssociatedTokenAccountProgramRecoverNestedLayout
   StructLayout get layout => _layout;
 
   @override
-  int? get instruction =>
-      AssociatedTokenAccountProgramInstruction.recoverNested.insturction;
+  AssociatedTokenAccountProgramInstruction get instruction =>
+      AssociatedTokenAccountProgramInstruction.recoverNested;
 
   @override
   Map<String, dynamic> serialize() {
+    return {};
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
     return {};
   }
 }

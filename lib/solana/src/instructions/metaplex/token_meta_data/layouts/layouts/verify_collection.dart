@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataVerifyCollectionLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.verifyCollection.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.verifyCollection;
 
   @override
   Map<String, dynamic> serialize() {

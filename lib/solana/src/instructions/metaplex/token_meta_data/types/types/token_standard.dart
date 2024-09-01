@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -34,7 +34,7 @@ class MetaDataTokenStandard extends LayoutSerializable {
   static MetaDataTokenStandard fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No MetaDataTokenStandard found matching the specified value",
           details: {"value": value}),
     );
@@ -43,7 +43,7 @@ class MetaDataTokenStandard extends LayoutSerializable {
   static MetaDataTokenStandard fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No MetaDataTokenStandard found matching the specified value",
           details: {"value": value}),
     );

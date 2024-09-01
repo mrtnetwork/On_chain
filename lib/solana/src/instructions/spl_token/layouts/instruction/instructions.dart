@@ -1,8 +1,9 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final dynamic insturction;
   @override
   final String name;
   const SPLTokenProgramInstruction(this.insturction, this.name);
@@ -90,6 +91,9 @@ class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
   static const SPLTokenProgramInstruction groupMemberPointerExtension =
       SPLTokenProgramInstruction(41, "GroupMemberPointerExtension");
 
+  static const SPLTokenProgramInstruction execute = SPLTokenProgramInstruction(
+      [105, 37, 101, 197, 75, 251, 102, 26], "Execute");
+
   static const List<SPLTokenProgramInstruction> values = [
     initializeMint,
     initializeAccount,
@@ -129,6 +133,7 @@ class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
     initializePermanentDelegate,
     transferHookExtension,
     metadataPointerExtension,
+    execute
   ];
   static SPLTokenProgramInstruction? getInstruction(dynamic value) {
     try {
@@ -137,4 +142,10 @@ class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
       return null;
     }
   }
+
+  @override
+  String get programName => "SPLToken";
+
+  @override
+  SolAddress get programAddress => throw UnimplementedError();
 }

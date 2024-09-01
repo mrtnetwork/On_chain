@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .updatePrimarySaleHappenedViaToken.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.updatePrimarySaleHappenedViaToken;
 
   @override
   Map<String, dynamic> serialize() {

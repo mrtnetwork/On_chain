@@ -22,8 +22,8 @@ class MetaplexNFTPacksDeletePackCardLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.deletePackCard.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.deletePackCard;
 
   @override
   Map<String, dynamic> serialize() {

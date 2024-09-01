@@ -34,8 +34,8 @@ class SPLTokenInitializeAccount2Layout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.initializeAccount2.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.initializeAccount2;
 
   /// Serializes the layout.
   @override

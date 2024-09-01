@@ -47,8 +47,8 @@ class MetaplexTokenEntanglerCreateEntangledPairLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexTokenEntanglerProgramInstruction.createEntangledPair.insturction;
+  MetaplexTokenEntanglerProgramInstruction get instruction =>
+      MetaplexTokenEntanglerProgramInstruction.createEntangledPair;
 
   @override
   Map<String, dynamic> serialize() {

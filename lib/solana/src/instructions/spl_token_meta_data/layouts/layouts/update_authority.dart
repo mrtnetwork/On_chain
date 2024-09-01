@@ -43,8 +43,8 @@ class SPLTokenMetaDataUpdateAuthorityLayout
 
   /// Gets the instruction bytes for the update authority instruction.
   @override
-  List<int> get instruction =>
-      SPLTokenMetaDataProgramSplDiscriminate.updateAuthority.insturction;
+  SPLTokenMetaDataProgramSplDiscriminate get instruction =>
+      SPLTokenMetaDataProgramSplDiscriminate.updateAuthority;
 
   /// Serializes the update authority data for transmission.
   @override

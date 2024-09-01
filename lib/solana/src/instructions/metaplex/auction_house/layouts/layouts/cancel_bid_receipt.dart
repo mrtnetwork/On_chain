@@ -24,8 +24,8 @@ class MetaplexAuctionHouseCancelBidReceiptLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctionHouseProgramInstruction.cancelBidReceipt.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.cancelBidReceipt;
 
   @override
   Map<String, dynamic> serialize() {

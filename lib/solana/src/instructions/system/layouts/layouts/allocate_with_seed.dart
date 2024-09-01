@@ -45,7 +45,8 @@ class SystemAllocateWithSeedLayout extends SystemProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => SystemProgramInstruction.allocateWithSeed.insturction;
+  SystemProgramInstruction get instruction =>
+      SystemProgramInstruction.allocateWithSeed;
   @override
   Map<String, dynamic> serialize() {
     return {"base": base, "seed": seed, "space": space, "programId": programId};

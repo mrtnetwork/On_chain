@@ -38,8 +38,8 @@ class SPLToken2022InterestBearingMintInitializeLayout
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.interestBearingMintExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.interestBearingMintExtension;
 
   @override
   Map<String, dynamic> serialize() {

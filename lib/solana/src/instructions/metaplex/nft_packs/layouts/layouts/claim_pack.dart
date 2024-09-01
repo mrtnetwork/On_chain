@@ -23,8 +23,8 @@ class MetaplexNFTPacksClaimPackLayout extends MetaplexNFTPacksProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.claimPack.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.claimPack;
 
   @override
   Map<String, dynamic> serialize() {

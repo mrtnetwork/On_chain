@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/vote/constant.dart';
 
 class VoteProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -18,13 +20,18 @@ class VoteProgramInstruction implements ProgramLayoutInstruction {
     initializeAccount,
     authorize,
     withdraw,
-    authorizeWithSeed,
+    authorizeWithSeed
   ];
   static VoteProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "Vote";
+  @override
+  SolAddress get programAddress => VoteProgramConst.programId;
 }

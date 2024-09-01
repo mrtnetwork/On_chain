@@ -29,8 +29,8 @@ class StakePoolDecreaseValidatorStakeLayout extends StakePoolProgramLayout {
     LayoutConst.ns64(property: "transientStakeSeed")
   ]);
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.decreaseValidatorStake.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.decreaseValidatorStake;
 
   @override
   StructLayout get layout => _layout;

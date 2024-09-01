@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -12,12 +12,12 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw MessageException("Account data length is insufficient.",
+        throw SolanaPluginException("Account data length is insufficient.",
             details: {"Expected": accountSize, "length": extensionData.length});
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const MessageException("Invalid extionsion bytes");
+      throw const SolanaPluginException("Invalid extionsion bytes");
     }
   }
 
@@ -29,7 +29,7 @@ class _Utils {
               extensionType: ExtensionType.defaultAccountState);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const MessageException("Invalid extionsion bytes");
+      throw const SolanaPluginException("Invalid extionsion bytes");
     }
   }
 }

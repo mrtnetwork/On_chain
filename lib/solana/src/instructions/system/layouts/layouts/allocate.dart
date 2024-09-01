@@ -23,7 +23,7 @@ class SystemAllocateLayout extends SystemProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => SystemProgramInstruction.allocate.insturction;
+  SystemProgramInstruction get instruction => SystemProgramInstruction.allocate;
   @override
   Map<String, dynamic> serialize() {
     return {"space": space};

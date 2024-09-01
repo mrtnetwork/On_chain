@@ -31,8 +31,8 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.memoTransferExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.memoTransferExtension;
 
   @override
   Map<String, dynamic> serialize() {

@@ -50,7 +50,8 @@ class SPLTokenInitializeMintLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.initializeMint.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.initializeMint;
 
   /// Serializes the layout.
   @override

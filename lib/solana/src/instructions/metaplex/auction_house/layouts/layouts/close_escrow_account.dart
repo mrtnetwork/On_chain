@@ -29,8 +29,8 @@ class MetaplexAuctionHouseCloseEscrowAccountLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctionHouseProgramInstruction.closeEscrowAccount.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.closeEscrowAccount;
 
   @override
   Map<String, dynamic> serialize() {

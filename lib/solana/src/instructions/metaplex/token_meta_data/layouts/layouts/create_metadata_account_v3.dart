@@ -42,8 +42,8 @@ class MetaplexTokenMetaDataCreateMetadataAccountV3Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .createMetadataAccountV3.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.createMetadataAccountV3;
 
   @override
   Map<String, dynamic> serialize() {

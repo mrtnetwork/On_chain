@@ -36,7 +36,8 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
   }
 
   @override
-  int get instruction => StakePoolProgramInstruction.redelegate.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.redelegate;
   static final StructLayout _layout = LayoutConst.struct([
     LayoutConst.u8(property: "instruction"),
     LayoutConst.ns64(property: "lamports"),

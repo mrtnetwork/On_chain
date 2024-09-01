@@ -28,8 +28,8 @@ class MetaplexFixedPriceSaleBuyLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexFixedPriceSaleProgramInstruction.buy.insturction;
+  MetaplexFixedPriceSaleProgramInstruction get instruction =>
+      MetaplexFixedPriceSaleProgramInstruction.buy;
 
   @override
   Map<String, dynamic> serialize() {

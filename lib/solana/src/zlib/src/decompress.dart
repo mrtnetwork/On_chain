@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 /// ZlibDecoder class provides static method decompress to decompress DEFLATE data
 class ZlibDecoder {
@@ -8,19 +9,19 @@ class ZlibDecoder {
     final int cmf = bitReader.readByte();
     int cm = cmf & 15;
     if (cm != 8) {
-      throw const MessageException('invalid CM');
+      throw const SolanaPluginException('invalid CM');
     }
     int cinfo = (cmf >> 4) & 15; // Compression info
     if (cinfo > 7) {
-      throw const MessageException('invalid CINFO');
+      throw const SolanaPluginException('invalid CINFO');
     }
     int flg = bitReader.readByte();
     if ((cmf * 256 + flg) % 31 != 0) {
-      throw const MessageException('CMF+FLG checksum failed');
+      throw const SolanaPluginException('CMF+FLG checksum failed');
     }
     int fdict = (flg >> 5) & 1;
     if (fdict != 0) {
-      throw const MessageException('preset dictionary not supported');
+      throw const SolanaPluginException('preset dictionary not supported');
     }
     List<int> out = _inflate(bitReader); // decompress DEFLATE data
 
@@ -82,7 +83,7 @@ class ZlibDecoder {
       } else if (type == 2) {
         _dynamicBlock(bitReader, out);
       } else {
-        throw const MessageException('Invalid compressed type');
+        throw const SolanaPluginException('Invalid compressed type');
       }
     }
     return out;
@@ -172,7 +173,7 @@ class ZlibDecoder {
           bl.add(0);
         }
       } else {
-        throw const MessageException('invalid symbol');
+        throw const SolanaPluginException('invalid symbol');
       }
     }
     _HuffmanTree literalLengthTree = _blListToTree(

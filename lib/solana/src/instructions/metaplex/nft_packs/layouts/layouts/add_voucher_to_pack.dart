@@ -22,8 +22,8 @@ class MetaplexNFTPacksAddVoucherToPackLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.addVoucherToPack.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.addVoucherToPack;
 
   @override
   Map<String, dynamic> serialize() {

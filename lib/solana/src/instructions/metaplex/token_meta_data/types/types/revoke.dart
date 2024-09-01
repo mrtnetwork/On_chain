@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class Revoke {
   final String name;
@@ -42,7 +42,7 @@ class Revoke {
   static Revoke fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No MetaDataTokenStandard found matching the specified value",
           details: {"value": value}),
     );
@@ -51,7 +51,7 @@ class Revoke {
   static Revoke fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No Revoke found matching the specified value",
           details: {"value": value}),
     );

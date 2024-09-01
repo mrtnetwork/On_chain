@@ -25,8 +25,8 @@ class MetaplexFixedPriceSaleClaimResourceLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexFixedPriceSaleProgramInstruction.claimResource.insturction;
+  MetaplexFixedPriceSaleProgramInstruction get instruction =>
+      MetaplexFixedPriceSaleProgramInstruction.claimResource;
 
   @override
   Map<String, dynamic> serialize() {

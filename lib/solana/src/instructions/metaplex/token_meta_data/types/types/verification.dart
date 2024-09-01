@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class Verification {
   final String name;
@@ -12,7 +12,7 @@ class Verification {
   static Verification fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No MetaDataTokenStandard found matching the specified value",
           details: {"value": value}),
     );
@@ -21,7 +21,7 @@ class Verification {
   static Verification fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No Verification found matching the specified value",
           details: {"value": value}),
     );

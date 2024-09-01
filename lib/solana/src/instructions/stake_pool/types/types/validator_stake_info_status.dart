@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 /// Status of the stake account in the validator list, for accounting
 class ValidatorStakeInfoStatus {
@@ -45,7 +45,7 @@ class ValidatorStakeInfoStatus {
   factory ValidatorStakeInfoStatus.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No ValidatorStakeInfoStatus found matching the specified value",
           details: {"value": value}),
     );
@@ -53,7 +53,7 @@ class ValidatorStakeInfoStatus {
   factory ValidatorStakeInfoStatus.fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No ValidatorStakeInfoStatus found matching the specified value",
           details: {"value": value}),
     );

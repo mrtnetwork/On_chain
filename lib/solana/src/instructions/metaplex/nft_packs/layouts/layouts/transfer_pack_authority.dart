@@ -23,8 +23,8 @@ class MetaplexNFTPacksTransferPackAuthorityLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.transferPackAuthority.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.transferPackAuthority;
 
   @override
   Map<String, dynamic> serialize() {

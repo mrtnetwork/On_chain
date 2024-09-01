@@ -20,8 +20,8 @@ class TokenLendingRefreshObligationLayout extends TokenLendingProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      TokenLendingProgramInstruction.refreshObligation.insturction;
+  TokenLendingProgramInstruction get instruction =>
+      TokenLendingProgramInstruction.refreshObligation;
 
   @override
   Map<String, dynamic> serialize() {

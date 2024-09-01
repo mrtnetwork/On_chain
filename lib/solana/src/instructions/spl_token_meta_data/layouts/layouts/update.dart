@@ -37,8 +37,8 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
 
   /// Gets the instruction bytes for the update instruction.
   @override
-  List<int> get instruction =>
-      SPLTokenMetaDataProgramSplDiscriminate.update.insturction;
+  SPLTokenMetaDataProgramSplDiscriminate get instruction =>
+      SPLTokenMetaDataProgramSplDiscriminate.update;
 
   /// Serializes the update instruction data.
   @override

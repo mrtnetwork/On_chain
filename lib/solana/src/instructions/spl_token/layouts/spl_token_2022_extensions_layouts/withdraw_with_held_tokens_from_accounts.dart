@@ -31,8 +31,8 @@ class SPLToken2022WithdrawWithheldTokensFromAccountsLayout
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.transferFeeExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.transferFeeExtension;
 
   @override
   Map<String, dynamic> serialize() {

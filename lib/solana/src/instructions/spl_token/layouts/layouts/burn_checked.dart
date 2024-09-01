@@ -40,7 +40,8 @@ class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.burnChecked.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.burnChecked;
 
   /// Serializes the layout.
   @override

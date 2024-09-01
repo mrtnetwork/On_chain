@@ -31,8 +31,8 @@ class MetaplexAuctionHouseUpdateAuctioneerLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctionHouseProgramInstruction.updateAuctioneer.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.updateAuctioneer;
 
   @override
   Map<String, dynamic> serialize() {

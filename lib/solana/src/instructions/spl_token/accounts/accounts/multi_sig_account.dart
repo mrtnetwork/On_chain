@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -40,10 +40,11 @@ class SolanaMultiSigAccount extends LayoutSerializable {
   factory SolanaMultiSigAccount.fromBuffer(
       {required List<int> data, required SolAddress address}) {
     if (data.length != SolanaMultiSigAccountUtils.multisigSize) {
-      throw MessageException("Account data length is insufficient.", details: {
-        "Expected": SolanaMultiSigAccountUtils.multisigSize,
-        "length": data.length
-      });
+      throw SolanaPluginException("Account data length is insufficient.",
+          details: {
+            "Expected": SolanaMultiSigAccountUtils.multisigSize,
+            "length": data.length
+          });
     }
 
     final decode = LayoutSerializable.decode(

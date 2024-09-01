@@ -43,8 +43,8 @@ class SPLToken2022InitializeMetadataPointerLayout
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.metadataPointerExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.metadataPointerExtension;
 
   @override
   Map<String, dynamic> serialize() {

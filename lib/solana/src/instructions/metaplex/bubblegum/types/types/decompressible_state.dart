@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class DecompressibleState {
   final String name;
@@ -12,7 +12,7 @@ class DecompressibleState {
   static DecompressibleState fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No DecompressibleState found matching the specified value",
           details: {"value": value}),
     );

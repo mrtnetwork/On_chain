@@ -44,8 +44,8 @@ class MetaplexBubblegumRedeemLayout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.redeem.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.redeem;
 
   @override
   Map<String, dynamic> serialize() {

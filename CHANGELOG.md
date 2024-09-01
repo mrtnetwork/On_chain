@@ -1,3 +1,7 @@
+# 4.1.0
+
+- Fix Solana pre-instruction serialization issues
+
 ## 4.0.1
 
 - Resolve issues with TRON model deserialization on the web.

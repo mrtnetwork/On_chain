@@ -34,8 +34,8 @@ class NameServiceReallocLayout extends NameServiceProgramLayout {
 
   /// The instruction associated with the layout.
   @override
-  @override
-  int get instruction => NameServiceProgramInstruction.realloc.insturction;
+  NameServiceProgramInstruction get instruction =>
+      NameServiceProgramInstruction.realloc;
 
   /// Serializes the layout data.
   @override

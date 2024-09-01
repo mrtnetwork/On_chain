@@ -22,8 +22,8 @@ class MetaplexBubblegumSetTreeDelegateLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.setTreeDelegate.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.setTreeDelegate;
 
   @override
   Map<String, dynamic> serialize() {

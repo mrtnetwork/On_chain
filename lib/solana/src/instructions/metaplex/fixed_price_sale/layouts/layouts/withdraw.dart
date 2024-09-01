@@ -31,8 +31,8 @@ class MetaplexFixedPriceSaleWithdrawLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexFixedPriceSaleProgramInstruction.withdraw.insturction;
+  MetaplexFixedPriceSaleProgramInstruction get instruction =>
+      MetaplexFixedPriceSaleProgramInstruction.withdraw;
 
   @override
   Map<String, dynamic> serialize() {

@@ -22,7 +22,7 @@ class SystemTransferLayout extends SystemProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction => SystemProgramInstruction.transfer.insturction;
+  SystemProgramInstruction get instruction => SystemProgramInstruction.transfer;
   @override
   Map<String, dynamic> serialize() {
     return {"lamports": lamports};

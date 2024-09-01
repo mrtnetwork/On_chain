@@ -27,7 +27,8 @@ class SPLTokenCloseAccountLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.closeAccount.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.closeAccount;
 
   /// Serializes the layout.
   @override

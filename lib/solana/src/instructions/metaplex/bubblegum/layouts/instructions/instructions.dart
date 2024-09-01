@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/constant.dart';
 
 class MetaplexBubblegumProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -84,13 +86,19 @@ class MetaplexBubblegumProgramInstruction implements ProgramLayoutInstruction {
     updateMetadata,
     verifyCollection,
     verifyCreator,
+    verifyLeaf,
   ];
   static MetaplexBubblegumProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere(
           (element) => BytesUtils.bytesEqual(element.insturction, value));
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexBubblegum";
+  @override
+  SolAddress get programAddress => MetaplexBubblegumProgramConst.programId;
 }

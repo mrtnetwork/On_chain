@@ -40,7 +40,8 @@ class SPLTokenMintToCheckedLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.mintToChecked.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.mintToChecked;
 
   /// Serializes the layout data.
   @override

@@ -1,4 +1,7 @@
+import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/constant.dart';
 
 class MetaplexAuctioneerProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -39,9 +42,16 @@ class MetaplexAuctioneerProgramInstruction implements ProgramLayoutInstruction {
   ];
   static MetaplexAuctioneerProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
+      return values.firstWhere(
+          (element) => BytesUtils.bytesEqual(element.insturction, value));
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexAuctioneer";
+
+  @override
+  SolAddress get programAddress => MetaplexAuctioneerProgramConst.programId;
 }

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class MarketState {
   final String name;
@@ -19,7 +19,7 @@ class MarketState {
   static MarketState fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No MarketState found matching the specified value",
           details: {"value": value}),
     );

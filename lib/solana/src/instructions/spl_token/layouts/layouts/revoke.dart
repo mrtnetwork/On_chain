@@ -27,7 +27,8 @@ class SPLTokenRevokeLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.revoke.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.revoke;
 
   /// Serializes the layout data.
   @override

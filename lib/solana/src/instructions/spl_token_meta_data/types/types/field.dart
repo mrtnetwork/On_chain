@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -53,7 +53,7 @@ class SPLTokenMetaDataField extends LayoutSerializable {
         return SPLTokenMetaDataField.customField(
             keyName: value["key"], value: value["value"]);
       default:
-        throw MessageException("invalid SPLTokenMetaDataField",
+        throw SolanaPluginException("invalid SPLTokenMetaDataField",
             details: {"data": json});
     }
   }

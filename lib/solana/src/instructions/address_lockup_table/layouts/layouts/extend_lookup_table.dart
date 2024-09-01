@@ -38,11 +38,16 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      AddressLookupTableProgramInstruction.extendLookupTable.insturction;
+  AddressLookupTableProgramInstruction get instruction =>
+      AddressLookupTableProgramInstruction.extendLookupTable;
 
   @override
   Map<String, dynamic> serialize() {
     return {"addresses": addresses};
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"addresses": addresses.map((e) => e.address).toList()};
   }
 }

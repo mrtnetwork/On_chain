@@ -43,8 +43,8 @@ class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.groupPointerExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.groupPointerExtension;
 
   /// Serializes the layout data.
   @override

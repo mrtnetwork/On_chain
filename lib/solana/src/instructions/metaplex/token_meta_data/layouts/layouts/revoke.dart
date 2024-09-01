@@ -27,8 +27,8 @@ class MetaplexTokenMetaDataRevokeLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.revoke.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.revoke;
 
   @override
   Map<String, dynamic> serialize() {

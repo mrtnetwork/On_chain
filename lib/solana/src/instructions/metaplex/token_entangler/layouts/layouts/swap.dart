@@ -20,8 +20,8 @@ class MetaplexTokenEntanglerSwapLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexTokenEntanglerProgramInstruction.swap.insturction;
+  MetaplexTokenEntanglerProgramInstruction get instruction =>
+      MetaplexTokenEntanglerProgramInstruction.swap;
 
   @override
   Map<String, dynamic> serialize() {

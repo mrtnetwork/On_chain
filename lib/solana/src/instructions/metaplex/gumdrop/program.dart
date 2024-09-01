@@ -8,7 +8,7 @@ class MetaplexGumdropProgram extends TransactionInstruction {
     required List<AccountMeta> keys,
     required SolAddress programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, layout: layout, programId: programId);
+  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
 
   factory MetaplexGumdropProgram.claim(
       {required SolAddress distributor,

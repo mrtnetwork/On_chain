@@ -27,7 +27,8 @@ class SPLTokenFreezAccountLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.freezeAccount.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.freezeAccount;
 
   /// Serializes the layout.
   @override

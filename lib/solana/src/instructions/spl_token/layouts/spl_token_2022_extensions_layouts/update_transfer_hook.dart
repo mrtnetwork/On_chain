@@ -15,7 +15,7 @@ class SPLToken2022UpdateTransferHookLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.transferFeeExtension.insturction,
+      instruction: SPLTokenProgramInstruction.transferHookExtension.insturction,
     );
     return SPLToken2022UpdateTransferHookLayout(
         transferHookProgramId: decode["transferHookProgramId"]);
@@ -32,8 +32,8 @@ class SPLToken2022UpdateTransferHookLayout extends SPLTokenProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.transferHookExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.transferHookExtension;
 
   @override
   Map<String, dynamic> serialize() {

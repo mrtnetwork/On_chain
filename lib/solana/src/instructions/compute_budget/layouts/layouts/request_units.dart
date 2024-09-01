@@ -38,11 +38,16 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      ComputeBudgetProgramInstruction.requestUnits.insturction;
+  ComputeBudgetProgramInstruction get instruction =>
+      ComputeBudgetProgramInstruction.requestUnits;
 
   @override
   Map<String, dynamic> serialize() {
+    return {"units": units, "additionalFee": additionalFee};
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
     return {"units": units, "additionalFee": additionalFee};
   }
 }

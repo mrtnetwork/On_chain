@@ -56,7 +56,8 @@ class NameServiceCreateLayout extends NameServiceProgramLayout {
 
   /// The instruction associated with the layout.
   @override
-  int get instruction => NameServiceProgramInstruction.create.insturction;
+  NameServiceProgramInstruction get instruction =>
+      NameServiceProgramInstruction.create;
 
   /// Serializes the layout data.
   @override

@@ -31,11 +31,16 @@ class ComputeBudgetSetComputeUnitPriceLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      ComputeBudgetProgramInstruction.setComputeUnitPrice.insturction;
+  ComputeBudgetProgramInstruction get instruction =>
+      ComputeBudgetProgramInstruction.setComputeUnitPrice;
 
   @override
   Map<String, dynamic> serialize() {
     return {"microLamports": microLamports};
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"microLamports": microLamports.toString()};
   }
 }

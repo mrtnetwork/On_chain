@@ -25,8 +25,8 @@ class SystemInitializeNonceAccountLayout extends SystemProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction =>
-      SystemProgramInstruction.initializeNonceAccount.insturction;
+  SystemProgramInstruction get instruction =>
+      SystemProgramInstruction.initializeNonceAccount;
   @override
   Map<String, dynamic> serialize() {
     return {"authorized": authorized};

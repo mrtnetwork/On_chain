@@ -32,8 +32,8 @@ class SPLToken2022UpdateGroupPointerLayout extends SPLTokenProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.groupPointerExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.groupPointerExtension;
 
   @override
   Map<String, dynamic> serialize() {

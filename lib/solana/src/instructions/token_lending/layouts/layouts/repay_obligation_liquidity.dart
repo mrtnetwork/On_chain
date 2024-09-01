@@ -29,8 +29,8 @@ class TokenLendingRepayObligationLiquidityLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      TokenLendingProgramInstruction.repayObligationLiquidity.insturction;
+  TokenLendingProgramInstruction get instruction =>
+      TokenLendingProgramInstruction.repayObligationLiquidity;
 
   @override
   Map<String, dynamic> serialize() {

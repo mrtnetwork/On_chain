@@ -38,8 +38,9 @@ class MetaplexTokenMetaDataUpdateAsProgrammableConfigItemDelegateV2Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .updateAsProgrammableConfigItemDelegateV2.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction
+          .updateAsProgrammableConfigItemDelegateV2;
 
   @override
   Map<String, dynamic> serialize() {

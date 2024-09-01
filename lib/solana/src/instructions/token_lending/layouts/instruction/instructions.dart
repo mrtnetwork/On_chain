@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/token_lending/constant.dart';
 
 class TokenLendingProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -55,8 +57,13 @@ class TokenLendingProgramInstruction implements ProgramLayoutInstruction {
   static TokenLendingProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere((element) => element.insturction == value);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "TokenLending";
+  @override
+  SolAddress get programAddress => TokenLendingProgramConst.lendingProgramId;
 }

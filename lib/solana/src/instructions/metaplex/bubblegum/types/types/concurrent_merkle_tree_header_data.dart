@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'concurrent_merkle_tree_header_data_v1.dart';
@@ -17,7 +17,8 @@ class ConcurrentMerkleTreeHeader extends LayoutSerializable {
         return ConcurrentMerkleTreeHeader.v1(
             header: ConcurrentMerkleTreeHeaderDataV1.fromJson(value));
       default:
-        throw MessageException("Invalid ConcurrentMerkleTreeHeader version.",
+        throw SolanaPluginException(
+            "Invalid ConcurrentMerkleTreeHeader version.",
             details: {"version": key});
     }
   }

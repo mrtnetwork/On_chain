@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/constant.dart';
 
 class MetaplexNFTPacksProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -57,8 +59,14 @@ class MetaplexNFTPacksProgramInstruction implements ProgramLayoutInstruction {
   static MetaplexNFTPacksProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexNFTPacks";
+
+  @override
+  SolAddress get programAddress => MetaplexNFTPacksProgramConst.programId;
 }

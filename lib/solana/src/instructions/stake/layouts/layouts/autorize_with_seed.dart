@@ -50,7 +50,8 @@ class StakeAuthorizeWithSeedLayout extends StakeProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => StakeProgramInstruction.authorizeWithSeed.insturction;
+  StakeProgramInstruction get instruction =>
+      StakeProgramInstruction.authorizeWithSeed;
 
   @override
   Map<String, dynamic> serialize() {

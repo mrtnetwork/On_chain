@@ -34,8 +34,8 @@ class MetaplexBubblegumCreateTreeLayout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.createTreeConfig.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.createTreeConfig;
 
   @override
   Map<String, dynamic> serialize() {

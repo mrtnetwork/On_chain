@@ -22,8 +22,8 @@ class MetaplexBubblegumMintV1Layout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.mintV1.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.mintV1;
 
   @override
   Map<String, dynamic> serialize() {

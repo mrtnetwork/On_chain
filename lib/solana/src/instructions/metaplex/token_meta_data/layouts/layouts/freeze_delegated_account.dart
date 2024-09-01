@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataFreezeDelegatedAccountLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .freezeDelegatedAccount.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.freezeDelegatedAccount;
 
   @override
   Map<String, dynamic> serialize() {

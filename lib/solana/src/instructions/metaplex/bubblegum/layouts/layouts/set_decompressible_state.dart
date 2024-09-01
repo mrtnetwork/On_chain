@@ -29,8 +29,8 @@ class MetaplexBubblegumSetDecompressibleStateLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.setDecompressibleState.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.setDecompressibleState;
 
   @override
   Map<String, dynamic> serialize() {

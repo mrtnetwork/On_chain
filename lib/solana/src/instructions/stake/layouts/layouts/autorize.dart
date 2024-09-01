@@ -33,7 +33,7 @@ class StakeAuthorizeLayout extends StakeProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => StakeProgramInstruction.authorize.insturction;
+  StakeProgramInstruction get instruction => StakeProgramInstruction.authorize;
 
   @override
   Map<String, dynamic> serialize() {

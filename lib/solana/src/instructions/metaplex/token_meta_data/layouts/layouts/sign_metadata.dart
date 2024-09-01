@@ -22,8 +22,8 @@ class MetaplexTokenMetaDataSignMetadataLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.signMetadata.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.signMetadata;
 
   @override
   Map<String, dynamic> serialize() {

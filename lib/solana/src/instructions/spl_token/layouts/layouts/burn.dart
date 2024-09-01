@@ -34,7 +34,8 @@ class SPLTokenBurnLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.burn.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.burn;
 
   /// Serializes the layout.
   @override

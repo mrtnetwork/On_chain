@@ -22,8 +22,8 @@ class MetaplexTokenMetaDataMigrateLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.migrate.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.migrate;
 
   @override
   Map<String, dynamic> serialize() {

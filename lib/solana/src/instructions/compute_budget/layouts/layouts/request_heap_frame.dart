@@ -29,11 +29,16 @@ class ComputeBudgetRequestHeapFrameLayout extends ComputeBudgetProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      ComputeBudgetProgramInstruction.requestHeapFrame.insturction;
+  ComputeBudgetProgramInstruction get instruction =>
+      ComputeBudgetProgramInstruction.requestHeapFrame;
 
   @override
   Map<String, dynamic> serialize() {
+    return {"bytes": bytes};
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
     return {"bytes": bytes};
   }
 }

@@ -20,8 +20,8 @@ class MetaplexNFTPacksClosePackLayout extends MetaplexNFTPacksProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.closePack.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.closePack;
 
   @override
   Map<String, dynamic> serialize() {

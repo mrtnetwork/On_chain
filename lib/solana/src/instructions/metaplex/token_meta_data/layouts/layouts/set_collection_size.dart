@@ -26,8 +26,8 @@ class MetaplexTokenMetaDataSetCollectionSizeLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.setCollectionSize.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.setCollectionSize;
 
   @override
   Map<String, dynamic> serialize() {

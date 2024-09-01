@@ -19,8 +19,8 @@ class MetaplexBubblegumCompressLayout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.compress.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.compress;
 
   @override
   Map<String, dynamic> serialize() {

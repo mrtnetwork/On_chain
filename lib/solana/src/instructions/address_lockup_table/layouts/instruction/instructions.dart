@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/address_lockup_table/constant.dart';
 
 class AddressLookupTableProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -30,4 +32,10 @@ class AddressLookupTableProgramInstruction implements ProgramLayoutInstruction {
       return null;
     }
   }
+
+  @override
+  String get programName => "AddressLookupTable";
+
+  @override
+  SolAddress get programAddress => AddressLookupTableProgramConst.programId;
 }

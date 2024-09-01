@@ -33,7 +33,8 @@ class SPLTokenTransferLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.transfer.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.transfer;
 
   /// Serializes the layout data.
   @override

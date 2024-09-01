@@ -25,7 +25,7 @@ class StakeSplitLayout extends StakeProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => StakeProgramInstruction.split.insturction;
+  StakeProgramInstruction get instruction => StakeProgramInstruction.split;
 
   @override
   Map<String, dynamic> serialize() {

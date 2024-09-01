@@ -36,8 +36,8 @@ class MetaplexBubblegumVerifyLeafLayout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.verifyLeaf.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.verifyLeaf;
 
   @override
   Map<String, dynamic> serialize() {

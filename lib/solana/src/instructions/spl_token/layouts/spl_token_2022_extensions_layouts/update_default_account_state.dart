@@ -33,8 +33,8 @@ class SPLToken2022UpdateDefaultAccountStateLayout
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.defaultAccountStateExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.defaultAccountStateExtension;
 
   @override
   Map<String, dynamic> serialize() {

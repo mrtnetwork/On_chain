@@ -33,8 +33,8 @@ class StakePoolIncreaseValidatorStakeLayout extends StakePoolProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.increaseValidatorStake.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.increaseValidatorStake;
   @override
   Map<String, dynamic> serialize() {
     return {"lamports": lamports, "transientStakeSeed": transientStakeSeed};

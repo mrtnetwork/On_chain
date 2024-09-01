@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/memo/instruction/instructions.dart';
 
 /// Represents the layout for a memo in a Solana transaction.
 class MemoLayout extends ProgramLayout {
@@ -21,7 +22,7 @@ class MemoLayout extends ProgramLayout {
   StructLayout get layout => throw UnimplementedError();
 
   @override
-  int get instruction => throw UnimplementedError();
+  MemoProgramInstruction get instruction => MemoProgramInstruction.memo;
 
   @override
   Map<String, dynamic> serialize() {
@@ -31,5 +32,10 @@ class MemoLayout extends ProgramLayout {
   @override
   List<int> toBytes() {
     return StringUtils.toBytes(memo);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"memo": memo};
   }
 }

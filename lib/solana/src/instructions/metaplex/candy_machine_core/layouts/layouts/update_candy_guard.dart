@@ -27,8 +27,8 @@ class MetaplexCandyMachineUpdateCandyGuardLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexCandyMachineProgramInstruction.updateCandyGuard.insturction;
+  MetaplexCandyMachineProgramInstruction get instruction =>
+      MetaplexCandyMachineProgramInstruction.updateCandyGuard;
 
   @override
   Map<String, dynamic> serialize() {

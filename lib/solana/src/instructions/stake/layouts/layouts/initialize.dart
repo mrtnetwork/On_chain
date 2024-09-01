@@ -36,7 +36,7 @@ class StakeInitializeLayout extends StakeProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => StakeProgramInstruction.initialize.insturction;
+  StakeProgramInstruction get instruction => StakeProgramInstruction.initialize;
 
   @override
   Map<String, dynamic> serialize() {

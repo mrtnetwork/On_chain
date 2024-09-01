@@ -35,8 +35,8 @@ class MetaplexAuctioneerCancelLayout extends MetaplexAuctioneerProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctioneerProgramInstruction.cancel.insturction;
+  MetaplexAuctioneerProgramInstruction get instruction =>
+      MetaplexAuctioneerProgramInstruction.cancel;
 
   @override
   Map<String, dynamic> serialize() {

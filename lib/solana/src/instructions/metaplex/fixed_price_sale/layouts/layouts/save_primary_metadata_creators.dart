@@ -35,8 +35,8 @@ class MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction => MetaplexFixedPriceSaleProgramInstruction
-      .savePrimaryMetadataCreators.insturction;
+  MetaplexFixedPriceSaleProgramInstruction get instruction =>
+      MetaplexFixedPriceSaleProgramInstruction.savePrimaryMetadataCreators;
 
   @override
   Map<String, dynamic> serialize() {

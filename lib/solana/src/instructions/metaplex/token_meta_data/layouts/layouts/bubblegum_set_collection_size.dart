@@ -28,8 +28,8 @@ class MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .bubblegumSetCollectionSize.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.bubblegumSetCollectionSize;
 
   @override
   Map<String, dynamic> serialize() {

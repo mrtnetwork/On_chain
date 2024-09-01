@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
@@ -371,7 +371,7 @@ class SolanaTransactionUtils {
     int numRequiredSignatures = byteArray.removeAt(0);
     if (numRequiredSignatures !=
         (numRequiredSignatures & SolanaTransactionConstant.versionPrefixMask)) {
-      throw const MessageException('invalid versioned Message');
+      throw const SolanaPluginException('invalid versioned Message');
     }
     int numReadonlySignedAccounts = byteArray.removeAt(0);
     int numReadonlyUnsignedAccounts = byteArray.removeAt(0);

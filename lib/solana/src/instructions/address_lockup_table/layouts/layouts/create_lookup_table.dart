@@ -39,8 +39,8 @@ class AddressLookupCreateLookupTableLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      AddressLookupTableProgramInstruction.createLookupTable.insturction;
+  AddressLookupTableProgramInstruction get instruction =>
+      AddressLookupTableProgramInstruction.createLookupTable;
 
   @override
   Map<String, dynamic> serialize() {

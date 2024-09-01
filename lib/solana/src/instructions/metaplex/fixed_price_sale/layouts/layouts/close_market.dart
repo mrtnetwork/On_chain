@@ -21,8 +21,8 @@ class MetaplexFixedPriceSaleCloseMarketLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexFixedPriceSaleProgramInstruction.closeMarket.insturction;
+  MetaplexFixedPriceSaleProgramInstruction get instruction =>
+      MetaplexFixedPriceSaleProgramInstruction.closeMarket;
 
   @override
   Map<String, dynamic> serialize() {

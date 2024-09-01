@@ -18,7 +18,8 @@ class SystemUpgradeNonceAccountLayout extends SystemProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final int instruction = 12;
+  final SystemProgramInstruction instruction =
+      SystemProgramInstruction.upgradeNonceAccount;
   @override
   Map<String, dynamic> serialize() {
     return {};

@@ -44,8 +44,8 @@ class MetaplexBubblegumTransferLayout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.transfer.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.transfer;
 
   @override
   Map<String, dynamic> serialize() {

@@ -31,8 +31,8 @@ class MetaplexAuctionHouseDepositLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctionHouseProgramInstruction.deposit.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.deposit;
 
   @override
   Map<String, dynamic> serialize() {

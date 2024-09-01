@@ -28,8 +28,8 @@ class MetaplexAuctionHousePrintPurchaseReceiptLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctionHouseProgramInstruction.printPurchaseReceipt.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.printPurchaseReceipt;
 
   @override
   Map<String, dynamic> serialize() {

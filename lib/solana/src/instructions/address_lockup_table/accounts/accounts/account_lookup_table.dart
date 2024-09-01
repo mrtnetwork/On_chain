@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/constant.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
@@ -38,7 +38,7 @@ class _Utils {
     if (serializedAddressesLen < 0 ||
         serializedAddressesLen % SolanaTransactionConstant.publicKeyLength !=
             0) {
-      throw const MessageException("Lookup table is invalid");
+      throw const SolanaPluginException("Lookup table is invalid");
     }
     final meta = lookupTableMetaLayout.deserialize(accountData).value;
 

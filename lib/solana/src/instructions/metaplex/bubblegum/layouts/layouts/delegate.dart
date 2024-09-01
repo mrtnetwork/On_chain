@@ -43,8 +43,8 @@ class MetaplexBubblegumDelegateLayout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.delegate.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.delegate;
 
   @override
   Map<String, dynamic> serialize() {

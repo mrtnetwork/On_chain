@@ -28,8 +28,9 @@ class MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .mintNewEditionFromMasterEditionViaVaultProxy.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction
+          .mintNewEditionFromMasterEditionViaVaultProxy;
 
   @override
   Map<String, dynamic> serialize() {

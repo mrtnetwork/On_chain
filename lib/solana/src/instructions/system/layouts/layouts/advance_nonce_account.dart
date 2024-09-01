@@ -20,8 +20,8 @@ class SystemAdvanceNonceLayout extends SystemProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      SystemProgramInstruction.advanceNonceAccount.insturction;
+  SystemProgramInstruction get instruction =>
+      SystemProgramInstruction.advanceNonceAccount;
   @override
   Map<String, dynamic> serialize() {
     return {};

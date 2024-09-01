@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataCreateEscrowAccountLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.createEscrowAccount.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.createEscrowAccount;
 
   @override
   Map<String, dynamic> serialize() {

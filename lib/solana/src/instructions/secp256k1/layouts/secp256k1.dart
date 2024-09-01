@@ -4,6 +4,7 @@ import 'package:blockchain_utils/signer/eth/evm_signer.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/secp256k1/instruction/instructions.dart';
 
 class Secp256k1Layout extends ProgramLayout {
   /// Ethereum address used in the layout.
@@ -143,7 +144,8 @@ class Secp256k1Layout extends ProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = -1;
+  final Secp256k1ProgramInstruction instruction =
+      Secp256k1ProgramInstruction.secp256k1;
 
   int get length => _layout.span + message.length;
 

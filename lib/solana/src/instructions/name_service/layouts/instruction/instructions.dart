@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/name_service/constant.dart';
 
 class NameServiceProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -31,4 +33,10 @@ class NameServiceProgramInstruction implements ProgramLayoutInstruction {
       return null;
     }
   }
+
+  @override
+  String get programName => "NameService";
+
+  @override
+  SolAddress get programAddress => NameServiceProgramConst.programId;
 }

@@ -21,8 +21,8 @@ class MetaplexCandyMachineSetMintAuthorityLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexCandyMachineProgramInstruction.setMintAuthority.insturction;
+  MetaplexCandyMachineProgramInstruction get instruction =>
+      MetaplexCandyMachineProgramInstruction.setMintAuthority;
 
   @override
   Map<String, dynamic> serialize() {

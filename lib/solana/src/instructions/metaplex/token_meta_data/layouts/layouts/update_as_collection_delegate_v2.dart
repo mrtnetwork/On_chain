@@ -37,8 +37,8 @@ class MetaplexTokenMetaDataUpdateAsCollectionDelegateV2Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .updateAsCollectionDelegateV2.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.updateAsCollectionDelegateV2;
 
   @override
   Map<String, dynamic> serialize() {

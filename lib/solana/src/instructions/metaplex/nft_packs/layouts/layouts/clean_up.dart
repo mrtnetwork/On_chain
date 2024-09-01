@@ -20,7 +20,8 @@ class MetaplexNFTPacksCleanUpLayout extends MetaplexNFTPacksProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexNFTPacksProgramInstruction.cleanUp.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.cleanUp;
 
   @override
   Map<String, dynamic> serialize() {

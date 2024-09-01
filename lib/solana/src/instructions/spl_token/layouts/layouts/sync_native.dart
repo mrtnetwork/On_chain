@@ -27,7 +27,8 @@ class SPLTokenSyncNativeLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.syncNative.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.syncNative;
 
   /// Serializes the layout data.
   @override

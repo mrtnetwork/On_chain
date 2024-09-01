@@ -80,8 +80,8 @@ class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .updateAsUpdateAuthorityV2.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.updateAsUpdateAuthorityV2;
 
   static int discriminator = 1;
 

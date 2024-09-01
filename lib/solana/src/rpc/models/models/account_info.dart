@@ -37,7 +37,7 @@ class SolanaAccountInfo {
   final BigInt lamports;
   final SolAddress owner;
   final double rentEpoch;
-  final int space;
+  final int? space;
   final dynamic data;
 
   List<int> toBytesData() {

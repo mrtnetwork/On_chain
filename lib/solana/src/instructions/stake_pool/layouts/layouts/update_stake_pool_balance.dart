@@ -20,8 +20,8 @@ class StakePoolUpdateStakePoolBalanceLayout extends StakePoolProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.updateStakePoolBalance.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.updateStakePoolBalance;
   @override
   Map<String, dynamic> serialize() {
     return {};

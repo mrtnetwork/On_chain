@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 /// Utility class for Solana-related operations.
 class SolanaUtils {
@@ -23,7 +24,7 @@ class SolanaUtils {
     List<int> seedBytes = [];
     for (final i in seeds) {
       if (i.length > maxSeedLength) {
-        throw const MessageException("Max seed length exceeded");
+        throw const SolanaPluginException("Max seed length exceeded");
       }
       seedBytes = [...seedBytes, ...i];
     }
@@ -38,7 +39,7 @@ class SolanaUtils {
         continue;
       }
     }
-    throw const MessageException(
+    throw const SolanaPluginException(
         "Unable to find a viable program address nonce");
   }
 
@@ -53,7 +54,7 @@ class SolanaUtils {
 
     seedBytes = QuickCrypto.sha256Hash(seedBytes);
     if (Ed25519PublicKey.isValidBytes(seedBytes)) {
-      throw const MessageException(
+      throw const SolanaPluginException(
           "Invalid seeds, address must fall off the curve");
     }
     return SolAddress.uncheckBytes(seedBytes);

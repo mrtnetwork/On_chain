@@ -33,7 +33,8 @@ class SPLTokenMintToLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.mintTo.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.mintTo;
 
   /// Serializes the layout data.
   @override

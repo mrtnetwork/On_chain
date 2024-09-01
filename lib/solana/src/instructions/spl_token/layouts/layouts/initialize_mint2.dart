@@ -32,5 +32,6 @@ class SPLTokenInitializeMint2Layout extends SPLTokenInitializeMintLayout {
 
   /// Instruction associated with the layout.
   @override
-  int get instruction => SPLTokenProgramInstruction.initializeMint2.insturction;
+  SPLTokenProgramInstruction get instruction =>
+      SPLTokenProgramInstruction.initializeMint2;
 }

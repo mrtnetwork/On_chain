@@ -38,8 +38,8 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.initializeMultisig.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.initializeMultisig;
 
   /// Serializes the layout data.
   @override

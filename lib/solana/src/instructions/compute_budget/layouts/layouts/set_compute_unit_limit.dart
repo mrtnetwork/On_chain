@@ -30,11 +30,16 @@ class ComputeBudgetSetComputeUnitLimitLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      ComputeBudgetProgramInstruction.setComputeUnitLimit.insturction;
+  ComputeBudgetProgramInstruction get instruction =>
+      ComputeBudgetProgramInstruction.setComputeUnitLimit;
 
   @override
   Map<String, dynamic> serialize() {
+    return {"units": units};
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
     return {"units": units};
   }
 }

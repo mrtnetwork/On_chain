@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class MembershipModel {
   final String name;
@@ -14,7 +14,7 @@ class MembershipModel {
     try {
       return values.firstWhere((element) => element.value == value);
     } on StateError {
-      throw MessageException(
+      throw SolanaPluginException(
           "No MembershipModel found matching the specified value",
           details: {"value": value});
     }

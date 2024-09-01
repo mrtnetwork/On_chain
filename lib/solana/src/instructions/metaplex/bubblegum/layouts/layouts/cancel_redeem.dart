@@ -26,8 +26,8 @@ class MetaplexBubblegumCancelRedeemLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.cancelRedeem.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.cancelRedeem;
 
   @override
   Map<String, dynamic> serialize() {

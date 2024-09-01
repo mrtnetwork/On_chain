@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class ValidatorAccountType {
   final String name;
@@ -22,7 +22,7 @@ class ValidatorAccountType {
   factory ValidatorAccountType.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No ValidatorAccountType found matching the specified value",
           details: {"value": value}),
     );
@@ -30,7 +30,7 @@ class ValidatorAccountType {
   factory ValidatorAccountType.fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No ValidatorAccountType found matching the specified value",
           details: {"value": value}),
     );

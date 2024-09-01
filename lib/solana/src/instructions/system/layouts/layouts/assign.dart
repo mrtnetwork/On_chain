@@ -25,7 +25,7 @@ class SystemAssignLayout extends SystemProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction => SystemProgramInstruction.assign.insturction;
+  SystemProgramInstruction get instruction => SystemProgramInstruction.assign;
   @override
   Map<String, dynamic> serialize() {
     return {"programId": programId};

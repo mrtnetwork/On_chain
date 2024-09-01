@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class ListingConfigVersion {
   final String name;
@@ -11,7 +11,7 @@ class ListingConfigVersion {
   static ListingConfigVersion fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No ListingConfigVersion found matching the specified value",
           details: {"value": value}),
     );

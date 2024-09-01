@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SPLTokenMetaDataProgramSplDiscriminate
@@ -34,8 +35,14 @@ class SPLTokenMetaDataProgramSplDiscriminate
     try {
       return values.firstWhere(
           (element) => BytesUtils.bytesEqual(value, element.insturction));
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "SPLTokenMetaData";
+
+  @override
+  SolAddress get programAddress => throw UnimplementedError();
 }

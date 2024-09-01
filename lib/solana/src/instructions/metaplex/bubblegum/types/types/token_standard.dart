@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class TokenStandard {
   final String name;
@@ -20,7 +20,7 @@ class TokenStandard {
     try {
       return values.firstWhere((element) => element.value == value);
     } on StateError {
-      throw MessageException(
+      throw SolanaPluginException(
           "No TokenStandard found matching the specified value",
           details: {"value": value});
     }

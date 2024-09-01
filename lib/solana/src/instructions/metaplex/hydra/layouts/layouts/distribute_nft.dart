@@ -24,8 +24,8 @@ class MetaplexHydraDistributeNftLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processDistributeNft.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processDistributeNft;
 
   @override
   Map<String, dynamic> serialize() {

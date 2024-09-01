@@ -22,6 +22,8 @@ abstract class AssociatedTokenAccountProgramLayout extends ProgramLayout {
         case AssociatedTokenAccountProgramInstruction.recoverNested:
           return AssociatedTokenAccountProgramRecoverNestedLayout.fromBuffer(
               data);
+        case AssociatedTokenAccountProgramInstruction.initialize:
+          return AssociatedTokenAccountProgramInitializeLayout.fromBuffer(data);
         default:
           return UnknownProgramLayout(data);
       }

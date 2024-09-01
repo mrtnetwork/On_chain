@@ -40,8 +40,8 @@ class MetaplexAuctionHousePublicBuyLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctionHouseProgramInstruction.publicBuy.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.publicBuy;
 
   @override
   Map<String, dynamic> serialize() {

@@ -57,13 +57,13 @@ class MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .updateAsAuthorityItemDelegateV2.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.updateAsAuthorityItemDelegateV2;
 
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": discriminator,
+      "discriminator": instruction.discriminator,
       "newUpdateAuthority": newUpdateAuthority,
       "primarySaleHappened": primarySaleHappened,
       "isMutable": isMutable,

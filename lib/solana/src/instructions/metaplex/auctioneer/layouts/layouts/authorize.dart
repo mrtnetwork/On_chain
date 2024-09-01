@@ -24,8 +24,8 @@ class MetaplexAuctioneerAuthorizeLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctioneerProgramInstruction.authorize.insturction;
+  MetaplexAuctioneerProgramInstruction get instruction =>
+      MetaplexAuctioneerProgramInstruction.authorize;
 
   @override
   Map<String, dynamic> serialize() {

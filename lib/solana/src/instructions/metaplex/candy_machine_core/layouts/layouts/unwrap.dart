@@ -19,8 +19,8 @@ class MetaplexCandyMachineUnwrapLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexCandyMachineProgramInstruction.unwrap.insturction;
+  MetaplexCandyMachineProgramInstruction get instruction =>
+      MetaplexCandyMachineProgramInstruction.unwrap;
 
   @override
   Map<String, dynamic> serialize() {

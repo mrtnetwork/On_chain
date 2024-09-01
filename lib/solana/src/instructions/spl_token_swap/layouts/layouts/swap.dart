@@ -42,7 +42,8 @@ class SPLTokenSwapSwapLayout extends SPLTokenSwapProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => SPLTokenSwapProgramInstruction.swap.insturction;
+  SPLTokenSwapProgramInstruction get instruction =>
+      SPLTokenSwapProgramInstruction.swap;
 
   @override
   Map<String, dynamic> serialize() {

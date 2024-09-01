@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class AuthorityScope {
   final String name;
@@ -27,7 +27,7 @@ class AuthorityScope {
   static AuthorityScope fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No AuthorityScope found matching the specified value",
           details: {"value": value}),
     );

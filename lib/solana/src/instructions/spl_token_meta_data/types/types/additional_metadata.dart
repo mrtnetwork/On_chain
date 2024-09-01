@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -11,7 +11,8 @@ class AdditionalMetadata extends LayoutSerializable {
   factory AdditionalMetadata.fromJson(Map<String, dynamic> json) {
     final List<String> values = (json["values"] as List).cast();
     if (values.length != 2) {
-      throw const MessageException("invalid AdditionalMetadata data length");
+      throw const SolanaPluginException(
+          "invalid AdditionalMetadata data length");
     }
     return AdditionalMetadata(key: values[0], value: values[1]);
   }

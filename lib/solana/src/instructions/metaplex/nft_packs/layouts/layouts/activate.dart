@@ -20,8 +20,8 @@ class MetaplexNFTPacksActivateLayout extends MetaplexNFTPacksProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.activate.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.activate;
 
   @override
   Map<String, dynamic> serialize() {

@@ -22,8 +22,8 @@ class MetaplexTokenMetaDataBurnEditionNftLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.burnEditionNft.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.burnEditionNft;
 
   @override
   Map<String, dynamic> serialize() {

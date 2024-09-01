@@ -26,8 +26,8 @@ class MetaplexNFTPacksRequestCardForRedeemLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.requestCardForRedeem.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.requestCardForRedeem;
 
   @override
   Map<String, dynamic> serialize() {

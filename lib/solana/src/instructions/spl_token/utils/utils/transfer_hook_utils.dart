@@ -4,15 +4,16 @@ import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/models/pda/pda.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class TransferHookUtils {
   static Tuple<List<int>, int> unpackSeedLiteral(List<int> seeds) {
     if (seeds.isEmpty) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     int length = seeds[0];
     if (seeds.length < length + 1) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     return Tuple(seeds.sublist(1, length + 1), 2 + length);
   }
@@ -20,12 +21,12 @@ class TransferHookUtils {
   static Tuple<List<int>, int> unpackSeedInstructionArg(
       {required List<int> seeds, required List<int> instructionData}) {
     if (seeds.length < 2) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     int index = seeds[0];
     int length = seeds[1];
     if (instructionData.length < length + index) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     return Tuple(instructionData.sublist(index, index + length), 3);
   }
@@ -33,11 +34,11 @@ class TransferHookUtils {
   static Tuple<List<int>, int> unpackSeedAccountKey(
       {required List<int> seeds, required List<AccountMeta> previousMetas}) {
     if (seeds.isEmpty) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     int index = seeds[0];
     if (previousMetas.length <= index) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     return Tuple(previousMetas[index].publicKey.toBytes(), 2);
   }
@@ -47,23 +48,23 @@ class TransferHookUtils {
       required List<AccountMeta> previousMetas,
       required SolanaRPC connection}) async {
     if (seeds.length < 3) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     int accountIndex = seeds[0];
     int dataIndex = seeds[1];
     int length = seeds[2];
     if (previousMetas.length <= accountIndex) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     SolanaAccountInfo? accountInfo = await connection.request(
         SolanaRPCGetAccountInfo(
             account: previousMetas[accountIndex].publicKey));
     if (accountInfo == null) {
-      throw const MessageException("Account not found");
+      throw const SolanaPluginException("Account not found");
     }
     final accountBytes = accountInfo.toBytesData();
     if (accountBytes.length < dataIndex + length) {
-      throw const MessageException("Transfer hook invalid seeds");
+      throw const SolanaPluginException("Transfer hook invalid seeds");
     }
     return Tuple(accountBytes.sublist(dataIndex, dataIndex + length), 4);
   }
@@ -92,7 +93,7 @@ class TransferHookUtils {
             previousMetas: previousMetas,
             connection: connection);
       default:
-        throw const MessageException("Transfer hook invalid seeds");
+        throw const SolanaPluginException("Transfer hook invalid seeds");
     }
   }
 
@@ -138,7 +139,7 @@ class TransferHookUtils {
     } else {
       int accountIndex = extraMeta.discriminator - (1 << 7);
       if (previousMetas.length <= accountIndex) {
-        throw const MessageException("account not found.");
+        throw const SolanaPluginException("account not found.");
       }
       programId = previousMetas[accountIndex].publicKey;
     }

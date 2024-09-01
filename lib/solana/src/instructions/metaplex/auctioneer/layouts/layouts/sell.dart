@@ -71,8 +71,8 @@ class MetaplexAuctioneerSellLayout extends MetaplexAuctioneerProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctioneerProgramInstruction.sell.insturction;
+  MetaplexAuctioneerProgramInstruction get instruction =>
+      MetaplexAuctioneerProgramInstruction.sell;
 
   @override
   Map<String, dynamic> serialize() {

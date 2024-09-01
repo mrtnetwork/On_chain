@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/utils/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/constant.dart';
 
 class MetaplexCandyMachineProgramInstruction
     implements ProgramLayoutInstruction {
@@ -8,6 +10,7 @@ class MetaplexCandyMachineProgramInstruction
   @override
   final String name;
   const MetaplexCandyMachineProgramInstruction(this.insturction, this.name);
+
   static const MetaplexCandyMachineProgramInstruction addConfigLines =
       MetaplexCandyMachineProgramInstruction(
           [223, 50, 224, 227, 151, 8, 115, 106], "AddConfigLines");
@@ -26,6 +29,7 @@ class MetaplexCandyMachineProgramInstruction
   static const MetaplexCandyMachineProgramInstruction initializeCandyMachineV2 =
       MetaplexCandyMachineProgramInstruction(
           [67, 153, 175, 39, 218, 16, 38, 32], "InitializeCandyMachineV2");
+
   static const MetaplexCandyMachineProgramInstruction mint =
       MetaplexCandyMachineProgramInstruction(
           [51, 57, 225, 47, 182, 146, 137, 166], "Mint");
@@ -45,6 +49,7 @@ class MetaplexCandyMachineProgramInstruction
   static const MetaplexCandyMachineProgramInstruction setCandyGuardAuthority =
       MetaplexCandyMachineProgramInstruction(
           [133, 250, 37, 21, 110, 163, 26, 121], "SetCandyGuardAuthority");
+
   static const MetaplexCandyMachineProgramInstruction setCandyMachineAuthority =
       MetaplexCandyMachineProgramInstruction(
           [133, 250, 37, 21, 110, 163, 26, 121], "SetCandyMachineAuthority");
@@ -73,16 +78,42 @@ class MetaplexCandyMachineProgramInstruction
       MetaplexCandyMachineProgramInstruction(
           [178, 40, 10, 189, 228, 129, 186, 140], "Unwrap");
   //
-
   static const List<MetaplexCandyMachineProgramInstruction> values = [
     addConfigLines,
+    createCandyGuard,
+    deleteCandyGuard,
+    deleteCandyMachine,
+    initializeCandyMachine,
+    initializeCandyMachineV2,
+    mint,
+    mintFromCandyMachine,
+    mintFromCandyMachineV2,
+    mintV2,
+    route,
+    setCandyGuardAuthority,
+    setCandyMachineAuthority,
+    setCollection,
+    setCollectionV2,
+    setMintAuthority,
+    setTokenStandard,
+    unwrap,
+    updateCandyGuard,
+    updateCandyMachine,
+    wrap
   ];
   static MetaplexCandyMachineProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere(
           (element) => BytesUtils.bytesEqual(element.insturction, value));
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexCandyMachine";
+
+  @override
+  SolAddress get programAddress =>
+      MetaplexCandyMachineCoreProgramConst.candyMachineV3programId;
 }

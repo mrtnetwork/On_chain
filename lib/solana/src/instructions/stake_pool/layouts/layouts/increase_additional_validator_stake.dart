@@ -42,8 +42,8 @@ class StakePoolIncreaseAdditionalValidatorStakeLayout
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.increaseAdditionalValidatorStake.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.increaseAdditionalValidatorStake;
   @override
   Map<String, dynamic> serialize() {
     return {

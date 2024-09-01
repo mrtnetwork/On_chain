@@ -24,8 +24,8 @@ class MetaplexHydraSetForTokenMemberStakeLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processSetForTokenMemberStake.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processSetForTokenMemberStake;
 
   @override
   Map<String, dynamic> serialize() {

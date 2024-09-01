@@ -35,8 +35,8 @@ class MetaplexGumdropNewDistributorLayout extends MetaplexGumdropProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexGumdropProgramInstruction.newDistributor.insturction;
+  MetaplexGumdropProgramInstruction get instruction =>
+      MetaplexGumdropProgramInstruction.newDistributor;
 
   @override
   Map<String, dynamic> serialize() {

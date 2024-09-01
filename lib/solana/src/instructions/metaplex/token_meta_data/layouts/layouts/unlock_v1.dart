@@ -36,8 +36,8 @@ class MetaplexTokenMetaDataUnlockV1Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.unlockV1.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.unlockV1;
 
   @override
   Map<String, dynamic> serialize() {

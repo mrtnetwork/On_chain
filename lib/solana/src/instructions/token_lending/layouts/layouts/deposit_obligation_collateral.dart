@@ -29,8 +29,8 @@ class TokenLendingDepositObligationCollateralLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      TokenLendingProgramInstruction.depositObligationCollateral.insturction;
+  TokenLendingProgramInstruction get instruction =>
+      TokenLendingProgramInstruction.depositObligationCollateral;
 
   @override
   Map<String, dynamic> serialize() {

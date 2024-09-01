@@ -4,7 +4,6 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SPLToken2022ExecuteLayout extends SPLTokenProgramLayout {
-  static const List<int> discriminator = [105, 37, 101, 197, 75, 251, 102, 26];
   final BigInt amount;
   SPLToken2022ExecuteLayout({required this.amount});
 
@@ -12,7 +11,7 @@ class SPLToken2022ExecuteLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.transferFeeExtension.insturction,
+      instruction: SPLTokenProgramInstruction.execute.insturction,
     );
     return SPLToken2022ExecuteLayout(amount: decode["amount"]);
   }
@@ -26,10 +25,11 @@ class SPLToken2022ExecuteLayout extends SPLTokenProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final List<int> instruction = discriminator;
-
-  @override
   Map<String, dynamic> serialize() {
     return {"amount": amount};
   }
+
+  @override
+  SPLTokenProgramInstruction get instruction =>
+      SPLTokenProgramInstruction.execute;
 }

@@ -43,8 +43,8 @@ class SPLTokenSwapWithdrawSingleTokenLayout extends SPLTokenSwapProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      SPLTokenSwapProgramInstruction.withdrawSingleToken.insturction;
+  SPLTokenSwapProgramInstruction get instruction =>
+      SPLTokenSwapProgramInstruction.withdrawSingleToken;
 
   @override
   Map<String, dynamic> serialize() {

@@ -40,8 +40,8 @@ class SPLTokenInitializePermanentDelegateLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.initializePermanentDelegate.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.initializePermanentDelegate;
 
   /// Serializes the layout data.
   @override

@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataSetTokenStandardLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.setTokenStandard.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.setTokenStandard;
 
   @override
   Map<String, dynamic> serialize() {

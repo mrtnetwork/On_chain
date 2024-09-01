@@ -37,8 +37,8 @@ class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.initializeMintCloseAuthority.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.initializeMintCloseAuthority;
 
   /// Serializes the layout.
   @override

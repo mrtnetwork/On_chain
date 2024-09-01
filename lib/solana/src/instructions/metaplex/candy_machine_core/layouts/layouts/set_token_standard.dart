@@ -28,8 +28,8 @@ class MetaplexCandyMachineSetTokenStandardLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexCandyMachineProgramInstruction.setTokenStandard.insturction;
+  MetaplexCandyMachineProgramInstruction get instruction =>
+      MetaplexCandyMachineProgramInstruction.setTokenStandard;
 
   @override
   Map<String, dynamic> serialize() {

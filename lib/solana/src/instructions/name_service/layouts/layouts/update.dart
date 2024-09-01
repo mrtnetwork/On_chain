@@ -41,7 +41,8 @@ class NameServiceUpdateLayout extends NameServiceProgramLayout {
 
   /// The instruction associated with the layout.
   @override
-  int get instruction => NameServiceProgramInstruction.update.insturction;
+  NameServiceProgramInstruction get instruction =>
+      NameServiceProgramInstruction.update;
 
   /// Serializes the layout data.
   @override

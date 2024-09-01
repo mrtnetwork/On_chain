@@ -24,8 +24,8 @@ class MetaplexBubblegumDecompressV1Layout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.decompressV1.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.decompressV1;
 
   @override
   Map<String, dynamic> serialize() {

@@ -28,8 +28,8 @@ class MetaplexTokenMetaDataapproveUseAuthorityLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.approveUseAuthority.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.approveUseAuthority;
 
   @override
   Map<String, dynamic> serialize() {

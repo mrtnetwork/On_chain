@@ -28,8 +28,8 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.cpiGuardExtension.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.cpiGuardExtension;
 
   @override
   Map<String, dynamic> serialize() {

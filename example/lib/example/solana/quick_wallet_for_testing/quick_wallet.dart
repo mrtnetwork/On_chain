@@ -34,7 +34,7 @@ class QuickWalletForTest {
     return th;
   }
 
-  Future<Map<String, dynamic>> simulateTR(String digest,
+  Future<SimulateTranasctionResponse> simulateTR(String digest,
       {bool signVerify = false, RPCAccountConfig? config}) async {
     final th = await rpc.request(SolanaRPCSimulateTransaction(
         encodedTransaction: digest, sigVerify: signVerify, accounts: config));

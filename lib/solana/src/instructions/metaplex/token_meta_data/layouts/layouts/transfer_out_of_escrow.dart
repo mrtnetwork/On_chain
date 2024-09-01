@@ -27,8 +27,8 @@ class MetaplexTokenMetaDataTransferOutOfEscrowLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.transferOutOfEscrow.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.transferOutOfEscrow;
 
   @override
   Map<String, dynamic> serialize() {

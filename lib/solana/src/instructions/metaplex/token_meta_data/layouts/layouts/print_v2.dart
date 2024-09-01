@@ -29,8 +29,8 @@ class MetaplexTokenMetaDataPrintV2Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.printV2.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.printV2;
 
   @override
   Map<String, dynamic> serialize() {

@@ -19,7 +19,7 @@ class StakeMergeLayout extends StakeProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => StakeProgramInstruction.merge.insturction;
+  StakeProgramInstruction get instruction => StakeProgramInstruction.merge;
 
   @override
   Map<String, dynamic> serialize() {

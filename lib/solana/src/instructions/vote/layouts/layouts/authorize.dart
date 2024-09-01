@@ -29,7 +29,7 @@ class VoteProgramAuthorizeLayout extends VoteProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => VoteProgramInstruction.authorize.insturction;
+  VoteProgramInstruction get instruction => VoteProgramInstruction.authorize;
 
   @override
   Map<String, dynamic> serialize() {

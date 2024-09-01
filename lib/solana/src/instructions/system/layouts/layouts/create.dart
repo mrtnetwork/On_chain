@@ -38,7 +38,7 @@ class SystemCreateLayout extends SystemProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => SystemProgramInstruction.create.insturction;
+  SystemProgramInstruction get instruction => SystemProgramInstruction.create;
   @override
   Map<String, dynamic> serialize() {
     return {"lamports": lamports, "space": space, "programId": programId};

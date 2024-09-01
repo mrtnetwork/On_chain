@@ -26,7 +26,7 @@ class StakeWithdrawLayout extends StakeProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => StakeProgramInstruction.withdraw.insturction;
+  StakeProgramInstruction get instruction => StakeProgramInstruction.withdraw;
 
   @override
   Map<String, dynamic> serialize() {

@@ -22,7 +22,7 @@ class VoteProgramWithdrawLayout extends VoteProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => VoteProgramInstruction.withdraw.insturction;
+  VoteProgramInstruction get instruction => VoteProgramInstruction.withdraw;
 
   @override
   Map<String, dynamic> serialize() {

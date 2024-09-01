@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/keypair/public_key.dart';
 
 /// Class representing a private key for Solana.
@@ -27,7 +28,7 @@ class SolanaPrivateKey {
     // Check if the byte length matches the expected length of a Solana keypair.
     if (keypairBytes.length !=
         (Ed25519KeysConst.privKeyByteLen + Ed25519KeysConst.pubKeyByteLen)) {
-      throw MessageException(
+      throw SolanaPluginException(
           "Invalid Solana keypair length. A valid keypair must consist of exactly 64 bytes, combining both the seed and public key components.",
           details: {"length": keypairBytes.length});
     }
@@ -41,7 +42,7 @@ class SolanaPrivateKey {
         privateKey.publicKey.compressed
             .sublist(Ed25519KeysConst.pubKeyPrefix.length),
         publicBytes)) {
-      throw const MessageException("Invalid keypair");
+      throw const SolanaPluginException("Invalid keypair");
     }
     return SolanaPrivateKey._(privateKey);
   }

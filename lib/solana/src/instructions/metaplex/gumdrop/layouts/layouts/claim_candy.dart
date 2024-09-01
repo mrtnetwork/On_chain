@@ -50,8 +50,8 @@ class MetaplexGumdropClaimCandyLayout extends MetaplexGumdropProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexGumdropProgramInstruction.claimCandy.insturction;
+  MetaplexGumdropProgramInstruction get instruction =>
+      MetaplexGumdropProgramInstruction.claimCandy;
 
   @override
   Map<String, dynamic> serialize() {

@@ -17,7 +17,8 @@ class StakePoolWithdrawStakeLayout extends StakePoolProgramLayout {
   }
 
   @override
-  int get instruction => StakePoolProgramInstruction.withdrawStake.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.withdrawStake;
   static final StructLayout _layout = LayoutConst.struct([
     LayoutConst.u8(property: "instruction"),
     LayoutConst.ns64(property: "poolTokens")

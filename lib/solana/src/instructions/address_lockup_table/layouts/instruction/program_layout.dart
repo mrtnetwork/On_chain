@@ -4,6 +4,8 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class AddressLookupTableProgramLayout extends ProgramLayout {
   const AddressLookupTableProgramLayout();
+  @override
+  ProgramLayoutInstruction get instruction;
   static final StructLayout _layout =
       LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
   static ProgramLayout fromBytes(List<int> data) {

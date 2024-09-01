@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/system/constant.dart';
 
 class SystemProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -57,4 +59,9 @@ class SystemProgramInstruction implements ProgramLayoutInstruction {
       return null;
     }
   }
+
+  @override
+  String get programName => "System";
+  @override
+  SolAddress get programAddress => SystemProgramConst.programId;
 }

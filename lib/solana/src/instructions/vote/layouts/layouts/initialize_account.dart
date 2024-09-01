@@ -43,7 +43,8 @@ class VoteProgramInitializeAccountLayout extends VoteProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => VoteProgramInstruction.initializeAccount.insturction;
+  VoteProgramInstruction get instruction =>
+      VoteProgramInstruction.initializeAccount;
 
   @override
   Map<String, dynamic> serialize() {

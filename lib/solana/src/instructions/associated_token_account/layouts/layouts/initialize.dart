@@ -21,11 +21,16 @@ class AssociatedTokenAccountProgramInitializeLayout
   StructLayout get layout => _layout;
 
   @override
-  int? get instruction =>
-      AssociatedTokenAccountProgramInstruction.initialize.insturction;
+  AssociatedTokenAccountProgramInstruction get instruction =>
+      AssociatedTokenAccountProgramInstruction.initialize;
 
   @override
   Map<String, dynamic> serialize() {
+    return {};
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
     return {};
   }
 }

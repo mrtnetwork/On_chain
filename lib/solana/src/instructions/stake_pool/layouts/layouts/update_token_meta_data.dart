@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
@@ -29,7 +29,8 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
     if (nameBytesLength > StakePoolProgramConst.metadataMaxNameLength ||
         uriBytesLength > StakePoolProgramConst.metadataMaxUriLength ||
         symbolBytesLength > StakePoolProgramConst.metadataMaxSymbolLength) {
-      throw const MessageException("Some fields exceed the maximum data limit.",
+      throw const SolanaPluginException(
+          "Some fields exceed the maximum data limit.",
           details: {
             "metadataMaxNameLength":
                 StakePoolProgramConst.metadataMaxNameLength,
@@ -54,8 +55,8 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
   StructLayout get layout => StakePoolCreateTokenMetaDataLayout.staticLayout;
 
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.updateTokenMetaData.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.updateTokenMetaData;
 
   @override
   Map<String, dynamic> serialize() {

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class TransactionConfirmationStatus {
   final String name;
@@ -19,7 +19,7 @@ class TransactionConfirmationStatus {
   factory TransactionConfirmationStatus.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name.toLowerCase() == value?.toLowerCase(),
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No TransactionConfirmationStatus found matching the specified value",
           details: {"value": value}),
     );
@@ -27,7 +27,7 @@ class TransactionConfirmationStatus {
   factory TransactionConfirmationStatus.fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No TransactionConfirmationStatus found matching the specified value",
           details: {"value": value}),
     );

@@ -23,8 +23,8 @@ class MetaplexHydraAddMemberNftLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processAddMemberNft.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processAddMemberNft;
 
   @override
   Map<String, dynamic> serialize() {

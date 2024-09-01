@@ -19,7 +19,8 @@ class StakePoolDepositStakeLayout extends StakePoolProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction => StakePoolProgramInstruction.depositStake.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.depositStake;
 
   @override
   Map<String, dynamic> serialize() {

@@ -22,7 +22,8 @@ class StakePoolDepositSolLayout extends StakePoolProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction => StakePoolProgramInstruction.depositSol.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.depositSol;
   @override
   Map<String, dynamic> serialize() {
     return {"lamports": lamports};

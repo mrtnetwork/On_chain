@@ -44,8 +44,8 @@ class MetaplexBubblegumBurnLayout extends MetaplexBubblegumProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.burn.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.burn;
 
   @override
   Map<String, dynamic> serialize() {

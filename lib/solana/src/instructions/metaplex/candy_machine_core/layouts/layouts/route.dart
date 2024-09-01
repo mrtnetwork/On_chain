@@ -33,8 +33,8 @@ class MetaplexCandyMachineRouteLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexCandyMachineProgramInstruction.route.insturction;
+  MetaplexCandyMachineProgramInstruction get instruction =>
+      MetaplexCandyMachineProgramInstruction.route;
 
   @override
   Map<String, dynamic> serialize() {

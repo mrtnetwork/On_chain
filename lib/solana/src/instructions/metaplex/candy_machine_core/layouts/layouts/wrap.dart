@@ -18,8 +18,8 @@ class MetaplexCandyMachineWrapLayout extends MetaplexCandyMachineProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexCandyMachineProgramInstruction.wrap.insturction;
+  MetaplexCandyMachineProgramInstruction get instruction =>
+      MetaplexCandyMachineProgramInstruction.wrap;
 
   @override
   Map<String, dynamic> serialize() {

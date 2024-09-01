@@ -33,8 +33,8 @@ class MetaplexCandyMachineAddConfigLinesLayout
   late final StructLayout layout = _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexCandyMachineProgramInstruction.addConfigLines.insturction;
+  MetaplexCandyMachineProgramInstruction get instruction =>
+      MetaplexCandyMachineProgramInstruction.addConfigLines;
 
   @override
   Map<String, dynamic> serialize() {

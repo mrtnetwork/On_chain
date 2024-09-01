@@ -25,7 +25,8 @@ class TokenLendingFlashLoanLayout extends TokenLendingProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => TokenLendingProgramInstruction.flashLoan.insturction;
+  TokenLendingProgramInstruction get instruction =>
+      TokenLendingProgramInstruction.flashLoan;
 
   @override
   Map<String, dynamic> serialize() {

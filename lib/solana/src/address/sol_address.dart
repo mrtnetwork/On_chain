@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/keypair/public_key.dart';
 
 /// Represents a Solana address.
@@ -21,7 +22,7 @@ class SolAddress {
   /// Constructs a Solana address without checking the curve of the bytes.
   factory SolAddress.uncheckBytes(List<int> keyBytes) {
     if (keyBytes.length != 32) {
-      throw const MessageException(
+      throw const SolanaPluginException(
           "The public key must have a length of 32 bytes.");
     }
     return SolAddress._(Base58Encoder.encode(keyBytes));

@@ -1,15 +1,15 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/base58/base58.dart';
 import 'package:on_chain/solana/src/rpc/models/models/encoding.dart';
 
 /// Class representing a compiled instruction.
 class CompiledInstruction {
   /// Constructor to create a CompiledInstruction instance.
-  CompiledInstruction({
-    required this.programIdIndex,
-    required List<int> accounts,
-    required List<int> data,
-  })   // Ensure data and accounts lists are unmodifiable.
-  : data = List<int>.unmodifiable(data),
+  CompiledInstruction(
+      {required this.programIdIndex,
+      required List<int> accounts,
+      required List<int>
+          data}) // Ensure data and accounts lists are unmodifiable.
+      : data = List<int>.unmodifiable(data),
         accounts = List<int>.unmodifiable(accounts);
 
   factory CompiledInstruction.fromJson(Map<String, dynamic> json) {
@@ -28,9 +28,17 @@ class CompiledInstruction {
   /// The program input data.
   final List<int> data;
 
+  Map<String, dynamic> toJson() {
+    return {
+      "programIdIndex": programIdIndex,
+      "accounts": accounts,
+      "data": Base58Encoder.encode(data)
+    };
+  }
+
   /// Override the toString method to provide a string representation of the object.
   @override
   String toString() {
-    return "CompiledInstruction{programIdIndex: $programIdIndex, accounts: $accounts, data: ${BytesUtils.toHexString(data)}}";
+    return "CompiledInstruction${toJson()}";
   }
 }

@@ -50,8 +50,8 @@ class SPLTokenMetaDataInitializeLayout extends SPLTokenMetaDataProgramLayout {
 
   /// Gets the instruction bytes for the create instruction.
   @override
-  List<int> get instruction =>
-      SPLTokenMetaDataProgramSplDiscriminate.initialize.insturction;
+  SPLTokenMetaDataProgramSplDiscriminate get instruction =>
+      SPLTokenMetaDataProgramSplDiscriminate.initialize;
 
   /// Serializes the create instruction data.
   @override

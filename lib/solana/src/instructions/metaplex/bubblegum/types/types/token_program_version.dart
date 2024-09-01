@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class TokenProgramVersion {
   final String name;
@@ -13,7 +13,7 @@ class TokenProgramVersion {
   static TokenProgramVersion fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No TokenProgramVersion found matching the specified value",
           details: {"value": value}),
     );

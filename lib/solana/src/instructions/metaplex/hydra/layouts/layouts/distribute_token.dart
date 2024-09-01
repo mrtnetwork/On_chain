@@ -24,8 +24,8 @@ class MetaplexHydraDistributeTokenLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processDistributeToken.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processDistributeToken;
 
   @override
   Map<String, dynamic> serialize() {

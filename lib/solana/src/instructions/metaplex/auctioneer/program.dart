@@ -12,7 +12,7 @@ class MetaplexAuctioneerProgram extends TransactionInstruction {
     required List<AccountMeta> keys,
     required SolAddress programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, layout: layout, programId: programId);
+  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
 
   /// Authorize the Auctioneer to manage an Auction House.
   factory MetaplexAuctioneerProgram.authorize({

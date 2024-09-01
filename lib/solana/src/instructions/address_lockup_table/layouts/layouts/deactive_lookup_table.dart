@@ -26,8 +26,8 @@ class AddressLookupDeactiveLookupTableLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      AddressLookupTableProgramInstruction.deactivateLookupTable.insturction;
+  AddressLookupTableProgramInstruction get instruction =>
+      AddressLookupTableProgramInstruction.deactivateLookupTable;
 
   @override
   Map<String, dynamic> serialize() {

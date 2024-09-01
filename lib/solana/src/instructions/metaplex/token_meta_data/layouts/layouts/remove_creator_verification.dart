@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataRemoveCreatorVerificationLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .removeCreatorVerification.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.removeCreatorVerification;
 
   @override
   Map<String, dynamic> serialize() {

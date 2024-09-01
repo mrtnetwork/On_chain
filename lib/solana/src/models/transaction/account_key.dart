@@ -1,5 +1,5 @@
 // Import necessary modules for blockchain utilities, Solana address management, and transaction models.
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/models/lockup/accout_lookup_key.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
@@ -47,7 +47,7 @@ class MessageAccountKeys {
   List<CompiledInstruction> compileInstructions(
       List<TransactionInstruction> instructions) {
     if (length > SolanaTransactionConstant.maximumAccountKeys) {
-      throw const MessageException(
+      throw const SolanaPluginException(
           'Account index overflow encountered during compilation');
     }
     Map<String, int> keyIndexMap = {};
@@ -57,7 +57,7 @@ class MessageAccountKeys {
     int findKeyIndex(String key) {
       final keyIndex = keyIndexMap[key];
       if (keyIndex == null) {
-        throw const MessageException(
+        throw const SolanaPluginException(
             'Encountered an unknown instruction account key during compilation');
       }
       return keyIndex;

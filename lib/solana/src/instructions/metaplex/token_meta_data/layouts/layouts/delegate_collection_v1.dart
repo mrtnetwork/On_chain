@@ -34,8 +34,8 @@ class MetaplexTokenMetaDataDelegateCollectionV1Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.delegateCollectionV1.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.delegateCollectionV1;
 
   @override
   Map<String, dynamic> serialize() {

@@ -23,8 +23,8 @@ class MetaplexHydraTransferSharesLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processTransferShares.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processTransferShares;
 
   @override
   Map<String, dynamic> serialize() {

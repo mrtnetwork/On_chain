@@ -46,8 +46,8 @@ class MetaplexGumdropClaimLayout extends MetaplexGumdropProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexGumdropProgramInstruction.claim.insturction;
+  MetaplexGumdropProgramInstruction get instruction =>
+      MetaplexGumdropProgramInstruction.claim;
 
   @override
   Map<String, dynamic> serialize() {

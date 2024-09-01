@@ -40,7 +40,8 @@ class SPLTokenApproveCheckedLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.approveChecked.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.approveChecked;
 
   /// Serializes the layout.
   @override

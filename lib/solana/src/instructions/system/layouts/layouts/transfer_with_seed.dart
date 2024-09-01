@@ -37,7 +37,8 @@ class SystemTransferWithSeedLayout extends SystemProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => SystemProgramInstruction.transferWithSeed.insturction;
+  SystemProgramInstruction get instruction =>
+      SystemProgramInstruction.transferWithSeed;
   @override
   Map<String, dynamic> serialize() {
     return {"lamports": lamports, "seed": seed, "programId": programId};

@@ -24,8 +24,8 @@ class MetaplexHydraDistributeWalletLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processDistributeWallet.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processDistributeWallet;
 
   @override
   Map<String, dynamic> serialize() {

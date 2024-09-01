@@ -13,6 +13,7 @@ export 'models/account_balance_pair.dart';
 export 'models/token_account_balance_pair.dart';
 export 'models/transaction_confirmation_status.dart';
 export 'models/signature_status.dart';
+export 'models/simulate_transaction_response.dart';
 export 'models/contact_info.dart';
 export 'models/inflation_governor.dart';
 export 'models/inflation_rate.dart';

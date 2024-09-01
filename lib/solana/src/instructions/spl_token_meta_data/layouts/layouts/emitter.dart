@@ -37,8 +37,8 @@ class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
 
   /// Gets the instruction bytes for the emit instruction.
   @override
-  List<int> get instruction =>
-      SPLTokenMetaDataProgramSplDiscriminate.emit.insturction;
+  SPLTokenMetaDataProgramSplDiscriminate get instruction =>
+      SPLTokenMetaDataProgramSplDiscriminate.emit;
 
   /// Serializes the emit instruction data.
   @override

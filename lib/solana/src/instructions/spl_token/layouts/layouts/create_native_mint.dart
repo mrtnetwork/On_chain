@@ -27,8 +27,8 @@ class SPLTokenCreateNativeMintLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.createNativeMint.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.createNativeMint;
 
   /// Serializes the layout.
   @override

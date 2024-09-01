@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class StakeActivationState {
   final String name;
@@ -22,7 +22,7 @@ class StakeActivationState {
   factory StakeActivationState.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name.toLowerCase() == value?.toLowerCase(),
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No StakeActivationState found matching the specified value",
           details: {"value": value}),
     );
@@ -30,7 +30,7 @@ class StakeActivationState {
   factory StakeActivationState.fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No StakeActivationState found matching the specified value",
           details: {"value": value}),
     );

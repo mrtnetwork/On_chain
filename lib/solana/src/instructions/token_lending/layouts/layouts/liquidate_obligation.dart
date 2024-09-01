@@ -27,8 +27,8 @@ class TokenLendingLiquidateObligationLayout extends TokenLendingProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      TokenLendingProgramInstruction.liquidateObligation.insturction;
+  TokenLendingProgramInstruction get instruction =>
+      TokenLendingProgramInstruction.liquidateObligation;
 
   @override
   Map<String, dynamic> serialize() {

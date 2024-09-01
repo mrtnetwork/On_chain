@@ -29,8 +29,8 @@ class MetaplexGumdropCloseDistributorLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexGumdropProgramInstruction.closeDistributor.insturction;
+  MetaplexGumdropProgramInstruction get instruction =>
+      MetaplexGumdropProgramInstruction.closeDistributor;
 
   @override
   Map<String, dynamic> serialize() {

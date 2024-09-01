@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -14,7 +14,7 @@ class ProgrammableConfigRecord extends LayoutSerializable {
   factory ProgrammableConfigRecord.fromJson(Map<String, dynamic> json) {
     final name = json["programmableConfigRecord"]["key"];
     if (name != "V1") {
-      throw MessageException(
+      throw SolanaPluginException(
           "Invalid ProgrammableConfigRecord version: $name. Expected version: V1");
     }
     return ProgrammableConfigRecord._(json["programmableConfigRecord"]["key"],

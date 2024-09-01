@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
@@ -54,7 +54,7 @@ class SolanaMintAccount extends LayoutSerializable {
   factory SolanaMintAccount.fromBuffer(
       {required List<int> data, required SolAddress address}) {
     if (data.length < _Utils.mintSize) {
-      throw MessageException("Account data length is insufficient.",
+      throw SolanaPluginException("Account data length is insufficient.",
           details: {"Expected": _Utils.mintSize, "length": data.length});
     }
 
@@ -64,12 +64,12 @@ class SolanaMintAccount extends LayoutSerializable {
     final bool freezeAuthorityOption = decode["freezeAuthorityOption"];
     if (data.length > _Utils.mintSize) {
       if (data.length <= SolanaTokenAccountUtils.accountSize) {
-        throw const MessageException("Invalid account size");
+        throw const SolanaPluginException("Invalid account size");
       }
       final accountType = SolanaTokenAccountType.fromValue(
           data[SolanaTokenAccountUtils.accountSize]);
       if (accountType != SolanaTokenAccountType.mint) {
-        throw MessageException("Invalid account type.", details: {
+        throw SolanaPluginException("Invalid account type.", details: {
           "account type": accountType.name,
           "Excepted": SolanaTokenAccountType.mint
         });

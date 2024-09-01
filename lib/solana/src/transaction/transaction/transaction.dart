@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/keypair/private_key.dart';
 import 'package:on_chain/solana/src/models/models.dart';
-
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
 import 'package:on_chain/solana/src/transaction/core/core.dart';
 import 'package:on_chain/solana/src/transaction/utils/utils.dart';
@@ -69,7 +69,7 @@ class SolanaTransaction {
     } else {
       if (type == TransactionType.legacy &&
           addressLookupTableAccounts.isNotEmpty) {
-        throw const MessageException(
+        throw const SolanaPluginException(
             "Do not use addressLookupTableAccounts in legacy transactions.");
       }
     }
@@ -90,7 +90,7 @@ class SolanaTransaction {
     }
     if (signatures.isNotEmpty) {
       if (signatures.length != message.header.numRequiredSignatures) {
-        throw const MessageException(
+        throw const SolanaPluginException(
             "The expected length of signatures should match the number of required signatures.");
       }
     } else {
@@ -161,6 +161,15 @@ class SolanaTransaction {
     return transaction;
   }
 
+  factory SolanaTransaction.fromMessage(VersionedMessage message) {
+    return SolanaTransaction._(
+        List.generate(
+            message.header.numRequiredSignatures,
+            (index) => List<int>.unmodifiable(List<int>.filled(
+                SolanaTransactionConstant.signatureLengthInBytes, 0))),
+        message: message);
+  }
+
   /// Serializes the message of the transaction.
   List<int> serializeMessage() {
     return _serializeMessage;
@@ -177,7 +186,7 @@ class SolanaTransaction {
   List<int> serialize({bool verifySignatures = false}) {
     if (verifySignatures) {
       if (!areSignaturesReady()) {
-        throw const MessageException(
+        throw const SolanaPluginException(
             "Not all transaction signatures are ready.");
       }
     }
@@ -227,21 +236,21 @@ class SolanaTransaction {
   void addSignature(SolAddress address, List<int> signature,
       {bool verifySignature = true}) {
     if (signature.length != SolanaTransactionConstant.signatureLengthInBytes) {
-      throw const MessageException("Signature must be 64 bytes long");
+      throw const SolanaPluginException("Signature must be 64 bytes long");
     }
     final signerPubkeys =
         message.accountKeys.sublist(0, message.header.numRequiredSignatures);
     final signerIndex =
         signerPubkeys.indexWhere((pubkey) => pubkey.address == address.address);
     if (signerIndex < 0) {
-      throw MessageException(
+      throw SolanaPluginException(
           "Cannot add signature, $address is not required to sign this transaction");
     }
     if (verifySignature &&
         !address
             .toPublicKey()
             .verify(message: serializeMessage(), signature: signature)) {
-      throw const MessageException("Signature verification failed.");
+      throw const SolanaPluginException("Signature verification failed.");
     }
     List<List<int>> currentSigs = List.from(_signatures);
     currentSigs[signerIndex] = List<int>.unmodifiable(signature);

@@ -20,8 +20,8 @@ class MetaplexHydraUnstakeLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processUnstake.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processUnstake;
 
   @override
   Map<String, dynamic> serialize() {

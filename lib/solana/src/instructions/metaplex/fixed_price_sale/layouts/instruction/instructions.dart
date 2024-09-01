@@ -1,4 +1,7 @@
+import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/constant.dart';
 
 class MetaplexFixedPriceSaleProgramInstruction
     implements ProgramLayoutInstruction {
@@ -60,9 +63,16 @@ class MetaplexFixedPriceSaleProgramInstruction
   static MetaplexFixedPriceSaleProgramInstruction? getInstruction(
       dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
+      return values.firstWhere(
+          (element) => BytesUtils.bytesEqual(element.insturction, value));
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexFixedPrice";
+
+  @override
+  SolAddress get programAddress => MetaplexFixedPriceSaleProgramConst.programId;
 }

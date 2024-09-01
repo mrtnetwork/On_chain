@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
@@ -22,7 +22,8 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
   factory TokenLendingInitLendingMarketLayout(
       {required SolAddress owner, required List<int> quoteCurrency}) {
     if (quoteCurrency.length != 32) {
-      throw const MessageException("quoteCurrency must not exceed 32 bytes.");
+      throw const SolanaPluginException(
+          "quoteCurrency must not exceed 32 bytes.");
     }
     return TokenLendingInitLendingMarketLayout._(
         owner: owner, quoteCurrency: quoteCurrency);
@@ -47,8 +48,8 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      TokenLendingProgramInstruction.initLendingMarket.insturction;
+  TokenLendingProgramInstruction get instruction =>
+      TokenLendingProgramInstruction.initLendingMarket;
 
   @override
   Map<String, dynamic> serialize() {

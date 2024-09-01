@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/stake_pool/constant.dart';
 
 class StakePoolProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -58,8 +60,13 @@ class StakePoolProgramInstruction implements ProgramLayoutInstruction {
   static StakePoolProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "StakePool";
+  @override
+  SolAddress get programAddress => StakePoolProgramConst.programId;
 }

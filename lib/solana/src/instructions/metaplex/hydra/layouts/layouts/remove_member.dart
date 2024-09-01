@@ -20,8 +20,8 @@ class MetaplexHydraRemoveMemberLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processRemoveMember.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processRemoveMember;
 
   @override
   Map<String, dynamic> serialize() {

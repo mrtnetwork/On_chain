@@ -6,7 +6,7 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Simulate sending a transaction
 /// https://solana.com/docs/rpc/http/simulatetransaction
 class SolanaRPCSimulateTransaction
-    extends SolanaRPCRequest<Map<String, dynamic>> {
+    extends SolanaRPCRequest<SimulateTranasctionResponse> {
   const SolanaRPCSimulateTransaction({
     required this.encodedTransaction,
     this.replaceRecentBlockhash,
@@ -56,5 +56,10 @@ class SolanaRPCSimulateTransaction
         accounts?.toJson()
       ])
     ];
+  }
+
+  @override
+  SimulateTranasctionResponse onResonse(result) {
+    return SimulateTranasctionResponse.fromJson(result);
   }
 }

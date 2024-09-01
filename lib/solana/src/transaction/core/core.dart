@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/rpc/models/models/encoding.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
@@ -27,7 +27,7 @@ class TransactionType {
         return v0;
       }
     }
-    throw MessageException("Invalid Versioned transaction type",
+    throw SolanaPluginException("Invalid Versioned transaction type",
         details: {"value": v});
   }
 
@@ -130,7 +130,7 @@ abstract class VersionedMessage {
     final messageHeader = MessageHeader.fromJson(json["header"]);
     final instructions = (json["instructions"] as List).map((e) {
       final List<int> accountMetaKeys = (e["accounts"] as List).cast();
-      final instruction = TransactionInstruction.fromBytes(
+      final instruction = TransactionInstruction(
           programId: msg.byIndex(e["programIdIndex"])!,
           keys: accountMetaKeys.map((i) {
             return AccountMeta(
@@ -141,7 +141,7 @@ abstract class VersionedMessage {
                     numStaticAccountKeys: staticAccounts.length,
                     addressTableLookups: addressTableLookups));
           }).toList(),
-          instructionBytes: SolanaRPCEncoding.decode(e["data"]));
+          data: SolanaRPCEncoding.decode(e["data"]));
       return instruction;
     });
     if (type == TransactionType.v0 ||

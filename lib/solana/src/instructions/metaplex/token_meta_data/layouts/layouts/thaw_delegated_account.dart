@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataThawDelegatedAccountLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.thawDelegatedAccount.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.thawDelegatedAccount;
 
   @override
   Map<String, dynamic> serialize() {

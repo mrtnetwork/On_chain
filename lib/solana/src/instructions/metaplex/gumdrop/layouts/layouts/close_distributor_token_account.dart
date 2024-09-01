@@ -27,8 +27,8 @@ class MetaplexGumdropCloseDistributorTokenAccountLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction => MetaplexGumdropProgramInstruction
-      .closeDistributorTokenAccount.insturction;
+  MetaplexGumdropProgramInstruction get instruction =>
+      MetaplexGumdropProgramInstruction.closeDistributorTokenAccount;
 
   @override
   Map<String, dynamic> serialize() {

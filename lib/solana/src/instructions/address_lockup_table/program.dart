@@ -13,7 +13,7 @@ class AddressLookupTableProgram extends TransactionInstruction {
     required List<AccountMeta> keys,
     required ProgramLayout layout,
     SolAddress programId = AddressLookupTableProgramConst.programId,
-  }) : super(keys: keys, layout: layout, programId: programId);
+  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
   factory AddressLookupTableProgram.fromBytes({
     required SolAddress programId,
     required List<AccountMeta> keys,

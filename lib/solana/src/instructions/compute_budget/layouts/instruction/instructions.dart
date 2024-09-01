@@ -1,4 +1,6 @@
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/compute_budget/constant.dart';
 
 /// An enumeration of valid ComputeBudgetInstructionType's
 class ComputeBudgetProgramInstruction implements ProgramLayoutInstruction {
@@ -29,4 +31,10 @@ class ComputeBudgetProgramInstruction implements ProgramLayoutInstruction {
       return null;
     }
   }
+
+  @override
+  String get programName => "ComputeBudget";
+
+  @override
+  SolAddress get programAddress => ComputeBudgetConst.programId;
 }

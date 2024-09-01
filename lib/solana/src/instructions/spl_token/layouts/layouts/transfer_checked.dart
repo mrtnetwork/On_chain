@@ -43,8 +43,8 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.transferChecked.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.transferChecked;
 
   /// Serializes the layout data.
   @override

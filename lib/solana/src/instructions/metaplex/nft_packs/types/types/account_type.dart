@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class NFTPacksAccountType {
   final String name;
@@ -22,7 +22,7 @@ class NFTPacksAccountType {
   static NFTPacksAccountType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No NFTPacksAccountType found matching the specified value",
           details: {"value": value}),
     );

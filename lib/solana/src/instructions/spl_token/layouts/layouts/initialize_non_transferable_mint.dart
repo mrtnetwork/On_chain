@@ -31,8 +31,8 @@ class SPLTokenInitializeNonTransferableMintLayout
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.initializeNonTransferableMint.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.initializeNonTransferableMint;
 
   /// Serializes the layout data.
   @override

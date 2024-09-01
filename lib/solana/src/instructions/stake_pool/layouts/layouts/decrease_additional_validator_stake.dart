@@ -39,8 +39,8 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
   ]);
 
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.decreaseAdditionalValidatorStake.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.decreaseAdditionalValidatorStake;
 
   @override
   StructLayout get layout => _layout;

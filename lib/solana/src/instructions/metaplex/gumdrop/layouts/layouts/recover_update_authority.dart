@@ -29,8 +29,8 @@ class MetaplexGumdropRecoverUpdateAuthorityLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexGumdropProgramInstruction.recoverUpdateAuthority.insturction;
+  MetaplexGumdropProgramInstruction get instruction =>
+      MetaplexGumdropProgramInstruction.recoverUpdateAuthority;
 
   @override
   Map<String, dynamic> serialize() {

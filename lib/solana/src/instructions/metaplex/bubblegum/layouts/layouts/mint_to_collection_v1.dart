@@ -24,8 +24,8 @@ class MetaplexBubblegumMintToCollectionV1Layout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.mintToCollectionV1.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.mintToCollectionV1;
 
   @override
   Map<String, dynamic> serialize() {

@@ -27,7 +27,8 @@ class SPLTokenThawAccountLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.thawAccount.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.thawAccount;
 
   /// Serializes the layout data.
   @override

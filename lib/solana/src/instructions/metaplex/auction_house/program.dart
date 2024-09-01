@@ -1,5 +1,4 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/instructions/associated_token_account/constant.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/models/account/account_meta.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
@@ -10,7 +9,7 @@ class MetaplexAuctionHouseProgram extends TransactionInstruction {
     required List<AccountMeta> keys,
     required SolAddress programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, layout: layout, programId: programId);
+  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
 
   /// Create a new Auction House instance.
   factory MetaplexAuctionHouseProgram.createAuctionHouse({

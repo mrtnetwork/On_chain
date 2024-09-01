@@ -22,7 +22,8 @@ class StakePoolWithdrawSolLayout extends StakePoolProgramLayout {
   @override
   StructLayout get layout => _layout;
   @override
-  int get instruction => StakePoolProgramInstruction.withdrawSol.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.withdrawSol;
   @override
   Map<String, dynamic> serialize() {
     return {"poolTokens": poolTokens};

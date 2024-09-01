@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -12,7 +12,7 @@ class PrintSupply extends LayoutSerializable {
   static const PrintSupply unlimited = PrintSupply._(null, "Unlimited", 2);
   factory PrintSupply.limited({required List<BigInt> fields}) {
     if (fields.length != 1) {
-      throw const MessageException(
+      throw const SolanaPluginException(
           "The fields list must contain exactly one element for a limited print supply.");
     }
     return PrintSupply._(fields, "Limited", 1);

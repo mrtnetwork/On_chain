@@ -32,8 +32,8 @@ class MetaplexGumdropClaimCandyProvenLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexGumdropProgramInstruction.claimCandyProven.insturction;
+  MetaplexGumdropProgramInstruction get instruction =>
+      MetaplexGumdropProgramInstruction.claimCandyProven;
 
   @override
   Map<String, dynamic> serialize() {

@@ -52,8 +52,8 @@ class MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction => MetaplexAuctionHouseProgramInstruction
-      .auctioneerExecutePartialSale.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.auctioneerExecutePartialSale;
 
   @override
   Map<String, dynamic> serialize() {

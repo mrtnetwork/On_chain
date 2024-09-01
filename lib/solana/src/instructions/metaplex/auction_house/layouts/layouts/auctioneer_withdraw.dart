@@ -32,8 +32,8 @@ class MetaplexAuctionHouseAuctioneerWithdrawLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexAuctionHouseProgramInstruction.auctioneerWithdraw.insturction;
+  MetaplexAuctionHouseProgramInstruction get instruction =>
+      MetaplexAuctionHouseProgramInstruction.auctioneerWithdraw;
 
   @override
   Map<String, dynamic> serialize() {

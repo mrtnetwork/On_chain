@@ -37,8 +37,8 @@ class MetaplexNFTPacksEditPackLayout extends MetaplexNFTPacksProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.editPack.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.editPack;
 
   @override
   Map<String, dynamic> serialize() {

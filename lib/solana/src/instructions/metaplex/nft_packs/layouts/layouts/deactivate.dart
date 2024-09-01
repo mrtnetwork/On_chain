@@ -20,8 +20,8 @@ class MetaplexNFTPacksDeactivateLayout extends MetaplexNFTPacksProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexNFTPacksProgramInstruction.deactivate.insturction;
+  MetaplexNFTPacksProgramInstruction get instruction =>
+      MetaplexNFTPacksProgramInstruction.deactivate;
 
   @override
   Map<String, dynamic> serialize() {

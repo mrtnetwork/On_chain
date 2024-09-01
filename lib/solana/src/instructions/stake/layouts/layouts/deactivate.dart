@@ -18,7 +18,7 @@ class StakeDeactivateLayout extends StakeProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => StakeProgramInstruction.deactivate.insturction;
+  StakeProgramInstruction get instruction => StakeProgramInstruction.deactivate;
 
   @override
   Map<String, dynamic> serialize() {

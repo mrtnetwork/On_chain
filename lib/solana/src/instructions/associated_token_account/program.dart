@@ -3,14 +3,12 @@ import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 
-import 'constant.dart';
-
 class AssociatedTokenAccountProgram extends TransactionInstruction {
   AssociatedTokenAccountProgram({
     required List<AccountMeta> keys,
     required SolAddress programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, layout: layout, programId: programId);
+  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
   factory AssociatedTokenAccountProgram.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,

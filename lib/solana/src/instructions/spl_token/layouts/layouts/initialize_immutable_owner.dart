@@ -28,8 +28,8 @@ class SPLTokenInitializeImmutableOwnerLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction =
-      SPLTokenProgramInstruction.initializeImmutableOwner.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.initializeImmutableOwner;
 
   /// Serializes the layout.
   @override

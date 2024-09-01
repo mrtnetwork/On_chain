@@ -20,8 +20,8 @@ class MetaplexHydraSignMetadataLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processSignMetadata.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processSignMetadata;
 
   @override
   Map<String, dynamic> serialize() {

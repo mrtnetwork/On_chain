@@ -28,7 +28,8 @@ class NameServiceDeleteLayout extends NameServiceProgramLayout {
 
   /// The instruction associated with the layout.
   @override
-  int get instruction => NameServiceProgramInstruction.delete.insturction;
+  NameServiceProgramInstruction get instruction =>
+      NameServiceProgramInstruction.delete;
 
   /// Serializes the layout data.
   @override

@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/hydra/constant.dart';
 
 class MetaplexHydraProgramInstruction implements ProgramLayoutInstruction {
   @override
@@ -66,8 +68,14 @@ class MetaplexHydraProgramInstruction implements ProgramLayoutInstruction {
     try {
       return values.firstWhere(
           (element) => BytesUtils.bytesEqual(element.insturction, value));
-    } on StateError {
+    } catch (_) {
       return null;
     }
   }
+
+  @override
+  String get programName => "MetaplexHydra";
+
+  @override
+  SolAddress get programAddress => MetaplexHydraProgramConst.programId;
 }

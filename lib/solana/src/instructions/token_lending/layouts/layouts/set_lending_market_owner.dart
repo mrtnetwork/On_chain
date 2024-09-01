@@ -28,8 +28,8 @@ class TokenLendingSetLendingMarketOwnerLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      TokenLendingProgramInstruction.setLendingMarketOwner.insturction;
+  TokenLendingProgramInstruction get instruction =>
+      TokenLendingProgramInstruction.setLendingMarketOwner;
 
   @override
   Map<String, dynamic> serialize() {

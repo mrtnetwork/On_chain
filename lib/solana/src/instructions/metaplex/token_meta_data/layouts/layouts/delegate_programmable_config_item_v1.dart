@@ -16,7 +16,7 @@ class MetaplexTokenMetaDataDelegateProgrammableConfigItemV1Layout
         layout: _layout,
         bytes: data,
         instruction: MetaplexTokenMetaDataProgramInstruction
-            .delegatePrintDelegateV1.insturction,
+            .delegateProgrammableConfigItemV1.insturction,
         discriminator: discriminator);
     return MetaplexTokenMetaDataDelegateProgrammableConfigItemV1Layout(
         authorizationData: decode["authorizationData"] == null
@@ -34,8 +34,8 @@ class MetaplexTokenMetaDataDelegateProgrammableConfigItemV1Layout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction => MetaplexTokenMetaDataProgramInstruction
-      .delegateProgrammableConfigItemV1.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.delegateProgrammableConfigItemV1;
 
   @override
   Map<String, dynamic> serialize() {

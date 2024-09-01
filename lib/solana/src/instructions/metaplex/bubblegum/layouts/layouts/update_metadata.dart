@@ -46,8 +46,8 @@ class MetaplexBubblegumUpdateMetadataLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.updateMetadata.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.updateMetadata;
 
   @override
   Map<String, dynamic> serialize() {

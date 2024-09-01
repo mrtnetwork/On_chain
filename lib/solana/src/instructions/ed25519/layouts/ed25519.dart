@@ -1,9 +1,10 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:blockchain_utils/signer/solana/solana_signer.dart';
 import 'package:on_chain/solana/src/instructions/ed25519/constant.dart';
+import 'package:on_chain/solana/src/instructions/ed25519/instruction/instructions.dart';
 import 'package:on_chain/solana/src/keypair/private_key.dart';
 import 'package:on_chain/solana/src/keypair/public_key.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -88,7 +89,7 @@ class Ed25519ProgramLayout extends ProgramLayout {
     int? instructionIndex,
   }) {
     if (signature.length != Ed25519ProgramConst.signatureLen) {
-      throw MessageException("invalid signature length.", details: {
+      throw SolanaPluginException("invalid signature length.", details: {
         "Excepted": Ed25519ProgramConst.signatureLen,
         "length": signature.length
       });
@@ -159,7 +160,8 @@ class Ed25519ProgramLayout extends ProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  final int instruction = -1;
+  final Ed25519ProgramInstruction instruction =
+      Ed25519ProgramInstruction.ed25519;
 
   int get length {
     final publicKeyOffset = _layout.span;
@@ -180,6 +182,25 @@ class Ed25519ProgramLayout extends ProgramLayout {
       "messageDataOffset": messageDataOffset,
       "messageDataSize": messageDataSize,
       "messageInstructionIndex": messageInstructionIndex,
+    };
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "numSignatures": numSignatures,
+      "padding": padding,
+      "signatureOffset": signatureOffset,
+      "signatureInstructionIndex": signatureInstructionIndex,
+      "publicKeyOffset": publicKeyOffset,
+      "publicKeyInstructionIndex": publicKeyInstructionIndex,
+      "messageDataOffset": messageDataOffset,
+      "messageDataSize": messageDataSize,
+      "messageInstructionIndex": messageInstructionIndex,
+      "publicKey": publicKey.toAddress().address,
+      "signature": BytesUtils.toHexString(signature, prefix: "0x"),
+      "message": StringUtils.tryDecode(message) ??
+          BytesUtils.toHexString(message, prefix: "0x")
     };
   }
 

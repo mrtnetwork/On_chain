@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 
 class GuardType {
   final String name;
@@ -56,7 +56,7 @@ class GuardType {
   static GuardType fromValue(int value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw SolanaPluginException(
           "No GuardType found matching the specified value",
           details: {"value": value}),
     );

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/name_service/name_service.dart';
 import 'package:on_chain/solana/src/models/models.dart';
@@ -160,7 +160,7 @@ class NameServiceProgramTwitterHelper {
     final registry = await rpc.request(
         SolanaRPCNameRegistryAccount(account: twitterHandleRegistryKey));
     if (registry == null) {
-      throw const MessageException("Account not found.");
+      throw const SolanaPluginException("Account not found.");
     }
 
     return registry;
@@ -181,7 +181,7 @@ class NameServiceProgramTwitterHelper {
     final reverseRegistryState = await rpc.request(
         SolanaRPCReverseTwitterRegistryAccount(account: reverseRegistryKey));
     if (reverseRegistryState == null) {
-      throw const MessageException("Account not found.");
+      throw const SolanaPluginException("Account not found.");
     }
     return reverseRegistryState;
   }
@@ -234,7 +234,7 @@ class NameServiceProgramTwitterHelper {
               offset: 64, bytes: SolAddress.defaultPubKey.address),
         ]));
     if (filteredAccounts.length != 1) {
-      throw const MessageException(
+      throw const SolanaPluginException(
           'Account not found or more than one registry found.');
     }
     final account = filteredAccounts[0];

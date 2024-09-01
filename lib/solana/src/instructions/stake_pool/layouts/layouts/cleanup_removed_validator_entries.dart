@@ -17,8 +17,8 @@ class StakePoolCleanupRemovedValidatorEntriesLayout
     return const StakePoolCleanupRemovedValidatorEntriesLayout();
   }
   @override
-  int get instruction =>
-      StakePoolProgramInstruction.cleanupRemovedValidatorEntries.insturction;
+  StakePoolProgramInstruction get instruction =>
+      StakePoolProgramInstruction.cleanupRemovedValidatorEntries;
   static final StructLayout _layout =
       LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
   @override

@@ -39,8 +39,8 @@ class SPLTokenMetaDataRemoveFieldLayout extends SPLTokenMetaDataProgramLayout {
 
   /// Gets the instruction bytes for the remove field instruction.
   @override
-  List<int> get instruction =>
-      SPLTokenMetaDataProgramSplDiscriminate.remove.insturction;
+  SPLTokenMetaDataProgramSplDiscriminate get instruction =>
+      SPLTokenMetaDataProgramSplDiscriminate.remove;
 
   /// Serializes the remove field instruction data.
   @override

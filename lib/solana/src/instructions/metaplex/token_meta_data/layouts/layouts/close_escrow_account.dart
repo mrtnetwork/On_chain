@@ -23,8 +23,8 @@ class MetaplexTokenMetaDataCloseEscrowAccountLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.closeEscrowAccount.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.closeEscrowAccount;
 
   @override
   Map<String, dynamic> serialize() {

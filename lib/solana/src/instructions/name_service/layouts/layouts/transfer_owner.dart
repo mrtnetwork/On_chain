@@ -34,7 +34,8 @@ class NameServiceTransferLayout extends NameServiceProgramLayout {
 
   /// The instruction associated with the layout.
   @override
-  int get instruction => NameServiceProgramInstruction.transfer.insturction;
+  NameServiceProgramInstruction get instruction =>
+      NameServiceProgramInstruction.transfer;
 
   /// Serializes the layout data.
   @override

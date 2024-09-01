@@ -51,8 +51,8 @@ class MetaplexBubblegumUnverifyCollectionLayout
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexBubblegumProgramInstruction.unverifyCollection.insturction;
+  MetaplexBubblegumProgramInstruction get instruction =>
+      MetaplexBubblegumProgramInstruction.unverifyCollection;
 
   @override
   Map<String, dynamic> serialize() {

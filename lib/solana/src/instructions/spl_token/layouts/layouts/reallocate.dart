@@ -39,7 +39,8 @@ class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
 
   /// Instruction associated with the layout.
   @override
-  final int instruction = SPLTokenProgramInstruction.reallocate.insturction;
+  final SPLTokenProgramInstruction instruction =
+      SPLTokenProgramInstruction.reallocate;
 
   /// Serializes the layout data.
   @override

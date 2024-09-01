@@ -22,8 +22,8 @@ class MetaplexTokenMetaDataPuffMetadataLayout
   StructLayout get layout => _layout;
 
   @override
-  int get instruction =>
-      MetaplexTokenMetaDataProgramInstruction.puffMetadata.insturction;
+  MetaplexTokenMetaDataProgramInstruction get instruction =>
+      MetaplexTokenMetaDataProgramInstruction.puffMetadata;
 
   @override
   Map<String, dynamic> serialize() {

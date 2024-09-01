@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/spl_token.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/types/types/additional_metadata.dart';
@@ -20,7 +20,7 @@ class _Utils {
     try {
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const MessageException("Invalid extionsion bytes");
+      throw const SolanaPluginException("Invalid extionsion bytes");
     }
   }
 
@@ -33,7 +33,7 @@ class _Utils {
               type: SolanaTokenAccountType.mint);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const MessageException("Invalid extionsion bytes");
+      throw const SolanaPluginException("Invalid extionsion bytes");
     }
   }
 }

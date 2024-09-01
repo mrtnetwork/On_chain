@@ -42,8 +42,8 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
   StructLayout get layout => _layout;
 
   @override
-  List<int> get instruction =>
-      MetaplexHydraProgramInstruction.processInit.insturction;
+  MetaplexHydraProgramInstruction get instruction =>
+      MetaplexHydraProgramInstruction.processInit;
 
   @override
   Map<String, dynamic> serialize() {
