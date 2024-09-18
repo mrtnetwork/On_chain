@@ -34,6 +34,21 @@ class MessageV0 implements VersionedMessage {
     required this.addressTableLookups,
   });
 
+  @override
+  MessageV0 copyWith(
+      {MessageHeader? header,
+      List<SolAddress>? accountKeys,
+      SolAddress? recentBlockhash,
+      List<CompiledInstruction>? compiledInstructions,
+      List<AddressTableLookup>? addressTableLookups}) {
+    return MessageV0(
+        header: header ?? this.header,
+        accountKeys: accountKeys ?? this.accountKeys,
+        recentBlockhash: recentBlockhash ?? this.recentBlockhash,
+        compiledInstructions: compiledInstructions ?? this.compiledInstructions,
+        addressTableLookups: addressTableLookups ?? this.addressTableLookups);
+  }
+
   /// Compiles a version 0 message from provided parameters.
   factory MessageV0.compile({
     required List<TransactionInstruction> transactionInstructions,

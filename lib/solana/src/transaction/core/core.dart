@@ -39,6 +39,13 @@ class TransactionType {
 
 /// Abstract class representing a versioned message.
 abstract class VersionedMessage {
+  VersionedMessage copyWith(
+      {MessageHeader? header,
+      List<SolAddress>? accountKeys,
+      SolAddress? recentBlockhash,
+      List<CompiledInstruction>? compiledInstructions,
+      List<AddressTableLookup>? addressTableLookups});
+
   /// The message header, identifying signed and read-only [accountKeys].
   abstract final MessageHeader header;
 

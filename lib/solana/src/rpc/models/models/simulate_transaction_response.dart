@@ -20,9 +20,9 @@ class SimulateTranasctionReturnDataResponse {
 }
 
 class SimulateTranasctionResponse {
-  final String? err;
+  final dynamic err;
   final List<String>? logs;
-  final List<SolanaAccountInfo>? accounts;
+  final List<SolanaAccountInfo?>? accounts;
   final BigInt? unitsConsumed;
   final SimulateTranasctionReturnDataResponse? returnData;
   final CompiledInnerInstruction? innerInstructions;
@@ -31,7 +31,7 @@ class SimulateTranasctionResponse {
     return {
       "err": err,
       "logs": logs,
-      "accounts": accounts?.map((e) => e.toJson()).toList(),
+      "accounts": accounts?.map((e) => e?.toJson()).toList(),
       "unitsConsumed": unitsConsumed?.toString(),
       "returnData": returnData?.toJson(),
       "innerInstructions": innerInstructions?.toJson()
@@ -49,9 +49,10 @@ class SimulateTranasctionResponse {
     return SimulateTranasctionResponse(
         err: json["err"],
         logs: (json["logs"] as List?)?.map((e) => e.toString()).toList(),
-        accounts: (json["accounts"] as List?)
-            ?.map((e) => SolanaAccountInfo.fromJson((e as Map).cast()))
-            .toList(),
+        accounts: (json["accounts"] as List?)?.map((e) {
+          if (e == null) return null;
+          return SolanaAccountInfo.fromJson((e as Map).cast());
+        }).toList(),
         unitsConsumed: BigintUtils.tryParse(json["unitsConsumed"]),
         returnData: json["returnData"] == null
             ? null

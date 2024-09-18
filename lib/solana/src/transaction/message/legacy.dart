@@ -30,6 +30,21 @@ class Message implements VersionedMessage {
     required this.compiledInstructions,
   });
 
+  @override
+  Message copyWith(
+      {MessageHeader? header,
+      List<SolAddress>? accountKeys,
+      SolAddress? recentBlockhash,
+      List<CompiledInstruction>? compiledInstructions,
+      List<AddressTableLookup>? addressTableLookups}) {
+    return Message(
+        header: header ?? this.header,
+        accountKeys: accountKeys ?? this.accountKeys,
+        recentBlockhash: recentBlockhash ?? this.recentBlockhash,
+        compiledInstructions:
+            compiledInstructions ?? this.compiledInstructions);
+  }
+
   /// Constructs a message from a serialized buffer.
   factory Message.fromBuffer(List<int> buffer) {
     return SolanaTransactionUtils.deserializeMessageLegacy(buffer);

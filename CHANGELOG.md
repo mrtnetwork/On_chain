@@ -1,4 +1,9 @@
-# 4.1.0
+## 4.2.0
+
+- Fixed Solana simulate transaction model
+- Added helper methods to solana versioned messages for replacing blockchains
+
+## 4.1.0
 
 - Fix Solana pre-instruction serialization issues
 
