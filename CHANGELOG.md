@@ -1,5 +1,6 @@
 ## 4.3.0
 
+- Enhanced exception handling with updated exception classes
 - Update dependencies.
 
 ## 4.2.0
