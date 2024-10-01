@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/metadata/types/types.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/metadata/utils/metadata_utils.dart';
@@ -41,7 +42,8 @@ abstract class TransactionMetadata<T>
     try {
       type = TransactionMetadataType.fromName(json.keys.first);
     } on StateError {
-      throw MessageException("Invalid metadata json.", details: {"json": json});
+      throw ADAPluginException("Invalid metadata json.",
+          details: {"json": json});
     }
     final TransactionMetadata metadata;
     switch (type) {

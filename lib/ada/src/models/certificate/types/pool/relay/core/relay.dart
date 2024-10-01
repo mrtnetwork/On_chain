@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/types/pool/relay/core/relay_type.dart';
 import 'package:on_chain/ada/src/models/certificate/types/pool/relay/relays/multi_host_name.dart';
@@ -30,7 +31,7 @@ abstract class Relay with ADASerialization {
     try {
       type = RelayType.fromName(json.keys.first);
     } on StateError {
-      throw MessageException("Invalid Relay json.", details: {"json": json});
+      throw ADAPluginException("Invalid Relay json.", details: {"json": json});
     }
     switch (type) {
       case RelayType.multiHostName:

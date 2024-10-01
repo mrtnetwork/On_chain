@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/solidity/contract/fragments.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
@@ -52,7 +53,7 @@ class ETHTransactionBuilder {
     if (value > BigInt.zero) {
       if (function.stateMutability != null &&
           function.stateMutability != StateMutability.payable) {
-        throw const MessageException(
+        throw const ETHPluginException(
             "For calling non-payable methods, the transaction value must be set to zero.");
       }
     }
@@ -137,7 +138,7 @@ class ETHTransactionBuilder {
   List<int> signedSerializedTransaction([ETHSignature? signature]) {
     signature ??= _signature;
     if (signature == null) {
-      throw const MessageException(
+      throw const ETHPluginException(
           "The transaction signed serialized cannot be obtained before the signing process.");
     }
     return _transaction.signedSerialized(signature);
@@ -194,7 +195,7 @@ class ETHTransactionBuilder {
   /// is not used in this type of transaction.
   void setGasPrice(BigInt gasPrice) {
     if (_type == ETHTransactionType.eip1559) {
-      throw const MessageException(
+      throw const ETHPluginException(
           "Do not specify a gasPrice for non-legacy transactions.");
     }
     _gasPrice = gasPrice;
@@ -206,7 +207,7 @@ class ETHTransactionBuilder {
   /// Throws a [MessageException] if the transaction type is not EIP-1559.
   void setEIP1559FeeDetails(BigInt maxFeePerGas, BigInt maxPriorityFeePerGas) {
     if (_type != ETHTransactionType.eip1559) {
-      throw const MessageException(
+      throw const ETHPluginException(
           "Do not specify a maxPriorityFeePerGas and maxFeePerGas for legacy transactions. use setGasPrice");
     }
     _maxFeePerGas = maxFeePerGas;
@@ -240,7 +241,7 @@ class ETHTransactionBuilder {
           newestBlock: BlockTagOrNumber.pending,
           rewardPercentiles: [25, 50, 75]));
       if (historical == null) {
-        throw const MessageException(
+        throw const ETHPluginException(
             "The network in question does not currently support the London hard fork, including the EIP-1559 upgrade. use legacy transaction");
       }
       final fee = historical.toFee();
@@ -334,7 +335,7 @@ class ETHTransactionBuilder {
   /// Throws an exception if the transaction is not signed.
   String get transactionID {
     if (_signature == null) {
-      throw const MessageException(
+      throw const ETHPluginException(
           "The transaction hash cannot be obtained before the signing process.");
     }
     return BytesUtils.toHexString(
@@ -346,7 +347,7 @@ class ETHTransactionBuilder {
   void _checkError() {
     final errors = _validate();
     if (errors.isEmpty) return;
-    throw MessageException("some fields not filled", details: errors);
+    throw ETHPluginException("some fields not filled", details: errors);
   }
 
   /// Converts the transaction details into a map for estimating gas or access list.

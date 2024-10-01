@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 class RedeemerTag with ADASerialization {
@@ -17,7 +18,7 @@ class RedeemerTag with ADASerialization {
   static RedeemerTag fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No RedeemerTag found matching the specified value",
           details: {"value": value}),
     );
@@ -26,7 +27,7 @@ class RedeemerTag with ADASerialization {
   static RedeemerTag fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No RedeemerTag found matching the specified name",
           details: {"name": name}),
     );

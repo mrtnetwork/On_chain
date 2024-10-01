@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/metadata/core/meta_data.dart';
 
 /// Represents transaction metadata containing bytes.
@@ -38,7 +39,7 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
       {MetadataSchemaConfig config = const MetadataSchemaConfig(
           jsonSchema: MetadataJsonSchema.noConversions)}) {
     if (config.jsonSchema == MetadataJsonSchema.noConversions) {
-      throw const MessageException(
+      throw const ADAPluginException(
           "bytes not allowed in JSON in specified schema.");
     }
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {

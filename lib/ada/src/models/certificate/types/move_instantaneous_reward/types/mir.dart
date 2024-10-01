@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/types/move_instantaneous_reward/types/to_other_pot.dart';
 import 'package:on_chain/ada/src/models/certificate/types/move_instantaneous_reward/types/to_stake_credentials.dart';
@@ -21,7 +22,7 @@ abstract class MIR with ADASerialization {
   }
   factory MIR.fromJson(dynamic json) {
     if (json is! Map && json is! String) {
-      throw MessageException("Invalid MIR json. value must be string or map",
+      throw ADAPluginException("Invalid MIR json. value must be string or map",
           details: {"json": json});
     }
     if (json is String) {

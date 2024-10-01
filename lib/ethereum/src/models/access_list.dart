@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ethereum/src/exception/exception.dart';
 
 /// Represents a list of access list entries.
 typedef AccessList = List<AccessListEntry>;
@@ -29,7 +30,7 @@ class AccessListEntry {
           .toList();
       return AccessListEntry(address: addr, storageKeys: storageKeys);
     } catch (e) {
-      throw const MessageException("invalid AccessListEntry serialized");
+      throw const ETHPluginException("invalid AccessListEntry serialized");
     }
   }
 

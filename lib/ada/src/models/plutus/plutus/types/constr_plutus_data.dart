@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus/core/plutus.dart';
 import 'package:on_chain/ada/src/models/plutus/utils/utils.dart';
@@ -25,7 +26,7 @@ class ConstrPlutusData extends PlutusData {
     final BigInt? alternative =
         PlutusDataUtils.cborTagToAlternative(cbor.tags.first);
     if (alternative == null) {
-      throw const MessageException("Invalid ConstrPlutusData tag.");
+      throw const ADAPluginException("Invalid ConstrPlutusData tag.");
     }
     return ConstrPlutusData(
         alternative: alternative,

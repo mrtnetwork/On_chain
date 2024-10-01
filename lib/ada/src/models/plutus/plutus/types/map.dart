@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus/core/plutus.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus/types/integer.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus/types/bytes.dart';
@@ -51,7 +52,7 @@ class PlutusMap extends PlutusData {
       final Map<String, dynamic> json = {};
       for (final i in value.entries) {
         if (i.key is! PlutusInteger && i.key is! PlutusBytes) {
-          throw MessageException("plutus object are not allowed as key.",
+          throw ADAPluginException("plutus object are not allowed as key.",
               details: {"Key": i.key, "Type": i.key.runtimeType});
         }
         final key = i.key.toJsonSchema(config: config).toString();

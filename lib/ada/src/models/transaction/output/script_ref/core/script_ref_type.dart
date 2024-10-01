@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/cbor/core/cbor.dart';
 import 'package:blockchain_utils/cbor/types/int.dart';
-import 'package:blockchain_utils/exception/exception.dart';
+
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents the type of a script reference.
@@ -28,7 +29,7 @@ class ScriptRefType with ADASerialization {
       {ScriptRefType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw MessageException("Invalid ScriptRefType.",
+      throw ADAPluginException("Invalid ScriptRefType.",
           details: {"Expected": validate, "Type": type});
     }
     return fromValue(cbor.value);
@@ -43,7 +44,7 @@ class ScriptRefType with ADASerialization {
   static ScriptRefType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No ScriptRefType found matching the specified value",
           details: {"value": value}),
     );
@@ -53,7 +54,7 @@ class ScriptRefType with ADASerialization {
   static ScriptRefType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No ScriptRefType found matching the specified name",
           details: {"name": name}),
     );

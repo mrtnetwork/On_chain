@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exception.dart';
+
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents the type of a certificate.
@@ -57,7 +58,7 @@ class CertificateType with ADASerialization {
       {CertificateType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw MessageException("Invalid Certificate type.",
+      throw ADAPluginException("Invalid Certificate type.",
           details: {"Excepted": validate, "Type": type});
     }
     return type;
@@ -67,7 +68,7 @@ class CertificateType with ADASerialization {
   static CertificateType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No CertificateType found matching the specified value",
           details: {"value": value}),
     );
@@ -77,7 +78,7 @@ class CertificateType with ADASerialization {
   static CertificateType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No CertificateType found matching the specified name",
           details: {"name": name}),
     );

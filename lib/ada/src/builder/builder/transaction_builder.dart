@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
 import 'package:on_chain/ada/src/builder/builder/tranasction_builder_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/ada_models.dart';
 import 'package:on_chain/ada/src/provider/provider.dart';
 import 'certificate_builder.dart';
@@ -77,7 +78,7 @@ class ADATransactionBuilder {
     final multiAsset = utxos.multiAsset;
     final asset = multiAsset - _outputs.multiAsset;
     if (lovelence.isNegative) {
-      throw MessageException("Insufficient input in transaction.", details: {
+      throw ADAPluginException("Insufficient input in transaction.", details: {
         "utxo lovelence": utxos.sumOflovelace,
         "output lovelence": _outputs.sumOflovelace
       });
@@ -94,7 +95,8 @@ class ADATransactionBuilder {
 
   int estimateSize({ADAAddress? onChangeAddress}) {
     if (utxos.isEmpty || _outputs.isEmpty) {
-      throw const MessageException("Utxos and outputs must not be not empty.");
+      throw const ADAPluginException(
+          "Utxos and outputs must not be not empty.");
     }
     final outs = _outputs.map((e) {
       if (e.amount.coin == BigInt.zero) {
@@ -138,7 +140,7 @@ class ADATransactionBuilder {
 
   TransactionOutput? onChangeAddress(ADAAddress onChangeAddress) {
     if (_fee == null) {
-      throw const MessageException(
+      throw const ADAPluginException(
           "please calculation the transaction fees befor using change address.");
     }
     final change = _changeOutput(onChangeAddress);
@@ -156,7 +158,7 @@ class ADATransactionBuilder {
 
   TransactionBody buildTxBody({AuxiliaryDataHash? auxHash}) {
     if (fee == null) {
-      throw const MessageException(
+      throw const ADAPluginException(
           "cannot build transaction body before calculation fee.");
     }
     final mint = getMint();
@@ -229,7 +231,7 @@ class ADATransactionBuilder {
     final asset = utxos.multiAsset - outputs.multiAsset;
 
     if (lovelence != BigInt.zero || asset != MultiAsset.empty) {
-      throw MessageException(
+      throw ADAPluginException(
           "The amount of inputs and outputs is not calculated correctly",
           details: {"lovelence": lovelence, "asset": asset});
     }

@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/certificate/certs.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
@@ -37,7 +38,7 @@ abstract class Certificate with ADASerialization {
     try {
       type = CertificateType.fromName(json.keys.first);
     } on StateError {
-      throw MessageException("Invalid json certificate.",
+      throw ADAPluginException("Invalid json certificate.",
           details: {"json": json});
     }
     switch (type) {

@@ -13,11 +13,9 @@ class SolanaLayoutUtils {
 
   /// optional [SolAddress] values.
   static OptionalLayout optionPubkey(
-      {String? property, bool keepSize = false, Layout? discriminator}) {
+      {String? property, bool keepSize = false}) {
     return OptionalLayout(publicKey(),
-        property: property,
-        keepLayoutSize: keepSize,
-        discriminator: discriminator);
+        property: property, keepLayoutSize: keepSize);
   }
 
   static COptionLayout cOptionPubkey(

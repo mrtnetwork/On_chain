@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exception.dart';
+
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents the type of a stake credential.
@@ -31,7 +32,7 @@ class StakeCredType with ADASerialization {
   static StakeCredType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No StakeCredType found matching the specified value",
           details: {"value": value}),
     );
@@ -41,7 +42,7 @@ class StakeCredType with ADASerialization {
   static StakeCredType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No StakeCredType found matching the specified name",
           details: {"name": name}),
     );

@@ -1,6 +1,7 @@
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:blockchain_utils/bip/address/p2pkh_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ethereum/src/exception/exception.dart';
 
 /// Class representing an Ethereum public key, providing methods for conversion, verification, and address generation.
 class ETHPublicKey {
@@ -16,7 +17,7 @@ class ETHPublicKey {
       final pubKey = Secp256k1PublicKeyEcdsa.fromBytes(keyBytes);
       return ETHPublicKey._(pubKey);
     } catch (e) {
-      throw MessageException("invalid public key",
+      throw ETHPluginException("invalid public key",
           details: {"input": BytesUtils.toHexString(keyBytes)});
     }
   }

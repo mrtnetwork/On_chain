@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 class HeaderLeaderCertType with ADASerialization {
@@ -15,7 +15,7 @@ class HeaderLeaderCertType with ADASerialization {
       {HeaderLeaderCertType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw MessageException("Invalid HeaderLeaderCertType.",
+      throw ADAPluginException("Invalid HeaderLeaderCertType.",
           details: {"Excepted": validate, "Type": type});
     }
 
@@ -25,7 +25,7 @@ class HeaderLeaderCertType with ADASerialization {
   static HeaderLeaderCertType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No HeaderLeaderCertType found matching the specified value",
           details: {"value": value}),
     );

@@ -1,3 +1,4 @@
+import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/ethereum/src/keys/public_key.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
@@ -21,7 +22,7 @@ class ETHPrivateKey {
           Secp256k1PrivateKeyEcdsa.fromBytes(keyBytes);
       return ETHPrivateKey._(key);
     } catch (e) {
-      throw MessageException("invalid ethereum private key",
+      throw ETHPluginException("invalid ethereum private key",
           details: {"input": BytesUtils.toHexString(keyBytes)});
     }
   }

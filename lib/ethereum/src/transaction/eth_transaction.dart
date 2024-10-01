@@ -1,4 +1,5 @@
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
+import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/ethereum/src/rlp/decode.dart';
 import 'package:on_chain/ethereum/src/rlp/encode.dart';
 import 'package:on_chain/ethereum/src/models/access_list.dart';
@@ -302,7 +303,7 @@ class ETHTransaction {
   /// Factory constructor to create an [ETHTransaction] from serialized transaction bytes.
   factory ETHTransaction.fromSerialized(List<int> transactionBytes) {
     if (transactionBytes.isEmpty) {
-      throw const MessageException("invalid transaction bytes");
+      throw const ETHPluginException("invalid transaction bytes");
     }
     List<int> bytes = List.from(transactionBytes);
     final int prefix = bytes[0];
@@ -310,7 +311,7 @@ class ETHTransaction {
       bytes = bytes.sublist(1);
     } else {
       if (prefix < 0x7f) {
-        throw const MessageException("unsupported transaction type");
+        throw const ETHPluginException("unsupported transaction type");
       }
     }
     final decode = RLPDecoder.decode(bytes);
@@ -454,7 +455,7 @@ class ETHTransaction {
     if (chainId != BigInt.zero) {
       v = _ETHTransactionUtils.getLegacyChainId(sig.v, chainId);
     } else if (BigInt.from(sig.v) != v) {
-      throw const MessageException("Mismatch chainID/Signature.V");
+      throw const ETHPluginException("Mismatch chainID/Signature.V");
     }
     fields.add(BigintUtils.toBytes(v, length: BigintUtils.bitlengthInBytes(v)));
     fields.add(_ETHTransactionUtils.trimLeadingZero(sig.rBytes));
@@ -470,7 +471,7 @@ class ETHTransaction {
 
     if (maxFeePerGas != null && maxPriorityFeePerGas != null) {
       if (maxPriorityFeePerGas! > maxFeePerGas!) {
-        throw MessageException("priorityFee cannot be more than maxFee",
+        throw ETHPluginException("priorityFee cannot be more than maxFee",
             details: {
               "priorityFee": maxFeePerGas,
               "maxFee": maxPriorityFeePerGas
@@ -481,11 +482,11 @@ class ETHTransaction {
       if (type == ETHTransactionType.legacy ||
           type == ETHTransactionType.eip2930) {
         if (gasPrice == null) {
-          throw const MessageException(
+          throw const ETHPluginException(
               "Gas price must not be null for legacy transactions.");
         }
         if (maxFeePerGas != null || maxPriorityFeePerGas != null) {
-          throw MessageException(
+          throw ETHPluginException(
               "maxFeePerGas and maxPriorityFeePerGas must be null for legacy transactions.",
               details: {
                 "maxFeePerGas": maxFeePerGas,
@@ -493,24 +494,24 @@ class ETHTransaction {
               });
         }
         if (type == ETHTransactionType.legacy && hasAccessList) {
-          throw MessageException(
+          throw ETHPluginException(
               "accsesslist must be null or empty for legacy transactions",
               details: {"accessList": accessList});
         }
       } else {
         if (gasPrice != null) {
-          throw MessageException(
+          throw ETHPluginException(
               "Gas price must be null for EIP1559 transactions.",
               details: {"gasPrice": gasPrice});
         }
         if (maxFeePerGas == null || maxPriorityFeePerGas == null) {
-          throw const MessageException(
+          throw const ETHPluginException(
               "maxFeePerGas and maxPriorityFeePerGas must not be null for EIP1559 transactions.");
         }
       }
     } else {
       if (!hasGasPrice && !isEIP1559) {
-        throw const MessageException(
+        throw const ETHPluginException(
             "use gasPrice for legacy or Eip2930 transaction or priorityFee and maxFee for Eip1559 transactions");
       }
     }
@@ -550,7 +551,7 @@ class ETHTransaction {
   List<int> signedSerialized([ETHSignature? sig]) {
     sig ??= signature;
     if (sig == null) {
-      throw const MessageException(
+      throw const ETHPluginException(
           "The transaction signed serialized cannot be obtained before the signing process.");
     }
     return _serialized(sig);

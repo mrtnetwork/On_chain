@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/output/script_ref/core/script_ref_type.dart';
 import 'package:on_chain/ada/src/models/transaction/output/script_ref/refs/native_script.dart';
@@ -14,7 +15,7 @@ abstract class ScriptRef with ADASerialization {
     if (cbor.hasType<CborTagValue>()) {
       final cborTag = cbor.cast<CborTagValue>();
       if (!BytesUtils.bytesEqual(cborTag.tags, _tag)) {
-        throw MessageException("Invalid ScriptRef cbor tag.",
+        throw ADAPluginException("Invalid ScriptRef cbor tag.",
             details: {"Excepted": _tag, "Tag": cborTag.tags});
       }
       cbor = CborObject.fromCbor(cborTag.getValue<List<int>>()).cast();
@@ -31,7 +32,7 @@ abstract class ScriptRef with ADASerialization {
     try {
       type = ScriptRefType.fromName(json.keys.first);
     } on StateError {
-      throw MessageException("Invalid ScriptRef json.",
+      throw ADAPluginException("Invalid ScriptRef json.",
           details: {"json": json});
     }
     switch (type) {

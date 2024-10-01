@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
 import 'package:on_chain/ada/src/models/credential/core/stake_cred_type.dart';
@@ -29,7 +30,7 @@ abstract class PlutusData
     try {
       type = PlutusDataType.fromName(json.keys.first);
     } on StateError {
-      throw MessageException("Invalid PlutusData json.",
+      throw ADAPluginException("Invalid PlutusData json.",
           details: {"json": json});
     }
     switch (type) {
@@ -67,7 +68,7 @@ abstract class PlutusData
     } else if (cbor is CborNumeric) {
       return PlutusInteger.deserialize(cbor);
     }
-    throw MessageException(
+    throw ADAPluginException(
       "Invalid cbor object.",
       details: {"Value": cbor, "Type": cbor.runtimeType},
     );

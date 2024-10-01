@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Enum representing the type of relay.
@@ -33,7 +33,7 @@ class RelayType with ADASerialization {
   factory RelayType.deserialize(CborIntValue cbor, {RelayType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw MessageException("Invalid RelayType.",
+      throw ADAPluginException("Invalid RelayType.",
           details: {"Expected": validate, "Type": type});
     }
     return fromValue(cbor.value);
@@ -43,7 +43,7 @@ class RelayType with ADASerialization {
   static RelayType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No RelayType found matching the specified value",
           details: {"value": value}),
     );
@@ -53,7 +53,7 @@ class RelayType with ADASerialization {
   static RelayType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No RelayType found matching the specified name",
           details: {"name": name}),
     );

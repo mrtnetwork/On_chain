@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/native_script/core/native_script_type.dart';
@@ -36,7 +37,7 @@ abstract class NativeScript with ADASerialization {
     try {
       type = NativeScriptType.fromName(json.keys.first);
     } on StateError {
-      throw MessageException("Invalid NativeScript json.",
+      throw ADAPluginException("Invalid NativeScript json.",
           details: {"json": json});
     }
     switch (type) {

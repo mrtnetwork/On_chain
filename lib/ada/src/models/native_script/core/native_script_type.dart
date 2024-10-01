@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents a native script type.
@@ -58,7 +59,7 @@ class NativeScriptType with ADASerialization {
   static NativeScriptType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No NativeScriptType found matching the specified value",
           details: {"value": value}),
     );
@@ -68,7 +69,7 @@ class NativeScriptType with ADASerialization {
   static NativeScriptType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No NativeScriptType found matching the specified name",
           details: {"name": name}),
     );

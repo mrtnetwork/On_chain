@@ -213,7 +213,7 @@ class NameServiceProgramTwitterHelper {
         return ReverseTwitterRegistryAccount.fromAccountBytes(accountBytes);
       }
     }
-    throw Exception('Registry not found.');
+    throw const SolanaPluginException('Registry not found.');
   }
 
   /// Uses the RPC node filtering feature, execution speed may vary

@@ -3,6 +3,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/byron/byron.dart';
 import 'package:on_chain/ada/src/address/era/shelly/shelly.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents an abstract class for ADA addresses with serialization capabilities.
@@ -47,7 +48,7 @@ abstract class ADAAddress with ADASerialization {
         break;
     }
     if (addr is! T) {
-      throw MessageException("Invalid address type.", details: {
+      throw ADAPluginException("Invalid address type.", details: {
         "Excepted": "$T",
         "Type": addr.runtimeType,
         "address": addr.address
@@ -73,7 +74,7 @@ abstract class ADAAddress with ADASerialization {
     }
 
     if (address is! T) {
-      throw MessageException("Invalid ADA address type.", details: {
+      throw ADAPluginException("Invalid ADA address type.", details: {
         "Excepted": "$T",
         "Type": address.addressType,
         "address": address.address

@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 
 class AdaTransactionUtils {
   static List<int> validateFixedLengthBytes(
@@ -8,7 +9,7 @@ class AdaTransactionUtils {
       bool unmodifiable = true,
       String? objectName}) {
     if (bytes.length != length) {
-      throw MessageException("Invalid ${objectName ?? 'hash'} length.",
+      throw ADAPluginException("Invalid ${objectName ?? 'hash'} length.",
           details: {"Excepted": length, "length": bytes.length});
     }
     return BytesUtils.toBytes(bytes, unmodifiable: unmodifiable);
@@ -27,7 +28,7 @@ class AdaTransactionUtils {
     } on MessageException {
       rethrow;
     } catch (e) {
-      throw MessageException("Invalid hex bytes.",
+      throw ADAPluginException("Invalid hex bytes.",
           details: {"value": hexBytes});
     }
   }

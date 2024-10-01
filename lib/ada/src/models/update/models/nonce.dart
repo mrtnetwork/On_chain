@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/core/cbor.dart';
 import 'package:blockchain_utils/cbor/types/types.dart';
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/ada/src/models/constant.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/utils.dart';
@@ -18,7 +19,7 @@ class Nonce with ADASerialization {
   factory Nonce.deserialize(CborListValue cbor) {
     final int hasHash = cbor.getIndex(0);
     if (hasHash != 0 && hasHash != 1) {
-      throw const MessageException("Invalid Nonce cbor bytes.");
+      throw const ADAPluginException("Invalid Nonce cbor bytes.");
     }
     return Nonce(hasHash == 0 ? null : cbor.getIndex(1));
   }

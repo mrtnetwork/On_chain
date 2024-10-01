@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:blockchain_utils/utils/utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 class UnitInterval with ADASerialization {
@@ -17,7 +17,7 @@ class UnitInterval with ADASerialization {
 
   factory UnitInterval.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(cbor.tags, _cborTag)) {
-      throw MessageException("Invalid UnitInterval cbor tag.",
+      throw ADAPluginException("Invalid UnitInterval cbor tag.",
           details: {"Excepted": _cborTag, "Tag": cbor.tags});
     }
     final cborList = cbor.getValue<CborListValue>();

@@ -1,3 +1,4 @@
+import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/solidity/address/core.dart';
 import 'package:blockchain_utils/bip/address/eth_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
@@ -22,7 +23,7 @@ class ETHAddress extends SolidityAddress {
       final toAddress = EthAddrEncoder().encodeKey(keyBytes);
       return ETHAddress._(toAddress);
     } catch (e) {
-      throw MessageException("invalid ethreum public key",
+      throw ETHPluginException("invalid ethreum public key",
           details: {"input": BytesUtils.toHexString(keyBytes)});
     }
   }
@@ -35,7 +36,7 @@ class ETHAddress extends SolidityAddress {
       EthAddrDecoder().decodeAddr(address, {"skip_chksum_enc": skipChecksum});
       return ETHAddress._(EthAddrUtils.toChecksumAddress(address));
     } catch (e) {
-      throw MessageException("invalid ethereum address",
+      throw ETHPluginException("invalid ethereum address",
           details: {"input": address});
     }
   }

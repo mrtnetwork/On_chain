@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 class Language with ADASerialization {
@@ -34,7 +35,7 @@ class Language with ADASerialization {
   static Language fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No Language found matching the specified value",
           details: {"value": value}),
     );
@@ -43,7 +44,7 @@ class Language with ADASerialization {
   static Language fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No Language found matching the specified name",
           details: {"name": name}),
     );

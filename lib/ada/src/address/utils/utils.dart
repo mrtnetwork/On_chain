@@ -2,6 +2,7 @@ import 'package:blockchain_utils/bip/address/ada/ada.dart';
 import 'package:blockchain_utils/bip/address/addr_key_validator.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
 import 'package:on_chain/ada/src/models/credential/core/stake_cred_type.dart';
 import 'package:on_chain/ada/src/models/credential/key.dart';
@@ -23,7 +24,7 @@ class AdaAddressUtils {
         AdaGenericAddrDecoder().decode(address, {"net_tag": network});
     if (addrType != null) {
       if (decodeAddr.type.header != addrType.header) {
-        throw MessageException("Incorrect address type. ",
+        throw ADAPluginException("Incorrect address type. ",
             details: {"Excepted": addrType.name, "type": decodeAddr.type});
       }
     }
@@ -59,7 +60,7 @@ class AdaAddressUtils {
     final decode =
         AdaGenericAddrDecoder().decode(address, {"net_tag": network});
     if (decode.type == ADAAddressType.byron) {
-      throw MessageException("Invalid shelly address.",
+      throw ADAPluginException("Invalid shelly address.",
           details: {"address": address, "type": decode.type});
     }
     if (keepPrefix) {

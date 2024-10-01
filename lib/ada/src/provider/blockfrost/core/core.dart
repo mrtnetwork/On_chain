@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/models/models/filter_params.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/utils/blockforest_provider_utils.dart';
 import 'package:on_chain/global_types/provider_request.dart';
@@ -27,7 +27,7 @@ abstract class BlockforestRequestParam<RESULT, RESPONSE>
   BlockforestRequestDetails toRequest(int v) {
     final pathParams = BlockforestProviderUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw MessageException("Invalid Path Parameters.", details: {
+      throw ADAPluginException("Invalid Path Parameters.", details: {
         "pathParams": pathParameters,
         "ExceptedPathParametersLength": pathParams.length
       });

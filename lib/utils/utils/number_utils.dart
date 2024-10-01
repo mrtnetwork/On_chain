@@ -41,18 +41,10 @@ class PluginIntUtils {
 }
 
 class PluginBooleanUtils {
-  static bool hexToBool(String v) {
-    if (v == "0x" || v != "0x1" && v != "0x0") {
-      throw ArgumentError("invalid hex for bolean $v");
-    }
-    return v == "0x1";
-  }
-
   static bool? tryHexToBool(String? v) {
-    try {
-      return hexToBool(v!);
-    } catch (e) {
+    if (v == "0x" || v != "0x1" && v != "0x0") {
       return null;
     }
+    return v == "0x1";
   }
 }

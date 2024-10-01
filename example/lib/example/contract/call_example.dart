@@ -97,7 +97,10 @@ void main() async {
       params: [],
     ));
   } on RPCError catch (e) {
-    final revertErrors = contract.decodeError(e.data);
+    final data = e.details?["data"];
+    if (data != null) {
+      final revertErrors = contract.decodeError(data);
+    }
   }
 
 // Another RPC call expected to raise an error, catch the error and decode it
@@ -114,7 +117,10 @@ void main() async {
       ],
     ));
   } on RPCError catch (e) {
-    final revertErrors = contract.decodeError(e.data);
+    final data = e.details?["data"];
+    if (data != null) {
+      final revertErrors = contract.decodeError(data);
+    }
   }
 
 // Retrieve the function information for a specific function name

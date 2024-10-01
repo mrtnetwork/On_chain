@@ -12,18 +12,19 @@ class EVMRPC {
   /// Creates a new instance of the [EVMRPC] class with the specified [rpc].
   EVMRPC(this.rpc);
 
-  /// Finds the result in the JSON-RPC response data or throws an [RPCException]
+  /// Finds the result in the JSON-RPC response data or throws an [RPCError]
   /// if an error is encountered.
   dynamic _findResult(Map<String, dynamic> data, ETHRequestDetails request) {
-    if (data["error"] != null) {
-      final code = int.tryParse(((data["error"]?['code']?.toString()) ?? "0"));
-      final message = data["error"]?['message'] ?? "";
+    final error = data["error"];
+    if (error != null) {
+      final code = int.tryParse(error['code']?.toString() ?? "");
+      final message = error['message'] ?? "";
       throw RPCError(
-        errorCode: code ?? 0,
-        message: message,
-        data: data["error"]?["data"],
-        request: data["request"] ?? StringUtils.toJson(request.toRequestBody()),
-      );
+          errorCode: code,
+          message: message,
+          request:
+              data["request"] ?? StringUtils.toJson(request.toRequestBody()),
+          details: error);
     }
 
     return data["result"];

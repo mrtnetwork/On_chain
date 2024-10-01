@@ -23,3 +23,6 @@ export 'src/transaction/transaction.dart';
 
 /// General Ethereum-related helper functions
 export 'src/utils/helper.dart';
+
+/// All related ethereum exception
+export 'src/exception/exception.dart';

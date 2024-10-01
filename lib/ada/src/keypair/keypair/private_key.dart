@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/byron/byron.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/bootstrap_witness.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/vkey_witness.dart';
@@ -18,7 +19,7 @@ class AdaPrivateKey {
   factory AdaPrivateKey.fromBytes(List<int> privateKeyBytes) {
     if (privateKeyBytes.length != Ed25519KeysConst.privKeyByteLen &&
         privateKeyBytes.length != Ed25519KholawKeysConst.privKeyByteLen) {
-      throw MessageException("Invalid private key bytes.", details: {
+      throw ADAPluginException("Invalid private key bytes.", details: {
         "length": privateKeyBytes.length,
         "Excepted":
             "${Ed25519KeysConst.privKeyByteLen} or ${Ed25519KholawKeysConst.privKeyByteLen}"

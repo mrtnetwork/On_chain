@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 /// Represents different types of Plutus data.
@@ -47,7 +47,7 @@ class PlutusDataType with ADASerialization {
   static PlutusDataType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No PlutusDataType found matching the specified value",
           details: {"value": value}),
     );
@@ -57,7 +57,7 @@ class PlutusDataType with ADASerialization {
   static PlutusDataType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw ADAPluginException(
           "No PlutusDataType found matching the specified name",
           details: {"name": name}),
     );
