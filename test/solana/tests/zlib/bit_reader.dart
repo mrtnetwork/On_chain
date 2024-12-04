@@ -7,7 +7,7 @@ class BitReader {
 
   int readByte() {
     _numbits = 0;
-    int byte = _data[_pos];
+    final int byte = _data[_pos];
     _pos++;
     return byte;
   }
@@ -18,7 +18,7 @@ class BitReader {
       _numbits = 8;
     }
     _numbits--;
-    int bit = _byte & 1;
+    final int bit = _byte & 1;
     _byte >>= 1;
     return bit;
   }

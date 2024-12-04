@@ -43,7 +43,7 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
     return StakePoolCreateTokenMetaDataLayout._(name, uri, symbol);
   }
   factory StakePoolCreateTokenMetaDataLayout.fromBuffer(List<int> data) {
-    Map<String, dynamic> decode = ProgramLayout.decodeAndValidateStruct(
+    final Map<String, dynamic> decode = ProgramLayout.decodeAndValidateStruct(
         layout: staticLayout,
         bytes: data,
         instruction:

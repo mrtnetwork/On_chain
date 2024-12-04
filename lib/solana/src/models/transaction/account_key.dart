@@ -50,7 +50,7 @@ class MessageAccountKeys {
       throw const SolanaPluginException(
           'Account index overflow encountered during compilation');
     }
-    Map<String, int> keyIndexMap = {};
+    final Map<String, int> keyIndexMap = {};
     for (final keySegment in _keySegments.expand((segment) => segment)) {
       keyIndexMap[keySegment.address] = keyIndexMap.length;
     }

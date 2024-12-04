@@ -21,7 +21,7 @@ void _initialize() {
     final account1 = QuickWalletForTest(index: 405);
     final account3 = QuickWalletForTest(index: 407);
     final account5 = QuickWalletForTest(index: 408);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final program = SystemProgram.createAccount(
         from: owner.address,
         newAccountPubKey: account5.address,
@@ -59,7 +59,7 @@ void _delegate() {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
     final account5 = QuickWalletForTest(index: 408);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
 
     final initialize = StakeProgram.delegate(
         authorizedPubkey: owner.address,
@@ -93,7 +93,7 @@ void _authorize() {
     final account1 = QuickWalletForTest(index: 405);
     final account3 = QuickWalletForTest(index: 407);
     final account5 = QuickWalletForTest(index: 408);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = StakeProgram.authorize(
         authorizedPubkey: owner.address,
         custodianPubkey: account1.address,
@@ -127,7 +127,7 @@ void _authorizeWithSeed() {
     final account3 = QuickWalletForTest(index: 407);
     final account5 = QuickWalletForTest(index: 408);
 
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = StakeProgram.authorizeWithSeed(
         authorityBase: owner.address,
         custodianPubkey: account1.address,
@@ -162,7 +162,7 @@ void _split() {
     final owner = QuickWalletForTest(index: 406);
     final account5 = QuickWalletForTest(index: 408);
     final account6 = QuickWalletForTest(index: 410);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
 
     final createAccount = SystemProgram.createAccount(
         from: owner.address,
@@ -202,7 +202,7 @@ void _merge() {
     final owner = QuickWalletForTest(index: 406);
     final account5 = QuickWalletForTest(index: 408);
     final account6 = QuickWalletForTest(index: 410);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
 
     final initialize = StakeProgram.merge(
         authorizedPubkey: owner.address,
@@ -234,7 +234,7 @@ void _withdraw() {
     final owner = QuickWalletForTest(index: 406);
     final account5 = QuickWalletForTest(index: 408);
     final account6 = QuickWalletForTest(index: 410);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = StakeProgram.withdraw(
         authorizedPubkey: owner.address,
         toPubkey: account6.address,
@@ -264,7 +264,7 @@ void _deactivate() {
     final owner = QuickWalletForTest(index: 406);
 
     final account5 = QuickWalletForTest(index: 408);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
 
     final initialize = StakeProgram.deactivate(
         authorizedPubkey: owner.address, stakePubkey: account5.address);

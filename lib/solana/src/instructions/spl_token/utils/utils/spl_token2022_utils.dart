@@ -9,15 +9,15 @@ class SPLToken2022Utils {
   static const int lengthSize = 2;
 
   static List<ExtensionType> getExtensionTypes(List<int> tlvData) {
-    List<int> extensionTypes = [];
+    final List<int> extensionTypes = [];
     int extensionTypeIndex = 0;
 
     while (extensionTypeIndex < tlvData.length) {
-      int entryType = IntUtils.fromBytes(
+      final int entryType = IntUtils.fromBytes(
           tlvData.sublist(extensionTypeIndex, extensionTypeIndex + typeSize),
           byteOrder: Endian.little);
       extensionTypes.add(entryType);
-      int entryLength = IntUtils.fromBytes(
+      final int entryLength = IntUtils.fromBytes(
           tlvData.sublist(extensionTypeIndex + typeSize,
               extensionTypeIndex + typeSize + lengthSize),
           byteOrder: Endian.little);
@@ -31,14 +31,14 @@ class SPLToken2022Utils {
       {required ExtensionType extension, required List<int> tlvData}) {
     int extensionTypeIndex = 0;
     while (extensionTypeIndex + typeSize + lengthSize <= tlvData.length) {
-      int entryType = IntUtils.fromBytes(
+      final int entryType = IntUtils.fromBytes(
           tlvData.sublist(extensionTypeIndex, extensionTypeIndex + typeSize),
           byteOrder: Endian.little);
-      int entryLength = IntUtils.fromBytes(
+      final int entryLength = IntUtils.fromBytes(
           tlvData.sublist(extensionTypeIndex + typeSize,
               extensionTypeIndex + typeSize + lengthSize),
           byteOrder: Endian.little);
-      int typeIndex = extensionTypeIndex + typeSize + lengthSize;
+      final int typeIndex = extensionTypeIndex + typeSize + lengthSize;
       if (entryType == extension.value) {
         return tlvData.sublist(typeIndex, typeIndex + entryLength);
       }

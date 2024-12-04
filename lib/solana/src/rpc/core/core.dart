@@ -92,7 +92,7 @@ abstract class SolanaRPCRequest<T> extends LoockupLedgerRequest
 
   /// Converts the request parameters to a [SolanaRequestDetails] object.
   SolanaRequestDetails toRequest(int requestId) {
-    List<dynamic> inJson = [...toJson(), ...super.toJson()];
+    final List<dynamic> inJson = [...toJson(), ...super.toJson()];
     inJson.removeWhere((v) => v == null);
     final params = {
       "jsonrpc": "2.0",

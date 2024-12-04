@@ -17,7 +17,7 @@ class NameServiceUpdateLayout extends NameServiceProgramLayout {
 
   /// Creates a NameServiceUpdateLayout instance from buffer data.
   factory NameServiceUpdateLayout.fromBuffer(List<int> data) {
-    Map<String, dynamic> decode = ProgramLayout.decodeAndValidateStruct(
+    final Map<String, dynamic> decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
       instruction: NameServiceProgramInstruction.update.insturction,

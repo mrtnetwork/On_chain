@@ -68,18 +68,18 @@ class MultiAsset with ADASerialization implements Comparable<MultiAsset> {
   }
 
   BigInt _amount(MultiAsset ma, PolicyID pid, AssetName aname) {
-    BigInt? amount = ma.assets[pid]?.assets[aname];
+    final BigInt? amount = ma.assets[pid]?.assets[aname];
     return amount ?? BigInt.zero;
   }
 
   bool _compare(MultiAsset lhs, MultiAsset rhs) {
-    for (var entry in lhs.assets.entries) {
-      PolicyID pid = entry.key;
-      Assets? assets = entry.value;
-      for (var assetEntry in assets.assets.entries) {
-        AssetName aname = assetEntry.key;
-        BigInt amount = assetEntry.value;
-        BigInt rhsAmount = _amount(rhs, pid, aname);
+    for (final entry in lhs.assets.entries) {
+      final PolicyID pid = entry.key;
+      final Assets assets = entry.value;
+      for (final assetEntry in assets.assets.entries) {
+        final AssetName aname = assetEntry.key;
+        final BigInt amount = assetEntry.value;
+        final BigInt rhsAmount = _amount(rhs, pid, aname);
         if (amount - rhsAmount > BigInt.zero) {
           return false;
         }

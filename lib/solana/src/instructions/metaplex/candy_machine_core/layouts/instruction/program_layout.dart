@@ -34,7 +34,7 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    MetaplexCandyMachineProgramInstruction? instruction =
+    final MetaplexCandyMachineProgramInstruction? instruction =
         MetaplexCandyMachineProgramInstruction.getInstruction(
             decode["instruction"]);
 

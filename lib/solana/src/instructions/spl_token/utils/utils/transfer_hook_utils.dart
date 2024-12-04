@@ -11,7 +11,7 @@ class TransferHookUtils {
     if (seeds.isEmpty) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
-    int length = seeds[0];
+    final int length = seeds[0];
     if (seeds.length < length + 1) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
@@ -23,8 +23,8 @@ class TransferHookUtils {
     if (seeds.length < 2) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
-    int index = seeds[0];
-    int length = seeds[1];
+    final int index = seeds[0];
+    final int length = seeds[1];
     if (instructionData.length < length + index) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
@@ -36,7 +36,7 @@ class TransferHookUtils {
     if (seeds.isEmpty) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
-    int index = seeds[0];
+    final int index = seeds[0];
     if (previousMetas.length <= index) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
@@ -50,13 +50,13 @@ class TransferHookUtils {
     if (seeds.length < 3) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
-    int accountIndex = seeds[0];
-    int dataIndex = seeds[1];
-    int length = seeds[2];
+    final int accountIndex = seeds[0];
+    final int dataIndex = seeds[1];
+    final int length = seeds[2];
     if (previousMetas.length <= accountIndex) {
       throw const SolanaPluginException("Transfer hook invalid seeds");
     }
-    SolanaAccountInfo? accountInfo = await connection.request(
+    final SolanaAccountInfo? accountInfo = await connection.request(
         SolanaRPCGetAccountInfo(
             account: previousMetas[accountIndex].publicKey));
     if (accountInfo == null) {
@@ -74,8 +74,8 @@ class TransferHookUtils {
       required List<AccountMeta> previousMetas,
       required List<int> instructionData,
       required SolanaRPC connection}) async {
-    int discriminator = seeds[0];
-    List<int> remaining = seeds.sublist(1);
+    final int discriminator = seeds[0];
+    final List<int> remaining = seeds.sublist(1);
     switch (discriminator) {
       case 0:
         return null;
@@ -102,7 +102,7 @@ class TransferHookUtils {
       required List<AccountMeta> previousMetas,
       required List<int> instructionData,
       required SolanaRPC connection}) async {
-    List<List<int>> unpackedSeeds = [];
+    final List<List<int>> unpackedSeeds = [];
     int i = 0;
     while (i < 32) {
       final seed = await unpackFirstSeed(
@@ -137,7 +137,7 @@ class TransferHookUtils {
     if (extraMeta.discriminator == 1) {
       programId = transferHookProgramId;
     } else {
-      int accountIndex = extraMeta.discriminator - (1 << 7);
+      final int accountIndex = extraMeta.discriminator - (1 << 7);
       if (previousMetas.length <= accountIndex) {
         throw const SolanaPluginException("account not found.");
       }

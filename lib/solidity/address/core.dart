@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/bip/address/eth_addr.dart';
-import 'package:blockchain_utils/bip/coin_conf/coins_conf.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// An abstract class representing a hexadecimal address in solidity smart conteract system.

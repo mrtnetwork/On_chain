@@ -33,7 +33,7 @@ void _systemCreateAccount() {
             programId: SystemProgramConst.programId,
             space: BigInt.from(200)));
 
-    SolanaTransaction transaction = SolanaTransaction(
+    final SolanaTransaction transaction = SolanaTransaction(
         instructions: [create],
         recentBlockhash: SolAddress.uncheckCurve(
             "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A"),

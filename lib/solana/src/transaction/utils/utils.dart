@@ -12,7 +12,7 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class SolanaTransactionUtils {
   /// encode int to bytes
   static List<int> _encodeLength(int len) {
-    List<int> bytes = [];
+    final List<int> bytes = [];
     var remLen = len;
     for (;;) {
       var elem = remLen & 0x7f;
@@ -33,7 +33,7 @@ class SolanaTransactionUtils {
     int len = 0;
     int size = 0;
     for (;;) {
-      int elem = bytes.removeAt(0);
+      final int elem = bytes.removeAt(0);
       len |= (elem & 0x7f) << size * 7;
       size += 1;
       if ((elem & 0x80) == 0) {
@@ -84,7 +84,7 @@ class SolanaTransactionUtils {
     var serializedLength = 0;
     final serializedInstructions =
         List<int>.filled(SolanaTransactionConstant.packetDataSize, 0);
-    for (var instruction in compiledInstructions) {
+    for (final instruction in compiledInstructions) {
       final encodedAccountKeyIndexesLength =
           SolanaTransactionUtils._encodeLength(instruction.accounts.length);
       final encodedDataLength =
@@ -199,7 +199,8 @@ class SolanaTransactionUtils {
 
   /// convert bytes to Message V0
   static MessageV0 deserializeV0(List<int> serializedMessage) {
-    List<int> byteArray = List<int>.from(serializedMessage, growable: true);
+    final List<int> byteArray =
+        List<int>.from(serializedMessage, growable: true);
     final prefix = byteArray.removeAt(0);
     final maskedPrefix = prefix & SolanaTransactionConstant.versionPrefixMask;
     assert(prefix != maskedPrefix,
@@ -273,11 +274,11 @@ class SolanaTransactionUtils {
   /// convert bytes to Message
   static Tuple<VersionedMessage, List<List<int>>> deserializeTransaction(
       List<int> serializedTransaction) {
-    List<int> byteArray = [...serializedTransaction];
-    List<List<int>> signatures = [];
-    int signaturesLength = _decodeLength(byteArray);
+    final List<int> byteArray = [...serializedTransaction];
+    final List<List<int>> signatures = [];
+    final int signaturesLength = _decodeLength(byteArray);
     for (int i = 0; i < signaturesLength; i++) {
-      int offset = i * SolanaTransactionConstant.signatureLengthInBytes;
+      final int offset = i * SolanaTransactionConstant.signatureLengthInBytes;
       signatures.add(byteArray.sublist(
           offset, offset + SolanaTransactionConstant.signatureLengthInBytes));
     }
@@ -314,7 +315,7 @@ class SolanaTransactionUtils {
         List<int>.filled(SolanaTransactionConstant.packetDataSize, 0);
     instructionBuffer.setAll(0, instructionCount);
     int instructionBufferLength = instructionCount.length;
-    for (var instruction in instructions) {
+    for (final instruction in instructions) {
       final instructionLayout = LayoutConst.struct([
         LayoutConst.u8(property: 'programIdIndex'),
         LayoutConst.blob((instruction['keyIndicesCount'] as List).length,
@@ -368,33 +369,34 @@ class SolanaTransactionUtils {
   /// convert Bytes to legacy message
   static Message deserializeMessageLegacy(List<int> bytes) {
     List<int> byteArray = List<int>.from(bytes);
-    int numRequiredSignatures = byteArray.removeAt(0);
+    final int numRequiredSignatures = byteArray.removeAt(0);
     if (numRequiredSignatures !=
         (numRequiredSignatures & SolanaTransactionConstant.versionPrefixMask)) {
       throw const SolanaPluginException('invalid versioned Message');
     }
-    int numReadonlySignedAccounts = byteArray.removeAt(0);
-    int numReadonlyUnsignedAccounts = byteArray.removeAt(0);
-    int accountCount = SolanaTransactionUtils._decodeLength(byteArray);
-    List<SolAddress> accountKeys = [];
+    final int numReadonlySignedAccounts = byteArray.removeAt(0);
+    final int numReadonlyUnsignedAccounts = byteArray.removeAt(0);
+    final int accountCount = SolanaTransactionUtils._decodeLength(byteArray);
+    final List<SolAddress> accountKeys = [];
     for (int i = 0; i < accountCount; i++) {
-      List<int> account =
+      final List<int> account =
           byteArray.sublist(0, SolanaTransactionConstant.publicKeyLength);
       byteArray = byteArray.sublist(SolanaTransactionConstant.publicKeyLength);
       accountKeys.add(SolAddress.uncheckBytes(account));
     }
-    List<int> recentBlockhash =
+    final List<int> recentBlockhash =
         byteArray.sublist(0, SolanaTransactionConstant.publicKeyLength);
     byteArray = byteArray.sublist(SolanaTransactionConstant.publicKeyLength);
-    int instructionCount = SolanaTransactionUtils._decodeLength(byteArray);
-    List<CompiledInstruction> instructions = [];
+    final int instructionCount =
+        SolanaTransactionUtils._decodeLength(byteArray);
+    final List<CompiledInstruction> instructions = [];
     for (int i = 0; i < instructionCount; i++) {
-      int programIdIndex = byteArray.removeAt(0);
-      int accountCount = SolanaTransactionUtils._decodeLength(byteArray);
-      List<int> accounts = byteArray.sublist(0, accountCount);
+      final int programIdIndex = byteArray.removeAt(0);
+      final int accountCount = SolanaTransactionUtils._decodeLength(byteArray);
+      final List<int> accounts = byteArray.sublist(0, accountCount);
       byteArray = byteArray.sublist(accountCount);
-      int dataLength = SolanaTransactionUtils._decodeLength(byteArray);
-      List<int> data = byteArray.sublist(0, dataLength);
+      final int dataLength = SolanaTransactionUtils._decodeLength(byteArray);
+      final List<int> data = byteArray.sublist(0, dataLength);
       byteArray = byteArray.sublist(dataLength);
       instructions.add(CompiledInstruction(
           programIdIndex: programIdIndex, accounts: accounts, data: data));

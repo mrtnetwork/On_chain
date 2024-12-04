@@ -11,7 +11,7 @@ class ArrayCoder implements ABICoder<List<dynamic>> {
     final encodedParams = input.map((e) => param.item1.abiEncode(e)).toList();
     final dynamicItems =
         encodedParams.isNotEmpty && encodedParams.first.isDynamic;
-    bool isDynamic = param.item2 == -1;
+    final isDynamic = param.item2 == -1;
     if (!isDynamic && input.length != param.item2) {
       throw const SolidityAbiException("Invalid argument length detected.");
     }
@@ -42,7 +42,7 @@ class ArrayCoder implements ABICoder<List<dynamic>> {
     int consumed = 0;
     int size = extract.item2;
     List<int> remainingBytes = List<int>.from(bytes);
-    List<dynamic> result = [];
+    final List<dynamic> result = [];
     if (size.isNegative) {
       final length = const NumbersCoder().decode(AbiParameter.uint32, bytes);
       size = length.result.toInt();

@@ -33,7 +33,7 @@ abstract class MetaplexBubblegumProgramLayout extends ProgramLayout {
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    MetaplexBubblegumProgramInstruction? instruction =
+    final MetaplexBubblegumProgramInstruction? instruction =
         MetaplexBubblegumProgramInstruction.getInstruction(
             decode["instruction"]);
     switch (instruction) {

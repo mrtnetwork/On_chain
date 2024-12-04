@@ -29,7 +29,7 @@ abstract class MetaplexHydraProgramLayout extends ProgramLayout {
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    MetaplexHydraProgramInstruction? instruction =
+    final MetaplexHydraProgramInstruction? instruction =
         MetaplexHydraProgramInstruction.getInstruction(decode["instruction"]);
     switch (instruction) {
       case MetaplexHydraProgramInstruction.processAddMemberNft:

@@ -15,10 +15,10 @@ class RLPDecoder {
   /// Decode an RLP-encoded array.
   static _Decoded _decodeArray(
       List<int> data, int offset, int childOffset, int length) {
-    List<dynamic> result = [];
+    final List<dynamic> result = [];
 
     while (childOffset < offset + 1 + length) {
-      _Decoded decoded = _decode(data, childOffset);
+      final _Decoded decoded = _decode(data, childOffset);
 
       result.add(decoded.result);
 
@@ -38,22 +38,22 @@ class RLPDecoder {
     }
 
     if (data[offset] >= 0xf8) {
-      int lengthLength = data[offset] - 0xf7;
-      int length = _decodeLength(data, offset + 1, lengthLength);
+      final int lengthLength = data[offset] - 0xf7;
+      final int length = _decodeLength(data, offset + 1, lengthLength);
       return _decodeArray(
           data, offset, offset + 1 + lengthLength, lengthLength + length);
     } else if (data[offset] >= 0xc0) {
-      int length = data[offset] - 0xc0;
+      final int length = data[offset] - 0xc0;
       return _decodeArray(data, offset, offset + 1, length);
     } else if (data[offset] >= 0xb8) {
-      int lengthLength = data[offset] - 0xb7;
-      int length = _decodeLength(data, offset + 1, lengthLength);
-      List<int> result = data.sublist(
+      final int lengthLength = data[offset] - 0xb7;
+      final int length = _decodeLength(data, offset + 1, lengthLength);
+      final List<int> result = data.sublist(
           offset + 1 + lengthLength, offset + 1 + lengthLength + length);
       return _Decoded(consumed: (1 + lengthLength + length), result: result);
     } else if (data[offset] >= 0x80) {
-      int length = data[offset] - 0x80;
-      List<int> result = data.sublist(offset + 1, offset + 1 + length);
+      final int length = data[offset] - 0x80;
+      final List<int> result = data.sublist(offset + 1, offset + 1 + length);
       return _Decoded(consumed: (1 + length), result: result);
     }
 
@@ -63,7 +63,7 @@ class RLPDecoder {
   /// Decode an RLP-encoded list of items.
   static List<dynamic> decode(List<int> data) {
     try {
-      _Decoded decoded = _decode(data, 0);
+      final _Decoded decoded = _decode(data, 0);
       if (decoded.consumed != data.length) {
         throw const ETHPluginException("invalid rpl payload bytes");
       }

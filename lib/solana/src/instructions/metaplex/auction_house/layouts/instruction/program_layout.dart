@@ -44,7 +44,7 @@ abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    MetaplexAuctionHouseProgramInstruction? instruction =
+    final MetaplexAuctionHouseProgramInstruction? instruction =
         MetaplexAuctionHouseProgramInstruction.getInstruction(
             decode["instruction"]);
 

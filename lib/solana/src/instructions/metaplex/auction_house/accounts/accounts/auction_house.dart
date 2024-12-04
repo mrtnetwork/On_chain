@@ -28,7 +28,7 @@ class _Utils {
   ]);
 
   static List<AuthorityScope> decodeScoops(List<bool> bytes) {
-    List<AuthorityScope> scopes = [];
+    final List<AuthorityScope> scopes = [];
     for (int i = 0; i < AuthorityScope.values.length; i++) {
       if (!bytes[i]) continue;
       scopes.add(AuthorityScope.fromValue(i));

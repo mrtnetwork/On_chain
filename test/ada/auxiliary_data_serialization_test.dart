@@ -77,7 +77,7 @@ void _serialization() {
     final au = AuxiliaryData.fromCborBytes(
         BytesUtils.fromHexString("a1182aa163717765187b"));
     expect(au.serializeHex(), "a1182aa163717765187b");
-    AuxiliaryData fromJson = AuxiliaryData.fromJson(au.toJson());
+    final AuxiliaryData fromJson = AuxiliaryData.fromJson(au.toJson());
     expect(fromJson.serializeHex(), "a1182aa163717765187b");
   });
 }

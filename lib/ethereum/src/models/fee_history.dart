@@ -53,22 +53,26 @@ class FeeHistory {
   FeeHistorical toFee() {
     FeeHistorical toPriority(List<_FeeHistorical> priorities, BigInt baseFee) {
       BigInt avg(List<BigInt> arr) {
-        BigInt sum = arr.reduce((a, v) => a + v);
+        final BigInt sum = arr.reduce((a, v) => a + v);
         return sum ~/ BigInt.from(arr.length);
       }
 
-      BigInt slow = avg(priorities.map((b) {
+      final BigInt slow = avg(priorities.map((b) {
         return b.priorityFeePerGas[0];
       }).toList());
-      BigInt average =
+      final BigInt average =
           avg(priorities.map((b) => b.priorityFeePerGas[1]).toList());
-      BigInt fast = avg(priorities.map((b) => b.priorityFeePerGas[2]).toList());
+      final BigInt fast =
+          avg(priorities.map((b) => b.priorityFeePerGas[2]).toList());
       return FeeHistorical(
           slow: slow, high: fast, normal: average, baseFee: baseFee);
     }
 
-    int minLength = [gasUsedRatio.length, baseFeePerGas.length, reward.length]
-        .reduce((min, current) => current < min ? current : min);
+    final int minLength = [
+      gasUsedRatio.length,
+      baseFeePerGas.length,
+      reward.length
+    ].reduce((min, current) => current < min ? current : min);
     final List<_FeeHistorical> historical = List.generate(
         minLength,
         (index) => _FeeHistorical(

@@ -141,10 +141,10 @@ class _EIP712Utils {
   /// The struct is defined in the Eip712TypedData, and the data parameter contains field values.
   static List<int> encodeStruct(
       Eip712TypedData typedData, String type, Map<String, dynamic> data) {
-    List<String> types = [bytes32TypeName];
-    List<dynamic> inputBytes = [getMethodSigature(typedData, type)];
+    final List<String> types = [bytes32TypeName];
+    final List<dynamic> inputBytes = [getMethodSigature(typedData, type)];
 
-    for (Eip712TypeDetails field in typedData.types[type]!) {
+    for (final field in typedData.types[type]!) {
       if (data[field.name] == null) {
         if (typedData.version == EIP712Version.v3) continue;
         throw SolidityAbiException(
@@ -152,7 +152,7 @@ class _EIP712Utils {
             details: {'data': data, 'field': field});
       }
 
-      dynamic value = data[field.name];
+      final value = data[field.name];
       final encodedValue = encodeValue(typedData, field.type, value);
       types.add(encodedValue.item1);
       inputBytes.add(encodedValue.item2);
@@ -165,8 +165,8 @@ class _EIP712Utils {
   /// Recursively collects dependencies for the specified type and its subtypes.
   static List<String> getDependencies(Eip712TypedData typedData, String type,
       [List<String> dependencies = const []]) {
-    RegExpMatch? match = typeRegex.firstMatch(type);
-    String actualType = match != null ? match.group(0)! : type;
+    final RegExpMatch? match = typeRegex.firstMatch(type);
+    final String actualType = match != null ? match.group(0)! : type;
 
     if (dependencies.contains(actualType)) {
       return dependencies;
@@ -192,10 +192,10 @@ class _EIP712Utils {
   /// The type name is expected to follow the pattern `typeName[length]` where `length` is an optional integer.
   /// Returns a Tuple containing the array type and its length, or null if the type name does not match the pattern.
   static Tuple<String, int>? extractArrayType(String typeName) {
-    RegExpMatch? match = arrayRegex.firstMatch(typeName);
+    final RegExpMatch? match = arrayRegex.firstMatch(typeName);
     if (match == null) return null;
-    String arrayType = match.group(1)!;
-    int length = int.parse(match.group(2) ?? '0');
+    final String arrayType = match.group(1)!;
+    final int length = int.parse(match.group(2) ?? '0');
     return Tuple(arrayType, length);
   }
 
@@ -221,8 +221,9 @@ class _EIP712Utils {
       final encodedData = data
           .map((item) => encodeValue(typedData, isArray.item1, item))
           .toList();
-      List<String> types = encodedData.map((item) => item.item1).toList();
-      List<dynamic> values = encodedData.map((item) => item.item2).toList();
+      final List<String> types = encodedData.map((item) => item.item1).toList();
+      final List<dynamic> values =
+          encodedData.map((item) => item.item2).toList();
       return Tuple(bytes32TypeName,
           QuickCrypto.keccack256Hash(_EIP712Utils.abiEncode(types, values)));
     }
@@ -271,7 +272,8 @@ class _EIP712Utils {
   /// Generates the method signature hash for a given EIP-712 typed data and type.
   /// The method signature includes all dependencies and their corresponding types and names.
   static List<int> getMethodSigature(Eip712TypedData typedData, String type) {
-    List<String> dependencies = List.from(getDependencies(typedData, type));
+    final List<String> dependencies =
+        List.from(getDependencies(typedData, type));
     dependencies.sort();
     final encode = dependencies
         .map(

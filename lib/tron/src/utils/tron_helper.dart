@@ -21,7 +21,7 @@ class TronHelper {
   /// Decodes permission operations from a hex representation.
   static List<TransactionContractType> decodePermissionOperation(
       final String operations) {
-    List<TransactionContractType> accountPermissions = [];
+    final List<TransactionContractType> accountPermissions = [];
     final operationBytes = BytesUtils.fromHexString(operations);
     for (int i = 0; i < 32; i++) {
       for (int j = 0; j < 8; j++) {
@@ -43,7 +43,7 @@ class TronHelper {
       List<TransactionContractType> values) {
     final valuesInt = values.map((e) => e.value).toList();
     final List<int> operationBuffer = List<int>.filled(32, 0);
-    for (int value in valuesInt) {
+    for (final int value in valuesInt) {
       operationBuffer[value ~/ 8] |= (1 << (value % 8));
     }
     return List<int>.from(operationBuffer);

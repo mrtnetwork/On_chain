@@ -18,7 +18,7 @@ class NameServiceProgramUtils {
     SolAddress? nameClass,
     SolAddress? nameParent,
   }) {
-    List<List<int>> seeds = [hashedName];
+    final List<List<int>> seeds = [hashedName];
     seeds.add(nameClass?.toBytes() ?? List<int>.filled(32, 0));
     seeds.add(nameParent?.toBytes() ?? List<int>.filled(32, 0));
     return SolanaUtils.findProgramAddress(

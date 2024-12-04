@@ -25,7 +25,7 @@ abstract class MetaplexGumdropProgramLayout extends ProgramLayout {
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    MetaplexGumdropProgramInstruction? instruction =
+    final MetaplexGumdropProgramInstruction? instruction =
         MetaplexGumdropProgramInstruction.getInstruction(decode["instruction"]);
 
     switch (instruction) {

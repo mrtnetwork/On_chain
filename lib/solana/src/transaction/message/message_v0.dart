@@ -116,13 +116,13 @@ class MessageV0 implements VersionedMessage {
       List<AddressLookupTableAccount> addressLookupTableAccounts) {
     final List<SolAddress> writable = [];
     final List<SolAddress> readonly = [];
-    for (var tableLookup in addressTableLookups) {
+    for (final tableLookup in addressTableLookups) {
       final tableAccount = addressLookupTableAccounts.firstWhere(
         (account) => account.key == tableLookup.accountKey,
         orElse: () => throw SolanaPluginException(
             'Failed to find address lookup table account for table key ${tableLookup.accountKey}'),
       );
-      for (var index in tableLookup.writableIndexes) {
+      for (final index in tableLookup.writableIndexes) {
         if (index < tableAccount.addresses.length) {
           writable.add(tableAccount.addresses[index]);
         } else {
@@ -130,7 +130,7 @@ class MessageV0 implements VersionedMessage {
               'Failed to find address for index $index in address lookup table ${tableLookup.accountKey}');
         }
       }
-      for (var index in tableLookup.readonlyIndexes) {
+      for (final index in tableLookup.readonlyIndexes) {
         if (index < tableAccount.addresses.length) {
           readonly.add(tableAccount.addresses[index]);
         } else {

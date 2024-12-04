@@ -12,8 +12,8 @@ class ADABlockAddressTransactionsResponse {
 
   factory ADABlockAddressTransactionsResponse.fromJson(
       Map<String, dynamic> json) {
-    var transactionsList = json['transactions'] as List;
-    List<String> transactions =
+    final transactionsList = json['transactions'] as List;
+    final List<String> transactions =
         transactionsList.map((item) => item['tx_hash'] as String).toList();
 
     return ADABlockAddressTransactionsResponse(

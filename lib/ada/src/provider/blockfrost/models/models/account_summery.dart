@@ -21,13 +21,13 @@ class ADAAccountSummaryResponse {
   });
 
   factory ADAAccountSummaryResponse.fromJson(Map<String, dynamic> json) {
-    var receivedSumList = json['received_sum'] as List;
-    List<ADAAmountResponse> receivedSum = receivedSumList
+    final receivedSumList = json['received_sum'] as List;
+    final List<ADAAmountResponse> receivedSum = receivedSumList
         .map((item) => ADAAmountResponse.fromJson(item))
         .toList();
 
-    var sentSumList = json['sent_sum'] as List;
-    List<ADAAmountResponse> sentSum =
+    final sentSumList = json['sent_sum'] as List;
+    final List<ADAAmountResponse> sentSum =
         sentSumList.map((item) => ADAAmountResponse.fromJson(item)).toList();
 
     return ADAAccountSummaryResponse(

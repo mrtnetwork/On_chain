@@ -106,7 +106,7 @@ void main() {
     expect(test1.encodeHex(),
         "184dd59e6ca7b7b98ad9b5e02c0e38ab6951bdd854a16d2cf7aaaf6a5ad485d3");
 
-    EIP712Base json = EIP712Base.fromJson(test1.toJson());
+    final EIP712Base json = EIP712Base.fromJson(test1.toJson());
     expect(json.encodeHex(),
         "184dd59e6ca7b7b98ad9b5e02c0e38ab6951bdd854a16d2cf7aaaf6a5ad485d3");
   });

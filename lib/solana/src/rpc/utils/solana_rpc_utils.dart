@@ -7,7 +7,7 @@ class SolanaRPCUtils {
   /// Returns a merged configuration map or null if no valid configuration is found.
   static Map<String, dynamic>? createConfig(
       List<Map<String, dynamic>?> configs) {
-    Map<String, dynamic> config = {};
+    final Map<String, dynamic> config = {};
     for (final i in configs) {
       if (i == null) continue;
       for (final k in i.keys) {
