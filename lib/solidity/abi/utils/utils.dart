@@ -35,17 +35,17 @@ class _ABIUtils {
   static List<int> encodeDynamicParams(List<EncoderResult> encodedParams) {
     int staticSize = 0;
     int dynamicSize = 0;
-    List<EncoderResult> staticParams = [];
-    List<EncoderResult> dynamicParams = [];
+    final List<EncoderResult> staticParams = [];
+    final List<EncoderResult> dynamicParams = [];
 
-    for (EncoderResult encodedParam in encodedParams) {
+    for (final encodedParam in encodedParams) {
       if (encodedParam.isDynamic) {
         staticSize += ABIConst.uintBytesLength;
       } else {
         staticSize += encodedParam.encoded.length;
       }
     }
-    for (EncoderResult encodedParam in encodedParams) {
+    for (final encodedParam in encodedParams) {
       if (encodedParam.isDynamic) {
         staticParams.add(const NumbersCoder().abiEncode(
             AbiParameter.uint256, BigInt.from(staticSize + dynamicSize)));
@@ -64,10 +64,10 @@ class _ABIUtils {
 
   /// Extracts the array type and size information from the given ABI parameter.
   static Tuple<AbiParameter, int> toArrayType(AbiParameter abi) {
-    int arrayParenthesisStart = abi.type.lastIndexOf('[');
-    String arrayParamType = abi.type.substring(0, arrayParenthesisStart);
-    String sizeString = abi.type.substring(arrayParenthesisStart);
-    int size = -1;
+    final int arrayParenthesisStart = abi.type.lastIndexOf('[');
+    final String arrayParamType = abi.type.substring(0, arrayParenthesisStart);
+    final String sizeString = abi.type.substring(arrayParenthesisStart);
+    const int size = -1;
     if (sizeString != '[]') {
       final parseSize =
           int.tryParse(sizeString.substring(1, sizeString.length - 1));
@@ -173,7 +173,7 @@ class _ABIValidator {
       } else if (type.startsWith("uint")) {
         final spl = type.split("uint");
         bitLength = int.parse(spl[1]);
-        sign = true;
+        sign = false;
       } else {
         throw SolidityAbiException(
             "Invalid type name provided for number codec.",

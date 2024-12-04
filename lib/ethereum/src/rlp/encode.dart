@@ -2,7 +2,7 @@
 class RLPEncoder {
   /// Encodes an integer value into its RLP representation.
   static List<int> _encodeArray(int value) {
-    List<int> result = [];
+    final List<int> result = [];
     while (value != 0) {
       result.insert(0, value & 0xff);
       value >>= 8;
@@ -13,7 +13,7 @@ class RLPEncoder {
   /// Recursive encoding of the given object using RLP.
   static List<int> _encode(List<dynamic> object) {
     if (object is! List<int>) {
-      List<int> payload = [];
+      final List<int> payload = [];
       for (final child in object) {
         payload.addAll(_encode(child));
       }
@@ -23,12 +23,12 @@ class RLPEncoder {
         return payload;
       }
 
-      List<int> length = _encodeArray(payload.length);
+      final List<int> length = _encodeArray(payload.length);
       length.insert(0, 0xf7 + length.length);
       return [...length, ...payload];
     }
 
-    List<int> data = List.from(object, growable: true);
+    final List<int> data = List.from(object, growable: true);
 
     if (data.length == 1 && data[0] <= 0x7f) {
       return data;
@@ -37,7 +37,7 @@ class RLPEncoder {
       return data;
     }
 
-    List<int> length = _encodeArray(data.length);
+    final List<int> length = _encodeArray(data.length);
     length.insert(0, 0xb7 + length.length);
 
     return [...length, ...data];

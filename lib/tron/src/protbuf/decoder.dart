@@ -43,7 +43,7 @@ class ProtocolBufferDecoder {
     int shift = 0;
     int index = 0;
     while (true) {
-      int byte = data[index++];
+      final int byte = data[index++];
       value |= (byte & 0x7F) << shift;
       if ((byte & 0x80) == 0) {
         break;
@@ -58,7 +58,7 @@ class ProtocolBufferDecoder {
     int shift = 0;
     int index = 0;
     while (true) {
-      int byte = data[index++];
+      final int byte = data[index++];
       value |= BigInt.from((byte & 0x7F)) << shift;
       if ((byte & 0x80) == 0) {
         break;

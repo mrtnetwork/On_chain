@@ -134,9 +134,9 @@ class PlutusDataUtils {
   }
 
   static PlutusData _encodeMap(Map value, PlutusJsonSchema jsonSchema) {
-    Map<PlutusData, PlutusData> values = {};
+    final Map<PlutusData, PlutusData> values = {};
     for (final i in value.entries) {
-      PlutusData key =
+      final PlutusData key =
           _encodeString(schame: jsonSchema, value: i.key, isKey: true);
       values.addAll({key: parsePlutus(i.value, jsonSchema)});
     }

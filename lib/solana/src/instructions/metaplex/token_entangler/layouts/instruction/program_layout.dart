@@ -18,7 +18,7 @@ abstract class MetaplexTokenEntanglerProgramLayout extends ProgramLayout {
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    MetaplexTokenEntanglerProgramInstruction? instruction =
+    final MetaplexTokenEntanglerProgramInstruction? instruction =
         MetaplexTokenEntanglerProgramInstruction.getInstruction(
             decode["instruction"]);
     switch (instruction) {

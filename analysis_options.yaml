@@ -1,26 +1,9 @@
-# This file configures the analyzer to use the lint rule set from `package:lint`
-
-include: package:flutter_lints/flutter.yaml # For production apps
-# include: package:lint/casual.yaml # For code samples, hackathons and other non-production code
-# include: package:lint/package.yaml # Use this for packages with public API
-
-
-# You might want to exclude auto-generated files from dart analysis
-analyzer:
-  exclude:
-    #- '**.freezed.dart'
-    #- '**.g.dart'
-
-# You can customize the lint rules set to your own liking. A list of all rules
-# can be found at https://dart-lang.github.io/linter/lints/options/options.html
+# include: package:lints/recommended.yaml
+include: package:flutter_lints/flutter.yaml
+# Uncomment the following section to specify additional rules.
 linter:
   rules:
-    # Util classes are awesome!
-    # avoid_classes_with_only_static_members: false
-    
-    # Make constructors the first thing in every class
-    # sort_constructors_first: true
-
-    # Choose wisely, but you don't have to
-    # prefer_double_quotes: true
-    # prefer_single_quotes: true
+    prefer_final_locals: true        # Warns when a local variable could be final
+    prefer_final_in_for_each: true   # Warns when a forEach variable could be final
+    prefer_const_constructors: true  # Warns when a constructor could be const
+    prefer_const_declarations: true  # Warns when a declaration could be const

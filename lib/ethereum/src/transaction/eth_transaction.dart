@@ -99,9 +99,9 @@ class _ETHTransactionUtils {
   ///
   /// Returns an [ETHTransaction] object representing the legacy transaction.
   static ETHTransaction _fromLegacy(List<dynamic> decode) {
-    int nonce = IntUtils.fromBytes(decode[0]);
-    BigInt gasPrice = BigintUtils.fromBytes(decode[1]);
-    BigInt gasLimit = BigintUtils.fromBytes(decode[2]);
+    final int nonce = IntUtils.fromBytes(decode[0]);
+    final BigInt gasPrice = BigintUtils.fromBytes(decode[1]);
+    final BigInt gasLimit = BigintUtils.fromBytes(decode[2]);
     final ETHAddress? to =
         (decode[3] as List).isEmpty ? null : ETHAddress.fromBytes(decode[3]);
     final value = BigintUtils.fromBytes(decode[4]);
@@ -137,9 +137,9 @@ class _ETHTransactionUtils {
   /// Converts the decoded data to an EIP-2930 transaction.
   static ETHTransaction _fromEIP2930(List<dynamic> decode) {
     final BigInt chainId = BigintUtils.fromBytes(decode[0]);
-    int nonce = IntUtils.fromBytes(decode[1]);
-    BigInt gasPrice = BigintUtils.fromBytes(decode[2]);
-    BigInt gasLimit = BigintUtils.fromBytes(decode[3]);
+    final int nonce = IntUtils.fromBytes(decode[1]);
+    final BigInt gasPrice = BigintUtils.fromBytes(decode[2]);
+    final BigInt gasLimit = BigintUtils.fromBytes(decode[3]);
     final ETHAddress? to =
         (decode[4] as List).isEmpty ? null : ETHAddress.fromBytes(decode[4]);
     final value = BigintUtils.fromBytes(decode[5]);
@@ -173,10 +173,10 @@ class _ETHTransactionUtils {
   /// Converts the decoded data to an EIP-1559 transaction.
   static ETHTransaction _fromEIP1559(List<dynamic> decode) {
     final BigInt chainId = BigintUtils.fromBytes(decode[0]);
-    int nonce = IntUtils.fromBytes(decode[1]);
-    BigInt maxPriorityFeePerGas = BigintUtils.fromBytes(decode[2]);
-    BigInt maxFeePerGas = BigintUtils.fromBytes(decode[3]);
-    BigInt gasLimit = BigintUtils.fromBytes(decode[4]);
+    final int nonce = IntUtils.fromBytes(decode[1]);
+    final BigInt maxPriorityFeePerGas = BigintUtils.fromBytes(decode[2]);
+    final BigInt maxFeePerGas = BigintUtils.fromBytes(decode[3]);
+    final BigInt gasLimit = BigintUtils.fromBytes(decode[4]);
     final ETHAddress? to =
         (decode[5] as List).isEmpty ? null : ETHAddress.fromBytes(decode[5]);
     final value = BigintUtils.fromBytes(decode[6]);
@@ -385,7 +385,7 @@ class ETHTransaction {
   /// Converts the [ETHTransaction] to its EIP-1559 serialized form.
   /// If [sig] is provided, includes the signature fields in the serialization.
   List<int> _toEIP1559([ETHSignature? sig]) {
-    List<List<dynamic>> fields = [
+    final List<List<dynamic>> fields = [
       _ETHTransactionUtils.bigintToBytes(chainId),
       _ETHTransactionUtils.intToBytes(nonce),
       _ETHTransactionUtils.bigintToBytes(maxPriorityFeePerGas!),
@@ -431,7 +431,7 @@ class ETHTransaction {
   /// Converts the [ETHTransaction] to its legacy (pre-EIP-155) serialized form.
   /// If [sig] is provided, includes the signature fields in the serialization.
   List<int> _toLegacy([ETHSignature? sig]) {
-    List<List<int>> fields = [
+    final List<List<int>> fields = [
       _ETHTransactionUtils.intToBytes(nonce),
       _ETHTransactionUtils.bigintToBytes(gasPrice!),
       _ETHTransactionUtils.bigintToBytes(gasLimit),

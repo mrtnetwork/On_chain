@@ -346,7 +346,7 @@ class AbiErrorFragment implements AbiBaseFragment {
 
   /// Decodes the error parameters from the encoded bytes.
   List<dynamic> decodeError(List<int> encodedParams) {
-    List<int> encodeBytes =
+    final List<int> encodeBytes =
         List.from(encodedParams.sublist(ABIConst.selectorLength));
     final abi =
         AbiParameter(name: "", type: "tuple", components: List.from(inputs))

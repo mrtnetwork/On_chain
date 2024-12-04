@@ -22,7 +22,7 @@ class PlutusBytes extends PlutusData {
   @override
   CborObject toCbor() {
     if (value.length > PlutusDataUtils.chunkSize) {
-      List<List<int>> chunks = [];
+      final List<List<int>> chunks = [];
       for (var i = 0; i < value.length; i += PlutusDataUtils.chunkSize) {
         chunks.add(value.sublist(
             i,

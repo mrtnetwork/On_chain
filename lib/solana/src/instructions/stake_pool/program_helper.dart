@@ -419,7 +419,7 @@ class StakePoolProgramHelper {
     final instructions = <TransactionInstruction>[];
 
     int startIndex = 0;
-    List<List<ValidatorStakeInfo>> validatorChunks =
+    final List<List<ValidatorStakeInfo>> validatorChunks =
         _arrayChunk(validatorList.validators, 5);
 
     for (final validatorChunk in validatorChunks) {

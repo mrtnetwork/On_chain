@@ -252,7 +252,7 @@ class SolanaTransaction {
             .verify(message: serializeMessage(), signature: signature)) {
       throw const SolanaPluginException("Signature verification failed.");
     }
-    List<List<int>> currentSigs = List.from(_signatures);
+    final List<List<int>> currentSigs = List.from(_signatures);
     currentSigs[signerIndex] = List<int>.unmodifiable(signature);
     _signatures = List<List<int>>.unmodifiable(currentSigs);
   }

@@ -65,7 +65,7 @@ abstract class LayoutSerializable {
 
   Map<String, dynamic> toJson() {
     final json = serialize()..removeWhere((k, v) => v == null);
-    Map<String, dynamic> toHuman = {};
+    final Map<String, dynamic> toHuman = {};
     for (final i in json.entries) {
       toHuman[i.key] = _toString(i.value);
     }

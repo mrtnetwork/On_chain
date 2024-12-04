@@ -13,7 +13,7 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
 
   /// Decodes the provided byte array to construct a new `SPLTokenMetaDataUpdateLayout` instance.
   factory SPLTokenMetaDataUpdateLayout.fromBuffer(List<int> bytes) {
-    Map<String, dynamic> decode =
+    final Map<String, dynamic> decode =
         SPLTokenMetaDataProgramLayout.decodeAndValidateStruct(
             layout: _layout,
             bytes: bytes,

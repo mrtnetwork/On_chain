@@ -18,7 +18,7 @@ void _create() {
 
     final account1 = QuickWalletForTest(index: 405);
     final account3 = QuickWalletForTest(index: 407);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
 
     final initialize = NameServiceProgram.create(
         layout: NameServiceCreateLayout(
@@ -56,7 +56,7 @@ void _update() {
   test("update", () {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
 
     final initialize = NameServiceProgram.update(
       layout: NameServiceUpdateLayout(
@@ -90,7 +90,7 @@ void _transfer() {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
     final account3 = QuickWalletForTest(index: 407);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = NameServiceProgram.transfer(
       layout: NameServiceTransferLayout(newOwnerKey: account1.address),
       nameAccountKey: account1.address,
@@ -124,7 +124,7 @@ void _delete() {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
     final account6 = QuickWalletForTest(index: 410);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = NameServiceProgram.delete(
       nameOwnerKey: owner.address,
       nameAccountKey: account1.address,
@@ -152,7 +152,7 @@ void _realloc() {
   test("realloc", () {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
-    String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
+    const String blockHash = "GWWy2aAev5X3TMRVwdw8W2KMN3dyVrHrQMZukGTf9R1A";
     final initialize = NameServiceProgram.realloc(
       nameOwnerKey: owner.address,
       nameAccountKey: account1.address,

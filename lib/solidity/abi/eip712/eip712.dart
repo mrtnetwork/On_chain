@@ -118,7 +118,7 @@ class Eip712TypedData implements EIP712Base {
 
       for (final i in jsonTypes.entries) {
         final List values = i.value;
-        List<Eip712TypeDetails> eip712Types =
+        final List<Eip712TypeDetails> eip712Types =
             values.map((e) => Eip712TypeDetails.fromJson(e)).toList();
         types[i.key] = eip712Types;
       }

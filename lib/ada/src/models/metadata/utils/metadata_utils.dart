@@ -159,7 +159,7 @@ class TransactionMetadataUtils {
 
   static TransactionMetadata _encodeMap(
       Map value, MetadataJsonSchema jsonSchema) {
-    Map<TransactionMetadata, TransactionMetadata> values = {};
+    final Map<TransactionMetadata, TransactionMetadata> values = {};
     for (final i in value.entries) {
       TransactionMetadata? key;
       if (jsonSchema == MetadataJsonSchema.basicConversions &&

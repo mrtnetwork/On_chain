@@ -60,8 +60,9 @@ abstract class VersionedMessage {
 
   /// Constructs a versioned message from a serialized buffer.
   factory VersionedMessage.fromBuffer(List<int> serializedMessage) {
-    int prefix = serializedMessage[0];
-    int maskedPrefix = prefix & SolanaTransactionConstant.versionPrefixMask;
+    final int prefix = serializedMessage[0];
+    final int maskedPrefix =
+        prefix & SolanaTransactionConstant.versionPrefixMask;
     if (maskedPrefix == prefix) {
       return Message.fromBuffer(serializedMessage);
     }

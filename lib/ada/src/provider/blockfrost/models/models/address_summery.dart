@@ -25,8 +25,8 @@ class ADAAddressSummaryResponse {
   });
 
   factory ADAAddressSummaryResponse.fromJson(Map<String, dynamic> json) {
-    var amountList = json['amount'] as List;
-    List<ADAAmountResponse> amounts =
+    final amountList = json['amount'] as List;
+    final List<ADAAmountResponse> amounts =
         amountList.map((item) => ADAAmountResponse.fromJson(item)).toList();
 
     return ADAAddressSummaryResponse(

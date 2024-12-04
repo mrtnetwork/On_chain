@@ -22,7 +22,7 @@ class NameServiceProgramTwitterHelper {
       nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
     );
 
-    List<TransactionInstruction> instructions = [
+    final List<TransactionInstruction> instructions = [
       NameServiceProgram.create(
         nameKey: twitterHandleRegistryKey,
         nameOwnerKey: verifiedPubkey,

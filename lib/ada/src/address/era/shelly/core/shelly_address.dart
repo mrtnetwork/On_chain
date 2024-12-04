@@ -43,7 +43,7 @@ abstract class ADAShellyAddress extends ADAAddress {
 
   /// Deserializes a CBOR object into an ADAShellyAddress instance.
   static T deserialize<T extends ADAShellyAddress>(CborBytesValue cbor) {
-    ADAAddress address = ADAAddress.deserialize(cbor);
+    final ADAAddress address = ADAAddress.deserialize(cbor);
     if (address is! T) {
       throw ADAPluginException("Invalid address type.", details: {
         "Excepted": "$T",

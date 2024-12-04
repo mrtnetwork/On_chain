@@ -27,7 +27,7 @@ abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    MetaplexFixedPriceSaleProgramInstruction? instruction =
+    final MetaplexFixedPriceSaleProgramInstruction? instruction =
         MetaplexFixedPriceSaleProgramInstruction.getInstruction(
             decode["instruction"]);
 
