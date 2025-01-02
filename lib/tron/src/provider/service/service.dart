@@ -7,7 +7,7 @@ typedef TronServiceResponse<T> = BaseServiceResponse<T>;
 mixin TronServiceProvider implements BaseServiceProvider<TronRequestDetails> {
   /// Example:
   /// @override
-  /// Future<TronServiceResponse<T>> doRequest<T>(TronRequestDetails params,
+  /// Future<`TronServiceResponse<T>`> doRequest<`T`>(TronRequestDetails params,
   ///     {Duration? timeout}) async {
   ///   final response = await client
   ///      .post(params.toUri(url), headers: params.headers, body: params.body())

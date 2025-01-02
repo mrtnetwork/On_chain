@@ -9,7 +9,7 @@ mixin SolanaServiceProvider
     implements BaseServiceProvider<SolanaRequestDetails> {
   /// Example:
   /// @override
-  /// Future<SolanaServiceResponse<T>> doRequest<T>(SolanaRequestDetails params,
+  /// Future<`SolanaServiceResponse<T>`> doRequest<`T`>(SolanaRequestDetails params,
   ///     {Duration? timeout}) async {
   ///   final response = await client
   ///      .post(params.toUri(url), headers: params.headers, body: params.body())

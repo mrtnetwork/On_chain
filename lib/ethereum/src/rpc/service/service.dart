@@ -9,7 +9,7 @@ mixin EthereumServiceProvider
     implements BaseServiceProvider<EthereumRequestDetails> {
   /// Example:
   /// @override
-  /// Future<EthereumServiceResponse<T>> doRequest<T>(EthereumRequestDetails params,
+  /// Future<`EthereumServiceResponse<`T`>`> doRequest<`T`>(EthereumRequestDetails params,
   ///     {Duration? timeout}) async {
   ///   final response = await client
   ///      .post(params.toUri(url), headers: params.headers, body: params.body())

@@ -6,7 +6,7 @@ mixin BlockFrostServiceProvider
     implements BaseServiceProvider<BlockFrostRequestDetails> {
   /// Example:
   /// @override
-  /// Future<BlockFrostServiceResponse<T>> doRequest<T>(BlockFrostRequestDetails params,
+  /// Future<`BlockFrostServiceResponse<T>`> doRequest<`T`>(BlockFrostRequestDetails params,
   ///     {Duration? timeout}) async {
   ///   final response = await client
   ///      .post(params.toUri(url), headers: params.headers, body: params.body())
