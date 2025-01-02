@@ -54,34 +54,34 @@ class SolanaMintAccount extends LayoutSerializable {
   factory SolanaMintAccount.fromBuffer(
       {required List<int> data, required SolAddress address}) {
     if (data.length < _Utils.mintSize) {
-      throw SolanaPluginException("Account data length is insufficient.",
-          details: {"Expected": _Utils.mintSize, "length": data.length});
+      throw SolanaPluginException('Account data length is insufficient.',
+          details: {'Expected': _Utils.mintSize, 'length': data.length});
     }
 
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
-    final bool mintAuthorityOption = decode["mintAuthorityOption"];
-    final bool freezeAuthorityOption = decode["freezeAuthorityOption"];
+    final bool mintAuthorityOption = decode['mintAuthorityOption'];
+    final bool freezeAuthorityOption = decode['freezeAuthorityOption'];
     if (data.length > _Utils.mintSize) {
       if (data.length <= SolanaTokenAccountUtils.accountSize) {
-        throw const SolanaPluginException("Invalid account size");
+        throw const SolanaPluginException('Invalid account size');
       }
       final accountType = SolanaTokenAccountType.fromValue(
           data[SolanaTokenAccountUtils.accountSize]);
       if (accountType != SolanaTokenAccountType.mint) {
-        throw SolanaPluginException("Invalid account type.", details: {
-          "account type": accountType.name,
-          "Excepted": SolanaTokenAccountType.mint
+        throw SolanaPluginException('Invalid account type.', details: {
+          'account type': accountType.name,
+          'Excepted': SolanaTokenAccountType.mint
         });
       }
     }
     return SolanaMintAccount(
       address: address,
-      mintAuthority: mintAuthorityOption ? decode["mintAuthority"] : null,
-      supply: decode["supply"],
-      decimals: decode["decimals"],
-      isInitialized: decode["isInitialized"],
-      freezeAuthority: freezeAuthorityOption ? decode["freezeAuthority"] : null,
+      mintAuthority: mintAuthorityOption ? decode['mintAuthority'] : null,
+      supply: decode['supply'],
+      decimals: decode['decimals'],
+      isInitialized: decode['isInitialized'],
+      freezeAuthority: freezeAuthorityOption ? decode['freezeAuthority'] : null,
     );
   }
 
@@ -90,18 +90,18 @@ class SolanaMintAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "mintAuthorityOption": mintAuthority == null ? false : true,
-      "mintAuthority": mintAuthority ?? SolAddress.defaultPubKey,
-      "supply": supply,
-      "decimals": decimals,
-      "isInitialized": isInitialized,
-      "freezeAuthorityOption": freezeAuthority == null ? false : true,
-      "freezeAuthority": freezeAuthority ?? SolAddress.defaultPubKey
+      'mintAuthorityOption': mintAuthority == null ? false : true,
+      'mintAuthority': mintAuthority ?? SolAddress.defaultPubKey,
+      'supply': supply,
+      'decimals': decimals,
+      'isInitialized': isInitialized,
+      'freezeAuthorityOption': freezeAuthority == null ? false : true,
+      'freezeAuthority': freezeAuthority ?? SolAddress.defaultPubKey
     };
   }
 
   @override
   String toString() {
-    return "SolanaMintAccount${serialize()}";
+    return 'SolanaMintAccount${serialize()}';
   }
 }

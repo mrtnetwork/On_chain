@@ -3,24 +3,24 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 /// Retrieves and deserializes a Stake validator list account.
 class SolanaRPCGetStakePoolValidatorListAccount
-    extends SolanaRPCRequest<StakeValidatorListAccount?> {
+    extends SolanaRequest<StakeValidatorListAccount?, Map<String, dynamic>?> {
   const SolanaRPCGetStakePoolValidatorListAccount({
     required this.address,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final String address;
 
   @override
   List<dynamic> toJson() {
     return [
       address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

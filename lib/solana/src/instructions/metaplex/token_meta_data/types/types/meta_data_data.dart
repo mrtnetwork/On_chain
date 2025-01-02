@@ -18,35 +18,35 @@ class MetaDataData extends LayoutSerializable {
             creators == null ? null : List<Creator>.unmodifiable(creators);
   factory MetaDataData.fromJson(Map<String, dynamic> json) {
     return MetaDataData(
-        name: json["name"],
-        symbol: json["symbol"],
-        uri: json["uri"],
-        sellerFeeBasisPoints: json["sellerFeeBasisPoints"],
-        creators: json["creators"] == null
+        name: json['name'],
+        symbol: json['symbol'],
+        uri: json['uri'],
+        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
+        creators: json['creators'] == null
             ? null
-            : (json["creators"] as List)
+            : (json['creators'] as List)
                 .map((e) => Creator.fromJson(e))
                 .toList());
   }
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "symbol"),
-    LayoutConst.string(property: "uri"),
-    LayoutConst.u16(property: "sellerFeeBasisPoints"),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
     LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-        property: "creators"),
-  ], property: "metaDataData");
+        property: 'creators'),
+  ], property: 'metaDataData');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "name": name,
-      "symbol": symbol,
-      "uri": uri,
-      "sellerFeeBasisPoints": sellerFeeBasisPoints,
-      "creators": creators?.map((e) => e.serialize()).toList()
+      'name': name,
+      'symbol': symbol,
+      'uri': uri,
+      'sellerFeeBasisPoints': sellerFeeBasisPoints,
+      'creators': creators?.map((e) => e.serialize()).toList()
     };
   }
 }

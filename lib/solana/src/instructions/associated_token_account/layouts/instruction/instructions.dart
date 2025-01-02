@@ -10,11 +10,11 @@ class AssociatedTokenAccountProgramInstruction
   final String name;
   const AssociatedTokenAccountProgramInstruction(this.insturction, this.name);
   static const AssociatedTokenAccountProgramInstruction initialize =
-      AssociatedTokenAccountProgramInstruction(null, "Initialize");
+      AssociatedTokenAccountProgramInstruction(null, 'Initialize');
   static const AssociatedTokenAccountProgramInstruction idempotent =
-      AssociatedTokenAccountProgramInstruction(1, "Idempotent");
+      AssociatedTokenAccountProgramInstruction(1, 'Idempotent');
   static const AssociatedTokenAccountProgramInstruction recoverNested =
-      AssociatedTokenAccountProgramInstruction(2, "RcoverNested");
+      AssociatedTokenAccountProgramInstruction(2, 'RcoverNested');
   static const List<AssociatedTokenAccountProgramInstruction> values = [
     initialize,
     idempotent,
@@ -30,7 +30,7 @@ class AssociatedTokenAccountProgramInstruction
   }
 
   @override
-  String get programName => "AssociatedTokenAccount";
+  String get programName => 'AssociatedTokenAccount';
   @override
   SolAddress get programAddress =>
       AssociatedTokenAccountProgramConst.associatedTokenProgramId;

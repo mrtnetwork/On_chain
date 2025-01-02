@@ -48,7 +48,7 @@ class CompiledKeys {
     final mapEntries = _keyMetaMap.entries.toList();
     if (mapEntries.length > SolanaTransactionConstant.maximumAccountKeys) {
       throw const SolanaPluginException(
-          "Max static account keys length exceeded");
+          'Max static account keys length exceeded');
     }
     final writableSigners = mapEntries
         .where((entry) => entry.value.isSigner && entry.value.isWritable)
@@ -69,12 +69,12 @@ class CompiledKeys {
         numReadonlyUnsignedAccounts: readonlyNonSigners.length);
     if (writableSigners.isEmpty) {
       throw const SolanaPluginException(
-          "Expected at least one writable signer key");
+          'Expected at least one writable signer key');
     }
     final payerAddress = writableSigners[0].key;
     if (payerAddress != payer.address) {
       throw const SolanaPluginException(
-          "Expected first writable signer key to be the fee payer");
+          'Expected first writable signer key to be the fee payer');
     }
     final List<SolAddress> staticAccountKeys = List<SolAddress>.unmodifiable([
       ...writableSigners.map((entry) => SolAddress(entry.key)),
@@ -143,7 +143,7 @@ class _KeyMeta {
 
   @override
   String toString() {
-    return "_KeyMeta{isSigner: $isSigner, isWritable: $isWritable, isInvoked: $isInvoked}";
+    return '_KeyMeta{isSigner: $isSigner, isWritable: $isWritable, isInvoked: $isInvoked}';
   }
 
   _KeyMeta copyWith({

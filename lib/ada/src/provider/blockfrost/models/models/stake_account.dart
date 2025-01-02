@@ -55,6 +55,6 @@ class ADAStakeAccountResponse {
 
   @override
   String toString() {
-    return "ADAStakeAccountResponse${toJson()}";
+    return 'ADAStakeAccountResponse${toJson()}';
   }
 }

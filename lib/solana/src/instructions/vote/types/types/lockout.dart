@@ -5,19 +5,19 @@ class Lockout extends LayoutSerializable {
   const Lockout({required this.slot, required this.confirmationCount});
   factory Lockout.fromJson(Map<String, dynamic> json) {
     return Lockout(
-        slot: json["slot"], confirmationCount: json["confirmationCount"]);
+        slot: json['slot'], confirmationCount: json['confirmationCount']);
   }
   final BigInt slot;
   final int confirmationCount;
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "slot"),
-    LayoutConst.u32(property: "confirmationCount")
-  ], property: "lockout");
+    LayoutConst.u64(property: 'slot'),
+    LayoutConst.u32(property: 'confirmationCount')
+  ], property: 'lockout');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"slot": slot, "confirmationCount": confirmationCount};
+    return {'slot': slot, 'confirmationCount': confirmationCount};
   }
 }

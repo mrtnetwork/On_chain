@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Deploys a contract. Returns TransactionExtention, which contains an unsigned transaction.
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-deploycontract).
 class TronRequestDeployContract
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   TronRequestDeployContract(
       {required this.abi,
       required this.byteCode,
@@ -64,17 +64,17 @@ class TronRequestDeployContract
   @override
   Map<String, dynamic> toJson() {
     return {
-      "abi": abi,
-      "bytecode": byteCode,
-      "feeimit": feeLimit,
-      "parameter": parameter,
-      "origin_energy_limit": originEnergyLimit,
-      "owner_address": ownerAddress,
-      "name": name,
-      "call_value": callValue,
-      "consume_user_resource_percent": consumeUserResourcePercent,
-      "permission_id": permissionId,
-      "visible": visible
+      'abi': abi,
+      'bytecode': byteCode,
+      'fee_limit': feeLimit,
+      'parameter': parameter,
+      'origin_energy_limit': originEnergyLimit,
+      'owner_address': ownerAddress.toAddress(visible),
+      'name': name,
+      'call_value': callValue,
+      'consume_user_resource_percent': consumeUserResourcePercent,
+      'permission_id': permissionId,
+      'visible': visible
     };
   }
 
@@ -85,6 +85,6 @@ class TronRequestDeployContract
 
   @override
   String toString() {
-    return "TronRequestDeployContract{${toJson()}}";
+    return 'TronRequestDeployContract{${toJson()}}';
   }
 }

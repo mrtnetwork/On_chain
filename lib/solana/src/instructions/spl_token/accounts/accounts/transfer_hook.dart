@@ -16,12 +16,12 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException("Account data length is insufficient.",
-            details: {"Expected": accountSize, "length": extensionData.length});
+        throw SolanaPluginException('Account data length is insufficient.',
+            details: {'Expected': accountSize, 'length': extensionData.length});
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 
@@ -33,7 +33,7 @@ class _Utils {
               extensionType: ExtensionType.transferHook);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
@@ -46,23 +46,23 @@ class TransferHook extends LayoutSerializable {
   factory TransferHook.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return TransferHook(
-        authority: decode["authority"], programId: decode["programId"]);
+        authority: decode['authority'], programId: decode['programId']);
   }
   factory TransferHook.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return TransferHook(
-        authority: decode["authority"], programId: decode["programId"]);
+        authority: decode['authority'], programId: decode['programId']);
   }
 
   @override
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
-    return {"authority": authority, "programId": programId};
+    return {'authority': authority, 'programId': programId};
   }
 
   @override
   String toString() {
-    return "TransferHook${serialize()}";
+    return 'TransferHook${serialize()}';
   }
 }

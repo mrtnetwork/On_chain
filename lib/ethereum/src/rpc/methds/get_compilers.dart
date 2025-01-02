@@ -1,10 +1,10 @@
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class RPCGetCompilers extends ETHRPCRequest<dynamic> {
-  RPCGetCompilers();
+class EthereumRequestGetCompilers extends EthereumRequest<Object?, Object?> {
+  EthereumRequestGetCompilers();
   @override
-  EthereumMethods get method => EthereumMethods.getCompilers;
+  String get method => EthereumMethods.getCompilers.value;
 
   @override
   List<dynamic> toJson() {

@@ -18,8 +18,8 @@ class SPLToken2022HarvestWithheldTokensToMintLayout
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "transferFee"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'transferFee'),
   ]);
 
   @override
@@ -32,7 +32,7 @@ class SPLToken2022HarvestWithheldTokensToMintLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "transferFee":
+      'transferFee':
           TransferFeeInstructionInstruction.harvestWithheldTokensToMint.value,
     };
   }

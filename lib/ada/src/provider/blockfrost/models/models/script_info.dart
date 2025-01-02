@@ -33,6 +33,6 @@ class ADAScriptInfoResponse {
 
   @override
   String toString() {
-    return "ADAScriptInfoResponse${toJson()}";
+    return 'ADAScriptInfoResponse${toJson()}';
   }
 }

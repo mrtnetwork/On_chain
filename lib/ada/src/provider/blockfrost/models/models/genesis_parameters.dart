@@ -72,6 +72,6 @@ class ADAGenesisParametersResponse {
 
   @override
   String toString() {
-    return "ADAGenesisParametersResponse${toJson()}";
+    return 'ADAGenesisParametersResponse${toJson()}';
   }
 }

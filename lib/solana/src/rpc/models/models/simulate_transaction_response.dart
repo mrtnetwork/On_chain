@@ -12,10 +12,10 @@ class SimulateTranasctionReturnDataResponse {
   factory SimulateTranasctionReturnDataResponse.fromJson(
       Map<String, dynamic> json) {
     return SimulateTranasctionReturnDataResponse(
-        programId: json["programId"], data: json["data"]);
+        programId: json['programId'], data: json['data']);
   }
   Map<String, dynamic> toJson() {
-    return {"programId": programId, "data": data};
+    return {'programId': programId, 'data': data};
   }
 }
 
@@ -29,12 +29,12 @@ class SimulateTranasctionResponse {
 
   Map<String, dynamic> toJson() {
     return {
-      "err": err,
-      "logs": logs,
-      "accounts": accounts?.map((e) => e?.toJson()).toList(),
-      "unitsConsumed": unitsConsumed?.toString(),
-      "returnData": returnData?.toJson(),
-      "innerInstructions": innerInstructions?.toJson()
+      'err': err,
+      'logs': logs,
+      'accounts': accounts?.map((e) => e?.toJson()).toList(),
+      'unitsConsumed': unitsConsumed?.toString(),
+      'returnData': returnData?.toJson(),
+      'innerInstructions': innerInstructions?.toJson()
     }..removeWhere((k, v) => v == null);
   }
 
@@ -47,19 +47,19 @@ class SimulateTranasctionResponse {
       this.innerInstructions});
   factory SimulateTranasctionResponse.fromJson(Map<String, dynamic> json) {
     return SimulateTranasctionResponse(
-        err: json["err"],
-        logs: (json["logs"] as List?)?.map((e) => e.toString()).toList(),
-        accounts: (json["accounts"] as List?)?.map((e) {
+        err: json['err'],
+        logs: (json['logs'] as List?)?.map((e) => e.toString()).toList(),
+        accounts: (json['accounts'] as List?)?.map((e) {
           if (e == null) return null;
           return SolanaAccountInfo.fromJson((e as Map).cast());
         }).toList(),
-        unitsConsumed: BigintUtils.tryParse(json["unitsConsumed"]),
-        returnData: json["returnData"] == null
+        unitsConsumed: BigintUtils.tryParse(json['unitsConsumed']),
+        returnData: json['returnData'] == null
             ? null
             : SimulateTranasctionReturnDataResponse.fromJson(
-                json["returnData"]),
-        innerInstructions: json["innerInstructions"] == null
+                json['returnData']),
+        innerInstructions: json['innerInstructions'] == null
             ? null
-            : CompiledInnerInstruction.fromJson(json["innerInstructions"]));
+            : CompiledInnerInstruction.fromJson(json['innerInstructions']));
   }
 }

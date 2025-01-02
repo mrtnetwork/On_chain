@@ -4,9 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Returns start and end of each era along with parameters that can vary between hard forks.
 /// https://blockfrost.dev/api/query-summary-of-blockchain-eras
-class BlockfrostRequestQuerySummaryOfBlockchainEras
-    extends BlockforestRequestParam<List<ADABlockchainEraResponse>,
-        List<Map<String, dynamic>>> {
+class BlockfrostRequestQuerySummaryOfBlockchainEras extends BlockFrostRequest<
+    List<ADABlockchainEraResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestQuerySummaryOfBlockchainEras();
 
   /// Query summary of blockchain eras

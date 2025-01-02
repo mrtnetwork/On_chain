@@ -10,9 +10,9 @@ class AccountUpdateContract extends TronBaseContract {
   factory AccountUpdateContract.fromJson(Map<String, dynamic> json) {
     return AccountUpdateContract(
         ownerAddress: OnChainUtils.parseTronAddress(
-            value: json["owner_address"], name: "owner_address"),
+            value: json['owner_address'], name: 'owner_address'),
         accountName: OnChainUtils.parseBytes(
-            value: json["account_name"], name: "account_name"));
+            value: json['account_name'], name: 'account_name'));
   }
 
   /// Factory method to create a new [AccountUpdateContract] instance with specified parameters.
@@ -45,15 +45,15 @@ class AccountUpdateContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "account_name": StringUtils.tryDecode(accountName)
+      'owner_address': ownerAddress.toString(),
+      'account_name': StringUtils.tryDecode(accountName)
     };
   }
 
   /// Convert the [AccountUpdateContract] object to its string representation.
   @override
   String toString() {
-    return "AccountUpdateContract{${toJson()}}";
+    return 'AccountUpdateContract{${toJson()}}';
   }
 
   @override

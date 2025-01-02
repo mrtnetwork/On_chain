@@ -6,22 +6,18 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the account information for a list of Pubkeys.
 /// https://solana.com/docs/rpc/http/getmultipleaccounts
-class SolanaRPCGetMultipleAccounts
-    extends SolanaRPCRequest<Map<String, dynamic>> {
-  const SolanaRPCGetMultipleAccounts(
+class SolanaRequestGetMultipleAccounts
+    extends SolanaRequest<Map<String, dynamic>, Map<String, dynamic>> {
+  const SolanaRequestGetMultipleAccounts(
       {required this.pubkeys,
       this.dataSlice,
-      Commitment? commitment,
-      MinContextSlot? minContextSlot,
-      SolanaRPCEncoding? encoding})
-      : super(
-            commitment: commitment,
-            minContextSlot: minContextSlot,
-            encoding: encoding);
+      super.commitment,
+      super.minContextSlot,
+      super.encoding});
 
   /// getMultipleAccounts
   @override
-  String get method => SolanaRPCMethods.getMultipleAccounts.value;
+  String get method => SolanaRequestMethods.getMultipleAccounts.value;
 
   /// An array of Pubkeys to query, as base-58 encoded strings (up to a maximum of 100)
   final List<SolAddress> pubkeys;
@@ -33,7 +29,7 @@ class SolanaRPCGetMultipleAccounts
   List<dynamic> toJson() {
     return [
       pubkeys.map((e) => e.address).toList(),
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
         dataSlice?.toJson(),

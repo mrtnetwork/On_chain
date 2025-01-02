@@ -6,9 +6,9 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about the addresses of a specific account.
 /// https://blockfrost.dev/api/specific-account-address
 class BlockfrostRequestAccountAssociatedAddresses
-    extends BlockforestRequestParam<List<String>, List<Map<String, dynamic>>> {
+    extends BlockFrostRequest<List<String>, List<Map<String, dynamic>>> {
   BlockfrostRequestAccountAssociatedAddresses(this.stakeAddress,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// stake address.
@@ -23,6 +23,6 @@ class BlockfrostRequestAccountAssociatedAddresses
 
   @override
   List<String> onResonse(List<Map<String, dynamic>> result) {
-    return result.map<String>((e) => e["address"]).toList();
+    return result.map<String>((e) => e['address']).toList();
   }
 }

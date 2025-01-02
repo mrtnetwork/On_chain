@@ -15,12 +15,12 @@ class MetaplexTokenMetaDataTransferOutOfEscrowLayout
         instruction: MetaplexTokenMetaDataProgramInstruction
             .transferOutOfEscrow.insturction);
     return MetaplexTokenMetaDataTransferOutOfEscrowLayout(
-        amount: decode["amount"]);
+        amount: decode['amount']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "amount")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount')
   ]);
 
   @override
@@ -32,6 +32,6 @@ class MetaplexTokenMetaDataTransferOutOfEscrowLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount};
+    return {'amount': amount};
   }
 }

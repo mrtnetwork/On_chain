@@ -94,7 +94,7 @@ class SPLTokenSwapAccount extends LayoutSerializable {
       mintA: json['mintA'],
       mintB: json['mintB'],
       feeAccount: json['feeAccount'],
-      fees: TokenSwapFees.fromJson(json["fees"]),
+      fees: TokenSwapFees.fromJson(json['fees']),
       curveType: SPLTokenSwapCurveType.fromValue(json['curveType']),
       curveParameters: (json['curveParameters'] as List).cast(),
     );
@@ -124,6 +124,6 @@ class SPLTokenSwapAccount extends LayoutSerializable {
 
   @override
   String toString() {
-    return "SPLTokenSwapAccount${serialize()}";
+    return 'SPLTokenSwapAccount${serialize()}';
   }
 }

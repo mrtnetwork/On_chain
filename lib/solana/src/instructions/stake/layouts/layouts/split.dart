@@ -15,11 +15,11 @@ class StakeSplitLayout extends StakeProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: StakeProgramInstruction.split.insturction);
-    return StakeSplitLayout(lamports: decode["lamports"]);
+    return StakeSplitLayout(lamports: decode['lamports']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.ns64(property: "lamports")
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports')
   ]);
   @override
   StructLayout get layout => _layout;
@@ -29,6 +29,6 @@ class StakeSplitLayout extends StakeProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports};
+    return {'lamports': lamports};
   }
 }

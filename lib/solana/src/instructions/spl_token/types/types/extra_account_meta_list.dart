@@ -12,8 +12,8 @@ class ExtraAccountMetaList extends LayoutSerializable {
 
   factory ExtraAccountMetaList.fromJson(Map<String, dynamic> json) {
     return ExtraAccountMetaList(
-        count: json["count"],
-        extraAccounts: (json["extraAccounts"] as List)
+        count: json['count'],
+        extraAccounts: (json['extraAccounts'] as List)
             .map((e) => ExtraAccountMeta.fromJson(e))
             .toList());
   }
@@ -21,21 +21,21 @@ class ExtraAccountMetaList extends LayoutSerializable {
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.u32(property: 'count'),
     LayoutConst.greedyArray(ExtraAccountMeta.staticLayout,
-        property: "extraAccounts")
-  ], property: "extraAccountMetaList");
+        property: 'extraAccounts')
+  ], property: 'extraAccountMetaList');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
     return {
-      "count": count,
-      "extraAccounts": extraAccounts.map((e) => e.serialize()).toList(),
+      'count': count,
+      'extraAccounts': extraAccounts.map((e) => e.serialize()).toList(),
     };
   }
 
   @override
   String toString() {
-    return "ExtraAccountMetaList${serialize()}";
+    return 'ExtraAccountMetaList${serialize()}';
   }
 }

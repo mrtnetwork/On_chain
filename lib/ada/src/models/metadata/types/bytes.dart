@@ -18,7 +18,7 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
   }
   factory TransactionMetadataBytes.fromJson(Map<String, dynamic> json) {
     return TransactionMetadataBytes(
-        value: BytesUtils.fromHexString(json["bytes"]));
+        value: BytesUtils.fromHexString(json['bytes']));
   }
   TransactionMetadataBytes copyWith({List<int>? value}) {
     return TransactionMetadataBytes(value: value ?? this.value);
@@ -31,21 +31,21 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
   /// Converts the metadata to JSON.
   @override
   Map<String, dynamic> toJson() {
-    return {"bytes": BytesUtils.toHexString(value)};
+    return {'bytes': BytesUtils.toHexString(value)};
   }
 
   @override
-  toJsonSchema(
+  Object toJsonSchema(
       {MetadataSchemaConfig config = const MetadataSchemaConfig(
           jsonSchema: MetadataJsonSchema.noConversions)}) {
     if (config.jsonSchema == MetadataJsonSchema.noConversions) {
       throw const ADAPluginException(
-          "bytes not allowed in JSON in specified schema.");
+          'bytes not allowed in JSON in specified schema.');
     }
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
-      return {"bytes": BytesUtils.toHexString(value)};
+      return {'bytes': BytesUtils.toHexString(value)};
     }
-    return BytesUtils.toHexString(value, prefix: "0x");
+    return BytesUtils.toHexString(value, prefix: '0x');
   }
 
   /// Converts the metadata to CBOR.

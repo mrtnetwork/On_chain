@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Unstake a token that has passed the minimum freeze duration.
 /// [developers.tron.network](https://developers.tron.network/reference/unfreezeasset).
 class TronRequestUnfreezeAsset
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   TronRequestUnfreezeAsset(
       {required this.ownerAddress, this.permissionId, this.visible = true});
 
@@ -25,15 +25,15 @@ class TronRequestUnfreezeAsset
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestUnfreezeAsset{${toJson()}}";
+    return 'TronRequestUnfreezeAsset{${toJson()}}';
   }
 
   @override

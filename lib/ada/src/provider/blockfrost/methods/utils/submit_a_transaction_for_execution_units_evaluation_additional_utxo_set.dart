@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// Submit a JSON payload with transaction CBOR and additional UTXO set to evaluate how much execution units it requires.
 /// https://blockfrost.dev/api/submit-a-transaction-for-execution-units-evaluation-additional-utxo-set
 class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUTXOset
-    extends BlockforestPostRequestParam<dynamic, dynamic> {
+    extends BlockFrostPostRequest<dynamic, dynamic> {
   BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUTXOset(
       {required this.additionalUtxoSet,
       required List<int> transactionCborBytes})
@@ -23,16 +23,16 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUT
   @override
   List<String> get pathParameters => [];
 
-  @override
-  Map<String, String>? get header => {"Content-Type": "application/json"};
-
   /// The transaction to submit, serialized in CBOR.
   List<int> transactionCborBytes;
 
   @override
-  String get body => StringUtils.fromJson({
-        "cbor": StringUtils.decode(transactionCborBytes,
-            type: StringEncoding.base64),
-        "additionalUtxoSet": additionalUtxoSet,
-      });
+  List<int> get body {
+    final toString = StringUtils.fromJson({
+      'cbor':
+          StringUtils.decode(transactionCborBytes, type: StringEncoding.base64),
+      'additionalUtxoSet': additionalUtxoSet,
+    });
+    return StringUtils.encode(toString);
+  }
 }

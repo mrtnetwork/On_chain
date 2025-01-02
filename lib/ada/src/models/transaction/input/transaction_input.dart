@@ -16,8 +16,8 @@ class TransactionInput with ADASerialization {
   }
   factory TransactionInput.fromJson(Map<String, dynamic> json) {
     return TransactionInput(
-        transactionId: TransactionHash.fromHex(json["transaction_id"]),
-        index: json["index"]);
+        transactionId: TransactionHash.fromHex(json['transaction_id']),
+        index: json['index']);
   }
 
   /// Deserialize a TransactionInput object from a CBOR list.
@@ -38,6 +38,6 @@ class TransactionInput with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"transaction_id": transactionId.toJson(), "index": index};
+    return {'transaction_id': transactionId.toJson(), 'index': index};
   }
 }

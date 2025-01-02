@@ -16,14 +16,14 @@ class FeeHistory {
 
   /// Constructs a [FeeHistory] object from JSON.
   factory FeeHistory.fromJson(Map<String, dynamic> json) {
-    final List<BigInt> baseFeePerGas = (json['baseFeePerGas'] as List?)
+    final baseFeePerGas = (json['baseFeePerGas'] as List?)
             ?.map((fee) => PluginBigintUtils.hexToBigint(fee))
             .toList() ??
         <BigInt>[];
-    final List<double> gasUsedRatio = (json['gasUsedRatio'] as List<dynamic>)
+    final gasUsedRatio = (json['gasUsedRatio'] as List<dynamic>)
         .map<double>((e) => PluginIntUtils.toDouble(e))
         .toList();
-    final List<List<BigInt>> reward = (json['reward'] as List).map((r) {
+    final reward = (json['reward'] as List).map((r) {
       return (r as List)
           .map((value) => PluginBigintUtils.hexToBigint(value))
           .toList();
@@ -53,27 +53,23 @@ class FeeHistory {
   FeeHistorical toFee() {
     FeeHistorical toPriority(List<_FeeHistorical> priorities, BigInt baseFee) {
       BigInt avg(List<BigInt> arr) {
-        final BigInt sum = arr.reduce((a, v) => a + v);
+        final sum = arr.reduce((a, v) => a + v);
         return sum ~/ BigInt.from(arr.length);
       }
 
-      final BigInt slow = avg(priorities.map((b) {
+      final slow = avg(priorities.map((b) {
         return b.priorityFeePerGas[0];
       }).toList());
-      final BigInt average =
+      final average =
           avg(priorities.map((b) => b.priorityFeePerGas[1]).toList());
-      final BigInt fast =
-          avg(priorities.map((b) => b.priorityFeePerGas[2]).toList());
+      final fast = avg(priorities.map((b) => b.priorityFeePerGas[2]).toList());
       return FeeHistorical(
           slow: slow, high: fast, normal: average, baseFee: baseFee);
     }
 
-    final int minLength = [
-      gasUsedRatio.length,
-      baseFeePerGas.length,
-      reward.length
-    ].reduce((min, current) => current < min ? current : min);
-    final List<_FeeHistorical> historical = List.generate(
+    final minLength = [gasUsedRatio.length, baseFeePerGas.length, reward.length]
+        .reduce((min, current) => current < min ? current : min);
+    final historical = List<_FeeHistorical>.generate(
         minLength,
         (index) => _FeeHistorical(
             baseFeePerGas: baseFeePerGas[index],

@@ -16,8 +16,8 @@ class MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout
         instruction: MetaplexFixedPriceSaleProgramInstruction
             .savePrimaryMetadataCreators.insturction);
     return MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout(
-        primaryMetadataCreatorsBump: decode["primaryMetadataCreatorsBump"],
-        creators: (decode["creators"] as List)
+        primaryMetadataCreatorsBump: decode['primaryMetadataCreatorsBump'],
+        creators: (decode['creators'] as List)
             .map((e) => Creator.fromJson(e))
             .toList());
   }
@@ -26,9 +26,9 @@ class MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "primaryMetadataCreatorsBump"),
-    LayoutConst.vec(Creator.creatorLayout, property: "creators")
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'primaryMetadataCreatorsBump'),
+    LayoutConst.vec(Creator.creatorLayout, property: 'creators')
   ]);
 
   @override
@@ -41,8 +41,8 @@ class MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "primaryMetadataCreatorsBump": primaryMetadataCreatorsBump,
-      "creators": creators.map((e) => e.serialize()).toList()
+      'primaryMetadataCreatorsBump': primaryMetadataCreatorsBump,
+      'creators': creators.map((e) => e.serialize()).toList()
     };
   }
 }

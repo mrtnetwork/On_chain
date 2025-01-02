@@ -36,6 +36,6 @@ class MemoLayout extends ProgramLayout {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"memo": memo};
+    return {'memo': memo};
   }
 }

@@ -7,9 +7,9 @@ class _Utils {
   static const List<int> discriminator = [78, 134, 220, 213, 34, 152, 102, 167];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    LayoutConst.u64(property: "count"),
-    SolanaLayoutUtils.publicKey("claimant"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.u64(property: 'count'),
+    SolanaLayoutUtils.publicKey('claimant'),
   ]);
 }
 
@@ -22,8 +22,8 @@ class ClaimCount extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
-    return ClaimCount(claimant: decode["claimant"], count: decode["count"]);
+        validator: {'discriminator': _Utils.discriminator});
+    return ClaimCount(claimant: decode['claimant'], count: decode['count']);
   }
 
   @override
@@ -32,14 +32,14 @@ class ClaimCount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "count": count,
-      "claimant": claimant,
+      'discriminator': _Utils.discriminator,
+      'count': count,
+      'claimant': claimant,
     };
   }
 
   @override
   String toString() {
-    return "ClaimCount${serialize()}";
+    return 'ClaimCount${serialize()}';
   }
 }

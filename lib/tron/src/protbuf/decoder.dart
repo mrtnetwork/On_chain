@@ -31,7 +31,7 @@ class ProtocolBufferDecoder {
           break;
         default:
           throw TronPluginException(
-              "protobuf wiretype not supported. filedId :$fieldId $wireType $tag");
+              'protobuf wiretype not supported. filedId :$fieldId $wireType $tag');
       }
     }
 
@@ -84,7 +84,7 @@ class ProtocolBufferDecoderResult<T> {
   final T value;
   @override
   String toString() {
-    return "tagNumber: $tagNumber value: $value";
+    return 'tagNumber: $tagNumber value: $value';
   }
 }
 
@@ -94,7 +94,7 @@ class _Result<T> {
   final int consumed;
   @override
   String toString() {
-    return "value: $value consumed: $consumed";
+    return 'value: $value consumed: $consumed';
   }
 }
 
@@ -114,8 +114,8 @@ extension QuickProtocolBufferResults on List<ProtocolBufferDecoderResult> {
       return result.get<T>();
     } on StateError {
       if (null is T) return null as T;
-      throw TronPluginException("field id does not exist.",
-          details: {"fieldIds": map((e) => e.tagNumber).join(", "), "id": tag});
+      throw TronPluginException('field id does not exist.',
+          details: {'fieldIds': map((e) => e.tagNumber).join(', '), 'id': tag});
     }
   }
 
@@ -125,16 +125,16 @@ extension QuickProtocolBufferResults on List<ProtocolBufferDecoderResult> {
       return result as T;
     } on StateError {
       if (null is T) return null as T;
-      throw TronPluginException("field id does not exist.",
-          details: {"fieldIds": map((e) => e.tagNumber).join(", "), "id": id});
+      throw TronPluginException('field id does not exist.',
+          details: {'fieldIds': map((e) => e.tagNumber).join(', '), 'id': id});
     }
   }
 
   List<T> getFields<T>(int tag, {bool allowNull = true}) {
     final result = where((element) => element.tagNumber == tag);
     if (result.isEmpty && !allowNull) {
-      throw TronPluginException("field id does not exist.",
-          details: {"fieldIds": map((e) => e.tagNumber).join(", "), "id": tag});
+      throw TronPluginException('field id does not exist.',
+          details: {'fieldIds': map((e) => e.tagNumber).join(', '), 'id': tag});
     }
     return result.map((e) => e.get<T>()).toList();
   }
@@ -142,9 +142,9 @@ extension QuickProtocolBufferResults on List<ProtocolBufferDecoderResult> {
   Map<K, V> getMap<K, V>(int tagId, {bool allowNull = true}) {
     final result = where((element) => element.tagNumber == tagId);
     if (result.isEmpty && !allowNull) {
-      throw TronPluginException("field id does not exist.", details: {
-        "fieldIds": map((e) => e.tagNumber).join(", "),
-        "id": tagId
+      throw TronPluginException('field id does not exist.', details: {
+        'fieldIds': map((e) => e.tagNumber).join(', '),
+        'id': tagId
       });
     }
     final Map<K, V> data = {};
@@ -158,7 +158,7 @@ extension QuickProtocolBufferResults on List<ProtocolBufferDecoderResult> {
 
 extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
   bool _isTypeString<T>() {
-    return "" is T;
+    return '' is T;
   }
 
   T get<T>() {
@@ -171,16 +171,16 @@ extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
         return BigInt.from(value) as T;
       } else if (false is T) {
         if (value != 0 && value != 1) {
-          throw TronPluginException("Invalid boolean value.",
-              details: {"value": value});
+          throw TronPluginException('Invalid boolean value.',
+              details: {'value': value});
         }
         return (value == 1 ? true : false) as T;
       }
     } else if (value is BigInt && 0 is T) {
       return (value as BigInt).toInt() as T;
     }
-    throw TronPluginException("Invalid type.",
-        details: {"type": "$T", "Excepted": value.runtimeType.toString()});
+    throw TronPluginException('Invalid type.',
+        details: {'type': '$T', 'Excepted': value.runtimeType.toString()});
   }
 
   T cast<T>() {
@@ -190,8 +190,8 @@ extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
         return BigInt.from(value) as T;
       } else if (T == bool) {
         if (value != 0 && value != 1) {
-          throw TronPluginException("Invalid boolean value.",
-              details: {"value": value});
+          throw TronPluginException('Invalid boolean value.',
+              details: {'value': value});
         }
         return (value == 1 ? true : false) as T;
       }
@@ -203,10 +203,10 @@ extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
     if (value is List<int> && T == String) {
       return StringUtils.decode(value) as T;
     }
-    throw TronPluginException("cannot cast value.", details: {
-      "Type": "$T",
-      "Excepted": value.runtimeType.toString(),
-      "value": value
+    throw TronPluginException('cannot cast value.', details: {
+      'Type': '$T',
+      'Excepted': value.runtimeType.toString(),
+      'value': value
     });
   }
 

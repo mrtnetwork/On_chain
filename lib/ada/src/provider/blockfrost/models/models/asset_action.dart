@@ -29,6 +29,6 @@ class ADAAssetActionResponse {
       };
   @override
   String toString() {
-    return "ADAAssetActionResponse${toJson()}";
+    return 'ADAAssetActionResponse${toJson()}';
   }
 }

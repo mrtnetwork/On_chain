@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Validates address, returns either true or false.
 /// [developers.tron.network](https://developers.tron.network/reference/validateaddress).
 class TronRequestValidateAddress
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestValidateAddress({required this.address, this.visible = true});
 
   /// Address should be in base58checksum
@@ -18,11 +18,11 @@ class TronRequestValidateAddress
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address, "visible": visible};
+    return {'address': address, 'visible': visible};
   }
 
   @override
   String toString() {
-    return "TronRequestValidateAddress{${toJson()}}";
+    return 'TronRequestValidateAddress{${toJson()}}';
   }
 }

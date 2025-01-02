@@ -14,12 +14,12 @@ class MetaplexBubblegumCancelRedeemLayout
         bytes: data,
         instruction:
             MetaplexBubblegumProgramInstruction.cancelRedeem.insturction);
-    return MetaplexBubblegumCancelRedeemLayout(root: decode["root"]);
+    return MetaplexBubblegumCancelRedeemLayout(root: decode['root']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.blob(32, property: "root"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
   ]);
 
   @override
@@ -31,6 +31,6 @@ class MetaplexBubblegumCancelRedeemLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"root": root};
+    return {'root': root};
   }
 }

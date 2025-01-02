@@ -25,13 +25,13 @@ class ResourceCode implements TronEnumerate {
   final String name;
 
   /// Represents bandwidth as a resource code.
-  static const ResourceCode bandWidth = ResourceCode._("BANDWIDTH", 0);
+  static const ResourceCode bandWidth = ResourceCode._('BANDWIDTH', 0);
 
   /// Represents energy as a resource code.
-  static const ResourceCode energy = ResourceCode._("ENERGY", 1);
+  static const ResourceCode energy = ResourceCode._('ENERGY', 1);
 
   /// Represents Tron Power as a resource code.
-  static const ResourceCode tronPower = ResourceCode._("TRON_POWER", 2);
+  static const ResourceCode tronPower = ResourceCode._('TRON_POWER', 2);
 
   /// List of all available resource codes.
   static const List<ResourceCode> values = [bandWidth, energy, tronPower];

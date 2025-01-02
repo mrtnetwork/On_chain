@@ -5,10 +5,10 @@ import 'package:on_chain/ada/src/models/credential/core/stake_cred_type.dart';
 /// Represents a stake credential using a script.
 class StakeCredScript extends StakeCred {
   /// Constructs a [StakeCredScript] with the specified [data].
-  StakeCredScript(List<int> data) : super(data);
+  StakeCredScript(super.data);
 
   /// Constructs a [StakeCredScript] from a hexadecimal string [hexBytes].
-  StakeCredScript.fromHex(String hexBytes) : super.fromHex(hexBytes);
+  StakeCredScript.fromHex(super.hexBytes) : super.fromHex();
 
   /// Deserializes a [StakeCredScript] from CBOR bytes [cbor].
   factory StakeCredScript.deserialize(CborBytesValue cbor) {
@@ -21,6 +21,6 @@ class StakeCredScript extends StakeCred {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"script": super.toJson()};
+    return {'script': super.toJson()};
   }
 }

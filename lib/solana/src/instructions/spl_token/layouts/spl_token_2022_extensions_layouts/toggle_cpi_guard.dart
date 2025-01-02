@@ -10,9 +10,9 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
   SPLToken2022ToggleCpiGuardLayout({required this.guard});
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: 'instruction'),
     LayoutConst.wrap(CpiGuardInstructionInstruction.staticLayout,
-        property: "guard"),
+        property: 'guard'),
   ]);
 
   factory SPLToken2022ToggleCpiGuardLayout.fromBuffer(List<int> bytes) {
@@ -21,7 +21,7 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
         bytes: bytes,
         instruction: SPLTokenProgramInstruction.cpiGuardExtension.insturction);
     return SPLToken2022ToggleCpiGuardLayout(
-        guard: CpiGuardInstructionInstruction.fromJson(decode["guard"]));
+        guard: CpiGuardInstructionInstruction.fromJson(decode['guard']));
   }
 
   @override
@@ -33,6 +33,6 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"guard": guard.serialize()};
+    return {'guard': guard.serialize()};
   }
 }

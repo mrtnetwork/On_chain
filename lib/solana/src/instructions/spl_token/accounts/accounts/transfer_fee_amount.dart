@@ -12,12 +12,12 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException("Account data length is insufficient.",
-            details: {"Expected": accountSize, "length": extensionData.length});
+        throw SolanaPluginException('Account data length is insufficient.',
+            details: {'Expected': accountSize, 'length': extensionData.length});
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 
@@ -29,7 +29,7 @@ class _Utils {
               extensionType: ExtensionType.transferFeeAmount);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
@@ -42,22 +42,22 @@ class TransferFeeAmount extends LayoutSerializable {
 
   factory TransferFeeAmount.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
-    return TransferFeeAmount(withheldAmount: decode["withheldAmount"]);
+    return TransferFeeAmount(withheldAmount: decode['withheldAmount']);
   }
   factory TransferFeeAmount.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
-    return TransferFeeAmount(withheldAmount: decode["withheldAmount"]);
+    return TransferFeeAmount(withheldAmount: decode['withheldAmount']);
   }
 
   @override
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
-    return {"withheldAmount": withheldAmount};
+    return {'withheldAmount': withheldAmount};
   }
 
   @override
   String toString() {
-    return "TransferFeeAmount${serialize()}";
+    return 'TransferFeeAmount${serialize()}';
   }
 }

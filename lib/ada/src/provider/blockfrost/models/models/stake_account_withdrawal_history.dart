@@ -24,6 +24,6 @@ class ADAStakeAccountWithdrawalHistoryResponse {
       };
   @override
   String toString() {
-    return "ADAStakeAccountWithdrawalHistoryResponse${toJson()}";
+    return 'ADAStakeAccountWithdrawalHistoryResponse${toJson()}';
   }
 }

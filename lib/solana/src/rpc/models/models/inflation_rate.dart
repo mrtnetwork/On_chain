@@ -18,9 +18,9 @@ class InflationRate {
       required this.epoch});
   factory InflationRate.fromJson(Map<String, dynamic> json) {
     return InflationRate(
-        total: json["total"],
-        validator: json["validator"],
-        foundation: json["foundation"],
-        epoch: json["epoch"]);
+        total: json['total'],
+        validator: json['validator'],
+        foundation: json['foundation'],
+        epoch: json['epoch']);
   }
 }

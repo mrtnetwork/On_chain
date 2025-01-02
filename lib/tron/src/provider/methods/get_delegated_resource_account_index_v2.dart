@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// and the other is the list of addresses that have delegated resources to the account(fromAddress).
 /// [developers.tron.network](https://developers.tron.network/reference/getdelegatedresourceaccountindexv2-1).
 class TronRequestGetDelegatedResourceAccountIndexV2
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetDelegatedResourceAccountIndexV2(
       {required this.value, this.visible = true});
 
@@ -22,11 +22,11 @@ class TronRequestGetDelegatedResourceAccountIndexV2
       TronHTTPMethods.getdelegatedresourceaccountindexv2;
   @override
   Map<String, dynamic> toJson() {
-    return {"value": value, "visible": visible};
+    return {'value': value.toAddress(visible), 'visible': visible};
   }
 
   @override
   String toString() {
-    return "TronRequestGetDelegatedResourceAccountIndexV2{${toJson()}}";
+    return 'TronRequestGetDelegatedResourceAccountIndexV2{${toJson()}}';
   }
 }

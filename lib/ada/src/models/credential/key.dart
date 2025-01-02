@@ -6,10 +6,10 @@ import 'package:on_chain/ada/src/models/credential/core/stake_cred_type.dart';
 /// Represents a stake credential using a public key.
 class StakeCredKey extends StakeCred {
   /// Constructs a [StakeCredKey] with the specified [data].
-  StakeCredKey(List<int> data) : super(data);
+  StakeCredKey(super.data);
 
   /// Constructs a [StakeCredKey] from a hexadecimal string [hexBytes].
-  StakeCredKey.fromHex(String hexBytes) : super.fromHex(hexBytes);
+  StakeCredKey.fromHex(super.hexBytes) : super.fromHex();
 
   /// Constructs a [StakeCredKey] from a public key [pubKeyBytes].
   /// It derives the credential from the public key bytes using hashing.
@@ -27,6 +27,6 @@ class StakeCredKey extends StakeCred {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"key": super.toJson()};
+    return {'key': super.toJson()};
   }
 }

@@ -1,19 +1,19 @@
 class RPCTransactionDetails {
   const RPCTransactionDetails._(this.value);
   final String value;
-  static const RPCTransactionDetails full = RPCTransactionDetails._("full");
+  static const RPCTransactionDetails full = RPCTransactionDetails._('full');
   static const RPCTransactionDetails accounts =
-      RPCTransactionDetails._("accounts");
+      RPCTransactionDetails._('accounts');
   static const RPCTransactionDetails signatures =
-      RPCTransactionDetails._("signatures");
-  static const RPCTransactionDetails none = RPCTransactionDetails._("none");
+      RPCTransactionDetails._('signatures');
+  static const RPCTransactionDetails none = RPCTransactionDetails._('none');
 
   Map<String, dynamic> toJson() {
-    return {"transactionDetails": value};
+    return {'transactionDetails': value};
   }
 
   @override
   String toString() {
-    return "RPCTransactionDetails.$value";
+    return 'RPCTransactionDetails.$value';
   }
 }

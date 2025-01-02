@@ -11,27 +11,27 @@ class NFTPayment extends LayoutSerializable {
       {required this.requiredCollection, required this.destination});
   factory NFTPayment.fromJson(Map<String, dynamic> json) {
     return NFTPayment(
-        requiredCollection: json["requiredCollection"],
-        destination: json["destination"]);
+        requiredCollection: json['requiredCollection'],
+        destination: json['destination']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("requiredCollection"),
-    SolanaLayoutUtils.publicKey("destination")
-  ], property: "nftPayment");
+    SolanaLayoutUtils.publicKey('requiredCollection'),
+    SolanaLayoutUtils.publicKey('destination')
+  ], property: 'nftPayment');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "destination": destination,
-      "requiredCollection": requiredCollection
+      'destination': destination,
+      'requiredCollection': requiredCollection
     };
   }
 
   @override
   String toString() {
-    return "NFTPayment${serialize()}";
+    return 'NFTPayment${serialize()}';
   }
 }

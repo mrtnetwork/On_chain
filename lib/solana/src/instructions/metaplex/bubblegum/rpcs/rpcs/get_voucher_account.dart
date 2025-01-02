@@ -4,31 +4,32 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 /// Retrieves the account info from the provided address and deserializes
 /// the [Voucher] from its data.
-class SolanaRPCGetVoucherAccount extends SolanaRPCRequest<Voucher?> {
+class SolanaRPCGetVoucherAccount
+    extends SolanaRequest<Voucher?, Map<String, dynamic>?> {
   const SolanaRPCGetVoucherAccount({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];
   }
 
   @override
-  Voucher? onResonse(result) {
+  Voucher? onResonse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return Voucher.fromBuffer(accountInfo.toBytesData());

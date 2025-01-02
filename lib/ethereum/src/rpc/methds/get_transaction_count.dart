@@ -4,15 +4,15 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the number of transactions sent from an address.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getTransactionCount)
-class RPCGetTransactionCount extends ETHRPCRequest<int> {
-  RPCGetTransactionCount({
+class EthereumRequestGetTransactionCount extends EthereumRequest<int, Object> {
+  EthereumRequestGetTransactionCount({
     required this.address,
     BlockTagOrNumber? tag = BlockTagOrNumber.latest,
   }) : super(blockNumber: tag);
 
   /// eth_getTransactionCount
   @override
-  EthereumMethods get method => EthereumMethods.getTransactionCount;
+  String get method => EthereumMethods.getTransactionCount.value;
 
   /// address
   final String address;
@@ -24,11 +24,11 @@ class RPCGetTransactionCount extends ETHRPCRequest<int> {
 
   @override
   int onResonse(result) {
-    return ETHRPCRequest.onIntResponse(result);
+    return EthereumRequest.onIntResponse(result);
   }
 
   @override
   String toString() {
-    return "RPCGetTransactionCount{${toJson()}}";
+    return 'EthereumRequestGetTransactionCount{${toJson()}}';
   }
 }

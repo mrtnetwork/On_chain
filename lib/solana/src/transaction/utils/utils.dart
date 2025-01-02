@@ -448,7 +448,7 @@ class SolanaTransactionUtils {
       LayoutConst.blob(encodedSignaturesLength.length,
           property: 'encodedSignaturesLength'),
       LayoutConst.array(
-          LayoutConst.blob(64, property: "signature"), signatures.length,
+          LayoutConst.blob(64, property: 'signature'), signatures.length,
           property: 'signatures'),
       LayoutConst.blob(serializedMessage.length, property: 'serializedMessage')
     ]);

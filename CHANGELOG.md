@@ -1,3 +1,9 @@
+## 5.0.0
+
+- Minimum required Dart SDK version updated to 3.3.
+- The RPC method names and service class implementations have been updated. Please refer to the examples folder for guidance.
+- Update dependencies.
+
 ## 4.5.0
 
 - Update dependencies.

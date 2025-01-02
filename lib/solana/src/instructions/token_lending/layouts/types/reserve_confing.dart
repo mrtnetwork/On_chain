@@ -40,14 +40,14 @@ class ReserveConfig {
       required this.feesConfig});
   factory ReserveConfig.fromJson(Map<String, dynamic> json) {
     return ReserveConfig(
-        optimalUtilizationRate: json["optimalUtilizationRate"],
-        loanToValueRatio: json["loanToValueRatio"],
-        liquidationBonus: json["liquidationBonus"],
-        liquidationThreshold: json["liquidationThreshold"],
-        minBorrowRate: json["minBorrowRate"],
-        optimalBorrowRate: json["optimalBorrowRate"],
-        maxBorrowRate: json["maxBorrowRate"],
-        feesConfig: ReserveFeesConfig.fromJson(json["fees"]));
+        optimalUtilizationRate: json['optimalUtilizationRate'],
+        loanToValueRatio: json['loanToValueRatio'],
+        liquidationBonus: json['liquidationBonus'],
+        liquidationThreshold: json['liquidationThreshold'],
+        minBorrowRate: json['minBorrowRate'],
+        optimalBorrowRate: json['optimalBorrowRate'],
+        maxBorrowRate: json['maxBorrowRate'],
+        feesConfig: ReserveFeesConfig.fromJson(json['fees']));
   }
   static StructLayout layout = LayoutConst.struct([
     LayoutConst.u8(property: 'optimalUtilizationRate'),
@@ -58,23 +58,23 @@ class ReserveConfig {
     LayoutConst.u8(property: 'optimalBorrowRate'),
     LayoutConst.u8(property: 'maxBorrowRate'),
     ReserveFeesConfig.layout
-  ], property: "config");
+  ], property: 'config');
 
   Map<String, dynamic> serialize() {
     return {
-      "optimalUtilizationRate": optimalUtilizationRate,
-      "loanToValueRatio": loanToValueRatio,
-      "liquidationBonus": liquidationBonus,
-      "liquidationThreshold": liquidationThreshold,
-      "minBorrowRate": minBorrowRate,
-      "optimalBorrowRate": optimalBorrowRate,
-      "maxBorrowRate": maxBorrowRate,
-      "fees": feesConfig.serialize()
+      'optimalUtilizationRate': optimalUtilizationRate,
+      'loanToValueRatio': loanToValueRatio,
+      'liquidationBonus': liquidationBonus,
+      'liquidationThreshold': liquidationThreshold,
+      'minBorrowRate': minBorrowRate,
+      'optimalBorrowRate': optimalBorrowRate,
+      'maxBorrowRate': maxBorrowRate,
+      'fees': feesConfig.serialize()
     };
   }
 
   @override
   String toString() {
-    return "ReserveConfig${serialize()}";
+    return 'ReserveConfig${serialize()}';
   }
 }

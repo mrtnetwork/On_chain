@@ -11,34 +11,34 @@ class TransactionRaw extends TronProtocolBufferImpl {
   /// Create a new [TransactionRaw] instance by parsing a JSON map.
   factory TransactionRaw.fromJson(Map<String, dynamic> json) {
     final contractList = OnChainUtils.parseList(
-            value: json["contract"], name: "contract", throwOnNull: true)!
+            value: json['contract'], name: 'contract', throwOnNull: true)!
         .map((e) => TransactionContract.fromJson(OnChainUtils.parseMap(
-            value: e, name: "contract", throwOnNull: true)!))
+            value: e, name: 'contract', throwOnNull: true)!))
         .toList();
     if (contractList.length != 1) {
       throw const TronPluginException(
-          "Transaction must contain exactly one contract.");
+          'Transaction must contain exactly one contract.');
     }
 
     return TransactionRaw(
       contract: contractList,
       refBlockBytes: OnChainUtils.parseHex(
-          value: json['ref_block_bytes'], name: "ref_block_bytes"),
+          value: json['ref_block_bytes'], name: 'ref_block_bytes'),
       refBlockHash: OnChainUtils.parseHex(
-          value: json['ref_block_hash'], name: "ref_block_hash"),
+          value: json['ref_block_hash'], name: 'ref_block_hash'),
       expiration: OnChainUtils.parseBigInt(
-          value: json['expiration'], name: "expiration"),
+          value: json['expiration'], name: 'expiration'),
       timestamp:
-          OnChainUtils.parseBigInt(value: json['timestamp'], name: "timestamp"),
-      data: OnChainUtils.parseBytes(value: json["data"], name: "data"),
+          OnChainUtils.parseBigInt(value: json['timestamp'], name: 'timestamp'),
+      data: OnChainUtils.parseBytes(value: json['data'], name: 'data'),
       feeLimit:
-          OnChainUtils.parseBigInt(value: json["fee_limit"], name: "fee_limit"),
+          OnChainUtils.parseBigInt(value: json['fee_limit'], name: 'fee_limit'),
       refBlockNum: OnChainUtils.parseBigInt(
-          value: json["ref_block_num"], name: "ref_block_num"),
-      scripts: OnChainUtils.parseHex(value: json["scripts"], name: "scripts"),
-      auths: OnChainUtils.parseList(value: json["auths"], name: "auths")
+          value: json['ref_block_num'], name: 'ref_block_num'),
+      scripts: OnChainUtils.parseHex(value: json['scripts'], name: 'scripts'),
+      auths: OnChainUtils.parseList(value: json['auths'], name: 'auths')
           ?.map((e) => Authority.fromJson(OnChainUtils.parseMap(
-              value: e, name: "auths", throwOnNull: true)!))
+              value: e, name: 'auths', throwOnNull: true)!))
           .toList(),
     );
   }
@@ -50,7 +50,7 @@ class TransactionRaw extends TronProtocolBufferImpl {
         .toList();
     if (contracts.length != 1) {
       throw const TronPluginException(
-          "Transaction must contain exactly one contract.");
+          'Transaction must contain exactly one contract.');
     }
     return TransactionRaw(
         refBlockBytes: decode.getField(1),
@@ -80,7 +80,9 @@ class TransactionRaw extends TronProtocolBufferImpl {
       List<int>? scripts,
       required this.timestamp,
       this.feeLimit})
-      : refBlockBytes = BytesUtils.toBytes(refBlockBytes, unmodifiable: true),
+      : assert(feeLimit == null || feeLimit > BigInt.zero,
+            'fee limit must not be zero.'),
+        refBlockBytes = BytesUtils.toBytes(refBlockBytes, unmodifiable: true),
         refBlockHash = BytesUtils.toBytes(refBlockHash, unmodifiable: true),
         data = BytesUtils.tryToBytes(data, unmodifiable: true),
         scripts = BytesUtils.tryToBytes(scripts, unmodifiable: true),
@@ -121,16 +123,16 @@ class TransactionRaw extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "ref_block_bytes": BytesUtils.toHexString(refBlockBytes),
-      "ref_block_num": refBlockNum?.toString(),
-      "ref_block_hash": BytesUtils.toHexString(refBlockHash),
-      "expiration": expiration.toString(),
-      "auths": auths?.map((auth) => auth.toJson()).toList(),
-      "data": StringUtils.tryDecode(data),
-      "contract": contract.map((c) => c.toJson()).toList(),
-      "scripts": BytesUtils.tryToHexString(scripts),
-      "timestamp": timestamp.toString(),
-      "fee_limit": feeLimit?.toString(),
+      'ref_block_bytes': BytesUtils.toHexString(refBlockBytes),
+      'ref_block_num': refBlockNum?.toString(),
+      'ref_block_hash': BytesUtils.toHexString(refBlockHash),
+      'expiration': expiration.toString(),
+      'auths': auths?.map((auth) => auth.toJson()).toList(),
+      'data': StringUtils.tryDecode(data),
+      'contract': contract.map((c) => c.toJson()).toList(),
+      'scripts': BytesUtils.tryToHexString(scripts),
+      'timestamp': timestamp.toString(),
+      'fee_limit': feeLimit?.toString(),
     }..removeWhere((key, value) => value == null);
   }
 
@@ -186,28 +188,28 @@ class TransactionRaw extends TronProtocolBufferImpl {
 
   TronAddress get ownerAddress {
     if (contract.isEmpty) {
-      throw const TronPluginException("Transaction contains no contract.");
+      throw const TronPluginException('Transaction contains no contract.');
     }
     return contract[0].parameter.value.ownerAddress;
   }
 
   T getContract<T extends TronBaseContract>() {
     if (contract.isEmpty) {
-      throw const TronPluginException("Transaction contains no contract.");
+      throw const TronPluginException('Transaction contains no contract.');
     }
     return contract[0].parameter.value.cast();
   }
 
   int? permissionId() {
     if (contract.isEmpty) {
-      throw const TronPluginException("Transaction contains no contract.");
+      throw const TronPluginException('Transaction contains no contract.');
     }
     return contract[0].permissionId;
   }
 
   TransactionContractType get type {
     if (contract.isEmpty) {
-      throw const TronPluginException("Transaction contains no contract.");
+      throw const TronPluginException('Transaction contains no contract.');
     }
     return contract[0].type;
   }
@@ -215,6 +217,6 @@ class TransactionRaw extends TronProtocolBufferImpl {
   /// Convert the [TransactionRaw] object to its string representation.
   @override
   String toString() {
-    return "TransactionRaw{${toJson()}}";
+    return 'TransactionRaw{${toJson()}}';
   }
 }

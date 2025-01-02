@@ -15,7 +15,7 @@ class AssociatedTokenAccountProgramUtils {
   }) {
     if (!allowOwnerOffCurve && !owner.isOnCurve) {
       throw const SolanaPluginException(
-          "Public key address is not valid on the curve.");
+          'Public key address is not valid on the curve.');
     }
     return ProgramDerivedAddress.find(
         seedBytes: [owner.toBytes(), tokenProgramId.toBytes(), mint.toBytes()],

@@ -5,11 +5,11 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the withdrawals of a specific account.
 /// https://blockfrost.dev/api/account-withdrawal-history
-class BlockfrostRequestAccountWithdrawalHistory extends BlockforestRequestParam<
+class BlockfrostRequestAccountWithdrawalHistory extends BlockFrostRequest<
     List<ADAStakeAccountWithdrawalHistoryResponse>,
     List<Map<String, dynamic>>> {
   BlockfrostRequestAccountWithdrawalHistory(this.stakeAddress,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// stake address.

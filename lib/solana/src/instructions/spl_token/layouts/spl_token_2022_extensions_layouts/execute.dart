@@ -13,12 +13,12 @@ class SPLToken2022ExecuteLayout extends SPLTokenProgramLayout {
       bytes: bytes,
       instruction: SPLTokenProgramInstruction.execute.insturction,
     );
-    return SPLToken2022ExecuteLayout(amount: decode["amount"]);
+    return SPLToken2022ExecuteLayout(amount: decode['amount']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u64(property: "amount")
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'amount')
   ]);
 
   @override
@@ -26,7 +26,7 @@ class SPLToken2022ExecuteLayout extends SPLTokenProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount};
+    return {'amount': amount};
   }
 
   @override

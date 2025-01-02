@@ -13,7 +13,7 @@ void main() async {
       "wss://polygon-mumbai-bor.publicnode.com");
 
   /// Create an Ethereum RPC instance
-  final rpc = EVMRPC(wsocketService);
+  final rpc = EthereumProvider(wsocketService);
 
   /// Define a seed for generating a private key
   final seed = BytesUtils.fromHexString(

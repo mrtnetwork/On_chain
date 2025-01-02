@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about (de)registration of stake addresses within a transaction.
 /// https://blockfrost.dev/api/transaction-stake-addresses-certificates
 class BlockfrostRequestTransactionStakeAddressesCertificates
-    extends BlockforestRequestParam<
+    extends BlockFrostRequest<
         List<ADATransactionStakeAddressCertificateResponse>,
         List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionStakeAddressesCertificates(this.hash);

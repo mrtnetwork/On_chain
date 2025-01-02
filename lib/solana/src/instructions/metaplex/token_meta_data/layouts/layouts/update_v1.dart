@@ -36,36 +36,36 @@ class MetaplexTokenMetaDataUpdateV1Layout
             MetaplexTokenMetaDataProgramInstruction.updateV1.insturction,
         discriminator: discriminator);
     return MetaplexTokenMetaDataUpdateV1Layout(
-        collection: CollectionToggle.fromJson(decode["collection"]),
+        collection: CollectionToggle.fromJson(decode['collection']),
         collectionDetails:
-            CollectionDetailsToggle.fromJson(decode["collectionDetails"]),
-        uses: UsesToggle.fromJson(decode["uses"]),
-        ruleSet: RuleSetToggle.fromJson(decode["ruleSet"]),
-        authorizationData: decode["authorizationData"] == null
+            CollectionDetailsToggle.fromJson(decode['collectionDetails']),
+        uses: UsesToggle.fromJson(decode['uses']),
+        ruleSet: RuleSetToggle.fromJson(decode['ruleSet']),
+        authorizationData: decode['authorizationData'] == null
             ? null
-            : Payload.fromJson(decode["authorizationData"]),
-        data: decode["data"] == null
+            : Payload.fromJson(decode['authorizationData']),
+        data: decode['data'] == null
             ? null
-            : MetaDataData.fromJson(decode["data"]),
-        isMutable: decode["isMutable"],
-        newUpdateAuthority: decode["newUpdateAuthority"],
-        primarySaleHappened: decode["primarySaleHappened"]);
+            : MetaDataData.fromJson(decode['data']),
+        isMutable: decode['isMutable'],
+        newUpdateAuthority: decode['newUpdateAuthority'],
+        primarySaleHappened: decode['primarySaleHappened']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    SolanaLayoutUtils.optionPubkey(property: "newUpdateAuthority"),
-    LayoutConst.optional(MetaDataData.staticLayout, property: "data"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
+    LayoutConst.optional(MetaDataData.staticLayout, property: 'data'),
     LayoutConst.optional(LayoutConst.boolean(),
-        property: "primarySaleHappened"),
-    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
-    LayoutConst.wrap(CollectionToggle.staticLayout, property: "collection"),
+        property: 'primarySaleHappened'),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
+    LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
     LayoutConst.wrap(CollectionDetailsToggle.staticLayout,
-        property: "collectionDetails"),
-    LayoutConst.wrap(UsesToggle.staticLayout, property: "uses"),
-    LayoutConst.wrap(RuleSetToggle.staticLayout, property: "ruleSet"),
-    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
+        property: 'collectionDetails'),
+    LayoutConst.wrap(UsesToggle.staticLayout, property: 'uses'),
+    LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
   ]);
 
   @override
@@ -78,16 +78,16 @@ class MetaplexTokenMetaDataUpdateV1Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": discriminator,
-      "newUpdateAuthority": newUpdateAuthority,
-      "data": data?.serialize(),
-      "primarySaleHappened": primarySaleHappened,
-      "isMutable": isMutable,
-      "collection": collection.serialize(),
-      "collectionDetails": collectionDetails.serialize(),
-      "uses": uses.serialize(),
-      "ruleSet": ruleSet.serialize(),
-      "authorizationData": authorizationData?.serialize()
+      'discriminator': discriminator,
+      'newUpdateAuthority': newUpdateAuthority,
+      'data': data?.serialize(),
+      'primarySaleHappened': primarySaleHappened,
+      'isMutable': isMutable,
+      'collection': collection.serialize(),
+      'collectionDetails': collectionDetails.serialize(),
+      'uses': uses.serialize(),
+      'ruleSet': ruleSet.serialize(),
+      'authorizationData': authorizationData?.serialize()
     };
   }
 }

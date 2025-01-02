@@ -7,16 +7,16 @@ class CompiledInnerInstruction {
       {required this.index, required this.instructions});
   factory CompiledInnerInstruction.fromJson(Map<String, dynamic> json) {
     return CompiledInnerInstruction(
-        index: json["index"],
-        instructions: (json["instructions"] as List)
+        index: json['index'],
+        instructions: (json['instructions'] as List)
             .map((e) => CompiledInstruction.fromJson(e))
             .toList());
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "index": index,
-      "instructions": instructions.map((e) => e.toJson()).toList()
+      'index': index,
+      'instructions': instructions.map((e) => e.toJson()).toList()
     };
   }
 }

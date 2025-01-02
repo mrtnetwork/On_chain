@@ -22,12 +22,12 @@ class SystemTransferWithSeedLayout extends SystemProgramLayout {
         bytes: data,
         instruction: SystemProgramInstruction.transferWithSeed.insturction);
     return SystemTransferWithSeedLayout(
-        lamports: decode["lamports"],
-        seed: decode["seed"],
-        programId: decode["programId"]);
+        lamports: decode['lamports'],
+        seed: decode['seed'],
+        programId: decode['programId']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
+    LayoutConst.u32(property: 'instruction'),
     LayoutConst.u64(property: 'lamports'),
     LayoutConst.rustString(property: 'seed'),
     SolanaLayoutUtils.publicKey('programId'),
@@ -41,6 +41,6 @@ class SystemTransferWithSeedLayout extends SystemProgramLayout {
       SystemProgramInstruction.transferWithSeed;
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports, "seed": seed, "programId": programId};
+    return {'lamports': lamports, 'seed': seed, 'programId': programId};
   }
 }

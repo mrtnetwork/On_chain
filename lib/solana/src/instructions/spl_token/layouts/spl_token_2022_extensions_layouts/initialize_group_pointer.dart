@@ -21,20 +21,20 @@ class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
       instruction: SPLTokenProgramInstruction.groupPointerExtension.insturction,
     );
     return SPLToken2022InitializeGroupPointerLayout(
-      authority: decode["authority"] == SolAddress.defaultPubKey
+      authority: decode['authority'] == SolAddress.defaultPubKey
           ? null
-          : decode["authority"],
-      groupAddress: decode["groupAddress"] == SolAddress.defaultPubKey
+          : decode['authority'],
+      groupAddress: decode['groupAddress'] == SolAddress.defaultPubKey
           ? null
-          : decode["groupAddress"],
+          : decode['groupAddress'],
     );
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: 'instruction'),
     LayoutConst.wrap(GroupPointerInstruction.staticLayout,
-        property: "groupPointer"),
-    SolanaLayoutUtils.publicKey("authority"),
-    SolanaLayoutUtils.publicKey("groupAddress"),
+        property: 'groupPointer'),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('groupAddress'),
   ]);
 
   /// Returns the layout structure.
@@ -50,9 +50,9 @@ class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "groupPointer": GroupPointerInstruction.initialize.serialize(),
-      "groupAddress": groupAddress ?? SolAddress.defaultPubKey,
-      "authority": authority ?? SolAddress.defaultPubKey
+      'groupPointer': GroupPointerInstruction.initialize.serialize(),
+      'groupAddress': groupAddress ?? SolAddress.defaultPubKey,
+      'authority': authority ?? SolAddress.defaultPubKey
     };
   }
 }

@@ -5,15 +5,16 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns information about the current supply.
 /// https://solana.com/docs/rpc/http/getsupply
-class SolanaRPCGetSupply extends SolanaRPCRequest<SupplyResponse> {
-  const SolanaRPCGetSupply({
+class SolanaRequestGetSupply
+    extends SolanaRequest<SupplyResponse, Map<String, dynamic>> {
+  const SolanaRequestGetSupply({
     this.excludeNonCirculatingAccountsList,
-    Commitment? commitment,
-  }) : super(commitment: commitment);
+    super.commitment,
+  });
 
   /// getSupply
   @override
-  String get method => SolanaRPCMethods.getSupply.value;
+  String get method => SolanaRequestMethods.getSupply.value;
 
   /// exclude non circulating accounts list from response
   final bool? excludeNonCirculatingAccountsList;
@@ -21,15 +22,15 @@ class SolanaRPCGetSupply extends SolanaRPCRequest<SupplyResponse> {
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"excludeNonCirculatingAccountsList": excludeNonCirculatingAccountsList}
+        {'excludeNonCirculatingAccountsList': excludeNonCirculatingAccountsList}
       ])
     ];
   }
 
   @override
-  SupplyResponse onResonse(result) {
+  SupplyResponse onResonse(Map<String, dynamic> result) {
     return SupplyResponse.fromJson(result);
   }
 }

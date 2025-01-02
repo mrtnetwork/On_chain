@@ -9,7 +9,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 /// Returns TransactionExtention, which contains the unsigned Transaction
 /// [developers.tron.network](https://developers.tron.network/reference/triggersmartcontract).
 class TronRequestTriggerSmartContract
-    extends TVMRequestParam<ParsedSmartContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedSmartContractRequest, Map<String, dynamic>> {
   factory TronRequestTriggerSmartContract.fromContract(
       TriggerSmartContract contract,
       {int? permissionId,
@@ -139,17 +139,17 @@ class TronRequestTriggerSmartContract
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "contract_address": contractAddress,
-      "function_selector": functionSelector,
-      "parameter": parameter,
-      "data": data,
-      "call_value": callValue,
-      "call_token_value": callTokenValue,
-      "token_id": tokenId,
-      "visible": visible,
-      "feeimit": feeLimit,
-      "Permission_id": permissionId
+      'owner_address': ownerAddress.toAddress(visible),
+      'contract_address': contractAddress.toAddress(visible),
+      'function_selector': functionSelector,
+      'parameter': parameter,
+      'data': data,
+      'call_value': callValue,
+      'call_token_value': callTokenValue,
+      'token_id': tokenId,
+      'visible': visible,
+      'feeimit': feeLimit,
+      'Permission_id': permissionId
     };
   }
 
@@ -160,6 +160,6 @@ class TronRequestTriggerSmartContract
 
   @override
   String toString() {
-    return "ParsedSmartContractRequest{${toJson()}}";
+    return 'ParsedSmartContractRequest{${toJson()}}';
   }
 }

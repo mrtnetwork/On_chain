@@ -6,24 +6,20 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns all SPL Token accounts by approved Delegate.
 /// https://solana.com/docs/rpc/http/gettokenaccountsbydelegate
-class SolanaRPCGetTokenAccountsByDelegate
-    extends SolanaRPCRequest<List<TokenAccountResponse>> {
-  const SolanaRPCGetTokenAccountsByDelegate(
+class SolanaRequestGetTokenAccountsByDelegate
+    extends SolanaRequest<List<TokenAccountResponse>, List> {
+  const SolanaRequestGetTokenAccountsByDelegate(
       {required this.account,
       this.mint,
       this.programId,
       this.dataSlice,
-      Commitment? commitment,
-      MinContextSlot? minContextSlot,
-      SolanaRPCEncoding? encoding})
-      : super(
-            commitment: commitment,
-            minContextSlot: minContextSlot,
-            encoding: encoding);
+      super.commitment,
+      super.minContextSlot,
+      super.encoding});
 
   /// getTokenAccountsByDelegate
   @override
-  String get method => SolanaRPCMethods.getTokenAccountsByDelegate.value;
+  String get method => SolanaRequestMethods.getTokenAccountsByDelegate.value;
 
   /// Pubkey of account delegate to query, as base-58 encoded string
   final SolAddress account;
@@ -41,11 +37,11 @@ class SolanaRPCGetTokenAccountsByDelegate
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
-        {"mint": mint?.address},
-        {"programId": programId?.address}
+      SolanaRequestUtils.createConfig([
+        {'mint': mint?.address},
+        {'programId': programId?.address}
       ]),
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
         dataSlice?.toJson(),
@@ -55,9 +51,7 @@ class SolanaRPCGetTokenAccountsByDelegate
   }
 
   @override
-  List<TokenAccountResponse> onResonse(result) {
-    return (result as List)
-        .map((e) => TokenAccountResponse.fromJson(e))
-        .toList();
+  List<TokenAccountResponse> onResonse(List result) {
+    return result.map((e) => TokenAccountResponse.fromJson(e)).toList();
   }
 }

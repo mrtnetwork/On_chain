@@ -16,18 +16,18 @@ class TransactionDataOptionType with ADASerialization {
 
   /// Option type for data hash.
   static const TransactionDataOptionType dataHash =
-      TransactionDataOptionType._(0, "dataHash");
+      TransactionDataOptionType._(0, 'dataHash');
 
   /// Option type for data.
   static const TransactionDataOptionType data =
-      TransactionDataOptionType._(1, "data");
+      TransactionDataOptionType._(1, 'data');
 
   /// List of all available option types.
   static const List<TransactionDataOptionType> values = [dataHash, data];
 
   @override
   String toString() {
-    return "TransactionDataOptionType.$name";
+    return 'TransactionDataOptionType.$name';
   }
 
   @override
@@ -40,8 +40,8 @@ class TransactionDataOptionType with ADASerialization {
       {TransactionDataOptionType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && validate != type) {
-      throw ADAPluginException("Invalid TransactionDataOptionType.",
-          details: {"Excepted": validate, "Type": type});
+      throw ADAPluginException('Invalid TransactionDataOptionType.',
+          details: {'Excepted': validate, 'Type': type});
     }
     return type;
   }
@@ -51,8 +51,8 @@ class TransactionDataOptionType with ADASerialization {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw ADAPluginException(
-          "No TransactionDataOptionType found matching the specified value",
-          details: {"value": value}),
+          'No TransactionDataOptionType found matching the specified value',
+          details: {'value': value}),
     );
   }
 

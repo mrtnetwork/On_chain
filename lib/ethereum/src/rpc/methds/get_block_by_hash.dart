@@ -4,15 +4,16 @@ import 'package:on_chain/ethereum/src/models/block.dart';
 
 /// Returns information about a block by hash.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getBlockByHash)
-class RPCGetBlockByHash extends ETHRPCRequest<BlockDetails> {
-  RPCGetBlockByHash({
+class EthereumRequestGetBlockByHash
+    extends EthereumRequest<BlockDetails, Map<String, dynamic>> {
+  EthereumRequestGetBlockByHash({
     required this.blockHash,
     this.hydrated = true,
   });
 
   /// eth_getBlockByHash
   @override
-  EthereumMethods get method => EthereumMethods.getBlockByHash;
+  String get method => EthereumMethods.getBlockByHash.value;
 
   /// Hash of a block.
   final String blockHash;
@@ -32,6 +33,6 @@ class RPCGetBlockByHash extends ETHRPCRequest<BlockDetails> {
 
   @override
   String toString() {
-    return "RPCGetBlockByHash{${toJson()}}";
+    return 'EthereumRequestGetBlockByHash{${toJson()}}';
   }
 }

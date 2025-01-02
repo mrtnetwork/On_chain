@@ -9,17 +9,17 @@ class DelegateResourceContract extends TronBaseContract {
   factory DelegateResourceContract.fromJson(Map<String, dynamic> json) {
     return DelegateResourceContract(
         ownerAddress: OnChainUtils.parseTronAddress(
-            value: json["owner_address"], name: "owner_address"),
+            value: json['owner_address'], name: 'owner_address'),
         balance:
-            OnChainUtils.parseBigInt(value: json["balance"], name: "balance"),
+            OnChainUtils.parseBigInt(value: json['balance'], name: 'balance'),
         receiverAddress: OnChainUtils.parseTronAddress(
-            value: json["receiver_address"], name: "receiver_address"),
-        lock: OnChainUtils.parseBoolean(value: json["lock"], name: "lock"),
+            value: json['receiver_address'], name: 'receiver_address'),
+        lock: OnChainUtils.parseBoolean(value: json['lock'], name: 'lock'),
         resource: ResourceCode.fromName(
-            OnChainUtils.parseString(value: json["resource"], name: "resource"),
+            OnChainUtils.parseString(value: json['resource'], name: 'resource'),
             orElse: ResourceCode.bandWidth),
         lockPeriod: OnChainUtils.parseBigInt(
-            value: json["lock_period"], name: "lock_period"));
+            value: json['lock_period'], name: 'lock_period'));
   }
   factory DelegateResourceContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -86,19 +86,19 @@ class DelegateResourceContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "receiver_address": receiverAddress.toString(),
-      "lock": lock,
-      "lock_period": lockPeriod?.toString(),
-      "balance": balance.toString(),
-      "resource": resource?.name
+      'owner_address': ownerAddress.toString(),
+      'receiver_address': receiverAddress.toString(),
+      'lock': lock,
+      'lock_period': lockPeriod?.toString(),
+      'balance': balance.toString(),
+      'resource': resource?.name
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [DelegateResourceContract] object to its string representation.
   @override
   String toString() {
-    return "DelegateResourceContract{${toJson()}}";
+    return 'DelegateResourceContract{${toJson()}}';
   }
 
   @override

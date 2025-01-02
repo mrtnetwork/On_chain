@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:on_chain/ethereum/src/rpc/core/core.dart';
-import 'package:on_chain/ethereum/src/rpc/core/service.dart';
+import 'package:blockchain_utils/service/models/params.dart';
+import 'package:on_chain/on_chain.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 enum WebsocketStatus { connecting, connect, discounnect }
@@ -12,10 +12,10 @@ typedef OnClose = void Function(Object?);
 class WebsockerRequestCompeleter {
   WebsockerRequestCompeleter(this.request);
   final Completer<Map<String, dynamic>> completer = Completer();
-  final ETHRequestDetails request;
+  final EthereumRequestDetails request;
 }
 
-class RPCWebSocketService with JSONRPCService {
+class RPCWebSocketService with EthereumServiceProvider {
   RPCWebSocketService._(this.url, WebSocketChannel channel,
       {this.defaultRequestTimeOut = const Duration(seconds: 30),
       this.onClose,
@@ -35,14 +35,13 @@ class RPCWebSocketService with JSONRPCService {
 
   bool get isConnected => _isDiscounnect;
 
-  @override
   final String url;
 
-  void add(ETHRequestDetails params) {
+  void add(EthereumRequestDetails params) {
     if (_isDiscounnect) {
       throw StateError("socket has beed discounected");
     }
-    _socket?.sink.add(params.toRequestBody());
+    _socket?.sink.add(params.body());
   }
 
   void _onClose(Object? error) {
@@ -94,18 +93,18 @@ class RPCWebSocketService with JSONRPCService {
   }
 
   @override
-  Future<Map<String, dynamic>> call(ETHRequestDetails params,
-      [Duration? timeout]) async {
+  Future<BaseServiceResponse<T>> doRequest<T>(EthereumRequestDetails params,
+      {Duration? timeout}) async {
     final WebsockerRequestCompeleter compeleter =
         WebsockerRequestCompeleter(params);
     try {
-      requests[params.id] = compeleter;
+      requests[params.requestID] = compeleter;
       add(params);
       final result = await compeleter.completer.future
           .timeout(timeout ?? defaultRequestTimeOut);
-      return result;
+      return params.toResponse(result);
     } finally {
-      requests.remove(params.id);
+      requests.remove(params.requestID);
     }
   }
 }

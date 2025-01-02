@@ -5,9 +5,9 @@ class CompressionAccountType {
   final int value;
   const CompressionAccountType._(this.name, this.value);
   static const CompressionAccountType uninitialized =
-      CompressionAccountType._("Uninitialized", 0);
+      CompressionAccountType._('Uninitialized', 0);
   static const CompressionAccountType concurrentMerkleTree =
-      CompressionAccountType._("ConcurrentMerkleTree", 1);
+      CompressionAccountType._('ConcurrentMerkleTree', 1);
 
   static const List<CompressionAccountType> values = [
     uninitialized,
@@ -18,13 +18,13 @@ class CompressionAccountType {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw SolanaPluginException(
-          "No CompressionAccountType found matching the specified value",
-          details: {"value": value}),
+          'No CompressionAccountType found matching the specified value',
+          details: {'value': value}),
     );
   }
 
   @override
   String toString() {
-    return "CompressionAccountType.$name";
+    return 'CompressionAccountType.$name';
   }
 }

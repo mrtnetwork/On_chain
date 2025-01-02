@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query historical bandwidth unit price.
 /// [developers.tron.network](https://developers.tron.network/reference/getbandwidthprices).
 class TronRequestGetBandwidthPrices
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetBandwidthPrices();
 
   /// wallet/getbandwidthprices
@@ -18,6 +18,6 @@ class TronRequestGetBandwidthPrices
 
   @override
   String toString() {
-    return "TronRequestGetBandwidthPrices{${toJson()}}";
+    return 'TronRequestGetBandwidthPrices{${toJson()}}';
   }
 }

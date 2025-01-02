@@ -9,11 +9,11 @@ class UpdateEnergyLimitContract extends TronBaseContract {
   factory UpdateEnergyLimitContract.fromJson(Map<String, dynamic> json) {
     return UpdateEnergyLimitContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       contractAddress: OnChainUtils.parseTronAddress(
-          value: json["contract_address"], name: "contract_address"),
+          value: json['contract_address'], name: 'contract_address'),
       originEnergyLimit: OnChainUtils.parseBigInt(
-          value: json["origin_energy_limit"], name: "origin_energy_limit"),
+          value: json['origin_energy_limit'], name: 'origin_energy_limit'),
     );
   }
 
@@ -51,16 +51,16 @@ class UpdateEnergyLimitContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "contract_address": contractAddress.toString(),
-      "origin_energy_limit": originEnergyLimit?.toString(),
+      'owner_address': ownerAddress.toString(),
+      'contract_address': contractAddress.toString(),
+      'origin_energy_limit': originEnergyLimit?.toString(),
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [UpdateEnergyLimitContract] object to its string representation.
   @override
   String toString() {
-    return "UpdateEnergyLimitContract{${toJson()}}";
+    return 'UpdateEnergyLimitContract{${toJson()}}';
   }
 
   @override

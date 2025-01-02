@@ -3,7 +3,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// CreateSpendAuthSig. [developers.tron.network](https://developers.tron.network/reference/createspendauthsig).
 class TronRequestCreateSpendAuthSig
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestCreateSpendAuthSig(
       {required this.ask, required this.txHash, required this.alpha});
   final String ask;
@@ -15,7 +15,7 @@ class TronRequestCreateSpendAuthSig
 
   @override
   Map<String, dynamic> toJson() {
-    return {"ask": ask, "tx_hash": txHash, "alpha": alpha};
+    return {'ask': ask, 'tx_hash': txHash, 'alpha': alpha};
   }
 
   @override

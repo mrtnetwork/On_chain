@@ -29,7 +29,7 @@ class DataOptionDataHash extends DataOption {
         DataHash(cborList.getIndex<CborBytesValue>(1).value));
   }
   factory DataOptionDataHash.fromJson(Map<String, dynamic> json) {
-    return DataOptionDataHash(DataHash.fromHex(json["data_hash"]));
+    return DataOptionDataHash(DataHash.fromHex(json['data_hash']));
   }
 
   @override
@@ -43,6 +43,6 @@ class DataOptionDataHash extends DataOption {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"data_hash": dataHash.toJson()};
+    return {'data_hash': dataHash.toJson()};
   }
 }

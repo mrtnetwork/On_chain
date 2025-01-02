@@ -14,11 +14,11 @@ class TokenBalance {
       required this.uiTokenAmount});
   factory TokenBalance.fromJson(Map<String, dynamic> json) {
     return TokenBalance(
-        accountIndex: json["accountIndex"],
-        mint: SolAddress.uncheckCurve(json["mint"]),
-        owner: json["owner"] == null
+        accountIndex: json['accountIndex'],
+        mint: SolAddress.uncheckCurve(json['mint']),
+        owner: json['owner'] == null
             ? null
-            : SolAddress.uncheckCurve(json["owner"]),
-        uiTokenAmount: TokenAmoutResponse.fromJson(json["uiTokenAmount"]));
+            : SolAddress.uncheckCurve(json['owner']),
+        uiTokenAmount: TokenAmoutResponse.fromJson(json['uiTokenAmount']));
   }
 }

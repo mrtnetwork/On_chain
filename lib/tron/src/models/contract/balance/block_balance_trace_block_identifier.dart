@@ -10,8 +10,8 @@ class BlockBalanceTraceBlockIdentifier extends TronProtocolBufferImpl {
   /// Create a new [BlockBalanceTraceBlockIdentifier] instance by parsing a JSON map.
   factory BlockBalanceTraceBlockIdentifier.fromJson(Map<String, dynamic> json) {
     return BlockBalanceTraceBlockIdentifier(
-      hash: BytesUtils.tryFromHexString(json["hash"]),
-      number: BigintUtils.tryParse(json["number"]),
+      hash: BytesUtils.tryFromHexString(json['hash']),
+      number: BigintUtils.tryParse(json['number']),
     );
   }
   factory BlockBalanceTraceBlockIdentifier.deserialize(List<int> bytes) {
@@ -36,14 +36,14 @@ class BlockBalanceTraceBlockIdentifier extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "hash": BytesUtils.tryToHexString(hash),
-      "number": number?.toString(),
+      'hash': BytesUtils.tryToHexString(hash),
+      'number': number?.toString(),
     };
   }
 
   /// Convert the [BlockBalanceTraceBlockIdentifier] object to its string representation.
   @override
   String toString() {
-    return "BlockBalanceTraceBlockIdentifier{${toJson()}}";
+    return 'BlockBalanceTraceBlockIdentifier{${toJson()}}';
   }
 }

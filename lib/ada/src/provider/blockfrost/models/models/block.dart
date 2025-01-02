@@ -113,6 +113,6 @@ class ADABlockResponse {
       };
   @override
   String toString() {
-    return "ADABlockResponse${toJson()}";
+    return 'ADABlockResponse${toJson()}';
   }
 }

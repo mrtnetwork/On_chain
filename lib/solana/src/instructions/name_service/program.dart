@@ -9,10 +9,10 @@ import 'layouts/layouts.dart';
 /// Instructions supported by the generic Name Registry program
 class NameServiceProgram extends TransactionInstruction {
   NameServiceProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory NameServiceProgram.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,

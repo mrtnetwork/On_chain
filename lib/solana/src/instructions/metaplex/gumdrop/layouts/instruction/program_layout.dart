@@ -18,7 +18,7 @@ import 'instructions.dart';
 abstract class MetaplexGumdropProgramLayout extends ProgramLayout {
   const MetaplexGumdropProgramLayout();
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
+      LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   @override
   abstract final MetaplexGumdropProgramInstruction instruction;
 
@@ -26,7 +26,7 @@ abstract class MetaplexGumdropProgramLayout extends ProgramLayout {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final MetaplexGumdropProgramInstruction? instruction =
-        MetaplexGumdropProgramInstruction.getInstruction(decode["instruction"]);
+        MetaplexGumdropProgramInstruction.getInstruction(decode['instruction']);
 
     switch (instruction) {
       case MetaplexGumdropProgramInstruction.claim:
@@ -59,11 +59,11 @@ abstract class MetaplexGumdropProgramLayout extends ProgramLayout {
     required List<int> instruction,
   }) {
     final decode = layout.deserialize(bytes).value;
-    final instcutionData = decode["instruction"];
+    final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException("invalid instruction bytes", details: {
-        "expected": BytesUtils.toHexString(instruction),
-        "instruction": BytesUtils.toBinary(instcutionData)
+      throw SolanaPluginException('invalid instruction bytes', details: {
+        'expected': BytesUtils.toHexString(instruction),
+        'instruction': BytesUtils.toBinary(instcutionData)
       });
     }
 

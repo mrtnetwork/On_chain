@@ -15,7 +15,7 @@ class PlutusInteger extends PlutusData {
     return PlutusInteger(cbor.getInteger());
   }
   factory PlutusInteger.fromJson(Map<String, dynamic> json) {
-    return PlutusInteger(BigintUtils.parse(json["int"]));
+    return PlutusInteger(BigintUtils.parse(json['int']));
   }
 
   @override
@@ -27,8 +27,8 @@ class PlutusInteger extends PlutusData {
   PlutusDataType get type => PlutusDataType.integer;
 
   @override
-  toJson() {
-    return {"int": value.toString()};
+  Map<String, String> toJson() {
+    return {'int': value.toString()};
   }
 
   @override
@@ -38,11 +38,11 @@ class PlutusInteger extends PlutusData {
   }
 
   @override
-  toJsonSchema(
+  Object toJsonSchema(
       {PlutusSchemaConfig config = const PlutusSchemaConfig(
           jsonSchema: PlutusJsonSchema.basicConversions)}) {
     if (config.jsonSchema == PlutusJsonSchema.detailedSchema) {
-      return {"int": config.useIntInsteadBigInt ? value.toInt() : value};
+      return {'int': config.useIntInsteadBigInt ? value.toInt() : value};
     }
 
     return config.useIntInsteadBigInt ? value.toInt() : value;

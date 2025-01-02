@@ -12,9 +12,9 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
   SPLToken2022ToggleMemoTransferLayout({required this.memoTransfer});
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: 'instruction'),
     LayoutConst.wrap(MemoTransferInstruction.staticLayout,
-        property: "memoTransfer"),
+        property: 'memoTransfer'),
   ]);
 
   factory SPLToken2022ToggleMemoTransferLayout.fromBuffer(List<int> bytes) {
@@ -24,7 +24,7 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
         instruction:
             SPLTokenProgramInstruction.memoTransferExtension.insturction);
     return SPLToken2022ToggleMemoTransferLayout(
-        memoTransfer: MemoTransferInstruction.fromJson(decode["memoTransfer"]));
+        memoTransfer: MemoTransferInstruction.fromJson(decode['memoTransfer']));
   }
 
   @override
@@ -36,6 +36,6 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"memoTransfer": memoTransfer.serialize()};
+    return {'memoTransfer': memoTransfer.serialize()};
   }
 }

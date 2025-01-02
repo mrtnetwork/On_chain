@@ -4,25 +4,25 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 /// Retrieves the account info from the provided address and deserializes
 /// the [ReverseTwitterRegistryAccount] from its data.
-class SolanaRPCReverseTwitterRegistryAccount
-    extends SolanaRPCRequest<ReverseTwitterRegistryAccount?> {
+class SolanaRPCReverseTwitterRegistryAccount extends SolanaRequest<
+    ReverseTwitterRegistryAccount?, Map<String, dynamic>?> {
   const SolanaRPCReverseTwitterRegistryAccount({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

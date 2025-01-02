@@ -21,8 +21,8 @@ class ReverseTwitterRegistryAccount extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return ReverseTwitterRegistryAccount(
-        twitterRegistryKey: decode["twitterRegistryKey"],
-        twitterHandle: decode["twitterHandle"]);
+        twitterRegistryKey: decode['twitterRegistryKey'],
+        twitterHandle: decode['twitterHandle']);
   }
   factory ReverseTwitterRegistryAccount.fromAccountBytes(
       List<int> accountBytes) {
@@ -30,8 +30,8 @@ class ReverseTwitterRegistryAccount extends LayoutSerializable {
         bytes: accountBytes.sublist(NameRegistryAccountUtils.hiddenDataOffset),
         layout: _Utils.layout);
     return ReverseTwitterRegistryAccount(
-        twitterRegistryKey: decode["twitterRegistryKey"],
-        twitterHandle: decode["twitterHandle"]);
+        twitterRegistryKey: decode['twitterRegistryKey'],
+        twitterHandle: decode['twitterHandle']);
   }
 
   @override
@@ -39,13 +39,13 @@ class ReverseTwitterRegistryAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "twitterRegistryKey": twitterRegistryKey,
-      "twitterHandle": twitterHandle
+      'twitterRegistryKey': twitterRegistryKey,
+      'twitterHandle': twitterHandle
     };
   }
 
   @override
   String toString() {
-    return "ReverseTwitterRegistryAccount.${serialize()}";
+    return 'ReverseTwitterRegistryAccount.${serialize()}';
   }
 }

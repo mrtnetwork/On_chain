@@ -51,14 +51,14 @@ class TokenSwapFees extends LayoutSerializable {
   /// Constructs a [SPLTokenSwapInitSwapLayout] instance from the given byte array.
   factory TokenSwapFees.fromJson(Map<String, dynamic> json) {
     return TokenSwapFees(
-      tradeFeeNumerator: json["tradeFeeNumerator"],
-      tradeFeeDenominator: json["tradeFeeDenominator"],
-      ownerTradeFeeNumerator: json["ownerTradeFeeNumerator"],
-      ownerTradeFeeDenominator: json["ownerTradeFeeDenominator"],
-      ownerWithdrawFeeNumerator: json["ownerWithdrawFeeNumerator"],
-      ownerWithdrawFeeDenominator: json["ownerWithdrawFeeDenominator"],
-      hostFeeNumerator: json["hostFeeNumerator"],
-      hostFeeDenominator: json["hostFeeDenominator"],
+      tradeFeeNumerator: json['tradeFeeNumerator'],
+      tradeFeeDenominator: json['tradeFeeDenominator'],
+      ownerTradeFeeNumerator: json['ownerTradeFeeNumerator'],
+      ownerTradeFeeDenominator: json['ownerTradeFeeDenominator'],
+      ownerWithdrawFeeNumerator: json['ownerWithdrawFeeNumerator'],
+      ownerWithdrawFeeDenominator: json['ownerWithdrawFeeDenominator'],
+      hostFeeNumerator: json['hostFeeNumerator'],
+      hostFeeDenominator: json['hostFeeDenominator'],
     );
   }
 
@@ -72,26 +72,26 @@ class TokenSwapFees extends LayoutSerializable {
     LayoutConst.u64(property: 'ownerWithdrawFeeDenominator'),
     LayoutConst.u64(property: 'hostFeeNumerator'),
     LayoutConst.u64(property: 'hostFeeDenominator'),
-  ], property: "fees");
+  ], property: 'fees');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
     return {
-      "tradeFeeNumerator": tradeFeeNumerator,
-      "tradeFeeDenominator": tradeFeeDenominator,
-      "ownerTradeFeeNumerator": ownerTradeFeeNumerator,
-      "ownerTradeFeeDenominator": ownerTradeFeeDenominator,
-      "ownerWithdrawFeeNumerator": ownerWithdrawFeeNumerator,
-      "ownerWithdrawFeeDenominator": ownerWithdrawFeeDenominator,
-      "hostFeeNumerator": hostFeeNumerator,
-      "hostFeeDenominator": hostFeeDenominator
+      'tradeFeeNumerator': tradeFeeNumerator,
+      'tradeFeeDenominator': tradeFeeDenominator,
+      'ownerTradeFeeNumerator': ownerTradeFeeNumerator,
+      'ownerTradeFeeDenominator': ownerTradeFeeDenominator,
+      'ownerWithdrawFeeNumerator': ownerWithdrawFeeNumerator,
+      'ownerWithdrawFeeDenominator': ownerWithdrawFeeDenominator,
+      'hostFeeNumerator': hostFeeNumerator,
+      'hostFeeDenominator': hostFeeDenominator
     };
   }
 
   @override
   String toString() {
-    return "TokenSwapFees${serialize()}";
+    return 'TokenSwapFees${serialize()}';
   }
 }

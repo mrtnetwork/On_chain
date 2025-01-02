@@ -10,15 +10,15 @@ class AccountPermissionUpdateContract extends TronBaseContract {
   factory AccountPermissionUpdateContract.fromJson(Map<String, dynamic> json) {
     return AccountPermissionUpdateContract(
         ownerAddress: OnChainUtils.parseTronAddress(
-            value: json["owner_address"], name: "owner_address"),
+            value: json['owner_address'], name: 'owner_address'),
         owner: Permission.fromJson(OnChainUtils.parseMap(
-            value: json["owner"], name: "owner", throwOnNull: true)!),
+            value: json['owner'], name: 'owner', throwOnNull: true)!),
         witness:
-            OnChainUtils.parseMap(value: json["witness"], name: "witness") ==
+            OnChainUtils.parseMap(value: json['witness'], name: 'witness') ==
                     null
                 ? null
-                : Permission.fromJson(json["witness"]),
-        actives: OnChainUtils.parseList(value: json["actives"], name: "actives")
+                : Permission.fromJson(json['witness']),
+        actives: OnChainUtils.parseList(value: json['actives'], name: 'actives')
                 ?.map((e) => Permission.fromJson(e))
                 .toList() ??
             <Permission>[]);
@@ -80,10 +80,10 @@ class AccountPermissionUpdateContract extends TronBaseContract {
   /// Convert the [AccountPermissionUpdateContract] object to a JSON representation.
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "actives": actives.map((e) => e.toJson()).toList(),
-      "owner": owner.toJson(),
-      "witness": witness?.toJson(),
+      'owner_address': ownerAddress.toString(),
+      'actives': actives.map((e) => e.toJson()).toList(),
+      'owner': owner.toJson(),
+      'witness': witness?.toJson(),
     }..removeWhere((key, value) => value == null);
   }
 
@@ -96,7 +96,7 @@ class AccountPermissionUpdateContract extends TronBaseContract {
   /// Convert the [AccountPermissionUpdateContract] object to its string representation.
   @override
   String toString() {
-    return "AccountPermissionUpdateContract{${toJson()}}";
+    return 'AccountPermissionUpdateContract{${toJson()}}';
   }
 
   @override

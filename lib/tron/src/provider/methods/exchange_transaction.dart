@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Participate the transaction of exchange pair
 /// [developers.tron.network](https://developers.tron.network/reference/exchangetransaction).
 class TronRequestExchangeTransaction
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestExchangeTransaction(
       {required this.ownerAddress,
       required this.exchangeId,
@@ -42,18 +42,18 @@ class TronRequestExchangeTransaction
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "exchange_id": exchangeId,
-      "token_id": tokenId,
-      "quant": quant,
-      "expected": expected,
-      "permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'exchange_id': exchangeId,
+      'token_id': tokenId,
+      'quant': quant,
+      'expected': expected,
+      'permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestExchangeTransaction{${toJson()}}";
+    return 'TronRequestExchangeTransaction{${toJson()}}';
   }
 }

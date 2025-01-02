@@ -28,13 +28,13 @@ class SystemAllocateWithSeedLayout extends SystemProgramLayout {
         bytes: data,
         instruction: SystemProgramInstruction.allocateWithSeed.insturction);
     return SystemAllocateWithSeedLayout(
-        base: decode["base"],
-        seed: decode["seed"],
-        space: decode["space"],
-        programId: decode["programId"]);
+        base: decode['base'],
+        seed: decode['seed'],
+        space: decode['space'],
+        programId: decode['programId']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
+    LayoutConst.u32(property: 'instruction'),
     SolanaLayoutUtils.publicKey('base'),
     LayoutConst.rustString(property: 'seed'),
     LayoutConst.ns64(property: 'space'),
@@ -49,6 +49,6 @@ class SystemAllocateWithSeedLayout extends SystemProgramLayout {
       SystemProgramInstruction.allocateWithSeed;
   @override
   Map<String, dynamic> serialize() {
-    return {"base": base, "seed": seed, "space": space, "programId": programId};
+    return {'base': base, 'seed': seed, 'space': space, 'programId': programId};
   }
 }

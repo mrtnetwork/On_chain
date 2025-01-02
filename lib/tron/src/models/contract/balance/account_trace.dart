@@ -9,8 +9,8 @@ class AccountTrace extends TronProtocolBufferImpl {
   /// Create a new [AccountTrace] instance by parsing a JSON map.
   factory AccountTrace.fromJson(Map<String, dynamic> json) {
     return AccountTrace(
-      balance: BigintUtils.tryParse(json["balance"]),
-      placeholder: BigintUtils.tryParse(json["placeholder"]),
+      balance: BigintUtils.tryParse(json['balance']),
+      placeholder: BigintUtils.tryParse(json['placeholder']),
     );
   }
   factory AccountTrace.deserialize(List<int> bytes) {
@@ -31,14 +31,14 @@ class AccountTrace extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "balance": balance?.toString(),
-      "placeholder": placeholder?.toString(),
+      'balance': balance?.toString(),
+      'placeholder': placeholder?.toString(),
     };
   }
 
   /// Convert the [AccountTrace] object to its string representation.
   @override
   String toString() {
-    return "AccountTrace{${toJson()}}";
+    return 'AccountTrace{${toJson()}}';
   }
 }

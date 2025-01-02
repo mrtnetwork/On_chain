@@ -19,10 +19,10 @@ class Update with ADASerialization {
   }
   factory Update.fromJson(Map<String, dynamic> json) {
     return Update(
-        epoch: json["epoch"],
+        epoch: json['epoch'],
         proposedProtocolParameterUpdates:
             ProposedProtocolParameterUpdates.fromJson(
-                json["proposed_protocol_parameter_updates"]));
+                json['proposed_protocol_parameter_updates']));
   }
   Update copyWith(
       {ProposedProtocolParameterUpdates? proposedProtocolParameterUpdates,
@@ -44,9 +44,9 @@ class Update with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "proposed_protocol_parameter_updates":
+      'proposed_protocol_parameter_updates':
           proposedProtocolParameterUpdates.toJson(),
-      "epoch": epoch
+      'epoch': epoch
     };
   }
 }

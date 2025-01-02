@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/models/account_info.dart';
 /// Query information about an account, including TRX balance, TRC-10 balances, stake information and vote information and permissions etc.
 /// [developers.tron.network](https://developers.tron.network/reference/account-getaccount).
 class TronRequestGetAccount
-    extends TVMRequestParam<TronAccountModel?, Map<String, dynamic>> {
+    extends TronRequest<TronAccountModel?, Map<String, dynamic>> {
   TronRequestGetAccount({required this.address, this.visible = true});
 
   /// address
@@ -19,7 +19,7 @@ class TronRequestGetAccount
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address, "visible": visible};
+    return {'address': address.toAddress(visible), 'visible': visible};
   }
 
   @override
@@ -32,6 +32,6 @@ class TronRequestGetAccount
 
   @override
   String toString() {
-    return "TronRequestGetAccount{${toJson()}}";
+    return 'TronRequestGetAccount{${toJson()}}';
   }
 }

@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Estimate the energy required for the successful execution of smart contract transactions or deploying a contract.
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-deploycontract).
 class TronRequestEstimateEnergy
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestEstimateEnergy(
       {required this.ownerAddress,
       required this.contractAddress,
@@ -53,20 +53,20 @@ class TronRequestEstimateEnergy
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "contract_address": contractAddress,
-      "function_selector": functionSelector,
-      "parameter": parameter,
-      "data": data,
-      "call_value": callValue,
-      "call_token_value": callTokenValue,
-      "token_id": tokenId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'contract_address': contractAddress.toAddress(visible),
+      'function_selector': functionSelector,
+      'parameter': parameter,
+      'data': data,
+      'call_value': callValue,
+      'call_token_value': callTokenValue,
+      'token_id': tokenId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestEstimateEnergy{${toJson()}}";
+    return 'TronRequestEstimateEnergy{${toJson()}}';
   }
 }

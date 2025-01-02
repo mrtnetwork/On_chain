@@ -7,17 +7,17 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static StructLayout layout(int? cleanUpAction) => LayoutConst.struct([
-        LayoutConst.u8(property: "accountType"),
+        LayoutConst.u8(property: 'accountType'),
         LayoutConst.vec(
             LayoutConst.tuple(
                 [LayoutConst.u32(), LayoutConst.u32(), LayoutConst.u32()]),
-            property: "weight"),
-        LayoutConst.u8(property: "cleanUpAction"),
+            property: 'weight'),
+        LayoutConst.u8(property: 'cleanUpAction'),
         if (cleanUpAction == 0)
           LayoutConst.tuple([
             LayoutConst.u32(),
             LayoutConst.u32(),
-          ], property: "fields")
+          ], property: 'fields')
       ]);
 }
 
@@ -37,7 +37,7 @@ class PackConfig extends LayoutSerializable {
     for (final i in weight) {
       if (i.length != 3) {
         throw const SolanaPluginException(
-            "Each inner list in the weight parameter must have a length of 3");
+            'Each inner list in the weight parameter must have a length of 3');
       }
     }
     return PackConfig._(
@@ -47,13 +47,13 @@ class PackConfig extends LayoutSerializable {
   factory PackConfig.fromBuffer(List<int> data) {
     Map<String, dynamic> decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout(null));
-    if (decode["cleanUpAction"] == 0) {
+    if (decode['cleanUpAction'] == 0) {
       decode = LayoutSerializable.decode(bytes: data, layout: _Utils.layout(0));
     }
     return PackConfig(
-        accountType: NFTPacksAccountType.fromValue(decode["accountType"]),
+        accountType: NFTPacksAccountType.fromValue(decode['accountType']),
         weight:
-            (decode["weight"] as List).map((e) => List<int>.from(e)).toList(),
+            (decode['weight'] as List).map((e) => List<int>.from(e)).toList(),
         actionToDo: CleanUpAction.fromJson(decode));
   }
 
@@ -62,15 +62,15 @@ class PackConfig extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "accountType": accountType.value,
-      "weight": weight,
-      "cleanUpAction": actionToDo.kind,
-      "fields": actionToDo.fields
+      'accountType': accountType.value,
+      'weight': weight,
+      'cleanUpAction': actionToDo.kind,
+      'fields': actionToDo.fields
     };
   }
 
   @override
   String toString() {
-    return "PackConfig${serialize()}";
+    return 'PackConfig${serialize()}';
   }
 }

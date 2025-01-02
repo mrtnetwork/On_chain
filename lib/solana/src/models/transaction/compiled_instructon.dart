@@ -14,9 +14,9 @@ class CompiledInstruction {
 
   factory CompiledInstruction.fromJson(Map<String, dynamic> json) {
     return CompiledInstruction(
-        programIdIndex: json["programIdIndex"],
-        accounts: (json["accounts"] as List).cast(),
-        data: SolanaRPCEncoding.decode(json["data"]));
+        programIdIndex: json['programIdIndex'],
+        accounts: (json['accounts'] as List).cast(),
+        data: SolanaRequestEncoding.decode(json['data']));
   }
 
   /// Index into the transaction keys array indicating the program account that executes this instruction.
@@ -30,15 +30,15 @@ class CompiledInstruction {
 
   Map<String, dynamic> toJson() {
     return {
-      "programIdIndex": programIdIndex,
-      "accounts": accounts,
-      "data": Base58Encoder.encode(data)
+      'programIdIndex': programIdIndex,
+      'accounts': accounts,
+      'data': Base58Encoder.encode(data)
     };
   }
 
   /// Override the toString method to provide a string representation of the object.
   @override
   String toString() {
-    return "CompiledInstruction${toJson()}";
+    return 'CompiledInstruction${toJson()}';
   }
 }

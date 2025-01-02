@@ -15,19 +15,19 @@ class MetaDataV2 extends LayoutSerializable {
       this.creators});
   factory MetaDataV2.fromJson(Map<String, dynamic> json) {
     return MetaDataV2(
-        name: json["name"],
-        symbol: json["symbol"],
-        uri: json["uri"],
-        sellerFeeBasisPoints: json["sellerFeeBasisPoints"],
-        creators: json["creators"] == null
+        name: json['name'],
+        symbol: json['symbol'],
+        uri: json['uri'],
+        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
+        creators: json['creators'] == null
             ? null
-            : (json["creators"] as List)
+            : (json['creators'] as List)
                 .map((e) => Creator.fromJson(e))
                 .toList(),
-        collection: json["collection"] == null
+        collection: json['collection'] == null
             ? null
-            : Collection.fromJson(json["collection"]),
-        uses: json["uses"] == null ? null : Uses.fromJson(json["uses"]));
+            : Collection.fromJson(json['collection']),
+        uses: json['uses'] == null ? null : Uses.fromJson(json['uses']));
   }
   final String name;
   final String symbol;
@@ -39,26 +39,26 @@ class MetaDataV2 extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "name": name,
-      "symbol": symbol,
-      "uri": uri,
-      "sellerFeeBasisPoints": sellerFeeBasisPoints,
-      "collection": collection?.serialize(),
-      "uses": uses?.serialize(),
-      "creators": creators?.map((e) => e.serialize()).toList()
+      'name': name,
+      'symbol': symbol,
+      'uri': uri,
+      'sellerFeeBasisPoints': sellerFeeBasisPoints,
+      'collection': collection?.serialize(),
+      'uses': uses?.serialize(),
+      'creators': creators?.map((e) => e.serialize()).toList()
     };
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "symbol"),
-    LayoutConst.string(property: "uri"),
-    LayoutConst.u16(property: "sellerFeeBasisPoints"),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
     LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-        property: "creators"),
-    LayoutConst.optional(Collection.staticLayout, property: "collection"),
-    LayoutConst.optional(Uses.staticLayout, property: "uses"),
-  ], property: "metaDataV2");
+        property: 'creators'),
+    LayoutConst.optional(Collection.staticLayout, property: 'collection'),
+    LayoutConst.optional(Uses.staticLayout, property: 'uses'),
+  ], property: 'metaDataV2');
 
   @override
   StructLayout get layout => staticLayout;

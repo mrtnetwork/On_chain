@@ -33,6 +33,6 @@ class ADAStakePoolUpdateResponse {
 
   @override
   String toString() {
-    return "ADAStakePoolUpdateResponse${toJson()}";
+    return 'ADAStakePoolUpdateResponse${toJson()}';
   }
 }

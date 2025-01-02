@@ -7,9 +7,9 @@ class TransactionBalanceTraceOperation extends TronProtocolBufferImpl {
   /// Create a new [TransactionBalanceTraceOperation] instance by parsing a JSON map.
   factory TransactionBalanceTraceOperation.fromJson(Map<String, dynamic> json) {
     return TransactionBalanceTraceOperation(
-      operationIdentifier: BigintUtils.tryParse(json["operation_identifier"]),
-      address: json["address"] == null ? null : TronAddress(json["address"]),
-      amount: BigintUtils.tryParse(json["amount"]),
+      operationIdentifier: BigintUtils.tryParse(json['operation_identifier']),
+      address: json['address'] == null ? null : TronAddress(json['address']),
+      amount: BigintUtils.tryParse(json['amount']),
     );
   }
 
@@ -41,14 +41,14 @@ class TransactionBalanceTraceOperation extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "operation_identifier": operationIdentifier?.toString(),
-      "address": address?.toString(),
-      "amount": amount.toString(),
+      'operation_identifier': operationIdentifier?.toString(),
+      'address': address?.toString(),
+      'amount': amount.toString(),
     }..removeWhere((key, value) => value == null);
   }
 
   @override
   String toString() {
-    return "TransactionBalanceTraceOperation{${toJson()}}";
+    return 'TransactionBalanceTraceOperation{${toJson()}}';
   }
 }

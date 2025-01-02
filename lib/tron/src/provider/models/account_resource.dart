@@ -46,14 +46,14 @@ class AccountResourceModel {
 
   factory AccountResourceModel.fromJson(Map<String, dynamic> json) {
     return AccountResourceModel(
-      freeNetLimit: BigintUtils.tryParse(json["freeNetLimit"]) ?? BigInt.zero,
-      freeNetUsed: BigintUtils.tryParse(json["freeNetUsed"]) ?? BigInt.zero,
-      netLimit: BigintUtils.tryParse(json["NetLimit"]) ?? BigInt.zero,
-      netUsed: BigintUtils.tryParse(json["NetUsed"]) ?? BigInt.zero,
-      energyUsed: BigintUtils.tryParse(json["EnergyUsed"]) ?? BigInt.zero,
-      energyLimit: BigintUtils.tryParse(json["EnergyLimit"]) ?? BigInt.zero,
-      tronPowerUsed: json["tronPowerUsed"] ?? 0,
-      tronPowerLimit: json["tronPowerLimit"] ?? 0,
+      freeNetLimit: BigintUtils.tryParse(json['freeNetLimit']) ?? BigInt.zero,
+      freeNetUsed: BigintUtils.tryParse(json['freeNetUsed']) ?? BigInt.zero,
+      netLimit: BigintUtils.tryParse(json['NetLimit']) ?? BigInt.zero,
+      netUsed: BigintUtils.tryParse(json['NetUsed']) ?? BigInt.zero,
+      energyUsed: BigintUtils.tryParse(json['EnergyUsed']) ?? BigInt.zero,
+      energyLimit: BigintUtils.tryParse(json['EnergyLimit']) ?? BigInt.zero,
+      tronPowerUsed: json['tronPowerUsed'] ?? 0,
+      tronPowerLimit: json['tronPowerLimit'] ?? 0,
     );
   }
 
@@ -80,12 +80,12 @@ class AccountResourceModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "freeNetLimit": freeNetLimit,
-      "freeNetUsed": freeNetUsed,
-      "NetLimit": netLimit,
-      "NetUsed": netUsed,
-      "EnergyUsed": energyUsed,
-      "EnergyLimit": energyLimit,
+      'freeNetLimit': freeNetLimit,
+      'freeNetUsed': freeNetUsed,
+      'NetLimit': netLimit,
+      'NetUsed': netUsed,
+      'EnergyUsed': energyUsed,
+      'EnergyLimit': energyLimit,
     };
   }
 }

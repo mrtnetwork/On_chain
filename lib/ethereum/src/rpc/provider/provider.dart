@@ -1,62 +1,65 @@
 import 'dart:async';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
-import 'package:on_chain/ethereum/src/rpc/core/service.dart';
+import 'package:on_chain/ethereum/src/rpc/service/service.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-/// Represents an interface to interact with Ethereum Virtual Machine (EVM) nodes
+/// Represents an interface to interact with Ethereum Virtual Machine (ethereum) nodes
 /// using JSON-RPC requests.
-class EVMRPC {
-  /// The JSON-RPC service used for communication with the EVM node.
-  final JSONRPCService rpc;
+class EthereumProvider extends BaseProvider<EthereumRequestDetails> {
+  /// The JSON-RPC service used for communication with the ethereum node.
+  final EthereumServiceProvider rpc;
 
-  /// Creates a new instance of the [EVMRPC] class with the specified [rpc].
-  EVMRPC(this.rpc);
+  /// Creates a new instance of the [EthereumProvider] class with the specified [rpc].
+  EthereumProvider(this.rpc);
 
   /// Finds the result in the JSON-RPC response data or throws an [RPCError]
   /// if an error is encountered.
-  dynamic _findResult(Map<String, dynamic> data, ETHRequestDetails request) {
-    final error = data["error"];
+  static SERVICERESPONSE _findError<SERVICERESPONSE>(
+      {required BaseServiceResponse<Map<String, dynamic>> response,
+      required EthereumRequestDetails params}) {
+    final Map<String, dynamic> r = response.getResult(params);
+    final error = r['error'];
     if (error != null) {
-      final code = int.tryParse(error['code']?.toString() ?? "");
-      final message = error['message'] ?? "";
+      final errorJson = StringUtils.tryToJson<Map<String, dynamic>>(error);
+      final errorCode = IntUtils.tryParse(errorJson?['code']);
+      final String? message = error['message']?.toString();
       throw RPCError(
-          errorCode: code,
-          message: message,
-          request:
-              data["request"] ?? StringUtils.toJson(request.toRequestBody()),
-          details: error);
+          errorCode: errorCode,
+          message: message ?? error.toString(),
+          request: params.toJson(),
+          details: errorJson);
     }
-
-    return data["result"];
+    return ServiceProviderUtils.parseResponse(
+        object: r['result'], params: params);
   }
 
   /// The unique identifier for each JSON-RPC request.
   int _id = 0;
 
-  /// Sends a JSON-RPC request to the EVM node and returns the result after
-  /// processing the response.
+  /// Sends a request to the ethereum network using the specified [request] parameter.
   ///
-  /// [request]: The JSON-RPC request to be sent.
-  /// [timeout]: The maximum duration for waiting for the response.
-  Future<T> request<T>(ETHRPCRequest<T> request, [Duration? timeout]) async {
-    final id = ++_id;
-    final params = request.toRequest(id);
-    final data = await rpc.call(params, timeout);
-    return request.onResonse(_findResult(data, params));
+  /// The [timeout] parameter, if provided, sets the maximum duration for the request.
+  @override
+  Future<RESULT> request<RESULT, SERVICERESPONSE>(
+      BaseServiceRequest<RESULT, SERVICERESPONSE, EthereumRequestDetails>
+          request,
+      {Duration? timeout}) async {
+    final r = await requestDynamic(request, timeout: timeout);
+    return request.onResonse(r);
   }
 
-  Future<dynamic> requestDynamic(String method, dynamic params,
-      [Duration? timeout]) async {
-    final id = ++_id;
-    final requestParams = {
-      "jsonrpc": "2.0",
-      "method": method,
-      "params": params,
-      "id": id
-    };
-    final ETHRequestDetails request = ETHRequestDetails(
-        id: id, method: method, params: StringUtils.fromJson(requestParams));
-    final data = await rpc.call(request, timeout);
-    return _findResult(data, request);
+  /// Sends a request to the ethereum network using the specified [request] parameter.
+  ///
+  /// The [timeout] parameter, if provided, sets the maximum duration for the request.
+  /// Whatever is received will be returned
+  @override
+  Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
+      BaseServiceRequest<RESULT, SERVICERESPONSE, EthereumRequestDetails>
+          request,
+      {Duration? timeout}) async {
+    final params = request.buildRequest(_id++);
+    final response =
+        await rpc.doRequest<Map<String, dynamic>>(params, timeout: timeout);
+    return _findError(params: params, response: response);
   }
 }

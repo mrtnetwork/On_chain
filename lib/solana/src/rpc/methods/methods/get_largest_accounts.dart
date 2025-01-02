@@ -5,14 +5,13 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the 20 largest accounts, by lamport balance (results may be cached up to two hours)
 /// https://solana.com/docs/rpc/http/getlargestaccounts
-class SolanaRPCGetLargestAccounts
-    extends SolanaRPCRequest<List<AccountBalancePairResponse>> {
-  const SolanaRPCGetLargestAccounts({this.filter, Commitment? commitment})
-      : super(commitment: commitment);
+class SolanaRequestGetLargestAccounts
+    extends SolanaRequest<List<AccountBalancePairResponse>, List> {
+  const SolanaRequestGetLargestAccounts({this.filter, super.commitment});
 
   /// getLargestAccounts
   @override
-  String get method => SolanaRPCMethods.getLargestAccounts.value;
+  String get method => SolanaRequestMethods.getLargestAccounts.value;
 
   /// filter results by account type
   /// Values: circulating, nonCirculating
@@ -21,17 +20,15 @@ class SolanaRPCGetLargestAccounts
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"filter": filter}
+        {'filter': filter}
       ]),
     ];
   }
 
   @override
-  List<AccountBalancePairResponse> onResonse(result) {
-    return (result as List)
-        .map((e) => AccountBalancePairResponse.fromJson(e))
-        .toList();
+  List<AccountBalancePairResponse> onResonse(List result) {
+    return result.map((e) => AccountBalancePairResponse.fromJson(e)).toList();
   }
 }

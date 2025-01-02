@@ -3,7 +3,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// [developers.tron.network](https://developers.tron.network/reference/gettransactioninfobyblocknum).
 class TronRequestGetTransactionInfoByBlockNum
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetTransactionInfoByBlockNum({required this.num});
 
   /// Block height
@@ -15,11 +15,11 @@ class TronRequestGetTransactionInfoByBlockNum
 
   @override
   Map<String, dynamic> toJson() {
-    return {"num": num};
+    return {'num': num};
   }
 
   @override
   String toString() {
-    return "TronRequestGetTransactionInfoByBlockNum{${toJson()}}";
+    return 'TronRequestGetTransactionInfoByBlockNum{${toJson()}}';
   }
 }

@@ -8,16 +8,16 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [51, 173, 177, 113, 25, 241, 109, 189];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
+    LayoutConst.blob(8, property: 'discriminator'),
     LayoutConst.wrap(CandyMachineAccountVersion.staticLayout,
-        property: "version"),
+        property: 'version'),
     LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-        property: "tokenStandard"),
-    LayoutConst.blob(6, property: "features"),
-    SolanaLayoutUtils.publicKey("authority"),
-    SolanaLayoutUtils.publicKey("mintAuthority"),
-    SolanaLayoutUtils.publicKey("collectionMint"),
-    LayoutConst.u64(property: "itemsRedeemed"),
+        property: 'tokenStandard'),
+    LayoutConst.blob(6, property: 'features'),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('mintAuthority'),
+    SolanaLayoutUtils.publicKey('collectionMint'),
+    LayoutConst.u64(property: 'itemsRedeemed'),
     CandyMachineData.staticLayout
   ]);
 }
@@ -44,16 +44,16 @@ class CandyMachineAccount extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return CandyMachineAccount(
-        version: CandyMachineAccountVersion.fromJson(decode["version"]),
-        tokenStandard: MetaDataTokenStandard.fromJson(decode["tokenStandard"]),
-        features: (decode["features"] as List).cast(),
-        authority: decode["authority"],
-        mintAuthority: decode["mintAuthority"],
-        collectionMint: decode["collectionMint"],
-        itemsRedeemed: decode["itemsRedeemed"],
-        data: CandyMachineData.fromJson(decode["candyMachineData"]));
+        version: CandyMachineAccountVersion.fromJson(decode['version']),
+        tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+        features: (decode['features'] as List).cast(),
+        authority: decode['authority'],
+        mintAuthority: decode['mintAuthority'],
+        collectionMint: decode['collectionMint'],
+        itemsRedeemed: decode['itemsRedeemed'],
+        data: CandyMachineData.fromJson(decode['candyMachineData']));
   }
 
   @override
@@ -62,20 +62,20 @@ class CandyMachineAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "version": version.serialize(),
-      "tokenStandard": tokenStandard.serialize(),
-      "features": features,
-      "authority": authority,
-      "mintAuthority": mintAuthority,
-      "collectionMint": collectionMint,
-      "itemsRedeemed": itemsRedeemed,
-      "candyMachineData": data.serialize()
+      'discriminator': _Utils.discriminator,
+      'version': version.serialize(),
+      'tokenStandard': tokenStandard.serialize(),
+      'features': features,
+      'authority': authority,
+      'mintAuthority': mintAuthority,
+      'collectionMint': collectionMint,
+      'itemsRedeemed': itemsRedeemed,
+      'candyMachineData': data.serialize()
     };
   }
 
   @override
   String toString() {
-    return "CandyMachineAccount${serialize()}";
+    return 'CandyMachineAccount${serialize()}';
   }
 }

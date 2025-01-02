@@ -8,12 +8,12 @@ class _Utils {
   static const List<int> discriminator = [48, 173, 176, 137, 53, 116, 40, 112];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    LayoutConst.u64(property: "amount"),
-    LayoutConst.u64(property: "count"),
-    SolanaLayoutUtils.publicKey("claimant"),
-    SolanaLayoutUtils.publicKey("resource"),
-    LayoutConst.vecU8(property: "resourceNonce")
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u64(property: 'count'),
+    SolanaLayoutUtils.publicKey('claimant'),
+    SolanaLayoutUtils.publicKey('resource'),
+    LayoutConst.vecU8(property: 'resourceNonce')
   ]);
 }
 
@@ -34,13 +34,13 @@ class ClaimProof extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return ClaimProof(
-        amount: decode["amount"],
-        count: decode["count"],
-        claimant: decode["claimant"],
-        resource: decode["resource"],
-        resourceNonce: (decode["resourceNonce"] as List).cast());
+        amount: decode['amount'],
+        count: decode['count'],
+        claimant: decode['claimant'],
+        resource: decode['resource'],
+        resourceNonce: (decode['resourceNonce'] as List).cast());
   }
 
   @override
@@ -49,17 +49,17 @@ class ClaimProof extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "amount": amount,
-      "count": count,
-      "claimant": claimant,
-      "resource": resource,
-      "resourceNonce": resourceNonce
+      'discriminator': _Utils.discriminator,
+      'amount': amount,
+      'count': count,
+      'claimant': claimant,
+      'resource': resource,
+      'resourceNonce': resourceNonce
     };
   }
 
   @override
   String toString() {
-    return "ClaimProof${serialize()}";
+    return 'ClaimProof${serialize()}';
   }
 }

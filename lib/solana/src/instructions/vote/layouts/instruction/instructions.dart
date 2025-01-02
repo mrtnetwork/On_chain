@@ -9,13 +9,13 @@ class VoteProgramInstruction implements ProgramLayoutInstruction {
   final String name;
   const VoteProgramInstruction(this.insturction, this.name);
   static const VoteProgramInstruction initializeAccount =
-      VoteProgramInstruction(0, "InitializeAccount");
+      VoteProgramInstruction(0, 'InitializeAccount');
   static const VoteProgramInstruction authorize =
-      VoteProgramInstruction(1, "Authorize");
+      VoteProgramInstruction(1, 'Authorize');
   static const VoteProgramInstruction withdraw =
-      VoteProgramInstruction(3, "Withdraw");
+      VoteProgramInstruction(3, 'Withdraw');
   static const VoteProgramInstruction authorizeWithSeed =
-      VoteProgramInstruction(10, "AuthorizeWithSeed");
+      VoteProgramInstruction(10, 'AuthorizeWithSeed');
   static const List<VoteProgramInstruction> values = [
     initializeAccount,
     authorize,
@@ -31,7 +31,7 @@ class VoteProgramInstruction implements ProgramLayoutInstruction {
   }
 
   @override
-  String get programName => "Vote";
+  String get programName => 'Vote';
   @override
   SolAddress get programAddress => VoteProgramConst.programId;
 }

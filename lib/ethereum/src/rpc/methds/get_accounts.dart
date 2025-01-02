@@ -3,10 +3,10 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns a list of addresses owned by client.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_accounts)
-class RPCGetAccounts extends ETHRPCRequest<List<dynamic>> {
-  RPCGetAccounts();
+class EthereumRequestGetAccounts extends EthereumRequest<List<dynamic>, List> {
+  EthereumRequestGetAccounts();
   @override
-  EthereumMethods get method => EthereumMethods.getAccounts;
+  String get method => EthereumMethods.getAccounts.value;
 
   @override
   List<dynamic> toJson() {
@@ -15,6 +15,6 @@ class RPCGetAccounts extends ETHRPCRequest<List<dynamic>> {
 
   @override
   String toString() {
-    return "RPCGetAccounts{$toJson()}";
+    return 'EthereumRequestGetAccounts{$toJson()}';
   }
 }

@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Update the account's permission (developers.tron.network)[https://developers.tron.network/reference/accountpermissionupdate].
 class TronRequestAccountPermissionUpdate
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestAccountPermissionUpdate.fromContract(
       AccountPermissionUpdateContract contract,
       {int? permissionId}) {
@@ -53,18 +53,18 @@ class TronRequestAccountPermissionUpdate
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "owner": owner,
-      "witness": witness,
-      "actives": actives,
-      "visible": visible,
-      "Permission_id": permissionId,
+      'owner_address': ownerAddress.toAddress(visible),
+      'owner': owner,
+      'witness': witness,
+      'actives': actives,
+      'visible': visible,
+      'Permission_id': permissionId,
     };
   }
 
   @override
   String toString() {
-    return "TronRequestAccountPermissionUpdate{${toJson()}}";
+    return 'TronRequestAccountPermissionUpdate{${toJson()}}';
   }
 
   @override

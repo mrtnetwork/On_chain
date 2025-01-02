@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// List all Super Representatives.
 /// [developers.tron.network](https://developers.tron.network/reference/listwitnesses).
 class TronRequestListWitnesses
-    extends TVMRequestParam<List<WitnessesAccount>, Map<String, dynamic>> {
+    extends TronRequest<List<WitnessesAccount>, Map<String, dynamic>> {
   /// wallet/listwitnesses
   @override
   TronHTTPMethods get method => TronHTTPMethods.listwitnesses;
@@ -17,12 +17,12 @@ class TronRequestListWitnesses
 
   @override
   String toString() {
-    return "TronRequestListWitnesses{${toJson()}}";
+    return 'TronRequestListWitnesses{${toJson()}}';
   }
 
   @override
   List<WitnessesAccount> onResonse(Map<String, dynamic> result) {
-    final witnesses = (result["witnesses"] as List)
+    final witnesses = (result['witnesses'] as List)
         .map((e) => WitnessesAccount.fromJson(e))
         .toList();
     return witnesses;

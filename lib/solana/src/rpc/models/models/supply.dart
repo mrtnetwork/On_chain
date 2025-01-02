@@ -10,10 +10,10 @@ class SupplyResponse {
             List<SolAddress>.unmodifiable(nonCirculatingAccounts);
   factory SupplyResponse.fromJson(Map<String, dynamic> json) {
     return SupplyResponse(
-        total: json["total"],
-        circulating: json["circulating"],
-        nonCirculating: json["nonCirculating"],
-        nonCirculatingAccounts: (json["nonCirculatingAccounts"] as List)
+        total: json['total'],
+        circulating: json['circulating'],
+        nonCirculating: json['nonCirculating'],
+        nonCirculatingAccounts: (json['nonCirculatingAccounts'] as List)
             .map((e) => SolAddress.uncheckCurve(e))
             .toList());
   }

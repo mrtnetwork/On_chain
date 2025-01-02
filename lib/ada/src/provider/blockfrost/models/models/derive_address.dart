@@ -38,6 +38,6 @@ class ADADeriveAddressResponse {
 
   @override
   String toString() {
-    return "ADADeriveAddressResponse${toJson()}";
+    return 'ADADeriveAddressResponse${toJson()}';
   }
 }

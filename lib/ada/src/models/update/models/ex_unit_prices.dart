@@ -13,8 +13,8 @@ class ExUnitPrices with ADASerialization {
   }
   factory ExUnitPrices.fromJson(Map<String, dynamic> json) {
     return ExUnitPrices(
-        memPrice: UnitInterval.fromJson(json["mem_price"]),
-        stepPrice: UnitInterval.fromJson(json["step_price"]));
+        memPrice: UnitInterval.fromJson(json['mem_price']),
+        stepPrice: UnitInterval.fromJson(json['step_price']));
   }
   ExUnitPrices copyWith({
     UnitInterval? memPrice,
@@ -36,6 +36,6 @@ class ExUnitPrices with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"mem_price": memPrice.toJson(), "step_price": stepPrice.toJson()};
+    return {'mem_price': memPrice.toJson(), 'step_price': stepPrice.toJson()};
   }
 }

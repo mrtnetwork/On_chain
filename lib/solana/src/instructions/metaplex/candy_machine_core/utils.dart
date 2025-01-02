@@ -19,7 +19,7 @@ class MetaplexCandyMachineProgramUtils {
       SolAddress programId =
           MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "mint_limit".codeUnits,
+      'mint_limit'.codeUnits,
       LayoutConst.u8().serialize(id),
       user.toBytes(),
       candyGuard.toBytes(),
@@ -43,7 +43,7 @@ class MetaplexCandyMachineProgramUtils {
       SolAddress programId =
           MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "allow_list".codeUnits,
+      'allow_list'.codeUnits,
       merkleRoot,
       user.toBytes(),
       candyGuard.toBytes(),
@@ -58,7 +58,7 @@ class MetaplexCandyMachineProgramUtils {
       SolAddress programId =
           MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "candy_guard".codeUnits,
+      'candy_guard'.codeUnits,
       base.toBytes(),
     ], programId: programId);
   }
@@ -76,7 +76,7 @@ class MetaplexCandyMachineProgramUtils {
       SolAddress programId =
           MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "allocation".codeUnits,
+      'allocation'.codeUnits,
       LayoutConst.u8().serialize(id),
       candyGuard.toBytes(),
       candyMachine.toBytes()
@@ -96,7 +96,7 @@ class MetaplexCandyMachineProgramUtils {
       SolAddress programId =
           MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "freeze_escrow".codeUnits,
+      'freeze_escrow'.codeUnits,
       destination.toBytes(),
       candyGuard.toBytes(),
       candyMachine.toBytes()

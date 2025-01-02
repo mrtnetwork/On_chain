@@ -30,14 +30,14 @@ class TransactionOutput with ADASerialization {
       this.scriptRef});
   factory TransactionOutput.fromJson(Map<String, dynamic> json) {
     return TransactionOutput(
-        address: ADAAddress.fromAddress(json["address"]),
-        amount: Value.fromJson(json["amount"]),
-        plutusData: json["plutus_data"] == null
+        address: ADAAddress.fromAddress(json['address']),
+        amount: Value.fromJson(json['amount']),
+        plutusData: json['plutus_data'] == null
             ? null
-            : DataOption.fromJson(json["plutus_data"]),
-        scriptRef: json["script_ref"] == null
+            : DataOption.fromJson(json['plutus_data']),
+        scriptRef: json['script_ref'] == null
             ? null
-            : ScriptRef.fromJson(json["script_ref"]));
+            : ScriptRef.fromJson(json['script_ref']));
   }
 
   /// Deserializes a [TransactionOutput] instance from a CBOR object.
@@ -108,10 +108,10 @@ class TransactionOutput with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "address": address.toJson(),
-      "amount": amount.toJson(),
-      "plutus_data": plutusData?.toJson(),
-      "script_ref": scriptRef?.toJson()
+      'address': address.toJson(),
+      'amount': amount.toJson(),
+      'plutus_data': plutusData?.toJson(),
+      'script_ref': scriptRef?.toJson()
     };
   }
 

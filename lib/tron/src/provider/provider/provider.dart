@@ -1,28 +1,41 @@
 import 'dart:async';
+import 'package:blockchain_utils/service/service.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/service/service.dart';
 
 /// Facilitates communication with the Tron network by making requests using a provided [TronServiceProvider].
-class TronProvider {
+class TronProvider extends BaseProvider<TronRequestDetails> {
   /// The underlying Tron service provider used for network communication.
   final TronServiceProvider rpc;
 
   /// Constructs a new [TronProvider] instance with the specified [rpc] service provider.
   TronProvider(this.rpc);
 
+  /// The unique identifier for each JSON-RPC request.
   int _id = 0;
 
-  /// Sends a request to the Tron network using the specified [request] parameter.
+  /// Sends a request to the tron network using the specified [request] parameter.
   ///
   /// The [timeout] parameter, if provided, sets the maximum duration for the request.
-  Future<T> request<T>(TVMRequestParam<T, Map<String, dynamic>> request,
-      [Duration? timeout]) async {
-    final id = ++_id;
-    final params = request.toRequest(id);
-    final data = request.method.isPost
-        ? await rpc.post(params, timeout)
-        : await rpc.get(params, timeout);
+  @override
+  Future<RESULT> request<RESULT, SERVICERESPONSE>(
+      BaseServiceRequest<RESULT, SERVICERESPONSE, TronRequestDetails> request,
+      {Duration? timeout}) async {
+    final r = await requestDynamic(request, timeout: timeout);
+    return request.onResonse(r);
+  }
 
-    return request.onResonse(data);
+  /// Sends a request to the tron network using the specified [request] parameter.
+  ///
+  /// The [timeout] parameter, if provided, sets the maximum duration for the request.
+  /// Whatever is received will be returned
+  @override
+  Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
+      BaseServiceRequest<RESULT, SERVICERESPONSE, TronRequestDetails> request,
+      {Duration? timeout}) async {
+    final params = request.buildRequest(_id++);
+    final response =
+        await rpc.doRequest<SERVICERESPONSE>(params, timeout: timeout);
+    return response.getResult(params);
   }
 }

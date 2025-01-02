@@ -6,10 +6,10 @@ class TokenAmoutResponse {
       this.uiAmountString});
   factory TokenAmoutResponse.fromJson(Map<String, dynamic> json) {
     return TokenAmoutResponse(
-        amount: json["amount"],
-        decimals: json["decimals"],
-        uiAmount: json["uiAmount"],
-        uiAmountString: json["uiAmountString"]);
+        amount: json['amount'],
+        decimals: json['decimals'],
+        uiAmount: json['uiAmount'],
+        uiAmountString: json['uiAmountString']);
   }
 
   /// Raw amount of tokens as string ignoring decimals

@@ -5,15 +5,16 @@ import 'package:on_chain/ethereum/src/models/block.dart';
 
 /// Returns information about a block by block number.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getBlockByNumber)
-class RPCGetBlockByNumber extends ETHRPCRequest<BlockDetails> {
-  RPCGetBlockByNumber({
+class EthereumRequestGetBlockByNumber
+    extends EthereumRequest<BlockDetails, Map<String, dynamic>> {
+  EthereumRequestGetBlockByNumber({
     required BlockTagOrNumber blockNumber,
     this.hydrated = true,
   }) : super(blockNumber: blockNumber);
 
   /// eth_getBlockByNumber
   @override
-  EthereumMethods get method => EthereumMethods.getBlockByNumber;
+  String get method => EthereumMethods.getBlockByNumber.value;
 
   ///  If true it returns the full transaction objects, if false only the hashes of the transactions.
   final bool hydrated;
@@ -30,6 +31,6 @@ class RPCGetBlockByNumber extends ETHRPCRequest<BlockDetails> {
 
   @override
   String toString() {
-    return "RPCGetBlockByNumber{${toJson()}}";
+    return 'EthereumRequestGetBlockByNumber{${toJson()}}';
   }
 }

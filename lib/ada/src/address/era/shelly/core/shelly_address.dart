@@ -32,7 +32,7 @@ abstract class ADAShellyAddress extends ADAAddress {
         return ADAEnterpriseAddress(address, network: network);
       default:
         throw const ADAPluginException(
-            "Invalid shelly address. for byron address please use ByronAddress.");
+            'Invalid shelly address. for byron address please use ByronAddress.');
     }
   }
 
@@ -43,12 +43,12 @@ abstract class ADAShellyAddress extends ADAAddress {
 
   /// Deserializes a CBOR object into an ADAShellyAddress instance.
   static T deserialize<T extends ADAShellyAddress>(CborBytesValue cbor) {
-    final ADAAddress address = ADAAddress.deserialize(cbor);
+    final address = ADAAddress.deserialize(cbor);
     if (address is! T) {
-      throw ADAPluginException("Invalid address type.", details: {
-        "Excepted": "$T",
-        "Type": address.runtimeType,
-        "address": address.address
+      throw ADAPluginException('Invalid address type.', details: {
+        'Excepted': '$T',
+        'Type': address.runtimeType,
+        'address': address.address
       });
     }
     return address;

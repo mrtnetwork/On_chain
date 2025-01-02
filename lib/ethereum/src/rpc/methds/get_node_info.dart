@@ -3,12 +3,12 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the current client version.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#web3_clientVersion)
-class RPCGetNodeInfo extends ETHRPCRequest<String> {
-  RPCGetNodeInfo();
+class EthereumRequestGetNodeInfo extends EthereumRequest<String, String> {
+  EthereumRequestGetNodeInfo();
 
   /// web3_clientVersion
   @override
-  EthereumMethods get method => EthereumMethods.getNodeInfo;
+  String get method => EthereumMethods.getNodeInfo.value;
 
   @override
   List<dynamic> toJson() {
@@ -17,6 +17,6 @@ class RPCGetNodeInfo extends ETHRPCRequest<String> {
 
   @override
   String toString() {
-    return "RPCGetNodeInfo{${toJson()}}";
+    return 'EthereumRequestGetNodeInfo{${toJson()}}';
   }
 }

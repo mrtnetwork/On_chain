@@ -12,11 +12,11 @@ class SystemWithdrawNonceLayout extends SystemProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: SystemProgramInstruction.withdrawNonceAccount.insturction);
-    return SystemWithdrawNonceLayout(lamports: decode["lamports"]);
+    return SystemWithdrawNonceLayout(lamports: decode['lamports']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.ns64(property: "lamports")
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports')
   ]);
 
   @override
@@ -27,6 +27,6 @@ class SystemWithdrawNonceLayout extends SystemProgramLayout {
       SystemProgramInstruction.withdrawNonceAccount;
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports};
+    return {'lamports': lamports};
   }
 }

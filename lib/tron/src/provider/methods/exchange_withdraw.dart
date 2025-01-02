@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Withdraws the transaction pair.
 /// [developers.tron.network](https://developers.tron.network/reference/exchangewithdraw).
 class TronRequestExchangeWithdraw
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestExchangeWithdraw(
       {required this.ownerAddress,
       required this.exchangeId,
@@ -37,17 +37,17 @@ class TronRequestExchangeWithdraw
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "exchange_id": exchangeId,
-      "token_id": tokenId,
-      "quant": quant,
-      "permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'exchange_id': exchangeId,
+      'token_id': tokenId,
+      'quant': quant,
+      'permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestExchangeWithdraw{${toJson()}}";
+    return 'TronRequestExchangeWithdraw{${toJson()}}';
   }
 }

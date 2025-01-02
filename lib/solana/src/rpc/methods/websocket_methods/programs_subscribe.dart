@@ -6,13 +6,13 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Subscribe to a program to receive notifications when the lamports or data
 /// for an account owned by the given program changes
 /// https://solana.com/docs/rpc/websocket/programsubscribe
-class SolanaRPCProgramSubscribe extends SolanaRPCRequest<int> {
-  const SolanaRPCProgramSubscribe({
+class SolanaRequestProgramSubscribe extends SolanaRequest<int, int> {
+  const SolanaRequestProgramSubscribe({
     required this.programId,
     this.filters,
-    Commitment? commitment,
-    SolanaRPCEncoding? encoding,
-  }) : super(commitment: commitment, encoding: encoding);
+    super.commitment,
+    super.encoding,
+  });
 
   /// Pubkey of the program_id
   final SolAddress programId;
@@ -28,16 +28,11 @@ class SolanaRPCProgramSubscribe extends SolanaRPCRequest<int> {
   List<dynamic> toJson() {
     return [
       programId.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"filters": filters?.map((e) => e.toJson()).toList()},
+        {'filters': filters?.map((e) => e.toJson()).toList()},
         encoding?.toJson()
       ])
     ];
-  }
-
-  @override
-  int onResonse(result) {
-    return result;
   }
 }

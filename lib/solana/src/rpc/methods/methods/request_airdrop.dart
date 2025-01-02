@@ -7,13 +7,13 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Requests an airdrop of lamports to a Pubkey
 /// https://solana.com/docs/rpc/http/requestairdrop
-class SolanaRPCRequestAirdrop extends SolanaRPCRequest<String> {
-  const SolanaRPCRequestAirdrop(
+class SolanaRequestRequestAirdrop extends SolanaRequest<String, String> {
+  const SolanaRequestRequestAirdrop(
       {required this.account, required this.lamports, Commitment? commitment});
 
   /// requestAirdrop
   @override
-  String get method => SolanaRPCMethods.requestAirdrop.value;
+  String get method => SolanaRequestMethods.requestAirdrop.value;
 
   /// Pubkey of account to receive lamports, as a base-58 encoded string
   final SolAddress account;
@@ -26,7 +26,7 @@ class SolanaRPCRequestAirdrop extends SolanaRPCRequest<String> {
     return [
       account.address,
       lamports,
-      SolanaRPCUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()])
     ];
   }
 }

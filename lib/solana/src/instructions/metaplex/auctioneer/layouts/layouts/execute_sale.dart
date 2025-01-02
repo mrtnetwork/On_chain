@@ -26,23 +26,23 @@ class MetaplexAuctioneerExecuteSaleLayout
         instruction:
             MetaplexAuctioneerProgramInstruction.executeSale.insturction);
     return MetaplexAuctioneerExecuteSaleLayout(
-        escrowPaymentBump: decode["escrowPaymentBump"],
-        freeTradeStateBump: decode["freeTradeStateBump"],
-        programAsSignerBump: decode["programAsSignerBump"],
-        auctioneerAuthorityBump: decode["auctioneerAuthorityBump"],
-        buyerPrice: decode["buyerPrice"],
-        tokenSize: decode["tokenSize"]);
+        escrowPaymentBump: decode['escrowPaymentBump'],
+        freeTradeStateBump: decode['freeTradeStateBump'],
+        programAsSignerBump: decode['programAsSignerBump'],
+        auctioneerAuthorityBump: decode['auctioneerAuthorityBump'],
+        buyerPrice: decode['buyerPrice'],
+        tokenSize: decode['tokenSize']);
   }
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "escrowPaymentBump"),
-    LayoutConst.u8(property: "freeTradeStateBump"),
-    LayoutConst.u8(property: "programAsSignerBump"),
-    LayoutConst.u8(property: "auctioneerAuthorityBump"),
-    LayoutConst.u64(property: "buyerPrice"),
-    LayoutConst.u64(property: "tokenSize"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u8(property: 'freeTradeStateBump'),
+    LayoutConst.u8(property: 'programAsSignerBump'),
+    LayoutConst.u8(property: 'auctioneerAuthorityBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
   ]);
 
   @override
@@ -55,12 +55,12 @@ class MetaplexAuctioneerExecuteSaleLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "escrowPaymentBump": escrowPaymentBump,
-      "freeTradeStateBump": freeTradeStateBump,
-      "programAsSignerBump": programAsSignerBump,
-      "auctioneerAuthorityBump": auctioneerAuthorityBump,
-      "buyerPrice": buyerPrice,
-      "tokenSize": tokenSize
+      'escrowPaymentBump': escrowPaymentBump,
+      'freeTradeStateBump': freeTradeStateBump,
+      'programAsSignerBump': programAsSignerBump,
+      'auctioneerAuthorityBump': auctioneerAuthorityBump,
+      'buyerPrice': buyerPrice,
+      'tokenSize': tokenSize
     };
   }
 }

@@ -4,9 +4,10 @@ import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 
 /// Returns the epoch schedule information from this cluster's genesis config
 /// https://solana.com/docs/rpc/http/getepochschedule
-class SolanaRPCGetEpochSchedule extends SolanaRPCRequest<EpochSchedule> {
+class SolanaRequestGetEpochSchedule
+    extends SolanaRequest<EpochSchedule, Map<String, dynamic>> {
   @override
-  String get method => SolanaRPCMethods.getEpochSchedule.value;
+  String get method => SolanaRequestMethods.getEpochSchedule.value;
 
   @override
   List<dynamic> toJson() {
@@ -14,7 +15,7 @@ class SolanaRPCGetEpochSchedule extends SolanaRPCRequest<EpochSchedule> {
   }
 
   @override
-  EpochSchedule onResonse(result) {
+  EpochSchedule onResonse(Map<String, dynamic> result) {
     return EpochSchedule.fromJson(result);
   }
 }

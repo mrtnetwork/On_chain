@@ -1,4 +1,4 @@
-part of "package:on_chain/solidity/abi/abi.dart";
+part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// Represents different versions of the Ethereum Improvement Proposal (EIP) 712 specification.
 class EIP712Version {
@@ -12,23 +12,23 @@ class EIP712Version {
   final int version;
 
   /// EIP712 version 1.
-  static const EIP712Version v1 = EIP712Version._("V1", 1);
+  static const EIP712Version v1 = EIP712Version._('V1', 1);
 
   /// EIP712 version 3.
-  static const EIP712Version v3 = EIP712Version._("V3", 3);
+  static const EIP712Version v3 = EIP712Version._('V3', 3);
 
   /// EIP712 version 4.
-  static const EIP712Version v4 = EIP712Version._("V4", 4);
+  static const EIP712Version v4 = EIP712Version._('V4', 4);
 
   static const List<EIP712Version> values = [v1, v3, v4];
 
   static EIP712Version fromVersion(int? version) {
     return values.firstWhere((e) => e.version == version,
         orElse: () => throw SolidityAbiException(
-                "Invalid EIP712Version version.",
+                'Invalid EIP712Version version.',
                 details: {
-                  "version": version,
-                  "excepted": values.map((e) => e.version).join(", ")
+                  'version': version,
+                  'excepted': values.map((e) => e.version).join(', ')
                 }));
   }
 }
@@ -49,10 +49,10 @@ abstract class EIP712Base {
   Map<String, dynamic> toJson();
 
   factory EIP712Base.fromJson(Map<String, dynamic> json) {
-    final version = EIP712Version.fromVersion(json["version"]);
+    final version = EIP712Version.fromVersion(json['version']);
     switch (version) {
       case EIP712Version.v1:
-        return EIP712Legacy.fromJson(json["types"]);
+        return EIP712Legacy.fromJson(json['types']);
       default:
         return Eip712TypedData.fromJson(json, version: version);
     }
@@ -69,15 +69,15 @@ class Eip712TypeDetails {
   const Eip712TypeDetails({required this.name, required this.type});
 
   factory Eip712TypeDetails.fromJson(Map<String, dynamic> json) {
-    return Eip712TypeDetails(name: json["name"], type: json["type"]);
+    return Eip712TypeDetails(name: json['name'], type: json['type']);
   }
   @override
   String toString() {
-    return "name: $name  type: $type";
+    return 'name: $name  type: $type';
   }
 
   Map<String, dynamic> toJson() {
-    return {"name": name, "type": type};
+    return {'name': name, 'type': type};
   }
 }
 
@@ -106,14 +106,14 @@ class Eip712TypedData implements EIP712Base {
     required this.domain,
     required this.message,
     this.version = EIP712Version.v4,
-  }) : assert(version != EIP712Version.v1, "use EIP712V1 class for EIP712 V1");
+  }) : assert(version != EIP712Version.v1, 'use EIP712V1 class for EIP712 V1');
 
   factory Eip712TypedData.fromJson(
     Map<String, dynamic> json, {
     EIP712Version version = EIP712Version.v4,
   }) {
     try {
-      final jsonTypes = Map<String, List<dynamic>>.from(json["types"]);
+      final jsonTypes = Map<String, List<dynamic>>.from(json['types']);
       final Map<String, List<Eip712TypeDetails>> types = {};
 
       for (final i in jsonTypes.entries) {
@@ -124,12 +124,12 @@ class Eip712TypedData implements EIP712Base {
       }
       return Eip712TypedData(
           types: types,
-          primaryType: json["primaryType"],
-          domain: json["domain"],
-          message: json["message"],
+          primaryType: json['primaryType'],
+          domain: json['domain'],
+          message: json['message'],
           version: version);
     } catch (e) {
-      throw const SolidityAbiException("invalid EIP712 json struct.");
+      throw const SolidityAbiException('invalid EIP712 json struct.');
     }
   }
 
@@ -157,12 +157,12 @@ class Eip712TypedData implements EIP712Base {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "types":
+      'types':
           types.map((k, v) => MapEntry(k, v.map((e) => e.toJson()).toList())),
-      "domain": domain,
-      "message": message,
-      "primaryType": primaryType,
-      "version": version.version
+      'domain': domain,
+      'message': message,
+      'primaryType': primaryType,
+      'version': version.version
     };
   }
 }
@@ -179,7 +179,7 @@ class Eip712TypedDataV1 {
   }
   factory Eip712TypedDataV1.fromJson(Map<String, dynamic> json) {
     return Eip712TypedDataV1(
-        type: json["type"], name: json["name"], value: json["value"]);
+        type: json['type'], name: json['name'], value: json['value']);
   }
 
   /// Private constructor for creating instances of Eip712TypedDataV1.
@@ -197,9 +197,9 @@ class Eip712TypedDataV1 {
 
   Map<String, dynamic> toJson() {
     return {
-      "name": name,
-      "type": type,
-      "value": _EIP712Utils.eip712TypedDataV1ValueToJson(type, value)
+      'name': name,
+      'type': type,
+      'value': _EIP712Utils.eip712TypedDataV1ValueToJson(type, value)
     };
   }
 }
@@ -229,12 +229,12 @@ class EIP712Legacy implements EIP712Base {
     // Extract values, types, and names from Eip712TypedDataV1 instances
     final values = typesData.map((e) => e.value).toList();
     final types = typesData.map((e) => e.type).toList();
-    final names = typesData.map((e) => "${e.type} ${e.name}").toList();
+    final names = typesData.map((e) => '${e.type} ${e.name}').toList();
     // Calculate hashes for types and names
     final typesHash =
         QuickCrypto.keccack256Hash(_EIP712Utils.legacyV1encode(types, values));
     final namesHash = QuickCrypto.keccack256Hash(_EIP712Utils.legacyV1encode(
-        List.generate(names.length, (index) => "string"), names));
+        List.generate(names.length, (index) => 'string'), names));
     final toBytes = _EIP712Utils.legacyV1encode(
         ['bytes32', 'bytes32'], [namesHash, typesHash]);
     if (!hash) {
@@ -251,8 +251,8 @@ class EIP712Legacy implements EIP712Base {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "types": typesData.map((e) => e.toJson()).toList(),
-      "version": version.version
+      'types': typesData.map((e) => e.toJson()).toList(),
+      'version': version.version
     };
   }
 }

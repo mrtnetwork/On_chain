@@ -5,24 +5,23 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the current inflation governor
 /// https://solana.com/docs/rpc/http/getinflationgovernor
-class SolanaRPCGetInflationGovernor
-    extends SolanaRPCRequest<InflationGovernor> {
-  const SolanaRPCGetInflationGovernor({Commitment? commitment})
-      : super(commitment: commitment);
+class SolanaRequestGetInflationGovernor
+    extends SolanaRequest<InflationGovernor, Map<String, dynamic>> {
+  const SolanaRequestGetInflationGovernor({super.commitment});
 
   /// getInflationGovernor
   @override
-  String get method => SolanaRPCMethods.getInflationGovernor.value;
+  String get method => SolanaRequestMethods.getInflationGovernor.value;
 
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRPCUtils.createConfig([commitment?.toJson()]),
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 
   @override
-  InflationGovernor onResonse(result) {
+  InflationGovernor onResonse(Map<String, dynamic> result) {
     return InflationGovernor.fromJson(result);
   }
 }

@@ -8,7 +8,7 @@ class AccountIdentifier extends TronProtocolBufferImpl {
   factory AccountIdentifier.fromJson(Map<String, dynamic> json) {
     return AccountIdentifier(
         address: OnChainUtils.parseTronAddress(
-            value: json["address"], name: "address"));
+            value: json['address'], name: 'address'));
   }
 
   factory AccountIdentifier.deserialize(List<int> bytes) {
@@ -31,13 +31,13 @@ class AccountIdentifier extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "address": address.toString(),
+      'address': address.toString(),
     };
   }
 
   /// Convert the [AccountIdentifier] object to its string representation.
   @override
   String toString() {
-    return "AccountIdentifier{${toJson()}}";
+    return 'AccountIdentifier{${toJson()}}';
   }
 }

@@ -6,16 +6,16 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the token balance of an SPL Token account.
 /// https://solana.com/docs/rpc/http/gettokenaccountbalance
-class SolanaRPCGetTokenAccountBalance
-    extends SolanaRPCRequest<TokenAmoutResponse> {
-  const SolanaRPCGetTokenAccountBalance({
+class SolanaRequestGetTokenAccountBalance
+    extends SolanaRequest<TokenAmoutResponse, Map<String, dynamic>> {
+  const SolanaRequestGetTokenAccountBalance({
     required this.account,
-    Commitment? commitment,
-  }) : super(commitment: commitment);
+    super.commitment,
+  });
 
   /// getTokenAccountBalance
   @override
-  String get method => SolanaRPCMethods.getTokenAccountBalance.value;
+  String get method => SolanaRequestMethods.getTokenAccountBalance.value;
 
   /// Pubkey of Token account to query, as base-58 encoded string
   final SolAddress account;
@@ -24,12 +24,12 @@ class SolanaRPCGetTokenAccountBalance
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()])
     ];
   }
 
   @override
-  TokenAmoutResponse onResonse(result) {
+  TokenAmoutResponse onResonse(Map<String, dynamic> result) {
     return TokenAmoutResponse.fromJson(result);
   }
 }

@@ -10,11 +10,11 @@ void main() async {
   final contract = ContractABI.fromJson(abiTest);
 
 // Create an Ethereum RPC instance with a HTTP service on the Polygon Mumbai testnet
-  final rpc =
-      EVMRPC(RPCHttpService("https://polygon-mumbai-bor.publicnode.com"));
+  final rpc = EthereumProvider(
+      RPCHttpService("https://polygon-mumbai-bor.publicnode.com"));
 
 // Make an RPC call to execute a method on the contract and get the result
-  final call1 = await rpc.request(RPCCall.fromMethod(
+  final call1 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: contract.functionFromName("checkInt"),
     params: [
@@ -26,7 +26,7 @@ void main() async {
   ));
 
 // Similar RPC call for another method on the contract
-  final call2 = await rpc.request(RPCCall.fromMethod(
+  final call2 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: contract.functionFromName("checkuInt"),
     params: [
@@ -38,7 +38,7 @@ void main() async {
   ));
 
 // RPC call for a method that involves a list of Ethereum addresses
-  final call3 = await rpc.request(RPCCall.fromMethod(
+  final call3 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: contract.functionFromName("listAddress"),
     params: [
@@ -52,7 +52,7 @@ void main() async {
   ));
 
 // RPC call for a method that involves a list of byte arrays
-  final call4 = await rpc.request(RPCCall.fromMethod(
+  final call4 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: contract.functionFromName("checkbytest"),
     params: [
@@ -65,7 +65,7 @@ void main() async {
   ));
 
 // RPC call for a method that involves a single byte array
-  final call5 = await rpc.request(RPCCall.fromMethod(
+  final call5 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: contract.functionFromName("checkbyte"),
     params: [
@@ -74,7 +74,7 @@ void main() async {
   ));
 
 // RPC call for a method that involves a single byte array of length 32
-  final call6 = await rpc.request(RPCCall.fromMethod(
+  final call6 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: contract.functionFromName("checkbyte32"),
     params: [
@@ -83,7 +83,7 @@ void main() async {
   ));
 
 // RPC call for a method that involves a boolean parameter
-  final call7 = await rpc.request(RPCCall.fromMethod(
+  final call7 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: contract.functionFromName("checkbooli"),
     params: [true],
@@ -91,7 +91,7 @@ void main() async {
 
 // Attempting an RPC call that is expected to raise an error, catch the error and decode it
   try {
-    final call8 = await rpc.request(RPCCall.fromMethod(
+    final call8 = await rpc.request(EthereumRequestCall.fromMethod(
       contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
       function: contract.functionFromName("checkError"),
       params: [],
@@ -105,7 +105,7 @@ void main() async {
 
 // Another RPC call expected to raise an error, catch the error and decode it
   try {
-    final call9 = await rpc.request(RPCCall.fromMethod(
+    final call9 = await rpc.request(EthereumRequestCall.fromMethod(
       contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
       function: contract.functionFromName("checkErrorValue1"),
       params: [

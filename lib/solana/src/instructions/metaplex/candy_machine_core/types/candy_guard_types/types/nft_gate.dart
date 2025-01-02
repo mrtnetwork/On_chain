@@ -8,22 +8,22 @@ class NftGate extends LayoutSerializable {
 
   const NftGate({required this.requiredCollection});
   factory NftGate.fromJson(Map<String, dynamic> json) {
-    return NftGate(requiredCollection: json["requiredCollection"]);
+    return NftGate(requiredCollection: json['requiredCollection']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("requiredCollection"),
-  ], property: "nftGate");
+    SolanaLayoutUtils.publicKey('requiredCollection'),
+  ], property: 'nftGate');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"requiredCollection": requiredCollection};
+    return {'requiredCollection': requiredCollection};
   }
 
   @override
   String toString() {
-    return "NftGate${serialize()}";
+    return 'NftGate${serialize()}';
   }
 }

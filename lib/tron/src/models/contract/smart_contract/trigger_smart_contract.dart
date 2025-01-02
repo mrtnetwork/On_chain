@@ -9,16 +9,16 @@ class TriggerSmartContract extends TronBaseContract {
   factory TriggerSmartContract.fromJson(Map<String, dynamic> json) {
     return TriggerSmartContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       contractAddress: OnChainUtils.parseTronAddress(
-          value: json["contract_address"], name: "contract_address"),
-      data: OnChainUtils.parseHex(value: json["data"], name: "data"),
+          value: json['contract_address'], name: 'contract_address'),
+      data: OnChainUtils.parseHex(value: json['data'], name: 'data'),
       callTokenValue: OnChainUtils.parseBigInt(
-          value: json["call_token_value"], name: "call_token_value"),
+          value: json['call_token_value'], name: 'call_token_value'),
       callValue: OnChainUtils.parseBigInt(
-          value: json["call_value"], name: "call_value"),
+          value: json['call_value'], name: 'call_value'),
       tokenId:
-          OnChainUtils.parseBigInt(value: json["token_id"], name: "token_id"),
+          OnChainUtils.parseBigInt(value: json['token_id'], name: 'token_id'),
     );
   }
 
@@ -72,19 +72,19 @@ class TriggerSmartContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "contract_address": contractAddress.toString(),
-      "data": BytesUtils.tryToHexString(data),
-      "call_value": callValue?.toString(),
-      "call_token_value": callTokenValue?.toString(),
-      "token_id": tokenId?.toString()
+      'owner_address': ownerAddress.toString(),
+      'contract_address': contractAddress.toString(),
+      'data': BytesUtils.tryToHexString(data),
+      'call_value': callValue?.toString(),
+      'call_token_value': callTokenValue?.toString(),
+      'token_id': tokenId?.toString()
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [TriggerSmartContract] object to its string representation.
   @override
   String toString() {
-    return "TriggerSmartContract{${toJson()}}";
+    return 'TriggerSmartContract{${toJson()}}';
   }
 
   @override

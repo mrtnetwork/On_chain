@@ -19,15 +19,15 @@ class MetaplexTokenMetaDataDelegateProgrammableConfigV1Layout
             .delegateProgrammableConfigV1.insturction,
         discriminator: discriminator);
     return MetaplexTokenMetaDataDelegateProgrammableConfigV1Layout(
-        authorizationData: decode["authorizationData"] == null
+        authorizationData: decode['authorizationData'] == null
             ? null
-            : Payload.fromJson(decode["authorizationData"]));
+            : Payload.fromJson(decode['authorizationData']));
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
   ]);
 
   @override
@@ -40,8 +40,8 @@ class MetaplexTokenMetaDataDelegateProgrammableConfigV1Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "authorizationData": authorizationData?.serialize(),
-      "discriminator": discriminator
+      'authorizationData': authorizationData?.serialize(),
+      'discriminator': discriminator
     };
   }
 }

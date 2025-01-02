@@ -7,13 +7,13 @@ abstract class AddressLookupTableProgramLayout extends ProgramLayout {
   @override
   ProgramLayoutInstruction get instruction;
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
       final decode =
           ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
       final instruction = AddressLookupTableProgramInstruction.getInstruction(
-          decode["instruction"]);
+          decode['instruction']);
       switch (instruction) {
         case AddressLookupTableProgramInstruction.closeLookupTable:
           return AddressLookupCloseLookupTableLayout.fromBuffer(data);

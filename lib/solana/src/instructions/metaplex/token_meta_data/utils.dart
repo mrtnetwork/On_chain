@@ -13,10 +13,10 @@ class MetaplexTokenMetaDataProgramUtils {
       /// The address of the collection authority
       required SolAddress collectionAuthority}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
-      "collection_authority".codeUnits,
+      'collection_authority'.codeUnits,
       collectionAuthority.toBytes()
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
   }
@@ -26,10 +26,10 @@ class MetaplexTokenMetaDataProgramUtils {
       /// The address of the mint account
       {required SolAddress mint}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
-      "edition".codeUnits,
+      'edition'.codeUnits,
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
   }
 
@@ -41,10 +41,10 @@ class MetaplexTokenMetaDataProgramUtils {
     required String editionMarker,
   }) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
-      "edition".codeUnits,
+      'edition'.codeUnits,
       editionMarker.codeUnits,
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
   }
@@ -54,11 +54,11 @@ class MetaplexTokenMetaDataProgramUtils {
       /// The address of the mint account
       required SolAddress mint}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
-      "edition".codeUnits,
-      "marker".codeUnits,
+      'edition'.codeUnits,
+      'marker'.codeUnits,
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
   }
 
@@ -76,7 +76,7 @@ class MetaplexTokenMetaDataProgramUtils {
     required SolAddress delegate,
   }) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
       delegateRole.codeUnits,
@@ -90,7 +90,7 @@ class MetaplexTokenMetaDataProgramUtils {
     required SolAddress mint,
   }) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes()
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
@@ -104,10 +104,10 @@ class MetaplexTokenMetaDataProgramUtils {
       /// The address of the token account (ata or not)
       required SolAddress token}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
-      "token_record".codeUnits,
+      'token_record'.codeUnits,
       token.toBytes()
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
   }
@@ -117,10 +117,10 @@ class MetaplexTokenMetaDataProgramUtils {
       /// The address of the mint account
       required SolAddress mint}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
-      "edition".codeUnits,
+      'edition'.codeUnits,
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
   }
 
@@ -132,10 +132,10 @@ class MetaplexTokenMetaDataProgramUtils {
       /// The address of the use authority
       required SolAddress useAuthority}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
-      "user".codeUnits,
+      'user'.codeUnits,
       useAuthority.toBytes()
     ], programId: MetaplexTokenMetaDataProgramConst.programId);
   }
@@ -154,7 +154,7 @@ class MetaplexTokenMetaDataProgramUtils {
       /// The address of the delegate authority
       required MetadataDelegateRole delegateRole}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       MetaplexTokenMetaDataProgramConst.programId.toBytes(),
       mint.toBytes(),
       delegateRole.seed.codeUnits,

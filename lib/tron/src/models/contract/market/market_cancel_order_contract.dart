@@ -9,9 +9,9 @@ class MarketCancelOrderContract extends TronBaseContract {
   factory MarketCancelOrderContract.fromJson(Map<String, dynamic> json) {
     return MarketCancelOrderContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       orderId:
-          OnChainUtils.parseBytes(value: json["order_id"], name: "order_id"),
+          OnChainUtils.parseBytes(value: json['order_id'], name: 'order_id'),
     );
   }
 
@@ -40,15 +40,15 @@ class MarketCancelOrderContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "order_id": BytesUtils.tryToHexString(orderId)
+      'owner_address': ownerAddress.toString(),
+      'order_id': BytesUtils.tryToHexString(orderId)
     }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [MarketCancelOrderContract] object to its string representation.
   @override
   String toString() {
-    return "MarketCancelOrderContract{${toJson()}}";
+    return 'MarketCancelOrderContract{${toJson()}}';
   }
 
   @override

@@ -1,6 +1,5 @@
 import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/solidity/address/core.dart';
-import 'package:blockchain_utils/bip/address/eth_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 extension ToEthereumAddress on SolidityAddress {
@@ -23,8 +22,8 @@ class ETHAddress extends SolidityAddress {
       final toAddress = EthAddrEncoder().encodeKey(keyBytes);
       return ETHAddress._(toAddress);
     } catch (e) {
-      throw ETHPluginException("invalid ethreum public key",
-          details: {"input": BytesUtils.toHexString(keyBytes)});
+      throw ETHPluginException('invalid ethreum public key',
+          details: {'input': BytesUtils.toHexString(keyBytes)});
     }
   }
 
@@ -33,17 +32,17 @@ class ETHAddress extends SolidityAddress {
   /// Optionally, [skipChecksum] can be set to true to skip the address checksum validation.
   factory ETHAddress(String address, {bool skipChecksum = true}) {
     try {
-      EthAddrDecoder().decodeAddr(address, {"skip_chksum_enc": skipChecksum});
+      EthAddrDecoder().decodeAddr(address, {'skip_chksum_enc': skipChecksum});
       return ETHAddress._(EthAddrUtils.toChecksumAddress(address));
     } catch (e) {
-      throw ETHPluginException("invalid ethereum address",
-          details: {"input": address});
+      throw ETHPluginException('invalid ethereum address',
+          details: {'input': address});
     }
   }
 
   /// Creates an [ETHAddress] instance from a bytes representing the address.
   factory ETHAddress.fromBytes(List<int> addrBytes) {
-    return ETHAddress(BytesUtils.toHexString(addrBytes, prefix: "0x"));
+    return ETHAddress(BytesUtils.toHexString(addrBytes, prefix: '0x'));
   }
 
   /// Constant representing the length of the ETH address in bytes
@@ -55,7 +54,7 @@ class ETHAddress extends SolidityAddress {
   }
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! ETHAddress) return false;
     return address == other.address;
   }

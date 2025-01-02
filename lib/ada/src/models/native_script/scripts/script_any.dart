@@ -28,8 +28,8 @@ class NativeScriptScriptAny extends NativeScript {
   }
 
   factory NativeScriptScriptAny.fromJson(Map<String, dynamic> json) {
-    return NativeScriptScriptAny(((json["native_scripts"] ??
-            json["script_any"]["native_scripts"]) as List)
+    return NativeScriptScriptAny(((json['native_scripts'] ??
+            json['script_any']['native_scripts']) as List)
         .map((e) => NativeScript.fromJson(e))
         .toList());
   }
@@ -48,8 +48,8 @@ class NativeScriptScriptAny extends NativeScript {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "script_any": {
-        "native_scripts": nativeScripts.map((e) => e.toJson()).toList(),
+      'script_any': {
+        'native_scripts': nativeScripts.map((e) => e.toJson()).toList(),
       }
     };
   }

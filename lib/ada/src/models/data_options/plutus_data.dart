@@ -21,19 +21,19 @@ class DataOptionData extends DataOption {
         validate: TransactionDataOptionType.data);
     final CborTagValue cborTag = cbor.getIndex(1);
     if (!BytesUtils.bytesEqual(cborTag.tags, _plutusDataOptionTag)) {
-      throw ADAPluginException("Invalid date option tag.",
-          details: {"Tag": cborTag.tags, "Excepted": _plutusDataOptionTag});
+      throw ADAPluginException('Invalid date option tag.',
+          details: {'Tag': cborTag.tags, 'Excepted': _plutusDataOptionTag});
     }
     final List<int> plutusBytes = cborTag.getValue();
     return DataOptionData(PlutusData.fromCborBytes(plutusBytes));
   }
   factory DataOptionData.fromJson(Map<String, dynamic> json) {
-    return DataOptionData(PlutusData.fromJson(json["data"]));
+    return DataOptionData(PlutusData.fromJson(json['data']));
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"data": plutusData.toJson()};
+    return {'data': plutusData.toJson()};
   }
 
   @override

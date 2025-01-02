@@ -12,12 +12,12 @@ class MetaplexHydraDistributeTokenLayout extends MetaplexHydraProgramLayout {
         instruction:
             MetaplexHydraProgramInstruction.processDistributeToken.insturction);
     return MetaplexHydraDistributeTokenLayout(
-        distributeForMint: decode["distributeForMint"]);
+        distributeForMint: decode['distributeForMint']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.boolean(property: "distributeForMint"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.boolean(property: 'distributeForMint'),
   ]);
 
   @override
@@ -29,6 +29,6 @@ class MetaplexHydraDistributeTokenLayout extends MetaplexHydraProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"distributeForMint": distributeForMint};
+    return {'distributeForMint': distributeForMint};
   }
 }

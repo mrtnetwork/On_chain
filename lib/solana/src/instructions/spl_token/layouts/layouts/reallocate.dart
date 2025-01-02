@@ -12,7 +12,7 @@ class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for reallocating SPL token extensions.
   static StructLayout _layout({required int length}) => LayoutConst.struct([
-        LayoutConst.u8(property: "instruction"),
+        LayoutConst.u8(property: 'instruction'),
         LayoutConst.array(LayoutConst.u16(), length, property: 'extensionTypes')
       ]);
 
@@ -25,7 +25,7 @@ class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
         instruction: SPLTokenProgramInstruction.reallocate.insturction);
 
     return SPLTokenReallocateLayout(
-        extensionTypes: (decode["extensionTypes"] as List)
+        extensionTypes: (decode['extensionTypes'] as List)
             .map((e) => ExtensionType.fromValue(e))
             .toList());
   }
@@ -45,6 +45,6 @@ class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"extensionTypes": extensionTypes.map((e) => e.value).toList()};
+    return {'extensionTypes': extensionTypes.map((e) => e.value).toList()};
   }
 }

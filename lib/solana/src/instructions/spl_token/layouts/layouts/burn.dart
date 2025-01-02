@@ -15,8 +15,8 @@ class SPLTokenBurnLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for SPLTokenBurnLayout.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "amount")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount')
   ]);
 
   /// Constructs an SPLTokenBurnLayout instance from buffer.
@@ -25,7 +25,7 @@ class SPLTokenBurnLayout extends SPLTokenProgramLayout {
         layout: _layout,
         bytes: bytes,
         instruction: SPLTokenProgramInstruction.burn.insturction);
-    return SPLTokenBurnLayout(amount: decode["amount"]);
+    return SPLTokenBurnLayout(amount: decode['amount']);
   }
 
   /// Gets the layout structure.
@@ -40,6 +40,6 @@ class SPLTokenBurnLayout extends SPLTokenProgramLayout {
   /// Serializes the layout.
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount};
+    return {'amount': amount};
   }
 }

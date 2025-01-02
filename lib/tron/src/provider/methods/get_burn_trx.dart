@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query the amount of TRX burned due to on-chain transaction fees since No. 54 Committee Proposal took effect
 /// [developers.tron.network](https://developers.tron.network/reference/getburntrx).
 class TronRequestGetBurnTrx
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetBurnTrx();
 
   /// wallet/getburntrx
@@ -18,6 +18,6 @@ class TronRequestGetBurnTrx
 
   @override
   String toString() {
-    return "TronRequestGetBurnTrx{${toJson()}}";
+    return 'TronRequestGetBurnTrx{${toJson()}}';
   }
 }

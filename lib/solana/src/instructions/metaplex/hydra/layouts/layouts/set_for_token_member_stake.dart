@@ -12,12 +12,12 @@ class MetaplexHydraSetForTokenMemberStakeLayout
         bytes: data,
         instruction: MetaplexHydraProgramInstruction
             .processSetForTokenMemberStake.insturction);
-    return MetaplexHydraSetForTokenMemberStakeLayout(shares: decode["shares"]);
+    return MetaplexHydraSetForTokenMemberStakeLayout(shares: decode['shares']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u64(property: "shares")
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'shares')
   ]);
 
   @override
@@ -29,6 +29,6 @@ class MetaplexHydraSetForTokenMemberStakeLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"shares": shares};
+    return {'shares': shares};
   }
 }

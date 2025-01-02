@@ -6,9 +6,9 @@ class GroupMemberPointerInstruction extends LayoutSerializable {
   const GroupMemberPointerInstruction._(this.name);
   final String name;
   static const GroupMemberPointerInstruction initialize =
-      GroupMemberPointerInstruction._("Initialize");
+      GroupMemberPointerInstruction._('Initialize');
   static const GroupMemberPointerInstruction update =
-      GroupMemberPointerInstruction._("Update");
+      GroupMemberPointerInstruction._('Update');
 
   static const List<GroupMemberPointerInstruction> values = [
     initialize,
@@ -18,7 +18,7 @@ class GroupMemberPointerInstruction extends LayoutSerializable {
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
         values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: "groupMemberPointer")
+        property: 'groupMemberPointer')
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -26,24 +26,24 @@ class GroupMemberPointerInstruction extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "groupMemberPointer": {name: null}
+      'groupMemberPointer': {name: null}
     };
   }
 
   factory GroupMemberPointerInstruction.fromJson(Map<String, dynamic> json) {
-    return fromName(json["groupMemberPointer"]["key"]);
+    return fromName(json['groupMemberPointer']['key']);
   }
   static GroupMemberPointerInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
       orElse: () => throw SolanaPluginException(
-          "No GroupMemberPointerInstruction found matching the specified value",
-          details: {"value": value}),
+          'No GroupMemberPointerInstruction found matching the specified value',
+          details: {'value': value}),
     );
   }
 
   @override
   String toString() {
-    return "GroupMemberPointerInstruction${serialize()}";
+    return 'GroupMemberPointerInstruction${serialize()}';
   }
 }

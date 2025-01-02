@@ -19,9 +19,9 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for transferring checked tokens in SPL.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "amount"),
-    LayoutConst.u8(property: "decimals"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u8(property: 'decimals'),
   ]);
 
   /// Constructs an SPLTokenTransferCheckedLayout instance from buffer.
@@ -32,8 +32,8 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
       instruction: SPLTokenProgramInstruction.transferChecked.insturction,
     );
     return SPLTokenTransferCheckedLayout(
-      amount: decode["amount"],
-      decimals: decode["decimals"],
+      amount: decode['amount'],
+      decimals: decode['decimals'],
     );
   }
 
@@ -49,6 +49,6 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount, "decimals": decimals};
+    return {'amount': amount, 'decimals': decimals};
   }
 }

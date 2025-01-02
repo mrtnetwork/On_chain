@@ -6,21 +6,18 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns all information associated with the account of provided Pubkey
 /// https://solana.com/docs/rpc/http/getaccountinfo
-class SolanaRPCGetAccountInfo extends SolanaRPCRequest<SolanaAccountInfo?> {
-  const SolanaRPCGetAccountInfo(
+class SolanaRequestGetAccountInfo
+    extends SolanaRequest<SolanaAccountInfo?, Map<String, dynamic>?> {
+  const SolanaRequestGetAccountInfo(
       {required this.account,
       this.dataSlice,
-      Commitment? commitment,
-      MinContextSlot? minContextSlot,
-      SolanaRPCEncoding? encoding = SolanaRPCEncoding.base64})
-      : super(
-            commitment: commitment,
-            encoding: encoding,
-            minContextSlot: minContextSlot);
+      super.commitment,
+      super.minContextSlot,
+      super.encoding = SolanaRequestEncoding.base64});
 
   /// getAccountInfo
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
 
   /// Pubkey of account to query, as base-58 encoded string
   final SolAddress account;
@@ -32,7 +29,7 @@ class SolanaRPCGetAccountInfo extends SolanaRPCRequest<SolanaAccountInfo?> {
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         encoding?.toJson(),
         dataSlice?.toJson(),
@@ -42,7 +39,7 @@ class SolanaRPCGetAccountInfo extends SolanaRPCRequest<SolanaAccountInfo?> {
   }
 
   @override
-  SolanaAccountInfo? onResonse(result) {
+  SolanaAccountInfo? onResonse(Map<String, dynamic>? result) {
     if (result == null) return null;
     return SolanaAccountInfo.fromJson(result);
   }

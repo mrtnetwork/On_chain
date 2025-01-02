@@ -8,10 +8,10 @@ import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 /// Represents an instruction for the Ed25519 program.
 class Ed25519Program extends TransactionInstruction {
   Ed25519Program._({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory Ed25519Program.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,

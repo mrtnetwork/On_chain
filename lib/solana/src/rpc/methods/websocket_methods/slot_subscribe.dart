@@ -2,8 +2,8 @@ import 'package:on_chain/solana/src/rpc/core/rpc.dart';
 
 /// Subscribe to receive notification anytime a slot is processed by the validator.
 /// https://solana.com/docs/rpc/websocket/slotsubscribe
-class SolanaRPCSlotSubscribe extends SolanaRPCRequest<int> {
-  const SolanaRPCSlotSubscribe();
+class SolanaRequestSlotSubscribe extends SolanaRequest<int, int> {
+  const SolanaRequestSlotSubscribe();
 
   /// rootSubscribe
   @override
@@ -11,10 +11,5 @@ class SolanaRPCSlotSubscribe extends SolanaRPCRequest<int> {
   @override
   List<dynamic> toJson() {
     return [];
-  }
-
-  @override
-  int onResonse(result) {
-    return result;
   }
 }

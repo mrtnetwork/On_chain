@@ -14,8 +14,8 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for converting UI amount to amount in SPL.
   static StructLayout _layout(int length) => LayoutConst.struct([
-        LayoutConst.u8(property: "instruction"),
-        LayoutConst.blob(length, property: "amount"),
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.blob(length, property: 'amount'),
       ]);
 
   /// Constructs an SPLTokenUiAmountToAmountLayout instance from buffer.
@@ -26,7 +26,7 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
         bytes: bytes,
         instruction: SPLTokenProgramInstruction.uiAmountToAmount.insturction);
     return SPLTokenUiAmountToAmountLayout(
-        amount: StringUtils.decode(decode["amount"]));
+        amount: StringUtils.decode(decode['amount']));
   }
 
   /// Returns the layout structure.
@@ -41,6 +41,6 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount};
+    return {'amount': amount};
   }
 }

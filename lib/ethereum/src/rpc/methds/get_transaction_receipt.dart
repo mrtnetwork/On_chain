@@ -5,12 +5,13 @@ import 'package:on_chain/ethereum/src/models/transaction_receipt.dart';
 /// Returns the receipt of a transaction by transaction hash.
 /// That the receipt is not available for pending transactions.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getTransactionReceipt)
-class RPCGetTransactionReceipt extends ETHRPCRequest<TransactionReceipt?> {
-  RPCGetTransactionReceipt({required this.transactionHash});
+class EthereumRequestGetTransactionReceipt
+    extends EthereumRequest<TransactionReceipt?, Map<String, dynamic>?> {
+  EthereumRequestGetTransactionReceipt({required this.transactionHash});
 
   /// eth_getTransactionReceipt
   @override
-  EthereumMethods get method => EthereumMethods.getTransactionReceipt;
+  String get method => EthereumMethods.getTransactionReceipt.value;
 
   /// hash of a transaction
   final String transactionHash;
@@ -28,6 +29,6 @@ class RPCGetTransactionReceipt extends ETHRPCRequest<TransactionReceipt?> {
 
   @override
   String toString() {
-    return "RPCGetTransactionReceipt{${toJson()}}";
+    return 'EthereumRequestGetTransactionReceipt{${toJson()}}';
   }
 }

@@ -1,5 +1,5 @@
 /// Library for Ethereum-related functionality and utilities.
-library onchain_ethereum;
+library;
 
 /// Export individual components for ease of use.
 ///

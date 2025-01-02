@@ -1,91 +1,82 @@
-import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
+import 'package:on_chain/ethereum/src/models/block_tag.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-import '../../models/block_tag.dart';
-
-/// An abstract class representing Ethereum RPC request parameters.
-abstract class ETHRequestParams {
-// The Ethereum method associated with the request.
-  abstract final EthereumMethods method;
-
-  /// Converts the request parameters to a JSON representation.
-  List<dynamic> toJson();
-}
-
 /// Represents the details of an Ethereum JSON-RPC request.
-class ETHRequestDetails {
-  const ETHRequestDetails(
-      {required this.id, required this.method, required this.params});
-
-  /// The unique identifier for the JSON-RPC request.
-  final int id;
+class EthereumRequestDetails extends BaseServiceRequestParams {
+  const EthereumRequestDetails({
+    required super.requestID,
+    required super.type,
+    required super.headers,
+    required this.method,
+    required this.jsonBody,
+  });
 
   /// The Ethereum method name for the request.
   final String method;
 
   /// The JSON-formatted string containing the request parameters.
-  final String params;
+  final Map<String, dynamic> jsonBody;
 
-  /// Converts the request parameters to a JSON-formatted string.
-  String toRequestBody() {
-    return params;
+  @override
+  List<int>? body() {
+    return StringUtils.encode(StringUtils.fromJson(jsonBody));
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {'method': method, 'body': jsonBody, 'id': requestID, 'type': type};
+  }
+
+  @override
+  Uri toUri(String uri) {
+    return Uri.parse(uri);
   }
 }
 
-/// An abstract class representing Ethereum lookup block requests.
-abstract class LookupBlockRequest {
-  /// The block number for the request, defaulting to [BlockTagOrNumber.latest].
-  LookupBlockRequest({this.blockNumber = BlockTagOrNumber.latest});
+/// An abstract class representing Ethereum JSON-RPC requests with generic response types.
+abstract class EthereumRequest<RESULT, SERVICERESPONSE>
+    extends BaseServiceRequest<RESULT, SERVICERESPONSE,
+        EthereumRequestDetails> {
+  const EthereumRequest({this.blockNumber});
 
-  final BlockTagOrNumber? blockNumber;
+  // The Ethereum method associated with the request.
+  abstract final String method;
 
   /// Converts the request parameters to a JSON representation.
   List<dynamic> toJson();
-}
 
-/// An abstract class representing Ethereum JSON-RPC requests with generic response types.
-abstract class ETHRPCRequest<T> extends LookupBlockRequest
-    implements ETHRequestParams {
-  ETHRPCRequest({BlockTagOrNumber? blockNumber})
-      : super(blockNumber: blockNumber);
-
-  /// A validation property (not used in this implementation).
-  String? get validate => null;
+  final BlockTagOrNumber? blockNumber;
 
   /// Converts a dynamic response to a BigInt, handling hexadecimal conversion.
   static BigInt onBigintResponse(dynamic result) {
-    if (result == "0x") return BigInt.zero;
+    if (result == '0x') return BigInt.zero;
     return BigInt.parse(StringUtils.strip0x(result), radix: 16);
   }
 
   /// Converts a dynamic response to an integer, handling hexadecimal conversion.
   static int onIntResponse(dynamic result) {
-    if (result == "0x") return 0;
+    if (result == '0x') return 0;
     return int.parse(StringUtils.strip0x(result), radix: 16);
   }
 
-  /// Converts a dynamic response to the generic type [T].
-  T onResonse(dynamic result) {
-    return result as T;
-  }
-
-  /// Converts the request parameters to a [ETHRequestDetails] object.
-  ETHRequestDetails toRequest(int requestId) {
-    List<dynamic> inJson = toJson();
+  /// Converts the request parameters to a [EthereumRequestDetails] object.
+  @override
+  EthereumRequestDetails buildRequest(int requestId) {
+    var inJson = toJson();
     inJson.removeWhere((v) => v == null);
     inJson = inJson.map((e) {
       if (e is BlockTagOrNumber) return e.toJson();
       return e;
     }).toList();
-    final params = {
-      "jsonrpc": "2.0",
-      "method": method.value,
-      "params": inJson,
-      "id": requestId,
-    };
-    return ETHRequestDetails(
-        id: requestId,
-        params: StringUtils.fromJson(params),
-        method: method.value);
+    return EthereumRequestDetails(
+        requestID: requestId,
+        jsonBody: ServiceProviderUtils.buildJsonRPCParams(
+            requestId: requestId, method: method, params: inJson),
+        method: method,
+        headers: ServiceConst.defaultPostHeaders,
+        type: requestType);
   }
+
+  @override
+  RequestServiceType get requestType => RequestServiceType.post;
 }

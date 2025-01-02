@@ -32,7 +32,7 @@ class NativeScriptScriptPubkey extends NativeScript {
 
   factory NativeScriptScriptPubkey.fromJson(Map<String, dynamic> json) {
     return NativeScriptScriptPubkey(Ed25519KeyHash.fromHex(
-        json["address_key_hash"] ?? json["script_pubkey"]["address_key_hash"]));
+        json['address_key_hash'] ?? json['script_pubkey']['address_key_hash']));
   }
   @override
   CborObject toCbor() {
@@ -48,7 +48,7 @@ class NativeScriptScriptPubkey extends NativeScript {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "script_pubkey": {"address_key_hash": addressKeyHash.toJson()}
+      'script_pubkey': {'address_key_hash': addressKeyHash.toJson()}
     };
   }
 }

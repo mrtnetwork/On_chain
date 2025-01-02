@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Return the content of a requested block.
 /// https://blockfrost.dev/api/specific-block
 class BlockfrostRequestSpecificBlock
-    extends BlockforestRequestParam<ADABlockResponse, Map<String, dynamic>> {
+    extends BlockFrostRequest<ADABlockResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificBlock(this.hashOrNumber);
 
   /// Hash or number of the requested block.

@@ -4,15 +4,15 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the number of transactions in a block matching the given block number.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getBlockTransactionCountByNumber)
-class RPCGetBlockTransactionCountByNumber extends ETHRPCRequest<int> {
-  RPCGetBlockTransactionCountByNumber({
+class EthereumRequestGetBlockTransactionCountByNumber
+    extends EthereumRequest<int, Object> {
+  EthereumRequestGetBlockTransactionCountByNumber({
     BlockTagOrNumber tag = BlockTagOrNumber.finalized,
   }) : super(blockNumber: tag);
 
   /// eth_getBlockTransactionCountByNumber
   @override
-  EthereumMethods get method =>
-      EthereumMethods.getBlockTransactionCountByNumber;
+  String get method => EthereumMethods.getBlockTransactionCountByNumber.value;
 
   @override
   List<dynamic> toJson() {
@@ -21,11 +21,11 @@ class RPCGetBlockTransactionCountByNumber extends ETHRPCRequest<int> {
 
   @override
   int onResonse(result) {
-    return ETHRPCRequest.onIntResponse(result);
+    return EthereumRequest.onIntResponse(result);
   }
 
   @override
   String toString() {
-    return "RPCGetBlockTransactionCountByNumber{${toJson()}}";
+    return 'EthereumRequestGetBlockTransactionCountByNumber{${toJson()}}';
   }
 }

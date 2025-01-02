@@ -1,4 +1,4 @@
-part of "package:on_chain/solidity/abi/abi.dart";
+part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding tuple types.
 class TupleCoder implements ABICoder<List<dynamic>> {
@@ -11,7 +11,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
     bool isDynamic = false;
     final List<EncoderResult> encoded = [];
     if (input.length != params.components.length) {
-      throw const SolidityAbiException("Invalid argument length detected.");
+      throw const SolidityAbiException('Invalid argument length detected.');
     }
     for (int i = 0; i < params.components.length; i++) {
       final paramComponent = params.components[i];
@@ -80,7 +80,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
       AbiParameter params, List<dynamic> input, bool keepSize) {
     final List<EncoderResult> encoded = [];
     if (input.length != params.components.length) {
-      throw const SolidityAbiException("Invalid argument length detected.");
+      throw const SolidityAbiException('Invalid argument length detected.');
     }
     for (int i = 0; i < params.components.length; i++) {
       final paramComponent = params.components[i];

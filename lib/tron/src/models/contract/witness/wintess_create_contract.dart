@@ -9,8 +9,8 @@ class WitnessCreateContract extends TronBaseContract {
   factory WitnessCreateContract.fromJson(Map<String, dynamic> json) {
     return WitnessCreateContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: "owner_address"),
-      url: OnChainUtils.parseBytes(value: json['url'], name: "url"),
+          value: json['owner_address'], name: 'owner_address'),
+      url: OnChainUtils.parseBytes(value: json['url'], name: 'url'),
     );
   }
   factory WitnessCreateContract.deserialize(List<int> bytes) {
@@ -37,15 +37,15 @@ class WitnessCreateContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "url": StringUtils.tryDecode(url),
+      'owner_address': ownerAddress.toString(),
+      'url': StringUtils.tryDecode(url),
     }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [WitnessCreateContract] object to its string representation.
   @override
   String toString() {
-    return "WitnessCreateContract{${toJson()}}";
+    return 'WitnessCreateContract{${toJson()}}';
   }
 
   @override

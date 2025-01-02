@@ -49,7 +49,7 @@ class MessageHeader {
     if (index >= numStaticAccountKeys) {
       if (addressTableLookups.isEmpty) {
         throw const SolanaPluginException(
-            "Invalid index. The index must be lower than numStaticAccountKeys.");
+            'Invalid index. The index must be lower than numStaticAccountKeys.');
       }
       final lookupAccountKeysIndex = index - numStaticAccountKeys;
       final numWritableLookupAccountKeys = addressTableLookups.fold<int>(
@@ -71,6 +71,6 @@ class MessageHeader {
   /// Override the toString method to provide a string representation of the object.
   @override
   String toString() {
-    return "MessageHeader${toJson()}";
+    return 'MessageHeader${toJson()}';
   }
 }

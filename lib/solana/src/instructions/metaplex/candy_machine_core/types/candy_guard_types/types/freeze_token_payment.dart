@@ -15,26 +15,26 @@ class FreezeTokenPayment extends LayoutSerializable {
   });
   factory FreezeTokenPayment.fromJson(Map<String, dynamic> json) {
     return FreezeTokenPayment(
-        amount: json["amount"],
-        mint: json["mint"],
-        destinationAta: json["destinationAta"]);
+        amount: json['amount'],
+        mint: json['mint'],
+        destinationAta: json['destinationAta']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "amount"),
-    SolanaLayoutUtils.publicKey("mint"),
-    SolanaLayoutUtils.publicKey("destinationAta")
-  ], property: "freezeTokenPayment");
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('destinationAta')
+  ], property: 'freezeTokenPayment');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"destinationAta": destinationAta, "amount": amount, "mint": mint};
+    return {'destinationAta': destinationAta, 'amount': amount, 'mint': mint};
   }
 
   @override
   String toString() {
-    return "FreezeTokenPayment${serialize()}";
+    return 'FreezeTokenPayment${serialize()}';
   }
 }

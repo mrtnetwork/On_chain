@@ -86,7 +86,7 @@ class ADAAccountUTXOResponse {
         dataHash: json['data_hash'],
         inlineDatum: json['inline_datum'],
         referenceScriptHash: json['reference_script_hash'],
-        amount: (json["amount"] as List)
+        amount: (json['amount'] as List)
             .map((e) => ADAAmountResponse.fromJson(e))
             .toList());
   }
@@ -100,11 +100,11 @@ class ADAAccountUTXOResponse {
         'data_hash': dataHash,
         'inline_datum': inlineDatum,
         'reference_script_hash': referenceScriptHash,
-        "amount": amount.map((e) => e.toJson()).toList()
+        'amount': amount.map((e) => e.toJson()).toList()
       };
   @override
   String toString() {
-    return "ADAAccountUTXOResponse${toJson()}";
+    return 'ADAAccountUTXOResponse${toJson()}';
   }
 }
 

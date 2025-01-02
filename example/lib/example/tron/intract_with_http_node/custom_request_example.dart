@@ -1,9 +1,10 @@
 import 'package:example/example/tron/provider_service/provider_service.dart';
 import 'package:on_chain/on_chain.dart';
 
-class TronRequestGetAccountBalance
-    extends TVMRequestParam<String, Map<String, dynamic>> {
-  TronRequestGetAccountBalance({required this.address, this.visible = true});
+// ignore: camel_case_types
+class TronRequestGetAccountBalance_
+    extends TronRequest<String, Map<String, dynamic>> {
+  TronRequestGetAccountBalance_({required this.address, this.visible = true});
 
   /// address
   final TronAddress address;
@@ -15,7 +16,7 @@ class TronRequestGetAccountBalance
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address, "visible": visible};
+    return {"address": address.toAddress(visible), "visible": visible};
   }
 
   @override
@@ -38,6 +39,6 @@ void main() async {
 
   /// get account balance
   // ignore: unused_local_variable
-  final balance = await rpc.request(TronRequestGetAccountBalance(
+  final balance = await rpc.request(TronRequestGetAccountBalance_(
       address: TronAddress("TMcbQBuj5ATtm9feRiMp6QRd587hT7HHyU")));
 }

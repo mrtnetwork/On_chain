@@ -8,21 +8,21 @@ class _Utils {
   static const List<int> discriminator = [164, 101, 210, 92, 222, 14, 75, 156];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("authority"),
-    LayoutConst.string(property: "name"),
-    SolanaLayoutUtils.publicKey("accountKey"),
-    LayoutConst.u64(property: "totalShares"),
-    LayoutConst.u64(property: "totalMembers"),
-    LayoutConst.u64(property: "totalInflow"),
-    LayoutConst.u64(property: "lastSnapshotAmount"),
-    LayoutConst.u8(property: "bumpSeed"),
-    LayoutConst.u8(property: "accountOwnerBumpSeed"),
-    LayoutConst.u64(property: "totalAvailableShares"),
-    LayoutConst.u8(property: "membershipModel"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('authority'),
+    LayoutConst.string(property: 'name'),
+    SolanaLayoutUtils.publicKey('accountKey'),
+    LayoutConst.u64(property: 'totalShares'),
+    LayoutConst.u64(property: 'totalMembers'),
+    LayoutConst.u64(property: 'totalInflow'),
+    LayoutConst.u64(property: 'lastSnapshotAmount'),
+    LayoutConst.u8(property: 'bumpSeed'),
+    LayoutConst.u8(property: 'accountOwnerBumpSeed'),
+    LayoutConst.u64(property: 'totalAvailableShares'),
+    LayoutConst.u8(property: 'membershipModel'),
     LayoutConst.optional(SolanaLayoutUtils.publicKey(),
-        property: "membershipMint"),
-    LayoutConst.optional(LayoutConst.u64(), property: "totalStakedShares")
+        property: 'membershipMint'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'totalStakedShares')
   ]);
 }
 
@@ -59,21 +59,21 @@ class Fanout extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return Fanout(
-        authority: decode["authority"],
-        name: decode["name"],
-        accountKey: decode["accountKey"],
-        totalShares: decode["totalShares"],
-        totalMembers: decode["totalMembers"],
-        totalInflow: decode["totalInflow"],
-        lastSnapshotAmount: decode["lastSnapshotAmount"],
-        bumpSeed: decode["bumpSeed"],
-        accountOwnerBumpSeed: decode["accountOwnerBumpSeed"],
-        totalAvailableShares: decode["totalAvailableShares"],
-        membershipModel: MembershipModel.fromValue(decode["membershipModel"]),
-        membershipMint: decode["membershipMint"],
-        totalStakedShares: decode["totalStakedShares"]);
+        authority: decode['authority'],
+        name: decode['name'],
+        accountKey: decode['accountKey'],
+        totalShares: decode['totalShares'],
+        totalMembers: decode['totalMembers'],
+        totalInflow: decode['totalInflow'],
+        lastSnapshotAmount: decode['lastSnapshotAmount'],
+        bumpSeed: decode['bumpSeed'],
+        accountOwnerBumpSeed: decode['accountOwnerBumpSeed'],
+        totalAvailableShares: decode['totalAvailableShares'],
+        membershipModel: MembershipModel.fromValue(decode['membershipModel']),
+        membershipMint: decode['membershipMint'],
+        totalStakedShares: decode['totalStakedShares']);
   }
 
   @override
@@ -81,25 +81,25 @@ class Fanout extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "authority": authority,
-      "name": name,
-      "accountKey": accountKey,
-      "totalShares": totalShares,
-      "totalMembers": totalMembers,
-      "totalInflow": totalInflow,
-      "lastSnapshotAmount": lastSnapshotAmount,
-      "bumpSeed": bumpSeed,
-      "accountOwnerBumpSeed": accountOwnerBumpSeed,
-      "totalAvailableShares": totalAvailableShares,
-      "membershipModel": membershipModel.value,
-      "membershipMint": membershipMint,
-      "totalStakedShares": totalStakedShares
+      'discriminator': _Utils.discriminator,
+      'authority': authority,
+      'name': name,
+      'accountKey': accountKey,
+      'totalShares': totalShares,
+      'totalMembers': totalMembers,
+      'totalInflow': totalInflow,
+      'lastSnapshotAmount': lastSnapshotAmount,
+      'bumpSeed': bumpSeed,
+      'accountOwnerBumpSeed': accountOwnerBumpSeed,
+      'totalAvailableShares': totalAvailableShares,
+      'membershipModel': membershipModel.value,
+      'membershipMint': membershipMint,
+      'totalStakedShares': totalStakedShares
     };
   }
 
   @override
   String toString() {
-    return "Fanout${serialize()}";
+    return 'Fanout${serialize()}';
   }
 }

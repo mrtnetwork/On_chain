@@ -9,30 +9,30 @@ class CollectionToggle extends LayoutSerializable {
   const CollectionToggle._(this.name, this.value, this.fileds);
 
   factory CollectionToggle.fromJson(Map<String, dynamic> json) {
-    final key = json["collectionToggle"]["key"];
-    final List<dynamic> value = json["collectionToggle"]["value"];
+    final key = json['collectionToggle']['key'];
+    final List<dynamic> value = json['collectionToggle']['value'];
     switch (key) {
-      case "NoneLayout":
+      case 'NoneLayout':
         return none;
-      case "Clear":
+      case 'Clear':
         return clear;
       default:
         return CollectionToggle.set(collection: Collection.fromJson(value[0]));
     }
   }
   static const CollectionToggle none =
-      CollectionToggle._("NoneLayout", 0, null);
-  static const CollectionToggle clear = CollectionToggle._("Clear", 1, null);
+      CollectionToggle._('NoneLayout', 0, null);
+  static const CollectionToggle clear = CollectionToggle._('Clear', 1, null);
   factory CollectionToggle.set({required Collection collection}) {
-    return CollectionToggle._("Set", 2, [collection]);
+    return CollectionToggle._('Set', 2, [collection]);
   }
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum([
-      LayoutConst.none(property: "NoneLayout"),
-      LayoutConst.none(property: "Clear"),
-      LayoutConst.tuple([Collection.staticLayout], property: "Set"),
-    ], property: "collectionToggle")
+      LayoutConst.none(property: 'NoneLayout'),
+      LayoutConst.none(property: 'Clear'),
+      LayoutConst.tuple([Collection.staticLayout], property: 'Set'),
+    ], property: 'collectionToggle')
   ]);
 
   @override
@@ -41,7 +41,7 @@ class CollectionToggle extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "collectionToggle": {name: fileds?.map((e) => e.serialize()).toList()}
+      'collectionToggle': {name: fileds?.map((e) => e.serialize()).toList()}
     };
   }
 }

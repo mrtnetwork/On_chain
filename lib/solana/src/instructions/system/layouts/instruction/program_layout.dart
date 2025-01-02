@@ -7,12 +7,12 @@ abstract class SystemProgramLayout extends ProgramLayout {
   @override
   SystemProgramInstruction get instruction;
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final instruction =
-        SystemProgramInstruction.getInstruction(decode["instruction"]);
+        SystemProgramInstruction.getInstruction(decode['instruction']);
     switch (instruction) {
       case SystemProgramInstruction.create:
         return SystemCreateLayout.fromBuffer(data);

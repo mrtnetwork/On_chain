@@ -29,12 +29,12 @@ class ADATransaction with ADASerialization {
   }
   factory ADATransaction.fromJson(Map<String, dynamic> json) {
     return ADATransaction(
-        body: TransactionBody.fromJson(json["body"]),
-        witnessSet: TransactionWitnessSet.fromJson(json["witness_set"]),
-        data: json["auxiliary_data"] == null
+        body: TransactionBody.fromJson(json['body']),
+        witnessSet: TransactionWitnessSet.fromJson(json['witness_set']),
+        data: json['auxiliary_data'] == null
             ? null
-            : AuxiliaryData.fromJson(json["auxiliary_data"]),
-        isValid: json["is_valid"]);
+            : AuxiliaryData.fromJson(json['auxiliary_data']),
+        isValid: json['is_valid']);
   }
 
   ADATransaction copyWith({
@@ -64,10 +64,10 @@ class ADATransaction with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "body": body.toJson(),
-      "witness_set": witnessSet.toJson(),
-      "is_valid": isValid,
-      "auxiliary_data": data?.toJson()
+      'body': body.toJson(),
+      'witness_set': witnessSet.toJson(),
+      'is_valid': isValid,
+      'auxiliary_data': data?.toJson()
     };
   }
 

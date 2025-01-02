@@ -11,27 +11,27 @@ class Bid extends LayoutSerializable {
   const Bid({required this.amount, required this.buyerTradeState});
   factory Bid.fromJson(Map<String, dynamic> json) {
     return Bid(
-        amount: json["amount"], buyerTradeState: json["buyerTradeState"]);
+        amount: json['amount'], buyerTradeState: json['buyerTradeState']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u8(property: "version"),
-    LayoutConst.u64(property: "amount"),
-    SolanaLayoutUtils.publicKey("buyerTradeState")
-  ], property: "highestBid");
+    LayoutConst.u8(property: 'version'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('buyerTradeState')
+  ], property: 'highestBid');
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "version": version.value,
-      "amount": amount,
-      "buyerTradeState": buyerTradeState,
+      'version': version.value,
+      'amount': amount,
+      'buyerTradeState': buyerTradeState,
     };
   }
 
   @override
   String toString() {
-    return "Bid${serialize()}";
+    return 'Bid${serialize()}';
   }
 }

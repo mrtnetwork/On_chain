@@ -12,29 +12,29 @@ class AddCardToPack extends LayoutSerializable {
   });
   factory AddCardToPack.fromJson(Map<String, dynamic> json) {
     return AddCardToPack(
-        maxSupply: json["maxSupply"],
-        weight: json["weight"],
-        index: json["index"]);
+        maxSupply: json['maxSupply'],
+        weight: json['weight'],
+        index: json['index']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u32(property: "maxSupply"),
-    LayoutConst.u16(property: "weight"),
-    LayoutConst.u32(property: "index"),
-  ], property: "addCardToPack");
+    LayoutConst.u32(property: 'maxSupply'),
+    LayoutConst.u16(property: 'weight'),
+    LayoutConst.u32(property: 'index'),
+  ], property: 'addCardToPack');
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "maxSupply": maxSupply,
-      "weight": weight,
-      "index": index,
+      'maxSupply': maxSupply,
+      'weight': weight,
+      'index': index,
     };
   }
 
   @override
   String toString() {
-    return "AddCardToPack${serialize()}";
+    return 'AddCardToPack${serialize()}';
   }
 }

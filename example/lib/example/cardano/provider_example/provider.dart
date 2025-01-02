@@ -1,17 +1,17 @@
-import 'dart:convert';
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:http/http.dart' as http;
 import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 import 'package:on_chain/ada/src/provider/service/service.dart';
 
-class BlockforestHTTPProvider implements BlockfrostServiceProvider {
-  BlockforestHTTPProvider(
+class BlockFrostHTTPProvider implements BlockFrostServiceProvider {
+  BlockFrostHTTPProvider(
       {required this.url,
       this.version = "v0",
       this.projectId,
       http.Client? client,
       this.defaultRequestTimeout = const Duration(seconds: 30)})
       : client = client ?? http.Client();
-  @override
+
   final String url;
   final String version;
   final String? projectId;
@@ -19,31 +19,28 @@ class BlockforestHTTPProvider implements BlockfrostServiceProvider {
   final Duration defaultRequestTimeout;
 
   @override
-  Future<dynamic> get(BlockforestRequestDetails params,
-      [Duration? timeout]) async {
-    final response =
-        await client.get(Uri.parse(params.url(url, version)), headers: {
-      'Content-Type': 'application/json',
-      "Accept": "application/json",
-      if (projectId != null) ...{"project_id": projectId!},
-    }).timeout(timeout ?? defaultRequestTimeout);
-    final data = json.decode(response.body);
-    return data;
-  }
-
-  @override
-  Future<dynamic> post(BlockforestRequestDetails params,
-      [Duration? timeout]) async {
+  Future<BaseServiceResponse<T>> doRequest<T>(BlockFrostRequestDetails params,
+      {Duration? timeout}) async {
+    if (params.type == RequestServiceType.get) {
+      final response =
+          await client.get(params.toUri(url, version: version), headers: {
+        'Content-Type': 'application/json',
+        "Accept": "application/json",
+        ...params.headers,
+        if (projectId != null) ...{"project_id": projectId!},
+      }).timeout(timeout ?? defaultRequestTimeout);
+      return params.toResponse(response.bodyBytes, response.statusCode);
+    }
     final response = await client
-        .post(Uri.parse(params.url(url, version)),
+        .post(params.toUri(url, version: version),
             headers: {
+              'Content-Type': 'application/json',
               "Accept": "application/json",
+              ...params.headers,
               if (projectId != null) ...{"project_id": projectId!},
-              ...params.header
             },
-            body: params.body)
+            body: params.body())
         .timeout(timeout ?? defaultRequestTimeout);
-    final data = json.decode(response.body);
-    return data;
+    return params.toResponse(response.bodyBytes, response.statusCode);
   }
 }

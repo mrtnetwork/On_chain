@@ -29,21 +29,21 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
         bytes: bytes,
         instruction: StakePoolProgramInstruction.redelegate.insturction);
     return StakePoolReDelegateLayout(
-        lamports: decode["lamports"],
-        sourceTransientStakeSeed: decode["sourceTransientStakeSeed"],
-        ephemeralStakeSeed: decode["ephemeralStakeSeed"],
-        destinationTransientStakeSeed: decode["destinationTransientStakeSeed"]);
+        lamports: decode['lamports'],
+        sourceTransientStakeSeed: decode['sourceTransientStakeSeed'],
+        ephemeralStakeSeed: decode['ephemeralStakeSeed'],
+        destinationTransientStakeSeed: decode['destinationTransientStakeSeed']);
   }
 
   @override
   StakePoolProgramInstruction get instruction =>
       StakePoolProgramInstruction.redelegate;
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.ns64(property: "lamports"),
-    LayoutConst.ns64(property: "sourceTransientStakeSeed"),
-    LayoutConst.ns64(property: "ephemeralStakeSeed"),
-    LayoutConst.ns64(property: "destinationTransientStakeSeed")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'sourceTransientStakeSeed'),
+    LayoutConst.ns64(property: 'ephemeralStakeSeed'),
+    LayoutConst.ns64(property: 'destinationTransientStakeSeed')
   ]);
 
   @override
@@ -52,10 +52,10 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "lamports": lamports,
-      "sourceTransientStakeSeed": sourceTransientStakeSeed,
-      "ephemeralStakeSeed": ephemeralStakeSeed,
-      "destinationTransientStakeSeed": destinationTransientStakeSeed
+      'lamports': lamports,
+      'sourceTransientStakeSeed': sourceTransientStakeSeed,
+      'ephemeralStakeSeed': ephemeralStakeSeed,
+      'destinationTransientStakeSeed': destinationTransientStakeSeed
     };
   }
 }

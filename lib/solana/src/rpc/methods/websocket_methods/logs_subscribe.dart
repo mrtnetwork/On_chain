@@ -4,9 +4,8 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Subscribe to transaction logging.
 /// https://solana.com/docs/rpc/websocket/logssubscribe
-class SolanaRPClogsSubscribe extends SolanaRPCRequest<int> {
-  const SolanaRPClogsSubscribe({required this.filter, Commitment? commitment})
-      : super(commitment: commitment);
+class SolanaRequestlogsSubscribe extends SolanaRequest<int, int> {
+  const SolanaRequestlogsSubscribe({required this.filter, super.commitment});
 
   /// blockSubscribe
   @override
@@ -19,14 +18,9 @@ class SolanaRPClogsSubscribe extends SolanaRPCRequest<int> {
   List<dynamic> toJson() {
     return [
       filter.toJson(),
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
       ])
     ];
-  }
-
-  @override
-  int onResonse(result) {
-    return result;
   }
 }

@@ -19,13 +19,13 @@ class NameServiceReallocLayout extends NameServiceProgramLayout {
       bytes: data,
       instruction: NameServiceProgramInstruction.realloc.insturction,
     );
-    return NameServiceReallocLayout(space: decode["space"]);
+    return NameServiceReallocLayout(space: decode['space']);
   }
 
   /// The layout structure.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u32(property: "space"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'space'),
   ]);
 
   /// The layout structure.
@@ -40,6 +40,6 @@ class NameServiceReallocLayout extends NameServiceProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"space": space};
+    return {'space': space};
   }
 }

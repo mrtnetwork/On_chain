@@ -82,8 +82,8 @@ class AuthorityType {
     try {
       return values.firstWhere((element) => element.value == value);
     } on StateError {
-      throw SolanaPluginException("No AuthorityType found for the given value.",
-          details: {"value": value});
+      throw SolanaPluginException('No AuthorityType found for the given value.',
+          details: {'value': value});
     }
   }
 }

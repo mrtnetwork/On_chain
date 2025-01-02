@@ -22,45 +22,45 @@ class GumdropConfigData extends LayoutSerializable {
       required this.maxNumberOfLines});
   factory GumdropConfigData.fromJson(Map<String, dynamic> json) {
     return GumdropConfigData(
-        uuid: json["uuid"],
-        symbol: json["symbol"],
-        sellerFeeBasisPoints: json["sellerFeeBasisPoints"],
+        uuid: json['uuid'],
+        symbol: json['symbol'],
+        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
         creators:
-            (json["creators"] as List).map((e) => Creator.fromJson(e)).toList(),
-        maxSupply: json["maxSupply"],
-        isMutable: json["isMutable"],
-        retainAuthority: json["retainAuthority"],
-        maxNumberOfLines: json["maxNumberOfLines"]);
+            (json['creators'] as List).map((e) => Creator.fromJson(e)).toList(),
+        maxSupply: json['maxSupply'],
+        isMutable: json['isMutable'],
+        retainAuthority: json['retainAuthority'],
+        maxNumberOfLines: json['maxNumberOfLines']);
   }
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: "uuid"),
-    LayoutConst.string(property: "symbol"),
-    LayoutConst.u16(property: "sellerFeeBasisPoints"),
-    LayoutConst.vec(Creator.creatorLayout, property: "creators"),
-    LayoutConst.u64(property: "maxSupply"),
-    LayoutConst.boolean(property: "isMutable"),
-    LayoutConst.boolean(property: "retainAuthority"),
-    LayoutConst.u32(property: "maxNumberOfLines"),
-  ], property: "configData");
+    LayoutConst.string(property: 'uuid'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+    LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
+    LayoutConst.u64(property: 'maxSupply'),
+    LayoutConst.boolean(property: 'isMutable'),
+    LayoutConst.boolean(property: 'retainAuthority'),
+    LayoutConst.u32(property: 'maxNumberOfLines'),
+  ], property: 'configData');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
     return {
-      "uuid": uuid,
-      "symbol": symbol,
-      "sellerFeeBasisPoints": sellerFeeBasisPoints,
-      "creators": creators.map((e) => e.serialize()).toList(),
-      "maxSupply": maxSupply,
-      "isMutable": isMutable,
-      "retainAuthority": retainAuthority,
-      "maxNumberOfLines": maxNumberOfLines
+      'uuid': uuid,
+      'symbol': symbol,
+      'sellerFeeBasisPoints': sellerFeeBasisPoints,
+      'creators': creators.map((e) => e.serialize()).toList(),
+      'maxSupply': maxSupply,
+      'isMutable': isMutable,
+      'retainAuthority': retainAuthority,
+      'maxNumberOfLines': maxNumberOfLines
     };
   }
 
   @override
   String toString() {
-    return "GumdropConfigData${serialize()}";
+    return 'GumdropConfigData${serialize()}';
   }
 }

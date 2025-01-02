@@ -23,6 +23,6 @@ class ADAPoolDelegatorInfoResponse {
 
   @override
   String toString() {
-    return "ADAPoolDelegatorInfoResponse${toJson()}";
+    return 'ADAPoolDelegatorInfoResponse${toJson()}';
   }
 }

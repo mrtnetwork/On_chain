@@ -10,14 +10,14 @@ class ExchangeTransactionContract extends TronBaseContract {
   factory ExchangeTransactionContract.fromJson(Map<String, dynamic> json) {
     return ExchangeTransactionContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       exchangeId: OnChainUtils.parseBigInt(
-          value: json["exchange_id"], name: "exchange_id"),
+          value: json['exchange_id'], name: 'exchange_id'),
       tokenId:
-          OnChainUtils.parseBytes(value: json["token_id"], name: "token_id"),
-      quant: OnChainUtils.parseBigInt(value: json["quant"], name: "quant"),
+          OnChainUtils.parseBytes(value: json['token_id'], name: 'token_id'),
+      quant: OnChainUtils.parseBigInt(value: json['quant'], name: 'quant'),
       expected:
-          OnChainUtils.parseBigInt(value: json["expected"], name: "expected"),
+          OnChainUtils.parseBigInt(value: json['expected'], name: 'expected'),
     );
   }
 
@@ -65,18 +65,18 @@ class ExchangeTransactionContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "exchange_id": exchangeId?.toString(),
-      "token_id": BytesUtils.tryToHexString(tokenId),
-      "quant": quant?.toString(),
-      "expected": expected?.toString(),
+      'owner_address': ownerAddress.toString(),
+      'exchange_id': exchangeId?.toString(),
+      'token_id': BytesUtils.tryToHexString(tokenId),
+      'quant': quant?.toString(),
+      'expected': expected?.toString(),
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [ExchangeTransactionContract] object to its string representation.
   @override
   String toString() {
-    return "ExchangeTransactionContract{${toJson()}}";
+    return 'ExchangeTransactionContract{${toJson()}}';
   }
 
   @override

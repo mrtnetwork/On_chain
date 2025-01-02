@@ -29,23 +29,23 @@ class MetaplexGumdropClaimEditionLayout extends MetaplexGumdropProgramLayout {
         instruction:
             MetaplexGumdropProgramInstruction.claimEdition.insturction);
     return MetaplexGumdropClaimEditionLayout(
-        claimBump: decode["claimBump"],
-        index: decode["index"],
-        amount: decode["amount"],
-        edition: decode["edition"],
-        claimantSecret: decode["claimantSecret"],
-        proof: (decode["proof"] as List).cast());
+        claimBump: decode['claimBump'],
+        index: decode['index'],
+        amount: decode['amount'],
+        edition: decode['edition'],
+        claimantSecret: decode['claimantSecret'],
+        proof: (decode['proof'] as List).cast());
   }
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "claimBump"),
-    LayoutConst.u64(property: "index"),
-    LayoutConst.u64(property: "amount"),
-    LayoutConst.u64(property: "edition"),
-    SolanaLayoutUtils.publicKey("claimantSecret"),
-    LayoutConst.vec(LayoutConst.blob(32), property: "proof"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'claimBump'),
+    LayoutConst.u64(property: 'index'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u64(property: 'edition'),
+    SolanaLayoutUtils.publicKey('claimantSecret'),
+    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
   ]);
 
   @override
@@ -58,12 +58,12 @@ class MetaplexGumdropClaimEditionLayout extends MetaplexGumdropProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "claimBump": claimBump,
-      "index": index,
-      "amount": amount,
-      "edition": edition,
-      "claimantSecret": claimantSecret,
-      "proof": proof
+      'claimBump': claimBump,
+      'index': index,
+      'amount': amount,
+      'edition': edition,
+      'claimantSecret': claimantSecret,
+      'proof': proof
     };
   }
 }

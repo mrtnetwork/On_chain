@@ -38,11 +38,11 @@ class NativeScriptScriptNOfK extends NativeScript {
 
   factory NativeScriptScriptNOfK.fromJson(Map<String, dynamic> json) {
     return NativeScriptScriptNOfK(
-        nativeScripts: ((json["native_scripts"] ??
-                json["script_n_of_k"]["native_scripts"]) as List)
+        nativeScripts: ((json['native_scripts'] ??
+                json['script_n_of_k']['native_scripts']) as List)
             .map((e) => NativeScript.fromJson(e))
             .toList(),
-        n: json["n"] ?? json["script_n_of_k"]["n"]);
+        n: json['n'] ?? json['script_n_of_k']['n']);
   }
 
   @override
@@ -60,9 +60,9 @@ class NativeScriptScriptNOfK extends NativeScript {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "script_n_of_k": {
-        "n": n,
-        "native_scripts": nativeScripts.map((e) => e.toJson()).toList(),
+      'script_n_of_k': {
+        'n': n,
+        'native_scripts': nativeScripts.map((e) => e.toJson()).toList(),
       }
     };
   }

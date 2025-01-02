@@ -17,30 +17,30 @@ class Path extends LayoutSerializable {
       : proof = List<SolAddress>.unmodifiable(proof);
   factory Path.fromJson(Map<String, dynamic> json) {
     return Path(
-        proof: (json["proof"] as List).cast(),
-        index: json["index"],
-        leaf: json["leaf"],
-        padding: json["padding"]);
+        proof: (json['proof'] as List).cast(),
+        index: json['index'],
+        leaf: json['leaf'],
+        padding: json['padding']);
   }
   static StructLayout staticLayout({required int maxDepth}) =>
       LayoutConst.struct([
         LayoutConst.array(SolanaLayoutUtils.publicKey(), maxDepth,
-            property: "proof"),
-        SolanaLayoutUtils.publicKey("leaf"),
-        LayoutConst.u32(property: "index"),
-        LayoutConst.u32(property: "padding"),
-      ], property: "path");
+            property: 'proof'),
+        SolanaLayoutUtils.publicKey('leaf'),
+        LayoutConst.u32(property: 'index'),
+        LayoutConst.u32(property: 'padding'),
+      ], property: 'path');
 
   @override
   StructLayout get layout => staticLayout(maxDepth: proof.length);
 
   @override
   Map<String, dynamic> serialize() {
-    return {"proof": proof, "leaf": leaf, "index": index, "padding": padding};
+    return {'proof': proof, 'leaf': leaf, 'index': index, 'padding': padding};
   }
 
   @override
   String toString() {
-    return "Path${serialize()}";
+    return 'Path${serialize()}';
   }
 }

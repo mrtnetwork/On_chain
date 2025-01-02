@@ -30,6 +30,6 @@ class ADAMetadataLabelResponse {
 
   @override
   String toString() {
-    return "ADAMetadataLabelResponse{${toJson()}}";
+    return 'ADAMetadataLabelResponse{${toJson()}}';
   }
 }

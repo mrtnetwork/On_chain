@@ -15,11 +15,11 @@ class SystemInitializeNonceAccountLayout extends SystemProgramLayout {
         bytes: data,
         instruction:
             SystemProgramInstruction.initializeNonceAccount.insturction);
-    return SystemInitializeNonceAccountLayout(authorized: decode["authorized"]);
+    return SystemInitializeNonceAccountLayout(authorized: decode['authorized']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    SolanaLayoutUtils.publicKey("authorized")
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('authorized')
   ]);
 
   @override
@@ -29,6 +29,6 @@ class SystemInitializeNonceAccountLayout extends SystemProgramLayout {
       SystemProgramInstruction.initializeNonceAccount;
   @override
   Map<String, dynamic> serialize() {
-    return {"authorized": authorized};
+    return {'authorized': authorized};
   }
 }

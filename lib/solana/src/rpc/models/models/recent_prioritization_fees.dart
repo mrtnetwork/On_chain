@@ -9,6 +9,6 @@ class RecentPrioritizationFees {
       {required this.slot, required this.prioritizationFee});
   factory RecentPrioritizationFees.fromJson(Map<String, dynamic> json) {
     return RecentPrioritizationFees(
-        slot: json["slot"], prioritizationFee: json["prioritizationFee"]);
+        slot: json['slot'], prioritizationFee: json['prioritizationFee']);
   }
 }

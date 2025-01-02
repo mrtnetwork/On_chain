@@ -6,22 +6,19 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// The returned signature is the first signature in the transaction, which is used to identify the transaction (transaction id).
 /// This identifier can be easily extracted from the transaction data before submission.
 /// https://solana.com/docs/rpc/http/sendtransaction
-class SolanaRPCSendTransaction extends SolanaRPCRequest<String> {
-  const SolanaRPCSendTransaction({
+class SolanaRequestSendTransaction extends SolanaRequest<String, String> {
+  const SolanaRequestSendTransaction({
     required this.encodedTransaction,
     this.maxRetries,
     this.skipPreflight = false,
-    Commitment? commitment = Commitment.finalized,
-    SolanaRPCEncoding? encoding = SolanaRPCEncoding.base58,
-    MinContextSlot? minContextSlot,
-  }) : super(
-            commitment: commitment,
-            encoding: encoding,
-            minContextSlot: minContextSlot);
+    super.commitment = Commitment.finalized,
+    super.encoding = SolanaRequestEncoding.base58,
+    super.minContextSlot,
+  });
 
   /// sendtransaction
   @override
-  String get method => SolanaRPCMethods.sendTransaction.value;
+  String get method => SolanaRequestMethods.sendTransaction.value;
 
   /// Fully-signed Transaction, as encoded string.
   final String encodedTransaction;
@@ -38,11 +35,11 @@ class SolanaRPCSendTransaction extends SolanaRPCRequest<String> {
   List<dynamic> toJson() {
     return [
       encodedTransaction,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         encoding?.toJson(),
-        {"skipPreflight": skipPreflight},
+        {'skipPreflight': skipPreflight},
         commitment?.toJson(true),
-        {"maxRetries": maxRetries},
+        {'maxRetries': maxRetries},
         minContextSlot?.toJson()
       ]),
     ];

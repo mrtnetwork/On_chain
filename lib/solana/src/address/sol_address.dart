@@ -5,7 +5,7 @@ import 'package:on_chain/solana/src/keypair/public_key.dart';
 /// Represents a Solana address.
 class SolAddress {
   static const defaultPubKey =
-      SolAddress.unchecked("11111111111111111111111111111111");
+      SolAddress.unchecked('11111111111111111111111111111111');
 
   final String address;
   const SolAddress._(this.address);
@@ -23,7 +23,7 @@ class SolAddress {
   factory SolAddress.uncheckBytes(List<int> keyBytes) {
     if (keyBytes.length != 32) {
       throw const SolanaPluginException(
-          "The public key must have a length of 32 bytes.");
+          'The public key must have a length of 32 bytes.');
     }
     return SolAddress._(Base58Encoder.encode(keyBytes));
   }
@@ -66,7 +66,7 @@ class SolAddress {
   bool get isOnCurve => Ed25519PublicKey.isValidBytes(toBytes());
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     return other is SolAddress && other.address == address;
   }
 

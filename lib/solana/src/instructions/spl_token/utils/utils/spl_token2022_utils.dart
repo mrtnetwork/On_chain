@@ -58,18 +58,18 @@ class SPLToken2022Utils {
       final tlvData = accountBytes.sublist(extensionBytesOffset);
       if (tlvData.length < (extensionType.layoutSize ?? 0)) {
         throw SolanaPluginException(
-            "Account extension data length is insufficient.",
+            'Account extension data length is insufficient.',
             details: {
-              "Expected": extensionType.layoutSize,
-              "length": tlvData.length
+              'Expected': extensionType.layoutSize,
+              'length': tlvData.length
             });
       }
       if (type != null) {
         final accountType = SolanaTokenAccountType.fromValue(
             accountBytes[SolanaTokenAccountUtils.accountSize]);
         if (accountType != type) {
-          throw SolanaPluginException("invalid account type",
-              details: {"Excepted": type.name, "Type": accountType.name});
+          throw SolanaPluginException('invalid account type',
+              details: {'Excepted': type.name, 'Type': accountType.name});
         }
       }
       final extensionBytes = SPLToken2022Utils.getExtensionData(
@@ -77,7 +77,7 @@ class SPLToken2022Utils {
 
       return extensionBytes!;
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }

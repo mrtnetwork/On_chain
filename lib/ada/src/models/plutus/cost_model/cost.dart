@@ -14,7 +14,7 @@ class CostModel with ADASerialization {
     if (cbor is CborBytesValue) {
       final viewDecoding = CborObject.fromCbor(cbor.value)
           .cast<CborListValue<CborObject>>(
-              "Invalid CostModel view encoding cbor bytes.");
+              'Invalid CostModel view encoding cbor bytes.');
       return CostModel(viewDecoding.value.map((e) => e.getInteger()).toList());
     }
     return CostModel(cbor

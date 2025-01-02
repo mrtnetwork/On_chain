@@ -13,21 +13,21 @@ class StakePoolWithdrawStakeLayout extends StakePoolProgramLayout {
         layout: _layout,
         bytes: bytes,
         instruction: StakePoolProgramInstruction.withdrawStake.insturction);
-    return StakePoolWithdrawStakeLayout(poolTokens: decode["poolTokens"]);
+    return StakePoolWithdrawStakeLayout(poolTokens: decode['poolTokens']);
   }
 
   @override
   StakePoolProgramInstruction get instruction =>
       StakePoolProgramInstruction.withdrawStake;
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.ns64(property: "poolTokens")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'poolTokens')
   ]);
   @override
   StructLayout get layout => _layout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"poolTokens": poolTokens};
+    return {'poolTokens': poolTokens};
   }
 }

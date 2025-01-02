@@ -10,10 +10,10 @@ import 'layouts/layouts.dart';
 /// Represents instructions for the AddressLookupTable program.
 class AddressLookupTableProgram extends TransactionInstruction {
   AddressLookupTableProgram({
-    required List<AccountMeta> keys,
+    required super.keys,
     required ProgramLayout layout,
-    SolAddress programId = AddressLookupTableProgramConst.programId,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+    super.programId = AddressLookupTableProgramConst.programId,
+  }) : super(data: layout.toBytes());
   factory AddressLookupTableProgram.fromBytes({
     required SolAddress programId,
     required List<AccountMeta> keys,

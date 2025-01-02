@@ -15,10 +15,10 @@ class ExtraAccountMeta extends LayoutSerializable {
       : addressConfig = BytesUtils.toBytes(addressConfig, unmodifiable: true);
   factory ExtraAccountMeta.fromJson(Map<String, dynamic> json) {
     return ExtraAccountMeta(
-        discriminator: json["discriminator"],
-        addressConfig: (json["addressConfig"] as List).cast(),
-        isSigner: json["isSigner"],
-        isWritable: json["isWritable"]);
+        discriminator: json['discriminator'],
+        addressConfig: (json['addressConfig'] as List).cast(),
+        isSigner: json['isSigner'],
+        isWritable: json['isWritable']);
   }
 
   static StructLayout staticLayout = LayoutConst.struct([
@@ -26,22 +26,22 @@ class ExtraAccountMeta extends LayoutSerializable {
     LayoutConst.blob(32, property: 'addressConfig'),
     LayoutConst.boolean(property: 'isSigner'),
     LayoutConst.boolean(property: 'isWritable'),
-  ], property: "extraAccountMeta");
+  ], property: 'extraAccountMeta');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": discriminator,
-      "addressConfig": addressConfig,
-      "isSigner": isSigner,
-      "isWritable": isWritable
+      'discriminator': discriminator,
+      'addressConfig': addressConfig,
+      'isSigner': isSigner,
+      'isWritable': isWritable
     };
   }
 
   @override
   String toString() {
-    return "ExtraAccountMeta${serialize()}";
+    return 'ExtraAccountMeta${serialize()}';
   }
 }

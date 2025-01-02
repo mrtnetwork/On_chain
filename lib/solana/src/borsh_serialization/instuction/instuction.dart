@@ -14,12 +14,12 @@ class UnknownProgramInstruction implements ProgramLayoutInstruction {
   final String name;
   const UnknownProgramInstruction(this.insturction, this.name);
   static const UnknownProgramInstruction unknown =
-      UnknownProgramInstruction(null, "Unknown");
+      UnknownProgramInstruction(null, 'Unknown');
 
   static const List<UnknownProgramInstruction> values = [unknown];
 
   @override
-  String get programName => "Unknown";
+  String get programName => 'Unknown';
   @override
   SolAddress get programAddress => throw UnimplementedError();
 }

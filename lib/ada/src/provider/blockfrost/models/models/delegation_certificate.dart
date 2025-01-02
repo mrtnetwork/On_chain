@@ -39,6 +39,6 @@ class ADATransactionDelegationCertificateResponse {
 
   @override
   String toString() {
-    return "ADATransactionDelegationCertificateResponse${toJson()}";
+    return 'ADATransactionDelegationCertificateResponse${toJson()}';
   }
 }

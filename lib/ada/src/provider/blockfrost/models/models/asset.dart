@@ -69,7 +69,7 @@ class ADAAssetResponse {
       };
   @override
   String toString() {
-    return "ADAAssetResponse${toJson()}";
+    return 'ADAAssetResponse${toJson()}';
   }
 }
 
@@ -99,7 +99,7 @@ class ADAOnchainMetadata {
       };
   @override
   String toString() {
-    return "ADAOnchainMetadata${toJson()}";
+    return 'ADAOnchainMetadata${toJson()}';
   }
 }
 
@@ -153,6 +153,6 @@ class ADAOffchainMetadata {
 
   @override
   String toString() {
-    return "ADAOffchainMetadata${toJson()}";
+    return 'ADAOffchainMetadata${toJson()}';
   }
 }

@@ -11,14 +11,14 @@ class PlutusJsonSchema {
 
   /// A basic schema for Plutus JSON.
   static const PlutusJsonSchema basicConversions =
-      PlutusJsonSchema._(0, "BasicConversions");
+      PlutusJsonSchema._(0, 'BasicConversions');
 
   /// A detailed schema for Plutus JSON.
   static const PlutusJsonSchema detailedSchema =
-      PlutusJsonSchema._(1, "DetailedSchema");
+      PlutusJsonSchema._(1, 'DetailedSchema');
 
   @override
   String toString() {
-    return "PlutusJsonScheme.$name";
+    return 'PlutusJsonScheme.$name';
   }
 }

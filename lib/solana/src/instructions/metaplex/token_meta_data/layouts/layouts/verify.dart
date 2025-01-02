@@ -17,12 +17,12 @@ class MetaplexTokenMetaDataVerifyCollectionV1Layout
         instruction: MetaplexTokenMetaDataProgramInstruction
             .verifyCollectionV1.insturction);
     return MetaplexTokenMetaDataVerifyCollectionV1Layout(
-        verification: Verification.fromValue(decode["discriminator"]));
+        verification: Verification.fromValue(decode['discriminator']));
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator')
   ]);
 
   @override
@@ -34,6 +34,6 @@ class MetaplexTokenMetaDataVerifyCollectionV1Layout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"discriminator": verification.value};
+    return {'discriminator': verification.value};
   }
 }

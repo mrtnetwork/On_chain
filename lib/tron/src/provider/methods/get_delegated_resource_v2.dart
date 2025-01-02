@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// In Stake2.0, query the detail of resource share delegated from fromAddress to toAddress
 /// [developers.tron.network](https://developers.tron.network/reference/getdelegatedresourcev2).
 class TronRequestGetDelegatedResourceV2
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetDelegatedResourceV2(
       {required this.fromAddress,
       required this.toAddress,
@@ -26,14 +26,14 @@ class TronRequestGetDelegatedResourceV2
   @override
   Map<String, dynamic> toJson() {
     return {
-      "fromAddress": fromAddress,
-      "toAddress": toAddress,
-      "visible": visible
+      'fromAddress': fromAddress.toAddress(visible),
+      'toAddress': toAddress.toAddress(visible),
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestGetDelegatedResourceV2{${toJson()}}";
+    return 'TronRequestGetDelegatedResourceV2{${toJson()}}';
   }
 }

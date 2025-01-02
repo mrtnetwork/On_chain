@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// Submit an already serialized transaction to evaluate how much execution units it requires.
 /// https://blockfrost.dev/api/submit-a-transaction-for-execution-units-evaluation
 class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluation
-    extends BlockforestPostRequestParam<List<Map<String, dynamic>>,
+    extends BlockFrostPostRequest<List<Map<String, dynamic>>,
         Map<String, dynamic>> {
   BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluation(
       List<int> transactionCborBytes)
@@ -17,7 +17,7 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluation
       BlockfrostMethods.submitATransactionForExecutionUnitsEvaluation.url;
 
   @override
-  Map<String, String>? get header => {"Content-Type": "application/cbor"};
+  Map<String, String> get headers => {'Content-Type': 'application/cbor'};
 
   final List<int> transactionCborBytes;
 
@@ -25,5 +25,5 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluation
   List<String> get pathParameters => [];
 
   @override
-  Object get body => transactionCborBytes;
+  List<int> get body => transactionCborBytes;
 }

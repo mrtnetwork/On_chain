@@ -20,17 +20,17 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
         instruction:
             AddressLookupTableProgramInstruction.extendLookupTable.insturction);
     return AddressExtendLookupTableLayout(
-        addresses: (decode["addresses"] as List).cast<SolAddress>());
+        addresses: (decode['addresses'] as List).cast<SolAddress>());
   }
 
   // StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.padding(LayoutConst.u64(), propery: "paddingLength"),
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.padding(LayoutConst.u64(), propery: 'paddingLength'),
     LayoutConst.seq(
-      SolanaLayoutUtils.publicKey("publicKey"),
+      SolanaLayoutUtils.publicKey('publicKey'),
       LayoutConst.rustVecOffset(),
-      property: "addresses",
+      property: 'addresses',
     )
   ]);
 
@@ -43,11 +43,11 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"addresses": addresses};
+    return {'addresses': addresses};
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"addresses": addresses.map((e) => e.address).toList()};
+    return {'addresses': addresses.map((e) => e.address).toList()};
   }
 }

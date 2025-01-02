@@ -5,24 +5,24 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 /// Retrieves the account info from the provided address and deserializes
 /// the [FreezeEscrowAccount] from its data.
 class SolanaRPCGetFreezeEscrowAccount
-    extends SolanaRPCRequest<FreezeEscrowAccount?> {
+    extends SolanaRequest<FreezeEscrowAccount?, Map<String, dynamic>?> {
   const SolanaRPCGetFreezeEscrowAccount({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

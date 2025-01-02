@@ -5,24 +5,24 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 /// Retrieves the account info from the provided address and deserializes
 /// the [SPLTokenMetaDataAccount] from its data.
 class SolanaRPCGetSPLTokenMetaDataAccount
-    extends SolanaRPCRequest<SPLTokenMetaDataAccount?> {
+    extends SolanaRequest<SPLTokenMetaDataAccount?, Map<String, dynamic>?> {
   const SolanaRPCGetSPLTokenMetaDataAccount({
     required this.mintAddress,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress mintAddress;
 
   @override
   List<dynamic> toJson() {
     return [
       mintAddress.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

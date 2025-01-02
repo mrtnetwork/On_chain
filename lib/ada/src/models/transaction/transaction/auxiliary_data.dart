@@ -75,16 +75,16 @@ class AuxiliaryData with ADASerialization {
   }
   factory AuxiliaryData.fromJson(Map<String, dynamic> json) {
     return AuxiliaryData(
-        metadata: json["metadata"] == null
+        metadata: json['metadata'] == null
             ? null
-            : GeneralTransactionMetadata.fromJson(json["metadata"]),
-        nativeScripts: (json["native_scripts"] as List?)
+            : GeneralTransactionMetadata.fromJson(json['metadata']),
+        nativeScripts: (json['native_scripts'] as List?)
             ?.map((e) => NativeScript.fromJson(e))
             .toList(),
-        plutusScripts: (json["plutusScripts"] as List?)
+        plutusScripts: (json['plutusScripts'] as List?)
             ?.map((e) => PlutusScript.fromJson(e))
             .toList(),
-        preferAlonzoFormat: json["prefer_alonzo_format"]);
+        preferAlonzoFormat: json['prefer_alonzo_format']);
   }
 
   AuxiliaryData copyWith({
@@ -143,10 +143,10 @@ class AuxiliaryData with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "metadata": metadata?.toJson(),
-      "native_scripts": nativeScripts?.map((e) => e.toJson()).toList(),
-      "plutus_scripts": plutusScripts?.map((e) => e.toJson()).toList(),
-      "prefer_alonzo_format": preferAlonzoFormat
+      'metadata': metadata?.toJson(),
+      'native_scripts': nativeScripts?.map((e) => e.toJson()).toList(),
+      'plutus_scripts': plutusScripts?.map((e) => e.toJson()).toList(),
+      'prefer_alonzo_format': preferAlonzoFormat
     };
   }
 }

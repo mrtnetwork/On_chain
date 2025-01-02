@@ -17,20 +17,20 @@ class AccessListEntry {
   /// Creates an [AccessListEntry] from a JSON map.
   factory AccessListEntry.fromJson(Map<String, dynamic> json) {
     return AccessListEntry(
-        address: json["address"],
-        storageKeys: (json["storageKeys"] as List).cast());
+        address: json['address'],
+        storageKeys: (json['storageKeys'] as List).cast());
   }
 
   /// Creates an [AccessListEntry] from a serialized list of dynamic objects.
   factory AccessListEntry.fromSerialized(List<dynamic> serialized) {
     try {
-      final addr = BytesUtils.toHexString(serialized[0], prefix: "0x");
+      final addr = BytesUtils.toHexString(serialized[0], prefix: '0x');
       final storageKeys = (serialized[1] as List)
-          .map((e) => BytesUtils.toHexString(e, prefix: "0x"))
+          .map((e) => BytesUtils.toHexString(e, prefix: '0x'))
           .toList();
       return AccessListEntry(address: addr, storageKeys: storageKeys);
     } catch (e) {
-      throw const ETHPluginException("invalid AccessListEntry serialized");
+      throw const ETHPluginException('invalid AccessListEntry serialized');
     }
   }
 
@@ -44,7 +44,7 @@ class AccessListEntry {
 
   /// Converts the access list entry to a JSON map.
   Map<String, dynamic> toJson() {
-    return {"address": address, "storageKeys": storageKeys};
+    return {'address': address, 'storageKeys': storageKeys};
   }
 
   @override

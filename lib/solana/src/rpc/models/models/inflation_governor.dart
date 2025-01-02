@@ -13,10 +13,10 @@ class InflationGovernor {
       required this.terminal});
   factory InflationGovernor.fromJson(Map<String, dynamic> json) {
     return InflationGovernor(
-        foundation: json["foundation"],
-        foundationTerm: json["foundationTerm"],
-        initial: json["initial"],
-        taper: json["taper"],
-        terminal: json["terminal"]);
+        foundation: json['foundation'],
+        foundationTerm: json['foundationTerm'],
+        initial: json['initial'],
+        taper: json['taper'],
+        terminal: json['terminal']);
   }
 }

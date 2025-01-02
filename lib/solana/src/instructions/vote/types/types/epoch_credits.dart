@@ -9,26 +9,26 @@ class EpochCredits extends LayoutSerializable {
       {required this.epoch, required this.credits, required this.prevCredits});
   factory EpochCredits.fromJson(Map<String, dynamic> json) {
     return EpochCredits(
-        epoch: json["epoch"],
-        credits: json["credits"],
-        prevCredits: json["prevCredits"]);
+        epoch: json['epoch'],
+        credits: json['credits'],
+        prevCredits: json['prevCredits']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "epoch"),
-    LayoutConst.u64(property: "credits"),
-    LayoutConst.u64(property: "prevCredits"),
-  ], property: "epochCredits");
+    LayoutConst.u64(property: 'epoch'),
+    LayoutConst.u64(property: 'credits'),
+    LayoutConst.u64(property: 'prevCredits'),
+  ], property: 'epochCredits');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"epoch": epoch, "credits": credits, "prevCredits": prevCredits};
+    return {'epoch': epoch, 'credits': credits, 'prevCredits': prevCredits};
   }
 
   @override
   String toString() {
-    return "EpochCredits.${serialize()}";
+    return 'EpochCredits.${serialize()}';
   }
 }

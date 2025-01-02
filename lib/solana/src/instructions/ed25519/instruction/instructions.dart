@@ -9,12 +9,12 @@ class Ed25519ProgramInstruction implements ProgramLayoutInstruction {
   final String name;
   const Ed25519ProgramInstruction(this.insturction, this.name);
   static const Ed25519ProgramInstruction ed25519 =
-      Ed25519ProgramInstruction(null, "Ed25519");
+      Ed25519ProgramInstruction(null, 'Ed25519');
 
   static const List<Ed25519ProgramInstruction> values = [ed25519];
 
   @override
-  String get programName => "ED25519";
+  String get programName => 'ED25519';
   @override
   SolAddress get programAddress => Ed25519ProgramConst.programId;
 }

@@ -4,14 +4,14 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the balance of the account of given address.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getbalance)
-class RPCGetBalance extends ETHRPCRequest<BigInt> {
-  RPCGetBalance(
+class EthereumRequestGetBalance extends EthereumRequest<BigInt, Object> {
+  EthereumRequestGetBalance(
       {required this.address, BlockTagOrNumber? tag = BlockTagOrNumber.latest})
       : super(blockNumber: tag);
 
   /// eth_getBalance
   @override
-  EthereumMethods get method => EthereumMethods.getBalance;
+  String get method => EthereumMethods.getBalance.value;
 
   ///  address to check for balance.
   final String address;
@@ -23,11 +23,11 @@ class RPCGetBalance extends ETHRPCRequest<BigInt> {
 
   @override
   BigInt onResonse(dynamic result) {
-    return ETHRPCRequest.onBigintResponse(result);
+    return EthereumRequest.onBigintResponse(result);
   }
 
   @override
   String toString() {
-    return "RPCGetBalance{${toJson()}}";
+    return 'EthereumRequestGetBalance{${toJson()}}';
   }
 }

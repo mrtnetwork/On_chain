@@ -21,14 +21,14 @@ class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
             SPLTokenMetaDataProgramSplDiscriminate.emit.insturction);
 
     return SPLTokenMetaDataEmitLayout(
-        end: decode["end"], start: decode["start"]);
+        end: decode['end'], start: decode['start']);
   }
 
   /// The layout structure for this emit instruction.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.optionU64(property: "start"),
-    LayoutConst.optionU64(property: "end")
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.optionU64(property: 'start'),
+    LayoutConst.optionU64(property: 'end')
   ]);
 
   /// Gets the layout structure of this emit instruction.
@@ -43,6 +43,6 @@ class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
   /// Serializes the emit instruction data.
   @override
   Map<String, dynamic> serialize() {
-    return {"start": start, "end": end};
+    return {'start': start, 'end': end};
   }
 }

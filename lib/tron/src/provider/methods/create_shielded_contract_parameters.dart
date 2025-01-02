@@ -3,7 +3,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// CreateShieldedContractParameters. [developers.tron.network](https://developers.tron.network/reference/createshieldedcontractparameters).
 class TronRequestCreateShieldedContractParameters
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestCreateShieldedContractParameters(
       {this.ovk,
       this.fromAccount,
@@ -28,13 +28,13 @@ class TronRequestCreateShieldedContractParameters
   @override
   Map<String, dynamic> toJson() {
     return {
-      "ovk": ovk,
-      "from_amount": fromAccount,
-      "to_amount": toAmount,
-      "transparent_to_address": transparentToAddress,
-      "shielded_TRC20_contract_address": shieldedTRC20ContractAddress,
-      "ask": ask,
-      "nsk": nsk
+      'ovk': ovk,
+      'from_amount': fromAccount,
+      'to_amount': toAmount,
+      'transparent_to_address': transparentToAddress,
+      'shielded_TRC20_contract_address': shieldedTRC20ContractAddress,
+      'ask': ask,
+      'nsk': nsk
     };
   }
 

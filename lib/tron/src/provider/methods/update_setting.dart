@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Update the consume_user_resource_percent parameter of a smart contract
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-updatesetting).
 class TronRequestUpdateSetting
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestUpdateSetting(
       {required this.ownerAddress,
       required this.contractAddress,
@@ -34,16 +34,16 @@ class TronRequestUpdateSetting
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "contract_address": contractAddress,
-      "consume_user_resource_percent": consumeUserResourcePercent,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'contract_address': contractAddress.toAddress(visible),
+      'consume_user_resource_percent': consumeUserResourcePercent,
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestUpdateSetting{${toJson()}}";
+    return 'TronRequestUpdateSetting{${toJson()}}';
   }
 }

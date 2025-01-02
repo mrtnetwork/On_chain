@@ -16,12 +16,12 @@ class MetaplexCandyMachineSetTokenStandardLayout
         instruction: MetaplexCandyMachineProgramInstruction
             .setTokenStandard.insturction);
     return MetaplexCandyMachineSetTokenStandardLayout(
-        tokenStandard: MetaDataTokenStandard.fromJson(decode["tokenStandard"]));
+        tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']));
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.blob(8, property: 'instruction'),
     LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-        property: "tokenStandard")
+        property: 'tokenStandard')
   ]);
 
   @override
@@ -33,6 +33,6 @@ class MetaplexCandyMachineSetTokenStandardLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"tokenStandard": tokenStandard.serialize()};
+    return {'tokenStandard': tokenStandard.serialize()};
   }
 }

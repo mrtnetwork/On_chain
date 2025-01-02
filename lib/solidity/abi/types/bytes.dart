@@ -1,4 +1,4 @@
-part of "package:on_chain/solidity/abi/abi.dart";
+part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding byte arrays.
 class BytesCoder implements ABICoder<List<int>> {
@@ -57,7 +57,7 @@ class BytesCoder implements ABICoder<List<int>> {
       AbiParameter params, List<int> input, bool keepSize) {
     final size = _ABIUtils.bytesSize(params.type);
     if (size != null && input.length != size) {
-      throw const SolidityAbiException("Invalid bytes length");
+      throw const SolidityAbiException('Invalid bytes length');
     }
     return EncoderResult(isDynamic: false, encoded: input, name: params.name);
   }

@@ -20,7 +20,7 @@ class TransactionMetadataList
   }
   factory TransactionMetadataList.fromJson(Map<String, dynamic> json) {
     return TransactionMetadataList(
-        value: (json["list"] as List)
+        value: (json['list'] as List)
             .map((e) => TransactionMetadata.deserialize(e))
             .toList());
   }
@@ -35,7 +35,7 @@ class TransactionMetadataList
   /// Converts the metadata to JSON.
   @override
   Map<String, dynamic> toJson() {
-    return {"list": value.map((e) => e.toJson()).toList()};
+    return {'list': value.map((e) => e.toJson()).toList()};
   }
 
   /// Converts the metadata to CBOR.
@@ -62,12 +62,12 @@ class TransactionMetadataList
   }
 
   @override
-  toJsonSchema(
+  Object toJsonSchema(
       {MetadataSchemaConfig config = const MetadataSchemaConfig(
           jsonSchema: MetadataJsonSchema.noConversions)}) {
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
       return {
-        "list": value.map((e) => e.toJsonSchema(config: config)).toList()
+        'list': value.map((e) => e.toJsonSchema(config: config)).toList()
       };
     }
     return value.map((e) => e.toJsonSchema(config: config)).toList();

@@ -22,10 +22,10 @@ class InflationReward {
       required this.commission});
   factory InflationReward.fromJson(Map<String, dynamic> json) {
     return InflationReward(
-        epoch: json["epoch"],
-        effectiveSlot: json["effectiveSlot"],
-        amount: json["amount"],
-        postBalance: json["postBalance"],
-        commission: json["commission"]);
+        epoch: json['epoch'],
+        effectiveSlot: json['effectiveSlot'],
+        amount: json['amount'],
+        postBalance: json['postBalance'],
+        commission: json['commission']);
   }
 }

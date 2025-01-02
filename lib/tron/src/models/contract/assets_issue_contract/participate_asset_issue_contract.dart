@@ -10,12 +10,12 @@ class ParticipateAssetIssueContract extends TronBaseContract {
   factory ParticipateAssetIssueContract.fromJson(Map<String, dynamic> json) {
     return ParticipateAssetIssueContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       toAddress: OnChainUtils.parseTronAddress(
-          value: json["to_address"], name: "to_address"),
+          value: json['to_address'], name: 'to_address'),
       assetName: OnChainUtils.parseBytes(
-          value: json["asset_name"], name: "asset_name"),
-      amount: OnChainUtils.parseBigInt(value: json["amount"], name: "amount"),
+          value: json['asset_name'], name: 'asset_name'),
+      amount: OnChainUtils.parseBigInt(value: json['amount'], name: 'amount'),
     );
   }
 
@@ -58,17 +58,17 @@ class ParticipateAssetIssueContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "to_address": toAddress.toString(),
-      "owner_address": ownerAddress.toString(),
-      "amount": amount.toString(),
-      "asset_name": StringUtils.decode(assetName)
+      'to_address': toAddress.toString(),
+      'owner_address': ownerAddress.toString(),
+      'amount': amount.toString(),
+      'asset_name': StringUtils.decode(assetName)
     };
   }
 
   /// Convert the [ParticipateAssetIssueContract] object to its string representation.
   @override
   String toString() {
-    return "ParticipateAssetIssueContract{${toJson()}}";
+    return 'ParticipateAssetIssueContract{${toJson()}}';
   }
 
   @override

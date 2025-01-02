@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Creates a proposal transaction.
 /// [developers.tron.network](https://developers.tron.network/reference/proposalcreate).
 class TronRequestProposalCreate
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestProposalCreate(
       {required this.ownerAddress,
       required this.parameters,
@@ -30,15 +30,15 @@ class TronRequestProposalCreate
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "parameters": parameters,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'parameters': parameters,
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestProposalCreate{${toJson()}}";
+    return 'TronRequestProposalCreate{${toJson()}}';
   }
 }

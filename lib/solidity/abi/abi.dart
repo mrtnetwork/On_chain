@@ -24,7 +24,7 @@
 /// - `core`: Contains the core ABIs and utility functions.
 /// - `eip712`: Implements support for Ethereum EIP-712 standard.
 /// - `eip712/utils`: Utilities specific to Ethereum EIP-712.
-library abi;
+library;
 
 import 'package:on_chain/solidity/address/core.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';

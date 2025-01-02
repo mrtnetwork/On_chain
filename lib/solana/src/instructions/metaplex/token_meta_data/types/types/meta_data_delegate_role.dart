@@ -7,22 +7,22 @@ class MetadataDelegateRole {
   final int value;
   const MetadataDelegateRole._(this.name, this.value, this.seed);
   static const MetadataDelegateRole authorityItem =
-      MetadataDelegateRole._("AuthorityItem", 0, "authority_item_delegate");
+      MetadataDelegateRole._('AuthorityItem', 0, 'authority_item_delegate');
   static const MetadataDelegateRole collection =
-      MetadataDelegateRole._("Collection", 1, "collection_delegate");
+      MetadataDelegateRole._('Collection', 1, 'collection_delegate');
   static const MetadataDelegateRole use =
-      MetadataDelegateRole._("Use", 2, "use_delegate");
+      MetadataDelegateRole._('Use', 2, 'use_delegate');
   static const MetadataDelegateRole data =
-      MetadataDelegateRole._("Data", 3, "data_delegate");
+      MetadataDelegateRole._('Data', 3, 'data_delegate');
   static const MetadataDelegateRole programmableConfig = MetadataDelegateRole._(
-      "ProgrammableConfig", 4, "programmable_config_delegate");
+      'ProgrammableConfig', 4, 'programmable_config_delegate');
   static const MetadataDelegateRole dataItem =
-      MetadataDelegateRole._("DataItem", 5, "data_item_delegate");
+      MetadataDelegateRole._('DataItem', 5, 'data_item_delegate');
   static const MetadataDelegateRole collectionItem =
-      MetadataDelegateRole._("CollectionItem", 6, "collection_item_delegate");
+      MetadataDelegateRole._('CollectionItem', 6, 'collection_item_delegate');
   static const MetadataDelegateRole programmableConfigItem =
       MetadataDelegateRole._(
-          "ProgrammableConfigItem", 7, "prog_config_item_delegate");
+          'ProgrammableConfigItem', 7, 'prog_config_item_delegate');
   static const List<MetadataDelegateRole> values = [
     authorityItem,
     collection,
@@ -36,14 +36,14 @@ class MetadataDelegateRole {
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
         values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: "metaDataTokenStandard")
+        property: 'metaDataTokenStandard')
   ]);
   static MetadataDelegateRole fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw SolanaPluginException(
-          "No MetaDataTokenStandard found matching the specified value",
-          details: {"value": value}),
+          'No MetaDataTokenStandard found matching the specified value',
+          details: {'value': value}),
     );
   }
 
@@ -51,12 +51,12 @@ class MetadataDelegateRole {
     return values.firstWhere(
       (element) => element.name == value,
       orElse: () => throw SolanaPluginException(
-          "No MetaDataTokenStandard found matching the specified value",
-          details: {"value": value}),
+          'No MetaDataTokenStandard found matching the specified value',
+          details: {'value': value}),
     );
   }
 
   factory MetadataDelegateRole.fromJson(Map<String, dynamic> json) {
-    return fromName(json["metaDataTokenStandard"]["key"]);
+    return fromName(json['metaDataTokenStandard']['key']);
   }
 }

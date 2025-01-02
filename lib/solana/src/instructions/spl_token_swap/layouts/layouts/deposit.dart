@@ -30,9 +30,9 @@ class SPLTokenSwapDepositLayout extends SPLTokenSwapProgramLayout {
     );
 
     return SPLTokenSwapDepositLayout(
-      poolTokenAmount: decode["poolTokenAmount"],
-      maximumTokenA: decode["maximumTokenA"],
-      maximumTokenB: decode["maximumTokenB"],
+      poolTokenAmount: decode['poolTokenAmount'],
+      maximumTokenA: decode['maximumTokenA'],
+      maximumTokenB: decode['maximumTokenB'],
     );
   }
 
@@ -53,9 +53,9 @@ class SPLTokenSwapDepositLayout extends SPLTokenSwapProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "poolTokenAmount": poolTokenAmount,
-      "maximumTokenA": maximumTokenA,
-      "maximumTokenB": maximumTokenB,
+      'poolTokenAmount': poolTokenAmount,
+      'maximumTokenA': maximumTokenA,
+      'maximumTokenB': maximumTokenB,
     };
   }
 }

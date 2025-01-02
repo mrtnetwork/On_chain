@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Withdraw unfrozen balance in Stake2.0, the user can call this API to get back their funds after executing /wallet/unfreezebalancev2 transaction and waiting N days, N is a network parameter
 /// [developers.tron.network](https://developers.tron.network/reference/withdrawexpireunfreeze).
 class TronRequestWithdrawExpireUnfreeze
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestWithdrawExpireUnfreeze(
       {required this.ownerAddress, this.permissionId, this.visible = true});
 
@@ -24,14 +24,14 @@ class TronRequestWithdrawExpireUnfreeze
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "visible": visible,
-      "Permission_id": permissionId
+      'owner_address': ownerAddress.toAddress(visible),
+      'visible': visible,
+      'Permission_id': permissionId
     };
   }
 
   @override
   String toString() {
-    return "TronRequestWithdrawExpireUnfreeze{${toJson()}}";
+    return 'TronRequestWithdrawExpireUnfreeze{${toJson()}}';
   }
 }

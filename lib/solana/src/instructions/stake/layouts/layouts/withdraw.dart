@@ -15,11 +15,11 @@ class StakeWithdrawLayout extends StakeProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: StakeProgramInstruction.withdraw.insturction);
-    return StakeWithdrawLayout._(decode["lamports"]);
+    return StakeWithdrawLayout._(decode['lamports']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.ns64(property: "lamports")
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports')
   ]);
 
   @override
@@ -30,6 +30,6 @@ class StakeWithdrawLayout extends StakeProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports};
+    return {'lamports': lamports};
   }
 }

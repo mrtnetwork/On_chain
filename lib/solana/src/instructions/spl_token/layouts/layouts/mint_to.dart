@@ -13,8 +13,8 @@ class SPLTokenMintToLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for minting tokens.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "amount")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount')
   ]);
 
   /// Constructs an SPLTokenMintToLayout instance from buffer.
@@ -24,7 +24,7 @@ class SPLTokenMintToLayout extends SPLTokenProgramLayout {
         bytes: bytes,
         instruction: SPLTokenProgramInstruction.mintTo.insturction);
 
-    return SPLTokenMintToLayout(amount: decode["amount"]);
+    return SPLTokenMintToLayout(amount: decode['amount']);
   }
 
   /// Returns the layout structure.
@@ -39,6 +39,6 @@ class SPLTokenMintToLayout extends SPLTokenProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount};
+    return {'amount': amount};
   }
 }

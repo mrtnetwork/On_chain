@@ -8,22 +8,22 @@ class NftBurn extends LayoutSerializable {
 
   const NftBurn({required this.requiredCollection});
   factory NftBurn.fromJson(Map<String, dynamic> json) {
-    return NftBurn(requiredCollection: json["requiredCollection"]);
+    return NftBurn(requiredCollection: json['requiredCollection']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("requiredCollection"),
-  ], property: "nftBurn");
+    SolanaLayoutUtils.publicKey('requiredCollection'),
+  ], property: 'nftBurn');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"requiredCollection": requiredCollection};
+    return {'requiredCollection': requiredCollection};
   }
 
   @override
   String toString() {
-    return "NftBurn${serialize()}";
+    return 'NftBurn${serialize()}';
   }
 }

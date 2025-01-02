@@ -7,12 +7,12 @@ abstract class StakePoolProgramLayout extends ProgramLayout {
   @override
   StakePoolProgramInstruction get instruction;
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final instruction =
-        StakePoolProgramInstruction.getInstruction(decode["instruction"]);
+        StakePoolProgramInstruction.getInstruction(decode['instruction']);
     switch (instruction) {
       case StakePoolProgramInstruction.cleanupRemovedValidatorEntries:
         return StakePoolCleanupRemovedValidatorEntriesLayout.fromBuffer(data);

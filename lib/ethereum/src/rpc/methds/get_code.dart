@@ -4,15 +4,15 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns code at a given address.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getCode)
-class RPCGetCode extends ETHRPCRequest<String?> {
-  RPCGetCode({
+class EthereumRequestGetCode extends EthereumRequest<String?, String?> {
+  EthereumRequestGetCode({
     required this.address,
     BlockTagOrNumber? tag = BlockTagOrNumber.pending,
   }) : super(blockNumber: tag);
 
   /// eth_getCode
   @override
-  EthereumMethods get method => EthereumMethods.getCode;
+  String get method => EthereumMethods.getCode.value;
 
   /// address
   final String address;
@@ -24,12 +24,12 @@ class RPCGetCode extends ETHRPCRequest<String?> {
 
   @override
   String? onResonse(result) {
-    if (result == "0x") return null;
+    if (result == '0x') return null;
     return super.onResonse(result);
   }
 
   @override
   String toString() {
-    return "RPCGetCode{${toJson()}}";
+    return 'EthereumRequestGetCode{${toJson()}}';
   }
 }

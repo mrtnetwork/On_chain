@@ -25,7 +25,7 @@ abstract class DataOption with ADASerialization {
     return DataOptionData.deserialize(cbor.cast());
   }
   factory DataOption.fromJson(Map<String, dynamic> json) {
-    if (json.containsKey("data")) {
+    if (json.containsKey('data')) {
       return DataOptionData.fromJson(json);
     }
     return DataOptionDataHash.fromJson(json);

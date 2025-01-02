@@ -11,16 +11,16 @@ class TransferFee extends LayoutSerializable {
       required this.transferFeeBasisPoints});
   factory TransferFee.fromJson(Map<String, dynamic> json) {
     return TransferFee(
-        epoch: json["epoch"],
-        maximumFee: json["maximumFee"],
-        transferFeeBasisPoints: json["transferFeeBasisPoints"]);
+        epoch: json['epoch'],
+        maximumFee: json['maximumFee'],
+        transferFeeBasisPoints: json['transferFeeBasisPoints']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.u64(property: 'epoch'),
     LayoutConst.u64(property: 'maximumFee'),
     LayoutConst.u16(property: 'transferFeeBasisPoints')
-  ], property: "transferFee");
+  ], property: 'transferFee');
 
   @override
   StructLayout get layout => staticLayout;
@@ -28,14 +28,14 @@ class TransferFee extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "epoch": epoch,
-      "maximumFee": maximumFee,
-      "transferFeeBasisPoints": transferFeeBasisPoints
+      'epoch': epoch,
+      'maximumFee': maximumFee,
+      'transferFeeBasisPoints': transferFeeBasisPoints
     };
   }
 
   @override
   String toString() {
-    return "TransferFee${serialize()}";
+    return 'TransferFee${serialize()}';
   }
 }

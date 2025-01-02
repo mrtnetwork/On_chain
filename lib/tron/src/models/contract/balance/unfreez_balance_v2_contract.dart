@@ -11,11 +11,11 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
   factory UnfreezeBalanceV2Contract.fromJson(Map<String, dynamic> json) {
     return UnfreezeBalanceV2Contract(
         ownerAddress: OnChainUtils.parseTronAddress(
-            value: json["owner_address"], name: "owner_address"),
+            value: json['owner_address'], name: 'owner_address'),
         unfreezeBalance: OnChainUtils.parseBigInt(
-            value: json["unfreeze_balance"], name: "unfreeze_balance"),
+            value: json['unfreeze_balance'], name: 'unfreeze_balance'),
         resource: ResourceCode.fromName(
-            OnChainUtils.parseString(value: json["resource"], name: "resource"),
+            OnChainUtils.parseString(value: json['resource'], name: 'resource'),
             orElse: ResourceCode.bandWidth));
   }
   factory UnfreezeBalanceV2Contract.deserialize(List<int> bytes) {
@@ -58,16 +58,16 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "unfreeze_balance": unfreezeBalance.toString(),
-      "resource": resource?.name
+      'owner_address': ownerAddress.toString(),
+      'unfreeze_balance': unfreezeBalance.toString(),
+      'resource': resource?.name
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [UnfreezeBalanceV2Contract] object to its string representation.
   @override
   String toString() {
-    return "UnfreezeBalanceV2Contract{${toJson()}}";
+    return 'UnfreezeBalanceV2Contract{${toJson()}}';
   }
 
   @override

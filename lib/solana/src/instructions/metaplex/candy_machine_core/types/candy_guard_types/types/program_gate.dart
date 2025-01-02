@@ -8,22 +8,22 @@ class ProgramGate extends LayoutSerializable {
 
   const ProgramGate({required this.additional});
   factory ProgramGate.fromJson(Map<String, dynamic> json) {
-    return ProgramGate(additional: (json["additional"] as List).cast());
+    return ProgramGate(additional: (json['additional'] as List).cast());
   }
 
   static final StructLayout staticLayout = LayoutConst.struct(
-      [LayoutConst.vec(SolanaLayoutUtils.publicKey(), property: "additional")],
-      property: "programGate");
+      [LayoutConst.vec(SolanaLayoutUtils.publicKey(), property: 'additional')],
+      property: 'programGate');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"additional": additional};
+    return {'additional': additional};
   }
 
   @override
   String toString() {
-    return "ProgramGate${serialize()}";
+    return 'ProgramGate${serialize()}';
   }
 }

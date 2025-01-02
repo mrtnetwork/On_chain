@@ -5,10 +5,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the reward history of a specific account.
 /// https://blockfrost.dev/api/account-reward-history
-class BlockfrostRequestAccountRewardHistory extends BlockforestRequestParam<
+class BlockfrostRequestAccountRewardHistory extends BlockFrostRequest<
     List<ADARewardHistoryResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestAccountRewardHistory(this.stakeAddress,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// stake address.

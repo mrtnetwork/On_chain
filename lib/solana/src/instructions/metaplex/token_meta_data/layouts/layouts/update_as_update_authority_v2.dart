@@ -39,41 +39,41 @@ class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
             .updateAsUpdateAuthorityV2.insturction,
         discriminator: discriminator);
     return MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout(
-        collection: CollectionToggle.fromJson(decode["collection"]),
+        collection: CollectionToggle.fromJson(decode['collection']),
         collectionDetails:
-            CollectionDetailsToggle.fromJson(decode["collectionDetails"]),
-        uses: UsesToggle.fromJson(decode["uses"]),
-        ruleSet: RuleSetToggle.fromJson(decode["ruleSet"]),
-        authorizationData: decode["authorizationData"] == null
+            CollectionDetailsToggle.fromJson(decode['collectionDetails']),
+        uses: UsesToggle.fromJson(decode['uses']),
+        ruleSet: RuleSetToggle.fromJson(decode['ruleSet']),
+        authorizationData: decode['authorizationData'] == null
             ? null
-            : Payload.fromJson(decode["authorizationData"]),
-        data: decode["data"] == null
+            : Payload.fromJson(decode['authorizationData']),
+        data: decode['data'] == null
             ? null
-            : MetaDataData.fromJson(decode["data"]),
-        isMutable: decode["isMutable"],
-        newUpdateAuthority: decode["newUpdateAuthority"],
-        primarySaleHappened: decode["primarySaleHappened"],
-        tokenStandard: decode["tokenStandard"] == null
+            : MetaDataData.fromJson(decode['data']),
+        isMutable: decode['isMutable'],
+        newUpdateAuthority: decode['newUpdateAuthority'],
+        primarySaleHappened: decode['primarySaleHappened'],
+        tokenStandard: decode['tokenStandard'] == null
             ? null
-            : MetaDataTokenStandard.fromJson(decode["tokenStandard"]));
+            : MetaDataTokenStandard.fromJson(decode['tokenStandard']));
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    SolanaLayoutUtils.optionPubkey(property: "newUpdateAuthority"),
-    LayoutConst.optional(MetaDataData.staticLayout, property: "data"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
+    LayoutConst.optional(MetaDataData.staticLayout, property: 'data'),
     LayoutConst.optional(LayoutConst.boolean(),
-        property: "primarySaleHappened"),
-    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
-    LayoutConst.wrap(CollectionToggle.staticLayout, property: "collection"),
+        property: 'primarySaleHappened'),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
+    LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
     LayoutConst.wrap(CollectionDetailsToggle.staticLayout,
-        property: "collectionDetails"),
-    LayoutConst.wrap(UsesToggle.staticLayout, property: "uses"),
-    LayoutConst.wrap(RuleSetToggle.staticLayout, property: "ruleSet"),
+        property: 'collectionDetails'),
+    LayoutConst.wrap(UsesToggle.staticLayout, property: 'uses'),
+    LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
     LayoutConst.optional(MetaDataTokenStandard.staticLayout,
-        property: "tokenStandard"),
-    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
+        property: 'tokenStandard'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
   ]);
 
   @override
@@ -88,17 +88,17 @@ class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": discriminator,
-      "newUpdateAuthority": newUpdateAuthority,
-      "data": data?.serialize(),
-      "primarySaleHappened": primarySaleHappened,
-      "isMutable": isMutable,
-      "collection": collection.serialize(),
-      "collectionDetails": collectionDetails.serialize(),
-      "uses": uses.serialize(),
-      "ruleSet": ruleSet.serialize(),
-      "tokenStandard": tokenStandard?.serialize(),
-      "authorizationData": authorizationData?.serialize()
+      'discriminator': discriminator,
+      'newUpdateAuthority': newUpdateAuthority,
+      'data': data?.serialize(),
+      'primarySaleHappened': primarySaleHappened,
+      'isMutable': isMutable,
+      'collection': collection.serialize(),
+      'collectionDetails': collectionDetails.serialize(),
+      'uses': uses.serialize(),
+      'ruleSet': ruleSet.serialize(),
+      'tokenStandard': tokenStandard?.serialize(),
+      'authorizationData': authorizationData?.serialize()
     };
   }
 }

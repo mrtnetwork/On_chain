@@ -1,4 +1,4 @@
-library on_chain;
+library;
 
 export 'solidity/solidity.dart';
 export 'ethereum/ethereum.dart';

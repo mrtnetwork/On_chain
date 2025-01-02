@@ -6,22 +6,22 @@ class AllocationTracker extends LayoutSerializable {
 
   const AllocationTracker({required this.count});
   factory AllocationTracker.fromJson(Map<String, dynamic> json) {
-    return AllocationTracker(count: json["count"]);
+    return AllocationTracker(count: json['count']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u32(property: "count"),
-  ], property: "allocationTracker");
+    LayoutConst.u32(property: 'count'),
+  ], property: 'allocationTracker');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"count": count};
+    return {'count': count};
   }
 
   @override
   String toString() {
-    return "AllocationTracker${serialize()}";
+    return 'AllocationTracker${serialize()}';
   }
 }

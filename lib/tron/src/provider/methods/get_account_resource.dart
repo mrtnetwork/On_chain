@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/models/account_resource.dart';
 /// Query the resource information of an account(bandwidth,energy,etc).
 /// [developers.tron.network](https://developers.tron.network/reference/getaccountresource).
 class TronRequestGetAccountResource
-    extends TVMRequestParam<AccountResourceModel, Map<String, dynamic>> {
+    extends TronRequest<AccountResourceModel, Map<String, dynamic>> {
   TronRequestGetAccountResource({required this.address, this.visible = true});
 
   /// Address
@@ -20,7 +20,7 @@ class TronRequestGetAccountResource
   /// wallet/getaccountresource
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address, "visible": visible};
+    return {'address': address.toAddress(visible), 'visible': visible};
   }
 
   @override
@@ -30,6 +30,6 @@ class TronRequestGetAccountResource
 
   @override
   String toString() {
-    return "TronRequestGetAccountResource{${toJson()}}";
+    return 'TronRequestGetAccountResource{${toJson()}}';
   }
 }

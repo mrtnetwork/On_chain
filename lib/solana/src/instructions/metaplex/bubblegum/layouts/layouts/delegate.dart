@@ -24,19 +24,19 @@ class MetaplexBubblegumDelegateLayout extends MetaplexBubblegumProgramLayout {
         instruction: MetaplexBubblegumProgramInstruction.delegate.insturction);
     return MetaplexBubblegumDelegateLayout(
         root: decode['root'],
-        dataHash: decode["dataHash"],
-        creatorHash: decode["creatorHash"],
-        nonce: decode["nonce"],
-        index: decode["index"]);
+        dataHash: decode['dataHash'],
+        creatorHash: decode['creatorHash'],
+        nonce: decode['nonce'],
+        index: decode['index']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.blob(32, property: "root"),
-    LayoutConst.blob(32, property: "dataHash"),
-    LayoutConst.blob(32, property: "creatorHash"),
-    LayoutConst.u64(property: "nonce"),
-    LayoutConst.u32(property: "index"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.blob(32, property: 'dataHash'),
+    LayoutConst.blob(32, property: 'creatorHash'),
+    LayoutConst.u64(property: 'nonce'),
+    LayoutConst.u32(property: 'index'),
   ]);
 
   @override
@@ -49,11 +49,11 @@ class MetaplexBubblegumDelegateLayout extends MetaplexBubblegumProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "root": root,
-      "dataHash": dataHash,
-      "creatorHash": creatorHash,
-      "nonce": nonce,
-      "index": index
+      'root': root,
+      'dataHash': dataHash,
+      'creatorHash': creatorHash,
+      'nonce': nonce,
+      'index': index
     };
   }
 }

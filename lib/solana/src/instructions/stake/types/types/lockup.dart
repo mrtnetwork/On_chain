@@ -17,9 +17,9 @@ class StakeLockup extends LayoutSerializable {
       {required this.timestamp, required this.epoch, required this.custodian});
   factory StakeLockup.fromJson(Map<String, dynamic> json) {
     return StakeLockup(
-        timestamp: json["timestamp"],
-        epoch: json["epoch"],
-        custodian: json["custodian"]);
+        timestamp: json['timestamp'],
+        epoch: json['epoch'],
+        custodian: json['custodian']);
   }
 
   static final defaultLockup = StakeLockup(
@@ -29,21 +29,21 @@ class StakeLockup extends LayoutSerializable {
   );
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.i64(property: "timestamp"),
-    LayoutConst.u64(property: "epoch"),
-    SolanaLayoutUtils.publicKey("custodian")
-  ], property: "lockup");
+    LayoutConst.i64(property: 'timestamp'),
+    LayoutConst.u64(property: 'epoch'),
+    SolanaLayoutUtils.publicKey('custodian')
+  ], property: 'lockup');
 
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"timestamp": timestamp, "epoch": epoch, "custodian": custodian};
+    return {'timestamp': timestamp, 'epoch': epoch, 'custodian': custodian};
   }
 
   @override
   String toString() {
-    return "StakeLockup${serialize()}";
+    return 'StakeLockup${serialize()}';
   }
 }

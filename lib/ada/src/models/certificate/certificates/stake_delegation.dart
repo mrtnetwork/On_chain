@@ -29,10 +29,10 @@ class StakeDelegation extends Certificate {
     );
   }
   factory StakeDelegation.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> correctJson = json["stake_delegation"] ?? json;
+    final Map<String, dynamic> correctJson = json['stake_delegation'] ?? json;
     return StakeDelegation(
-        stakeCredential: StakeCred.fromJson(correctJson["stake_credential"]),
-        poolKeyHash: Ed25519PoolKeyHash.fromHex(correctJson["pool_keyhash"]));
+        stakeCredential: StakeCred.fromJson(correctJson['stake_credential']),
+        poolKeyHash: Ed25519PoolKeyHash.fromHex(correctJson['pool_keyhash']));
   }
 
   StakeDelegation copyWith(
@@ -57,9 +57,9 @@ class StakeDelegation extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "stake_delegation": {
-        "stake_credential": stakeCredential.toJson(),
-        "pool_keyhash": poolKeyHash.toJson(),
+      'stake_delegation': {
+        'stake_credential': stakeCredential.toJson(),
+        'pool_keyhash': poolKeyHash.toJson(),
       }
     };
   }

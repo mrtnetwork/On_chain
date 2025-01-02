@@ -19,9 +19,9 @@ class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for SPLTokenBurnCheckedLayout.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "amount"),
-    LayoutConst.u8(property: "decimals")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u8(property: 'decimals')
   ]);
 
   /// Constructs an SPLTokenBurnCheckedLayout instance from buffer.
@@ -31,7 +31,7 @@ class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
         bytes: bytes,
         instruction: SPLTokenProgramInstruction.burnChecked.insturction);
     return SPLTokenBurnCheckedLayout(
-        amount: decode["amount"], decimals: decode["decimals"]);
+        amount: decode['amount'], decimals: decode['decimals']);
   }
 
   /// Gets the layout structure.
@@ -46,6 +46,6 @@ class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
   /// Serializes the layout.
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount, "decimals": decimals};
+    return {'amount': amount, 'decimals': decimals};
   }
 }

@@ -1,18 +1,16 @@
 import 'package:on_chain/solana/src/rpc/core/core.dart';
 import 'package:on_chain/solana/src/rpc/core/methods.dart';
-import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns a list of confirmed blocks starting at the given slot
 /// https://solana.com/docs/rpc/http/getblockswithlimit
-class SolanaRPCGetBlocksWithLimit extends SolanaRPCRequest<List<int>> {
-  const SolanaRPCGetBlocksWithLimit(
-      {required this.startSlot, required this.limit, Commitment? commitment})
-      : super(commitment: commitment);
+class SolanaRequestGetBlocksWithLimit extends SolanaRequest<List<int>, List> {
+  const SolanaRequestGetBlocksWithLimit(
+      {required this.startSlot, required this.limit, super.commitment});
 
   /// getBlocksWithLimit
   @override
-  String get method => SolanaRPCMethods.getBlocksWithLimit.value;
+  String get method => SolanaRequestMethods.getBlocksWithLimit.value;
 
   /// start_slot, as u64 integer
   final int startSlot;
@@ -25,12 +23,12 @@ class SolanaRPCGetBlocksWithLimit extends SolanaRPCRequest<List<int>> {
     return [
       startSlot,
       limit,
-      SolanaRPCUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()])
     ];
   }
 
   @override
-  List<int> onResonse(result) {
-    return (result as List).cast();
+  List<int> onResonse(List result) {
+    return result.cast<int>();
   }
 }

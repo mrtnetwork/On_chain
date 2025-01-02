@@ -2,11 +2,11 @@ import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// https://geth.ethereum.org/docs/interacting-with-geth/rpc/pubsub
-class RPCETHUnsubscribe extends ETHRPCRequest<bool> {
+class EthereumRequestETHUnsubscribe extends EthereumRequest<bool, bool> {
   final String subscriptionId;
-  RPCETHUnsubscribe(this.subscriptionId);
+  EthereumRequestETHUnsubscribe(this.subscriptionId);
   @override
-  EthereumMethods get method => EthereumMethods.ethUnsubscribe;
+  String get method => EthereumMethods.ethUnsubscribe.value;
 
   @override
   List<dynamic> toJson() {

@@ -5,18 +5,17 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns transaction details for a confirmed transaction
 /// https://solana.com/docs/rpc/http/gettransaction
-class SolanaRPCGetTransaction
-    extends SolanaRPCRequest<VersionedTransactionResponse> {
-  const SolanaRPCGetTransaction(
+class SolanaRequestGetTransaction
+    extends SolanaRequest<VersionedTransactionResponse, Map<String, dynamic>> {
+  const SolanaRequestGetTransaction(
       {required this.transactionSignature,
       this.maxSupportedTransactionVersion,
-      Commitment? commitment,
-      SolanaRPCEncoding? encoding = SolanaRPCEncoding.base64})
-      : super(commitment: commitment);
+      super.commitment,
+      SolanaRequestEncoding? encoding = SolanaRequestEncoding.base64});
 
   /// getTransaction
   @override
-  String get method => SolanaRPCMethods.getTransaction.value;
+  String get method => SolanaRequestMethods.getTransaction.value;
 
   /// Transaction signature, as base-58 encoded string
   final String transactionSignature;
@@ -32,16 +31,16 @@ class SolanaRPCGetTransaction
     return [
       transactionSignature,
       commitment?.toJson(),
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"maxSupportedTransactionVersion": maxSupportedTransactionVersion},
+        {'maxSupportedTransactionVersion': maxSupportedTransactionVersion},
         encoding?.toJson(),
       ]),
     ];
   }
 
   @override
-  VersionedTransactionResponse onResonse(result) {
+  VersionedTransactionResponse onResonse(Map<String, dynamic> result) {
     return VersionedTransactionResponse.fromJson(result);
   }
 }

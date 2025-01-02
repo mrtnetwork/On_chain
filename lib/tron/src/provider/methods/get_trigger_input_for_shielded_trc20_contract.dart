@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// GetTriggerInputForShieldedTrc20Contract
 /// [developers.tron.network](https://developers.tron.network/reference/gettriggerinputforshieldedtrc20contract).
 class TronRequestGetTriggerInputForShieldedTrc20Contract
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetTriggerInputForShieldedTrc20Contract();
 
   /// wallet/gettriggerinputforshieldedtrc20contract
@@ -19,6 +19,6 @@ class TronRequestGetTriggerInputForShieldedTrc20Contract
 
   @override
   String toString() {
-    return "TronRequestGetTriggerInputForShieldedTrc20Contract{${toJson()}}";
+    return 'TronRequestGetTriggerInputForShieldedTrc20Contract{${toJson()}}';
   }
 }

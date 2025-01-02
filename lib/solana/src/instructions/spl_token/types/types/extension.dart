@@ -120,8 +120,8 @@ class ExtensionType {
     try {
       return values.firstWhere((element) => element.value == v);
     } on StateError {
-      throw SolanaPluginException("No ExtensionType found for the given value.",
-          details: {"value": v});
+      throw SolanaPluginException('No ExtensionType found for the given value.',
+          details: {'value': v});
     }
   }
 
@@ -184,13 +184,13 @@ class ExtensionType {
       case ExtensionType.transferHookAccount:
         return ExtensionType.uninitialized;
       default:
-        throw SolanaPluginException("unsuported type",
-            details: {"ExtensionType": name});
+        throw SolanaPluginException('unsuported type',
+            details: {'ExtensionType': name});
     }
   }
 
   @override
   String toString() {
-    return "ExtensionType.$name";
+    return 'ExtensionType.$name';
   }
 }

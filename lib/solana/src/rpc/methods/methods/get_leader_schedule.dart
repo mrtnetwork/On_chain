@@ -5,14 +5,14 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the leader schedule for an epoch
 /// https://solana.com/docs/rpc/http/getleaderschedule
-class SolanaRPCGetLeaderSchedule extends SolanaRPCRequest<LeaderSchedule> {
-  const SolanaRPCGetLeaderSchedule(
-      {this.slot, this.identity, Commitment? commitment})
-      : super(commitment: commitment);
+class SolanaRequestGetLeaderSchedule
+    extends SolanaRequest<LeaderSchedule, Map<String, dynamic>> {
+  const SolanaRequestGetLeaderSchedule(
+      {this.slot, this.identity, super.commitment});
 
   /// getLeaderSchedule
   @override
-  String get method => SolanaRPCMethods.getLeaderSchedule.value;
+  String get method => SolanaRequestMethods.getLeaderSchedule.value;
 
   /// Fetch the leader schedule for the epoch that corresponds to the provided slot.
   /// If unspecified, the leader schedule for the current epoch is fetched
@@ -25,15 +25,15 @@ class SolanaRPCGetLeaderSchedule extends SolanaRPCRequest<LeaderSchedule> {
   List<dynamic> toJson() {
     return [
       slot,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"identity": identity}
+        {'identity': identity}
       ]),
     ];
   }
 
   @override
-  LeaderSchedule onResonse(result) {
+  LeaderSchedule onResonse(Map<String, dynamic> result) {
     return LeaderSchedule.fromJson(result);
   }
 }

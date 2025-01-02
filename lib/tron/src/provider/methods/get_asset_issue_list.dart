@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query the list of all the TRC10 tokens.
 /// [developers.tron.network](https://developers.tron.network/reference/getassetissuelist).
 class TronRequestGetAssetIssueList
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetAssetIssueList();
 
   /// wallet/getassetissuelist
@@ -18,6 +18,6 @@ class TronRequestGetAssetIssueList
 
   @override
   String toString() {
-    return "TronRequestGetAssetIssueList{${toJson()}}";
+    return 'TronRequestGetAssetIssueList{${toJson()}}';
   }
 }

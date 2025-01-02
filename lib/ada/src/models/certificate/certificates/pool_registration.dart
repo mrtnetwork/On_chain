@@ -21,7 +21,7 @@ class PoolRegistration extends Certificate {
   }
   factory PoolRegistration.fromJson(Map<String, dynamic> json) {
     return PoolRegistration(PoolParams.fromJson(
-        json["pool_params"] ?? json["pool_registration"]["pool_params"]));
+        json['pool_params'] ?? json['pool_registration']['pool_params']));
   }
   PoolRegistration copyWith({PoolParams? poolParams}) {
     return PoolRegistration(poolParams ?? this.poolParams);
@@ -41,7 +41,7 @@ class PoolRegistration extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "pool_registration": {"pool_params": poolParams.toJson()}
+      'pool_registration': {'pool_params': poolParams.toJson()}
     };
   }
 }

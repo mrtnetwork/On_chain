@@ -9,15 +9,15 @@ class MarketSellAssetContract extends TronBaseContract {
   factory MarketSellAssetContract.fromJson(Map<String, dynamic> json) {
     return MarketSellAssetContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       sellTokenId: OnChainUtils.parseBytes(
-          value: json["sell_token_id"], name: "sell_token_id"),
+          value: json['sell_token_id'], name: 'sell_token_id'),
       sellTokenQuantity: OnChainUtils.parseBigInt(
-          value: json["sell_token_quantity"], name: "sell_token_quantity"),
+          value: json['sell_token_quantity'], name: 'sell_token_quantity'),
       buyTokenId: OnChainUtils.parseBytes(
-          value: json["buy_token_id"], name: "buy_token_id"),
+          value: json['buy_token_id'], name: 'buy_token_id'),
       buyTokenQuantity: OnChainUtils.parseBigInt(
-          value: json["buy_token_quantity"], name: "buy_token_quantity"),
+          value: json['buy_token_quantity'], name: 'buy_token_quantity'),
     );
   }
 
@@ -64,18 +64,18 @@ class MarketSellAssetContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "sell_token_id": BytesUtils.tryToHexString(sellTokenId),
-      "sell_token_quantity": sellTokenQuantity?.toString(),
-      "buy_token_id": BytesUtils.tryToHexString(buyTokenId),
-      "buy_token_quantity": buyTokenQuantity?.toString(),
+      'owner_address': ownerAddress.toString(),
+      'sell_token_id': BytesUtils.tryToHexString(sellTokenId),
+      'sell_token_quantity': sellTokenQuantity?.toString(),
+      'buy_token_id': BytesUtils.tryToHexString(buyTokenId),
+      'buy_token_quantity': buyTokenQuantity?.toString(),
     }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [MarketSellAssetContract] object to its string representation.
   @override
   String toString() {
-    return "MarketSellAssetContract{${toJson()}}";
+    return 'MarketSellAssetContract{${toJson()}}';
   }
 
   @override

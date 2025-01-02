@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of already retired pools.
 /// https://blockfrost.dev/api/list-of-retired-stake-pools
-class BlockfrostRequestListOfRetiredStakePools extends BlockforestRequestParam<
+class BlockfrostRequestListOfRetiredStakePools extends BlockFrostRequest<
     List<ADAPoolRetirementResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestListOfRetiredStakePools(
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// List of retired stake pools

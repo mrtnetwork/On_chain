@@ -10,42 +10,42 @@ class AssetIssueContract extends TronBaseContract {
   factory AssetIssueContract.fromJson(Map<String, dynamic> json) {
     return AssetIssueContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: "owner_address"),
-      name: OnChainUtils.parseBytes(value: json['name'], name: "name"),
-      abbr: OnChainUtils.parseBytes(value: json['abbr'], name: "abbr"),
+          value: json['owner_address'], name: 'owner_address'),
+      name: OnChainUtils.parseBytes(value: json['name'], name: 'name'),
+      abbr: OnChainUtils.parseBytes(value: json['abbr'], name: 'abbr'),
       totalSupply: OnChainUtils.parseBigInt(
-          value: json['total_supply'], name: "total_supply"),
+          value: json['total_supply'], name: 'total_supply'),
       frozenSupply: OnChainUtils.parseList(
-              value: json['frozen_supply'], name: "frozen_supply")
+              value: json['frozen_supply'], name: 'frozen_supply')
           ?.map((frozenSupplyJson) =>
               AssetIssueContractFrozenSupply.fromJson(frozenSupplyJson))
           .toList(),
-      trxNum: OnChainUtils.parseInt(value: json['trx_num'], name: "trx_num"),
+      trxNum: OnChainUtils.parseInt(value: json['trx_num'], name: 'trx_num'),
       precision:
-          OnChainUtils.parseInt(value: json['precision'], name: "precision"),
-      num: OnChainUtils.parseInt(value: json["num"], name: "num"),
+          OnChainUtils.parseInt(value: json['precision'], name: 'precision'),
+      num: OnChainUtils.parseInt(value: json['num'], name: 'num'),
       startTime: OnChainUtils.parseBigInt(
-          value: json['start_time'], name: "start_time"),
+          value: json['start_time'], name: 'start_time'),
       endTime:
-          OnChainUtils.parseBigInt(value: json['end_time'], name: "end_time"),
-      order: OnChainUtils.parseBigInt(value: json['order'], name: "order"),
+          OnChainUtils.parseBigInt(value: json['end_time'], name: 'end_time'),
+      order: OnChainUtils.parseBigInt(value: json['order'], name: 'order'),
       voteScore:
-          OnChainUtils.parseInt(value: json["vote_score"], name: "vote_score"),
+          OnChainUtils.parseInt(value: json['vote_score'], name: 'vote_score'),
       description: OnChainUtils.parseBytes(
-          value: json['description'], name: "description"),
-      url: OnChainUtils.parseBytes(value: json['url'], name: "url"),
+          value: json['description'], name: 'description'),
+      url: OnChainUtils.parseBytes(value: json['url'], name: 'url'),
       freeAssetNetLimit: OnChainUtils.parseBigInt(
-          value: json['free_asset_netimit'], name: "name"),
+          value: json['free_asset_netimit'], name: 'name'),
       publicFreeAssetNetLimit: OnChainUtils.parseBigInt(
           value: json['public_free_asset_netimit'],
-          name: "public_free_asset_netimit"),
+          name: 'public_free_asset_netimit'),
       publicFreeAssetNetUsage: OnChainUtils.parseBigInt(
           value: json['public_free_asset_net_usage'],
-          name: "public_free_asset_net_usage"),
+          name: 'public_free_asset_net_usage'),
       publicLatestFreeNetTime: OnChainUtils.parseBigInt(
-          value: json["publicatest_free_net_time"],
-          name: "publicatest_free_net_time"),
-      id: OnChainUtils.parseString(value: json['id'], name: "id"),
+          value: json['publicatest_free_net_time'],
+          name: 'publicatest_free_net_time'),
+      id: OnChainUtils.parseString(value: json['id'], name: 'id'),
     );
   }
 
@@ -187,27 +187,27 @@ class AssetIssueContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "name": StringUtils.decode(name),
-      "abbr": StringUtils.decode(abbr),
-      "total_supply": totalSupply.toString(),
-      "trx_num": trxNum,
-      "num": num,
-      "start_time": startTime.toString(),
-      "end_time": endTime.toString(),
-      "description": StringUtils.tryDecode(description),
-      "url": StringUtils.tryDecode(url),
-      "free_asset_netimit": freeAssetNetLimit?.toString(),
-      "public_free_asset_netimit": publicFreeAssetNetLimit?.toString(),
-      "frozen_supply": frozenSupply?.map((e) => e.toJson()).toList(),
-      "precision": precision,
+      'owner_address': ownerAddress.toString(),
+      'name': StringUtils.decode(name),
+      'abbr': StringUtils.decode(abbr),
+      'total_supply': totalSupply.toString(),
+      'trx_num': trxNum,
+      'num': num,
+      'start_time': startTime.toString(),
+      'end_time': endTime.toString(),
+      'description': StringUtils.tryDecode(description),
+      'url': StringUtils.tryDecode(url),
+      'free_asset_netimit': freeAssetNetLimit?.toString(),
+      'public_free_asset_netimit': publicFreeAssetNetLimit?.toString(),
+      'frozen_supply': frozenSupply?.map((e) => e.toJson()).toList(),
+      'precision': precision,
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [AssetIssueContract] object to its string representation.
   @override
   String toString() {
-    return "AssetIssueContract{${toJson()}}";
+    return 'AssetIssueContract{${toJson()}}';
   }
 
   @override

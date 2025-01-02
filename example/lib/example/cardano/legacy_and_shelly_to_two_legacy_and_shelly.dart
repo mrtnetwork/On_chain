@@ -29,7 +29,7 @@ void main() async {
     publicKey: BytesUtils.fromHexString(
         "004e4f3bba48cf6712fcfd9fa2a030b6ca0564d6488e1d821753b0830a32f1ba1a"),
   );
-  final provider = BlockforestProvider(BlockforestHTTPProvider(
+  final provider = BlockFrostProvider(BlockFrostHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 

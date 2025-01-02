@@ -1,35 +1,31 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/models/models/filter_params.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/utils/blockforest_provider_utils.dart';
-import 'package:on_chain/global_types/provider_request.dart';
 
-/// An abstract class representing request parameters for blockfrost API calls.
-abstract class BlockfrostRequestParams {
+/// An abstract class representing request parameters for blockfrost (ADA) API calls.
+abstract class BlockFrostRequest<RESULT, RESPONSE>
+    extends BaseServiceRequest<RESULT, RESPONSE, BlockFrostRequestDetails> {
+  BlockFrostRequest({this.filter});
+  final BlockFrostRequestFilter? filter;
+
+  @override
+  RequestServiceType get requestType => RequestServiceType.post;
+
   /// method for the request.
   abstract final String method;
 
   /// list of path parameters variable
   abstract final List<String> pathParameters;
-}
 
-/// An abstract class representing request parameters for blockfrost (ADA) API calls.
-abstract class BlockforestRequestParam<RESULT, RESPONSE>
-    implements BlockfrostRequestParams {
-  BlockforestRequestParam({this.filter});
-  final BlockforestRequestFilter? filter;
-
-  /// Converts the response result to the specified type [RESULT].
-  RESULT onResonse(RESPONSE result) {
-    return result as RESULT;
-  }
-
-  /// Converts the request parameters to [BlockforestRequestDetails] with a unique identifier.
-  BlockforestRequestDetails toRequest(int v) {
-    final pathParams = BlockforestProviderUtils.extractParams(method);
+  /// Converts the request parameters to [BlockFrostRequestDetails] with a unique identifier.
+  @override
+  BlockFrostRequestDetails buildRequest(int v) {
+    final pathParams = BlockFrostProviderUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw ADAPluginException("Invalid Path Parameters.", details: {
-        "pathParams": pathParameters,
-        "ExceptedPathParametersLength": pathParams.length
+      throw ADAPluginException('Invalid Path Parameters.', details: {
+        'pathParams': pathParameters,
+        'ExceptedPathParametersLength': pathParams.length
       });
     }
     String params = method;
@@ -42,77 +38,88 @@ abstract class BlockforestRequestParam<RESULT, RESPONSE>
           .normalizePath()
           .toString();
     }
-    return BlockforestRequestDetails(id: v, pathParams: params);
+    return BlockFrostRequestDetails(requestID: v, pathParams: params);
   }
 }
 
 /// An abstract class representing post request parameters for blockfrost (ADA) API calls.
-abstract class BlockforestPostRequestParam<RESULT, RESPONSE>
-    extends BlockforestRequestParam<RESULT, RESPONSE> {
-  abstract final Object body;
+abstract class BlockFrostPostRequest<RESULT, RESPONSE>
+    extends BlockFrostRequest<RESULT, RESPONSE> {
+  abstract final List<int> body;
 
-  final Map<String, String>? header = null;
+  Map<String, String>? get headers => null;
 
   @override
-  BlockforestRequestDetails toRequest(int v) {
-    final request = super.toRequest(v);
+  RequestServiceType get requestType => RequestServiceType.post;
+
+  @override
+  BlockFrostRequestDetails buildRequest(int v) {
+    final request = super.buildRequest(v);
     return request.copyWith(
-        body: body, header: header, requestType: HTTPRequestType.post);
+        params: body,
+        headers: headers ?? ServiceConst.defaultPostHeaders,
+        type: requestType);
   }
 }
 
 /// Represents the details of a blockfrost request.
-class BlockforestRequestDetails {
-  /// Constructs a new [BlockforestRequestDetails] instance with the specified parameters.
-  const BlockforestRequestDetails(
-      {required this.id,
+class BlockFrostRequestDetails extends BaseServiceRequestParams {
+  /// Constructs a new [BlockFrostRequestDetails] instance with the specified parameters.
+  const BlockFrostRequestDetails(
+      {required super.requestID,
       required this.pathParams,
-      this.header = const {},
-      this.requestType = HTTPRequestType.get,
-      this.body});
+      super.headers = const {},
+      RequestServiceType requestType = RequestServiceType.get,
+      this.params})
+      : super(type: requestType);
 
-  BlockforestRequestDetails copyWith({
-    int? id,
-    String? pathParams,
-    HTTPRequestType? requestType,
-    Map<String, String>? header,
-    Object? body,
-  }) {
-    return BlockforestRequestDetails(
-      id: id ?? this.id,
+  BlockFrostRequestDetails copyWith(
+      {int? requestID,
+      String? pathParams,
+      RequestServiceType? type,
+      Map<String, String>? headers,
+      List<int>? params}) {
+    return BlockFrostRequestDetails(
+      requestID: requestID ?? this.requestID,
       pathParams: pathParams ?? this.pathParams,
-      requestType: requestType ?? this.requestType,
-      header: header ?? this.header,
-      body: body ?? this.body,
+      requestType: type ?? this.type,
+      headers: headers ?? this.headers,
+      params: params ?? this.params,
     );
   }
-
-  /// Unique identifier for the request.
-  final int id;
 
   /// URL path parameters
   final String pathParams;
 
-  final HTTPRequestType requestType;
+  final List<int>? params;
 
-  final Map<String, String> header;
+  @override
+  List<int>? body() {
+    return params;
+  }
 
-  final Object? body;
-
-  /// Generates the complete request URL by combining the base URI and method-specific URI.
-  String url(String uri, String version) {
+  @override
+  Uri toUri(String uri, {String version = 'v0'}) {
     String url = uri;
     if (!url.contains(version)) {
-      if (url.endsWith("/")) {
+      if (url.endsWith('/')) {
         url = url + version;
       } else {
-        url = "$url/$version";
+        url = '$url/$version';
       }
     }
-    if (url.endsWith("/")) {
+    if (url.endsWith('/')) {
       url = url.substring(0, url.length - 1);
     }
 
-    return "$url$pathParams";
+    return Uri.parse('$url$pathParams');
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'pathParameters': pathParams,
+      'body': BytesUtils.tryToHexString(params)
+    };
   }
 }

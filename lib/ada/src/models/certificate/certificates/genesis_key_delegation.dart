@@ -32,12 +32,12 @@ class GenesisKeyDelegation extends Certificate {
   }
   factory GenesisKeyDelegation.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> correctJson =
-        json["genesis_key_delegation"] ?? json;
+        json['genesis_key_delegation'] ?? json;
     return GenesisKeyDelegation(
         genesisDelegateHash:
-            GenesisDelegateHash.fromHex(correctJson["genesis_delegate_hash"]),
-        genesisHash: GenesisHash.fromHex(correctJson["genesishash"]),
-        vrfKeyHash: VRFKeyHash.fromHex(correctJson["vrf_keyhash"]));
+            GenesisDelegateHash.fromHex(correctJson['genesis_delegate_hash']),
+        genesisHash: GenesisHash.fromHex(correctJson['genesishash']),
+        vrfKeyHash: VRFKeyHash.fromHex(correctJson['vrf_keyhash']));
   }
 
   @override
@@ -56,10 +56,10 @@ class GenesisKeyDelegation extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "genesis_key_delegation": {
-        "genesishash": genesisHash.toJson(),
-        "genesis_delegate_hash": genesisDelegateHash.toJson(),
-        "vrf_keyhash": vrfKeyHash.toJson()
+      'genesis_key_delegation': {
+        'genesishash': genesisHash.toJson(),
+        'genesis_delegate_hash': genesisDelegateHash.toJson(),
+        'vrf_keyhash': vrfKeyHash.toJson()
       }
     };
   }

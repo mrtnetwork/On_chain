@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    SolanaLayoutUtils.publicKey("baseToken"),
-    LayoutConst.wrap(EscrowAuthority.staticLayout, property: "authority"),
-    LayoutConst.u8(property: "bump"),
+    LayoutConst.u8(property: 'key'),
+    SolanaLayoutUtils.publicKey('baseToken'),
+    LayoutConst.wrap(EscrowAuthority.staticLayout, property: 'authority'),
+    LayoutConst.u8(property: 'bump'),
   ]);
 }
 
@@ -28,10 +28,10 @@ class TokenOwnedEscrow extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return TokenOwnedEscrow(
-        key: MetaDataKey.fromValue(decode["key"]),
-        baseToken: decode["baseToken"],
-        authority: EscrowAuthority.fromJson(decode["authority"]),
-        bump: decode["bump"]);
+        key: MetaDataKey.fromValue(decode['key']),
+        baseToken: decode['baseToken'],
+        authority: EscrowAuthority.fromJson(decode['authority']),
+        bump: decode['bump']);
   }
 
   @override
@@ -39,10 +39,10 @@ class TokenOwnedEscrow extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "key": key.value,
-      "baseToken": baseToken,
-      "authority": authority.serialize(),
-      "bump": bump
+      'key': key.value,
+      'baseToken': baseToken,
+      'authority': authority.serialize(),
+      'bump': bump
     };
   }
 }

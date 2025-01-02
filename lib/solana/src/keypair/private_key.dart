@@ -23,14 +23,20 @@ class SolanaPrivateKey {
     return SolanaPrivateKey._(privateKey);
   }
 
+  /// Factory method to create a SolanaPrivateKey instance from a keypair encoded as base58(PrivateKey,PublicKey).
+  factory SolanaPrivateKey.fromBase58(String b58KeyPair) {
+    final keypairBytes = Base58Decoder.decode(b58KeyPair);
+    return SolanaPrivateKey.fromBytes(keypairBytes);
+  }
+
   /// Factory method to create a SolanaPrivateKey instance from bytes representing a keypair.
   factory SolanaPrivateKey.fromBytes(List<int> keypairBytes) {
     // Check if the byte length matches the expected length of a Solana keypair.
     if (keypairBytes.length !=
         (Ed25519KeysConst.privKeyByteLen + Ed25519KeysConst.pubKeyByteLen)) {
       throw SolanaPluginException(
-          "Invalid Solana keypair length. A valid keypair must consist of exactly 64 bytes, combining both the seed and public key components.",
-          details: {"length": keypairBytes.length});
+          'Invalid Solana keypair length. A valid keypair must consist of exactly 64 bytes, combining both the seed and public key components.',
+          details: {'length': keypairBytes.length});
     }
     // Extract seed bytes and public bytes from the keypair bytes.
     final seedBytes = keypairBytes.sublist(0, Ed25519KeysConst.privKeyByteLen);
@@ -42,7 +48,7 @@ class SolanaPrivateKey {
         privateKey.publicKey.compressed
             .sublist(Ed25519KeysConst.pubKeyPrefix.length),
         publicBytes)) {
-      throw const SolanaPluginException("Invalid keypair");
+      throw const SolanaPluginException('Invalid keypair');
     }
     return SolanaPrivateKey._(privateKey);
   }
@@ -55,6 +61,11 @@ class SolanaPrivateKey {
   /// Convert the seed bytes of the private key to a hexadecimal string.
   String seedHex() {
     return BytesUtils.toHexString(seedBytes());
+  }
+
+  /// encode keypair to base58(PrivateKey,PublicKey)
+  String toBase58() {
+    return Base58Encoder.encode(keypairBytes());
   }
 
   /// Retrieve the keypair bytes representing both the seed and public key.

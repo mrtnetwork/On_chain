@@ -13,8 +13,8 @@ class SPLTokenApproveLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for SPLTokenApproveLayout.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "amount")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount')
   ]);
 
   /// Constructs an SPLTokenApproveLayout instance from buffer.
@@ -23,7 +23,7 @@ class SPLTokenApproveLayout extends SPLTokenProgramLayout {
         layout: _layout,
         bytes: bytes,
         instruction: SPLTokenProgramInstruction.approve.insturction);
-    return SPLTokenApproveLayout(amount: decode["amount"]);
+    return SPLTokenApproveLayout(amount: decode['amount']);
   }
 
   /// Gets the layout structure.
@@ -38,6 +38,6 @@ class SPLTokenApproveLayout extends SPLTokenProgramLayout {
   /// Serializes the layout.
   @override
   Map<String, dynamic> serialize() {
-    return {"amount": amount};
+    return {'amount': amount};
   }
 }

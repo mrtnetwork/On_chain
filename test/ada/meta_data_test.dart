@@ -12,7 +12,7 @@ void main() {
 String _encodeDecodeCheck(List<PlutusScript> scripts) {
   final metadata = GeneralTransactionMetadata(metadata: {
     BigInt.from(42): TransactionMetadata.fromJsonSchema(
-        json: StringUtils.toJson("{ \"test\": 148 }"),
+        json: StringUtils.toJson('{ "test": 148 }'),
         jsonSchema: MetadataJsonSchema.basicConversions)
   });
   final aux = AuxiliaryData(
@@ -25,9 +25,9 @@ String _encodeDecodeCheck(List<PlutusScript> scripts) {
 }
 
 void _metadataFromJson() {
-  test("TransactionMetadata_noConversions", () {
+  test('TransactionMetadata_noConversions', () {
     final decode = StringUtils.toJson(
-        "{\"receiver_id\": \"SJKdj34k3jjKFDKfjFUDfdjkfd\",\"sender_id\": \"jkfdsufjdk34h3Sdfjdhfduf873\",\"comment\": \"happy birthday\",\"tags\": [0, 264, -1024, 32]}");
+        '{"receiver_id": "SJKdj34k3jjKFDKfjFUDfdjkfd","sender_id": "jkfdsufjdk34h3Sdfjdhfduf873","comment": "happy birthday","tags": [0, 264, -1024, 32]}');
     final metadata = TransactionMetadata.fromJsonSchema(
         json: decode, jsonSchema: MetadataJsonSchema.noConversions);
     expect(
@@ -36,7 +36,7 @@ void _metadataFromJson() {
                 jsonSchema: MetadataJsonSchema.noConversions)),
         decode);
     expect(metadata.serializeHex(),
-        "a467636f6d6d656e746e68617070792062697274686461796b72656365697665725f6964781a534a4b646a33346b336a6a4b46444b666a46554466646a6b66646973656e6465725f6964781b6a6b66647375666a646b333468335364666a646866647566383733647461677384001901083903ff1820");
+        'a467636f6d6d656e746e68617070792062697274686461796b72656365697665725f6964781a534a4b646a33346b336a6a4b46444b666a46554466646a6b66646973656e6465725f6964781b6a6b66647375666a646b333468335364666a646866647566383733647461677384001901083903ff1820');
 
     final deserialize = TransactionMetadata.fromCborBytes(metadata.serialize());
     expect(deserialize.serializeHex(), metadata.serializeHex());
@@ -44,9 +44,9 @@ void _metadataFromJson() {
 }
 
 void _basicConvertion() {
-  test("TransactionMetadata_basicConversions", () {
+  test('TransactionMetadata_basicConversions', () {
     final decode = StringUtils.toJson(
-        "{\"0x8badf00d\": \"0xdeadbeef\",\"9\": 5,\"obj\": {\"a\":[{\"5\": 2},{}]}}");
+        '{"0x8badf00d": "0xdeadbeef","9": 5,"obj": {"a":[{"5": 2},{}]}}');
     final metadata = TransactionMetadata.fromJsonSchema(
         json: decode, jsonSchema: MetadataJsonSchema.basicConversions);
     expect(
@@ -55,7 +55,7 @@ void _basicConvertion() {
                 jsonSchema: MetadataJsonSchema.basicConversions)),
         decode);
     expect(metadata.serializeHex(),
-        "a3448badf00d44deadbeef0905636f626aa1616182a10502a0");
+        'a3448badf00d44deadbeef0905636f626aa1616182a10502a0');
 
     final deserialize = TransactionMetadata.fromCborBytes(metadata.serialize());
     expect(deserialize.serializeHex(), metadata.serializeHex());
@@ -63,7 +63,7 @@ void _basicConvertion() {
 }
 
 void _detailedSchema() {
-  test("TransactionMetadata_detailedSchema", () {
+  test('TransactionMetadata_detailedSchema', () {
     final decode = StringUtils.toJson('''{"map":[
             {
                 "k":{"bytes":"8badf00d"},
@@ -101,12 +101,12 @@ void _detailedSchema() {
                 jsonSchema: MetadataJsonSchema.detailedSchema)));
 
     expect(metadata.serializeHex(),
-        "a3448badf00d44deadbeef0905636f626aa1616182a10502a0");
+        'a3448badf00d44deadbeef0905636f626aa1616182a10502a0');
 
     final deserialize = TransactionMetadata.fromCborBytes(metadata.serialize());
     expect(deserialize.serializeHex(), metadata.serializeHex());
   });
-  test("TransactionMetadata_detailedSchema", () {
+  test('TransactionMetadata_detailedSchema', () {
     final decode = StringUtils.toJson('''{"map":[
             {
             "k":{"list":[
@@ -134,35 +134,35 @@ void _detailedSchema() {
                 jsonSchema: MetadataJsonSchema.detailedSchema)));
 
     expect(metadata.serializeHex(),
-        "a182a205266568656c6c6f65776f726c6444ff00ff0005");
+        'a182a205266568656c6c6f65776f726c6444ff00ff0005');
 
     final deserialize = TransactionMetadata.fromCborBytes(metadata.serialize());
     expect(deserialize.serializeHex(), metadata.serializeHex());
   });
-  test("TransactionMetadata_3", () {
+  test('TransactionMetadata_3', () {
     TransactionMetadata.fromCborBytes(BytesUtils.fromHexString(
-        "a105a4781b232323232323232323232323232323232323232323232323232323827840232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323237840232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323236e232323232323232323232323232382a36f2323232323232323232323232323236a323030302d30312d303166232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323712323232323232323232323232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323a36f2323232323232323232323232323236a323030302d30312d303166232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323712323232323232323232323232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323752323232323232323232323232323232323232323236a323030302d30312d3031752323232323232323232323232323232323232323236a323030302d30312d3031"));
+        'a105a4781b232323232323232323232323232323232323232323232323232323827840232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323237840232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323236e232323232323232323232323232382a36f2323232323232323232323232323236a323030302d30312d303166232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323712323232323232323232323232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323a36f2323232323232323232323232323236a323030302d30312d303166232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323712323232323232323232323232323232323784023232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323752323232323232323232323232323232323232323236a323030302d30312d3031752323232323232323232323232323232323232323236a323030302d30312d3031'));
   });
 }
 
 void _auxiliaryData() {
-  test("AuxiliaryData", () {
+  test('AuxiliaryData', () {
     final gmd = GeneralTransactionMetadata(metadata: {
-      BigInt.from(100): const TransactionMetadataText(value: "string md")
+      BigInt.from(100): const TransactionMetadataText(value: 'string md')
     });
     AuxiliaryData aux = AuxiliaryData();
-    expect(aux.serializeHex(), "d90103a0");
+    expect(aux.serializeHex(), 'd90103a0');
     expect(AuxiliaryData.fromCborBytes(aux.serialize()).serializeHex(),
         aux.serializeHex());
 
     aux = AuxiliaryData(metadata: gmd);
-    expect(aux.serializeHex(), "a1186469737472696e67206d64");
+    expect(aux.serializeHex(), 'a1186469737472696e67206d64');
     expect(AuxiliaryData.fromCborBytes(aux.serialize()).serializeHex(),
         aux.serializeHex());
 
     final native = NativeScriptTimelockStart(BigInt.from(20));
     aux = AuxiliaryData(metadata: gmd, nativeScripts: [native]);
-    expect(aux.serializeHex(), "82a1186469737472696e67206d6481820414");
+    expect(aux.serializeHex(), '82a1186469737472696e67206d6481820414');
     expect(AuxiliaryData.fromCborBytes(aux.serialize()).serializeHex(),
         aux.serializeHex());
     final plutusScript = PlutusScript(
@@ -170,7 +170,7 @@ void _auxiliaryData() {
     aux = AuxiliaryData(
         metadata: gmd, nativeScripts: [native], plutusScripts: [plutusScript]);
     expect(aux.serializeHex(),
-        "d90103a300a1186469737472696e67206d6401818204140281581d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d");
+        'd90103a300a1186469737472696e67206d6401818204140281581d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d');
     expect(AuxiliaryData.fromCborBytes(aux.serialize()).serializeHex(),
         aux.serializeHex());
     final plutusScriptv2 = PlutusScript(
@@ -182,33 +182,33 @@ void _auxiliaryData() {
     expect(AuxiliaryData.fromCborBytes(aux.serialize()).serializeHex(),
         aux.serializeHex());
   });
-  test("AuxiliaryData_2", () {
+  test('AuxiliaryData_2', () {
     AuxiliaryData aux = AuxiliaryData.fromCborBytes(
-        BytesUtils.fromHexString("d90103a100a1186469737472696e67206d64"));
-    expect(aux.serializeHex(), "d90103a100a1186469737472696e67206d64");
+        BytesUtils.fromHexString('d90103a100a1186469737472696e67206d64'));
+    expect(aux.serializeHex(), 'd90103a100a1186469737472696e67206d64');
     expect(aux.preferAlonzoFormat, true);
     aux = AuxiliaryData.fromCborBytes(
-        BytesUtils.fromHexString("a1186469737472696e67206d64"));
-    expect(aux.serializeHex(), "a1186469737472696e67206d64");
+        BytesUtils.fromHexString('a1186469737472696e67206d64'));
+    expect(aux.serializeHex(), 'a1186469737472696e67206d64');
     expect(aux.preferAlonzoFormat, false);
   });
-  test("TransactionMetadata_1", () {
-    final bytes = BytesUtils.fromHexString("4e4d01000033222220051200120011");
+  test('TransactionMetadata_1', () {
+    final bytes = BytesUtils.fromHexString('4e4d01000033222220051200120011');
     final plutusV1 =
         PlutusScript.deserialize(CborObject.fromCbor(bytes) as CborBytesValue);
     final plutusV2 = PlutusScript.deserialize(
         CborObject.fromCbor(bytes) as CborBytesValue,
         language: Language.plutusV2);
     final auxOne = _encodeDecodeCheck([]);
-    expect(auxOne, "d90103a300a1182aa164746573741894018182041a0012d67c0280");
+    expect(auxOne, 'd90103a300a1182aa164746573741894018182041a0012d67c0280');
     final auxTwo = _encodeDecodeCheck([plutusV1]);
     expect(auxTwo,
-        "d90103a300a1182aa164746573741894018182041a0012d67c02814e4d01000033222220051200120011");
+        'd90103a300a1182aa164746573741894018182041a0012d67c02814e4d01000033222220051200120011');
     final auxThree = _encodeDecodeCheck([plutusV2]);
     expect(auxThree,
-        "d90103a400a1182aa164746573741894018182041a0012d67c028003814e4d01000033222220051200120011");
+        'd90103a400a1182aa164746573741894018182041a0012d67c028003814e4d01000033222220051200120011');
     final auxFour = _encodeDecodeCheck([plutusV1, plutusV2]);
     expect(auxFour,
-        "d90103a400a1182aa164746573741894018182041a0012d67c02814e4d0100003322222005120012001103814e4d01000033222220051200120011");
+        'd90103a400a1182aa164746573741894018182041a0012d67c02814e4d0100003322222005120012001103814e4d01000033222220051200120011');
   });
 }

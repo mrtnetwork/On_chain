@@ -16,13 +16,13 @@ void main() async {
     },
     onClose: (p0) {},
   );
-  final rpc = SolanaRPC(websocket);
-  final subscribeId = await rpc.request(const SolanaRPCAccountSubscribeInfo(
+  final rpc = SolanaProvider(websocket);
+  final subscribeId = await rpc.request(const SolanaRequestAccountSubscribeInfo(
       account: SolAddress.unchecked(
           "527pWSWfeQGLM7SoyVXjCRkrSZBtDkH6ShEBJB3nUDkA")));
   handleNotifications[subscribeId] = onAccountInfo;
   await Future.delayed(const Duration(seconds: 100));
-  final cancel = await rpc.request(SolanaRPCUnSubscribe(
+  final cancel = await rpc.request(SolanaRequestUnSubscribe(
       subscribeId: subscribeId,
       method: SolanaUnSubscribeRpcMethods.accountUnsubscribe));
   if (cancel) {

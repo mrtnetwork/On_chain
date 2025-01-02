@@ -22,7 +22,7 @@ import 'instructions.dart';
 abstract class MetaplexNFTPacksProgramLayout extends ProgramLayout {
   const MetaplexNFTPacksProgramLayout();
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   @override
   abstract final MetaplexNFTPacksProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
@@ -30,7 +30,7 @@ abstract class MetaplexNFTPacksProgramLayout extends ProgramLayout {
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final MetaplexNFTPacksProgramInstruction? instruction =
         MetaplexNFTPacksProgramInstruction.getInstruction(
-            decode["instruction"]);
+            decode['instruction']);
 
     switch (instruction) {
       case MetaplexNFTPacksProgramInstruction.activate:

@@ -8,12 +8,12 @@ import 'package:on_chain/solana/src/rpc/core/methods.dart';
 /// from the stake-weighted mean of the Vote timestamps in a set of recent blocks recorded on the ledger.
 ///
 /// https://solana.com/docs/rpc/http/getblocktime
-class SolanaRPCGetBlockTime extends SolanaRPCRequest<int> {
-  const SolanaRPCGetBlockTime({required this.blockNumber});
+class SolanaRequestGetBlockTime extends SolanaRequest<int, int> {
+  const SolanaRequestGetBlockTime({required this.blockNumber});
 
   /// getBlockTime
   @override
-  String get method => SolanaRPCMethods.getBlockTime.value;
+  String get method => SolanaRequestMethods.getBlockTime.value;
 
   /// block number, identified by Slot
   final int blockNumber;

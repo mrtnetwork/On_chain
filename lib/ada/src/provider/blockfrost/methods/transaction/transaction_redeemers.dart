@@ -4,7 +4,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain the transaction redeemers.
 /// qhttps://blockfrost.dev/api/transaction-redeemers
-class BlockfrostRequestTransactionRedeemers extends BlockforestRequestParam<
+class BlockfrostRequestTransactionRedeemers extends BlockFrostRequest<
     List<ADATransactionRedeemerResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionRedeemers(this.hash);
 

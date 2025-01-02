@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Vote for witnesses
 /// [developers.tron.network](https://developers.tron.network/reference/votewitnessaccount).
 class TronRequestVoteWitnessAccount
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestVoteWitnessAccount(
       {required this.ownerAddress,
       this.permissionId,
@@ -30,15 +30,18 @@ class TronRequestVoteWitnessAccount
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "votes": votes,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'votes': votes
+          .map((e) =>
+              e.map((key, value) => MapEntry(key.toAddress(visible), value)))
+          .toList(),
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestVoteWitnessAccount{${toJson()}}";
+    return 'TronRequestVoteWitnessAccount{${toJson()}}';
   }
 }

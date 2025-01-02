@@ -12,7 +12,7 @@ class StakeInitializeLayout extends StakeProgramLayout {
 
   const StakeInitializeLayout._(this.authorized, this.lockup);
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
+    LayoutConst.u32(property: 'instruction'),
     StakeAuthorized.staticLayout,
     StakeLockup.staticLayout,
   ]);
@@ -28,8 +28,8 @@ class StakeInitializeLayout extends StakeProgramLayout {
         bytes: data,
         instruction: StakeProgramInstruction.initialize.insturction);
     return StakeInitializeLayout(
-        authorized: StakeAuthorized.fromJson(decode["authorized"]),
-        lockup: StakeLockup.fromJson(decode["lockup"]));
+        authorized: StakeAuthorized.fromJson(decode['authorized']),
+        lockup: StakeLockup.fromJson(decode['lockup']));
   }
 
   @override
@@ -40,6 +40,6 @@ class StakeInitializeLayout extends StakeProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"authorized": authorized.serialize(), "lockup": lockup.serialize()};
+    return {'authorized': authorized.serialize(), 'lockup': lockup.serialize()};
   }
 }

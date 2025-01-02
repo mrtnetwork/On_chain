@@ -6,12 +6,12 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    SolanaLayoutUtils.publicKey("masterEdition"),
-    LayoutConst.optional(LayoutConst.u64(), property: "supplySnapshot"),
-    LayoutConst.vec(ReservationV1.staticLayout, property: "reservations"),
-    LayoutConst.u64(property: "totalReservationSpots"),
-    LayoutConst.u64(property: "currentReservationSpots")
+    LayoutConst.u8(property: 'key'),
+    SolanaLayoutUtils.publicKey('masterEdition'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'supplySnapshot'),
+    LayoutConst.vec(ReservationV1.staticLayout, property: 'reservations'),
+    LayoutConst.u64(property: 'totalReservationSpots'),
+    LayoutConst.u64(property: 'currentReservationSpots')
   ]);
 }
 
@@ -34,14 +34,14 @@ class ReservationListV2 extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return ReservationListV2(
-        key: MetaDataKey.fromValue(decode["key"]),
-        masterEdition: decode["masterEdition"],
-        supplySnapshot: decode["supplySnapshot"],
-        reservations: (decode["reservations"] as List)
+        key: MetaDataKey.fromValue(decode['key']),
+        masterEdition: decode['masterEdition'],
+        supplySnapshot: decode['supplySnapshot'],
+        reservations: (decode['reservations'] as List)
             .map((e) => ReservationV1.fromJson(e))
             .toList(),
-        currentReservationSpots: decode["currentReservationSpots"],
-        totalReservationSpots: decode["totalReservationSpots"]);
+        currentReservationSpots: decode['currentReservationSpots'],
+        totalReservationSpots: decode['totalReservationSpots']);
   }
 
   @override
@@ -49,12 +49,12 @@ class ReservationListV2 extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "key": key.value,
-      "masterEdition": masterEdition,
-      "supplySnapshot": supplySnapshot,
-      "reservations": reservations.map((e) => e.serialize()).toList(),
-      "totalReservationSpots": totalReservationSpots,
-      "currentReservationSpots": currentReservationSpots
+      'key': key.value,
+      'masterEdition': masterEdition,
+      'supplySnapshot': supplySnapshot,
+      'reservations': reservations.map((e) => e.serialize()).toList(),
+      'totalReservationSpots': totalReservationSpots,
+      'currentReservationSpots': currentReservationSpots
     };
   }
 }

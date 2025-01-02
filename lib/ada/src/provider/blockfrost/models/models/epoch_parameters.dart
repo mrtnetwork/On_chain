@@ -114,7 +114,7 @@ class ADAEpochParametersResponse {
         minPoolCost: json['min_pool_cost'],
         nonce: json['nonce'],
         costModels: Map<String, dynamic>.from(json['cost_models'] ?? {}),
-        coinsPerUtxoSize: int.parse(json["coins_per_utxo_size"].toString()));
+        coinsPerUtxoSize: int.parse(json['coins_per_utxo_size'].toString()));
   }
 
   Map<String, dynamic> toJson() => {
@@ -139,12 +139,12 @@ class ADAEpochParametersResponse {
         'min_pool_cost': minPoolCost,
         'nonce': nonce,
         'cost_models': costModels,
-        "coins_per_utxo_size": coinsPerUtxoSize
+        'coins_per_utxo_size': coinsPerUtxoSize
       };
 
   @override
   String toString() {
-    return "ADAEpochParametersResponse${toJson()}";
+    return 'ADAEpochParametersResponse${toJson()}';
   }
 
   /// Fees are constructed around two constants (a and b).

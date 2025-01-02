@@ -14,10 +14,10 @@ class MIRPot with ADASerialization {
   const MIRPot._(this.name, this.value);
 
   /// Represents the reserves pot for MIR.
-  static const MIRPot reserves = MIRPot._("reserves", 0);
+  static const MIRPot reserves = MIRPot._('reserves', 0);
 
   /// Represents the treasury pot for MIR.
-  static const MIRPot treasury = MIRPot._("treasury", 1);
+  static const MIRPot treasury = MIRPot._('treasury', 1);
 
   /// A list containing all possible MIRPot values.
   static const List<MIRPot> values = [reserves, treasury];
@@ -32,8 +32,8 @@ class MIRPot with ADASerialization {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw ADAPluginException(
-          "No MIRPot found matching the specified value",
-          details: {"value": value}),
+          'No MIRPot found matching the specified value',
+          details: {'value': value}),
     );
   }
 
@@ -42,8 +42,8 @@ class MIRPot with ADASerialization {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw ADAPluginException(
-          "No MIRPot found matching the specified name",
-          details: {"name": name}),
+          'No MIRPot found matching the specified name',
+          details: {'name': name}),
     );
   }
 
@@ -54,7 +54,7 @@ class MIRPot with ADASerialization {
 
   @override
   String toString() {
-    return "MIRPot.$name";
+    return 'MIRPot.$name';
   }
 
   @override

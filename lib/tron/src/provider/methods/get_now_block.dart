@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/models/block.dart';
 /// Query the latest block information
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-getnowblock).
 class TronRequestGetNowBlock
-    extends TVMRequestParam<TronBlock, Map<String, dynamic>> {
+    extends TronRequest<TronBlock, Map<String, dynamic>> {
   TronRequestGetNowBlock();
 
   /// wallet/getnowblock
@@ -24,6 +24,6 @@ class TronRequestGetNowBlock
 
   @override
   String toString() {
-    return "TronRequestGetNowBlock{${toJson()}}";
+    return 'TronRequestGetNowBlock{${toJson()}}';
   }
 }

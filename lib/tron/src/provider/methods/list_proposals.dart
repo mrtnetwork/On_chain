@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// List all proposals.
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-listproposals).
 class TronRequestListProposals
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   /// wallet/listproposals
   @override
   TronHTTPMethods get method => TronHTTPMethods.listproposals;
@@ -16,6 +16,6 @@ class TronRequestListProposals
 
   @override
   String toString() {
-    return "TronRequestListProposals{${toJson()}}";
+    return 'TronRequestListProposals{${toJson()}}';
   }
 }

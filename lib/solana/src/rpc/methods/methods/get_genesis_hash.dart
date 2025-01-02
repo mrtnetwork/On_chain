@@ -3,10 +3,10 @@ import 'package:on_chain/solana/src/rpc/core/methods.dart';
 
 /// Returns the genesis hash
 /// https://solana.com/docs/rpc/http/getgenesishash
-class SolanaRPCGetGenesisHash extends SolanaRPCRequest<String> {
+class SolanaRequestGetGenesisHash extends SolanaRequest<String, String> {
   /// getGenesisHash
   @override
-  String get method => SolanaRPCMethods.getGenesisHash.value;
+  String get method => SolanaRequestMethods.getGenesisHash.value;
 
   @override
   List<dynamic> toJson() {

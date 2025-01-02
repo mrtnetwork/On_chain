@@ -13,13 +13,13 @@ class AccountType implements TronEnumerate {
   const AccountType._(this.name, this.value);
 
   /// Represents a normal Tron account.
-  static const AccountType normal = AccountType._("Normal", 0);
+  static const AccountType normal = AccountType._('Normal', 0);
 
   /// Represents an account associated with asset issuance.
-  static const AccountType assetIssue = AccountType._("AssetIssue", 1);
+  static const AccountType assetIssue = AccountType._('AssetIssue', 1);
 
   /// Represents an account associated with a contract.
-  static const AccountType contract = AccountType._("Contract", 2);
+  static const AccountType contract = AccountType._('Contract', 2);
 
   /// List of all available account types.
   static const List<AccountType> values = [normal, assetIssue, contract];

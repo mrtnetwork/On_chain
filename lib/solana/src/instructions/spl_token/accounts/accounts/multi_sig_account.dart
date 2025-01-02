@@ -9,7 +9,7 @@ class SolanaMultiSigAccountUtils {
     LayoutConst.u8(property: 'numberOfSigners'),
     LayoutConst.u8(property: 'numberOfPossibleSigners'),
     LayoutConst.boolean(property: 'isInitialized'),
-    LayoutConst.array(SolanaLayoutUtils.publicKey(), 11, property: "signers"),
+    LayoutConst.array(SolanaLayoutUtils.publicKey(), 11, property: 'signers'),
   ]);
 
   static int get multisigSize => layout.span;
@@ -40,22 +40,22 @@ class SolanaMultiSigAccount extends LayoutSerializable {
   factory SolanaMultiSigAccount.fromBuffer(
       {required List<int> data, required SolAddress address}) {
     if (data.length != SolanaMultiSigAccountUtils.multisigSize) {
-      throw SolanaPluginException("Account data length is insufficient.",
+      throw SolanaPluginException('Account data length is insufficient.',
           details: {
-            "Expected": SolanaMultiSigAccountUtils.multisigSize,
-            "length": data.length
+            'Expected': SolanaMultiSigAccountUtils.multisigSize,
+            'length': data.length
           });
     }
 
     final decode = LayoutSerializable.decode(
         bytes: data, layout: SolanaMultiSigAccountUtils.layout);
-    final n = decode["numberOfPossibleSigners"];
+    final n = decode['numberOfPossibleSigners'];
     return SolanaMultiSigAccount(
         address: address,
-        numberOfSigners: decode["numberOfSigners"],
+        numberOfSigners: decode['numberOfSigners'],
         numberOfPossibleSigners: n,
-        isInitialized: decode["isInitialized"],
-        signers: (decode["signers"] as List).cast<SolAddress>().sublist(0, n));
+        isInitialized: decode['isInitialized'],
+        signers: (decode['signers'] as List).cast<SolAddress>().sublist(0, n));
   }
 
   @override
@@ -63,10 +63,10 @@ class SolanaMultiSigAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "numberOfSigners": numberOfSigners,
-      "numberOfPossibleSigners": numberOfPossibleSigners,
-      "isInitialized": isInitialized,
-      "signers": List.generate(
+      'numberOfSigners': numberOfSigners,
+      'numberOfPossibleSigners': numberOfPossibleSigners,
+      'isInitialized': isInitialized,
+      'signers': List.generate(
           11,
           (index) => signers.length > index
               ? signers.elementAt(index)
@@ -76,6 +76,6 @@ class SolanaMultiSigAccount extends LayoutSerializable {
 
   @override
   String toString() {
-    return "SolanaMultiSigAccount${serialize()}";
+    return 'SolanaMultiSigAccount${serialize()}';
   }
 }

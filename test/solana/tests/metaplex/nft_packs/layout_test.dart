@@ -2,9 +2,9 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 const _owner =
-    SolAddress.unchecked("HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf");
+    SolAddress.unchecked('HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf');
 void main() {
-  group("nftPacks", () {
+  group('nftPacks', () {
     _requestCardForRedeem();
     _activate();
     _addCardToPack();
@@ -29,23 +29,23 @@ void main() {
 }
 
 void _activate() {
-  test("activate", () {
+  test('activate', () {
     const layout = MetaplexNFTPacksActivateLayout();
-    expect(layout.toHex(), "03");
+    expect(layout.toHex(), '03');
     final decode = MetaplexNFTPacksActivateLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
 }
 
 void _addCardToPack() {
-  test("addCardToPack", () {
+  test('addCardToPack', () {
     const layout = MetaplexNFTPacksAddCardToPackLayout(
         addCardToPack: AddCardToPack(
       maxSupply: 1,
       weight: 0,
       index: 3,
     ));
-    expect(layout.toHex(), "0101000000000003000000");
+    expect(layout.toHex(), '0101000000000003000000');
     final decode =
         MetaplexNFTPacksAddCardToPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -53,9 +53,9 @@ void _addCardToPack() {
 }
 
 void _addVoucherToPack() {
-  test("addVoucherToPack", () {
+  test('addVoucherToPack', () {
     const layout = MetaplexNFTPacksAddVoucherToPackLayout();
-    expect(layout.toHex(), "02");
+    expect(layout.toHex(), '02');
     final decode =
         MetaplexNFTPacksAddVoucherToPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -63,36 +63,36 @@ void _addVoucherToPack() {
 }
 
 void _claimPack() {
-  test("claimPack", () {
+  test('claimPack', () {
     const layout = MetaplexNFTPacksClaimPackLayout(index: 1);
-    expect(layout.toHex(), "0601000000");
+    expect(layout.toHex(), '0601000000');
     final decode = MetaplexNFTPacksClaimPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
 }
 
 void _cleanUp() {
-  test("cleanUp", () {
+  test('cleanUp', () {
     const layout = MetaplexNFTPacksCleanUpLayout();
-    expect(layout.toHex(), "0d");
+    expect(layout.toHex(), '0d');
     final decode = MetaplexNFTPacksCleanUpLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
 }
 
 void _closePack() {
-  test("closePack", () {
+  test('closePack', () {
     const layout = MetaplexNFTPacksClosePackLayout();
-    expect(layout.toHex(), "05");
+    expect(layout.toHex(), '05');
     final decode = MetaplexNFTPacksClosePackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
 }
 
 void _deactivate() {
-  test("deactivate", () {
+  test('deactivate', () {
     const layout = MetaplexNFTPacksDeactivateLayout();
-    expect(layout.toHex(), "04");
+    expect(layout.toHex(), '04');
     final decode =
         MetaplexNFTPacksDeactivateLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -100,9 +100,9 @@ void _deactivate() {
 }
 
 void _deletePack() {
-  test("deletePack", () {
+  test('deletePack', () {
     const layout = MetaplexNFTPacksDeletePackLayout();
-    expect(layout.toHex(), "08");
+    expect(layout.toHex(), '08');
     final decode =
         MetaplexNFTPacksDeletePackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -110,9 +110,9 @@ void _deletePack() {
 }
 
 void _deletePackCard() {
-  test("deletePackCard", () {
+  test('deletePackCard', () {
     const layout = MetaplexNFTPacksDeletePackCardLayout();
-    expect(layout.toHex(), "09");
+    expect(layout.toHex(), '09');
     final decode =
         MetaplexNFTPacksDeletePackCardLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -120,9 +120,9 @@ void _deletePackCard() {
 }
 
 void _deletePackConfig() {
-  test("deletePackConfig", () {
+  test('deletePackConfig', () {
     const layout = MetaplexNFTPacksDeletePackConfigLayout();
-    expect(layout.toHex(), "0e");
+    expect(layout.toHex(), '0e');
     final decode =
         MetaplexNFTPacksDeletePackConfigLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -130,9 +130,9 @@ void _deletePackConfig() {
 }
 
 void _deletePackVoucher() {
-  test("deletePackVoucher", () {
+  test('deletePackVoucher', () {
     const layout = MetaplexNFTPacksDeletePackVoucherLayout();
-    expect(layout.toHex(), "0a");
+    expect(layout.toHex(), '0a');
     final decode =
         MetaplexNFTPacksDeletePackVoucherLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -140,101 +140,101 @@ void _deletePackVoucher() {
 }
 
 void _editPack() {
-  test("editPack", () {
+  test('editPack', () {
     final layout = MetaplexNFTPacksEditPackLayout();
-    expect(layout.toHex(), "0b00000000");
+    expect(layout.toHex(), '0b00000000');
     final decode = MetaplexNFTPacksEditPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("editPack_1", () {
+  test('editPack_1', () {
     final layout =
         MetaplexNFTPacksEditPackLayout(name: List<int>.filled(32, 10));
     expect(layout.toHex(),
-        "0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a000000");
+        '0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a000000');
     final decode = MetaplexNFTPacksEditPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("editPack_2", () {
+  test('editPack_2', () {
     final layout = MetaplexNFTPacksEditPackLayout(
-        name: List<int>.filled(32, 10), desciption: "mrtnetwork");
+        name: List<int>.filled(32, 10), desciption: 'mrtnetwork');
     expect(layout.toHex(),
-        "0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010a0000006d72746e6574776f726b0000");
+        '0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010a0000006d72746e6574776f726b0000');
     final decode = MetaplexNFTPacksEditPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("editPack_3", () {
+  test('editPack_3', () {
     final layout = MetaplexNFTPacksEditPackLayout(
         name: List<int>.filled(32, 10),
-        desciption: "mrtnetwork",
-        uri: "mrtnetwork");
+        desciption: 'mrtnetwork',
+        uri: 'mrtnetwork');
     expect(layout.toHex(),
-        "0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010a0000006d72746e6574776f726b010a0000006d72746e6574776f726b00");
+        '0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010a0000006d72746e6574776f726b010a0000006d72746e6574776f726b00');
     final decode = MetaplexNFTPacksEditPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("editPack_4", () {
+  test('editPack_4', () {
     final layout = MetaplexNFTPacksEditPackLayout(
         name: List<int>.filled(32, 10),
-        desciption: "mrtnetwork",
-        uri: "mrtnetwork",
+        desciption: 'mrtnetwork',
+        uri: 'mrtnetwork',
         mutable: true);
     expect(layout.toHex(),
-        "0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010a0000006d72746e6574776f726b010a0000006d72746e6574776f726b0101");
+        '0b010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010a0000006d72746e6574776f726b010a0000006d72746e6574776f726b0101');
     final decode = MetaplexNFTPacksEditPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
 }
 
 void _initPack() {
-  test("initPack", () {
+  test('initPack', () {
     final layout = MetaplexNFTPacksInitPackLayout(
       name: List.filled(32, 10),
-      description: "mrtnetwork",
-      uri: "https://github.com/mrtnetwork",
+      description: 'mrtnetwork',
+      uri: 'https://github.com/mrtnetwork',
       mutable: false,
       packDistributionType: PackDistributionType.fixed,
       allowedAmountToRedeem: 1,
     );
     expect(layout.toHex(),
-        "000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0000006d72746e6574776f726b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b0001010000000000");
+        '000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0000006d72746e6574776f726b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b0001010000000000');
     final decode = MetaplexNFTPacksInitPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("initPack_1", () {
+  test('initPack_1', () {
     final layout = MetaplexNFTPacksInitPackLayout(
         name: List.filled(32, 10),
-        description: "mrtnetwork",
-        uri: "https://github.com/mrtnetwork",
+        description: 'mrtnetwork',
+        uri: 'https://github.com/mrtnetwork',
         mutable: false,
         packDistributionType: PackDistributionType.fixed,
         allowedAmountToRedeem: 1,
         redeemStartDate: BigInt.from(222222));
     expect(layout.toHex(),
-        "000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0000006d72746e6574776f726b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b000101000000010e6403000000000000");
+        '000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0000006d72746e6574776f726b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b000101000000010e6403000000000000');
     final decode = MetaplexNFTPacksInitPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("initPack_2", () {
+  test('initPack_2', () {
     final layout = MetaplexNFTPacksInitPackLayout(
         name: List.filled(32, 10),
-        description: "mrtnetwork",
-        uri: "https://github.com/mrtnetwork",
+        description: 'mrtnetwork',
+        uri: 'https://github.com/mrtnetwork',
         mutable: false,
         packDistributionType: PackDistributionType.fixed,
         allowedAmountToRedeem: 1,
         redeemStartDate: BigInt.from(222222),
         redeemEndDate: BigInt.from(33333));
     expect(layout.toHex(),
-        "000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0000006d72746e6574776f726b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b000101000000010e64030000000000013582000000000000");
+        '000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0000006d72746e6574776f726b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b000101000000010e64030000000000013582000000000000');
     final decode = MetaplexNFTPacksInitPackLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
 }
 
 void _requestCardForRedeem() {
-  test("requestCardForRedeem", () {
+  test('requestCardForRedeem', () {
     const layout = MetaplexNFTPacksRequestCardForRedeemLayout(index: 12);
-    expect(layout.toHex(), "0c0c000000");
+    expect(layout.toHex(), '0c0c000000');
     final decode =
         MetaplexNFTPacksRequestCardForRedeemLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -242,9 +242,9 @@ void _requestCardForRedeem() {
 }
 
 void _transferPackAuthority() {
-  test("transferPackAuthority", () {
+  test('transferPackAuthority', () {
     const layout = MetaplexNFTPacksTransferPackAuthorityLayout();
-    expect(layout.toHex(), "07");
+    expect(layout.toHex(), '07');
     final decode = MetaplexNFTPacksTransferPackAuthorityLayout.fromBuffer(
         layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -252,7 +252,7 @@ void _transferPackAuthority() {
 }
 
 void _provingProcess() {
-  test("ProvingProcess", () {
+  test('ProvingProcess', () {
     const layout = ProvingProcess(
         accountType: NFTPacksAccountType.packCard,
         walletKey: _owner,
@@ -263,14 +263,14 @@ void _provingProcess() {
         cardsToRedeem: {1: 10, 2: 20, 3: 30});
 
     expect(layout.toHex(),
-        "02f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd7600f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760200000003000000010000000a0000000200000014000000030000001e000000");
+        '02f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd7600f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760200000003000000010000000a0000000200000014000000030000001e000000');
     final decode = ProvingProcess.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });
 }
 
 void _packVoucher() {
-  test("PackVoucher", () {
+  test('PackVoucher', () {
     const layout = PackVoucher(
       accountType: NFTPacksAccountType.packSet,
       packSet: _owner,
@@ -279,20 +279,20 @@ void _packVoucher() {
     );
 
     expect(layout.toHex(),
-        "01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76");
+        '01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76');
     final decode = PackVoucher.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });
 }
 
 void _packSet() {
-  test("packset", () {
+  test('packset', () {
     final layout = PackSet(
       accountType: NFTPacksAccountType.packSet,
       store: _owner,
       authority: _owner,
-      description: "MRTNETWORK",
-      uri: "https://github.com/mrtnetwork",
+      description: 'MRTNETWORK',
+      uri: 'https://github.com/mrtnetwork',
       name: List<int>.filled(32, 10),
       packCards: 1,
       packVouchers: 2,
@@ -305,17 +305,17 @@ void _packSet() {
       redeemStartDate: BigInt.from(11111),
     );
     expect(layout.toHex(),
-        "01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760a0000004d52544e4554574f524b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010000000200000035820000000000009cad00000000000001010100000000672b00000000000000");
+        '01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760a0000004d52544e4554574f524b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010000000200000035820000000000009cad00000000000001010100000000672b00000000000000');
     final decode = PackSet.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });
-  test("packset_2", () {
+  test('packset_2', () {
     final layout = PackSet(
         accountType: NFTPacksAccountType.packSet,
         store: _owner,
         authority: _owner,
-        description: "MRTNETWORK",
-        uri: "https://github.com/mrtnetwork",
+        description: 'MRTNETWORK',
+        uri: 'https://github.com/mrtnetwork',
         name: List<int>.filled(32, 10),
         packCards: 1,
         packVouchers: 2,
@@ -328,14 +328,14 @@ void _packSet() {
         redeemStartDate: BigInt.from(11111),
         redeemEndDate: BigInt.from(2222222));
     expect(layout.toHex(),
-        "01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760a0000004d52544e4554574f524b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010000000200000035820000000000009cad00000000000001010100000000672b000000000000018ee8210000000000");
+        '01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd760a0000004d52544e4554574f524b1d00000068747470733a2f2f6769746875622e636f6d2f6d72746e6574776f726b0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a010000000200000035820000000000009cad00000000000001010100000000672b000000000000018ee8210000000000');
     final decode = PackSet.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });
 }
 
 void _packConfig() {
-  test("packConfig", () {
+  test('packConfig', () {
     final layout = PackConfig(
         accountType: NFTPacksAccountType.packSet,
         weight: [
@@ -344,29 +344,29 @@ void _packConfig() {
         ],
         actionToDo: CleanUpAction.change([1, 3]));
     expect(layout.toHex(),
-        "0102000000010000000200000003000000020000000300000004000000000100000003000000");
+        '0102000000010000000200000003000000020000000300000004000000000100000003000000');
     final decode = PackConfig.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("packConfig_1", () {
+  test('packConfig_1', () {
     final layout = PackConfig(
         accountType: NFTPacksAccountType.packSet,
         weight: [],
         actionToDo: CleanUpAction.change([1, 3]));
-    expect(layout.toHex(), "0100000000000100000003000000");
+    expect(layout.toHex(), '0100000000000100000003000000');
     final decode = PackConfig.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("packConfig_2", () {
+  test('packConfig_2', () {
     final layout = PackConfig(
         accountType: NFTPacksAccountType.packSet,
         weight: [],
         actionToDo: CleanUpAction.sort());
-    expect(layout.toHex(), "010000000001");
+    expect(layout.toHex(), '010000000001');
     final decode = PackConfig.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
-  test("packConfig_3", () {
+  test('packConfig_3', () {
     final layout = PackConfig(
         accountType: NFTPacksAccountType.packSet,
         weight: [
@@ -375,14 +375,14 @@ void _packConfig() {
         ],
         actionToDo: CleanUpAction.none());
     expect(layout.toHex(),
-        "010200000001000000020000000300000002000000030000000400000002");
+        '010200000001000000020000000300000002000000030000000400000002');
     final decode = PackConfig.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
 }
 
 void _packcard() {
-  test("packcard", () {
+  test('packcard', () {
     const layout = PackCard(
       accountType: NFTPacksAccountType.packSet,
       packSet: _owner,
@@ -394,7 +394,7 @@ void _packcard() {
     );
 
     expect(layout.toHex(),
-        "01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76000000000000");
+        '01f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76000000000000');
     final decode = PackCard.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });

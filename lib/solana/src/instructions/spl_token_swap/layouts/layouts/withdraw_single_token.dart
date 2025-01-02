@@ -27,8 +27,8 @@ class SPLTokenSwapWithdrawSingleTokenLayout extends SPLTokenSwapProgramLayout {
     );
 
     return SPLTokenSwapWithdrawSingleTokenLayout(
-      destinationTokenAmount: decode["destinationTokenAmount"],
-      maximumPoolTokenAmount: decode["maximumPoolTokenAmount"],
+      destinationTokenAmount: decode['destinationTokenAmount'],
+      maximumPoolTokenAmount: decode['maximumPoolTokenAmount'],
     );
   }
 
@@ -49,8 +49,8 @@ class SPLTokenSwapWithdrawSingleTokenLayout extends SPLTokenSwapProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "destinationTokenAmount": destinationTokenAmount,
-      "maximumPoolTokenAmount": maximumPoolTokenAmount,
+      'destinationTokenAmount': destinationTokenAmount,
+      'maximumPoolTokenAmount': maximumPoolTokenAmount,
     };
   }
 }

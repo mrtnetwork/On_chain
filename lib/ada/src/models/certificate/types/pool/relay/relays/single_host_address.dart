@@ -33,15 +33,15 @@ class SingleHostAddr extends Relay {
   }
 
   factory SingleHostAddr.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> correctJson = json["single_host_addr"] ?? json;
+    final Map<String, dynamic> correctJson = json['single_host_addr'] ?? json;
     return SingleHostAddr(
-        ipv4: correctJson["ipv4"] == null
+        ipv4: correctJson['ipv4'] == null
             ? null
-            : Ipv4.fromJson(correctJson["ipv4"]),
-        ipv6: correctJson["ipv6"] == null
+            : Ipv4.fromJson(correctJson['ipv4']),
+        ipv6: correctJson['ipv6'] == null
             ? null
-            : Ipv6.fromJson(correctJson["ipv6"]),
-        port: correctJson["port"]);
+            : Ipv6.fromJson(correctJson['ipv6']),
+        port: correctJson['port']);
   }
 
   SingleHostAddr copyWith({
@@ -70,10 +70,10 @@ class SingleHostAddr extends Relay {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "single_host_addr": {
-        "port": port,
-        "ipv4": ipv4?.toJson(),
-        "ipv6": ipv6?.toJson(),
+      'single_host_addr': {
+        'port': port,
+        'ipv4': ipv4?.toJson(),
+        'ipv6': ipv6?.toJson(),
       }
     };
   }

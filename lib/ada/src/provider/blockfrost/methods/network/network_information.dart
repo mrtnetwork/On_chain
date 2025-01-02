@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return detailed network information.
 /// https://blockfrost.dev/api/network-information
-class BlockfrostRequestNetworkInformation extends BlockforestRequestParam<
-    ADANetworkInfoResponse, Map<String, dynamic>> {
+class BlockfrostRequestNetworkInformation
+    extends BlockFrostRequest<ADANetworkInfoResponse, Map<String, dynamic>> {
   BlockfrostRequestNetworkInformation();
 
   /// Network information

@@ -12,10 +12,10 @@ class AccountLookupKeys {
 
   factory AccountLookupKeys.fromJson(Map<String, dynamic> json) {
     return AccountLookupKeys(
-        readonly: (json["readonly"] as List)
+        readonly: (json['readonly'] as List)
             .map((e) => SolAddress.uncheckCurve(e))
             .toList(),
-        writable: (json["writable"] as List)
+        writable: (json['writable'] as List)
             .map((e) => SolAddress.uncheckCurve(e))
             .toList());
   }

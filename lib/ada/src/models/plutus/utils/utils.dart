@@ -86,12 +86,12 @@ class PlutusDataUtils {
       required dynamic value,
       required bool isKey}) {
     if (value is! String) {
-      throw ADAPluginException("Invalid string format.",
-          details: {"Value": "$value", "Type": "${value.runtimeType}"});
+      throw ADAPluginException('Invalid string format.',
+          details: {'Value': '$value', 'Type': '${value.runtimeType}'});
     }
     switch (schame) {
       case PlutusJsonSchema.basicConversions:
-        if (value.startsWith("0x")) {
+        if (value.startsWith('0x')) {
           return PlutusBytes(value: BytesUtils.fromHexString(value));
         } else if (isKey) {
           final inBigInt = BigInt.tryParse(value);
@@ -102,10 +102,10 @@ class PlutusDataUtils {
         }
         return PlutusBytes(value: StringUtils.encode(value));
       default:
-        if (value.startsWith("0x")) {
+        if (value.startsWith('0x')) {
           throw ADAPluginException(
-              "Hex byte strings in detailed schema should NOT start with 0x",
-              details: {"Value": value});
+              'Hex byte strings in detailed schema should NOT start with 0x',
+              details: {'Value': value});
         }
         return PlutusBytes(value: BytesUtils.fromHexString(value));
     }
@@ -113,7 +113,7 @@ class PlutusDataUtils {
 
   static PlutusData _encodeArray(dynamic value, PlutusJsonSchema jsonSchema) {
     if (value is! List) {
-      throw ADAPluginException("Invalid list type.", details: {"value": value});
+      throw ADAPluginException('Invalid list type.', details: {'value': value});
     }
     return PlutusList(value.map((e) => parsePlutus(e, jsonSchema)).toList());
   }
@@ -124,13 +124,15 @@ class PlutusDataUtils {
           val is BigInt ||
           val is String ||
           val is List ||
-          val is Map) return;
+          val is Map) {
+        return;
+      }
     }
     if (val != null) {
-      throw ADAPluginException("Invalid plutus format. type not allowed.",
-          details: {"Value": val, "Type": "${val.runtimeType}"});
+      throw ADAPluginException('Invalid plutus format. type not allowed.',
+          details: {'Value': val, 'Type': '${val.runtimeType}'});
     }
-    throw const ADAPluginException("null not allowed in plutus data");
+    throw const ADAPluginException('null not allowed in plutus data');
   }
 
   static PlutusData _encodeMap(Map value, PlutusJsonSchema jsonSchema) {
@@ -146,20 +148,20 @@ class PlutusDataUtils {
   static PlutusData _parseDetailed(dynamic value, PlutusJsonSchema schame) {
     if (value is! Map<String, dynamic>) {
       throw const ADAPluginException(
-          "DetailedSchema requires types to be tagged objects");
+          'DetailedSchema requires types to be tagged objects');
     }
     if (value.length == 1) {
       final entry = value.entries.first;
       final String key = entry.key;
       final v = entry.value;
       switch (key) {
-        case "int":
+        case 'int':
           return _encodeNumbers(v);
-        case "list":
+        case 'list':
           return _encodeArray(v, schame);
-        case "bytes":
+        case 'bytes':
           return _encodeString(schame: schame, value: v, isKey: false);
-        case "map":
+        case 'map':
           if (v is! List) {
             throw const ADAPluginException(
               r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
@@ -172,32 +174,32 @@ class PlutusDataUtils {
                 r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
               );
             }
-            if (!i.containsKey("k") || !i.containsKey("v")) {
+            if (!i.containsKey('k') || !i.containsKey('v')) {
               throw const ADAPluginException(
                 r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
               );
             }
             values.addAll(
-                {parsePlutus(i["k"], schame): parsePlutus(i["v"], schame)});
+                {parsePlutus(i['k'], schame): parsePlutus(i['v'], schame)});
           }
           return PlutusMap(values);
         default:
-          throw ADAPluginException("key is not valid.", details: {"Key": key});
+          throw ADAPluginException('key is not valid.', details: {'Key': key});
       }
     } else {
       if (value.length != 2) {
         throw const ADAPluginException(
-            "detailed schemas must either have only one of the following keys: \"int\", \"bytes\", \"list\" or \"map\", or both of these 2 keys: \"constructor\" + \"fields\"");
+            'detailed schemas must either have only one of the following keys: "int", "bytes", "list" or "map", or both of these 2 keys: "constructor" + "fields"');
       }
-      final constructor = value["constructor"];
+      final constructor = value['constructor'];
       if (constructor is! int && constructor is! BigInt) {
         throw const ADAPluginException(
-            "tagged constructors must contain an unsigned integer called \"constructor\"");
+            'tagged constructors must contain an unsigned integer called "constructor"');
       }
-      final fileds = value["fields"];
+      final fileds = value['fields'];
       if (fileds is! List) {
         throw const ADAPluginException(
-            "tagged constructors must contian a list called \"fields\"");
+            'tagged constructors must contian a list called "fields"');
       }
       final List<PlutusData> plutusList = [];
       for (final i in fileds) {

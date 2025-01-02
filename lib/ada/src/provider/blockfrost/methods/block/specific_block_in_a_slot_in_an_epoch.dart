@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Return the content of a requested block for a specific slot in an epoch.
 /// https://blockfrost.dev/api/specific-block-in-a-slot-in-an-epoch
 class BlockfrostRequestSpecificBlockInASlotInAnEpoch
-    extends BlockforestRequestParam<ADABlockResponse, Map<String, dynamic>> {
+    extends BlockFrostRequest<ADABlockResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificBlockInASlotInAnEpoch(
       {required this.epochNumber, required this.slotNumber});
 

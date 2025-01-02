@@ -16,7 +16,7 @@ class TransactionMetadataText extends TransactionMetadata<String> {
     return TransactionMetadataText(value: cbor.value);
   }
   factory TransactionMetadataText.fromJson(Map<String, dynamic> json) {
-    return TransactionMetadataText(value: json["string"]);
+    return TransactionMetadataText(value: json['string']);
   }
   TransactionMetadataText copyWith({String? value}) {
     return TransactionMetadataText(value: value ?? this.value);
@@ -29,15 +29,15 @@ class TransactionMetadataText extends TransactionMetadata<String> {
   /// Converts the metadata to JSON.
   @override
   Map<String, dynamic> toJson() {
-    return {"string": value};
+    return {'string': value};
   }
 
   @override
-  toJsonSchema(
+  Object toJsonSchema(
       {MetadataSchemaConfig config = const MetadataSchemaConfig(
           jsonSchema: MetadataJsonSchema.noConversions)}) {
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
-      return {"string": value};
+      return {'string': value};
     }
     return value;
   }

@@ -16,12 +16,12 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException("Account data length is insufficient.",
-            details: {"Expected": accountSize, "length": extensionData.length});
+        throw SolanaPluginException('Account data length is insufficient.',
+            details: {'Expected': accountSize, 'length': extensionData.length});
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 
@@ -33,7 +33,7 @@ class _Utils {
               extensionType: ExtensionType.groupMemberPointer);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
@@ -47,23 +47,23 @@ class GroupMemberPointer extends LayoutSerializable {
   factory GroupMemberPointer.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return GroupMemberPointer(
-      authority: decode["authority"] == SolAddress.defaultPubKey
+      authority: decode['authority'] == SolAddress.defaultPubKey
           ? null
-          : decode["authority"],
-      memberAddress: decode["memberAddress"] == SolAddress.defaultPubKey
+          : decode['authority'],
+      memberAddress: decode['memberAddress'] == SolAddress.defaultPubKey
           ? null
-          : decode["memberAddress"],
+          : decode['memberAddress'],
     );
   }
   factory GroupMemberPointer.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return GroupMemberPointer(
-      authority: decode["authority"] == SolAddress.defaultPubKey
+      authority: decode['authority'] == SolAddress.defaultPubKey
           ? null
-          : decode["authority"],
-      memberAddress: decode["memberAddress"] == SolAddress.defaultPubKey
+          : decode['authority'],
+      memberAddress: decode['memberAddress'] == SolAddress.defaultPubKey
           ? null
-          : decode["memberAddress"],
+          : decode['memberAddress'],
     );
   }
 
@@ -72,13 +72,13 @@ class GroupMemberPointer extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "authority": authority ?? SolAddress.defaultPubKey,
-      "memberAddress": memberAddress ?? SolAddress.defaultPubKey
+      'authority': authority ?? SolAddress.defaultPubKey,
+      'memberAddress': memberAddress ?? SolAddress.defaultPubKey
     };
   }
 
   @override
   String toString() {
-    return "GroupMemberPointer${serialize()}";
+    return 'GroupMemberPointer${serialize()}';
   }
 }

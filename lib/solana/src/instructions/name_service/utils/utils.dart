@@ -7,7 +7,7 @@ import 'package:on_chain/solana/src/utils/utils.dart';
 class NameServiceProgramUtils {
   /// Returns the hashed name for the given name.
   static List<int> getHashedName(String name) {
-    final combine = "${NameServiceProgramConst.hashPrefix}$name";
+    final combine = '${NameServiceProgramConst.hashPrefix}$name';
     final encode = StringUtils.encode(combine);
     return QuickCrypto.sha256Hash(encode);
   }

@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// GetZenPaymentAddress
 /// [developers.tron.network](https://developers.tron.network/reference/getzenpaymentaddress).
 class TronRequestGetZenPaymentAddress
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetZenPaymentAddress({required this.ivk, required this.d});
   final String ivk;
   final String d;
@@ -15,11 +15,11 @@ class TronRequestGetZenPaymentAddress
 
   @override
   Map<String, dynamic> toJson() {
-    return {"ivk": ivk, "d": d};
+    return {'ivk': ivk, 'd': d};
   }
 
   @override
   String toString() {
-    return "TronRequestGetZenPaymentAddress{${toJson()}}";
+    return 'TronRequestGetZenPaymentAddress{${toJson()}}';
   }
 }

@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of a specific asset transactions.
 /// https://blockfrost.dev/api/asset-transactions
-class BlockfrostRequestAssetTransactions extends BlockforestRequestParam<
+class BlockfrostRequestAssetTransactions extends BlockFrostRequest<
     List<ADATransactionSummaryInfoResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestAssetTransactions(this.asset,
-      {BlockforestRequestFilterParams? filter});
+      {BlockFrostRequestFilterParams? filter});
 
   /// Concatenation of the policy_id and hex-encoded asset_name
   final String asset;

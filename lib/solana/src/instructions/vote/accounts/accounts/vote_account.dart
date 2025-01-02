@@ -14,18 +14,18 @@ class _Utils {
               LayoutConst.struct([
                 LayoutConst.u8(),
                 ...Lockout.staticLayout.fields,
-              ], property: "lockout"),
+              ], property: 'lockout'),
               property: 'votes')
         else
           LayoutConst.rustVec(Lockout.staticLayout, property: 'votes'),
-        LayoutConst.optional(LayoutConst.u64(), property: "rootSlot"),
+        LayoutConst.optional(LayoutConst.u64(), property: 'rootSlot'),
         LayoutConst.rustVec(AuthorizedVoter.staticLayout,
             property: 'authorizedVoters'),
         PriorVoters.staticLayout,
         LayoutConst.rustVec(EpochCredits.staticLayout,
             property: 'epochCredits'),
         LayoutConst.wrap(BlockTimestamp.staticLayout,
-            property: "lastTimestamp"),
+            property: 'lastTimestamp'),
       ]);
 }
 
@@ -58,20 +58,20 @@ class VoteAccount extends LayoutSerializable {
         bytes: data.sublist(4), layout: _Utils.layout(version));
     return VoteAccount(
         version: version,
-        authorizedVoters: (decode["authorizedVoters"] as List)
+        authorizedVoters: (decode['authorizedVoters'] as List)
             .map((e) => AuthorizedVoter.fromJson(e))
             .toList(),
-        authorizedWithdrawer: decode["authorizedWithdrawer"],
-        commission: decode["commission"],
-        epochCredits: (decode["epochCredits"] as List)
+        authorizedWithdrawer: decode['authorizedWithdrawer'],
+        commission: decode['commission'],
+        epochCredits: (decode['epochCredits'] as List)
             .map((e) => EpochCredits.fromJson(e))
             .toList(),
-        lastTimestamp: BlockTimestamp.fromJson(decode["lastTimestamp"]),
-        nodePubkey: decode["nodePubkey"],
-        priorVoter: PriorVoters.fromJson(decode["priorVoters"]),
-        rootSlot: decode["rootSlot"],
+        lastTimestamp: BlockTimestamp.fromJson(decode['lastTimestamp']),
+        nodePubkey: decode['nodePubkey'],
+        priorVoter: PriorVoters.fromJson(decode['priorVoters']),
+        rootSlot: decode['rootSlot'],
         votes:
-            (decode["votes"] as List).map((e) => Lockout.fromJson(e)).toList());
+            (decode['votes'] as List).map((e) => Lockout.fromJson(e)).toList());
   }
 
   @override
@@ -79,20 +79,20 @@ class VoteAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "authorizedVoters": authorizedVoters.map((e) => e.serialize()).toList(),
-      "authorizedWithdrawer": authorizedWithdrawer,
-      "commission": commission,
-      "epochCredits": epochCredits.map((e) => e.serialize()).toList(),
-      "lastTimestamp": lastTimestamp.serialize(),
-      "nodePubkey": nodePubkey,
-      "priorVoters": priorVoter.serialize(),
-      "rootSlot": rootSlot,
-      "votes": votes.map((e) => e.serialize()).toList()
+      'authorizedVoters': authorizedVoters.map((e) => e.serialize()).toList(),
+      'authorizedWithdrawer': authorizedWithdrawer,
+      'commission': commission,
+      'epochCredits': epochCredits.map((e) => e.serialize()).toList(),
+      'lastTimestamp': lastTimestamp.serialize(),
+      'nodePubkey': nodePubkey,
+      'priorVoters': priorVoter.serialize(),
+      'rootSlot': rootSlot,
+      'votes': votes.map((e) => e.serialize()).toList()
     };
   }
 
   @override
   String toString() {
-    return "VoteAccount.${serialize()}";
+    return 'VoteAccount.${serialize()}';
   }
 }

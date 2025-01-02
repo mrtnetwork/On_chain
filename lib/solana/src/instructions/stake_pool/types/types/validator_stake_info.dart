@@ -36,13 +36,13 @@ class ValidatorStakeInfo extends LayoutSerializable {
       required this.voteAccountAddress});
   factory ValidatorStakeInfo.fromJson(Map<String, dynamic> json) {
     return ValidatorStakeInfo(
-        activeStakeLamports: json["activeStakeLamports"],
-        transientStakeLamports: json["transientStakeLamports"],
-        lastUpdateEpoch: json["lastUpdateEpoch"],
-        transientSeedSuffixStart: json["transientSeedSuffixStart"],
-        transientSeedSuffixEnd: json["transientSeedSuffixEnd"],
-        status: ValidatorStakeInfoStatus.fromValue(json["status"]),
-        voteAccountAddress: json["voteAccountAddress"]);
+        activeStakeLamports: json['activeStakeLamports'],
+        transientStakeLamports: json['transientStakeLamports'],
+        lastUpdateEpoch: json['lastUpdateEpoch'],
+        transientSeedSuffixStart: json['transientSeedSuffixStart'],
+        transientSeedSuffixEnd: json['transientSeedSuffixEnd'],
+        status: ValidatorStakeInfoStatus.fromValue(json['status']),
+        voteAccountAddress: json['voteAccountAddress']);
   }
 
   static final staticLayout = LayoutConst.struct([
@@ -53,7 +53,7 @@ class ValidatorStakeInfo extends LayoutSerializable {
     LayoutConst.u64(property: 'transientSeedSuffixEnd'),
     LayoutConst.u8(property: 'status'),
     SolanaLayoutUtils.publicKey('voteAccountAddress'),
-  ], property: "validatorStakeInfo");
+  ], property: 'validatorStakeInfo');
 
   @override
   StructLayout get layout => staticLayout;
@@ -61,18 +61,18 @@ class ValidatorStakeInfo extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "activeStakeLamports": activeStakeLamports,
-      "transientStakeLamports": transientStakeLamports,
-      "lastUpdateEpoch": lastUpdateEpoch,
-      "transientSeedSuffixStart": transientSeedSuffixStart,
-      "transientSeedSuffixEnd": transientSeedSuffixEnd,
-      "status": status.value,
-      "voteAccountAddress": voteAccountAddress
+      'activeStakeLamports': activeStakeLamports,
+      'transientStakeLamports': transientStakeLamports,
+      'lastUpdateEpoch': lastUpdateEpoch,
+      'transientSeedSuffixStart': transientSeedSuffixStart,
+      'transientSeedSuffixEnd': transientSeedSuffixEnd,
+      'status': status.value,
+      'voteAccountAddress': voteAccountAddress
     };
   }
 
   @override
   String toString() {
-    return "ValidatorStakeInfo${serialize()}";
+    return 'ValidatorStakeInfo${serialize()}';
   }
 }

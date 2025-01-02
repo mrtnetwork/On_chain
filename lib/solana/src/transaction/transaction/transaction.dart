@@ -11,11 +11,11 @@ class TransactionSerializeEncoding {
   final String name;
   const TransactionSerializeEncoding._(this.name);
   static const TransactionSerializeEncoding base58 =
-      TransactionSerializeEncoding._("base58");
+      TransactionSerializeEncoding._('base58');
   static const TransactionSerializeEncoding base64 =
-      TransactionSerializeEncoding._("base64");
+      TransactionSerializeEncoding._('base64');
   static const TransactionSerializeEncoding hex =
-      TransactionSerializeEncoding._("hex");
+      TransactionSerializeEncoding._('hex');
   String encode(List<int> data) {
     switch (this) {
       case TransactionSerializeEncoding.base58:
@@ -70,7 +70,7 @@ class SolanaTransaction {
       if (type == TransactionType.legacy &&
           addressLookupTableAccounts.isNotEmpty) {
         throw const SolanaPluginException(
-            "Do not use addressLookupTableAccounts in legacy transactions.");
+            'Do not use addressLookupTableAccounts in legacy transactions.');
       }
     }
     VersionedMessage message;
@@ -91,7 +91,7 @@ class SolanaTransaction {
     if (signatures.isNotEmpty) {
       if (signatures.length != message.header.numRequiredSignatures) {
         throw const SolanaPluginException(
-            "The expected length of signatures should match the number of required signatures.");
+            'The expected length of signatures should match the number of required signatures.');
       }
     } else {
       signatures = List.generate(
@@ -137,9 +137,9 @@ class SolanaTransaction {
   }
   factory SolanaTransaction.fromJson(Map<String, dynamic> json,
       {TransactionType? version}) {
-    final message = VersionedMessage.fromJson(json["message"], type: version);
+    final message = VersionedMessage.fromJson(json['message'], type: version);
 
-    final List<List<int>> signatures = (json["signatures"] as List)
+    final List<List<int>> signatures = (json['signatures'] as List)
         .map<List<int>>((e) => Base58Decoder.decode(e))
         .toList();
     final transaction = SolanaTransaction._(
@@ -187,7 +187,7 @@ class SolanaTransaction {
     if (verifySignatures) {
       if (!areSignaturesReady()) {
         throw const SolanaPluginException(
-            "Not all transaction signatures are ready.");
+            'Not all transaction signatures are ready.');
       }
     }
     return SolanaTransactionUtils.serializeTransaction(message, _signatures);
@@ -236,7 +236,7 @@ class SolanaTransaction {
   void addSignature(SolAddress address, List<int> signature,
       {bool verifySignature = true}) {
     if (signature.length != SolanaTransactionConstant.signatureLengthInBytes) {
-      throw const SolanaPluginException("Signature must be 64 bytes long");
+      throw const SolanaPluginException('Signature must be 64 bytes long');
     }
     final signerPubkeys =
         message.accountKeys.sublist(0, message.header.numRequiredSignatures);
@@ -244,13 +244,13 @@ class SolanaTransaction {
         signerPubkeys.indexWhere((pubkey) => pubkey.address == address.address);
     if (signerIndex < 0) {
       throw SolanaPluginException(
-          "Cannot add signature, $address is not required to sign this transaction");
+          'Cannot add signature, $address is not required to sign this transaction');
     }
     if (verifySignature &&
         !address
             .toPublicKey()
             .verify(message: serializeMessage(), signature: signature)) {
-      throw const SolanaPluginException("Signature verification failed.");
+      throw const SolanaPluginException('Signature verification failed.');
     }
     final List<List<int>> currentSigs = List.from(_signatures);
     currentSigs[signerIndex] = List<int>.unmodifiable(signature);

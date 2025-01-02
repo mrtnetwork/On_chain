@@ -21,9 +21,9 @@ class MoveInstantaneousRewardsCert extends Certificate {
   }
   factory MoveInstantaneousRewardsCert.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> correctJson =
-        json["move_instantaneous_rewards_cert"] ?? json;
+        json['move_instantaneous_rewards_cert'] ?? json;
     return MoveInstantaneousRewardsCert(MoveInstantaneousReward.fromJson(
-        correctJson["move_instantaneous_reward"]));
+        correctJson['move_instantaneous_reward']));
   }
 
   MoveInstantaneousRewardsCert copyWith(
@@ -44,8 +44,8 @@ class MoveInstantaneousRewardsCert extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "move_instantaneous_rewards_cert": {
-        "move_instantaneous_reward": moveInstantaneousReward.toJson()
+      'move_instantaneous_rewards_cert': {
+        'move_instantaneous_reward': moveInstantaneousReward.toJson()
       }
     };
   }

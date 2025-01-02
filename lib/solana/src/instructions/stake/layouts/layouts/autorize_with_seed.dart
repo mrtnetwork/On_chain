@@ -33,17 +33,17 @@ class StakeAuthorizeWithSeedLayout extends StakeProgramLayout {
         bytes: data,
         instruction: StakeProgramInstruction.authorizeWithSeed.insturction);
     return StakeAuthorizeWithSeedLayout(
-        newAuthorized: decode["newAuthorized"],
-        stakeAuthorizationType: decode["stakeAuthorizationType"],
-        authoritySeed: decode["authoritySeed"],
-        authorityOwner: decode["authorityOwner"]);
+        newAuthorized: decode['newAuthorized'],
+        stakeAuthorizationType: decode['stakeAuthorizationType'],
+        authoritySeed: decode['authoritySeed'],
+        authorityOwner: decode['authorityOwner']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    SolanaLayoutUtils.publicKey("newAuthorized"),
-    LayoutConst.u32(property: "stakeAuthorizationType"),
-    LayoutConst.rustString(property: "authoritySeed"),
-    SolanaLayoutUtils.publicKey("authorityOwner")
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newAuthorized'),
+    LayoutConst.u32(property: 'stakeAuthorizationType'),
+    LayoutConst.rustString(property: 'authoritySeed'),
+    SolanaLayoutUtils.publicKey('authorityOwner')
   ]);
 
   @override
@@ -56,10 +56,10 @@ class StakeAuthorizeWithSeedLayout extends StakeProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "newAuthorized": newAuthorized,
-      "stakeAuthorizationType": stakeAuthorizationType,
-      "authoritySeed": authoritySeed,
-      "authorityOwner": authorityOwner
+      'newAuthorized': newAuthorized,
+      'stakeAuthorizationType': stakeAuthorizationType,
+      'authoritySeed': authoritySeed,
+      'authorityOwner': authorityOwner
     };
   }
 }

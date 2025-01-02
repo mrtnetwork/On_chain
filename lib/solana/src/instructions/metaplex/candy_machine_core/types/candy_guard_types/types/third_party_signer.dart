@@ -8,22 +8,22 @@ class ThirdPartySigner extends LayoutSerializable {
 
   const ThirdPartySigner({required this.signerKey});
   factory ThirdPartySigner.fromJson(Map<String, dynamic> json) {
-    return ThirdPartySigner(signerKey: json["signerKey"]);
+    return ThirdPartySigner(signerKey: json['signerKey']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct(
-      [SolanaLayoutUtils.publicKey("signerKey")],
-      property: "thirdPartySigner");
+      [SolanaLayoutUtils.publicKey('signerKey')],
+      property: 'thirdPartySigner');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"signerKey": signerKey};
+    return {'signerKey': signerKey};
   }
 
   @override
   String toString() {
-    return "ThirdPartySigner${serialize()}";
+    return 'ThirdPartySigner${serialize()}';
   }
 }

@@ -64,6 +64,6 @@ class ADAScriptRedeemerInfoResponse {
 
   @override
   String toString() {
-    return "ADAScriptRedeemerInfoResponse${toJson()}";
+    return 'ADAScriptRedeemerInfoResponse${toJson()}';
   }
 }

@@ -23,7 +23,7 @@ class NativeScriptTimelockStart extends NativeScript {
   }
   factory NativeScriptTimelockStart.fromJson(Map<String, dynamic> json) {
     return NativeScriptTimelockStart(
-        BigintUtils.parse(json["slot"] ?? json["timelock_start"]["slot"]));
+        BigintUtils.parse(json['slot'] ?? json['timelock_start']['slot']));
   }
   NativeScriptTimelockStart copyWith({BigInt? slot}) {
     return NativeScriptTimelockStart(slot ?? this.slot);
@@ -43,7 +43,7 @@ class NativeScriptTimelockStart extends NativeScript {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "timelock_start": {"slot": slot.toString()},
+      'timelock_start': {'slot': slot.toString()},
     };
   }
 }

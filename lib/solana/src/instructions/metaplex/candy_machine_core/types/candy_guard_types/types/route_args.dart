@@ -12,23 +12,23 @@ class RouteArgs extends LayoutSerializable {
       : data = BytesUtils.toBytes(data, unmodifiable: true);
   factory RouteArgs.fromJson(Map<String, dynamic> json) {
     return RouteArgs(
-        guard: GuardType.fromValue(json["guard"]),
-        data: (json["data"] as List).cast());
+        guard: GuardType.fromValue(json['guard']),
+        data: (json['data'] as List).cast());
   }
 
   static final StructLayout staticLayout = LayoutConst.struct(
-      [LayoutConst.u8(property: "guard"), LayoutConst.vecU8(property: "data")],
-      property: "routeArgs");
+      [LayoutConst.u8(property: 'guard'), LayoutConst.vecU8(property: 'data')],
+      property: 'routeArgs');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"guard": guard.value, "data": data};
+    return {'guard': guard.value, 'data': data};
   }
 
   @override
   String toString() {
-    return "RouteArgs${serialize()}";
+    return 'RouteArgs${serialize()}';
   }
 }

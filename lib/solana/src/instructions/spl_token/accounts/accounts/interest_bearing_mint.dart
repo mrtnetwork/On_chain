@@ -9,9 +9,9 @@ class _Utils {
   static final StructLayout layout = LayoutConst.struct([
     SolanaLayoutUtils.publicKey('rateAuthority'),
     LayoutConst.ns64(property: 'initializationTimestamp'),
-    LayoutConst.s16(property: "preUpdateAverageRate"),
+    LayoutConst.s16(property: 'preUpdateAverageRate'),
     LayoutConst.ns64(property: 'lastUpdateTimestamp'),
-    LayoutConst.s16(property: "currentRate"),
+    LayoutConst.s16(property: 'currentRate'),
   ]);
 
   static int get accountSize => layout.span;
@@ -19,12 +19,12 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException("Account data length is insufficient.",
-            details: {"Expected": accountSize, "length": extensionData.length});
+        throw SolanaPluginException('Account data length is insufficient.',
+            details: {'Expected': accountSize, 'length': extensionData.length});
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 
@@ -36,7 +36,7 @@ class _Utils {
               extensionType: ExtensionType.interestBearingConfig);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
@@ -68,21 +68,21 @@ class InterestBearingMintConfigState extends LayoutSerializable {
   factory InterestBearingMintConfigState.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return InterestBearingMintConfigState(
-        rateAuthority: decode["rateAuthority"],
-        initializationTimestamp: decode["initializationTimestamp"],
-        preUpdateAverageRate: decode["preUpdateAverageRate"],
-        lastUpdateTimestamp: decode["lastUpdateTimestamp"],
-        currentRate: decode["currentRate"]);
+        rateAuthority: decode['rateAuthority'],
+        initializationTimestamp: decode['initializationTimestamp'],
+        preUpdateAverageRate: decode['preUpdateAverageRate'],
+        lastUpdateTimestamp: decode['lastUpdateTimestamp'],
+        currentRate: decode['currentRate']);
   }
   factory InterestBearingMintConfigState.fromAccountBytes(
       List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return InterestBearingMintConfigState(
-        rateAuthority: decode["rateAuthority"],
-        initializationTimestamp: decode["initializationTimestamp"],
-        preUpdateAverageRate: decode["preUpdateAverageRate"],
-        lastUpdateTimestamp: decode["lastUpdateTimestamp"],
-        currentRate: decode["currentRate"]);
+        rateAuthority: decode['rateAuthority'],
+        initializationTimestamp: decode['initializationTimestamp'],
+        preUpdateAverageRate: decode['preUpdateAverageRate'],
+        lastUpdateTimestamp: decode['lastUpdateTimestamp'],
+        currentRate: decode['currentRate']);
   }
 
   @override
@@ -90,16 +90,16 @@ class InterestBearingMintConfigState extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "rateAuthority": rateAuthority,
-      "initializationTimestamp": initializationTimestamp,
-      "preUpdateAverageRate": preUpdateAverageRate,
-      "lastUpdateTimestamp": lastUpdateTimestamp,
-      "currentRate": currentRate
+      'rateAuthority': rateAuthority,
+      'initializationTimestamp': initializationTimestamp,
+      'preUpdateAverageRate': preUpdateAverageRate,
+      'lastUpdateTimestamp': lastUpdateTimestamp,
+      'currentRate': currentRate
     };
   }
 
   @override
   String toString() {
-    return "InterestBearingMintConfigState${serialize()}";
+    return 'InterestBearingMintConfigState${serialize()}';
   }
 }

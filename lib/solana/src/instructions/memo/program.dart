@@ -8,14 +8,14 @@ import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 /// Represents an instruction for the Memo program.
 class MemoProgram extends TransactionInstruction {
   MemoProgram._({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory MemoProgram.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,
-    SolAddress programId = MemoProgramConst.programId,
+    SolAddress programId = MemoProgramConst.latestMemoProgram,
   }) {
     return MemoProgram._(
         layout: MemoLayout.fromBuffer(instructionBytes),
@@ -27,11 +27,11 @@ class MemoProgram extends TransactionInstruction {
   factory MemoProgram({
     required MemoLayout layout,
     List<SolAddress> pubKeys = const [],
+    SolAddress programId = MemoProgramConst.latestMemoProgram,
   }) {
     return MemoProgram._(
-      layout: layout,
-      keys: pubKeys.map((e) => e.toSigner()).toList(),
-      programId: MemoProgramConst.programId,
-    );
+        layout: layout,
+        keys: pubKeys.map((e) => e.toSigner()).toList(),
+        programId: programId);
   }
 }

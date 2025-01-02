@@ -1,6 +1,6 @@
 name: on_chain
 description: Streamline Ethereum, Tron, Solana and Cardano operations. Effortlessly create transactions, interact with smart contracts, sign, and send transactions.
-version: 4.5.0
+version: 5.0.0
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
 Author: mrhaydari.t@gmail.com
@@ -13,19 +13,19 @@ topics:
   - wallet
   
 environment:
-  sdk: '>=2.15.0 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 
 dependencies:
-  blockchain_utils: ^3.6.0
+  blockchain_utils: ^4.0.0
   # blockchain_utils:
-  #   path: ../blockchain_utils
+  #   path: ../../blockchain_utils
 
 
 dev_dependencies:
-  test: ^1.25.2
-  lints: ^4.0.0
-  flutter_lints: ^4.0.0
+  lints: ^5.0.0
+  test: ^1.25.9
+  flutter_lints: ^5.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

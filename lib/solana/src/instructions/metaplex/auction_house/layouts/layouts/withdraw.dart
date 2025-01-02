@@ -15,14 +15,14 @@ class MetaplexAuctionHouseWithdrawLayout
         instruction:
             MetaplexAuctionHouseProgramInstruction.withdraw.insturction);
     return MetaplexAuctionHouseWithdrawLayout(
-        amount: decode["amount"],
-        escrowPaymentBump: decode["escrowPaymentBump"]);
+        amount: decode['amount'],
+        escrowPaymentBump: decode['escrowPaymentBump']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "escrowPaymentBump"),
-    LayoutConst.u64(property: "amount"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u64(property: 'amount'),
   ]);
 
   @override
@@ -34,6 +34,6 @@ class MetaplexAuctionHouseWithdrawLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"escrowPaymentBump": escrowPaymentBump, "amount": amount};
+    return {'escrowPaymentBump': escrowPaymentBump, 'amount': amount};
   }
 }

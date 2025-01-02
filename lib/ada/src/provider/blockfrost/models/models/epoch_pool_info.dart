@@ -54,6 +54,6 @@ class ADAPoolEpochInfoResponse {
 
   @override
   String toString() {
-    return "ADAPoolEpochInfoResponse${toJson()}";
+    return 'ADAPoolEpochInfoResponse${toJson()}';
   }
 }

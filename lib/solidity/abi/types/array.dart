@@ -1,4 +1,4 @@
-part of "package:on_chain/solidity/abi/abi.dart";
+part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding arrays of arbitrary types.
 class ArrayCoder implements ABICoder<List<dynamic>> {
@@ -11,9 +11,9 @@ class ArrayCoder implements ABICoder<List<dynamic>> {
     final encodedParams = input.map((e) => param.item1.abiEncode(e)).toList();
     final dynamicItems =
         encodedParams.isNotEmpty && encodedParams.first.isDynamic;
-    final isDynamic = param.item2 == -1;
+    final bool isDynamic = param.item2 == -1;
     if (!isDynamic && input.length != param.item2) {
-      throw const SolidityAbiException("Invalid argument length detected.");
+      throw const SolidityAbiException('Invalid argument length detected.');
     }
     if (isDynamic || dynamicItems) {
       final encode = _ABIUtils.encodeDynamicParams(encodedParams);

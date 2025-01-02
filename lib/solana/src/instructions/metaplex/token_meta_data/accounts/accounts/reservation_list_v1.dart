@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    SolanaLayoutUtils.publicKey("masterEdition"),
-    LayoutConst.optional(LayoutConst.u64(), property: "supplySnapshot"),
-    LayoutConst.vec(ReservationV1.staticLayout, property: "reservations")
+    LayoutConst.u8(property: 'key'),
+    SolanaLayoutUtils.publicKey('masterEdition'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'supplySnapshot'),
+    LayoutConst.vec(ReservationV1.staticLayout, property: 'reservations')
   ]);
 }
 
@@ -28,10 +28,10 @@ class ReservationListV1 extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return ReservationListV1(
-        key: MetaDataKey.fromValue(decode["key"]),
-        masterEdition: decode["masterEdition"],
-        supplySnapshot: decode["supplySnapshot"],
-        reservations: (decode["reservations"] as List)
+        key: MetaDataKey.fromValue(decode['key']),
+        masterEdition: decode['masterEdition'],
+        supplySnapshot: decode['supplySnapshot'],
+        reservations: (decode['reservations'] as List)
             .map((e) => ReservationV1.fromJson(e))
             .toList());
   }
@@ -41,10 +41,10 @@ class ReservationListV1 extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "key": key.value,
-      "masterEdition": masterEdition,
-      "supplySnapshot": supplySnapshot,
-      "reservations": reservations.map((e) => e.serialize()).toList()
+      'key': key.value,
+      'masterEdition': masterEdition,
+      'supplySnapshot': supplySnapshot,
+      'reservations': reservations.map((e) => e.serialize()).toList()
     };
   }
 }

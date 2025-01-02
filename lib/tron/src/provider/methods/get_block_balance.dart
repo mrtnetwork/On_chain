@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Get all balance change operations in a block.
 /// [developers.tron.network](https://developers.tron.network/reference/getblockbalance).
 class TronRequestGetBlockBalance
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetBlockBalance(
       {required this.hash, required this.number, required this.visible});
   final String hash;
@@ -18,11 +18,11 @@ class TronRequestGetBlockBalance
 
   @override
   Map<String, dynamic> toJson() {
-    return {"hash": hash, "number": number, "visible": visible};
+    return {'hash': hash, 'number': number, 'visible': visible};
   }
 
   @override
   String toString() {
-    return "TronRequestGetBlockBalance{${toJson()}}";
+    return 'TronRequestGetBlockBalance{${toJson()}}';
   }
 }

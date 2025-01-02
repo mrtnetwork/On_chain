@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
 /// Obtain the transaction metadata.
 /// https://blockfrost.dev/api/transaction-metadata
-class BlockfrostRequestTransactionMetadata extends BlockforestRequestParam<
+class BlockfrostRequestTransactionMetadata extends BlockFrostRequest<
     List<Map<String, dynamic>>, List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionMetadata(this.hash);
 

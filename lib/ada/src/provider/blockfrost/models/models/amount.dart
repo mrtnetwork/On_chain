@@ -46,6 +46,6 @@ class ADAAmountResponse {
 
   @override
   String toString() {
-    return "ADAAmountResponse${toJson()}";
+    return 'ADAAmountResponse${toJson()}';
   }
 }

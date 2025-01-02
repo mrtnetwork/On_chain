@@ -22,17 +22,17 @@ class MetaplexTokenMetaDataTransferV1Layout
             MetaplexTokenMetaDataProgramInstruction.transferV1.insturction,
         discriminator: discriminator);
     return MetaplexTokenMetaDataTransferV1Layout(
-        authorizationData: decode["authorizationData"] == null
+        authorizationData: decode['authorizationData'] == null
             ? null
-            : Payload.fromJson(decode["authorizationData"]),
-        amount: decode["amount"]);
+            : Payload.fromJson(decode['authorizationData']),
+        amount: decode['amount']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    LayoutConst.u64(property: "amount"),
-    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
   ]);
 
   @override
@@ -45,9 +45,9 @@ class MetaplexTokenMetaDataTransferV1Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "authorizationData": authorizationData?.serialize(),
-      "discriminator": discriminator,
-      "amount": amount,
+      'authorizationData': authorizationData?.serialize(),
+      'discriminator': discriminator,
+      'amount': amount,
     };
   }
 }

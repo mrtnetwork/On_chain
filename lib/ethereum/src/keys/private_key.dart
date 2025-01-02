@@ -22,8 +22,8 @@ class ETHPrivateKey {
           Secp256k1PrivateKeyEcdsa.fromBytes(keyBytes);
       return ETHPrivateKey._(key);
     } catch (e) {
-      throw ETHPluginException("invalid ethereum private key",
-          details: {"input": BytesUtils.toHexString(keyBytes)});
+      throw ETHPluginException('invalid ethereum private key',
+          details: {'input': BytesUtils.toHexString(keyBytes)});
     }
   }
 

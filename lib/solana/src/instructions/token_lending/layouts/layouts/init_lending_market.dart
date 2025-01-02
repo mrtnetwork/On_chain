@@ -23,15 +23,15 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
       {required SolAddress owner, required List<int> quoteCurrency}) {
     if (quoteCurrency.length != 32) {
       throw const SolanaPluginException(
-          "quoteCurrency must not exceed 32 bytes.");
+          'quoteCurrency must not exceed 32 bytes.');
     }
     return TokenLendingInitLendingMarketLayout._(
         owner: owner, quoteCurrency: quoteCurrency);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    SolanaLayoutUtils.publicKey("owner"),
-    LayoutConst.blob(32, property: "quoteCurrency"),
+    LayoutConst.u8(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('owner'),
+    LayoutConst.blob(32, property: 'quoteCurrency'),
   ]);
 
   factory TokenLendingInitLendingMarketLayout.fromBuffer(List<int> data) {
@@ -41,7 +41,7 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
         instruction:
             TokenLendingProgramInstruction.initLendingMarket.insturction);
     return TokenLendingInitLendingMarketLayout(
-        quoteCurrency: decode["quoteCurrency"], owner: decode["owner"]);
+        quoteCurrency: decode['quoteCurrency'], owner: decode['owner']);
   }
 
   @override
@@ -53,6 +53,6 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"owner": owner, "quoteCurrency": quoteCurrency};
+    return {'owner': owner, 'quoteCurrency': quoteCurrency};
   }
 }

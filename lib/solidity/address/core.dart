@@ -17,12 +17,12 @@ class SolidityAddress {
   factory SolidityAddress(String address, {bool skipChecksum = true}) {
     address = StringUtils.strip0x(address);
     if (address.length > EthAddrConst.addrLen &&
-        address.toLowerCase().startsWith("41")) {
+        address.toLowerCase().startsWith('41')) {
       address = address.substring(2);
     }
     EthAddrDecoder().decodeAddr(
-        "${CoinsConf.ethereum.params.addrPrefix}$address",
-        {"skip_chksum_enc": skipChecksum});
+        '${CoinsConf.ethereum.params.addrPrefix}$address',
+        {'skip_chksum_enc': skipChecksum});
     return SolidityAddress.unsafe(EthAddrUtils.toChecksumAddress(address));
   }
   factory SolidityAddress.fromBytes(List<int> bytes,

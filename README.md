@@ -207,7 +207,7 @@ Here are some examples:
         "wss://polygon-mumbai-bor.publicnode.com");
 
     /// Create an Ethereum RPC instance
-    final rpc = EVMRPC(wsocketService);
+    final rpc = EthereumProvider(wsocketService);
 
     /// Define a seed for generating a private key
     final seed = BytesUtils.fromHexString(
@@ -312,7 +312,7 @@ Here are some examples:
     /// For Tron: If the output parameters include an address, set isTron to true.
     /// If it doesn't, set isTron to false to receive an ETH address instead of a Tron address.
     final contract = ContractABI.fromJson(tronContract["entrys"]!, isTron: true);
-    final rpc = EVMRPC(RPCHttpService("https://api.shasta.trongrid.io/jsonrpc"));
+    final rpc = EthereumProvider(RPCHttpService("https://api.shasta.trongrid.io/jsonrpc"));
     final call1 = await rpc.request(RPCCall.fromMethod(
         contractAddress:
 
@@ -466,7 +466,7 @@ Here are some examples:
     final service = RPCHttpService("https://api.devnet.solana.com");
 
     /// Initialize the Solana RPC client.
-    final rpc = SolanaRPC(service);
+    final rpc = SolanaProvider(service);
 
     /// Define the owner's private key and derive the owner's public key.
     final ownerPrivateKey = SolanaPrivateKey.fromSeedHex(
@@ -532,7 +532,7 @@ Here are some examples:
         network: ADANetwork.testnetPreprod);
 
     /// Set up the Blockfrost provider
-    final provider = BlockforestProvider(BlockforestHTTPProvider(
+    final provider = BlockFrostProvider(BlockFrostHTTPProvider(
         url: "https://cardano-preprod.blockfrost.io/api/v0/",
         projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 
@@ -689,7 +689,7 @@ Example:
     // Establish a WebSocket RPC connection to the specified endpoint for real-time updates.
 
     /// Ethereum RPC
-    final rpc = EVMRPC(httpRpc);
+    final rpc = EthereumProvider(httpRpc);
     // Create an Ethereum RPC instance using the HTTP RPC service.
 
     /// Get Balance
@@ -748,7 +748,7 @@ Example:
 
     ```dart
     /// Initialize the Solana RPC client with the devnet endpoint.
-    final service = SolanaRPC(RPCHttpService("https://api.devnet.solana.com"));
+    final service = SolanaProvider(RPCHttpService("https://api.devnet.solana.com"));
 
     /// Retrieve the account information for a specific address.
     final accountModel = await service.request(const SolanaRPCGetAccountInfo(
@@ -774,7 +774,7 @@ Example:
 
     ```dart
     /// Set up the Blockfrost provider with the specified URL and project ID
-    final provider = BlockforestProvider(BlockforestHTTPProvider(
+    final provider = BlockFrostProvider(BlockFrostHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 

@@ -7,10 +7,10 @@ class _Utils {
   static const List<int> discriminator = [190, 117, 218, 114, 66, 112, 56, 41];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("market"),
-    SolanaLayoutUtils.publicKey("wallet"),
-    LayoutConst.u64(property: "alreadyBought"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('market'),
+    SolanaLayoutUtils.publicKey('wallet'),
+    LayoutConst.u64(property: 'alreadyBought'),
   ]);
 }
 
@@ -29,11 +29,11 @@ class TradeHistory extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return TradeHistory(
-        market: decode["market"],
-        wallet: decode["wallet"],
-        alreadyBought: decode["alreadyBought"]);
+        market: decode['market'],
+        wallet: decode['wallet'],
+        alreadyBought: decode['alreadyBought']);
   }
 
   @override
@@ -42,15 +42,15 @@ class TradeHistory extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "alreadyBought": alreadyBought,
-      "wallet": wallet,
-      "market": market
+      'discriminator': _Utils.discriminator,
+      'alreadyBought': alreadyBought,
+      'wallet': wallet,
+      'market': market
     };
   }
 
   @override
   String toString() {
-    return "TradeHistory${serialize()}";
+    return 'TradeHistory${serialize()}';
   }
 }

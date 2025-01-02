@@ -6,22 +6,22 @@ class EndDate extends LayoutSerializable {
 
   const EndDate({required this.date});
   factory EndDate.fromJson(Map<String, dynamic> json) {
-    return EndDate(date: json["date"]);
+    return EndDate(date: json['date']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct(
-      [LayoutConst.i64(property: "date")],
-      property: "endDate");
+      [LayoutConst.i64(property: 'date')],
+      property: 'endDate');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"date": date};
+    return {'date': date};
   }
 
   @override
   String toString() {
-    return "EndDate${serialize()}";
+    return 'EndDate${serialize()}';
   }
 }

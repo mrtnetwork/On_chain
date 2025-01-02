@@ -23,6 +23,6 @@ class ADAAssetsResponse {
       };
   @override
   String toString() {
-    return "ADAAssetResponse${toJson()}";
+    return 'ADAAssetResponse${toJson()}';
   }
 }

@@ -11,30 +11,30 @@ class GatingConfig extends LayoutSerializable {
       {required this.collection, required this.expireOnUse, this.gatingTime});
   factory GatingConfig.fromJson(Map<String, dynamic> json) {
     return GatingConfig(
-        collection: json["collection"],
-        expireOnUse: json["expireOnUse"],
-        gatingTime: json["gatingTime"]);
+        collection: json['collection'],
+        expireOnUse: json['expireOnUse'],
+        gatingTime: json['gatingTime']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("collection"),
-    LayoutConst.boolean(property: "expireOnUse"),
-    LayoutConst.optional(LayoutConst.u64(), property: "gatingTime")
-  ], property: "gatingConfig");
+    SolanaLayoutUtils.publicKey('collection'),
+    LayoutConst.boolean(property: 'expireOnUse'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'gatingTime')
+  ], property: 'gatingConfig');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "collection": collection,
-      "expireOnUse": expireOnUse,
-      "gatingTime": gatingTime
+      'collection': collection,
+      'expireOnUse': expireOnUse,
+      'gatingTime': gatingTime
     };
   }
 
   @override
   String toString() {
-    return "GatingConfig${serialize()}";
+    return 'GatingConfig${serialize()}';
   }
 }

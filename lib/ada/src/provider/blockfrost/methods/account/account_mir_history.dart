@@ -5,10 +5,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the MIRs of a specific account.
 /// https://blockfrost.dev/api/account-mir-history
-class BlockfrostRequestAccountMIRHistory extends BlockforestRequestParam<
+class BlockfrostRequestAccountMIRHistory extends BlockFrostRequest<
     List<ADAStakeAccountMIRHistoryResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestAccountMIRHistory(this.stakeAddress,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// stake address.

@@ -12,7 +12,7 @@ class ProtocolVersion with ADASerialization {
         minor: cbor.getIndex<CborIntValue>(1).value);
   }
   factory ProtocolVersion.fromJson(Map<String, dynamic> json) {
-    return ProtocolVersion(major: json["major"], minor: json["minor"]);
+    return ProtocolVersion(major: json['major'], minor: json['minor']);
   }
 
   @override
@@ -26,6 +26,6 @@ class ProtocolVersion with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"major": major, "minor": minor};
+    return {'major': major, 'minor': minor};
   }
 }

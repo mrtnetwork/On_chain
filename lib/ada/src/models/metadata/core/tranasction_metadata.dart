@@ -42,8 +42,8 @@ abstract class TransactionMetadata<T>
     try {
       type = TransactionMetadataType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException("Invalid metadata json.",
-          details: {"json": json});
+      throw ADAPluginException('Invalid metadata json.',
+          details: {'json': json});
     }
     final TransactionMetadata metadata;
     switch (type) {

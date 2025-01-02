@@ -7,9 +7,9 @@ import 'package:on_chain/utils/utils/utils.dart';
 class AccountId extends TronProtocolBufferImpl {
   factory AccountId.fromJson(Map<String, dynamic> json) {
     return AccountId(
-        name: OnChainUtils.parseBytes(value: json["name"], name: "name"),
+        name: OnChainUtils.parseBytes(value: json['name'], name: 'name'),
         address: OnChainUtils.parseTronAddress(
-            value: json["address"], name: "address"));
+            value: json['address'], name: 'address'));
   }
   factory AccountId.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -32,12 +32,12 @@ class AccountId extends TronProtocolBufferImpl {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address.toString(), "name": StringUtils.tryDecode(name)}
+    return {'address': address.toString(), 'name': StringUtils.tryDecode(name)}
       ..removeWhere((key, value) => value == null);
   }
 
   @override
   String toString() {
-    return "AccountId{${toJson()}}";
+    return 'AccountId{${toJson()}}';
   }
 }

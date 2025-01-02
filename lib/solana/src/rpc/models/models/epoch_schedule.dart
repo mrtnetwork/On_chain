@@ -23,10 +23,10 @@ class EpochSchedule {
       required this.firstNormalSlot});
   factory EpochSchedule.fromJson(Map<String, dynamic> json) {
     return EpochSchedule(
-        slotsPerEpoch: json["slotsPerEpoch"],
-        leaderScheduleSlotOffset: json["leaderScheduleSlotOffset"],
-        warmup: json["warmup"],
-        firstNormalEpoch: json["firstNormalEpoch"],
-        firstNormalSlot: json["firstNormalSlot"]);
+        slotsPerEpoch: json['slotsPerEpoch'],
+        leaderScheduleSlotOffset: json['leaderScheduleSlotOffset'],
+        warmup: json['warmup'],
+        firstNormalEpoch: json['firstNormalEpoch'],
+        firstNormalSlot: json['firstNormalSlot']);
   }
 }

@@ -13,7 +13,7 @@ class MetaplexCandyMachineUnwrapLayout
     return const MetaplexCandyMachineUnwrapLayout();
   }
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
+      LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
 
   @override
   StructLayout get layout => _layout;

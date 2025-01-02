@@ -127,35 +127,35 @@ class TransactionWitnessSet with ADASerialization {
 
   factory TransactionWitnessSet.fromJson(Map<String, dynamic> json) {
     return TransactionWitnessSet(
-        vKeys: (json["vkeys"] as List?)
+        vKeys: (json['vkeys'] as List?)
             ?.map((e) => Vkeywitness.fromJson(e))
             .toList(),
-        nativeScripts: (json["native_scripts"] as List?)
+        nativeScripts: (json['native_scripts'] as List?)
             ?.map((e) => NativeScript.fromJson(e))
             .toList(),
-        redeemers: (json["redeemers"] as List?)
+        redeemers: (json['redeemers'] as List?)
             ?.map((e) => Redeemer.fromJson(e))
             .toList(),
-        bootstraps: (json["bootstraps"] as List?)
+        bootstraps: (json['bootstraps'] as List?)
             ?.map((e) => BootstrapWitness.fromJson(e))
             .toList(),
-        plutusScripts: (json["plutus_scripts"] as List?)
+        plutusScripts: (json['plutus_scripts'] as List?)
             ?.map((e) => PlutusScript.fromJson(e))
             .toList(),
-        plutusData: (json["plutus_data"] == null
+        plutusData: (json['plutus_data'] == null
             ? null
-            : PlutusData.fromJson(json["plutus_data"]) as PlutusList));
+            : PlutusData.fromJson(json['plutus_data']) as PlutusList));
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "vkeys": vKeys?.map((e) => e.toJson()).toList(),
-      "native_scripts": nativeScripts?.map((e) => e.toJson()).toList(),
-      "bootstraps": bootstraps?.map((e) => e.toJson()).toList(),
-      "plutus_scripts": plutusScripts?.map((e) => e.toJson()).toList(),
-      "plutus_data": plutusData?.toJson(),
-      "redeemers": redeemers?.map((e) => e.toJson()).toList()
+      'vkeys': vKeys?.map((e) => e.toJson()).toList(),
+      'native_scripts': nativeScripts?.map((e) => e.toJson()).toList(),
+      'bootstraps': bootstraps?.map((e) => e.toJson()).toList(),
+      'plutus_scripts': plutusScripts?.map((e) => e.toJson()).toList(),
+      'plutus_data': plutusData?.toJson(),
+      'redeemers': redeemers?.map((e) => e.toJson()).toList()
     };
   }
 }

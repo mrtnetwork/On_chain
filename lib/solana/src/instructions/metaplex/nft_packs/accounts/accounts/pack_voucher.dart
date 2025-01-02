@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "accountType"),
-    SolanaLayoutUtils.publicKey("packSet"),
-    SolanaLayoutUtils.publicKey("master"),
-    SolanaLayoutUtils.publicKey("metadata"),
+    LayoutConst.u8(property: 'accountType'),
+    SolanaLayoutUtils.publicKey('packSet'),
+    SolanaLayoutUtils.publicKey('master'),
+    SolanaLayoutUtils.publicKey('metadata'),
   ]);
 }
 
@@ -28,10 +28,10 @@ class PackVoucher extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return PackVoucher(
-        accountType: NFTPacksAccountType.fromValue(decode["accountType"]),
-        master: decode["master"],
-        metadata: decode["metadata"],
-        packSet: decode["packSet"]);
+        accountType: NFTPacksAccountType.fromValue(decode['accountType']),
+        master: decode['master'],
+        metadata: decode['metadata'],
+        packSet: decode['packSet']);
   }
 
   @override
@@ -39,15 +39,15 @@ class PackVoucher extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "accountType": accountType.value,
-      "packSet": packSet,
-      "metadata": metadata,
-      "master": master
+      'accountType': accountType.value,
+      'packSet': packSet,
+      'metadata': metadata,
+      'master': master
     };
   }
 
   @override
   String toString() {
-    return "PackVoucher${serialize()}";
+    return 'PackVoucher${serialize()}';
   }
 }

@@ -4,16 +4,19 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 import 'package:on_chain/ethereum/src/rpc/methds/subscribes/const/constant.dart';
 
 /// https://geth.ethereum.org/docs/interacting-with-geth/rpc/pubsub
-class RPCETHSubscribeLogs extends ETHRPCRequest<String> {
-  RPCETHSubscribeLogs({this.filter});
+class EthereumRequestETHSubscribeLogs extends EthereumRequest<String, String> {
+  EthereumRequestETHSubscribeLogs({this.filter});
   final SubscribeLogsFilter? filter;
 
   @override
-  EthereumMethods get method => EthereumMethods.ethSubscribe;
+  String get method => EthereumMethods.ethSubscribe.value;
 
   @override
   List<dynamic> toJson() {
-    return [RPCETHSubscribeConst.logs, if (filter != null) filter!.toJson()];
+    return [
+      EthereumRequestETHSubscribeConst.logs,
+      if (filter != null) filter!.toJson()
+    ];
   }
 }
 
@@ -22,6 +25,6 @@ class SubscribeLogsFilter {
   final List<String> topics;
   const SubscribeLogsFilter({required this.address, this.topics = const []});
   Map<String, dynamic> toJson() {
-    return {"address": address.address, "topics": topics};
+    return {'address': address.address, 'topics': topics};
   }
 }

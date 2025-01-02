@@ -34,24 +34,24 @@ class MetaplexBubblegumSetAndVerifyCollectionLayout
         instruction: MetaplexBubblegumProgramInstruction
             .setAndVerifyCollection.insturction);
     return MetaplexBubblegumSetAndVerifyCollectionLayout(
-        root: decode["root"],
-        dataHash: decode["dataHash"],
-        creatorHash: decode["creatorHash"],
-        nonce: decode["nonce"],
-        index: decode["index"],
-        message: MetaData.fromJson(decode["metaData"]),
-        collection: decode["collection"]);
+        root: decode['root'],
+        dataHash: decode['dataHash'],
+        creatorHash: decode['creatorHash'],
+        nonce: decode['nonce'],
+        index: decode['index'],
+        message: MetaData.fromJson(decode['metaData']),
+        collection: decode['collection']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.blob(32, property: "root"),
-    LayoutConst.blob(32, property: "dataHash"),
-    LayoutConst.blob(32, property: "creatorHash"),
-    LayoutConst.u64(property: "nonce"),
-    LayoutConst.u32(property: "index"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.blob(32, property: 'dataHash'),
+    LayoutConst.blob(32, property: 'creatorHash'),
+    LayoutConst.u64(property: 'nonce'),
+    LayoutConst.u32(property: 'index'),
     MetaData.staticLayout,
-    SolanaLayoutUtils.publicKey("collection")
+    SolanaLayoutUtils.publicKey('collection')
   ]);
 
   @override
@@ -64,13 +64,13 @@ class MetaplexBubblegumSetAndVerifyCollectionLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "root": root,
-      "dataHash": dataHash,
-      "creatorHash": creatorHash,
-      "nonce": nonce,
-      "index": index,
-      "metaData": message.serialize(),
-      "collection": collection
+      'root': root,
+      'dataHash': dataHash,
+      'creatorHash': creatorHash,
+      'nonce': nonce,
+      'index': index,
+      'metaData': message.serialize(),
+      'collection': collection
     };
   }
 }

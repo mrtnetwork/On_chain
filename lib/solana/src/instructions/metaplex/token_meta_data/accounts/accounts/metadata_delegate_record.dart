@@ -6,11 +6,11 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    LayoutConst.u8(property: "bump"),
-    SolanaLayoutUtils.publicKey("mint"),
-    SolanaLayoutUtils.publicKey("delegate"),
-    SolanaLayoutUtils.publicKey("updateAuthority"),
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u8(property: 'bump'),
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('delegate'),
+    SolanaLayoutUtils.publicKey('updateAuthority'),
   ]);
 }
 
@@ -31,11 +31,11 @@ class MetadataDelegateRecord extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return MetadataDelegateRecord(
-        key: MetaDataKey.fromValue(decode["key"]),
-        updateAuthority: decode["updateAuthority"],
-        mint: decode["mint"],
-        bump: decode["bump"],
-        delegate: decode["delegate"]);
+        key: MetaDataKey.fromValue(decode['key']),
+        updateAuthority: decode['updateAuthority'],
+        mint: decode['mint'],
+        bump: decode['bump'],
+        delegate: decode['delegate']);
   }
 
   @override
@@ -43,11 +43,11 @@ class MetadataDelegateRecord extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "key": key.value,
-      "updateAuthority": updateAuthority,
-      "mint": mint,
-      "bump": bump,
-      "delegate": delegate
+      'key': key.value,
+      'updateAuthority': updateAuthority,
+      'mint': mint,
+      'bump': bump,
+      'delegate': delegate
     };
   }
 }

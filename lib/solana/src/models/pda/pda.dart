@@ -11,4 +11,9 @@ class ProgramDerivedAddress {
   const ProgramDerivedAddress({required this.address, required this.bump});
   final SolAddress address;
   final int bump;
+
+  @override
+  String toString() {
+    return address.toString();
+  }
 }

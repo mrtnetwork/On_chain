@@ -30,27 +30,27 @@ class MetaplexNFTPacksInitPackLayout extends MetaplexNFTPacksProgramLayout {
         bytes: data,
         instruction: MetaplexNFTPacksProgramInstruction.initPack.insturction);
     return MetaplexNFTPacksInitPackLayout(
-        name: decode["name"],
-        description: decode["description"],
-        uri: decode["uri"],
-        mutable: decode["mutable"],
+        name: decode['name'],
+        description: decode['description'],
+        uri: decode['uri'],
+        mutable: decode['mutable'],
         packDistributionType:
-            PackDistributionType.fromValue(decode["distributionType"]),
-        allowedAmountToRedeem: decode["allowedAmountToRedeem"],
-        redeemStartDate: decode["redeemStartDate"],
-        redeemEndDate: decode["redeemEndDate"]);
+            PackDistributionType.fromValue(decode['distributionType']),
+        allowedAmountToRedeem: decode['allowedAmountToRedeem'],
+        redeemStartDate: decode['redeemStartDate'],
+        redeemEndDate: decode['redeemEndDate']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.blob(32, property: "name"),
-    LayoutConst.string(property: "description"),
-    LayoutConst.string(property: "uri"),
-    LayoutConst.boolean(property: "mutable"),
-    LayoutConst.u8(property: "distributionType"),
-    LayoutConst.u32(property: "allowedAmountToRedeem"),
-    LayoutConst.optional(LayoutConst.u64(), property: "redeemStartDate"),
-    LayoutConst.optional(LayoutConst.u64(), property: "redeemEndDate"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.blob(32, property: 'name'),
+    LayoutConst.string(property: 'description'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.boolean(property: 'mutable'),
+    LayoutConst.u8(property: 'distributionType'),
+    LayoutConst.u32(property: 'allowedAmountToRedeem'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'redeemStartDate'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'redeemEndDate'),
   ]);
 
   @override
@@ -63,14 +63,14 @@ class MetaplexNFTPacksInitPackLayout extends MetaplexNFTPacksProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "name": name,
-      "description": description,
-      "uri": uri,
-      "mutable": mutable,
-      "distributionType": packDistributionType.value,
-      "allowedAmountToRedeem": allowedAmountToRedeem,
-      "redeemStartDate": redeemStartDate,
-      "redeemEndDate": redeemEndDate
+      'name': name,
+      'description': description,
+      'uri': uri,
+      'mutable': mutable,
+      'distributionType': packDistributionType.value,
+      'allowedAmountToRedeem': allowedAmountToRedeem,
+      'redeemStartDate': redeemStartDate,
+      'redeemEndDate': redeemEndDate
     };
   }
 }

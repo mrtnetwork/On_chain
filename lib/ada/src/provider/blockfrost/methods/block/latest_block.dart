@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Return the latest block available to the backends, also known as the tip of the blockchain.
 /// https://blockfrost.dev/api/latest-block
 class BlockfrostRequestLatestBlock
-    extends BlockforestRequestParam<ADABlockResponse, Map<String, dynamic>> {
+    extends BlockFrostRequest<ADABlockResponse, Map<String, dynamic>> {
   BlockfrostRequestLatestBlock();
 
   /// Latest block

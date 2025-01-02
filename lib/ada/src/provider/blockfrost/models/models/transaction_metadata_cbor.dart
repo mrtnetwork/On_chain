@@ -27,6 +27,6 @@ class ADATransactionMetadataCBORResponse {
 
   @override
   String toString() {
-    return "ADATransactionMetadataCBORResponse${toJson()}";
+    return 'ADATransactionMetadataCBORResponse${toJson()}';
   }
 }

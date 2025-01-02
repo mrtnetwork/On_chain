@@ -14,12 +14,12 @@ class MetaplexTokenMetaDataSetCollectionSizeLayout
         bytes: data,
         instruction: MetaplexTokenMetaDataProgramInstruction
             .setCollectionSize.insturction);
-    return MetaplexTokenMetaDataSetCollectionSizeLayout(size: decode["size"]);
+    return MetaplexTokenMetaDataSetCollectionSizeLayout(size: decode['size']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "size")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'size')
   ]);
 
   @override
@@ -31,6 +31,6 @@ class MetaplexTokenMetaDataSetCollectionSizeLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"size": size};
+    return {'size': size};
   }
 }

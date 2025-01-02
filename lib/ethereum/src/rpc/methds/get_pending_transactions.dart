@@ -1,10 +1,11 @@
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class RPCGetPendingTransactions extends ETHRPCRequest<List<dynamic>> {
-  RPCGetPendingTransactions();
+class EthereumRequestGetPendingTransactions
+    extends EthereumRequest<List<dynamic>, List> {
+  EthereumRequestGetPendingTransactions();
   @override
-  EthereumMethods get method => EthereumMethods.getPendingTransactions;
+  String get method => EthereumMethods.getPendingTransactions.value;
 
   @override
   List<dynamic> toJson() {

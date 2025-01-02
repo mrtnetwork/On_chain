@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query the list of all the TRC10 tokens by a name.
 /// [developers.tron.network](https://developers.tron.network/reference/getassetissuelistbyname-copy).
 class TronRequestGetAssetIssueListByName
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetAssetIssueListByName({required this.value});
 
   /// Name of the TRC 10 token
@@ -16,7 +16,7 @@ class TronRequestGetAssetIssueListByName
 
   @override
   Map<String, dynamic> toJson() {
-    return {"value": value};
+    return {'value': value};
   }
 
   @override
@@ -24,6 +24,6 @@ class TronRequestGetAssetIssueListByName
 
   @override
   String toString() {
-    return "TronRequestGetAssetIssueListByName{${toJson()}}";
+    return 'TronRequestGetAssetIssueListByName{${toJson()}}';
   }
 }

@@ -6,9 +6,9 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    SolanaLayoutUtils.publicKey("parent"),
-    LayoutConst.u64(property: "edition"),
+    LayoutConst.u8(property: 'key'),
+    SolanaLayoutUtils.publicKey('parent'),
+    LayoutConst.u64(property: 'edition'),
   ]);
 }
 
@@ -24,20 +24,20 @@ class Edition extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return Edition(
-        key: MetaDataKey.fromValue(decode["key"]),
-        edition: decode["edition"],
-        parent: decode["parent"]);
+        key: MetaDataKey.fromValue(decode['key']),
+        edition: decode['edition'],
+        parent: decode['parent']);
   }
 
   @override
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
-    return {"key": key.value, "parent": parent, "edition": edition};
+    return {'key': key.value, 'parent': parent, 'edition': edition};
   }
 
   @override
   String toString() {
-    return "Edition${serialize()}";
+    return 'Edition${serialize()}';
   }
 }

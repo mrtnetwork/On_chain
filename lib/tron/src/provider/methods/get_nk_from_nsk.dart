@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// GetNkFromNsk
 /// [developers.tron.network](https://developers.tron.network/reference/getnkfromnsk).
 class TronRequestGetNkFromNsk
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetNkFromNsk({required this.value});
   final String value;
 
@@ -14,6 +14,6 @@ class TronRequestGetNkFromNsk
 
   @override
   Map<String, dynamic> toJson() {
-    return {"value": value};
+    return {'value': value};
   }
 }

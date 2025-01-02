@@ -12,7 +12,7 @@ class SmartContractABI extends TronProtocolBufferImpl {
   /// Create a new [SmartContractABI] instance by parsing a JSON map.
   factory SmartContractABI.fromJson(Map<String, dynamic> json) {
     return SmartContractABI(
-        entrys: OnChainUtils.parseList(value: json["entrys"], name: "entrys")
+        entrys: OnChainUtils.parseList(value: json['entrys'], name: 'entrys')
                 ?.map((e) => SmartContractABIEntry.fromJson(e))
                 .toList() ??
             <SmartContractABIEntry>[]);
@@ -36,12 +36,12 @@ class SmartContractABI extends TronProtocolBufferImpl {
   /// Convert the [SmartContractABI] object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"entrys": entrys.map((e) => e.toJson()).toList()};
+    return {'entrys': entrys.map((e) => e.toJson()).toList()};
   }
 
   /// Convert the [SmartContractABI] object to its string representation.
   @override
   String toString() {
-    return "SmartContractABI{${toJson()}}";
+    return 'SmartContractABI{${toJson()}}';
   }
 }

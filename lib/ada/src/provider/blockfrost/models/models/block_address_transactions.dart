@@ -29,6 +29,6 @@ class ADABlockAddressTransactionsResponse {
       };
   @override
   String toString() {
-    return "ADABlockAddressTransactionsResponse${toJson()}";
+    return 'ADABlockAddressTransactionsResponse${toJson()}';
   }
 }

@@ -30,8 +30,8 @@ abstract class PlutusData
     try {
       type = PlutusDataType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException("Invalid PlutusData json.",
-          details: {"json": json});
+      throw ADAPluginException('Invalid PlutusData json.',
+          details: {'json': json});
     }
     switch (type) {
       case PlutusDataType.constrPlutusData:
@@ -69,8 +69,8 @@ abstract class PlutusData
       return PlutusInteger.deserialize(cbor);
     }
     throw ADAPluginException(
-      "Invalid cbor object.",
-      details: {"Value": cbor, "Type": cbor.runtimeType},
+      'Invalid cbor object.',
+      details: {'Value': cbor, 'Type': cbor.runtimeType},
     );
   }
 

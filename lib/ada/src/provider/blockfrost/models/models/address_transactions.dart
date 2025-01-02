@@ -36,6 +36,6 @@ class ADATransactionSummaryInfoResponse {
       };
   @override
   String toString() {
-    return "ADAAddressTransaction${toJson()}";
+    return 'ADAAddressTransaction${toJson()}';
   }
 }

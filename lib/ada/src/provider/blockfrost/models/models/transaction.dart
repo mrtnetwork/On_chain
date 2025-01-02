@@ -150,6 +150,6 @@ class ADATransactionInfoResponse {
 
   @override
   String toString() {
-    return "ADATransactionInfoResponse${toJson()}";
+    return 'ADATransactionInfoResponse${toJson()}';
   }
 }

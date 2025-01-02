@@ -4,8 +4,8 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the value from a storage position at a given address.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getStorageAt)
-class RPCGetStorageAt extends ETHRPCRequest<dynamic> {
-  RPCGetStorageAt({
+class EthereumRequestGetStorageAt extends EthereumRequest<Object?, Object?> {
+  EthereumRequestGetStorageAt({
     required this.address,
     required this.storageSlot,
     BlockTagOrNumber? tag = BlockTagOrNumber.finalized,
@@ -13,7 +13,7 @@ class RPCGetStorageAt extends ETHRPCRequest<dynamic> {
 
   /// eth_getStorageAt
   @override
-  EthereumMethods get method => EthereumMethods.getStorageAt;
+  String get method => EthereumMethods.getStorageAt.value;
 
   /// address of the storage.
   final String address;
@@ -28,6 +28,6 @@ class RPCGetStorageAt extends ETHRPCRequest<dynamic> {
 
   @override
   String toString() {
-    return "RPCGetStorageAt{${toJson()}}";
+    return 'EthereumRequestGetStorageAt{${toJson()}}';
   }
 }

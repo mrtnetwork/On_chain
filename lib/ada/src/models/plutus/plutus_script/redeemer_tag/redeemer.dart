@@ -28,10 +28,10 @@ class Redeemer with ADASerialization {
   }
   factory Redeemer.fromJson(Map<String, dynamic> json) {
     return Redeemer(
-        tag: RedeemerTag.fromName(json["tag"]),
-        index: BigintUtils.parse(json["index"]),
-        data: PlutusData.fromJson(json["data"]),
-        exUnits: ExUnits.fromJson(json["ex_units"]));
+        tag: RedeemerTag.fromName(json['tag']),
+        index: BigintUtils.parse(json['index']),
+        data: PlutusData.fromJson(json['data']),
+        exUnits: ExUnits.fromJson(json['ex_units']));
   }
 
   @override
@@ -47,10 +47,10 @@ class Redeemer with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "tag": tag.toJson(),
-      "index": index.toString(),
-      "data": data.toJson(),
-      "ex_units": exUnits.toJson()
+      'tag': tag.toJson(),
+      'index': index.toString(),
+      'data': data.toJson(),
+      'ex_units': exUnits.toJson()
     };
   }
 }

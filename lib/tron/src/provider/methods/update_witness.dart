@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Edit the URL of the witness's official website.
 /// [developers.tron.network](https://developers.tron.network/reference/updatewitness).
 class TronRequestUpdateWitness
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestUpdateWitness(
       {required this.ownerAddress,
       this.updateUrl,
@@ -30,15 +30,15 @@ class TronRequestUpdateWitness
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "update_url": updateUrl,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'update_url': updateUrl,
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestUpdateWitness{${toJson()}}";
+    return 'TronRequestUpdateWitness{${toJson()}}';
   }
 }

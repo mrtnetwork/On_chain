@@ -3,14 +3,15 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 import 'package:on_chain/ethereum/src/rpc/methds/subscribes/const/constant.dart';
 
 /// https://geth.ethereum.org/docs/interacting-with-geth/rpc/pubsub
-class RPCETHSubscribeSyncing extends ETHRPCRequest<String> {
-  RPCETHSubscribeSyncing();
+class EthereumRequestETHSubscribeSyncing
+    extends EthereumRequest<String, String> {
+  EthereumRequestETHSubscribeSyncing();
 
   @override
-  EthereumMethods get method => EthereumMethods.ethSubscribe;
+  String get method => EthereumMethods.ethSubscribe.value;
 
   @override
   List<dynamic> toJson() {
-    return [RPCETHSubscribeConst.syncing];
+    return [EthereumRequestETHSubscribeConst.syncing];
   }
 }

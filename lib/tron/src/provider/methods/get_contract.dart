@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Queries a contract's information from the blockchain, including the bytecode of the contract, ABI, configuration parameters, etc.
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-getcontract).
 class TronRequestGetContract
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetContract({required this.value, this.visible = true});
 
   /// Contract address
@@ -19,11 +19,11 @@ class TronRequestGetContract
 
   @override
   Map<String, dynamic> toJson() {
-    return {"value": value, "visible": visible};
+    return {'value': value.toAddress(visible), 'visible': visible};
   }
 
   @override
   String toString() {
-    return "TronRequestGetContract{${toJson()}}";
+    return 'TronRequestGetContract{${toJson()}}';
   }
 }

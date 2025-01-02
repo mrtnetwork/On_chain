@@ -37,6 +37,6 @@ class ADAStakeAccountDelegationHistoryResponse {
 
   @override
   String toString() {
-    return "ADAStakeAccountDelegationHistoryResponse${toJson()}";
+    return 'ADAStakeAccountDelegationHistoryResponse${toJson()}';
   }
 }

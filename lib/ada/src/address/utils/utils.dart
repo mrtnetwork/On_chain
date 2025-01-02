@@ -21,11 +21,11 @@ class AdaAddressUtils {
   static AdaGenericAddrDecoderResult decodeAddres(String address,
       {ADAAddressType? addrType, ADANetwork? network}) {
     final decodeAddr =
-        AdaGenericAddrDecoder().decode(address, {"net_tag": network});
+        AdaGenericAddrDecoder().decode(address, {'net_tag': network});
     if (addrType != null) {
       if (decodeAddr.type.header != addrType.header) {
-        throw ADAPluginException("Incorrect address type. ",
-            details: {"Excepted": addrType.name, "type": decodeAddr.type});
+        throw ADAPluginException('Incorrect address type. ',
+            details: {'Excepted': addrType.name, 'type': decodeAddr.type});
       }
     }
     return decodeAddr;
@@ -58,10 +58,10 @@ class AdaAddressUtils {
     bool keepPrefix = true,
   }) {
     final decode =
-        AdaGenericAddrDecoder().decode(address, {"net_tag": network});
+        AdaGenericAddrDecoder().decode(address, {'net_tag': network});
     if (decode.type == ADAAddressType.byron) {
-      throw ADAPluginException("Invalid shelly address.",
-          details: {"address": address, "type": decode.type});
+      throw ADAPluginException('Invalid shelly address.',
+          details: {'address': address, 'type': decode.type});
     }
     if (keepPrefix) {
       return decode.addressBytes;
@@ -134,7 +134,7 @@ class AdaAddressUtils {
     return decodeAddr.type;
   }
 
-  static const String _poolIdHrp = "pool";
+  static const String _poolIdHrp = 'pool';
 
   /// Decode a Bech32-encoded pool ID string to bytes.
   ///

@@ -5,9 +5,9 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class _Utils {
   static StructLayout layout = LayoutConst.struct([
     LayoutConst.u64(property: 'instructionDiscriminator'),
-    LayoutConst.u32(property: "length"),
+    LayoutConst.u32(property: 'length'),
     ExtraAccountMetaList.staticLayout,
-  ], property: "extraAccountMetaList");
+  ], property: 'extraAccountMetaList');
 }
 
 class ExtraAccountMetaAccountData extends LayoutSerializable {
@@ -23,10 +23,10 @@ class ExtraAccountMetaAccountData extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: accountBytes, layout: _Utils.layout);
     return ExtraAccountMetaAccountData(
-        instructionDiscriminator: decode["instructionDiscriminator"],
-        length: decode["length"],
+        instructionDiscriminator: decode['instructionDiscriminator'],
+        length: decode['length'],
         extraAccountMetaList:
-            ExtraAccountMetaList.fromJson(decode["extraAccountMetaList"]));
+            ExtraAccountMetaList.fromJson(decode['extraAccountMetaList']));
   }
 
   @override
@@ -35,15 +35,15 @@ class ExtraAccountMetaAccountData extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "instructionDiscriminator": instructionDiscriminator,
-      "length": length,
-      "extraAccountMetaList": extraAccountMetaList.serialize(),
+      'instructionDiscriminator': instructionDiscriminator,
+      'length': length,
+      'extraAccountMetaList': extraAccountMetaList.serialize(),
     };
   }
 
   @override
   String toString() {
-    return "ExtraAccountMetaAccountData${serialize()}";
+    return 'ExtraAccountMetaAccountData${serialize()}';
   }
 
   List<ExtraAccountMeta> get extraAccountMetas {

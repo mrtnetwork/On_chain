@@ -11,12 +11,12 @@ class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
         bytes: data,
         instruction:
             MetaplexHydraProgramInstruction.processInitForMint.insturction);
-    return MetaplexHydraInitForMintLayout(bumpSeed: decode["bumpSeed"]);
+    return MetaplexHydraInitForMintLayout(bumpSeed: decode['bumpSeed']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "bumpSeed")
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bumpSeed')
   ]);
 
   @override
@@ -28,6 +28,6 @@ class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"bumpSeed": bumpSeed};
+    return {'bumpSeed': bumpSeed};
   }
 }

@@ -23,9 +23,9 @@ class SingleHostName extends Relay {
     );
   }
   factory SingleHostName.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> correctJson = json["single_host_name"] ?? json;
+    final Map<String, dynamic> correctJson = json['single_host_name'] ?? json;
     return SingleHostName(
-        dnsName: correctJson["dns_name"], port: correctJson["port"]);
+        dnsName: correctJson['dns_name'], port: correctJson['port']);
   }
   SingleHostName copyWith({int? port, String? dnsName}) {
     return SingleHostName(
@@ -47,7 +47,7 @@ class SingleHostName extends Relay {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "single_host_name": {"port": port, "dns_name": dnsName}
+      'single_host_name': {'port': port, 'dns_name': dnsName}
     };
   }
 }

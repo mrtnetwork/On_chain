@@ -5,19 +5,19 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns identity and transaction information about a confirmed block in the ledger
 /// https://solana.com/docs/rpc/http/getblock
-class SolanaRPCGetBlock extends SolanaRPCRequest<VersionedBlockResponse> {
-  const SolanaRPCGetBlock(
+class SolanaRequestGetBlock
+    extends SolanaRequest<VersionedBlockResponse, Map<String, dynamic>> {
+  const SolanaRequestGetBlock(
       {required this.slot,
       this.transactionDetails = RPCTransactionDetails.full,
       this.maxSupportedTransactionVersion = 0,
       this.rewards,
-      Commitment? commitment,
-      SolanaRPCEncoding? encoding})
-      : super(commitment: commitment, encoding: encoding);
+      super.commitment,
+      super.encoding});
 
   /// getBlock
   @override
-  String get method => SolanaRPCMethods.getBlock.value;
+  String get method => SolanaRequestMethods.getBlock.value;
 
   /// slot number, as u64 integer
   final int slot;
@@ -35,18 +35,18 @@ class SolanaRPCGetBlock extends SolanaRPCRequest<VersionedBlockResponse> {
   List<dynamic> toJson() {
     return [
       slot,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         encoding?.toJson(),
         transactionDetails?.toJson(),
-        {"maxSupportedTransactionVersion": maxSupportedTransactionVersion},
-        {"rewards": rewards},
+        {'maxSupportedTransactionVersion': maxSupportedTransactionVersion},
+        {'rewards': rewards},
       ]),
     ];
   }
 
   @override
-  VersionedBlockResponse onResonse(result) {
+  VersionedBlockResponse onResonse(Map<String, dynamic> result) {
     return VersionedBlockResponse.fromJson(result);
   }
 }

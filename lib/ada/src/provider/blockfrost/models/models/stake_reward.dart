@@ -38,6 +38,6 @@ class ADARewardHistoryResponse {
 
   @override
   String toString() {
-    return "ADARewardHistoryResponse${toJson()}";
+    return 'ADARewardHistoryResponse${toJson()}';
   }
 }

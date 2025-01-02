@@ -26,6 +26,6 @@ class ADATransactionWithdrawalResponse {
 
   @override
   String toString() {
-    return "ADATransactionWithdrawalResponse${toJson()}";
+    return 'ADATransactionWithdrawalResponse${toJson()}';
   }
 }

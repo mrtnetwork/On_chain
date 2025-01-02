@@ -78,7 +78,7 @@ class Assets with ADASerialization {
   }
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! Assets) return false;
     if (other.assets.length != assets.length) return false;
     for (final i in other.assets.entries) {

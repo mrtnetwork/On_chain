@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Scan outgoing notes(spent).
 /// [developers.tron.network](https://developers.tron.network/reference/scanshieldedtrc20notesbyovk).
 class TronRequestScanShieldedTrc20NotesByOvk
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestScanShieldedTrc20NotesByOvk({
     required this.startBlockIndex,
     required this.endBlockIndex,
@@ -23,16 +23,16 @@ class TronRequestScanShieldedTrc20NotesByOvk
   @override
   Map<String, dynamic> toJson() {
     return {
-      "start_block_index": startBlockIndex,
-      "end_block_index": endBlockIndex,
-      "shielded_TRC20_contract_address": shieldedTRC20ContractAddress,
-      "ovk": ovk,
-      "visible": visible
+      'start_block_index': startBlockIndex,
+      'end_block_index': endBlockIndex,
+      'shielded_TRC20_contract_address': shieldedTRC20ContractAddress,
+      'ovk': ovk,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestScanShieldedTrc20NotesByOvk{${toJson()}}";
+    return 'TronRequestScanShieldedTrc20NotesByOvk{${toJson()}}';
   }
 }

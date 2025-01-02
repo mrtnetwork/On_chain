@@ -7,10 +7,10 @@ class _Utils {
   static const List<int> discriminator = [130, 48, 247, 244, 182, 191, 30, 26];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("admin"),
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "description"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('admin'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'description'),
   ]);
 }
 
@@ -28,11 +28,11 @@ class Store extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return Store(
-        name: decode["name"],
-        admin: decode["admin"],
-        description: decode["description"]);
+        name: decode['name'],
+        admin: decode['admin'],
+        description: decode['description']);
   }
 
   @override
@@ -41,15 +41,15 @@ class Store extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "description": description,
-      "admin": admin,
-      "name": name
+      'discriminator': _Utils.discriminator,
+      'description': description,
+      'admin': admin,
+      'name': name
     };
   }
 
   @override
   String toString() {
-    return "Store${serialize()}";
+    return 'Store${serialize()}';
   }
 }

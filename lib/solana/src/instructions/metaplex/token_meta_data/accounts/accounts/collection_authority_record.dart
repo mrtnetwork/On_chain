@@ -6,9 +6,9 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    LayoutConst.u8(property: "bump"),
-    SolanaLayoutUtils.optionPubkey(property: "updateAuthority")
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u8(property: 'bump'),
+    SolanaLayoutUtils.optionPubkey(property: 'updateAuthority')
   ]);
 }
 
@@ -23,20 +23,20 @@ class CollectionAuthorityRecord extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return CollectionAuthorityRecord(
-        key: MetaDataKey.fromValue(decode["key"]),
-        bump: decode["bump"],
-        updateAuthority: decode["updateAuthority"]);
+        key: MetaDataKey.fromValue(decode['key']),
+        bump: decode['bump'],
+        updateAuthority: decode['updateAuthority']);
   }
 
   @override
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
-    return {"key": key.value, "bump": bump, "updateAuthority": updateAuthority};
+    return {'key': key.value, 'bump': bump, 'updateAuthority': updateAuthority};
   }
 
   @override
   String toString() {
-    return "CollectionAuthorityRecord${serialize()}";
+    return 'CollectionAuthorityRecord${serialize()}';
   }
 }

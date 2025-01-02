@@ -4,11 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of redeemers of a specific script.
 /// https://blockfrost.dev/api/redeemers-of-a-specific-script
-class BlockfrostRequestRedeemersOfASpecificScript
-    extends BlockforestRequestParam<List<ADAScriptRedeemerInfoResponse>,
-        List<Map<String, dynamic>>> {
+class BlockfrostRequestRedeemersOfASpecificScript extends BlockFrostRequest<
+    List<ADAScriptRedeemerInfoResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestRedeemersOfASpecificScript(this.hash,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Hash of the script

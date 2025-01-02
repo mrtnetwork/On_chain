@@ -8,22 +8,22 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "accountType"),
-    SolanaLayoutUtils.publicKey("store"),
-    SolanaLayoutUtils.publicKey("authority"),
-    LayoutConst.string(property: "description"),
-    LayoutConst.string(property: "uri"),
-    LayoutConst.blob(32, property: "name"),
-    LayoutConst.u32(property: "packCards"),
-    LayoutConst.u32(property: "packVouchers"),
-    LayoutConst.u64(property: "totalWeight"),
-    LayoutConst.u64(property: "totalEditions"),
-    LayoutConst.boolean(property: "mutable"),
-    LayoutConst.u8(property: "packState"),
-    LayoutConst.u8(property: "distributionType"),
-    LayoutConst.u32(property: "allowedAmountToRedeem"),
-    LayoutConst.u64(property: "redeemStartDate"),
-    LayoutConst.optional(LayoutConst.u64(), property: "redeemEndDate")
+    LayoutConst.u8(property: 'accountType'),
+    SolanaLayoutUtils.publicKey('store'),
+    SolanaLayoutUtils.publicKey('authority'),
+    LayoutConst.string(property: 'description'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.blob(32, property: 'name'),
+    LayoutConst.u32(property: 'packCards'),
+    LayoutConst.u32(property: 'packVouchers'),
+    LayoutConst.u64(property: 'totalWeight'),
+    LayoutConst.u64(property: 'totalEditions'),
+    LayoutConst.boolean(property: 'mutable'),
+    LayoutConst.u8(property: 'packState'),
+    LayoutConst.u8(property: 'distributionType'),
+    LayoutConst.u32(property: 'allowedAmountToRedeem'),
+    LayoutConst.u64(property: 'redeemStartDate'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'redeemEndDate')
   ]);
 }
 
@@ -65,23 +65,23 @@ class PackSet extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return PackSet(
-        accountType: NFTPacksAccountType.fromValue(decode["accountType"]),
-        store: decode["store"],
-        authority: decode["authority"],
-        description: decode["description"],
-        uri: decode["uri"],
-        name: (decode["name"] as List).cast(),
-        packCards: decode["packCards"],
-        packVouchers: decode["packVouchers"],
-        totalWeight: decode["totalWeight"],
-        totalEditions: decode["totalEditions"],
-        mutable: decode["mutable"],
-        packState: PackSetState.fromValue(decode["packState"]),
+        accountType: NFTPacksAccountType.fromValue(decode['accountType']),
+        store: decode['store'],
+        authority: decode['authority'],
+        description: decode['description'],
+        uri: decode['uri'],
+        name: (decode['name'] as List).cast(),
+        packCards: decode['packCards'],
+        packVouchers: decode['packVouchers'],
+        totalWeight: decode['totalWeight'],
+        totalEditions: decode['totalEditions'],
+        mutable: decode['mutable'],
+        packState: PackSetState.fromValue(decode['packState']),
         distributionType:
-            PackDistributionType.fromValue(decode["distributionType"]),
-        allowedAmountToRedeem: decode["allowedAmountToRedeem"],
-        redeemStartDate: decode["redeemStartDate"],
-        redeemEndDate: decode["redeemEndDate"]);
+            PackDistributionType.fromValue(decode['distributionType']),
+        allowedAmountToRedeem: decode['allowedAmountToRedeem'],
+        redeemStartDate: decode['redeemStartDate'],
+        redeemEndDate: decode['redeemEndDate']);
   }
 
   @override
@@ -89,27 +89,27 @@ class PackSet extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "accountType": accountType.value,
-      "store": store,
-      "authority": authority,
-      "description": description,
-      "uri": uri,
-      "name": name,
-      "packCards": packCards,
-      "packVouchers": packVouchers,
-      "totalWeight": totalWeight,
-      "totalEditions": totalEditions,
-      "mutable": mutable,
-      "packState": packState.value,
-      "distributionType": distributionType.value,
-      "allowedAmountToRedeem": allowedAmountToRedeem,
-      "redeemStartDate": redeemStartDate,
-      "redeemEndDate": redeemEndDate,
+      'accountType': accountType.value,
+      'store': store,
+      'authority': authority,
+      'description': description,
+      'uri': uri,
+      'name': name,
+      'packCards': packCards,
+      'packVouchers': packVouchers,
+      'totalWeight': totalWeight,
+      'totalEditions': totalEditions,
+      'mutable': mutable,
+      'packState': packState.value,
+      'distributionType': distributionType.value,
+      'allowedAmountToRedeem': allowedAmountToRedeem,
+      'redeemStartDate': redeemStartDate,
+      'redeemEndDate': redeemEndDate,
     };
   }
 
   @override
   String toString() {
-    return "PackSet${serialize()}";
+    return 'PackSet${serialize()}';
   }
 }

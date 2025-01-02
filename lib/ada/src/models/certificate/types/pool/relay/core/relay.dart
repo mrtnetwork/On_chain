@@ -31,7 +31,7 @@ abstract class Relay with ADASerialization {
     try {
       type = RelayType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException("Invalid Relay json.", details: {"json": json});
+      throw ADAPluginException('Invalid Relay json.', details: {'json': json});
     }
     switch (type) {
       case RelayType.multiHostName:

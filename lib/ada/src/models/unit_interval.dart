@@ -17,8 +17,8 @@ class UnitInterval with ADASerialization {
 
   factory UnitInterval.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(cbor.tags, _cborTag)) {
-      throw ADAPluginException("Invalid UnitInterval cbor tag.",
-          details: {"Excepted": _cborTag, "Tag": cbor.tags});
+      throw ADAPluginException('Invalid UnitInterval cbor tag.',
+          details: {'Excepted': _cborTag, 'Tag': cbor.tags});
     }
     final cborList = cbor.getValue<CborListValue>();
     return UnitInterval(
@@ -27,8 +27,8 @@ class UnitInterval with ADASerialization {
   }
   factory UnitInterval.fromJson(Map<String, dynamic> json) {
     return UnitInterval(
-        numerator: BigintUtils.parse(json["numerator"]),
-        denominator: BigintUtils.parse(json["denominator"]));
+        numerator: BigintUtils.parse(json['numerator']),
+        denominator: BigintUtils.parse(json['denominator']));
   }
 
   @override
@@ -44,8 +44,8 @@ class UnitInterval with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "numerator": numerator.toString(),
-      "denominator": denominator.toString()
+      'numerator': numerator.toString(),
+      'denominator': denominator.toString()
     };
   }
 }

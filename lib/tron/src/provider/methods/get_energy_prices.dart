@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query historical energy unit price
 /// [developers.tron.network](https://developers.tron.network/reference/getenergyprices).
 class TronRequestGetEnergyPrices
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetEnergyPrices();
 
   /// wallet/getenergyprices
@@ -18,6 +18,6 @@ class TronRequestGetEnergyPrices
 
   @override
   String toString() {
-    return "TronRequestGetEnergyPrices{${toJson()}}";
+    return 'TronRequestGetEnergyPrices{${toJson()}}';
   }
 }

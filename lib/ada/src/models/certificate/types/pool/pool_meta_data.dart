@@ -22,8 +22,8 @@ class PoolMetadata with ADASerialization {
 
   factory PoolMetadata.fromJson(Map<String, dynamic> json) {
     return PoolMetadata(
-        url: json["url"],
-        poolMetadataHash: PoolMetadataHash.fromHex(json["pool_metadata_hash"]));
+        url: json['url'],
+        poolMetadataHash: PoolMetadataHash.fromHex(json['pool_metadata_hash']));
   }
 
   PoolMetadata copyWith({String? url, PoolMetadataHash? poolMetadataHash}) {
@@ -42,6 +42,6 @@ class PoolMetadata with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"url": url, "pool_metadata_hash": poolMetadataHash.toJson()};
+    return {'url': url, 'pool_metadata_hash': poolMetadataHash.toJson()};
   }
 }

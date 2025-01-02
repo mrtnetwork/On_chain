@@ -7,14 +7,14 @@ class BlockBalanceTrace extends TronProtocolBufferImpl {
   /// Create a new [BlockBalanceTrace] instance by parsing a JSON map.
   factory BlockBalanceTrace.fromJson(Map<String, dynamic> json) {
     return BlockBalanceTrace(
-      blockIdentifier: json["block_identifier"] == null
+      blockIdentifier: json['block_identifier'] == null
           ? null
-          : BlockBalanceTraceBlockIdentifier.fromJson(json["block_identifier"]),
+          : BlockBalanceTraceBlockIdentifier.fromJson(json['block_identifier']),
       timestamp:
-          json["timestamp"] == null ? null : BigInt.parse(json["timestamp"]),
-      transactionBalanceTrace: json["transaction_balance_trace"] == null
+          json['timestamp'] == null ? null : BigInt.parse(json['timestamp']),
+      transactionBalanceTrace: json['transaction_balance_trace'] == null
           ? null
-          : (json["transaction_balance_trace"] as List<dynamic>)
+          : (json['transaction_balance_trace'] as List<dynamic>)
               .map((trace) => TransactionBalanceTrace.fromJson(trace))
               .toList(),
     );
@@ -57,9 +57,9 @@ class BlockBalanceTrace extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "block_identifier": blockIdentifier?.toJson(),
-      "timestamp": timestamp?.toString(),
-      "transaction_balance_trace":
+      'block_identifier': blockIdentifier?.toJson(),
+      'timestamp': timestamp?.toString(),
+      'transaction_balance_trace':
           transactionBalanceTrace?.map((trace) => trace.toJson()).toList(),
     }..removeWhere((key, value) => value == null);
   }
@@ -67,6 +67,6 @@ class BlockBalanceTrace extends TronProtocolBufferImpl {
   /// Convert the [BlockBalanceTrace] object to its string representation.
   @override
   String toString() {
-    return "BlockBalanceTrace{${toJson()}}";
+    return 'BlockBalanceTrace{${toJson()}}';
   }
 }

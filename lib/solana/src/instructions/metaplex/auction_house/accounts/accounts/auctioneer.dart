@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [46, 101, 92, 150, 138, 30, 245, 120];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("auctioneerAuthority"),
-    SolanaLayoutUtils.publicKey("auctionHouse"),
-    LayoutConst.u8(property: "bump"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('auctioneerAuthority'),
+    SolanaLayoutUtils.publicKey('auctionHouse'),
+    LayoutConst.u8(property: 'bump'),
   ]);
 }
 
@@ -27,26 +27,26 @@ class Auctioneer extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return Auctioneer(
-        auctioneerAuthority: decode["auctioneerAuthority"],
-        auctionHouse: decode["auctionHouse"],
-        bump: decode["bump"]);
+        auctioneerAuthority: decode['auctioneerAuthority'],
+        auctionHouse: decode['auctionHouse'],
+        bump: decode['bump']);
   }
   @override
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "auctioneerAuthority": auctioneerAuthority,
-      "auctionHouse": auctionHouse,
-      "bump": bump,
+      'discriminator': _Utils.discriminator,
+      'auctioneerAuthority': auctioneerAuthority,
+      'auctionHouse': auctionHouse,
+      'bump': bump,
     };
   }
 
   @override
   String toString() {
-    return "Auctioneer${serialize()}";
+    return 'Auctioneer${serialize()}';
   }
 }

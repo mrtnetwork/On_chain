@@ -30,12 +30,12 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
         uriBytesLength > StakePoolProgramConst.metadataMaxUriLength ||
         symbolBytesLength > StakePoolProgramConst.metadataMaxSymbolLength) {
       throw const SolanaPluginException(
-          "Some fields exceed the maximum data limit.",
+          'Some fields exceed the maximum data limit.',
           details: {
-            "metadataMaxNameLength":
+            'metadataMaxNameLength':
                 StakePoolProgramConst.metadataMaxNameLength,
-            "metadataMaxUriLength": StakePoolProgramConst.metadataMaxUriLength,
-            "metadataMaxSymbolLength":
+            'metadataMaxUriLength': StakePoolProgramConst.metadataMaxUriLength,
+            'metadataMaxSymbolLength':
                 StakePoolProgramConst.metadataMaxSymbolLength
           });
     }
@@ -49,7 +49,7 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
             StakePoolProgramInstruction.updateTokenMetaData.insturction);
 
     return StakePoolUpdateTokenMetaDataLayout(
-        name: decode["name"], uri: decode["uri"], symbol: decode["symbol"]);
+        name: decode['name'], uri: decode['uri'], symbol: decode['symbol']);
   }
   @override
   StructLayout get layout => StakePoolCreateTokenMetaDataLayout.staticLayout;
@@ -60,6 +60,6 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"name": name, "symbol": symbol, "uri": uri};
+    return {'name': name, 'symbol': symbol, 'uri': uri};
   }
 }

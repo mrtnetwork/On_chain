@@ -6,7 +6,7 @@ import 'provider_example/provider.dart';
 
 void main() async {
   /// Set up the Blockfrost provider with the specified URL and project ID
-  final provider = BlockforestProvider(BlockforestHTTPProvider(
+  final provider = BlockFrostProvider(BlockFrostHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 

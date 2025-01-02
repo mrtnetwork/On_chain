@@ -9,23 +9,23 @@ class TokenGate extends LayoutSerializable {
 
   const TokenGate({required this.amount, required this.mint});
   factory TokenGate.fromJson(Map<String, dynamic> json) {
-    return TokenGate(amount: json["amount"], mint: json["mint"]);
+    return TokenGate(amount: json['amount'], mint: json['mint']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "amount"),
-    SolanaLayoutUtils.publicKey("mint")
-  ], property: "tokenGate");
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('mint')
+  ], property: 'tokenGate');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"mint": mint, "amount": amount};
+    return {'mint': mint, 'amount': amount};
   }
 
   @override
   String toString() {
-    return "TokenGate${serialize()}";
+    return 'TokenGate${serialize()}';
   }
 }

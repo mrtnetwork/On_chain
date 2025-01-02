@@ -6,9 +6,9 @@ class InterestBearingMintInstruction extends LayoutSerializable {
   const InterestBearingMintInstruction._(this.name);
   final String name;
   static const InterestBearingMintInstruction initialize =
-      InterestBearingMintInstruction._("Initialize");
+      InterestBearingMintInstruction._('Initialize');
   static const InterestBearingMintInstruction updateRate =
-      InterestBearingMintInstruction._("UpdateRate");
+      InterestBearingMintInstruction._('UpdateRate');
 
   static const List<InterestBearingMintInstruction> values = [
     initialize,
@@ -18,7 +18,7 @@ class InterestBearingMintInstruction extends LayoutSerializable {
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
         values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: "interestBearingMint")
+        property: 'interestBearingMint')
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -26,24 +26,24 @@ class InterestBearingMintInstruction extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "interestBearingMint": {name: null}
+      'interestBearingMint': {name: null}
     };
   }
 
   factory InterestBearingMintInstruction.fromJson(Map<String, dynamic> json) {
-    return fromName(json["interestBearingMint"]["key"]);
+    return fromName(json['interestBearingMint']['key']);
   }
   static InterestBearingMintInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
       orElse: () => throw SolanaPluginException(
-          "No InterestBearingMint found matching the specified value",
-          details: {"value": value}),
+          'No InterestBearingMint found matching the specified value',
+          details: {'value': value}),
     );
   }
 
   @override
   String toString() {
-    return "InterestBearingMint${serialize()}";
+    return 'InterestBearingMint${serialize()}';
   }
 }

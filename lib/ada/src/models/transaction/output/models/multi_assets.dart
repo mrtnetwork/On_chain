@@ -115,7 +115,7 @@ class MultiAsset with ADASerialization implements Comparable<MultiAsset> {
   bool get hasAsset => assets.isNotEmpty;
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! MultiAsset) return false;
     if (other.assets.length != assets.length) return false;
     for (final i in other.assets.entries) {

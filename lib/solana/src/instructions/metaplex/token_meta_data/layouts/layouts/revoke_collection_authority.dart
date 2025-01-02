@@ -17,7 +17,7 @@ class MetaplexTokenMetaDataRevokeCollectionAuthorityLayout
   }
 
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   @override
   StructLayout get layout => _layout;

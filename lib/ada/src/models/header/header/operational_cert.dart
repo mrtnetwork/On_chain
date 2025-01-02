@@ -38,15 +38,15 @@ class OperationalCert with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "hotVkey": hotVkey.toJson(),
-      "sequenceNumber": sequenceNumber,
-      "kesPeriod": kesPeriod,
-      "sigma": sigma.toJson()
+      'hotVkey': hotVkey.toJson(),
+      'sequenceNumber': sequenceNumber,
+      'kesPeriod': kesPeriod,
+      'sigma': sigma.toJson()
     };
   }
 
   @override
   String toString() {
-    return "OperationalCert{hotVkey: $hotVkey, sequenceNumber:$sequenceNumber, kesPeriod:$kesPeriod, sigma:$sigma}";
+    return 'OperationalCert{hotVkey: $hotVkey, sequenceNumber:$sequenceNumber, kesPeriod:$kesPeriod, sigma:$sigma}';
   }
 }

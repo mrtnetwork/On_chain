@@ -8,7 +8,7 @@ class RPCSizeFilterConfig implements RPCFilterConfig {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"dataSize": dataSize};
+    return {'dataSize': dataSize};
   }
 }
 
@@ -20,7 +20,7 @@ class RPCMemcmpFilterConfig implements RPCFilterConfig {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "memcmp": {"offset": offset, "bytes": bytes}
+      'memcmp': {'offset': offset, 'bytes': bytes}
     };
   }
 }

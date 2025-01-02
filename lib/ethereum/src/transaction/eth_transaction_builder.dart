@@ -1,18 +1,12 @@
 import 'dart:async';
 
 import 'package:on_chain/ethereum/src/exception/exception.dart';
+import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 import 'package:on_chain/solidity/contract/fragments.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
 import 'package:on_chain/ethereum/src/models/block_tag.dart';
-import 'package:on_chain/ethereum/src/rpc/methds/estimate_gas.dart';
-import 'package:on_chain/ethereum/src/rpc/methds/fee_history.dart';
-import 'package:on_chain/ethereum/src/rpc/methds/get_gas_price.dart';
-import 'package:on_chain/ethereum/src/rpc/methds/get_transaction_count.dart';
-import 'package:on_chain/ethereum/src/rpc/methds/get_transaction_receipt.dart';
-import 'package:on_chain/ethereum/src/rpc/methds/send_raw_transaction.dart';
 import 'package:on_chain/ethereum/src/models/transaction_receipt.dart';
-import 'package:on_chain/ethereum/src/rpc/provider/provider.dart';
 import 'package:on_chain/ethereum/src/models/access_list.dart';
 import 'package:on_chain/ethereum/src/transaction/eth_transaction.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
@@ -54,7 +48,7 @@ class ETHTransactionBuilder {
       if (function.stateMutability != null &&
           function.stateMutability != StateMutability.payable) {
         throw const ETHPluginException(
-            "For calling non-payable methods, the transaction value must be set to zero.");
+            'For calling non-payable methods, the transaction value must be set to zero.');
       }
     }
     return ETHTransactionBuilder._(
@@ -139,7 +133,7 @@ class ETHTransactionBuilder {
     signature ??= _signature;
     if (signature == null) {
       throw const ETHPluginException(
-          "The transaction signed serialized cannot be obtained before the signing process.");
+          'The transaction signed serialized cannot be obtained before the signing process.');
     }
     return _transaction.signedSerialized(signature);
   }
@@ -152,23 +146,23 @@ class ETHTransactionBuilder {
     final Map<String, dynamic> errors = {};
 
     if (_nonce == null) {
-      errors.addAll({"nonce": "must not be null"});
+      errors.addAll({'nonce': 'must not be null'});
     }
     final t = _type ?? _transaction.transactionType;
     if (t == ETHTransactionType.eip1559) {
       if (maxPriorityFeePerGas == null) {
         errors.addAll({
-          "maxFeePerGas": "must not be null",
-          "maxPriorityFeePerGas": "must not be null",
+          'maxFeePerGas': 'must not be null',
+          'maxPriorityFeePerGas': 'must not be null',
         });
       }
     } else {
       if (gasPrice == null) {
-        errors.addAll({"gasPrice": "must not be null"});
+        errors.addAll({'gasPrice': 'must not be null'});
       }
     }
     if (gasLimit == null) {
-      errors.addAll({"gasPrice": "must not be null"});
+      errors.addAll({'gasPrice': 'must not be null'});
     }
     return errors;
   }
@@ -196,7 +190,7 @@ class ETHTransactionBuilder {
   void setGasPrice(BigInt gasPrice) {
     if (_type == ETHTransactionType.eip1559) {
       throw const ETHPluginException(
-          "Do not specify a gasPrice for non-legacy transactions.");
+          'Do not specify a gasPrice for non-legacy transactions.');
     }
     _gasPrice = gasPrice;
     _replaceTr();
@@ -208,7 +202,7 @@ class ETHTransactionBuilder {
   void setEIP1559FeeDetails(BigInt maxFeePerGas, BigInt maxPriorityFeePerGas) {
     if (_type != ETHTransactionType.eip1559) {
       throw const ETHPluginException(
-          "Do not specify a maxPriorityFeePerGas and maxFeePerGas for legacy transactions. use setGasPrice");
+          'Do not specify a maxPriorityFeePerGas and maxFeePerGas for legacy transactions. use setGasPrice');
     }
     _maxFeePerGas = maxFeePerGas;
     _maxPriorityFeePerGas = maxPriorityFeePerGas;
@@ -232,17 +226,18 @@ class ETHTransactionBuilder {
   ///
   /// If the transaction is legacy, it fetches the gas price using RPC.
   /// For EIP-1559 transactions, it fetches historical fee data and calculates fees accordingly.
-  Future<void> _calculateEIP1559Fee(EVMRPC rpc, EIP1559FeeRate feeRate) async {
+  Future<void> _calculateEIP1559Fee(
+      EthereumProvider rpc, EIP1559FeeRate feeRate) async {
     if (_isLegacy) {
-      _gasPrice = await rpc.request(RPCGetGasPrice());
+      _gasPrice = await rpc.request(EthereumRequestGetGasPrice());
     } else {
-      final historical = await rpc.request(RPCGetFeeHistory(
+      final historical = await rpc.request(EthereumRequestGetFeeHistory(
           blockCount: 10,
           newestBlock: BlockTagOrNumber.pending,
           rewardPercentiles: [25, 50, 75]));
       if (historical == null) {
         throw const ETHPluginException(
-            "The network in question does not currently support the London hard fork, including the EIP-1559 upgrade. use legacy transaction");
+            'The network in question does not currently support the London hard fork, including the EIP-1559 upgrade. use legacy transaction');
       }
       final fee = historical.toFee();
       switch (feeRate) {
@@ -258,17 +253,16 @@ class ETHTransactionBuilder {
           _maxFeePerGas = fee.slow + fee.baseFee;
           _maxPriorityFeePerGas = fee.slow;
           break;
-        default:
       }
     }
     _replaceTr();
   }
 
-  /// Updates transaction fees using the provided EVMRPC and optional EIP-1559 fee rate.
+  /// Updates transaction fees using the provided EthereumProvider and optional EIP-1559 fee rate.
   ///
   /// Calls the autoFill method to automatically determine the transaction type,
   /// fetch the nonce and gas limit, and calculate fees if necessary.
-  Future<void> updateFees(EVMRPC rpc,
+  Future<void> updateFees(EthereumProvider rpc,
       [EIP1559FeeRate feeRate = EIP1559FeeRate.normal]) {
     return autoFill(rpc, feeRate);
   }
@@ -277,10 +271,10 @@ class ETHTransactionBuilder {
   ///
   /// Determines the transaction type based on pending block information, fetches the nonce,
   /// gas limit, and calculates fees if required, updating the transaction accordingly.
-  Future<void> autoFill(EVMRPC rpc,
+  Future<void> autoFill(EthereumProvider rpc,
       [EIP1559FeeRate feeRate = EIP1559FeeRate.normal]) async {
     if (_type == null) {
-      final historical = await rpc.request(RPCGetFeeHistory(
+      final historical = await rpc.request(EthereumRequestGetFeeHistory(
           blockCount: 20,
           newestBlock: BlockTagOrNumber.latest,
           rewardPercentiles: [25, 60, 90]));
@@ -290,8 +284,9 @@ class ETHTransactionBuilder {
         _type = ETHTransactionType.legacy;
       }
     }
-    _nonce ??= await rpc.request(RPCGetTransactionCount(address: from.address));
-    _gasLimit ??= await rpc.request(RPCEstimateGas(
+    _nonce ??= await rpc
+        .request(EthereumRequestGetTransactionCount(address: from.address));
+    _gasLimit ??= await rpc.request(EthereumRequestEstimateGas(
       transaction: _transaction.toEstimate(),
     ));
     if ((_isLegacy && _gasPrice == null) ||
@@ -336,18 +331,18 @@ class ETHTransactionBuilder {
   String get transactionID {
     if (_signature == null) {
       throw const ETHPluginException(
-          "The transaction hash cannot be obtained before the signing process.");
+          'The transaction hash cannot be obtained before the signing process.');
     }
     return BytesUtils.toHexString(
         QuickCrypto.keccack256Hash(signedSerializedTransaction()),
-        prefix: "0x");
+        prefix: '0x');
   }
 
   /// Checks for validation errors and throws an exception if any are found.
   void _checkError() {
     final errors = _validate();
     if (errors.isEmpty) return;
-    throw ETHPluginException("some fields not filled", details: errors);
+    throw ETHPluginException('some fields not filled', details: errors);
   }
 
   /// Converts the transaction details into a map for estimating gas or access list.
@@ -358,15 +353,15 @@ class ETHTransactionBuilder {
   /// Sends the signed transaction to the Ethereum network via the provided RPC.
   ///
   /// Throws an exception if there are validation errors or if the RPC request fails.
-  Future<String> sendTransaction(EVMRPC rpc) async {
+  Future<String> sendTransaction(EthereumProvider rpc) async {
     // Check for validation errors before sending the transaction
     _checkError();
     // Convert the signed transaction to raw hex format
     final rawHex =
-        BytesUtils.toHexString(signedSerializedTransaction(), prefix: "0x");
+        BytesUtils.toHexString(signedSerializedTransaction(), prefix: '0x');
     // Send the raw transaction hex to the Ethereum network
-    final result =
-        await rpc.request(RPCSendRawTransaction(transaction: rawHex));
+    final result = await rpc
+        .request(EthereumRequestSendRawTransaction(transaction: rawHex));
     // Return the transaction hash upon successful submission
     return result;
   }
@@ -376,7 +371,7 @@ class ETHTransactionBuilder {
   /// Throws an exception if there are validation errors, if the RPC request fails,
   /// or if the transaction receipt is not received within the specified timeout.
   Future<TransactionReceipt> sendAndSubmitTransaction(
-    EVMRPC rpc, {
+    EthereumProvider rpc, {
     Duration timeout = const Duration(minutes: 5),
     Duration periodicTimeOut = const Duration(seconds: 10),
   }) async {
@@ -384,14 +379,15 @@ class ETHTransactionBuilder {
     Timer? timer;
     try {
       final rawHex =
-          BytesUtils.toHexString(signedSerializedTransaction(), prefix: "0x");
-      final result =
-          await rpc.request(RPCSendRawTransaction(transaction: rawHex));
+          BytesUtils.toHexString(signedSerializedTransaction(), prefix: '0x');
+      final result = await rpc
+          .request(EthereumRequestSendRawTransaction(transaction: rawHex));
       final Completer<TransactionReceipt> completer =
           Completer<TransactionReceipt>();
       timer = Timer.periodic(periodicTimeOut, (t) async {
         final receipt = await rpc
-            .request(RPCGetTransactionReceipt(transactionHash: result))
+            .request(
+                EthereumRequestGetTransactionReceipt(transactionHash: result))
             .catchError((e, s) {
           return null;
         });

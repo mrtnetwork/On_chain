@@ -6,22 +6,22 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final headerLayout = LayoutConst.struct([
-    LayoutConst.u8(property: "discriminator"),
+    LayoutConst.u8(property: 'discriminator'),
     LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
-        property: "treeHeader")
+        property: 'treeHeader')
   ]);
   static StructLayout layout(
           {required int maxBufferSize, required int maxDepth}) =>
       LayoutConst.struct([
-        LayoutConst.u8(property: "discriminator"),
+        LayoutConst.u8(property: 'discriminator'),
         LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
-            property: "treeHeader"),
+            property: 'treeHeader'),
         LayoutConst.wrap(
             ConcurrentMerkleTree.staticLayout(
                 maxBufferSize: maxBufferSize, maxDepth: maxDepth),
-            property: "tree"),
+            property: 'tree'),
         LayoutConst.greedyArray(SolanaLayoutUtils.publicKey(),
-            property: "canopy"),
+            property: 'canopy'),
       ]);
 }
 
@@ -40,9 +40,9 @@ class MerkleTree extends LayoutSerializable {
     final decodeheader =
         LayoutSerializable.decode(bytes: data, layout: _Utils.headerLayout);
     final accountType =
-        CompressionAccountType.fromValue(decodeheader["discriminator"]);
+        CompressionAccountType.fromValue(decodeheader['discriminator']);
     final header =
-        ConcurrentMerkleTreeHeader.fromJson(decodeheader["treeHeader"]);
+        ConcurrentMerkleTreeHeader.fromJson(decodeheader['treeHeader']);
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout(
@@ -51,8 +51,8 @@ class MerkleTree extends LayoutSerializable {
     return MerkleTree(
         accountType: accountType,
         treeHeader: header,
-        tree: ConcurrentMerkleTree.fromJson(decode["tree"]),
-        canopy: (decode["canopy"] as List).cast());
+        tree: ConcurrentMerkleTree.fromJson(decode['tree']),
+        canopy: (decode['canopy'] as List).cast());
   }
 
   @override
@@ -63,15 +63,15 @@ class MerkleTree extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": accountType.value,
-      "treeHeader": treeHeader.serialize(),
-      "tree": tree.serialize(),
-      "canopy": canopy
+      'discriminator': accountType.value,
+      'treeHeader': treeHeader.serialize(),
+      'tree': tree.serialize(),
+      'canopy': canopy
     };
   }
 
   @override
   String toString() {
-    return "MerkleTree${serialize()}";
+    return 'MerkleTree${serialize()}';
   }
 }

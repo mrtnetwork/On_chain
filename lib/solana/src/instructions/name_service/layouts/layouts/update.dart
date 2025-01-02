@@ -23,16 +23,16 @@ class NameServiceUpdateLayout extends NameServiceProgramLayout {
       instruction: NameServiceProgramInstruction.update.insturction,
     );
     return NameServiceUpdateLayout(
-      inputData: decode["inputData"],
-      offset: decode["offset"],
+      inputData: decode['inputData'],
+      offset: decode['offset'],
     );
   }
 
   /// The layout structure.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u32(property: "offset"),
-    LayoutConst.vecU8(property: "inputData")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'offset'),
+    LayoutConst.vecU8(property: 'inputData')
   ]);
 
   /// The layout structure.
@@ -47,6 +47,6 @@ class NameServiceUpdateLayout extends NameServiceProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"inputData": inputData, "offset": offset};
+    return {'inputData': inputData, 'offset': offset};
   }
 }

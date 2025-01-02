@@ -16,8 +16,8 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for initializing a multisignature account.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "numberOfRequiredSignatures")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'numberOfRequiredSignatures')
   ]);
 
   /// Constructs an SPLTokenInitializeMultisigLayout instance from buffer.
@@ -28,7 +28,7 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
       instruction: SPLTokenProgramInstruction.initializeMultisig.insturction,
     );
     return SPLTokenInitializeMultisigLayout(
-      numberOfRequiredSignatures: decode["numberOfRequiredSignatures"],
+      numberOfRequiredSignatures: decode['numberOfRequiredSignatures'],
     );
   }
 
@@ -44,6 +44,6 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"numberOfRequiredSignatures": numberOfRequiredSignatures};
+    return {'numberOfRequiredSignatures': numberOfRequiredSignatures};
   }
 }

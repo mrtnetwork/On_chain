@@ -14,8 +14,8 @@ class ExUnits with ADASerialization {
   }
   factory ExUnits.fromJson(Map<String, dynamic> json) {
     return ExUnits(
-        mem: BigintUtils.parse(json["mem"]),
-        steps: BigintUtils.parse(json["steps"]));
+        mem: BigintUtils.parse(json['mem']),
+        steps: BigintUtils.parse(json['steps']));
   }
   ExUnits copyWith({BigInt? mem, BigInt? steps}) {
     return ExUnits(mem: mem ?? this.mem, steps: steps ?? this.steps);
@@ -29,6 +29,6 @@ class ExUnits with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"mem": mem.toString(), "steps": steps.toString()};
+    return {'mem': mem.toString(), 'steps': steps.toString()};
   }
 }

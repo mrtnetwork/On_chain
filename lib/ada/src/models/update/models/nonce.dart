@@ -19,12 +19,12 @@ class Nonce with ADASerialization {
   factory Nonce.deserialize(CborListValue cbor) {
     final int hasHash = cbor.getIndex(0);
     if (hasHash != 0 && hasHash != 1) {
-      throw const ADAPluginException("Invalid Nonce cbor bytes.");
+      throw const ADAPluginException('Invalid Nonce cbor bytes.');
     }
     return Nonce(hasHash == 0 ? null : cbor.getIndex(1));
   }
   factory Nonce.fromJson(Map<String, dynamic> json) {
-    return Nonce(BytesUtils.tryFromHexString(json["hash"]));
+    return Nonce(BytesUtils.tryFromHexString(json['hash']));
   }
   Nonce copyWith({List<int>? hash}) {
     return Nonce(hash ?? this.hash);
@@ -40,6 +40,6 @@ class Nonce with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"hash": BytesUtils.tryToHexString(hash)};
+    return {'hash': BytesUtils.tryToHexString(hash)};
   }
 }

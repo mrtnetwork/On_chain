@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// To clear the ABI info of a smart contract. [developers.tron.network](https://api.shasta.trongrid.io/wallet/clearabi).
 class TronRequestClearAbi
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestClearAbi(
       {required this.ownerAddress,
       required this.contractAddress,
@@ -25,9 +25,9 @@ class TronRequestClearAbi
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "contract_address": contractAddress,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'contract_address': contractAddress.toAddress(visible),
+      'visible': visible
     };
   }
 }

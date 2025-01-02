@@ -4,7 +4,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// List of stake pools blocks.
 /// https://blockfrost.dev/api/stake-pool-blocks
 class BlockfrostRequestStakePoolBlocks
-    extends BlockforestRequestParam<List<String>, List<dynamic>> {
+    extends BlockFrostRequest<List<String>, List<dynamic>> {
   BlockfrostRequestStakePoolBlocks(this.poolId);
 
   /// Bech32 or hexadecimal pool ID.

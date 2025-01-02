@@ -3,7 +3,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static final StructLayout layout =
-      LayoutConst.struct([LayoutConst.u32(property: "count")]);
+      LayoutConst.struct([LayoutConst.u32(property: 'count')]);
 }
 
 class AllocationTrackerAccount extends LayoutSerializable {
@@ -13,7 +13,7 @@ class AllocationTrackerAccount extends LayoutSerializable {
   factory AllocationTrackerAccount.fromBuffer(List<int> data) {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
-    return AllocationTrackerAccount(count: decode["count"]);
+    return AllocationTrackerAccount(count: decode['count']);
   }
 
   @override
@@ -21,11 +21,11 @@ class AllocationTrackerAccount extends LayoutSerializable {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"count": count};
+    return {'count': count};
   }
 
   @override
   String toString() {
-    return "AllocationTrackerAccount${serialize()}";
+    return 'AllocationTrackerAccount${serialize()}';
   }
 }

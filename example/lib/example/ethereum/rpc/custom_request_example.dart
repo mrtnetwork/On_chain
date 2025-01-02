@@ -5,14 +5,14 @@ import 'package:on_chain/ethereum/src/utils/helper.dart';
 import 'http_service.dart';
 
 /// create custom request class to get balance and convert to String
-class RPCGetStringBalance extends ETHRPCRequest<String> {
+class RPCGetStringBalance extends EthereumRequest<String, dynamic> {
   RPCGetStringBalance(
       {required this.address, BlockTagOrNumber? tag = BlockTagOrNumber.latest})
       : super(blockNumber: tag);
 
   /// eth_getBalance
   @override
-  EthereumMethods get method => EthereumMethods.getBalance;
+  String get method => EthereumMethods.getBalance.value;
 
   ///  address to check for balance.
   final String address;
@@ -24,7 +24,7 @@ class RPCGetStringBalance extends ETHRPCRequest<String> {
 
   @override
   String onResonse(dynamic result) {
-    final balance = ETHRPCRequest.onBigintResponse(result);
+    final balance = EthereumRequest.onBigintResponse(result);
 
     return ETHHelper.fromWei(balance);
   }
@@ -40,7 +40,7 @@ void main() async {
   final httpRpc = RPCHttpService("https://bsc-testnet.drpc.org/");
 
   /// pass your service in evm rpc
-  final rpc = EVMRPC(httpRpc);
+  final rpc = EthereumProvider(httpRpc);
 
   /// make request
   // ignore: unused_local_variable

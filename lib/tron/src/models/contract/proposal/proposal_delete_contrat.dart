@@ -9,9 +9,9 @@ class ProposalDeleteContract extends TronBaseContract {
   factory ProposalDeleteContract.fromJson(Map<String, dynamic> json) {
     return ProposalDeleteContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       proposalId: OnChainUtils.parseBigInt(
-          value: json["proposal_id"], name: "proposal_id"),
+          value: json['proposal_id'], name: 'proposal_id'),
     );
   }
 
@@ -41,15 +41,15 @@ class ProposalDeleteContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "proposal_id": proposalId?.toString()
+      'owner_address': ownerAddress.toString(),
+      'proposal_id': proposalId?.toString()
     };
   }
 
   /// Convert the [ProposalDeleteContract] object to its string representation.
   @override
   String toString() {
-    return "ProposalDeleteContract{${toJson()}}";
+    return 'ProposalDeleteContract{${toJson()}}';
   }
 
   @override

@@ -48,7 +48,7 @@ class ADAPointerAddress extends ADAShellyAddress {
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaPointerAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(paymentCredential),
-        {"pointer": pointer, "net_tag": network});
+        {'pointer': pointer, 'net_tag': network});
     return ADAPointerAddress._(
         paymentCredential: paymentCredential,
         pointer: pointer,
@@ -64,7 +64,7 @@ class ADAPointerAddress extends ADAShellyAddress {
     final credential = AdaAddressUtils.publicKeyToCredential(pubkeyBytes);
     final encode = AdaPointerAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential),
-        {"pointer": pointer, "net_tag": network});
+        {'pointer': pointer, 'net_tag': network});
     return ADAPointerAddress._(
         paymentCredential: credential,
         pointer: pointer,
@@ -81,7 +81,7 @@ class ADAPointerAddress extends ADAShellyAddress {
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaPointerAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential),
-        {"pointer": pointer, "net_tag": network});
+        {'pointer': pointer, 'net_tag': network});
     return ADAPointerAddress._(
         paymentCredential: credential,
         pointer: pointer,
@@ -98,7 +98,7 @@ class ADAPointerAddress extends ADAShellyAddress {
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaPointerAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential),
-        {"pointer": pointer, "net_tag": network});
+        {'pointer': pointer, 'net_tag': network});
     return ADAPointerAddress._(
         paymentCredential: credential,
         pointer: pointer,
@@ -115,7 +115,7 @@ class ADAPointerAddress extends ADAShellyAddress {
         AdaAddressUtils.publicKeyToCredential(cip1585.publicKey.compressed);
     final encode = AdaPointerAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential),
-        {"pointer": pointer, "net_tag": network});
+        {'pointer': pointer, 'net_tag': network});
     return ADAPointerAddress._(
         paymentCredential: credential,
         pointer: pointer,

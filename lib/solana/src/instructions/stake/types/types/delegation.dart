@@ -18,20 +18,20 @@ class SolanaStakeDelegation extends LayoutSerializable {
       required this.warmupCooldownRate});
   factory SolanaStakeDelegation.fromJson(Map<String, dynamic> json) {
     return SolanaStakeDelegation(
-        voterPubkey: json["voterPubkey"],
-        stake: json["stake"],
-        activationEpoch: json["activationEpoch"],
-        deactivationEpoch: json["deactivationEpoch"],
-        warmupCooldownRate: json["warmupCooldownRate"]);
+        voterPubkey: json['voterPubkey'],
+        stake: json['stake'],
+        activationEpoch: json['activationEpoch'],
+        deactivationEpoch: json['deactivationEpoch'],
+        warmupCooldownRate: json['warmupCooldownRate']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("voterPubkey"),
-    LayoutConst.u64(property: "stake"),
-    LayoutConst.u64(property: "activationEpoch"),
-    LayoutConst.u64(property: "deactivationEpoch"),
-    LayoutConst.f64(property: "warmupCooldownRate")
-  ], property: "delegation");
+    SolanaLayoutUtils.publicKey('voterPubkey'),
+    LayoutConst.u64(property: 'stake'),
+    LayoutConst.u64(property: 'activationEpoch'),
+    LayoutConst.u64(property: 'deactivationEpoch'),
+    LayoutConst.f64(property: 'warmupCooldownRate')
+  ], property: 'delegation');
 
   @override
   StructLayout get layout => staticLayout;
@@ -39,16 +39,16 @@ class SolanaStakeDelegation extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "voterPubkey": voterPubkey,
-      "stake": stake,
-      "activationEpoch": activationEpoch,
-      "deactivationEpoch": deactivationEpoch,
-      "warmupCooldownRate": warmupCooldownRate
+      'voterPubkey': voterPubkey,
+      'stake': stake,
+      'activationEpoch': activationEpoch,
+      'deactivationEpoch': deactivationEpoch,
+      'warmupCooldownRate': warmupCooldownRate
     };
   }
 
   @override
   String toString() {
-    return "SolanaStakeDelegation${serialize()}";
+    return 'SolanaStakeDelegation${serialize()}';
   }
 }

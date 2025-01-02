@@ -21,8 +21,8 @@ class Vkeywitness with ADASerialization implements ADABaseTransactionWitness {
   }
   factory Vkeywitness.fromJson(Map<String, dynamic> json) {
     return Vkeywitness(
-        vKey: Vkey.fromHex(json["vkey"]),
-        signature: Ed25519Signature.fromHex(json["signature"]));
+        vKey: Vkey.fromHex(json['vkey']),
+        signature: Ed25519Signature.fromHex(json['signature']));
   }
 
   Vkeywitness copyWith({
@@ -42,7 +42,7 @@ class Vkeywitness with ADASerialization implements ADABaseTransactionWitness {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"vkey": vKey.toJson(), "signature": signature.toJson()};
+    return {'vkey': vKey.toJson(), 'signature': signature.toJson()};
   }
 
   @override

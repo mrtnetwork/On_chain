@@ -10,15 +10,15 @@ class PayloadType extends LayoutSerializable {
   const PayloadType._(this.name, this.value, this.fileds);
 
   factory PayloadType.fromJson(Map<String, dynamic> json) {
-    final key = json["payloadType"]["key"];
-    final List<dynamic> value = json["payloadType"]["value"];
+    final key = json['payloadType']['key'];
+    final List<dynamic> value = json['payloadType']['value'];
     switch (key) {
-      case "Pubkey":
+      case 'Pubkey':
         return PayloadType.pubKey(pubkey: value[0]);
-      case "Seeds":
+      case 'Seeds':
         return PayloadType.seeds(
             seeds: (value[0] as List).map((e) => List<int>.from(e)).toList());
-      case "MerkleProof":
+      case 'MerkleProof':
         return PayloadType.merkleProof(
             proof: (value[0] as List).map((e) => List<int>.from(e)).toList());
 
@@ -27,26 +27,26 @@ class PayloadType extends LayoutSerializable {
     }
   }
   factory PayloadType.pubKey({required SolAddress pubkey}) {
-    return PayloadType._("Pubkey", 0, [pubkey]);
+    return PayloadType._('Pubkey', 0, [pubkey]);
   }
   factory PayloadType.seeds({required List<List<int>> seeds}) {
-    return PayloadType._("Seeds", 1, [seeds]);
+    return PayloadType._('Seeds', 1, [seeds]);
   }
   factory PayloadType.merkleProof({required List<List<int>> proof}) {
-    return PayloadType._("MerkleProof", 2, [proof]);
+    return PayloadType._('MerkleProof', 2, [proof]);
   }
   factory PayloadType.number({required BigInt number}) {
-    return PayloadType._("Number", 3, [number]);
+    return PayloadType._('Number', 3, [number]);
   }
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum([
-      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: "Pubkey"),
+      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: 'Pubkey'),
       LayoutConst.tuple([LayoutConst.vec(LayoutConst.vecU8())],
-          property: "Seeds"),
+          property: 'Seeds'),
       LayoutConst.tuple([LayoutConst.vec(LayoutConst.blob(32))],
-          property: "MerkleProof"),
-      LayoutConst.tuple([LayoutConst.u64()], property: "Number")
-    ], property: "payloadType")
+          property: 'MerkleProof'),
+      LayoutConst.tuple([LayoutConst.u64()], property: 'Number')
+    ], property: 'payloadType')
   ]);
 
   @override
@@ -55,7 +55,7 @@ class PayloadType extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "payloadType": {name: fileds}
+      'payloadType': {name: fileds}
     };
   }
 }

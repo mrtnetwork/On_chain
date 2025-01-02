@@ -10,15 +10,15 @@ class CreateSmartContract extends TronBaseContract {
   factory CreateSmartContract.fromJson(Map<String, dynamic> json) {
     return CreateSmartContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       newContract: SmartContract.fromJson(OnChainUtils.parseMap(
-          value: json["new_contract"],
-          name: "new_contract",
+          value: json['new_contract'],
+          name: 'new_contract',
           throwOnNull: true)!),
       callTokenValue: OnChainUtils.parseBigInt(
-          value: json["call_token_value"], name: "call_token_value"),
+          value: json['call_token_value'], name: 'call_token_value'),
       tokenId:
-          OnChainUtils.parseBigInt(value: json["token_id"], name: "token_id"),
+          OnChainUtils.parseBigInt(value: json['token_id'], name: 'token_id'),
     );
   }
 
@@ -54,10 +54,10 @@ class CreateSmartContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "new_contract": newContract.toJson(),
-      "call_token_value": callTokenValue?.toString(),
-      "token_id": tokenId?.toString()
+      'owner_address': ownerAddress.toString(),
+      'new_contract': newContract.toJson(),
+      'call_token_value': callTokenValue?.toString(),
+      'token_id': tokenId?.toString()
     }..removeWhere((key, value) => value == null);
   }
 
@@ -70,7 +70,7 @@ class CreateSmartContract extends TronBaseContract {
   /// Convert the [CreateSmartContract] object to its string representation.
   @override
   String toString() {
-    return "CreateSmartContract{${toJson()}}";
+    return 'CreateSmartContract{${toJson()}}';
   }
 
   @override

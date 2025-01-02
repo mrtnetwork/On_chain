@@ -11,12 +11,12 @@ class MetaplexHydraAddMemberNftLayout extends MetaplexHydraProgramLayout {
         bytes: data,
         instruction:
             MetaplexHydraProgramInstruction.processAddMemberNft.insturction);
-    return MetaplexHydraAddMemberNftLayout(shares: decode["shares"]);
+    return MetaplexHydraAddMemberNftLayout(shares: decode['shares']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u64(property: "shares"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'shares'),
   ]);
 
   @override
@@ -28,6 +28,6 @@ class MetaplexHydraAddMemberNftLayout extends MetaplexHydraProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"shares": shares};
+    return {'shares': shares};
   }
 }

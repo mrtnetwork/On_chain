@@ -8,7 +8,7 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 class NameServiceProgramTwitterHelper {
   /// Signed by the authority, the payer and the verified pubkey
   static Future<List<TransactionInstruction>> createVerifiedTwitterRegistry({
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
     required String twitterHandle,
     required SolAddress verifiedPubkey,
     required int space,
@@ -29,7 +29,7 @@ class NameServiceProgramTwitterHelper {
         payerKey: payerKey,
         layout: NameServiceCreateLayout(
             lamports: await rpc.request(
-                SolanaRPCGetMinimumBalanceForRentExemption(size: space)),
+                SolanaRequestGetMinimumBalanceForRentExemption(size: space)),
             hashedName: hashedTwitterHandle,
             space: space),
         nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
@@ -72,7 +72,7 @@ class NameServiceProgramTwitterHelper {
 
   /// Change the verified pubkey for a given twitter handle
   static Future<List<TransactionInstruction>> changeVerifiedPubkey({
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
     required String twitterHandle,
     required SolAddress currentVerifiedPubkey,
     required SolAddress newVerifiedPubkey,
@@ -147,7 +147,7 @@ class NameServiceProgramTwitterHelper {
   }
 
   static Future<NameRegistryAccount> getTwitterRegistry({
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
     required String twitterHandle,
   }) async {
     final hashedTwitterHandle =
@@ -160,14 +160,14 @@ class NameServiceProgramTwitterHelper {
     final registry = await rpc.request(
         SolanaRPCNameRegistryAccount(account: twitterHandleRegistryKey));
     if (registry == null) {
-      throw const SolanaPluginException("Account not found.");
+      throw const SolanaPluginException('Account not found.');
     }
 
     return registry;
   }
 
   static Future<ReverseTwitterRegistryAccount> getHandleAndRegistryKey({
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
     required SolAddress verifiedPubkey,
   }) async {
     final hashedVerifiedPubkey =
@@ -181,7 +181,7 @@ class NameServiceProgramTwitterHelper {
     final reverseRegistryState = await rpc.request(
         SolanaRPCReverseTwitterRegistryAccount(account: reverseRegistryKey));
     if (reverseRegistryState == null) {
-      throw const SolanaPluginException("Account not found.");
+      throw const SolanaPluginException('Account not found.');
     }
     return reverseRegistryState;
   }
@@ -189,10 +189,10 @@ class NameServiceProgramTwitterHelper {
   /// Uses the RPC node filtering feature, execution speed may vary
   static Future<ReverseTwitterRegistryAccount>
       getTwitterHandleandRegistryKeyViaFilters({
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
     required SolAddress verifiedPubkey,
   }) async {
-    final filteredAccounts = await rpc.request(SolanaRPCGetProgramAccounts(
+    final filteredAccounts = await rpc.request(SolanaRequestGetProgramAccounts(
         account: NameServiceProgramConst.programId,
         filters: [
           RPCMemcmpFilterConfig(
@@ -219,10 +219,10 @@ class NameServiceProgramTwitterHelper {
   /// Uses the RPC node filtering feature, execution speed may vary
   /// Does not give you the handle, but is an alternative to getHandlesAndKeysFromVerifiedPubkey + getTwitterRegistry to get the data
   static Future<List<int>> getTwitterRegistryData({
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
     required SolAddress verifiedPubkey,
   }) async {
-    final filteredAccounts = await rpc.request(SolanaRPCGetProgramAccounts(
+    final filteredAccounts = await rpc.request(SolanaRequestGetProgramAccounts(
         account: NameServiceProgramConst.programId,
         filters: [
           RPCMemcmpFilterConfig(
@@ -244,7 +244,7 @@ class NameServiceProgramTwitterHelper {
   }
 
   static Future<List<TransactionInstruction>> createReverseTwitterRegistry({
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
     required String twitterHandle,
     required SolAddress twitterRegistryKey,
     required SolAddress verifiedPubkey,
@@ -268,7 +268,7 @@ class NameServiceProgramTwitterHelper {
         payerKey: payerKey,
         layout: NameServiceCreateLayout(
             lamports: await rpc.request(
-                SolanaRPCGetMinimumBalanceForRentExemption(
+                SolanaRequestGetMinimumBalanceForRentExemption(
                     size: reverseTwitterRegistryStateBuff.length)),
             hashedName: hashedVerifiedPubkey,
             space: reverseTwitterRegistryStateBuff.length),

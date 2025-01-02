@@ -15,12 +15,12 @@ class MetaplexTokenMetaDataRevokeLayout
         instruction:
             MetaplexTokenMetaDataProgramInstruction.revoke.insturction);
     return MetaplexTokenMetaDataRevokeLayout(
-        revoke: Revoke.fromValue(decode["discriminator"]));
+        revoke: Revoke.fromValue(decode['discriminator']));
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator')
   ]);
 
   @override
@@ -32,6 +32,6 @@ class MetaplexTokenMetaDataRevokeLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"discriminator": revoke.value};
+    return {'discriminator': revoke.value};
   }
 }

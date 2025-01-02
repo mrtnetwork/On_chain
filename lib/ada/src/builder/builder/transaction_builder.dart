@@ -57,14 +57,14 @@ class ADATransactionBuilder {
   }
 
   List<ADAAddress> get signers {
-    final Set<String> addresses = {
-      ...utxos.map((e) => e.address),
-      ...mints.map((e) => e.owner.address),
+    final addresses = {
+      ...utxos.map((e) => e.toAdddress),
+      ...mints.map((e) => e.owner),
       ...certificates
           .where((element) => element.signer != null)
-          .map((e) => e.signer!.address)
+          .map((e) => e.signer!)
     }.toSet();
-    return addresses.map((e) => ADAAddress.fromAddress(e)).toList();
+    return addresses.toList();
   }
 
   List<NativeScript>? get transactionNativeScripts {
@@ -78,9 +78,9 @@ class ADATransactionBuilder {
     final multiAsset = utxos.multiAsset;
     final asset = multiAsset - _outputs.multiAsset;
     if (lovelence.isNegative) {
-      throw ADAPluginException("Insufficient input in transaction.", details: {
-        "utxo lovelence": utxos.sumOflovelace,
-        "output lovelence": _outputs.sumOflovelace
+      throw ADAPluginException('Insufficient input in transaction.', details: {
+        'utxo lovelence': utxos.sumOflovelace,
+        'output lovelence': _outputs.sumOflovelace
       });
     }
 
@@ -96,7 +96,7 @@ class ADATransactionBuilder {
   int estimateSize({ADAAddress? onChangeAddress}) {
     if (utxos.isEmpty || _outputs.isEmpty) {
       throw const ADAPluginException(
-          "Utxos and outputs must not be not empty.");
+          'Utxos and outputs must not be not empty.');
     }
     final outs = _outputs.map((e) {
       if (e.amount.coin == BigInt.zero) {
@@ -107,7 +107,7 @@ class ADATransactionBuilder {
     final transactionSigners = signers;
     final aux = auxiliaryData;
 
-    final ADATransaction transaction = ADATransaction(
+    final transaction = ADATransaction(
       data: aux,
       body: TransactionBody(
           inputs: utxos.map((e) => e.toInput).toList(),
@@ -132,7 +132,7 @@ class ADATransactionBuilder {
     return transaction.size;
   }
 
-  Future<void> calculateFees(BlockforestProvider provider) async {
+  Future<void> calculateFees(BlockFrostProvider provider) async {
     final protocol = await provider
         .request(BlockfrostRequestLatestEpochProtocolParameters());
     _fee = BigInt.from(protocol.minFeeA * estimateSize() + protocol.minFeeB);
@@ -141,7 +141,7 @@ class ADATransactionBuilder {
   TransactionOutput? onChangeAddress(ADAAddress onChangeAddress) {
     if (_fee == null) {
       throw const ADAPluginException(
-          "please calculation the transaction fees befor using change address.");
+          'please calculation the transaction fees befor using change address.');
     }
     final change = _changeOutput(onChangeAddress);
     if (change != null) {
@@ -159,7 +159,7 @@ class ADATransactionBuilder {
   TransactionBody buildTxBody({AuxiliaryDataHash? auxHash}) {
     if (fee == null) {
       throw const ADAPluginException(
-          "cannot build transaction body before calculation fee.");
+          'cannot build transaction body before calculation fee.');
     }
     final mint = getMint();
 
@@ -177,7 +177,7 @@ class ADATransactionBuilder {
     final aux = auxiliaryData;
     final trBody = buildTxBody(auxHash: aux?.toHash());
     final bodyHash = List<int>.unmodifiable(trBody.toHash().data);
-    final List<ADABaseTransactionWitness> witnesses = [];
+    final witnesses = <ADABaseTransactionWitness>[];
     final transactionSigners = signers;
 
     for (final i in transactionSigners) {
@@ -201,7 +201,7 @@ class ADATransactionBuilder {
     final aux = auxiliaryData;
     final trBody = buildTxBody(auxHash: aux?.toHash());
     final bodyHash = List<int>.unmodifiable(trBody.toHash().data);
-    final List<ADABaseTransactionWitness> witnesses = [];
+    final witnesses = <ADABaseTransactionWitness>[];
     final transactionSigners = signers;
 
     for (final i in transactionSigners) {
@@ -232,8 +232,8 @@ class ADATransactionBuilder {
 
     if (lovelence != BigInt.zero || asset != MultiAsset.empty) {
       throw ADAPluginException(
-          "The amount of inputs and outputs is not calculated correctly",
-          details: {"lovelence": lovelence, "asset": asset});
+          'The amount of inputs and outputs is not calculated correctly',
+          details: {'lovelence': lovelence, 'asset': asset});
     }
   }
 }

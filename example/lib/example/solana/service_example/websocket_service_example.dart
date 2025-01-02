@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:on_chain/solana/solana.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -14,7 +15,7 @@ class WebsockerRequestCompeleter {
   final SolanaRequestDetails request;
 }
 
-class RPCWebSocketService with SolanaJSONRPCService {
+class RPCWebSocketService with SolanaServiceProvider {
   RPCWebSocketService._(this.url, WebSocketChannel channel,
       {this.defaultRequestTimeOut = const Duration(seconds: 30),
       this.onClose,
@@ -31,17 +32,14 @@ class RPCWebSocketService with SolanaJSONRPCService {
   OnResponse? onEvents;
   Map<int, WebsockerRequestCompeleter> requests = {};
   bool _isDiscounnect = false;
-
   bool get isConnected => _isDiscounnect;
-
-  @override
   final String url;
 
   void add(SolanaRequestDetails params) {
     if (_isDiscounnect) {
       throw StateError("socket has beed discounected");
     }
-    _socket?.sink.add(params.toRequestBody());
+    _socket?.sink.add(params.body());
   }
 
   void _onClose(Object? error) {
@@ -94,18 +92,18 @@ class RPCWebSocketService with SolanaJSONRPCService {
   }
 
   @override
-  Future<Map<String, dynamic>> call(SolanaRequestDetails params,
-      [Duration? timeout]) async {
+  Future<BaseServiceResponse<T>> doRequest<T>(SolanaRequestDetails params,
+      {Duration? timeout}) async {
     final WebsockerRequestCompeleter compeleter =
         WebsockerRequestCompeleter(params);
     try {
-      requests[params.id] = compeleter;
+      requests[params.requestID] = compeleter;
       add(params);
       final result = await compeleter.completer.future
           .timeout(timeout ?? defaultRequestTimeOut);
-      return result;
+      return params.toResponse(result);
     } finally {
-      requests.remove(params.id);
+      requests.remove(params.requestID);
     }
   }
 }

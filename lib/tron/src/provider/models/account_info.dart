@@ -74,7 +74,7 @@ class TronAccountModel {
       activePermissions: (json['active_permission'] as List<dynamic>)
           .map((permission) => AccountPermissionModel.fromJson(permission))
           .toList(),
-      witnessPermission: json["witness_permission"] == null
+      witnessPermission: json['witness_permission'] == null
           ? null
           : AccountPermissionModel.fromJson(json['witness_permission']),
       frozenV2: (json['frozenV2'] as List<dynamic>)
@@ -176,7 +176,7 @@ class PermissionKeysModel {
   PermissionKeysModel._({required this.address, required this.weight});
   factory PermissionKeysModel.fromJson(Map<String, dynamic> json) {
     return PermissionKeysModel._(
-        address: json["address"], weight: BigintUtils.parse(json["weight"]));
+        address: json['address'], weight: BigintUtils.parse(json['weight']));
   }
   final String address;
   final BigInt weight;
@@ -225,7 +225,7 @@ class FrozenV2Model {
 
   factory FrozenV2Model.fromJson(Map<String, dynamic> json) {
     return FrozenV2Model._(
-      amount: BigintUtils.tryParse(json["amount"]) ?? BigInt.zero,
+      amount: BigintUtils.tryParse(json['amount']) ?? BigInt.zero,
       type: json['type'] ?? ResourceCode.bandWidth.name,
     );
   }
@@ -284,7 +284,7 @@ class AssetV2Model {
   factory AssetV2Model.fromJson(Map<String, dynamic> json) {
     return AssetV2Model._(
       key: json['key'],
-      value: BigintUtils.parse(json["value"]),
+      value: BigintUtils.parse(json['value']),
     );
   }
 

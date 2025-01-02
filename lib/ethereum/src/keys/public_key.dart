@@ -1,5 +1,4 @@
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
-import 'package:blockchain_utils/bip/address/p2pkh_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/exception/exception.dart';
 
@@ -17,8 +16,8 @@ class ETHPublicKey {
       final pubKey = Secp256k1PublicKeyEcdsa.fromBytes(keyBytes);
       return ETHPublicKey._(pubKey);
     } catch (e) {
-      throw ETHPluginException("invalid public key",
-          details: {"input": BytesUtils.toHexString(keyBytes)});
+      throw ETHPluginException('invalid public key',
+          details: {'input': BytesUtils.toHexString(keyBytes)});
     }
   }
 

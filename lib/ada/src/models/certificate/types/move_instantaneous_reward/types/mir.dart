@@ -22,8 +22,8 @@ abstract class MIR with ADASerialization {
   }
   factory MIR.fromJson(dynamic json) {
     if (json is! Map && json is! String) {
-      throw ADAPluginException("Invalid MIR json. value must be string or map",
-          details: {"json": json});
+      throw ADAPluginException('Invalid MIR json. value must be string or map',
+          details: {'json': json});
     }
     if (json is String) {
       return ToOtherPot(BigintUtils.parse(json));

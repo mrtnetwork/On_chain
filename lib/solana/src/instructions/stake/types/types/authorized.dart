@@ -13,24 +13,24 @@ class StakeAuthorized extends LayoutSerializable {
   const StakeAuthorized({required this.staker, required this.withdrawer});
   factory StakeAuthorized.fromJson(Map<String, dynamic> json) {
     return StakeAuthorized(
-        staker: json["staker"], withdrawer: json["withdrawer"]);
+        staker: json['staker'], withdrawer: json['withdrawer']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("staker"),
-    SolanaLayoutUtils.publicKey("withdrawer")
-  ], property: "authorized");
+    SolanaLayoutUtils.publicKey('staker'),
+    SolanaLayoutUtils.publicKey('withdrawer')
+  ], property: 'authorized');
 
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"withdrawer": withdrawer, "staker": staker};
+    return {'withdrawer': withdrawer, 'staker': staker};
   }
 
   @override
   String toString() {
-    return "StakeAuthorized${serialize()}";
+    return 'StakeAuthorized${serialize()}';
   }
 }

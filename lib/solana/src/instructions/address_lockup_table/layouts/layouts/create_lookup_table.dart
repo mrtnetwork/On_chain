@@ -25,14 +25,14 @@ class AddressLookupCreateLookupTableLayout
         instruction:
             AddressLookupTableProgramInstruction.createLookupTable.insturction);
     return AddressLookupCreateLookupTableLayout(
-        recentSlot: decode["recentSlot"], bumpSeed: decode["bumpSeed"]);
+        recentSlot: decode['recentSlot'], bumpSeed: decode['bumpSeed']);
   }
 
   // StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.u64(property: "recentSlot"),
-    LayoutConst.u8(property: "bumpSeed")
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.u64(property: 'recentSlot'),
+    LayoutConst.u8(property: 'bumpSeed')
   ]);
 
   @override
@@ -44,6 +44,6 @@ class AddressLookupCreateLookupTableLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"recentSlot": recentSlot, "bumpSeed": bumpSeed};
+    return {'recentSlot': recentSlot, 'bumpSeed': bumpSeed};
   }
 }

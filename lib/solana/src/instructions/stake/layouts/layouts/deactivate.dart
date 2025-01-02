@@ -13,7 +13,7 @@ class StakeDeactivateLayout extends StakeProgramLayout {
     return const StakeDeactivateLayout();
   }
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   @override
   StructLayout get layout => _layout;
 

@@ -11,7 +11,7 @@ class StakePoolProgramUtils {
       SolAddress programId = StakePoolProgramConst.programId}) {
     return ProgramDerivedAddress.find(seedBytes: [
       stakePoolAddress.toBytes(),
-      "withdraw".codeUnits,
+      'withdraw'.codeUnits,
     ], programId: programId);
   }
 
@@ -33,7 +33,7 @@ class StakePoolProgramUtils {
       required BigInt seed,
       SolAddress programId = StakePoolProgramConst.programId}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "transient".codeUnits,
+      'transient'.codeUnits,
       voteAccountAddress.toBytes(),
       stakePoolAddress.toBytes(),
       LayoutConst.i64().serialize(seed)
@@ -46,7 +46,7 @@ class StakePoolProgramUtils {
       required BigInt seed,
       SolAddress programId = StakePoolProgramConst.programId}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "ephemeral".codeUnits,
+      'ephemeral'.codeUnits,
       stakePoolAddress.toBytes(),
       LayoutConst.i64().serialize(seed)
     ], programId: programId);
@@ -56,7 +56,7 @@ class StakePoolProgramUtils {
   static ProgramDerivedAddress findMetadataAddress(
       {required SolAddress stakePoolMintAddress}) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "metadata".codeUnits,
+      'metadata'.codeUnits,
       SPLTokenProgramConst.metaDataProgramId.toBytes(),
       stakePoolMintAddress.toBytes(),
     ], programId: SPLTokenProgramConst.metaDataProgramId);

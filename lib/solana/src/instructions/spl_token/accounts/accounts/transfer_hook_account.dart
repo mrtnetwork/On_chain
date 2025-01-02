@@ -12,12 +12,12 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException("Account data length is insufficient.",
-            details: {"Expected": accountSize, "length": extensionData.length});
+        throw SolanaPluginException('Account data length is insufficient.',
+            details: {'Expected': accountSize, 'length': extensionData.length});
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 
@@ -29,7 +29,7 @@ class _Utils {
               extensionType: ExtensionType.transferHookAccount);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
@@ -43,22 +43,22 @@ class TransferHookAccount extends LayoutSerializable {
 
   factory TransferHookAccount.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
-    return TransferHookAccount(transferring: decode["transferring"]);
+    return TransferHookAccount(transferring: decode['transferring']);
   }
   factory TransferHookAccount.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
-    return TransferHookAccount(transferring: decode["transferring"]);
+    return TransferHookAccount(transferring: decode['transferring']);
   }
 
   @override
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
-    return {"transferring": transferring};
+    return {'transferring': transferring};
   }
 
   @override
   String toString() {
-    return "TransferHookAccount${serialize()}";
+    return 'TransferHookAccount${serialize()}';
   }
 }

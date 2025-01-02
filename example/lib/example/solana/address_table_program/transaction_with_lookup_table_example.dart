@@ -8,8 +8,9 @@ void main() async {
       AddressLookupTableProgramUtils.findAddressLookupTableProgram(
           authority: owner.address, recentSlot: BigInt.from(277777145));
   final accountInfo = await QuickWalletForTest.rpc.request(
-      SolanaRPCGetAccountInfo(
-          account: tableAddress.address, encoding: SolanaRPCEncoding.base64));
+      SolanaRequestGetAccountInfo(
+          account: tableAddress.address,
+          encoding: SolanaRequestEncoding.base64));
   final tableAccount = AddressLookupTableAccount.fromBuffer(
       accountData: accountInfo!.toBytesData(),
       accountKey: tableAddress.address);

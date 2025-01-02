@@ -6,24 +6,20 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns all accounts owned by the provided program Pubkey
 /// https://solana.com/docs/rpc/http/getprogramaccounts
-class SolanaRPCGetProgramAccounts
-    extends SolanaRPCRequest<List<SolanaAccountInfo>> {
-  const SolanaRPCGetProgramAccounts(
+class SolanaRequestGetProgramAccounts
+    extends SolanaRequest<List<SolanaAccountInfo>, List> {
+  const SolanaRequestGetProgramAccounts(
       {required this.account,
       this.withContext,
       this.dataSlice,
       this.filters,
-      Commitment? commitment,
-      MinContextSlot? minContextSlot,
-      SolanaRPCEncoding? encoding = SolanaRPCEncoding.base64})
-      : super(
-            commitment: commitment,
-            minContextSlot: minContextSlot,
-            encoding: encoding);
+      super.commitment,
+      super.minContextSlot,
+      super.encoding = SolanaRequestEncoding.base64});
 
   /// getProgramAccounts
   @override
-  String get method => SolanaRPCMethods.getProgramAccounts.value;
+  String get method => SolanaRequestMethods.getProgramAccounts.value;
 
   /// Pubkey of program, as base-58 encoded string
   final SolAddress account;
@@ -42,21 +38,19 @@ class SolanaRPCGetProgramAccounts
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
-        {"withContext": withContext},
+        {'withContext': withContext},
         encoding?.toJson(),
         dataSlice?.toJson(),
-        {"filters": filters?.map((e) => e.toJson()).toList()}
+        {'filters': filters?.map((e) => e.toJson()).toList()}
       ])
     ];
   }
 
   @override
-  List<SolanaAccountInfo> onResonse(result) {
-    return (result as List)
-        .map((e) => SolanaAccountInfo.fromJson(e["account"]))
-        .toList();
+  List<SolanaAccountInfo> onResonse(List result) {
+    return result.map((e) => SolanaAccountInfo.fromJson(e['account'])).toList();
   }
 }

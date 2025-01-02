@@ -30,10 +30,10 @@ class BootstrapWitness
   }
   factory BootstrapWitness.fromJson(Map<String, dynamic> json) {
     return BootstrapWitness(
-        vkey: Vkey.fromHex(json["vkey"]),
-        signature: Ed25519Signature.fromHex(json["signature"]),
-        chainCode: BytesUtils.fromHexString(json["chain_code"]),
-        attributes: BytesUtils.fromHexString(json["attributes"]));
+        vkey: Vkey.fromHex(json['vkey']),
+        signature: Ed25519Signature.fromHex(json['signature']),
+        chainCode: BytesUtils.fromHexString(json['chain_code']),
+        attributes: BytesUtils.fromHexString(json['attributes']));
   }
 
   BootstrapWitness copyWith({
@@ -63,10 +63,10 @@ class BootstrapWitness
   @override
   Map<String, dynamic> toJson() {
     return {
-      "vkey": vkey.toJson(),
-      "signature": signature.toJson(),
-      "chain_code": BytesUtils.toHexString(chainCode),
-      "attributes": BytesUtils.toHexString(attributes)
+      'vkey': vkey.toJson(),
+      'signature': signature.toJson(),
+      'chain_code': BytesUtils.toHexString(chainCode),
+      'attributes': BytesUtils.toHexString(attributes)
     };
   }
 

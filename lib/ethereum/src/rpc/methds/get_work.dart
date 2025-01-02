@@ -1,12 +1,12 @@
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class RPCWork extends ETHRPCRequest<dynamic> {
-  RPCWork();
+class EthereumRequestWork extends EthereumRequest<Object?, Object?> {
+  EthereumRequestWork();
 
   /// eth_getWork
   @override
-  EthereumMethods get method => EthereumMethods.getWork;
+  String get method => EthereumMethods.getWork.value;
 
   @override
   List<dynamic> toJson() {

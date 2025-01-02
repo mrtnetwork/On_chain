@@ -10,20 +10,20 @@ class Permission extends TronProtocolBufferImpl {
   factory Permission.fromJson(Map<String, dynamic> json) {
     return Permission(
         type: PermissionType.fromName(
-            OnChainUtils.parseString(value: json["type"], name: "type"),
+            OnChainUtils.parseString(value: json['type'], name: 'type'),
             defaultPermission: PermissionType.owner),
-        id: OnChainUtils.parseInt(value: json["id"], name: "id"),
+        id: OnChainUtils.parseInt(value: json['id'], name: 'id'),
         permissionName: OnChainUtils.parseString(
-            value: json["permission_name"], name: "permission_name"),
+            value: json['permission_name'], name: 'permission_name'),
         operations: OnChainUtils.parseHex(
-            value: json["operations"], name: "operations"),
-        keys: OnChainUtils.parseList(value: json["keys"], name: "keys")
+            value: json['operations'], name: 'operations'),
+        keys: OnChainUtils.parseList(value: json['keys'], name: 'keys')
             ?.map((e) => TronKey.fromJson(e))
             .toList(),
         parentId:
-            OnChainUtils.parseInt(value: json["parent_id"], name: "parent_id"),
+            OnChainUtils.parseInt(value: json['parent_id'], name: 'parent_id'),
         threshold: OnChainUtils.parseBigInt(
-            value: json["threshold"], name: "threshold"));
+            value: json['threshold'], name: 'threshold'));
   }
 
   /// Factory method to create a new [Permission] instance with specified parameters.
@@ -98,19 +98,19 @@ class Permission extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "threshold": threshold,
-      "permission_name": permissionName,
-      "type": type?.name,
-      "keys": keys?.map((e) => e.toJson()).toList(),
-      "id": id,
-      "parent_id": parentId,
-      "operations": BytesUtils.tryToHexString(operations),
+      'threshold': threshold,
+      'permission_name': permissionName,
+      'type': type?.name,
+      'keys': keys?.map((e) => e.toJson()).toList(),
+      'id': id,
+      'parent_id': parentId,
+      'operations': BytesUtils.tryToHexString(operations),
     }..removeWhere((k, v) => v == null);
   }
 
   /// Convert the [Permission] object to its string representation.
   @override
   String toString() {
-    return "Permission{${toJson()}}";
+    return 'Permission{${toJson()}}';
   }
 }

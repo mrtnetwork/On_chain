@@ -3,10 +3,10 @@ import 'package:on_chain/solana/src/rpc/core/methods.dart';
 
 /// Get the max slot seen from retransmit stage.
 /// https://solana.com/docs/rpc/http/getmaxretransmitslot
-class SolanaRPCGetMaxRetransmitSlot extends SolanaRPCRequest<int> {
+class SolanaRequestGetMaxRetransmitSlot extends SolanaRequest<int, int> {
   /// getMaxRetransmitSlot
   @override
-  String get method => SolanaRPCMethods.getMaxRetransmitSlot.value;
+  String get method => SolanaRequestMethods.getMaxRetransmitSlot.value;
 
   @override
   List<dynamic> toJson() {

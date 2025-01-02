@@ -4,7 +4,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Relays of a stake pool.
 /// https://blockfrost.dev/api/stake-pool-relays
-class BlockfrostRequestStakePoolRelays extends BlockforestRequestParam<
+class BlockfrostRequestStakePoolRelays extends BlockFrostRequest<
     List<ADAStakePoolRelayInfoResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestStakePoolRelays(this.poolId);
 

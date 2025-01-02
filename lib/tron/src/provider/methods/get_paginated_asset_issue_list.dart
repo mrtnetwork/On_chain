@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query the list of all the tokens by pagination.Returns a list of Tokens that succeed the Token located at offset.
 /// [developers.tron.network](https://developers.tron.network/reference/getpaginatedassetissuelist).
 class TronRequestGetPaginatedAssetIssueList
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetPaginatedAssetIssueList(
       {required this.offset, required this.limit});
 
@@ -20,11 +20,11 @@ class TronRequestGetPaginatedAssetIssueList
 
   @override
   Map<String, dynamic> toJson() {
-    return {"offset": offset, "limit": limit};
+    return {'offset': offset, 'limit': limit};
   }
 
   @override
   String toString() {
-    return "TronRequestGetPaginatedAssetIssueList{${toJson()}}";
+    return 'TronRequestGetPaginatedAssetIssueList{${toJson()}}';
   }
 }

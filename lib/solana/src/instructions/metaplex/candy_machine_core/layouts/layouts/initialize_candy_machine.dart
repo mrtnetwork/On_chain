@@ -15,10 +15,10 @@ class MetaplexCandyMachineInitializeCandyMachineLayout
         instruction: MetaplexCandyMachineProgramInstruction
             .initializeCandyMachine.insturction);
     return MetaplexCandyMachineInitializeCandyMachineLayout(
-        data: CandyMachineData.fromJson(decode["candyMachineData"]));
+        data: CandyMachineData.fromJson(decode['candyMachineData']));
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.blob(8, property: 'instruction'),
     CandyMachineData.staticLayout
   ]);
 
@@ -31,6 +31,6 @@ class MetaplexCandyMachineInitializeCandyMachineLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"candyMachineData": data.serialize()};
+    return {'candyMachineData': data.serialize()};
   }
 }

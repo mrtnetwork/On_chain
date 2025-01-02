@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of records of a specific oracle.
 /// https://blockfrost.dev/api/list-of-tickers-of-an-oracle
-class BlockfrostRequestListOfTickersOfAnOracle extends BlockforestRequestParam<
+class BlockfrostRequestListOfTickersOfAnOracle extends BlockFrostRequest<
     List<Map<String, dynamic>>, List<Map<String, dynamic>>> {
   BlockfrostRequestListOfTickersOfAnOracle(this.address,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
   final String address;
 

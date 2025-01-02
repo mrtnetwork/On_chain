@@ -191,7 +191,7 @@ class _Node {
   _Node? right;
   @override
   String toString() {
-    return "symbol: $symbol left: $left rightL $right";
+    return 'symbol: $symbol left: $left rightL $right';
   }
 }
 
@@ -199,7 +199,7 @@ class _HuffmanTree {
   _Node root = _Node();
   @override
   String toString() {
-    return "root: $root";
+    return 'root: $root';
   }
 
   void insert(int codeword, int n, String symbol) {

@@ -3,8 +3,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
 /// JSON representation of a timelock script
 /// https://blockfrost.dev/api/script-json
-class BlockfrostRequestScriptJson extends BlockforestRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class BlockfrostRequestScriptJson
+    extends BlockFrostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   BlockfrostRequestScriptJson(this.hash);
 
   /// Hash of the script

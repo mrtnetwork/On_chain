@@ -16,13 +16,13 @@ class VoteProgramAuthorizeLayout extends VoteProgramLayout {
         bytes: data,
         instruction: VoteProgramInstruction.authorize.insturction);
     return VoteProgramAuthorizeLayout(
-        newAuthorized: decode["newAuthorized"],
-        voteAuthorizationType: decode["voteAuthorizationType"]);
+        newAuthorized: decode['newAuthorized'],
+        voteAuthorizationType: decode['voteAuthorizationType']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    SolanaLayoutUtils.publicKey("newAuthorized"),
-    LayoutConst.u32(property: "voteAuthorizationType")
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newAuthorized'),
+    LayoutConst.u32(property: 'voteAuthorizationType')
   ]);
 
   @override
@@ -34,8 +34,8 @@ class VoteProgramAuthorizeLayout extends VoteProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "newAuthorized": newAuthorized,
-      "voteAuthorizationType": voteAuthorizationType
+      'newAuthorized': newAuthorized,
+      'voteAuthorizationType': voteAuthorizationType
     };
   }
 }

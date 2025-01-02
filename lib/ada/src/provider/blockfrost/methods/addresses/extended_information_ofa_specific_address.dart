@@ -6,8 +6,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain extended information about a specific address.
 /// https://blockfrost.dev/api/extended-information-of-a-specific-address
 class BlockfrostRequestExtendedInformationOfaSpecificAddress
-    extends BlockforestRequestParam<ADAAddressSummaryResponse,
-        Map<String, dynamic>> {
+    extends BlockFrostRequest<ADAAddressSummaryResponse, Map<String, dynamic>> {
   BlockfrostRequestExtendedInformationOfaSpecificAddress(this.address);
 
   final ADAAddress address;

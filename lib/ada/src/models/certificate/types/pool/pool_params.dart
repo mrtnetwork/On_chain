@@ -117,33 +117,33 @@ class PoolParams with ADASerialization {
 
   factory PoolParams.fromJson(Map<String, dynamic> json) {
     return PoolParams(
-        operator: Ed25519KeyHash.fromHex(json["operator"]),
-        vrfKeyHash: VRFKeyHash.fromHex(json["vrf_keyhash"]),
-        pledge: BigintUtils.parse(json["pledge"]),
-        cost: BigintUtils.parse(json["cost"]),
-        margin: UnitInterval.fromJson(json["margin"]),
-        rewardAccount: ADARewardAddress(json["reward_account"]),
-        poolOwners: (json["pool_owners"] as List)
+        operator: Ed25519KeyHash.fromHex(json['operator']),
+        vrfKeyHash: VRFKeyHash.fromHex(json['vrf_keyhash']),
+        pledge: BigintUtils.parse(json['pledge']),
+        cost: BigintUtils.parse(json['cost']),
+        margin: UnitInterval.fromJson(json['margin']),
+        rewardAccount: ADARewardAddress(json['reward_account']),
+        poolOwners: (json['pool_owners'] as List)
             .map((e) => Ed25519KeyHash.fromHex(e))
             .toList(),
-        relays: (json["relays"] as List).map((e) => Relay.fromJson(e)).toList(),
-        poolMetadata: json["pool_metadata"] == null
+        relays: (json['relays'] as List).map((e) => Relay.fromJson(e)).toList(),
+        poolMetadata: json['pool_metadata'] == null
             ? null
-            : PoolMetadata.fromJson(json["pool_metadata"]));
+            : PoolMetadata.fromJson(json['pool_metadata']));
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "operator": operator.toJson(),
-      "vrf_keyhash": vrfKeyHash.toJson(),
-      "pledge": pledge.toString(),
-      "cost": cost.toString(),
-      "margin": margin.toJson(),
-      "reward_account": rewardAccount.toJson(),
-      "pool_owners": poolOwners.map((e) => e.toJson()).toList(),
-      "relays": relays.map((e) => e.toJson()).toList(),
-      "pool_metadata": poolMetadata?.toJson()
+      'operator': operator.toJson(),
+      'vrf_keyhash': vrfKeyHash.toJson(),
+      'pledge': pledge.toString(),
+      'cost': cost.toString(),
+      'margin': margin.toJson(),
+      'reward_account': rewardAccount.toJson(),
+      'pool_owners': poolOwners.map((e) => e.toJson()).toList(),
+      'relays': relays.map((e) => e.toJson()).toList(),
+      'pool_metadata': poolMetadata?.toJson()
     };
   }
 }

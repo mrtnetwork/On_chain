@@ -7,5 +7,5 @@ class AddressLookupTableProgramConst {
 
   /// The program ID for the AddressLookupTable program.
   static const SolAddress programId =
-      SolAddress.unchecked("AddressLookupTab1e1111111111111111111111111");
+      SolAddress.unchecked('AddressLookupTab1e1111111111111111111111111');
 }

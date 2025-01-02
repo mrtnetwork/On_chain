@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of a addresses containing a specific asset.
 /// https://blockfrost.dev/api/asset-addresses
-class BlockfrostRequestAssetAddresses extends BlockforestRequestParam<
+class BlockfrostRequestAssetAddresses extends BlockFrostRequest<
     List<ADAAssetBalanceResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestAssetAddresses(this.asset,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Concatenation of the policy_id and hex-encoded asset_name

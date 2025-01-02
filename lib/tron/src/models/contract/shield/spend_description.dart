@@ -6,13 +6,13 @@ class SpendDescription extends TronProtocolBufferImpl {
   /// Create a new [SpendDescription] instance by parsing a JSON map.
   factory SpendDescription.fromJson(Map<String, dynamic> json) {
     return SpendDescription(
-      valueCommitment: BytesUtils.tryFromHexString(json["value_commitment"]),
-      anchor: BytesUtils.tryFromHexString(json["anchor"]),
-      nullifier: BytesUtils.tryFromHexString(json["nullifier"]),
-      rk: BytesUtils.tryFromHexString(json["rk"]),
-      zkproof: BytesUtils.tryFromHexString(json["zkproof"]),
+      valueCommitment: BytesUtils.tryFromHexString(json['value_commitment']),
+      anchor: BytesUtils.tryFromHexString(json['anchor']),
+      nullifier: BytesUtils.tryFromHexString(json['nullifier']),
+      rk: BytesUtils.tryFromHexString(json['rk']),
+      zkproof: BytesUtils.tryFromHexString(json['zkproof']),
       spendAuthoritySignature:
-          BytesUtils.tryFromHexString(json["spend_authority_signature"]),
+          BytesUtils.tryFromHexString(json['spend_authority_signature']),
     );
   }
 
@@ -66,12 +66,12 @@ class SpendDescription extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "value_commitment": BytesUtils.tryToHexString(valueCommitment),
-      "anchor": BytesUtils.tryToHexString(anchor),
-      "nullifier": BytesUtils.tryToHexString(nullifier),
-      "rk": BytesUtils.tryToHexString(rk),
-      "zkproof": BytesUtils.tryToHexString(zkproof),
-      "spend_authority_signature":
+      'value_commitment': BytesUtils.tryToHexString(valueCommitment),
+      'anchor': BytesUtils.tryToHexString(anchor),
+      'nullifier': BytesUtils.tryToHexString(nullifier),
+      'rk': BytesUtils.tryToHexString(rk),
+      'zkproof': BytesUtils.tryToHexString(zkproof),
+      'spend_authority_signature':
           BytesUtils.tryToHexString(spendAuthoritySignature),
     }..removeWhere((key, value) => value == null);
   }
@@ -79,6 +79,6 @@ class SpendDescription extends TronProtocolBufferImpl {
   /// Convert the [SpendDescription] object to its string representation.
   @override
   String toString() {
-    return "SpendDescription{$toJson()}";
+    return 'SpendDescription{$toJson()}';
   }
 }

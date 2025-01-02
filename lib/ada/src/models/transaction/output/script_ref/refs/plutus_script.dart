@@ -20,7 +20,7 @@ class ScriptRefPlutusScript extends ScriptRef {
   }
   factory ScriptRefPlutusScript.fromJson(Map<String, dynamic> json) {
     return ScriptRefPlutusScript(PlutusScript.fromJson(
-        json["script"] ?? json["plutus_script"]["script"]));
+        json['script'] ?? json['plutus_script']['script']));
   }
   ScriptRefPlutusScript copyWith({PlutusScript? script}) {
     return ScriptRefPlutusScript(script ?? this.script);
@@ -36,7 +36,7 @@ class ScriptRefPlutusScript extends ScriptRef {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "plutus_script": {"script": script.toJson()}
+      'plutus_script': {'script': script.toJson()}
     };
   }
 }

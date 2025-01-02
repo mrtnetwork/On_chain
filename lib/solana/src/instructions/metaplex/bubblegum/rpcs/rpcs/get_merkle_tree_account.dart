@@ -4,31 +4,32 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 /// Retrieves the account info from the provided address and deserializes
 /// the [MerkleTree] from its data.
-class SolanaRPCGetMerkleTreeAccount extends SolanaRPCRequest<MerkleTree?> {
+class SolanaRPCGetMerkleTreeAccount
+    extends SolanaRequest<MerkleTree?, Map<String, dynamic>?> {
   const SolanaRPCGetMerkleTreeAccount({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];
   }
 
   @override
-  MerkleTree? onResonse(result) {
+  MerkleTree? onResonse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MerkleTree.fromBuffer(accountInfo.toBytesData());

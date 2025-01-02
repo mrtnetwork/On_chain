@@ -38,6 +38,6 @@ class CborCustomLengthListValue<T> implements CborObject {
   /// Returns the string representation of the value.
   @override
   String toString() {
-    return value.join(",");
+    return value.join(',');
   }
 }

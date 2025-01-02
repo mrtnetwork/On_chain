@@ -10,15 +10,15 @@ class ExchangeCreateContract extends TronBaseContract {
   factory ExchangeCreateContract.fromJson(Map<String, dynamic> json) {
     return ExchangeCreateContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       firstTokenId: OnChainUtils.parseBytes(
-          value: json["first_token_id"], name: "first_token_id"),
+          value: json['first_token_id'], name: 'first_token_id'),
       firstTokenBalance: OnChainUtils.parseBigInt(
-          value: json["first_token_balance"], name: "first_token_balance"),
+          value: json['first_token_balance'], name: 'first_token_balance'),
       secondTokenId: OnChainUtils.parseBytes(
-          value: json["second_token_id"], name: "second_token_id"),
+          value: json['second_token_id'], name: 'second_token_id'),
       secondTokenBalance: OnChainUtils.parseBigInt(
-          value: json["second_token_balance"], name: "second_token_balance"),
+          value: json['second_token_balance'], name: 'second_token_balance'),
     );
   }
   factory ExchangeCreateContract.deserialize(List<int> bytes) {
@@ -74,11 +74,11 @@ class ExchangeCreateContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "first_token_id": StringUtils.tryDecode(firstTokenId),
-      "first_token_balance": firstTokenBalance?.toString(),
-      "second_token_id": StringUtils.tryDecode(secondTokenId),
-      "second_token_balance": secondTokenBalance?.toString(),
+      'owner_address': ownerAddress.toString(),
+      'first_token_id': StringUtils.tryDecode(firstTokenId),
+      'first_token_balance': firstTokenBalance?.toString(),
+      'second_token_id': StringUtils.tryDecode(secondTokenId),
+      'second_token_balance': secondTokenBalance?.toString(),
     }..removeWhere((key, value) => value == null);
   }
 

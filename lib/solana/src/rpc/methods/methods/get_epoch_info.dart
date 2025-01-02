@@ -5,19 +5,18 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns information about the current epoch
 /// https://solana.com/docs/rpc/http/getepochinfo
-class SolanaRPCGetEpochInfo extends SolanaRPCRequest<EpochInfo> {
-  const SolanaRPCGetEpochInfo(
-      {Commitment? commitment, MinContextSlot? minContextSlot})
-      : super(commitment: commitment, minContextSlot: minContextSlot);
+class SolanaRequestGetEpochInfo
+    extends SolanaRequest<EpochInfo, Map<String, dynamic>> {
+  const SolanaRequestGetEpochInfo({super.commitment, super.minContextSlot});
 
   /// getEpochInfo
   @override
-  String get method => SolanaRPCMethods.getEpochInfo.value;
+  String get method => SolanaRequestMethods.getEpochInfo.value;
 
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
       ]),
@@ -25,7 +24,7 @@ class SolanaRPCGetEpochInfo extends SolanaRPCRequest<EpochInfo> {
   }
 
   @override
-  EpochInfo onResonse(result) {
+  EpochInfo onResonse(Map<String, dynamic> result) {
     return EpochInfo.fromJson(result);
   }
 }

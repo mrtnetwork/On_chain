@@ -27,8 +27,8 @@ class TronAddress extends SolidityAddress {
       return TronAddress._(toAddress,
           BytesUtils.toHexString([...TrxAddressUtils.prefix, ...decode]));
     } catch (e) {
-      throw TronPluginException("invalid tron public key",
-          details: {"input": BytesUtils.toHexString(keyBytes)});
+      throw TronPluginException('invalid tron public key',
+          details: {'input': BytesUtils.toHexString(keyBytes)});
     }
   }
 
@@ -52,8 +52,8 @@ class TronAddress extends SolidityAddress {
         }
       }
     } catch (e) {
-      throw TronPluginException("invalid tron address",
-          details: {"input": address, "visible": visible});
+      throw TronPluginException('invalid tron address',
+          details: {'input': address, 'visible': visible});
     }
   }
 
@@ -88,7 +88,8 @@ class TronAddress extends SolidityAddress {
   static const int lengthInBytes = 21;
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
+    if (identical(this, other)) return true;
     if (other is! TronAddress) return false;
     return _address == other._address;
   }

@@ -20,8 +20,8 @@ class PlutusScript with ADASerialization {
   }
   factory PlutusScript.fromJson(Map<String, dynamic> json) {
     return PlutusScript(
-        bytes: BytesUtils.fromHexString(json["bytes"]),
-        language: Language.fromName(json["language"]));
+        bytes: BytesUtils.fromHexString(json['bytes']),
+        language: Language.fromName(json['language']));
   }
   PlutusScript copyWith({List<int>? bytes, Language? language}) {
     return PlutusScript(
@@ -41,8 +41,8 @@ class PlutusScript with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "bytes": BytesUtils.toHexString(bytes),
-      "language": language.toJson()
+      'bytes': BytesUtils.toHexString(bytes),
+      'language': language.toJson()
     };
   }
 }

@@ -3,7 +3,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Broadcast the signed transaction [developers.tron.network](https://developers.tron.network/reference/broadcasttransaction).
 class TronRequestBroadcastTransaction
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestBroadcastTransaction({required this.rawData});
 
   /// raw body
@@ -14,12 +14,12 @@ class TronRequestBroadcastTransaction
 
   @override
   Map<String, dynamic> toJson() {
-    return {"raw_data": rawData};
+    return {'raw_data': rawData};
   }
 
   @override
   String toString() {
-    return "TronRequestBroadcastTransaction{${toJson()}}";
+    return 'TronRequestBroadcastTransaction{${toJson()}}';
   }
 
   @override

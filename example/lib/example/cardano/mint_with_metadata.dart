@@ -11,7 +11,7 @@ void main() async {
       pubkeyBytes: spend.publicKey.compressed,
       network: ADANetwork.testnetPreprod);
 
-  final provider = BlockforestProvider(BlockforestHTTPProvider(
+  final provider = BlockFrostProvider(BlockFrostHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 

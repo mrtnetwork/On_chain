@@ -3,8 +3,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
 /// List metadata about specific address.
 /// https://blockfrost.dev/api/specific-nut-link-address
-class BlockfrostRequestSpecificNutLinkAddress extends BlockforestRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class BlockfrostRequestSpecificNutLinkAddress
+    extends BlockFrostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   BlockfrostRequestSpecificNutLinkAddress(this.address);
   final String address;
 

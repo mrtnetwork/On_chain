@@ -11,25 +11,25 @@ class TokenAccountResponse {
       required this.account,
       required this.tokenAccount});
   factory TokenAccountResponse.fromJson(Map<String, dynamic> json) {
-    final account = SolanaAccountInfo.fromJson(json["account"]);
+    final account = SolanaAccountInfo.fromJson(json['account']);
     final tokenAccount = SolanaTokenAccount.fromBuffer(
         data: account.toBytesData(), address: account.owner);
     return TokenAccountResponse(
-        pubkey: SolAddress.uncheckCurve(json["pubkey"]),
+        pubkey: SolAddress.uncheckCurve(json['pubkey']),
         account: account,
         tokenAccount: tokenAccount);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "pubkey": pubkey.address,
-      "account": account.toJson(),
-      "token_account": tokenAccount.serialize()
+      'pubkey': pubkey.address,
+      'account': account.toJson(),
+      'token_account': tokenAccount.serialize()
     };
   }
 
   @override
   String toString() {
-    return "TokenAccountResponse{${toJson()}}";
+    return 'TokenAccountResponse{${toJson()}}';
   }
 }

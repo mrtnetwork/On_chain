@@ -3,14 +3,15 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the number of uncles in a block from a block matching the given block hash.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getUncleCountByBlockHash)
-class RPCGetGetUncleCountByBlockHash extends ETHRPCRequest<int> {
-  RPCGetGetUncleCountByBlockHash({
+class EthereumRequestGetGetUncleCountByBlockHash
+    extends EthereumRequest<int, Object> {
+  EthereumRequestGetGetUncleCountByBlockHash({
     required this.blockHash,
   });
 
   /// eth_getUncleCountByBlockHash
   @override
-  EthereumMethods get method => EthereumMethods.getUncleCountByBlockHash;
+  String get method => EthereumMethods.getUncleCountByBlockHash.value;
 
   /// hash of a block
   final String blockHash;
@@ -22,11 +23,11 @@ class RPCGetGetUncleCountByBlockHash extends ETHRPCRequest<int> {
 
   @override
   int onResonse(result) {
-    return ETHRPCRequest.onIntResponse(result);
+    return EthereumRequest.onIntResponse(result);
   }
 
   @override
   String toString() {
-    return "RPCGetGetUncleCountByBlockHash{${toJson()}}";
+    return 'EthereumRequestGetGetUncleCountByBlockHash{${toJson()}}';
   }
 }

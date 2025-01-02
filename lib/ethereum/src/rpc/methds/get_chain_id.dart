@@ -3,12 +3,12 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the chain ID used for signing replay-protected transactions.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_chainId)
-class RPCGetChainId extends ETHRPCRequest<BigInt> {
-  RPCGetChainId();
+class EthereumRequestGetChainId extends EthereumRequest<BigInt, Object> {
+  EthereumRequestGetChainId();
 
   /// eth_chainId
   @override
-  EthereumMethods get method => EthereumMethods.getChainId;
+  String get method => EthereumMethods.getChainId.value;
 
   @override
   List<dynamic> toJson() {
@@ -17,11 +17,11 @@ class RPCGetChainId extends ETHRPCRequest<BigInt> {
 
   @override
   BigInt onResonse(result) {
-    return ETHRPCRequest.onBigintResponse(result);
+    return EthereumRequest.onBigintResponse(result);
   }
 
   @override
   String toString() {
-    return "RPCGetChainId{${toJson()}}";
+    return 'EthereumRequestGetChainId{${toJson()}}';
   }
 }

@@ -97,7 +97,7 @@ class BlockDetails {
             ?.map((withdrawal) => Withdrawal.fromJson(withdrawal))
             .toList() ??
         <Withdrawal>[];
-    final List<dynamic> transactions = json["transactions"];
+    final List<dynamic> transactions = json['transactions'];
 
     final transactionsInfo = hydrated
         ? transactions.map((e) => TransactionInfo.fromJson(e)).toList()

@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query bandwidth information.
 /// [developers.tron.network](https://developers.tron.network/reference/getaccountnet).
 class TronRequestGetAccountNet
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetAccountNet({required this.address, this.visible = true});
 
   /// Account address
@@ -18,6 +18,6 @@ class TronRequestGetAccountNet
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address, "visible": visible};
+    return {'address': address.toAddress(visible), 'visible': visible};
   }
 }

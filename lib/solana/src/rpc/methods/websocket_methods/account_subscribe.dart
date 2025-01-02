@@ -5,12 +5,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Subscribe to an account to receive notifications when the lamports or data for a given account public key changes
 /// https://solana.com/docs/rpc/websocket/accountsubscribe
-class SolanaRPCAccountSubscribeInfo extends SolanaRPCRequest<int> {
-  const SolanaRPCAccountSubscribeInfo(
+class SolanaRequestAccountSubscribeInfo extends SolanaRequest<int, int> {
+  const SolanaRequestAccountSubscribeInfo(
       {required this.account,
-      Commitment? commitment,
-      SolanaRPCEncoding? encoding = SolanaRPCEncoding.base64})
-      : super(commitment: commitment, encoding: encoding);
+      super.commitment,
+      super.encoding = SolanaRequestEncoding.base64});
 
   /// accountSubscribe
   @override
@@ -23,15 +22,10 @@ class SolanaRPCAccountSubscribeInfo extends SolanaRPCRequest<int> {
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         encoding?.toJson(),
       ])
     ];
-  }
-
-  @override
-  int onResonse(result) {
-    return result;
   }
 }

@@ -18,23 +18,23 @@ void main() async {
 // Establish a WebSocket RPC connection to the specified endpoint for real-time updates.
 
   /// Ethereum RPC
-  final rpc = EVMRPC(httpRpc);
+  final rpc = EthereumProvider(httpRpc);
 // Create an Ethereum RPC instance using the HTTP RPC service.
 
   /// Get Balance
-  final balance = await rpc.request(RPCGetBalance(
+  final balance = await rpc.request(EthereumRequestGetBalance(
       address:
           ETHAddress("0x7Fbb78c66505876284a49Ad89BEE3df2e0B7ca5E").address));
 // Request the balance of a specific Ethereum address using the RPC service.
 
   /// Get Block
-  final block = await rpc
-      .request(RPCGetBlockByNumber(blockNumber: BlockTagOrNumber.latest));
+  final block = await rpc.request(
+      EthereumRequestGetBlockByNumber(blockNumber: BlockTagOrNumber.latest));
 // Request information about the latest Ethereum block using the RPC service.
 
   /// Contract Call
-  final call =
-      await rpc.request(RPCCall.fromRaw(contractAddress: ".....", raw: "raw"));
+  final call = await rpc.request(
+      EthereumRequestCall.fromRaw(contractAddress: ".....", raw: "raw"));
 // Make a contract call using the RPC service, specifying the contract address and raw data.
 
   /// Methods Reference

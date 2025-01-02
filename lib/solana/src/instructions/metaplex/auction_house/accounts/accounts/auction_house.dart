@@ -7,24 +7,24 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [40, 108, 215, 107, 213, 85, 245, 48];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("auctionHouseFeeAccount"),
-    SolanaLayoutUtils.publicKey("auctionHouseTreasury"),
-    SolanaLayoutUtils.publicKey("treasuryWithdrawalDestination"),
-    SolanaLayoutUtils.publicKey("feeWithdrawalDestination"),
-    SolanaLayoutUtils.publicKey("treasuryMint"),
-    SolanaLayoutUtils.publicKey("authority"),
-    SolanaLayoutUtils.publicKey("creator"),
-    LayoutConst.u8(property: "bump"),
-    LayoutConst.u8(property: "treasuryBump"),
-    LayoutConst.u8(property: "feePayerBump"),
-    LayoutConst.u16(property: "sellerFeeBasisPoints"),
-    LayoutConst.boolean(property: "requiresSignOff"),
-    LayoutConst.boolean(property: "canChangeSalePrice"),
-    LayoutConst.u8(property: "escrowPaymentBump"),
-    LayoutConst.boolean(property: "hasAuctioneer"),
-    SolanaLayoutUtils.publicKey("auctioneerAddress"),
-    LayoutConst.array(LayoutConst.boolean(), 7, property: "scopes")
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('auctionHouseFeeAccount'),
+    SolanaLayoutUtils.publicKey('auctionHouseTreasury'),
+    SolanaLayoutUtils.publicKey('treasuryWithdrawalDestination'),
+    SolanaLayoutUtils.publicKey('feeWithdrawalDestination'),
+    SolanaLayoutUtils.publicKey('treasuryMint'),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('creator'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.u8(property: 'treasuryBump'),
+    LayoutConst.u8(property: 'feePayerBump'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+    LayoutConst.boolean(property: 'requiresSignOff'),
+    LayoutConst.boolean(property: 'canChangeSalePrice'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.boolean(property: 'hasAuctioneer'),
+    SolanaLayoutUtils.publicKey('auctioneerAddress'),
+    LayoutConst.array(LayoutConst.boolean(), 7, property: 'scopes')
   ]);
 
   static List<AuthorityScope> decodeScoops(List<bool> bytes) {
@@ -79,25 +79,25 @@ class AuctionHouse extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return AuctionHouse(
-        auctionHouseFeeAccount: decode["auctionHouseFeeAccount"],
-        auctionHouseTreasury: decode["auctionHouseTreasury"],
-        treasuryWithdrawalDestination: decode["treasuryWithdrawalDestination"],
-        feeWithdrawalDestination: decode["feeWithdrawalDestination"],
-        treasuryMint: decode["treasuryMint"],
-        authority: decode["authority"],
-        creator: decode["creator"],
-        bump: decode["bump"],
-        treasuryBump: decode["treasuryBump"],
-        feePayerBump: decode["feePayerBump"],
-        sellerFeeBasisPoints: decode["sellerFeeBasisPoints"],
-        requiresSignOff: decode["requiresSignOff"],
-        canChangeSalePrice: decode["canChangeSalePrice"],
-        escrowPaymentBump: decode["escrowPaymentBump"],
-        hasAuctioneer: decode["hasAuctioneer"],
-        auctioneerAddress: decode["auctioneerAddress"],
-        scopes: (decode["scopes"] as List).cast());
+        auctionHouseFeeAccount: decode['auctionHouseFeeAccount'],
+        auctionHouseTreasury: decode['auctionHouseTreasury'],
+        treasuryWithdrawalDestination: decode['treasuryWithdrawalDestination'],
+        feeWithdrawalDestination: decode['feeWithdrawalDestination'],
+        treasuryMint: decode['treasuryMint'],
+        authority: decode['authority'],
+        creator: decode['creator'],
+        bump: decode['bump'],
+        treasuryBump: decode['treasuryBump'],
+        feePayerBump: decode['feePayerBump'],
+        sellerFeeBasisPoints: decode['sellerFeeBasisPoints'],
+        requiresSignOff: decode['requiresSignOff'],
+        canChangeSalePrice: decode['canChangeSalePrice'],
+        escrowPaymentBump: decode['escrowPaymentBump'],
+        hasAuctioneer: decode['hasAuctioneer'],
+        auctioneerAddress: decode['auctioneerAddress'],
+        scopes: (decode['scopes'] as List).cast());
   }
 
   List<AuthorityScope> get activeScoopes => _Utils.decodeScoops(scopes);
@@ -107,29 +107,29 @@ class AuctionHouse extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "auctionHouseFeeAccount": auctionHouseFeeAccount,
-      "auctionHouseTreasury": auctionHouseTreasury,
-      "treasuryWithdrawalDestination": treasuryWithdrawalDestination,
-      "feeWithdrawalDestination": feeWithdrawalDestination,
-      "treasuryMint": treasuryMint,
-      "authority": authority,
-      "creator": creator,
-      "bump": bump,
-      "treasuryBump": treasuryBump,
-      "feePayerBump": feePayerBump,
-      "sellerFeeBasisPoints": sellerFeeBasisPoints,
-      "requiresSignOff": requiresSignOff,
-      "canChangeSalePrice": canChangeSalePrice,
-      "escrowPaymentBump": escrowPaymentBump,
-      "hasAuctioneer": hasAuctioneer,
-      "auctioneerAddress": auctioneerAddress,
-      "scopes": scopes,
+      'discriminator': _Utils.discriminator,
+      'auctionHouseFeeAccount': auctionHouseFeeAccount,
+      'auctionHouseTreasury': auctionHouseTreasury,
+      'treasuryWithdrawalDestination': treasuryWithdrawalDestination,
+      'feeWithdrawalDestination': feeWithdrawalDestination,
+      'treasuryMint': treasuryMint,
+      'authority': authority,
+      'creator': creator,
+      'bump': bump,
+      'treasuryBump': treasuryBump,
+      'feePayerBump': feePayerBump,
+      'sellerFeeBasisPoints': sellerFeeBasisPoints,
+      'requiresSignOff': requiresSignOff,
+      'canChangeSalePrice': canChangeSalePrice,
+      'escrowPaymentBump': escrowPaymentBump,
+      'hasAuctioneer': hasAuctioneer,
+      'auctioneerAddress': auctioneerAddress,
+      'scopes': scopes,
     };
   }
 
   @override
   String toString() {
-    return "AuctionHouse${serialize()}";
+    return 'AuctionHouse${serialize()}';
   }
 }

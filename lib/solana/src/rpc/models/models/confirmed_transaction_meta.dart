@@ -47,27 +47,27 @@ class ConfirmedTransactionMeta {
       required this.computeUnitsConsumed});
   factory ConfirmedTransactionMeta.fromJson(Map<String, dynamic> json) {
     return ConfirmedTransactionMeta(
-        fee: json["fee"],
-        innerInstructions: (json["innerInstructions"] as List?)
+        fee: json['fee'],
+        innerInstructions: (json['innerInstructions'] as List?)
             ?.map((e) => CompiledInnerInstruction.fromJson(e))
             .toList(),
-        preBalances: (json["preBalances"] as List)
+        preBalances: (json['preBalances'] as List)
             .map((e) => BigintUtils.parse(e))
             .toList(),
-        postBalances: (json["postBalances"] as List)
+        postBalances: (json['postBalances'] as List)
             .map((e) => BigintUtils.parse(e))
             .toList(),
-        logMessages: (json["logMessages"] as List?)?.cast(),
-        preTokenBalances: (json["preTokenBalances"] as List?)
+        logMessages: (json['logMessages'] as List?)?.cast(),
+        preTokenBalances: (json['preTokenBalances'] as List?)
             ?.map((e) => TokenBalance.fromJson(e))
             .toList(),
-        postTokenBalances: (json["postTokenBalances"] as List?)
+        postTokenBalances: (json['postTokenBalances'] as List?)
             ?.map((e) => TokenBalance.fromJson(e))
             .toList(),
-        err: json["err"],
-        loadedAddresses: json["loadedAddresses"] == null
+        err: json['err'],
+        loadedAddresses: json['loadedAddresses'] == null
             ? null
-            : AccountLookupKeys.fromJson(json["loadedAddresses"]),
-        computeUnitsConsumed: json["computeUnitsConsumed"]);
+            : AccountLookupKeys.fromJson(json['loadedAddresses']),
+        computeUnitsConsumed: json['computeUnitsConsumed']);
   }
 }

@@ -11,7 +11,7 @@ void main() async {
   final account7 = QuickWalletForTest(index: 455);
   final account8 = QuickWalletForTest(index: 456);
   final lamports = await QuickWalletForTest.rpc.request(
-      SolanaRPCGetMinimumBalanceForRentExemption(
+      SolanaRequestGetMinimumBalanceForRentExemption(
           size: SolanaMultiSigAccountUtils.multisigSize));
   final account = SystemProgram.createAccount(
       from: owner.address,

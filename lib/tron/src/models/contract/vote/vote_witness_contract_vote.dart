@@ -8,9 +8,9 @@ class VoteWitnessContractVote extends TronProtocolBufferImpl {
   factory VoteWitnessContractVote.fromJson(Map<String, dynamic> json) {
     return VoteWitnessContractVote(
       voteAddress: OnChainUtils.parseTronAddress(
-          value: json["vote_address"], name: "vote_address"),
+          value: json['vote_address'], name: 'vote_address'),
       voteCount: OnChainUtils.parseBigInt(
-          value: json["vote_count"], name: "vote_count"),
+          value: json['vote_count'], name: 'vote_count'),
     );
   }
   factory VoteWitnessContractVote.deserialize(List<int> bytes) {
@@ -37,14 +37,14 @@ class VoteWitnessContractVote extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "vote_address": voteAddress.toString(),
-      "vote_count": voteCount.toString(),
+      'vote_address': voteAddress.toString(),
+      'vote_count': voteCount.toString(),
     };
   }
 
   /// Convert the [VoteWitnessContractVote] object to its string representation.
   @override
   String toString() {
-    return "VoteWitnessContractVote{${toJson()}}";
+    return 'VoteWitnessContractVote{${toJson()}}';
   }
 }

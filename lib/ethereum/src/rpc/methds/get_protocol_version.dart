@@ -3,12 +3,13 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the current Ethereum protocol version. Note that this method is not available in Geth
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_protocolVersion)
-class RPCGetProtocolVersion extends ETHRPCRequest<String> {
-  RPCGetProtocolVersion();
+class EthereumRequestGetProtocolVersion
+    extends EthereumRequest<String, String> {
+  EthereumRequestGetProtocolVersion();
 
   /// eth_protocolVersion
   @override
-  EthereumMethods get method => EthereumMethods.getProtocolVersion;
+  String get method => EthereumMethods.getProtocolVersion.value;
 
   @override
   List<dynamic> toJson() {
@@ -17,6 +18,6 @@ class RPCGetProtocolVersion extends ETHRPCRequest<String> {
 
   @override
   String toString() {
-    return "RPCGetProtocolVersion{${toJson()}}";
+    return 'EthereumRequestGetProtocolVersion{${toJson()}}';
   }
 }

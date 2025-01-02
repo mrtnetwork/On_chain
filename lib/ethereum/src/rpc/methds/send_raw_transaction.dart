@@ -3,12 +3,13 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Creates new message call transaction or a contract creation for signed transactions.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sendRawTransaction)
-class RPCSendRawTransaction extends ETHRPCRequest<String> {
-  RPCSendRawTransaction({required this.transaction});
+class EthereumRequestSendRawTransaction
+    extends EthereumRequest<String, String> {
+  EthereumRequestSendRawTransaction({required this.transaction});
 
   /// eth_sendRawTransaction
   @override
-  EthereumMethods get method => EthereumMethods.sendRawTransaction;
+  String get method => EthereumMethods.sendRawTransaction.value;
 
   /// The signed transaction data.
   final String transaction;
@@ -20,6 +21,6 @@ class RPCSendRawTransaction extends ETHRPCRequest<String> {
 
   @override
   String toString() {
-    return "RPCSendRawTransaction{${toJson()}}";
+    return 'EthereumRequestSendRawTransaction{${toJson()}}';
   }
 }

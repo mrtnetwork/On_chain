@@ -7,14 +7,14 @@ class _Utils {
   static const List<int> discriminator = [227, 186, 40, 152, 7, 174, 131, 184];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("candyGuard"),
-    SolanaLayoutUtils.publicKey("candyMachine"),
-    LayoutConst.u64(property: "frozenCount"),
-    LayoutConst.optional(LayoutConst.i64(), property: "firstMintTime"),
-    LayoutConst.u64(property: "freezePeriod"),
-    SolanaLayoutUtils.publicKey("destination"),
-    SolanaLayoutUtils.publicKey("authority")
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('candyGuard'),
+    SolanaLayoutUtils.publicKey('candyMachine'),
+    LayoutConst.u64(property: 'frozenCount'),
+    LayoutConst.optional(LayoutConst.i64(), property: 'firstMintTime'),
+    LayoutConst.u64(property: 'freezePeriod'),
+    SolanaLayoutUtils.publicKey('destination'),
+    SolanaLayoutUtils.publicKey('authority')
   ]);
 }
 
@@ -55,15 +55,15 @@ class FreezeEscrowAccount extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return FreezeEscrowAccount(
-        candyGuard: decode["candyGuard"],
-        candyMachine: decode["candyMachine"],
-        frozenCount: decode["frozenCount"],
-        freezePeriod: decode["freezePeriod"],
-        destination: decode["destination"],
-        authority: decode["authority"],
-        firstMintTime: decode["firstMintTime"]);
+        candyGuard: decode['candyGuard'],
+        candyMachine: decode['candyMachine'],
+        frozenCount: decode['frozenCount'],
+        freezePeriod: decode['freezePeriod'],
+        destination: decode['destination'],
+        authority: decode['authority'],
+        firstMintTime: decode['firstMintTime']);
   }
 
   @override
@@ -72,19 +72,19 @@ class FreezeEscrowAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "candyGuard": candyGuard,
-      "candyMachine": candyMachine,
-      "frozenCount": frozenCount,
-      "firstMintTime": firstMintTime,
-      "freezePeriod": freezePeriod,
-      "destination": destination,
-      "authority": authority
+      'discriminator': _Utils.discriminator,
+      'candyGuard': candyGuard,
+      'candyMachine': candyMachine,
+      'frozenCount': frozenCount,
+      'firstMintTime': firstMintTime,
+      'freezePeriod': freezePeriod,
+      'destination': destination,
+      'authority': authority
     };
   }
 
   @override
   String toString() {
-    return "FreezeEscrow${serialize()}";
+    return 'FreezeEscrow${serialize()}';
   }
 }

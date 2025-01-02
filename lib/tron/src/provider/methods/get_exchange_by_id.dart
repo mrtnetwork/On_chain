@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query exchange pair based on id
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-getexchangebyid).
 class TronRequestGetExchangeById
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetExchangeById({required this.id});
 
   /// Transaction Pair ID
@@ -16,11 +16,11 @@ class TronRequestGetExchangeById
 
   @override
   Map<String, dynamic> toJson() {
-    return {"id": id};
+    return {'id': id};
   }
 
   @override
   String toString() {
-    return "TronRequestGetExchangeById{${toJson()}}";
+    return 'TronRequestGetExchangeById{${toJson()}}';
   }
 }

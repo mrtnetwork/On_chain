@@ -3,12 +3,12 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns an object with data about the sync status or false.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_syncing)
-class RPCGetSyncing extends ETHRPCRequest<String> {
-  RPCGetSyncing();
+class EthereumRequestGetSyncing extends EthereumRequest<bool, bool> {
+  EthereumRequestGetSyncing();
 
   /// eth_syncing
   @override
-  EthereumMethods get method => EthereumMethods.getSyncing;
+  String get method => EthereumMethods.getSyncing.value;
 
   @override
   List<dynamic> toJson() {
@@ -17,6 +17,6 @@ class RPCGetSyncing extends ETHRPCRequest<String> {
 
   @override
   String toString() {
-    return "RPCGetSyncing{${toJson()}}";
+    return 'EthereumRequestGetSyncing{${toJson()}}';
   }
 }

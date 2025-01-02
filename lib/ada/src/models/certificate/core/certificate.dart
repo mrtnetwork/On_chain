@@ -38,8 +38,8 @@ abstract class Certificate with ADASerialization {
     try {
       type = CertificateType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException("Invalid json certificate.",
-          details: {"json": json});
+      throw ADAPluginException('Invalid json certificate.',
+          details: {'json': json});
     }
     switch (type) {
       case CertificateType.genesisKeyDelegation:

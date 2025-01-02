@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// withdrawn to the owner’s account
 /// [developers.tron.network](https://developers.tron.network/reference/cancelallunfreezev2).
 class TronRequestCancelAllUnfreezeV2
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestCancelAllUnfreezeV2(
       {required this.ownerAddress, this.permissionId, this.visible = true});
 
@@ -26,14 +26,14 @@ class TronRequestCancelAllUnfreezeV2
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestCancelAllUnfreezeV2{${toJson()}}";
+    return 'TronRequestCancelAllUnfreezeV2{${toJson()}}';
   }
 }

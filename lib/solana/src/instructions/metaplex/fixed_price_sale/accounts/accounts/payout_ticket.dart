@@ -4,8 +4,8 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class _Utils {
   static const List<int> discriminator = [153, 222, 52, 216, 192, 152, 175, 80];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    LayoutConst.boolean(property: "used"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.boolean(property: 'used'),
   ]);
 }
 
@@ -18,8 +18,8 @@ class PayoutTicket extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
-    return PayoutTicket(used: decode["used"]);
+        validator: {'discriminator': _Utils.discriminator});
+    return PayoutTicket(used: decode['used']);
   }
 
   @override
@@ -27,11 +27,11 @@ class PayoutTicket extends LayoutSerializable {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"discriminator": _Utils.discriminator, "used": used};
+    return {'discriminator': _Utils.discriminator, 'used': used};
   }
 
   @override
   String toString() {
-    return "PayoutTicket${serialize()}";
+    return 'PayoutTicket${serialize()}';
   }
 }

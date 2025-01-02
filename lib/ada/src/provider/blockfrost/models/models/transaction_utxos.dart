@@ -33,7 +33,7 @@ class ADATransactionUTXOSResponse {
 
   @override
   String toString() {
-    return "ADATransactionUTXOSResponse${toJson()}";
+    return 'ADATransactionUTXOSResponse${toJson()}';
   }
 }
 
@@ -110,7 +110,7 @@ class ADATransactionInput {
 
   @override
   String toString() {
-    return "ADATransactionInput${toJson()}";
+    return 'ADATransactionInput${toJson()}';
   }
 }
 
@@ -175,7 +175,7 @@ class ADATransactionOutput {
 
   @override
   String toString() {
-    return "ADATransactionOutput${toJson()}";
+    return 'ADATransactionOutput${toJson()}';
   }
 }
 
@@ -184,9 +184,9 @@ class ADATransactionAmount {
   final String quantity;
   const ADATransactionAmount({required this.unit, required this.quantity});
   factory ADATransactionAmount.fromJson(Map<String, dynamic> json) {
-    return ADATransactionAmount(unit: json["unit"], quantity: json["quantity"]);
+    return ADATransactionAmount(unit: json['unit'], quantity: json['quantity']);
   }
   Map<String, dynamic> toJson() {
-    return {"unit": unit, "quantity": quantity};
+    return {'unit': unit, 'quantity': quantity};
   }
 }

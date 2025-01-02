@@ -18,12 +18,12 @@ class ComputeBudgetSetComputeUnitLimitLayout
         bytes: data,
         instruction:
             ComputeBudgetProgramInstruction.setComputeUnitLimit.insturction);
-    return ComputeBudgetSetComputeUnitLimitLayout(units: decode["units"]);
+    return ComputeBudgetSetComputeUnitLimitLayout(units: decode['units']);
   }
   // StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u32(property: "units"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'units'),
   ]);
 
   @override
@@ -35,11 +35,11 @@ class ComputeBudgetSetComputeUnitLimitLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"units": units};
+    return {'units': units};
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"units": units};
+    return {'units': units};
   }
 }

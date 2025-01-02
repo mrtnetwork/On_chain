@@ -7,11 +7,11 @@ class _Utils {
   static const List<int> discriminator = [22, 183, 249, 157, 247, 95, 150, 96];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    LayoutConst.boolean(property: "isClaimed"),
-    SolanaLayoutUtils.publicKey("claimant"),
-    LayoutConst.i64(property: "claimedAt"),
-    LayoutConst.u64(property: "amount"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.boolean(property: 'isClaimed'),
+    SolanaLayoutUtils.publicKey('claimant'),
+    LayoutConst.i64(property: 'claimedAt'),
+    LayoutConst.u64(property: 'amount'),
   ]);
 }
 
@@ -30,12 +30,12 @@ class ClaimStatus extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return ClaimStatus(
-        isClaimed: decode["isClaimed"],
-        claimant: decode["claimant"],
-        claimedAt: decode["claimedAt"],
-        amount: decode["amount"]);
+        isClaimed: decode['isClaimed'],
+        claimant: decode['claimant'],
+        claimedAt: decode['claimedAt'],
+        amount: decode['amount']);
   }
 
   @override
@@ -44,16 +44,16 @@ class ClaimStatus extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "isClaimed": isClaimed,
-      "claimant": claimant,
-      "claimedAt": claimedAt,
-      "amount": amount
+      'discriminator': _Utils.discriminator,
+      'isClaimed': isClaimed,
+      'claimant': claimant,
+      'claimedAt': claimedAt,
+      'amount': amount
     };
   }
 
   @override
   String toString() {
-    return "ClaimStatus${serialize()}";
+    return 'ClaimStatus${serialize()}';
   }
 }

@@ -14,12 +14,12 @@ class UnknownProgramLayout extends ProgramLayout {
 
   @override
   StructLayout get layout =>
-      LayoutConst.struct([LayoutConst.blob(data.length, property: "data")]);
+      LayoutConst.struct([LayoutConst.blob(data.length, property: 'data')]);
 
   /// Serializes the unknown program layout.
   @override
   Map<String, dynamic> serialize() {
-    return {"data": data};
+    return {'data': data};
   }
 
   /// Converts the unknown program layout to bytes.
@@ -31,7 +31,7 @@ class UnknownProgramLayout extends ProgramLayout {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "data": BytesUtils.toHexString(data, prefix: "0x"),
+      'data': BytesUtils.toHexString(data, prefix: '0x'),
     };
   }
 }

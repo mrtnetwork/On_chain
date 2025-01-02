@@ -30,27 +30,27 @@ class MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout
             .updateAsAuthorityItemDelegateV2.insturction,
         discriminator: discriminator);
     return MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout(
-        authorizationData: decode["authorizationData"] == null
+        authorizationData: decode['authorizationData'] == null
             ? null
-            : Payload.fromJson(decode["authorizationData"]),
-        tokenStandard: decode["tokenStandard"] == null
+            : Payload.fromJson(decode['authorizationData']),
+        tokenStandard: decode['tokenStandard'] == null
             ? null
-            : MetaDataTokenStandard.fromJson(decode["tokenStandard"]),
-        isMutable: decode["isMutable"],
-        primarySaleHappened: decode["primarySaleHappened"],
-        newUpdateAuthority: decode["newUpdateAuthority"]);
+            : MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+        isMutable: decode['isMutable'],
+        primarySaleHappened: decode['primarySaleHappened'],
+        newUpdateAuthority: decode['newUpdateAuthority']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    SolanaLayoutUtils.optionPubkey(property: "newUpdateAuthority"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
     LayoutConst.optional(LayoutConst.boolean(),
-        property: "primarySaleHappened"),
-    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
+        property: 'primarySaleHappened'),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
     LayoutConst.optional(MetaDataTokenStandard.staticLayout,
-        property: "tokenStandard"),
-    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
+        property: 'tokenStandard'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
   ]);
 
   @override
@@ -63,12 +63,12 @@ class MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": instruction.discriminator,
-      "newUpdateAuthority": newUpdateAuthority,
-      "primarySaleHappened": primarySaleHappened,
-      "isMutable": isMutable,
-      "tokenStandard": tokenStandard?.serialize(),
-      "authorizationData": authorizationData?.serialize()
+      'discriminator': instruction.discriminator,
+      'newUpdateAuthority': newUpdateAuthority,
+      'primarySaleHappened': primarySaleHappened,
+      'isMutable': isMutable,
+      'tokenStandard': tokenStandard?.serialize(),
+      'authorizationData': authorizationData?.serialize()
     };
   }
 }

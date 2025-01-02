@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// History of stake pool parameters over epochs.
 /// https://blockfrost.dev/api/stake-pool-history
-class BlockfrostRequestStakePoolHistory extends BlockforestRequestParam<
+class BlockfrostRequestStakePoolHistory extends BlockFrostRequest<
     List<ADAPoolEpochInfoResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestStakePoolHistory(this.poolId,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Bech32 or hexadecimal pool ID.

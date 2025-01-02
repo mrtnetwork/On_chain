@@ -9,10 +9,10 @@ import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 /// Represents an instruction for the Secp256k1 program.
 class Secp256k1Program extends TransactionInstruction {
   Secp256k1Program._({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory Secp256k1Program.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,

@@ -9,28 +9,28 @@ class EscrowAuthority extends LayoutSerializable {
   final dynamic fields;
   const EscrowAuthority._(this.name, this.fields);
   static const EscrowAuthority tokenOwner =
-      EscrowAuthority._("TokenOwner", null);
+      EscrowAuthority._('TokenOwner', null);
   factory EscrowAuthority.creator({required SolAddress creator}) {
-    return EscrowAuthority._("Creator", [creator]);
+    return EscrowAuthority._('Creator', [creator]);
   }
   factory EscrowAuthority.fromJson(Map<String, dynamic> json) {
-    final name = json["escrowAuthority"]["key"];
-    final value = json["escrowAuthority"]["value"];
-    if (name != "Creator" && name != "TokenOwner") {}
+    final name = json['escrowAuthority']['key'];
+    final value = json['escrowAuthority']['value'];
+    if (name != 'Creator' && name != 'TokenOwner') {}
     switch (name) {
-      case "TokenOwner":
+      case 'TokenOwner':
         return tokenOwner;
-      case "Creator":
+      case 'Creator':
         return EscrowAuthority.creator(creator: (value as List)[0]);
       default:
-        throw const SolanaPluginException("Invalid escrowAuthority version");
+        throw const SolanaPluginException('Invalid escrowAuthority version');
     }
   }
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum([
-      LayoutConst.none(property: "TokenOwner"),
-      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: "Creator")
-    ], property: "escrowAuthority")
+      LayoutConst.none(property: 'TokenOwner'),
+      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: 'Creator')
+    ], property: 'escrowAuthority')
   ]);
 
   @override
@@ -38,7 +38,7 @@ class EscrowAuthority extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "escrowAuthority": {name: fields}
+      'escrowAuthority': {name: fields}
     };
   }
 }

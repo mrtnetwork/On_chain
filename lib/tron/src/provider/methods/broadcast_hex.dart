@@ -3,7 +3,7 @@ import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Broadcast the protobuf encoded transaction hex string after sign (developers.tron.network)[https://developers.tron.network/reference/broadcasthex].
-class TronRequestBroadcastHex extends TVMRequestParam<
+class TronRequestBroadcastHex extends TronRequest<
     ParsedBroadcastTransactionResult, Map<String, dynamic>> {
   TronRequestBroadcastHex({required this.transaction});
 
@@ -15,12 +15,12 @@ class TronRequestBroadcastHex extends TVMRequestParam<
 
   @override
   Map<String, dynamic> toJson() {
-    return {"transaction": transaction};
+    return {'transaction': transaction};
   }
 
   @override
   String toString() {
-    return "TronRequestBroadcastHex{${toJson()}}";
+    return 'TronRequestBroadcastHex{${toJson()}}';
   }
 
   @override

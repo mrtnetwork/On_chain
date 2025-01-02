@@ -30,9 +30,9 @@ class SPLTokenSwapWithdrawLayout extends SPLTokenSwapProgramLayout {
     );
 
     return SPLTokenSwapWithdrawLayout(
-      poolTokenAmount: decode["poolTokenAmount"],
-      minimumTokenA: decode["minimumTokenA"],
-      minimumTokenB: decode["minimumTokenB"],
+      poolTokenAmount: decode['poolTokenAmount'],
+      minimumTokenA: decode['minimumTokenA'],
+      minimumTokenB: decode['minimumTokenB'],
     );
   }
 
@@ -53,9 +53,9 @@ class SPLTokenSwapWithdrawLayout extends SPLTokenSwapProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "poolTokenAmount": poolTokenAmount,
-      "minimumTokenA": minimumTokenA,
-      "minimumTokenB": minimumTokenB,
+      'poolTokenAmount': poolTokenAmount,
+      'minimumTokenA': minimumTokenA,
+      'minimumTokenB': minimumTokenB,
     };
   }
 }

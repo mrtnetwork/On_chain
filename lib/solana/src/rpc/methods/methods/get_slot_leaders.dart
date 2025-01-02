@@ -4,12 +4,14 @@ import 'package:on_chain/solana/src/rpc/core/methods.dart';
 
 /// Returns the slot leaders for a given slot range
 /// https://solana.com/docs/rpc/http/getslotleaders
-class SolanaRPCGetSlotLeaders extends SolanaRPCRequest<List<SolAddress>> {
-  const SolanaRPCGetSlotLeaders({required this.startSlot, required this.limit});
+class SolanaRequestGetSlotLeaders
+    extends SolanaRequest<List<SolAddress>, List> {
+  const SolanaRequestGetSlotLeaders(
+      {required this.startSlot, required this.limit});
 
   /// getSlotLeaders
   @override
-  String get method => SolanaRPCMethods.getSlotLeaders.value;
+  String get method => SolanaRequestMethods.getSlotLeaders.value;
 
   /// Start slot, as u64 integer
   final int startSlot;
@@ -23,6 +25,6 @@ class SolanaRPCGetSlotLeaders extends SolanaRPCRequest<List<SolAddress>> {
 
   @override
   List<SolAddress> onResonse(result) {
-    return (result as List).map((e) => SolAddress.uncheckCurve(e)).toList();
+    return result.map((e) => SolAddress.uncheckCurve(e)).toList();
   }
 }

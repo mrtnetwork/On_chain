@@ -2,24 +2,25 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/accounts/accounts/cip_guard.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
 
-class SolanaRPCGetCipGuard extends SolanaRPCRequest<CpiGuard?> {
+class SolanaRPCGetCipGuard
+    extends SolanaRequest<CpiGuard?, Map<String, dynamic>?> {
   const SolanaRPCGetCipGuard({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

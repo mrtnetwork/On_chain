@@ -21,19 +21,19 @@ class MetaplexAuctionHouseAuctioneerBuyLayout
         instruction:
             MetaplexAuctionHouseProgramInstruction.auctioneerBuy.insturction);
     return MetaplexAuctionHouseAuctioneerBuyLayout(
-        buyerPrice: decode["buyerPrice"],
-        escrowPaymentBump: decode["escrowPaymentBump"],
-        tokenSize: decode["tokenSize"],
-        tradeStateBump: decode["tradeStateBump"]);
+        buyerPrice: decode['buyerPrice'],
+        escrowPaymentBump: decode['escrowPaymentBump'],
+        tokenSize: decode['tokenSize'],
+        tradeStateBump: decode['tradeStateBump']);
   }
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "tradeStateBump"),
-    LayoutConst.u8(property: "escrowPaymentBump"),
-    LayoutConst.u64(property: "buyerPrice"),
-    LayoutConst.u64(property: "tokenSize"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
   ]);
 
   @override
@@ -46,10 +46,10 @@ class MetaplexAuctionHouseAuctioneerBuyLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "tradeStateBump": tradeStateBump,
-      "escrowPaymentBump": escrowPaymentBump,
-      "buyerPrice": buyerPrice,
-      "tokenSize": tokenSize
+      'tradeStateBump': tradeStateBump,
+      'escrowPaymentBump': escrowPaymentBump,
+      'buyerPrice': buyerPrice,
+      'tokenSize': tokenSize
     };
   }
 }

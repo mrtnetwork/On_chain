@@ -15,11 +15,11 @@ class EpochInfo {
       required this.transactionCount});
   factory EpochInfo.fromJson(Map<String, dynamic> json) {
     return EpochInfo(
-        epoch: json["epoch"],
-        slotIndex: json["slotIndex"],
-        slotsInEpoch: json["slotsInEpoch"],
-        absoluteSlot: json["absoluteSlot"],
-        blockHeight: json["blockHeight"],
-        transactionCount: json["transactionCount"]);
+        epoch: json['epoch'],
+        slotIndex: json['slotIndex'],
+        slotsInEpoch: json['slotsInEpoch'],
+        absoluteSlot: json['absoluteSlot'],
+        blockHeight: json['blockHeight'],
+        transactionCount: json['transactionCount']);
   }
 }

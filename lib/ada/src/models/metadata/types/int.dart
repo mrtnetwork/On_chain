@@ -17,7 +17,7 @@ class TransactionMetadataInt extends TransactionMetadata<BigInt> {
     return TransactionMetadataInt(value: cbor.getInteger());
   }
   factory TransactionMetadataInt.fromJson(Map<String, dynamic> json) {
-    return TransactionMetadataInt(value: BigintUtils.parse(json["int"]));
+    return TransactionMetadataInt(value: BigintUtils.parse(json['int']));
   }
   TransactionMetadataInt copyWith({BigInt? value}) {
     return TransactionMetadataInt(value: value ?? this.value);
@@ -30,15 +30,15 @@ class TransactionMetadataInt extends TransactionMetadata<BigInt> {
   /// Converts the metadata to JSON.
   @override
   Map<String, dynamic> toJson() {
-    return {"int": value.toString()};
+    return {'int': value.toString()};
   }
 
   @override
-  toJsonSchema(
+  Object toJsonSchema(
       {MetadataSchemaConfig config = const MetadataSchemaConfig(
           jsonSchema: MetadataJsonSchema.noConversions)}) {
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
-      return {"int": config.useIntInsteadBigInt ? value.toInt() : value};
+      return {'int': config.useIntInsteadBigInt ? value.toInt() : value};
     }
     if (!config.useIntInsteadBigInt) return value;
     return value.toInt();

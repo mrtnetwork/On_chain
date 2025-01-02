@@ -1,8 +1,5 @@
-import 'package:blockchain_utils/signer/tron/tron_signer.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/bip/address/p2pkh_addr.dart';
-import 'package:blockchain_utils/bip/ecc/keys/secp256k1_keys_ecdsa.dart';
 import 'package:on_chain/tron/src/exception/exception.dart';
 
 /// Class representing a Tron public key
@@ -19,8 +16,8 @@ class TronPublicKey {
       final pubKey = Secp256k1PublicKeyEcdsa.fromBytes(keyBytes);
       return TronPublicKey._(pubKey);
     } catch (e) {
-      throw TronPluginException("invalid tron public key",
-          details: {"input": BytesUtils.toHexString(keyBytes)});
+      throw TronPluginException('invalid tron public key',
+          details: {'input': BytesUtils.toHexString(keyBytes)});
     }
   }
 

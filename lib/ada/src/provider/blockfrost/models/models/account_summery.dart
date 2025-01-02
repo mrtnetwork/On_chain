@@ -31,7 +31,7 @@ class ADAAccountSummaryResponse {
         sentSumList.map((item) => ADAAmountResponse.fromJson(item)).toList();
 
     return ADAAccountSummaryResponse(
-      address: json["address"] ?? json['stake_address'],
+      address: json['address'] ?? json['stake_address'],
       receivedSum: receivedSum,
       sentSum: sentSum,
       txCount: json['tx_count'],
@@ -46,6 +46,6 @@ class ADAAccountSummaryResponse {
       };
   @override
   String toString() {
-    return "ADAAccountSummaryResponse${toJson()}";
+    return 'ADAAccountSummaryResponse${toJson()}';
   }
 }

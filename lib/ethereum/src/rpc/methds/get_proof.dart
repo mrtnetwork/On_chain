@@ -2,14 +2,13 @@ import 'package:on_chain/ethereum/src/models/block_tag.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class RPCGetProof extends ETHRPCRequest<dynamic> {
-  RPCGetProof(
+class EthereumRequestGetProof extends EthereumRequest<Object?, Object?> {
+  EthereumRequestGetProof(
       {required this.address,
       required this.storageKeys,
-      BlockTagOrNumber? blockNumber = BlockTagOrNumber.latest})
-      : super(blockNumber: blockNumber);
+      super.blockNumber = BlockTagOrNumber.latest});
   @override
-  EthereumMethods get method => EthereumMethods.getProof;
+  String get method => EthereumMethods.getProof.value;
   final String address;
   final List<String> storageKeys;
 

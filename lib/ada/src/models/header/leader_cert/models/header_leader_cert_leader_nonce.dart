@@ -19,11 +19,11 @@ class HeaderLeaderCertNonceAndLeader extends HeaderLeaderCert {
 
   @override
   String toString() {
-    return "HeaderLeaderCertNonceAndLeader{nonceVrf: $nonceVrf, leaderVrf: $leaderVrf}";
+    return 'HeaderLeaderCertNonceAndLeader{nonceVrf: $nonceVrf, leaderVrf: $leaderVrf}';
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"nonceVrf": nonceVrf.toJson(), "leaderVrf": leaderVrf.toJson()};
+    return {'nonceVrf': nonceVrf.toJson(), 'leaderVrf': leaderVrf.toJson()};
   }
 }

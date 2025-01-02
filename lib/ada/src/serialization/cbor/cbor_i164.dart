@@ -13,20 +13,20 @@ class CborSignedValue implements CborNumeric {
   factory CborSignedValue.i64(dynamic value) {
     if (value is! int && value is! BigInt) {
       throw ADAPluginException(
-          "Invalid unsgined int. value must be int or bigint.",
-          details: {"valye": value});
+          'Invalid unsgined int. value must be int or bigint.',
+          details: {'valye': value});
     }
 
     if (value is BigInt && value.bitLength > 64) {
-      throw ADAPluginException("Invalid signed 64-bit Integer.",
-          details: {"Value": value, "bitLength": value.bitLength});
+      throw ADAPluginException('Invalid signed 64-bit Integer.',
+          details: {'Value': value, 'bitLength': value.bitLength});
     }
     return CborSignedValue._(value);
   }
   factory CborSignedValue.i32(int value) {
     if (value.bitLength > 32) {
-      throw ADAPluginException("Invalid signed 32-bit Integer.",
-          details: {"Value": value, "bitLength": value.bitLength});
+      throw ADAPluginException('Invalid signed 32-bit Integer.',
+          details: {'Value': value, 'bitLength': value.bitLength});
     }
     return CborSignedValue._(value);
   }
@@ -72,7 +72,7 @@ class CborSignedValue implements CborNumeric {
 
   /// override equal operation
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! CborNumeric) return false;
     if (other is CborBigIntValue) return false;
     return other.toBigInt() == toBigInt();

@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// Submit an already serialized transaction to the network.
 /// https://blockfrost.dev/api/specific-account-address
 class BlockfrostRequestSubmitTransaction
-    extends BlockforestPostRequestParam<String, String> {
+    extends BlockFrostPostRequest<String, String> {
   BlockfrostRequestSubmitTransaction({required List<int> transactionCborBytes})
       : transactionCborBytes = BytesUtils.toBytes(transactionCborBytes);
 
@@ -17,11 +17,18 @@ class BlockfrostRequestSubmitTransaction
   List<String> get pathParameters => [];
 
   @override
-  Map<String, String>? get header => {"Content-Type": "application/cbor"};
+  Map<String, String> get headers => {'Content-Type': 'application/cbor'};
 
   final List<int> transactionCborBytes;
 
   /// The transaction to submit, serialized in CBOR.
   @override
-  Object get body => transactionCborBytes;
+  List<int> get body => transactionCborBytes;
+  @override
+  String onResonse(String result) {
+    if (result.startsWith('"')) {
+      return StringUtils.toJson(result);
+    }
+    return result;
+  }
 }

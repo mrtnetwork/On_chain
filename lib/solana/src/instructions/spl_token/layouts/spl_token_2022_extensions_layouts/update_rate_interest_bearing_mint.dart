@@ -11,10 +11,10 @@ class SPLToken2022InterestBearingMintUpdateRateLayout
   SPLToken2022InterestBearingMintUpdateRateLayout({required this.rate});
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: 'instruction'),
     LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
-        property: "interestBearingMint"),
-    LayoutConst.u16(property: "rate"),
+        property: 'interestBearingMint'),
+    LayoutConst.u16(property: 'rate'),
   ]);
 
   factory SPLToken2022InterestBearingMintUpdateRateLayout.fromBuffer(
@@ -25,7 +25,7 @@ class SPLToken2022InterestBearingMintUpdateRateLayout
         instruction: SPLTokenProgramInstruction
             .interestBearingMintExtension.insturction);
     return SPLToken2022InterestBearingMintUpdateRateLayout(
-        rate: decode["rate"]);
+        rate: decode['rate']);
   }
 
   @override
@@ -38,9 +38,9 @@ class SPLToken2022InterestBearingMintUpdateRateLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "interestBearingMint":
+      'interestBearingMint':
           InterestBearingMintInstruction.updateRate.serialize(),
-      "rate": rate,
+      'rate': rate,
     };
   }
 }

@@ -1,16 +1,14 @@
 import 'package:on_chain/solana/src/rpc/core/rpc.dart';
-import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Subscribe to receive a notification when the transaction with the given
 /// signature reaches the specified commitment level.
 /// https://solana.com/docs/rpc/websocket/signaturesubscribe
-class SolanaRPCSignatureSubscribe extends SolanaRPCRequest<int> {
-  const SolanaRPCSignatureSubscribe(
+class SolanaRequestSignatureSubscribe extends SolanaRequest<int, int> {
+  const SolanaRequestSignatureSubscribe(
       {required this.transactionSignature,
-      Commitment? commitment,
-      this.enableReceivedNotification})
-      : super(commitment: commitment);
+      super.commitment,
+      this.enableReceivedNotification});
 
   /// transaction signature, as base-58 encoded string
   final String transactionSignature;
@@ -27,15 +25,10 @@ class SolanaRPCSignatureSubscribe extends SolanaRPCRequest<int> {
   List<dynamic> toJson() {
     return [
       transactionSignature,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"enableReceivedNotification": enableReceivedNotification}
+        {'enableReceivedNotification': enableReceivedNotification}
       ])
     ];
-  }
-
-  @override
-  int onResonse(result) {
-    return result;
   }
 }

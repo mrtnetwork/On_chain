@@ -16,12 +16,12 @@ class MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout
         instruction: MetaplexTokenMetaDataProgramInstruction
             .bubblegumSetCollectionSize.insturction);
     return MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout(
-        size: decode["size"]);
+        size: decode['size']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "size")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'size')
   ]);
 
   @override
@@ -33,6 +33,6 @@ class MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"size": size};
+    return {'size': size};
   }
 }

@@ -7,7 +7,7 @@ class SolanaUtils {
   static const int lamportsPerSol = 1000000000;
 
   static const int maxSeedLength = 32;
-  static const String programDerivedAddressSeed = "ProgramDerivedAddress";
+  static const String programDerivedAddressSeed = 'ProgramDerivedAddress';
   static const int decimal = 9;
   static final BigRational _decimalPlaces = BigRational.from(10).pow(decimal);
 
@@ -24,7 +24,7 @@ class SolanaUtils {
     List<int> seedBytes = [];
     for (final i in seeds) {
       if (i.length > maxSeedLength) {
-        throw const SolanaPluginException("Max seed length exceeded");
+        throw const SolanaPluginException('Max seed length exceeded');
       }
       seedBytes = [...seedBytes, ...i];
     }
@@ -40,7 +40,7 @@ class SolanaUtils {
       }
     }
     throw const SolanaPluginException(
-        "Unable to find a viable program address nonce");
+        'Unable to find a viable program address nonce');
   }
 
   /// Finds a program address for the given seeds and program ID.
@@ -55,7 +55,7 @@ class SolanaUtils {
     seedBytes = QuickCrypto.sha256Hash(seedBytes);
     if (Ed25519PublicKey.isValidBytes(seedBytes)) {
       throw const SolanaPluginException(
-          "Invalid seeds, address must fall off the curve");
+          'Invalid seeds, address must fall off the curve');
     }
     return SolAddress.uncheckBytes(seedBytes);
   }

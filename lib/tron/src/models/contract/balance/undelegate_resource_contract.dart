@@ -8,10 +8,10 @@ class UnDelegateResourceContract extends TronBaseContract {
   /// Create a new [UnDelegateResourceContract] instance by parsing a JSON map.
   factory UnDelegateResourceContract.fromJson(Map<String, dynamic> json) {
     return UnDelegateResourceContract(
-        ownerAddress: TronAddress(json["owner_address"]),
-        balance: BigintUtils.parse(json["balance"]),
-        receiverAddress: TronAddress(json["receiver_address"]),
-        resource: ResourceCode.fromName(json["resource"]));
+        ownerAddress: TronAddress(json['owner_address']),
+        balance: BigintUtils.parse(json['balance']),
+        receiverAddress: TronAddress(json['receiver_address']),
+        resource: ResourceCode.fromName(json['resource']));
   }
 
   /// Create a new [UnDelegateResourceContract] instance with specified parameters.
@@ -61,17 +61,17 @@ class UnDelegateResourceContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "receiver_address": receiverAddress.toString(),
-      "balance": balance.toString(),
-      "resource": resource?.name
+      'owner_address': ownerAddress.toString(),
+      'receiver_address': receiverAddress.toString(),
+      'balance': balance.toString(),
+      'resource': resource?.name
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [UnDelegateResourceContract] object to its string representation.
   @override
   String toString() {
-    return "UnDelegateResourceContract{${toJson()}}";
+    return 'UnDelegateResourceContract{${toJson()}}';
   }
 
   @override

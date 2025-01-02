@@ -8,23 +8,23 @@ class Group extends LayoutSerializable {
 
   const Group({required this.label, required this.guards});
   factory Group.fromJson(Map<String, dynamic> json) {
-    return Group(label: json["label"], guards: json["guards"]);
+    return Group(label: json['label'], guards: json['guards']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: "label"),
+    LayoutConst.string(property: 'label'),
     GuardSet.staticLayout,
-  ], property: "group");
+  ], property: 'group');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"label": label, "guards": guards.serialize()};
+    return {'label': label, 'guards': guards.serialize()};
   }
 
   @override
   String toString() {
-    return "Group${serialize()}";
+    return 'Group${serialize()}';
   }
 }

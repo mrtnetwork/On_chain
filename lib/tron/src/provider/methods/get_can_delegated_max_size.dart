@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// In Stake2.0, query the amount of delegatable resources share of the specified resource type for an address, unit is sun.
 /// [developers.tron.network](https://developers.tron.network/reference/getcandelegatedmaxsize).
 class TronRequestGetCanDelegatedMaxSize
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetCanDelegatedMaxSize(
       {required this.ownerAddress, required this.type, this.visible = true});
   final TronAddress ownerAddress;
@@ -21,11 +21,15 @@ class TronRequestGetCanDelegatedMaxSize
 
   @override
   Map<String, dynamic> toJson() {
-    return {"owner_address": ownerAddress, "type": type, "visible": visible};
+    return {
+      'owner_address': ownerAddress.toAddress(visible),
+      'type': type,
+      'visible': visible
+    };
   }
 
   @override
   String toString() {
-    return "TronRequestGetCanDelegatedMaxSize{${toJson()}}";
+    return 'TronRequestGetCanDelegatedMaxSize{${toJson()}}';
   }
 }

@@ -33,26 +33,26 @@ class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
         bytes: data,
         instruction: MetaplexGumdropProgramInstruction.proveClaim.insturction);
     return MetaplexGumdropProveClaimLayout(
-        claimPrefix: (decode["claimPrefix"] as List).cast(),
-        claimBump: decode["claimBump"],
-        resource: decode["resource"],
-        resourceNonce: (decode["resourceNonce"] as List).cast(),
-        index: decode["index"],
-        amount: decode["amount"],
-        claimantSecret: decode["claimantSecret"],
-        proof: (decode["proof"] as List).cast());
+        claimPrefix: (decode['claimPrefix'] as List).cast(),
+        claimBump: decode['claimBump'],
+        resource: decode['resource'],
+        resourceNonce: (decode['resourceNonce'] as List).cast(),
+        index: decode['index'],
+        amount: decode['amount'],
+        claimantSecret: decode['claimantSecret'],
+        proof: (decode['proof'] as List).cast());
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.vecU8(property: "claimPrefix"),
-    LayoutConst.u8(property: "claimBump"),
-    LayoutConst.u64(property: "index"),
-    LayoutConst.u64(property: "amount"),
-    SolanaLayoutUtils.publicKey("claimantSecret"),
-    SolanaLayoutUtils.publicKey("resource"),
-    LayoutConst.vecU8(property: "resourceNonce"),
-    LayoutConst.vec(LayoutConst.blob(32), property: "proof"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.vecU8(property: 'claimPrefix'),
+    LayoutConst.u8(property: 'claimBump'),
+    LayoutConst.u64(property: 'index'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('claimantSecret'),
+    SolanaLayoutUtils.publicKey('resource'),
+    LayoutConst.vecU8(property: 'resourceNonce'),
+    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
   ]);
 
   @override
@@ -65,14 +65,14 @@ class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "claimPrefix": claimPrefix,
-      "claimBump": claimBump,
-      "index": index,
-      "amount": amount,
-      "claimantSecret": claimantSecret,
-      "resource": resource,
-      "resourceNonce": resourceNonce,
-      "proof": proof
+      'claimPrefix': claimPrefix,
+      'claimBump': claimBump,
+      'index': index,
+      'amount': amount,
+      'claimantSecret': claimantSecret,
+      'resource': resource,
+      'resourceNonce': resourceNonce,
+      'proof': proof
     };
   }
 }

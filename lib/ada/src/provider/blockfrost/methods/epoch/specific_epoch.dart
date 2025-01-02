@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the content of the requested epoch.
 /// https://blockfrost.dev/api/specific-epoch
-class BlockfrostRequestSpecificEpoch extends BlockforestRequestParam<
-    ADAEpochInfoResponse, Map<String, dynamic>> {
+class BlockfrostRequestSpecificEpoch
+    extends BlockFrostRequest<ADAEpochInfoResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificEpoch(this.epoch);
 
   /// Number of the epoch

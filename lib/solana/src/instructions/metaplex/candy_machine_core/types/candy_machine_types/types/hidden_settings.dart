@@ -8,29 +8,29 @@ class CandyMachineHiddenSettings extends LayoutSerializable {
   final List<int> hash;
   CandyMachineHiddenSettings(
       {required this.name, required this.uri, required List<int> hash})
-      : assert(hash.length == 32, "Hash must be exactly 32 bytes."),
+      : assert(hash.length == 32, 'Hash must be exactly 32 bytes.'),
         hash = BytesUtils.toBytes(hash, unmodifiable: true);
   factory CandyMachineHiddenSettings.fromJson(Map<String, dynamic> json) {
     return CandyMachineHiddenSettings(
-        name: json["name"], uri: json["uri"], hash: json["hash"]);
+        name: json['name'], uri: json['uri'], hash: json['hash']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "uri"),
-    LayoutConst.blob(32, property: "hash")
-  ], property: "hiddenSettings");
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.blob(32, property: 'hash')
+  ], property: 'hiddenSettings');
 
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"name": name, "uri": uri, "hash": hash};
+    return {'name': name, 'uri': uri, 'hash': hash};
   }
 
   @override
   String toString() {
-    return "CandyMachineHiddenSettings${serialize()}";
+    return 'CandyMachineHiddenSettings${serialize()}';
   }
 }

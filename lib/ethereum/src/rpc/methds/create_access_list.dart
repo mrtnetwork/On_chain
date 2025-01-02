@@ -10,18 +10,18 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 /// This method uses the same transaction call object and blockNumberOrTag object as eth_call.
 /// An accessList can be used to unstuck contracts that became inaccessible due to gas cost increases.
 /// [geth.ethereum.org](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth#eth-createaccesslist)
-class RPCCreateAccessList
-    extends ETHRPCRequest<Tuple<List<AccessListEntry>, BigInt>> {
-  RPCCreateAccessList({
+class EthereumRequestCreateAccessList extends EthereumRequest<
+    Tuple<List<AccessListEntry>, BigInt>, Map<String, dynamic>> {
+  EthereumRequestCreateAccessList({
     required this.transaction,
 
     /// Optional, blocknumber or latest or pending
-    BlockTagOrNumber? blockNumber = BlockTagOrNumber.pending,
-  }) : super(blockNumber: blockNumber);
+    super.blockNumber = BlockTagOrNumber.pending,
+  });
 
   /// eth_createAccessList
   @override
-  EthereumMethods get method => EthereumMethods.createAccessList;
+  String get method => EthereumMethods.createAccessList.value;
 
   /// TransactionCall object
   final Map<String, dynamic> transaction;
@@ -35,9 +35,9 @@ class RPCCreateAccessList
   @override
   Tuple<List<AccessListEntry>, BigInt> onResonse(result) {
     return Tuple(
-        (result["accessList"] as List)
+        (result['accessList'] as List)
             .map((e) => AccessListEntry.fromJson(e))
             .toList(),
-        ETHRPCRequest.onBigintResponse(result["gasUsed"]));
+        EthereumRequest.onBigintResponse(result['gasUsed']));
   }
 }

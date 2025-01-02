@@ -7,7 +7,7 @@ class BitReader {
 
   int readByte() {
     _numbits = 0;
-    final int byte = _data[_pos];
+    final byte = _data[_pos];
     _pos++;
     return byte;
   }
@@ -18,22 +18,22 @@ class BitReader {
       _numbits = 8;
     }
     _numbits--;
-    final int bit = _byte & 1;
+    final bit = _byte & 1;
     _byte >>= 1;
     return bit;
   }
 
   int readBits(int n) {
-    int o = 0;
-    for (int i = 0; i < n; i++) {
+    var o = 0;
+    for (var i = 0; i < n; i++) {
       o |= readBit() << i;
     }
     return o;
   }
 
   int readBytes(int n) {
-    int o = 0;
-    for (int i = 0; i < n; i++) {
+    var o = 0;
+    for (var i = 0; i < n; i++) {
       o |= readByte() << (8 * i);
     }
     return o;

@@ -6,14 +6,14 @@ class Payload extends LayoutSerializable {
   final Map<String, PayloadType> map;
   const Payload({required this.map});
   factory Payload.fromJson(Map<String, dynamic> json) {
-    final payload = json["payload"] as Map;
+    final payload = json['payload'] as Map;
     return Payload(map: {
       for (final i in payload.entries) i.key: PayloadType.fromJson(i.value)
     });
   }
   static final StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.map(LayoutConst.string(), PayloadType.staticLayout,
-        property: "payload"),
+        property: 'payload'),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -21,7 +21,7 @@ class Payload extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "payload": {for (final i in map.entries) i.key: i.value.serialize()}
+      'payload': {for (final i in map.entries) i.key: i.value.serialize()}
     };
   }
 }

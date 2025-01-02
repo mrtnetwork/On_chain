@@ -5,16 +5,15 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns whether a blockhash is still valid or not.
 /// https://solana.com/docs/rpc/http/isblockhashvalid
-class SolanaRPCIsBlockhashValid extends SolanaRPCRequest<bool> {
-  const SolanaRPCIsBlockhashValid(
+class SolanaRequestIsBlockhashValid extends SolanaRequest<bool, bool> {
+  const SolanaRequestIsBlockhashValid(
       {required this.blockhash,
-      Commitment? commitment,
-      MinContextSlot? minContextSlot})
-      : super(commitment: commitment);
+      super.commitment,
+      MinContextSlot? minContextSlot});
 
   /// isBlockhashValid
   @override
-  String get method => SolanaRPCMethods.isBlockhashValid.value;
+  String get method => SolanaRequestMethods.isBlockhashValid.value;
 
   /// the blockhash of the block to evauluate, as base-58 encoded string
   final String blockhash;
@@ -23,13 +22,8 @@ class SolanaRPCIsBlockhashValid extends SolanaRPCRequest<bool> {
   List<dynamic> toJson() {
     return [
       blockhash,
-      SolanaRPCUtils.createConfig(
+      SolanaRequestUtils.createConfig(
           [commitment?.toJson(), minContextSlot?.toJson()]),
     ];
-  }
-
-  @override
-  bool onResonse(result) {
-    return result;
   }
 }

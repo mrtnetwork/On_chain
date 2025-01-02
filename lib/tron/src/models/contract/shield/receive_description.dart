@@ -6,12 +6,12 @@ class ReceiveDescription extends TronProtocolBufferImpl {
   /// Create a new [ReceiveDescription] instance by parsing a JSON map.
   factory ReceiveDescription.fromJson(Map<String, dynamic> json) {
     return ReceiveDescription(
-      valueCommitment: BytesUtils.tryFromHexString(json["value_commitment"]),
-      noteCommitment: BytesUtils.tryFromHexString(json["note_commitment"]),
-      epk: BytesUtils.tryFromHexString(json["epk"]),
-      cEnc: BytesUtils.tryFromHexString(json["c_enc"]),
-      cOut: BytesUtils.tryFromHexString(json["c_out"]),
-      zkproof: BytesUtils.tryFromHexString(json["zkproof"]),
+      valueCommitment: BytesUtils.tryFromHexString(json['value_commitment']),
+      noteCommitment: BytesUtils.tryFromHexString(json['note_commitment']),
+      epk: BytesUtils.tryFromHexString(json['epk']),
+      cEnc: BytesUtils.tryFromHexString(json['c_enc']),
+      cOut: BytesUtils.tryFromHexString(json['c_out']),
+      zkproof: BytesUtils.tryFromHexString(json['zkproof']),
     );
   }
 
@@ -60,18 +60,18 @@ class ReceiveDescription extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "value_commitment": BytesUtils.tryToHexString(valueCommitment),
-      "note_commitment": BytesUtils.tryToHexString(noteCommitment),
-      "epk": BytesUtils.tryToHexString(epk),
-      "c_enc": BytesUtils.tryToHexString(cEnc),
-      "c_out": BytesUtils.tryToHexString(cOut),
-      "zkproof": BytesUtils.tryToHexString(zkproof),
+      'value_commitment': BytesUtils.tryToHexString(valueCommitment),
+      'note_commitment': BytesUtils.tryToHexString(noteCommitment),
+      'epk': BytesUtils.tryToHexString(epk),
+      'c_enc': BytesUtils.tryToHexString(cEnc),
+      'c_out': BytesUtils.tryToHexString(cOut),
+      'zkproof': BytesUtils.tryToHexString(zkproof),
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [ReceiveDescription] object to its string representation.
   @override
   String toString() {
-    return "ReceiveDescription{$toJson()}";
+    return 'ReceiveDescription{$toJson()}';
   }
 }

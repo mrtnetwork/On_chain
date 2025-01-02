@@ -3,10 +3,10 @@ import 'package:on_chain/solana/src/rpc/core/methods.dart';
 
 /// Returns the slot of the lowest confirmed block that has not been purged from the ledger
 /// https://solana.com/docs/rpc/http/getfirstavailableblock
-class SolanaRPCGetFirstAvailableBlock extends SolanaRPCRequest<int> {
+class SolanaRequestGetFirstAvailableBlock extends SolanaRequest<int, int> {
   /// getFirstAvailableBlock
   @override
-  String get method => SolanaRPCMethods.getFirstAvailableBlock.value;
+  String get method => SolanaRequestMethods.getFirstAvailableBlock.value;
 
   @override
   List<dynamic> toJson() {

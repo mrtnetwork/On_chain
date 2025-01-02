@@ -16,12 +16,12 @@ class MetaplexTokenMetaDataapproveUseAuthorityLayout
         instruction: MetaplexTokenMetaDataProgramInstruction
             .approveUseAuthority.insturction);
     return MetaplexTokenMetaDataapproveUseAuthorityLayout(
-        numberOfUses: decode["numberOfUses"]);
+        numberOfUses: decode['numberOfUses']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "numberOfUses"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'numberOfUses'),
   ]);
 
   @override
@@ -33,6 +33,6 @@ class MetaplexTokenMetaDataapproveUseAuthorityLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"numberOfUses": numberOfUses};
+    return {'numberOfUses': numberOfUses};
   }
 }

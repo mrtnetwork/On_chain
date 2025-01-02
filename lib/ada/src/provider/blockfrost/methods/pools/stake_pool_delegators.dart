@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of current stake pools delegators.
 /// https://blockfrost.dev/api/stake-pool-delegators
-class BlockfrostRequestStakePoolDelegators extends BlockforestRequestParam<
+class BlockfrostRequestStakePoolDelegators extends BlockFrostRequest<
     List<ADAPoolDelegatorInfoResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestStakePoolDelegators(this.poolId,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Bech32 or hexadecimal pool ID.

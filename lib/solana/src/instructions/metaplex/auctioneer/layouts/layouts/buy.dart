@@ -22,21 +22,21 @@ class MetaplexAuctioneerBuyLayout extends MetaplexAuctioneerProgramLayout {
         bytes: data,
         instruction: MetaplexAuctioneerProgramInstruction.buy.insturction);
     return MetaplexAuctioneerBuyLayout(
-        tradeStateBump: decode["tradeStateBump"],
-        escrowPaymentBump: decode["escrowPaymentBump"],
-        auctioneerAuthorityBump: decode["auctioneerAuthorityBump"],
-        buyerPrice: decode["buyerPrice"],
-        tokenSize: decode["tokenSize"]);
+        tradeStateBump: decode['tradeStateBump'],
+        escrowPaymentBump: decode['escrowPaymentBump'],
+        auctioneerAuthorityBump: decode['auctioneerAuthorityBump'],
+        buyerPrice: decode['buyerPrice'],
+        tokenSize: decode['tokenSize']);
   }
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "tradeStateBump"),
-    LayoutConst.u8(property: "escrowPaymentBump"),
-    LayoutConst.u8(property: "auctioneerAuthorityBump"),
-    LayoutConst.u64(property: "buyerPrice"),
-    LayoutConst.u64(property: "tokenSize"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u8(property: 'auctioneerAuthorityBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
   ]);
 
   @override
@@ -49,11 +49,11 @@ class MetaplexAuctioneerBuyLayout extends MetaplexAuctioneerProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "tradeStateBump": tradeStateBump,
-      "escrowPaymentBump": escrowPaymentBump,
-      "auctioneerAuthorityBump": auctioneerAuthorityBump,
-      "buyerPrice": buyerPrice,
-      "tokenSize": tokenSize
+      'tradeStateBump': tradeStateBump,
+      'escrowPaymentBump': escrowPaymentBump,
+      'auctioneerAuthorityBump': auctioneerAuthorityBump,
+      'buyerPrice': buyerPrice,
+      'tokenSize': tokenSize
     };
   }
 }

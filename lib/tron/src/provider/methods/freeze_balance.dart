@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// This interface has been deprecated, please use FreezeBalanceV2 to stake TRX to obtain resources.
 /// [developers.tron.network](https://developers.tron.network/reference/account-resources-freezebalance).
 class TronRequestFreezeBalance
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestFreezeBalance(
       {required this.ownerAddress,
       required this.frozenBalance,
@@ -44,18 +44,18 @@ class TronRequestFreezeBalance
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "frozen_balance": frozenBalance,
-      "frozen_duration": frozenDuration,
-      "resource": resource,
-      "receiver_address": receiverAddress,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'frozen_balance': frozenBalance,
+      'frozen_duration': frozenDuration,
+      'resource': resource,
+      'receiver_address': receiverAddress?.toAddress(visible),
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestFreezeBalance{${toJson()}}";
+    return 'TronRequestFreezeBalance{${toJson()}}';
   }
 }

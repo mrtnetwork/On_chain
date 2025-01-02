@@ -11,15 +11,15 @@ class AccountCreateContract extends TronBaseContract {
     return AccountCreateContract(
       /// Transaction initiator address
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
 
       /// Account address to be activated
       accountAddress: OnChainUtils.parseTronAddress(
-          value: json["account_address"], name: "account_address"),
+          value: json['account_address'], name: 'account_address'),
 
       /// Account type. The external account type is Normal, and this field will not be displayed in the return value
       type: AccountType.fromName(
-              OnChainUtils.parseString(value: json["type"], name: "type")) ??
+              OnChainUtils.parseString(value: json['type'], name: 'type')) ??
           AccountType.normal,
     );
   }
@@ -61,16 +61,16 @@ class AccountCreateContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "account_address": accountAddress,
-      "type": type?.name,
+      'owner_address': ownerAddress,
+      'account_address': accountAddress,
+      'type': type?.name,
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [AccountCreateContract] object to its string representation.
   @override
   String toString() {
-    return "AccountCreateContract{${toJson()}}";
+    return 'AccountCreateContract{${toJson()}}';
   }
 
   @override

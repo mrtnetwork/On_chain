@@ -20,7 +20,7 @@ class ScriptRefNativeScript extends ScriptRef {
   }
   factory ScriptRefNativeScript.fromJson(Map<String, dynamic> json) {
     return ScriptRefNativeScript(NativeScript.fromJson(
-        json["script"] ?? json["native_script"]["script"]));
+        json['script'] ?? json['native_script']['script']));
   }
   ScriptRefNativeScript copyWith({NativeScript? script}) {
     return ScriptRefNativeScript(script ?? this.script);
@@ -36,7 +36,7 @@ class ScriptRefNativeScript extends ScriptRef {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "native_script": {"script": script.toJson()}
+      'native_script': {'script': script.toJson()}
     };
   }
 }

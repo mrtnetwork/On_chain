@@ -1,17 +1,20 @@
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
-/// A mixin defining the service provider contract for interacting with the Tron network.
-mixin BlockfrostServiceProvider {
-  /// The base URL of the Tron network endpoint.
-  String get url;
-
-  /// Makes an HTTP POST request to the Tron network with the specified [params].
-  ///
-  /// The optional [timeout] parameter sets the maximum duration for the request.
-  Future<dynamic> post(BlockforestRequestDetails params, [Duration? timeout]);
-
-  /// Makes an HTTP GET request to the Tron network with the specified [params].
-  ///
-  /// The optional [timeout] parameter sets the maximum duration for the request.
-  Future<dynamic> get(BlockforestRequestDetails params, [Duration? timeout]);
+typedef BlockFrostServiceResponse<T> = BaseServiceResponse<T>;
+mixin BlockFrostServiceProvider
+    implements BaseServiceProvider<BlockFrostRequestDetails> {
+  /// Example:
+  /// @override
+  /// Future<BlockFrostServiceResponse<T>> doRequest<T>(BlockFrostRequestDetails params,
+  ///     {Duration? timeout}) async {
+  ///   final response = await client
+  ///      .post(params.toUri(url), headers: params.headers, body: params.body())
+  ///      .timeout(timeout ?? defaultTimeOut);
+  ///   return params.toResponse(response.bodyBytes, response.statusCode);
+  /// }
+  @override
+  Future<BlockFrostServiceResponse<T>> doRequest<T>(
+      BlockFrostRequestDetails params,
+      {Duration? timeout});
 }

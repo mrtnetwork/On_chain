@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// GetIncomingViewingKey
 /// [developers.tron.network](https://developers.tron.network/reference/getincomingviewingkey).
 class TronRequestGetIncomingViewingKey
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetIncomingViewingKey({required this.ak, required this.nk});
   final String ak;
   final String nk;
@@ -15,11 +15,11 @@ class TronRequestGetIncomingViewingKey
 
   @override
   Map<String, dynamic> toJson() {
-    return {"ak": ak, "nk": nk};
+    return {'ak': ak, 'nk': nk};
   }
 
   @override
   String toString() {
-    return "TronRequestGetIncomingViewingKey{${toJson()}}";
+    return 'TronRequestGetIncomingViewingKey{${toJson()}}';
   }
 }

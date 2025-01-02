@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Return the content of a requested block for a specific slot.
 /// https://blockfrost.dev/api/specific-block-in-a-slot
 class BlockfrostRequestSpecificBlockInASlot
-    extends BlockforestRequestParam<ADABlockResponse, Map<String, dynamic>> {
+    extends BlockFrostRequest<ADABlockResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificBlockInASlot(this.slotNumber);
 
   /// Slot position for requested block.

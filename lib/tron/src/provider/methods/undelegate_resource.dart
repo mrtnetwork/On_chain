@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Cancel the delegation of bandwidth or energy resources to other accounts in Stake2.0
 /// [developers.tron.network](https://developers.tron.network/reference/undelegateresource-1).
 class TronRequestUndelegateResource
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestUndelegateResource.fromContract(
       UnDelegateResourceContract contract,
       {int? permissionId}) {
@@ -50,12 +50,12 @@ class TronRequestUndelegateResource
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "receiver_address": receiverAddress,
-      "balance": balance,
-      "resource": resource,
-      "visible": visible,
-      "Permission_id": permissionId
+      'owner_address': ownerAddress.toAddress(visible),
+      'receiver_address': receiverAddress.toAddress(visible),
+      'balance': balance,
+      'resource': resource,
+      'visible': visible,
+      'Permission_id': permissionId
     };
   }
 
@@ -66,6 +66,6 @@ class TronRequestUndelegateResource
 
   @override
   String toString() {
-    return "TronRequestUndelegateResource{${toJson()}}";
+    return 'TronRequestUndelegateResource{${toJson()}}';
   }
 }

@@ -20,15 +20,15 @@ class VersionedBlockResponse {
       required this.blockTime});
   factory VersionedBlockResponse.fromJson(Map<String, dynamic> json) {
     return VersionedBlockResponse(
-        blockhash: SolAddress.uncheckCurve(json["blockhash"]),
-        previousBlockhash: SolAddress.uncheckCurve(json["previousBlockhash"]),
-        parentSlot: json["parentSlot"],
-        transactions: (json["transactions"] as List).map((e) {
+        blockhash: SolAddress.uncheckCurve(json['blockhash']),
+        previousBlockhash: SolAddress.uncheckCurve(json['previousBlockhash']),
+        parentSlot: json['parentSlot'],
+        transactions: (json['transactions'] as List).map((e) {
           return VersionedTransactionResponse.fromJson(e);
         }).toList(),
-        rewards: (json["rewards"] as List?)
+        rewards: (json['rewards'] as List?)
             ?.map((e) => RewardResponse.fromJson(e))
             .toList(),
-        blockTime: BigintUtils.tryParse(json["blockTime"]));
+        blockTime: BigintUtils.tryParse(json['blockTime']));
   }
 }

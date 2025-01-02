@@ -9,7 +9,7 @@ class RPCDataSliceConfig {
   final int offset;
   Map<String, dynamic> toJson() {
     return {
-      "dataSlice": {"length": length, "offset": offset}
+      'dataSlice': {'length': length, 'offset': offset}
     };
   }
 }

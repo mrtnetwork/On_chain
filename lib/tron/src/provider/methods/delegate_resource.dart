@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Delegate bandwidth or energy resources to other accounts in Stake2.0.
 /// [developers.tron.network](https://developers.tron.network/reference/delegateresource-1).
 class TronRequestDelegateResource
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestDelegateResource.fromContract(
       DelegateResourceContract contract,
       {int? permissionId}) {
@@ -65,14 +65,14 @@ class TronRequestDelegateResource
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "receiver_address": receiverAddress,
-      "balance": balance,
-      "resource": resource,
-      "lock": lock,
-      "lock_period": lockPeriod,
-      "visible": visible,
-      "Permission_id": permissionId
+      'owner_address': ownerAddress.toAddress(visible),
+      'receiver_address': receiverAddress.toAddress(visible),
+      'balance': balance,
+      'resource': resource,
+      'lock': lock,
+      'lock_period': lockPeriod,
+      'visible': visible,
+      'Permission_id': permissionId
     };
   }
 
@@ -83,6 +83,6 @@ class TronRequestDelegateResource
 
   @override
   String toString() {
-    return "TronRequestDelegateResource{${toJson()}}";
+    return 'TronRequestDelegateResource{${toJson()}}';
   }
 }

@@ -5,8 +5,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// List of registered stake pools.
 /// https://blockfrost.dev/api/list-of-stake-pools
 class BlockfrostRequestListOfStakePools
-    extends BlockforestRequestParam<List<String>, List<dynamic>> {
-  BlockfrostRequestListOfStakePools({BlockforestRequestFilterParams? filter})
+    extends BlockFrostRequest<List<String>, List<dynamic>> {
+  BlockfrostRequestListOfStakePools({BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// List of stake pools

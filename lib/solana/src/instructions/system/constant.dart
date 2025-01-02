@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 
 class SystemProgramConst {
   static const SolAddress programId =
-      SolAddress.unchecked("11111111111111111111111111111111");
+      SolAddress.unchecked('11111111111111111111111111111111');
 
   static const sysvarClockPubkey =
       SolAddress.unchecked('SysvarC1ock11111111111111111111111111111111');

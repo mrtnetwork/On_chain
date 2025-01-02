@@ -7,10 +7,10 @@ class FreezeInstruction {
   const FreezeInstruction._(this.name, this.value);
 
   static const FreezeInstruction initialize =
-      FreezeInstruction._("Initialize", 0);
-  static const FreezeInstruction thaw = FreezeInstruction._("Thaw", 1);
+      FreezeInstruction._('Initialize', 0);
+  static const FreezeInstruction thaw = FreezeInstruction._('Thaw', 1);
   static const FreezeInstruction unlockFunds =
-      FreezeInstruction._("UnlockFunds", 2);
+      FreezeInstruction._('UnlockFunds', 2);
 
   static const List<FreezeInstruction> values = [initialize, thaw, unlockFunds];
 
@@ -18,8 +18,8 @@ class FreezeInstruction {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw SolanaPluginException(
-          "No FreezeInstruction found matching the specified value",
-          details: {"value": value}),
+          'No FreezeInstruction found matching the specified value',
+          details: {'value': value}),
     );
   }
 }

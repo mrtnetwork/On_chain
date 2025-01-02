@@ -1,4 +1,4 @@
-part of "package:on_chain/solidity/abi/abi.dart";
+part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// Utility class providing helper methods for ABI encoding and decoding.
 class _ABIUtils {
@@ -38,14 +38,14 @@ class _ABIUtils {
     final List<EncoderResult> staticParams = [];
     final List<EncoderResult> dynamicParams = [];
 
-    for (final encodedParam in encodedParams) {
+    for (final EncoderResult encodedParam in encodedParams) {
       if (encodedParam.isDynamic) {
         staticSize += ABIConst.uintBytesLength;
       } else {
         staticSize += encodedParam.encoded.length;
       }
     }
-    for (final encodedParam in encodedParams) {
+    for (final EncoderResult encodedParam in encodedParams) {
       if (encodedParam.isDynamic) {
         staticParams.add(const NumbersCoder().abiEncode(
             AbiParameter.uint256, BigInt.from(staticSize + dynamicSize)));
@@ -73,7 +73,7 @@ class _ABIUtils {
           int.tryParse(sizeString.substring(1, sizeString.length - 1));
       if (parseSize == null) {
         throw const SolidityAbiException(
-            "Invalid array type name. size in invalid.");
+            'Invalid array type name. size in invalid.');
       }
     }
     return Tuple(
@@ -105,24 +105,24 @@ class _ABIValidator {
   ///
   /// Throws [SolidityAbiException] if the type is not "bytes" and
   /// [SolidityAbiException] if the length constraints are violated.
-  static validateBytes(String typeName,
+  static void validateBytes(String typeName,
       {List<int>? bytes, int? maxLength, int? minLength}) {
-    if (typeName.contains("bytes")) {
+    if (typeName.contains('bytes')) {
       if (bytes != null) {
         if (maxLength != null) {
           if (bytes.length > maxLength) {
-            throw const SolidityAbiException("Invalid bytes length");
+            throw const SolidityAbiException('Invalid bytes length');
           }
         }
         if (minLength != null) {
           if (bytes.length < minLength) {
-            throw const SolidityAbiException("Invalid bytes length");
+            throw const SolidityAbiException('Invalid bytes length');
           }
         }
       }
     } else {
       throw const SolidityAbiException(
-          "Invalid data provided for bytes codec.");
+          'Invalid data provided for bytes codec.');
     }
   }
 
@@ -130,20 +130,20 @@ class _ABIValidator {
   ///
   /// Throws [ArgumentException] for an invalid type that is not "int" or "uint".
   static bool isSignNumber(String type) {
-    if (type.startsWith("int")) return true;
-    if (type.startsWith("uint")) return false;
-    throw const SolidityAbiException("Invalid integer type name.");
+    if (type.startsWith('int')) return true;
+    if (type.startsWith('uint')) return false;
+    throw const SolidityAbiException('Invalid integer type name.');
   }
 
   /// Validates a boolean type.
   ///
   /// Throws [SolidityAbiException] if the type is "bool" and the value is not BigInt.one or BigInt.zero.
   static void validateBoolean(AbiParameter param, BigInt val) {
-    if (param.type == "bool" && (val == BigInt.one || val == BigInt.zero)) {
+    if (param.type == 'bool' && (val == BigInt.one || val == BigInt.zero)) {
       return;
     }
     throw const SolidityAbiException(
-        "Invalid data provided for boolean codec.");
+        'Invalid data provided for boolean codec.');
   }
 
   /// Validates the length of bytes to avoid decoding errors.
@@ -151,7 +151,7 @@ class _ABIValidator {
   /// Throws [SolidityAbiException] if there are not enough bytes left to decode.
   static void validateBytesLength(List<int> bytes, int length) {
     if (bytes.length < length) {
-      throw const SolidityAbiException("Not enough bytes left to decode");
+      throw const SolidityAbiException('Not enough bytes left to decode');
     }
   }
 
@@ -166,18 +166,18 @@ class _ABIValidator {
     int bitLength;
     bool sign;
     try {
-      if (type.startsWith("int")) {
-        final spl = type.split("int");
+      if (type.startsWith('int')) {
+        final spl = type.split('int');
         bitLength = int.parse(spl[1]);
         sign = true;
-      } else if (type.startsWith("uint")) {
-        final spl = type.split("uint");
+      } else if (type.startsWith('uint')) {
+        final spl = type.split('uint');
         bitLength = int.parse(spl[1]);
         sign = false;
       } else {
         throw SolidityAbiException(
-            "Invalid type name provided for number codec.",
-            details: {"type": type, "value": value});
+            'Invalid type name provided for number codec.',
+            details: {'type': type, 'value': value});
       }
 
       if (sign) {
@@ -192,7 +192,7 @@ class _ABIValidator {
     } catch (e) {
       if (e is SolidityAbiException) rethrow;
     }
-    throw SolidityAbiException("Invalid data provided for number codec.",
-        details: {"type": type, "value": value});
+    throw SolidityAbiException('Invalid data provided for number codec.',
+        details: {'type': type, 'value': value});
   }
 }

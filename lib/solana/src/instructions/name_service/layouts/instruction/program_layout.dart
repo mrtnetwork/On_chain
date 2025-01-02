@@ -7,12 +7,12 @@ abstract class NameServiceProgramLayout extends ProgramLayout {
   @override
   NameServiceProgramInstruction get instruction;
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final instruction =
-        NameServiceProgramInstruction.getInstruction(decode["instruction"]);
+        NameServiceProgramInstruction.getInstruction(decode['instruction']);
     switch (instruction) {
       case NameServiceProgramInstruction.create:
         return NameServiceCreateLayout.fromBuffer(data);

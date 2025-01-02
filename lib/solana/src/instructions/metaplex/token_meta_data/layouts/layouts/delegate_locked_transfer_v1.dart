@@ -26,19 +26,19 @@ class MetaplexTokenMetaDataDelegateLockedTransferV1Layout
             .delegateLockedTransferV1.insturction,
         discriminator: discriminator);
     return MetaplexTokenMetaDataDelegateLockedTransferV1Layout(
-        authorizationData: decode["authorizationData"] == null
+        authorizationData: decode['authorizationData'] == null
             ? null
-            : Payload.fromJson(decode["authorizationData"]),
-        lockedAddress: decode["lockedAddress"],
-        amount: decode["amount"]);
+            : Payload.fromJson(decode['authorizationData']),
+        lockedAddress: decode['lockedAddress'],
+        amount: decode['amount']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    LayoutConst.u64(property: "amount"),
-    SolanaLayoutUtils.publicKey("lockedAddress"),
-    LayoutConst.optional(Payload.staticLayout, property: "authorizationData"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('lockedAddress'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
   ]);
 
   @override
@@ -51,10 +51,10 @@ class MetaplexTokenMetaDataDelegateLockedTransferV1Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "authorizationData": authorizationData?.serialize(),
-      "discriminator": discriminator,
-      "amount": amount,
-      "lockedAddress": lockedAddress
+      'authorizationData': authorizationData?.serialize(),
+      'discriminator': discriminator,
+      'amount': amount,
+      'lockedAddress': lockedAddress
     };
   }
 }

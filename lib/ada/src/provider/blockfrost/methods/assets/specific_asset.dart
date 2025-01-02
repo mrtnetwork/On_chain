@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Information about a specific asset.
 /// https://blockfrost.dev/api/specific-asset
 class BlockfrostRequestSpecificAsset
-    extends BlockforestRequestParam<ADAAssetResponse, Map<String, dynamic>> {
+    extends BlockFrostRequest<ADAAssetResponse, Map<String, dynamic>> {
   BlockfrostRequestSpecificAsset(this.asset);
 
   /// Concatenation of the policy_id and hex-encoded asset_name

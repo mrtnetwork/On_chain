@@ -16,31 +16,31 @@ class CertificateType with ADASerialization {
 
   /// Certificate type for stake registration.
   static const CertificateType stakeRegistration =
-      CertificateType._("stake_registration", 0);
+      CertificateType._('stake_registration', 0);
 
   /// Certificate type for stake deregistration.
   static const CertificateType stakeDeregistration =
-      CertificateType._("stake_deregistration", 1);
+      CertificateType._('stake_deregistration', 1);
 
   /// Certificate type for stake delegation.
   static const CertificateType stakeDelegation =
-      CertificateType._("stake_delegation", 2);
+      CertificateType._('stake_delegation', 2);
 
   /// Certificate type for pool registration.
   static const CertificateType poolRegistration =
-      CertificateType._("pool_registration", 3);
+      CertificateType._('pool_registration', 3);
 
   /// Certificate type for pool retirement.
   static const CertificateType poolRetirement =
-      CertificateType._("pool_retirement", 4);
+      CertificateType._('pool_retirement', 4);
 
   /// Certificate type for genesis key delegation.
   static const CertificateType genesisKeyDelegation =
-      CertificateType._("genesis_key_delegation", 5);
+      CertificateType._('genesis_key_delegation', 5);
 
   /// Certificate type for moving instantaneous rewards.
   static const CertificateType moveInstantaneousRewardsCert =
-      CertificateType._("move_instantaneous_rewards_cert", 6);
+      CertificateType._('move_instantaneous_rewards_cert', 6);
 
   /// List of all certificate types.
   static const List<CertificateType> values = [
@@ -58,8 +58,8 @@ class CertificateType with ADASerialization {
       {CertificateType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw ADAPluginException("Invalid Certificate type.",
-          details: {"Excepted": validate, "Type": type});
+      throw ADAPluginException('Invalid Certificate type.',
+          details: {'Excepted': validate, 'Type': type});
     }
     return type;
   }
@@ -69,8 +69,8 @@ class CertificateType with ADASerialization {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw ADAPluginException(
-          "No CertificateType found matching the specified value",
-          details: {"value": value}),
+          'No CertificateType found matching the specified value',
+          details: {'value': value}),
     );
   }
 
@@ -79,8 +79,8 @@ class CertificateType with ADASerialization {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw ADAPluginException(
-          "No CertificateType found matching the specified name",
-          details: {"name": name}),
+          'No CertificateType found matching the specified name',
+          details: {'name': name}),
     );
   }
 
@@ -91,7 +91,7 @@ class CertificateType with ADASerialization {
 
   @override
   String toString() {
-    return "CertificateTypes.$name";
+    return 'CertificateTypes.$name';
   }
 
   @override

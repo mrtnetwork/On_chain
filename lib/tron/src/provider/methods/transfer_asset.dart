@@ -8,7 +8,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Transfer TRC10 token.
 /// [developers.tron.network](https://developers.tron.network/reference/transferasset).
 class TronRequestTransferAsset
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestTransferAsset.fromJson(TransferAssetContract contract,
       {bool visible = true, int? permissionId, String? extraData}) {
     return TronRequestTransferAsset(
@@ -58,19 +58,19 @@ class TronRequestTransferAsset
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "to_address": toAddress,
-      "asset_name": assetName,
-      "amount": amount,
-      "Permission_id": permissionId,
-      "visible": visible,
-      "extra_data": extraData
+      'owner_address': ownerAddress.toAddress(visible),
+      'to_address': toAddress.toAddress(visible),
+      'asset_name': assetName,
+      'amount': amount,
+      'Permission_id': permissionId,
+      'visible': visible,
+      'extra_data': extraData
     };
   }
 
   @override
   String toString() {
-    return "TronRequestTransferAsset{${toJson()}}";
+    return 'TronRequestTransferAsset{${toJson()}}';
   }
 
   @override

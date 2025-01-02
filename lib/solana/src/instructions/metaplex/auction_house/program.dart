@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexAuctionHouseProgram extends TransactionInstruction {
   MetaplexAuctionHouseProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
 
   /// Create a new Auction House instance.
   factory MetaplexAuctionHouseProgram.createAuctionHouse({

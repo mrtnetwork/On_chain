@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Users can claim the voting reward from the SRs and deposit into his account balance.
 /// [developers.tron.network](https://developers.tron.network/reference/withdrawbalance).
 class TronRequestWithdrawBalance
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestWithdrawBalance({required this.ownerAddress, this.visible = true});
 
   /// Super representative or user address
@@ -21,11 +21,14 @@ class TronRequestWithdrawBalance
 
   @override
   Map<String, dynamic> toJson() {
-    return {"owner_address": ownerAddress, "visible": visible};
+    return {
+      'owner_address': ownerAddress.toAddress(visible),
+      'visible': visible
+    };
   }
 
   @override
   String toString() {
-    return "TronRequestWithdrawBalance{${toJson()}}";
+    return 'TronRequestWithdrawBalance{${toJson()}}';
   }
 }

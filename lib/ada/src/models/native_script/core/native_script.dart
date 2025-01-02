@@ -37,8 +37,8 @@ abstract class NativeScript with ADASerialization {
     try {
       type = NativeScriptType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException("Invalid NativeScript json.",
-          details: {"json": json});
+      throw ADAPluginException('Invalid NativeScript json.',
+          details: {'json': json});
     }
     switch (type) {
       case NativeScriptType.scriptAll:

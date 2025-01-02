@@ -10,7 +10,7 @@ class AdaTransactionUtils {
       String? objectName}) {
     if (bytes.length != length) {
       throw ADAPluginException("Invalid ${objectName ?? 'hash'} length.",
-          details: {"Excepted": length, "length": bytes.length});
+          details: {'Excepted': length, 'length': bytes.length});
     }
     return BytesUtils.toBytes(bytes, unmodifiable: unmodifiable);
   }
@@ -28,8 +28,8 @@ class AdaTransactionUtils {
     } on MessageException {
       rethrow;
     } catch (e) {
-      throw ADAPluginException("Invalid hex bytes.",
-          details: {"value": hexBytes});
+      throw ADAPluginException('Invalid hex bytes.',
+          details: {'value': hexBytes});
     }
   }
 

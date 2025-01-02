@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Issue a TRC10 token. [developers.tron.network](https://developers.tron.network/reference/createassetissue).
 class TronRequestCreateAssetIssue
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestCreateAssetIssue.fromContract(AssetIssueContract contract,
       {bool visible = true}) {
     return TronRequestCreateAssetIssue(
@@ -25,7 +25,7 @@ class TronRequestCreateAssetIssue
         publicFreeAssetNetLimit: contract.publicFreeAssetNetLimit,
         frozenSupply: (contract.frozenSupply)
             ?.map((e) => Map<String, BigInt>.from(
-                {"frozen_amount": e.frozenAmount, "frozen_days": e.frozenDays}))
+                {'frozen_amount': e.frozenAmount, 'frozen_days': e.frozenDays}))
             .toList(),
         precision: contract.precision,
         visible: visible,
@@ -107,21 +107,21 @@ class TronRequestCreateAssetIssue
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "name": name,
-      "abbr": abbr,
-      "total_supply": totalSupply,
-      "trx_num": trxNum,
-      "num": num,
-      "start_time": startTime,
-      "end_time": endTime,
-      "description": description,
-      "url": url,
-      "free_asset_netimit": freeAssetNetLimit,
-      "public_free_asset_netimit": publicFreeAssetNetLimit,
-      "frozen_supply": frozenSupply,
-      "precision": precision,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'name': name,
+      'abbr': abbr,
+      'total_supply': totalSupply,
+      'trx_num': trxNum,
+      'num': num,
+      'start_time': startTime,
+      'end_time': endTime,
+      'description': description,
+      'url': url,
+      'free_asset_netimit': freeAssetNetLimit,
+      'public_free_asset_netimit': publicFreeAssetNetLimit,
+      'frozen_supply': frozenSupply,
+      'precision': precision,
+      'visible': visible
     };
   }
 
@@ -132,6 +132,6 @@ class TronRequestCreateAssetIssue
 
   @override
   String toString() {
-    return "TronRequestCreateAssetIssue{${toJson()}}";
+    return 'TronRequestCreateAssetIssue{${toJson()}}';
   }
 }

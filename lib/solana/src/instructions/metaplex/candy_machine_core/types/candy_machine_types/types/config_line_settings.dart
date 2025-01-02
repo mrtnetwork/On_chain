@@ -16,36 +16,36 @@ class ConfigLineSettings extends LayoutSerializable {
       required this.isSequential});
   factory ConfigLineSettings.fromJson(Map<String, dynamic> json) {
     return ConfigLineSettings(
-        prefixName: json["prefixName"],
-        nameLength: json["nameLength"],
-        prefixUri: json["prefixUri"],
-        uriLength: json["uriLength"],
-        isSequential: json["isSequential"]);
+        prefixName: json['prefixName'],
+        nameLength: json['nameLength'],
+        prefixUri: json['prefixUri'],
+        uriLength: json['uriLength'],
+        isSequential: json['isSequential']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: "prefixName"),
-    LayoutConst.u32(property: "nameLength"),
-    LayoutConst.string(property: "prefixUri"),
-    LayoutConst.u32(property: "uriLength"),
-    LayoutConst.boolean(property: "isSequential"),
-  ], property: "configLineSettings");
+    LayoutConst.string(property: 'prefixName'),
+    LayoutConst.u32(property: 'nameLength'),
+    LayoutConst.string(property: 'prefixUri'),
+    LayoutConst.u32(property: 'uriLength'),
+    LayoutConst.boolean(property: 'isSequential'),
+  ], property: 'configLineSettings');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "prefixName": prefixName,
-      "nameLength": nameLength,
-      "prefixUri": prefixUri,
-      "uriLength": uriLength,
-      "isSequential": isSequential
+      'prefixName': prefixName,
+      'nameLength': nameLength,
+      'prefixUri': prefixUri,
+      'uriLength': uriLength,
+      'isSequential': isSequential
     };
   }
 
   @override
   String toString() {
-    return "ConfigLineSettings${serialize()}";
+    return 'ConfigLineSettings${serialize()}';
   }
 }

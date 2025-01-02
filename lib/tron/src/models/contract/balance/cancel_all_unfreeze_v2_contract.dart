@@ -11,7 +11,7 @@ class CancelAllUnfreezeV2Contract extends TronBaseContract {
   factory CancelAllUnfreezeV2Contract.fromJson(Map<String, dynamic> json) {
     return CancelAllUnfreezeV2Contract(
         ownerAddress: OnChainUtils.parseTronAddress(
-            value: json["owner_address"], name: "owner_address"));
+            value: json['owner_address'], name: 'owner_address'));
   }
 
   /// Create a new [CancelAllUnfreezeV2Contract] instance with specified parameters.
@@ -35,13 +35,13 @@ class CancelAllUnfreezeV2Contract extends TronBaseContract {
   /// Convert the [CancelAllUnfreezeV2Contract] object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"owner_address": ownerAddress.toString()};
+    return {'owner_address': ownerAddress.toString()};
   }
 
   /// Convert the [CancelAllUnfreezeV2Contract] object to its string representation.
   @override
   String toString() {
-    return "CancelAllUnfreezeV2Contract{${toJson()}}";
+    return 'CancelAllUnfreezeV2Contract{${toJson()}}';
   }
 
   @override

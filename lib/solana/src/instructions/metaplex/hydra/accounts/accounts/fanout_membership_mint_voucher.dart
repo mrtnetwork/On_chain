@@ -16,11 +16,11 @@ class _Utils {
   ];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("fanout"),
-    SolanaLayoutUtils.publicKey("fanoutMint"),
-    LayoutConst.u64(property: "lastInflow"),
-    LayoutConst.u8(property: "bumpSeed")
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('fanout'),
+    SolanaLayoutUtils.publicKey('fanoutMint'),
+    LayoutConst.u64(property: 'lastInflow'),
+    LayoutConst.u8(property: 'bumpSeed')
   ]);
 }
 
@@ -39,12 +39,12 @@ class FanoutMembershipMintVoucher extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return FanoutMembershipMintVoucher(
-        fanout: decode["fanout"],
-        fanoutMint: decode["fanoutMint"],
-        lastInflow: decode["lastInflow"],
-        bumpSeed: decode["bumpSeed"]);
+        fanout: decode['fanout'],
+        fanoutMint: decode['fanoutMint'],
+        lastInflow: decode['lastInflow'],
+        bumpSeed: decode['bumpSeed']);
   }
 
   @override
@@ -52,16 +52,16 @@ class FanoutMembershipMintVoucher extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "fanout": fanout,
-      "fanoutMint": fanoutMint,
-      "lastInflow": lastInflow,
-      "bumpSeed": bumpSeed
+      'discriminator': _Utils.discriminator,
+      'fanout': fanout,
+      'fanoutMint': fanoutMint,
+      'lastInflow': lastInflow,
+      'bumpSeed': bumpSeed
     };
   }
 
   @override
   String toString() {
-    return "FanoutMembershipMintVoucher${serialize()}";
+    return 'FanoutMembershipMintVoucher${serialize()}';
   }
 }

@@ -6,8 +6,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// List of scripts.
 /// https://blockfrost.dev/api/scripts
 class BlockfrostRequestScripts
-    extends BlockforestRequestParam<List<String>, List<Map<String, dynamic>>> {
-  BlockfrostRequestScripts({BlockforestRequestFilterParams? filter})
+    extends BlockFrostRequest<List<String>, List<Map<String, dynamic>>> {
+  BlockfrostRequestScripts({BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Scripts
@@ -19,6 +19,6 @@ class BlockfrostRequestScripts
 
   @override
   List<String> onResonse(List<Map<String, dynamic>> result) {
-    return result.map<String>((e) => e["script_hash"]).toList();
+    return result.map<String>((e) => e['script_hash']).toList();
   }
 }

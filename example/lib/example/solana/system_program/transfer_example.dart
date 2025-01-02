@@ -6,7 +6,7 @@ void main() async {
   final service = RPCHttpService("https://api.devnet.solana.com");
 
   /// Initialize the Solana RPC client.
-  final rpc = SolanaRPC(service);
+  final rpc = SolanaProvider(service);
 
   /// Define the owner's private key and derive the owner's public key.
   final ownerPrivateKey = SolanaPrivateKey.fromSeedHex(
@@ -17,7 +17,7 @@ void main() async {
   final receiver = SolAddress("9eaiUBgyT7EY1go2qrCmdRZMisYkGdtrrem3TgP9WSDb");
 
   /// Retrieve the latest block hash.
-  final blockHash = await rpc.request(const SolanaRPCGetLatestBlockhash());
+  final blockHash = await rpc.request(const SolanaRequestGetLatestBlockhash());
 
   /// Create a transfer instruction to move funds from the owner to the receiver.
   final transferInstruction = SystemProgram.transfer(
@@ -41,7 +41,7 @@ void main() async {
 
   /// Send the transaction to the Solana network.
   await rpc.request(
-      SolanaRPCSendTransaction(encodedTransaction: serializedTransaction));
+      SolanaRequestSendTransaction(encodedTransaction: serializedTransaction));
 
   /// https://explorer.solana.com/tx/iXm4f9ZUqBF3Mcp6bFvLSU55pqP7VCiRxNABD4DPVsjwVW5KfgbxbftMYzXTfJhoQyaXywBXxo6btjbhA1GtNqB?cluster=devnet
 }

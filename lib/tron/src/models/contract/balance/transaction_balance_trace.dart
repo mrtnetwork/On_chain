@@ -8,12 +8,12 @@ class TransactionBalanceTrace extends TronProtocolBufferImpl {
   factory TransactionBalanceTrace.fromJson(Map<String, dynamic> json) {
     return TransactionBalanceTrace(
       transactionIdentifier:
-          BytesUtils.tryFromHexString(json["transaction_identifier"]),
-      operation: (json["operation"] as List<dynamic>?)
+          BytesUtils.tryFromHexString(json['transaction_identifier']),
+      operation: (json['operation'] as List<dynamic>?)
           ?.map((op) => TransactionBalanceTraceOperation.fromJson(op))
           .toList(),
-      type: json["type"],
-      status: json["status"],
+      type: json['type'],
+      status: json['status'],
     );
   }
 
@@ -56,17 +56,17 @@ class TransactionBalanceTrace extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "transaction_identifier":
+      'transaction_identifier':
           BytesUtils.tryToHexString(transactionIdentifier),
-      "operation": operation?.map((op) => op.toJson()).toList(),
-      "type": type,
-      "status": status,
+      'operation': operation?.map((op) => op.toJson()).toList(),
+      'type': type,
+      'status': status,
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [TransactionBalanceTrace] object to its string representation.
   @override
   String toString() {
-    return "TransactionBalanceTrace{${toJson()}}";
+    return 'TransactionBalanceTrace{${toJson()}}';
   }
 }

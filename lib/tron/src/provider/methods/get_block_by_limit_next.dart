@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Returns the list of Block Objects included in the 'Block Height' range specified.
 /// [developers.tron.network](https://developers.tron.network/reference/getblockbylimitnext).
 class TronRequestGetBlockByLimitNext
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetBlockByLimitNext(
       {required this.startNum, required this.endNum});
 
@@ -20,6 +20,6 @@ class TronRequestGetBlockByLimitNext
 
   @override
   Map<String, dynamic> toJson() {
-    return {"startNum": startNum, "endNum": endNum};
+    return {'startNum': startNum, 'endNum': endNum};
   }
 }

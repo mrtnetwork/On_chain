@@ -7,14 +7,14 @@
 
 // import 'websoket.dart';
 
-// SolanaRPC solanaRPC(String uri) {
+// SolanaProvider solanaRPC(String uri) {
 //   final service = RPCHttpService(uri);
-//   return SolanaRPC(service);
+//   return SolanaProvider(service);
 // }
 
-// Future<SolanaRPC> solanaWebsocketRpc(String uri) async {
+// Future<SolanaProvider> solanaWebsocketRpc(String uri) async {
 //   final websoclet = await RPCWebSocketService.connect(uri);
-//   return SolanaRPC(websoclet);
+//   return SolanaProvider(websoclet);
 // }
 // // SolanaRPCWebSocketService
 

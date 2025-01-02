@@ -6,17 +6,17 @@ class _Utils {
   static const List<int> discriminator = [183, 196, 26, 41, 131, 46, 184, 115];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    LayoutConst.u8(property: "version"),
-    LayoutConst.i64(property: "startTime"),
-    LayoutConst.i64(property: "endTime"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.u8(property: 'version'),
+    LayoutConst.i64(property: 'startTime'),
+    LayoutConst.i64(property: 'endTime'),
     Bid.staticLayout,
-    LayoutConst.u8(property: "bump"),
-    LayoutConst.u64(property: "reservePrice"),
-    LayoutConst.u64(property: "minBidIncrement"),
-    LayoutConst.u32(property: "timeExtPeriod"),
-    LayoutConst.u32(property: "timeExtDelta"),
-    LayoutConst.boolean(property: "allowHighBidCancel")
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.u64(property: 'reservePrice'),
+    LayoutConst.u64(property: 'minBidIncrement'),
+    LayoutConst.u32(property: 'timeExtPeriod'),
+    LayoutConst.u32(property: 'timeExtDelta'),
+    LayoutConst.boolean(property: 'allowHighBidCancel')
   ]);
 }
 
@@ -46,17 +46,17 @@ class ListingConfig extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return ListingConfig(
-        bump: decode["bump"],
-        startTime: decode["startTime"],
-        endTime: decode["endTime"],
-        bid: Bid.fromJson(decode["highestBid"]),
-        reservePrice: decode["reservePrice"],
-        minBidIncrement: decode["minBidIncrement"],
-        timeExtPeriod: decode["timeExtPeriod"],
-        timeExtDelta: decode["timeExtDelta"],
-        allowHighBidCancel: decode["allowHighBidCancel"]);
+        bump: decode['bump'],
+        startTime: decode['startTime'],
+        endTime: decode['endTime'],
+        bid: Bid.fromJson(decode['highestBid']),
+        reservePrice: decode['reservePrice'],
+        minBidIncrement: decode['minBidIncrement'],
+        timeExtPeriod: decode['timeExtPeriod'],
+        timeExtDelta: decode['timeExtDelta'],
+        allowHighBidCancel: decode['allowHighBidCancel']);
   }
   @override
   StructLayout get layout => _Utils.layout;
@@ -64,22 +64,22 @@ class ListingConfig extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "version": version.value,
-      "startTime": startTime,
-      "endTime": endTime,
-      "highestBid": bid.serialize(),
-      "bump": bump,
-      "reservePrice": reservePrice,
-      "minBidIncrement": minBidIncrement,
-      "timeExtPeriod": timeExtPeriod,
-      "timeExtDelta": timeExtDelta,
-      "allowHighBidCancel": allowHighBidCancel
+      'discriminator': _Utils.discriminator,
+      'version': version.value,
+      'startTime': startTime,
+      'endTime': endTime,
+      'highestBid': bid.serialize(),
+      'bump': bump,
+      'reservePrice': reservePrice,
+      'minBidIncrement': minBidIncrement,
+      'timeExtPeriod': timeExtPeriod,
+      'timeExtDelta': timeExtDelta,
+      'allowHighBidCancel': allowHighBidCancel
     };
   }
 
   @override
   String toString() {
-    return "ListingConfig${serialize()}";
+    return 'ListingConfig${serialize()}';
   }
 }

@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// History of a specific asset.
 /// https://blockfrost.dev/api/asset-history
-class BlockfrostRequestAssetHistory extends BlockforestRequestParam<
+class BlockfrostRequestAssetHistory extends BlockFrostRequest<
     List<ADAAssetActionResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestAssetHistory(this.asset,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Concatenation of the policy_id and hex-encoded asset_name

@@ -34,23 +34,23 @@ class MetaData extends LayoutSerializable {
       required this.creators});
   factory MetaData.fromJson(Map<String, dynamic> json) {
     return MetaData(
-        name: json["name"],
-        symbol: json["symbol"],
-        uri: json["uri"],
-        sellerFeeBasisPoints: json["sellerFeeBasisPoints"],
-        primarySaleHappened: json["primarySaleHappened"],
-        isMutable: json["isMutable"],
-        editionNonce: json["editionNonce"],
-        tokenStandard: json["tokenStandard"] == null
+        name: json['name'],
+        symbol: json['symbol'],
+        uri: json['uri'],
+        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
+        primarySaleHappened: json['primarySaleHappened'],
+        isMutable: json['isMutable'],
+        editionNonce: json['editionNonce'],
+        tokenStandard: json['tokenStandard'] == null
             ? null
-            : TokenStandard.fromValue(json["tokenStandard"]),
-        collection: json["collection"] == null
+            : TokenStandard.fromValue(json['tokenStandard']),
+        collection: json['collection'] == null
             ? null
-            : Collection.fromJson(json["collection"]),
-        uses: json["uses"] == null ? null : Uses.fromJson(json["uses"]),
+            : Collection.fromJson(json['collection']),
+        uses: json['uses'] == null ? null : Uses.fromJson(json['uses']),
         tokenProgramVersion:
-            TokenProgramVersion.fromValue(json["tokenProgramVersion"]),
-        creators: (json["creators"] as List)
+            TokenProgramVersion.fromValue(json['tokenProgramVersion']),
+        creators: (json['creators'] as List)
             .map((e) => Creator.fromJson(e))
             .toList());
   }
@@ -60,42 +60,42 @@ class MetaData extends LayoutSerializable {
     return MetaData.fromJson(decode);
   }
   static StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "symbol"),
-    LayoutConst.string(property: "uri"),
-    LayoutConst.u16(property: "sellerFeeBasisPoints"),
-    LayoutConst.boolean(property: "primarySaleHappened"),
-    LayoutConst.boolean(property: "isMutable"),
-    LayoutConst.optional(LayoutConst.u8(), property: "editionNonce"),
-    LayoutConst.optional(LayoutConst.u8(), property: "tokenStandard"),
-    LayoutConst.optional(Collection.staticLayout, property: "collection"),
-    LayoutConst.optional(Uses.staticLayout, property: "uses"),
-    LayoutConst.u8(property: "tokenProgramVersion"),
-    LayoutConst.vec(Creator.creatorLayout, property: "creators")
-  ], property: "metaData");
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+    LayoutConst.boolean(property: 'primarySaleHappened'),
+    LayoutConst.boolean(property: 'isMutable'),
+    LayoutConst.optional(LayoutConst.u8(), property: 'editionNonce'),
+    LayoutConst.optional(LayoutConst.u8(), property: 'tokenStandard'),
+    LayoutConst.optional(Collection.staticLayout, property: 'collection'),
+    LayoutConst.optional(Uses.staticLayout, property: 'uses'),
+    LayoutConst.u8(property: 'tokenProgramVersion'),
+    LayoutConst.vec(Creator.creatorLayout, property: 'creators')
+  ], property: 'metaData');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "name": name,
-      "symbol": symbol,
-      "uri": uri,
-      "sellerFeeBasisPoints": sellerFeeBasisPoints,
-      "primarySaleHappened": primarySaleHappened,
-      "isMutable": isMutable,
-      "editionNonce": editionNonce,
-      "tokenStandard": tokenStandard?.value,
-      "collection": collection?.serialize(),
-      "uses": uses?.serialize(),
-      "tokenProgramVersion": tokenProgramVersion.value,
-      "creators": creators.map((e) => e.serialize()).toList()
+      'name': name,
+      'symbol': symbol,
+      'uri': uri,
+      'sellerFeeBasisPoints': sellerFeeBasisPoints,
+      'primarySaleHappened': primarySaleHappened,
+      'isMutable': isMutable,
+      'editionNonce': editionNonce,
+      'tokenStandard': tokenStandard?.value,
+      'collection': collection?.serialize(),
+      'uses': uses?.serialize(),
+      'tokenProgramVersion': tokenProgramVersion.value,
+      'creators': creators.map((e) => e.serialize()).toList()
     };
   }
 
   @override
   String toString() {
-    return "MetaData${serialize()}";
+    return 'MetaData${serialize()}';
   }
 }

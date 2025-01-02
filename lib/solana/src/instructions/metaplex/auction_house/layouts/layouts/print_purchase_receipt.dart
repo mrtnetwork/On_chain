@@ -16,13 +16,13 @@ class MetaplexAuctionHousePrintPurchaseReceiptLayout
         instruction: MetaplexAuctionHouseProgramInstruction
             .printPurchaseReceipt.insturction);
     return MetaplexAuctionHousePrintPurchaseReceiptLayout(
-        purchaseReceiptBump: decode["purchaseReceiptBump"]);
+        purchaseReceiptBump: decode['purchaseReceiptBump']);
   }
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "purchaseReceiptBump"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'purchaseReceiptBump'),
   ]);
   @override
   StructLayout get layout => _layout;
@@ -33,6 +33,6 @@ class MetaplexAuctionHousePrintPurchaseReceiptLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"purchaseReceiptBump": purchaseReceiptBump};
+    return {'purchaseReceiptBump': purchaseReceiptBump};
   }
 }

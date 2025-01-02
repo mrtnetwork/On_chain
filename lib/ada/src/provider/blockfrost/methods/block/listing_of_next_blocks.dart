@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the list of blocks following a specific block.
 /// https://blockfrost.dev/api/listing-of-next-blocks
-class BlockfrostRequestListingOfNextBlocks extends BlockforestRequestParam<
+class BlockfrostRequestListingOfNextBlocks extends BlockFrostRequest<
     List<ADABlockResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestListingOfNextBlocks(this.hashOrNumber,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// 64-character case-sensitive hexadecimal string or block number.

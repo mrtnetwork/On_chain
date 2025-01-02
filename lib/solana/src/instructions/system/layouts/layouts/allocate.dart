@@ -13,11 +13,11 @@ class SystemAllocateLayout extends SystemProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: SystemProgramInstruction.allocate.insturction);
-    return SystemAllocateLayout(space: decode["space"]);
+    return SystemAllocateLayout(space: decode['space']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.ns64(property: "space")
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'space')
   ]);
   @override
   StructLayout get layout => _layout;
@@ -26,6 +26,6 @@ class SystemAllocateLayout extends SystemProgramLayout {
   SystemProgramInstruction get instruction => SystemProgramInstruction.allocate;
   @override
   Map<String, dynamic> serialize() {
-    return {"space": space};
+    return {'space': space};
   }
 }

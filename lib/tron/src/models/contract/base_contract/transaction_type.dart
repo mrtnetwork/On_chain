@@ -149,7 +149,7 @@ class TransactionContractType implements TronEnumerate {
   static TransactionContractType findByName(String name) {
     return values.firstWhere((element) => element.name == name,
         orElse: () =>
-            throw const TronPluginException("Contact does not found."));
+            throw const TronPluginException('Contact does not found.'));
   }
 
   /// Finds and returns a [TransactionContractType] by its [value].

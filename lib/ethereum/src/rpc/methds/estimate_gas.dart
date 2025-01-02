@@ -7,15 +7,15 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 /// Note that the estimate may be significantly more than the amount of gas actually used by the transaction,
 /// for a variety of reasons including EVM mechanics and node performance.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_estimategas)
-class RPCEstimateGas extends ETHRPCRequest<BigInt> {
-  RPCEstimateGas({
+class EthereumRequestEstimateGas extends EthereumRequest<BigInt, Object> {
+  EthereumRequestEstimateGas({
     required this.transaction,
-    BlockTagOrNumber? blockNumber = BlockTagOrNumber.pending,
-  }) : super(blockNumber: blockNumber);
+    super.blockNumber = BlockTagOrNumber.pending,
+  });
 
   /// eth_estimateGas
   @override
-  EthereumMethods get method => EthereumMethods.estimateGas;
+  String get method => EthereumMethods.estimateGas.value;
 
   final Map<String, dynamic> transaction;
 
@@ -26,11 +26,11 @@ class RPCEstimateGas extends ETHRPCRequest<BigInt> {
 
   @override
   BigInt onResonse(result) {
-    return ETHRPCRequest.onBigintResponse(result);
+    return EthereumRequest.onBigintResponse(result);
   }
 
   @override
   String toString() {
-    return "RPCEstimateGas{${toJson()}}";
+    return 'EthereumRequestEstimateGas{${toJson()}}';
   }
 }

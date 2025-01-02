@@ -15,14 +15,14 @@ class MetaplexAuctionHouseCancelLayout
         bytes: data,
         instruction: MetaplexAuctionHouseProgramInstruction.cancel.insturction);
     return MetaplexAuctionHouseCancelLayout(
-        buyerPrice: decode["buyerPrice"], tokenSize: decode["tokenSize"]);
+        buyerPrice: decode['buyerPrice'], tokenSize: decode['tokenSize']);
   }
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u64(property: "buyerPrice"),
-    LayoutConst.u64(property: "tokenSize"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
   ]);
 
   @override
@@ -34,6 +34,6 @@ class MetaplexAuctionHouseCancelLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"tokenSize": tokenSize, "buyerPrice": buyerPrice};
+    return {'tokenSize': tokenSize, 'buyerPrice': buyerPrice};
   }
 }

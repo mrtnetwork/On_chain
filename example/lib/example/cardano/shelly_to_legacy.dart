@@ -11,7 +11,7 @@ void main() async {
       "FHnt4NL7yPXpa2nSSgu36kbQw4jpxWR3V5Yr7MEaPjWa58V3doFnkj3rwzhTTEX",
       network: ADANetwork.testnetPreprod);
 
-  final provider = BlockforestProvider(BlockforestHTTPProvider(
+  final provider = BlockFrostProvider(BlockFrostHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 

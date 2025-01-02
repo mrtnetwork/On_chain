@@ -23,12 +23,12 @@ class SystemCreateLayout extends SystemProgramLayout {
         bytes: data,
         instruction: SystemProgramInstruction.create.insturction);
     return SystemCreateLayout(
-        lamports: decode["lamports"],
-        space: decode["space"],
-        programId: decode["programId"]);
+        lamports: decode['lamports'],
+        space: decode['space'],
+        programId: decode['programId']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
+    LayoutConst.u32(property: 'instruction'),
     LayoutConst.ns64(property: 'lamports'),
     LayoutConst.ns64(property: 'space'),
     SolanaLayoutUtils.publicKey('programId'),
@@ -41,6 +41,6 @@ class SystemCreateLayout extends SystemProgramLayout {
   SystemProgramInstruction get instruction => SystemProgramInstruction.create;
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports, "space": space, "programId": programId};
+    return {'lamports': lamports, 'space': space, 'programId': programId};
   }
 }

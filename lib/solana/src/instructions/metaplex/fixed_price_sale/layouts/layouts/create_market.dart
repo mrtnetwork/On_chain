@@ -32,30 +32,30 @@ class MetaplexFixedPriceSaleCreateMarketLayout
         instruction:
             MetaplexFixedPriceSaleProgramInstruction.createMarket.insturction);
     return MetaplexFixedPriceSaleCreateMarketLayout(
-        treasuryOwnerBump: decode["treasuryOwnerBump"],
-        name: decode["name"],
-        description: decode["description"],
-        mutable: decode["mutable"],
-        price: decode["price"],
-        piecesInOneWallet: decode["piecesInOneWallet"],
-        startDate: decode["startDate"],
-        endDate: decode["endDate"],
-        gatingConfig: decode["gatingConfig"] == null
+        treasuryOwnerBump: decode['treasuryOwnerBump'],
+        name: decode['name'],
+        description: decode['description'],
+        mutable: decode['mutable'],
+        price: decode['price'],
+        piecesInOneWallet: decode['piecesInOneWallet'],
+        startDate: decode['startDate'],
+        endDate: decode['endDate'],
+        gatingConfig: decode['gatingConfig'] == null
             ? null
-            : GatingConfig.fromJson(decode["gatingConfig"]));
+            : GatingConfig.fromJson(decode['gatingConfig']));
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "treasuryOwnerBump"),
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "description"),
-    LayoutConst.boolean(property: "mutable"),
-    LayoutConst.u64(property: "price"),
-    LayoutConst.optional(LayoutConst.u64(), property: "piecesInOneWallet"),
-    LayoutConst.u64(property: "startDate"),
-    LayoutConst.optional(LayoutConst.u64(), property: "endDate"),
-    LayoutConst.optional(GatingConfig.staticLayout, property: "gatingConfig"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'treasuryOwnerBump'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'description'),
+    LayoutConst.boolean(property: 'mutable'),
+    LayoutConst.u64(property: 'price'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'piecesInOneWallet'),
+    LayoutConst.u64(property: 'startDate'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'endDate'),
+    LayoutConst.optional(GatingConfig.staticLayout, property: 'gatingConfig'),
   ]);
 
   @override
@@ -68,15 +68,15 @@ class MetaplexFixedPriceSaleCreateMarketLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "treasuryOwnerBump": treasuryOwnerBump,
-      "name": name,
-      "description": description,
-      "mutable": mutable,
-      "price": price,
-      "piecesInOneWallet": piecesInOneWallet,
-      "startDate": startDate,
-      "endDate": endDate,
-      "gatingConfig": gatingConfig?.serialize()
+      'treasuryOwnerBump': treasuryOwnerBump,
+      'name': name,
+      'description': description,
+      'mutable': mutable,
+      'price': price,
+      'piecesInOneWallet': piecesInOneWallet,
+      'startDate': startDate,
+      'endDate': endDate,
+      'gatingConfig': gatingConfig?.serialize()
     };
   }
 }

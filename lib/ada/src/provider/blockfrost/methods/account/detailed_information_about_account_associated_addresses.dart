@@ -6,8 +6,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain summed details about all addresses associated with a given account.
 /// https://blockfrost.dev/api/assets-associated-with-the-account-addresses
 class BlockfrostRequestDetailedInformationAboutAccountAssociatedAddresses
-    extends BlockforestRequestParam<ADAAccountSummaryResponse,
-        Map<String, dynamic>> {
+    extends BlockFrostRequest<ADAAccountSummaryResponse, Map<String, dynamic>> {
   BlockfrostRequestDetailedInformationAboutAccountAssociatedAddresses(
     this.stakeAddress,
   );

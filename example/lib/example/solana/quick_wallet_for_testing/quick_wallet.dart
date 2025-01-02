@@ -15,28 +15,28 @@ class QuickWalletForTest {
   QuickWalletForTest._(this.privateKey);
   final SolanaPrivateKey privateKey;
   late final SolAddress address = privateKey.publicKey().toAddress();
-  static final rpc = solanaRPC("https://api.testnet.solana.com");
+  static final rpc = solanaRPC("https://api.devnet.solana.com");
 
   Future<String> faucent([SolAddress? addr]) async {
-    final f = await rpc.request(SolanaRPCRequestAirdrop(
+    final f = await rpc.request(SolanaRequestRequestAirdrop(
         account: addr ?? address, lamports: 1000000000));
     return f;
   }
 
   Future<SolAddress> recentBlockhash() async {
-    final rb = await rpc.request(const SolanaRPCGetLatestBlockhash());
+    final rb = await rpc.request(const SolanaRequestGetLatestBlockhash());
     return rb.blockhash;
   }
 
   Future<String> submitTr(String digest) async {
-    final th =
-        await rpc.request(SolanaRPCSendTransaction(encodedTransaction: digest));
+    final th = await rpc
+        .request(SolanaRequestSendTransaction(encodedTransaction: digest));
     return th;
   }
 
   Future<SimulateTranasctionResponse> simulateTR(String digest,
       {bool signVerify = false, RPCAccountConfig? config}) async {
-    final th = await rpc.request(SolanaRPCSimulateTransaction(
+    final th = await rpc.request(SolanaRequestSimulateTransaction(
         encodedTransaction: digest, sigVerify: signVerify, accounts: config));
     return th;
   }

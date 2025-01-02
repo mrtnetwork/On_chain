@@ -15,8 +15,8 @@ class SPLTokenInitializePermanentDelegateLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for initializing a permanent delegate.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    SolanaLayoutUtils.publicKey("delegate")
+    LayoutConst.u8(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('delegate')
   ]);
 
   /// Constructs an SPLTokenInitializePermanentDelegateLayout instance from buffer.
@@ -28,7 +28,7 @@ class SPLTokenInitializePermanentDelegateLayout extends SPLTokenProgramLayout {
       instruction:
           SPLTokenProgramInstruction.initializePermanentDelegate.insturction,
     );
-    final SolAddress delegate = decode["delegate"];
+    final SolAddress delegate = decode['delegate'];
     return SPLTokenInitializePermanentDelegateLayout(
       delegate: delegate == SolAddress.defaultPubKey ? null : delegate,
     );
@@ -46,6 +46,6 @@ class SPLTokenInitializePermanentDelegateLayout extends SPLTokenProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"delegate": delegate ?? SolAddress.defaultPubKey};
+    return {'delegate': delegate ?? SolAddress.defaultPubKey};
   }
 }

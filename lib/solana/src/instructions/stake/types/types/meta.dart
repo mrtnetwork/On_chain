@@ -13,16 +13,16 @@ class StakeMeta extends LayoutSerializable {
       required this.rentExemptReserve});
   factory StakeMeta.fromJson(Map<String, dynamic> json) {
     return StakeMeta(
-        lockup: StakeLockup.fromJson(json["lockup"]),
-        authorized: StakeAuthorized.fromJson(json["authorized"]),
-        rentExemptReserve: json["rentExemptReserve"]);
+        lockup: StakeLockup.fromJson(json['lockup']),
+        authorized: StakeAuthorized.fromJson(json['authorized']),
+        rentExemptReserve: json['rentExemptReserve']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "rentExemptReserve"),
+    LayoutConst.u64(property: 'rentExemptReserve'),
     StakeAuthorized.staticLayout,
     StakeLockup.staticLayout,
-  ], property: "meta");
+  ], property: 'meta');
 
   @override
   StructLayout get layout => staticLayout;
@@ -30,14 +30,14 @@ class StakeMeta extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "rentExemptReserve": rentExemptReserve,
-      "authorized": authorized.serialize(),
-      "lockup": lockup.serialize()
+      'rentExemptReserve': rentExemptReserve,
+      'authorized': authorized.serialize(),
+      'lockup': lockup.serialize()
     };
   }
 
   @override
   String toString() {
-    return "StakeMeta${serialize()}";
+    return 'StakeMeta${serialize()}';
   }
 }

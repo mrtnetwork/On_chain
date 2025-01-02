@@ -237,77 +237,77 @@ class ProtocolParamUpdate with ADASerialization {
 
   factory ProtocolParamUpdate.fromJson(Map<String, dynamic> json) {
     return ProtocolParamUpdate(
-        minfeeA: BigintUtils.tryParse(json["minfee_a"]),
-        minFeeB: BigintUtils.tryParse(json["minFeeB"]),
-        maxBlockBodySize: json["max_block_body_size"],
-        maxTxSize: json["max_tx_size"],
-        maxBlockHeaderSize: json["max_block_header_size"],
-        keyDeposit: BigintUtils.tryParse(json["key_deposit"]),
-        poolDeposit: BigintUtils.tryParse(json["pool_deposit"]),
-        maxEpoch: json["max_epoch"],
-        nOpt: json["n_opt"],
-        poolPledgeInfluence: json["pool_pledge_influence"] == null
+        minfeeA: BigintUtils.tryParse(json['minfee_a']),
+        minFeeB: BigintUtils.tryParse(json['minFeeB']),
+        maxBlockBodySize: json['max_block_body_size'],
+        maxTxSize: json['max_tx_size'],
+        maxBlockHeaderSize: json['max_block_header_size'],
+        keyDeposit: BigintUtils.tryParse(json['key_deposit']),
+        poolDeposit: BigintUtils.tryParse(json['pool_deposit']),
+        maxEpoch: json['max_epoch'],
+        nOpt: json['n_opt'],
+        poolPledgeInfluence: json['pool_pledge_influence'] == null
             ? null
-            : UnitInterval.fromJson(json["pool_pledge_influence"]),
-        expansionRate: json["expansion_rate"] == null
+            : UnitInterval.fromJson(json['pool_pledge_influence']),
+        expansionRate: json['expansion_rate'] == null
             ? null
-            : UnitInterval.fromJson(json["expansion_rate"]),
-        treasuryGrowthRate: json["treasury_growth_rate"] == null
+            : UnitInterval.fromJson(json['expansion_rate']),
+        treasuryGrowthRate: json['treasury_growth_rate'] == null
             ? null
-            : UnitInterval.fromJson(json["treasury_growth_rate"]),
-        d: json["d"] == null ? null : UnitInterval.fromJson(json["d"]),
-        extraEntropy: json["extra_entropy"] == null
+            : UnitInterval.fromJson(json['treasury_growth_rate']),
+        d: json['d'] == null ? null : UnitInterval.fromJson(json['d']),
+        extraEntropy: json['extra_entropy'] == null
             ? null
-            : Nonce.fromJson(json["extra_entropy"]),
-        protocolVersion: json["protocol_version"] == null
+            : Nonce.fromJson(json['extra_entropy']),
+        protocolVersion: json['protocol_version'] == null
             ? null
-            : ProtocolVersion.fromJson(json["protocol_version"]),
-        minPoolCost: BigintUtils.tryParse(json["min_pool_cost"]),
-        adaPerUtxoByte: BigintUtils.tryParse(json["ada_per_utxo_byte"]),
-        costModel: json["cost_models"] == null
+            : ProtocolVersion.fromJson(json['protocol_version']),
+        minPoolCost: BigintUtils.tryParse(json['min_pool_cost']),
+        adaPerUtxoByte: BigintUtils.tryParse(json['ada_per_utxo_byte']),
+        costModel: json['cost_models'] == null
             ? null
-            : Costmdls.fromJson(json["cost_models"]),
-        executionCosts: json["execution_costs"] == null
+            : Costmdls.fromJson(json['cost_models']),
+        executionCosts: json['execution_costs'] == null
             ? null
-            : ExUnitPrices.fromJson(json["execution_costs"]),
-        maxTxExUnits: json["max_tx_ex_units"] == null
+            : ExUnitPrices.fromJson(json['execution_costs']),
+        maxTxExUnits: json['max_tx_ex_units'] == null
             ? null
-            : ExUnits.fromJson(json["max_tx_ex_units"]),
-        maxBlockExUnits: json["max_block_ex_units"] == null
+            : ExUnits.fromJson(json['max_tx_ex_units']),
+        maxBlockExUnits: json['max_block_ex_units'] == null
             ? null
-            : ExUnits.fromJson(json["max_block_ex_units"]),
-        maxValueSize: json["max_value_size"],
-        collateralPercentage: json["collateral_percentage"],
-        maxCollateralInputs: json["max_collateral_inputs"]);
+            : ExUnits.fromJson(json['max_block_ex_units']),
+        maxValueSize: json['max_value_size'],
+        collateralPercentage: json['collateral_percentage'],
+        maxCollateralInputs: json['max_collateral_inputs']);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "minfee_a": minfeeA?.toString(),
-      "minfee_b": minFeeB?.toString(),
-      "max_block_body_size": maxBlockBodySize,
-      "max_tx_size": maxTxSize,
-      "max_block_header_size": maxBlockHeaderSize,
-      "key_deposit": keyDeposit?.toString(),
-      "pool_deposit": poolDeposit?.toString(),
-      "max_epoch": maxEpoch,
-      "n_opt": nOpt,
-      "pool_pledge_influence": poolPledgeInfluence?.toJson(),
-      "expansion_rate": expansionRate?.toJson(),
-      "treasury_growth_rate": treasuryGrowthRate?.toJson(),
-      "d": d?.toJson(),
-      "extra_entropy": extraEntropy?.toJson(),
-      "protocol_version": protocolVersion?.toJson(),
-      "min_pool_cost": minPoolCost?.toString(),
-      "ada_per_utxo_byte": adaPerUtxoByte?.toString(),
-      "cost_models": costModel?.toJson(),
-      "execution_costs": executionCosts?.toJson(),
-      "max_tx_ex_units": maxTxExUnits?.toJson(),
-      "max_block_ex_units": maxBlockExUnits?.toJson(),
-      "max_value_size": maxValueSize,
-      "collateral_percentage": collateralPercentage,
-      "max_collateral_inputs": maxCollateralInputs
+      'minfee_a': minfeeA?.toString(),
+      'minfee_b': minFeeB?.toString(),
+      'max_block_body_size': maxBlockBodySize,
+      'max_tx_size': maxTxSize,
+      'max_block_header_size': maxBlockHeaderSize,
+      'key_deposit': keyDeposit?.toString(),
+      'pool_deposit': poolDeposit?.toString(),
+      'max_epoch': maxEpoch,
+      'n_opt': nOpt,
+      'pool_pledge_influence': poolPledgeInfluence?.toJson(),
+      'expansion_rate': expansionRate?.toJson(),
+      'treasury_growth_rate': treasuryGrowthRate?.toJson(),
+      'd': d?.toJson(),
+      'extra_entropy': extraEntropy?.toJson(),
+      'protocol_version': protocolVersion?.toJson(),
+      'min_pool_cost': minPoolCost?.toString(),
+      'ada_per_utxo_byte': adaPerUtxoByte?.toString(),
+      'cost_models': costModel?.toJson(),
+      'execution_costs': executionCosts?.toJson(),
+      'max_tx_ex_units': maxTxExUnits?.toJson(),
+      'max_block_ex_units': maxBlockExUnits?.toJson(),
+      'max_value_size': maxValueSize,
+      'collateral_percentage': collateralPercentage,
+      'max_collateral_inputs': maxCollateralInputs
     };
   }
 }

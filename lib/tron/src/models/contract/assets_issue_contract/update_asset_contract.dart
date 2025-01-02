@@ -10,14 +10,14 @@ class UpdateAssetContract extends TronBaseContract {
   factory UpdateAssetContract.fromJson(Map<String, dynamic> json) {
     return UpdateAssetContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       description: OnChainUtils.parseBytes(
-          value: json["description"], name: "description"),
-      url: OnChainUtils.parseBytes(value: json["url"], name: "url"),
+          value: json['description'], name: 'description'),
+      url: OnChainUtils.parseBytes(value: json['url'], name: 'url'),
       newLimit:
-          OnChainUtils.parseBigInt(value: json["new_limit"], name: "new_limit"),
+          OnChainUtils.parseBigInt(value: json['new_limit'], name: 'new_limit'),
       newPublicLimit: OnChainUtils.parseBigInt(
-          value: json["new_public_limit"], name: "new_public_limit"),
+          value: json['new_public_limit'], name: 'new_public_limit'),
     );
   }
 
@@ -66,18 +66,18 @@ class UpdateAssetContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "description": StringUtils.tryDecode(description),
-      "url": StringUtils.tryDecode(url),
-      "new_limit": newLimit?.toString(),
-      "new_public_limit": newPublicLimit?.toString()
+      'owner_address': ownerAddress.toString(),
+      'description': StringUtils.tryDecode(description),
+      'url': StringUtils.tryDecode(url),
+      'new_limit': newLimit?.toString(),
+      'new_public_limit': newPublicLimit?.toString()
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [UpdateAssetContract] object to its string representation.
   @override
   String toString() {
-    return "UpdateAssetContract{${toJson()}}";
+    return 'UpdateAssetContract{${toJson()}}';
   }
 
   @override

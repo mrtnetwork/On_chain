@@ -11,12 +11,12 @@ class MetaplexHydraAddMemberWalletLayout extends MetaplexHydraProgramLayout {
         bytes: data,
         instruction:
             MetaplexHydraProgramInstruction.processAddMemberWallet.insturction);
-    return MetaplexHydraAddMemberWalletLayout(shares: decode["shares"]);
+    return MetaplexHydraAddMemberWalletLayout(shares: decode['shares']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u64(property: "shares"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'shares'),
   ]);
 
   @override
@@ -28,6 +28,6 @@ class MetaplexHydraAddMemberWalletLayout extends MetaplexHydraProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"shares": shares};
+    return {'shares': shares};
   }
 }

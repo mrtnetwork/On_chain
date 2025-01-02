@@ -9,11 +9,11 @@ class RPCAccountConfig {
   final List<SolAddress> addresses;
 
   /// encoding for returned Account data
-  final SolanaRPCEncoding encoding;
+  final SolanaRequestEncoding encoding;
   Map<String, dynamic> toJson() {
     return {
-      "accounts": {
-        "addresses": addresses.map((e) => e.address).toList(),
+      'accounts': {
+        'addresses': addresses.map((e) => e.address).toList(),
         ...encoding.toJson(),
       }
     };

@@ -1,4 +1,4 @@
-part of "package:on_chain/solidity/abi/abi.dart";
+part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// Solidity contract for encoding and decoding data according to Ethereum ABI specifications.
 abstract class ABICoder<T> {
@@ -13,14 +13,14 @@ abstract class ABICoder<T> {
 
   /// Static map associating type names with corresponding concrete ABICoder implementations.
   static const Map<String, ABICoder> _types = {
-    "string": StringCoder(),
-    "bool": BooleanCoder(),
-    "address": AddressCoder(),
-    "tuple": TupleCoder(),
-    "array": ArrayCoder(),
-    "bytes": BytesCoder(),
-    "function": FunctionCoder(),
-    "number": NumbersCoder(),
+    'string': StringCoder(),
+    'bool': BooleanCoder(),
+    'address': AddressCoder(),
+    'tuple': TupleCoder(),
+    'array': ArrayCoder(),
+    'bytes': BytesCoder(),
+    'function': FunctionCoder(),
+    'number': NumbersCoder(),
   };
 
   /// Factory method to create an ABICoder instance based on the provided type string.
@@ -28,17 +28,17 @@ abstract class ABICoder<T> {
     String? correctType;
     // Check for array, bytes, and numeric types
     if (type.endsWith(']')) {
-      correctType = "array";
+      correctType = 'array';
     } else if (type.startsWith('bytes')) {
-      correctType = "bytes";
+      correctType = 'bytes';
     } else if (type.startsWith('uint') || type.startsWith('int')) {
-      correctType = "number";
+      correctType = 'number';
     }
     // Use the corrected type or the original type if not modified
     correctType ??= type;
     if (!_types.containsKey(correctType)) {
-      throw SolidityAbiException("Unsuported ABI type. codec not found",
-          details: {"type": type});
+      throw SolidityAbiException('Unsuported ABI type. codec not found',
+          details: {'type': type});
     }
     // Return the corresponding ABICoder instance
     return _types[correctType]! as ABICoder<T>;
@@ -47,16 +47,16 @@ abstract class ABICoder<T> {
 
 class AbiParameter {
   /// Static constant representing an ABI parameter for generic bytes data.
-  static const AbiParameter bytes = AbiParameter(name: "", type: "bytes");
+  static const AbiParameter bytes = AbiParameter(name: '', type: 'bytes');
 
   /// Static constant representing an ABI parameter for a function signature (bytes24).
-  static const AbiParameter function = AbiParameter(name: "", type: "bytes24");
+  static const AbiParameter function = AbiParameter(name: '', type: 'bytes24');
 
   /// Static constant representing an ABI parameter for a 256-bit unsigned integer.
-  static const AbiParameter uint256 = AbiParameter(name: "", type: "uint256");
+  static const AbiParameter uint256 = AbiParameter(name: '', type: 'uint256');
 
   /// Static constant representing an ABI parameter for a 32-bit unsigned integer.
-  static const AbiParameter uint32 = AbiParameter(name: "", type: "uint32");
+  static const AbiParameter uint32 = AbiParameter(name: '', type: 'uint32');
 
   /// The name of the parameter.
   final String? name;
@@ -113,26 +113,26 @@ class AbiParameter {
 
   /// Factory method to create an AbiParameter instance from a JSON representation.
   factory AbiParameter.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> inputs = json["components"] ?? [];
-    final String name = json["name"] ?? "";
+    final List<dynamic> inputs = json['components'] ?? [];
+    final String name = json['name'] ?? '';
     return AbiParameter(
       name: name.isEmpty ? null : name,
-      type: json["type"],
-      internalType: json["internalType"],
-      indexed: json["indexed"] ?? false,
+      type: json['type'],
+      internalType: json['internalType'],
+      indexed: json['indexed'] ?? false,
       components: List<AbiParameter>.unmodifiable(
           inputs.map((e) => AbiParameter.fromJson(e)).toList()),
     );
   }
 
   /// Checks if the parameter represents a tuple.
-  bool get isTupple => type.startsWith("tuple");
+  bool get isTupple => type.startsWith('tuple');
 
   /// Retrieves the argument name, considering tuple types.
   String get argName {
     if (isTupple) {
       final String match =
-          _ABIValidator.arrayDetectRegex.firstMatch(type)?.group(0) ?? "";
+          _ABIValidator.arrayDetectRegex.firstMatch(type)?.group(0) ?? '';
       return "(${components.map((e) => e.argName).join(",")})$match";
     }
     return type;
@@ -209,6 +209,6 @@ class DecoderResult<T> {
   /// Overrides the default toString method to provide a readable representation of DecoderResult.
   @override
   String toString() {
-    return "consumed $consumed result $result";
+    return 'consumed $consumed result $result';
   }
 }

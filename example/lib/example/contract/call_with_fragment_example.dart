@@ -9,11 +9,11 @@ void main() async {
   final contract = ContractABI.fromJson(abiTest);
 
 // Create an Ethereum RPC instance with a HTTP service on the Polygon Mumbai testnet
-  final rpc =
-      EVMRPC(RPCHttpService("https://polygon-mumbai-bor.publicnode.com"));
+  final rpc = EthereumProvider(
+      RPCHttpService("https://polygon-mumbai-bor.publicnode.com"));
 
 // Make an RPC call to execute a method on the contract and get the result
-  final call1 = await rpc.request(RPCCall.fromMethod(
+  final call1 = await rpc.request(EthereumRequestCall.fromMethod(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: AbiFunctionFragment.fromJson({
       "inputs": [

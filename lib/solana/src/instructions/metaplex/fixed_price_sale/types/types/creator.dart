@@ -12,26 +12,26 @@ class Creator extends LayoutSerializable {
       {required this.address, required this.verified, required this.share});
   factory Creator.fromJson(Map<String, dynamic> json) {
     return Creator(
-        address: json["address"],
-        verified: json["verified"],
-        share: json["share"]);
+        address: json['address'],
+        verified: json['verified'],
+        share: json['share']);
   }
 
   static final StructLayout creatorLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("address"),
-    LayoutConst.boolean(property: "verified"),
-    LayoutConst.u8(property: "share"),
-  ], property: "creator");
+    SolanaLayoutUtils.publicKey('address'),
+    LayoutConst.boolean(property: 'verified'),
+    LayoutConst.u8(property: 'share'),
+  ], property: 'creator');
 
   @override
   StructLayout get layout => creatorLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"address": address, "verified": verified, "share": share};
+    return {'address': address, 'verified': verified, 'share': share};
   }
 
   @override
   String toString() {
-    return "Creator${serialize()}";
+    return 'Creator${serialize()}';
   }
 }

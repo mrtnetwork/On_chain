@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// to verify if the client clock is not out of sync.
 /// https://blockfrost.dev/api/current-backend-time
 class BlockfrostRequestBackendCurrentBackendTime
-    extends BlockforestRequestParam<int, Map<String, dynamic>> {
+    extends BlockFrostRequest<int, Map<String, dynamic>> {
   BlockfrostRequestBackendCurrentBackendTime();
 
   /// Current backend time
@@ -17,6 +17,6 @@ class BlockfrostRequestBackendCurrentBackendTime
 
   @override
   int onResonse(Map<String, dynamic> result) {
-    return result["server_time"];
+    return result['server_time'];
   }
 }

@@ -1,5 +1,5 @@
 /// A utility class for Solana RPC-related tasks.
-class SolanaRPCUtils {
+class SolanaRequestUtils {
   /// Merges multiple configurations into a single map, filtering out null values.
   ///
   /// [configs]: A list of maps containing configurations.

@@ -17,11 +17,11 @@ class TokenLendingDepositReserveLiquidityLayout
         instruction:
             TokenLendingProgramInstruction.depositReserveLiquidity.insturction);
     return TokenLendingDepositReserveLiquidityLayout(
-        liquidityAmount: decode["liquidityAmount"]);
+        liquidityAmount: decode['liquidityAmount']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "liquidityAmount"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'liquidityAmount'),
   ]);
 
   @override
@@ -33,6 +33,6 @@ class TokenLendingDepositReserveLiquidityLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"liquidityAmount": liquidityAmount};
+    return {'liquidityAmount': liquidityAmount};
   }
 }

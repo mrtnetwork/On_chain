@@ -24,7 +24,7 @@ class TransactionMetadataMap
     });
   }
   factory TransactionMetadataMap.fromJson(Map<String, dynamic> json) {
-    final Map<dynamic, dynamic> values = json["map"];
+    final Map<dynamic, dynamic> values = json['map'];
     return TransactionMetadataMap(value: {
       for (final i in values.entries)
         TransactionMetadata.fromJson(i.key):
@@ -45,7 +45,7 @@ class TransactionMetadataMap
   @override
   Map<String, dynamic> toJson() {
     return {
-      "map": {for (final i in value.entries) i.key.toJson(): i.value.toJson()}
+      'map': {for (final i in value.entries) i.key.toJson(): i.value.toJson()}
     };
   }
 
@@ -79,7 +79,7 @@ class TransactionMetadataMap
   }
 
   @override
-  toJsonSchema(
+  Map toJsonSchema(
       {MetadataSchemaConfig config = const MetadataSchemaConfig(
           jsonSchema: MetadataJsonSchema.noConversions)}) {
     switch (config.jsonSchema) {
@@ -92,7 +92,7 @@ class TransactionMetadataMap
         };
       default:
         return {
-          "map": value.entries.map((entry) {
+          'map': value.entries.map((entry) {
             final k = entry.key.toJsonSchema(config: config);
             final v = entry.value.toJsonSchema(config: config);
             return {'k': k, 'v': v};

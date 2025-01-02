@@ -72,6 +72,6 @@ class ADAEpochInfoResponse {
 
   @override
   String toString() {
-    return "ADAEpochInfoResponse${toJson()}";
+    return 'ADAEpochInfoResponse${toJson()}';
   }
 }

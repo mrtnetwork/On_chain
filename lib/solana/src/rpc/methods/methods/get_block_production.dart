@@ -5,16 +5,14 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns recent block production information from the current or previous epoch.
 /// https://solana.com/docs/rpc/http/getblockproduction
-class SolanaRPCGetBlockProduction extends SolanaRPCRequest<BlockProduction> {
-  const SolanaRPCGetBlockProduction(
-      {this.identity, this.range, Commitment? commitment})
-      : super(
-          commitment: commitment,
-        );
+class SolanaRequestGetBlockProduction
+    extends SolanaRequest<BlockProduction, Map<String, dynamic>> {
+  const SolanaRequestGetBlockProduction(
+      {this.identity, this.range, super.commitment});
 
   /// getBlockProduction
   @override
-  String get method => SolanaRPCMethods.getBlockProduction.value;
+  String get method => SolanaRequestMethods.getBlockProduction.value;
 
   /// Only return results for this validator identity (base-58 encoded)
   final String? identity;
@@ -26,16 +24,16 @@ class SolanaRPCGetBlockProduction extends SolanaRPCRequest<BlockProduction> {
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"identity": identity},
+        {'identity': identity},
         range?.toJson(),
       ])
     ];
   }
 
   @override
-  BlockProduction onResonse(result) {
+  BlockProduction onResonse(Map<String, dynamic> result) {
     return BlockProduction.fromJson(result);
   }
 }

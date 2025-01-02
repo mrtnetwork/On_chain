@@ -7,10 +7,10 @@ class Authority extends TronProtocolBufferImpl {
   /// Create a new [Authority] instance by parsing a JSON map.
   factory Authority.fromJson(Map<String, dynamic> json) {
     return Authority(
-        account: json["account"] == null
+        account: json['account'] == null
             ? null
-            : AccountId.fromJson(json["account"]),
-        permissionName: StringUtils.tryEncode(json["permission_name"]));
+            : AccountId.fromJson(json['account']),
+        permissionName: StringUtils.tryEncode(json['permission_name']));
   }
   factory Authority.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -44,14 +44,14 @@ class Authority extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account": account?.toJson(),
-      "permission_name": StringUtils.tryDecode(permissionName)
+      'account': account?.toJson(),
+      'permission_name': StringUtils.tryDecode(permissionName)
     };
   }
 
   /// Convert the [Authority] object to its string representation.
   @override
   String toString() {
-    return "Authority{${toJson()}}";
+    return 'Authority{${toJson()}}';
   }
 }

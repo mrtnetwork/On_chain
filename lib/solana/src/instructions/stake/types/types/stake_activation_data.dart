@@ -6,9 +6,9 @@ class StakeActivationData {
       {required this.state, required this.active, required this.inactive});
   factory StakeActivationData.fromJson(Map<String, dynamic> json) {
     return StakeActivationData(
-        state: StakeActivationState.fromName(json["state"]),
-        active: json["active"],
-        inactive: json["inactive"]);
+        state: StakeActivationState.fromName(json['state']),
+        active: json['active'],
+        inactive: json['inactive']);
   }
 
   /// the stake account's activation state

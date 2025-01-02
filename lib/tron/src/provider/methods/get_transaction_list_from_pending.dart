@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Get transaction list information from pending pool
 /// [developers.tron.network](https://developers.tron.network/reference/gettransactionlistfrompending).
 class TronRequestGetTransactionListFromPending
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetTransactionListFromPending();
 
   /// wallet/gettransactionlistfrompending
@@ -18,6 +18,6 @@ class TronRequestGetTransactionListFromPending
 
   @override
   String toString() {
-    return "TronRequestGetTransactionListFromPending{${toJson()}}";
+    return 'TronRequestGetTransactionListFromPending{${toJson()}}';
   }
 }

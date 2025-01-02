@@ -1,26 +1,24 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/rpc/core/core.dart';
 import 'package:on_chain/solana/src/rpc/core/methods.dart';
-import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns signatures for confirmed transactions that include the given address in their accountKeys list.
 /// Returns signatures backwards in time from the provided signature or most recent confirmed block
 /// https://solana.com/docs/rpc/http/getsignaturesforaddress
-class SolanaRPCGetSignaturesForAddress
-    extends SolanaRPCRequest<List<Map<String, dynamic>>> {
-  const SolanaRPCGetSignaturesForAddress(
+class SolanaRequestGetSignaturesForAddress
+    extends SolanaRequest<List<Map<String, dynamic>>, List> {
+  const SolanaRequestGetSignaturesForAddress(
       {required this.account,
       this.limit = 1000,
       this.before,
       this.until,
-      Commitment? commitment,
-      MinContextSlot? minContextSlot})
-      : super(commitment: commitment, minContextSlot: minContextSlot);
+      super.commitment,
+      super.minContextSlot});
 
   /// getSignaturesForAddress
   @override
-  String get method => SolanaRPCMethods.getSignaturesForAddress.value;
+  String get method => SolanaRequestMethods.getSignaturesForAddress.value;
 
   /// Account address as base-58 encoded string
   final SolAddress account;
@@ -39,18 +37,18 @@ class SolanaRPCGetSignaturesForAddress
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
-        {"limit": limit},
-        {"before": before},
-        {"until": until}
+        {'limit': limit},
+        {'before': before},
+        {'until': until}
       ])
     ];
   }
 
   @override
-  List<Map<String, dynamic>> onResonse(result) {
-    return (result as List).map((e) => Map<String, dynamic>.from(e)).toList();
+  List<Map<String, dynamic>> onResonse(List result) {
+    return result.map((e) => Map<String, dynamic>.from(e)).toList();
   }
 }

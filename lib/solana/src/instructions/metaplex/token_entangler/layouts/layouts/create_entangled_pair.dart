@@ -25,22 +25,22 @@ class MetaplexTokenEntanglerCreateEntangledPairLayout
         instruction: MetaplexTokenEntanglerProgramInstruction
             .createEntangledPair.insturction);
     return MetaplexTokenEntanglerCreateEntangledPairLayout(
-        bump: decode["bump"],
-        reverseBump: decode["reverseBump"],
-        tokenAEscrowBump: decode["tokenAEscrowBump"],
-        tokenBEscrowBump: decode["tokenBEscrowBump"],
-        price: decode["price"],
-        paysEveryTime: decode["paysEveryTime"]);
+        bump: decode['bump'],
+        reverseBump: decode['reverseBump'],
+        tokenAEscrowBump: decode['tokenAEscrowBump'],
+        tokenBEscrowBump: decode['tokenBEscrowBump'],
+        price: decode['price'],
+        paysEveryTime: decode['paysEveryTime']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "bump"),
-    LayoutConst.u8(property: "tokenAEscrowBump"),
-    LayoutConst.u8(property: "reverseBump"),
-    LayoutConst.u8(property: "tokenBEscrowBump"),
-    LayoutConst.u64(property: "price"),
-    LayoutConst.boolean(property: "paysEveryTime"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.u8(property: 'tokenAEscrowBump'),
+    LayoutConst.u8(property: 'reverseBump'),
+    LayoutConst.u8(property: 'tokenBEscrowBump'),
+    LayoutConst.u64(property: 'price'),
+    LayoutConst.boolean(property: 'paysEveryTime'),
   ]);
 
   @override
@@ -53,12 +53,12 @@ class MetaplexTokenEntanglerCreateEntangledPairLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "bump": bump,
-      "reverseBump": reverseBump,
-      "tokenAEscrowBump": tokenAEscrowBump,
-      "tokenBEscrowBump": tokenBEscrowBump,
-      "price": price,
-      "paysEveryTime": paysEveryTime,
+      'bump': bump,
+      'reverseBump': reverseBump,
+      'tokenAEscrowBump': tokenAEscrowBump,
+      'tokenBEscrowBump': tokenBEscrowBump,
+      'price': price,
+      'paysEveryTime': paysEveryTime,
     };
   }
 }

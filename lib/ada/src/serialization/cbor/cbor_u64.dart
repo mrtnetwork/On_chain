@@ -12,20 +12,20 @@ class CborUnsignedValue implements CborNumeric {
   factory CborUnsignedValue.u64(dynamic value) {
     if (value is! int && value is! BigInt) {
       throw ADAPluginException(
-          "Invalid unsgined int. value must be int or bigint.",
-          details: {"value": value});
+          'Invalid unsgined int. value must be int or bigint.',
+          details: {'value': value});
     }
     final BigInt bigintVal = value is int ? BigInt.from(value) : value;
     if (bigintVal.isNegative || bigintVal.bitLength > 64) {
-      throw ADAPluginException("Invalid unsigned 64-bit Integer.",
-          details: {"Value": bigintVal, "bitLength": bigintVal.bitLength});
+      throw ADAPluginException('Invalid unsigned 64-bit Integer.',
+          details: {'Value': bigintVal, 'bitLength': bigintVal.bitLength});
     }
     return CborUnsignedValue._(bigintVal);
   }
   factory CborUnsignedValue.u32(int value) {
     if (value.isNegative || value.bitLength > 32) {
-      throw ADAPluginException("Invalid unsigned 32-bit Integer.",
-          details: {"Value": value, "bitLength": value.bitLength});
+      throw ADAPluginException('Invalid unsigned 32-bit Integer.',
+          details: {'Value': value, 'bitLength': value.bitLength});
     }
     return CborUnsignedValue._(value);
   }
@@ -70,7 +70,7 @@ class CborUnsignedValue implements CborNumeric {
 
   /// override equal operation
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! CborNumeric) return false;
     if (other is CborBigIntValue) return false;
     return other.toBigInt() == toBigInt();

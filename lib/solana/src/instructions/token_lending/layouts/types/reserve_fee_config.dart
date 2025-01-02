@@ -26,27 +26,27 @@ class ReserveFeesConfig {
       required this.hostFeePercentage});
   factory ReserveFeesConfig.fromJson(Map<String, dynamic> json) {
     return ReserveFeesConfig(
-        borrowFeeWad: json["borrowFeeWad"],
-        flashLoanFeeWad: json["flashLoanFeeWad"],
-        hostFeePercentage: json["hostFeePercentage"]);
+        borrowFeeWad: json['borrowFeeWad'],
+        flashLoanFeeWad: json['flashLoanFeeWad'],
+        hostFeePercentage: json['hostFeePercentage']);
   }
 
   static StructLayout layout = LayoutConst.struct([
     LayoutConst.u64(property: 'borrowFeeWad'),
     LayoutConst.u64(property: 'flashLoanFeeWad'),
     LayoutConst.u8(property: 'hostFeePercentage')
-  ], property: "fees");
+  ], property: 'fees');
 
   Map<String, dynamic> serialize() {
     return {
-      "borrowFeeWad": borrowFeeWad,
-      "flashLoanFeeWad": flashLoanFeeWad,
-      "hostFeePercentage": hostFeePercentage
+      'borrowFeeWad': borrowFeeWad,
+      'flashLoanFeeWad': flashLoanFeeWad,
+      'hostFeePercentage': hostFeePercentage
     };
   }
 
   @override
   String toString() {
-    return "ReserveFeesConfig${serialize()}";
+    return 'ReserveFeesConfig${serialize()}';
   }
 }

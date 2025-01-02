@@ -7,13 +7,13 @@ class _Utils {
   static const List<int> discriminator = [185, 62, 74, 60, 105, 158, 178, 125];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("fanout"),
-    LayoutConst.u64(property: "totalInflow"),
-    LayoutConst.u64(property: "lastInflow"),
-    LayoutConst.u8(property: "bumpSeed"),
-    SolanaLayoutUtils.publicKey("membershipKey"),
-    LayoutConst.u64(property: "shares"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('fanout'),
+    LayoutConst.u64(property: 'totalInflow'),
+    LayoutConst.u64(property: 'lastInflow'),
+    LayoutConst.u8(property: 'bumpSeed'),
+    SolanaLayoutUtils.publicKey('membershipKey'),
+    LayoutConst.u64(property: 'shares'),
   ]);
 }
 
@@ -36,14 +36,14 @@ class FanoutMembershipVoucher extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return FanoutMembershipVoucher(
-        fanout: decode["fanout"],
-        bumpSeed: decode["bumpSeed"],
-        lastInflow: decode["lastInflow"],
-        membershipKey: decode["membershipKey"],
-        shares: decode["shares"],
-        totalInflow: decode["totalInflow"]);
+        fanout: decode['fanout'],
+        bumpSeed: decode['bumpSeed'],
+        lastInflow: decode['lastInflow'],
+        membershipKey: decode['membershipKey'],
+        shares: decode['shares'],
+        totalInflow: decode['totalInflow']);
   }
 
   @override
@@ -51,18 +51,18 @@ class FanoutMembershipVoucher extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "fanout": fanout,
-      "totalInflow": totalInflow,
-      "lastInflow": lastInflow,
-      "bumpSeed": bumpSeed,
-      "membershipKey": membershipKey,
-      "shares": shares,
+      'discriminator': _Utils.discriminator,
+      'fanout': fanout,
+      'totalInflow': totalInflow,
+      'lastInflow': lastInflow,
+      'bumpSeed': bumpSeed,
+      'membershipKey': membershipKey,
+      'shares': shares,
     };
   }
 
   @override
   String toString() {
-    return "FanoutMembershipVoucher${serialize()}";
+    return 'FanoutMembershipVoucher${serialize()}';
   }
 }

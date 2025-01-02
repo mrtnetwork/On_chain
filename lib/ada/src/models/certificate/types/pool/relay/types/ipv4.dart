@@ -13,14 +13,14 @@ class Ipv4 with ADASerialization {
       : ipv4 = AdaTransactionUtils.validateFixedLengthBytes(
             bytes: ipv4,
             length: AdaTransactionConstant.ipv4Length,
-            objectName: "IPv4");
+            objectName: 'IPv4');
 
   /// Deserialize an IPv4 instance from CBOR data.
   factory Ipv4.deserialize(CborBytesValue cbor) {
     return Ipv4(cbor.getValue());
   }
   factory Ipv4.fromJson(String value) {
-    return Ipv4(value.split(".").map<int>((e) => int.parse(e)).toList());
+    return Ipv4(value.split('.').map<int>((e) => int.parse(e)).toList());
   }
   Ipv4 copyWith({
     List<int>? ipv4,
@@ -37,6 +37,6 @@ class Ipv4 with ADASerialization {
 
   @override
   String toJson() {
-    return ipv4.join(".");
+    return ipv4.join('.');
   }
 }

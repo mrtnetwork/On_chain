@@ -5,11 +5,11 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Return the block minted for the epoch specified by stake pool.
 /// https://blockfrost.dev/api/block-distribution-by-pool
 class BlockfrostRequestBlockDistributionByPool
-    extends BlockforestRequestParam<List<String>, List<dynamic>> {
+    extends BlockFrostRequest<List<String>, List<dynamic>> {
   BlockfrostRequestBlockDistributionByPool(
       {required this.epoch,
       required this.poolId,
-      BlockforestRequestFilterParams? filter})
+      BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Number of the epoch

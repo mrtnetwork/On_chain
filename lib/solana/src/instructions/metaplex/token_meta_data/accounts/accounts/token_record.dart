@@ -6,14 +6,14 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    LayoutConst.u8(property: "bump"),
-    LayoutConst.wrap(TokenState.staticLayout, property: "state"),
-    LayoutConst.optional(LayoutConst.u64(), property: "ruleSetRevision"),
-    SolanaLayoutUtils.optionPubkey(property: "delegate"),
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.wrap(TokenState.staticLayout, property: 'state'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'ruleSetRevision'),
+    SolanaLayoutUtils.optionPubkey(property: 'delegate'),
     LayoutConst.optional(TokenDelegateRole.staticLayout,
-        property: "delegateRole"),
-    SolanaLayoutUtils.optionPubkey(property: "lockedTransfer"),
+        property: 'delegateRole'),
+    SolanaLayoutUtils.optionPubkey(property: 'lockedTransfer'),
   ]);
 }
 
@@ -38,13 +38,13 @@ class TokenRecord extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return TokenRecord(
-        key: MetaDataKey.fromValue(decode["key"]),
-        bump: decode["bump"],
-        state: TokenState.fromJson(decode["state"]),
-        ruleSetRevision: decode["ruleSetRevision"],
-        delegate: decode["delegate"],
-        delegateRole: TokenDelegateRole.fromJson(decode["delegateRole"]),
-        lockedTransfer: decode["lockedTransfer"]);
+        key: MetaDataKey.fromValue(decode['key']),
+        bump: decode['bump'],
+        state: TokenState.fromJson(decode['state']),
+        ruleSetRevision: decode['ruleSetRevision'],
+        delegate: decode['delegate'],
+        delegateRole: TokenDelegateRole.fromJson(decode['delegateRole']),
+        lockedTransfer: decode['lockedTransfer']);
   }
 
   @override
@@ -52,13 +52,13 @@ class TokenRecord extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "key": key.value,
-      "bump": bump,
-      "state": state.serialize(),
-      "ruleSetRevision": ruleSetRevision,
-      "delegate": delegate,
-      "delegateRole": delegateRole?.serialize(),
-      "lockedTransfer": lockedTransfer
+      'key': key.value,
+      'bump': bump,
+      'state': state.serialize(),
+      'ruleSetRevision': ruleSetRevision,
+      'delegate': delegate,
+      'delegateRole': delegateRole?.serialize(),
+      'lockedTransfer': lockedTransfer
     };
   }
 }

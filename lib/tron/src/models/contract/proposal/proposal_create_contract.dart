@@ -9,15 +9,15 @@ class ProposalCreateContract extends TronBaseContract {
   factory ProposalCreateContract.fromJson(Map<String, dynamic> json) {
     return ProposalCreateContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       parameters: OnChainUtils.parseMap<dynamic, dynamic>(
-                  value: json["parameters"], name: "parameters") ==
+                  value: json['parameters'], name: 'parameters') ==
               null
           ? null
-          : (json["parameters"] as Map).map(
+          : (json['parameters'] as Map).map(
               (key, value) => MapEntry<BigInt, BigInt>(
-                  OnChainUtils.parseBigInt(value: key, name: "parameters"),
-                  OnChainUtils.parseBigInt(value: value, name: "parameters")),
+                  OnChainUtils.parseBigInt(value: key, name: 'parameters'),
+                  OnChainUtils.parseBigInt(value: value, name: 'parameters')),
             ),
     );
   }
@@ -52,8 +52,8 @@ class ProposalCreateContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "parameters": parameters
+      'owner_address': ownerAddress.toString(),
+      'parameters': parameters
           ?.map((key, value) => MapEntry(key.toString(), value.toString())),
     };
   }
@@ -61,7 +61,7 @@ class ProposalCreateContract extends TronBaseContract {
   /// Convert the [ProposalCreateContract] object to its string representation.
   @override
   String toString() {
-    return "ProposalCreateContract{${toJson()}}";
+    return 'ProposalCreateContract{${toJson()}}';
   }
 
   @override

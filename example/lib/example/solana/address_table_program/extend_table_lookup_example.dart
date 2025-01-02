@@ -6,6 +6,7 @@ void main() async {
 
   final account1 = QuickWalletForTest(index: 405);
   final account2 = QuickWalletForTest(index: 406);
+
   SolAddress blockHash = await owner.recentBlockhash();
   final tableAddress =
       AddressLookupTableProgramUtils.findAddressLookupTableProgram(

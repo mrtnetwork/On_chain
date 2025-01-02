@@ -8,8 +8,8 @@ class NativeScriptUtils {
   static void validateCborTypeObject(CborObject cbor, NativeScriptType type) {
     // Check if the CBOR object is an integer value
     if (cbor is! CborIntValue) {
-      throw ADAPluginException("Invalid CBOR type for native script type.",
-          details: {"Type": cbor.runtimeType});
+      throw ADAPluginException('Invalid CBOR type for native script type.',
+          details: {'Type': cbor.runtimeType});
     }
 
     // Deserialize the CBOR object to a native script type
@@ -17,8 +17,8 @@ class NativeScriptUtils {
 
     // Check if the deserialized type matches the expected type
     if (cborType != type) {
-      throw ADAPluginException("Invalid Native Script type.",
-          details: {"Expected": type, "Actual": cborType});
+      throw ADAPluginException('Invalid Native Script type.',
+          details: {'Expected': type, 'Actual': cborType});
     }
   }
 }

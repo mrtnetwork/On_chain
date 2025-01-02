@@ -5,10 +5,10 @@ import 'package:on_chain/solana/src/models/models.dart';
 
 class MetaplexNFTPacksProgram extends TransactionInstruction {
   MetaplexNFTPacksProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory MetaplexNFTPacksProgram.activate({
     required SolAddress packSet,
     required SolAddress authority,

@@ -4,10 +4,11 @@ import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 
 /// Returns the specific inflation values for the current epoch
 /// https://solana.com/docs/rpc/http/getinflationrate
-class SolanaRPCGetInflationRate extends SolanaRPCRequest<InflationRate> {
+class SolanaRequestGetInflationRate
+    extends SolanaRequest<InflationRate, Map<String, dynamic>> {
   /// getInflationRate
   @override
-  String get method => SolanaRPCMethods.getInflationRate.value;
+  String get method => SolanaRequestMethods.getInflationRate.value;
 
   @override
   List<dynamic> toJson() {
@@ -15,7 +16,7 @@ class SolanaRPCGetInflationRate extends SolanaRPCRequest<InflationRate> {
   }
 
   @override
-  InflationRate onResonse(result) {
+  InflationRate onResonse(Map<String, dynamic> result) {
     return InflationRate.fromJson(result);
   }
 }

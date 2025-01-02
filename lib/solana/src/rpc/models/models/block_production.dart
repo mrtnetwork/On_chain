@@ -10,9 +10,9 @@ class BlockProduction {
   const BlockProduction({required this.byIdentity, required this.range});
 
   factory BlockProduction.fromJson(Map<String, dynamic> json) {
-    final byIdentity = Map<String, dynamic>.from(json["byIdentity"]);
+    final byIdentity = Map<String, dynamic>.from(json['byIdentity']);
     return BlockProduction(byIdentity: {
       for (final i in byIdentity.entries) i.key: (i.value as List).cast()
-    }, range: RPCBlockRangeConfig.fromJson(json["range"]));
+    }, range: RPCBlockRangeConfig.fromJson(json['range']));
   }
 }

@@ -8,10 +8,10 @@ import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 /// Represents instructions for the ComputeBudget program.
 class ComputeBudgetProgram extends TransactionInstruction {
   ComputeBudgetProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
 
   factory ComputeBudgetProgram.fromBytes({
     required List<AccountMeta> keys,

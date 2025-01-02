@@ -9,16 +9,16 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// which retains statuses for all active slots plus MAX_RECENT_BLOCKHASHES rooted slots.
 ///
 /// https://solana.com/docs/rpc/http/getsignaturestatuses
-class SolanaRPCGetSignatureStatuses
-    extends SolanaRPCRequest<List<SignatureStatus?>> {
-  const SolanaRPCGetSignatureStatuses({
+class SolanaRequestGetSignatureStatuses
+    extends SolanaRequest<List<SignatureStatus?>, List> {
+  const SolanaRequestGetSignatureStatuses({
     this.signatures,
     this.searchTransactionHistory,
   });
 
   /// getSignatureStatuses
   @override
-  String get method => SolanaRPCMethods.getSignatureStatuses.value;
+  String get method => SolanaRequestMethods.getSignatureStatuses.value;
 
   /// An array of transaction signatures to confirm, as base-58 encoded strings (up to a maximum of 256)
   final List<String>? signatures;
@@ -30,15 +30,15 @@ class SolanaRPCGetSignatureStatuses
   List<dynamic> toJson() {
     return [
       signatures,
-      SolanaRPCUtils.createConfig([
-        {"searchTransactionHistory": searchTransactionHistory}
+      SolanaRequestUtils.createConfig([
+        {'searchTransactionHistory': searchTransactionHistory}
       ])
     ];
   }
 
   @override
-  List<SignatureStatus?> onResonse(result) {
-    return (result as List)
+  List<SignatureStatus?> onResonse(List result) {
+    return result
         .map((e) => e == null ? null : SignatureStatus.fromJson(e))
         .toList();
   }

@@ -5,18 +5,14 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the inflation / staking reward for a list of addresses for an epoch
 /// https://solana.com/docs/rpc/http/getinflationreward
-class SolanaRPCGetInflationReward
-    extends SolanaRPCRequest<List<InflationReward?>> {
-  const SolanaRPCGetInflationReward(
-      {this.addresses,
-      this.epoch,
-      Commitment? commitment,
-      MinContextSlot? minContextSlot})
-      : super(commitment: commitment, minContextSlot: minContextSlot);
+class SolanaRequestGetInflationReward
+    extends SolanaRequest<List<InflationReward?>, List> {
+  const SolanaRequestGetInflationReward(
+      {this.addresses, this.epoch, super.commitment, super.minContextSlot});
 
   /// getInflationReward
   @override
-  String get method => SolanaRPCMethods.getInflationReward.value;
+  String get method => SolanaRequestMethods.getInflationReward.value;
 
   /// An array of addresses to query, as base-58 encoded strings
   final List<String>? addresses;
@@ -28,17 +24,17 @@ class SolanaRPCGetInflationReward
   List<dynamic> toJson() {
     return [
       addresses,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"epoch": epoch},
+        {'epoch': epoch},
         minContextSlot?.toJson(),
       ]),
     ];
   }
 
   @override
-  List<InflationReward?> onResonse(result) {
-    return (result as List)
+  List<InflationReward?> onResonse(List result) {
+    return result
         .map((e) => e == null ? null : InflationReward.fromJson(e))
         .toList();
   }

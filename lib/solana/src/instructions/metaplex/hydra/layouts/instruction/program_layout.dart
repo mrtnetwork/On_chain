@@ -22,7 +22,7 @@ import 'instructions.dart';
 abstract class MetaplexHydraProgramLayout extends ProgramLayout {
   const MetaplexHydraProgramLayout();
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
+      LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   @override
   abstract final MetaplexHydraProgramInstruction instruction;
 
@@ -30,7 +30,7 @@ abstract class MetaplexHydraProgramLayout extends ProgramLayout {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final MetaplexHydraProgramInstruction? instruction =
-        MetaplexHydraProgramInstruction.getInstruction(decode["instruction"]);
+        MetaplexHydraProgramInstruction.getInstruction(decode['instruction']);
     switch (instruction) {
       case MetaplexHydraProgramInstruction.processAddMemberNft:
         return MetaplexHydraAddMemberNftLayout.fromBuffer(data);
@@ -69,11 +69,11 @@ abstract class MetaplexHydraProgramLayout extends ProgramLayout {
     required List<int> instruction,
   }) {
     final decode = layout.deserialize(bytes).value;
-    final instcutionData = decode["instruction"];
+    final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException("invalid instruction bytes", details: {
-        "expected": BytesUtils.toHexString(instruction),
-        "instruction": BytesUtils.toBinary(instcutionData)
+      throw SolanaPluginException('invalid instruction bytes', details: {
+        'expected': BytesUtils.toHexString(instruction),
+        'instruction': BytesUtils.toBinary(instcutionData)
       });
     }
 

@@ -77,16 +77,16 @@ class HeaderBody with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "blockNumber": blockNumber,
-      "slot": slot.toString(),
-      "prevHash": prevHash?.toJson(),
-      "issuerKey": issuerKey.toHex(),
-      "vrfvKey": vrfvKey.toJson(),
-      "leaderCert": leaderCert.toJson(),
-      "blockBodySize": blockBodySize,
-      "blockBodyHash": blockBodyHash.toJson(),
-      "operationalCert": operationalCert.toJson(),
-      "protocolVersion": protocolVersion.toJson()
+      'blockNumber': blockNumber,
+      'slot': slot.toString(),
+      'prevHash': prevHash?.toJson(),
+      'issuerKey': issuerKey.toHex(),
+      'vrfvKey': vrfvKey.toJson(),
+      'leaderCert': leaderCert.toJson(),
+      'blockBodySize': blockBodySize,
+      'blockBodyHash': blockBodyHash.toJson(),
+      'operationalCert': operationalCert.toJson(),
+      'protocolVersion': protocolVersion.toJson()
     };
   }
 }

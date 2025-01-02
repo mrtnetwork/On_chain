@@ -1,12 +1,12 @@
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class RPCSubmitHashrate extends ETHRPCRequest<dynamic> {
-  RPCSubmitHashrate({required this.id, required this.hashRate});
+class EthereumRequestSubmitHashrate extends EthereumRequest<Object?, Object?> {
+  EthereumRequestSubmitHashrate({required this.id, required this.hashRate});
 
   /// eth_submitHashrate
   @override
-  EthereumMethods get method => EthereumMethods.submitHashrate;
+  String get method => EthereumMethods.submitHashrate.value;
   final String id;
   final String hashRate;
   @override
@@ -16,6 +16,6 @@ class RPCSubmitHashrate extends ETHRPCRequest<dynamic> {
 
   @override
   String toString() {
-    return "RPCSubmitHashrate{${toJson()}}";
+    return 'EthereumRequestSubmitHashrate{${toJson()}}';
   }
 }

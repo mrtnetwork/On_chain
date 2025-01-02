@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// The fromAddress can be retrieved from the GetDelegatedResourceAccountIndex API.
 /// [developers.tron.network](https://developers.tron.network/reference/getdelegatedresource).
 class TronRequestGetDelegatedResource
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetDelegatedResource(
       {required this.fromAddress,
       required this.toAddress,
@@ -27,14 +27,14 @@ class TronRequestGetDelegatedResource
   @override
   Map<String, dynamic> toJson() {
     return {
-      "fromAddress": fromAddress,
-      "toAddress": toAddress,
-      "visible": visible
+      'fromAddress': fromAddress.toAddress(visible),
+      'toAddress': toAddress.toAddress(visible),
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestGetDelegatedResource{${toJson()}}";
+    return 'TronRequestGetDelegatedResource{${toJson()}}';
   }
 }

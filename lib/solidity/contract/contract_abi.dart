@@ -19,7 +19,7 @@ class ContractABI {
       }).toList();
       return ContractABI._(fragments);
     } catch (e) {
-      throw MessageException("invalid contract abi", details: {"input": abi});
+      throw MessageException('invalid contract abi', details: {'input': abi});
     }
   }
 
@@ -91,8 +91,8 @@ class ContractABI {
 
   /// solidity revert Error fragment
   static final revert = AbiErrorFragment(
-      name: "Error",
-      inputs: [const AbiParameter(name: "message", type: "string")]);
+      name: 'Error',
+      inputs: [const AbiParameter(name: 'message', type: 'string')]);
 
   /// Decodes the error data based on the error fragment in the contract ABI.
   List<dynamic>? decodeError(dynamic error) {

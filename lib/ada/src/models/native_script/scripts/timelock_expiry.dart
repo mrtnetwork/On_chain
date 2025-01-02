@@ -24,7 +24,7 @@ class NativeScriptTimelockExpiry extends NativeScript {
 
   factory NativeScriptTimelockExpiry.fromJson(Map<String, dynamic> json) {
     return NativeScriptTimelockExpiry(
-        BigintUtils.parse(json["slot"] ?? json["timelock_expiry"]["slot"]));
+        BigintUtils.parse(json['slot'] ?? json['timelock_expiry']['slot']));
   }
   NativeScriptTimelockExpiry copyWith({BigInt? slot}) {
     return NativeScriptTimelockExpiry(slot ?? this.slot);
@@ -44,7 +44,7 @@ class NativeScriptTimelockExpiry extends NativeScript {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "timelock_expiry": {"slot": slot},
+      'timelock_expiry': {'slot': slot},
     };
   }
 }

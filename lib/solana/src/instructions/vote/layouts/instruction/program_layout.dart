@@ -7,12 +7,12 @@ abstract class VoteProgramLayout extends ProgramLayout {
   @override
   VoteProgramInstruction get instruction;
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final instruction =
-        VoteProgramInstruction.getInstruction(decode["instruction"]);
+        VoteProgramInstruction.getInstruction(decode['instruction']);
     switch (instruction) {
       case VoteProgramInstruction.authorizeWithSeed:
         return VoteProgramAuthorizeWithSeedLayout.fromBuffer(data);

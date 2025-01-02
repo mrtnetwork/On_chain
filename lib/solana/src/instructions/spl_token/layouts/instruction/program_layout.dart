@@ -58,13 +58,13 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
   @override
   SPLTokenProgramInstruction get instruction;
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
       final decode =
           ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
       final instruction =
-          SPLTokenProgramInstruction.getInstruction(decode["instruction"]);
+          SPLTokenProgramInstruction.getInstruction(decode['instruction']);
       switch (instruction) {
         case SPLTokenProgramInstruction.amountToUiAmount:
           return SPLTokenAmountToUiAmountLayout.fromBuffer(data);
@@ -126,14 +126,14 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
           return SPLToken2022ExecuteLayout.fromBuffer(data);
         case SPLTokenProgramInstruction.groupMemberPointerExtension:
           final StructLayout layout = LayoutConst.struct([
-            LayoutConst.u8(property: "instruction"),
+            LayoutConst.u8(property: 'instruction'),
             LayoutConst.wrap(GroupMemberPointerInstruction.staticLayout,
-                property: "groupMemberPointer")
+                property: 'groupMemberPointer')
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
               layout: layout, bytes: data);
           final type = GroupMemberPointerInstruction.fromJson(
-              decode["groupMemberPointer"]);
+              decode['groupMemberPointer']);
           switch (type) {
             case GroupMemberPointerInstruction.initialize:
               return SPLToken2022InitializeGroupMemberPointerLayout.fromBuffer(
@@ -144,13 +144,13 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
           }
         case SPLTokenProgramInstruction.groupPointerExtension:
           final StructLayout layout = LayoutConst.struct([
-            LayoutConst.u8(property: "instruction"),
+            LayoutConst.u8(property: 'instruction'),
             LayoutConst.wrap(GroupPointerInstruction.staticLayout,
-                property: "groupPointer")
+                property: 'groupPointer')
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
               layout: layout, bytes: data);
-          final type = GroupPointerInstruction.fromJson(decode["groupPointer"]);
+          final type = GroupPointerInstruction.fromJson(decode['groupPointer']);
           switch (type) {
             case GroupPointerInstruction.initialize:
               return SPLToken2022InitializeGroupPointerLayout.fromBuffer(data);
@@ -159,14 +159,14 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
           }
         case SPLTokenProgramInstruction.metadataPointerExtension:
           final StructLayout layout = LayoutConst.struct([
-            LayoutConst.u8(property: "instruction"),
+            LayoutConst.u8(property: 'instruction'),
             LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
-                property: "metadataPointer"),
+                property: 'metadataPointer'),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
               layout: layout, bytes: data);
           final type =
-              MetadataPointerInstruction.fromJson(decode["metadataPointer"]);
+              MetadataPointerInstruction.fromJson(decode['metadataPointer']);
           switch (type) {
             case MetadataPointerInstruction.initialize:
               return SPLToken2022InitializeMetadataPointerLayout.fromBuffer(
@@ -176,13 +176,13 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
           }
         case SPLTokenProgramInstruction.transferHookExtension:
           final StructLayout layout = LayoutConst.struct([
-            LayoutConst.u8(property: "instruction"),
+            LayoutConst.u8(property: 'instruction'),
             LayoutConst.wrap(TransferHookInstruction.staticLayout,
-                property: "transferHook"),
+                property: 'transferHook'),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
               layout: layout, bytes: data);
-          final type = TransferHookInstruction.fromJson(decode["transferHook"]);
+          final type = TransferHookInstruction.fromJson(decode['transferHook']);
           switch (type) {
             case TransferHookInstruction.initialize:
               return SPLToken2022InitializeTransferHookLayout.fromBuffer(data);
@@ -193,14 +193,14 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
           return SPLToken2022ToggleCpiGuardLayout.fromBuffer(data);
         case SPLTokenProgramInstruction.interestBearingMintExtension:
           final StructLayout layout = LayoutConst.struct([
-            LayoutConst.u8(property: "instruction"),
+            LayoutConst.u8(property: 'instruction'),
             LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
-                property: "interestBearingMint"),
+                property: 'interestBearingMint'),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
               layout: layout, bytes: data);
           final type = InterestBearingMintInstruction.fromJson(
-              decode["interestBearingMint"]);
+              decode['interestBearingMint']);
           switch (type) {
             case InterestBearingMintInstruction.initialize:
               return SPLToken2022InterestBearingMintInitializeLayout.fromBuffer(
@@ -211,13 +211,13 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
           }
         case SPLTokenProgramInstruction.transferFeeExtension:
           final StructLayout layout = LayoutConst.struct([
-            LayoutConst.u8(property: "instruction"),
-            LayoutConst.u8(property: "transferFee"),
+            LayoutConst.u8(property: 'instruction'),
+            LayoutConst.u8(property: 'transferFee'),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
               layout: layout, bytes: data);
           final type = TransferFeeInstructionInstruction.fromValue(
-              decode["transferFee"]);
+              decode['transferFee']);
           switch (type) {
             case TransferFeeInstructionInstruction.harvestWithheldTokensToMint:
               return SPLToken2022HarvestWithheldTokensToMintLayout.fromBuffer(

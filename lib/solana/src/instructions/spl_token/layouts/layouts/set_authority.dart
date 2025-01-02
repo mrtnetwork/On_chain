@@ -19,9 +19,9 @@ class SPLTokenSetAuthorityLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for setting authority in SPL tokens.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "authorityType"),
-    SolanaLayoutUtils.optionPubkey(property: "newAuthority", keepSize: true)
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'authorityType'),
+    SolanaLayoutUtils.optionPubkey(property: 'newAuthority', keepSize: true)
   ]);
 
   /// Constructs an SPLTokenSetAuthorityLayout instance from buffer.
@@ -31,8 +31,8 @@ class SPLTokenSetAuthorityLayout extends SPLTokenProgramLayout {
         bytes: bytes,
         instruction: SPLTokenProgramInstruction.setAuthority.insturction);
     return SPLTokenSetAuthorityLayout(
-        authorityType: AuthorityType.fromValue(decode["authorityType"]),
-        newAuthority: decode["newAuthority"]);
+        authorityType: AuthorityType.fromValue(decode['authorityType']),
+        newAuthority: decode['newAuthority']);
   }
 
   /// Returns the layout structure.
@@ -47,6 +47,6 @@ class SPLTokenSetAuthorityLayout extends SPLTokenProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {"authorityType": authorityType.value, "newAuthority": newAuthority};
+    return {'authorityType': authorityType.value, 'newAuthority': newAuthority};
   }
 }

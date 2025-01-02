@@ -9,10 +9,10 @@ import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 /// class for transactions to interact with the Vote program
 class VoteProgram extends TransactionInstruction {
   VoteProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory VoteProgram.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,

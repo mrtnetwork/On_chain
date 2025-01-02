@@ -1,5 +1,4 @@
 // Manages the layout structure for initializing an SPL token mint with a specific instruction.
-import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initialize_mint.dart';
@@ -8,13 +7,10 @@ import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initi
 class SPLTokenInitializeMint2Layout extends SPLTokenInitializeMintLayout {
   /// Constructs an SPLTokenInitializeMint2Layout instance.
   SPLTokenInitializeMint2Layout({
-    required SolAddress mintAuthority,
-    required int decimals,
-    SolAddress? freezeAuthority,
-  }) : super(
-            mintAuthority: mintAuthority,
-            decimals: decimals,
-            freezeAuthority: freezeAuthority);
+    required super.mintAuthority,
+    required super.decimals,
+    super.freezeAuthority,
+  });
 
   /// Constructs an SPLTokenInitializeMint2Layout instance from buffer.
   factory SPLTokenInitializeMint2Layout.fromBuffer(List<int> bytes) {
@@ -24,9 +20,9 @@ class SPLTokenInitializeMint2Layout extends SPLTokenInitializeMintLayout {
       instruction: SPLTokenProgramInstruction.initializeMint2.insturction,
     );
     return SPLTokenInitializeMint2Layout(
-      freezeAuthority: decode["freezeAuthority"],
-      decimals: decode["decimals"],
-      mintAuthority: decode["mintAuthority"],
+      freezeAuthority: decode['freezeAuthority'],
+      decimals: decode['decimals'],
+      mintAuthority: decode['mintAuthority'],
     );
   }
 

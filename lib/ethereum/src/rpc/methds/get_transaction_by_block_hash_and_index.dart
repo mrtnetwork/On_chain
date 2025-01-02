@@ -3,15 +3,14 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns information about a transaction by block hash and transaction index position.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getTransactionByBlockHashAndIndex)
-class RPCGetTransactionByBlockHashAndIndex
-    extends ETHRPCRequest<Map<String, dynamic>?> {
-  RPCGetTransactionByBlockHashAndIndex(
+class EthereumRequestGetTransactionByBlockHashAndIndex
+    extends EthereumRequest<Map<String, dynamic>?, Map<String, dynamic>?> {
+  EthereumRequestGetTransactionByBlockHashAndIndex(
       {required this.blockHash, required this.index});
 
   /// eth_getTransactionByBlockHashAndIndex
   @override
-  EthereumMethods get method =>
-      EthereumMethods.getTransactionByBlockHashAndIndex;
+  String get method => EthereumMethods.getTransactionByBlockHashAndIndex.value;
 
   /// hash of a block.
   final String blockHash;
@@ -21,11 +20,11 @@ class RPCGetTransactionByBlockHashAndIndex
 
   @override
   List<dynamic> toJson() {
-    return [blockHash, "0x${index.toRadixString(16)}"];
+    return [blockHash, '0x${index.toRadixString(16)}'];
   }
 
   @override
   String toString() {
-    return "RPCGetTransactionByBlockHashAndIndex{${toJson()}}";
+    return 'EthereumRequestGetTransactionByBlockHashAndIndex{${toJson()}}';
   }
 }

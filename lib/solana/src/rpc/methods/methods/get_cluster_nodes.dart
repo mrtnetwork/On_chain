@@ -4,10 +4,11 @@ import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 
 /// Returns information about all the nodes participating in the clusterot
 /// https://solana.com/docs/rpc/http/getclusternodes
-class SolanaRPCGetClusterNodes extends SolanaRPCRequest<List<ContactInfo>> {
+class SolanaRequestGetClusterNodes
+    extends SolanaRequest<List<ContactInfo>, List> {
   /// getClusterNodes
   @override
-  String get method => SolanaRPCMethods.getClusterNodes.value;
+  String get method => SolanaRequestMethods.getClusterNodes.value;
 
   @override
   List<dynamic> toJson() {
@@ -15,7 +16,7 @@ class SolanaRPCGetClusterNodes extends SolanaRPCRequest<List<ContactInfo>> {
   }
 
   @override
-  List<ContactInfo> onResonse(result) {
-    return (result as List).map((e) => ContactInfo.fromJson(e)).toList();
+  List<ContactInfo> onResonse(List result) {
+    return result.map((e) => ContactInfo.fromJson(e)).toList();
   }
 }

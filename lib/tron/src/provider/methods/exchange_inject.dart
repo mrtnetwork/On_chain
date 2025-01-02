@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// the trading pair is to prevent price fluctuation from affecting the transaction.
 /// [developers.tron.network](https://developers.tron.network/reference/exchangeinject).
 class TronRequestExchangeInject
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestExchangeInject(
       {required this.ownerAddress,
       required this.exchangeId,
@@ -38,17 +38,17 @@ class TronRequestExchangeInject
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "exchange_id": exchangeId,
-      "token_id": tokenId,
-      "quant": quant,
-      "permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'exchange_id': exchangeId,
+      'token_id': tokenId,
+      'quant': quant,
+      'permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestExchangeInject{${toJson()}}";
+    return 'TronRequestExchangeInject{${toJson()}}';
   }
 }

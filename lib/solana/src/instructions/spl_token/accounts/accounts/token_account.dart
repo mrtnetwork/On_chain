@@ -70,38 +70,38 @@ class SolanaTokenAccount extends LayoutSerializable {
   factory SolanaTokenAccount.fromBuffer(
       {required List<int> data, required SolAddress address}) {
     if (data.length < SolanaTokenAccountUtils.accountSize) {
-      throw SolanaPluginException("Account data length is insufficient.",
+      throw SolanaPluginException('Account data length is insufficient.',
           details: {
-            "Expected": SolanaTokenAccountUtils.accountSize,
-            "length": data.length
+            'Expected': SolanaTokenAccountUtils.accountSize,
+            'length': data.length
           });
     }
     final decode = LayoutSerializable.decode(
         bytes: data, layout: SolanaTokenAccountUtils.layout);
-    final bool delegateOption = decode["delegateOption"];
-    final bool isNativeOption = decode["isNativeOption"];
-    final bool hasCloseAuthority = decode["closeAuthorityOption"];
-    final AccountState state = AccountState.fromValue(decode["state"]);
+    final bool delegateOption = decode['delegateOption'];
+    final bool isNativeOption = decode['isNativeOption'];
+    final bool hasCloseAuthority = decode['closeAuthorityOption'];
+    final AccountState state = AccountState.fromValue(decode['state']);
     if (data.length > SolanaTokenAccountUtils.accountSize) {
       final accountType = SolanaTokenAccountType.fromValue(
           data[SolanaTokenAccountUtils.accountSize]);
       if (accountType != SolanaTokenAccountType.account) {
-        throw SolanaPluginException("Invalid account type.", details: {
-          "account type": accountType.name,
-          "Excepted": SolanaTokenAccountType.account
+        throw SolanaPluginException('Invalid account type.', details: {
+          'account type': accountType.name,
+          'Excepted': SolanaTokenAccountType.account
         });
       }
     }
     return SolanaTokenAccount(
         address: address,
-        mint: decode["mint"],
-        owner: decode["owner"],
-        amount: decode["amount"],
-        delegate: delegateOption ? decode["delegate"] : null,
-        delegatedAmount: decode["delegatedAmount"],
+        mint: decode['mint'],
+        owner: decode['owner'],
+        amount: decode['amount'],
+        delegate: delegateOption ? decode['delegate'] : null,
+        delegatedAmount: decode['delegatedAmount'],
         state: state,
-        rentExemptReserve: isNativeOption ? decode["rentExemptReserve"] : null,
-        closeAuthority: hasCloseAuthority ? decode["closeAuthority"] : null);
+        rentExemptReserve: isNativeOption ? decode['rentExemptReserve'] : null,
+        closeAuthority: hasCloseAuthority ? decode['closeAuthority'] : null);
   }
 
   @override
@@ -109,22 +109,22 @@ class SolanaTokenAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "mint": mint,
-      "owner": owner,
-      "amount": amount,
-      "delegateOption": delegate == null ? false : true,
-      "delegate": delegate ?? SolAddress.defaultPubKey,
-      "delegatedAmount": delegatedAmount,
-      "state": state.value,
-      "isNativeOption": isNative,
-      "rentExemptReserve": rentExemptReserve ?? BigInt.zero,
-      "closeAuthorityOption": closeAuthority == null ? false : true,
-      "closeAuthority": closeAuthority ?? SolAddress.defaultPubKey,
+      'mint': mint,
+      'owner': owner,
+      'amount': amount,
+      'delegateOption': delegate == null ? false : true,
+      'delegate': delegate ?? SolAddress.defaultPubKey,
+      'delegatedAmount': delegatedAmount,
+      'state': state.value,
+      'isNativeOption': isNative,
+      'rentExemptReserve': rentExemptReserve ?? BigInt.zero,
+      'closeAuthorityOption': closeAuthority == null ? false : true,
+      'closeAuthority': closeAuthority ?? SolAddress.defaultPubKey,
     };
   }
 
   @override
   String toString() {
-    return "SolanaTokenAccount${serialize()}";
+    return 'SolanaTokenAccount${serialize()}';
   }
 }

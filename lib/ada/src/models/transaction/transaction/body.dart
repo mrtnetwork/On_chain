@@ -188,67 +188,67 @@ class TransactionBody with ADASerialization {
 
   factory TransactionBody.fromJson(Map<String, dynamic> json) {
     return TransactionBody(
-        inputs: (json["inputs"] as List)
+        inputs: (json['inputs'] as List)
             .map((e) => TransactionInput.fromJson(e))
             .toList(),
-        outputs: (json["outputs"] as List)
+        outputs: (json['outputs'] as List)
             .map((e) => TransactionOutput.fromJson(e))
             .toList(),
-        fee: BigintUtils.parse(json["fee"]),
-        ttl: BigintUtils.tryParse(json["ttl"]),
-        certs: (json["certs"] as List?)
+        fee: BigintUtils.parse(json['fee']),
+        ttl: BigintUtils.tryParse(json['ttl']),
+        certs: (json['certs'] as List?)
             ?.map((e) => Certificate.fromJson(e))
             .toList(),
-        withdrawals: json["withdrawals"] == null
+        withdrawals: json['withdrawals'] == null
             ? null
-            : Withdrawals.fromJson(json["withdrawals"]),
-        update: json["update"] == null ? null : Update.fromJson(json["update"]),
-        auxiliaryDataHash: json["auxiliary_data_hash"] == null
+            : Withdrawals.fromJson(json['withdrawals']),
+        update: json['update'] == null ? null : Update.fromJson(json['update']),
+        auxiliaryDataHash: json['auxiliary_data_hash'] == null
             ? null
-            : AuxiliaryDataHash.fromHex(json["auxiliary_data_hash"]),
+            : AuxiliaryDataHash.fromHex(json['auxiliary_data_hash']),
         validityStartInterval:
-            BigintUtils.tryParse(json["validity_start_interval"]),
-        mint: json["mint"] == null ? null : Mint.fromJson(json["mint"]),
-        scriptDataHash: json["script_data_hash"] == null
+            BigintUtils.tryParse(json['validity_start_interval']),
+        mint: json['mint'] == null ? null : Mint.fromJson(json['mint']),
+        scriptDataHash: json['script_data_hash'] == null
             ? null
-            : ScriptDataHash.fromHex(json["script_data_hash"]),
-        collateral: (json["collateral"] as List?)
+            : ScriptDataHash.fromHex(json['script_data_hash']),
+        collateral: (json['collateral'] as List?)
             ?.map((e) => TransactionInput.fromJson(e))
             .toList(),
-        requiredSigners: (json["required_signers"] as List?)
+        requiredSigners: (json['required_signers'] as List?)
             ?.map((e) => Ed25519KeyHash.fromHex(e))
             .toList(),
-        network: json["network_id"] == null
+        network: json['network_id'] == null
             ? null
-            : ADANetwork.fromTag(json["network_id"]),
-        collateralReturn: json["collateral_return"] == null
+            : ADANetwork.fromTag(json['network_id']),
+        collateralReturn: json['collateral_return'] == null
             ? null
-            : TransactionOutput.fromJson(json["collateral_return"]),
-        referenceInputs: (json["reference_inputs"] as List?)
+            : TransactionOutput.fromJson(json['collateral_return']),
+        referenceInputs: (json['reference_inputs'] as List?)
             ?.map((e) => TransactionInput.fromJson(e))
             .toList(),
-        totalCollateral: BigintUtils.tryParse(json["reference_inputs"]));
+        totalCollateral: BigintUtils.tryParse(json['reference_inputs']));
   }
   @override
   Map<String, dynamic> toJson() {
     return {
-      "inputs": inputs.map((e) => e.toJson()).toList(),
-      "outputs": outputs.map((e) => e.toJson()).toList(),
-      "fee": fee.toString(),
-      "ttl": ttl?.toString(),
-      "certs": certs?.map((e) => e.toJson()).toList(),
-      "withdrawals": withdrawals?.toJson(),
-      "update": update?.toJson(),
-      "auxiliary_data_hash": auxiliaryDataHash?.toJson(),
-      "validity_start_interval": validityStartInterval?.toString(),
-      "mint": mint?.toJson(),
-      "script_data_hash": scriptDataHash?.toJson(),
-      "collateral": collateral?.map((e) => e.toJson()).toList(),
-      "required_signers": requiredSigners?.map((e) => e.toJson()).toList(),
-      "network_id": network?.value,
-      "collateral_return": collateralReturn?.toJson(),
-      "total_collateral": totalCollateral?.toString(),
-      "reference_inputs": referenceInputs?.map((e) => e.toJson()).toList()
+      'inputs': inputs.map((e) => e.toJson()).toList(),
+      'outputs': outputs.map((e) => e.toJson()).toList(),
+      'fee': fee.toString(),
+      'ttl': ttl?.toString(),
+      'certs': certs?.map((e) => e.toJson()).toList(),
+      'withdrawals': withdrawals?.toJson(),
+      'update': update?.toJson(),
+      'auxiliary_data_hash': auxiliaryDataHash?.toJson(),
+      'validity_start_interval': validityStartInterval?.toString(),
+      'mint': mint?.toJson(),
+      'script_data_hash': scriptDataHash?.toJson(),
+      'collateral': collateral?.map((e) => e.toJson()).toList(),
+      'required_signers': requiredSigners?.map((e) => e.toJson()).toList(),
+      'network_id': network?.value,
+      'collateral_return': collateralReturn?.toJson(),
+      'total_collateral': totalCollateral?.toString(),
+      'reference_inputs': referenceInputs?.map((e) => e.toJson()).toList()
     };
   }
 }

@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Get the account balance in a specific block
 /// [developers.tron.network](https://developers.tron.network/reference/getaccountbalance).
 class TronRequestGetAccountBalance
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetAccountBalance(
       {required this.accountIdentifier,
       required this.blockIdentifier,
@@ -25,14 +25,16 @@ class TronRequestGetAccountBalance
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account_identifier": accountIdentifier,
-      "block_identifier": blockIdentifier,
-      "visible": visible
+      'account_identifier': accountIdentifier.map(
+        (key, value) => MapEntry(key, value.toAddress(visible)),
+      ),
+      'block_identifier': blockIdentifier,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestGetAccountBalance{${toJson()}}";
+    return 'TronRequestGetAccountBalance{${toJson()}}';
   }
 }

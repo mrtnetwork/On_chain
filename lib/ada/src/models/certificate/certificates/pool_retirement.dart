@@ -24,10 +24,10 @@ class PoolRetirement extends Certificate {
         poolKeyHash: Ed25519KeyHash.deserialize(cbor.getIndex(1)));
   }
   factory PoolRetirement.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> correctJson = json["pool_retirement"] ?? json;
+    final Map<String, dynamic> correctJson = json['pool_retirement'] ?? json;
     return PoolRetirement(
-        epoch: correctJson["epoch"],
-        poolKeyHash: Ed25519KeyHash.fromHex(correctJson["pool_keyhash"]));
+        epoch: correctJson['epoch'],
+        poolKeyHash: Ed25519KeyHash.fromHex(correctJson['pool_keyhash']));
   }
 
   PoolRetirement copyWith({
@@ -51,7 +51,7 @@ class PoolRetirement extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "pool_retirement": {"pool_keyhash": poolKeyHash.toJson(), "epoch": epoch}
+      'pool_retirement': {'pool_keyhash': poolKeyHash.toJson(), 'epoch': epoch}
     };
   }
 }

@@ -51,7 +51,7 @@ class BlockTagOrNumber {
       BlockTagOrNumber.fromTag(BlockTag.finalized);
 
   String? get _toRadix16Number {
-    if (_blockNumber != null) return "0x${_blockNumber!.toRadixString(16)}";
+    if (_blockNumber != null) return '0x${_blockNumber.toRadixString(16)}';
     return null;
   }
 

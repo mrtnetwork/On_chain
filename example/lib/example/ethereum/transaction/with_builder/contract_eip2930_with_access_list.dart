@@ -16,7 +16,7 @@ void main() async {
       "wss://polygon-mumbai-bor.publicnode.com");
 
   /// Create an Ethereum RPC instance
-  final rpc = EVMRPC(wsocketService);
+  final rpc = EthereumProvider(wsocketService);
 
   /// Define a seed for generating a private key
   final seed = BytesUtils.fromHexString(
@@ -63,8 +63,8 @@ void main() async {
       chainId: BigInt.from(80001));
 
   /// Request and set access list for the transaction
-  final accessList =
-      await rpc.request(RPCCreateAccessList(transaction: tr.toEstimate()));
+  final accessList = await rpc
+      .request(EthereumRequestCreateAccessList(transaction: tr.toEstimate()));
   tr.setAccessList(accessList.item1);
 
   /// Autofill the transaction details using the RPC service

@@ -15,7 +15,7 @@ class MetaplexBubblegumSetTreeDelegateLayout
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.blob(8, property: 'instruction'),
   ]);
 
   @override

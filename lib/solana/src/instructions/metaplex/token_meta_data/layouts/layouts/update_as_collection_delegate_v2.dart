@@ -20,17 +20,17 @@ class MetaplexTokenMetaDataUpdateAsCollectionDelegateV2Layout
         instruction: MetaplexTokenMetaDataProgramInstruction
             .updateAsCollectionDelegateV2.insturction);
     return MetaplexTokenMetaDataUpdateAsCollectionDelegateV2Layout(
-        collection: CollectionToggle.fromJson(decode["collection"]),
-        authorizationData: decode["authorizationData"] == null
+        collection: CollectionToggle.fromJson(decode['collection']),
+        authorizationData: decode['authorizationData'] == null
             ? null
-            : Payload.fromJson(decode["authorizationData"]));
+            : Payload.fromJson(decode['authorizationData']));
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    LayoutConst.wrap(CollectionToggle.staticLayout, property: "collection"),
-    LayoutConst.optional(Payload.staticLayout, property: "authorizationData")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData')
   ]);
 
   @override
@@ -43,9 +43,9 @@ class MetaplexTokenMetaDataUpdateAsCollectionDelegateV2Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "authorizationData": authorizationData?.serialize(),
-      "discriminator": discriminator,
-      "collection": collection.serialize()
+      'authorizationData': authorizationData?.serialize(),
+      'discriminator': discriminator,
+      'collection': collection.serialize()
     };
   }
 }

@@ -15,8 +15,8 @@ class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for SPLTokenInitializeMintCloseAuthorityLayout.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    SolanaLayoutUtils.optionPubkey(property: "closeAuthority", keepSize: true)
+    LayoutConst.u8(property: 'instruction'),
+    SolanaLayoutUtils.optionPubkey(property: 'closeAuthority', keepSize: true)
   ]);
 
   /// Constructs an SPLTokenInitializeMintCloseAuthorityLayout instance from buffer.
@@ -28,7 +28,7 @@ class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
         instruction: SPLTokenProgramInstruction
             .initializeMintCloseAuthority.insturction);
     return SPLTokenInitializeMintCloseAuthorityLayout(
-        closeAuthority: decode["closeAuthority"]);
+        closeAuthority: decode['closeAuthority']);
   }
 
   /// Gets the layout structure.
@@ -43,6 +43,6 @@ class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
   /// Serializes the layout.
   @override
   Map<String, dynamic> serialize() {
-    return {"closeAuthority": closeAuthority};
+    return {'closeAuthority': closeAuthority};
   }
 }

@@ -10,15 +10,15 @@ class VoteWitnessContract extends TronBaseContract {
   factory VoteWitnessContract.fromJson(Map<String, dynamic> json) {
     return VoteWitnessContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       votes:
-          OnChainUtils.parseList<dynamic>(value: json["votes"], name: "votes")
+          OnChainUtils.parseList<dynamic>(value: json['votes'], name: 'votes')
               ?.map((vote) => VoteWitnessContractVote.fromJson(
                   OnChainUtils.parseMap(
-                      value: vote, name: "vote", throwOnNull: true)!))
+                      value: vote, name: 'vote', throwOnNull: true)!))
               .toList(),
       support:
-          OnChainUtils.parseBoolean(value: json["support"], name: "support"),
+          OnChainUtils.parseBoolean(value: json['support'], name: 'support'),
     );
   }
 
@@ -55,16 +55,16 @@ class VoteWitnessContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "votes": votes?.map((vote) => vote.toJson()).toList(),
-      "support": support,
+      'owner_address': ownerAddress.toString(),
+      'votes': votes?.map((vote) => vote.toJson()).toList(),
+      'support': support,
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [VoteWitnessContract] object to its string representation.
   @override
   String toString() {
-    return "VoteWitnessContract{${toJson()}}";
+    return 'VoteWitnessContract{${toJson()}}';
   }
 
   @override

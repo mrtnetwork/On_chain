@@ -9,20 +9,20 @@ class ProgrammableConfigRecord extends LayoutSerializable {
   final dynamic fields;
   const ProgrammableConfigRecord._(this.name, this.fields);
   factory ProgrammableConfigRecord.v1({SolAddress? ruleSet}) {
-    return ProgrammableConfigRecord._("V1", ruleSet);
+    return ProgrammableConfigRecord._('V1', ruleSet);
   }
   factory ProgrammableConfigRecord.fromJson(Map<String, dynamic> json) {
-    final name = json["programmableConfigRecord"]["key"];
-    if (name != "V1") {
+    final name = json['programmableConfigRecord']['key'];
+    if (name != 'V1') {
       throw SolanaPluginException(
-          "Invalid ProgrammableConfigRecord version: $name. Expected version: V1");
+          'Invalid ProgrammableConfigRecord version: $name. Expected version: V1');
     }
-    return ProgrammableConfigRecord._(json["programmableConfigRecord"]["key"],
-        json["programmableConfigRecord"]["value"]);
+    return ProgrammableConfigRecord._(json['programmableConfigRecord']['key'],
+        json['programmableConfigRecord']['value']);
   }
   static StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.rustEnum([SolanaLayoutUtils.optionPubkey(property: "V1")],
-        property: "programmableConfigRecord")
+    LayoutConst.rustEnum([SolanaLayoutUtils.optionPubkey(property: 'V1')],
+        property: 'programmableConfigRecord')
   ]);
 
   @override
@@ -30,7 +30,7 @@ class ProgrammableConfigRecord extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "programmableConfigRecord": {name: fields}
+      'programmableConfigRecord': {name: fields}
     };
   }
 }

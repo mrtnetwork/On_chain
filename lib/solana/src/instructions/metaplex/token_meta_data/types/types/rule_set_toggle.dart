@@ -9,29 +9,29 @@ class RuleSetToggle extends LayoutSerializable {
   final int value;
   final List<SolAddress>? fileds;
   factory RuleSetToggle.fromJson(Map<String, dynamic> json) {
-    final key = json["ruleSetToggle"]["key"];
-    final List<dynamic> value = json["ruleSetToggle"]["value"];
+    final key = json['ruleSetToggle']['key'];
+    final List<dynamic> value = json['ruleSetToggle']['value'];
     switch (key) {
-      case "NoneLayout":
+      case 'NoneLayout':
         return none;
-      case "Clear":
+      case 'Clear':
         return clear;
       default:
         return RuleSetToggle.set(address: value[0]);
     }
   }
-  static const RuleSetToggle none = RuleSetToggle._("NoneLayout", 0, null);
-  static const RuleSetToggle clear = RuleSetToggle._("Clear", 1, null);
+  static const RuleSetToggle none = RuleSetToggle._('NoneLayout', 0, null);
+  static const RuleSetToggle clear = RuleSetToggle._('Clear', 1, null);
   factory RuleSetToggle.set({required SolAddress address}) {
-    return RuleSetToggle._("Set", 2, [address]);
+    return RuleSetToggle._('Set', 2, [address]);
   }
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum([
-      LayoutConst.none(property: "NoneLayout"),
-      LayoutConst.none(property: "Clear"),
-      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: "Set"),
-    ], property: "ruleSetToggle")
+      LayoutConst.none(property: 'NoneLayout'),
+      LayoutConst.none(property: 'Clear'),
+      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: 'Set'),
+    ], property: 'ruleSetToggle')
   ]);
 
   @override
@@ -40,7 +40,7 @@ class RuleSetToggle extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "ruleSetToggle": {name: fileds}
+      'ruleSetToggle': {name: fileds}
     };
   }
 }

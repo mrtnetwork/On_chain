@@ -4,11 +4,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of all used transaction metadata labels.
 /// https://blockfrost.dev/api/transaction-metadata-labels
-class BlockfrostRequestTransactionMetadataLabels
-    extends BlockforestRequestParam<List<ADAMetadataLabelResponse>,
-        List<Map<String, dynamic>>> {
+class BlockfrostRequestTransactionMetadataLabels extends BlockFrostRequest<
+    List<ADAMetadataLabelResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionMetadataLabels(
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Transaction metadata labels

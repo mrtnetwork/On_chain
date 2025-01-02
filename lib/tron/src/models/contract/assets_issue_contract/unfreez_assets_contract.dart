@@ -12,7 +12,7 @@ class UnfreezeAssetContract extends TronBaseContract {
   factory UnfreezeAssetContract.fromJson(Map<String, dynamic> json) {
     return UnfreezeAssetContract(
         ownerAddress: OnChainUtils.parseTronAddress(
-            value: json["owner_address"], name: "owner_address"));
+            value: json['owner_address'], name: 'owner_address'));
   }
   factory UnfreezeAssetContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -33,13 +33,13 @@ class UnfreezeAssetContract extends TronBaseContract {
   /// Convert the [UnfreezeAssetContract] object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"owner_address": ownerAddress.toString()};
+    return {'owner_address': ownerAddress.toString()};
   }
 
   /// Convert the [UnfreezeAssetContract] object to its string representation.
   @override
   String toString() {
-    return "UnfreezeAssetContract{${toJson()}}";
+    return 'UnfreezeAssetContract{${toJson()}}';
   }
 
   @override

@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Create a TRX transfer transaction. If to_address does not exist, then create the account on the blockchain.
 /// [developers.tron.network](https://developers.tron.network/reference/createtransaction).
 class TronRequestCreateTransaction
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   TronRequestCreateTransaction(
       {required this.ownerAddress,
       required this.toAddress,
@@ -48,12 +48,12 @@ class TronRequestCreateTransaction
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "to_address": toAddress,
-      "amount": amount,
-      "Permission_id": permissionId,
-      "visible": visible,
-      "extra_data": extraData,
+      'owner_address': ownerAddress.toAddress(visible),
+      'to_address': toAddress.toAddress(visible),
+      'amount': amount,
+      'Permission_id': permissionId,
+      'visible': visible,
+      'extra_data': extraData,
     };
   }
 

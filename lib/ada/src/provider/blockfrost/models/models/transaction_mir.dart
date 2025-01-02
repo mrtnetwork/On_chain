@@ -39,6 +39,6 @@ class ADATransactionMIRResponse {
 
   @override
   String toString() {
-    return "ADATransactionMIRResponse${toJson()}";
+    return 'ADATransactionMIRResponse${toJson()}';
   }
 }

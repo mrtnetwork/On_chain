@@ -10,13 +10,13 @@ class ComputeBudgetProgramInstruction implements ProgramLayoutInstruction {
   final String name;
   const ComputeBudgetProgramInstruction(this.insturction, this.name);
   static const ComputeBudgetProgramInstruction requestUnits =
-      ComputeBudgetProgramInstruction(0, "RequestUnits");
+      ComputeBudgetProgramInstruction(0, 'RequestUnits');
   static const ComputeBudgetProgramInstruction requestHeapFrame =
-      ComputeBudgetProgramInstruction(1, "RequestHeapFrame");
+      ComputeBudgetProgramInstruction(1, 'RequestHeapFrame');
   static const ComputeBudgetProgramInstruction setComputeUnitLimit =
-      ComputeBudgetProgramInstruction(2, "SetComputeUnitLimit");
+      ComputeBudgetProgramInstruction(2, 'SetComputeUnitLimit');
   static const ComputeBudgetProgramInstruction setComputeUnitPrice =
-      ComputeBudgetProgramInstruction(3, "SetComputeUnitPrice");
+      ComputeBudgetProgramInstruction(3, 'SetComputeUnitPrice');
 
   static const List<ComputeBudgetProgramInstruction> values = [
     requestUnits,
@@ -33,7 +33,7 @@ class ComputeBudgetProgramInstruction implements ProgramLayoutInstruction {
   }
 
   @override
-  String get programName => "ComputeBudget";
+  String get programName => 'ComputeBudget';
 
   @override
   SolAddress get programAddress => ComputeBudgetConst.programId;

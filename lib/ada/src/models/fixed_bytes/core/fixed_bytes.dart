@@ -20,7 +20,7 @@ abstract class FixedBytes
             hexBytes: hexBytes, length: length);
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     return identical(this, other) ||
         (other is FixedBytes &&
             other.runtimeType == runtimeType &&
@@ -57,6 +57,6 @@ abstract class FixedBytes
 
   @override
   String toString() {
-    return "$runtimeType${toJson()}}";
+    return '$runtimeType${toJson()}}';
   }
 }

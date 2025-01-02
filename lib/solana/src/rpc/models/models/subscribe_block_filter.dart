@@ -18,8 +18,8 @@ class SubscribeBlockFilter {
 
   dynamic toJson() {
     if (mentionsAccountOrProgram != null) {
-      return {"mentionsAccountOrProgram": mentionsAccountOrProgram!.address};
+      return {'mentionsAccountOrProgram': mentionsAccountOrProgram!.address};
     }
-    return "all";
+    return 'all';
   }
 }

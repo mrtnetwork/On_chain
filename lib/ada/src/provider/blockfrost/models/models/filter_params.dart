@@ -1,41 +1,40 @@
-class BlockforestRequestOrderingResponse {
-  const BlockforestRequestOrderingResponse._(this.name);
+class BlockFrostRequestOrderingResponse {
+  const BlockFrostRequestOrderingResponse._(this.name);
   final String name;
-  static const BlockforestRequestOrderingResponse asc =
-      BlockforestRequestOrderingResponse._("asc");
-  static const BlockforestRequestOrderingResponse desc =
-      BlockforestRequestOrderingResponse._("desc");
+  static const BlockFrostRequestOrderingResponse asc =
+      BlockFrostRequestOrderingResponse._('asc');
+  static const BlockFrostRequestOrderingResponse desc =
+      BlockFrostRequestOrderingResponse._('desc');
 }
 
-abstract class BlockforestRequestFilter {
-  const BlockforestRequestFilter(this.count, this.page, this.ordering);
+abstract class BlockFrostRequestFilter {
+  const BlockFrostRequestFilter(this.count, this.page, this.ordering);
   final int? count;
   final int? page;
-  final BlockforestRequestOrderingResponse? ordering;
+  final BlockFrostRequestOrderingResponse? ordering;
 
   Map<String, String> toJson() {
     return {
-      if (count != null) ...{"count": count!.toString()},
-      if (page != null) ...{"page": page!.toString()},
-      if (ordering != null) ...{"order": ordering!.name},
+      if (count != null) ...{'count': count!.toString()},
+      if (page != null) ...{'page': page!.toString()},
+      if (ordering != null) ...{'order': ordering!.name},
     };
   }
 }
 
-class BlockforestRequestFilterParams extends BlockforestRequestFilter {
-  const BlockforestRequestFilterParams({
+class BlockFrostRequestFilterParams extends BlockFrostRequestFilter {
+  const BlockFrostRequestFilterParams({
     int? count,
     int? page,
-    BlockforestRequestOrderingResponse? ordering,
+    BlockFrostRequestOrderingResponse? ordering,
   }) : super(count, page, ordering);
 }
 
-class BlockforestRequestTransactionFilterParams
-    extends BlockforestRequestFilter {
-  const BlockforestRequestTransactionFilterParams(
+class BlockFrostRequestTransactionFilterParams extends BlockFrostRequestFilter {
+  const BlockFrostRequestTransactionFilterParams(
       {int? count,
       int? page,
-      BlockforestRequestOrderingResponse? ordering,
+      BlockFrostRequestOrderingResponse? ordering,
       this.from,
       this.to})
       : super(count, page, ordering);
@@ -53,8 +52,8 @@ class BlockforestRequestTransactionFilterParams
   Map<String, String> toJson() {
     return super.toJson()
       ..addAll({
-        if (from != null) ...{"from": from!},
-        if (to != null) ...{"to": to!}
+        if (from != null) ...{'from': from!},
+        if (to != null) ...{'to': to!}
       });
   }
 }

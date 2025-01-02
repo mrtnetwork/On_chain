@@ -17,12 +17,12 @@ class LeafSchemaV1 extends LayoutSerializable {
 
   factory LeafSchemaV1.fromJson(Map<String, dynamic> json) {
     return LeafSchemaV1(
-        id: json["id"],
-        owner: json["owner"],
-        delegate: json["delegate"],
-        nonce: json["nonce"],
-        dataHash: json["dataHash"],
-        creatorHash: json["creatorHash"]);
+        id: json['id'],
+        owner: json['owner'],
+        delegate: json['delegate'],
+        nonce: json['nonce'],
+        dataHash: json['dataHash'],
+        creatorHash: json['creatorHash']);
   }
 
   static const int version = 0;
@@ -33,14 +33,14 @@ class LeafSchemaV1 extends LayoutSerializable {
   final List<int> dataHash;
   final List<int> creatorHash;
   static StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u8(property: "version"),
-    SolanaLayoutUtils.publicKey("id"),
-    SolanaLayoutUtils.publicKey("owner"),
-    SolanaLayoutUtils.publicKey("delegate"),
-    LayoutConst.u64(property: "nonce"),
-    LayoutConst.blob(32, property: "dataHash"),
-    LayoutConst.blob(32, property: "creatorHash"),
-  ], property: "leafschema");
+    LayoutConst.u8(property: 'version'),
+    SolanaLayoutUtils.publicKey('id'),
+    SolanaLayoutUtils.publicKey('owner'),
+    SolanaLayoutUtils.publicKey('delegate'),
+    LayoutConst.u64(property: 'nonce'),
+    LayoutConst.blob(32, property: 'dataHash'),
+    LayoutConst.blob(32, property: 'creatorHash'),
+  ], property: 'leafschema');
 
   @override
   StructLayout get layout => staticLayout;
@@ -48,18 +48,18 @@ class LeafSchemaV1 extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "version": version,
-      "id": id,
-      "owner": owner,
-      "delegate": delegate,
-      "nonce": nonce,
-      "dataHash": dataHash,
-      "creatorHash": creatorHash
+      'version': version,
+      'id': id,
+      'owner': owner,
+      'delegate': delegate,
+      'nonce': nonce,
+      'dataHash': dataHash,
+      'creatorHash': creatorHash
     };
   }
 
   @override
   String toString() {
-    return "LeafSchemaV1${serialize()}";
+    return 'LeafSchemaV1${serialize()}';
   }
 }

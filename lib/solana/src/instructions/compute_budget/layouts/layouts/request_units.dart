@@ -23,15 +23,15 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
         bytes: data,
         instruction: ComputeBudgetProgramInstruction.requestUnits.insturction);
     return ComputeBudgetRequestUnitsLayout(
-      units: decode["units"],
-      additionalFee: decode["additionalFee"],
+      units: decode['units'],
+      additionalFee: decode['additionalFee'],
     );
   }
   // StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u32(property: "units"),
-    LayoutConst.u32(property: "additionalFee"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'units'),
+    LayoutConst.u32(property: 'additionalFee'),
   ]);
 
   @override
@@ -43,11 +43,11 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"units": units, "additionalFee": additionalFee};
+    return {'units': units, 'additionalFee': additionalFee};
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"units": units, "additionalFee": additionalFee};
+    return {'units': units, 'additionalFee': additionalFee};
   }
 }

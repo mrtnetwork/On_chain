@@ -25,7 +25,7 @@ abstract class ProgramLayout extends LayoutSerializable {
   @override
   List<int> toBytes() {
     return layout
-        .serialize({"instruction": instruction.insturction, ...serialize()});
+        .serialize({'instruction': instruction.insturction, ...serialize()});
   }
 
   /// Converts the program to a hexadecimal string.
@@ -48,18 +48,18 @@ abstract class ProgramLayout extends LayoutSerializable {
   }) {
     final decode = layout.deserialize(bytes).value;
     if (instruction != null) {
-      if (decode["instruction"] != instruction) {
-        throw SolanaPluginException("invalid instruction index", details: {
-          "excepted": instruction,
-          "instruction": decode["instruction"]
+      if (decode['instruction'] != instruction) {
+        throw SolanaPluginException('invalid instruction index', details: {
+          'excepted': instruction,
+          'instruction': decode['instruction']
         });
       }
     }
     if (discriminator != null) {
-      if (decode["discriminator"] != discriminator) {
-        throw SolanaPluginException("invalid discriminator", details: {
-          "excepted": discriminator,
-          "instruction": decode["discriminator"]
+      if (decode['discriminator'] != discriminator) {
+        throw SolanaPluginException('invalid discriminator', details: {
+          'excepted': discriminator,
+          'instruction': decode['discriminator']
         });
       }
     }
@@ -77,7 +77,8 @@ abstract class ProgramLayout extends LayoutSerializable {
         return ComputeBudgetProgramLayout.fromBytes(instructionBytes);
       } else if (programId == Ed25519ProgramConst.programId) {
         return Ed25519ProgramLayout.fromBuffer(instructionBytes);
-      } else if (programId == MemoProgramConst.programId) {
+      } else if (programId == MemoProgramConst.v1MemoProgram ||
+          programId == MemoProgramConst.latestMemoProgram) {
         return MemoLayout.fromBuffer(instructionBytes);
       } else if (programId == NameServiceProgramConst.programId) {
         return NameServiceProgramLayout.fromBytes(instructionBytes);

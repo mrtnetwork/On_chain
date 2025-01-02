@@ -8,23 +8,23 @@ class Collection extends LayoutSerializable {
   final SolAddress key;
   const Collection({required this.verified, required this.key});
   factory Collection.fromJson(Map<String, dynamic> json) {
-    return Collection(verified: json["verified"], key: json["key"]);
+    return Collection(verified: json['verified'], key: json['key']);
   }
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.boolean(property: "verified"),
-    SolanaLayoutUtils.publicKey("key")
-  ], property: "collection");
+    LayoutConst.boolean(property: 'verified'),
+    SolanaLayoutUtils.publicKey('key')
+  ], property: 'collection');
 
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"verified": verified, "key": key};
+    return {'verified': verified, 'key': key};
   }
 
   @override
   String toString() {
-    return "Collection${serialize()}";
+    return 'Collection${serialize()}';
   }
 }

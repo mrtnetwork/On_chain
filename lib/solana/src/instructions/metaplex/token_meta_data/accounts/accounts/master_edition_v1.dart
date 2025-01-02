@@ -6,11 +6,11 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "key"),
-    LayoutConst.u64(property: "supply"),
-    LayoutConst.optional(LayoutConst.u64(), property: "maxSupply"),
-    SolanaLayoutUtils.publicKey("printingMint"),
-    SolanaLayoutUtils.publicKey("oneTimePrintingAuthorizationMint"),
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u64(property: 'supply'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
+    SolanaLayoutUtils.publicKey('printingMint'),
+    SolanaLayoutUtils.publicKey('oneTimePrintingAuthorizationMint'),
   ]);
 }
 
@@ -31,12 +31,12 @@ class MasterEditionV1 extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return MasterEditionV1(
-        key: MetaDataKey.fromValue(decode["key"]),
-        supply: decode["supply"],
-        maxSupply: decode["maxSupply"],
-        printingMint: decode["printingMint"],
+        key: MetaDataKey.fromValue(decode['key']),
+        supply: decode['supply'],
+        maxSupply: decode['maxSupply'],
+        printingMint: decode['printingMint'],
         oneTimePrintingAuthorizationMint:
-            decode["oneTimePrintingAuthorizationMint"]);
+            decode['oneTimePrintingAuthorizationMint']);
   }
 
   @override
@@ -44,11 +44,11 @@ class MasterEditionV1 extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "key": key.value,
-      "supply": supply,
-      "maxSupply": maxSupply,
-      "printingMint": printingMint,
-      "oneTimePrintingAuthorizationMint": oneTimePrintingAuthorizationMint
+      'key': key.value,
+      'supply': supply,
+      'maxSupply': maxSupply,
+      'printingMint': printingMint,
+      'oneTimePrintingAuthorizationMint': oneTimePrintingAuthorizationMint
     };
   }
 }

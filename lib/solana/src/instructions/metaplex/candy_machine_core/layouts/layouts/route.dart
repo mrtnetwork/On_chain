@@ -18,15 +18,15 @@ class MetaplexCandyMachineRouteLayout
         bytes: data,
         instruction: MetaplexCandyMachineProgramInstruction.route.insturction);
     return MetaplexCandyMachineRouteLayout(
-        data: (decode["data"] as List).cast(),
-        guard: GuardType.fromValue(decode["guard"]),
-        group: decode["group"]);
+        data: (decode['data'] as List).cast(),
+        guard: GuardType.fromValue(decode['guard']),
+        group: decode['group']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "guard"),
-    LayoutConst.vecU8(property: "data"),
-    LayoutConst.optional(LayoutConst.string(), property: "group"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'guard'),
+    LayoutConst.vecU8(property: 'data'),
+    LayoutConst.optional(LayoutConst.string(), property: 'group'),
   ]);
 
   @override
@@ -38,6 +38,6 @@ class MetaplexCandyMachineRouteLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"guard": guard.value, "data": data, "group": group};
+    return {'guard': guard.value, 'data': data, 'group': group};
   }
 }

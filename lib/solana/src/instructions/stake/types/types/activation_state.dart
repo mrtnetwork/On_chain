@@ -5,13 +5,13 @@ class StakeActivationState {
   final int value;
   const StakeActivationState._(this.name, this.value);
   static const StakeActivationState active =
-      StakeActivationState._("Active", 0);
+      StakeActivationState._('Active', 0);
   static const StakeActivationState inactive =
-      StakeActivationState._("Inactive", 1);
+      StakeActivationState._('Inactive', 1);
   static const StakeActivationState activating =
-      StakeActivationState._("Activating", 2);
+      StakeActivationState._('Activating', 2);
   static const StakeActivationState deactivating =
-      StakeActivationState._("Deactivating", 3);
+      StakeActivationState._('Deactivating', 3);
   static const List<StakeActivationState> values = [
     active,
     inactive,
@@ -23,21 +23,21 @@ class StakeActivationState {
     return values.firstWhere(
       (element) => element.name.toLowerCase() == value?.toLowerCase(),
       orElse: () => throw SolanaPluginException(
-          "No StakeActivationState found matching the specified value",
-          details: {"value": value}),
+          'No StakeActivationState found matching the specified value',
+          details: {'value': value}),
     );
   }
   factory StakeActivationState.fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw SolanaPluginException(
-          "No StakeActivationState found matching the specified value",
-          details: {"value": value}),
+          'No StakeActivationState found matching the specified value',
+          details: {'value': value}),
     );
   }
 
   @override
   String toString() {
-    return "ValidatorAccountType.$name";
+    return 'ValidatorAccountType.$name';
   }
 }

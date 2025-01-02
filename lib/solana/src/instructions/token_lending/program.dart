@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 /// Instructions supported by the lending program.
 class TokenLendingProgram extends TransactionInstruction {
   TokenLendingProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory TokenLendingProgram.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,

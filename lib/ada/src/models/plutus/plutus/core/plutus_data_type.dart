@@ -15,19 +15,19 @@ class PlutusDataType with ADASerialization {
 
   /// Plutus data type representing constructed Plutus data.
   static const PlutusDataType constrPlutusData =
-      PlutusDataType._(0, "constr_plutus_data");
+      PlutusDataType._(0, 'constr_plutus_data');
 
   /// Plutus data type representing a map.
-  static const PlutusDataType map = PlutusDataType._(1, "map");
+  static const PlutusDataType map = PlutusDataType._(1, 'map');
 
   /// Plutus data type representing a list.
-  static const PlutusDataType list = PlutusDataType._(2, "list");
+  static const PlutusDataType list = PlutusDataType._(2, 'list');
 
   /// Plutus data type representing an integer.
-  static const PlutusDataType integer = PlutusDataType._(3, "int");
+  static const PlutusDataType integer = PlutusDataType._(3, 'int');
 
   /// Plutus data type representing bytes.
-  static const PlutusDataType bytes = PlutusDataType._(4, "bytes");
+  static const PlutusDataType bytes = PlutusDataType._(4, 'bytes');
 
   /// A list of all Plutus data types.
   static const List<PlutusDataType> values = [
@@ -48,8 +48,8 @@ class PlutusDataType with ADASerialization {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () => throw ADAPluginException(
-          "No PlutusDataType found matching the specified value",
-          details: {"value": value}),
+          'No PlutusDataType found matching the specified value',
+          details: {'value': value}),
     );
   }
 
@@ -58,8 +58,8 @@ class PlutusDataType with ADASerialization {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw ADAPluginException(
-          "No PlutusDataType found matching the specified name",
-          details: {"name": name}),
+          'No PlutusDataType found matching the specified name',
+          details: {'name': name}),
     );
   }
 
@@ -75,6 +75,6 @@ class PlutusDataType with ADASerialization {
 
   @override
   String toString() {
-    return "PlutusDataType.$name";
+    return 'PlutusDataType.$name';
   }
 }

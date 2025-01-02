@@ -22,6 +22,6 @@ class TransactionInstruction {
 
   @override
   String toString() {
-    return "TransactionInstruction{keys: $keys, programID: $programId data: ${BytesUtils.toHexString(data)}}";
+    return 'TransactionInstruction{keys: $keys, programID: $programId data: ${BytesUtils.toHexString(data)}}';
   }
 }

@@ -9,26 +9,26 @@ class SmartContractABIEntry extends TronProtocolBufferImpl {
   factory SmartContractABIEntry.fromJson(Map<String, dynamic> json) {
     return SmartContractABIEntry(
       anonymous: OnChainUtils.parseBoolean(
-          value: json["anonymous"], name: "anonymous"),
+          value: json['anonymous'], name: 'anonymous'),
       type: SmartContractAbiEntryType.fromName(
-          OnChainUtils.parseString(value: json["type"], name: "type")),
+          OnChainUtils.parseString(value: json['type'], name: 'type')),
       stateMutability: OnChainUtils.parseString<String?>(
-                  value: json["stateMutability"], name: "stateMutability") ==
+                  value: json['stateMutability'], name: 'stateMutability') ==
               null
           ? null
           : SmartContractAbiStateMutabilityType.fromName(
-              json["stateMutability"]),
-      inputs: OnChainUtils.parseList(value: json["inputs"], name: "inputs")
+              json['stateMutability']),
+      inputs: OnChainUtils.parseList(value: json['inputs'], name: 'inputs')
           ?.map((e) => SmartContractBABIEntryParam.fromJson(e))
           .toList(),
-      outputs: OnChainUtils.parseList(value: json["outputs"], name: "outputs")
+      outputs: OnChainUtils.parseList(value: json['outputs'], name: 'outputs')
           ?.map((e) => SmartContractBABIEntryParam.fromJson(e))
           .toList(),
       constant:
-          OnChainUtils.parseBoolean(value: json["constant"], name: "constant"),
-      name: OnChainUtils.parseString(value: json["name"], name: "name"),
+          OnChainUtils.parseBoolean(value: json['constant'], name: 'constant'),
+      name: OnChainUtils.parseString(value: json['name'], name: 'name'),
       payable:
-          OnChainUtils.parseBoolean(value: json["payable"], name: "payable"),
+          OnChainUtils.parseBoolean(value: json['payable'], name: 'payable'),
     );
   }
 
@@ -95,20 +95,20 @@ class SmartContractABIEntry extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "stateMutability": stateMutability?.name,
-      "anonymous": anonymous,
-      "inputs": inputs?.map((e) => e.toJson()).toList(),
-      "outputs": outputs?.map((e) => e.toJson()).toList(),
-      "constant": constant,
-      "name": name,
-      "payable": payable
+      'type': type.name,
+      'stateMutability': stateMutability?.name,
+      'anonymous': anonymous,
+      'inputs': inputs?.map((e) => e.toJson()).toList(),
+      'outputs': outputs?.map((e) => e.toJson()).toList(),
+      'constant': constant,
+      'name': name,
+      'payable': payable
     };
   }
 
   /// Convert the [SmartContractABIEntry] object to its string representation.
   @override
   String toString() {
-    return "SmartContractABIEntry{${toJson()}}";
+    return 'SmartContractABIEntry{${toJson()}}';
   }
 }

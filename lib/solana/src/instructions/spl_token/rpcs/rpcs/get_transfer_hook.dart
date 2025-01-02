@@ -2,24 +2,25 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/accounts/accounts/transfer_hook.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
 
-class SolanaRPCGetTransferHook extends SolanaRPCRequest<TransferHook?> {
+class SolanaRPCGetTransferHook
+    extends SolanaRequest<TransferHook?, Map<String, dynamic>?> {
   const SolanaRPCGetTransferHook({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

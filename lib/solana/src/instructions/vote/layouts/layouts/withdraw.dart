@@ -11,11 +11,11 @@ class VoteProgramWithdrawLayout extends VoteProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: VoteProgramInstruction.withdraw.insturction);
-    return VoteProgramWithdrawLayout(lamports: decode["lamports"]);
+    return VoteProgramWithdrawLayout(lamports: decode['lamports']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.ns64(property: "lamports")
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports')
   ]);
 
   @override
@@ -26,6 +26,6 @@ class VoteProgramWithdrawLayout extends VoteProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports};
+    return {'lamports': lamports};
   }
 }

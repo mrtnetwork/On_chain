@@ -151,7 +151,7 @@ void main() async {
   final hash = body.toHash().toHex();
   assert(hash ==
       "05ddd72d58d663c4a1d4c282ee653184ecc44df8595e07e70562badf03a90ba0");
-  final provider = BlockforestProvider(BlockforestHTTPProvider(
+  final provider = BlockFrostProvider(BlockFrostHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
   await provider.request(BlockfrostRequestSubmitTransaction(

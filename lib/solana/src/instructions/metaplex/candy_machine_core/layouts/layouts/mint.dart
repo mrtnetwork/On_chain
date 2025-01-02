@@ -15,12 +15,12 @@ class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
         bytes: data,
         instruction: MetaplexCandyMachineProgramInstruction.mint.insturction);
     return MetaplexCandyMachineMintLayout(
-        mintArgs: (decode["mintArgs"] as List).cast(), group: decode["group"]);
+        mintArgs: (decode['mintArgs'] as List).cast(), group: decode['group']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.vecU8(property: "mintArgs"),
-    LayoutConst.optional(LayoutConst.string(), property: "group")
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.vecU8(property: 'mintArgs'),
+    LayoutConst.optional(LayoutConst.string(), property: 'group')
   ]);
 
   @override
@@ -32,6 +32,6 @@ class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"group": group, "mintArgs": mintArgs};
+    return {'group': group, 'mintArgs': mintArgs};
   }
 }

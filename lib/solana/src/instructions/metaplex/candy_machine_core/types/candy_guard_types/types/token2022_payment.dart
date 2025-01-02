@@ -12,26 +12,26 @@ class Token2022Payment extends LayoutSerializable {
       {required this.amount, required this.mint, required this.destinationAta});
   factory Token2022Payment.fromJson(Map<String, dynamic> json) {
     return Token2022Payment(
-        amount: json["amount"],
-        mint: json["mint"],
-        destinationAta: json["destinationAta"]);
+        amount: json['amount'],
+        mint: json['mint'],
+        destinationAta: json['destinationAta']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "amount"),
-    SolanaLayoutUtils.publicKey("mint"),
-    SolanaLayoutUtils.publicKey("destinationAta")
-  ], property: "token2022Payment");
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('destinationAta')
+  ], property: 'token2022Payment');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"mint": mint, "amount": amount, "destinationAta": destinationAta};
+    return {'mint': mint, 'amount': amount, 'destinationAta': destinationAta};
   }
 
   @override
   String toString() {
-    return "Token2022Payment${serialize()}";
+    return 'Token2022Payment${serialize()}';
   }
 }

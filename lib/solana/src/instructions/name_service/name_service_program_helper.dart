@@ -10,7 +10,7 @@ class NameServiceProgramHelper {
   static Future<TransactionInstruction> createNameRegistry(
       {
       /// The solana connection object to the RPC node
-      required SolanaRPC rpc,
+      required SolanaProvider rpc,
 
       /// The name of the new account
       required String name,
@@ -40,15 +40,15 @@ class NameServiceProgramHelper {
     );
 
     final BigInt balance = lamports ??
-        await rpc
-            .request(SolanaRPCGetMinimumBalanceForRentExemption(size: space));
+        await rpc.request(
+            SolanaRequestGetMinimumBalanceForRentExemption(size: space));
 
     SolAddress? nameParentOwner;
     if (parentName != null) {
       final account =
           await rpc.request(SolanaRPCNameRegistryAccount(account: parentName));
       if (account == null) {
-        throw const SolanaPluginException("Account not found.");
+        throw const SolanaPluginException('Account not found.');
       }
       nameParentOwner = account.owner;
     }
@@ -71,7 +71,7 @@ class NameServiceProgramHelper {
   static Future<TransactionInstruction> updateNameRegistryData(
       {
       /// The solana connection object to the RPC node
-      required SolanaRPC rpc,
+      required SolanaProvider rpc,
 
       /// The name of the name registry to update
       required String name,
@@ -99,7 +99,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw const SolanaPluginException("Account not found.");
+        throw const SolanaPluginException('Account not found.');
       }
       signer = account.owner;
     }
@@ -116,7 +116,7 @@ class NameServiceProgramHelper {
   static Future<TransactionInstruction> transferNameOwnership(
       {
       /// The solana connection object to the RPC node
-      required SolanaRPC rpc,
+      required SolanaProvider rpc,
 
       /// The name of the name account
       required String name,
@@ -141,7 +141,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw const SolanaPluginException("Account not found.");
+        throw const SolanaPluginException('Account not found.');
       }
       currentNameOwner = account.owner;
     }
@@ -158,7 +158,7 @@ class NameServiceProgramHelper {
   /// Delete the name account and transfer the rent to the target.
   static Future<TransactionInstruction> deleteNameRegistry({
     /// The solana connection object to the RPC node
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
 
     /// The name of the name account
     required String name,
@@ -184,7 +184,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw const SolanaPluginException("Account not found.");
+        throw const SolanaPluginException('Account not found.');
       }
       nameOwner = account.owner;
     }
@@ -199,7 +199,7 @@ class NameServiceProgramHelper {
   /// Realloc the name account space.
   static Future<TransactionInstruction> reallocNameAccount({
     /// The solana connection object to the RPC node
-    required SolanaRPC rpc,
+    required SolanaProvider rpc,
 
     /// The name of the name account
     required String name,
@@ -228,7 +228,7 @@ class NameServiceProgramHelper {
       final account = await rpc
           .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
       if (account == null) {
-        throw const SolanaPluginException("Account not found.");
+        throw const SolanaPluginException('Account not found.');
       }
       nameOwner = account.owner;
     }

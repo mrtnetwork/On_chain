@@ -19,9 +19,9 @@ class PerfSample {
       required this.samplePeriodSecs});
   factory PerfSample.fromJson(Map<String, dynamic> json) {
     return PerfSample(
-        slot: json["slot"],
-        numTransactions: json["numTransactions"],
-        numSlots: json["numSlots"],
-        samplePeriodSecs: json["samplePeriodSecs"]);
+        slot: json['slot'],
+        numTransactions: json['numTransactions'],
+        numSlots: json['numSlots'],
+        samplePeriodSecs: json['samplePeriodSecs']);
   }
 }

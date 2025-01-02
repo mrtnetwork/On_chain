@@ -1,22 +1,21 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/vote/types/types.dart';
 import 'package:on_chain/solana/src/rpc/core/rpc.dart';
-import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the account info and associated stake for all the voting accounts in the current bank.
 /// https://solana.com/docs/rpc/http/getvoteaccounts
-class SolanaRPCGetVoteAccounts extends SolanaRPCRequest<VoteAccountStatus> {
-  const SolanaRPCGetVoteAccounts(
+class SolanaRequestGetVoteAccounts
+    extends SolanaRequest<VoteAccountStatus, Map<String, dynamic>> {
+  const SolanaRequestGetVoteAccounts(
       {this.votePubkey,
       this.keepUnstakedDelinquents,
       this.delinquentSlotDistance,
-      Commitment? commitment})
-      : super(commitment: commitment);
+      super.commitment});
 
   /// getVoteAccounts
   @override
-  String get method => SolanaRPCMethods.getVoteAccounts.value;
+  String get method => SolanaRequestMethods.getVoteAccounts.value;
 
   /// Only return results for this validator vote address (base-58 encoded)
   final SolAddress? votePubkey;
@@ -32,17 +31,17 @@ class SolanaRPCGetVoteAccounts extends SolanaRPCRequest<VoteAccountStatus> {
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"votePubkey": votePubkey?.address},
-        {"keepUnstakedDelinquents": keepUnstakedDelinquents},
-        {"delinquentSlotDistance": delinquentSlotDistance}
+        {'votePubkey': votePubkey?.address},
+        {'keepUnstakedDelinquents': keepUnstakedDelinquents},
+        {'delinquentSlotDistance': delinquentSlotDistance}
       ]),
     ];
   }
 
   @override
-  VoteAccountStatus onResonse(result) {
+  VoteAccountStatus onResonse(Map<String, dynamic> result) {
     return VoteAccountStatus.fromJson(result);
   }
 }

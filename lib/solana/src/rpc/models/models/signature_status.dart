@@ -21,12 +21,12 @@ class SignatureStatus {
       required this.confirmationStatus});
   factory SignatureStatus.fromJson(Map<String, dynamic> json) {
     return SignatureStatus(
-        slot: json["slot"],
-        confirmations: json["confirmations"],
-        err: json["err"],
-        confirmationStatus: json["confirmationStatus"] == null
+        slot: json['slot'],
+        confirmations: json['confirmations'],
+        err: json['err'],
+        confirmationStatus: json['confirmationStatus'] == null
             ? null
             : TransactionConfirmationStatus.fromName(
-                json["confirmationStatus"]));
+                json['confirmationStatus']));
   }
 }

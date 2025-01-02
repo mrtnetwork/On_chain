@@ -6,10 +6,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// information, sorted by the bech32 address, ascending.
 /// https://blockfrost.dev/api/addresses-affected-in-a-specific-block
 class BlockfrostRequestAddressesAffectedInASpecificBlock
-    extends BlockforestRequestParam<List<ADABlockAddressTransactionsResponse>,
+    extends BlockFrostRequest<List<ADABlockAddressTransactionsResponse>,
         List<Map<String, dynamic>>> {
   BlockfrostRequestAddressesAffectedInASpecificBlock(this.hashOrBlock,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// 64-character case-sensitive hexadecimal string or block number.

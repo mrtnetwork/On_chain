@@ -22,11 +22,11 @@ abstract class TronProtocolBufferImpl {
   List<int> toBuffer() {
     if (values.length != fieldIds.length) {
       throw TronPluginException(
-          "The values and field IDs must have the same length.",
+          'The values and field IDs must have the same length.',
           details: {
-            "values": values,
-            "fieldIds": fieldIds,
-            "class": runtimeType.toString()
+            'values': values,
+            'fieldIds': fieldIds,
+            'class': runtimeType.toString()
           });
     }
     final bytes = DynamicByteTracker();
@@ -58,7 +58,7 @@ abstract class TronProtocolBufferImpl {
 /// contracts
 abstract class TronBaseContract extends TronProtocolBufferImpl {
   TransactionContractType get contractType;
-  String get typeURL => "type.googleapis.com/protocol.${contractType.name}";
+  String get typeURL => 'type.googleapis.com/protocol.${contractType.name}';
 
   /// the owner of contract.
   TronAddress get ownerAddress;
@@ -69,7 +69,7 @@ abstract class TronBaseContract extends TronProtocolBufferImpl {
 
   T cast<T extends TronBaseContract>() {
     if (this is! T) {
-      throw const TronPluginException("Incorrect contract casting.");
+      throw const TronPluginException('Incorrect contract casting.');
     }
     return this as T;
   }

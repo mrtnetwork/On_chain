@@ -4,7 +4,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// Query CBOR serialised datum by its hash.
 /// https://blockfrost.dev/api/datum-cbor-value
 class BlockfrostRequestDataumCBORValue
-    extends BlockforestRequestParam<String, Map<String, dynamic>> {
+    extends BlockFrostRequest<String, Map<String, dynamic>> {
   BlockfrostRequestDataumCBORValue(this.hash);
 
   /// Hash of the datum
@@ -19,6 +19,6 @@ class BlockfrostRequestDataumCBORValue
 
   @override
   String onResonse(Map<String, dynamic> result) {
-    return result["cbor"];
+    return result['cbor'];
   }
 }

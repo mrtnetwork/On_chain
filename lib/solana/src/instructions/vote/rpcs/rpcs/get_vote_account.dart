@@ -2,24 +2,25 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/vote/accounts/accounts/vote_account.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
 
-class SolanaRPCGetVoteAccount extends SolanaRPCRequest<VoteAccount?> {
+class SolanaRPCGetVoteAccount
+    extends SolanaRequest<VoteAccount?, Map<String, dynamic>?> {
   const SolanaRPCGetVoteAccount({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

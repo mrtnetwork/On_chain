@@ -7,10 +7,10 @@ import 'layouts/layouts.dart';
 /// Instructions supported by the token swap program.
 class SPLTokenSwapProgram extends TransactionInstruction {
   SPLTokenSwapProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
   factory SPLTokenSwapProgram.fromBytes({
     required List<AccountMeta> keys,
     required List<int> instructionBytes,

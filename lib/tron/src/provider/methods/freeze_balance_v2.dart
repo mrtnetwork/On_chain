@@ -8,7 +8,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// and obtain equivalent TRON Power(TP) according to the staked amount.
 /// [developers.tron.network](https://developers.tron.network/reference/freezebalancev2-1).
 class TronRequestFreezeBalanceV2
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestFreezeBalanceV2.fromContract(
       FreezeBalanceV2Contract contract,
       {int? permissionId,
@@ -47,11 +47,11 @@ class TronRequestFreezeBalanceV2
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "frozen_balance": frozenBalance,
-      "resource": resource,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'frozen_balance': frozenBalance,
+      'resource': resource,
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
@@ -62,6 +62,6 @@ class TronRequestFreezeBalanceV2
 
   @override
   String toString() {
-    return "TronRequestFreezeBalanceV2{${toJson()}}";
+    return 'TronRequestFreezeBalanceV2{${toJson()}}';
   }
 }

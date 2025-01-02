@@ -47,6 +47,6 @@ class ADAPoolMetadataResponse {
 
   @override
   String toString() {
-    return "ADAPoolMetadataResponse${toJson()}";
+    return 'ADAPoolMetadataResponse${toJson()}';
   }
 }

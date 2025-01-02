@@ -12,12 +12,12 @@ abstract class SPLTokenMetaDataProgramLayout extends ProgramLayout {
 
   const SPLTokenMetaDataProgramLayout();
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
+      LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final instruction = SPLTokenMetaDataProgramSplDiscriminate.getInstruction(
-        decode["instruction"]);
+        decode['instruction']);
     switch (instruction) {
       case SPLTokenMetaDataProgramSplDiscriminate.emit:
         return SPLTokenMetaDataEmitLayout.fromBuffer(data);
@@ -41,11 +41,11 @@ abstract class SPLTokenMetaDataProgramLayout extends ProgramLayout {
     required List<int> instructionBytes,
   }) {
     final decode = layout.deserialize(bytes).value;
-    final instcutionData = decode["instruction"];
+    final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instructionBytes)) {
-      throw SolanaPluginException("invalid instruction bytes", details: {
-        "expected": BytesUtils.toHexString(instructionBytes),
-        "instruction": BytesUtils.toBinary(instcutionData)
+      throw SolanaPluginException('invalid instruction bytes', details: {
+        'expected': BytesUtils.toHexString(instructionBytes),
+        'instruction': BytesUtils.toBinary(instcutionData)
       });
     }
 

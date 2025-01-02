@@ -12,11 +12,11 @@ class SystemTransferLayout extends SystemProgramLayout {
         layout: _layout,
         bytes: data,
         instruction: SystemProgramInstruction.transfer.insturction);
-    return SystemTransferLayout(lamports: decode["lamports"]);
+    return SystemTransferLayout(lamports: decode['lamports']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: "instruction"),
-    LayoutConst.u64(property: "lamports")
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.u64(property: 'lamports')
   ]);
 
   @override
@@ -25,6 +25,6 @@ class SystemTransferLayout extends SystemProgramLayout {
   SystemProgramInstruction get instruction => SystemProgramInstruction.transfer;
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports};
+    return {'lamports': lamports};
   }
 }

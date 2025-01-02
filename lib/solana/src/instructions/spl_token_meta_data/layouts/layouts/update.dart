@@ -21,14 +21,14 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
                 SPLTokenMetaDataProgramSplDiscriminate.update.insturction);
 
     return SPLTokenMetaDataUpdateLayout(
-        field: SPLTokenMetaDataField.fromJson(decode["metaDataField"]));
+        field: SPLTokenMetaDataField.fromJson(decode['metaDataField']));
   }
 
   /// Creates a static layout based on the provided value length and key length.
   static final _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.blob(8, property: 'instruction'),
     LayoutConst.wrap(SPLTokenMetaDataField.staticLayout,
-        property: "metaDataField")
+        property: 'metaDataField')
   ]);
 
   /// The layout structure of this update instruction.
@@ -43,6 +43,6 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
   /// Serializes the update instruction data.
   @override
   Map<String, dynamic> serialize() {
-    return {"metaDataField": field.serialize()};
+    return {'metaDataField': field.serialize()};
   }
 }

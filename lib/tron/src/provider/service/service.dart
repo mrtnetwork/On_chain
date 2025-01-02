@@ -1,19 +1,21 @@
+import 'package:blockchain_utils/service/service.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 
-/// A mixin defining the service provider contract for interacting with the Tron network.
-mixin TronServiceProvider {
-  /// The base URL of the Tron network endpoint.
-  String get url;
+typedef TronServiceResponse<T> = BaseServiceResponse<T>;
 
-  /// Makes an HTTP POST request to the Tron network with the specified [params].
-  ///
-  /// The optional [timeout] parameter sets the maximum duration for the request.
-  Future<Map<String, dynamic>> post(TronRequestDetails params,
-      [Duration? timeout]);
+/// A mixin for providing JSON-RPC service functionality.
+mixin TronServiceProvider implements BaseServiceProvider<TronRequestDetails> {
+  /// Example:
+  /// @override
+  /// Future<TronServiceResponse<T>> doRequest<T>(TronRequestDetails params,
+  ///     {Duration? timeout}) async {
+  ///   final response = await client
+  ///      .post(params.toUri(url), headers: params.headers, body: params.body())
+  ///      .timeout(timeout ?? defaultTimeOut);
+  ///   return params.toResponse(response.bodyBytes, response.statusCode);
+  /// }
 
-  /// Makes an HTTP GET request to the Tron network with the specified [params].
-  ///
-  /// The optional [timeout] parameter sets the maximum duration for the request.
-  Future<Map<String, dynamic>> get(TronRequestDetails params,
-      [Duration? timeout]);
+  @override
+  Future<TronServiceResponse<T>> doRequest<T>(TronRequestDetails params,
+      {Duration? timeout});
 }

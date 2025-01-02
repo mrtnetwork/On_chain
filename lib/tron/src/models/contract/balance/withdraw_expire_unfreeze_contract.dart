@@ -11,7 +11,7 @@ class WithdrawExpireUnfreezeContract extends TronBaseContract {
   factory WithdrawExpireUnfreezeContract.fromJson(Map<String, dynamic> json) {
     return WithdrawExpireUnfreezeContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
     );
   }
   factory WithdrawExpireUnfreezeContract.deserialize(List<int> bytes) {
@@ -36,7 +36,7 @@ class WithdrawExpireUnfreezeContract extends TronBaseContract {
   /// Convert the [WithdrawExpireUnfreezeContract] object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"owner_address": ownerAddress};
+    return {'owner_address': ownerAddress};
   }
 
   /// Convert the [WithdrawExpireUnfreezeContract] object to its string representation.

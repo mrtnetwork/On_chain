@@ -7,23 +7,23 @@ class MintLimit extends LayoutSerializable {
 
   const MintLimit({required this.id, required this.limit});
   factory MintLimit.fromJson(Map<String, dynamic> json) {
-    return MintLimit(id: json["id"], limit: json["limit"]);
+    return MintLimit(id: json['id'], limit: json['limit']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u8(property: "id"),
-    LayoutConst.u16(property: "limit"),
-  ], property: "mintLimit");
+    LayoutConst.u8(property: 'id'),
+    LayoutConst.u16(property: 'limit'),
+  ], property: 'mintLimit');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"id": id, "limit": limit};
+    return {'id': id, 'limit': limit};
   }
 
   @override
   String toString() {
-    return "MintLimit${serialize()}";
+    return 'MintLimit${serialize()}';
   }
 }

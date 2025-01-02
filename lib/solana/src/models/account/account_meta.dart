@@ -33,7 +33,7 @@ class AccountMeta {
 
   @override
   String toString() {
-    return "AccountMeta{publickey: $publicKey, isWritable: $isWritable, isSigner: $isSigner,}";
+    return 'AccountMeta{publickey: $publicKey, isWritable: $isWritable, isSigner: $isSigner,}';
   }
 }
 

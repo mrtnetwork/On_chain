@@ -20,7 +20,7 @@ class ADANetworkInfoResponse {
       };
   @override
   String toString() {
-    return "ADANetworkInfoResponse${toJson()}";
+    return 'ADANetworkInfoResponse${toJson()}';
   }
 }
 

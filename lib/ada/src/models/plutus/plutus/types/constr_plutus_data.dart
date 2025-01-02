@@ -26,7 +26,7 @@ class ConstrPlutusData extends PlutusData {
     final BigInt? alternative =
         PlutusDataUtils.cborTagToAlternative(cbor.tags.first);
     if (alternative == null) {
-      throw const ADAPluginException("Invalid ConstrPlutusData tag.");
+      throw const ADAPluginException('Invalid ConstrPlutusData tag.');
     }
     return ConstrPlutusData(
         alternative: alternative,
@@ -34,10 +34,10 @@ class ConstrPlutusData extends PlutusData {
   }
 
   factory ConstrPlutusData.fromJson(Map<String, dynamic> json) {
-    final correctJson = json["constr_plutus_data"];
+    final correctJson = json['constr_plutus_data'];
     return ConstrPlutusData(
-        alternative: BigintUtils.parse(correctJson["constructor"]),
-        data: PlutusList.fromJson(correctJson["fields"]));
+        alternative: BigintUtils.parse(correctJson['constructor']),
+        data: PlutusList.fromJson(correctJson['fields']));
   }
 
   @override
@@ -56,11 +56,11 @@ class ConstrPlutusData extends PlutusData {
   }
 
   @override
-  toJson() {
+  Map<String, Map<String, dynamic>> toJson() {
     return {
-      "constr_plutus_data": {
-        "constructor": alternative.toString(),
-        "fields": data.toJson()
+      'constr_plutus_data': {
+        'constructor': alternative.toString(),
+        'fields': data.toJson()
       }
     };
   }
@@ -74,13 +74,13 @@ class ConstrPlutusData extends PlutusData {
   }
 
   @override
-  toJsonSchema(
+  Map<String, Object> toJsonSchema(
       {PlutusSchemaConfig config = const PlutusSchemaConfig(
           jsonSchema: PlutusJsonSchema.basicConversions)}) {
     return {
-      "constructor":
+      'constructor':
           config.useIntInsteadBigInt ? alternative.toInt() : alternative,
-      "fields": data.value.map((e) => e.toJsonSchema(config: config)).toList()
+      'fields': data.value.map((e) => e.toJsonSchema(config: config)).toList()
     };
   }
 }

@@ -6,19 +6,19 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [133, 118, 20, 210, 1, 54, 172, 116];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("treasuryMint"),
-    SolanaLayoutUtils.publicKey("mintA"),
-    SolanaLayoutUtils.publicKey("mintB"),
-    SolanaLayoutUtils.publicKey("tokenAEscrow"),
-    SolanaLayoutUtils.publicKey("tokenBEscrow"),
-    SolanaLayoutUtils.publicKey("authority"),
-    LayoutConst.u8(property: "bump"),
-    LayoutConst.u8(property: "tokenAEscrowBump"),
-    LayoutConst.u8(property: "tokenBEscrowBump"),
-    LayoutConst.u64(property: "price"),
-    LayoutConst.boolean(property: "paid"),
-    LayoutConst.boolean(property: "paysEveryTime")
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('treasuryMint'),
+    SolanaLayoutUtils.publicKey('mintA'),
+    SolanaLayoutUtils.publicKey('mintB'),
+    SolanaLayoutUtils.publicKey('tokenAEscrow'),
+    SolanaLayoutUtils.publicKey('tokenBEscrow'),
+    SolanaLayoutUtils.publicKey('authority'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.u8(property: 'tokenAEscrowBump'),
+    LayoutConst.u8(property: 'tokenBEscrowBump'),
+    LayoutConst.u64(property: 'price'),
+    LayoutConst.boolean(property: 'paid'),
+    LayoutConst.boolean(property: 'paysEveryTime')
   ]);
 }
 
@@ -54,20 +54,20 @@ class EntangledPair extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return EntangledPair(
-        treasuryMint: decode["treasuryMint"],
-        mintA: decode["mintA"],
-        mintB: decode["mintB"],
-        tokenAEscrow: decode["tokenAEscrow"],
-        tokenBEscrow: decode["tokenBEscrow"],
-        authority: decode["authority"],
-        bump: decode["bump"],
-        tokenAEscrowBump: decode["tokenAEscrowBump"],
-        tokenBEscrowBump: decode["tokenBEscrowBump"],
-        price: decode["price"],
-        paid: decode["paid"],
-        paysEveryTime: decode["paysEveryTime"]);
+        treasuryMint: decode['treasuryMint'],
+        mintA: decode['mintA'],
+        mintB: decode['mintB'],
+        tokenAEscrow: decode['tokenAEscrow'],
+        tokenBEscrow: decode['tokenBEscrow'],
+        authority: decode['authority'],
+        bump: decode['bump'],
+        tokenAEscrowBump: decode['tokenAEscrowBump'],
+        tokenBEscrowBump: decode['tokenBEscrowBump'],
+        price: decode['price'],
+        paid: decode['paid'],
+        paysEveryTime: decode['paysEveryTime']);
   }
 
   @override
@@ -75,24 +75,24 @@ class EntangledPair extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "treasuryMint": treasuryMint,
-      "mintA": mintA,
-      "mintB": mintB,
-      "tokenAEscrow": tokenAEscrow,
-      "tokenBEscrow": tokenBEscrow,
-      "authority": authority,
-      "bump": bump,
-      "tokenAEscrowBump": tokenAEscrowBump,
-      "tokenBEscrowBump": tokenBEscrowBump,
-      "price": price,
-      "paid": paid,
-      "paysEveryTime": paysEveryTime
+      'discriminator': _Utils.discriminator,
+      'treasuryMint': treasuryMint,
+      'mintA': mintA,
+      'mintB': mintB,
+      'tokenAEscrow': tokenAEscrow,
+      'tokenBEscrow': tokenBEscrow,
+      'authority': authority,
+      'bump': bump,
+      'tokenAEscrowBump': tokenAEscrowBump,
+      'tokenBEscrowBump': tokenBEscrowBump,
+      'price': price,
+      'paid': paid,
+      'paysEveryTime': paysEveryTime
     };
   }
 
   @override
   String toString() {
-    return "EntangledPair${serialize()}";
+    return 'EntangledPair${serialize()}';
   }
 }

@@ -16,18 +16,18 @@ class Commitment {
 
   /// the node will query the most recent block confirmed by supermajority of the cluster as
   /// having reached maximum lockout, meaning the cluster has recognized this block as finalized
-  static const Commitment processed = Commitment._("processed");
+  static const Commitment processed = Commitment._('processed');
 
   /// the node will query the most recent block that has been voted on by supermajority of the cluster.
-  static const Commitment confirmed = Commitment._("confirmed");
+  static const Commitment confirmed = Commitment._('confirmed');
 
   /// the node will query its most recent block. Note that the block may still be skipped by the cluster.
-  static const Commitment finalized = Commitment._("finalized");
+  static const Commitment finalized = Commitment._('finalized');
   static const List<Commitment> values = [processed, confirmed, finalized];
   static Commitment fromName(String value, {Commitment? defaultValue}) {
     return values.firstWhere((e) => e.value == value, orElse: () {
       if (defaultValue == null) {
-        throw const SolanaPluginException("Invalid commitment");
+        throw const SolanaPluginException('Invalid commitment');
       }
       return defaultValue;
     });
@@ -40,8 +40,8 @@ class Commitment {
 
   Map<String, dynamic> toJson([bool preFlight = false]) {
     if (preFlight) {
-      return {"preflightCommitment": value};
+      return {'preflightCommitment': value};
     }
-    return {"commitment": value};
+    return {'commitment': value};
   }
 }

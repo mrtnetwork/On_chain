@@ -10,19 +10,19 @@ class ReservationV1 extends LayoutSerializable {
       required this.totalSpots});
   factory ReservationV1.fromJson(Map<String, dynamic> json) {
     return ReservationV1(
-        address: json["address"],
-        spotsRemaining: json["spotsRemaining"],
-        totalSpots: json["totalSpots"]);
+        address: json['address'],
+        spotsRemaining: json['spotsRemaining'],
+        totalSpots: json['totalSpots']);
   }
   final SolAddress address;
   final int spotsRemaining;
   final int totalSpots;
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("address"),
-    LayoutConst.u8(property: "spotsRemaining"),
-    LayoutConst.u8(property: "totalSpots"),
-  ], property: "reservationV1");
+    SolanaLayoutUtils.publicKey('address'),
+    LayoutConst.u8(property: 'spotsRemaining'),
+    LayoutConst.u8(property: 'totalSpots'),
+  ], property: 'reservationV1');
 
   @override
   StructLayout get layout => staticLayout;
@@ -30,9 +30,9 @@ class ReservationV1 extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "address": address,
-      "spotsRemaining": spotsRemaining,
-      "totalSpots": totalSpots
+      'address': address,
+      'spotsRemaining': spotsRemaining,
+      'totalSpots': totalSpots
     };
   }
 }

@@ -27,23 +27,23 @@ class MetaplexGumdropClaimCandyLayout extends MetaplexGumdropProgramLayout {
         bytes: data,
         instruction: MetaplexGumdropProgramInstruction.claimCandy.insturction);
     return MetaplexGumdropClaimCandyLayout(
-        walletBump: decode["walletBump"],
-        claimBump: decode["claimBump"],
-        index: decode["index"],
-        amount: decode["amount"],
-        claimantSecret: decode["claimantSecret"],
-        proof: (decode["proof"] as List).cast());
+        walletBump: decode['walletBump'],
+        claimBump: decode['claimBump'],
+        index: decode['index'],
+        amount: decode['amount'],
+        claimantSecret: decode['claimantSecret'],
+        proof: (decode['proof'] as List).cast());
   }
 
   /// StructLayout layout definition.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "walletBump"),
-    LayoutConst.u8(property: "claimBump"),
-    LayoutConst.u64(property: "index"),
-    LayoutConst.u64(property: "amount"),
-    SolanaLayoutUtils.publicKey("claimantSecret"),
-    LayoutConst.vec(LayoutConst.blob(32), property: "proof"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'walletBump'),
+    LayoutConst.u8(property: 'claimBump'),
+    LayoutConst.u64(property: 'index'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('claimantSecret'),
+    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
   ]);
 
   @override
@@ -56,12 +56,12 @@ class MetaplexGumdropClaimCandyLayout extends MetaplexGumdropProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "walletBump": walletBump,
-      "claimBump": claimBump,
-      "index": index,
-      "amount": amount,
-      "claimantSecret": claimantSecret,
-      "proof": proof
+      'walletBump': walletBump,
+      'claimBump': claimBump,
+      'index': index,
+      'amount': amount,
+      'claimantSecret': claimantSecret,
+      'proof': proof
     };
   }
 }

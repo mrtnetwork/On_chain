@@ -1,27 +1,21 @@
-import 'dart:convert';
-
-import 'package:on_chain/ethereum/src/rpc/core/core.dart';
-import 'package:on_chain/ethereum/src/rpc/core/service.dart';
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:http/http.dart';
+import 'package:on_chain/on_chain.dart';
 
-class RPCHttpService with JSONRPCService {
+class RPCHttpService with EthereumServiceProvider {
   RPCHttpService(this.url,
       {Client? client, this.defaultTimeOut = const Duration(seconds: 30)})
       : client = client ?? Client();
 
-  @override
   final String url;
   final Client client;
   final Duration defaultTimeOut;
   @override
-  Future<Map<String, dynamic>> call(ETHRequestDetails params,
-      [Duration? timeout]) async {
+  Future<BaseServiceResponse<T>> doRequest<T>(EthereumRequestDetails params,
+      {Duration? timeout}) async {
     final response = await client
-        .post(Uri.parse(url),
-            headers: {'Content-Type': 'application/json'},
-            body: params.toRequestBody())
+        .post(params.toUri(url), headers: params.headers, body: params.body())
         .timeout(timeout ?? defaultTimeOut);
-    final data = json.decode(response.body) as Map<String, dynamic>;
-    return data;
+    return params.toResponse(response.bodyBytes, response.statusCode);
   }
 }

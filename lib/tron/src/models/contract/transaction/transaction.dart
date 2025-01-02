@@ -44,10 +44,19 @@ class Transaction extends TronProtocolBufferImpl {
 
   /// Convert the [Transaction] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({
+    bool signatures = true,
+    bool? visible,
+    bool rawDataHex = false,
+    bool txID = false,
+  }) {
     return {
-      "raw_data": rawData.toJson(),
-      "signature": signature.map((s) => BytesUtils.toHexString(s)).toList()
+      'raw_data': rawData.toJson(),
+      if (signatures)
+        'signature': signature.map((s) => BytesUtils.toHexString(s)).toList(),
+      if (txID) 'txID': rawData.txID,
+      if (rawDataHex) 'raw_data_hex': rawData.toHex,
+      if (visible != null) 'visible': visible
     };
   }
 

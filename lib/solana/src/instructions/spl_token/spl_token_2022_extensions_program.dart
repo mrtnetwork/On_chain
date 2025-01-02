@@ -9,10 +9,10 @@ import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 
 class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   SPLToken2022ExtensionsProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
 
   /// Allow or lock all token operations to happen via CPI as normal.
   factory SPLToken2022ExtensionsProgram.toggleCpiGuard({
@@ -29,7 +29,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(
@@ -49,7 +49,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
       SolAddress programId = SPLTokenProgramConst.token2022ProgramId}) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable()], programId: programId, layout: layout);
@@ -71,7 +71,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(
@@ -91,7 +91,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
       SolAddress programId = SPLTokenProgramConst.token2022ProgramId}) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable()], programId: programId, layout: layout);
@@ -113,7 +113,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(keys: [
@@ -142,7 +142,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(
@@ -162,7 +162,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
       SolAddress programId = SPLTokenProgramConst.token2022ProgramId}) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable()], programId: programId, layout: layout);
@@ -184,7 +184,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(
@@ -204,7 +204,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable()], programId: programId, layout: layout);
@@ -232,7 +232,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(keys: [
@@ -262,7 +262,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(
@@ -292,7 +292,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
       List<SolAddress> multiSigners = const []}) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [
@@ -318,7 +318,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
       SolAddress programId = SPLTokenProgramConst.token2022ProgramId}) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable(), ...sources.map((e) => e.toWritable())],
@@ -335,7 +335,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
       SolAddress programId = SPLTokenProgramConst.token2022ProgramId}) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable()], programId: programId, layout: layout);
@@ -357,7 +357,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(
@@ -377,7 +377,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
       SolAddress programId = SPLTokenProgramConst.token2022ProgramId}) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(keys: [
       source.toReadOnly(),
@@ -395,7 +395,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable()], programId: programId, layout: layout);
@@ -410,7 +410,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(
@@ -430,7 +430,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: [mint.toWritable()], programId: programId, layout: layout);
@@ -451,7 +451,7 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          "Token program does not support extensions");
+          'Token program does not support extensions');
     }
     return SPLToken2022ExtensionsProgram(
         keys: SPLTokenUtils.buildKeys(

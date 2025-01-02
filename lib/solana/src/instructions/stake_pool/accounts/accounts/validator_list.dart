@@ -27,11 +27,11 @@ class StakeValidatorListAccount extends LayoutSerializable {
   factory StakeValidatorListAccount.fromBuffer(List<int> data) {
     final decode = _Utils.layout.deserialize(data).value;
     return StakeValidatorListAccount(
-        accountType: StakePoolAccountType.fromValue(decode["accountType"]),
-        validators: (decode["validators"] as List)
+        accountType: StakePoolAccountType.fromValue(decode['accountType']),
+        validators: (decode['validators'] as List)
             .map((e) => ValidatorStakeInfo.fromJson(e))
             .toList(),
-        maxValidators: decode["maxValidators"]);
+        maxValidators: decode['maxValidators']);
   }
 
   @override
@@ -40,14 +40,14 @@ class StakeValidatorListAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "accountType": accountType.value,
-      "maxValidators": maxValidators,
-      "validators": validators.map((e) => e.serialize()).toList()
+      'accountType': accountType.value,
+      'maxValidators': maxValidators,
+      'validators': validators.map((e) => e.serialize()).toList()
     };
   }
 
   @override
   String toString() {
-    return "StakeValidatorListAccount${serialize()}";
+    return 'StakeValidatorListAccount${serialize()}';
   }
 }

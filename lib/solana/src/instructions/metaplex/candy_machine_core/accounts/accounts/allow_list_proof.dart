@@ -3,7 +3,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static final StructLayout layout =
-      LayoutConst.struct([LayoutConst.i64(property: "timestamp")]);
+      LayoutConst.struct([LayoutConst.i64(property: 'timestamp')]);
 }
 
 class AllowListProofAccount extends LayoutSerializable {
@@ -12,7 +12,7 @@ class AllowListProofAccount extends LayoutSerializable {
   factory AllowListProofAccount.fromBuffer(List<int> data) {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
-    return AllowListProofAccount(timestamp: decode["timestamp"]);
+    return AllowListProofAccount(timestamp: decode['timestamp']);
   }
 
   @override
@@ -20,11 +20,11 @@ class AllowListProofAccount extends LayoutSerializable {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"timestamp": timestamp};
+    return {'timestamp': timestamp};
   }
 
   @override
   String toString() {
-    return "AllowListProofAccount${serialize()}";
+    return 'AllowListProofAccount${serialize()}';
   }
 }

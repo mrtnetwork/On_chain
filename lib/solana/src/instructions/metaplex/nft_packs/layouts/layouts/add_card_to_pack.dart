@@ -15,11 +15,11 @@ class MetaplexNFTPacksAddCardToPackLayout
         instruction:
             MetaplexNFTPacksProgramInstruction.addCardToPack.insturction);
     return MetaplexNFTPacksAddCardToPackLayout(
-        addCardToPack: AddCardToPack.fromJson(decode["addCardToPack"]));
+        addCardToPack: AddCardToPack.fromJson(decode['addCardToPack']));
   }
 
   static final StructLayout _layout = LayoutConst.struct(
-      [LayoutConst.u8(property: "instruction"), AddCardToPack.staticLayout]);
+      [LayoutConst.u8(property: 'instruction'), AddCardToPack.staticLayout]);
 
   @override
   StructLayout get layout => _layout;
@@ -30,6 +30,6 @@ class MetaplexNFTPacksAddCardToPackLayout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"addCardToPack": addCardToPack.serialize()};
+    return {'addCardToPack': addCardToPack.serialize()};
   }
 }

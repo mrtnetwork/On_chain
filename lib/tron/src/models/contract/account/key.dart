@@ -8,9 +8,9 @@ class TronKey extends TronProtocolBufferImpl {
   factory TronKey.fromJson(Map<String, dynamic> json) {
     return TronKey(
         address: OnChainUtils.parseTronAddress(
-            value: json["address"], name: "address"),
+            value: json['address'], name: 'address'),
         weight:
-            OnChainUtils.parseBigInt(value: json["weight"], name: "weight"));
+            OnChainUtils.parseBigInt(value: json['weight'], name: 'weight'));
   }
   factory TronKey.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -50,12 +50,12 @@ class TronKey extends TronProtocolBufferImpl {
   /// Convert the [TronKey] object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address, "weight": weight};
+    return {'address': address, 'weight': weight};
   }
 
   /// Convert the [TronKey] object to its string representation.
   @override
   String toString() {
-    return "TronKey{${toJson()}}";
+    return 'TronKey{${toJson()}}';
   }
 }

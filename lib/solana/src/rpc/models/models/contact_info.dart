@@ -10,11 +10,11 @@ class ContactInfo {
       required this.version});
   factory ContactInfo.fromJson(Map<String, dynamic> json) {
     return ContactInfo(
-        pubkey: SolAddress.unchecked(json["pubkey"]),
-        gossip: json["gossip"],
-        tpu: json["tpu"],
-        rpc: json["rpc"],
-        version: json["version"]);
+        pubkey: SolAddress.unchecked(json['pubkey']),
+        gossip: json['gossip'],
+        tpu: json['tpu'],
+        rpc: json['rpc'],
+        version: json['version']);
   }
 
   /// Identity public key of the node

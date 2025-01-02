@@ -3,12 +3,12 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns an estimate of the current price per gas in wei. For example, the Besu client examines the last 100 blocks and returns the median gas unit price by default.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gasPrice)
-class RPCGetGasPrice extends ETHRPCRequest<BigInt> {
-  RPCGetGasPrice();
+class EthereumRequestGetGasPrice extends EthereumRequest<BigInt, Object> {
+  EthereumRequestGetGasPrice();
 
   /// eth_gasPrice
   @override
-  EthereumMethods get method => EthereumMethods.getGasPrice;
+  String get method => EthereumMethods.getGasPrice.value;
 
   @override
   List<dynamic> toJson() {
@@ -17,11 +17,11 @@ class RPCGetGasPrice extends ETHRPCRequest<BigInt> {
 
   @override
   BigInt onResonse(result) {
-    return ETHRPCRequest.onBigintResponse(result);
+    return EthereumRequest.onBigintResponse(result);
   }
 
   @override
   String toString() {
-    return "RPCGetGasPrice{${toJson()}}";
+    return 'EthereumRequestGetGasPrice{${toJson()}}';
   }
 }

@@ -18,7 +18,7 @@ class MultiHostName extends Relay {
   }
   factory MultiHostName.fromJson(Map<String, dynamic> json) {
     return MultiHostName(
-        dnsName: json["dns_name"] ?? json["multi_host_name"]["dns_name"]);
+        dnsName: json['dns_name'] ?? json['multi_host_name']['dns_name']);
   }
   MultiHostName copyWith({String? dnsName}) {
     return MultiHostName(dnsName: dnsName ?? this.dnsName);
@@ -35,7 +35,7 @@ class MultiHostName extends Relay {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "multi_host_name": {"dns_name": dnsName}
+      'multi_host_name': {'dns_name': dnsName}
     };
   }
 }

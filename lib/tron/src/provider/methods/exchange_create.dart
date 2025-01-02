@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Creates a trading pair.
 /// [developers.tron.network](https://developers.tron.network/reference/exchangecreate).
 class TronRequestExchangeCreate
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestExchangeCreate(
       {required this.ownerAddress,
       required this.firstTokenId,
@@ -40,18 +40,18 @@ class TronRequestExchangeCreate
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "first_token_id": firstTokenId,
-      "first_token_balance": firstTokenBalance,
-      "second_token_id": secondTokenId,
-      "second_token_balance": secondTokenBalance,
-      "permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'first_token_id': firstTokenId,
+      'first_token_balance': firstTokenBalance,
+      'second_token_id': secondTokenId,
+      'second_token_balance': secondTokenBalance,
+      'permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestExchangeCreate{${toJson()}}";
+    return 'TronRequestExchangeCreate{${toJson()}}';
   }
 }

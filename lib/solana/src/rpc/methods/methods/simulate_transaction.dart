@@ -5,25 +5,22 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Simulate sending a transaction
 /// https://solana.com/docs/rpc/http/simulatetransaction
-class SolanaRPCSimulateTransaction
-    extends SolanaRPCRequest<SimulateTranasctionResponse> {
-  const SolanaRPCSimulateTransaction({
+class SolanaRequestSimulateTransaction
+    extends SolanaRequest<SimulateTranasctionResponse, Map<String, dynamic>> {
+  const SolanaRequestSimulateTransaction({
     required this.encodedTransaction,
     this.replaceRecentBlockhash,
     this.accounts,
     this.sigVerify,
     this.innerInstructions,
-    Commitment? commitment = Commitment.finalized,
-    MinContextSlot? minContextSlot,
-    SolanaRPCEncoding? encoding = SolanaRPCEncoding.base58,
-  }) : super(
-            commitment: commitment,
-            encoding: encoding,
-            minContextSlot: minContextSlot);
+    super.commitment = Commitment.finalized,
+    super.minContextSlot,
+    super.encoding = SolanaRequestEncoding.base58,
+  });
 
   /// simulateTransaction
   @override
-  String get method => SolanaRPCMethods.simulateTransaction.value;
+  String get method => SolanaRequestMethods.simulateTransaction.value;
 
   /// Transaction, as an encoded string.
   /// The transaction must have a valid blockhash, but is not required to be signed.
@@ -46,20 +43,20 @@ class SolanaRPCSimulateTransaction
   List<dynamic> toJson() {
     return [
       encodedTransaction,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {"sigVerify": sigVerify},
-        {"replaceRecentBlockhash": replaceRecentBlockhash},
+        {'sigVerify': sigVerify},
+        {'replaceRecentBlockhash': replaceRecentBlockhash},
         minContextSlot?.toJson(),
         encoding?.toJson(),
-        {"innerInstructions": innerInstructions},
+        {'innerInstructions': innerInstructions},
         accounts?.toJson()
       ])
     ];
   }
 
   @override
-  SimulateTranasctionResponse onResonse(result) {
+  SimulateTranasctionResponse onResonse(Map<String, dynamic> result) {
     return SimulateTranasctionResponse.fromJson(result);
   }
 }

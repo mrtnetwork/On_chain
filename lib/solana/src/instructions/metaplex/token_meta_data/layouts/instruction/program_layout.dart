@@ -76,10 +76,10 @@ import 'instructions.dart';
 abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
   const MetaplexTokenMetaDataProgramLayout();
   static final StructLayout __layout =
-      LayoutConst.struct([LayoutConst.u8(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
   ]);
 
   @override
@@ -90,7 +90,7 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
         ProgramLayout.decodeAndValidateStruct(layout: __layout, bytes: data);
     MetaplexTokenMetaDataProgramInstruction? instruction =
         MetaplexTokenMetaDataProgramInstruction.getInstruction(
-            decode["instruction"]);
+            decode['instruction']);
     if (instruction == null) {
       return UnknownProgramLayout(data);
     }
@@ -98,8 +98,8 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
       final decode =
           ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
       instruction = MetaplexTokenMetaDataProgramInstruction.getInstruction(
-          decode["instruction"],
-          discriminator: decode["discriminator"]);
+          decode['instruction'],
+          discriminator: decode['discriminator']);
     }
 
     switch (instruction) {

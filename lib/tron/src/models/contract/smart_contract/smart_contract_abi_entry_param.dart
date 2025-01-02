@@ -9,10 +9,10 @@ class SmartContractBABIEntryParam extends TronProtocolBufferImpl {
   /// Create a new [SmartContractBABIEntryParam] instance by parsing a JSON map.
   factory SmartContractBABIEntryParam.fromJson(Map<String, dynamic> json) {
     return SmartContractBABIEntryParam(
-        type: OnChainUtils.parseString(value: json["type"], name: "type"),
-        name: OnChainUtils.parseString(value: json["name"], name: "name"),
+        type: OnChainUtils.parseString(value: json['type'], name: 'type'),
+        name: OnChainUtils.parseString(value: json['name'], name: 'name'),
         indexed:
-            OnChainUtils.parseBoolean(value: json["indexed"], name: "indexed"));
+            OnChainUtils.parseBoolean(value: json['indexed'], name: 'indexed'));
   }
   factory SmartContractBABIEntryParam.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -38,7 +38,7 @@ class SmartContractBABIEntryParam extends TronProtocolBufferImpl {
   /// Convert the [SmartContractBABIEntryParam] object to a JSON representation.
   @override
   Map<String, dynamic> toJson() {
-    return {"type": type, "indexed": indexed, "name": name}
+    return {'type': type, 'indexed': indexed, 'name': name}
       ..removeWhere((key, value) => value == null);
   }
 

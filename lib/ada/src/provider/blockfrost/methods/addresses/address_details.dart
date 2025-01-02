@@ -5,8 +5,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain details about an address.
 /// https://blockfrost.dev/api/address-details
-class BlockfrostRequestAddressDetails extends BlockforestRequestParam<
-    ADAAccountSummaryResponse, Map<String, dynamic>> {
+class BlockfrostRequestAddressDetails
+    extends BlockFrostRequest<ADAAccountSummaryResponse, Map<String, dynamic>> {
   BlockfrostRequestAddressDetails(this.address);
 
   final ADAAddress address;

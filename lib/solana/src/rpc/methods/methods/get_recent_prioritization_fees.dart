@@ -7,15 +7,15 @@ import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 /// Currently, a node's prioritization-fee cache stores data from up to 150 blocks.
 ///
 /// https://solana.com/docs/rpc/http/getrecentprioritizationfees
-class SolanaRPCGetRecentPrioritizationFees
-    extends SolanaRPCRequest<List<RecentPrioritizationFees>> {
-  const SolanaRPCGetRecentPrioritizationFees({
+class SolanaRequestGetRecentPrioritizationFees
+    extends SolanaRequest<List<RecentPrioritizationFees>, List> {
+  const SolanaRequestGetRecentPrioritizationFees({
     this.addresses,
   });
 
   /// getRecentPrioritizationFees
   @override
-  String get method => SolanaRPCMethods.getRecentPrioritizationFees.value;
+  String get method => SolanaRequestMethods.getRecentPrioritizationFees.value;
 
   /// An array of Account addresses (up to a maximum of 128 addresses), as base-58 encoded strings
   ///
@@ -29,9 +29,7 @@ class SolanaRPCGetRecentPrioritizationFees
   }
 
   @override
-  List<RecentPrioritizationFees> onResonse(result) {
-    return (result as List)
-        .map((e) => RecentPrioritizationFees.fromJson(e))
-        .toList();
+  List<RecentPrioritizationFees> onResonse(List result) {
+    return result.map((e) => RecentPrioritizationFees.fromJson(e)).toList();
   }
 }

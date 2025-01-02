@@ -24,6 +24,6 @@ class ADAStakeAccountMIRHistoryResponse {
       };
   @override
   String toString() {
-    return "ADAStakeAccountMIRHistoryResponse${toJson()}";
+    return 'ADAStakeAccountMIRHistoryResponse${toJson()}';
   }
 }

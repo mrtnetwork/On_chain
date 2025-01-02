@@ -10,11 +10,11 @@ class RewardResponse {
       required this.commission});
   factory RewardResponse.fromJson(Map<String, dynamic> json) {
     return RewardResponse(
-        pubkey: SolAddress.uncheckCurve(json["pubkey"]),
-        lamports: BigintUtils.parse(json["lamports"]),
-        postBalance: BigintUtils.tryParse(json["postBalance"]),
-        rewardType: json["rewardType"],
-        commission: json["commission"]);
+        pubkey: SolAddress.uncheckCurve(json['pubkey']),
+        lamports: BigintUtils.parse(json['lamports']),
+        postBalance: BigintUtils.tryParse(json['postBalance']),
+        rewardType: json['rewardType'],
+        commission: json['commission']);
   }
 
   /// Public key of reward recipient

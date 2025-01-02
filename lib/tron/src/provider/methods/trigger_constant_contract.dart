@@ -11,7 +11,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 /// or estimate the energy consumption of contract deployment
 /// [developers.tron.network](https://developers.tron.network/reference/triggerconstantcontract).
 class TronRequestTriggerConstantContract
-    extends TVMRequestParam<ParsedSmartContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedSmartContractRequest, Map<String, dynamic>> {
   factory TronRequestTriggerConstantContract.fromMethod({
     required TronAddress ownerAddress,
     required TronAddress contractAddress,
@@ -111,15 +111,15 @@ class TronRequestTriggerConstantContract
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "contract_address": contractAddress,
-      "function_selector": functionSelector,
-      "parameter": parameter,
-      "data": data,
-      "call_value": callValue,
-      "call_token_value": callTokenValue,
-      "token_id": tokenId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'contract_address': contractAddress.toAddress(visible),
+      'function_selector': functionSelector,
+      'parameter': parameter,
+      'data': data,
+      'call_value': callValue,
+      'call_token_value': callTokenValue,
+      'token_id': tokenId,
+      'visible': visible,
     };
   }
 

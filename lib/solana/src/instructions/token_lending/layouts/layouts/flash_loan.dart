@@ -14,11 +14,11 @@ class TokenLendingFlashLoanLayout extends TokenLendingProgramLayout {
         bytes: data,
         instruction: TokenLendingProgramInstruction.flashLoan.insturction);
     return TokenLendingFlashLoanLayout(
-        liquidityAmount: decode["liquidityAmount"]);
+        liquidityAmount: decode['liquidityAmount']);
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u64(property: "liquidityAmount"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'liquidityAmount'),
   ]);
 
   @override
@@ -30,6 +30,6 @@ class TokenLendingFlashLoanLayout extends TokenLendingProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"liquidityAmount": liquidityAmount};
+    return {'liquidityAmount': liquidityAmount};
   }
 }

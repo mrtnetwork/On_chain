@@ -4,7 +4,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about Move Instantaneous Rewards (MIRs) of a specific transaction.
 /// https://blockfrost.dev/api/transaction-mi-rs
-class BlockfrostRequestTransactionMIRs extends BlockforestRequestParam<
+class BlockfrostRequestTransactionMIRs extends BlockFrostRequest<
     List<ADATransactionMIRResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionMIRs(this.hash);
 

@@ -8,7 +8,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Update basic TRC10 token information.
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-updateasset).
 class TronRequestUpdateAsset
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestUpdateAsset.fromContract(
     UpdateAssetContract contract, {
     int? permissionId,
@@ -60,19 +60,19 @@ class TronRequestUpdateAsset
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "description": description,
-      "url": url,
-      "newimit": newLimit,
-      "new_publicimit": newPublicLimit,
-      "permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'description': description,
+      'url': url,
+      'newimit': newLimit,
+      'new_publicimit': newPublicLimit,
+      'permission_id': permissionId,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestUpdateAsset{${toJson()}}";
+    return 'TronRequestUpdateAsset{${toJson()}}';
   }
 
   @override

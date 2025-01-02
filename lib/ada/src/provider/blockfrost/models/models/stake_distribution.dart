@@ -31,6 +31,6 @@ class ADAStakeDistributionResponse {
 
   @override
   String toString() {
-    return "ADAStakeDistributionResponse${toJson()}";
+    return 'ADAStakeDistributionResponse${toJson()}';
   }
 }

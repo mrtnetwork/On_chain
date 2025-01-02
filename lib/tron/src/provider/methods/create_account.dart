@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 // Activate an account. Uses an already activated account to activate a new account.
 /// Activate an account. [developers.tron.network](https://developers.tron.network/reference/account-createaccount).
 class TronRequestCreateAccount
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   TronRequestCreateAccount(
       {required this.ownerAddress,
       required this.accountAddress,
@@ -46,17 +46,17 @@ class TronRequestCreateAccount
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "account_address": accountAddress,
-      "permission_id": permissionId,
-      "type": type,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'account_address': accountAddress.toAddress(visible),
+      'permission_id': permissionId,
+      'type': type,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestCreateAccount{$toJson()}";
+    return 'TronRequestCreateAccount{$toJson()}';
   }
 
   @override

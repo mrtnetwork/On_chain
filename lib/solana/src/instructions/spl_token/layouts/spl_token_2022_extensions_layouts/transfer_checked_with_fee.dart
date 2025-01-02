@@ -25,17 +25,17 @@ class SPLToken2022TransferCheckedWithFeeLayout extends SPLTokenProgramLayout {
         instruction:
             SPLTokenProgramInstruction.transferFeeExtension.insturction);
     return SPLToken2022TransferCheckedWithFeeLayout(
-        amount: decode["amount"],
-        decimals: decode["decimals"],
-        fee: decode["fee"]);
+        amount: decode['amount'],
+        decimals: decode['decimals'],
+        fee: decode['fee']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "transferFee"),
-    LayoutConst.u64(property: "amount"),
-    LayoutConst.u8(property: "decimals"),
-    LayoutConst.u64(property: "fee"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'transferFee'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u8(property: 'decimals'),
+    LayoutConst.u64(property: 'fee'),
   ]);
 
   @override
@@ -48,11 +48,11 @@ class SPLToken2022TransferCheckedWithFeeLayout extends SPLTokenProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "transferFee":
+      'transferFee':
           TransferFeeInstructionInstruction.transferCheckedWithFee.value,
-      "amount": amount,
-      "decimals": decimals,
-      "fee": fee
+      'amount': amount,
+      'decimals': decimals,
+      'fee': fee
     };
   }
 }

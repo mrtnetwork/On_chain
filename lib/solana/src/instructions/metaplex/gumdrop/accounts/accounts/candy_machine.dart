@@ -8,14 +8,14 @@ class _Utils {
   static const List<int> discriminator = [51, 173, 177, 113, 25, 241, 109, 189];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("authority"),
-    SolanaLayoutUtils.publicKey("wallet"),
-    LayoutConst.optional(SolanaLayoutUtils.publicKey(), property: "tokenMint"),
-    SolanaLayoutUtils.publicKey("config"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('wallet'),
+    LayoutConst.optional(SolanaLayoutUtils.publicKey(), property: 'tokenMint'),
+    SolanaLayoutUtils.publicKey('config'),
     GumdropCandyMachineData.staticLayout,
-    LayoutConst.u64(property: "itemsRedeemed"),
-    LayoutConst.u8(property: "bump")
+    LayoutConst.u64(property: 'itemsRedeemed'),
+    LayoutConst.u8(property: 'bump')
   ]);
 }
 
@@ -40,15 +40,15 @@ class GumdropCandyMachine extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return GumdropCandyMachine(
-        authority: decode["authority"],
-        wallet: decode["wallet"],
-        config: decode["config"],
-        data: GumdropCandyMachineData.fromJson(decode["candyMachineData"]),
-        itemsRedeemed: decode["itemsRedeemed"],
-        bump: decode["bump"],
-        tokenMint: decode["tokenMint"]);
+        authority: decode['authority'],
+        wallet: decode['wallet'],
+        config: decode['config'],
+        data: GumdropCandyMachineData.fromJson(decode['candyMachineData']),
+        itemsRedeemed: decode['itemsRedeemed'],
+        bump: decode['bump'],
+        tokenMint: decode['tokenMint']);
   }
 
   @override
@@ -56,19 +56,19 @@ class GumdropCandyMachine extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "authority": authority,
-      "wallet": wallet,
-      "tokenMint": tokenMint,
-      "config": config,
-      "candyMachineData": data.serialize(),
-      "itemsRedeemed": itemsRedeemed,
-      "bump": bump
+      'discriminator': _Utils.discriminator,
+      'authority': authority,
+      'wallet': wallet,
+      'tokenMint': tokenMint,
+      'config': config,
+      'candyMachineData': data.serialize(),
+      'itemsRedeemed': itemsRedeemed,
+      'bump': bump
     };
   }
 
   @override
   String toString() {
-    return "GumdropCandyMachine${serialize()}";
+    return 'GumdropCandyMachine${serialize()}';
   }
 }

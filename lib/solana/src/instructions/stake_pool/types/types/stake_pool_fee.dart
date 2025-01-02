@@ -14,24 +14,24 @@ class StakePoolFee extends LayoutSerializable {
   const StakePoolFee({required this.denominator, required this.numerator});
   factory StakePoolFee.fromJson(Map<String, dynamic> json) {
     return StakePoolFee(
-        denominator: json["denominator"], numerator: json["numerator"]);
+        denominator: json['denominator'], numerator: json['numerator']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "denominator"),
-    LayoutConst.u64(property: "numerator"),
-  ], property: "fee");
+    LayoutConst.u64(property: 'denominator'),
+    LayoutConst.u64(property: 'numerator'),
+  ], property: 'fee');
 
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"denominator": denominator, "numerator": numerator};
+    return {'denominator': denominator, 'numerator': numerator};
   }
 
   @override
   String toString() {
-    return "StakePoolFee${serialize()}";
+    return 'StakePoolFee${serialize()}';
   }
 }

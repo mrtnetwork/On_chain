@@ -4,15 +4,14 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Subscribe to receive notification anytime a new block is confirmed or finalized.
 /// https://solana.com/docs/rpc/websocket/blocksubscribe
-class SolanaRPCBlockSubscribe extends SolanaRPCRequest<int> {
-  const SolanaRPCBlockSubscribe(
+class SolanaRequestBlockSubscribe extends SolanaRequest<int, int> {
+  const SolanaRequestBlockSubscribe(
       {required this.filter,
       this.transactionDetails,
       this.showRewards,
       this.maxSupportedTransactionVersion,
-      Commitment? commitment,
-      SolanaRPCEncoding? encoding = SolanaRPCEncoding.base64})
-      : super(commitment: commitment, encoding: encoding);
+      super.commitment,
+      super.encoding = SolanaRequestEncoding.base64});
 
   /// blockSubscribe
   @override
@@ -34,18 +33,13 @@ class SolanaRPCBlockSubscribe extends SolanaRPCRequest<int> {
   List<dynamic> toJson() {
     return [
       filter.toJson(),
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         encoding?.toJson(),
         transactionDetails?.toJson(),
-        {"maxSupportedTransactionVersion": maxSupportedTransactionVersion},
-        {"showRewards": showRewards}
+        {'maxSupportedTransactionVersion': maxSupportedTransactionVersion},
+        {'showRewards': showRewards}
       ])
     ];
-  }
-
-  @override
-  int onResonse(result) {
-    return result;
   }
 }

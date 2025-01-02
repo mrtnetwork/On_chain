@@ -25,6 +25,6 @@ class ADAStakeAccountRegistrationHistoryResponse {
 
   @override
   String toString() {
-    return "ADAStakeAccountRegistrationHistoryResponse${toJson()}";
+    return 'ADAStakeAccountRegistrationHistoryResponse${toJson()}';
   }
 }

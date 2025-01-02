@@ -33,8 +33,8 @@ class MoveInstantaneousReward with ADASerialization {
 
   factory MoveInstantaneousReward.fromJson(Map<String, dynamic> json) {
     return MoveInstantaneousReward(
-        pot: MIRPot.fromName(json["pot"]),
-        variant: MIR.fromJson(json["variant"]));
+        pot: MIRPot.fromName(json['pot']),
+        variant: MIR.fromJson(json['variant']));
   }
 
   @override
@@ -47,6 +47,6 @@ class MoveInstantaneousReward with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"pot": pot.toJson(), "variant": variant.toJson()};
+    return {'pot': pot.toJson(), 'variant': variant.toJson()};
   }
 }

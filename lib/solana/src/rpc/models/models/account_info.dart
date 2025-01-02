@@ -5,23 +5,23 @@ import 'package:on_chain/solana/src/rpc/models/models/encoding.dart';
 class SolanaAccountInfo {
   factory SolanaAccountInfo.fromJson(Map<String, dynamic> json) {
     final account = SolanaAccountInfo(
-        executable: json["executable"],
-        lamports: BigintUtils.parse(json["lamports"]),
-        owner: SolAddress.uncheckCurve(json["owner"]),
-        rentEpoch: json["rentEpoch"],
-        space: json["space"],
-        data: json["data"]);
+        executable: json['executable'],
+        lamports: BigintUtils.parse(json['lamports']),
+        owner: SolAddress.uncheckCurve(json['owner']),
+        rentEpoch: json['rentEpoch'],
+        space: json['space'],
+        data: json['data']);
 
     return account;
   }
   Map<String, dynamic> toJson() {
     return {
-      "executable": executable,
-      "lamports": lamports.toString(),
-      "owner": owner.address,
-      "rentEpoch": rentEpoch,
-      "space": space,
-      "data": data
+      'executable': executable,
+      'lamports': lamports.toString(),
+      'owner': owner.address,
+      'rentEpoch': rentEpoch,
+      'space': space,
+      'data': data
     };
   }
 
@@ -41,6 +41,6 @@ class SolanaAccountInfo {
   final dynamic data;
 
   List<int> toBytesData() {
-    return SolanaRPCEncoding.decode(data);
+    return SolanaRequestEncoding.decode(data);
   }
 }

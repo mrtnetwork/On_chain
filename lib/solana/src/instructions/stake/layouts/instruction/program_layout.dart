@@ -7,12 +7,12 @@ abstract class StakeProgramLayout extends ProgramLayout {
   @override
   StakeProgramInstruction get instruction;
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.u32(property: "instruction")]);
+      LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final instruction =
-        StakeProgramInstruction.getInstruction(decode["instruction"]);
+        StakeProgramInstruction.getInstruction(decode['instruction']);
     switch (instruction) {
       case StakeProgramInstruction.authorizeWithSeed:
         return StakeAuthorizeWithSeedLayout.fromBuffer(data);

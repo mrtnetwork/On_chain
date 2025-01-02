@@ -21,14 +21,14 @@ class MetaplexBubblegumVerifyLeafLayout extends MetaplexBubblegumProgramLayout {
         instruction:
             MetaplexBubblegumProgramInstruction.verifyLeaf.insturction);
     return MetaplexBubblegumVerifyLeafLayout(
-        root: decode["root"], leaf: decode["leaf"], index: decode["index"]);
+        root: decode['root'], leaf: decode['leaf'], index: decode['index']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.blob(32, property: "root"),
-    LayoutConst.blob(32, property: "leaf"),
-    LayoutConst.u32(property: "index"),
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.blob(32, property: 'leaf'),
+    LayoutConst.u32(property: 'index'),
     MetaData.staticLayout
   ]);
 
@@ -41,6 +41,6 @@ class MetaplexBubblegumVerifyLeafLayout extends MetaplexBubblegumProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {"root": root, "leaf": leaf, "index": index};
+    return {'root': root, 'leaf': leaf, 'index': index};
   }
 }

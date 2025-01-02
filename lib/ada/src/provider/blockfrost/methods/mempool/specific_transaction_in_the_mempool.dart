@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Return content of the requested transaction.
 /// https://blockfrost.dev/api/specific-transaction-in-the-mempool
 class BlockfrostRequestSpecificTransactionInTheMempool
-    extends BlockforestRequestParam<ADAMempoolTransactionResponse,
+    extends BlockFrostRequest<ADAMempoolTransactionResponse,
         Map<String, dynamic>> {
   BlockfrostRequestSpecificTransactionInTheMempool(this.hash);
 

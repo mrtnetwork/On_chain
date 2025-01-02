@@ -2,7 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group("associatedToken", () {
+  group('associatedToken', () {
     _associatedToken();
     _associatedTokenAccountIdempotent();
     _recoverNested();
@@ -10,7 +10,7 @@ void main() {
 }
 
 void _associatedToken() {
-  test("associatedTokenAccount", () {
+  test('associatedTokenAccount', () {
     const layout = AssociatedTokenAccountProgramInitializeLayout();
     expect(layout.toBytes(), []);
     final decode = AssociatedTokenAccountProgramInitializeLayout.fromBuffer(
@@ -20,9 +20,9 @@ void _associatedToken() {
 }
 
 void _associatedTokenAccountIdempotent() {
-  test("associatedTokenAccountIdempotent", () {
+  test('associatedTokenAccountIdempotent', () {
     const layout = AssociatedTokenAccountProgramIdempotentLayout();
-    expect(layout.toHex(), "01");
+    expect(layout.toHex(), '01');
     final decode = AssociatedTokenAccountProgramIdempotentLayout.fromBuffer(
         layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -30,9 +30,9 @@ void _associatedTokenAccountIdempotent() {
 }
 
 void _recoverNested() {
-  test("recoverNested", () {
+  test('recoverNested', () {
     const layout = AssociatedTokenAccountProgramRecoverNestedLayout();
-    expect(layout.toHex(), "02");
+    expect(layout.toHex(), '02');
     final decode = AssociatedTokenAccountProgramRecoverNestedLayout.fromBuffer(
         layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());

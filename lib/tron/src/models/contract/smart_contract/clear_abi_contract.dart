@@ -9,9 +9,9 @@ class ClearABIContract extends TronBaseContract {
   factory ClearABIContract.fromJson(Map<String, dynamic> json) {
     return ClearABIContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       contractAddress: OnChainUtils.parseTronAddress(
-          value: json["contract_address"], name: "contract_address"),
+          value: json['contract_address'], name: 'contract_address'),
     );
   }
 
@@ -41,15 +41,15 @@ class ClearABIContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "contract_address": contractAddress.toString(),
+      'owner_address': ownerAddress.toString(),
+      'contract_address': contractAddress.toString(),
     };
   }
 
   /// Convert the [ClearABIContract] object to its string representation.
   @override
   String toString() {
-    return "ClearABIContract{${toJson()}}";
+    return 'ClearABIContract{${toJson()}}';
   }
 
   @override

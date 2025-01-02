@@ -49,52 +49,52 @@ class MetaplexTokenMetaDataCreateV1Layout
         instruction:
             MetaplexTokenMetaDataProgramInstruction.createV1.insturction);
     return MetaplexTokenMetaDataCreateV1Layout(
-        name: decode["name"],
-        symbol: decode["symbol"],
-        uri: decode["uri"],
-        creators: decode["creators"] == null
+        name: decode['name'],
+        symbol: decode['symbol'],
+        uri: decode['uri'],
+        creators: decode['creators'] == null
             ? null
-            : (decode["creators"] as List)
+            : (decode['creators'] as List)
                 .map((e) => Creator.fromJson(e))
                 .toList(),
-        primarySaleHappened: decode["primarySaleHappened"],
-        isMutable: decode["isMutable"],
-        tokenStandard: MetaDataTokenStandard.fromJson(decode["tokenStandard"]),
-        collection: decode["collection"] == null
+        primarySaleHappened: decode['primarySaleHappened'],
+        isMutable: decode['isMutable'],
+        tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+        collection: decode['collection'] == null
             ? null
-            : Collection.fromJson(decode["collection"]),
-        uses: decode["uses"] == null ? null : Uses.fromJson(decode["uses"]),
-        collectionDetails: decode["collectionDetails"] == null
+            : Collection.fromJson(decode['collection']),
+        uses: decode['uses'] == null ? null : Uses.fromJson(decode['uses']),
+        collectionDetails: decode['collectionDetails'] == null
             ? null
-            : CollectionDetailsV1.fromJson(decode["collectionDetails"]),
-        ruleSet: decode["ruleSet"],
-        decimals: decode["decimals"],
-        printSupply: decode["printSupply"] == null
+            : CollectionDetailsV1.fromJson(decode['collectionDetails']),
+        ruleSet: decode['ruleSet'],
+        decimals: decode['decimals'],
+        printSupply: decode['printSupply'] == null
             ? null
-            : PrintSupply.fromJson(json: decode["printSupply"]),
-        sellerFeeBasisPoints: decode["sellerFeeBasisPoints"]);
+            : PrintSupply.fromJson(json: decode['printSupply']),
+        sellerFeeBasisPoints: decode['sellerFeeBasisPoints']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.u8(property: "discriminator"),
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "symbol"),
-    LayoutConst.string(property: "uri"),
-    LayoutConst.u16(property: "sellerFeeBasisPoints"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
     LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-        property: "creators"),
-    LayoutConst.boolean(property: "primarySaleHappened"),
-    LayoutConst.boolean(property: "isMutable"),
+        property: 'creators'),
+    LayoutConst.boolean(property: 'primarySaleHappened'),
+    LayoutConst.boolean(property: 'isMutable'),
     LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-        property: "tokenStandard"),
-    LayoutConst.optional(Collection.staticLayout, property: "collection"),
-    LayoutConst.optional(Uses.staticLayout, property: "uses"),
+        property: 'tokenStandard'),
+    LayoutConst.optional(Collection.staticLayout, property: 'collection'),
+    LayoutConst.optional(Uses.staticLayout, property: 'uses'),
     LayoutConst.optional(CollectionDetailsV1.staticLayout,
-        property: "collectionDetails"),
-    SolanaLayoutUtils.optionPubkey(property: "ruleSet"),
-    LayoutConst.optional(LayoutConst.u8(), property: "decimals"),
-    LayoutConst.optional(PrintSupply.staticLayout, property: "printSupply")
+        property: 'collectionDetails'),
+    SolanaLayoutUtils.optionPubkey(property: 'ruleSet'),
+    LayoutConst.optional(LayoutConst.u8(), property: 'decimals'),
+    LayoutConst.optional(PrintSupply.staticLayout, property: 'printSupply')
   ]);
 
   static const int discriminator = 0;
@@ -109,21 +109,21 @@ class MetaplexTokenMetaDataCreateV1Layout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": discriminator,
-      "name": name,
-      "symbol": symbol,
-      "uri": uri,
-      "sellerFeeBasisPoints": sellerFeeBasisPoints,
-      "creators": creators?.map((e) => e.serialize()).toList(),
-      "primarySaleHappened": primarySaleHappened,
-      "isMutable": isMutable,
-      "tokenStandard": tokenStandard.serialize(),
-      "collection": collection?.serialize(),
-      "uses": uses?.serialize(),
-      "collectionDetails": collectionDetails?.serialize(),
-      "ruleSet": ruleSet,
-      "decimals": decimals,
-      "printSupply": printSupply?.serialize(),
+      'discriminator': discriminator,
+      'name': name,
+      'symbol': symbol,
+      'uri': uri,
+      'sellerFeeBasisPoints': sellerFeeBasisPoints,
+      'creators': creators?.map((e) => e.serialize()).toList(),
+      'primarySaleHappened': primarySaleHappened,
+      'isMutable': isMutable,
+      'tokenStandard': tokenStandard.serialize(),
+      'collection': collection?.serialize(),
+      'uses': uses?.serialize(),
+      'collectionDetails': collectionDetails?.serialize(),
+      'ruleSet': ruleSet,
+      'decimals': decimals,
+      'printSupply': printSupply?.serialize(),
     };
   }
 }

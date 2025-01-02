@@ -3,24 +3,25 @@ import 'package:on_chain/solana/src/instructions/stake_pool/accounts/accounts/st
 import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 /// Retrieves and deserializes a StakePool account.
-class SolanaRPCGetStakePoolAccount extends SolanaRPCRequest<StakePoolAccount?> {
+class SolanaRPCGetStakePoolAccount
+    extends SolanaRequest<StakePoolAccount?, Map<String, dynamic>?> {
   const SolanaRPCGetStakePoolAccount({
     required this.address,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress address;
 
   @override
   List<dynamic> toJson() {
     return [
       address.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

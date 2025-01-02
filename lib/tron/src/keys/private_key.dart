@@ -26,8 +26,8 @@ class TronPrivateKey {
       return TronPrivateKey._(key);
     } catch (e) {
       // Throw a MessageException with details if an error occurs during the creation
-      throw TronPluginException("invalid tron private key",
-          details: {"input": BytesUtils.toHexString(keyBytes)});
+      throw TronPluginException('invalid tron private key',
+          details: {'input': BytesUtils.toHexString(keyBytes)});
     }
   }
 
@@ -65,6 +65,6 @@ class TronPrivateKey {
 
   @override
   String toString() {
-    return "privatekey: ${toHex().substring(0, 5)}...\npublicKey: ${publicKey().toHex()}";
+    return 'privatekey: ${toHex().substring(0, 5)}...\npublicKey: ${publicKey().toHex()}';
   }
 }

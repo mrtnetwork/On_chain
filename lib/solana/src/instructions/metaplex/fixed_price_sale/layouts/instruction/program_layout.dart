@@ -21,7 +21,7 @@ import 'instructions.dart';
 abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
   const MetaplexFixedPriceSaleProgramLayout();
   static final StructLayout _layout =
-      LayoutConst.struct([LayoutConst.blob(8, property: "instruction")]);
+      LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   @override
   abstract final MetaplexFixedPriceSaleProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
@@ -29,7 +29,7 @@ abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
     final MetaplexFixedPriceSaleProgramInstruction? instruction =
         MetaplexFixedPriceSaleProgramInstruction.getInstruction(
-            decode["instruction"]);
+            decode['instruction']);
 
     switch (instruction) {
       case MetaplexFixedPriceSaleProgramInstruction.buy:
@@ -68,11 +68,11 @@ abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
     required List<int> instruction,
   }) {
     final decode = layout.deserialize(bytes).value;
-    final instcutionData = decode["instruction"];
+    final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException("invalid instruction bytes", details: {
-        "expected": BytesUtils.toHexString(instruction),
-        "instruction": BytesUtils.toBinary(instcutionData)
+      throw SolanaPluginException('invalid instruction bytes', details: {
+        'expected': BytesUtils.toHexString(instruction),
+        'instruction': BytesUtils.toBinary(instcutionData)
       });
     }
 

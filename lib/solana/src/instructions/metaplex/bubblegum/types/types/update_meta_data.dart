@@ -20,15 +20,15 @@ class UpdateMetaData extends LayoutSerializable {
       required this.creators});
   factory UpdateMetaData.fromJson(Map<String, dynamic> json) {
     return UpdateMetaData(
-        name: json["name"],
-        symbol: json["symbol"],
-        uri: json["uri"],
-        sellerFeeBasisPoints: json["sellerFeeBasisPoints"],
-        primarySaleHappened: json["primarySaleHappened"],
-        isMutable: json["isMutable"],
-        creators: json["creators"] == null
+        name: json['name'],
+        symbol: json['symbol'],
+        uri: json['uri'],
+        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
+        primarySaleHappened: json['primarySaleHappened'],
+        isMutable: json['isMutable'],
+        creators: json['creators'] == null
             ? null
-            : (json["creators"] as List)
+            : (json['creators'] as List)
                 .map((e) => Creator.fromJson(e))
                 .toList());
   }
@@ -38,34 +38,34 @@ class UpdateMetaData extends LayoutSerializable {
     return UpdateMetaData.fromJson(decode);
   }
   static StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.optional(LayoutConst.string(), property: "name"),
-    LayoutConst.optional(LayoutConst.string(), property: "symbol"),
-    LayoutConst.optional(LayoutConst.string(), property: "uri"),
+    LayoutConst.optional(LayoutConst.string(), property: 'name'),
+    LayoutConst.optional(LayoutConst.string(), property: 'symbol'),
+    LayoutConst.optional(LayoutConst.string(), property: 'uri'),
     LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-        property: "creators"),
-    LayoutConst.optional(LayoutConst.u16(), property: "sellerFeeBasisPoints"),
+        property: 'creators'),
+    LayoutConst.optional(LayoutConst.u16(), property: 'sellerFeeBasisPoints'),
     LayoutConst.optional(LayoutConst.boolean(),
-        property: "primarySaleHappened"),
-    LayoutConst.optional(LayoutConst.boolean(), property: "isMutable"),
-  ], property: "updateMetaData");
+        property: 'primarySaleHappened'),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
+  ], property: 'updateMetaData');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
     return {
-      "name": name,
-      "symbol": symbol,
-      "uri": uri,
-      "sellerFeeBasisPoints": sellerFeeBasisPoints,
-      "primarySaleHappened": primarySaleHappened,
-      "isMutable": isMutable,
-      "creators": creators?.map((e) => e.serialize()).toList()
+      'name': name,
+      'symbol': symbol,
+      'uri': uri,
+      'sellerFeeBasisPoints': sellerFeeBasisPoints,
+      'primarySaleHappened': primarySaleHappened,
+      'isMutable': isMutable,
+      'creators': creators?.map((e) => e.serialize()).toList()
     };
   }
 
   @override
   String toString() {
-    return "UpdateMetaData${serialize()}";
+    return 'UpdateMetaData${serialize()}';
   }
 }

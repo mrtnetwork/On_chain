@@ -7,7 +7,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Unstake some TRX staked in Stake2.0, release the corresponding amount of bandwidth or energy, and voting rights (TP)
 /// [developers.tron.network](https://developers.tron.network/reference/unfreezebalancev2-1).
 class TronRequestUnfreezeBalanceV2
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestUnfreezeBalanceV2.fromContract(
       UnfreezeBalanceV2Contract contract,
       {int? permissionId}) {
@@ -45,11 +45,11 @@ class TronRequestUnfreezeBalanceV2
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "unfreeze_balance": unfreezeBalance,
-      "resource": resource,
-      "Permission_id": permissionId,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'unfreeze_balance': unfreezeBalance,
+      'resource': resource,
+      'Permission_id': permissionId,
+      'visible': visible
     };
   }
 
@@ -60,6 +60,6 @@ class TronRequestUnfreezeBalanceV2
 
   @override
   String toString() {
-    return "TronRequestUnfreezeBalanceV2{${toJson()}}";
+    return 'TronRequestUnfreezeBalanceV2{${toJson()}}';
   }
 }

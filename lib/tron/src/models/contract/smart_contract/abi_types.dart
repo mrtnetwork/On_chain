@@ -69,7 +69,7 @@ class SmartContractAbiEntryType implements TronEnumerate {
     return values.firstWhere(
       (element) => element.name.toLowerCase() == name.toLowerCase(),
       orElse: () => throw const TronPluginException(
-          "SmartContractAbiEntryType was not found."),
+          'SmartContractAbiEntryType was not found.'),
     );
   }
 
@@ -78,7 +78,7 @@ class SmartContractAbiEntryType implements TronEnumerate {
     return values.firstWhere((element) => element.value == value, orElse: () {
       if (orElese != null) return orElese;
       throw const TronPluginException(
-          "SmartContractAbiEntryType was not found.");
+          'SmartContractAbiEntryType was not found.');
     });
   }
 
@@ -145,7 +145,7 @@ class SmartContractAbiStateMutabilityType implements TronEnumerate {
         (element) => element.name.toLowerCase() == name.toLowerCase(),
         orElse: () {
       throw const TronPluginException(
-          "SmartContractAbiStateMutabilityType was not found.");
+          'SmartContractAbiStateMutabilityType was not found.');
     });
   }
 
@@ -154,7 +154,7 @@ class SmartContractAbiStateMutabilityType implements TronEnumerate {
     return values.firstWhere((element) => element.value == value, orElse: () {
       if (orElese != null) return orElese;
       throw const TronPluginException(
-          "SmartContractAbiStateMutabilityType was not found.");
+          'SmartContractAbiStateMutabilityType was not found.');
     });
   }
 

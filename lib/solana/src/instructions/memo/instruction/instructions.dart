@@ -9,13 +9,13 @@ class MemoProgramInstruction implements ProgramLayoutInstruction {
   final String name;
   const MemoProgramInstruction(this.insturction, this.name);
   static const MemoProgramInstruction memo =
-      MemoProgramInstruction(null, "Memo");
+      MemoProgramInstruction(null, 'Memo');
 
   static const List<MemoProgramInstruction> values = [memo];
 
   @override
-  String get programName => "Memo";
+  String get programName => 'Memo';
 
   @override
-  SolAddress get programAddress => MemoProgramConst.programId;
+  SolAddress get programAddress => MemoProgramConst.latestMemoProgram;
 }

@@ -5,8 +5,8 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class _Utils {
   static const List<int> discriminator = [66, 131, 48, 36, 100, 130, 177, 11];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    LayoutConst.vec(Creator.creatorLayout, property: "creators"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
   ]);
 }
 
@@ -17,9 +17,9 @@ class PrimaryMetadataCreators extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return PrimaryMetadataCreators(
-        creators: (decode["creators"] as List)
+        creators: (decode['creators'] as List)
             .map((e) => Creator.fromJson(e))
             .toList());
   }
@@ -30,13 +30,13 @@ class PrimaryMetadataCreators extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "creators": creators.map((e) => e.serialize()).toList()
+      'discriminator': _Utils.discriminator,
+      'creators': creators.map((e) => e.serialize()).toList()
     };
   }
 
   @override
   String toString() {
-    return "PrimaryMetadataCreators${serialize()}";
+    return 'PrimaryMetadataCreators${serialize()}';
   }
 }

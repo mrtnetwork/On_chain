@@ -1,12 +1,12 @@
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class RPCCompileSerpent extends ETHRPCRequest<dynamic> {
-  RPCCompileSerpent({
+class EthereumRequestCompileSerpent extends EthereumRequest<Object?, Object?> {
+  EthereumRequestCompileSerpent({
     required this.code,
   });
   @override
-  EthereumMethods get method => EthereumMethods.compileSerpent;
+  String get method => EthereumMethods.compileSerpent.value;
 
   final String code;
 

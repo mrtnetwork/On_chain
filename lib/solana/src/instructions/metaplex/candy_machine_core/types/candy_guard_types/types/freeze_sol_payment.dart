@@ -10,23 +10,23 @@ class FreezeSolPayment extends LayoutSerializable {
   const FreezeSolPayment({required this.lamports, required this.destination});
   factory FreezeSolPayment.fromJson(Map<String, dynamic> json) {
     return FreezeSolPayment(
-        lamports: json["lamports"], destination: json["destination"]);
+        lamports: json['lamports'], destination: json['destination']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "lamports"),
-    SolanaLayoutUtils.publicKey("destination")
-  ], property: "freezeSolPayment");
+    LayoutConst.u64(property: 'lamports'),
+    SolanaLayoutUtils.publicKey('destination')
+  ], property: 'freezeSolPayment');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"lamports": lamports, "destination": destination};
+    return {'lamports': lamports, 'destination': destination};
   }
 
   @override
   String toString() {
-    return "FreezeSolPayment${serialize()}";
+    return 'FreezeSolPayment${serialize()}';
   }
 }

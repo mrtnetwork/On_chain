@@ -9,7 +9,7 @@ void main() async {
       "wss://polygon-mumbai-bor.publicnode.com");
 
   /// Create an Ethereum RPC instance
-  final rpc = EVMRPC(wsocketService);
+  final rpc = EthereumProvider(wsocketService);
 
   /// Define a seed for generating a private key
   final seed = BytesUtils.fromHexString(
@@ -41,11 +41,11 @@ void main() async {
   });
 
   /// Request gas price from the RPC service
-  final gasPrice = await rpc.request(RPCGetGasPrice());
+  final gasPrice = await rpc.request(EthereumRequestGetGasPrice());
 
   /// Request nonce (transaction count) for the sender's address
-  final nonce =
-      await rpc.request(RPCGetTransactionCount(address: address.address));
+  final nonce = await rpc
+      .request(EthereumRequestGetTransactionCount(address: address.address));
 
   /// Build an Ethereum transaction for a contract call (transfer)
   ETHTransaction tr = ETHTransaction(
@@ -82,7 +82,7 @@ void main() async {
   );
 
   /// Estimate gas limit for the transaction
-  final gasLimit = await rpc.request(RPCEstimateGas(
+  final gasLimit = await rpc.request(EthereumRequestEstimateGas(
     transaction: tr.toEstimate(),
   ));
 
@@ -100,7 +100,8 @@ void main() async {
       BytesUtils.toHexString(tr.signedSerialized(signature), prefix: "0x");
 
   /// Send the signed transaction to the Ethereum network
-  await rpc.request(RPCSendRawTransaction(transaction: signedSerialized));
+  await rpc.request(
+      EthereumRequestSendRawTransaction(transaction: signedSerialized));
 
   /// https://mumbai.polygonscan.com/tx/0xea3863a1f36c939cca63a373d1d8704daa7c62db40535cf388dca3f2c621e430
 }

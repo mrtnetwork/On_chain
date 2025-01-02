@@ -29,9 +29,9 @@ class NameRegistryAccount extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data, layout: NameRegistryAccountUtils.layout);
     return NameRegistryAccount(
-        parentName: decode["parentName"],
-        owner: decode["owner"],
-        classAccount: decode["classAccount"],
+        parentName: decode['parentName'],
+        owner: decode['owner'],
+        classAccount: decode['classAccount'],
         data: data.sublist(NameRegistryAccountUtils.hiddenDataOffset));
   }
 
@@ -40,9 +40,9 @@ class NameRegistryAccount extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "parentName": parentName,
-      "owner": owner,
-      "classAccount": classAccount
+      'parentName': parentName,
+      'owner': owner,
+      'classAccount': classAccount
     };
   }
 
@@ -53,6 +53,6 @@ class NameRegistryAccount extends LayoutSerializable {
 
   @override
   String toString() {
-    return "NameRegistryAccount.${serialize()}";
+    return 'NameRegistryAccount.${serialize()}';
   }
 }

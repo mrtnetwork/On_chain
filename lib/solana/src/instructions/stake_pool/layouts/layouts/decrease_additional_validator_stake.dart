@@ -26,16 +26,16 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
         instruction: StakePoolProgramInstruction
             .decreaseAdditionalValidatorStake.insturction);
     return StakePoolDecreaseAdditionalValidatorStakeLayout(
-      ephemeralStakeSeed: decode["ephemeralStakeSeed"],
-      lamports: decode["lamports"],
-      transientStakeSeed: decode["transientStakeSeed"],
+      ephemeralStakeSeed: decode['ephemeralStakeSeed'],
+      lamports: decode['lamports'],
+      transientStakeSeed: decode['transientStakeSeed'],
     );
   }
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.ns64(property: "lamports"),
-    LayoutConst.ns64(property: "transientStakeSeed"),
-    LayoutConst.ns64(property: "ephemeralStakeSeed")
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'transientStakeSeed'),
+    LayoutConst.ns64(property: 'ephemeralStakeSeed')
   ]);
 
   @override
@@ -48,9 +48,9 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "lamports": lamports,
-      "ephemeralStakeSeed": ephemeralStakeSeed,
-      "transientStakeSeed": transientStakeSeed
+      'lamports': lamports,
+      'ephemeralStakeSeed': ephemeralStakeSeed,
+      'transientStakeSeed': transientStakeSeed
     };
   }
 }

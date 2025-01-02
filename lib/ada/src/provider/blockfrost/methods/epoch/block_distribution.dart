@@ -5,9 +5,9 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Return the blocks minted for the epoch specified.
 /// https://blockfrost.dev/api/block-distribution
 class BlockfrostRequestBlockDistribution
-    extends BlockforestRequestParam<List<String>, List<dynamic>> {
+    extends BlockFrostRequest<List<String>, List<dynamic>> {
   BlockfrostRequestBlockDistribution(this.epoch,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Number of the epoch

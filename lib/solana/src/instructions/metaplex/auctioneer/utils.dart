@@ -13,7 +13,7 @@ class MetaplexAuctioneerProgramUtils {
     required BigInt tokenSize,
   }) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "listing_config".codeUnits,
+      'listing_config'.codeUnits,
       wallet.toBytes(),
       auctionHouse.toBytes(),
       tokenAccount.toBytes(),
@@ -27,7 +27,7 @@ class MetaplexAuctioneerProgramUtils {
     required SolAddress auctionHouse,
   }) {
     return ProgramDerivedAddress.find(seedBytes: [
-      "auctioneer".codeUnits,
+      'auctioneer'.codeUnits,
       auctionHouse.toBytes(),
     ], programId: MetaplexAuctioneerProgramConst.programId);
   }

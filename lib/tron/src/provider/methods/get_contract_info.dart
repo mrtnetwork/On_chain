@@ -6,7 +6,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Compared with bytecode, runtime bytecode does not contain constructor and constructor parameter information.
 /// [developers.tron.network](https://developers.tron.network/reference/getcontractinfo).
 class TronRequestGetContractInfo
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetContractInfo({required this.value, this.visible = true});
 
   /// Contract address
@@ -20,11 +20,11 @@ class TronRequestGetContractInfo
 
   @override
   Map<String, dynamic> toJson() {
-    return {"value": value, "visible": visible};
+    return {'value': value.toAddress(visible), 'visible': visible};
   }
 
   @override
   String toString() {
-    return "TronRequestGetContractInfo{${toJson()}}";
+    return 'TronRequestGetContractInfo{${toJson()}}';
   }
 }

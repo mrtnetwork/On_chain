@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query the withdrawable balance at the specified timestamp In Stake2.0
 /// [developers.tron.network](https://developers.tron.network/reference/getcanwithdrawunfreezeamount-1).
 class TronRequestGetCanWithdrawUnfreezeAmount
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetCanWithdrawUnfreezeAmount(
       {required this.ownerAddress,
       required this.timestamp,
@@ -24,14 +24,14 @@ class TronRequestGetCanWithdrawUnfreezeAmount
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress,
-      "timestamp": timestamp,
-      "visible": visible
+      'owner_address': ownerAddress.toAddress(visible),
+      'timestamp': timestamp,
+      'visible': visible
     };
   }
 
   @override
   String toString() {
-    return "TronRequestGetCanWithdrawUnfreezeAmount{${toJson()}}";
+    return 'TronRequestGetCanWithdrawUnfreezeAmount{${toJson()}}';
   }
 }

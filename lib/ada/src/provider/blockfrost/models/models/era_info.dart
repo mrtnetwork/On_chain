@@ -29,7 +29,7 @@ class ADABlockchainEraResponse {
       };
   @override
   String toString() {
-    return "ADABlockchainEraResponse${toJson()}";
+    return 'ADABlockchainEraResponse${toJson()}';
   }
 }
 

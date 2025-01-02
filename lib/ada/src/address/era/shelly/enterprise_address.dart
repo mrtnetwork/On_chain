@@ -30,7 +30,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
       {required StakeCred credential,
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential), {"net_tag": network});
+        AdaAddressUtils.toAdaStakeCredential(credential), {'net_tag': network});
     return ADAEnterpriseAddress._(
         paymentCredential: credential, address: encode, network: network);
   }
@@ -39,7 +39,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
       ADANetwork network = ADANetwork.mainnet}) {
     final credential = AdaAddressUtils.publicKeyToCredential(pubkeyBytes);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential), {"net_tag": network});
+        AdaAddressUtils.toAdaStakeCredential(credential), {'net_tag': network});
     return ADAEnterpriseAddress._(
         paymentCredential: credential, address: encode, network: network);
   }
@@ -49,7 +49,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
     final credential =
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential), {"net_tag": network});
+        AdaAddressUtils.toAdaStakeCredential(credential), {'net_tag': network});
     return ADAEnterpriseAddress._(
         paymentCredential: credential, address: encode, network: network);
   }
@@ -59,7 +59,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
     final credential =
         AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential), {"net_tag": network});
+        AdaAddressUtils.toAdaStakeCredential(credential), {'net_tag': network});
     return ADAEnterpriseAddress._(
         paymentCredential: credential, address: encode, network: network);
   }
@@ -68,7 +68,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
     final credential =
         AdaAddressUtils.publicKeyToCredential(cip1852.publicKey.compressed);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential), {"net_tag": network});
+        AdaAddressUtils.toAdaStakeCredential(credential), {'net_tag': network});
     return ADAEnterpriseAddress._(
         paymentCredential: credential, address: encode, network: network);
   }

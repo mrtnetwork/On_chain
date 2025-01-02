@@ -3,24 +3,24 @@ import 'package:on_chain/solana/src/instructions/spl_token/spl_token.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 class SolanaRPCGetTransferFeeConfigAccount
-    extends SolanaRPCRequest<TransferFeeConfig?> {
+    extends SolanaRequest<TransferFeeConfig?, Map<String, dynamic>?> {
   const SolanaRPCGetTransferFeeConfigAccount({
     required this.account,
-    Commitment? commitment,
-    MinContextSlot? minContextSlot,
-  }) : super(commitment: commitment, minContextSlot: minContextSlot);
+    super.commitment,
+    super.minContextSlot,
+  });
 
   @override
-  String get method => SolanaRPCMethods.getAccountInfo.value;
+  String get method => SolanaRequestMethods.getAccountInfo.value;
   final SolAddress account;
 
   @override
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRPCUtils.createConfig([
+      SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        SolanaRPCEncoding.base64.toJson(),
+        SolanaRequestEncoding.base64.toJson(),
         minContextSlot?.toJson()
       ])
     ];

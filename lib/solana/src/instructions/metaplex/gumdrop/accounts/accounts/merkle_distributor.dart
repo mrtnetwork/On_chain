@@ -8,11 +8,11 @@ class _Utils {
   static const List<int> discriminator = [77, 119, 139, 70, 84, 247, 12, 26];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("base"),
-    LayoutConst.u8(property: "bump"),
-    LayoutConst.blob(32, property: "root"),
-    SolanaLayoutUtils.publicKey("temporal"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('base'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.blob(32, property: 'root'),
+    SolanaLayoutUtils.publicKey('temporal'),
   ]);
 }
 
@@ -32,12 +32,12 @@ class MerkleDistributor extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return MerkleDistributor(
-        base: decode["base"],
-        bump: decode["bump"],
-        root: (decode["root"] as List).cast(),
-        temporal: decode["temporal"]);
+        base: decode['base'],
+        bump: decode['bump'],
+        root: (decode['root'] as List).cast(),
+        temporal: decode['temporal']);
   }
 
   @override
@@ -46,16 +46,16 @@ class MerkleDistributor extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "base": base,
-      "bump": bump,
-      "root": root,
-      "temporal": temporal
+      'discriminator': _Utils.discriminator,
+      'base': base,
+      'bump': bump,
+      'root': root,
+      'temporal': temporal
     };
   }
 
   @override
   String toString() {
-    return "MerkleDistributor${serialize()}";
+    return 'MerkleDistributor${serialize()}';
   }
 }

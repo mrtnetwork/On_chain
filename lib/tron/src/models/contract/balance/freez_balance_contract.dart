@@ -8,13 +8,13 @@ class FreezeBalanceContract extends TronBaseContract {
   /// Create a new [FreezeBalanceContract] instance by parsing a JSON map.
   factory FreezeBalanceContract.fromJson(Map<String, dynamic> json) {
     return FreezeBalanceContract(
-      ownerAddress: TronAddress(json["owner_address"]),
-      frozenBalance: BigintUtils.tryParse(json["frozen_balance"]),
-      frozenDuration: BigintUtils.tryParse(json["frozen_balance"]),
-      resource: ResourceCode.fromName(json["resource"]),
-      receiverAddress: json["receiver_address"] == null
+      ownerAddress: TronAddress(json['owner_address']),
+      frozenBalance: BigintUtils.tryParse(json['frozen_balance']),
+      frozenDuration: BigintUtils.tryParse(json['frozen_balance']),
+      resource: ResourceCode.fromName(json['resource']),
+      receiverAddress: json['receiver_address'] == null
           ? null
-          : TronAddress(json["receiver_address"]),
+          : TronAddress(json['receiver_address']),
     );
   }
   factory FreezeBalanceContract.deserialize(List<int> bytes) {
@@ -69,18 +69,18 @@ class FreezeBalanceContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "frozen_balance": frozenBalance?.toString(),
-      "frozen_duration": frozenDuration?.toString(),
-      "resource": resource?.name,
-      "receiver_address": receiverAddress?.toString(),
+      'owner_address': ownerAddress.toString(),
+      'frozen_balance': frozenBalance?.toString(),
+      'frozen_duration': frozenDuration?.toString(),
+      'resource': resource?.name,
+      'receiver_address': receiverAddress?.toString(),
     };
   }
 
   /// Convert the [FreezeBalanceContract] object to its string representation.
   @override
   String toString() {
-    return "FreezeBalanceContract{${toJson()}}";
+    return 'FreezeBalanceContract{${toJson()}}';
   }
 
   @override

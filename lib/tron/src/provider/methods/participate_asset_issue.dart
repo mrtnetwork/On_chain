@@ -8,7 +8,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Participate in an asset issue..
 /// [developers.tron.network](https://developers.tron.network/reference/participateassetissue).
 class TronRequestParticipateAssetIssue
-    extends TVMRequestParam<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
   factory TronRequestParticipateAssetIssue.fromContract(
       ParticipateAssetIssueContract contract,
       {bool visible = true}) {
@@ -47,11 +47,11 @@ class TronRequestParticipateAssetIssue
   @override
   Map<String, dynamic> toJson() {
     return {
-      "to_address": toAddress,
-      "owner_address": ownerAddress,
-      "amount": amount,
-      "asset_name": assetName,
-      "visible": visible
+      'to_address': toAddress.toAddress(visible),
+      'owner_address': ownerAddress.toAddress(visible),
+      'amount': amount,
+      'asset_name': assetName,
+      'visible': visible
     };
   }
 
@@ -62,6 +62,6 @@ class TronRequestParticipateAssetIssue
 
   @override
   String toString() {
-    return "TronRequestParticipateAssetIssue{${toJson()}}";
+    return 'TronRequestParticipateAssetIssue{${toJson()}}';
   }
 }

@@ -7,11 +7,11 @@ import 'package:on_chain/solana/src/rpc/core/methods.dart';
 /// and the highest incremental snapshot slot based on the full snapshot slot, if there is one.
 ///
 /// https://solana.com/docs/rpc/http/gethighestsnapshotslot
-class SolanaRPCGetHighestSnapshotSlot
-    extends SolanaRPCRequest<Map<String, dynamic>> {
+class SolanaRequestGetHighestSnapshotSlot
+    extends SolanaRequest<Map<String, dynamic>, Map<String, dynamic>> {
   /// getHighestSnapshotSlot
   @override
-  String get method => SolanaRPCMethods.getHighestSnapshotSlot.value;
+  String get method => SolanaRequestMethods.getHighestSnapshotSlot.value;
 
   @override
   List<dynamic> toJson() {

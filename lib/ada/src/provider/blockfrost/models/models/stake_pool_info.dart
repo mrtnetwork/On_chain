@@ -126,6 +126,6 @@ class ADAStakePoolInfoResponse {
 
   @override
   String toString() {
-    return "ADAStakePoolInfoResponse${toJson()}";
+    return 'ADAStakePoolInfoResponse${toJson()}';
   }
 }

@@ -5,10 +5,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Transaction metadata per label.
 /// https://blockfrost.dev/api/transaction-metadata-content-in-cbor
 class BlockfrostRequestTransactionMetadataContentInCbor
-    extends BlockforestRequestParam<List<ADAMetadataCBORResponse>,
+    extends BlockFrostRequest<List<ADAMetadataCBORResponse>,
         List<Map<String, dynamic>>> {
   BlockfrostRequestTransactionMetadataContentInCbor(this.label,
-      {BlockforestRequestFilterParams? filter})
+      {BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Metadata label

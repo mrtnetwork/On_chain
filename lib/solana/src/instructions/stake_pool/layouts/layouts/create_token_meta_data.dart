@@ -30,12 +30,12 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
         uriBytesLength > StakePoolProgramConst.metadataMaxUriLength ||
         symbolBytesLength > StakePoolProgramConst.metadataMaxSymbolLength) {
       throw const SolanaPluginException(
-          "Some fields exceed the maximum data limit.",
+          'Some fields exceed the maximum data limit.',
           details: {
-            "metadataMaxNameLength":
+            'metadataMaxNameLength':
                 StakePoolProgramConst.metadataMaxNameLength,
-            "metadataMaxUriLength": StakePoolProgramConst.metadataMaxUriLength,
-            "metadataMaxSymbolLength":
+            'metadataMaxUriLength': StakePoolProgramConst.metadataMaxUriLength,
+            'metadataMaxSymbolLength':
                 StakePoolProgramConst.metadataMaxSymbolLength
           });
     }
@@ -49,13 +49,13 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
         instruction:
             StakePoolProgramInstruction.createTokenMetaData.insturction);
     return StakePoolCreateTokenMetaDataLayout(
-        name: decode["name"], uri: decode["uri"], symbol: decode["symbol"]);
+        name: decode['name'], uri: decode['uri'], symbol: decode['symbol']);
   }
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
-    LayoutConst.string(property: "name"),
-    LayoutConst.string(property: "symbol"),
-    LayoutConst.string(property: "uri"),
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
   ]);
 
   @override
@@ -68,9 +68,9 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "name": name,
-      "symbol": symbol,
-      "uri": uri,
+      'name': name,
+      'symbol': symbol,
+      'uri': uri,
     };
   }
 }

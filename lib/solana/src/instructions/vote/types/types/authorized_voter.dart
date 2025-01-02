@@ -9,23 +9,23 @@ class AuthorizedVoter extends LayoutSerializable {
   const AuthorizedVoter({required this.epoch, required this.authorizedVoter});
   factory AuthorizedVoter.fromJson(Map<String, dynamic> json) {
     return AuthorizedVoter(
-        epoch: json["epoch"], authorizedVoter: json["authorizedVoter"]);
+        epoch: json['epoch'], authorizedVoter: json['authorizedVoter']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: "epoch"),
-    SolanaLayoutUtils.publicKey("authorizedVoter")
-  ], property: "authorizedVoter");
+    LayoutConst.u64(property: 'epoch'),
+    SolanaLayoutUtils.publicKey('authorizedVoter')
+  ], property: 'authorizedVoter');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
-    return {"epoch": epoch, "authorizedVoter": authorizedVoter};
+    return {'epoch': epoch, 'authorizedVoter': authorizedVoter};
   }
 
   @override
   String toString() {
-    return "AuthorizedVoter${serialize()}";
+    return 'AuthorizedVoter${serialize()}';
   }
 }

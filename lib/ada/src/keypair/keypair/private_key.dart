@@ -19,10 +19,10 @@ class AdaPrivateKey {
   factory AdaPrivateKey.fromBytes(List<int> privateKeyBytes) {
     if (privateKeyBytes.length != Ed25519KeysConst.privKeyByteLen &&
         privateKeyBytes.length != Ed25519KholawKeysConst.privKeyByteLen) {
-      throw ADAPluginException("Invalid private key bytes.", details: {
-        "length": privateKeyBytes.length,
-        "Excepted":
-            "${Ed25519KeysConst.privKeyByteLen} or ${Ed25519KholawKeysConst.privKeyByteLen}"
+      throw ADAPluginException('Invalid private key bytes.', details: {
+        'length': privateKeyBytes.length,
+        'Excepted':
+            '${Ed25519KeysConst.privKeyByteLen} or ${Ed25519KholawKeysConst.privKeyByteLen}'
       });
     }
     IPrivateKey key;

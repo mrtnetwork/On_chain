@@ -6,8 +6,8 @@ import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 
 /// Class for encoding Tron transactions using minimal protobuf encoding.
 class ProtocolBufferEncoder {
-  static final BigInt _maxInt64 = BigInt.parse("7FFFFFFFFFFFFFFF", radix: 16);
-  static final BigInt _minInt64 = BigInt.parse("8000000000000000", radix: 16);
+  static final BigInt _maxInt64 = BigInt.parse('7FFFFFFFFFFFFFFF', radix: 16);
+  static final BigInt _minInt64 = BigInt.parse('8000000000000000', radix: 16);
 
   static const int _int64BitLength = 63;
   static const int int32BitLength = 31;
@@ -17,8 +17,8 @@ class ProtocolBufferEncoder {
     if (value.bitLength <= _int64BitLength) {
       return;
     }
-    throw TronPluginException("Value overflows 64-bit signed integer range",
-        details: {"input": value});
+    throw TronPluginException('Value overflows 64-bit signed integer range',
+        details: {'input': value});
   }
 
   /// Validate if an [int] value fits within the 32-bit signed integer range.
@@ -26,8 +26,8 @@ class ProtocolBufferEncoder {
     if (value.bitLength <= int32BitLength) {
       return;
     }
-    throw TronPluginException("Value overflows 32-bit signed integer range",
-        details: {"input": value});
+    throw TronPluginException('Value overflows 32-bit signed integer range',
+        details: {'input': value});
   }
 
   /// Encode a protobuf field with the given [fieldNumber] and [value].
@@ -53,8 +53,8 @@ class ProtocolBufferEncoder {
     } else if (value is Map) {
       return _encodeMap(fieldNumber, value);
     }
-    throw TronPluginException("unsupported type",
-        details: {"runtime": value.runtimeType, "value": value});
+    throw TronPluginException('unsupported type',
+        details: {'runtime': value.runtimeType, 'value': value});
   }
 
   /// Encode a [Map] with the given [fieldNumber] and [value].

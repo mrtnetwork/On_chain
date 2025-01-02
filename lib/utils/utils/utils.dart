@@ -9,45 +9,45 @@ class OnChainUtils {
   static T parseInt<T>({required Object? value, required String name}) {
     if (0 is! T) {
       throw const TronPluginException(
-          "Invalid type casting for numeric parser.");
+          'Invalid type casting for numeric parser.');
     }
     if (value == null && null is T) return null as T;
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
 
     final parse = IntUtils.tryParse(value);
     if (parse != null) {
       return parse as T;
     }
-    throw TronPluginException("Invalid numeric value for parameter: $name.");
+    throw TronPluginException('Invalid numeric value for parameter: $name.');
   }
 
   static T parseBigInt<T>({required Object? value, required String name}) {
     if (BigInt.one is! T) {
       throw const TronPluginException(
-          "Invalid type casting for BigInt parser.");
+          'Invalid type casting for BigInt parser.');
     }
     if (value == null && null is T) return null as T;
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
 
     final parse = BigintUtils.tryParse(value);
     if (parse != null) {
       return parse as T;
     }
-    throw TronPluginException("Invalid BigInt value for parameter: $name.");
+    throw TronPluginException('Invalid BigInt value for parameter: $name.');
   }
 
   static T parseHex<T>({required Object? value, required String name}) {
     if (<int>[] is! T) {
       throw const TronPluginException(
-          "Invalid type casting for String parser.");
+          'Invalid type casting for String parser.');
     }
     if (value == null && null is T) return null as T;
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
     if (value is String) {
       final parse = BytesUtils.tryFromHexString(value);
@@ -55,49 +55,49 @@ class OnChainUtils {
         return parse as T;
       }
     }
-    throw TronPluginException("Invalid Hex bytes value for parameter: $name.");
+    throw TronPluginException('Invalid Hex bytes value for parameter: $name.');
   }
 
   static T parseString<T>({required Object? value, required String name}) {
-    if ("" is! T) {
+    if ('' is! T) {
       throw const TronPluginException(
-          "Invalid type casting for String parser.");
+          'Invalid type casting for String parser.');
     }
     if (value == null && null is T) return null as T;
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
     if (value is String) {
       return value as T;
     }
-    throw TronPluginException("Invalid String value for parameter: $name.");
+    throw TronPluginException('Invalid String value for parameter: $name.');
   }
 
   static T parseTronAddress<T>({required Object? value, required String name}) {
     if (value == null && null is T) return null as T;
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
     final String result = parseString(value: value, name: name);
     try {
       return TronAddress(result) as T;
     } catch (e) {
-      throw TronPluginException("Invalid String value for parameter: $name.");
+      throw TronPluginException('Invalid String value for parameter: $name.');
     }
   }
 
   static T parseBytes<T>({required Object? value, required String name}) {
     if (<int>[] is! T) {
-      throw const TronPluginException("Invalid type casting for bytes parser.");
+      throw const TronPluginException('Invalid type casting for bytes parser.');
     }
     if (value == null && null is T) return null as T;
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
     if (value is String) {
       return StringUtils.toBytes(value) as T;
     }
-    throw TronPluginException("Invalid value for parameter: $name.");
+    throw TronPluginException('Invalid value for parameter: $name.');
   }
 
   static Map<K, V>? parseMap<K, V>(
@@ -108,9 +108,9 @@ class OnChainUtils {
       if (!throwOnNull) return null;
     }
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
-    throw TronPluginException("Invalid value for parameter: $name.");
+    throw TronPluginException('Invalid value for parameter: $name.');
   }
 
   static List<T>? parseList<T>(
@@ -124,24 +124,24 @@ class OnChainUtils {
       if (!throwOnNull) return null;
     }
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
-    throw TronPluginException("Invalid List value for parameter: $name.");
+    throw TronPluginException('Invalid List value for parameter: $name.');
   }
 
   static T parseBoolean<T>({required Object? value, required String name}) {
     if (true is! T) {
       throw const TronPluginException(
-          "Invalid type casting for BigInt parser.");
+          'Invalid type casting for BigInt parser.');
     }
     if (value == null && null is T) return null as T;
     if (value == null) {
-      throw TronPluginException("Missing parameter: $name.");
+      throw TronPluginException('Missing parameter: $name.');
     }
 
     if (value is bool) {
       return value as T;
     }
-    throw TronPluginException("Invalid boolean value for parameter: $name.");
+    throw TronPluginException('Invalid boolean value for parameter: $name.');
   }
 }

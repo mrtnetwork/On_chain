@@ -29,6 +29,6 @@ class Header with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"headerBody": headerBody.toJson(), "signature": signature.toJson()};
+    return {'headerBody': headerBody.toJson(), 'signature': signature.toJson()};
   }
 }

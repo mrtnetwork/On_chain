@@ -14,14 +14,15 @@ class TransferContract extends TronBaseContract {
   /// Create a new [TransferContract] instance by parsing a JSON map.
   factory TransferContract.fromJson(Map<String, dynamic> json) {
     return TransferContract(
-        amount: OnChainUtils.parseBigInt(value: json['amount'], name: "amount"),
+        amount: OnChainUtils.parseBigInt(value: json['amount'], name: 'amount'),
         ownerAddress: OnChainUtils.parseTronAddress(
-            value: json['owner_address'], name: "owner_address"),
+            value: json['owner_address'], name: 'owner_address'),
         toAddress: OnChainUtils.parseTronAddress(
-            value: json['to_address'], name: "to_address"));
+            value: json['to_address'], name: 'to_address'));
   }
   factory TransferContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
+
     return TransferContract(
         amount: decode.getField(3),
         toAddress: TronAddress.fromBytes(decode.getField(2)),
@@ -48,16 +49,16 @@ class TransferContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "to_address": toAddress.toString(),
-      "amount": amount.toString(),
+      'owner_address': ownerAddress.toString(),
+      'to_address': toAddress.toString(),
+      'amount': amount.toString(),
     }..removeWhere((key, value) => value == null);
   }
 
   /// Convert the [TransferContract] object to its string representation.
   @override
   String toString() {
-    return "TransferContract{${toJson()}}";
+    return 'TransferContract{${toJson()}}';
   }
 
   @override

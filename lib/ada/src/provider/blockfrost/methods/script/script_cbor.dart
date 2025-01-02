@@ -4,7 +4,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// CBOR representation of a plutus script.
 /// https://blockfrost.dev/api/script-cbor
 class BlockfrostRequestScriptCBOR
-    extends BlockforestRequestParam<String?, Map<String, dynamic>> {
+    extends BlockFrostRequest<String?, Map<String, dynamic>> {
   BlockfrostRequestScriptCBOR(this.hash);
 
   /// Hash of the script
@@ -19,6 +19,6 @@ class BlockfrostRequestScriptCBOR
 
   @override
   String? onResonse(Map<String, dynamic> result) {
-    return result["cbor"];
+    return result['cbor'];
   }
 }

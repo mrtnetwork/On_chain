@@ -19,8 +19,8 @@ class PlutusList extends PlutusData {
   }
   factory PlutusList.fromJson(Map<String, dynamic> json) {
     return PlutusList(
-        (json["list"] as List).map((e) => PlutusData.fromJson(e)).toList(),
-        definiteEncoding: json["definite_encoding"]);
+        (json['list'] as List).map((e) => PlutusData.fromJson(e)).toList(),
+        definiteEncoding: json['definite_encoding']);
   }
   @override
   CborObject toCbor() {
@@ -36,8 +36,8 @@ class PlutusList extends PlutusData {
   PlutusDataType get type => PlutusDataType.list;
 
   @override
-  toJson() {
-    return {"list": value.map((e) => e.toJson()).toList()};
+  Map<String, List> toJson() {
+    return {'list': value.map((e) => e.toJson()).toList()};
   }
 
   @override
@@ -62,12 +62,12 @@ class PlutusList extends PlutusData {
   }
 
   @override
-  toJsonSchema(
+  Object toJsonSchema(
       {PlutusSchemaConfig config = const PlutusSchemaConfig(
           jsonSchema: PlutusJsonSchema.basicConversions)}) {
     if (config.jsonSchema == PlutusJsonSchema.detailedSchema) {
       return {
-        "list": value.map((e) => e.toJsonSchema(config: config)).toList()
+        'list': value.map((e) => e.toJsonSchema(config: config)).toList()
       };
     }
     return value.map((e) => e.toJsonSchema(config: config)).toList();

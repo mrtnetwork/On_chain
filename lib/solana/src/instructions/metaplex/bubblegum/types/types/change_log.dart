@@ -14,28 +14,28 @@ class ChangeLog extends LayoutSerializable {
       : pathNodes = List<SolAddress>.unmodifiable(pathNodes);
   factory ChangeLog.fromJson(Map<String, dynamic> json) {
     return ChangeLog(
-        root: json["root"],
-        pathNodes: (json["pathNodes"] as List).cast(),
-        index: json["index"]);
+        root: json['root'],
+        pathNodes: (json['pathNodes'] as List).cast(),
+        index: json['index']);
   }
   static StructLayout staticLayout({required int maxDepth}) =>
       LayoutConst.struct([
-        SolanaLayoutUtils.publicKey("root"),
+        SolanaLayoutUtils.publicKey('root'),
         LayoutConst.array(SolanaLayoutUtils.publicKey(), maxDepth,
-            property: "pathNodes"),
-        LayoutConst.u64(property: "index")
-      ], property: "changeLog");
+            property: 'pathNodes'),
+        LayoutConst.u64(property: 'index')
+      ], property: 'changeLog');
 
   @override
   StructLayout get layout => staticLayout(maxDepth: pathNodes.length);
 
   @override
   Map<String, dynamic> serialize() {
-    return {"root": root, "pathNodes": pathNodes, "index": index};
+    return {'root': root, 'pathNodes': pathNodes, 'index': index};
   }
 
   @override
   String toString() {
-    return "ChangeLog${serialize()}";
+    return 'ChangeLog${serialize()}';
   }
 }

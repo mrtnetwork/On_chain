@@ -31,30 +31,29 @@ abstract class LayoutSerializable {
       required StructLayout layout,
       Map<String, dynamic> validator = const {}}) {
     try {
-      final decode = layout.deserialize(bytes).value;
-
+      final decode = layout.deserialize(bytes);
       for (final i in validator.entries) {
         if (i.value is List) {
-          if (!CompareUtils.iterableIsEqual(i.value, decode[i.key])) {
-            throw SolanaPluginException("cannot validate borsh bytes",
-                details: {"excepted": validator, "instruction": decode});
+          if (!CompareUtils.iterableIsEqual(i.value, decode.value[i.key])) {
+            throw SolanaPluginException('cannot validate borsh bytes',
+                details: {'excepted': validator, 'instruction': decode});
           }
         } else {
-          if (i.value != decode[i.key]) {
-            throw SolanaPluginException("cannot validate borsh bytes",
-                details: {"excepted": validator, "instruction": decode});
+          if (i.value != decode.value[i.key]) {
+            throw SolanaPluginException('cannot validate borsh bytes',
+                details: {'excepted': validator, 'instruction': decode});
           }
         }
       }
-      return decode;
+      return decode.value;
     } catch (e) {
-      throw const SolanaPluginException("cannot validate borsh bytes");
+      throw const SolanaPluginException('cannot validate borsh bytes');
     }
   }
 
-  static _toString(dynamic value) {
+  static Object _toString(dynamic value) {
     if (value is List<int>) {
-      return BytesUtils.toHexString(value, prefix: "0x");
+      return BytesUtils.toHexString(value, prefix: '0x');
     } else if (value is BigInt) {
       return value.toString();
     } else if (value is LayoutSerializable) {

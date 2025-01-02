@@ -9,9 +9,9 @@ class SetAccountIdContract extends TronBaseContract {
   factory SetAccountIdContract.fromJson(Map<String, dynamic> json) {
     return SetAccountIdContract(
       accountId: OnChainUtils.parseBytes(
-          value: json["account_id"], name: "account_id"),
+          value: json['account_id'], name: 'account_id'),
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
     );
   }
 
@@ -41,15 +41,15 @@ class SetAccountIdContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "account_id": StringUtils.decode(accountId)
+      'owner_address': ownerAddress.toString(),
+      'account_id': StringUtils.decode(accountId)
     };
   }
 
   /// Convert the [SetAccountIdContract] object to its string representation.
   @override
   String toString() {
-    return "SetAccountIdContract{${toJson()}}";
+    return 'SetAccountIdContract{${toJson()}}';
   }
 
   @override

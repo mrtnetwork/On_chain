@@ -36,6 +36,6 @@ class ADAPoolInfoResponse {
 
   @override
   String toString() {
-    return "ADAPoolInfoResponse${toJson()}";
+    return 'ADAPoolInfoResponse${toJson()}';
   }
 }

@@ -4,8 +4,8 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class _Utils {
   static const List<int> discriminator = [228, 74, 255, 245, 96, 83, 197, 12];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    LayoutConst.u8(property: "bump")
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.u8(property: 'bump')
   ]);
 }
 
@@ -17,9 +17,9 @@ class AuctioneerAuthority extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
 
-    return AuctioneerAuthority(bump: decode["bump"]);
+    return AuctioneerAuthority(bump: decode['bump']);
   }
 
   @override
@@ -28,13 +28,13 @@ class AuctioneerAuthority extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "bump": bump,
+      'discriminator': _Utils.discriminator,
+      'bump': bump,
     };
   }
 
   @override
   String toString() {
-    return "AuctioneerAuthority${serialize()}";
+    return 'AuctioneerAuthority${serialize()}';
   }
 }

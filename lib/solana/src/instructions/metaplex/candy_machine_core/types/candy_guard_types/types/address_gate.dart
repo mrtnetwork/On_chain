@@ -8,22 +8,22 @@ class AddressGate extends LayoutSerializable {
 
   const AddressGate({required this.address});
   factory AddressGate.fromJson(Map<String, dynamic> json) {
-    return AddressGate(address: json["address"]);
+    return AddressGate(address: json['address']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("address"),
-  ], property: "addressGate");
+    SolanaLayoutUtils.publicKey('address'),
+  ], property: 'addressGate');
 
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {"address": address};
+    return {'address': address};
   }
 
   @override
   String toString() {
-    return "AddressGate${serialize()}";
+    return 'AddressGate${serialize()}';
   }
 }

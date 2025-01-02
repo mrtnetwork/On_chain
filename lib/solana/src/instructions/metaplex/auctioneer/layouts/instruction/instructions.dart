@@ -11,25 +11,25 @@ class MetaplexAuctioneerProgramInstruction implements ProgramLayoutInstruction {
   const MetaplexAuctioneerProgramInstruction(this.insturction, this.name);
   static const MetaplexAuctioneerProgramInstruction authorize =
       MetaplexAuctioneerProgramInstruction(
-          [173, 193, 102, 210, 219, 137, 113, 120], "Authorize");
+          [173, 193, 102, 210, 219, 137, 113, 120], 'Authorize');
   static const MetaplexAuctioneerProgramInstruction buy =
       MetaplexAuctioneerProgramInstruction(
-          [102, 6, 61, 18, 1, 218, 235, 234], "Buy");
+          [102, 6, 61, 18, 1, 218, 235, 234], 'Buy');
   static const MetaplexAuctioneerProgramInstruction cancel =
       MetaplexAuctioneerProgramInstruction(
-          [232, 219, 223, 41, 219, 236, 220, 190], "Cancel");
+          [232, 219, 223, 41, 219, 236, 220, 190], 'Cancel');
   static const MetaplexAuctioneerProgramInstruction deposit =
       MetaplexAuctioneerProgramInstruction(
-          [242, 35, 198, 137, 82, 225, 242, 182], "Deposit");
+          [242, 35, 198, 137, 82, 225, 242, 182], 'Deposit');
   static const MetaplexAuctioneerProgramInstruction executeSale =
       MetaplexAuctioneerProgramInstruction(
-          [37, 74, 217, 157, 79, 49, 35, 6], "ExecuteSale");
+          [37, 74, 217, 157, 79, 49, 35, 6], 'ExecuteSale');
   static const MetaplexAuctioneerProgramInstruction sell =
       MetaplexAuctioneerProgramInstruction(
-          [51, 230, 133, 164, 1, 127, 131, 173], "Sell");
+          [51, 230, 133, 164, 1, 127, 131, 173], 'Sell');
   static const MetaplexAuctioneerProgramInstruction withdraw =
       MetaplexAuctioneerProgramInstruction(
-          [183, 18, 70, 156, 148, 109, 161, 34], "Withdraw");
+          [183, 18, 70, 156, 148, 109, 161, 34], 'Withdraw');
 
   static const List<MetaplexAuctioneerProgramInstruction> values = [
     authorize,
@@ -50,7 +50,7 @@ class MetaplexAuctioneerProgramInstruction implements ProgramLayoutInstruction {
   }
 
   @override
-  String get programName => "MetaplexAuctioneer";
+  String get programName => 'MetaplexAuctioneer';
 
   @override
   SolAddress get programAddress => MetaplexAuctioneerProgramConst.programId;

@@ -7,10 +7,10 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [191, 204, 149, 234, 213, 165, 13, 65];
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
+    LayoutConst.blob(8, property: 'discriminator'),
     LeafSchemaV1.staticLayout,
-    LayoutConst.u32(property: "index"),
-    SolanaLayoutUtils.publicKey("merkleTree"),
+    LayoutConst.u32(property: 'index'),
+    SolanaLayoutUtils.publicKey('merkleTree'),
   ]);
 }
 
@@ -26,11 +26,11 @@ class Voucher extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return Voucher(
-        leafSchema: LeafSchemaV1.fromJson(decode["leafschema"]),
-        index: decode["index"],
-        merkleTree: decode["merkleTree"]);
+        leafSchema: LeafSchemaV1.fromJson(decode['leafschema']),
+        index: decode['index'],
+        merkleTree: decode['merkleTree']);
   }
 
   @override
@@ -39,15 +39,15 @@ class Voucher extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "leafschema": leafSchema.serialize(),
-      "merkleTree": merkleTree,
-      "index": index
+      'discriminator': _Utils.discriminator,
+      'leafschema': leafSchema.serialize(),
+      'merkleTree': merkleTree,
+      'index': index
     };
   }
 
   @override
   String toString() {
-    return "Voucher${serialize()}";
+    return 'Voucher${serialize()}';
   }
 }

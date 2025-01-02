@@ -22,16 +22,16 @@ class SPLToken2022InitializeTransferHookLayout extends SPLTokenProgramLayout {
       instruction: SPLTokenProgramInstruction.transferHookExtension.insturction,
     );
     return SPLToken2022InitializeTransferHookLayout(
-        authority: decode["authority"],
-        transferHookProgramId: decode["transferHookProgramId"]);
+        authority: decode['authority'],
+        transferHookProgramId: decode['transferHookProgramId']);
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: 'instruction'),
     LayoutConst.wrap(TransferHookInstruction.staticLayout,
-        property: "transferHook"),
-    SolanaLayoutUtils.publicKey("authority"),
-    SolanaLayoutUtils.publicKey("transferHookProgramId")
+        property: 'transferHook'),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('transferHookProgramId')
   ]);
 
   @override
@@ -44,9 +44,9 @@ class SPLToken2022InitializeTransferHookLayout extends SPLTokenProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "transferHook": TransferHookInstruction.initialize.serialize(),
-      "authority": authority,
-      "transferHookProgramId": transferHookProgramId
+      'transferHook': TransferHookInstruction.initialize.serialize(),
+      'authority': authority,
+      'transferHookProgramId': transferHookProgramId
     };
   }
 }

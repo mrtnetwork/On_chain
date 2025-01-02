@@ -11,9 +11,9 @@ class UpdateBrokerageContract extends TronBaseContract {
   factory UpdateBrokerageContract.fromJson(Map<String, dynamic> json) {
     return UpdateBrokerageContract(
       ownerAddress: OnChainUtils.parseTronAddress(
-          value: json["owner_address"], name: "owner_address"),
+          value: json['owner_address'], name: 'owner_address'),
       brokerage:
-          OnChainUtils.parseInt(value: json["brokerage"], name: "brokerage"),
+          OnChainUtils.parseInt(value: json['brokerage'], name: 'brokerage'),
     );
   }
   factory UpdateBrokerageContract.deserialize(List<int> bytes) {
@@ -40,15 +40,15 @@ class UpdateBrokerageContract extends TronBaseContract {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "owner_address": ownerAddress.toString(),
-      "brokerage": brokerage,
+      'owner_address': ownerAddress.toString(),
+      'brokerage': brokerage,
     };
   }
 
   /// Convert the [UpdateBrokerageContract] object to its string representation.
   @override
   String toString() {
-    return "UpdateBrokerageContract{${toJson()}}";
+    return 'UpdateBrokerageContract{${toJson()}}';
   }
 
   @override

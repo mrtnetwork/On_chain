@@ -9,21 +9,21 @@ class TransactionContract extends TronProtocolBufferImpl {
   /// Create a new [TransactionContract] instance by parsing a JSON map.
   factory TransactionContract.fromJson(Map<String, dynamic> json) {
     final type = TransactionContractType.findByName(
-        OnChainUtils.parseString(value: json["type"], name: "type"));
+        OnChainUtils.parseString(value: json['type'], name: 'type'));
     final any = Any.fromJson(OnChainUtils.parseMap(
-        value: json["parameter"], name: "parameter", throwOnNull: true)!);
+        value: json['parameter'], name: 'parameter', throwOnNull: true)!);
     final int? permissionId = OnChainUtils.parseInt(
-        value: json["permission_id"] ?? json["Permission_id"],
-        name: "permission_id");
+        value: json['permission_id'] ?? json['Permission_id'],
+        name: 'permission_id');
 
     return TransactionContract(
       type: type,
       parameter: any,
       permissionId: permissionId,
       provider:
-          OnChainUtils.parseBytes(value: json["provider"], name: "provider"),
+          OnChainUtils.parseBytes(value: json['provider'], name: 'provider'),
       contractName: OnChainUtils.parseBytes(
-          value: json["contract_name"], name: "contract_name"),
+          value: json['contract_name'], name: 'contract_name'),
     );
   }
 
@@ -57,11 +57,11 @@ class TransactionContract extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "parameter": parameter.toJson(),
-      "contract_name": StringUtils.tryDecode(contractName),
-      "provider": StringUtils.tryDecode(provider),
-      "Permission_id": permissionId
+      'type': type.name,
+      'parameter': parameter.toJson(),
+      'contract_name': StringUtils.tryDecode(contractName),
+      'provider': StringUtils.tryDecode(provider),
+      'Permission_id': permissionId
     }..removeWhere((key, value) => value == null);
   }
 
@@ -80,6 +80,6 @@ class TransactionContract extends TronProtocolBufferImpl {
   /// Convert the [TransactionContract] object to its string representation.
   @override
   String toString() {
-    return "TransactionContract{${toJson()}}";
+    return 'TransactionContract{${toJson()}}';
   }
 }

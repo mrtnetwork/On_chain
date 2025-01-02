@@ -7,13 +7,13 @@ class _Utils {
   static const List<int> discriminator = [50, 164, 42, 108, 90, 201, 250, 216];
 
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "discriminator"),
-    SolanaLayoutUtils.publicKey("mint"),
-    SolanaLayoutUtils.publicKey("fanout"),
-    SolanaLayoutUtils.publicKey("tokenAccount"),
-    LayoutConst.u64(property: "totalInflow"),
-    LayoutConst.u64(property: "lastSnapshotAmount"),
-    LayoutConst.u8(property: "bumpSeed"),
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('fanout'),
+    SolanaLayoutUtils.publicKey('tokenAccount'),
+    LayoutConst.u64(property: 'totalInflow'),
+    LayoutConst.u64(property: 'lastSnapshotAmount'),
+    LayoutConst.u8(property: 'bumpSeed'),
   ]);
 }
 
@@ -36,14 +36,14 @@ class FanoutMint extends LayoutSerializable {
     final decode = LayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
-        validator: {"discriminator": _Utils.discriminator});
+        validator: {'discriminator': _Utils.discriminator});
     return FanoutMint(
-        mint: decode["mint"],
-        fanout: decode["fanout"],
-        tokenAccount: decode["tokenAccount"],
-        totalInflow: decode["totalInflow"],
-        lastSnapshotAmount: decode["lastSnapshotAmount"],
-        bumpSeed: decode["bumpSeed"]);
+        mint: decode['mint'],
+        fanout: decode['fanout'],
+        tokenAccount: decode['tokenAccount'],
+        totalInflow: decode['totalInflow'],
+        lastSnapshotAmount: decode['lastSnapshotAmount'],
+        bumpSeed: decode['bumpSeed']);
   }
 
   @override
@@ -51,18 +51,18 @@ class FanoutMint extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "discriminator": _Utils.discriminator,
-      "mint": mint,
-      "fanout": fanout,
-      "tokenAccount": tokenAccount,
-      "totalInflow": totalInflow,
-      "lastSnapshotAmount": lastSnapshotAmount,
-      "bumpSeed": bumpSeed
+      'discriminator': _Utils.discriminator,
+      'mint': mint,
+      'fanout': fanout,
+      'tokenAccount': tokenAccount,
+      'totalInflow': totalInflow,
+      'lastSnapshotAmount': lastSnapshotAmount,
+      'bumpSeed': bumpSeed
     };
   }
 
   @override
   String toString() {
-    return "FanoutMint${serialize()}";
+    return 'FanoutMint${serialize()}';
   }
 }

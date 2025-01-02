@@ -5,7 +5,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct(
-      [LayoutConst.u8(property: "key"), LayoutConst.vecU8(property: "ledger")]);
+      [LayoutConst.u8(property: 'key'), LayoutConst.vecU8(property: 'ledger')]);
 }
 
 class EditionMarkerV2 extends LayoutSerializable {
@@ -18,19 +18,19 @@ class EditionMarkerV2 extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return EditionMarkerV2(
-        key: MetaDataKey.fromValue(decode["key"]),
-        ledger: (decode["ledger"] as List).cast());
+        key: MetaDataKey.fromValue(decode['key']),
+        ledger: (decode['ledger'] as List).cast());
   }
 
   @override
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
-    return {"key": key.value, "ledger": ledger};
+    return {'key': key.value, 'ledger': ledger};
   }
 
   @override
   String toString() {
-    return "EditionMarkerV2${serialize()}";
+    return 'EditionMarkerV2${serialize()}';
   }
 }

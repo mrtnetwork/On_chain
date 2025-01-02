@@ -21,8 +21,8 @@ class StakeDeregistration extends Certificate {
     return StakeDeregistration(StakeCred.deserialize(cbor.getIndex(1)));
   }
   factory StakeDeregistration.fromJson(Map<String, dynamic> json) {
-    return StakeDeregistration(StakeCred.fromJson(json["stake_credential"] ??
-        json["stake_deregistration"]["stake_credential"]));
+    return StakeDeregistration(StakeCred.fromJson(json['stake_credential'] ??
+        json['stake_deregistration']['stake_credential']));
   }
   StakeDeregistration copyWith({StakeCred? stakeCredential}) {
     return StakeDeregistration(stakeCredential ?? this.stakeCredential);
@@ -42,7 +42,7 @@ class StakeDeregistration extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "stake_deregistration": {"stake_credential": stakeCredential.toJson()}
+      'stake_deregistration': {'stake_credential': stakeCredential.toJson()}
     };
   }
 }

@@ -7,8 +7,8 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Shows only transactions submitted via Blockfrost.io.
 /// https://blockfrost.dev/api/mempool
 class BlockfrostRequestMempool
-    extends BlockforestRequestParam<List<String>, List<Map<String, dynamic>>> {
-  BlockfrostRequestMempool({BlockforestRequestFilterParams? filter})
+    extends BlockFrostRequest<List<String>, List<Map<String, dynamic>>> {
+  BlockfrostRequestMempool({BlockFrostRequestFilterParams? filter})
       : super(filter: filter);
 
   /// Mempool
@@ -20,6 +20,6 @@ class BlockfrostRequestMempool
 
   @override
   List<String> onResonse(List<Map<String, dynamic>> result) {
-    return result.map<String>((e) => e["tx_hash"]).toList();
+    return result.map<String>((e) => e['tx_hash']).toList();
   }
 }

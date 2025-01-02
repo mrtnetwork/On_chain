@@ -30,6 +30,6 @@ class ADAMetadataCBORResponse {
 
   @override
   String toString() {
-    return "ADAMetadataCBORResponse${toJson()}";
+    return 'ADAMetadataCBORResponse${toJson()}';
   }
 }

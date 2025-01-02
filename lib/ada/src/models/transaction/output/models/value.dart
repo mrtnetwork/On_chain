@@ -25,10 +25,10 @@ class Value with ADASerialization {
   }
   factory Value.fromJson(Map<String, dynamic> json) {
     return Value(
-        coin: BigintUtils.parse(json["coin"]),
-        multiAsset: json["multiasset"] == null
+        coin: BigintUtils.parse(json['coin']),
+        multiAsset: json['multiasset'] == null
             ? null
-            : MultiAsset.fromJson(json["multiasset"]));
+            : MultiAsset.fromJson(json['multiasset']));
   }
 
   Value copyWith({
@@ -48,6 +48,6 @@ class Value with ADASerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"coin": coin.toString(), "multiasset": multiAsset?.toJson()};
+    return {'coin': coin.toString(), 'multiasset': multiAsset?.toJson()};
   }
 }

@@ -3,12 +3,12 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Returns the client coinbase address.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_coinbase)
-class RPCGetCoinbase extends ETHRPCRequest<String> {
-  RPCGetCoinbase();
+class EthereumRequestGetCoinbase extends EthereumRequest<String, String> {
+  EthereumRequestGetCoinbase();
 
   /// eth_coinbase
   @override
-  EthereumMethods get method => EthereumMethods.getCoinbase;
+  String get method => EthereumMethods.getCoinbase.value;
 
   @override
   List<dynamic> toJson() {
@@ -17,6 +17,6 @@ class RPCGetCoinbase extends ETHRPCRequest<String> {
 
   @override
   String toString() {
-    return "RPCGetCoinbase{${toJson()}}";
+    return 'EthereumRequestGetCoinbase{${toJson()}}';
   }
 }

@@ -11,9 +11,9 @@ class AssetIssueContractFrozenSupply extends TronProtocolBufferImpl {
   factory AssetIssueContractFrozenSupply.fromJson(Map<String, dynamic> json) {
     return AssetIssueContractFrozenSupply(
         frozenAmount: OnChainUtils.parseBigInt(
-            value: json["frozen_amount"], name: "frozen_amount"),
+            value: json['frozen_amount'], name: 'frozen_amount'),
         frozenDays: OnChainUtils.parseBigInt(
-            value: json["frozen_days"], name: "frozen_days"));
+            value: json['frozen_days'], name: 'frozen_days'));
   }
   factory AssetIssueContractFrozenSupply.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
@@ -33,14 +33,14 @@ class AssetIssueContractFrozenSupply extends TronProtocolBufferImpl {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "frozen_amount": frozenAmount.toString(),
-      "frozen_days": frozenDays.toString()
+      'frozen_amount': frozenAmount.toString(),
+      'frozen_days': frozenDays.toString()
     };
   }
 
   /// Convert the [AssetIssueContractFrozenSupply] object to its string representation.
   @override
   String toString() {
-    return "AssetIssueContractFrozenSupply{${toJson()}}";
+    return 'AssetIssueContractFrozenSupply{${toJson()}}';
   }
 }

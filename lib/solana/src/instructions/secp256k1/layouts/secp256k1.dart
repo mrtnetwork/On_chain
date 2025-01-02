@@ -104,38 +104,38 @@ class Secp256k1Layout extends ProgramLayout {
   factory Secp256k1Layout.fromBuffer(List<int> data) {
     final decode =
         ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    final int messageDataOffset = decode["messageDataOffset"];
-    final int messageDataSize = decode["messageDataSize"];
+    final int messageDataOffset = decode['messageDataOffset'];
+    final int messageDataSize = decode['messageDataSize'];
     final List<int> message =
         data.sublist(messageDataOffset, messageDataOffset + messageDataSize);
     return Secp256k1Layout(
-        ethAddress: ETHAddress.fromBytes(decode["ethAddress"]),
-        numSignatures: decode["numSignatures"],
-        signatureOffset: decode["signatureOffset"],
-        signatureInstructionIndex: decode["signatureInstructionIndex"],
-        ethAddressOffset: decode["ethAddressOffset"],
-        ethAddressInstructionIndex: decode["ethAddressInstructionIndex"],
+        ethAddress: ETHAddress.fromBytes(decode['ethAddress']),
+        numSignatures: decode['numSignatures'],
+        signatureOffset: decode['signatureOffset'],
+        signatureInstructionIndex: decode['signatureInstructionIndex'],
+        ethAddressOffset: decode['ethAddressOffset'],
+        ethAddressInstructionIndex: decode['ethAddressInstructionIndex'],
         messageDataOffset: messageDataOffset,
         messageDataSize: messageDataSize,
-        messageInstructionIndex: decode["messageInstructionIndex"],
-        signature: decode["signature"],
+        messageInstructionIndex: decode['messageInstructionIndex'],
+        signature: decode['signature'],
         message: message,
-        recoveryId: decode["recoveryId"]);
+        recoveryId: decode['recoveryId']);
   }
 
   /// StructLayout structure for Secp256k1Layout.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "numSignatures"),
-    LayoutConst.u16(property: "signatureOffset"),
-    LayoutConst.u8(property: "signatureInstructionIndex"),
-    LayoutConst.u16(property: "ethAddressOffset"),
-    LayoutConst.u8(property: "ethAddressInstructionIndex"),
-    LayoutConst.u16(property: "messageDataOffset"),
-    LayoutConst.u16(property: "messageDataSize"),
-    LayoutConst.u8(property: "messageInstructionIndex"),
-    LayoutConst.blob(ETHAddress.lengthInBytes, property: "ethAddress"),
-    LayoutConst.blob(ETHSignerConst.ethSignatureLength, property: "signature"),
-    LayoutConst.u8(property: "recoveryId")
+    LayoutConst.u8(property: 'numSignatures'),
+    LayoutConst.u16(property: 'signatureOffset'),
+    LayoutConst.u8(property: 'signatureInstructionIndex'),
+    LayoutConst.u16(property: 'ethAddressOffset'),
+    LayoutConst.u8(property: 'ethAddressInstructionIndex'),
+    LayoutConst.u16(property: 'messageDataOffset'),
+    LayoutConst.u16(property: 'messageDataSize'),
+    LayoutConst.u8(property: 'messageInstructionIndex'),
+    LayoutConst.blob(ETHAddress.lengthInBytes, property: 'ethAddress'),
+    LayoutConst.blob(ETHSignerConst.ethSignatureLength, property: 'signature'),
+    LayoutConst.u8(property: 'recoveryId')
   ]);
 
   /// Gets the layout structure.
@@ -153,17 +153,17 @@ class Secp256k1Layout extends ProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "numSignatures": numSignatures,
-      "signatureOffset": signatureOffset,
-      "signatureInstructionIndex": signatureInstructionIndex,
-      "ethAddressOffset": ethAddressOffset,
-      "ethAddressInstructionIndex": ethAddressInstructionIndex,
-      "messageDataOffset": messageDataOffset,
-      "messageDataSize": messageDataSize,
-      "messageInstructionIndex": messageInstructionIndex,
-      "ethAddress": ethAddress.toBytes(),
-      "signature": signature,
-      "recoveryId": recoveryId
+      'numSignatures': numSignatures,
+      'signatureOffset': signatureOffset,
+      'signatureInstructionIndex': signatureInstructionIndex,
+      'ethAddressOffset': ethAddressOffset,
+      'ethAddressInstructionIndex': ethAddressInstructionIndex,
+      'messageDataOffset': messageDataOffset,
+      'messageDataSize': messageDataSize,
+      'messageInstructionIndex': messageInstructionIndex,
+      'ethAddress': ethAddress.toBytes(),
+      'signature': signature,
+      'recoveryId': recoveryId
     };
   }
 

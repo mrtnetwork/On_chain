@@ -11,7 +11,7 @@ class VRFCert with ADASerialization {
         proof = AdaTransactionUtils.validateFixedLengthBytes(
             bytes: proof,
             length: AdaTransactionConstant.proofLength,
-            objectName: "proof");
+            objectName: 'proof');
   VRFCert copyWith({List<int>? output, List<int>? proof}) {
     return VRFCert(output: output ?? this.output, proof: proof ?? this.proof);
   }
@@ -29,8 +29,8 @@ class VRFCert with ADASerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "output": BytesUtils.toHexString(output),
-      "proof": BytesUtils.toHexString(proof)
+      'output': BytesUtils.toHexString(output),
+      'proof': BytesUtils.toHexString(proof)
     };
   }
 }

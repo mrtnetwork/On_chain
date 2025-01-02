@@ -16,11 +16,11 @@ class SPLToken2022InitializeMetadataPointerLayout
       {this.authority, this.metadataAddress});
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: "instruction"),
+    LayoutConst.u8(property: 'instruction'),
     LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
-        property: "metadataPointer"),
-    SolanaLayoutUtils.publicKey("authority"),
-    SolanaLayoutUtils.publicKey("metadataAddress"),
+        property: 'metadataPointer'),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('metadataAddress'),
   ]);
 
   factory SPLToken2022InitializeMetadataPointerLayout.fromBuffer(
@@ -31,12 +31,12 @@ class SPLToken2022InitializeMetadataPointerLayout
         instruction:
             SPLTokenProgramInstruction.metadataPointerExtension.insturction);
     return SPLToken2022InitializeMetadataPointerLayout(
-        authority: decode["authority"] == SolAddress.defaultPubKey
+        authority: decode['authority'] == SolAddress.defaultPubKey
             ? null
-            : decode["authority"],
-        metadataAddress: decode["metadataAddress"] == SolAddress.defaultPubKey
+            : decode['authority'],
+        metadataAddress: decode['metadataAddress'] == SolAddress.defaultPubKey
             ? null
-            : decode["metadataAddress"]);
+            : decode['metadataAddress']);
   }
 
   @override
@@ -49,9 +49,9 @@ class SPLToken2022InitializeMetadataPointerLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      "metadataPointer": MetadataPointerInstruction.initialize.serialize(),
-      "authority": authority ?? SolAddress.defaultPubKey,
-      "metadataAddress": metadataAddress ?? SolAddress.defaultPubKey
+      'metadataPointer': MetadataPointerInstruction.initialize.serialize(),
+      'authority': authority ?? SolAddress.defaultPubKey,
+      'metadataAddress': metadataAddress ?? SolAddress.defaultPubKey
     };
   }
 }

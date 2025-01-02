@@ -4,14 +4,15 @@ import 'package:on_chain/ethereum/src/models/transaction.dart';
 
 /// Returns the information about a transaction requested by transaction hash.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getTransactionByHash)
-class RPCGetTransactionByHash extends ETHRPCRequest<TransactionInfo?> {
-  RPCGetTransactionByHash({
+class EthereumRequestGetTransactionByHash
+    extends EthereumRequest<TransactionInfo?, Map<String, dynamic>?> {
+  EthereumRequestGetTransactionByHash({
     required this.transactionHash,
   });
 
   /// eth_getTransactionByHash
   @override
-  EthereumMethods get method => EthereumMethods.getTransactionByHash;
+  String get method => EthereumMethods.getTransactionByHash.value;
 
   /// hash of a transaction
   final String transactionHash;
@@ -29,6 +30,6 @@ class RPCGetTransactionByHash extends ETHRPCRequest<TransactionInfo?> {
 
   @override
   String toString() {
-    return "RPCGetTransactionByHash{${toJson()}}";
+    return 'EthereumRequestGetTransactionByHash{${toJson()}}';
   }
 }

@@ -5,7 +5,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 /// Your application should handle situations when backend for the given chain is unavailable.
 /// https://blockfrost.dev/api/backend-health-status
 class BlockfrostRequestBackendHealthStatus
-    extends BlockforestRequestParam<bool, Map<String, dynamic>> {
+    extends BlockFrostRequest<bool, Map<String, dynamic>> {
   BlockfrostRequestBackendHealthStatus();
 
   /// Backend health status
@@ -17,6 +17,6 @@ class BlockfrostRequestBackendHealthStatus
 
   @override
   bool onResonse(Map<String, dynamic> result) {
-    return result["is_healthy"];
+    return result['is_healthy'];
   }
 }

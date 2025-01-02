@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
 /// History of your Blockfrost usage metrics per endpoint in the past 30 days.
 /// https://blockfrost.dev/api/blockfrost-endpoint-usage-metrics
-class BlockfrostRequestEndpointUsageMetrics extends BlockforestRequestParam<
+class BlockfrostRequestEndpointUsageMetrics extends BlockFrostRequest<
     List<Map<String, dynamic>>, List<Map<String, dynamic>>> {
   BlockfrostRequestEndpointUsageMetrics();
 

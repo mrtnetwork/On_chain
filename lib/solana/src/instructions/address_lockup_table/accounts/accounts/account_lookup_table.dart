@@ -12,21 +12,21 @@ class _Utils {
 
   /// Layout definition for the lookup table metadata.
   static StructLayout lookupTableMetaLayout = LayoutConst.struct([
-    LayoutConst.u32(property: "typeIndex"),
-    LayoutConst.u64(property: "deactivationSlot"),
-    LayoutConst.u64(property: "lastExtendedSlot"),
-    LayoutConst.u8(property: "lastExtendedStartIndex"),
-    LayoutConst.padding(LayoutConst.u8(), propery: "padding"),
-    LayoutConst.seq(SolanaLayoutUtils.publicKey("publicKey"),
+    LayoutConst.u32(property: 'typeIndex'),
+    LayoutConst.u64(property: 'deactivationSlot'),
+    LayoutConst.u64(property: 'lastExtendedSlot'),
+    LayoutConst.u8(property: 'lastExtendedStartIndex'),
+    LayoutConst.padding(LayoutConst.u8(), propery: 'padding'),
+    LayoutConst.seq(SolanaLayoutUtils.publicKey('publicKey'),
         LayoutConst.offset(LayoutConst.padding(LayoutConst.u8()), -1),
-        property: "authority")
+        property: 'authority')
   ]);
 
   /// Create a layout for the addresses based on the number of serialized addresses.
   static Layout addressesLayout(int numSerializedAddresses) {
     return LayoutConst.struct([
       LayoutConst.array(
-          SolanaLayoutUtils.publicKey("publicKey"), numSerializedAddresses,
+          SolanaLayoutUtils.publicKey('publicKey'), numSerializedAddresses,
           property: 'addresses')
     ]);
   }
@@ -38,7 +38,7 @@ class _Utils {
     if (serializedAddressesLen < 0 ||
         serializedAddressesLen % SolanaTransactionConstant.publicKeyLength !=
             0) {
-      throw const SolanaPluginException("Lookup table is invalid");
+      throw const SolanaPluginException('Lookup table is invalid');
     }
     final meta = lookupTableMetaLayout.deserialize(accountData).value;
 
@@ -56,7 +56,7 @@ class _Utils {
       'lastExtendedSlotStartIndex': meta['lastExtendedStartIndex'],
       'authority': authority.isNotEmpty ? authority.first : null,
       'addresses':
-          (decodeAddresses["addresses"] as List<dynamic>).cast<SolAddress>(),
+          (decodeAddresses['addresses'] as List<dynamic>).cast<SolAddress>(),
     };
   }
 }
@@ -93,11 +93,11 @@ class AddressLookupTableAccount {
     final decode = _Utils.decode(accountData);
     return AddressLookupTableAccount(
       key: accountKey,
-      addresses: decode["addresses"],
-      authority: decode["authority"],
-      deactivationSlot: decode["deactivationSlot"],
-      lastExtendedSlot: decode["lastExtendedSlot"],
-      lastExtendedStartIndex: decode["lastExtendedSlotStartIndex"],
+      addresses: decode['addresses'],
+      authority: decode['authority'],
+      deactivationSlot: decode['deactivationSlot'],
+      lastExtendedSlot: decode['lastExtendedSlot'],
+      lastExtendedStartIndex: decode['lastExtendedSlotStartIndex'],
     );
   }
 }

@@ -10,8 +10,8 @@ class _Utils {
     SolanaLayoutUtils.publicKey('transferFeeConfigAuthority'),
     SolanaLayoutUtils.publicKey('withdrawWithheldAuthority'),
     LayoutConst.u64(property: 'withheldAmount'),
-    LayoutConst.wrap(TransferFee.staticLayout, property: "olderTransferFee"),
-    LayoutConst.wrap(TransferFee.staticLayout, property: "newerTransferFee"),
+    LayoutConst.wrap(TransferFee.staticLayout, property: 'olderTransferFee'),
+    LayoutConst.wrap(TransferFee.staticLayout, property: 'newerTransferFee'),
   ]);
 
   static int get accountSize => layout.span;
@@ -20,12 +20,12 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException("Account data length is insufficient.",
-            details: {"Expected": accountSize, "length": extensionData.length});
+        throw SolanaPluginException('Account data length is insufficient.',
+            details: {'Expected': accountSize, 'length': extensionData.length});
       }
       return LayoutSerializable.decode(bytes: extensionData, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 
@@ -37,7 +37,7 @@ class _Utils {
               extensionType: ExtensionType.transferFeeConfig);
       return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
     } catch (e) {
-      throw const SolanaPluginException("Invalid extionsion bytes");
+      throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
@@ -69,20 +69,20 @@ class TransferFeeConfig extends LayoutSerializable {
   factory TransferFeeConfig.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return TransferFeeConfig(
-        transferFeeConfigAuthority: decode["transferFeeConfigAuthority"],
-        withdrawWithheldAuthority: decode["withdrawWithheldAuthority"],
-        withheldAmount: decode["withheldAmount"],
-        olderTransferFee: TransferFee.fromJson(decode["olderTransferFee"]),
-        newerTransferFee: TransferFee.fromJson(decode["newerTransferFee"]));
+        transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
+        withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
+        withheldAmount: decode['withheldAmount'],
+        olderTransferFee: TransferFee.fromJson(decode['olderTransferFee']),
+        newerTransferFee: TransferFee.fromJson(decode['newerTransferFee']));
   }
   factory TransferFeeConfig.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return TransferFeeConfig(
-        transferFeeConfigAuthority: decode["transferFeeConfigAuthority"],
-        withdrawWithheldAuthority: decode["withdrawWithheldAuthority"],
-        withheldAmount: decode["withheldAmount"],
-        olderTransferFee: TransferFee.fromJson(decode["olderTransferFee"]),
-        newerTransferFee: TransferFee.fromJson(decode["newerTransferFee"]));
+        transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
+        withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
+        withheldAmount: decode['withheldAmount'],
+        olderTransferFee: TransferFee.fromJson(decode['olderTransferFee']),
+        newerTransferFee: TransferFee.fromJson(decode['newerTransferFee']));
   }
 
   @override
@@ -90,17 +90,17 @@ class TransferFeeConfig extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "transferFeeConfigAuthority": transferFeeConfigAuthority,
-      "withdrawWithheldAuthority": withdrawWithheldAuthority,
-      "withheldAmount": withheldAmount,
-      "olderTransferFee": olderTransferFee.serialize(),
-      "newerTransferFee": newerTransferFee.serialize()
+      'transferFeeConfigAuthority': transferFeeConfigAuthority,
+      'withdrawWithheldAuthority': withdrawWithheldAuthority,
+      'withheldAmount': withheldAmount,
+      'olderTransferFee': olderTransferFee.serialize(),
+      'newerTransferFee': newerTransferFee.serialize()
     };
   }
 
   @override
   String toString() {
-    return "TransferFeeConfig${serialize()}";
+    return 'TransferFeeConfig${serialize()}';
   }
 
   TransferFee getEpochFee(BigInt epoch) {

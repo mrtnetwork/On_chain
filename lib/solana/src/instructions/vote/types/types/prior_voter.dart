@@ -13,30 +13,30 @@ class PriorVoter extends LayoutSerializable {
       required this.targetEpoch});
   factory PriorVoter.fromJson(Map<String, dynamic> json) {
     return PriorVoter(
-        authorizedPubkey: json["authorizedPubkey"],
-        epochOfLastAuthorizedSwitch: json["epochOfLastAuthorizedSwitch"],
-        targetEpoch: json["targetEpoch"]);
+        authorizedPubkey: json['authorizedPubkey'],
+        epochOfLastAuthorizedSwitch: json['epochOfLastAuthorizedSwitch'],
+        targetEpoch: json['targetEpoch']);
   }
 
   static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey("authorizedPubkey"),
-    LayoutConst.u64(property: "epochOfLastAuthorizedSwitch"),
-    LayoutConst.u64(property: "targetEpoch"),
-  ], property: "priorVoter");
+    SolanaLayoutUtils.publicKey('authorizedPubkey'),
+    LayoutConst.u64(property: 'epochOfLastAuthorizedSwitch'),
+    LayoutConst.u64(property: 'targetEpoch'),
+  ], property: 'priorVoter');
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
     return {
-      "authorizedPubkey": authorizedPubkey,
-      "epochOfLastAuthorizedSwitch": epochOfLastAuthorizedSwitch,
-      "targetEpoch": targetEpoch
+      'authorizedPubkey': authorizedPubkey,
+      'epochOfLastAuthorizedSwitch': epochOfLastAuthorizedSwitch,
+      'targetEpoch': targetEpoch
     };
   }
 
   @override
   String toString() {
-    return "PriorVoter${serialize()}";
+    return 'PriorVoter${serialize()}';
   }
 }

@@ -22,20 +22,20 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
         bytes: data,
         instruction: MetaplexHydraProgramInstruction.processInit.insturction);
     return MetaplexHydraInitLayout(
-        bumpSeed: decode["bumpSeed"],
-        name: decode["name"],
-        nativeAccountBumpSeed: decode["nativeAccountBumpSeed"],
-        totalShares: decode["totalShares"],
-        membershipModel: MembershipModel.fromValue(decode["membershipModel"]));
+        bumpSeed: decode['bumpSeed'],
+        name: decode['name'],
+        nativeAccountBumpSeed: decode['nativeAccountBumpSeed'],
+        totalShares: decode['totalShares'],
+        membershipModel: MembershipModel.fromValue(decode['membershipModel']));
   }
 
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
-    LayoutConst.u8(property: "bumpSeed"),
-    LayoutConst.u8(property: "nativeAccountBumpSeed"),
-    LayoutConst.string(property: "name"),
-    LayoutConst.u64(property: "totalShares"),
-    LayoutConst.u8(property: "membershipModel")
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bumpSeed'),
+    LayoutConst.u8(property: 'nativeAccountBumpSeed'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.u64(property: 'totalShares'),
+    LayoutConst.u8(property: 'membershipModel')
   ]);
 
   @override
@@ -48,11 +48,11 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "membershipModel": membershipModel.value,
-      "bumpSeed": bumpSeed,
-      "nativeAccountBumpSeed": nativeAccountBumpSeed,
-      "name": name,
-      "totalShares": totalShares
+      'membershipModel': membershipModel.value,
+      'bumpSeed': bumpSeed,
+      'nativeAccountBumpSeed': nativeAccountBumpSeed,
+      'name': name,
+      'totalShares': totalShares
     };
   }
 }

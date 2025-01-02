@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Query the resource delegation by an account during stake1.0 phase. i.e. list all addresses that have delegated resources to an account.
 /// [developers.tron.network](https://developers.tron.network/reference/getdelegatedresourceaccountindex).
 class TronRequestGetDelegatedResourceAccountIndex
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetDelegatedResourceAccountIndex(
       {required this.value, this.visible = true});
 
@@ -21,11 +21,11 @@ class TronRequestGetDelegatedResourceAccountIndex
 
   @override
   Map<String, dynamic> toJson() {
-    return {"value": value, "visible": visible};
+    return {'value': value.toAddress(visible), 'visible': visible};
   }
 
   @override
   String toString() {
-    return "TronRequestGetDelegatedResourceAccountIndex{${toJson()}}";
+    return 'TronRequestGetDelegatedResourceAccountIndex{${toJson()}}';
   }
 }

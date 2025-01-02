@@ -21,7 +21,7 @@ class SPLTokenMetaDataUpdateAuthorityLayout
         instructionBytes:
             SPLTokenMetaDataProgramSplDiscriminate.updateAuthority.insturction);
     // Extract the new authority from the decoded data.
-    final SolAddress newAuthority = decode["new_authority"];
+    final SolAddress newAuthority = decode['new_authority'];
     // Return a new instance of [SPLTokenMetaDataUpdateAuthorityLayout].
     return SPLTokenMetaDataUpdateAuthorityLayout(
       // If the new authority is zero, set it to null, else set it to the extracted value.
@@ -32,9 +32,9 @@ class SPLTokenMetaDataUpdateAuthorityLayout
 
   /// The layout structure of the update authority instruction.
   static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: "instruction"),
+    LayoutConst.blob(8, property: 'instruction'),
     // Define the layout for the new authority public key.
-    SolanaLayoutUtils.publicKey("new_authority"),
+    SolanaLayoutUtils.publicKey('new_authority'),
   ]);
 
   /// Gets the layout structure of this update authority instruction.
@@ -49,6 +49,6 @@ class SPLTokenMetaDataUpdateAuthorityLayout
   /// Serializes the update authority data for transmission.
   @override
   Map<String, dynamic> serialize() {
-    return {"new_authority": newAuthority ?? SolAddress.defaultPubKey};
+    return {'new_authority': newAuthority ?? SolAddress.defaultPubKey};
   }
 }

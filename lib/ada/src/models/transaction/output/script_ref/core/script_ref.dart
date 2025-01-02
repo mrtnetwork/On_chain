@@ -15,8 +15,8 @@ abstract class ScriptRef with ADASerialization {
     if (cbor.hasType<CborTagValue>()) {
       final cborTag = cbor.cast<CborTagValue>();
       if (!BytesUtils.bytesEqual(cborTag.tags, _tag)) {
-        throw ADAPluginException("Invalid ScriptRef cbor tag.",
-            details: {"Excepted": _tag, "Tag": cborTag.tags});
+        throw ADAPluginException('Invalid ScriptRef cbor tag.',
+            details: {'Excepted': _tag, 'Tag': cborTag.tags});
       }
       cbor = CborObject.fromCbor(cborTag.getValue<List<int>>()).cast();
     }
@@ -32,8 +32,8 @@ abstract class ScriptRef with ADASerialization {
     try {
       type = ScriptRefType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException("Invalid ScriptRef json.",
-          details: {"json": json});
+      throw ADAPluginException('Invalid ScriptRef json.',
+          details: {'json': json});
     }
     switch (type) {
       case ScriptRefType.nativeScript:

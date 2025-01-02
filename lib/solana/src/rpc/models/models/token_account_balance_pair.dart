@@ -9,11 +9,11 @@ class TokenAccountBalancePair {
       this.uiAmountString});
   factory TokenAccountBalancePair.fromJson(Map<String, dynamic> json) {
     return TokenAccountBalancePair(
-        amount: json["amount"],
-        address: SolAddress.uncheckCurve(json["address"]),
-        decimals: json["decimals"],
-        uiAmount: json["uiAmount"],
-        uiAmountString: json["uiAmountString"]);
+        amount: json['amount'],
+        address: SolAddress.uncheckCurve(json['address']),
+        decimals: json['decimals'],
+        uiAmount: json['uiAmount'],
+        uiAmountString: json['uiAmountString']);
   }
 
   /// Address of the token account

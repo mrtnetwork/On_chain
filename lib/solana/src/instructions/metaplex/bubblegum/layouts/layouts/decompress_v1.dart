@@ -14,11 +14,11 @@ class MetaplexBubblegumDecompressV1Layout
         instruction:
             MetaplexBubblegumProgramInstruction.decompressV1.insturction);
     return MetaplexBubblegumDecompressV1Layout(
-        metaData: MetaData.fromJson(decode["metaData"]));
+        metaData: MetaData.fromJson(decode['metaData']));
   }
 
   static final StructLayout _layout = LayoutConst.struct(
-      [LayoutConst.blob(8, property: "instruction"), MetaData.staticLayout]);
+      [LayoutConst.blob(8, property: 'instruction'), MetaData.staticLayout]);
 
   @override
   StructLayout get layout => _layout;
@@ -29,6 +29,6 @@ class MetaplexBubblegumDecompressV1Layout
 
   @override
   Map<String, dynamic> serialize() {
-    return {"metaData": metaData.serialize()};
+    return {'metaData': metaData.serialize()};
   }
 }

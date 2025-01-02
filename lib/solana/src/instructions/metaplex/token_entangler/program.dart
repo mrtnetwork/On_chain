@@ -5,10 +5,10 @@ import 'package:on_chain/solana/src/models/models.dart';
 
 class MetaplexTokenEntanglerProgram extends TransactionInstruction {
   MetaplexTokenEntanglerProgram({
-    required List<AccountMeta> keys,
-    required SolAddress programId,
+    required super.keys,
+    required super.programId,
     required ProgramLayout layout,
-  }) : super(keys: keys, data: layout.toBytes(), programId: programId);
+  }) : super(data: layout.toBytes());
 
   factory MetaplexTokenEntanglerProgram.createEntangledPair(
       {required SolAddress treasuryMint,

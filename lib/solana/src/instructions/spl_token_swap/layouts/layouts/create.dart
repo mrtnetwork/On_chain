@@ -30,9 +30,9 @@ class SPLTokenSwapInitSwapLayout extends SPLTokenSwapProgramLayout {
     );
 
     return SPLTokenSwapInitSwapLayout(
-      fees: TokenSwapFees.fromJson(decode["fees"]),
-      curveType: SPLTokenSwapCurveType.fromValue(decode["curveType"]),
-      curveParameters: decode["curveParameters"],
+      fees: TokenSwapFees.fromJson(decode['fees']),
+      curveType: SPLTokenSwapCurveType.fromValue(decode['curveType']),
+      curveParameters: decode['curveParameters'],
     );
   }
 
@@ -55,9 +55,9 @@ class SPLTokenSwapInitSwapLayout extends SPLTokenSwapProgramLayout {
     final curveParam = List<int>.filled(32, 0);
     curveParam.setAll(0, curveParameters);
     return {
-      "fees": fees.serialize(),
-      "curveType": curveType.value,
-      "curveParameters": curveParam,
+      'fees': fees.serialize(),
+      'curveType': curveType.value,
+      'curveParameters': curveParam,
     };
   }
 }

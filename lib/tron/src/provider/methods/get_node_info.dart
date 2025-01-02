@@ -4,7 +4,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// GetNodeInfo
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-getnodeinfo).
 class TronRequestGetNodeInfo
-    extends TVMRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TronRequestGetNodeInfo();
 
   /// wallet/getnodeinfo
@@ -18,6 +18,6 @@ class TronRequestGetNodeInfo
 
   @override
   String toString() {
-    return "TronRequestGetNodeInfo{${toJson()}}";
+    return 'TronRequestGetNodeInfo{${toJson()}}';
   }
 }

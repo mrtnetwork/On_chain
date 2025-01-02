@@ -6,14 +6,14 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: "accountType"),
-    SolanaLayoutUtils.publicKey("walletKey"),
-    LayoutConst.boolean(property: "isExhausted"),
-    SolanaLayoutUtils.publicKey("voucherMint"),
-    SolanaLayoutUtils.publicKey("packSet"),
-    LayoutConst.u32(property: "cardsRedeemed"),
+    LayoutConst.u8(property: 'accountType'),
+    SolanaLayoutUtils.publicKey('walletKey'),
+    LayoutConst.boolean(property: 'isExhausted'),
+    SolanaLayoutUtils.publicKey('voucherMint'),
+    SolanaLayoutUtils.publicKey('packSet'),
+    LayoutConst.u32(property: 'cardsRedeemed'),
     LayoutConst.map(LayoutConst.u32(), LayoutConst.u32(),
-        property: "cardsToRedeem")
+        property: 'cardsToRedeem')
   ]);
 }
 
@@ -37,13 +37,13 @@ class ProvingProcess extends LayoutSerializable {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return ProvingProcess(
-        accountType: NFTPacksAccountType.fromValue(decode["accountType"]),
-        walletKey: decode["walletKey"],
-        isExhausted: decode["isExhausted"],
-        voucherMint: decode["voucherMint"],
-        packSet: decode["packSet"],
-        cardsRedeemed: decode["cardsRedeemed"],
-        cardsToRedeem: (decode["cardsToRedeem"] as Map).cast());
+        accountType: NFTPacksAccountType.fromValue(decode['accountType']),
+        walletKey: decode['walletKey'],
+        isExhausted: decode['isExhausted'],
+        voucherMint: decode['voucherMint'],
+        packSet: decode['packSet'],
+        cardsRedeemed: decode['cardsRedeemed'],
+        cardsToRedeem: (decode['cardsToRedeem'] as Map).cast());
   }
 
   @override
@@ -51,18 +51,18 @@ class ProvingProcess extends LayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      "accountType": accountType.value,
-      "walletKey": walletKey,
-      "isExhausted": isExhausted,
-      "voucherMint": voucherMint,
-      "packSet": packSet,
-      "cardsRedeemed": cardsRedeemed,
-      "cardsToRedeem": cardsToRedeem
+      'accountType': accountType.value,
+      'walletKey': walletKey,
+      'isExhausted': isExhausted,
+      'voucherMint': voucherMint,
+      'packSet': packSet,
+      'cardsRedeemed': cardsRedeemed,
+      'cardsToRedeem': cardsToRedeem
     };
   }
 
   @override
   String toString() {
-    return "ProvingProcess${serialize()}";
+    return 'ProvingProcess${serialize()}';
   }
 }
