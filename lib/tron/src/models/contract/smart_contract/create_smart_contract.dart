@@ -26,8 +26,9 @@ class CreateSmartContract extends TronBaseContract {
   CreateSmartContract(
       {required this.ownerAddress,
       required this.newContract,
-      this.callTokenValue,
-      this.tokenId});
+      BigInt? callTokenValue,
+      this.tokenId})
+      : callTokenValue = callTokenValue == BigInt.zero ? null : callTokenValue;
   factory CreateSmartContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return CreateSmartContract(

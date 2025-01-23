@@ -1,3 +1,8 @@
+## 5.1.0
+
+- Update dependencies.
+- Allow deserialization ADA transaction inputs encoded as Cbor(Set).
+
 ## 5.0.0
 
 - Minimum required Dart SDK version updated to 3.3.

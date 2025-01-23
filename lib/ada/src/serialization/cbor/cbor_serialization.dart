@@ -178,4 +178,20 @@ extension QuickCborMap on CborMapValue {
     }
     return val;
   }
+
+  List<dynamic>? getIterableFromIntKey(int key, {bool throwOnNull = true}) {
+    final val = value[CborIntValue(key)];
+    if (val == null || val is CborNullValue) {
+      if (throwOnNull) {
+        throw ADAPluginException('Object not found.', details: {"key": key});
+      }
+    }
+    if (val is CborListValue) {
+      return val.value;
+    }
+    if (val is CborSetValue) {
+      return val.value.toList();
+    }
+    throw ADAPluginException('value is not iterable.', details: {"key": key});
+  }
 }

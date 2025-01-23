@@ -58,13 +58,11 @@ class TransactionBody with ADASerialization {
   factory TransactionBody.deserialize(CborMapValue cbor) {
     return TransactionBody(
         inputs: cbor
-            .getValueFromIntKey<CborListValue>(0)
-            .value
+            .getIterableFromIntKey(0)!
             .map((e) => TransactionInput.deserialize(e))
             .toList(),
         outputs: cbor
-            .getValueFromIntKey<CborListValue>(1)
-            .value
+            .getIterableFromIntKey(1)!
             .map((e) => TransactionOutput.deserialize(e))
             .toList(),
         fee: cbor.getValueFromIntKey<CborObject>(2).getInteger(),

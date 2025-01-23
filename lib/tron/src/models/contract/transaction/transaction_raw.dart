@@ -82,12 +82,13 @@ class TransactionRaw extends TronProtocolBufferImpl {
       this.feeLimit})
       : assert(feeLimit == null || feeLimit > BigInt.zero,
             'fee limit must not be zero.'),
-        refBlockBytes = BytesUtils.toBytes(refBlockBytes, unmodifiable: true),
-        refBlockHash = BytesUtils.toBytes(refBlockHash, unmodifiable: true),
-        data = BytesUtils.tryToBytes(data, unmodifiable: true),
-        scripts = BytesUtils.tryToBytes(scripts, unmodifiable: true),
-        auths = auths == null ? null : List<Authority>.unmodifiable(auths),
-        contract = List<TransactionContract>.unmodifiable(contract);
+        assert(contract.isNotEmpty, 'at least one contract required'),
+        refBlockBytes = refBlockBytes.asImmutableBytes,
+        refBlockHash = refBlockHash.asImmutableBytes,
+        data = data?.emptyAsNull?.asImmutableBytes,
+        scripts = scripts?.emptyAsNull?.asImmutableBytes,
+        auths = auths?.emptyAsNull?.immutable,
+        contract = contract.immutable;
 
   /// The reference block bytes of the transaction.
   final List<int> refBlockBytes;

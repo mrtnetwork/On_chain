@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/abi_types.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/smart_contract_abi_entry_param.dart';
@@ -42,12 +43,8 @@ class SmartContractABIEntry extends TronProtocolBufferImpl {
       required this.type,
       this.payable,
       this.stateMutability})
-      : inputs = inputs == null
-            ? null
-            : List<SmartContractBABIEntryParam>.unmodifiable(inputs),
-        outputs = outputs == null
-            ? null
-            : List<SmartContractBABIEntryParam>.unmodifiable(outputs);
+      : inputs = inputs?.emptyAsNull?.immutable,
+        outputs = outputs?.emptyAsNull?.immutable;
   factory SmartContractABIEntry.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return SmartContractABIEntry(

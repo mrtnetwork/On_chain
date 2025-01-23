@@ -42,6 +42,7 @@ abstract class TronProtocolBufferImpl {
       } else {
         encode = ProtocolBufferEncoder.encode(tagNumber, value);
       }
+
       bytes.add(encode);
     }
     return bytes.toBytes();
