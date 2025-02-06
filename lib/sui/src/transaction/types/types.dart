@@ -187,7 +187,7 @@ abstract class SuiTypeInput extends BcsVariantSerialization {
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiTypeInputPrimitive.layout,
           property: SuiTypeInputs.boolean.name,
@@ -401,7 +401,7 @@ abstract class SuiArgument extends BcsVariantSerialization {
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiArgumentGasCoin.layout,
           property: SuiArguments.gasCoin.name,
@@ -711,7 +711,7 @@ abstract class SuiCommand extends BcsVariantSerialization {
   @override
   String get variantName => type.name;
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiCommandMoveCall.layout,
           property: SuiCommands.moveCall.name,
@@ -1079,7 +1079,7 @@ abstract class SuiObjectArg extends BcsVariantSerialization {
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiObjectArgImmOrOwnedObject.layout,
           property: SuiObjectArgs.immOrOwnedObject.name,
@@ -1240,7 +1240,7 @@ abstract class SuiCallArg<T> extends BcsVariantSerialization
     return arg;
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiCallArgPure.layout,
           property: SuiCallArgs.pure.name,
@@ -1454,7 +1454,7 @@ abstract class SuiTransactionKind extends BcsVariantSerialization {
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiTransactionKindProgrammableTransaction.layout,
           property: SuiTransactionKinds.programmableTransaction.name,
@@ -1542,7 +1542,7 @@ abstract class SuiTransactionExpiration extends BcsVariantSerialization {
   String get variantName => type.name;
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiTransactionExpirationNone.layout,
           property: SuiTransactionV2TransactionExpirations.none.name,
@@ -1634,7 +1634,7 @@ abstract class SuiTransactionData extends BcsVariantSerialization {
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiTransactionDataV1.layout,
           property: SuiTransactionDataVersion.v1.name,

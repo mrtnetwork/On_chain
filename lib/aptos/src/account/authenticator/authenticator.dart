@@ -66,7 +66,7 @@ abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosAccountAuthenticatorEd25519.layout,
           property: AptosAccountAuthenticators.ed25519.name,
@@ -435,7 +435,7 @@ abstract class AptosAnySignature extends BcsVariantSerialization
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosEd25519AnySignature.layout,
           property: AptosAnySignatures.ed25519.name,

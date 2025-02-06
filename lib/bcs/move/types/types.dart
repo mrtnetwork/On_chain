@@ -95,7 +95,7 @@ abstract class MoveArgument<T> extends BcsVariantSerialization
   final MoveArgumentType argumentType;
   const MoveArgument({required this.argumentType});
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: MoveU8.layout,
           property: MoveArgumentType.u8.name,

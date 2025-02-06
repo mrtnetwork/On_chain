@@ -186,7 +186,7 @@ class SuiIntentScope extends BcsVariantSerialization {
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum(
+    return LayoutConst.bcsLazyEnum(
         values
             .map((e) => LazyVariantModel(
                 layout: LayoutConst.noArgs, property: e.name, index: e.value))
@@ -225,7 +225,7 @@ class SuiIntentVersion extends BcsVariantSerialization {
   static const SuiIntentVersion v0 = SuiIntentVersion._(name: "V0", value: 0);
   static const List<SuiIntentVersion> values = [v0];
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum(
+    return LayoutConst.bcsLazyEnum(
         values
             .map((e) => LazyVariantModel(
                 layout: LayoutConst.noArgs, property: e.name, index: e.value))
@@ -270,7 +270,7 @@ class SuiIntentApplicationId extends BcsVariantSerialization {
     return fromName(decode.variantName);
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum(
+    return LayoutConst.bcsLazyEnum(
         values
             .map((e) => LazyVariantModel(
                 layout: LayoutConst.noArgs, property: e.name, index: e.value))

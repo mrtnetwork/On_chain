@@ -125,7 +125,7 @@ abstract class AptosTypeTag extends BcsVariantSerialization {
   final AptosTypeTags type;
   const AptosTypeTag({required this.type});
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosTypeTagNumeric.layout,
           property: AptosTypeTags.u8.name,
@@ -703,7 +703,7 @@ abstract class AptosTransactionPayload extends BcsVariantSerialization {
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosTransactionPayloadScript.layout,
           property: AptosTransactionPayloads.script.name,
@@ -986,7 +986,7 @@ abstract class AptosMultisigTransactionPayload extends BcsVariantSerialization {
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosMultisigTransactionPayloadEntryFunction.layout,
           property: AptosMultisigTransactionPayloads.entryFunction.name,
@@ -1362,7 +1362,7 @@ abstract class AptosTransactionAuthenticator extends BcsVariantSerialization {
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosTransactionAuthenticatorEd25519.layout,
           property: AptosTransactionAuthenticators.ed25519.name,
@@ -1734,7 +1734,7 @@ abstract class AptosRawTransactionWithData extends BcsVariantSerialization {
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosRawTransactionWithDataMultiAgent.layout,
           property: AptosRawTransactionType.multiAgentTransaction.name,

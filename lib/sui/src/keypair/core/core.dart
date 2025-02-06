@@ -105,7 +105,7 @@ abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
     } as SuiCryptoPublicKey<PUBLICKEY>;
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiED25519PublicKey.layout,
           property: SuiKeyAlgorithm.ed25519.name,

@@ -78,7 +78,7 @@ abstract class SuiAccountPublicKey extends BcsVariantSerialization {
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiEd25519AccountPublicKey.layout,
           property: SuiSigningScheme.ed25519.name,

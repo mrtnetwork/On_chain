@@ -17,7 +17,7 @@ class SuiGenericSignature extends BcsVariantSerialization {
         signature: decode.value.asBytes("signature"), algorithm: algorithm);
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum(
+    return LayoutConst.bcsLazyEnum(
         SuiKeyAlgorithm.values
             .map((e) => LazyVariantModel(
                 layout: ({property}) => LayoutConst.struct([
@@ -75,7 +75,7 @@ abstract class SuiBaseSignature extends BcsVariantSerialization {
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: SuiEd25519Signature.layout,
           property: SuiSigningScheme.ed25519.name,

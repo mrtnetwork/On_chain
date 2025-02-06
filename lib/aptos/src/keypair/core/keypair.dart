@@ -92,7 +92,7 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.lazyEnum([
+    return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
           layout: AptosED25519PublicKey.layout,
           property: AptosKeyAlgorithm.ed25519.name,
