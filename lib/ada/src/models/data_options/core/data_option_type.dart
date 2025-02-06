@@ -41,7 +41,7 @@ class TransactionDataOptionType with ADASerialization {
     final type = fromValue(cbor.value);
     if (validate != null && validate != type) {
       throw ADAPluginException('Invalid TransactionDataOptionType.',
-          details: {'Excepted': validate, 'Type': type});
+          details: {'expected': validate, 'Type': type});
     }
     return type;
   }

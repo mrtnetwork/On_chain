@@ -22,7 +22,7 @@ class DataOptionData extends DataOption {
     final CborTagValue cborTag = cbor.getIndex(1);
     if (!BytesUtils.bytesEqual(cborTag.tags, _plutusDataOptionTag)) {
       throw ADAPluginException('Invalid date option tag.',
-          details: {'Tag': cborTag.tags, 'Excepted': _plutusDataOptionTag});
+          details: {'Tag': cborTag.tags, 'expected': _plutusDataOptionTag});
     }
     final List<int> plutusBytes = cborTag.getValue();
     return DataOptionData(PlutusData.fromCborBytes(plutusBytes));

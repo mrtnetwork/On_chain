@@ -7,7 +7,7 @@ class ResultWithContext<T> {
   final Context? context;
 }
 
-/// Represents the details of an Ethereum JSON-RPC request.
+/// Represents the details of an Solana JSON-RPC request.
 class SolanaRequestDetails extends BaseServiceRequestParams {
   const SolanaRequestDetails({
     required super.requestID,
@@ -17,7 +17,7 @@ class SolanaRequestDetails extends BaseServiceRequestParams {
     required this.jsonBody,
   });
 
-  /// The Ethereum method name for the request.
+  /// The Solana method name for the request.
   final String method;
 
   /// The JSON-formatted string containing the request parameters.

@@ -180,7 +180,7 @@ extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
       return (value as BigInt).toInt() as T;
     }
     throw TronPluginException('Invalid type.',
-        details: {'type': '$T', 'Excepted': value.runtimeType.toString()});
+        details: {'type': '$T', 'expected': value.runtimeType.toString()});
   }
 
   T cast<T>() {
@@ -205,7 +205,7 @@ extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
     }
     throw TronPluginException('cannot cast value.', details: {
       'Type': '$T',
-      'Excepted': value.runtimeType.toString(),
+      'expected': value.runtimeType.toString(),
       'value': value
     });
   }

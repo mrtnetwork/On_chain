@@ -25,7 +25,7 @@ abstract class BlockFrostRequest<RESULT, RESPONSE>
     if (pathParams.length != pathParameters.length) {
       throw ADAPluginException('Invalid Path Parameters.', details: {
         'pathParams': pathParameters,
-        'ExceptedPathParametersLength': pathParams.length
+        'expectedPathParametersLength': pathParams.length
       });
     }
     String params = method;

@@ -59,7 +59,7 @@ class CertificateType with ADASerialization {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
       throw ADAPluginException('Invalid Certificate type.',
-          details: {'Excepted': validate, 'Type': type});
+          details: {'expected': validate, 'Type': type});
     }
     return type;
   }

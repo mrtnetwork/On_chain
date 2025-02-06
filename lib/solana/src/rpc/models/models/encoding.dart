@@ -54,7 +54,7 @@ class SolanaRequestEncoding {
     final correctType = _findTypes(data);
     if (type != null && correctType.item1 != type) {
       throw SolanaPluginException('Incorrect type.',
-          details: {'Excepted': correctType.item1, 'type': type});
+          details: {'expected': correctType.item1, 'type': type});
     }
     return _decode(correctType.item2, correctType.item1);
   }

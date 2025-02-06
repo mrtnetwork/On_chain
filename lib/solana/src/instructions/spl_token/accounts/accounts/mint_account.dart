@@ -71,7 +71,7 @@ class SolanaMintAccount extends LayoutSerializable {
       if (accountType != SolanaTokenAccountType.mint) {
         throw SolanaPluginException('Invalid account type.', details: {
           'account type': accountType.name,
-          'Excepted': SolanaTokenAccountType.mint
+          'expected': SolanaTokenAccountType.mint
         });
       }
     }

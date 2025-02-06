@@ -1,3 +1,9 @@
+## 6.0.0
+
+- Update dependencies.
+- Added Sui Network support.
+- Added Aptos Network support.
+
 ## 5.1.0
 
 - Update dependencies.

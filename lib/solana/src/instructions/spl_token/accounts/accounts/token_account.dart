@@ -88,7 +88,7 @@ class SolanaTokenAccount extends LayoutSerializable {
       if (accountType != SolanaTokenAccountType.account) {
         throw SolanaPluginException('Invalid account type.', details: {
           'account type': accountType.name,
-          'Excepted': SolanaTokenAccountType.account
+          'expected': SolanaTokenAccountType.account
         });
       }
     }

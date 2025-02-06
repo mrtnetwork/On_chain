@@ -46,7 +46,7 @@ abstract class ADAShellyAddress extends ADAAddress {
     final address = ADAAddress.deserialize(cbor);
     if (address is! T) {
       throw ADAPluginException('Invalid address type.', details: {
-        'Excepted': '$T',
+        'expected': '$T',
         'Type': address.runtimeType,
         'address': address.address
       });

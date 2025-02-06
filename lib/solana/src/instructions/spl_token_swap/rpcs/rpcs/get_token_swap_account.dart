@@ -36,7 +36,7 @@ class SolanaRPCSPLTokenSwapAccount
     if (ownerProgramAddress != null &&
         accountInfo.owner.address != ownerProgramAddress?.address) {
       throw SolanaPluginException('Invalid program address owner.', details: {
-        'Excepted': ownerProgramAddress,
+        'expected': ownerProgramAddress,
         'owner': accountInfo.owner.address
       });
     }

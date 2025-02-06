@@ -21,7 +21,7 @@ class AdaPrivateKey {
         privateKeyBytes.length != Ed25519KholawKeysConst.privKeyByteLen) {
       throw ADAPluginException('Invalid private key bytes.', details: {
         'length': privateKeyBytes.length,
-        'Excepted':
+        'expected':
             '${Ed25519KeysConst.privKeyByteLen} or ${Ed25519KholawKeysConst.privKeyByteLen}'
       });
     }

@@ -50,7 +50,7 @@ abstract class ProgramLayout extends LayoutSerializable {
     if (instruction != null) {
       if (decode['instruction'] != instruction) {
         throw SolanaPluginException('invalid instruction index', details: {
-          'excepted': instruction,
+          'expected': instruction,
           'instruction': decode['instruction']
         });
       }
@@ -58,7 +58,7 @@ abstract class ProgramLayout extends LayoutSerializable {
     if (discriminator != null) {
       if (decode['discriminator'] != discriminator) {
         throw SolanaPluginException('invalid discriminator', details: {
-          'excepted': discriminator,
+          'expected': discriminator,
           'instruction': decode['discriminator']
         });
       }

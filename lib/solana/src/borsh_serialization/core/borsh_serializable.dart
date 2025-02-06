@@ -36,12 +36,12 @@ abstract class LayoutSerializable {
         if (i.value is List) {
           if (!CompareUtils.iterableIsEqual(i.value, decode.value[i.key])) {
             throw SolanaPluginException('cannot validate borsh bytes',
-                details: {'excepted': validator, 'instruction': decode});
+                details: {'expected': validator, 'instruction': decode});
           }
         } else {
           if (i.value != decode.value[i.key]) {
             throw SolanaPluginException('cannot validate borsh bytes',
-                details: {'excepted': validator, 'instruction': decode});
+                details: {'expected': validator, 'instruction': decode});
           }
         }
       }

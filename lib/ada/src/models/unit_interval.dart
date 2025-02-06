@@ -18,7 +18,7 @@ class UnitInterval with ADASerialization {
   factory UnitInterval.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(cbor.tags, _cborTag)) {
       throw ADAPluginException('Invalid UnitInterval cbor tag.',
-          details: {'Excepted': _cborTag, 'Tag': cbor.tags});
+          details: {'expected': _cborTag, 'Tag': cbor.tags});
     }
     final cborList = cbor.getValue<CborListValue>();
     return UnitInterval(

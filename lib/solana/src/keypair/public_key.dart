@@ -31,7 +31,7 @@ class SolanaPublicKey {
   /// Verify a message using the public key and signature.
   bool verify({required List<int> message, required List<int> signature}) {
     // Create a verifier from the public key bytes.
-    final SolanaVerifier verifier = SolanaVerifier.fromKeyBytes(toBytes());
+    final Ed25519Verifier verifier = Ed25519Verifier.fromKeyBytes(toBytes());
     // Verify the message and signature using the verifier.
     return verifier.verify(message, signature);
   }

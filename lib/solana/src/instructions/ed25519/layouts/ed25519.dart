@@ -1,8 +1,8 @@
+import 'package:blockchain_utils/signer/signer.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/signer/solana/solana_signer.dart';
 import 'package:on_chain/solana/src/instructions/ed25519/constant.dart';
 import 'package:on_chain/solana/src/instructions/ed25519/instruction/instructions.dart';
 import 'package:on_chain/solana/src/keypair/private_key.dart';
@@ -90,7 +90,7 @@ class Ed25519ProgramLayout extends ProgramLayout {
   }) {
     if (signature.length != Ed25519ProgramConst.signatureLen) {
       throw SolanaPluginException('invalid signature length.', details: {
-        'Excepted': Ed25519ProgramConst.signatureLen,
+        'expected': Ed25519ProgramConst.signatureLen,
         'length': signature.length
       });
     }
@@ -126,7 +126,7 @@ class Ed25519ProgramLayout extends ProgramLayout {
     final pubKey = data.sublist(
         publicKeyOffset, publicKeyOffset + Ed25519KeysConst.pubKeyByteLen);
     final signature = data.sublist(
-        signatureOffset, signatureOffset + SolanaSignerConst.signatureLen);
+        signatureOffset, signatureOffset + Ed25519SignerConst.signatureLen);
     final message = data.sublist(messageOffset, messageOffset + messageSize);
     return Ed25519ProgramLayout._(
       numSignatures: decode['numSignatures'],

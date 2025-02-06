@@ -28,7 +28,7 @@ class EIP712Version {
                 'Invalid EIP712Version version.',
                 details: {
                   'version': version,
-                  'excepted': values.map((e) => e.version).join(', ')
+                  'expected': values.map((e) => e.version).join(', ')
                 }));
   }
 }

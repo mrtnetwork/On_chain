@@ -10,7 +10,7 @@ class AdaTransactionUtils {
       String? objectName}) {
     if (bytes.length != length) {
       throw ADAPluginException("Invalid ${objectName ?? 'hash'} length.",
-          details: {'Excepted': length, 'length': bytes.length});
+          details: {'expected': length, 'length': bytes.length});
     }
     return BytesUtils.toBytes(bytes, unmodifiable: unmodifiable);
   }

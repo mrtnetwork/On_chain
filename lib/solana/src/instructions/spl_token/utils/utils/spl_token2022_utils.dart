@@ -69,7 +69,7 @@ class SPLToken2022Utils {
             accountBytes[SolanaTokenAccountUtils.accountSize]);
         if (accountType != type) {
           throw SolanaPluginException('invalid account type',
-              details: {'Excepted': type.name, 'Type': accountType.name});
+              details: {'expected': type.name, 'Type': accountType.name});
         }
       }
       final extensionBytes = SPLToken2022Utils.getExtensionData(

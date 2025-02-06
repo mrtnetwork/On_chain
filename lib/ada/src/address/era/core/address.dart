@@ -50,7 +50,7 @@ abstract class ADAAddress with ADASerialization {
     }
     if (addr is! T) {
       throw ADAPluginException('Invalid address type.', details: {
-        'Excepted': '$T',
+        'expected': '$T',
         'Type': addr.runtimeType,
         'address': addr.address
       });
@@ -76,7 +76,7 @@ abstract class ADAAddress with ADASerialization {
 
     if (address is! T) {
       throw ADAPluginException('Invalid ADA address type.', details: {
-        'Excepted': '$T',
+        'expected': '$T',
         'Type': address.addressType,
         'address': address.address
       });
@@ -99,7 +99,7 @@ abstract class ADAAddress with ADASerialization {
   T cast<T extends ADAAddress>() {
     if (this is! T) {
       throw ADAPluginException('ADAAddress casting failed.',
-          details: {'excepted': '$T', 'type': addressType.name});
+          details: {'expected': '$T', 'type': addressType.name});
     }
     return this as T;
   }

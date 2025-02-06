@@ -16,7 +16,7 @@ class HeaderLeaderCertType with ADASerialization {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
       throw ADAPluginException('Invalid HeaderLeaderCertType.',
-          details: {'Excepted': validate, 'Type': type});
+          details: {'expected': validate, 'Type': type});
     }
 
     return fromValue(cbor.value);

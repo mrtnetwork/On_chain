@@ -25,7 +25,7 @@ class AdaAddressUtils {
     if (addrType != null) {
       if (decodeAddr.type.header != addrType.header) {
         throw ADAPluginException('Incorrect address type. ',
-            details: {'Excepted': addrType.name, 'type': decodeAddr.type});
+            details: {'expected': addrType.name, 'type': decodeAddr.type});
       }
     }
     return decodeAddr;

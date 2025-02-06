@@ -23,7 +23,7 @@ class TransactionMetadataUtils {
       throw ADAPluginException('Invalid AuxiliaryData cbor object type.',
           details: {
             'Type': cbor.runtimeType,
-            'Excepted': '$CborMapValue, $CborListValue or $CborTagValue'
+            'expected': '$CborMapValue, $CborListValue or $CborTagValue'
           });
     }
     if (cbor is CborTagValue) {

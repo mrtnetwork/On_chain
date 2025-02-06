@@ -89,7 +89,7 @@ class SolanaPrivateKey {
 
   /// Sign a digest using the private key.
   List<int> sign(List<int> digest) {
-    final signer = SolanaSigner.fromKeyBytes(_privateKey.raw);
+    final signer = Ed25519Signer.fromKeyBytes(_privateKey.raw);
     return signer.sign(digest);
   }
 }

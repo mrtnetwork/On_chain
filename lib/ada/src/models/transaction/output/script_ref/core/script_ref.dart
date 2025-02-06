@@ -16,7 +16,7 @@ abstract class ScriptRef with ADASerialization {
       final cborTag = cbor.cast<CborTagValue>();
       if (!BytesUtils.bytesEqual(cborTag.tags, _tag)) {
         throw ADAPluginException('Invalid ScriptRef cbor tag.',
-            details: {'Excepted': _tag, 'Tag': cborTag.tags});
+            details: {'expected': _tag, 'Tag': cborTag.tags});
       }
       cbor = CborObject.fromCbor(cborTag.getValue<List<int>>()).cast();
     }
