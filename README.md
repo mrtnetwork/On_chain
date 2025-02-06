@@ -4,10 +4,10 @@ Onchain Plugin for Dart—an advanced cross-platform solution that seamlessly in
 
 this plugin enables:
 
-Tron: Account creation, asset transfers, native operations, and smart contract execution.
-Solana: Metaplex integration, token management, staking, and smart contracts.
-Cardano: Legacy and Shelley-era support, staking, pools, and transactions.
-Aptos & Sui: Encoding/decoding of Move types, transaction management, and smart contract interactions.
+- Tron: Account creation, asset transfers, native operations, and smart contract execution.
+- Solana: Metaplex integration, token management, staking, and smart contracts.
+- Cardano: Legacy and Shelley-era support, staking, pools, and transactions.
+- Aptos & Sui: Encoding/decoding of Move types, transaction management, and smart contract interactions.
 This package streamlines blockchain development across multiple ecosystems, making it a comprehensive toolkit for Dart developers.
 
 
