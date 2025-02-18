@@ -34,8 +34,8 @@ class AptosED25519PrivateKey extends AptosBasePrivateKey<AptosED25519PublicKey,
   }
 
   @override
-  String toHex({bool lowerCase = false}) {
-    return _privateKey.toHex(lowerCase: lowerCase);
+  String toHex({bool lowerCase = true, String prefix = ''}) {
+    return _privateKey.toHex(lowerCase: lowerCase, prefix: prefix);
   }
 }
 

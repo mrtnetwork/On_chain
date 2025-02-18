@@ -1,9 +1,9 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
-/// Event types are globally identifiable by an account `address` andmonotonically increasing `creationNumber`,
+/// AptosGraphQLEvent types are globally identifiable by an account `address` andmonotonically increasing `creationNumber`,
 /// one per event type emittedto the given account. This API returns events corresponding to thatthat event type.
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetEventsByCreationNumber

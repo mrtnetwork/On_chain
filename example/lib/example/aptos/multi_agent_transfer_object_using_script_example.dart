@@ -55,7 +55,7 @@ void main() async {
       secondarySignerAddressess: [recipient.publicKey.toAddress()]);
   final signedTx = AptosSignedTransaction(
       rawTransaction: transaction, authenticator: txauthenticator);
-  await simulate(signedTx);
+  await submitTransaction(signedTx);
 
   /// https://explorer.aptoslabs.com/txn/0xd23a797626830900976b198fcbce513ddd439ac9b3e8240630fdaee3a0feb42b?network=testnet
 }

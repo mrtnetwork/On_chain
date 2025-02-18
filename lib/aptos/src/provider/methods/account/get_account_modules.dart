@@ -1,7 +1,7 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Retrieves all account modules' bytecode for a given account at a specific ledger version.
 /// If the ledger version is not specified in the request, the latest ledger version is used.

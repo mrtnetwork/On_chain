@@ -1074,15 +1074,15 @@ class AptosApiUserTransaction extends AptosApiTransaction {
   final String stateChangeHash;
   final String eventRootHash;
   final String? stateCheckpointHash;
-  final String gasUsed;
+  final BigInt gasUsed;
   final bool success;
   final String vmStatus;
   final String accumulatorRootHash;
   final List<AptosApiWriteSetChange> changes;
   final String sender;
   final String sequenceNumber;
-  final String maxGasAmount;
-  final String gasUnitPrice;
+  final BigInt maxGasAmount;
+  final BigInt gasUnitPrice;
   final String expirationTimestampSecs;
   final AptosApiTransactionPayload payload;
   final AptosApiTransactionSignature? signature;
@@ -1116,7 +1116,7 @@ class AptosApiUserTransaction extends AptosApiTransaction {
         stateChangeHash: json.as("state_change_hash"),
         eventRootHash: json.as("event_root_hash"),
         stateCheckpointHash: json.as("state_checkpoint_hash"),
-        gasUsed: json.as("gas_used"),
+        gasUsed: json.asBigInt("gas_used"),
         success: json.as("success"),
         vmStatus: json.as("vm_status"),
         accumulatorRootHash: json.as("accumulator_root_hash"),
@@ -1126,8 +1126,8 @@ class AptosApiUserTransaction extends AptosApiTransaction {
             .toList(),
         sender: json.as("sender"),
         sequenceNumber: json.as("sequence_number"),
-        maxGasAmount: json.as("max_gas_amount"),
-        gasUnitPrice: json.as("gas_unit_price"),
+        maxGasAmount: json.asBigInt("max_gas_amount"),
+        gasUnitPrice: json.asBigInt("gas_unit_price"),
         expirationTimestampSecs: json.as("expiration_timestamp_secs"),
         payload: AptosApiTransactionPayload.froMJson(json.asMap("payload")),
         signature:

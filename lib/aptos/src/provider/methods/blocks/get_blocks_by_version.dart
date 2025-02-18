@@ -1,6 +1,6 @@
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// This endpoint allows you to get the transactions in a blockand the
 /// corresponding block information given a version in the block.

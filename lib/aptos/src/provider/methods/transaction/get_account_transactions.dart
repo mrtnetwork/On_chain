@@ -1,7 +1,7 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Retrieves on-chain committed transactions from an account.
 /// If the start version is too far in the past, a 410 will be returned.

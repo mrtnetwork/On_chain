@@ -2,7 +2,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/provider/constant/constants.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
 
 /// Execute the Move function with the given parameters and return its execution result.

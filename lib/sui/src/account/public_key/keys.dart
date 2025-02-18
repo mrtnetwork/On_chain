@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/bcs/serialization.dart';
+import 'package:on_chain/sui/src/account/constant/constant.dart';
 import 'package:on_chain/sui/src/account/core/account.dart';
 import 'package:on_chain/sui/src/account/types/types.dart';
-import 'package:on_chain/sui/src/keypair/utils/utils.dart';
 import 'package:on_chain/sui/src/address/address.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/keypair/keypair.dart';
@@ -226,9 +226,14 @@ class SuiMultisigAccountPublicKey extends SuiAccountPublicKey {
     if (keys.length != publicKeys.length) {
       throw DartSuiPluginException("Duplicate public key detected.");
     }
-    if (threshold < 1 || threshold >= mask16) {
+    if (keys.length > SuiAccountConst.multisigAccountMaxPublicKey) {
       throw DartSuiPluginException(
-          "Invalid threshold. Must be between 1 and $mask16.");
+          "Exceeded the maximum allowed public keys for a multisig account.");
+    }
+    if (threshold < SuiAccountConst.multisigAccountMinThreshold ||
+        threshold > SuiAccountConst.multisigAccountMaxThreshold) {
+      throw DartSuiPluginException(
+          "Invalid threshold. Must be between ${SuiAccountConst.multisigAccountMinThreshold} and ${SuiAccountConst.multisigAccountMaxThreshold}.");
     }
     final sumWeight = publicKeys.fold<int>(0, (p, c) => p + c.weight);
     if (sumWeight < threshold) {

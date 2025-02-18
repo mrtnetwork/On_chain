@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/bcs/move/move.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/transaction/types/types.dart';
@@ -418,6 +419,8 @@ abstract class SuiApiObjectError {
     }
     return this as T;
   }
+
+  String get errorMessage;
 }
 
 class SuiApiObjectErrorNotExists extends SuiApiObjectError {
@@ -431,6 +434,9 @@ class SuiApiObjectErrorNotExists extends SuiApiObjectError {
   Map<String, dynamic> toJson() {
     return {"object_id": objectId, "code": code.name};
   }
+
+  @override
+  String get errorMessage => "Object $objectId does not exists.";
 }
 
 class SuiApiObjectErrorDynamicFieldNotFound extends SuiApiObjectError {
@@ -446,6 +452,9 @@ class SuiApiObjectErrorDynamicFieldNotFound extends SuiApiObjectError {
   Map<String, dynamic> toJson() {
     return {"parent_object_id": parentObjectId, "code": code.name};
   }
+
+  @override
+  String get errorMessage => "Dynamic field $parentObjectId not found.";
 }
 
 class SuiApiObjectErrorDeleted extends SuiApiObjectError {
@@ -470,6 +479,9 @@ class SuiApiObjectErrorDeleted extends SuiApiObjectError {
       "code": code.name
     };
   }
+
+  @override
+  String get errorMessage => "Object $objectId deleted.";
 }
 
 class SuiApiObjectErrorUnknown extends SuiApiObjectError {
@@ -478,6 +490,9 @@ class SuiApiObjectErrorUnknown extends SuiApiObjectError {
   Map<String, dynamic> toJson() {
     return {"code": code.name};
   }
+
+  @override
+  String get errorMessage => "Unknown error";
 }
 
 class SuiApiObjectErrorDisplayError extends SuiApiObjectError {
@@ -491,6 +506,9 @@ class SuiApiObjectErrorDisplayError extends SuiApiObjectError {
   Map<String, dynamic> toJson() {
     return {"code": code.name, "error": error};
   }
+
+  @override
+  String get errorMessage => error;
 }
 
 class SuiApiDisplayFields {
@@ -593,14 +611,14 @@ class SuiApiObjectOwnerObjectOwner extends SuiApiObjectOwner {
 }
 
 class SuiApiShared {
-  final String initialSharedVersion;
+  final BigInt initialSharedVersion;
   const SuiApiShared(this.initialSharedVersion);
   factory SuiApiShared.fromJson(Map<String, dynamic> json) {
-    return SuiApiShared(json.as("initial_shared_version"));
+    return SuiApiShared(json.asBigInt("initial_shared_version"));
   }
 
   Map<String, dynamic> toJson() {
-    return {"initial_shared_version": initialSharedVersion};
+    return {"initial_shared_version": initialSharedVersion.toString()};
   }
 }
 
@@ -682,17 +700,17 @@ class SuiApiObjectData {
   final SuiApiParsedData? content;
   final String digest;
   final SuiApiDisplayFields? display;
-  final String objectId;
+  final SuiAddress objectId;
   final SuiApiObjectOwner? owner;
   final String? previousTransaction;
   final String? storageRebate;
   final String? type;
-  final String version;
+  final BigInt version;
 
   SuiObjectRef toObjectRef() {
     return SuiObjectRef(
-        address: SuiAddress(objectId),
-        version: BigInt.parse(version),
+        address: objectId,
+        version: version,
         digest: SuiObjectDigest.fromBase58(digest));
   }
 
@@ -719,14 +737,14 @@ class SuiApiObjectData {
         display: json["display"] == null
             ? null
             : SuiApiDisplayFields.fromJson(json.asMap("display")),
-        objectId: json.as("objectId"),
-        owner: json["onwer"] == null
+        objectId: SuiAddress(json.as("objectId")),
+        owner: json["owner"] == null
             ? null
             : SuiApiObjectOwner.fromJson(json.as("owner")),
         previousTransaction: json.as("previousTransaction"),
         storageRebate: json.as("storageRebate"),
         type: json.as("type"),
-        version: json.as("version"));
+        version: json.asBigInt("version"));
   }
   Map<String, dynamic> toJson() {
     return {
@@ -734,12 +752,12 @@ class SuiApiObjectData {
       "content": content?.toJson(),
       "digest": digest,
       "display": display?.toJson(),
-      "objectId": objectId,
+      "objectId": objectId.address,
       "owner": owner?.toJson(),
       "previousTransaction": previousTransaction,
       "storageRebate": storageRebate,
       "type": type,
-      "version": version
+      "version": version.toString()
     };
   }
 }
@@ -1326,6 +1344,17 @@ class SuiApiTransactionBlockResponseOptions {
       this.showObjectChanges,
       this.showRawEffects,
       this.showRawInput});
+  factory SuiApiTransactionBlockResponseOptions.fromJson(
+      Map<String, dynamic> json) {
+    return SuiApiTransactionBlockResponseOptions(
+        showBalanceChange: json["showBalanceChange"],
+        showEffects: json["showEffects"],
+        showEvents: json["showEvents"],
+        showInput: json["showInput"],
+        showObjectChanges: json["showObjectChanges"],
+        showRawEffects: json["showRawEffects"],
+        showRawInput: json["showRawInput"]);
+  }
   Map<String, dynamic> toJson() {
     return {
       "showBalanceChange": showBalanceChange,
@@ -3506,6 +3535,8 @@ abstract class SuiApiMoveNormalizedType {
     }
     return this as T;
   }
+
+  MoveType? toSuiCallArgPrue({Object? value});
 }
 
 class SuiApiMoveNormalizedTypePrimitive extends SuiApiMoveNormalizedType {
@@ -3519,13 +3550,45 @@ class SuiApiMoveNormalizedTypePrimitive extends SuiApiMoveNormalizedType {
   Map<String, dynamic> toJson() {
     return {"type": type.name};
   }
+
+  @override
+  MoveType? toSuiCallArgPrue({Object? value}) {
+    return switch (type) {
+      SuiApiMoveNormalizedTypes.u8 => MoveU8.parse(value),
+      SuiApiMoveNormalizedTypes.u16 => MoveU16.parse(value),
+      SuiApiMoveNormalizedTypes.u32 => MoveU32.parse(value),
+      SuiApiMoveNormalizedTypes.u64 => MoveU64.parse(value),
+      SuiApiMoveNormalizedTypes.u128 => MoveU128.parse(value),
+      SuiApiMoveNormalizedTypes.u256 => MoveU256.parse(value),
+      SuiApiMoveNormalizedTypes.address => MoveAddress.parse(value),
+      _ => null
+    } as MoveType?;
+  }
 }
 
 class SuiApiMoveNormalizedTypeStructObject {
-  final String address;
+  final SuiAddress address;
   final String module;
   final String name;
   final List<SuiApiMoveNormalizedType> typeArguments;
+
+  bool get isOption =>
+      address == SuiAddress.one && name == 'Option' && module == 'option';
+  bool get isTxContext =>
+      address == SuiAddress.two &&
+      name == 'TxContext' &&
+      module == 'tx_context';
+  bool get isString =>
+      address == SuiAddress.one &&
+      name == 'String' &&
+      (module == 'string' || module == "ascii");
+
+  bool get isObject =>
+      address == SuiAddress.two && name == 'ID' && module == 'object';
+
+  bool get isReceiving =>
+      address == SuiAddress.two && name == 'Receiving' && module == 'transfer';
+
   const SuiApiMoveNormalizedTypeStructObject(
       {required this.address,
       required this.module,
@@ -3534,7 +3597,7 @@ class SuiApiMoveNormalizedTypeStructObject {
   factory SuiApiMoveNormalizedTypeStructObject.fromJson(
       Map<String, dynamic> json) {
     return SuiApiMoveNormalizedTypeStructObject(
-        address: json.as("address"),
+        address: SuiAddress(json.as("address")),
         module: json.as("module"),
         name: json.as("name"),
         typeArguments: (json["typeArguments"] as List)
@@ -3549,6 +3612,31 @@ class SuiApiMoveNormalizedTypeStructObject {
       "name": name,
       "typeArguments": typeArguments.map((e) => e.toJson()).toList()
     };
+  }
+
+  MoveType? toSuiCallArgPrue({Object? value}) {
+    if (isObject) {
+      return MoveAddress.parse(value);
+    } else if (isString) {
+      return MoveString.parse(value);
+    } else if (isOption) {
+      if (value == null) {
+        return MoveOption<MoveBool>(null);
+      }
+      if (value is MoveOption) {
+        if (value.value == null) {
+          return MoveOption<MoveBool>(null);
+        }
+        return MoveOption<MoveType>(
+            typeArguments[0].toSuiCallArgPrue(value: value.value)!);
+      }
+      final type = typeArguments[0].toSuiCallArgPrue(value: value);
+      if (type == null) {
+        return MoveOption<MoveBool>(null);
+      }
+      return MoveOption<MoveType>(type);
+    }
+    return null;
   }
 }
 
@@ -3568,6 +3656,11 @@ class SuiApiMoveNormalizedTypeStruct extends SuiApiMoveNormalizedType {
       "struct": struct.toJson(),
     };
   }
+
+  @override
+  MoveType? toSuiCallArgPrue({Object? value}) {
+    return struct.toSuiCallArgPrue(value: value);
+  }
 }
 
 class SuiApiMoveNormalizedTypeVector extends SuiApiMoveNormalizedType {
@@ -3585,6 +3678,18 @@ class SuiApiMoveNormalizedTypeVector extends SuiApiMoveNormalizedType {
       "Vector": vector.toJson(),
     };
   }
+
+  @override
+  MoveType? toSuiCallArgPrue({Object? value}) {
+    if (value is MoveVector) {
+      return MoveVector((value.value as List).map((e) {
+        return vector.toSuiCallArgPrue(value: e)!;
+      }).toList());
+    }
+    return MoveVector((value as List)
+        .map((e) => vector.toSuiCallArgPrue(value: e)!)
+        .toList());
+  }
 }
 
 class SuiApiMoveNormalizedTypeTypeParameter extends SuiApiMoveNormalizedType {
@@ -3601,6 +3706,11 @@ class SuiApiMoveNormalizedTypeTypeParameter extends SuiApiMoveNormalizedType {
       "type": type.name,
       "TypeParameter": typeParameter,
     };
+  }
+
+  @override
+  MoveType? toSuiCallArgPrue({Object? value}) {
+    return null;
   }
 }
 
@@ -3620,6 +3730,11 @@ class SuiApiMoveNormalizedTypeReference extends SuiApiMoveNormalizedType {
       "Reference": reference.toJson(),
     };
   }
+
+  @override
+  MoveType? toSuiCallArgPrue({Object? value}) {
+    return reference.toSuiCallArgPrue(value: value);
+  }
 }
 
 class SuiApiMoveNormalizedTypeMutableReference
@@ -3638,6 +3753,11 @@ class SuiApiMoveNormalizedTypeMutableReference
       "type": type.name,
       "MutableReference": mutableReference.toJson(),
     };
+  }
+
+  @override
+  MoveType? toSuiCallArgPrue({Object? value}) {
+    return mutableReference.toSuiCallArgPrue(value: value);
   }
 }
 

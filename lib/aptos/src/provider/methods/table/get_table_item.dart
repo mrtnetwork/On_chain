@@ -1,7 +1,7 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Get a table item at a specific ledger version from the table identified by {table_handle} in the path and the
 /// \"key\" (TableItemRequest) provided in the request body.This is a POST endpoint because the \"key\"

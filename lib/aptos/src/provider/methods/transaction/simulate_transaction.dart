@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// The output of the transaction will have the exact transaction outputs and events that runningan actual signed
 /// transaction would have.  However, it will not have the associated statehashes,
@@ -11,8 +12,8 @@ import 'package:on_chain/aptos/src/provider/core/core.dart';
 /// To use this endpoint with BCS, you must submit a SignedTransactionencoded as BCS.
 /// See SignedTransaction in types/src/transaction/mod.rs.
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
-class AptosRequestSimulateTransaction
-    extends AptosPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
+class AptosRequestSimulateTransaction extends AptosPostRequest<
+    List<AptosApiUserTransaction>, List<Map<String, dynamic>>> {
   final List<int> signedTransactionData;
   final bool? estimateMaxGasAmount;
   final bool? estimateGasUnitPrice;
@@ -41,4 +42,9 @@ class AptosRequestSimulateTransaction
 
   @override
   List<int> get body => signedTransactionData;
+
+  @override
+  List<AptosApiUserTransaction> onResonse(List<Map<String, dynamic>> result) {
+    return result.map((e) => AptosApiUserTransaction.fromJson(e)).toList();
+  }
 }

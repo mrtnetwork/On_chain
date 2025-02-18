@@ -2,6 +2,7 @@ import 'package:blockchain_utils/utils/binary/utils.dart';
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
+import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/bcs/serialization/serialization.dart';
 
@@ -58,4 +59,12 @@ abstract class AptosAccountPublicKey extends BcsSerialization
   /// signature must a valid aptos signature serialized as BCS (AnySignature,ED25519Signature,MultiKeySignature or...);
   bool verifySignature(
       {required List<int> message, required List<int> signature});
+
+  T cast<T extends AptosAccountPublicKey>() {
+    if (this is! T) {
+      throw DartAptosPluginException("Invalid public key.",
+          details: {"expected": "$T", "type": scheme.name});
+    }
+    return this as T;
+  }
 }

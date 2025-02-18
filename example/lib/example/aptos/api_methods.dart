@@ -2,7 +2,9 @@ import 'package:on_chain/on_chain.dart';
 import 'provider_example.dart';
 
 final AptosProvider aptosProvider =
-    AptosProvider(AptosHttpService("https://api.testnet.aptoslabs.com/"));
+    AptosProvider(AptosHttpService("https://api.testnet.aptoslabs.com/v1/"));
+final AptosProvider aptosGraphQl = AptosProvider(
+    AptosHttpService("https://api.testnet.aptoslabs.com/v1/graphql"));
 Future<AptosApiAccountData> getAccountInfo(AptosAddress address) async {
   final r =
       await aptosProvider.request(AptosRequestGetAccount(address: address));
@@ -15,10 +17,16 @@ Future<BigInt> getAccountSequence(AptosAddress address) async {
   return r.sequenceNumber;
 }
 
-Future<String> simulate(AptosSignedTransaction transaction) async {
+Future<String> submitTransaction(AptosSignedTransaction transaction) async {
   final r = await aptosProvider.request(AptosRequestSubmitTransaction(
       signedTransactionData: transaction.toBcs()));
   return r.hash;
+}
+
+Future<List<AptosApiUserTransaction>> simulateTransaction(
+    AptosSignedTransaction transaction) async {
+  return await aptosProvider.request(AptosRequestSimulateTransaction(
+      signedTransactionData: transaction.toBcs()));
 }
 
 Future<int> getChainId() async {

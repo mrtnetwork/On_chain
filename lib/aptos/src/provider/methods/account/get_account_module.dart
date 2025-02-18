@@ -1,7 +1,7 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Retrieves an individual module from a given account and at a specific ledger version.
 /// If theledger version is not specified in the request, the latest ledger version is used.

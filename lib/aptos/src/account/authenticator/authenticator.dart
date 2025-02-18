@@ -39,6 +39,8 @@ enum AptosAccountAuthenticators {
 
 /// Base class for Aptos account authenticators, representing different authentication types.
 abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
+  AptosSignature get signature;
+
   /// type of authenticator
   final AptosAccountAuthenticators type;
   const AptosAccountAuthenticator({required this.type});
@@ -97,6 +99,14 @@ abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
 
   @override
   String get variantName => type.name;
+
+  T cast<T extends AptosAccountAuthenticator>() {
+    if (this is! T) {
+      throw DartAptosPluginException("Invalid account authenticated.",
+          details: {"expected": "$T", "type": type.name});
+    }
+    return this as T;
+  }
 }
 
 /// Represents an Ed25519 signature for Aptos account authentication.
@@ -238,6 +248,7 @@ class AptosAccountAuthenticatorEd25519 extends AptosAccountAuthenticator {
   final AptosED25519PublicKey publicKey;
 
   /// The Ed25519 signature used for authentication.
+  @override
   final AptosEd25519Signature signature;
   AptosAccountAuthenticatorEd25519(
       {required this.publicKey, required this.signature})
@@ -293,13 +304,13 @@ class AptosMultiEd25519Signature extends AptosSignature {
   factory AptosMultiEd25519Signature(
       {required List<AptosEd25519Signature> signatures,
       required List<int> bitmap}) {
-    if (signatures.length > AptosTransactionCost.maxSignatureLength) {
+    if (signatures.length > AptosConstants.maxSignatureLength) {
       throw DartAptosPluginException(
-          "Signature length exceeds the maximum allowed limit of ${AptosTransactionCost.maxSignatureLength}.");
+          "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.");
     }
-    if (bitmap.length != AptosTransactionCost.bitmapLength) {
+    if (bitmap.length != AptosConstants.bitmapLength) {
       throw DartAptosPluginException(
-          "Bitmap length must be exactly ${AptosTransactionCost.bitmapLength}",
+          "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
           details: {"length": bitmap.length});
     }
     return AptosMultiEd25519Signature._(signatures: signatures, bitmap: bitmap);
@@ -307,16 +318,15 @@ class AptosMultiEd25519Signature extends AptosSignature {
 
   factory AptosMultiEd25519Signature.fromStruct(Map<String, dynamic> json) {
     final List<int> signature = json.asBytes("signature");
-    if ((signature.length - AptosTransactionCost.bitmapLength) %
+    if ((signature.length - AptosConstants.bitmapLength) %
             CryptoSignerConst.ed25519SignatureLength !=
         0) {
       throw DartAptosPluginException(
           "Invalid MultiEd25519 signature bytes length.",
           details: {"length": signature.length});
     }
-    final signatureLength =
-        (signature.length - AptosTransactionCost.bitmapLength) ~/
-            CryptoSignerConst.ed25519SignatureLength;
+    final signatureLength = (signature.length - AptosConstants.bitmapLength) ~/
+        CryptoSignerConst.ed25519SignatureLength;
     return AptosMultiEd25519Signature(
         signatures: List.generate(signatureLength, (i) {
           final index = i * CryptoSignerConst.ed25519SignatureLength;
@@ -467,6 +477,7 @@ class AptosAccountAuthenticatorMultiEd25519 extends AptosAccountAuthenticator {
   final AptosMultiEd25519AccountPublicKey publicKey;
 
   /// The MultiEd25519 signature used for the account authentication.
+  @override
   final AptosMultiEd25519Signature signature;
   AptosAccountAuthenticatorMultiEd25519(
       {required this.publicKey, required this.signature})
@@ -513,13 +524,13 @@ class AptosMultiKeySignature extends AptosSignature {
   factory AptosMultiKeySignature(
       {required List<AptosAnySignature> signatures,
       required List<int> bitmap}) {
-    if (signatures.length > AptosTransactionCost.maxSignatureLength) {
+    if (signatures.length > AptosConstants.maxSignatureLength) {
       throw DartAptosPluginException(
-          "Signature length exceeds the maximum allowed limit of ${AptosTransactionCost.maxSignatureLength}.");
+          "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.");
     }
-    if (bitmap.length != AptosTransactionCost.bitmapLength) {
+    if (bitmap.length != AptosConstants.bitmapLength) {
       throw DartAptosPluginException(
-          "Bitmap length must be exactly ${AptosTransactionCost.bitmapLength}",
+          "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
           details: {"length": bitmap.length});
     }
     return AptosMultiKeySignature._(signatures: signatures, bitmap: bitmap);
@@ -589,6 +600,7 @@ class AptosAccountAuthenticatorMultiKey extends AptosAccountAuthenticator {
   final AptosMultiKeyAccountPublicKey publicKey;
 
   /// The multi-key signature, which contains the signatures and their validity.
+  @override
   final AptosMultiKeySignature signature;
   AptosAccountAuthenticatorMultiKey(
       {required this.publicKey, required this.signature})
@@ -627,6 +639,7 @@ class AptosAccountAuthenticatorSingleKey extends AptosAccountAuthenticator {
   final AptosCryptoPublicKey publicKey;
 
   /// The signature associated with the public key, can be Ed25519 or Secp256k1.
+  @override
   final AptosAnySignature signature;
 
   AptosAccountAuthenticatorSingleKey(
@@ -638,6 +651,7 @@ class AptosAccountAuthenticatorSingleKey extends AptosAccountAuthenticator {
         publicKey: AptosCryptoPublicKey.fromStruct(json.asMap("publicKey")),
         signature: AptosAnySignature.fromStruct(json.asMap("signature")));
   }
+
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosCryptoPublicKey.layout(property: "publicKey"),
@@ -678,4 +692,8 @@ class AptosAccountAuthenticatorNoAccountAuthenticator
   Map<String, dynamic> toLayoutStruct() {
     return {};
   }
+
+  @override
+  AptosSignature get signature => throw DartAptosPluginException(
+      "The signature is unavailable in `NoAccountAuthenticator`");
 }

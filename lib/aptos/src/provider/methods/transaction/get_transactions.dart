@@ -1,6 +1,6 @@
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Retrieve on-chain committed transactions. The page size and start ledger version can be provided
 /// to get a specific sequence of transactions.

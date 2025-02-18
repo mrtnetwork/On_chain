@@ -69,7 +69,7 @@ void main() async {
           sender: authenticator,
           feePayerAuthenticator: payerAuthenticator,
           feePayerAddress: payerAccount.toAddress()));
-  await simulate(signedTx);
+  await submitTransaction(signedTx);
 
   /// https://explorer.aptoslabs.com/txn/0x496884cf2aa8d2b47b17351a695edc996884dee7398f97e60e4bfa18d2575c21?network=testnet
 }

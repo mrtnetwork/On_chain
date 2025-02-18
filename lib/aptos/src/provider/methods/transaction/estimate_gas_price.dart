@@ -1,6 +1,6 @@
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Gives an estimate of the gas unit price required to get a transaction on chain in areasonable amount of time.
 /// The gas unit price is the amount that each transaction commits topay for each unit of gas consumed in

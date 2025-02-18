@@ -49,5 +49,5 @@ void main() async {
       authenticator: AptosTransactionAuthenticatorEd25519(
           publicKey: authenticator.publicKey,
           signature: authenticator.signature));
-  await simulate(signedTx);
+  await submitTransaction(signedTx);
 }

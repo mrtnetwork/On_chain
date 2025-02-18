@@ -43,7 +43,7 @@ void main() async {
       authenticator: AptosTransactionAuthenticatorEd25519(
           publicKey: authenticator.publicKey,
           signature: authenticator.signature));
-  await simulate(signedTx);
+  await submitTransaction(signedTx);
 
   /// https://explorer.aptoslabs.com/txn/0xeeb34e1318db474aeff5a9d43d53a0203936346cb63e4731c9d75e18798d0501?network=testnet
 }

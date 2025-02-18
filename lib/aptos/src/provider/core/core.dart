@@ -3,10 +3,11 @@ import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/provider/constant/constants.dart';
 import 'package:on_chain/aptos/src/provider/utils/utils.dart';
 
+enum AptosRequestType { fullnode, graphQl }
+
 abstract class AptosRequest<RESULT, RESPONSE>
     extends BaseServiceRequest<RESULT, RESPONSE, AptosRequestDetails> {
   AptosRequest();
-
   @override
   RequestServiceType get requestType => RequestServiceType.post;
 
@@ -57,31 +58,64 @@ abstract class AptosPostRequest<RESULT, RESPONSE>
   }
 }
 
+abstract class AptosGraphQLRequest<RESULT, RESPONSE>
+    extends AptosRequest<RESULT, RESPONSE> {
+  Map<String, dynamic> get queryVariables => {};
+
+  Map<String, String>? get headers => null;
+
+  @override
+  RequestServiceType get requestType => RequestServiceType.post;
+
+  @override
+  AptosRequestDetails buildRequest(int requestID) {
+    final Map<String, dynamic> body = {
+      "query": method,
+      "variables": queryVariables
+    };
+    return AptosRequestDetails(
+        requestID: requestID,
+        requestType: RequestServiceType.post,
+        pathParams: '',
+        aptosRequestType: AptosRequestType.graphQl,
+        headers: headers ?? ServiceConst.defaultPostHeaders,
+        params: StringUtils.encode(StringUtils.fromJson(body)),
+        errorStatusCodes: AptosProviderConst.graphQlErrorStatusCodes);
+  }
+}
+
 class AptosRequestDetails extends BaseServiceRequestParams {
   const AptosRequestDetails(
       {required super.requestID,
       required this.pathParams,
       super.headers = const {},
+      this.aptosRequestType = AptosRequestType.fullnode,
       RequestServiceType requestType = RequestServiceType.get,
+      List<int>? errorStatusCodes,
       this.params})
       : super(
             type: requestType,
-            errorStatusCodes: AptosProviderConst.errorStatusCodes,
+            errorStatusCodes:
+                errorStatusCodes ?? AptosProviderConst.errorStatusCodes,
             successStatusCodes: AptosProviderConst.successStatusCodes);
 
-  AptosRequestDetails copyWith(
-      {int? requestID,
-      String? pathParams,
-      RequestServiceType? type,
-      Map<String, String>? headers,
-      List<int>? params}) {
+  AptosRequestDetails copyWith({
+    int? requestID,
+    String? pathParams,
+    RequestServiceType? type,
+    Map<String, String>? headers,
+    List<int>? params,
+    AptosRequestType? aptosRequestType,
+    List<int>? errorStatusCodes,
+  }) {
     return AptosRequestDetails(
-      requestID: requestID ?? this.requestID,
-      pathParams: pathParams ?? this.pathParams,
-      requestType: type ?? this.type,
-      headers: headers ?? this.headers,
-      params: params ?? this.params,
-    );
+        requestID: requestID ?? this.requestID,
+        pathParams: pathParams ?? this.pathParams,
+        requestType: type ?? this.type,
+        headers: headers ?? this.headers,
+        params: params ?? this.params,
+        aptosRequestType: aptosRequestType ?? this.aptosRequestType,
+        errorStatusCodes: errorStatusCodes ?? this.errorStatusCodes);
   }
 
   /// URL path parameters
@@ -89,21 +123,19 @@ class AptosRequestDetails extends BaseServiceRequestParams {
 
   final List<int>? params;
 
+  final AptosRequestType aptosRequestType;
+
   @override
   List<int>? body() {
     return params;
   }
 
   @override
-  Uri toUri(String uri, {String version = 'v1'}) {
-    String url = uri;
-    if (!url.contains(version)) {
-      if (url.endsWith('/')) {
-        url = url + version;
-      } else {
-        url = '$url/$version';
-      }
+  Uri toUri(String uri) {
+    if (aptosRequestType == AptosRequestType.graphQl) {
+      return Uri.parse(uri);
     }
+    String url = uri;
     if (url.endsWith('/')) {
       url = url.substring(0, url.length - 1);
     }

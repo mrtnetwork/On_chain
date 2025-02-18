@@ -1,4 +1,6 @@
+import 'package:blockchain_utils/crypto/quick_crypto.dart';
 import 'package:blockchain_utils/helper/helper.dart';
+import 'package:blockchain_utils/utils/binary/utils.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
@@ -9,11 +11,16 @@ class AptosTransactionUtils {
   static List<int> generateSigningDigest(List<int> txBody,
       {bool withData = false}) {
     if (withData) {
-      return [...AptosTransactionCost.rawTransactionWithDataSalt, ...txBody]
+      return [...AptosConstants.rawTransactionWithDataSalt, ...txBody]
           .asImmutableBytes;
     }
-    return [...AptosTransactionCost.rawTransactionSalt, ...txBody]
-        .asImmutableBytes;
+    return [...AptosConstants.rawTransactionSalt, ...txBody].asImmutableBytes;
+  }
+
+  /// generate transaction hash from signed tx.
+  static String generateTransactionHash(List<int> txBody) {
+    return BytesUtils.toHexString(QuickCrypto.sha3256Hash(
+        [...AptosConstants.transactionHashDomain, 0, ...txBody]));
   }
 
   // Validates whether the input string is a valid Aptos identifier.

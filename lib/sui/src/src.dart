@@ -6,3 +6,4 @@ export 'rpc/rpc.dart';
 export 'transaction/transaction.dart';
 export 'utils/sui_helper.dart';
 export 'intent/intent.dart';
+export 'utils/function.dart';

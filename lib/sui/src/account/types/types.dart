@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/layout/constant/constant.dart';
 import 'package:blockchain_utils/layout/core/core/core.dart';
-import 'package:blockchain_utils/utils/binary/binary_operation.dart';
 import 'package:blockchain_utils/utils/compare/hash_code.dart';
+import 'package:on_chain/sui/src/account/constant/constant.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/keypair/keypair.dart';
 import 'package:on_chain/bcs/serialization.dart';
@@ -23,9 +23,10 @@ class SuiMultisigPublicKeyInfo extends BcsSerialization {
   /// Factory constructor with validation for public key and weight constraints.
   factory SuiMultisigPublicKeyInfo(
       {required SuiCryptoPublicKey publicKey, required int weight}) {
-    if (weight < 1 || weight >= mask8) {
+    if (weight < SuiAccountConst.multisigAccountPublicKeyMinWeight ||
+        weight > SuiAccountConst.multisigAccountPublicKeyMaxWeight) {
       throw DartSuiPluginException(
-          "Invalid signer weight. Weight must be between 1 and $mask8.");
+          "Invalid signer weight. Weight must be between ${SuiAccountConst.multisigAccountPublicKeyMinWeight} and ${SuiAccountConst.multisigAccountPublicKeyMaxWeight}.");
     }
     return SuiMultisigPublicKeyInfo._(publicKey: publicKey, weight: weight);
   }

@@ -1,11 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
+import 'package:on_chain/sui/src/keypair/constant/constant.dart';
 import 'package:on_chain/sui/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/sui/src/keypair/keys/secp256k1.dart';
 import 'package:on_chain/sui/src/keypair/keys/secp256r1.dart';
 import 'package:on_chain/sui/src/keypair/types/types.dart';
 import 'package:on_chain/bcs/serialization/serialization.dart';
+import 'package:on_chain/sui/src/keypair/utils/utils.dart';
 
 /// Abstract class defining a contract for authentication key schemes
 abstract class SuiAuthenticationKeyScheme {
@@ -29,6 +31,33 @@ enum SuiKeyAlgorithm implements SuiAuthenticationKeyScheme {
         orElse: () => throw DartSuiPluginException(
             "cannot find Key Algorithm from the given name.",
             details: {"name": name}));
+  }
+
+  static SuiKeyAlgorithm fromFlag(int flag) {
+    return values.firstWhere((e) => e.flag == flag,
+        orElse: () => throw DartSuiPluginException(
+            "cannot find Key Algorithm from the given flag.",
+            details: {"flag": flag}));
+  }
+
+  static SuiKeyAlgorithm fromEllipticCurveType(EllipticCurveTypes type) {
+    return switch (type) {
+      EllipticCurveTypes.ed25519 => SuiKeyAlgorithm.ed25519,
+      EllipticCurveTypes.secp256k1 => SuiKeyAlgorithm.secp256k1,
+      EllipticCurveTypes.nist256p1 ||
+      EllipticCurveTypes.nist256p1Hybrid =>
+        SuiKeyAlgorithm.secp256r1,
+      _ => throw DartSuiPluginException("Unsuported Elliptic curve type.",
+          details: {"algorithm": type.name})
+    };
+  }
+
+  EllipticCurveTypes get curveType {
+    return switch (this) {
+      SuiKeyAlgorithm.ed25519 => EllipticCurveTypes.ed25519,
+      SuiKeyAlgorithm.secp256k1 => EllipticCurveTypes.secp256k1,
+      SuiKeyAlgorithm.secp256r1 => EllipticCurveTypes.nist256p1
+    };
   }
 }
 
@@ -56,6 +85,27 @@ abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey> {
   final SuiKeyAlgorithm algorithm;
   const SuiBasePrivateKey({required this.algorithm});
 
+  /// Decodes a Sui Bech32 secret key into its corresponding private key.
+  ///
+  /// Takes a [secretKey] as a Bech32-encoded string and returns the private key.
+  factory SuiBasePrivateKey.fromSuiSecretKey(String secretKey) {
+    try {
+      final decode = SuiCryptoUtils.decodeSuiSecretKey(secretKey);
+      final algorithm = decode.$1;
+      final keyBytes = decode.$2;
+      return switch (algorithm) {
+        SuiKeyAlgorithm.ed25519 => SuiED25519PrivateKey.fromBytes(keyBytes),
+        SuiKeyAlgorithm.secp256k1 => SuiSecp256k1PrivateKey.fromBytes(keyBytes),
+        SuiKeyAlgorithm.secp256r1 => SuiSecp256r1PrivateKey.fromBytes(keyBytes)
+      } as SuiBasePrivateKey<PUBLICKEY>;
+    } on DartSuiPluginException {
+      rethrow;
+    } catch (e) {
+      throw DartSuiPluginException("Invalid sui secret key.",
+          details: {"error": e.toString()});
+    }
+  }
+
   /// private key bytes
   List<int> toBytes();
 
@@ -67,6 +117,15 @@ abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey> {
 
   /// public key
   abstract final PUBLICKEY publicKey;
+
+  /// Encodes the Sui private key to a Bech32 string.
+  ///
+  /// The encoded format includes the `suiprivkey` HRP,
+  /// the key scheme flag, and the secret key bytes.
+  String toSuiPrivateKey() {
+    return Bech32Encoder.encode(
+        SuiKeypairConst.suiPrivateKeyPrefix, [algorithm.flag, ...toBytes()]);
+  }
 }
 
 abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
@@ -74,15 +133,27 @@ abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
   final SuiKeyAlgorithm algorithm;
   final PUBLICKEY publicKey;
 
+  T cast<T extends SuiCryptoPublicKey>() {
+    if (this is! T) {
+      throw DartSuiPluginException("Invalid public key.",
+          details: {"expected": "$T", "type": algorithm.name});
+    }
+    return this as T;
+  }
+
+  factory SuiCryptoPublicKey.fromBytes(
+      {required List<int> keyBytes, required SuiKeyAlgorithm algorithm}) {
+    final SuiCryptoPublicKey key = switch (algorithm) {
+      SuiKeyAlgorithm.secp256r1 => SuiSecp256r1PublicKey.fromBytes(keyBytes),
+      SuiKeyAlgorithm.secp256k1 => SuiSecp256k1PublicKey.fromBytes(keyBytes),
+      SuiKeyAlgorithm.ed25519 => SuiED25519PublicKey.fromBytes(keyBytes)
+    } as SuiCryptoPublicKey;
+    return key.cast();
+  }
+
   /// verify signature
   bool verify({required List<int> message, required List<int> signature});
 
-  // /// verify personal message
-  // bool verifyPersonalMessage(
-  //     {required List<int> message, required List<int> signature}) {
-  //   final digest = QuickCrypto.blake2b256Hash(message);
-  //   return verify(message: digest, signature: signature);
-  // }
   /// generate address from public key
   SuiAddress toAddress();
 

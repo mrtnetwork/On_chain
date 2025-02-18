@@ -120,26 +120,13 @@ void _testMultiEdAccount3() {
         AptosED25519PrivateKey.fromBytes(List<int>.filled(32, 12));
     final privateKey3 =
         AptosED25519PrivateKey.fromBytes(List<int>.filled(32, 12));
-    final account = AptosMultiEd25519AccountPublicKey(publicKeys: [
-      privateKey1.publicKey,
-      privateKey2.publicKey,
-      privateKey3.publicKey
-    ], threshold: 2);
     expect(
-        account.toAddress(),
-        AptosAddress(
-            "0x46b83ee243d37f8754a0bd90505b58bb19a098840e90ec11934192f04267fc41"));
-    expect(account.toBcsHex(),
-        "610b513ad9b4924015ca0902ed079044d3ac5dbec2306f06948c10da8eb6e39f2d0b513ad9b4924015ca0902ed079044d3ac5dbec2306f06948c10da8eb6e39f2d0b513ad9b4924015ca0902ed079044d3ac5dbec2306f06948c10da8eb6e39f2d02");
-
-    final decode =
-        AptosMultiEd25519AccountPublicKey.deserialize(account.toBcs());
-    expect(decode.toBcsHex(), account.toBcsHex());
-    expect(decode.toHex(),
-        "0b513ad9b4924015ca0902ed079044d3ac5dbec2306f06948c10da8eb6e39f2d0b513ad9b4924015ca0902ed079044d3ac5dbec2306f06948c10da8eb6e39f2d0b513ad9b4924015ca0902ed079044d3ac5dbec2306f06948c10da8eb6e39f2d02");
-    final fromBytes =
-        AptosMultiEd25519AccountPublicKey.fromBytes(account.toBytes());
-    expect(account.toAddress(), fromBytes.toAddress());
+        () => AptosMultiEd25519AccountPublicKey(publicKeys: [
+              privateKey1.publicKey,
+              privateKey2.publicKey,
+              privateKey3.publicKey
+            ], threshold: 2),
+        throwsA(TypeMatcher<DartAptosPluginException>()));
   });
 }
 

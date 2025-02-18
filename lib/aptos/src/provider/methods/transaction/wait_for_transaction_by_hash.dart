@@ -1,6 +1,6 @@
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Same as /transactions/by_hash, but will wait for a pending transaction to be committed.
 /// To be used as a longpoll optimization by clients, to reduce latency caused by polling.

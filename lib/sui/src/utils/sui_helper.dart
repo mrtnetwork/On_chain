@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/sui/sui.dart';
 
 /// Helper class for converting SUI to Mist and vice versa with 9 decimal precision.
 class SuiHelper {
@@ -15,5 +16,12 @@ class SuiHelper {
   static String toSui(BigInt mist) {
     final price = BigRational(mist);
     return (price / _suiDecimal).toDecimal(digits: decimal);
+  }
+
+  static String generateTransactionDigest(List<int> transactionData) {
+    return Base58Encoder.encode(QuickCrypto.blake2b256Hash([
+      ...StringUtils.encode(SuiTransactionConst.transactionDataDomain),
+      ...transactionData
+    ]));
   }
 }

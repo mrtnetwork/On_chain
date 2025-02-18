@@ -1,7 +1,7 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// This API uses the given account `address`, `eventHandle`, and `fieldName`to build a key that
 /// can globally identify an event types. It then uses thiskey to return events emitted to

@@ -1,9 +1,10 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/transaction/transaction.dart';
 
-class AptosTransactionCost {
+class AptosConstants {
   static int maxSignatureLength = 32;
   static int bitmapLength = 4;
+  static int decimal = 8;
   static const List<int> rawTransactionSalt = [
     181,
     233,
@@ -72,7 +73,40 @@ class AptosTransactionCost {
     230,
     124
   ];
-
+  static const List<int> transactionHashDomain = [
+    250,
+    33,
+    10,
+    148,
+    23,
+    239,
+    62,
+    127,
+    164,
+    91,
+    250,
+    29,
+    23,
+    168,
+    219,
+    212,
+    216,
+    131,
+    113,
+    25,
+    16,
+    165,
+    80,
+    210,
+    101,
+    254,
+    225,
+    137,
+    233,
+    38,
+    109,
+    212
+  ];
   static final AptosStructTag object = AptosStructTag(
       address: AptosAddress.one, moduleName: 'object', name: 'Object');
   static final AptosStructTag string = AptosStructTag(
@@ -92,4 +126,13 @@ class AptosTransactionCost {
   static final aptosCoinTypeStructArgs = AptosTypeTagStruct(AptosStructTag(
       address: AptosAddress.one, moduleName: "aptos_coin", name: "AptosCoin"));
   static final BigInt defaultMaxGasAmount = BigInt.from(200000);
+  static final BigInt defaultMinGasAmount = BigInt.from(15000);
+  static const String aptosCoinAssetType = "0x1::aptos_coin::AptosCoin";
+  static final AptosTypeTagStruct fungibleAssetMetadataTypeTag =
+      AptosTypeTagStruct(AptosStructTag(
+          address: AptosAddress.one,
+          moduleName: "fungible_asset",
+          name: "Metadata"));
+  static final primaryFungibleStoreModule =
+      AptosModuleId(address: AptosAddress.one, name: "primary_fungible_store");
 }

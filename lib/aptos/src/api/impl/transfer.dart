@@ -69,8 +69,7 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
       sequenceNumber:
           params?.sequenceNumber ?? await getAccountSequence(sender),
       transactionPayload: transactionPayload,
-      maxGasAmount:
-          params?.maxGasAmount ?? AptosTransactionCost.defaultMaxGasAmount,
+      maxGasAmount: params?.maxGasAmount ?? AptosConstants.defaultMaxGasAmount,
       gasUnitPrice: params?.gasUnitPrice ?? await getGasPrice(),
       expirationTimestampSecs: expire,
       chainId: params?.chainId ?? await getChainId(),
@@ -124,8 +123,8 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
   }) {
     final transactionPayload = AptosTransactionPayloadEntryFunction(
       entryFunction: AptosTransactionEntryFunction(
-        moduleId: AptosTransactionCost.publishModuleModuleId,
-        functionName: AptosTransactionCost.publishModuleFunctionName,
+        moduleId: AptosConstants.publishModuleModuleId,
+        functionName: AptosConstants.publishModuleFunctionName,
         args: [
           MoveU8Vector(metadataBytes),
           MoveVector<MoveVector<MoveU8>>(

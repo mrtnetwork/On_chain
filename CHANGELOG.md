@@ -1,3 +1,9 @@
+## 6.1.0
+
+- Update dependencies.
+- Added Support for aptos graphQL.
+- Fix Sui multisig address validator
+
 ## 6.0.0
 
 - Update dependencies.

@@ -1,6 +1,6 @@
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Look up a transaction by its hash. This is the same hash that is returnedby
 /// the API when submitting a transaction (see PendingTransaction).

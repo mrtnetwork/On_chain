@@ -32,8 +32,8 @@ class AptosSecp256k1PrivateKey extends AptosBasePrivateKey<
   }
 
   @override
-  String toHex({bool lowerCase = false}) {
-    return _privateKey.toHex(lowerCase: lowerCase);
+  String toHex({bool lowerCase = true, String prefix = ''}) {
+    return _privateKey.toHex(lowerCase: lowerCase, prefix: prefix);
   }
 }
 

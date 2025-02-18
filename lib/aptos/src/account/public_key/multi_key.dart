@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
+import 'package:on_chain/aptos/src/account/constant/constants.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
@@ -7,17 +8,6 @@ import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/bcs/serialization.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
-
-class _AptosMultiKeyAccountConst {
-  /// Max number of keys in the multi-signature account
-  static const int maximumKeys = 32;
-
-  /// Minimum number of keys required
-  static const int minKeys = 2;
-
-  /// Minimum threshold of required signatures
-  static const int minthreshold = 1;
-}
 
 class AptosMultiKeyAccountPublicKey extends AptosAccountPublicKey {
   /// List of public keys
@@ -31,20 +21,28 @@ class AptosMultiKeyAccountPublicKey extends AptosAccountPublicKey {
       : publicKeys = publicKeys.immutable,
         requiredSignature = requiredSignature.asUint8,
         super(scheme: AptosSigningScheme.multikey);
-  factory AptosMultiKeyAccountPublicKey({
-    required List<AptosCryptoPublicKey> publicKeys,
-    required int requiredSignature,
-  }) {
-    if (publicKeys.length < _AptosMultiKeyAccountConst.minKeys ||
-        publicKeys.length > _AptosMultiKeyAccountConst.maximumKeys) {
-      throw DartAptosPluginException(
-          "The number of public keys provided is invalid. It must be between ${_AptosMultiKeyAccountConst.minKeys} and ${_AptosMultiKeyAccountConst.maximumKeys}.");
+  factory AptosMultiKeyAccountPublicKey(
+      {required List<AptosCryptoPublicKey> publicKeys,
+      required int requiredSignature}) {
+    final keys = publicKeys.toSet();
+    if (keys.length != publicKeys.length) {
+      throw DartAptosPluginException("Duplicate public key detected.");
     }
-    if (requiredSignature < _AptosMultiKeyAccountConst.minthreshold ||
-        requiredSignature > publicKeys.length) {
+    if (requiredSignature < AptosAccountConst.mulitKeyMinRequiredSignature ||
+        requiredSignature > AptosAccountConst.multiKeyMaxRequiredSignature) {
       throw DartAptosPluginException(
-          "Invalid threshold. The threshold must be between ${_AptosMultiKeyAccountConst.minthreshold} and the number of provided public keys (${publicKeys.length}).");
+          "Invalid required signature. The required signature must be between ${AptosAccountConst.mulitKeyMinRequiredSignature} and ${AptosAccountConst.multiKeyMaxRequiredSignature}.");
     }
+    if (publicKeys.length < AptosAccountConst.mulitKeyMinRequiredSignature ||
+        publicKeys.length > AptosAccountConst.multiKeyMaxKeys) {
+      throw DartAptosPluginException(
+          "The number of public keys provided is invalid. It must be between ${AptosAccountConst.mulitKeyMinRequiredSignature} and ${AptosAccountConst.multiKeyMaxKeys}.");
+    }
+    if (publicKeys.length < requiredSignature) {
+      throw DartAptosPluginException(
+          "The number of public keys must be at least equal to the required signatures.");
+    }
+
     return AptosMultiKeyAccountPublicKey._(
         publicKeys: publicKeys, requiredSignature: requiredSignature);
   }

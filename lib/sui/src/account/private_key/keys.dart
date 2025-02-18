@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/sui/src/account/core/account.dart';
 import 'package:on_chain/sui/src/account/public_key/keys.dart';
-import 'package:on_chain/sui/src/keypair/utils/utils.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/keypair/keypair.dart';
 

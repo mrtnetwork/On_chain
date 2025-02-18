@@ -1268,7 +1268,11 @@ class AptosRawTransaction extends BcsSerialization {
       ]);
 }
 
-class AptosMultiAgentTransaction extends BcsSerialization {
+abstract class AptosAnyTransaction extends BcsSerialization {
+  const AptosAnyTransaction();
+}
+
+class AptosMultiAgentTransaction extends AptosAnyTransaction {
   final AptosRawTransaction rawTransaction;
   final List<AptosAddress> secondarySignerAddresses;
   final AptosAddress? feePayerAddress;
@@ -1317,6 +1321,46 @@ class AptosMultiAgentTransaction extends BcsSerialization {
       "feePayerAddress": feePayerAddress?.toLayoutStruct(),
       "secondarySignerAddresses":
           secondarySignerAddresses.map((e) => e.toLayoutStruct()).toList()
+    };
+  }
+}
+
+class AptosSimpleTransaction extends AptosAnyTransaction {
+  final AptosRawTransaction rawTransaction;
+  final AptosAddress? feePayerAddress;
+
+  AptosSimpleTransaction({required this.rawTransaction, this.feePayerAddress});
+
+  factory AptosSimpleTransaction.deserialize(List<int> bytes) {
+    final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
+    return AptosSimpleTransaction.fromStruct(decode);
+  }
+  factory AptosSimpleTransaction.fromStruct(Map<String, dynamic> json) {
+    return AptosSimpleTransaction(
+        rawTransaction:
+            AptosRawTransaction.fromStruct(json.asMap("rawTransaction")),
+        feePayerAddress: json.mybeAs<AptosAddress, Map<String, dynamic>>(
+            key: "feePayerAddress",
+            onValue: (e) => AptosAddress.fromStruct(e)));
+  }
+
+  static Layout<Map<String, dynamic>> layout({String? property}) {
+    return LayoutConst.struct([
+      AptosRawTransaction.layout(property: "rawTransaction"),
+      LayoutConst.optional(AptosAddress.layout(), property: "feePayerAddress"),
+    ], property: property);
+  }
+
+  @override
+  Layout<Map<String, dynamic>> createLayout({String? property}) {
+    return layout(property: property);
+  }
+
+  @override
+  Map<String, dynamic> toLayoutStruct() {
+    return {
+      "rawTransaction": rawTransaction.toLayoutStruct(),
+      "feePayerAddress": feePayerAddress?.toLayoutStruct()
     };
   }
 }
@@ -1472,8 +1516,8 @@ class AptosTransactionAuthenticatorMultiAgent
   final List<AptosAccountAuthenticator> secondarySigner;
   AptosTransactionAuthenticatorMultiAgent({
     required this.sender,
-    required List<AptosAddress> secondarySignerAddressess,
-    required List<AptosAccountAuthenticator> secondarySigner,
+    List<AptosAddress> secondarySignerAddressess = const [],
+    List<AptosAccountAuthenticator> secondarySigner = const [],
   })  : secondarySignerAddressess = secondarySignerAddressess.toImutableList,
         secondarySigner = secondarySigner.toImutableList,
         super(type: AptosTransactionAuthenticators.multiAgent);
@@ -1611,10 +1655,8 @@ class AptosSignedTransaction extends BcsSerialization {
   final AptosRawTransaction rawTransaction;
   final AptosTransactionAuthenticator authenticator;
 
-  const AptosSignedTransaction({
-    required this.rawTransaction,
-    required this.authenticator,
-  });
+  const AptosSignedTransaction(
+      {required this.rawTransaction, required this.authenticator});
   factory AptosSignedTransaction.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosSignedTransaction.fromStruct(decode);
@@ -1646,6 +1688,11 @@ class AptosSignedTransaction extends BcsSerialization {
       "rawTransaction": rawTransaction.toLayoutStruct(),
       "authenticator": authenticator.toVariantLayoutStruct()
     };
+  }
+
+  /// generate transaction hash
+  String txHash() {
+    return AptosTransactionUtils.generateTransactionHash(toBcs());
   }
 }
 

@@ -157,6 +157,14 @@ enum SuiTypeInputs {
     };
   }
 
+  static SuiTypeInputs? find(String? name) {
+    if (name == 'bool') {
+      return SuiTypeInputs.boolean;
+    }
+    return values
+        .firstWhereNullable((e) => e.name.toLowerCase() == name?.toLowerCase());
+  }
+
   static SuiTypeInputs fromName(String name) {
     return values.firstWhere((e) => e.name == name,
         orElse: () => throw DartSuiPluginException(
@@ -1657,6 +1665,10 @@ abstract class SuiTransactionData extends BcsVariantSerialization {
 
   @override
   String get variantName => version.name;
+
+  String txHash() {
+    return SuiHelper.generateTransactionDigest(toVariantBcs());
+  }
 }
 
 class SuiTransactionDataV1 extends SuiTransactionData {

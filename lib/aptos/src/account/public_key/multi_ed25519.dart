@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
+import 'package:on_chain/aptos/src/account/constant/constants.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
@@ -7,17 +8,6 @@ import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/bcs/serialization.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
-
-class _AptosMultiEd25519AccountConst {
-  /// Max number of keys in the multi-signature account
-  static const int maximumKeys = 32;
-
-  /// Minimum number of keys required
-  static const int minKeys = 2;
-
-  /// Minimum threshold of required signatures
-  static const int minthreshold = 1;
-}
 
 class AptosMultiEd25519AccountPublicKey extends AptosAccountPublicKey {
   /// List of public keys
@@ -33,15 +23,19 @@ class AptosMultiEd25519AccountPublicKey extends AptosAccountPublicKey {
   factory AptosMultiEd25519AccountPublicKey(
       {required List<AptosED25519PublicKey> publicKeys,
       required int threshold}) {
-    if (publicKeys.length < _AptosMultiEd25519AccountConst.minKeys ||
-        publicKeys.length > _AptosMultiEd25519AccountConst.maximumKeys) {
-      throw DartAptosPluginException(
-          "The number of public keys provided is invalid. It must be between ${_AptosMultiEd25519AccountConst.minKeys} and ${_AptosMultiEd25519AccountConst.maximumKeys}.");
+    final keys = publicKeys.toSet();
+    if (keys.length != publicKeys.length) {
+      throw DartAptosPluginException("Duplicate public key detected.");
     }
-    if (threshold < _AptosMultiEd25519AccountConst.minthreshold ||
+    if (publicKeys.length < AptosAccountConst.multiEd25519MinKeys ||
+        publicKeys.length > AptosAccountConst.multiEd25519MaxKeys) {
+      throw DartAptosPluginException(
+          "The number of public keys provided is invalid. It must be between ${AptosAccountConst.multiEd25519MinKeys} and ${AptosAccountConst.multiEd25519MaxKeys}.");
+    }
+    if (threshold < AptosAccountConst.multiEd25519MinThreshold ||
         threshold > publicKeys.length) {
       throw DartAptosPluginException(
-          "Invalid threshold. The threshold must be between ${_AptosMultiEd25519AccountConst.minthreshold} and the number of provided public keys (${publicKeys.length}).");
+          "Invalid threshold. The threshold must be between ${AptosAccountConst.multiEd25519MinThreshold} and the number of provided public keys (${publicKeys.length}).");
     }
     return AptosMultiEd25519AccountPublicKey._(
         publicKeys: publicKeys, threshold: threshold);

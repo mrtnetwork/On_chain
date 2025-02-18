@@ -37,10 +37,10 @@ class AptosHelper {
   static AptosTransactionEntryFunction createCoinTransferEntry(
       AptosTransferParams transfer) {
     return AptosTransactionEntryFunction(
-        moduleId: AptosTransactionCost.systemFrameworkCoinModuleId,
-        functionName: AptosTransactionCost.transferFunctionName,
+        moduleId: AptosConstants.systemFrameworkCoinModuleId,
+        functionName: AptosConstants.transferFunctionName,
         typeArgs: [
-          AptosTransactionCost.aptosCoinTypeStructArgs,
+          AptosConstants.aptosCoinTypeStructArgs,
         ],
         args: [
           transfer.destination,
@@ -52,8 +52,8 @@ class AptosHelper {
   static AptosTransactionEntryFunction createAccountTransferEntry(
       AptosTransferParams transfer) {
     return AptosTransactionEntryFunction(
-        moduleId: AptosTransactionCost.systemFrameworkAccountModuleId,
-        functionName: AptosTransactionCost.transferFunctionName,
+        moduleId: AptosConstants.systemFrameworkAccountModuleId,
+        functionName: AptosConstants.transferFunctionName,
         args: [transfer.destination, MoveU64(transfer.apt)]);
   }
 
@@ -62,8 +62,8 @@ class AptosHelper {
   static AptosTransactionEntryFunction createBatchTransferTransferEntry(
       List<AptosTransferParams> transfers) {
     return AptosTransactionEntryFunction(
-        moduleId: AptosTransactionCost.systemFrameworkAccountModuleId,
-        functionName: AptosTransactionCost.batchTransferFunctionName,
+        moduleId: AptosConstants.systemFrameworkAccountModuleId,
+        functionName: AptosConstants.batchTransferFunctionName,
         typeArgs: [],
         args: [
           MoveVector<MoveAddress>(transfers.map((e) => e.destination).toList()),

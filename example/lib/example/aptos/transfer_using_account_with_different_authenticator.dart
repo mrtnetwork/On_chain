@@ -48,7 +48,7 @@ void main() async {
   final signedTx = AptosSignedTransaction(
       rawTransaction: transaction,
       authenticator: AptosTransactionAuthenticatorSignleSender(authenticator));
-  await simulate(signedTx);
+  await submitTransaction(signedTx);
 
   /// https://explorer.aptoslabs.com/txn/0xca98b094a215b68c1d1ef8f6a27111b9a6975b9ea7634a8323c3b40676855907?network=testnet
 }

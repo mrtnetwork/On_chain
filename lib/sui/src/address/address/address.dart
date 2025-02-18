@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/bcs/serialization.dart';
+import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
 
 /// Represents a Sui blockchain address with utilities for serialization and comparison.
@@ -7,13 +8,34 @@ class SuiAddress extends MoveAddress {
   /// The string representation of the Sui address.
   final String address;
 
+  static final SuiAddress one = SuiAddress(
+      "0x0000000000000000000000000000000000000000000000000000000000000001");
+
+  static final SuiAddress two = SuiAddress(
+      "0x0000000000000000000000000000000000000000000000000000000000000002");
+
   /// Private constructor for initializing the Sui address.
   SuiAddress._(this.address, super.value);
 
   /// Creates a Sui address from a hexadecimal string.
   factory SuiAddress(String address) {
-    final bytes = SuiAddressUtils.addressToBytes(address);
-    return SuiAddress.fromBytes(bytes);
+    address = StringUtils.strip0x(address);
+    List<int>? toBytes =
+        BytesUtils.tryFromHexString(address, paddingZero: address.length == 1);
+    if (toBytes == null) {
+      throw DartSuiPluginException("Invalid sui address.",
+          details: {"address": address});
+    }
+
+    /// handle special addresses.
+    if (toBytes.length == 1) {
+      final byte = toBytes[0];
+      if (byte < 10) {
+        toBytes = List.filled(SuiAddrConst.addressBytesLength, 0);
+        toBytes.last = byte;
+      }
+    }
+    return SuiAddress.fromBytes(toBytes);
   }
 
   /// Creates a Sui address from a byte array.

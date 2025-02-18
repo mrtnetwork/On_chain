@@ -1,6 +1,6 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/exception/exception.dart';
-import 'package:on_chain/aptos/src/provider/models/models/types.dart';
+import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
 import 'package:on_chain/bcs/move/types/types.dart';
 
@@ -25,7 +25,7 @@ class AptosFunctionEntryArgumentUtils {
       paramsString = paramsString.sublist(signerIndex);
     }
     final tags = paramsString
-        .map((e) => AptosFunctionEntryArgumentUtils._parseTag(e))
+        .map((e) => AptosFunctionEntryArgumentUtils.parseTag(e))
         .toList();
     if (tags.length != values.length) {
       throw DartAptosPluginException(
@@ -46,9 +46,9 @@ class AptosFunctionEntryArgumentUtils {
     });
   }
 
-  static AptosTypeTag _parseTag(String name) {
+  static AptosTypeTag parseTag(String name) {
     if (name.startsWith("&")) {
-      return AptosTypeTagReference(_parseTag(name.substring(1)));
+      return AptosTypeTagReference(parseTag(name.substring(1)));
     }
     final type = AptosTypeTags.find(name);
     switch (type) {
@@ -89,22 +89,30 @@ class AptosFunctionEntryArgumentUtils {
           if (name.length != typeName.length) {
             final rawParts =
                 _extractFirstGeneric(name.substring(typeName.length));
-            final parts = rawParts
-                ?.split(",")
-                .map((e) => e.trim())
-                .where((e) => e.isNotEmpty)
-                .toList();
-
-            if (parts == null || parts.isEmpty) {
+            List<String> genericParts = [];
+            if (rawParts != null) {
+              int bracketCount = 0;
+              int lastSplit = 0;
+              for (int i = 0; i < rawParts.length; i++) {
+                if (rawParts[i] == '<') bracketCount++;
+                if (rawParts[i] == '>') bracketCount--;
+                if (rawParts[i] == ',' && bracketCount == 0) {
+                  genericParts.add(rawParts.substring(lastSplit, i).trim());
+                  lastSplit = i + 1;
+                }
+              }
+              genericParts.add(rawParts.substring(lastSplit).trim());
+            }
+            if (genericParts.isEmpty) {
               throw DartAptosPluginException(
-                  "Invalid type arguments extracted from '$name' after removing '$typeName'. "
-                  "Expected comma-separated values, but got: '${rawParts ?? 'null'}'.");
+                  "Invalid type arguments generic parts.",
+                  details: {"parts": name.substring(typeName.length)});
             }
             try {
-              typeArgs = parts.map((e) => _parseTag(e)).toList();
+              typeArgs = genericParts.map((e) => parseTag(e)).toList();
             } catch (e) {
               throw DartAptosPluginException(
-                  "Failed to parse type arguments from parts: $parts. "
+                  "Failed to parse type arguments from parts: $genericParts. "
                   "Error: ${e.toString()}");
             }
           }
@@ -119,7 +127,7 @@ class AptosFunctionEntryArgumentUtils {
         }
         if (_isVector(name)) {
           final c = _extractFirstGeneric(name);
-          return AptosTypeTagVector(_parseTag(c!));
+          return AptosTypeTagVector(parseTag(c!));
         }
         throw DartAptosPluginException(
             "Unknown type tag. Failed to parse the provided input: '$name'.");

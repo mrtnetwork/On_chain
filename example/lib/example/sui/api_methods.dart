@@ -25,22 +25,27 @@ Future<List<SuiApiCoinResponse>> getCoins(SuiAddress address) async {
 Future<SuiTransactionDataV1> filledGasPayment(SuiTransactionDataV1 tx) async {
   final coins = await getCoins(tx.gasData.owner);
   final kind = tx.kind.cast<SuiTransactionKindProgrammableTransaction>();
-  final objectsInput = kind.transaction.inputs.whereType<SuiCallArgObject>();
-  final filterCoins = coins
-      .where((e) {
-        for (final i in objectsInput) {
-          if (i.object.type == SuiObjectArgs.immOrOwnedObject) {
-            final imm = i.object.cast<SuiObjectArgImmOrOwnedObject>();
-            if (imm.immOrOwnedObject.address == e.coinObjectId) return false;
-          }
-          return true;
-        }
-        return true;
-      })
-      .map((e) => e.toObjectRef())
+  final ownedObjectAddresses = kind.transaction.inputs
+      .whereType<SuiCallArgObject>()
+      .map((e) => e.object)
+      .whereType<SuiObjectArgImmOrOwnedObject>()
+      .map((e) => e.immOrOwnedObject.address);
+
+  List<SuiApiCoinResponse> filterCoins = coins
+      .where((e) => !ownedObjectAddresses.contains(e.coinObjectId))
       .toList();
-  assert(filterCoins.isNotEmpty);
-  return tx.copyWith(gasData: tx.gasData.copyWith(payment: filterCoins));
+  assert(filterCoins.isNotEmpty, "leak of gas token");
+  List<SuiObjectRef> gasTokens = [];
+  final BigInt gasBudget = tx.gasData.budget;
+  BigInt sum = BigInt.zero;
+  for (final i in filterCoins) {
+    gasTokens.add(i.toObjectRef());
+    sum += i.balance;
+    if (sum >= gasBudget) break;
+  }
+  assert(sum >= gasBudget,
+      "Insufficient balance: required ${SuiHelper.toSui(gasBudget)} available: ${SuiHelper.toSui(sum)}");
+  return tx.copyWith(gasData: tx.gasData.copyWith(payment: gasTokens));
 }
 
 Future<SuiApiTransactionBlockResponse> excuteTx(
