@@ -16,7 +16,7 @@ class ProtocolBufferDecoder {
         case 2:
           final decodeLength = _decodeVarint(bytes.sublist(index));
           index += decodeLength.consumed;
-          results.add(ProtocolBufferDecoderResult(
+          results.add(ProtocolBufferDecoderResult<List<int>>(
               tagNumber: fieldId,
               value: bytes.sublist(index, index + decodeLength.value)));
           index += decodeLength.value;

@@ -1,6 +1,6 @@
+import 'package:blockchain_utils/signer/const/constants.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/signer/eth/evm_signer.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -95,8 +95,8 @@ class Secp256k1Layout extends ProgramLayout {
     return Secp256k1Layout.fromEthAddress(
         address: address,
         message: message,
-        signature: sigBytes.sublist(0, ETHSignerConst.ethSignatureLength),
-        recoveryId: sigBytes[ETHSignerConst.ethSignatureLength],
+        signature: sigBytes.sublist(0, CryptoSignerConst.ecdsaSignatureLength),
+        recoveryId: sigBytes[CryptoSignerConst.ecdsaSignatureLength],
         instructionIndex: instructionIndex);
   }
 
@@ -134,7 +134,8 @@ class Secp256k1Layout extends ProgramLayout {
     LayoutConst.u16(property: 'messageDataSize'),
     LayoutConst.u8(property: 'messageInstructionIndex'),
     LayoutConst.blob(ETHAddress.lengthInBytes, property: 'ethAddress'),
-    LayoutConst.blob(ETHSignerConst.ethSignatureLength, property: 'signature'),
+    LayoutConst.blob(CryptoSignerConst.ecdsaSignatureLength,
+        property: 'signature'),
     LayoutConst.u8(property: 'recoveryId')
   ]);
 

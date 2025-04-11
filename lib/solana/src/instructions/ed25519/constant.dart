@@ -7,5 +7,5 @@ class Ed25519ProgramConst {
   static const SolAddress programId =
       SolAddress.unchecked('Ed25519SigVerify111111111111111111111111111');
 
-  static final int signatureLen = Ed25519SignerConst.signatureLen;
+  static final int signatureLen = CryptoSignerConst.ed25519SignatureLength;
 }

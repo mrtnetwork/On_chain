@@ -60,7 +60,7 @@ class TronPublicKey {
         useEthPrefix: useEthereumPrefix);
   }
 
-  static TronPublicKey? fromPersonalSignature(
+  static TronPublicKey fromPersonalSignature(
       List<int> messageDigest, String signature,
       {bool hashMessage = true,
       int? payloadLength,
@@ -70,12 +70,8 @@ class TronPublicKey {
         hashMessage: hashMessage,
         payloadLength: payloadLength,
         useEthPrefix: useEthereumPrefix);
-    if (publicKey != null) {
-      final pubKey =
-          Secp256k1PublicKeyEcdsa.fromBytes(publicKey.point.toBytes());
-      return TronPublicKey._(pubKey);
-    }
-    return null;
+    final pubKey = Secp256k1PublicKeyEcdsa.fromBytes(publicKey.point.toBytes());
+    return TronPublicKey._(pubKey);
   }
 
   /// Override of the toString method to return the hexadecimal representation of the public key

@@ -16,7 +16,7 @@ void main() {
         'fde00bc33d78109bc61de314c1c0526a047e22a2aaae473ca84b32d8aa35ed3e03720e05d614087e3d8c6fae63879755b32aa08818a2d4de66fee1a617a971671b');
     expect(verify, true);
     final publicKey = TronPublicKey.fromPersonalSignature(messagae, sign);
-    expect(publicKey?.toHex(), privateKey.publicKey().toHex());
+    expect(publicKey.toHex(), privateKey.publicKey().toHex());
   });
   test('personal sign 2', () {
     final privateKey = TronPrivateKey(
@@ -29,7 +29,7 @@ void main() {
         'b243c5e8a4d674873acf2d2c0bc144abbd31f4076cba890fb9a98aad85e9b3c26e522137c0cdb1b8d85569677745d366625326a5c6c245dde72ea87901b7ac8c1b');
     expect(verify, true);
     final publicKey = TronPublicKey.fromPersonalSignature(messagae, sign);
-    expect(publicKey?.toHex(), privateKey.publicKey().toHex());
+    expect(publicKey.toHex(), privateKey.publicKey().toHex());
   });
   test('personal sign 3', () {
     final privateKey = TronPrivateKey(
@@ -44,7 +44,7 @@ void main() {
     expect(verify, true);
     final publicKey = TronPublicKey.fromPersonalSignature(messagae, sign,
         useEthereumPrefix: true);
-    expect(publicKey?.toHex(), privateKey.publicKey().toHex());
+    expect(publicKey.toHex(), privateKey.publicKey().toHex());
   });
   test('personal sign 4', () {
     final privateKey = TronPrivateKey(
@@ -58,7 +58,7 @@ void main() {
     expect(verify, true);
     final publicKey = TronPublicKey.fromPersonalSignature(messagae, sign,
         useEthereumPrefix: true, payloadLength: 32);
-    expect(publicKey?.toHex(), privateKey.publicKey().toHex());
+    expect(publicKey.toHex(), privateKey.publicKey().toHex());
   });
   test('personal sign 5', () {
     final privateKey = TronPrivateKey(
@@ -78,6 +78,6 @@ void main() {
     expect(verify, true);
     final publicKey = TronPublicKey.fromPersonalSignature(hashedMessage, sign,
         hashMessage: false);
-    expect(publicKey?.toHex(), privateKey.publicKey().toHex());
+    expect(publicKey.toHex(), privateKey.publicKey().toHex());
   });
 }

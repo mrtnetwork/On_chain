@@ -25,7 +25,7 @@ class Transaction extends TronProtocolBufferImpl {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return Transaction(
         rawData: TransactionRaw.deserialize(decode.getField(1)),
-        signature: decode.getField<List<List<int>>?>(2) ?? const []);
+        signature: decode.getFields<List<int>>(2));
   }
 
   /// The raw data of the transaction.

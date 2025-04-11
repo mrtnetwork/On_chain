@@ -26,3 +26,4 @@ export 'src/utils/helper.dart';
 
 /// All related ethereum exception
 export 'src/exception/exception.dart';
+export 'src/eip_4361/eip_4361.dart';

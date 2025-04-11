@@ -1,6 +1,11 @@
 ## 6.2.0
 
 - Update dependencies.
+- Support for EIP4631
+
+## 6.2.0
+
+- Update dependencies.
 
 ## 6.1.0
 

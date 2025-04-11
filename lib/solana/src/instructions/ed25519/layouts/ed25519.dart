@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/signer/signer.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
@@ -126,7 +125,7 @@ class Ed25519ProgramLayout extends ProgramLayout {
     final pubKey = data.sublist(
         publicKeyOffset, publicKeyOffset + Ed25519KeysConst.pubKeyByteLen);
     final signature = data.sublist(
-        signatureOffset, signatureOffset + Ed25519SignerConst.signatureLen);
+        signatureOffset, signatureOffset + Ed25519ProgramConst.signatureLen);
     final message = data.sublist(messageOffset, messageOffset + messageSize);
     return Ed25519ProgramLayout._(
       numSignatures: decode['numSignatures'],
