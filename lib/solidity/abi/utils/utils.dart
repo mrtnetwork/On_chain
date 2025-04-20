@@ -73,7 +73,7 @@ class _ABIUtils {
           int.tryParse(sizeString.substring(1, sizeString.length - 1));
       if (parseSize == null) {
         throw const SolidityAbiException(
-            'Invalid array type name. size in invalid.');
+            'Invalid fixed-size arrays. length is invalid.');
       }
       size = parseSize;
     }
