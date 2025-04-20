@@ -1,4 +1,4 @@
-## 6.4.0
+## 6.5.0
 
 - Fix solidity abi fixed-size arrays encoding/decoding
 - Add more abi serialization test.

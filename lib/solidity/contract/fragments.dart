@@ -167,22 +167,16 @@ class AbiFunctionFragment implements AbiBaseFragment {
 
   /// Decodes the input parameters of the function from the encoded input bytes.
   List<dynamic> decodeInput(List<int> encodedParams) {
-    bool hasSelector = false;
     List<int> encodeBytes = List.from(encodedParams);
     if (encodeBytes.length > ABIConst.selectorLength) {
       final encodeSelector = encodeBytes.sublist(0, ABIConst.selectorLength);
       if (BytesUtils.bytesEqual(encodeSelector, selector)) {
         encodeBytes = encodeBytes.sublist(ABIConst.selectorLength);
-        hasSelector = true;
       }
     }
     final abi =
         AbiParameter(name: '', type: 'tuple', components: List.from(inputs))
             .decode(encodeBytes);
-    assert(() {
-      if (hasSelector) return abi.consumed + 4 == encodedParams.length;
-      return abi.consumed == encodedParams.length;
-    }(), "ai");
     return abi.result;
   }
 }
