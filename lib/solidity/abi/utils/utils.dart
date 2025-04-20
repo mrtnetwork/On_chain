@@ -67,7 +67,7 @@ class _ABIUtils {
     final int arrayParenthesisStart = abi.type.lastIndexOf('[');
     final String arrayParamType = abi.type.substring(0, arrayParenthesisStart);
     final String sizeString = abi.type.substring(arrayParenthesisStart);
-    const int size = -1;
+    int size = -1;
     if (sizeString != '[]') {
       final parseSize =
           int.tryParse(sizeString.substring(1, sizeString.length - 1));
@@ -75,6 +75,7 @@ class _ABIUtils {
         throw const SolidityAbiException(
             'Invalid array type name. size in invalid.');
       }
+      size = parseSize;
     }
     return Tuple(
         AbiParameter(

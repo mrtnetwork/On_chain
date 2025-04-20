@@ -1,4 +1,9 @@
-## 6.2.0
+## 6.4.0
+
+- Fix solidity abi fixed-size arrays encoding/decoding
+- Add more abi serialization test.
+
+## 6.3.0
 
 - Update dependencies.
 - Support for EIP4631

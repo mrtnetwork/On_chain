@@ -38,6 +38,15 @@ class SolidityAddress {
   String toHex() => _hexAddress;
 
   @override
+  operator ==(other) {
+    if (other is! SolidityAddress) return false;
+    return _hexAddress == other._hexAddress;
+  }
+
+  @override
+  int get hashCode => _hexAddress.hashCode;
+
+  @override
   String toString() {
     return _hexAddress;
   }
