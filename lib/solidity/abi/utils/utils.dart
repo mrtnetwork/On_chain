@@ -129,7 +129,7 @@ class _ABIValidator {
 
   /// Determines if a numeric type is signed based on its name.
   ///
-  /// Throws [ArgumentException] for an invalid type that is not "int" or "uint".
+  /// Throws [SolidityAbiException] for an invalid type that is not "int" or "uint".
   static bool isSignNumber(String type) {
     if (type.startsWith('int')) return true;
     if (type.startsWith('uint')) return false;

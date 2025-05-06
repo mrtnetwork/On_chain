@@ -8,12 +8,12 @@ class TronPublicKey {
   const TronPublicKey._(this._publicKey);
 
   /// Private field to store the Secp256k1 public key
-  final Secp256k1PublicKeyEcdsa _publicKey;
+  final Secp256k1PublicKey _publicKey;
 
   /// Factory method to create a TronPublicKey from a list of key bytes
   factory TronPublicKey.fromBytes(List<int> keyBytes) {
     try {
-      final pubKey = Secp256k1PublicKeyEcdsa.fromBytes(keyBytes);
+      final pubKey = Secp256k1PublicKey.fromBytes(keyBytes);
       return TronPublicKey._(pubKey);
     } catch (e) {
       throw TronPluginException('invalid tron public key',
@@ -70,7 +70,7 @@ class TronPublicKey {
         hashMessage: hashMessage,
         payloadLength: payloadLength,
         useEthPrefix: useEthereumPrefix);
-    final pubKey = Secp256k1PublicKeyEcdsa.fromBytes(publicKey.point.toBytes());
+    final pubKey = Secp256k1PublicKey.fromBytes(publicKey.point.toBytes());
     return TronPublicKey._(pubKey);
   }
 

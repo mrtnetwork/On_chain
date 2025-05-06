@@ -21,7 +21,7 @@ void main() {
         chainId: BigInt.from(97),
         gasPrice: BigInt.from(5000000000));
     final serialize = transaction.serialized;
-    final sign = signer.sign(serialize);
+    final sign = signer.signConst(serialize);
     final signedSerialize = transaction.signedSerialized(sign);
 
     final decode = ETHTransaction.fromSerialized(signedSerialize);

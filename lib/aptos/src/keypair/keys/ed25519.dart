@@ -25,7 +25,7 @@ class AptosED25519PrivateKey extends AptosBasePrivateKey<AptosED25519PublicKey,
   @override
   AptosEd25519AnySignature sign(List<int> digest) {
     final signer = Ed25519Signer.fromKeyBytes(toBytes());
-    return AptosEd25519AnySignature(signer.sign(digest));
+    return AptosEd25519AnySignature(signer.signConst(digest));
   }
 
   @override

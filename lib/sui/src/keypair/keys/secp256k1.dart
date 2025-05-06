@@ -6,7 +6,7 @@ import 'package:on_chain/utils/utils/map_utils.dart';
 
 /// Represents a Sui secp256k1 private key with signing capabilities.
 class SuiSecp256k1PrivateKey extends SuiBasePrivateKey<SuiSecp256k1PublicKey> {
-  final Secp256k1PrivateKeyEcdsa _privateKey;
+  final Secp256k1PrivateKey _privateKey;
 
   /// Private constructor to initialize the secp256k1 private key.
   SuiSecp256k1PrivateKey._(this._privateKey)
@@ -14,21 +14,20 @@ class SuiSecp256k1PrivateKey extends SuiBasePrivateKey<SuiSecp256k1PublicKey> {
 
   /// Creates an instance from raw private key bytes.
   factory SuiSecp256k1PrivateKey.fromBytes(List<int> keyBytes) {
-    return SuiSecp256k1PrivateKey._(
-        Secp256k1PrivateKeyEcdsa.fromBytes(keyBytes));
+    return SuiSecp256k1PrivateKey._(Secp256k1PrivateKey.fromBytes(keyBytes));
   }
 
   /// Returns the corresponding public key for the private key.
   @override
   late final SuiSecp256k1PublicKey publicKey =
-      SuiSecp256k1PublicKey._(_privateKey.publicKey as Secp256k1PublicKeyEcdsa);
+      SuiSecp256k1PublicKey._(_privateKey.publicKey);
 
   /// Signs a digest and returns the signature.
   @override
   SuiGenericSignature sign(List<int> digest) {
     final signer = Secp256k1Signer.fromKeyBytes(toBytes());
     return SuiGenericSignature(
-        signature: signer.sign(digest), algorithm: algorithm);
+        signature: signer.signConst(digest), algorithm: algorithm);
   }
 
   /// Returns the raw bytes of the private key.
@@ -45,15 +44,14 @@ class SuiSecp256k1PrivateKey extends SuiBasePrivateKey<SuiSecp256k1PublicKey> {
 }
 
 /// Represents a Sui secp256k1 public key with verification capabilities.
-class SuiSecp256k1PublicKey
-    extends SuiCryptoPublicKey<Secp256k1PublicKeyEcdsa> {
+class SuiSecp256k1PublicKey extends SuiCryptoPublicKey<Secp256k1PublicKey> {
   /// Private constructor to initialize the secp256k1 public key.
-  const SuiSecp256k1PublicKey._(Secp256k1PublicKeyEcdsa publicKey)
+  const SuiSecp256k1PublicKey._(Secp256k1PublicKey publicKey)
       : super(algorithm: SuiKeyAlgorithm.secp256k1, publicKey: publicKey);
 
   /// Creates an instance from raw public key bytes.
   factory SuiSecp256k1PublicKey.fromBytes(List<int> keyBytes) {
-    return SuiSecp256k1PublicKey._(Secp256k1PublicKeyEcdsa.fromBytes(keyBytes));
+    return SuiSecp256k1PublicKey._(Secp256k1PublicKey.fromBytes(keyBytes));
   }
 
   factory SuiSecp256k1PublicKey.fromStruct(Map<String, dynamic> json) {

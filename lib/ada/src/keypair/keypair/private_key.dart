@@ -59,7 +59,7 @@ class AdaPrivateKey {
   /// Returns the signature as a list of bytes.
   List<int> sign(List<int> digest) {
     final signer = CardanoSigner.fromKeyBytes(toBytes());
-    final sig = signer.sign(digest);
+    final sig = signer.signConst(digest);
     return sig;
   }
 

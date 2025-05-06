@@ -27,7 +27,7 @@ class SuiED25519PrivateKey extends SuiBasePrivateKey<SuiED25519PublicKey> {
   SuiGenericSignature sign(List<int> digest) {
     final signer = Ed25519Signer.fromKeyBytes(toBytes());
     return SuiGenericSignature(
-        signature: signer.sign(digest), algorithm: algorithm);
+        signature: signer.signConst(digest), algorithm: algorithm);
   }
 
   /// Returns the raw bytes of the private key.

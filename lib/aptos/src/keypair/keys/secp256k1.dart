@@ -7,23 +7,23 @@ import 'package:on_chain/utils/utils/map_utils.dart';
 
 class AptosSecp256k1PrivateKey extends AptosBasePrivateKey<
     AptosSecp256k1PublicKey, AptosSecp256k1AnySignature> {
-  final Secp256k1PrivateKeyEcdsa _privateKey;
+  final Secp256k1PrivateKey _privateKey;
   AptosSecp256k1PrivateKey._(this._privateKey)
       : super(algorithm: AptosKeyAlgorithm.secp256k1);
   factory AptosSecp256k1PrivateKey.fromBytes(List<int> keyBytes) {
-    return AptosSecp256k1PrivateKey._(
-        Secp256k1PrivateKeyEcdsa.fromBytes(keyBytes));
+    return AptosSecp256k1PrivateKey._(Secp256k1PrivateKey.fromBytes(keyBytes));
   }
 
   @override
-  late final AptosSecp256k1PublicKey publicKey = AptosSecp256k1PublicKey._(
-      _privateKey.publicKey as Secp256k1PublicKeyEcdsa);
+  late final AptosSecp256k1PublicKey publicKey =
+      AptosSecp256k1PublicKey._(_privateKey.publicKey);
 
   @override
   AptosSecp256k1AnySignature sign(List<int> digest) {
     digest = QuickCrypto.sha3256Hash(digest);
     final signer = Secp256k1Signer.fromKeyBytes(toBytes());
-    return AptosSecp256k1AnySignature(signer.sign(digest, hashMessage: false));
+    return AptosSecp256k1AnySignature(
+        signer.signConst(digest, hashMessage: false));
   }
 
   @override
@@ -37,13 +37,11 @@ class AptosSecp256k1PrivateKey extends AptosBasePrivateKey<
   }
 }
 
-class AptosSecp256k1PublicKey
-    extends AptosCryptoPublicKey<Secp256k1PublicKeyEcdsa> {
-  const AptosSecp256k1PublicKey._(Secp256k1PublicKeyEcdsa publicKey)
+class AptosSecp256k1PublicKey extends AptosCryptoPublicKey<Secp256k1PublicKey> {
+  const AptosSecp256k1PublicKey._(Secp256k1PublicKey publicKey)
       : super(algorithm: AptosKeyAlgorithm.secp256k1, publicKey: publicKey);
   factory AptosSecp256k1PublicKey.fromBytes(List<int> keyBytes) {
-    return AptosSecp256k1PublicKey._(
-        Secp256k1PublicKeyEcdsa.fromBytes(keyBytes));
+    return AptosSecp256k1PublicKey._(Secp256k1PublicKey.fromBytes(keyBytes));
   }
 
   factory AptosSecp256k1PublicKey.fromStruct(Map<String, dynamic> json) {

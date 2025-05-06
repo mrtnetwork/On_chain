@@ -11,7 +11,7 @@ class TronPrivateKey {
   const TronPrivateKey._(this._privateKey);
 
   /// Private field to store the Secp256k1 private key
-  final Secp256k1PrivateKeyEcdsa _privateKey;
+  final Secp256k1PrivateKey _privateKey;
 
   /// Factory method to create a TronPrivateKey from a hexadecimal private key string
   factory TronPrivateKey(String privateKeyHex) {
@@ -21,8 +21,7 @@ class TronPrivateKey {
   /// Factory method to create a TronPrivateKey from a list of key bytes
   factory TronPrivateKey.fromBytes(List<int> keyBytes) {
     try {
-      final Secp256k1PrivateKeyEcdsa key =
-          Secp256k1PrivateKeyEcdsa.fromBytes(keyBytes);
+      final Secp256k1PrivateKey key = Secp256k1PrivateKey.fromBytes(keyBytes);
       return TronPrivateKey._(key);
     } catch (e) {
       // Throw a MessageException with details if an error occurs during the creation
@@ -49,7 +48,7 @@ class TronPrivateKey {
   /// Method to sign a transaction digest using the private key
   List<int> sign(List<int> transactionDigest) {
     final signer = TronSigner.fromKeyBytes(toBytes());
-    return signer.sign(transactionDigest);
+    return signer.signConst(transactionDigest);
   }
 
   /// Signs a personal message using the private key and returns the signature as a hexadecimal string.
@@ -58,7 +57,7 @@ class TronPrivateKey {
   String signPersonalMessage(List<int> message,
       {int? payloadLength, bool useEthereumPrefix = false}) {
     final ethsigner = TronSigner.fromKeyBytes(toBytes());
-    final sign = ethsigner.signProsonalMessage(message,
+    final sign = ethsigner.signProsonalMessageConst(message,
         payloadLength: payloadLength, useEthPrefix: useEthereumPrefix);
     return BytesUtils.toHexString(sign);
   }
