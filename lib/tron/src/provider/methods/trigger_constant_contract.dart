@@ -1,9 +1,9 @@
 import 'package:on_chain/solidity/contract/fragments.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/tron/src/provider/models/transaction.dart';
 
 /// Invoke the readonly function (modified by the view or pure modifier) of a contract for contract data query;
 /// or Invoke the non-readonly function of a contract for predicting whether
@@ -11,7 +11,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 /// or estimate the energy consumption of contract deployment
 /// [developers.tron.network](https://developers.tron.network/reference/triggerconstantcontract).
 class TronRequestTriggerConstantContract
-    extends TronRequest<ParsedSmartContractRequest, Map<String, dynamic>> {
+    extends TronRequest<TronTransactionExtention, Map<String, dynamic>> {
   factory TronRequestTriggerConstantContract.fromMethod({
     required TronAddress ownerAddress,
     required TronAddress contractAddress,
@@ -37,13 +37,14 @@ class TronRequestTriggerConstantContract
   }
   factory TronRequestTriggerConstantContract({
     required TronAddress ownerAddress,
-    required TronAddress contractAddress,
+    TronAddress? contractAddress,
     String? functionSelector,
     String? parameter,
     String? data,
     BigInt? callValue,
     BigInt? callTokenValue,
     BigInt? tokenId,
+    AbiFunctionFragment? fragment,
     bool visible = true,
   }) {
     return TronRequestTriggerConstantContract._(
@@ -54,28 +55,27 @@ class TronRequestTriggerConstantContract
         callTokenValue: callTokenValue,
         callValue: callValue,
         data: data,
-        fragment: null,
+        fragment: fragment,
         tokenId: tokenId,
         visible: visible);
   }
   TronRequestTriggerConstantContract._(
       {required this.ownerAddress,
-      required this.contractAddress,
+      this.contractAddress,
       this.functionSelector,
       this.parameter,
-      AbiFunctionFragment? fragment,
+      this.fragment,
       this.data,
       this.callValue,
       this.callTokenValue,
       this.tokenId,
-      this.visible = true})
-      : _fragment = fragment;
+      this.visible = true});
 
   /// Owner address that triggers the contract.
   final TronAddress ownerAddress;
 
   /// Smart contract address
-  final TronAddress contractAddress;
+  final TronAddress? contractAddress;
 
   /// Function call, must not be left blank.
   final String? functionSelector;
@@ -102,7 +102,7 @@ class TronRequestTriggerConstantContract
   final BigInt? tokenId;
   @override
   final bool visible;
-  final AbiFunctionFragment? _fragment;
+  final AbiFunctionFragment? fragment;
 
   /// wallet/triggerconstantcontract
   @override
@@ -112,7 +112,7 @@ class TronRequestTriggerConstantContract
   Map<String, dynamic> toJson() {
     return {
       'owner_address': ownerAddress.toAddress(visible),
-      'contract_address': contractAddress.toAddress(visible),
+      'contract_address': contractAddress?.toAddress(visible),
       'function_selector': functionSelector,
       'parameter': parameter,
       'data': data,
@@ -124,7 +124,7 @@ class TronRequestTriggerConstantContract
   }
 
   @override
-  ParsedSmartContractRequest onResonse(result) {
-    return ParsedSmartContractRequest.fromJson(result, _fragment);
+  TronTransactionExtention onResonse(result) {
+    return TronTransactionExtention.fromJson(result, fragment: fragment);
   }
 }

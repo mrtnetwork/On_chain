@@ -38,12 +38,11 @@ void main() async {
         tokenId: BigInt.from(1001452)),
   );
   if (!request.isSuccess) {
-    ///   print("${request.error} \n ${request.respose}");
     return;
   }
 
   /// get transactionRaw from response and set limit
-  final rawTr = request.transactionRaw!.copyWith(
+  final rawTr = request.transaction!.rawData.copyWith(
       feeLimit: TronHelper.toSun("25"),
       data: utf8.encode("https://github.com/mrtnetwork"));
 

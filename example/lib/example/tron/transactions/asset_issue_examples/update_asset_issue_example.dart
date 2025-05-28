@@ -31,14 +31,8 @@ void main() async {
       /// params: permission ID (multi-sig Transaction)
       contract));
 
-  /// An error has occurred with the request, and we need to investigate the issue to determine what is happening.
-  if (!request.isSuccess) {
-    // print(request.error);
-    return;
-  }
-
   /// get transactionRaw from response and make sure set fee limit
-  final rawTr = request.transactionRaw!.copyWith(
+  final rawTr = request.rawData.copyWith(
       feeLimit: BigInt.from(10000000),
       data: utf8.encode("https://github.com/mrtnetwork"));
 

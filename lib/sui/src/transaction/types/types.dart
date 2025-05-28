@@ -373,7 +373,7 @@ enum SuiArguments {
   /// The result of another command (from `ProgrammableTransaction` commands)
   result(value: 2),
 
-  /// Like a `Result` but it accesses a nested result. Currently, the only usage
+  /// Like a `TronResult` but it accesses a nested result. Currently, the only usage
   /// of this is to access a value from a Move call with multiple return values.
   nestedResult(value: 3);
 

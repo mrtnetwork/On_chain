@@ -1,13 +1,13 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/balance/delegate_resource_contract.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
+import 'package:on_chain/tron/src/models/contract/transaction/transaction.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Delegate bandwidth or energy resources to other accounts in Stake2.0.
 /// [developers.tron.network](https://developers.tron.network/reference/delegateresource-1).
 class TronRequestDelegateResource
-    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestDelegateResource.fromContract(
       DelegateResourceContract contract,
       {int? permissionId}) {
@@ -77,8 +77,8 @@ class TronRequestDelegateResource
   }
 
   @override
-  ParsedContractRequest onResonse(result) {
-    return ParsedContractRequest.fromJson(result);
+  Transaction onResonse(result) {
+    return Transaction.fromJson(result);
   }
 
   @override

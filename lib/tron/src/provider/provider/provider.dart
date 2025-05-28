@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:blockchain_utils/service/service.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/service/service.dart';
 
@@ -13,6 +13,18 @@ class TronProvider extends BaseProvider<TronRequestDetails> {
 
   /// The unique identifier for each JSON-RPC request.
   int _id = 0;
+  SERVICERESPONSE _findError<SERVICERESPONSE>(
+      BaseServiceResponse<SERVICERESPONSE> response,
+      TronRequestDetails request) {
+    final result = response.getResult(request);
+    if (result is Map) {
+      if (result.containsKey('Error')) {
+        throw RPCError(
+            message: result["Error"]?.toString() ?? ServiceConst.defaultError);
+      }
+    }
+    return result;
+  }
 
   /// Sends a request to the tron network using the specified [request] parameter.
   ///
@@ -36,6 +48,6 @@ class TronProvider extends BaseProvider<TronRequestDetails> {
     final params = request.buildRequest(_id++);
     final response =
         await rpc.doRequest<SERVICERESPONSE>(params, timeout: timeout);
-    return response.getResult(params);
+    return _findError(response, params);
   }
 }

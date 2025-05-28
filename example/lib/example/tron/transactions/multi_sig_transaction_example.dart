@@ -78,12 +78,9 @@ void main() async {
   final request = await rpc.request(TronRequestCreateTransaction.fromContract(
       transferContract,
       permissionId: permission.id));
-  if (!request.isSuccess) {
-    return;
-  }
 
   /// get transactionRaw from response and make sure sed fee limit
-  TransactionRaw rawTr = request.transactionRaw!.copyWith(
+  TransactionRaw rawTr = request.rawData.copyWith(
       feeLimit: TronHelper.toSun("10"),
       data: utf8.encode("https://github.com/mrtnetwork"));
 

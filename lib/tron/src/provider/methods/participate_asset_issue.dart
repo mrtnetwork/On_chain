@@ -1,14 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/assets_issue_contract/asset.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
+import 'package:on_chain/tron/src/models/contract/transaction/transaction.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Participate in an asset issue..
 /// [developers.tron.network](https://developers.tron.network/reference/participateassetissue).
 class TronRequestParticipateAssetIssue
-    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestParticipateAssetIssue.fromContract(
       ParticipateAssetIssueContract contract,
       {bool visible = true}) {
@@ -56,8 +56,8 @@ class TronRequestParticipateAssetIssue
   }
 
   @override
-  ParsedContractRequest onResonse(result) {
-    return ParsedContractRequest.fromJson(result);
+  Transaction onResonse(result) {
+    return Transaction.fromJson(result);
   }
 
   @override

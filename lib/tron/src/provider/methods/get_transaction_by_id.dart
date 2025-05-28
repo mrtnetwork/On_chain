@@ -1,10 +1,11 @@
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
+import 'package:on_chain/tron/src/provider/models/transaction.dart';
 
 /// Query the transaction fee, block height by transaction id
 /// [developers.tron.network](https://developers.tron.network/reference/gettransactioninfobyid).
 class TronRequestGetTransactionById
-    extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TronRequest<TronGetTransactionByIdResponse?, Map<String, dynamic>> {
   TronRequestGetTransactionById({required this.value});
 
   /// Transaction hash
@@ -22,5 +23,11 @@ class TronRequestGetTransactionById
   @override
   String toString() {
     return 'TronRequestGetTransactionById{${toJson()}}';
+  }
+
+  @override
+  TronGetTransactionByIdResponse? onResonse(Map<String, dynamic> result) {
+    if (result.isEmpty) return null;
+    return TronGetTransactionByIdResponse.fromJson(result);
   }
 }

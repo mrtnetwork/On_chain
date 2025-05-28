@@ -1,8 +1,12 @@
+## 6.7.0
+
+- Fix serialization issues in some Solana pre-instruction layouts.
+
 ## 6.6.0
 
 - Update dependencies.
 - Private keys (except sepc256r1) now using constant-time for safty generate public key
-- all sign method (except sepc256r1) using constant-time with blinding ecmult for safty generate signature"
+- all sign method (except sepc256r1) using constant-time for safty generate signature
 
 ## 6.5.0
 

@@ -45,7 +45,7 @@ void main() async {
   }
 
   /// get transactionRaw from response and make sure set fee limit
-  final rawTr = request.transactionRaw!.copyWith(
+  final rawTr = request.transaction!.rawData.copyWith(
       feeLimit: TronHelper.toSun("25"),
       data: utf8.encode("https://github.com/mrtnetwork"));
 

@@ -1,13 +1,13 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/account/account.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
+import 'package:on_chain/tron/src/models/contract/transaction/transaction.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 // Activate an account. Uses an already activated account to activate a new account.
 /// Activate an account. [developers.tron.network](https://developers.tron.network/reference/account-createaccount).
 class TronRequestCreateAccount
-    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<Transaction, Map<String, dynamic>> {
   TronRequestCreateAccount(
       {required this.ownerAddress,
       required this.accountAddress,
@@ -60,7 +60,7 @@ class TronRequestCreateAccount
   }
 
   @override
-  ParsedContractRequest onResonse(result) {
-    return ParsedContractRequest.fromJson(result);
+  Transaction onResonse(result) {
+    return Transaction.fromJson(result);
   }
 }

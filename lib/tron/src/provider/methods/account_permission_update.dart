@@ -1,12 +1,12 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/account/account_permission_update_contract.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
+import 'package:on_chain/tron/src/models/contract/transaction/transaction.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Update the account's permission (developers.tron.network)[https://developers.tron.network/reference/accountpermissionupdate].
 class TronRequestAccountPermissionUpdate
-    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestAccountPermissionUpdate.fromContract(
       AccountPermissionUpdateContract contract,
       {int? permissionId}) {
@@ -68,7 +68,7 @@ class TronRequestAccountPermissionUpdate
   }
 
   @override
-  ParsedContractRequest onResonse(result) {
-    return ParsedContractRequest.fromJson(result);
+  Transaction onResonse(result) {
+    return Transaction.fromJson(result);
   }
 }

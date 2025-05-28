@@ -1,15 +1,15 @@
 import 'package:on_chain/solidity/contract/fragments.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/trigger_smart_contract.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 import 'package:blockchain_utils/utils/utils.dart';
+import 'package:on_chain/tron/src/provider/models/transaction.dart';
 
-/// Returns TransactionExtention, which contains the unsigned Transaction
+/// Returns TronTransactionExtention, which contains the unsigned Transaction
 /// [developers.tron.network](https://developers.tron.network/reference/triggersmartcontract).
 class TronRequestTriggerSmartContract
-    extends TronRequest<ParsedSmartContractRequest, Map<String, dynamic>> {
+    extends TronRequest<TronTransactionExtention, Map<String, dynamic>> {
   factory TronRequestTriggerSmartContract.fromContract(
       TriggerSmartContract contract,
       {int? permissionId,
@@ -64,6 +64,7 @@ class TronRequestTriggerSmartContract
     BigInt? tokenId,
     BigInt? feeLimit,
     int? permissionId,
+    AbiFunctionFragment? fragment,
     bool visible = true,
   }) {
     return TronRequestTriggerSmartContract._(
@@ -74,7 +75,7 @@ class TronRequestTriggerSmartContract
         callTokenValue: callTokenValue,
         callValue: callValue,
         data: data,
-        fragment: null,
+        fragment: fragment,
         tokenId: tokenId,
         visible: visible);
   }
@@ -85,13 +86,12 @@ class TronRequestTriggerSmartContract
       this.permissionId,
       this.functionSelector,
       this.parameter,
-      AbiFunctionFragment? fragment,
+      this.fragment,
       this.data,
       this.callValue,
       this.callTokenValue,
       this.tokenId,
-      this.visible = true})
-      : _fragment = fragment;
+      this.visible = true});
 
   /// Address that triggers the contract
   final TronAddress ownerAddress;
@@ -128,7 +128,7 @@ class TronRequestTriggerSmartContract
 
   /// for multi-signature
   final int? permissionId;
-  final AbiFunctionFragment? _fragment;
+  final AbiFunctionFragment? fragment;
   @override
   final bool visible;
 
@@ -154,8 +154,8 @@ class TronRequestTriggerSmartContract
   }
 
   @override
-  ParsedSmartContractRequest onResonse(result) {
-    return ParsedSmartContractRequest.fromJson(result, _fragment);
+  TronTransactionExtention onResonse(result) {
+    return TronTransactionExtention.fromJson(result, fragment: fragment);
   }
 
   @override

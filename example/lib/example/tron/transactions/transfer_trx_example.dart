@@ -31,15 +31,8 @@ void main() async {
       transferContract,
       visible: false));
 
-  /// An error has occurred with the request, and we need to investigate the issue to determine what is happening.
-  if (!request.isSuccess) {
-    /// print(request.error ?? request.respose);
-    return;
-  }
-
   /// get transactionRaw from response and make sure sed fee limit
-  final rawTr =
-      request.transactionRaw!.copyWith(feeLimit: BigInt.from(10000000));
+  final rawTr = request.rawData.copyWith(feeLimit: BigInt.from(10000000));
 
   // txID
   final _ = rawTr.txID;

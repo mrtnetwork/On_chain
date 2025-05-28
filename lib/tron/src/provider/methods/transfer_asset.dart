@@ -1,14 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/assets_issue_contract/asset.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
+import 'package:on_chain/tron/src/models/contract/transaction/transaction.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
 /// Transfer TRC10 token.
 /// [developers.tron.network](https://developers.tron.network/reference/transferasset).
 class TronRequestTransferAsset
-    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestTransferAsset.fromJson(TransferAssetContract contract,
       {bool visible = true, int? permissionId, String? extraData}) {
     return TronRequestTransferAsset(
@@ -74,7 +74,7 @@ class TronRequestTransferAsset
   }
 
   @override
-  ParsedContractRequest onResonse(result) {
-    return ParsedContractRequest.fromJson(result);
+  Transaction onResonse(result) {
+    return Transaction.fromJson(result);
   }
 }

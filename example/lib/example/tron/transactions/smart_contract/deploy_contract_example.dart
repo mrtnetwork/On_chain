@@ -22,7 +22,7 @@ void main() async {
       originEnergyLimit: 1));
 
   /// get transactionRaw from response and make sure set fee limit
-  TransactionRaw rawTr = request.transactionRaw!.copyWith(
+  TransactionRaw rawTr = request.rawData.copyWith(
 
       /// for fake tr we see fee limit to max
       /// for g

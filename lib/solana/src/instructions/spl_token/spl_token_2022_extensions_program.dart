@@ -119,10 +119,10 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
         keys: SPLTokenUtils.buildKeys(keys: [
           mint.toWritable(),
           if (multiSigners.isEmpty)
-            rateAuthority.toSigner()
+            rateAuthority.toSignerAndWritable()
           else
-            rateAuthority.toReadOnly()
-        ], owner: rateAuthority, multiSigners: multiSigners),
+            rateAuthority.toWritable()
+        ], owner: null, multiSigners: multiSigners),
         programId: programId,
         layout: layout);
   }

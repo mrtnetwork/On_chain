@@ -55,7 +55,7 @@ class MintCloseAuthority extends LayoutSerializable {
   StructLayout get layout => _Utils.layout;
   @override
   Map<String, dynamic> serialize() {
-    return {'closeAuthority': closeAuthority};
+    return {'delegate': closeAuthority};
   }
 
   @override

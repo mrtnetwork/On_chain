@@ -28,14 +28,8 @@ void main() async {
   final request = await rpc
       .request(TronRequestCreateAccount.fromContract(transferContract));
 
-  /// An error has occurred with the request, and we need to investigate the issue to determine what is happening.
-  if (!request.isSuccess) {
-    /// print(request.error);
-    return;
-  }
-
   /// get transactionRaw from response and make sure set fee limit
-  final rawTr = request.transactionRaw!
+  final rawTr = request.rawData
       .copyWith(data: utf8.encode("https://github.com/mrtnetwork"));
 
   /// txID

@@ -83,7 +83,7 @@ void main() async {
     /// or use data (encode params with selector)
     // data: func.encodeHex(params, true),
   ));
-  final result = call5.respose["constant_result"][0];
+  final result = call5.constantResult[0];
   final decodeOutput = func.decodeOutputHex(result);
   print("call5 result $decodeOutput");
 }

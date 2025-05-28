@@ -5,7 +5,7 @@ class SPLTokenUtils {
   // A static method to build a list of AccountMeta instances.
   static List<AccountMeta> buildKeys({
     required List<AccountMeta> keys, // Required list of initial keys
-    required SolAddress owner, // Required owner SolAddress
+    required SolAddress? owner, // Required owner SolAddress
     List<SolAddress> multiSigners = const [], // Optional list of multi-signers
   }) {
     // Construct the list of keys by spreading the initial keys
@@ -13,7 +13,8 @@ class SPLTokenUtils {
     // Then, add each multi-signer as a signer key to the list.
     return [
       ...keys,
-      multiSigners.isEmpty ? owner.toSigner() : owner.toReadOnly(),
+      if (owner != null)
+        multiSigners.isEmpty ? owner.toSigner() : owner.toReadOnly(),
       ...multiSigners.map((e) => e.toSigner()),
     ];
   }

@@ -2033,13 +2033,13 @@ class SuiApiArgument {
     }
     return SuiApiArgument(
         input: json.as("Input"),
-        result: json.as("Result"),
+        result: json.as("TronResult"),
         nestedResult: json["NestedResult"] == null
             ? null
             : (json["NestedResult"] as List).cast());
   }
   Map<String, dynamic> toJson() {
-    return {"Input": input, "Result": result, "NestedResult": nestedResult};
+    return {"Input": input, "TronResult": result, "NestedResult": nestedResult};
   }
 }
 

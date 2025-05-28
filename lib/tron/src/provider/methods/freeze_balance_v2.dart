@@ -1,6 +1,6 @@
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/balance/balance.dart';
-import 'package:on_chain/tron/src/models/parsed_request/parsed_contract_request.dart';
+import 'package:on_chain/tron/src/models/contract/transaction/transaction.dart';
 import 'package:on_chain/tron/src/provider/core/request.dart';
 import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
@@ -8,7 +8,7 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// and obtain equivalent TRON Power(TP) according to the staked amount.
 /// [developers.tron.network](https://developers.tron.network/reference/freezebalancev2-1).
 class TronRequestFreezeBalanceV2
-    extends TronRequest<ParsedContractRequest, Map<String, dynamic>> {
+    extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestFreezeBalanceV2.fromContract(
       FreezeBalanceV2Contract contract,
       {int? permissionId,
@@ -56,8 +56,8 @@ class TronRequestFreezeBalanceV2
   }
 
   @override
-  ParsedContractRequest onResonse(result) {
-    return ParsedContractRequest.fromJson(result);
+  Transaction onResonse(result) {
+    return Transaction.fromJson(result);
   }
 
   @override
