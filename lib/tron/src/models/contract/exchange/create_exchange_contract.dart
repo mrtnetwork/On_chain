@@ -72,9 +72,9 @@ class ExchangeCreateContract extends TronBaseContract {
 
   /// Convert the [ExchangeCreateContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'first_token_id': StringUtils.tryDecode(firstTokenId),
       'first_token_balance': firstTokenBalance?.toString(),
       'second_token_id': StringUtils.tryDecode(secondTokenId),

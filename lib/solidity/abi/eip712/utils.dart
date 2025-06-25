@@ -137,6 +137,14 @@ class _EIP712Utils {
     return value;
   }
 
+  static EIP712Version detectVersion(Map<String, List<Eip712TypeDetails>> types,
+      String type, Map<String, dynamic> data) {
+    for (final Eip712TypeDetails field in types[type]!) {
+      if (data[field.name] == null) return EIP712Version.v3;
+    }
+    return EIP712Version.v4;
+  }
+
   /// Encodes a struct with the specified type and data, returning the result as a list of integers.
   /// The struct is defined in the Eip712TypedData, and the data parameter contains field values.
   static List<int> encodeStruct(

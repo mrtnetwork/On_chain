@@ -32,7 +32,7 @@ class AptosRequestEncodeSubmission
 
   @override
   Map<String, dynamic> get body => {
-        "sender": sender.toString(),
+        "sender": sender.address,
         "sequence_number": sequenceNumber,
         "max_gas_amount": maxGasAmount,
         "gas_unit_price": gasUnitPrice,

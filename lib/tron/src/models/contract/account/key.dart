@@ -49,8 +49,8 @@ class TronKey extends TronProtocolBufferImpl {
 
   /// Convert the [TronKey] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
-    return {'address': address, 'weight': weight};
+  Map<String, dynamic> toJson({bool visible = true}) {
+    return {'address': address.toAddress(visible), 'weight': weight};
   }
 
   /// Convert the [TronKey] object to its string representation.

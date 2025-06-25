@@ -579,9 +579,9 @@ class ETHTransaction {
   /// Converts the transaction details into a json.
   Map<String, dynamic> toJson() {
     return {
-      'type': type?.toString(),
-      'to': to?.toString(),
-      'from': from.toString(),
+      'type': type?.name,
+      'to': to?.address,
+      'from': from?.address,
       'nonce': '0x${nonce.toRadixString(16)}',
       'gasLimit': '0x${gasLimit.toRadixString(16)}',
       'gasPrice': gasPrice == null ? null : '0x${gasPrice!.toRadixString(16)}',

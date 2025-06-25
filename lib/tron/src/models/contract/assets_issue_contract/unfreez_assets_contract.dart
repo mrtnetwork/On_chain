@@ -32,8 +32,8 @@ class UnfreezeAssetContract extends TronBaseContract {
 
   /// Convert the [UnfreezeAssetContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
-    return {'owner_address': ownerAddress.toString()};
+  Map<String, dynamic> toJson({bool visible = true}) {
+    return {'owner_address': ownerAddress.toAddress(visible)};
   }
 
   /// Convert the [UnfreezeAssetContract] object to its string representation.

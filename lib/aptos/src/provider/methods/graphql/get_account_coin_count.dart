@@ -13,7 +13,7 @@ class AptosGraphQLRequestGetAccountCoinsCount extends AptosGraphQLRequest<
   @override
   String get method => AptosGraphqlQueriesConst.getAccountCoinsCount;
   @override
-  Map<String, dynamic> get queryVariables => {'address': address.toString()};
+  Map<String, dynamic> get queryVariables => {'address': address.address};
   @override
   AptosGraphQLApiAggregate onResonse(Map<String, dynamic> result) {
     return AptosGraphQLApiAggregate.fromJson(

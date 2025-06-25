@@ -16,7 +16,7 @@ class SuiRequestGetAllCoins
 
   @override
   List<dynamic> toJson() {
-    return [owner.toString(), ...pagination?.toJson() ?? []];
+    return [owner.address, ...pagination?.toJson() ?? []];
   }
 
   @override

@@ -37,8 +37,7 @@ class AptosRequestGetEventsByEventHandle
   String get method => AptosApiMethod.getEventsByEventHandle.url;
 
   @override
-  List<String> get pathParameters =>
-      [address.toString(), eventHandle, fieldName];
+  List<String> get pathParameters => [address.address, eventHandle, fieldName];
   @override
   Map<String, String?> get queryParameters =>
       {"start": start?.toString(), "limit": limit?.toString()};

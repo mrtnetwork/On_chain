@@ -338,4 +338,7 @@ abstract class TronBaseContract extends TronProtocolBufferImpl {
     }
     return this as T;
   }
+
+  @override
+  Map<String, dynamic> toJson({bool visible = true});
 }

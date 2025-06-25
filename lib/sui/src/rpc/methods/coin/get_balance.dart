@@ -19,7 +19,7 @@ class SuiRequestGetBalance
 
   @override
   List<dynamic> toJson() {
-    return [owner.toString(), coinType];
+    return [owner.address, coinType];
   }
 
   @override

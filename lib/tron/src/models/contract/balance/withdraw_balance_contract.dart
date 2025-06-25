@@ -28,8 +28,8 @@ class WithdrawBalanceContract extends TronBaseContract {
 
   /// Convert the [WithdrawBalanceContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
-    return {'owner_address': ownerAddress};
+  Map<String, dynamic> toJson({bool visible = true}) {
+    return {'owner_address': ownerAddress.toAddress(visible)};
   }
 
   /// Convert the [WithdrawBalanceContract] object to its string representation.

@@ -39,10 +39,10 @@ class TransactionBalanceTraceOperation extends TronProtocolBufferImpl {
 
   /// Convert the [TransactionBalanceTraceOperation] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
       'operation_identifier': operationIdentifier?.toString(),
-      'address': address?.toString(),
+      'address': address?.toAddress(visible),
       'amount': amount.toString(),
     }..removeWhere((key, value) => value == null);
   }

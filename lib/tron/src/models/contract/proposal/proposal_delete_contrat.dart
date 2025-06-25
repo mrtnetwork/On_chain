@@ -39,9 +39,9 @@ class ProposalDeleteContract extends TronBaseContract {
 
   /// Convert the [ProposalDeleteContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'proposal_id': proposalId?.toString()
     };
   }

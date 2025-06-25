@@ -64,9 +64,9 @@ class UpdateAssetContract extends TronBaseContract {
 
   /// Convert the [UpdateAssetContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'description': StringUtils.tryDecode(description),
       'url': StringUtils.tryDecode(url),
       'new_limit': newLimit?.toString(),

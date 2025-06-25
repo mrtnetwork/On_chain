@@ -29,9 +29,9 @@ class AccountIdentifier extends TronProtocolBufferImpl {
 
   /// Create a new [AccountIdentifier] instance by parsing a JSON map.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'address': address.toString(),
+      'address': address.toAddress(visible),
     };
   }
 

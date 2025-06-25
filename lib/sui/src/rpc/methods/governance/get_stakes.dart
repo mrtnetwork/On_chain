@@ -14,7 +14,7 @@ class SuiRequestGetStakes
 
   @override
   List<dynamic> toJson() {
-    return [owner.toString()];
+    return [owner.address];
   }
 
   @override

@@ -53,10 +53,10 @@ class CreateSmartContract extends TronBaseContract {
 
   /// Convert the [CreateSmartContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
-      'new_contract': newContract.toJson(),
+      'owner_address': ownerAddress.toAddress(visible),
+      'new_contract': newContract.toJson(visible: visible),
       'call_token_value': callTokenValue?.toString(),
       'token_id': tokenId?.toString()
     }..removeWhere((key, value) => value == null);

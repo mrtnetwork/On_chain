@@ -38,9 +38,9 @@ class MarketCancelOrderContract extends TronBaseContract {
 
   /// Convert the [MarketCancelOrderContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'order_id': BytesUtils.tryToHexString(orderId)
     }..removeWhere((k, v) => v == null);
   }

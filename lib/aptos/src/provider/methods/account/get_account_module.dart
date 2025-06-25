@@ -26,7 +26,7 @@ class AptosRequestGetAccountModule
   String get method => AptosApiMethod.getAccountModule.url;
 
   @override
-  List<String> get pathParameters => [address.toString(), moduleName];
+  List<String> get pathParameters => [address.address, moduleName];
   @override
   Map<String, String?> get queryParameters =>
       {"ledger_version": ledgetVersion?.toString()};

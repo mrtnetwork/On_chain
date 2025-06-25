@@ -35,9 +35,9 @@ class WitnessCreateContract extends TronBaseContract {
 
   /// Convert the [WitnessCreateContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'url': StringUtils.tryDecode(url),
     }..removeWhere((k, v) => v == null);
   }

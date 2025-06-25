@@ -25,7 +25,7 @@ class AptosRequestGetAccountTransactions extends AptosRequest<
   String get method => AptosApiMethod.getAccountTransactions.url;
 
   @override
-  List<String> get pathParameters => [address.toString()];
+  List<String> get pathParameters => [address.address];
   @override
   Map<String, String?> get queryParameters =>
       {"start": start?.toString(), "limit": limit?.toString()};

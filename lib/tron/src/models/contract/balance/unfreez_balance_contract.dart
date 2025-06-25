@@ -48,11 +48,11 @@ class UnfreezeBalanceContract extends TronBaseContract {
 
   /// Convert the [UnfreezeBalanceContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'resource': resource?.name,
-      'receiver_address': receiverAddress?.toString(),
+      'receiver_address': receiverAddress?.toAddress(visible),
     };
   }
 

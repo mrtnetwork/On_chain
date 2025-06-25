@@ -33,7 +33,7 @@ class AptosRequestGetEventsByCreationNumber
 
   @override
   List<String> get pathParameters =>
-      [address.toString(), creationNumber.toString()];
+      [address.address, creationNumber.toString()];
   @override
   Map<String, String?> get queryParameters =>
       {"start": start?.toString(), "limit": limit?.toString()};

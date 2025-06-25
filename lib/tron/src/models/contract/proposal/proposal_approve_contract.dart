@@ -46,9 +46,9 @@ class ProposalApproveContract extends TronBaseContract {
 
   /// Convert the [ProposalApproveContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'proposal_id': proposalId?.toString(),
       'is_add_approval': isAddApproval,
     }..removeWhere((k, v) => v == null);

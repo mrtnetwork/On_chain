@@ -25,7 +25,7 @@ class AptosRequestGetTableItem extends AptosPostRequest<dynamic, dynamic> {
   String get method => AptosApiMethod.getTableItem.url;
 
   @override
-  List<String> get pathParameters => [tableHandle.toString()];
+  List<String> get pathParameters => [tableHandle.address];
 
   @override
   Map<String, String?> get queryParameters =>

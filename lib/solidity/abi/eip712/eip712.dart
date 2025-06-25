@@ -108,10 +108,8 @@ class Eip712TypedData implements EIP712Base {
     this.version = EIP712Version.v4,
   }) : assert(version != EIP712Version.v1, 'use EIP712V1 class for EIP712 V1');
 
-  factory Eip712TypedData.fromJson(
-    Map<String, dynamic> json, {
-    EIP712Version version = EIP712Version.v4,
-  }) {
+  factory Eip712TypedData.fromJson(Map<String, dynamic> json,
+      {EIP712Version? version = EIP712Version.v4}) {
     try {
       final jsonTypes = Map<String, List<dynamic>>.from(json['types']);
       final Map<String, List<Eip712TypeDetails>> types = {};
@@ -122,12 +120,28 @@ class Eip712TypedData implements EIP712Base {
             values.map((e) => Eip712TypeDetails.fromJson(e)).toList();
         types[i.key] = eip712Types;
       }
+      final String primaryType = json.as("primaryType",
+          error: const SolidityAbiException("missing or invalid primaryType."));
+      final Map<String, dynamic> domain = json.asMap("domain",
+          error: const SolidityAbiException("missing or invalid domain data."));
+      final Map<String, dynamic> message = json.asMap("message",
+          error:
+              const SolidityAbiException("missing or invalid message data."));
+      if (version == null) {
+        version = _EIP712Utils.detectVersion(
+            types, _EIP712Utils.domainKeyName, domain);
+        if (version == EIP712Version.v4) {
+          version = _EIP712Utils.detectVersion(types, primaryType, message);
+        }
+      }
       return Eip712TypedData(
           types: types,
-          primaryType: json['primaryType'],
-          domain: json['domain'],
-          message: json['message'],
+          primaryType: primaryType,
+          domain: domain,
+          message: message,
           version: version);
+    } on SolidityAbiException {
+      rethrow;
     } catch (e) {
       throw const SolidityAbiException('invalid EIP712 json struct.');
     }

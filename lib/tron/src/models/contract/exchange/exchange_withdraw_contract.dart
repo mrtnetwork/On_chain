@@ -56,9 +56,9 @@ class ExchangeWithdrawContract extends TronBaseContract {
 
   /// Convert the [ExchangeWithdrawContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress,
+      'owner_address': ownerAddress.toAddress(visible),
       'exchange_id': exchangeId,
       'token_id': BytesUtils.tryToHexString(tokenId),
       'quant': quant,

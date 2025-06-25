@@ -122,15 +122,15 @@ class TransactionRaw extends TronProtocolBufferImpl {
 
   /// Convert the [TransactionRaw] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
       'ref_block_bytes': BytesUtils.toHexString(refBlockBytes),
       'ref_block_num': refBlockNum?.toString(),
       'ref_block_hash': BytesUtils.toHexString(refBlockHash),
       'expiration': expiration.toString(),
-      'auths': auths?.map((auth) => auth.toJson()).toList(),
+      'auths': auths?.map((auth) => auth.toJson(visible: visible)).toList(),
       'data': StringUtils.tryDecode(data),
-      'contract': contract.map((c) => c.toJson()).toList(),
+      'contract': contract.map((c) => c.toJson(visible: visible)).toList(),
       'scripts': BytesUtils.tryToHexString(scripts),
       'timestamp': timestamp.toString(),
       'fee_limit': feeLimit?.toString(),

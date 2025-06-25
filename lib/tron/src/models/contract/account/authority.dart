@@ -42,9 +42,9 @@ class Authority extends TronProtocolBufferImpl {
 
   /// Convert the [Authority] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'account': account?.toJson(),
+      'account': account?.toJson(visible: visible),
       'permission_name': StringUtils.tryDecode(permissionName)
     };
   }

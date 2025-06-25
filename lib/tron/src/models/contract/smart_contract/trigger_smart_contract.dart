@@ -70,10 +70,10 @@ class TriggerSmartContract extends TronBaseContract {
 
   /// Convert the [TriggerSmartContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
-      'contract_address': contractAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
+      'contract_address': contractAddress.toAddress(visible),
       'data': BytesUtils.tryToHexString(data),
       'call_value': callValue?.toString(),
       'call_token_value': callTokenValue?.toString(),

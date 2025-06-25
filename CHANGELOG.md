@@ -1,3 +1,9 @@
+## 6.8.0
+
+- Update dependencies.
+- Add visible option for generate tron transaction as json
+
+
 ## 6.7.0
 
 - Fix serialization issues in some Solana pre-instruction layouts.

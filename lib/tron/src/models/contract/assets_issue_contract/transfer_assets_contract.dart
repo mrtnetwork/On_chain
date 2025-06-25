@@ -58,10 +58,10 @@ class TransferAssetContract extends TronBaseContract {
 
   /// Convert the [TransferAssetContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
-      'to_address': toAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
+      'to_address': toAddress.toAddress(visible),
       'asset_name': StringUtils.decode(assetName),
       'amount': amount.toString()
     }..removeWhere((key, value) => value == null);

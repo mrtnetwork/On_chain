@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/exception/exception/exception.dart';
 import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
 import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
@@ -5,24 +6,26 @@ import 'package:on_chain/sui/src/exception/exception.dart';
 extension QuickMap on Map<String, dynamic> {
   static const Map<String, dynamic> _map = {};
   static const List _list = [];
-  T as<T>(String key) {
+  T as<T>(String key, {BlockchainUtilsException? error}) {
     final value = this[key];
     if (value == null) {
       if (null is T) {
         return null as T;
       }
-      throw DartSuiPluginException('Key not found.',
-          details: {'key': key, 'data': this});
+      throw error ??
+          DartSuiPluginException('Key not found.',
+              details: {'key': key, 'data': this});
     }
     try {
       return value as T;
     } on TypeError {
-      throw DartSuiPluginException('Incorrect value.', details: {
-        'key': key,
-        'expected': '$T',
-        'value': value.runtimeType,
-        'data': this
-      });
+      throw error ??
+          DartSuiPluginException('Incorrect value.', details: {
+            'key': key,
+            'expected': '$T',
+            'value': value.runtimeType,
+            'data': this
+          });
     }
   }
 
@@ -68,7 +71,7 @@ extension QuickMap on Map<String, dynamic> {
     }
   }
 
-  E asMap<E>(String key) {
+  E asMap<E>(String key, {BlockchainUtilsException? error}) {
     if (_map is! E) {
       throw const DartSuiPluginException(
           'Invalid map casting. only use `asMap` method for casting Map<String,dynamic>.');
@@ -78,18 +81,20 @@ extension QuickMap on Map<String, dynamic> {
       if (null is E) {
         return null as E;
       }
-      throw DartSuiPluginException('Key not found.',
-          details: {'key': key, 'data': this});
+      throw error ??
+          DartSuiPluginException('Key not found.',
+              details: {'key': key, 'data': this});
     }
     try {
       return value.cast<String, dynamic>() as E;
     } on TypeError {
-      throw DartSuiPluginException('Incorrect value.', details: {
-        'key': key,
-        'expected': '$E',
-        'value': value.runtimeType,
-        'data': this
-      });
+      throw error ??
+          DartSuiPluginException('Incorrect value.', details: {
+            'key': key,
+            'expected': '$E',
+            'value': value.runtimeType,
+            'data': this
+          });
     }
   }
 

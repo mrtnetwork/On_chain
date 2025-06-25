@@ -31,9 +31,11 @@ class AccountId extends TronProtocolBufferImpl {
   List get values => [name, address];
 
   @override
-  Map<String, dynamic> toJson() {
-    return {'address': address.toString(), 'name': StringUtils.tryDecode(name)}
-      ..removeWhere((key, value) => value == null);
+  Map<String, dynamic> toJson({bool visible = true}) {
+    return {
+      'address': address.toAddress(visible),
+      'name': StringUtils.tryDecode(name)
+    }..removeWhere((key, value) => value == null);
   }
 
   @override

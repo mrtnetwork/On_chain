@@ -88,7 +88,7 @@ class ShieldedTransferContract extends TronBaseContract {
 
   /// Convert the [ShieldedTransferContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
       'transparent_from_address':
           BytesUtils.tryToHexString(transparentFromAddress),

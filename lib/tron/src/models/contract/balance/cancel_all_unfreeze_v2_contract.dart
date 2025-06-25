@@ -34,8 +34,8 @@ class CancelAllUnfreezeV2Contract extends TronBaseContract {
 
   /// Convert the [CancelAllUnfreezeV2Contract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
-    return {'owner_address': ownerAddress.toString()};
+  Map<String, dynamic> toJson({bool visible = true}) {
+    return {'owner_address': ownerAddress.toAddress(visible)};
   }
 
   /// Convert the [CancelAllUnfreezeV2Contract] object to its string representation.

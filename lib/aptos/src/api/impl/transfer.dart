@@ -30,7 +30,7 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
     if (!transferParams.allowCreate && !isActive) {
       throw DartAptosPluginException(
         "Account is not active.",
-        details: {"address": transferParams.destination.toString()},
+        details: {"address": transferParams.destination.address},
       );
     }
 
@@ -97,7 +97,7 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
           !await accountIsActive(transfer.destination)) {
         throw DartAptosPluginException(
           "Account is not active.",
-          details: {"address": transfer.destination.toString()},
+          details: {"address": transfer.destination.address},
         );
       }
     }

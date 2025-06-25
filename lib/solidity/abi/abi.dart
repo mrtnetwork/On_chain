@@ -29,6 +29,7 @@ library;
 import 'package:on_chain/solidity/address/core.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/utils/utils/map_utils.dart';
 
 part 'utils/utils.dart';
 part 'exception/abi_exception.dart';

@@ -53,10 +53,10 @@ class VoteWitnessContract extends TronBaseContract {
 
   /// Convert the [VoteWitnessContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
-      'votes': votes?.map((vote) => vote.toJson()).toList(),
+      'owner_address': ownerAddress.toAddress(visible),
+      'votes': votes?.map((vote) => vote.toJson(visible: visible)).toList(),
       'support': support,
     }..removeWhere((key, value) => value == null);
   }

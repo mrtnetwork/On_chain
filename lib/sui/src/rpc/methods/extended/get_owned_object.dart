@@ -23,7 +23,7 @@ class SuiRequestGetOwnedObjects
 
   @override
   List<dynamic> toJson() {
-    return [address.toString(), query?.toJson(), ...pagination?.toJson() ?? []];
+    return [address.address, query?.toJson(), ...pagination?.toJson() ?? []];
   }
 
   @override

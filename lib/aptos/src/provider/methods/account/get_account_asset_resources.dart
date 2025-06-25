@@ -27,7 +27,7 @@ class AptosRequestGetAccountAssetResources
   String get method => AptosApiMethod.getAccountResources2.url;
 
   @override
-  List<String> get pathParameters => [address.toString(), assetType];
+  List<String> get pathParameters => [address.address, assetType];
   @override
   Map<String, String?> get queryParameters => {
         "ledger_version": ledgetVersion?.toString(),

@@ -29,7 +29,7 @@ class AptosRequestGetAccountModules extends AptosRequest<
   String get method => AptosApiMethod.getAccountModules.url;
 
   @override
-  List<String> get pathParameters => [address.toString()];
+  List<String> get pathParameters => [address.address];
   @override
   Map<String, String?> get queryParameters => {
         "ledgetVersion": ledgetVersion?.toString(),

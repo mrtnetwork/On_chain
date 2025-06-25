@@ -16,7 +16,7 @@ class SuiRequestResolveNameServiceNames extends SuiRequest<
 
   @override
   List<dynamic> toJson() {
-    return [address.toString(), ...pagination?.toJson() ?? []];
+    return [address.address, ...pagination?.toJson() ?? []];
   }
 
   @override

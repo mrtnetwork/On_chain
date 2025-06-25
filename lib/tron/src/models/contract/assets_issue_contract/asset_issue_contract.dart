@@ -185,9 +185,9 @@ class AssetIssueContract extends TronBaseContract {
 
   /// Convert the [AssetIssueContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'name': StringUtils.decode(name),
       'abbr': StringUtils.decode(abbr),
       'total_supply': totalSupply.toString(),

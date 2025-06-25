@@ -51,7 +51,7 @@ class Transaction extends TronProtocolBufferImpl {
     bool txID = false,
   }) {
     return {
-      'raw_data': rawData.toJson(),
+      'raw_data': rawData.toJson(visible: visible ?? true),
       if (signatures)
         'signature': signature.map((s) => BytesUtils.toHexString(s)).toList(),
       if (txID) 'txID': rawData.txID,

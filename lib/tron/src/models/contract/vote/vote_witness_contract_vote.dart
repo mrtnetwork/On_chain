@@ -35,9 +35,9 @@ class VoteWitnessContractVote extends TronProtocolBufferImpl {
 
   /// Convert the [VoteWitnessContractVote] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'vote_address': voteAddress.toString(),
+      'vote_address': voteAddress.toAddress(visible),
       'vote_count': voteCount.toString(),
     };
   }

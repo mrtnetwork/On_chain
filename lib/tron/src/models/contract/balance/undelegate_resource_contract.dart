@@ -59,10 +59,10 @@ class UnDelegateResourceContract extends TronBaseContract {
 
   /// Convert the [UnDelegateResourceContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
-      'receiver_address': receiverAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
+      'receiver_address': receiverAddress.toAddress(visible),
       'balance': balance.toString(),
       'resource': resource?.name
     }..removeWhere((key, value) => value == null);

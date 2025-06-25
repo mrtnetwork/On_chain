@@ -103,10 +103,10 @@ class SmartContract extends TronProtocolBufferImpl {
 
   /// Convert the [SmartContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'origin_address': originAddress.toString(),
-      'contract_address': contractAddress?.toString(),
+      'origin_address': originAddress.toAddress(visible),
+      'contract_address': contractAddress?.toAddress(visible),
       'abi': abi?.toJson(),
       'bytecode': BytesUtils.toHexString(bytecode),
       'call_value': callValue?.toString(),

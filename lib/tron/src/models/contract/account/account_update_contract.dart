@@ -43,9 +43,9 @@ class AccountUpdateContract extends TronBaseContract {
 
   /// Convert the [AccountUpdateContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'account_name': StringUtils.tryDecode(accountName)
     };
   }

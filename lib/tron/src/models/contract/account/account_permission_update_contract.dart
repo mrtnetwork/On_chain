@@ -78,10 +78,10 @@ class AccountPermissionUpdateContract extends TronBaseContract {
   @override
 
   /// Convert the [AccountPermissionUpdateContract] object to a JSON representation.
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
-      'actives': actives.map((e) => e.toJson()).toList(),
+      'owner_address': ownerAddress.toAddress(visible),
+      'actives': actives.map((e) => e.toJson(visible: visible)).toList(),
       'owner': owner.toJson(),
       'witness': witness?.toJson(),
     }..removeWhere((key, value) => value == null);

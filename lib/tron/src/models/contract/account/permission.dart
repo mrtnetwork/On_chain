@@ -96,12 +96,12 @@ class Permission extends TronProtocolBufferImpl {
 
   /// Convert the [Permission] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
       'threshold': threshold,
       'permission_name': permissionName,
       'type': type?.name,
-      'keys': keys?.map((e) => e.toJson()).toList(),
+      'keys': keys?.map((e) => e.toJson(visible: visible)).toList(),
       'id': id,
       'parent_id': parentId,
       'operations': BytesUtils.tryToHexString(operations),

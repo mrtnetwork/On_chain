@@ -198,7 +198,7 @@ class Any extends TronProtocolBufferImpl {
 
   /// Convert the [Any] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
-    return {'value': value.toJson(), 'type_url': typeUrl};
+  Map<String, dynamic> toJson({bool visible = true}) {
+    return {'value': value.toJson(visible: visible), 'type_url': typeUrl};
   }
 }

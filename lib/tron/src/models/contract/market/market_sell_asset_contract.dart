@@ -62,9 +62,9 @@ class MarketSellAssetContract extends TronBaseContract {
 
   /// Convert the [MarketSellAssetContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'owner_address': ownerAddress.toString(),
+      'owner_address': ownerAddress.toAddress(visible),
       'sell_token_id': BytesUtils.tryToHexString(sellTokenId),
       'sell_token_quantity': sellTokenQuantity?.toString(),
       'buy_token_id': BytesUtils.tryToHexString(buyTokenId),

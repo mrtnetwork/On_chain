@@ -34,13 +34,7 @@ class SuiRequestDevInspectTransactionBlock
 
   @override
   List<dynamic> toJson() {
-    return [
-      sender.toString(),
-      txBytes,
-      gasPrice,
-      epoch,
-      additionalArgs?.toJson()
-    ];
+    return [sender.address, txBytes, gasPrice, epoch, additionalArgs?.toJson()];
   }
 
   @override

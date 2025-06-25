@@ -15,7 +15,7 @@ class SuiRequestGetAllBalances extends SuiRequest<List<SuiApiBalanceResponse>,
 
   @override
   List<dynamic> toJson() {
-    return [owner.toString()];
+    return [owner.address];
   }
 
   @override

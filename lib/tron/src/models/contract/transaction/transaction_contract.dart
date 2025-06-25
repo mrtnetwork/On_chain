@@ -55,10 +55,10 @@ class TransactionContract extends TronProtocolBufferImpl {
 
   /// Convert the [TransactionContract] object to a JSON representation.
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool visible = true}) {
     return {
       'type': type.name,
-      'parameter': parameter.toJson(),
+      'parameter': parameter.toJson(visible: visible),
       'contract_name': StringUtils.tryDecode(contractName),
       'provider': StringUtils.tryDecode(provider),
       'Permission_id': permissionId
