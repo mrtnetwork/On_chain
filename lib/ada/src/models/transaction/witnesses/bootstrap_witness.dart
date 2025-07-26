@@ -19,8 +19,8 @@ class BootstrapWitness
     required this.signature,
     required List<int> chainCode,
     required List<int> attributes,
-  })  : chainCode = BytesUtils.toBytes(chainCode, unmodifiable: true),
-        attributes = BytesUtils.toBytes(attributes, unmodifiable: true);
+  })  : chainCode = chainCode.asImmutableBytes,
+        attributes = attributes.asImmutableBytes;
   factory BootstrapWitness.deserialize(CborListValue cbor) {
     return BootstrapWitness(
         vkey: Vkey.deserialize(cbor.getIndex(0)),

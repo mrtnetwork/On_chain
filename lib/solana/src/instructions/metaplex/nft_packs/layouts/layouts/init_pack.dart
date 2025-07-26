@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/pack_distribution_type.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -22,7 +21,7 @@ class MetaplexNFTPacksInitPackLayout extends MetaplexNFTPacksProgramLayout {
       required this.allowedAmountToRedeem,
       this.redeemStartDate,
       this.redeemEndDate})
-      : name = BytesUtils.toBytes(name, unmodifiable: true);
+      : name = name.asImmutableBytes;
 
   factory MetaplexNFTPacksInitPackLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(

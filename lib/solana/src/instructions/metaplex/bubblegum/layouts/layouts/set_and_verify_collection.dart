@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
@@ -22,9 +22,9 @@ class MetaplexBubblegumSetAndVerifyCollectionLayout
       required this.index,
       required this.message,
       required this.collection})
-      : root = BytesUtils.toBytes(root, unmodifiable: true),
-        dataHash = BytesUtils.toBytes(dataHash, unmodifiable: true),
-        creatorHash = BytesUtils.toBytes(creatorHash, unmodifiable: true);
+      : root = root.asImmutableBytes,
+        dataHash = dataHash.asImmutableBytes,
+        creatorHash = creatorHash.asImmutableBytes;
 
   factory MetaplexBubblegumSetAndVerifyCollectionLayout.fromBuffer(
       List<int> data) {

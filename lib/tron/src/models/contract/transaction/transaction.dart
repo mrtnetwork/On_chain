@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/transaction_raw.dart';
 import 'package:blockchain_utils/utils/utils.dart';
@@ -17,9 +18,7 @@ class Transaction extends TronProtocolBufferImpl {
 
   /// Create a new [Transaction] instance with specified parameters.
   Transaction({required this.rawData, required List<List<int>> signature})
-      : signature = signature
-            .map((e) => BytesUtils.toBytes(e, unmodifiable: true))
-            .toList();
+      : signature = signature.map((e) => e.asImmutableBytes).toImutableList;
 
   factory Transaction.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);

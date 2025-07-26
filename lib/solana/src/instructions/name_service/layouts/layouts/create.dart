@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/name_service/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -21,7 +21,7 @@ class NameServiceCreateLayout extends NameServiceProgramLayout {
     required this.lamports,
     required List<int> hashedName,
     required this.space,
-  }) : hashedName = BytesUtils.toBytes(hashedName, unmodifiable: true);
+  }) : hashedName = hashedName.asImmutableBytes;
 
   /// Creates a NameServiceCreateLayout instance from buffer data.
   factory NameServiceCreateLayout.fromBuffer(List<int> data) {

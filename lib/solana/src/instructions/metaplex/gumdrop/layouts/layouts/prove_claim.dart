@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
 import 'package:blockchain_utils/layout/layout.dart';
@@ -22,10 +22,10 @@ class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
       required this.amount,
       required this.claimantSecret,
       required List<List<int>> proof})
-      : proof = List<List<int>>.unmodifiable(
-            proof.map((e) => BytesUtils.toBytes(e, unmodifiable: true))),
-        claimPrefix = BytesUtils.toBytes(claimPrefix, unmodifiable: true),
-        resourceNonce = BytesUtils.toBytes(resourceNonce, unmodifiable: true);
+      : proof =
+            List<List<int>>.unmodifiable(proof.map((e) => e.asImmutableBytes)),
+        claimPrefix = claimPrefix.asImmutableBytes,
+        resourceNonce = resourceNonce.asImmutableBytes;
 
   factory MetaplexGumdropProveClaimLayout.fromBuffer(List<int> data) {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(

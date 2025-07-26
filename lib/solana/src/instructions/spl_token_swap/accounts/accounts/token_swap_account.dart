@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/types/types.dart';
@@ -75,8 +75,7 @@ class SPLTokenSwapAccount extends LayoutSerializable {
     required this.fees,
     required this.curveType,
     required List<int> curveParameters,
-  }) : curveParameters =
-            BytesUtils.toBytes(curveParameters, unmodifiable: true);
+  }) : curveParameters = curveParameters.asImmutableBytes;
   factory SPLTokenSwapAccount.fromBuffer(List<int> data) {
     final decode = LayoutSerializable.decode(
         bytes: data, layout: SPLTokenSwapAccountUtils.layout);

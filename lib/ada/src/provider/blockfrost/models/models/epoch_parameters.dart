@@ -53,7 +53,7 @@ class ADAEpochParametersResponse {
   final int protocolMinorVer;
 
   /// Minimum UTXO value
-  final String minUtxo;
+  final BigInt minUtxo;
 
   /// Minimum stake cost forced on the pool
   final String minPoolCost;
@@ -110,7 +110,7 @@ class ADAEpochParametersResponse {
         extraEntropy: json['extra_entropy'],
         protocolMajorVer: json['protocol_major_ver'],
         protocolMinorVer: json['protocol_minor_ver'],
-        minUtxo: json['min_utxo'],
+        minUtxo: BigintUtils.parse(json['min_utxo']),
         minPoolCost: json['min_pool_cost'],
         nonce: json['nonce'],
         costModels: Map<String, dynamic>.from(json['cost_models'] ?? {}),

@@ -19,7 +19,7 @@ class AccountUpdateContract extends TronBaseContract {
   AccountUpdateContract({
     required this.ownerAddress,
     required List<int> accountName,
-  }) : accountName = BytesUtils.toBytes(accountName, unmodifiable: true);
+  }) : accountName = accountName.asImmutableBytes;
 
   factory AccountUpdateContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 
@@ -6,7 +6,7 @@ class MetaplexCandyMachineUpdateCandyGuardLayout
     extends MetaplexCandyMachineProgramLayout {
   final List<int> data;
   MetaplexCandyMachineUpdateCandyGuardLayout({required List<int> data})
-      : data = BytesUtils.toBytes(data, unmodifiable: true);
+      : data = data.asImmutableBytes;
 
   factory MetaplexCandyMachineUpdateCandyGuardLayout.fromBuffer(
       List<int> data) {

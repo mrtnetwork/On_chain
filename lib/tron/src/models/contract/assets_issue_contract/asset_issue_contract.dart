@@ -70,10 +70,10 @@ class AssetIssueContract extends TronBaseContract {
     this.publicFreeAssetNetUsage,
     this.publicLatestFreeNetTime,
     this.id,
-  })  : name = BytesUtils.toBytes(name, unmodifiable: true),
-        abbr = BytesUtils.toBytes(abbr, unmodifiable: true),
+  })  : name = name.asImmutableBytes,
+        abbr = abbr.asImmutableBytes,
         frozenSupply = (frozenSupply?.isNotEmpty ?? false)
-            ? List.unmodifiable(frozenSupply!)
+            ? frozenSupply?.toImutableList
             : null,
         description = BytesUtils.tryToBytes(description, unmodifiable: true),
         url = BytesUtils.tryToBytes(url, unmodifiable: true);

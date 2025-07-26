@@ -93,7 +93,7 @@ class ADATransactionBuilder {
     return null;
   }
 
-  int estimateSize({ADAAddress? onChangeAddress}) {
+  int estimateSize() {
     if (utxos.isEmpty || _outputs.isEmpty) {
       throw const ADAPluginException(
           'Utxos and outputs must not be not empty.');

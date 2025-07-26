@@ -25,7 +25,7 @@ class TransferAssetContract extends TronBaseContract {
       required this.ownerAddress,
       required this.toAddress,
       required this.amount})
-      : assetName = BytesUtils.toBytes(assetName, unmodifiable: true);
+      : assetName = assetName.asImmutableBytes;
   factory TransferAssetContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return TransferAssetContract(

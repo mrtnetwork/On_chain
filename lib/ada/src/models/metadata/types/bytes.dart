@@ -10,7 +10,7 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
 
   /// Constructs a TransactionMetadataBytes object.
   TransactionMetadataBytes({required List<int> value})
-      : value = BytesUtils.toBytes(value, unmodifiable: true);
+      : value = value.asImmutableBytes;
 
   /// Deserializes a TransactionMetadataBytes object from CBOR.
   factory TransactionMetadataBytes.deserialize(CborBytesValue cbor) {

@@ -66,9 +66,9 @@ class SmartContract extends TronProtocolBufferImpl {
       List<int>? codeHash,
       List<int>? trxHash,
       this.version})
-      : bytecode = BytesUtils.toBytes(bytecode, unmodifiable: true),
-        trxHash = BytesUtils.tryToBytes(trxHash, unmodifiable: true),
-        codeHash = BytesUtils.tryToBytes(codeHash, unmodifiable: true);
+      : bytecode = bytecode.asImmutableBytes,
+        trxHash = trxHash?.asImmutableBytes,
+        codeHash = codeHash?.asImmutableBytes;
   final TronAddress originAddress;
   final TronAddress? contractAddress;
   final SmartContractABI? abi;

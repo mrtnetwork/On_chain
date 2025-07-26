@@ -1,5 +1,5 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/signer/const/constants.dart';
-import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
@@ -57,8 +57,8 @@ class Secp256k1Layout extends ProgramLayout {
     required List<int> signature,
     required List<int> message,
     required this.recoveryId,
-  })  : signature = BytesUtils.toBytes(signature, unmodifiable: true),
-        message = BytesUtils.toBytes(message, unmodifiable: true);
+  })  : signature = signature.asImmutableBytes,
+        message = message.asImmutableBytes;
 
   /// Create an secp256k1 layout with an Ethereum address.
   factory Secp256k1Layout.fromEthAddress(

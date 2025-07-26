@@ -8,8 +8,7 @@ class PlutusBytes extends PlutusData {
   final List<int> value;
 
   /// Constructs a [PlutusBytes] instance with the given value.
-  PlutusBytes({required List<int> value})
-      : value = BytesUtils.toBytes(value, unmodifiable: true);
+  PlutusBytes({required List<int> value}) : value = value.asImmutableBytes;
 
   /// Deserializes a [PlutusBytes] instance from CBOR.
   factory PlutusBytes.deserialize(CborObject cbor) {

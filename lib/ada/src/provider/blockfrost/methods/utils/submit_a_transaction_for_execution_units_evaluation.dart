@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/blockfrost.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
@@ -9,7 +9,7 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluation
         Map<String, dynamic>> {
   BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluation(
       List<int> transactionCborBytes)
-      : transactionCborBytes = BytesUtils.toBytes(transactionCborBytes);
+      : transactionCborBytes = transactionCborBytes.asImmutableBytes;
 
   /// Submit a transaction for execution units evaluation
   @override

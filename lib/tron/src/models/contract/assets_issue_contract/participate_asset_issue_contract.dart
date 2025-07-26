@@ -25,7 +25,7 @@ class ParticipateAssetIssueContract extends TronBaseContract {
       required this.toAddress,
       required List<int> assetName,
       required this.amount})
-      : assetName = BytesUtils.toBytes(assetName, unmodifiable: true);
+      : assetName = assetName.asImmutableBytes;
   factory ParticipateAssetIssueContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return ParticipateAssetIssueContract(

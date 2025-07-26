@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
@@ -18,7 +18,7 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
   final List<int> quoteCurrency;
   TokenLendingInitLendingMarketLayout._(
       {required this.owner, required List<int> quoteCurrency})
-      : quoteCurrency = BytesUtils.toBytes(quoteCurrency, unmodifiable: true);
+      : quoteCurrency = quoteCurrency.asImmutableBytes;
   factory TokenLendingInitLendingMarketLayout(
       {required SolAddress owner, required List<int> quoteCurrency}) {
     if (quoteCurrency.length != 32) {

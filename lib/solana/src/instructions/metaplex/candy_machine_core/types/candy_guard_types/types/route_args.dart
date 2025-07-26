@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -9,7 +9,7 @@ class RouteArgs extends LayoutSerializable {
   final List<int> data;
 
   RouteArgs({required this.guard, required List<int> data})
-      : data = BytesUtils.toBytes(data, unmodifiable: true);
+      : data = data = data.asImmutableBytes;
   factory RouteArgs.fromJson(Map<String, dynamic> json) {
     return RouteArgs(
         guard: GuardType.fromValue(json['guard']),

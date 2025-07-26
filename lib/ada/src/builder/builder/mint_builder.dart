@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/models/ada_models.dart';
 
@@ -10,7 +10,7 @@ class ADAMinsBuilder {
       {required List<int> pubKeyBytes,
       required this.mintingAssets,
       required this.owner})
-      : pubKeyBytes = BytesUtils.toBytes(pubKeyBytes);
+      : pubKeyBytes = pubKeyBytes.asImmutableBytes;
   PolicyID toPolicyId() {
     return PolicyID(toScript().toHash().data);
   }

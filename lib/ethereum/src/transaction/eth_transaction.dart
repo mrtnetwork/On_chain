@@ -265,7 +265,7 @@ class ETHTransaction {
     this.maxFeePerGas,
     this.signature,
     List<AccessListEntry>? accessList,
-  })  : data = List<int>.unmodifiable(BytesUtils.toBytes(data ?? [])),
+  })  : data = (data ?? <int>[]).asImmutableBytes,
         accessList = accessList == null
             ? null
             : List<AccessListEntry>.unmodifiable(accessList);

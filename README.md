@@ -137,7 +137,7 @@ Here are some examples:
 
 - Sign: Effortlessly sign and create transactions authenticator using ed25519, secp256r1, secp256k1, and Multisig.
 
-- Provider: Robust interaction with the Aptos blockchain via RPC.
+- Provider: Robust interaction with the Sui blockchain via RPC.
 
 - HD-Wallet: Manage mnemonic generation, seed derivation, and address creation
 

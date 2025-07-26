@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -12,7 +12,7 @@ class ExtraAccountMeta extends LayoutSerializable {
       required List<int> addressConfig,
       required this.isSigner,
       required this.isWritable})
-      : addressConfig = BytesUtils.toBytes(addressConfig, unmodifiable: true);
+      : addressConfig = addressConfig.asImmutableBytes;
   factory ExtraAccountMeta.fromJson(Map<String, dynamic> json) {
     return ExtraAccountMeta(
         discriminator: json['discriminator'],

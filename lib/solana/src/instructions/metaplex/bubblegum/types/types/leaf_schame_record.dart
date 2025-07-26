@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -12,8 +11,8 @@ class LeafSchemaV1 extends LayoutSerializable {
     required this.nonce,
     required List<int> dataHash,
     required List<int> creatorHash,
-  })  : dataHash = BytesUtils.toBytes(dataHash, unmodifiable: true),
-        creatorHash = BytesUtils.toBytes(creatorHash, unmodifiable: true);
+  })  : dataHash = dataHash.asImmutableBytes,
+        creatorHash = creatorHash.asImmutableBytes;
 
   factory LeafSchemaV1.fromJson(Map<String, dynamic> json) {
     return LeafSchemaV1(

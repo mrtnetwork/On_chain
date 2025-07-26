@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -6,7 +6,7 @@ class AllowList extends LayoutSerializable {
   final List<int> merkleRoot;
 
   AllowList({required List<int> merkleRoot})
-      : merkleRoot = BytesUtils.toBytes(merkleRoot, unmodifiable: true);
+      : merkleRoot = merkleRoot.asImmutableBytes;
   factory AllowList.fromJson(Map<String, dynamic> json) {
     return AllowList(merkleRoot: (json['merkleRoot'] as List).cast());
   }

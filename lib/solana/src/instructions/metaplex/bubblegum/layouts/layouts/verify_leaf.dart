@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
 import 'package:blockchain_utils/layout/layout.dart';
@@ -11,8 +11,8 @@ class MetaplexBubblegumVerifyLeafLayout extends MetaplexBubblegumProgramLayout {
     required List<int> root,
     required List<int> leaf,
     required this.index,
-  })  : root = BytesUtils.toBytes(root, unmodifiable: true),
-        leaf = BytesUtils.toBytes(leaf, unmodifiable: true);
+  })  : root = root.asImmutableBytes,
+        leaf = leaf.asImmutableBytes;
 
   factory MetaplexBubblegumVerifyLeafLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(

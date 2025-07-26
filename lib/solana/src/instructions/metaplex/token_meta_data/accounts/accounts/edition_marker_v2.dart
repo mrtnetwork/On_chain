@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -13,7 +13,7 @@ class EditionMarkerV2 extends LayoutSerializable {
   final List<int> ledger;
 
   EditionMarkerV2({required this.key, required List<int> ledger})
-      : ledger = BytesUtils.toBytes(ledger, unmodifiable: true);
+      : ledger = ledger.asImmutableBytes;
   factory EditionMarkerV2.fromBuffer(List<int> data) {
     final decode =
         LayoutSerializable.decode(bytes: data, layout: _Utils.layout);

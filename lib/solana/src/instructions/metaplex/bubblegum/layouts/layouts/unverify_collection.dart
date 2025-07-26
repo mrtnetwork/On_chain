@@ -1,7 +1,6 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
-import 'package:blockchain_utils/layout/layout.dart';
 
 class MetaplexBubblegumUnverifyCollectionLayout
     extends MetaplexBubblegumProgramLayout {
@@ -18,9 +17,9 @@ class MetaplexBubblegumUnverifyCollectionLayout
       required this.nonce,
       required this.index,
       required this.message})
-      : root = BytesUtils.toBytes(root, unmodifiable: true),
-        dataHash = BytesUtils.toBytes(dataHash, unmodifiable: true),
-        creatorHash = BytesUtils.toBytes(creatorHash, unmodifiable: true);
+      : root = root.asImmutableBytes,
+        dataHash = dataHash.asImmutableBytes,
+        creatorHash = creatorHash.asImmutableBytes;
 
   factory MetaplexBubblegumUnverifyCollectionLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(

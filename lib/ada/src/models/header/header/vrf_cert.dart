@@ -7,7 +7,7 @@ class VRFCert with ADASerialization {
   final List<int> output;
   final List<int> proof;
   VRFCert({required List<int> output, required List<int> proof})
-      : output = BytesUtils.toBytes(output, unmodifiable: true),
+      : output = output.asImmutableBytes,
         proof = AdaTransactionUtils.validateFixedLengthBytes(
             bytes: proof,
             length: AdaTransactionConstant.proofLength,

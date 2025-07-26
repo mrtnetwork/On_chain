@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 
@@ -6,7 +6,7 @@ class MetaplexBubblegumCancelRedeemLayout
     extends MetaplexBubblegumProgramLayout {
   final List<int> root;
   MetaplexBubblegumCancelRedeemLayout({required List<int> root})
-      : root = BytesUtils.toBytes(root, unmodifiable: true);
+      : root = root.asImmutableBytes;
 
   factory MetaplexBubblegumCancelRedeemLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(

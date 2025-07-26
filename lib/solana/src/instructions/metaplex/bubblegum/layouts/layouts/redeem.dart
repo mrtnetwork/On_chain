@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 
@@ -14,9 +14,9 @@ class MetaplexBubblegumRedeemLayout extends MetaplexBubblegumProgramLayout {
       required List<int> creatorHash,
       required this.nonce,
       required this.index})
-      : root = BytesUtils.toBytes(root, unmodifiable: true),
-        dataHash = BytesUtils.toBytes(dataHash, unmodifiable: true),
-        creatorHash = BytesUtils.toBytes(creatorHash, unmodifiable: true);
+      : root = root.asImmutableBytes,
+        dataHash = dataHash.asImmutableBytes,
+        creatorHash = creatorHash.asImmutableBytes;
 
   factory MetaplexBubblegumRedeemLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(

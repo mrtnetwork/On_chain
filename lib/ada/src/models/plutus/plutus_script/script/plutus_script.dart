@@ -8,7 +8,7 @@ class PlutusScript with ADASerialization {
   final Language language;
 
   PlutusScript({required List<int> bytes, required this.language})
-      : bytes = BytesUtils.toBytes(bytes, unmodifiable: true);
+      : bytes = bytes.asImmutableBytes;
   factory PlutusScript.fromCborBytes(List<int> cborBytes,
       {Language language = Language.plutusV1}) {
     return PlutusScript.deserialize(CborObject.fromCbor(cborBytes).cast(),

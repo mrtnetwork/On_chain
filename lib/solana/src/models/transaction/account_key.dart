@@ -32,7 +32,7 @@ class MessageAccountKeys {
   late final int length = _keySegments.expand((segment) => segment).length;
 
   /// Retrieve the Solana address at the specified index.
-  SolAddress? byIndex(index) {
+  SolAddress? byIndex(int index) {
     for (final keySegment in _keySegments) {
       if (index < keySegment.length) {
         return keySegment[index];

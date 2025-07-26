@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/blockfrost.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 
@@ -9,7 +9,7 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUT
   BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUTXOset(
       {required this.additionalUtxoSet,
       required List<int> transactionCborBytes})
-      : transactionCborBytes = BytesUtils.toBytes(transactionCborBytes);
+      : transactionCborBytes = transactionCborBytes.asImmutableBytes;
 
   /// Additional UTXO as an array of tuples [TxIn, TxOut].
   /// See https://ogmios.dev/mini-protocols/local-tx-submission/#additional-utxo-set.

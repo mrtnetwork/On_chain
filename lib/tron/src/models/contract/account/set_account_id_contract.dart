@@ -19,7 +19,7 @@ class SetAccountIdContract extends TronBaseContract {
   SetAccountIdContract({
     required List<int> accountId,
     required this.ownerAddress,
-  }) : accountId = BytesUtils.toBytes(accountId, unmodifiable: true);
+  }) : accountId = accountId.asImmutableBytes;
 
   factory SetAccountIdContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);

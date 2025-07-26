@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -9,7 +9,7 @@ class CandyMachineHiddenSettings extends LayoutSerializable {
   CandyMachineHiddenSettings(
       {required this.name, required this.uri, required List<int> hash})
       : assert(hash.length == 32, 'Hash must be exactly 32 bytes.'),
-        hash = BytesUtils.toBytes(hash, unmodifiable: true);
+        hash = hash.asImmutableBytes;
   factory CandyMachineHiddenSettings.fromJson(Map<String, dynamic> json) {
     return CandyMachineHiddenSettings(
         name: json['name'], uri: json['uri'], hash: json['hash']);

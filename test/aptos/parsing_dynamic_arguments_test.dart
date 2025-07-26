@@ -17,7 +17,7 @@ void main() {
   _testAbi();
 }
 
-_testAbi() {
+void _testAbi() {
   test("aptos module abi parsing arguments", () {
     final AptosApiMoveModule abi = AptosApiMoveModule.fromJson(_abiJson);
     final function =

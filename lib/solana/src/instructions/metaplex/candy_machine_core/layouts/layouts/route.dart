@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_guard_types/types.dart';
 import 'package:blockchain_utils/layout/layout.dart';
@@ -10,7 +10,7 @@ class MetaplexCandyMachineRouteLayout
   final String? group;
   MetaplexCandyMachineRouteLayout(
       {required this.guard, required List<int> data, this.group})
-      : data = BytesUtils.toBytes(data, unmodifiable: true);
+      : data = data.asImmutableBytes;
 
   factory MetaplexCandyMachineRouteLayout.fromBuffer(List<int> data) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(

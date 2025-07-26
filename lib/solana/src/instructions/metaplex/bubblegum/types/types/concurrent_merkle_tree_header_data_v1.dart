@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -16,7 +16,7 @@ class ConcurrentMerkleTreeHeaderDataV1 extends LayoutSerializable {
       required this.authority,
       required this.creationSlot,
       required List<int> padding})
-      : padding = BytesUtils.toBytes(padding, unmodifiable: true);
+      : padding = padding.asImmutableBytes;
   factory ConcurrentMerkleTreeHeaderDataV1.fromJson(Map<String, dynamic> json) {
     return ConcurrentMerkleTreeHeaderDataV1(
         maxBufferSize: json['maxBufferSize'],

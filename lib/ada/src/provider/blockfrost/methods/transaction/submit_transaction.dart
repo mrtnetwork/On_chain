@@ -7,7 +7,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 class BlockfrostRequestSubmitTransaction
     extends BlockFrostPostRequest<String, String> {
   BlockfrostRequestSubmitTransaction({required List<int> transactionCborBytes})
-      : transactionCborBytes = BytesUtils.toBytes(transactionCborBytes);
+      : transactionCborBytes = transactionCborBytes.asImmutableBytes;
 
   /// Submit a transaction
   @override

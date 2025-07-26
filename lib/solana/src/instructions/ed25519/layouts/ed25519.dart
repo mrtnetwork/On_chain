@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
@@ -60,8 +61,8 @@ class Ed25519ProgramLayout extends ProgramLayout {
     required this.publicKey,
     required List<int> message,
     required List<int> signature,
-  })  : signature = BytesUtils.toBytes(signature, unmodifiable: true),
-        message = BytesUtils.toBytes(message, unmodifiable: true);
+  })  : signature = signature.asImmutableBytes,
+        message = message.asImmutableBytes;
 
   /// Create an ed25519 instruction with a private key.
   factory Ed25519ProgramLayout.fromPrivateKey({

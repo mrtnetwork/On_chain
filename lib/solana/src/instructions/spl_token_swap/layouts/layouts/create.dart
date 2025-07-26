@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/types/types.dart';
 import 'package:blockchain_utils/layout/layout.dart';
@@ -18,8 +18,7 @@ class SPLTokenSwapInitSwapLayout extends SPLTokenSwapProgramLayout {
     required this.fees,
     required this.curveType,
     required List<int> curveParameters,
-  }) : curveParameters =
-            BytesUtils.toBytes(curveParameters, unmodifiable: true);
+  }) : curveParameters = curveParameters.asImmutableBytes;
 
   /// Constructs a [SPLTokenSwapInitSwapLayout] instance from the given byte array.
   factory SPLTokenSwapInitSwapLayout.fromBuffer(List<int> bytes) {

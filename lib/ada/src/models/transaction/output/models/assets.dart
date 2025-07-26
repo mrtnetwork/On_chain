@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
@@ -11,9 +12,27 @@ class Assets with ADASerialization {
   /// Constructs an instance of Assets.
   Assets._(Map<AssetName, BigInt> assets)
       : assets = Map<AssetName, BigInt>.unmodifiable(assets);
+
+  bool get hasAsset => assets.isNotEmpty;
+
   factory Assets(Map<AssetName, BigInt> assets) {
     final keys = assets.keys.toList()..sort();
     return Assets._({for (final i in keys) i: assets[i]!});
+  }
+
+  Assets updateAssetName(AssetName asset, BigInt amount) {
+    final assets = this.assets.clone();
+    assets[asset] = amount;
+    return Assets(assets);
+  }
+
+  Assets removeAssetName(AssetName asset) {
+    if (!this.assets.containsKey(asset)) {
+      return this;
+    }
+    final assets = this.assets.clone();
+    assets.remove(asset);
+    return Assets(assets);
   }
 
   /// Constructs an instance of Assets from a CBOR object.
@@ -68,6 +87,7 @@ class Assets with ADASerialization {
     for (final i in other.assets.entries) {
       if (!values.containsKey(i.key)) continue;
       final val = values[i.key]! - i.value;
+      // assert(!val.isNegative, "invalid asset balance");
       if (val <= BigInt.zero) {
         values.remove(i.key);
       } else {

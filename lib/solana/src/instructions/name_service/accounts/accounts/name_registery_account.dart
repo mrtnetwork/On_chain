@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
@@ -24,7 +23,7 @@ class NameRegistryAccount extends LayoutSerializable {
       required this.owner,
       required this.classAccount,
       required List<int> data})
-      : data = BytesUtils.toBytes(data, unmodifiable: true);
+      : data = data = data.asImmutableBytes;
   factory NameRegistryAccount.fromBuffer(List<int> data) {
     final decode = LayoutSerializable.decode(
         bytes: data, layout: NameRegistryAccountUtils.layout);

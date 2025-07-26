@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 
@@ -7,7 +7,7 @@ class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
   final String? group;
   MetaplexCandyMachineMintLayout(
       {required List<int> mintArgs, required this.group})
-      : mintArgs = BytesUtils.toBytes(mintArgs, unmodifiable: true);
+      : mintArgs = mintArgs.asImmutableBytes;
 
   factory MetaplexCandyMachineMintLayout.fromBuffer(List<int> data) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(

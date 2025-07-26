@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
@@ -39,6 +40,33 @@ class MultiAsset with ADASerialization implements Comparable<MultiAsset> {
     return MultiAsset(assets ?? this.assets);
   }
 
+  MultiAsset updateAssetName(
+      {required PolicyID polcyId,
+      required AssetName assetName,
+      required BigInt amount}) {
+    final assets = this.assets.clone();
+    if (assets.containsKey(polcyId)) {
+      assets[polcyId] = assets[polcyId]!.updateAssetName(assetName, amount);
+    } else {
+      assets[polcyId] = Assets({assetName: amount});
+    }
+    return MultiAsset(assets);
+  }
+
+  MultiAsset removeAssetName(
+      {required PolicyID polcyId, required AssetName assetName}) {
+    final assets = this.assets.clone();
+    if (assets.containsKey(polcyId)) {
+      final updateAssets = assets[polcyId]!.removeAssetName(assetName);
+      if (updateAssets.assets.isEmpty) {
+        assets.remove(polcyId);
+      } else {
+        assets[polcyId] = updateAssets;
+      }
+    }
+    return MultiAsset(assets);
+  }
+
   MultiAsset operator +(MultiAsset other) {
     final currentAssets = Map<PolicyID, Assets>.from(assets);
     for (final i in other.assets.entries) {
@@ -49,6 +77,10 @@ class MultiAsset with ADASerialization implements Comparable<MultiAsset> {
       }
     }
     return MultiAsset(currentAssets);
+  }
+
+  BigInt getAssetNameBalance(PolicyID id, AssetName name) {
+    return assets[id]?.assets[name] ?? BigInt.zero;
   }
 
   MultiAsset operator -(MultiAsset other) {

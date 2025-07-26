@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/update_meta_data.dart';
@@ -17,7 +17,7 @@ class MetaplexBubblegumUpdateMetadataLayout
       required this.index,
       required this.currentMetaData,
       required this.updateMetadata})
-      : root = BytesUtils.toBytes(root, unmodifiable: true);
+      : root = root.asImmutableBytes;
 
   factory MetaplexBubblegumUpdateMetadataLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(

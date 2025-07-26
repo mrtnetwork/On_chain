@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
@@ -8,8 +9,7 @@ class AssetName with ADASerialization implements Comparable<AssetName> {
   final List<int> data;
 
   /// Constructs an [AssetName] instance.
-  AssetName(List<int> data)
-      : data = BytesUtils.toBytes(data, unmodifiable: true);
+  AssetName(List<int> data) : data = data.asImmutableBytes;
 
   /// Deserializes an [AssetName] instance from CBOR bytes value.
   factory AssetName.deserialize(CborBytesValue cbor) {

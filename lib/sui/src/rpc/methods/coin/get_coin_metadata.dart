@@ -6,7 +6,7 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// or the latest version of the metadata object is wrapped or deleted, it will not be found.
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_getcoinmetadata)
 class SuiRequestGetCoinMetadata
-    extends SuiRequest<SuiApiCoinMetadataResponse, Map<String, dynamic>> {
+    extends SuiRequest<SuiApiCoinMetadataResponse?, Map<String, dynamic>?> {
   const SuiRequestGetCoinMetadata({required this.coinType});
 
   /// Type name for the coin (e.g., 0x168da5bf1f48dafc111b0a488fa454aca95e0b5e::usdc::USDC)
@@ -21,7 +21,8 @@ class SuiRequestGetCoinMetadata
   }
 
   @override
-  SuiApiCoinMetadataResponse onResonse(Map<String, dynamic> result) {
+  SuiApiCoinMetadataResponse? onResonse(Map<String, dynamic>? result) {
+    if (result == null) return null;
     return SuiApiCoinMetadataResponse.fromJson(result);
   }
 }
