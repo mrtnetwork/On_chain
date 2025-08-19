@@ -26,7 +26,9 @@ void main() async {
       json: StringUtils.toJson(
           '{"list":[{"constructor":0,"fields":[{"constructor":0,"fields":[{"bytes":"e93957943cf62a16bf6bedb2ac554a1b15849d14107bccf1f76cc146"}]},{"constructor":0,"fields":[{"map":[{"k":{"constructor":0,"fields":[{"constructor":0,"fields":[{"constructor":0,"fields":[]},{"constructor":0,"fields":[{"constructor":0,"fields":[{"bytes":"812691b6428b976e5e72e004f1876c1566a3f3f8cc05c9405b75c8cc"}]},{"constructor":0,"fields":[{"constructor":0,"fields":[{"constructor":0,"fields":[{"bytes":"e454ee23d6dc526c1ed6fd12e3a06a3e80ab7aad863331da0135518a"}]}]}]}]}]},{"constructor":0,"fields":[{"bytes":""},{"bytes":""}]}]},"v":{"int":2000000}}]},{"map":[]},{"map":[]},{"int":0}]},{"constructor":3,"fields":[{"list":[{"constructor":0,"fields":[{"constructor":0,"fields":[{"constructor":1,"fields":[{"bytes":"4164612070726f7669646572"}]},{"constructor":1,"fields":[{"bytes":"4164612070726f7669646572"}]},{"constructor":0,"fields":[{"bytes":""},{"bytes":""}]},{"constructor":5,"fields":[{"constructor":1,"fields":[{"int":1000000}]},{"constructor":1,"fields":[{"int":0}]}]}]},{"constructor":3,"fields":[{"list":[{"constructor":0,"fields":[{"constructor":0,"fields":[{"constructor":1,"fields":[{"bytes":"446f6c6c61722070726f7669646572"}]},{"constructor":1,"fields":[{"bytes":"446f6c6c61722070726f7669646572"}]},{"constructor":0,"fields":[{"bytes":"85bb65085bb65085bb65085bb65085bb65085bb65085bb65085bb650"},{"bytes":"646f6c6c6172"}]},{"constructor":1,"fields":[{"int":0}]}]},{"constructor":1,"fields":[{"constructor":1,"fields":[{"bytes":"4164612070726f7669646572"}]},{"constructor":1,"fields":[{"constructor":1,"fields":[{"bytes":"446f6c6c61722070726f7669646572"}]}]},{"constructor":0,"fields":[{"bytes":""},{"bytes":""}]},{"constructor":5,"fields":[{"constructor":1,"fields":[{"int":1000000}]},{"constructor":1,"fields":[{"int":0}]}]},{"constructor":1,"fields":[{"constructor":1,"fields":[{"bytes":"446f6c6c61722070726f7669646572"}]},{"constructor":1,"fields":[{"constructor":1,"fields":[{"bytes":"4164612070726f7669646572"}]}]},{"constructor":0,"fields":[{"bytes":"85bb65085bb65085bb65085bb65085bb65085bb65085bb65085bb650"},{"bytes":"646f6c6c6172"}]},{"constructor":1,"fields":[{"int":0}]},{"constructor":0,"fields":[]}]}]}]}]},{"int":1710267503680},{"constructor":0,"fields":[]}]}]}]},{"int":1710265703680},{"constructor":0,"fields":[]}]}]}]}'),
       schema: PlutusJsonSchema.detailedSchema) as PlutusList;
-  plutusData = plutusData.copyWith(definiteEncoding: true);
+  plutusData = plutusData.copyWith(
+      serializationConfig: const PlutusListSerializationConfig(
+          encoding: CborIterableEncodingType.inDefinite));
 
   final input = TransactionInput(
       transactionId: TransactionHash.fromHex(
@@ -102,41 +104,36 @@ void main() async {
   ], jsonSchema: MetadataJsonSchema.noConversions);
 
   final AuxiliaryData auxiliaryData = AuxiliaryData(
-      preferAlonzoFormat: true,
       metadata:
           GeneralTransactionMetadata(metadata: {BigInt.from(1564): metadata}));
 
   final body = TransactionBody(
-    inputs: [input],
+    inputs: TransactionInputs([input]),
     auxiliaryDataHash: auxiliaryData.toHash(),
-    outputs: [
+    outputs: TransactionOutputs([
       output1,
       output2,
       output3,
       output4,
-    ],
+    ]),
     fee: BigInt.from(473738),
     scriptDataHash: ScriptDataHash.fromHex(
         "5f56ac7d96f2a5c8eda8696adf2fb6451b955b303314a98eca6ff0b24ed8cfa8"),
     mint: mint,
-    collateral: [collateral],
+    collateral: TransactionInputs([collateral]),
     collateralReturn: collateralreturn,
     totalCollateral: totalcollateral,
   );
   final signerKey = AdaPrivateKey.fromBytes(external.bip44.privateKey.raw);
   final ws = TransactionWitnessSet(
-    plutusScripts: [
-      PlutusScript(
-          bytes: BytesUtils.fromHexString(_plData),
-          language: Language.plutusV2),
-    ],
-    vKeys: [
+    plutusScriptsV2: PlutusScripts([BytesUtils.fromHexString(_plData)]),
+    vKeys: VkeyWitnesses([
       Vkeywitness(
           vKey: Vkey(external.bip44.publicKey.compressed.sublist(1)),
           signature: Ed25519Signature(signerKey.sign(body.toHash().data)))
-    ],
+    ]),
     plutusData: plutusData,
-    redeemers: [
+    redeemers: Redeemers(redeemers: [
       Redeemer(
           tag: RedeemerTag.mint,
           index: BigInt.zero,
@@ -144,7 +141,7 @@ void main() async {
               ConstrPlutusData(alternative: BigInt.zero, data: PlutusList([])),
           exUnits:
               ExUnits(mem: BigInt.from(1123976), steps: BigInt.from(354221445)))
-    ],
+    ]),
   );
   final transaction =
       ADATransaction(body: body, witnessSet: ws, data: auxiliaryData);

@@ -1,13 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/shelly/core/shelly_address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
-import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 
 /// Represents an ADA reward address, a subtype of ADAShellyAddress.
 class ADARewardAddress extends ADAShellyAddress {
   /// The payment credential associated with the address.
   @override
-  final StakeCred paymentCredential;
+  final Credential paymentCredential;
 
   /// The address string.
   @override
@@ -38,7 +38,7 @@ class ADARewardAddress extends ADAShellyAddress {
 
   /// Factory method to create an ADARewardAddress instance from a payment credential.
   factory ADARewardAddress.fromCredential(
-      {required StakeCred credential,
+      {required Credential credential,
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaShelleyStakingAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential), {'net_tag': network});

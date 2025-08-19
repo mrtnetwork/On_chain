@@ -68,18 +68,19 @@ void main() async {
       metadata:
           GeneralTransactionMetadata(metadata: {BigInt.from(1): metadata}));
   final body = TransactionBody(
-    inputs: [input, input2, input3],
-    outputs: [change],
+    inputs: TransactionInputs([input, input2, input3]),
+    outputs: TransactionOutputs([change]),
     auxiliaryDataHash: aux.toHash(),
     fee: fee,
-    certs: [poolRegistration],
+    certificates: Certificates([poolRegistration]),
   );
 
   final transaction = ADATransaction(
       body: body,
       data: aux,
       witnessSet: TransactionWitnessSet(
-          vKeys: [privateKey.createSignatureWitness(body.toHash().data)]));
+          vKeys: VkeyWitnesses(
+              [privateKey.createSignatureWitness(body.toHash().data)])));
   await provider.request(BlockfrostRequestSubmitTransaction(
       transactionCborBytes: transaction.serialize()));
 

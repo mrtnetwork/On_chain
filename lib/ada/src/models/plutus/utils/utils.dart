@@ -2,18 +2,17 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/plutus/cost_model/cost_model.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/core/plutus_data.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/core/plutus_json_schame.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/types/constr_plutus_data.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/types/integer.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/types/bytes.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/types/list.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus/types/map.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus_script/language/language.dart';
-import 'package:on_chain/ada/src/models/plutus/plutus_script/redeemer_tag/redeemer.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_json_schame.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_data/models/constr_plutus_data.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_data/models/integer.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_data/models/bytes.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_data/models/list.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_data/models/map.dart';
+import 'package:on_chain/ada/src/models/plutus/plutus_script/models/language.dart';
+import 'package:on_chain/ada/src/models/plutus/redeemer/models/redeemer.dart';
 
 class PlutusDataUtils {
-  // static PlutusJsonSchema findSchame(Map<String, dynamic> json) {}
   static ScriptDataHash scriptDatahash(
       {required List<Redeemer> redeemers,
       required Costmdls costmdls,
@@ -23,7 +22,7 @@ class PlutusDataUtils {
           QuickCrypto.blake2b256Hash([0x80, ...datums.serialize(), 0xA0]));
     }
     final List<int> redeemersBytes =
-        CborListValue.fixedLength(redeemers.map((e) => e.toCbor()).toList())
+        CborListValue.definite(redeemers.map((e) => e.toCbor()).toList())
             .encode();
     return ScriptDataHash(QuickCrypto.blake2b256Hash([
       ...redeemersBytes,

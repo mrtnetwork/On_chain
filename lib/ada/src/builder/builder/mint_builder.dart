@@ -1,26 +1,19 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
-import 'package:on_chain/ada/src/models/ada_models.dart';
+import 'package:on_chain/ada/src/models/models.dart';
 
 class ADAMinsBuilder {
   final Assets mintingAssets;
   final ADAAddress owner;
-  final List<int> pubKeyBytes;
+  final NativeScriptScriptPubkey minterScript;
   ADAMinsBuilder(
-      {required List<int> pubKeyBytes,
+      {required this.minterScript,
       required this.mintingAssets,
-      required this.owner})
-      : pubKeyBytes = pubKeyBytes.asImmutableBytes;
+      required this.owner});
   PolicyID toPolicyId() {
-    return PolicyID(toScript().toHash().data);
+    return PolicyID(minterScript.toHash().data);
   }
 
   MultiAsset toMultiAssets() => MultiAsset({toPolicyId(): mintingAssets});
-
-  NativeScriptScriptPubkey toScript() {
-    final publickKey = Ed25519KeyHash.fromPubkey(pubKeyBytes);
-    return NativeScriptScriptPubkey(publickKey);
-  }
 
   MintAssets toMintAsset() {
     return MintAssets(mintingAssets.assets);

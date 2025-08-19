@@ -1,7 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
+import 'package:on_chain/ada/src/models/credential/models/key.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
-import 'package:on_chain/ada/src/models/certificate/core/certificate.dart';
-import 'package:on_chain/ada/src/models/certificate/core/types.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 /// Represents a pool retirement certificate with serialization support.
@@ -17,14 +19,16 @@ class PoolRetirement extends Certificate {
 
   /// Deserializes a PoolRetirement object from its CBOR representation.
   factory PoolRetirement.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.getIndex(0),
+    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
         validate: CertificateType.poolRetirement);
     return PoolRetirement(
-        epoch: cbor.getIndex<int>(2),
-        poolKeyHash: Ed25519KeyHash.deserialize(cbor.getIndex(1)));
+        epoch: cbor.elementAt<CborNumeric>(2).toInt(),
+        poolKeyHash:
+            Ed25519KeyHash.deserialize(cbor.elementAt<CborBytesValue>(1)));
   }
   factory PoolRetirement.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> correctJson = json['pool_retirement'] ?? json;
+    final Map<String, dynamic> correctJson =
+        json[CertificateType.poolRetirement.name] ?? json;
     return PoolRetirement(
         epoch: correctJson['epoch'],
         poolKeyHash: Ed25519KeyHash.fromHex(correctJson['pool_keyhash']));
@@ -44,14 +48,17 @@ class PoolRetirement extends Certificate {
 
   @override
   CborObject toCbor() {
-    return CborListValue.fixedLength(
+    return CborListValue.definite(
         [type.toCbor(), poolKeyHash.toCbor(), CborUnsignedValue.u32(epoch)]);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'pool_retirement': {'pool_keyhash': poolKeyHash.toJson(), 'epoch': epoch}
+      type.name: {'pool_keyhash': poolKeyHash.toJson(), 'epoch': epoch}
     };
   }
+
+  @override
+  List<Credential> get signersCredential => [CredentialKey(poolKeyHash.data)];
 }

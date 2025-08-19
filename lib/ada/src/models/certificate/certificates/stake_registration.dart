@@ -1,34 +1,36 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
-import 'package:on_chain/ada/src/models/certificate/core/certificate.dart';
-import 'package:on_chain/ada/src/models/certificate/core/types.dart';
-import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 
 /// Represents a stake registration certificate with serialization support.
 class StakeRegistration extends Certificate {
   /// The stake credential.
-  final StakeCred stakeCredential;
+  final Credential stakeCredential;
 
   /// Constructs a StakeRegistration object with the specified stake credential.
   const StakeRegistration(this.stakeCredential);
 
   /// Deserializes a StakeRegistration object from its CBOR representation.
   factory StakeRegistration.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.getIndex(0),
+    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
         validate: CertificateType.stakeRegistration);
-    return StakeRegistration(StakeCred.deserialize(cbor.getIndex(1)));
+    return StakeRegistration(
+        Credential.deserialize(cbor.elementAt<CborListValue>(1)));
   }
   factory StakeRegistration.fromJson(Map<String, dynamic> json) {
-    return StakeRegistration(StakeCred.fromJson(json['stake_credential'] ??
-        json['stake_registration']['stake_credential']));
+    final currentJson = json[CertificateType.stakeRegistration.name] ?? json;
+    return StakeRegistration(
+        Credential.fromJson(currentJson['stake_credential']));
   }
-  StakeRegistration copyWith({StakeCred? stakeCredential}) {
+  StakeRegistration copyWith({Credential? stakeCredential}) {
     return StakeRegistration(stakeCredential ?? this.stakeCredential);
   }
 
   @override
   CborListValue toCbor() {
-    return CborListValue.fixedLength([
+    return CborListValue.definite([
       type.toCbor(),
       stakeCredential.toCbor(),
     ]);
@@ -40,7 +42,10 @@ class StakeRegistration extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'stake_registration': {'stake_credential': stakeCredential.toJson()}
+      type.name: {'stake_credential': stakeCredential.toJson()}
     };
   }
+
+  @override
+  List<Credential> get signersCredential => [stakeCredential];
 }

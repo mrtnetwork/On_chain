@@ -2,28 +2,29 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
 import 'package:on_chain/ada/src/builder/builder/tranasction_builder_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/models/ada_models.dart';
+import 'package:on_chain/ada/src/models/models.dart';
 import 'package:on_chain/ada/src/provider/provider.dart';
 import 'certificate_builder.dart';
 import 'deposit.dart';
 import 'mint_builder.dart';
 
-typedef ONSignADA = ADABaseTransactionWitness Function(
+typedef ONSignADA = List<ADABaseTransactionWitness> Function(
     {required List<int> digest, required ADAAddress address});
 
-typedef ONSignADAAsync = Future<ADABaseTransactionWitness> Function(
+typedef ONSignADAAsync = Future<List<ADABaseTransactionWitness>> Function(
     {required List<int> digest, required ADAAddress address});
 
 class ADATransactionBuilder {
   BigInt? _fee;
   BigInt? get fee => _fee;
 
-  final List<ADAAccountUTXOResponse> utxos;
+  final List<TransactionUnspentOutput> utxos;
   final GeneralTransactionMetadata? metadata;
   final List<ADAMinsBuilder> mints;
   final List<ADACertificateBuilder> certificates;
   final List<ADADepositBuilder> deposits;
   final List<ADADepositBuilder> refundDeposits;
+  final NativeScripts? nativeScripts;
   List<TransactionOutput> _outputs;
   List<TransactionOutput> get outputs => List<TransactionOutput>.from(_outputs);
 
@@ -34,6 +35,7 @@ class ADATransactionBuilder {
     List<ADADepositBuilder> deposits = const [],
     List<ADADepositBuilder> refundDeposits = const [],
     final List<ADACertificateBuilder> certificates = const [],
+    this.nativeScripts,
     this.metadata,
   })  : _outputs = List<TransactionOutput>.unmodifiable(outputs),
         mints = List<ADAMinsBuilder>.unmodifiable(mints),
@@ -48,17 +50,15 @@ class ADATransactionBuilder {
 
   void setFee(BigInt fee) => _fee = fee;
 
-  BigInt get sumOflovelace {
-    return utxos.sumOflovelace;
-  }
+  late final BigInt totalLovelace =
+      utxos.fold(BigInt.zero, (c, p) => c + p.output.amount.coin);
 
-  MultiAsset get multiAsset {
-    return utxos.multiAsset;
-  }
+  late final MultiAsset totalAssets = utxos.fold(MultiAsset.empty,
+      (c, p) => c + (p.output.amount.multiAsset ?? MultiAsset.empty));
 
   List<ADAAddress> get signers {
     final addresses = {
-      ...utxos.map((e) => e.toAdddress),
+      ...utxos.map((e) => e.output.address),
       ...mints.map((e) => e.owner),
       ...certificates
           .where((element) => element.signer != null)
@@ -67,30 +67,70 @@ class ADATransactionBuilder {
     return addresses.toList();
   }
 
-  List<NativeScript>? get transactionNativeScripts {
-    final scripts = mints.map((e) => e.toScript()).toList();
-    return scripts.isEmpty ? null : scripts;
-  }
+  // List<NativeScript>? get transactionNativeScripts {
+  //   final scripts = mints.map((e) => e.minterScript).toList();
+  //   return scripts.isEmpty ? null : scripts;
+  // }
 
   TransactionOutput? _changeOutput(ADAAddress addr) {
-    final lovelence =
-        (utxos.sumOflovelace - (_outputs.sumOflovelace + (fee ?? BigInt.zero)));
-    final multiAsset = utxos.multiAsset;
-    final asset = multiAsset - _outputs.multiAsset;
-    if (lovelence.isNegative) {
+    final lovelace =
+        (totalLovelace - (_outputs.sumOflovelace + (fee ?? BigInt.zero)));
+    final asset = totalAssets - _outputs.multiAsset;
+    if (lovelace.isNegative) {
       throw ADAPluginException('Insufficient input in transaction.', details: {
-        'utxo lovelence': utxos.sumOflovelace,
-        'output lovelence': _outputs.sumOflovelace
+        'utxo lovelace': totalLovelace,
+        'output lovelace': _outputs.sumOflovelace
       });
     }
 
-    if (lovelence > BigInt.zero || asset.hasAsset) {
+    if (lovelace > BigInt.zero || asset.hasAsset) {
       return TransactionOutput(
           address: addr,
-          amount: Value(
-              coin: lovelence, multiAsset: asset.hasAsset ? asset : null));
+          amount:
+              Value(coin: lovelace, multiAsset: asset.hasAsset ? asset : null));
     }
     return null;
+  }
+
+  ADATransaction buildEstimateTx(ONSignADA onSignADA) {
+    if (utxos.isEmpty || _outputs.isEmpty) {
+      throw const ADAPluginException(
+          'Utxos and outputs must not be not empty.');
+    }
+    final outs = _outputs.map((e) {
+      if (e.amount.coin == BigInt.zero) {
+        return e.copyWith(amount: e.amount.copyWith(coin: maxU64));
+      }
+      return e;
+    }).toList();
+    final transactionSigners = signers;
+    final aux = auxiliaryData;
+    final body = TransactionBody(
+        inputs: TransactionInputs(utxos.map((e) => e.input).toList()),
+        outputs: TransactionOutputs(outs),
+        mint: getMint(),
+        fee: BigInt.from(mask32),
+        certificates: certificates.isEmpty
+            ? null
+            : Certificates(certificates.map((e) => e.certificate).toList()),
+        auxiliaryDataHash: aux?.toHash());
+    final bodyHash = ADATransactionBuilderUtils.fakeBodyHash;
+    final witnesses = <ADABaseTransactionWitness>[];
+    for (final i in transactionSigners) {
+      final witness = onSignADA(address: i, digest: bodyHash);
+      witnesses.addAll(witness);
+    }
+    final vkeys = witnesses.whereType<Vkeywitness>().toList();
+    final bootstraps = witnesses.whereType<BootstrapWitness>().toList();
+    final transaction = ADATransaction(
+      data: aux,
+      body: body,
+      witnessSet: TransactionWitnessSet(
+          bootstraps: BootstrapWitnesses(bootstraps),
+          nativeScripts: nativeScripts,
+          vKeys: VkeyWitnesses(vkeys)),
+    );
+    return transaction;
   }
 
   int estimateSize() {
@@ -110,23 +150,25 @@ class ADATransactionBuilder {
     final transaction = ADATransaction(
       data: aux,
       body: TransactionBody(
-          inputs: utxos.map((e) => e.toInput).toList(),
-          outputs: outs,
+          inputs: TransactionInputs(utxos.map((e) => e.input).toList()),
+          outputs: TransactionOutputs(outs),
           mint: getMint(),
           fee: BigInt.from(mask32),
-          certs: certificates.map((e) => e.certificate).toList(),
+          certificates: certificates.isEmpty
+              ? null
+              : Certificates(certificates.map((e) => e.certificate).toList()),
           auxiliaryDataHash: aux?.toHash()),
       witnessSet: TransactionWitnessSet(
-        bootstraps: transactionSigners
+        bootstraps: BootstrapWitnesses(transactionSigners
             .where((element) => element.addressType == ADAAddressType.byron)
             .map((e) =>
-                ADATransactionBuilderUtils.fakeBootStrapWitness(e.address))
-            .toList(),
-        nativeScripts: transactionNativeScripts,
-        vKeys: transactionSigners
+                ADATransactionBuilderUtils.fakeBootStrapWitness(e.cast()))
+            .toList()),
+        nativeScripts: nativeScripts,
+        vKeys: VkeyWitnesses(transactionSigners
             .where((element) => element.addressType != ADAAddressType.byron)
             .map((e) => ADATransactionBuilderUtils.fakeVkeyWitnessWitness())
-            .toList(),
+            .toList()),
       ),
     );
     return transaction.size;
@@ -153,7 +195,8 @@ class ADATransactionBuilder {
   AuxiliaryData? get auxiliaryData {
     if (metadata == null && mints.isEmpty) return null;
     return AuxiliaryData(
-        metadata: metadata, nativeScripts: transactionNativeScripts);
+        metadata: metadata,
+        nativeScripts: mints.map((e) => e.minterScript).toList());
   }
 
   TransactionBody buildTxBody({AuxiliaryDataHash? auxHash}) {
@@ -165,9 +208,11 @@ class ADATransactionBuilder {
 
     return TransactionBody(
         fee: fee!,
-        inputs: utxos.map((e) => e.toInput).toList(),
-        outputs: outputs,
-        certs: certificates.map((e) => e.certificate).toList(),
+        inputs: TransactionInputs(utxos.map((e) => e.input).toList()),
+        outputs: TransactionOutputs(outputs),
+        certificates: certificates.isEmpty
+            ? null
+            : Certificates(certificates.map((e) => e.certificate).toList()),
         mint: mint,
         auxiliaryDataHash: auxHash);
   }
@@ -182,17 +227,18 @@ class ADATransactionBuilder {
 
     for (final i in transactionSigners) {
       final witness = onSignADA(address: i, digest: bodyHash);
-      witnesses.add(witness);
+      witnesses.addAll(witness);
     }
-    final vkeys = witnesses.whereType<Vkeywitness>().toList();
-    final bootstraps = witnesses.whereType<BootstrapWitness>().toList();
+    final vkeys = witnesses.whereType<Vkeywitness>().toSet().toList();
+    final bootstraps = witnesses.whereType<BootstrapWitness>().toSet().toList();
     return ADATransaction(
         body: trBody,
         data: aux,
         witnessSet: TransactionWitnessSet(
-            vKeys: vkeys,
-            nativeScripts: transactionNativeScripts,
-            bootstraps: bootstraps));
+            vKeys: vkeys.isEmpty ? null : VkeyWitnesses(vkeys),
+            nativeScripts: nativeScripts,
+            bootstraps:
+                bootstraps.isEmpty ? null : BootstrapWitnesses(bootstraps)));
   }
 
   Future<ADATransaction> signAndBuildTransactionAsync(
@@ -206,17 +252,18 @@ class ADATransactionBuilder {
 
     for (final i in transactionSigners) {
       final witness = await onSignADA(address: i, digest: bodyHash);
-      witnesses.add(witness);
+      witnesses.addAll(witness);
     }
-    final vkeys = witnesses.whereType<Vkeywitness>().toList();
-    final bootstraps = witnesses.whereType<BootstrapWitness>().toList();
+    final vkeys = witnesses.whereType<Vkeywitness>().toSet().toList();
+    final bootstraps = witnesses.whereType<BootstrapWitness>().toSet().toList();
     return ADATransaction(
         body: trBody,
         data: aux,
         witnessSet: TransactionWitnessSet(
-            vKeys: vkeys,
-            nativeScripts: transactionNativeScripts,
-            bootstraps: bootstraps));
+            vKeys: vkeys.isEmpty ? null : VkeyWitnesses(vkeys),
+            nativeScripts: nativeScripts,
+            bootstraps:
+                bootstraps.isEmpty ? null : BootstrapWitnesses(bootstraps)));
   }
 
   void _validateAmounts() {
@@ -224,16 +271,15 @@ class ADATransactionBuilder {
         (previousValue, element) => previousValue + element.deposit);
     final BigInt refundAmounts = refundDeposits.fold(BigInt.zero,
         (previousValue, element) => previousValue + element.deposit);
-    final lovelence = utxos.sumOflovelace +
+    final lovelace = totalLovelace +
         refundAmounts -
         (outputs.sumOflovelace + (fee ?? BigInt.zero)) -
         depositAmouts;
-    final asset = utxos.multiAsset - outputs.multiAsset;
-
-    if (lovelence != BigInt.zero || asset != MultiAsset.empty) {
+    final asset = totalAssets - outputs.multiAsset;
+    if (lovelace != BigInt.zero || asset != MultiAsset.empty) {
       throw ADAPluginException(
           'The amount of inputs and outputs is not calculated correctly',
-          details: {'lovelence': lovelence, 'asset': asset});
+          details: {'lovelace': lovelace, 'asset': asset});
     }
   }
 }

@@ -1,11 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
+import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 void main() {
-  group('transaction output serialization', () {
-    _outputs();
-  });
+  _outputs();
 }
 
 void _outputs() {
@@ -13,8 +12,13 @@ void _outputs() {
     final address = ADAAddress.fromAddress(
         'addr1qyxwnq9kylzrtqprmyu35qt8gwylk3eemq53kqd38m9kyduv2q928esxmrz4y5e78cvp0nffhxklfxsqy3vdjn3nty9s8zygkm');
     final txo = TransactionOutput(
-        address: address, amount: Value(coin: BigInt.from(435464757)));
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
+        address: address,
+        amount: Value(coin: BigInt.from(435464757)));
     final txo2 = TransactionOutput(
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
         address: address,
         amount: Value(coin: BigInt.from(435464757)),
         plutusData: DataOptionDataHash.fromBytes(List<int>.filled(32, 47)));
@@ -25,17 +29,16 @@ void _outputs() {
     txos.add(txo);
     txos.add(txo);
     txos.add(txo2);
-    final encode =
-        CborListValue.fixedLength(txos.map((e) => e.toCbor()).toList());
+    final encode = CborListValue.definite(txos.map((e) => e.toCbor()).toList());
     expect(encode.toCborHex(),
         '86825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35835839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa3558202f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f835839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa3558202f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35835839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa3558202f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f');
 
     final CborListValue<CborObject> decode =
-        CborObject.fromCbor(encode.encode()).cast();
+        CborObject.fromCbor(encode.encode()).as();
     final decodeTxos =
         decode.value.map((e) => TransactionOutput.deserialize(e)).toList();
     final newBytes =
-        CborListValue.fixedLength(decodeTxos.map((e) => e.toCbor()).toList())
+        CborListValue.definite(decodeTxos.map((e) => e.toCbor()).toList())
             .encode();
     expect(newBytes, encode.encode());
   });
@@ -43,8 +46,13 @@ void _outputs() {
     final address = ADAAddress.fromAddress(
         'addr1qyxwnq9kylzrtqprmyu35qt8gwylk3eemq53kqd38m9kyduv2q928esxmrz4y5e78cvp0nffhxklfxsqy3vdjn3nty9s8zygkm');
     final txo = TransactionOutput(
-        address: address, amount: Value(coin: BigInt.from(435464757)));
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
+        address: address,
+        amount: Value(coin: BigInt.from(435464757)));
     final txo2 = TransactionOutput(
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.alonzoEra),
         address: address,
         amount: Value(coin: BigInt.from(435464757)),
         plutusData: DataOptionData(PlutusBytes(value: [
@@ -88,17 +96,16 @@ void _outputs() {
     txos.add(txo);
     txos.add(txo);
     txos.add(txo2);
-    final encode =
-        CborListValue.fixedLength(txos.map((e) => e.toCbor()).toList());
+    final encode = CborListValue.definite(txos.map((e) => e.toCbor()).toList());
     expect(encode.toCborHex(),
         '86825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a3005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa35028201d818582258200befb5788e8713c844dfd32b2e91de1e309fefffd555f827cc9ee16401020304a3005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa35028201d818582258200befb5788e8713c844dfd32b2e91de1e309fefffd555f827cc9ee16401020304825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a3005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa35028201d818582258200befb5788e8713c844dfd32b2e91de1e309fefffd555f827cc9ee16401020304');
 
     final CborListValue<CborObject> decode =
-        CborObject.fromCbor(encode.encode()).cast();
+        CborObject.fromCbor(encode.encode()).as();
     final decodeTxos =
         decode.value.map((e) => TransactionOutput.deserialize(e)).toList();
     final newBytes =
-        CborListValue.fixedLength(decodeTxos.map((e) => e.toCbor()).toList())
+        CborListValue.definite(decodeTxos.map((e) => e.toCbor()).toList())
             .encode();
     expect(newBytes, encode.encode());
   });
@@ -106,8 +113,13 @@ void _outputs() {
     final address = ADAAddress.fromAddress(
         'addr1qyxwnq9kylzrtqprmyu35qt8gwylk3eemq53kqd38m9kyduv2q928esxmrz4y5e78cvp0nffhxklfxsqy3vdjn3nty9s8zygkm');
     final txo = TransactionOutput(
-        address: address, amount: Value(coin: BigInt.from(435464757)));
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
+        address: address,
+        amount: Value(coin: BigInt.from(435464757)));
     final txo2 = TransactionOutput(
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.alonzoEra),
         address: address,
         amount: Value(coin: BigInt.from(435464757)),
         scriptRef: ScriptRefPlutusScript(PlutusScript(
@@ -119,17 +131,16 @@ void _outputs() {
     txos.add(txo);
     txos.add(txo);
     txos.add(txo2);
-    final encode =
-        CborListValue.fixedLength(txos.map((e) => e.toCbor()).toList());
+    final encode = CborListValue.definite(txos.map((e) => e.toCbor()).toList());
     expect(encode.toCborHex(),
         '86825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a3005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa3503d81858218201581d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3da3005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa3503d81858218201581d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a3005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa3503d81858218201581d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d');
 
     final CborListValue<CborObject> decode =
-        CborObject.fromCbor(encode.encode()).cast();
+        CborObject.fromCbor(encode.encode()).as();
     final decodeTxos =
         decode.value.map((e) => TransactionOutput.deserialize(e)).toList();
     final newBytes =
-        CborListValue.fixedLength(decodeTxos.map((e) => e.toCbor()).toList())
+        CborListValue.definite(decodeTxos.map((e) => e.toCbor()).toList())
             .encode();
     expect(newBytes, encode.encode());
   });
@@ -137,8 +148,13 @@ void _outputs() {
     final address = ADAAddress.fromAddress(
         'addr1qyxwnq9kylzrtqprmyu35qt8gwylk3eemq53kqd38m9kyduv2q928esxmrz4y5e78cvp0nffhxklfxsqy3vdjn3nty9s8zygkm');
     final txo = TransactionOutput(
-        address: address, amount: Value(coin: BigInt.from(435464757)));
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
+        address: address,
+        amount: Value(coin: BigInt.from(435464757)));
     final txo2 = TransactionOutput(
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.alonzoEra),
         address: address,
         amount: Value(coin: BigInt.from(435464757)),
         scriptRef:
@@ -184,17 +200,16 @@ void _outputs() {
     txos.add(txo);
     txos.add(txo);
     txos.add(txo2);
-    final encode =
-        CborListValue.fixedLength(txos.map((e) => e.toCbor()).toList());
+    final encode = CborListValue.definite(txos.map((e) => e.toCbor()).toList());
     expect(encode.toCborHex(),
         '86825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a4005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa35028201d818582258200befb5788e8713c844dfd32b2e91de1e309fefffd555f827cc9ee1640102030403d818458200820414a4005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa35028201d818582258200befb5788e8713c844dfd32b2e91de1e309fefffd555f827cc9ee1640102030403d818458200820414825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a4005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa35028201d818582258200befb5788e8713c844dfd32b2e91de1e309fefffd555f827cc9ee1640102030403d818458200820414');
 
     final CborListValue<CborObject> decode =
-        CborObject.fromCbor(encode.encode()).cast();
+        CborObject.fromCbor(encode.encode()).as();
     final decodeTxos =
         decode.value.map((e) => TransactionOutput.deserialize(e)).toList();
     final newBytes =
-        CborListValue.fixedLength(decodeTxos.map((e) => e.toCbor()).toList())
+        CborListValue.definite(decodeTxos.map((e) => e.toCbor()).toList())
             .encode();
     expect(newBytes, encode.encode());
   });
@@ -202,8 +217,13 @@ void _outputs() {
     final address = ADAAddress.fromAddress(
         'addr1qyxwnq9kylzrtqprmyu35qt8gwylk3eemq53kqd38m9kyduv2q928esxmrz4y5e78cvp0nffhxklfxsqy3vdjn3nty9s8zygkm');
     final txo = TransactionOutput(
-        address: address, amount: Value(coin: BigInt.from(435464757)));
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
+        address: address,
+        amount: Value(coin: BigInt.from(435464757)));
     final txo2 = TransactionOutput(
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.alonzoEra),
         address: address,
         amount: Value(coin: BigInt.from(435464757)),
         scriptRef:
@@ -249,17 +269,16 @@ void _outputs() {
     txos.add(txo);
     txos.add(txo);
     txos.add(txo2);
-    final encode =
-        CborListValue.fixedLength(txos.map((e) => e.toCbor()).toList());
+    final encode = CborListValue.definite(txos.map((e) => e.toCbor()).toList());
     expect(encode.toCborHex(),
         '86825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a4005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa350282005820c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e803d818458200820414a4005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa350282005820c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e803d818458200820414825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35a4005839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b011a19f4aa350282005820c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e803d818458200820414');
 
     final CborListValue<CborObject> decode =
-        CborObject.fromCbor(encode.encode()).cast();
+        CborObject.fromCbor(encode.encode()).as();
     final decodeTxos =
         decode.value.map((e) => TransactionOutput.deserialize(e)).toList();
     final newBytes =
-        CborListValue.fixedLength(decodeTxos.map((e) => e.toCbor()).toList())
+        CborListValue.definite(decodeTxos.map((e) => e.toCbor()).toList())
             .encode();
     expect(newBytes, encode.encode());
   });
@@ -267,8 +286,13 @@ void _outputs() {
     final address = ADAAddress.fromAddress(
         'addr1qyxwnq9kylzrtqprmyu35qt8gwylk3eemq53kqd38m9kyduv2q928esxmrz4y5e78cvp0nffhxklfxsqy3vdjn3nty9s8zygkm');
     final txo = TransactionOutput(
-        address: address, amount: Value(coin: BigInt.from(435464757)));
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
+        address: address,
+        amount: Value(coin: BigInt.from(435464757)));
     final txo2 = TransactionOutput(
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
         address: address,
         amount: Value(coin: BigInt.from(435464757)),
         plutusData: DataOptionDataHash(DataHash(List<int>.filled(32, 47))));
@@ -279,17 +303,16 @@ void _outputs() {
     txos.add(txo);
     txos.add(txo);
     txos.add(txo2);
-    final encode =
-        CborListValue.fixedLength(txos.map((e) => e.toCbor()).toList());
+    final encode = CborListValue.definite(txos.map((e) => e.toCbor()).toList());
     expect(encode.toCborHex(),
         '86825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35835839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa3558202f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f835839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa3558202f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35825839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa35835839010ce980b627c4358023d9391a01674389fb4739d8291b01b13ecb62378c500aa3e606d8c552533e3e1817cd29b9adf49a002458d94e33590b1a19f4aa3558202f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f');
 
     final CborListValue<CborObject> decode =
-        CborObject.fromCbor(encode.encode()).cast();
+        CborObject.fromCbor(encode.encode()).as();
     final decodeTxos =
         decode.value.map((e) => TransactionOutput.deserialize(e)).toList();
     final newBytes =
-        CborListValue.fixedLength(decodeTxos.map((e) => e.toCbor()).toList())
+        CborListValue.definite(decodeTxos.map((e) => e.toCbor()).toList())
             .encode();
     expect(newBytes, encode.encode());
   });

@@ -3,10 +3,10 @@ import 'package:blockchain_utils/bip/address/addr_key_validator.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
-import 'package:on_chain/ada/src/models/credential/core/stake_cred_type.dart';
-import 'package:on_chain/ada/src/models/credential/key.dart';
-import 'package:on_chain/ada/src/models/credential/script.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential_type.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
+import 'package:on_chain/ada/src/models/credential/models/key.dart';
+import 'package:on_chain/ada/src/models/credential/models/script.dart';
 
 /// Utility class for handling ADA addresses.
 class AdaAddressUtils {
@@ -69,25 +69,25 @@ class AdaAddressUtils {
     return decode.addressBytes.sublist(decode.prefixBytes!.length);
   }
 
-  /// Convert an [AdaStakeCredential] to a [StakeCred].
+  /// Convert an [AdaStakeCredential] to a [Credential].
   ///
   /// [credential]: The [AdaStakeCredential] to convert.
   ///
-  /// Returns a [StakeCred] object.
-  static StakeCred toCerdential(AdaStakeCredential credential) {
+  /// Returns a [Credential] object.
+  static Credential toCerdential(AdaStakeCredential credential) {
     if (credential.type == AdaStakeCredType.key) {
-      return StakeCredKey(credential.hash);
+      return CredentialKey(credential.hash);
     }
-    return StakeCredScript(credential.hash);
+    return CredentialScript(credential.hash);
   }
 
-  /// Convert a [StakeCred] to an [AdaStakeCredential].
+  /// Convert a [Credential] to an [AdaStakeCredential].
   ///
-  /// [credential]: The [StakeCred] to convert.
+  /// [credential]: The [Credential] to convert.
   ///
   /// Returns an [AdaStakeCredential] object.
-  static AdaStakeCredential toAdaStakeCredential(StakeCred credential) {
-    if (credential.type == StakeCredType.key) {
+  static AdaStakeCredential toAdaStakeCredential(Credential credential) {
+    if (credential.type == CredentialType.key) {
       return AdaStakeCredential(
           hash: credential.data, type: AdaStakeCredType.key);
     }
@@ -95,13 +95,13 @@ class AdaAddressUtils {
         hash: credential.data, type: AdaStakeCredType.script);
   }
 
-  /// Convert a public key byte list to a [StakeCredKey].
+  /// Convert a public key byte list to a [CredentialKey].
   ///
   /// [pubKeyBytes]: The public key byte list.
   ///
-  /// Returns a [StakeCredKey] object.
-  static StakeCredKey publicKeyToCredential(List<int> pubKeyBytes) {
-    return StakeCredKey(publicKeyToHash(pubKeyBytes));
+  /// Returns a [CredentialKey] object.
+  static CredentialKey publicKeyToCredential(List<int> pubKeyBytes) {
+    return CredentialKey(publicKeyToHash(pubKeyBytes));
   }
 
   /// Convert a public key byte list to a hash byte list.

@@ -50,8 +50,8 @@ void main() async {
   );
 
   final body = TransactionBody(
-    inputs: [input],
-    outputs: [change],
+    inputs: TransactionInputs([input]),
+    outputs: TransactionOutputs([change]),
     fee: fee,
     mint: mint,
     auxiliaryDataHash: auxiliary.toHash(),
@@ -59,11 +59,11 @@ void main() async {
   final transaction = ADATransaction(
       body: body,
       data: auxiliary,
-      witnessSet: TransactionWitnessSet(vKeys: [
-        privateKey.createSignatureWitness(body.toHash().data),
-      ], nativeScripts: [
-        mintScript
-      ]));
+      witnessSet: TransactionWitnessSet(
+          vKeys: VkeyWitnesses([
+            privateKey.createSignatureWitness(body.toHash().data),
+          ]),
+          nativeScripts: NativeScripts([mintScript])));
   await provider.request(BlockfrostRequestSubmitTransaction(
       transactionCborBytes: transaction.serialize()));
 

@@ -12,11 +12,32 @@ class BlockFrostProvider implements BaseProvider<BlockFrostRequestDetails> {
   /// Constructs a new [BlockFrostProvider] instance with the specified [rpc] service provider.
   BlockFrostProvider(this.rpc);
 
+  static void _paraseError(Map err, BlockFrostRequestDetails params) {
+    final String error = err['error'].toString();
+    final int? errorCode = IntUtils.tryParse(err['status_code'].toString());
+    final String? msg = err['message']?.toString();
+    String message = error;
+    if (msg != null) {
+      message = '$message: $msg';
+    }
+    throw RPCError(
+      message: message,
+      errorCode: errorCode,
+      request: params.toJson(),
+    );
+  }
+
   static SERVICERESPONSE _findError<SERVICERESPONSE>(
       {required BaseServiceResponse<SERVICERESPONSE> response,
       required BlockFrostRequestDetails params}) {
     if (response.type == ServiceResponseType.error) {
       final error = response.cast<ServiceErrorResponse>();
+      final toJson = StringUtils.tryToJson<Map<String, dynamic>>(error.error);
+      if (toJson != null &&
+          toJson.containsKey('status_code') &&
+          toJson.containsKey('error')) {
+        _paraseError(toJson, params);
+      }
       throw RPCError(
         message: error.error ??
             BlockfrostStatusCode.getErrorMessage(response.statusCode),
@@ -25,18 +46,7 @@ class BlockFrostProvider implements BaseProvider<BlockFrostRequestDetails> {
     final SERVICERESPONSE r = response.getResult(params);
     if (r is Map) {
       if (r.containsKey('status_code') && r.containsKey('error')) {
-        final String error = r['error'].toString();
-        final int? errorCode = IntUtils.tryParse(r['status_code'].toString());
-        final String? msg = r['message']?.toString();
-        String message = error;
-        if (msg != null) {
-          message = '$message: $msg';
-        }
-        throw RPCError(
-          message: message,
-          errorCode: errorCode,
-          request: params.toJson(),
-        );
+        _paraseError(r, params);
       }
     }
     return r;

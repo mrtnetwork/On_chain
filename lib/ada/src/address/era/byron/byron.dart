@@ -112,15 +112,26 @@ class ADAByronAddress extends ADAAddress {
   }
 
   /// Factory method to create an ADAByronAddress instance from bytes.
+  factory ADAByronAddress.fromRawBytes(List<int> bytes) {
+    return _deserialize(bytes);
+  }
+
+  /// Factory method to create an ADAByronAddress instance from cbor bytes.
   factory ADAByronAddress.fromBytes(List<int> bytes) {
-    return ADAByronAddress.deserialize(CborObject.fromCbor(bytes).cast());
+    return ADAByronAddress.deserialize(
+        CborObject.fromCbor(bytes).as<CborBytesValue>("ADAByronAddress"));
   }
 
   /// Deserializes a CBOR object into an ADAByronAddress instance.
-  static ADAByronAddress deserialize(CborBytesValue cbor,
+  factory ADAByronAddress.deserialize(CborBytesValue cbor,
       {ADANetwork? network}) {
-    final cborList = CborObject.fromCbor(cbor.value).cast();
-    final addr = ADAByronAddr.deserialize(cborList.encode());
+    return _deserialize(cbor.value);
+  }
+
+  /// Deserializes a CBOR object into an ADAByronAddress instance.
+  static ADAByronAddress _deserialize(List<int> cbor, {ADANetwork? network}) {
+    CborObject.fromCbor(cbor).as<CborListValue>("ADAByronAddress");
+    final addr = ADAByronAddr.deserialize(cbor);
     return ADAByronAddress(addr.encode(), network: network);
   }
 
@@ -132,11 +143,15 @@ class ADAByronAddress extends ADAAddress {
 
   /// Serializes the attributes of the extended address.
   List<int> attributeSerialize() {
-    return CborMapValue.fixedLength(extendedAddress.payload.attrs.toJson())
-        .encode();
+    return extendedAddress.payload.attrs.toJson().encode();
   }
 
   /// Returns the address type, which is ADAAddressType.byron.
   @override
   ADAAddressType get addressType => ADAAddressType.byron;
+
+  @override
+  List<int> toBytes() {
+    return extendedAddress.toCbor().encode();
+  }
 }

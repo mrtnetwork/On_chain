@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
+import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
 
 void main() {
   group('addresses', () {
@@ -13,7 +14,7 @@ void _byron() {
   test('Byron testnetPreprod', () {
     final byron = ADAByronAddress(
         'KjgoiXJS2coTnqpCLHXFtd89Hv9ttjsE6yW4msyLXFNkykUpTsyBs85r2rDDia2uKrhdpGKCJnmFXwvPSWLe75564ixZWdTxRh7TnuaDLnHx');
-    final decode = ADAByronAddress.deserialize(byron.toCbor().cast());
+    final decode = ADAByronAddress.deserialize(byron.toCbor().as());
     expect(BytesUtils.toHexString(byron.attributeSerialize()),
         'a201581e581cfc15b0b8bb8d0e5f9f7a01c0477b47bd32e10aea16046fad41e56c2c024101');
     expect(decode.address, byron.address);
@@ -24,7 +25,7 @@ void _byron() {
   test('byrom mainnet_2', () {
     final byron = ADAByronAddress(
         'Ae2tdPwUPEZ4YjgvykNpoFeYUxoyhNj2kg8KfKWN2FizsSpLUPv68MpTVDo');
-    final decode = ADAByronAddress.deserialize(byron.toCbor().cast());
+    final decode = ADAByronAddress.deserialize(byron.toCbor().as());
     expect(BytesUtils.toHexString(byron.attributeSerialize()), 'a0');
     expect(decode.address, byron.address);
     expect(decode.network, ADANetwork.mainnet);
@@ -34,7 +35,7 @@ void _byron() {
   test('byron testnet_3', () {
     final byron = ADAByronAddress(
         '2cWKMJemoBaipzQe9BArYdo2iPUfJQdZAjm4iCzDA1AfNxJSTgm9FZQTmFCYhKkeYrede');
-    final decode = ADAByronAddress.deserialize(byron.toCbor().cast());
+    final decode = ADAByronAddress.deserialize(byron.toCbor().as());
     expect(
         BytesUtils.toHexString(byron.attributeSerialize()), 'a102451a4170cb17');
     expect(decode.address, byron.address);
@@ -45,7 +46,7 @@ void _byron() {
   test('byron testnet_4', () {
     final byron = ADAByronAddress(
         '2cWKMJemoBaipzQe9BArYdo2iPUfJQdZAjm4iCzDA1AfNxJSTgm9FZQTmFCYhKkeYrede');
-    final decode = ADAAddress.deserialize(byron.toCbor().cast());
+    final decode = ADAAddress.deserialize(byron.toCbor().as());
     expect(
         BytesUtils.toHexString(byron.attributeSerialize()), 'a102451a4170cb17');
     expect(decode.address, byron.address);
@@ -54,7 +55,7 @@ void _byron() {
   test('byron redemption mainnet', () {
     final byron = ADAByronAddress(
         'Ae2tdPwUPEZ3MHKkpT5Bpj549vrRH7nBqYjNXnCV8G2Bc2YxNcGHEa8ykDp');
-    final decode = ADAAddress.deserialize(byron.toCbor().cast());
+    final decode = ADAAddress.deserialize(byron.toCbor().as());
     expect(BytesUtils.toHexString(byron.attributeSerialize()), 'a0');
     expect(byron.extendedAddress.payload.type, ADAByronAddrTypes.redemption);
     expect(byron.bech32Address,
@@ -71,7 +72,7 @@ void _byron() {
 
     expect(byron.address,
         'Ae2tdPwUPEZHtBmjZBF4YpMkK9tMSPTE2ADEZTPN97saNkhG78TvXdp3GDk');
-    final decode = ADAAddress.deserialize(byron.toCbor().cast());
+    final decode = ADAAddress.deserialize(byron.toCbor().as());
     expect(decode.address, byron.address);
   });
 }
@@ -234,14 +235,14 @@ void _shelly() {
     final scriptHash = oneOfNativeScript.toHash();
 
     ADABaseAddress addr = ADABaseAddress.fromCredential(
-        baseCredential: StakeCredScript(scriptHash.data),
-        stakeCredential: StakeCredScript(scriptHash.data),
+        baseCredential: CredentialScript(scriptHash.data),
+        stakeCredential: CredentialScript(scriptHash.data),
         network: ADANetwork.testnet);
     expect(addr.address,
         'addr_test1xr0de0mz3m9xmgtlmqqzu06s0uvfsczskdec8k7v4jhr7077mjlk9rk2dkshlkqq9cl4qlccnps9pvmns0duet9w8uls8flvxc');
     addr = ADABaseAddress.fromCredential(
-      baseCredential: StakeCredScript(scriptHash.data),
-      stakeCredential: StakeCredScript(scriptHash.data),
+      baseCredential: CredentialScript(scriptHash.data),
+      stakeCredential: CredentialScript(scriptHash.data),
     );
     expect(addr.address,
         'addr1x80de0mz3m9xmgtlmqqzu06s0uvfsczskdec8k7v4jhr7077mjlk9rk2dkshlkqq9cl4qlccnps9pvmns0duet9w8ulsylzv28');

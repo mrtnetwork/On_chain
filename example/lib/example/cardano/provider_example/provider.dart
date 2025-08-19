@@ -29,7 +29,7 @@ class BlockFrostHTTPProvider implements BlockFrostServiceProvider {
         ...params.headers,
         if (projectId != null) ...{"project_id": projectId!},
       }).timeout(timeout ?? defaultRequestTimeout);
-      return params.toResponse(response.bodyBytes, response.statusCode);
+      return params.parseResponse(response.bodyBytes, response.statusCode);
     }
     final response = await client
         .post(params.toUri(url, version: version),
@@ -41,6 +41,6 @@ class BlockFrostHTTPProvider implements BlockFrostServiceProvider {
             },
             body: params.body())
         .timeout(timeout ?? defaultRequestTimeout);
-    return params.toResponse(response.bodyBytes, response.statusCode);
+    return params.parseResponse(response.bodyBytes, response.statusCode);
   }
 }

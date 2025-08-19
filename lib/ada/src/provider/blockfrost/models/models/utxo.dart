@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/bip/address/ada/ada_addres_type.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
-import 'package:on_chain/ada/src/models/ada_models.dart';
+import 'package:on_chain/ada/src/models/models.dart';
 import 'amount.dart';
 
 class ADAAccountUTXOResponse {
@@ -10,7 +10,7 @@ class ADAAccountUTXOResponse {
   ADAAddress get toAdddress => ADAAddress.fromAddress(address);
   ADAAddressType get type => toAdddress.addressType;
 
-  TransactionInput get toInput => TransactionInput(
+  late final TransactionInput toInput = TransactionInput(
       index: outputIndex, transactionId: TransactionHash.fromHex(txHash));
 
   /// Transaction hash of the UTXO
@@ -108,7 +108,7 @@ class ADAAccountUTXOResponse {
   }
 }
 
-extension QuicketADAUtxoCalculation on List<ADAAccountUTXOResponse> {
+extension QuicketADAUtxoCalculation on Iterable<ADAAccountUTXOResponse> {
   BigInt get sumOflovelace {
     return fold(BigInt.zero,
         (previousValue, element) => previousValue + element.sumOflovelace);

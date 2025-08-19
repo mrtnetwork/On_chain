@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
-import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 
 class ADAEnterpriseAddress extends ADAShellyAddress {
   @override
-  final StakeCred paymentCredential;
+  final Credential paymentCredential;
   @override
   final String address;
   @override
@@ -27,7 +27,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
         network: decode.network);
   }
   factory ADAEnterpriseAddress.fromCredential(
-      {required StakeCred credential,
+      {required Credential credential,
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
         AdaAddressUtils.toAdaStakeCredential(credential), {'net_tag': network});

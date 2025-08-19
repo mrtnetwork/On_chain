@@ -1,13 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/shelly/core/shelly_address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
-import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 
 /// Represents an ADA pointer address, a subtype of ADAShellyAddress.
 class ADAPointerAddress extends ADAShellyAddress {
   /// The payment credential associated with the address.
   @override
-  final StakeCred paymentCredential;
+  final Credential paymentCredential;
 
   /// The pointer associated with the address.
   final Pointer pointer;
@@ -43,7 +43,7 @@ class ADAPointerAddress extends ADAShellyAddress {
 
   /// Factory constructor to create an ADAPointerAddress instance from a payment credential and a pointer.
   factory ADAPointerAddress.fromCredential(
-      {required StakeCred paymentCredential,
+      {required Credential paymentCredential,
       required Pointer pointer,
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaPointerAddrEncoder().encodeCredential(

@@ -1,14 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
-import 'package:on_chain/ada/src/models/certificate/core/certificate.dart';
-import 'package:on_chain/ada/src/models/certificate/core/types.dart';
-import 'package:on_chain/ada/src/models/credential/core/stake_cred.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 /// Represents a stake delegation certificate with serialization support.
 class StakeDelegation extends Certificate {
   /// The stake credential.
-  final StakeCred stakeCredential;
+  final Credential stakeCredential;
 
   /// The pool key hash.
   final Ed25519PoolKeyHash poolKeyHash;
@@ -20,23 +20,25 @@ class StakeDelegation extends Certificate {
   /// Deserializes a StakeDelegation object from its CBOR representation.
   factory StakeDelegation.deserialize(CborListValue cbor) {
     CertificateType.deserialize(
-      cbor.getIndex(0),
+      cbor.elementAt<CborIntValue>(0),
       validate: CertificateType.stakeDelegation,
     );
     return StakeDelegation(
-      stakeCredential: StakeCred.deserialize(cbor.getIndex(1)),
-      poolKeyHash: Ed25519PoolKeyHash.deserialize(cbor.getIndex(2)),
+      stakeCredential: Credential.deserialize(cbor.elementAt<CborListValue>(1)),
+      poolKeyHash:
+          Ed25519PoolKeyHash.deserialize(cbor.elementAt<CborBytesValue>(2)),
     );
   }
   factory StakeDelegation.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> correctJson = json['stake_delegation'] ?? json;
+    final Map<String, dynamic> correctJson =
+        json[CertificateType.stakeDelegation.name] ?? json;
     return StakeDelegation(
-        stakeCredential: StakeCred.fromJson(correctJson['stake_credential']),
+        stakeCredential: Credential.fromJson(correctJson['stake_credential']),
         poolKeyHash: Ed25519PoolKeyHash.fromHex(correctJson['pool_keyhash']));
   }
 
   StakeDelegation copyWith(
-      {StakeCred? stakeCredential, Ed25519PoolKeyHash? poolKeyHash}) {
+      {Credential? stakeCredential, Ed25519PoolKeyHash? poolKeyHash}) {
     return StakeDelegation(
         stakeCredential: stakeCredential ?? this.stakeCredential,
         poolKeyHash: poolKeyHash ?? this.poolKeyHash);
@@ -44,7 +46,7 @@ class StakeDelegation extends Certificate {
 
   @override
   CborObject toCbor() {
-    return CborListValue.fixedLength([
+    return CborListValue.definite([
       type.toCbor(),
       stakeCredential.toCbor(),
       poolKeyHash.toCbor(),
@@ -57,10 +59,13 @@ class StakeDelegation extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'stake_delegation': {
+      type.name: {
         'stake_credential': stakeCredential.toJson(),
         'pool_keyhash': poolKeyHash.toJson(),
       }
     };
   }
+
+  @override
+  List<Credential> get signersCredential => [stakeCredential];
 }

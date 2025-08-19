@@ -1,4 +1,10 @@
-export 'core/native_script.dart';
-export 'core/native_script_type.dart';
-export 'scripts/scripts.dart';
+export 'models/native_script.dart';
+export 'models/native_script_type.dart';
+export 'models/native_scripts.dart';
+export 'models/script_all.dart';
+export 'models/script_any.dart';
+export 'models/script_n_of_k.dart';
+export 'models/script_pub_key.dart';
+export 'models/time_lock_start.dart';
+export 'models/timelock_expiry.dart';
 export 'utils/native_script_utils.dart';

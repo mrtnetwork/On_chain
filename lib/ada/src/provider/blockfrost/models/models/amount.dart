@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/models/ada_models.dart';
+import 'package:on_chain/ada/src/models/models.dart';
 import 'package:on_chain/ada/src/utils/ada_helper.dart';
 
 class ADAAmountResponse {

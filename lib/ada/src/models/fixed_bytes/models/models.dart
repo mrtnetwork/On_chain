@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
-import 'package:on_chain/ada/src/models/constant.dart';
+import 'package:on_chain/ada/src/models/constants/constant.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/core/fixed_bytes.dart';
 
 /// Represents a Policy ID hash..
@@ -287,4 +287,24 @@ class Ed25519Signature extends FixedBytes {
   /// Deserializes an Ed25519 signature from CBOR bytes.
   Ed25519Signature.deserialize(CborBytesValue signatureHexBytes)
       : super(signatureHexBytes.value, AdaTransactionConstant.signatureLength);
+}
+
+/// Represents an Ed25519 key hash..
+class AnchorDataHash extends FixedBytes {
+  /// Constructor to create an Ed25519KeyHash from raw bytes.
+  AnchorDataHash(List<int> data)
+      : super(data, AdaTransactionConstant.blake2b256DigestSize);
+
+  /// Constructor to create an Ed25519KeyHash from a hexadecimal string.
+  AnchorDataHash.fromHex(String hexBytes)
+      : super.fromHex(hexBytes, AdaTransactionConstant.blake2b256DigestSize);
+
+  /// Constructor to create an Ed25519KeyHash from a public key bytes.
+  AnchorDataHash.fromPubkey(List<int> pubKeyBytes)
+      : super(AdaAddressUtils.publicKeyToHash(pubKeyBytes),
+            AdaTransactionConstant.blake2b256DigestSize);
+
+  /// Deserialize an Ed25519KeyHash from a CBOR byte value.
+  AnchorDataHash.deserialize(CborBytesValue cbor)
+      : super(cbor.value, AdaTransactionConstant.blake2b256DigestSize);
 }

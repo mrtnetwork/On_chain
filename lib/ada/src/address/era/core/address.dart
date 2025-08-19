@@ -59,27 +59,44 @@ abstract class ADAAddress with ADASerialization {
   }
 
   /// Factory method to create an ADAAddress instance from bytes.
-  static T fromBytes<T extends ADAAddress>(List<int> bytes) {
-    return deserialize<T>(CborObject.fromCbor(bytes).cast());
+  static T fromRawBytes<T extends ADAAddress>(List<int> bytes,
+      {ADANetwork? network}) {
+    return _deserialize<T>(bytes, network: network);
+  }
+
+  /// Factory method to create an ADAAddress instance from cbor bytes.
+  static T fromBytes<T extends ADAAddress>(List<int> bytes,
+      {ADANetwork? network}) {
+    return deserialize<T>(
+        CborObject.fromCbor(bytes).as<CborBytesValue>('ADAAddress'),
+        network: network);
   }
 
   /// Deserializes a CBOR object into an ADAAddress instance.
-  static T deserialize<T extends ADAAddress>(CborBytesValue cbor) {
+  static T deserialize<T extends ADAAddress>(CborBytesValue cbor,
+      {ADANetwork? network}) {
+    return _deserialize(cbor.value, network: network);
+  }
+
+  //  /// Deserializes a CBOR object into an ADAAddress instance.
+  static T _deserialize<T extends ADAAddress>(List<int> bytes,
+      {ADANetwork? network}) {
     ADAAddress address;
     try {
-      CborObject.fromCbor(cbor.value).cast();
-      address = ADAByronAddress.deserialize(cbor);
+      address = ADAByronAddress.fromRawBytes(bytes);
     } catch (e) {
-      address =
-          ADAAddress.fromAddress(AdaShelleyAddrUtils.encodeBytes(cbor.value));
+      address = ADAAddress.fromAddress(AdaShelleyAddrUtils.encodeBytes(bytes));
     }
-
     if (address is! T) {
       throw ADAPluginException('Invalid ADA address type.', details: {
         'expected': '$T',
         'Type': address.addressType,
         'address': address.address
       });
+    }
+    if (network != null && address.network != network) {
+      throw ADAPluginException('Invalid network.',
+          details: {'expected': network.name, 'network': address.network.name});
     }
     return address;
   }
@@ -89,6 +106,8 @@ abstract class ADAAddress with ADASerialization {
   String toString() {
     return address;
   }
+
+  List<int> toBytes();
 
   /// Converts the ADAAddress instance to JSON.
   @override

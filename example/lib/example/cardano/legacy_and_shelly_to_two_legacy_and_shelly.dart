@@ -33,29 +33,34 @@ void main() async {
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 
-  final body = TransactionBody(inputs: [
-    TransactionInput(
-        transactionId: TransactionHash.fromHex(
-            "22528a2e224e0405559d12d687d39717cb37130564d8a4ed4058dfe392b8e109"),
-        index: 2),
-    TransactionInput(
-        transactionId: TransactionHash.fromHex(
-            "22528a2e224e0405559d12d687d39717cb37130564d8a4ed4058dfe392b8e109"),
-        index: 0),
-    TransactionInput(
-        transactionId: TransactionHash.fromHex(
-            "22528a2e224e0405559d12d687d39717cb37130564d8a4ed4058dfe392b8e109"),
-        index: 1),
-  ], outputs: [
-    TransactionOutput(
-        address: receiver, amount: Value(coin: ADAHelper.toLovelaces("100"))),
-    TransactionOutput(
-        address: receiver2, amount: Value(coin: ADAHelper.toLovelaces("100"))),
-    TransactionOutput(
-        address: addr,
-        amount: Value(
-            coin: BigInt.from(9898000000) - ADAHelper.toLovelaces("201"))),
-  ], fee: ADAHelper.toLovelaces("1"));
+  final body = TransactionBody(
+      inputs: TransactionInputs([
+        TransactionInput(
+            transactionId: TransactionHash.fromHex(
+                "22528a2e224e0405559d12d687d39717cb37130564d8a4ed4058dfe392b8e109"),
+            index: 2),
+        TransactionInput(
+            transactionId: TransactionHash.fromHex(
+                "22528a2e224e0405559d12d687d39717cb37130564d8a4ed4058dfe392b8e109"),
+            index: 0),
+        TransactionInput(
+            transactionId: TransactionHash.fromHex(
+                "22528a2e224e0405559d12d687d39717cb37130564d8a4ed4058dfe392b8e109"),
+            index: 1),
+      ]),
+      outputs: TransactionOutputs([
+        TransactionOutput(
+            address: receiver,
+            amount: Value(coin: ADAHelper.toLovelaces("100"))),
+        TransactionOutput(
+            address: receiver2,
+            amount: Value(coin: ADAHelper.toLovelaces("100"))),
+        TransactionOutput(
+            address: addr,
+            amount: Value(
+                coin: BigInt.from(9898000000) - ADAHelper.toLovelaces("201"))),
+      ]),
+      fee: ADAHelper.toLovelaces("1"));
 
   final withness = adaPrivateKey.createBootstrapWitness(
       digest: body.toHash().data,
@@ -69,10 +74,9 @@ void main() async {
   final transaction = ADATransaction(
     body: body,
     witnessSet: TransactionWitnessSet(
-      bootstraps: [withness, withness2],
-      vKeys: [
-        adaShellyPrivateKey.createSignatureWitness(body.toHash().data),
-      ],
+      bootstraps: BootstrapWitnesses([withness, withness2]),
+      vKeys: VkeyWitnesses(
+          [adaShellyPrivateKey.createSignatureWitness(body.toHash().data)]),
     ),
   );
 

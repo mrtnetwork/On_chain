@@ -2,8 +2,8 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/byron/byron.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
-import 'package:on_chain/ada/src/models/transaction/witnesses/bootstrap_witness.dart';
-import 'package:on_chain/ada/src/models/transaction/witnesses/vkey_witness.dart';
+import 'package:on_chain/ada/src/models/transaction/witnesses/models/bootstrap_witness.dart';
+import 'package:on_chain/ada/src/models/transaction/witnesses/models/vkey_witness.dart';
 import 'public_key.dart';
 
 /// Represents an Ada private key.

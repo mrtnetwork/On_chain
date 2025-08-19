@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
-import 'package:on_chain/ada/src/models/certificate/core/certificate.dart';
-import 'package:on_chain/ada/src/models/certificate/core/types.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 /// Represents a certificate for genesis key delegation.
@@ -23,16 +24,17 @@ class GenesisKeyDelegation extends Certificate {
 
   /// Constructs a [GenesisKeyDelegation] instance from its serialized form.
   factory GenesisKeyDelegation.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.getIndex(0),
+    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
         validate: CertificateType.genesisKeyDelegation);
     return GenesisKeyDelegation(
-        genesisDelegateHash: GenesisDelegateHash.deserialize(cbor.getIndex(2)),
-        genesisHash: GenesisHash.deserialize(cbor.getIndex(1)),
-        vrfKeyHash: VRFKeyHash.deserialize(cbor.getIndex(3)));
+        genesisDelegateHash:
+            GenesisDelegateHash.deserialize(cbor.elementAt<CborBytesValue>(2)),
+        genesisHash: GenesisHash.deserialize(cbor.elementAt<CborBytesValue>(1)),
+        vrfKeyHash: VRFKeyHash.deserialize(cbor.elementAt<CborBytesValue>(3)));
   }
   factory GenesisKeyDelegation.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> correctJson =
-        json['genesis_key_delegation'] ?? json;
+        json[CertificateType.genesisKeyDelegation.name] ?? json;
     return GenesisKeyDelegation(
         genesisDelegateHash:
             GenesisDelegateHash.fromHex(correctJson['genesis_delegate_hash']),
@@ -42,7 +44,7 @@ class GenesisKeyDelegation extends Certificate {
 
   @override
   CborObject toCbor() {
-    return CborListValue.fixedLength([
+    return CborListValue.definite([
       type.toCbor(),
       genesisHash.toCbor(),
       genesisDelegateHash.toCbor(),
@@ -56,11 +58,14 @@ class GenesisKeyDelegation extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'genesis_key_delegation': {
+      type.name: {
         'genesishash': genesisHash.toJson(),
         'genesis_delegate_hash': genesisDelegateHash.toJson(),
         'vrf_keyhash': vrfKeyHash.toJson()
       }
     };
   }
+
+  @override
+  List<Credential> get signersCredential => [];
 }

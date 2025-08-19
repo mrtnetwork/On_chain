@@ -1,6 +1,6 @@
-export 'models/asset_name.dart';
-export 'models/assets.dart';
-export 'models/multi_assets.dart';
+export 'models/transaction_outputs.dart';
 export 'models/transaction_output.dart';
-export 'models/value.dart';
-export 'script_ref/scripts.dart';
+export 'models/native_script.dart';
+export 'models/plutus_script.dart';
+export 'models/script_ref.dart';
+export 'models/script_ref_type.dart';

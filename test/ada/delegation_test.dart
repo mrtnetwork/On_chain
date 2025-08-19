@@ -23,13 +23,22 @@ void _delegationTransactionTest() {
     final input = TransactionInput(
         transactionId: TransactionHash(List<int>.filled(32, 0)), index: 0);
     final changeOutput = TransactionOutput(
-        address: changeAddress, amount: Value(coin: BigInt.from(3785998)));
+        address: changeAddress,
+        amount: Value(coin: BigInt.from(3785998)),
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra));
     final transactionBody = TransactionBody(
-        inputs: [input],
-        outputs: [changeOutput],
+        inputs: TransactionInputs([input],
+            serializationConfig: TransactionInputSerializationConfig(
+                encoding: CborIterableEncodingType.definite)),
+        outputs: TransactionOutputs([changeOutput],
+            serializationConfig: TransactionOutputsSerializationConfig(
+                encoding: CborIterableEncodingType.definite)),
         fee: BigInt.from(214002),
         ttl: BigInt.from(1000),
-        certs: [registrationKey, delegation]);
+        certificates: Certificates([registrationKey, delegation],
+            serializationConfig: CertificatesSerializationConfig(
+                encoding: CborIterableEncodingType.definite)));
     expect(transactionBody.serializeHex(),
         'a50081825820000000000000000000000000000000000000000000000000000000000000000000018182583900c05e80bdcf267e7fe7bf4a867afe54a65a3605b32aae830ed07f8e1ccc339a35f9e0fe039cf510c761d4dd29040c48e9657fdac7e9c01d941a0039c50e021a000343f2031903e8048282008200581ccc339a35f9e0fe039cf510c761d4dd29040c48e9657fdac7e9c01d9483028200581ccc339a35f9e0fe039cf510c761d4dd29040c48e9657fdac7e9c01d94581ccc339a35f9e0fe039cf510c761d4dd29040c48e9657fdac7e9c01d94');
   });

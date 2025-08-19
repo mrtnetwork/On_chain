@@ -32,13 +32,16 @@ void main() async {
           Value(coin: (BigInt.from(9947800000)) - ADAHelper.toLovelaces("26")));
 
   final fee = ADAHelper.toLovelaces("1");
-  final body =
-      TransactionBody(inputs: [input], outputs: [change, output1], fee: fee);
+  final body = TransactionBody(
+      inputs: TransactionInputs([input]),
+      outputs: TransactionOutputs([change, output1]),
+      fee: fee);
 
   final transaction = ADATransaction(
       body: body,
       witnessSet: TransactionWitnessSet(
-          vKeys: [privateKey.createSignatureWitness(body.toHash().data)]));
+          vKeys: VkeyWitnesses(
+              [privateKey.createSignatureWitness(body.toHash().data)])));
   await provider.request(BlockfrostRequestSubmitTransaction(
       transactionCborBytes: transaction.serialize()));
 

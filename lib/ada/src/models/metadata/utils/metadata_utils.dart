@@ -1,14 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/models/metadata/core/config.dart';
-import 'package:on_chain/ada/src/models/metadata/core/metadata_json_schame.dart';
-import 'package:on_chain/ada/src/models/metadata/core/tranasction_metadata.dart';
-import 'package:on_chain/ada/src/models/metadata/core/transaction_metadata_types.dart';
-import 'package:on_chain/ada/src/models/metadata/types/bytes.dart';
-import 'package:on_chain/ada/src/models/metadata/types/int.dart';
-import 'package:on_chain/ada/src/models/metadata/types/list.dart';
-import 'package:on_chain/ada/src/models/metadata/types/map.dart';
-import 'package:on_chain/ada/src/models/metadata/types/text.dart';
+import 'package:on_chain/ada/src/models/metadata/models/config.dart';
+import 'package:on_chain/ada/src/models/metadata/models/metadata_json_schame.dart';
+import 'package:on_chain/ada/src/models/metadata/models/tranasction_metadata.dart';
+import 'package:on_chain/ada/src/models/metadata/models/transaction_metadata_types.dart';
+import 'package:on_chain/ada/src/models/metadata/models/bytes.dart';
+import 'package:on_chain/ada/src/models/metadata/models/int.dart';
+import 'package:on_chain/ada/src/models/metadata/models/list.dart';
+import 'package:on_chain/ada/src/models/metadata/models/map.dart';
+import 'package:on_chain/ada/src/models/metadata/models/text.dart';
 
 /// Utility class for transaction metadata operations.
 class TransactionMetadataUtils {

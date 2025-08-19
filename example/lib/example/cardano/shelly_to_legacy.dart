@@ -22,13 +22,17 @@ void main() async {
   final output = TransactionOutput(
       address: receiver, amount: Value(coin: ADAHelper.toLovelaces("20")));
   final fee = ADAHelper.toLovelaces("1");
-  final body = TransactionBody(inputs: [input], outputs: [output], fee: fee);
+  final body = TransactionBody(
+      inputs: TransactionInputs([input]),
+      outputs: TransactionOutputs([output]),
+      fee: fee);
 
   final transaction = ADATransaction(
       body: body,
-      witnessSet: TransactionWitnessSet(vKeys: [
+      witnessSet: TransactionWitnessSet(
+          vKeys: VkeyWitnesses([
         privateKey.createSignatureWitness(body.toHash().data),
-      ]));
+      ])));
   await provider.request(BlockfrostRequestSubmitTransaction(
       transactionCborBytes: transaction.serialize()));
   // https://preprod.cardanoscan.io/transaction/1e488da78cd2985dacdfb19d653694207242a5e688bebb0d5f2974735cb093e1

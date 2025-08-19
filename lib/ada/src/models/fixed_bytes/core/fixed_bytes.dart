@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
-import 'package:on_chain/ada/src/models/utils.dart';
+import 'package:on_chain/ada/src/models/utils/utils.dart';
 
 /// Abstract class for handling fixed length bytes.
 abstract class FixedBytes
@@ -28,8 +28,7 @@ abstract class FixedBytes
   }
 
   @override
-  int get hashCode => data.fold<int>(
-      mask32, (previousValue, element) => previousValue ^ element.hashCode);
+  int get hashCode => HashCodeGenerator.generateBytesHashCode(data);
 
   @override
   int compareTo(other) {
@@ -51,7 +50,7 @@ abstract class FixedBytes
   }
 
   @override
-  dynamic toJson() {
+  String toJson() {
     return toHex();
   }
 

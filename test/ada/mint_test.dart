@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
@@ -15,6 +16,8 @@ void _mint() {
         transactionId: TransactionHash(List<int>.filled(32, 0)), index: 0);
     final output = TransactionOutput(
         address: address,
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
         amount: Value(
             coin: BigInt.from(300),
             multiAsset: MultiAsset({
@@ -26,6 +29,8 @@ void _mint() {
             })));
     final changeOutput = TransactionOutput(
         address: changeAddress,
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra),
         amount: Value(
             coin: BigInt.from(299),
             multiAsset: MultiAsset({
@@ -45,8 +50,12 @@ void _mint() {
           }))
     ]);
     final transactionBody = TransactionBody(
-        inputs: [input],
-        outputs: [output, changeOutput],
+        inputs: TransactionInputs([input],
+            serializationConfig: TransactionInputSerializationConfig(
+                encoding: CborIterableEncodingType.definite)),
+        outputs: TransactionOutputs([output, changeOutput],
+            serializationConfig: TransactionOutputsSerializationConfig(
+                encoding: CborIterableEncodingType.definite)),
         fee: BigInt.one,
         mint: mint);
     expect(transactionBody.serializeHex(),

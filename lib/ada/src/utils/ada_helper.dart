@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/models/constant.dart';
-import 'package:on_chain/ada/src/models/transaction/output/models/asset_name.dart';
+import 'package:on_chain/ada/src/models/constants/constant.dart';
+import 'package:on_chain/ada/src/models/transaction/assets/models/asset_name.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 class ADAHelper {

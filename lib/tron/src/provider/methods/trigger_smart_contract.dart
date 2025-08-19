@@ -148,7 +148,7 @@ class TronRequestTriggerSmartContract
       'call_token_value': callTokenValue,
       'token_id': tokenId,
       'visible': visible,
-      'feeimit': feeLimit,
+      'fee_limit': feeLimit,
       'Permission_id': permissionId
     };
   }

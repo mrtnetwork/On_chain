@@ -125,6 +125,9 @@ class BlockfrostMethods {
   static const BlockfrostMethods latestBlock =
       BlockfrostMethods._('Latest block', '/blocks/latest');
 
+  static const BlockfrostMethods latestBlockTransactionsWithCborData =
+      BlockfrostMethods._('Latest block', '/blocks/latest/txs/cbor');
+
   /// Return the transactions within the latest block.
   static const BlockfrostMethods lastBlockTransactions =
       BlockfrostMethods._('Latest block transactions', '/blocks/latest/txs');
@@ -153,6 +156,11 @@ class BlockfrostMethods {
   /// Return the transactions within the block.
   static const BlockfrostMethods blockTransactions =
       BlockfrostMethods._('Block transactions', '/blocks/:hash_or_number/txs');
+
+  /// Return the transactions within the block.
+  static const BlockfrostMethods blockTransactionsWithCborData =
+      BlockfrostMethods._(
+          'Block transactions', '/blocks/:hash_or_number/txs/cbor');
 
   /// Return list of addresses affected in the specified block with additional information, sorted by the bech32 address, ascending.
   static const BlockfrostMethods addressesAffectedInASpecificBlock =
@@ -321,6 +329,9 @@ class BlockfrostMethods {
   /// Return content of the requested transaction.
   static const BlockfrostMethods specificTransaction =
       BlockfrostMethods._('Specific transaction', '/txs/:hash');
+
+  static const BlockfrostMethods transactionCbor =
+      BlockfrostMethods._('Specific transaction as cbor', '/txs/:hash/cbor');
 
   /// Return the inputs and UTXOs of the specific transaction.
   static const BlockfrostMethods transactionUTXOs =

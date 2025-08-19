@@ -28,28 +28,34 @@ void main() async {
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
 
-  final body = TransactionBody(inputs: [
-    TransactionInput(
-        transactionId: TransactionHash.fromHex(
-            "433ed3da1e8b910385c93ae494e4bbe4849c42a8a0f860d2d066bb3215234a16"),
-        index: 1)
-  ], outputs: [
-    TransactionOutput(
-        address: receiver, amount: Value(coin: ADAHelper.toLovelaces("100"))),
-    TransactionOutput(
-        address: receiver2, amount: Value(coin: ADAHelper.toLovelaces("100"))),
-    TransactionOutput(
-        address: multiSig,
-        amount: Value(
-            coin: BigInt.from(9899000000) - ADAHelper.toLovelaces("201"))),
-  ], fee: ADAHelper.toLovelaces("1"));
+  final body = TransactionBody(
+      inputs: TransactionInputs([
+        TransactionInput(
+            transactionId: TransactionHash.fromHex(
+                "433ed3da1e8b910385c93ae494e4bbe4849c42a8a0f860d2d066bb3215234a16"),
+            index: 1)
+      ]),
+      outputs: TransactionOutputs([
+        TransactionOutput(
+            address: receiver,
+            amount: Value(coin: ADAHelper.toLovelaces("100"))),
+        TransactionOutput(
+            address: receiver2,
+            amount: Value(coin: ADAHelper.toLovelaces("100"))),
+        TransactionOutput(
+            address: multiSig,
+            amount: Value(
+                coin: BigInt.from(9899000000) - ADAHelper.toLovelaces("201"))),
+      ]),
+      fee: ADAHelper.toLovelaces("1"));
   final withness = adaPrivateKey.createBootstrapWitness(
       address: multiSig,
       chainCode: privateKey.chainCode.toBytes(),
       digest: body.toHash().data);
   final transaction = ADATransaction(
     body: body,
-    witnessSet: TransactionWitnessSet(bootstraps: [withness]),
+    witnessSet:
+        TransactionWitnessSet(bootstraps: BootstrapWitnesses([withness])),
   );
   await provider.request(BlockfrostRequestSubmitTransaction(
       transactionCborBytes: transaction.serialize()));

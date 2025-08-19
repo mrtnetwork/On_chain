@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/models/native_script/core/native_script_type.dart';
+import 'package:on_chain/ada/src/models/native_script/models/native_script_type.dart';
 
 /// Utility class for native script operations.
 class NativeScriptUtils {

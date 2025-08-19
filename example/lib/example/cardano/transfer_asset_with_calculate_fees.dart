@@ -41,14 +41,17 @@ void main() async {
       address: addr,
       amount: Value(coin: utxoAmount - (BigInt.from(3000000) + fee)));
 
-  TransactionBody body =
-      TransactionBody(inputs: [input], outputs: [change, output], fee: fee);
+  TransactionBody body = TransactionBody(
+      inputs: TransactionInputs([input]),
+      outputs: TransactionOutputs([change, output]),
+      fee: fee);
 
   ADATransaction transaction = ADATransaction(
       body: body,
-      witnessSet: TransactionWitnessSet(vKeys: [
+      witnessSet: TransactionWitnessSet(
+          vKeys: VkeyWitnesses([
         privateKey.createSignatureWitness(body.toHash().data),
-      ]));
+      ])));
   final param =
       await provider.request(BlockfrostRequestLatestEpochProtocolParameters());
   fee = param.calculateFee(transaction.size);
@@ -56,12 +59,13 @@ void main() async {
       amount: Value(
     coin: utxoAmount - (BigInt.from(3000000) + fee),
   ));
-  body = body.copyWith(outputs: [change, output], fee: fee);
+  body = body.copyWith(outputs: TransactionOutputs([change, output]), fee: fee);
   transaction = transaction.copyWith(
       body: body,
-      witnessSet: TransactionWitnessSet(vKeys: [
+      witnessSet: TransactionWitnessSet(
+          vKeys: VkeyWitnesses([
         privateKey.createSignatureWitness(body.toHash().data),
-      ]));
+      ])));
   await provider.request(BlockfrostRequestSubmitTransaction(
       transactionCborBytes: transaction.serialize()));
 

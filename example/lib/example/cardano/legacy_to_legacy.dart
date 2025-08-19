@@ -18,21 +18,24 @@ void main() async {
   final provider = BlockFrostProvider(BlockFrostHTTPProvider(
       url: "https://cardano-preprod.blockfrost.io/api/v0/",
       projectId: "preprodMVwzqm4PuBDBSfEULoMzoj5QZcy5o3z5"));
-  final body = TransactionBody(inputs: [
-    TransactionInput(
-        transactionId: TransactionHash.fromHex(
-            "436fd1b30d6f5fdee6dc6772f47c1b15d9bfc9a6afff4f38820e68c006ac2749"),
-        index: 0)
-  ], outputs: [
-    TransactionOutput(
-        address: receiverLegacy,
-        amount: Value(coin: ADAHelper.toLovelaces("100"))),
-    TransactionOutput(
-        address: multiSig,
-        amount: Value(
-            coin:
-                ADAHelper.toLovelaces("10000") - ADAHelper.toLovelaces("101"))),
-  ], fee: ADAHelper.toLovelaces("1"));
+  final body = TransactionBody(
+      inputs: TransactionInputs([
+        TransactionInput(
+            transactionId: TransactionHash.fromHex(
+                "436fd1b30d6f5fdee6dc6772f47c1b15d9bfc9a6afff4f38820e68c006ac2749"),
+            index: 0)
+      ]),
+      outputs: TransactionOutputs([
+        TransactionOutput(
+            address: receiverLegacy,
+            amount: Value(coin: ADAHelper.toLovelaces("100"))),
+        TransactionOutput(
+            address: multiSig,
+            amount: Value(
+                coin: ADAHelper.toLovelaces("10000") -
+                    ADAHelper.toLovelaces("101"))),
+      ]),
+      fee: ADAHelper.toLovelaces("1"));
 
   final withness = adaPrivateKey.createBootstrapWitness(
       chainCode: privateKey.chainCode.toBytes(),
@@ -41,7 +44,8 @@ void main() async {
 
   final transaction = ADATransaction(
     body: body,
-    witnessSet: TransactionWitnessSet(bootstraps: [withness]),
+    witnessSet:
+        TransactionWitnessSet(bootstraps: BootstrapWitnesses([withness])),
   );
   await provider.request(BlockfrostRequestSubmitTransaction(
       transactionCborBytes: transaction.serialize()));

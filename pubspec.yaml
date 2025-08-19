@@ -1,6 +1,6 @@
 name: on_chain
 description: Streamline Ethereum, Tron, Solana, sui, aptos and Cardano operations. Effortlessly create transactions, interact with smart contracts, sign, and send transactions.
-version: 6.9.0
+version: 7.0.0
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
 Author: mrhaydari.t@gmail.com
@@ -17,7 +17,7 @@ environment:
 
 
 dependencies:
-  blockchain_utils: ^5.1.0
+  blockchain_utils: ^5.2.0
   # blockchain_utils:
   #   path: ../blockchain_utils
 

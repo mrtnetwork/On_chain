@@ -36,6 +36,8 @@ export 'block/listing_of_previous_blocks.dart';
 export 'block/specific_block.dart';
 export 'block/specific_block_in_a_slot.dart';
 export 'block/specific_block_in_a_slot_in_an_epoch.dart';
+export 'block/latest_block_transaction_data_with_cbor.dart';
+export 'block/transaction_data_with_cbor.dart';
 
 /// epoch
 export 'epoch/block_distribution.dart';
@@ -116,6 +118,7 @@ export 'transaction/transaction_stake_pool_registration_and_update_certificates.
 export 'transaction/transaction_stake_pool_retirement_certificates.dart';
 export 'transaction/transaction_utxos.dart';
 export 'transaction/transaction_withdrawal.dart';
+export 'transaction/transaction_cbor.dart';
 
 /// utils
 export 'utils/derive_an_address.dart';

@@ -20,13 +20,12 @@ void _auxiliaryDataSerialization() {
       NativeScriptScriptNOfK(n: 1, nativeScripts: pubkeyNativeScripts)
     ];
 
-    final auxiliaryData = AuxiliaryData(
-        preferAlonzoFormat: false, nativeScripts: onOfNativeScripts);
+    final auxiliaryData = AuxiliaryData(nativeScripts: onOfNativeScripts);
     expect(auxiliaryData.serializeHex(),
         'd90103a10181830301818200581c2a157a27a0621faa83844a697b347cfb40dad3a140f3440be48b3834');
     AuxiliaryData decode =
         AuxiliaryData.fromCborBytes(auxiliaryData.serialize());
-    decode = decode.copyWith(preferAlonzoFormat: false);
+    decode = decode.copyWith();
     expect(decode.serialize(), auxiliaryData.serialize());
     final fromJson = AuxiliaryData.fromJson(decode.toJson());
     expect(decode.serialize(), fromJson.serialize());
@@ -41,30 +40,37 @@ void _transactionWithAuxiliaryDataHash() {
         transactionId: TransactionHash(List<int>.filled(32, 0)), index: 0);
 
     final output = TransactionOutput(
-        address: addrOutput, amount: Value(coin: BigInt.from(999000)));
+        address: addrOutput,
+        amount: Value(coin: BigInt.from(999000)),
+        serializationConfig: TransactionOutputSerializationConfig(
+            encoding: TransactionOutputCborEncoding.shellyEra));
 
     final ttl = BigInt.from(1000);
     final fee = BigInt.from(1000);
 
     final List<NativeScript> pubkeyNativeScripts = [
       NativeScriptScriptPubkey.fromPubKey(BytesUtils.fromHexString(
-          '0071325e6664401e5fffcbce46bd522822e6aa485145b78a6fe556de6b5ec03ec5')),
+          '0071325e6664401e5fffcbce46bd522822e6aa485145b78a6fe556de6b5ec03ec5'))
     ];
     final List<NativeScript> onOfNativeScripts = [
       NativeScriptScriptNOfK(n: 1, nativeScripts: pubkeyNativeScripts)
     ];
 
-    final auxiliaryData = AuxiliaryData(
-        preferAlonzoFormat: false, nativeScripts: onOfNativeScripts);
+    // print("on ${onOfNativeScripts.}")
+
+    final auxiliaryData = AuxiliaryData(nativeScripts: onOfNativeScripts);
     final transaction = TransactionBody(
-        inputs: [input],
-        outputs: [output],
+        inputs: TransactionInputs([input],
+            serializationConfig: TransactionInputSerializationConfig(
+                encoding: CborIterableEncodingType.definite)),
+        outputs: TransactionOutputs([output],
+            serializationConfig: TransactionOutputsSerializationConfig(
+                encoding: CborIterableEncodingType.definite)),
         fee: fee,
         ttl: ttl,
         auxiliaryDataHash: auxiliaryData.toHash());
     expect(transaction.serializeHex(),
         'a50081825820000000000000000000000000000000000000000000000000000000000000000000018182583900c05e80bdcf267e7fe7bf4a867afe54a65a3605b32aae830ed07f8e1c81e2e3606643119ff5bc352edc0f68c774b6727b23bbc687823ac0df1a000f3e58021903e8031903e8075820405971305492ca6a973e13494fa78ffb03d745e78ecc9b8050783e645e95e1a3');
-
     final fromJson = TransactionBody.fromJson(transaction.toJson());
     expect(fromJson.serializeHex(), transaction.serializeHex());
     final decode = TransactionBody.fromCborBytes(transaction.serialize());

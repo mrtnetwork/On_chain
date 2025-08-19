@@ -69,6 +69,7 @@ class BlockFrostRequestDetails extends BaseServiceRequestParams {
       {required super.requestID,
       required this.pathParams,
       super.headers = const {},
+      super.errorStatusCodes = const [400, 403, 404, 418, 425, 429, 500],
       RequestServiceType requestType = RequestServiceType.get,
       this.params})
       : super(type: requestType);

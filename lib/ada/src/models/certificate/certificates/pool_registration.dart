@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:on_chain/ada/src/models/credential/models/credential.dart';
+import 'package:on_chain/ada/src/models/credential/models/key.dart';
 import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
-import 'package:on_chain/ada/src/models/certificate/core/certificate.dart';
-import 'package:on_chain/ada/src/models/certificate/core/types.dart';
-import 'package:on_chain/ada/src/models/certificate/types/pool/pool_params.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
+import 'package:on_chain/ada/src/models/certificate/certificates/pool/pool_params.dart';
 
 /// Represents a pool registration certificate with serialization support.
 class PoolRegistration extends Certificate {
@@ -14,14 +16,14 @@ class PoolRegistration extends Certificate {
 
   /// Deserializes a PoolRegistration object from its CBOR representation.
   factory PoolRegistration.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.getIndex(0),
+    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
         validate: CertificateType.poolRegistration);
     return PoolRegistration(
         PoolParams.deserialize(cbor.sublist<CborObject>(1)));
   }
   factory PoolRegistration.fromJson(Map<String, dynamic> json) {
-    return PoolRegistration(PoolParams.fromJson(
-        json['pool_params'] ?? json['pool_registration']['pool_params']));
+    final currentJson = json[CertificateType.poolRegistration.name] ?? json;
+    return PoolRegistration(PoolParams.fromJson(currentJson['pool_params']));
   }
   PoolRegistration copyWith({PoolParams? poolParams}) {
     return PoolRegistration(poolParams ?? this.poolParams);
@@ -32,16 +34,20 @@ class PoolRegistration extends Certificate {
 
   @override
   CborObject toCbor() {
-    return CborListValue.fixedLength([
+    return CborListValue.definite([
       type.toCbor(),
-      ...poolParams.toCbor().cast<CborListValue<CborObject>>().value,
+      ...poolParams.toCbor().as<CborListValue<CborObject>>().value,
     ]);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'pool_registration': {'pool_params': poolParams.toJson()}
+      type.name: {'pool_params': poolParams.toJson()}
     };
   }
+
+  @override
+  List<Credential> get signersCredential =>
+      poolParams.poolOwners.map((e) => CredentialKey(e.data)).toList();
 }

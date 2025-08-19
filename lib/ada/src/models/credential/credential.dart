@@ -1,4 +1,5 @@
-export 'core/stake_cred.dart';
-export 'core/stake_cred_type.dart';
-export 'key.dart';
-export 'script.dart';
+export 'models/credential.dart';
+export 'models/key.dart';
+export 'models/script.dart';
+export 'models/credential_type.dart';
+export 'models/credentials.dart';
