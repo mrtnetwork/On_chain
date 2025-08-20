@@ -128,10 +128,10 @@ class Eip712TypedData implements EIP712Base {
           error:
               const SolidityAbiException("missing or invalid message data."));
       if (version == null) {
-        version = _EIP712Utils.detectVersion(
-            types, _EIP712Utils.domainKeyName, domain);
+        version = EIP712Utils._detectVersion(
+            types, EIP712Utils.domainKeyName, domain);
         if (version == EIP712Version.v4) {
-          version = _EIP712Utils.detectVersion(types, primaryType, message);
+          version = EIP712Utils._detectVersion(types, primaryType, message);
         }
       }
       return Eip712TypedData(
@@ -147,14 +147,31 @@ class Eip712TypedData implements EIP712Base {
     }
   }
 
+  List<int> hashDomain() {
+    return EIP712Utils.structHash(this, EIP712Utils.domainKeyName, domain);
+  }
+
+  List<int> hashType(String type) {
+    if (type == primaryType) {
+      return EIP712Utils.structHash(this, primaryType, message);
+    }
+    final eipType =
+        types[primaryType]?.firstWhereNullable((e) => e.type == type);
+    if (eipType == null) {
+      throw SolidityAbiException(
+          'EIP-712 type definition not found for "$type".');
+    }
+    return EIP712Utils.structHash(this, type, message[eipType.name]);
+  }
+
   /// Encodes the typed data into a bytes, optionally hashing the result.
   /// If [hash] is true (default), the result is hashed using Keccak-256.
   @override
   List<int> encode({bool hash = true}) {
     final List<int> encode = [
-      ..._EIP712Utils.eip191PrefixBytes,
-      ..._EIP712Utils.structHash(this, _EIP712Utils.domainKeyName, domain),
-      ..._EIP712Utils.structHash(this, primaryType, message)
+      ...EIP712Utils.eip191PrefixBytes,
+      ...EIP712Utils.structHash(this, EIP712Utils.domainKeyName, domain),
+      ...EIP712Utils.structHash(this, primaryType, message)
     ];
     if (hash) {
       return QuickCrypto.keccack256Hash(encode);
@@ -188,7 +205,7 @@ class Eip712TypedDataV1 {
       {required String type, required String name, required dynamic value}) {
     return Eip712TypedDataV1._(
         name: name,
-        value: _EIP712Utils.ensureCorrectValues(type, value),
+        value: EIP712Utils._ensureCorrectValues(type, value),
         type: type);
   }
   factory Eip712TypedDataV1.fromJson(Map<String, dynamic> json) {
@@ -213,7 +230,7 @@ class Eip712TypedDataV1 {
     return {
       'name': name,
       'type': type,
-      'value': _EIP712Utils.eip712TypedDataV1ValueToJson(type, value)
+      'value': EIP712Utils.eip712TypedDataV1ValueToJson(type, value)
     };
   }
 }
@@ -246,10 +263,10 @@ class EIP712Legacy implements EIP712Base {
     final names = typesData.map((e) => '${e.type} ${e.name}').toList();
     // Calculate hashes for types and names
     final typesHash =
-        QuickCrypto.keccack256Hash(_EIP712Utils.legacyV1encode(types, values));
-    final namesHash = QuickCrypto.keccack256Hash(_EIP712Utils.legacyV1encode(
+        QuickCrypto.keccack256Hash(EIP712Utils.legacyV1encode(types, values));
+    final namesHash = QuickCrypto.keccack256Hash(EIP712Utils.legacyV1encode(
         List.generate(names.length, (index) => 'string'), names));
-    final toBytes = _EIP712Utils.legacyV1encode(
+    final toBytes = EIP712Utils.legacyV1encode(
         ['bytes32', 'bytes32'], [namesHash, typesHash]);
     if (!hash) {
       return toBytes;

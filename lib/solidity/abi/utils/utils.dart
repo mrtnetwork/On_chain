@@ -132,7 +132,7 @@ class _ABIValidator {
   /// Throws [SolidityAbiException] for an invalid type that is not "int" or "uint".
   static bool isSignNumber(String type) {
     if (type.startsWith('int')) return true;
-    if (type.startsWith('uint')) return false;
+    if (type.startsWith('uint') || type.startsWith("trcToken")) return false;
     throw const SolidityAbiException('Invalid integer type name.');
   }
 
@@ -174,6 +174,10 @@ class _ABIValidator {
       } else if (type.startsWith('uint')) {
         final spl = type.split('uint');
         bitLength = int.parse(spl[1]);
+        sign = false;
+      } else if (type.startsWith('trcToken')) {
+        // final spl = type.split('uint');
+        bitLength = 256;
         sign = false;
       } else {
         throw SolidityAbiException(

@@ -1,8 +1,8 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// Internal utility class for common operations related to EIP-712 encoding and decoding.
-class _EIP712Utils {
-  _EIP712Utils();
+class EIP712Utils {
+  EIP712Utils();
 
   /// Prefix bytes used in EIP-191 signatures.
   static const List<int> eip191PrefixBytes = [25, 1];
@@ -20,7 +20,7 @@ class _EIP712Utils {
   static const String bytes32TypeName = 'bytes32';
 
   /// Ensures the input value is represented as bytes, handling different types.
-  static List<int> ensureBytes(String type, dynamic value) {
+  static List<int> _ensureBytes(String type, dynamic value) {
     if (!type.startsWith('bytes')) {
       throw const SolidityAbiException(
           'Invalid data provided for bytes codec.');
@@ -34,7 +34,7 @@ class _EIP712Utils {
   }
 
   /// Ensures correct representation of values based on the specified type.
-  static dynamic ensureCorrectValues(String type, dynamic value) {
+  static dynamic _ensureCorrectValues(String type, dynamic value) {
     final match = arrayRegex.firstMatch(type);
     final childType = match?.group(1);
     if (match != null) {
@@ -42,21 +42,23 @@ class _EIP712Utils {
         throw SolidityAbiException('Invalid data provided for array codec.',
             details: {'type': type, 'value': value});
       }
-      return value.map((e) => ensureCorrectValues(childType!, e)).toList();
+      return value.map((e) => _ensureCorrectValues(childType!, e)).toList();
     }
-    if (type.startsWith('uint') || type.startsWith('int')) {
+    if (type.startsWith('uint') ||
+        type.startsWith('int') ||
+        type.startsWith('trcToken')) {
       return BigintUtils.parse(value);
     }
     switch (type) {
       case 'address':
-        return ensureIsAddress(value);
+        return _ensureIsAddress(value);
       case 'bool':
-        return ensureBoolean(value);
+        return _ensureBoolean(value);
       case 'string':
-        return ensureString(value);
+        return _ensureString(value);
       default:
         if (type.startsWith('bytes')) {
-          return ensureBytes(type, value);
+          return _ensureBytes(type, value);
         }
         throw SolidityAbiException('Unsuported type. codec not found.',
             details: {'type': type});
@@ -101,7 +103,7 @@ class _EIP712Utils {
   /// If the value is a list of integers, it is interpreted as bytes and converted to an ETHAddress or TronAddress.
   /// If the value is a string, it is parsed to create an ETHAddress or TronAddress.
   /// Throws a [SolidityAbiException] for invalid input.
-  static SolidityAddress ensureIsAddress(dynamic value) {
+  static SolidityAddress _ensureIsAddress(dynamic value) {
     try {
       if (value is SolidityAddress) return value;
       if (value is List<int>) {
@@ -119,7 +121,7 @@ class _EIP712Utils {
 
   /// Ensures that the input value is a boolean.
   /// Throws a [SolidityAbiException] for invalid input.
-  static bool ensureBoolean(dynamic value) {
+  static bool _ensureBoolean(dynamic value) {
     if (value is! bool) {
       throw SolidityAbiException('Invalid data provided for boolean codec.',
           details: {'input': value});
@@ -129,7 +131,7 @@ class _EIP712Utils {
 
   /// Ensures that the input value is a string.
   /// Throws a [SolidityAbiException] for invalid input.
-  static String ensureString(dynamic value) {
+  static String _ensureString(dynamic value) {
     if (value is! String) {
       throw SolidityAbiException('invalid data provided for string codec.',
           details: {'input': value});
@@ -137,8 +139,14 @@ class _EIP712Utils {
     return value;
   }
 
-  static EIP712Version detectVersion(Map<String, List<Eip712TypeDetails>> types,
-      String type, Map<String, dynamic> data) {
+  static EIP712Version _detectVersion(
+      Map<String, List<Eip712TypeDetails>> types,
+      String type,
+      Map<String, dynamic> data) {
+    if (types[type] == null) {
+      throw SolidityAbiException(
+          'EIP-712 type definition not found for "$type".');
+    }
     for (final Eip712TypeDetails field in types[type]!) {
       if (data[field.name] == null) return EIP712Version.v3;
     }
@@ -151,7 +159,10 @@ class _EIP712Utils {
       Eip712TypedData typedData, String type, Map<String, dynamic> data) {
     final List<String> types = [bytes32TypeName];
     final List<dynamic> inputBytes = [getMethodSigature(typedData, type)];
-
+    if (typedData.types[type] == null) {
+      throw SolidityAbiException(
+          'EIP-712 type definition not found for "$type".');
+    }
     for (final Eip712TypeDetails field in typedData.types[type]!) {
       if (data[field.name] == null) {
         if (typedData.version == EIP712Version.v3) continue;
@@ -171,7 +182,7 @@ class _EIP712Utils {
 
   /// Retrieves dependencies for a given type in the EIP-712 typed data structure.
   /// Recursively collects dependencies for the specified type and its subtypes.
-  static List<String> getDependencies(Eip712TypedData typedData, String type,
+  static List<String> _getDependencies(Eip712TypedData typedData, String type,
       [List<String> dependencies = const []]) {
     final RegExpMatch? match = typeRegex.firstMatch(type);
     final String actualType = match != null ? match.group(0)! : type;
@@ -189,7 +200,7 @@ class _EIP712Utils {
         <String>[],
         (previous, t) => [
           ...previous,
-          ...getDependencies(typedData, t.type, previous)
+          ..._getDependencies(typedData, t.type, previous)
               .where((dependency) => !previous.contains(dependency)),
         ],
       ),
@@ -199,11 +210,15 @@ class _EIP712Utils {
   /// Extracts array type information from a given type name using a regular expression.
   /// The type name is expected to follow the pattern `typeName[length]` where `length` is an optional integer.
   /// Returns a Tuple containing the array type and its length, or null if the type name does not match the pattern.
-  static Tuple<String, int>? extractArrayType(String typeName) {
+  static Tuple<String, int>? _extractArrayType(String typeName) {
     final RegExpMatch? match = arrayRegex.firstMatch(typeName);
     if (match == null) return null;
     final String arrayType = match.group(1)!;
-    final int length = int.parse(match.group(2) ?? '0');
+    String? arrLength = match.group(2);
+    if (arrLength == null || arrLength.isEmpty) {
+      return Tuple(arrayType, 0);
+    }
+    final int length = int.parse(arrLength);
     return Tuple(arrayType, length);
   }
 
@@ -212,7 +227,7 @@ class _EIP712Utils {
   /// Returns a Tuple containing the encoded type and data.
   static Tuple<String, dynamic> encodeValue(
       Eip712TypedData typedData, String type, dynamic data) {
-    final isArray = extractArrayType(type);
+    final isArray = _extractArrayType(type);
     if (isArray != null) {
       if (data is! List) {
         throw SolidityAbiException('Invalid data provided for array codec.',
@@ -233,7 +248,7 @@ class _EIP712Utils {
       final List<dynamic> values =
           encodedData.map((item) => item.item2).toList();
       return Tuple(bytes32TypeName,
-          QuickCrypto.keccack256Hash(_EIP712Utils.abiEncode(types, values)));
+          QuickCrypto.keccack256Hash(EIP712Utils.abiEncode(types, values)));
     }
 
     if (typedData.types[type] != null) {
@@ -258,7 +273,7 @@ class _EIP712Utils {
   static List<int> abiEncode(List<String> types, List<dynamic> inputs) {
     final inp = [
       for (int i = 0; i < types.length; i++)
-        ensureCorrectValues(types[i], inputs[i])
+        _ensureCorrectValues(types[i], inputs[i])
     ];
     final abiParams =
         types.map((e) => AbiParameter(name: '', type: e)).toList();
@@ -281,13 +296,10 @@ class _EIP712Utils {
   /// The method signature includes all dependencies and their corresponding types and names.
   static List<int> getMethodSigature(Eip712TypedData typedData, String type) {
     final List<String> dependencies =
-        List.from(getDependencies(typedData, type));
-    dependencies.sort();
+        List.from(_getDependencies(typedData, type));
     final encode = dependencies
-        .map(
-          (dependency) =>
-              '$dependency(${typedData.types[dependency]!.map((t) => '${t.type} ${t.name}').join(',')})',
-        )
+        .map((dependency) =>
+            '$dependency(${typedData.types[dependency]!.map((t) => '${t.type} ${t.name}').join(',')})')
         .join('');
     return QuickCrypto.keccack256Hash(StringUtils.encode(encode));
   }

@@ -21,6 +21,7 @@ abstract class ABICoder<T> {
     'bytes': BytesCoder(),
     'function': FunctionCoder(),
     'number': NumbersCoder(),
+    'trcToken': NumbersCoder(),
   };
 
   /// Factory method to create an ABICoder instance based on the provided type string.
@@ -31,7 +32,9 @@ abstract class ABICoder<T> {
       correctType = 'array';
     } else if (type.startsWith('bytes')) {
       correctType = 'bytes';
-    } else if (type.startsWith('uint') || type.startsWith('int')) {
+    } else if (type.startsWith('uint') ||
+        type.startsWith('int') ||
+        type.startsWith("trcToken")) {
       correctType = 'number';
     }
     // Use the corrected type or the original type if not modified
