@@ -1,9 +1,9 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/exception/exception.dart';
-import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/account/authority.dart';
+import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/transaction_contract.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
 import 'package:on_chain/utils/utils.dart';
 
@@ -129,7 +129,7 @@ class TransactionRaw extends TronProtocolBufferImpl {
       'ref_block_hash': BytesUtils.toHexString(refBlockHash),
       'expiration': expiration.toString(),
       'auths': auths?.map((auth) => auth.toJson(visible: visible)).toList(),
-      'data': StringUtils.tryDecode(data),
+      'data': BytesUtils.tryToHexString(data),
       'contract': contract.map((c) => c.toJson(visible: visible)).toList(),
       'scripts': BytesUtils.tryToHexString(scripts),
       'timestamp': timestamp.toString(),
