@@ -10,11 +10,12 @@ void main() {
 }
 
 void transfer() {
-  test('Transafer', () {
+  test('Transfer', () {
     const Map<String, dynamic> tx = {
       'visible': false,
       'txID':
           '4569d0bc9c0d36785233de45808da24c326b92d22919cc7e81335b57778105f5',
+      "data": "68656c6c6f",
       'raw_data_hex':
           '0a026df02208670960a4a79f751c4080c2f29098325a65080112610a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412300a1541fad447e0017b3b7e707a95f8ce1d2119092ea73e1215418840e6c55b9ada326d211d818c34a994aeced808180170a0edee909832',
       'raw_data': {
@@ -41,6 +42,7 @@ void transfer() {
     expect(transaction.rawData.txID, tx['txID']);
     final deserialize = Transaction.deserialize(transaction.toBuffer());
     expect(deserialize.rawData.txID, transaction.rawData.txID);
+    expect(deserialize.rawData.data, transaction.rawData.data);
   });
 }
 
