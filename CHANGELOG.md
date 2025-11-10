@@ -1,3 +1,6 @@
+## 7.1.0
+    - Update dependencies.
+
 ## 7.0.0
 - Added support for the Cardano Conway era  
 - Added support for deserializing Cardano models with different CBOR encodings

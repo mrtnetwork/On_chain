@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'package:on_chain/ethereum/src/rpc/core/core.dart';
-import 'package:on_chain/ethereum/src/rpc/service/service.dart';
+
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 
 /// Represents an interface to interact with Ethereum Virtual Machine (ethereum) nodes
 /// using JSON-RPC requests.
 class EthereumProvider extends BaseProvider<EthereumRequestDetails> {
   /// The JSON-RPC service used for communication with the ethereum node.
-  final EthereumServiceProvider rpc;
+  final BaseServiceProvider rpc;
 
   /// Creates a new instance of the [EthereumProvider] class with the specified [rpc].
   EthereumProvider(this.rpc);

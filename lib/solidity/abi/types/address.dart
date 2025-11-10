@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding Ethereum and Tron addresses.
-class AddressCoder implements ABICoder<SolidityAddress> {
+class AddressCoder implements ABICoder<Object> {
   /// Creates an instance of the AddressCoder class.
   const AddressCoder();
 
@@ -20,12 +20,28 @@ class AddressCoder implements ABICoder<SolidityAddress> {
         name: params.name);
   }
 
+  List<int> _addressToBytes(Object object) {
+    try {
+      if (object is SolidityAddress) {
+        return object.toBytes();
+      } else if (object is List<int>) {
+        return object.asImmutableBytes;
+      } else if (object is String) {
+        return BytesUtils.fromHexString(object);
+      }
+    } catch (_) {}
+    throw SolidityAbiException(
+        'Invalid address format: Expected a SolidityAddress, '
+        'List<int>, or a hexadecimal String. ',
+        details: {"address": object});
+  }
+
   /// Encodes a BaseHexAddress to ABI-encoded bytes.
   /// The resulting bytes include Ethereum or Tron address bytes
   @override
-  EncoderResult abiEncode(AbiParameter params, SolidityAddress input) {
+  EncoderResult abiEncode(AbiParameter params, Object input) {
     final bytes = List<int>.filled(ABIConst.uintBytesLength, 0);
-    List<int> addrBytes = input.toBytes();
+    List<int> addrBytes = _addressToBytes(input);
     if (addrBytes.length == TronAddress.lengthInBytes) {
       addrBytes = addrBytes.sublist(TronAddress.lengthInBytes - addrLength);
     }
@@ -37,11 +53,11 @@ class AddressCoder implements ABICoder<SolidityAddress> {
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
   EncoderResult legacyEip712Encode(
-      AbiParameter params, SolidityAddress input, bool keepSize) {
+      AbiParameter params, Object input, bool keepSize) {
     if (keepSize) return abiEncode(params, input);
-    List<int> addrBytes = input.toBytes();
+    final asBytes = _addressToBytes(input);
+    List<int> addrBytes = asBytes;
     addrBytes = addrBytes.sublist(addrBytes.length - addrLength);
-    return EncoderResult(
-        isDynamic: false, encoded: input.toBytes(), name: params.name);
+    return EncoderResult(isDynamic: false, encoded: asBytes, name: params.name);
   }
 }

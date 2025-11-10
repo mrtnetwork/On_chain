@@ -13,7 +13,7 @@ void main() async {
       RPCHttpService("https://polygon-mumbai-bor.publicnode.com"));
 
 // Make an RPC call to execute a method on the contract and get the result
-  final call1 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call1 = await rpc.request(EthereumRequestFunctionCall(
     contractAddress: "0xf16a88bb679fcda0672aa27a12b159ecc4ae7374",
     function: AbiFunctionFragment.fromJson({
       "inputs": [

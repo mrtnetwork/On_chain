@@ -26,21 +26,21 @@
 /// - `eip712/utils`: Utilities specific to Ethereum EIP-712.
 library;
 
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solidity/address/core.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
 
-part 'utils/utils.dart';
+part 'core/abi.dart';
+part 'eip712/eip712.dart';
+part 'eip712/utils.dart';
 part 'exception/abi_exception.dart';
 part 'types/address.dart';
 part 'types/array.dart';
 part 'types/boolean.dart';
 part 'types/bytes.dart';
+part 'types/function.dart';
 part 'types/numbers.dart';
 part 'types/string.dart';
 part 'types/tuple.dart';
-part 'types/function.dart';
-part 'core/abi.dart';
-part 'eip712/eip712.dart';
-part 'eip712/utils.dart';
+part 'utils/utils.dart';

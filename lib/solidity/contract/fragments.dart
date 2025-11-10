@@ -1,5 +1,5 @@
-import 'package:on_chain/solidity/abi/abi.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/solidity/abi/abi.dart';
 
 /// Abstract class representing a base fragment in ABI, providing common properties and methods.
 abstract class AbiBaseFragment {
@@ -140,7 +140,7 @@ class AbiFunctionFragment implements AbiBaseFragment {
   }
 
   /// Encodes the function as a hexadecimal string with the provided parameters.
-  String encodeHex(List params, [bool withSelector = true]) {
+  String encodeHex(List<dynamic> params, [bool withSelector = true]) {
     return BytesUtils.toHexString(encode(params, withSelector));
   }
 

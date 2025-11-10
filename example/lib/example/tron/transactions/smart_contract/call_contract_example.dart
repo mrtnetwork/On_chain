@@ -11,7 +11,7 @@ void main() async {
   final contract = ContractABI.fromJson(tronContract["entrys"]!);
   final rpc = EthereumProvider(
       RPCHttpService("https://api.shasta.trongrid.io/jsonrpc"));
-  final call1 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call1 = await rpc.request(EthereumRequestFunctionCall(
       contractAddress:
 
           /// use hex address (visible to false)
@@ -24,7 +24,7 @@ void main() async {
         BigInt.from(2),
       ]));
   print("call1 result $call1");
-  final call2 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call2 = await rpc.request(EthereumRequestFunctionCall(
       contractAddress:
 
           /// use hex address (visible to false)
@@ -43,7 +43,7 @@ void main() async {
         ]
       ]));
   print("call2 result $call2");
-  final call3 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call3 = await rpc.request(EthereumRequestFunctionCall(
 
       /// use hex address (visible to false)
       contractAddress:
@@ -51,7 +51,7 @@ void main() async {
       function: contract.functionFromName("checkbooli"),
       params: [true]));
   print("call3 result $call3");
-  final call4 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call4 = await rpc.request(EthereumRequestFunctionCall(
 
       /// use hex address (visible to false)
       contractAddress:
@@ -61,7 +61,7 @@ void main() async {
         [true, false, false, true]
       ]));
   print("call4 result $call4");
-  final call5 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call5 = await rpc.request(EthereumRequestFunctionCall(
 
       /// use hex address (visible to false)
       contractAddress:
@@ -69,7 +69,7 @@ void main() async {
       function: contract.functionFromName("checkbyte"),
       params: [List<int>.filled(65, 12)]));
   print("call5 result $call5");
-  final call6 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call6 = await rpc.request(EthereumRequestFunctionCall(
 
       /// use hex address (visible to false)
       contractAddress:
@@ -83,7 +83,7 @@ void main() async {
         ]
       ]));
   print("call5 result $call6");
-  final call7 = await rpc.request(EthereumRequestCall.fromMethod(
+  final call7 = await rpc.request(EthereumRequestFunctionCall(
 
       /// use hex address (visible to false)
       contractAddress:

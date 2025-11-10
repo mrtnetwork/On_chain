@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/cbor/types/types.dart';
 import 'package:blockchain_utils/cbor/core/cbor.dart';
+import 'package:blockchain_utils/cbor/types/types.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 
 /// A class representing a CBOR (Concise Binary Object Representation) int (64-byte) value.
@@ -66,6 +66,11 @@ class CborUnsignedValue implements CborNumeric {
   @override
   String toString() {
     return value.toString();
+  }
+
+  @override
+  Object? getValue() {
+    return value;
   }
 
   /// override equal operation
