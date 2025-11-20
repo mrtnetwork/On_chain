@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/on_chain.dart';
+import 'package:on_chain/ethereum/src/address/evm_address.dart';
+import 'package:on_chain/ethereum/src/exception/exception.dart';
+import 'package:on_chain/ethereum/src/transaction/eth_transaction.dart';
 
 class AuthorizationEntry {
   final BigInt chainId;

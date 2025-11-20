@@ -1,7 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ethereum/src/address/evm_address.dart';
+import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/events.dart';
-import 'package:on_chain/on_chain.dart';
-import '../types/contracts.dart';
+import 'package:on_chain/ethereum/src/exception/exception.dart';
+import 'package:on_chain/ethereum/src/models/log_entry.dart';
+import 'package:on_chain/ethereum/src/rpc/provider/provider.dart';
+import 'package:on_chain/ethereum/src/rpc/rpc.dart'
+    show EthereumRequestFunctionCall;
+import 'package:on_chain/solidity/solidity.dart';
 
 typedef ONPARSECALLREQUEST<T> = T Function(List<dynamic> result);
 typedef ONVALIDATEFUNCTION = AbiFunctionFragment Function(AbiFunctionFragment);

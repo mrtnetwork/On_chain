@@ -1,11 +1,12 @@
 import 'package:blockchain_utils/crypto/quick_crypto.dart';
 import 'package:blockchain_utils/utils/binary/binary_operation.dart';
 import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:on_chain/ethereum/src/address/evm_address.dart';
+import 'package:on_chain/ethereum/src/contracts/safe/core/factory.dart';
+import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/types.dart';
-import 'package:on_chain/on_chain.dart';
-
-import '../core/factory.dart';
-import '../types/contracts.dart';
+import 'package:on_chain/ethereum/src/exception/exception.dart';
+import 'package:on_chain/ethereum/src/rpc/provider/provider.dart';
 
 class SafeFactoryContract extends ISafeFactoryContract {
   @override

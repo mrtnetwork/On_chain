@@ -1,10 +1,12 @@
 import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/signer/const/constants.dart';
-import 'package:on_chain/ethereum/src/contracts/safe/utils/utils.dart';
+import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/controller/controller.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/events.dart';
-import 'package:on_chain/on_chain.dart';
+import 'package:on_chain/ethereum/src/contracts/safe/utils/utils.dart';
+import 'package:on_chain/ethereum/src/models/transaction_receipt.dart';
+import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 
 typedef ONREQUESTETHPROVIDER = Future<EthereumProvider> Function();
 

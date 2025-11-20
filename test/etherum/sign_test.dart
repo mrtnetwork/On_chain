@@ -17,7 +17,7 @@ void main() {
     final verify = publicKey.verifyPersonalMessage(message, sign);
     final recoverPubKey = ETHPublicKey.getPublicKey(message, sign);
     expect(recoverPubKey?.toHex(), publicKey.toHex());
-    expect(sign, correctSig);
+    expect(sign, BytesUtils.fromHexString(correctSig));
     expect(verify, true);
     const String correctSig2 =
         'b4842130697a77bfd1bf3b09f7fa7d489320a86cbf6308627f2dcecd3e21ebe95a9a74af066d4c26263527ad3c7e73adbe62f0d16f2cacf5a8b5c3d816ce996f1b';
@@ -26,7 +26,7 @@ void main() {
     final sign2 = privateKey2.signPersonalMessage(message);
     final publicKey2 = privateKey2.publicKey();
     final verify2 = publicKey2.verifyPersonalMessage(message, sign2);
-    expect(sign2, correctSig2);
+    expect(sign2, BytesUtils.fromHexString(correctSig2));
     expect(verify2, true);
     final recoverPubKey2 = ETHPublicKey.getPublicKey(message, sign2);
     expect(recoverPubKey2?.toHex(), publicKey2.toHex());

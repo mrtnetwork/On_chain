@@ -1,8 +1,8 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ethereum/ethereum.dart';
+import 'package:blockchain_utils/crypto/quick_crypto.dart';
+import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/types.dart';
-import 'package:on_chain/solidity/abi/abi.dart';
+import 'package:on_chain/solidity/solidity.dart';
 
 class SafeContractUtils {
   static List<int> calculateSafeTransactionHash({

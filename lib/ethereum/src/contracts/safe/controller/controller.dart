@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/safe.dart';
-import 'package:on_chain/ethereum/src/contracts/safe/types/types.dart';
 import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/ethereum/src/keys/signer.dart';
 import 'package:on_chain/ethereum/src/rpc/rpc.dart';

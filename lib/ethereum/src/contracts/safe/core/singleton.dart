@@ -1,6 +1,7 @@
-import 'package:on_chain/on_chain.dart';
-
-import '../types/contracts.dart';
+import 'package:on_chain/ethereum/src/address/evm_address.dart';
+import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
+import 'package:on_chain/ethereum/src/rpc/rpc.dart';
+import 'package:on_chain/solidity/solidity.dart';
 import 'contract.dart';
 
 abstract class ISafeSingletonContract with BaseSafeContract {
