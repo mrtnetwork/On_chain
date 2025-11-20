@@ -1,10 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 class PluginBigintUtils {
-  static BigInt hexToBigint(String v) {
-    if (v == '0x') return BigInt.zero;
-    final val = StringUtils.strip0x(v);
-    return BigInt.parse(val, radix: 16);
+  static BigInt hexToBigint(Object? v) {
+    if (v == null || v == '0x') return BigInt.zero;
+    return JsonParser.valueAsBigInt(v, allowHex: true);
   }
 
   static BigInt? tryHexToBigint(String? v) {
@@ -18,10 +17,13 @@ class PluginBigintUtils {
 }
 
 class PluginIntUtils {
-  static int hexToInt(String v) {
-    if (v == '0x') return 0;
-    final val = StringUtils.strip0x(v);
-    return int.parse(val, radix: 16);
+  static double toDouble(Object? v) {
+    return JsonParser.valueAsDouble(v);
+  }
+
+  static int hexToInt(Object? v) {
+    if (v == null || v == '0x') return 0;
+    return JsonParser.valueAsInt(v, allowHex: true);
   }
 
   static int? tryHexToInt(String? v) {
@@ -33,15 +35,9 @@ class PluginIntUtils {
     }
   }
 
-  static double toDouble(dynamic v) {
-    if (v is double) return v;
-    if (v is int) return v.toDouble();
-    return double.parse(v);
-  }
-}
-
-class PluginBooleanUtils {
-  static bool? tryHexToBool(String? v) {
+  static bool? tryHexToBool(Object? v) {
+    if (v == null) return null;
+    if (v is bool) return v;
     if (v == '0x' || v != '0x1' && v != '0x0') {
       return null;
     }

@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents a type of transaction metadata with serialization support.
-class TransactionMetadataType with ADASerialization {
+class TransactionMetadataType with InternalCborSerialization {
   /// The integer value representing the metadata type.
   final int value;
 

@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/models/transaction_witness_set.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class TransactionWitnessSets with ADASerialization {
+class TransactionWitnessSets with InternalCborSerialization {
   final List<TransactionWitnessSet> transactions;
   TransactionWitnessSets({List<TransactionWitnessSet> transactions = const []})
       : transactions = transactions.immutable;

@@ -2,11 +2,11 @@ import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/ada/src/models/governance/models/voter.dart';
 import 'package:on_chain/ada/src/models/governance/models/voting_procedure.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 import 'governance_action_id.dart';
 
-class VotingProcedures with ADASerialization {
+class VotingProcedures with InternalCborSerialization {
   final Map<Voter, Map<GovernanceActionId, VotingProcedure>> votes;
   VotingProcedures(Map<Voter, Map<GovernanceActionId, VotingProcedure>> votes)
       : votes = votes.immutable;

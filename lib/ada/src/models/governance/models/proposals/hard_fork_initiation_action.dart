@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/models/governance/models/governance_action_id.d
 import 'package:on_chain/ada/src/models/governance/models/proposals/action.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/governance_action_type.dart';
 import 'package:on_chain/ada/src/models/block/models/header/header/protocol_version.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class HardForkInitiationAction extends GovernanceAction {
   final GovernanceActionId? govActionId;

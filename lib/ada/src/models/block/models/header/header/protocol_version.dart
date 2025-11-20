@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class ProtocolVersion with ADASerialization {
+class ProtocolVersion with InternalCborSerialization {
   final int major;
   final int minor;
   const ProtocolVersion({required this.major, required this.minor});

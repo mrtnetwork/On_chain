@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/protocol/models/proposed_protocol_parameter_updates.dart';
 
-class Update with ADASerialization {
+class Update with InternalCborSerialization {
   final ProposedProtocolParameterUpdates proposedProtocolParameterUpdates;
   final int epoch;
   const Update(

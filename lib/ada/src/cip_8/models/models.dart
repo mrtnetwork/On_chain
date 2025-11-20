@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/cip_8/utils/utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class COSESerializationConfig {
   final CborIterableEncodingType encoding;
@@ -41,7 +41,7 @@ enum COSELabelType {
   }
 }
 
-abstract class COSELabel with ADASerialization {
+abstract class COSELabel with InternalCborSerialization {
   final COSELabelType type;
   const COSELabel({required this.type});
   factory COSELabel.deserialize(CborObject object) {
@@ -117,7 +117,7 @@ class COSELabelString extends COSELabel {
   int get hashCode => HashCodeGenerator.generateHashCode([type, value]);
 }
 
-class COSELabels with ADASerialization {
+class COSELabels with InternalCborSerialization {
   final List<COSELabel> labels;
   final COSESerializationConfig serializationConfig;
   COSELabels(
@@ -154,7 +154,7 @@ class COSELabels with ADASerialization {
   }
 }
 
-class COSEProtectedHeaderMap with ADASerialization {
+class COSEProtectedHeaderMap with InternalCborSerialization {
   final List<int> data;
   COSEProtectedHeaderMap([List<int> data = const []])
       : data = data.asImmutableBytes;
@@ -181,7 +181,7 @@ class COSEProtectedHeaderMap with ADASerialization {
   }
 }
 
-class COSEHeaders with ADASerialization {
+class COSEHeaders with InternalCborSerialization {
   final COSEProtectedHeaderMap protected;
   final COSEHeaderMap unprotected;
   const COSEHeaders({required this.protected, required this.unprotected});
@@ -213,7 +213,7 @@ class COSEHeaders with ADASerialization {
   }
 }
 
-class COSESignature with ADASerialization {
+class COSESignature with InternalCborSerialization {
   final COSEHeaders headers;
   final List<int> signature;
   final COSESerializationConfig serializationConfig;
@@ -259,7 +259,7 @@ class COSESignature with ADASerialization {
   }
 }
 
-class COSESignatures with ADASerialization {
+class COSESignatures with InternalCborSerialization {
   final List<COSESignature> signatures;
   final COSESerializationConfig serializationConfig;
   factory COSESignatures.deserialize(CborIterableObject cbor) {
@@ -298,7 +298,7 @@ class COSESignatures with ADASerialization {
   }
 }
 
-class COSECounterSignature with ADASerialization {
+class COSECounterSignature with InternalCborSerialization {
   final List<COSESignature> signatures;
   final COSESerializationConfig? serializationConfig;
   COSECounterSignature(
@@ -351,7 +351,7 @@ class COSECounterSignature with ADASerialization {
   }
 }
 
-class COSEHeaderMap with ADASerialization {
+class COSEHeaderMap with InternalCborSerialization {
   final COSELabel? algorithmId;
   final COSELabels? criticality;
   final COSELabel? contentType;
@@ -495,7 +495,7 @@ enum COSESignedMessageType {
   }
 }
 
-abstract class COSESignedMessage with ADASerialization {
+abstract class COSESignedMessage with InternalCborSerialization {
   final COSESignedMessageType type;
   const COSESignedMessage({required this.type});
   factory COSESignedMessage.fromJson(Map<String, dynamic> json) {
@@ -682,7 +682,7 @@ enum COSESigContext {
   }
 }
 
-class COSESigStructure with ADASerialization {
+class COSESigStructure with InternalCborSerialization {
   final COSESigContext context;
   final COSEProtectedHeaderMap bodyProtected;
   final COSEProtectedHeaderMap? signProtected;
@@ -747,7 +747,7 @@ class COSESigStructure with ADASerialization {
   }
 }
 
-class COSEEncrypt0 with ADASerialization {
+class COSEEncrypt0 with InternalCborSerialization {
   final COSEHeaders headers;
   final List<int>? ciphertext;
   final COSESerializationConfig serializationConfig;
@@ -835,7 +835,7 @@ class COSEPasswordEncryption extends COSEEncrypt0 {
   }
 }
 
-class COSERecipient with ADASerialization {
+class COSERecipient with InternalCborSerialization {
   final COSEHeaders headers;
   final List<int>? ciphertext;
   final COSESerializationConfig serializationConfig;
@@ -885,7 +885,7 @@ class COSERecipient with ADASerialization {
   }
 }
 
-class COSERecipients with ADASerialization {
+class COSERecipients with InternalCborSerialization {
   final List<COSERecipient> recipients;
   final COSESerializationConfig serializationConfig;
   COSERecipients(
@@ -923,7 +923,7 @@ class COSERecipients with ADASerialization {
   }
 }
 
-class COSEEncrypt with ADASerialization {
+class COSEEncrypt with InternalCborSerialization {
   final COSEHeaders headers;
   final List<int>? ciphertext;
   final COSERecipients recipients;
@@ -1006,7 +1006,7 @@ class COSEPubKeyEncryption extends COSEEncrypt {
   }
 }
 
-class COSEKey with ADASerialization {
+class COSEKey with InternalCborSerialization {
   final COSELabel? keyType;
   final List<int>? keyId;
   final COSELabel? algorithmId;

@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/bip/address/aptos_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/bcs/move/types/types.dart';
+import 'package:on_chain/serialization/bcs/move/types/types.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
 
 class AptosAddress extends MoveAddress {

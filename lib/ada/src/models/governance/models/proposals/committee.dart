@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/protocol/models/unit_interval.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class Committee with ADASerialization {
+class Committee with InternalCborSerialization {
   final Map<Credential, int> members;
   final UnitInterval quorumQhreshold;
   Committee(

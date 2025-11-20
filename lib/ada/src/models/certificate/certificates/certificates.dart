@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 import 'certificate.dart';
 
@@ -21,7 +21,7 @@ class CertificatesSerializationConfig {
   }
 }
 
-class Certificates with ADASerialization {
+class Certificates with InternalCborSerialization {
   final List<Certificate> certificates;
   final CertificatesSerializationConfig serializationConfig;
   Certificates(List<Certificate> certificates,

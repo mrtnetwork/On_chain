@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/bcs/move/move.dart';
+import 'package:on_chain/serialization/bcs/move/move.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/transaction/types/types.dart';

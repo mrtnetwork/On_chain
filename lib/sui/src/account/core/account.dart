@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/bcs/serialization/serialization.dart';
+import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 import 'package:on_chain/sui/src/account/public_key/keys.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';

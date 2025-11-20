@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class RequiredSignersSerializationConfig {
   final CborIterableEncodingType encoding;
@@ -21,7 +21,7 @@ class RequiredSignersSerializationConfig {
   }
 }
 
-class RequiredSigners with ADASerialization {
+class RequiredSigners with InternalCborSerialization {
   final List<Ed25519KeyHash> outputs;
   final RequiredSignersSerializationConfig serializationConfig;
   RequiredSigners(List<Ed25519KeyHash> outputs,

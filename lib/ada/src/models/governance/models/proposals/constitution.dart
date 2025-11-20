@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/governance/models/anchor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class Constitution with ADASerialization {
+class Constitution with InternalCborSerialization {
   final Anchor anchor;
   final ScriptHash? scriptHash;
   const Constitution({required this.anchor, this.scriptHash});

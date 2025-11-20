@@ -7,9 +7,9 @@ import 'package:on_chain/ada/src/models/governance/models/proposals/no_confidenc
 import 'package:on_chain/ada/src/models/governance/models/proposals/parameter_change_action.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/treasury_withdrawals_action.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/update_committee_action.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-abstract class GovernanceAction with ADASerialization {
+abstract class GovernanceAction with InternalCborSerialization {
   final GovernanceActionType type;
   const GovernanceAction({required this.type});
   factory GovernanceAction.deserialize(CborListValue cbor) {

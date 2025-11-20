@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/ada/src/models/transaction/transaction/models/body.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class TransactionBodies with ADASerialization {
+class TransactionBodies with InternalCborSerialization {
   final List<TransactionBody> transactions;
   TransactionBodies({List<TransactionBody> transactions = const []})
       : transactions = transactions.immutable;

@@ -4,10 +4,10 @@ import 'package:on_chain/ada/src/address/era/byron/byron.dart';
 import 'package:on_chain/ada/src/address/era/shelly/shelly.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents an abstract class for ADA addresses with serialization capabilities.
-abstract class ADAAddress with ADASerialization {
+abstract class ADAAddress with InternalCborSerialization {
   /// Abstract property representing the ADA network.
   abstract final ADANetwork network;
 

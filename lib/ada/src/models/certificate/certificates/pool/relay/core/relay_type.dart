@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Enum representing the type of relay.
-class RelayType with ADASerialization {
+class RelayType with InternalCborSerialization {
   /// The name of the relay type.
   final String name;
 

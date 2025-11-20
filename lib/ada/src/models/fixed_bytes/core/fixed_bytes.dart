@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/utils/utils.dart';
 
 /// Abstract class for handling fixed length bytes.
 abstract class FixedBytes
-    with ADASerialization
+    with InternalCborSerialization
     implements Comparable<FixedBytes> {
   /// The hash bytes data.
   final List<int> data;

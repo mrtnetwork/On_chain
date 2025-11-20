@@ -1,12 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/block/models/header/leader_cert/models/header_leader_cert_type.dart';
 import 'package:on_chain/ada/src/models/block/models/header/leader_cert/models/nonce_and_leader.dart';
 import 'package:on_chain/ada/src/models/block/models/header/leader_cert/models/vrf_result.dart';
 import 'package:on_chain/ada/src/models/block/models/header/header/vrf_cert.dart';
 
-abstract class HeaderLeaderCert with ADASerialization {
+abstract class HeaderLeaderCert with InternalCborSerialization {
   const HeaderLeaderCert();
   abstract final HeaderLeaderCertType type;
   factory HeaderLeaderCert.deserialize(CborListValue cbor) {

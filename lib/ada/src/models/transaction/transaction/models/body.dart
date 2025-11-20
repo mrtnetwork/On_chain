@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/models/certificate/certificates/certificates.da
 import 'package:on_chain/ada/src/models/governance/governance.dart';
 import 'package:on_chain/ada/src/models/transaction/input/models/transaction_inputs.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/transaction_outputs.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/mint/models/mint.dart';
 
@@ -26,7 +26,7 @@ class TransactionBodySerializationConfig {
   }
 }
 
-class TransactionBody with ADASerialization {
+class TransactionBody with InternalCborSerialization {
   final TransactionInputs? inputs;
   final TransactionOutputs? outputs;
   final BigInt fee;
@@ -75,7 +75,7 @@ class TransactionBody with ADASerialization {
       this.donation,
       this.serializationConfig = const TransactionBodySerializationConfig()});
   factory TransactionBody.fromCborBytes(List<int> bytes) {
-    final CborMapValue decode = ADASerialization.desrialize(bytes);
+    final CborMapValue decode = InternalCborSerialization.desrialize(bytes);
     return TransactionBody.deserialize(
         decode.asMap<CborIntValue, CborObject>());
   }

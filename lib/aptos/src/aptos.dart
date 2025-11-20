@@ -6,4 +6,4 @@ export 'provider/provider.dart';
 export 'transaction/transaction.dart';
 export 'utils/function.dart';
 export 'api/api.dart';
-export '../../bcs/serialization.dart';
+export '../../serialization/bcs/serialization.dart';

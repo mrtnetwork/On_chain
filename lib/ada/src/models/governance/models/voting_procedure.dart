@@ -2,9 +2,9 @@ import 'package:blockchain_utils/cbor/core/cbor.dart';
 import 'package:blockchain_utils/cbor/types/types.dart';
 import 'package:on_chain/ada/src/models/governance/models/anchor.dart';
 import 'package:on_chain/ada/src/models/governance/models/vote_type.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class VotingProcedure with ADASerialization {
+class VotingProcedure with InternalCborSerialization {
   final VoteType vote;
   final Anchor? anchor;
   const VotingProcedure({required this.vote, this.anchor});

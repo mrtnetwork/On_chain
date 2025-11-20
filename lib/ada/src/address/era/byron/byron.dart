@@ -2,7 +2,7 @@ import 'package:blockchain_utils/bip/address/ada/ada.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents an ADA Byron address, a subtype of ADAAddres
 class ADAByronAddress extends ADAAddress {

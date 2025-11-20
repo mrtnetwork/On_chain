@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/auxiliary_data/models/auxiliary_data.dart';
 import 'package:on_chain/ada/src/models/transaction/transaction/models/body.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/models/transaction_witness_set.dart';
 
-class ADATransaction with ADASerialization {
+class ADATransaction with InternalCborSerialization {
   final TransactionBody body;
   final TransactionWitnessSet witnessSet;
   final bool isValid;
@@ -16,7 +16,7 @@ class ADATransaction with ADASerialization {
       this.isValid = true,
       this.data});
   factory ADATransaction.fromCborBytes(List<int> bytes) {
-    final CborListValue decode = ADASerialization.desrialize(bytes);
+    final CborListValue decode = InternalCborSerialization.desrialize(bytes);
     return ADATransaction.deserialize(decode);
   }
   factory ADATransaction.deserialize(CborListValue cbor) {

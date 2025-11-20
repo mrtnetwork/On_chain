@@ -2,7 +2,7 @@ import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
-import 'package:on_chain/bcs/move/types/types.dart';
+import 'package:on_chain/serialization/bcs/move/types/types.dart';
 
 /// Utility class for parsing and handling Aptos function entry arguments
 class AptosFunctionEntryArgumentUtils {

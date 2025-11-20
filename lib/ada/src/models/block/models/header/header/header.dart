@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/block/models/header/header/header_body.dart';
 
-class Header with ADASerialization {
+class Header with InternalCborSerialization {
   final HeaderBody headerBody;
   final KESSignature signature;
   const Header({required this.headerBody, required this.signature});

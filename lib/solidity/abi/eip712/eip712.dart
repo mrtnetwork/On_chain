@@ -148,12 +148,15 @@ class Eip712TypedData implements EIP712Base {
   }
 
   List<int> hashDomain() {
-    return EIP712Utils.structHash(this, EIP712Utils.domainKeyName, domain);
+    return EIP712Utils.structHashDomain(types, domain, version);
   }
 
   List<int> hashType(String type) {
+    if (type == EIP712Utils.domainKeyName) {
+      return hashDomain();
+    }
     if (type == primaryType) {
-      return EIP712Utils.structHash(this, primaryType, message);
+      return EIP712Utils.structHash(types, primaryType, message, version);
     }
     final eipType =
         types[primaryType]?.firstWhereNullable((e) => e.type == type);
@@ -161,7 +164,7 @@ class Eip712TypedData implements EIP712Base {
       throw SolidityAbiException(
           'EIP-712 type definition not found for "$type".');
     }
-    return EIP712Utils.structHash(this, type, message[eipType.name]);
+    return EIP712Utils.structHash(types, type, message[eipType.name], version);
   }
 
   /// Encodes the typed data into a bytes, optionally hashing the result.
@@ -170,8 +173,8 @@ class Eip712TypedData implements EIP712Base {
   List<int> encode({bool hash = true}) {
     final List<int> encode = [
       ...EIP712Utils.eip191PrefixBytes,
-      ...EIP712Utils.structHash(this, EIP712Utils.domainKeyName, domain),
-      ...EIP712Utils.structHash(this, primaryType, message)
+      ...hashDomain(),
+      ...EIP712Utils.structHash(types, primaryType, message, version)
     ];
     if (hash) {
       return QuickCrypto.keccack256Hash(encode);
@@ -263,10 +266,10 @@ class EIP712Legacy implements EIP712Base {
     final names = typesData.map((e) => '${e.type} ${e.name}').toList();
     // Calculate hashes for types and names
     final typesHash =
-        QuickCrypto.keccack256Hash(EIP712Utils.legacyV1encode(types, values));
-    final namesHash = QuickCrypto.keccack256Hash(EIP712Utils.legacyV1encode(
+        QuickCrypto.keccack256Hash(EIP712Utils.legacyV1Encode(types, values));
+    final namesHash = QuickCrypto.keccack256Hash(EIP712Utils.legacyV1Encode(
         List.generate(names.length, (index) => 'string'), names));
-    final toBytes = EIP712Utils.legacyV1encode(
+    final toBytes = EIP712Utils.legacyV1Encode(
         ['bytes32', 'bytes32'], [namesHash, typesHash]);
     if (!hash) {
       return toBytes;

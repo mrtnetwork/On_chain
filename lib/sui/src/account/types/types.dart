@@ -5,7 +5,7 @@ import 'package:blockchain_utils/utils/compare/hash_code.dart';
 import 'package:on_chain/sui/src/account/constant/constant.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/keypair/keypair.dart';
-import 'package:on_chain/bcs/serialization.dart';
+import 'package:on_chain/serialization/bcs/serialization.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
 
 /// Holds information about a multisig public key and its associated weight.

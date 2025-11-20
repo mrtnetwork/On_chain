@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/models/vkey_witness.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class VkeyWitnessesSerializationConfig {
   final CborIterableEncodingType encoding;
@@ -21,7 +21,7 @@ class VkeyWitnessesSerializationConfig {
 }
 
 /// Vkeywitness
-class VkeyWitnesses with ADASerialization {
+class VkeyWitnesses with InternalCborSerialization {
   final List<Vkeywitness> witnesses;
   final VkeyWitnessesSerializationConfig serializationConfig;
   VkeyWitnesses(List<Vkeywitness> witnesses,

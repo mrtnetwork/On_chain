@@ -2,14 +2,14 @@ import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/models/protocol/models/ex_units.dart';
 import 'package:on_chain/ada/src/models/protocol/models/unit_interval.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/block/models/header/header/protocol_version.dart';
 import 'package:on_chain/ada/src/models/plutus/cost_model/cost_model.dart';
 
 import 'ex_unit_prices.dart';
 import 'nonce.dart';
 
-class PoolVotingThresholds with ADASerialization {
+class PoolVotingThresholds with InternalCborSerialization {
   final UnitInterval motionNoConfidence;
   final UnitInterval committeeNormal;
   final UnitInterval committeeNoConfidence;
@@ -68,7 +68,7 @@ class PoolVotingThresholds with ADASerialization {
   }
 }
 
-class DRepVotingThresholds with ADASerialization {
+class DRepVotingThresholds with InternalCborSerialization {
   final UnitInterval motionNoConfidence;
   final UnitInterval committeeNormal;
   final UnitInterval committeeNoConfidence;
@@ -162,7 +162,7 @@ class DRepVotingThresholds with ADASerialization {
   }
 }
 
-class ProtocolParamUpdate with ADASerialization {
+class ProtocolParamUpdate with InternalCborSerialization {
   final BigInt? minfeeA;
   final BigInt? minFeeB;
   final int? maxBlockBodySize;

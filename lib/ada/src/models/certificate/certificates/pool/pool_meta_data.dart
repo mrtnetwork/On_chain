@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 /// Represents pool metadata
-class PoolMetadata with ADASerialization {
+class PoolMetadata with InternalCborSerialization {
   /// The URL of the pool metadata.
   final String url;
 

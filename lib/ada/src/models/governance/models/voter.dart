@@ -4,9 +4,9 @@ import 'package:on_chain/ada/src/models/credential/models/key.dart';
 import 'package:on_chain/ada/src/models/credential/models/script.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/governance/models/voter_type.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-abstract class Voter with ADASerialization {
+abstract class Voter with InternalCborSerialization {
   final VoterType type;
   const Voter({required this.type});
 

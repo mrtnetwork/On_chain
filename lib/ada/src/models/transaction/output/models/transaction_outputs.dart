@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 import 'package:on_chain/ada/src/models/transaction/output/models/transaction_output.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class TransactionOutputsSerializationConfig {
   final CborIterableEncodingType encoding;
@@ -22,7 +22,7 @@ class TransactionOutputsSerializationConfig {
   }
 }
 
-class TransactionOutputs with ADASerialization {
+class TransactionOutputs with InternalCborSerialization {
   final List<TransactionOutput> outputs;
   final TransactionOutputsSerializationConfig serializationConfig;
   TransactionOutputs(List<TransactionOutput> outputs,

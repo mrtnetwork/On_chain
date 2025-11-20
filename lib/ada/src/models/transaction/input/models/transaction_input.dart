@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/compare/hash_code.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 /// Represents an input in a transaction.
-class TransactionInput with ADASerialization {
+class TransactionInput with InternalCborSerialization {
   final TransactionHash transactionId;
   final int index;
   final String txIdHex;

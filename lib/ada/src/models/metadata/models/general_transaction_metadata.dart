@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/metadata/models/tranasction_metadata.dart';
 
 /// Represents general transaction metadata.
-class GeneralTransactionMetadata with ADASerialization {
+class GeneralTransactionMetadata with InternalCborSerialization {
   /// The metadata associated with each transaction index.
   final Map<BigInt, TransactionMetadata> metadata;
 

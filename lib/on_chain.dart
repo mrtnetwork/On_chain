@@ -7,4 +7,5 @@ export 'ada/ada.dart';
 export 'solana/solana.dart';
 export 'aptos/aptos.dart';
 export 'sui/sui.dart';
-export 'bcs/serialization.dart';
+export 'serialization/bcs/serialization.dart';
+export 'serialization/cbor_serialization.dart';

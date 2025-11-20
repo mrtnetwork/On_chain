@@ -3,9 +3,9 @@ import 'package:on_chain/ada/src/models/block/models/header/header/header.dart';
 import 'package:on_chain/ada/src/models/transaction/auxiliary_data/models/auxiliary_data_set.dart';
 import 'package:on_chain/ada/src/models/transaction/transaction/models/transaction_bodies.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/models/transaction_witnesses_sets.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class CardanoBlock with ADASerialization {
+class CardanoBlock with InternalCborSerialization {
   final Header header;
   final TransactionBodies transactionBodies;
   final TransactionWitnessSets transactionWitnessSets;

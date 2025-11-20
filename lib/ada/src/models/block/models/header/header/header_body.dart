@@ -1,13 +1,13 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/keypair/keypair/public_key.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/block/models/header/header/protocol_version.dart';
 
 import '../leader_cert/models/header_leader_cert.dart';
 import 'operational_cert.dart';
 
-class HeaderBody with ADASerialization {
+class HeaderBody with InternalCborSerialization {
   final int blockNumber;
   final BigInt slot;
   final BlockHash? prevHash;

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/expect.dart';

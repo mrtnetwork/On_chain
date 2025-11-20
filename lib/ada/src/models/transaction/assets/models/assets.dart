@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/asset_name.dart';
 
 class AssetsSerializationConfig {
@@ -20,7 +20,7 @@ class AssetsSerializationConfig {
 }
 
 /// Represents a collection of assets with associated asset names and quantities.
-class Assets with ADASerialization {
+class Assets with InternalCborSerialization {
   /// Map of asset names to quantities.
   final Map<AssetName, BigInt> assets;
   final AssetsSerializationConfig serializationConfig;

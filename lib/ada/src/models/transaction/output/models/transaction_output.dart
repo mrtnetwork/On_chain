@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/multi_assets.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/script_ref.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/value.dart';
@@ -35,7 +35,7 @@ class TransactionOutputSerializationConfig {
 }
 
 /// Represents a transaction output.
-class TransactionOutput with ADASerialization {
+class TransactionOutput with InternalCborSerialization {
   // final ADAObjectCborEncodingType encoding;
 
   /// The address of the output.

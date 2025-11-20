@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option_type.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data.dart';
 import 'data_option.dart';

@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class CredentialsSerializationConfig {
   final CborIterableEncodingType encoding;
@@ -9,7 +9,7 @@ class CredentialsSerializationConfig {
       {this.encoding = CborIterableEncodingType.set, this.tags});
 }
 
-class Credentials with ADASerialization {
+class Credentials with InternalCborSerialization {
   final List<Credential> credentials;
   final CredentialsSerializationConfig serializationConfig;
   Credentials(List<Credential> credentials,

@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 import 'voting_proposal.dart';
 
@@ -22,7 +22,7 @@ class VotingProposalSerializationConfig {
   }
 }
 
-class VotingProposals with ADASerialization {
+class VotingProposals with InternalCborSerialization {
   final List<VotingProposal> proposals;
   final VotingProposalSerializationConfig serializationConfig;
   VotingProposals(List<VotingProposal> proposals,

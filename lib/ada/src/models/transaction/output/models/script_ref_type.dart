@@ -3,10 +3,10 @@ import 'package:blockchain_utils/cbor/types/int.dart';
 
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents the type of a script reference.
-class ScriptRefType with ADASerialization {
+class ScriptRefType with InternalCborSerialization {
   /// The name of the script reference type.
   final String name;
 

@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/models/plutus/plutus_data/models/config.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data_type.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_json_schame.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class PlutusListSerializationConfig {
   final CborIterableEncodingType encoding;

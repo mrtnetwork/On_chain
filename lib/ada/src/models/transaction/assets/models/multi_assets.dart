@@ -1,13 +1,15 @@
 import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/asset_name.dart';
 import 'assets.dart';
 
 /// Represents a collection of multiple assets associated with policy IDs.
-class MultiAsset with ADASerialization implements Comparable<MultiAsset> {
+class MultiAsset
+    with InternalCborSerialization
+    implements Comparable<MultiAsset> {
   final AssetsSerializationConfig serializationConfig;
   static final MultiAsset empty = MultiAsset({});
 

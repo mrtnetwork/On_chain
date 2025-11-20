@@ -1,10 +1,12 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents an asset name.
-class AssetName with ADASerialization implements Comparable<AssetName> {
+class AssetName
+    with InternalCborSerialization
+    implements Comparable<AssetName> {
   /// The byte data of the asset name.
   final List<int> data;
 

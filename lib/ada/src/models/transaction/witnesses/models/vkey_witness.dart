@@ -1,11 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 import 'witness.dart';
 
 /// Represents a witness for a Vkey along with its corresponding Ed25519 signature.
-class Vkeywitness with ADASerialization implements ADABaseTransactionWitness {
+class Vkeywitness
+    with InternalCborSerialization
+    implements ADABaseTransactionWitness {
   final Vkey vKey;
   final Ed25519Signature signature;
 

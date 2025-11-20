@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/constants/constant.dart';
 import 'package:on_chain/ada/src/models/utils/utils.dart';
 
 /// Class representing an IPv4 address.
-class Ipv4 with ADASerialization {
+class Ipv4 with InternalCborSerialization {
   /// The IPv4 address.
   final List<int> ipv4;
 

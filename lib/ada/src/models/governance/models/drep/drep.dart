@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 import 'drep_type.dart';
 
-abstract class DRep with ADASerialization {
+abstract class DRep with InternalCborSerialization {
   final DRepType type;
   const DRep({required this.type});
 

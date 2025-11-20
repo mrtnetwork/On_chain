@@ -1,13 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/core/relay_type.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/relays/multi_host_name.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/relays/single_host_address.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/relays/single_host_name.dart';
 
 /// Abstract class representing a relay for Cardano transactions.
-abstract class Relay with ADASerialization {
+abstract class Relay with InternalCborSerialization {
   /// The type of relay.
   abstract final RelayType type;
 

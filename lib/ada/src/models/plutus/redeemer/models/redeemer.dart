@@ -1,11 +1,11 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/protocol/models/ex_units.dart';
 import 'package:on_chain/ada/src/models/plutus/redeemer/models/redeemer_tag.dart';
 
-class Redeemer with ADASerialization {
+class Redeemer with InternalCborSerialization {
   final RedeemerTag tag;
   final BigInt index;
   final PlutusData data;
@@ -85,7 +85,7 @@ class RedeemersSerializationConfig {
   }
 }
 
-class Redeemers with ADASerialization {
+class Redeemers with InternalCborSerialization {
   final List<Redeemer> redeemers;
   final RedeemersSerializationConfig serializationConfig;
   const Redeemers(

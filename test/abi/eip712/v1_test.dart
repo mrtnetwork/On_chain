@@ -221,10 +221,10 @@ void main() {
       },
     ]);
     expect(eip7.encodeHex(),
-        'f5d4906262038a59437eef1a975a89669c4feb648556178550b1ab2c35b2eb9c');
+        'dcf8a3b972f4e6edfc06e3c733b0f3191906bd2b63f88d04c2fb491c3380e3ca');
     json = EIP712Base.fromJson(eip7.toJson());
     expect(json.encodeHex(),
-        'f5d4906262038a59437eef1a975a89669c4feb648556178550b1ab2c35b2eb9c');
+        'dcf8a3b972f4e6edfc06e3c733b0f3191906bd2b63f88d04c2fb491c3380e3ca');
     final eip8 = EIP712Legacy.fromJson([
       {'type': 'int256', 'name': 'Message', 'value': '-250000000000'},
       {

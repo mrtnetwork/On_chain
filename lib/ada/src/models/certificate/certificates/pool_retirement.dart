@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/credential/models/key.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';

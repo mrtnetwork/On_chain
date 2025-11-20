@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/models/native_script/models/native_scripts.dart
 import 'package:on_chain/ada/src/models/plutus/plutus_data/plutus.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_script/models/plutus_scripts.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/models/bootstrap_witnesses.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/plutus/redeemer/models/redeemer.dart';
 
 import 'vkey_witnesses.dart';
@@ -22,7 +22,7 @@ class TransactionWitnessSetSerializationConfig {
 }
 
 /// Represents a set of transaction witnesses.
-class TransactionWitnessSet with ADASerialization {
+class TransactionWitnessSet with InternalCborSerialization {
   final VkeyWitnesses? vKeys;
   final NativeScripts? nativeScripts;
   final BootstrapWitnesses? bootstraps;

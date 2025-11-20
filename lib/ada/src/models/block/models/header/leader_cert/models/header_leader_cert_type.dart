@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class HeaderLeaderCertType with ADASerialization {
+class HeaderLeaderCertType with InternalCborSerialization {
   final String name;
   final int value;
   const HeaderLeaderCertType._(this.name, this.value);

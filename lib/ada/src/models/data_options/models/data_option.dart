@@ -1,12 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_hash.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option_type.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data.dart';
 
 /// Represents a data option in a transaction with serialization support.
-abstract class DataOption with ADASerialization {
+abstract class DataOption with InternalCborSerialization {
   /// Constructs a DataOption object.
   const DataOption();
 

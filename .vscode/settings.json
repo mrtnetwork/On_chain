@@ -1,0 +1,7 @@
+{
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.formatOnSave": true,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    }
+}

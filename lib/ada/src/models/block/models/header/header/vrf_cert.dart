@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/constants/constant.dart';
 import 'package:on_chain/ada/src/models/utils/utils.dart';
 
-class VRFCert with ADASerialization {
+class VRFCert with InternalCborSerialization {
   final List<int> output;
   final List<int> proof;
   VRFCert({required List<int> output, required List<int> proof})

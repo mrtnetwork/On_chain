@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/models/protocol/models/unit_interval.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class ExUnitPrices with ADASerialization {
+class ExUnitPrices with InternalCborSerialization {
   final UnitInterval memPrice;
   final UnitInterval stepPrice;
   const ExUnitPrices({required this.memPrice, required this.stepPrice});

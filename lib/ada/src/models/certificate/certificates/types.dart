@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents the type of a certificate.
-class CertificateType with ADASerialization {
+class CertificateType with InternalCborSerialization {
   /// The name of the certificate type.
   final String name;
 

@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding Ethereum and Tron addresses.
-class AddressCoder implements ABICoder<Object> {
+class AddressCoder implements ABICoder<Object, SolidityAddress> {
   /// Creates an instance of the AddressCoder class.
   const AddressCoder();
 
@@ -52,12 +52,12 @@ class AddressCoder implements ABICoder<Object> {
   /// Legacy EIP-712 encoding for BaseHexAddress.
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
-  EncoderResult legacyEip712Encode(
-      AbiParameter params, Object input, bool keepSize) {
-    if (keepSize) return abiEncode(params, input);
+  EncoderResult encodePacked(AbiParameter params, Object input) {
+    // if (keepSize) return abiEncode(params, input);
     final asBytes = _addressToBytes(input);
     List<int> addrBytes = asBytes;
     addrBytes = addrBytes.sublist(addrBytes.length - addrLength);
-    return EncoderResult(isDynamic: false, encoded: asBytes, name: params.name);
+    return EncoderResult(
+        isDynamic: false, encoded: addrBytes, name: params.name);
   }
 }

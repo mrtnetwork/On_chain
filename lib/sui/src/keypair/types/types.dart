@@ -2,7 +2,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/sui/src/account/public_key/keys.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/keypair/keypair.dart';
-import 'package:on_chain/bcs/serialization.dart';
+import 'package:on_chain/serialization/bcs/serialization.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
 
 class SuiGenericSignature extends BcsVariantSerialization {

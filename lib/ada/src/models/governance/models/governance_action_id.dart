@@ -2,9 +2,9 @@ import 'package:blockchain_utils/bip/bip.dart';
 import 'package:blockchain_utils/cbor/core/cbor.dart';
 import 'package:blockchain_utils/cbor/types/types.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class GovernanceActionId with ADASerialization {
+class GovernanceActionId with InternalCborSerialization {
   final TransactionHash transactionId;
   final int index;
   const GovernanceActionId({required this.transactionId, required this.index});

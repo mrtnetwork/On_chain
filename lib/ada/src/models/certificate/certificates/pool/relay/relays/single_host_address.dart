@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/core/relay.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/core/relay_type.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/types/models.dart';

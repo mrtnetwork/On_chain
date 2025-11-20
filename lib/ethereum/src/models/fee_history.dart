@@ -1,4 +1,4 @@
-import 'package:on_chain/utils/utils/number_utils.dart';
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 
 /// Represents the fee history in the context of Ethereum, including base fee per gas, gas used ratio, oldest block, and reward details.
 class FeeHistory {
@@ -17,22 +17,24 @@ class FeeHistory {
   /// Constructs a [FeeHistory] object from JSON.
   factory FeeHistory.fromJson(Map<String, dynamic> json) {
     final baseFeePerGas = (json['baseFeePerGas'] as List?)
-            ?.map((fee) => PluginBigintUtils.hexToBigint(fee))
+            ?.map(
+                (fee) => JsonParser.valueAsBigInt<BigInt>(fee, allowHex: true))
             .toList() ??
         <BigInt>[];
     final gasUsedRatio = (json['gasUsedRatio'] as List<dynamic>)
-        .map<double>((e) => PluginIntUtils.toDouble(e))
+        .map<double>((e) => JsonParser.valueAsDouble<double>(e))
         .toList();
     final reward = (json['reward'] as List).map((r) {
       return (r as List)
-          .map((value) => PluginBigintUtils.hexToBigint(value))
+          .map((value) =>
+              JsonParser.valueAsBigInt<BigInt>(value, allowHex: true))
           .toList();
     }).toList();
 
     return FeeHistory(
       baseFeePerGas: baseFeePerGas,
       gasUsedRatio: gasUsedRatio,
-      oldestBlock: PluginIntUtils.hexToInt(json['oldestBlock']),
+      oldestBlock: json.valueAsInt("oldestBlock", allowHex: true),
       reward: reward,
     );
   }

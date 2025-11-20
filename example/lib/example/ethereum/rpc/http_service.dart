@@ -16,6 +16,6 @@ class RPCHttpService with EthereumServiceProvider {
     final response = await client
         .post(params.toUri(url), headers: params.headers, body: params.body())
         .timeout(timeout ?? defaultTimeOut);
-    return params.toResponse(response.bodyBytes, response.statusCode);
+    return params.parseResponse(response.bodyBytes, response.statusCode);
   }
 }

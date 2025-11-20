@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/metadata/utils/metadata_utils.dart';
 import 'bytes.dart';
 import 'config.dart';
@@ -12,7 +12,7 @@ import 'transaction_metadata_types.dart';
 
 /// Abstract class representing transaction metadata.
 abstract class TransactionMetadata<T>
-    with ADASerialization
+    with InternalCborSerialization
     implements Comparable<TransactionMetadata> {
   /// Constructs a TransactionMetadata.
   const TransactionMetadata();

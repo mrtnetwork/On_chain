@@ -2,7 +2,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/governance/models/governance_action_id.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/action.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/governance_action_type.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class NoConfidenceAction extends GovernanceAction {
   final GovernanceActionId? govActionId;

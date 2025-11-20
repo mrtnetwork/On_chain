@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class Anchor with ADASerialization {
+class Anchor with InternalCborSerialization {
   final String url;
   final AnchorDataHash dataHash;
   const Anchor({required this.url, required this.dataHash});

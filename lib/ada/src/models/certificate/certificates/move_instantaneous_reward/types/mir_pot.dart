@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents a pot for Move instance reward.
-class MIRPot with ADASerialization {
+class MIRPot with InternalCborSerialization {
   /// The name of the pot.
   final String name;
 

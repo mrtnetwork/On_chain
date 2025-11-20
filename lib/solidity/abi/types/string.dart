@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding string types.
-class StringCoder implements ABICoder<String> {
+class StringCoder implements ABICoder<String, String> {
   /// Creates an instance of the StringCoder class.
   const StringCoder();
 
@@ -25,9 +25,8 @@ class StringCoder implements ABICoder<String> {
   /// Legacy EIP-712 encoding for string values.
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
-  EncoderResult legacyEip712Encode(
-      AbiParameter params, String input, bool keepSize) {
-    return const BytesCoder().legacyEip712Encode(
-        AbiParameter.bytes, StringUtils.encode(input), keepSize);
+  EncoderResult encodePacked(AbiParameter params, String input) {
+    return const BytesCoder()
+        .encodePacked(AbiParameter.bytes, StringUtils.encode(input));
   }
 }

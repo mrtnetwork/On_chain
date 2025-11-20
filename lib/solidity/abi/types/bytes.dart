@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding byte arrays.
-class BytesCoder implements ABICoder<List<int>> {
+class BytesCoder implements ABICoder<Object, List<int>> {
   /// Creates an instance of the BytesCoder class.
   const BytesCoder();
 
@@ -11,7 +11,7 @@ class BytesCoder implements ABICoder<List<int>> {
     int partsCount = 1;
     int consumed = 0;
     List<int> remainingBytes = List<int>.from(bytes);
-    int? size = _ABIUtils.bytesSize(params.type);
+    int? size = ABIUtils._bytesSize(params.type);
     if (size == null) {
       final decode =
           const NumbersCoder().decode(AbiParameter.uint32, remainingBytes);
@@ -29,36 +29,41 @@ class BytesCoder implements ABICoder<List<int>> {
 
   /// Encodes a byte array to ABI-encoded bytes.
   @override
-  EncoderResult abiEncode(AbiParameter params, List<int> input) {
+  EncoderResult abiEncode(AbiParameter params, Object input) {
+    final inputAsBytes =
+        JsonParser.valueAsBytes<List<int>>(input, allowHex: true);
     if (params.isDynamic) {
-      final parseLength = (input.length / ABIConst.uintBytesLength).ceil();
+      final parseLength =
+          (inputAsBytes.length / ABIConst.uintBytesLength).ceil();
       final encoded = List<int>.filled(
           ABIConst.uintBytesLength + parseLength * ABIConst.uintBytesLength, 0);
       final number = const NumbersCoder()
-          .abiEncode(AbiParameter.uint32, BigInt.from(input.length))
+          .abiEncode(AbiParameter.uint32, BigInt.from(inputAsBytes.length))
           .encoded;
       encoded.setAll(0, number);
-      encoded.setAll(ABIConst.uintBytesLength, input);
+      encoded.setAll(ABIConst.uintBytesLength, inputAsBytes);
       return EncoderResult(
           isDynamic: true, encoded: encoded, name: params.name);
     }
-    final size = _ABIUtils.bytesSize(params.type);
+    final size = ABIUtils._bytesSize(params.type);
     _ABIValidator.validateBytes(params.type,
-        bytes: input, minLength: size!, maxLength: size);
+        bytes: inputAsBytes, minLength: size!, maxLength: size);
     final bytes = List<int>.filled(ABIConst.uintBytesLength, 0);
-    bytes.setAll(0, input);
+    bytes.setAll(0, inputAsBytes);
     return EncoderResult(isDynamic: false, encoded: bytes, name: params.name);
   }
 
   /// Legacy EIP-712 encoding for byte arrays.
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
-  EncoderResult legacyEip712Encode(
-      AbiParameter params, List<int> input, bool keepSize) {
-    final size = _ABIUtils.bytesSize(params.type);
-    if (size != null && input.length != size) {
+  EncoderResult encodePacked(AbiParameter params, Object input) {
+    final inputAsBytes =
+        JsonParser.valueAsBytes<List<int>>(input, allowHex: true);
+    final size = ABIUtils._bytesSize(params.type);
+    if (size != null && inputAsBytes.length != size) {
       throw const SolidityAbiException('Invalid bytes length');
     }
-    return EncoderResult(isDynamic: false, encoded: input, name: params.name);
+    return EncoderResult(
+        isDynamic: false, encoded: inputAsBytes, name: params.name);
   }
 }

@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding boolean values.
-class BooleanCoder implements ABICoder<bool> {
+class BooleanCoder implements ABICoder<bool, bool> {
   /// Creates an instance of the BooleanCoder class.
   const BooleanCoder();
 
@@ -31,11 +31,10 @@ class BooleanCoder implements ABICoder<bool> {
   /// Legacy EIP-712 encoding for boolean values.
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
-  EncoderResult legacyEip712Encode(
-      AbiParameter params, bool input, bool keepSize) {
-    if (keepSize) {
-      return abiEncode(params, input);
-    }
+  EncoderResult encodePacked(AbiParameter params, bool input) {
+    // if (keepSize) {
+    //   return abiEncode(params, input);
+    // }
     final bytes = List<int>.filled(1, 0);
     bytes[0] = input ? 1 : 0;
     return EncoderResult(isDynamic: false, encoded: bytes, name: params.name);

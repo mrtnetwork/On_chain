@@ -1,13 +1,18 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor/extension.dart';
 import 'package:on_chain/solidity/abi/abi.dart';
 
 /// Abstract class representing a base fragment in ABI, providing common properties and methods.
-abstract class AbiBaseFragment {
+abstract class AbiBaseFragment with InternalCborSerialization {
   /// The list of input parameters for the fragment.
-  abstract final List<AbiParameter> inputs;
+  final List<AbiParameter> inputs;
 
   /// The type of the fragment.
-  abstract final FragmentTypes type;
+  final FragmentTypes type;
+
+  AbiBaseFragment({required List<AbiParameter> inputs, required this.type})
+      : inputs = inputs.immutable;
 
   /// Creates an instance of [AbiBaseFragment] from JSON representation.
   factory AbiBaseFragment.fromJson(Map<String, dynamic> json) {
@@ -26,9 +31,26 @@ abstract class AbiBaseFragment {
         return AbiFallbackFragment.fromJson(json);
       case FragmentTypes.error:
         return AbiErrorFragment.fromJson(json);
-
-      default:
-        throw MessageException('unsupported fragment $type');
+    }
+  }
+  factory AbiBaseFragment.deserialize(
+      {List<int>? cborBytes, CborObject? cbor}) {
+    final CborTagValue tag =
+        QuickCborObject.decode(cborBytes: cborBytes, object: cbor);
+    final type = FragmentTypes.fromValue(tag.tags);
+    switch (type) {
+      case FragmentTypes.event:
+        return AbiEventFragment.deserialize(cbor: tag);
+      case FragmentTypes.function:
+        return AbiFunctionFragment.deserialize(cbor: tag);
+      case FragmentTypes.receive:
+        return AbiReceiveFragment.deserialize(cbor: tag);
+      case FragmentTypes.constructor:
+        return AbiConstructorFragment.deserialize(cbor: tag);
+      case FragmentTypes.fallback:
+        return AbiFallbackFragment.deserialize(cbor: tag);
+      case FragmentTypes.error:
+        return AbiErrorFragment.deserialize(cbor: tag);
     }
   }
 
@@ -41,56 +63,121 @@ abstract class AbiBaseFragment {
       return e.argName;
     }).join(",")})";
   }
+
+  @override
+  Map<String, dynamic> toJson();
 }
 
 /// Class representing an ABI constructor fragment.
-class AbiConstructorFragment implements AbiBaseFragment {
+class AbiConstructorFragment extends AbiBaseFragment {
   factory AbiConstructorFragment.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> inputs = json['inputs'] ?? [];
+    final List<dynamic> inputs = json.valueAsList<List?>("inputs") ?? [];
     return AbiConstructorFragment(
-      stateMutability: StateMutability.fromName(json['stateMutability'])!,
-      inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList(),
-    );
+        stateMutability:
+            StateMutability.fromName(json.valueAs("stateMutability")),
+        inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList(),
+        payable: json.valueAs("payable"));
   }
-  @override
-  final FragmentTypes type = FragmentTypes.constructor;
+  factory AbiConstructorFragment.deserialize(
+      {List<int>? cborBytes, CborObject? cbor}) {
+    final values = QuickCborObject.cborTagValue(
+        cborBytes: cborBytes,
+        object: cbor,
+        tags: FragmentTypes.constructor.tags);
+    return AbiConstructorFragment(
+        stateMutability: StateMutability.fromValue(values.elementAtBytes(0)),
+        inputs: values
+            .elementAsListOf<CborTagValue>(1)
+            .map((e) => AbiParameter.deserialize(cbor: e))
+            .toList(),
+        payable: values.elementAt<CborBoleanValue?>(2)?.value);
+  }
+
+  final bool? payable;
 
   /// The state mutability of the constructor.
   final StateMutability stateMutability;
-  @override
-  final List<AbiParameter> inputs;
 
   /// Creates an [AbiConstructorFragment] instance.
-  const AbiConstructorFragment({
-    required this.stateMutability,
-    this.inputs = const [],
-  });
+  AbiConstructorFragment(
+      {required this.stateMutability, super.inputs = const [], this.payable})
+      : super(type: FragmentTypes.constructor);
+
+  @override
+  CborTagValue<CborListValue> toCbor() {
+    return CborTagValue(
+        CborListValue.definite([
+          CborBytesValue(stateMutability.tags),
+          CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
+          switch (payable) {
+            final bool payable => CborBoleanValue(payable),
+            _ => CborNullValue(),
+          },
+        ].cast()),
+        type.tags);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "stateMutability": stateMutability.name,
+      "type": type.name,
+      "inputs": inputs.map((e) => e.toJson()).toList(),
+      "payable": payable
+    }.notNullValue;
+  }
 }
 
 /// Represents a function fragment in ABI, providing methods for working with function calls.
-class AbiFunctionFragment implements AbiBaseFragment {
+class AbiFunctionFragment extends AbiBaseFragment {
   /// Creates an instance of [AbiFunctionFragment] from JSON representation.
   factory AbiFunctionFragment.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> inputs = json['inputs'] ?? [];
-    final List<dynamic> outputs = json['outputs'] ?? [];
+    final List<dynamic> inputs = json.valueAsList<List?>("inputs") ?? [];
+    final List<dynamic> outputs = json.valueAsList<List?>("outputs") ?? [];
     return AbiFunctionFragment(
-        name: json['name'],
+        name: json.valueAs("name"),
         inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList(),
         outputs: outputs.map((e) => AbiParameter.fromJson(e)).toList(),
-        stateMutability: StateMutability.fromName(json['stateMutability']),
-        constant: json['constant'],
-        payable: json['payable']);
+        stateMutability: json.valueTo<StateMutability?, String>(
+            key: "stateMutability", parse: (e) => StateMutability.fromName(e)),
+        constant: json.valueAs("constant"),
+        payable: json.valueAs("payable"));
   }
+  factory AbiFunctionFragment.deserialize(
+      {List<int>? cborBytes, CborObject? cbor}) {
+    final values = QuickCborObject.cborTagValue(
+        cborBytes: cborBytes, object: cbor, tags: FragmentTypes.function.tags);
+    return AbiFunctionFragment(
+        name: values.elementAtString<String>(0),
+        stateMutability: values.elementMaybeAt<StateMutability, CborBytesValue>(
+            1, (e) => StateMutability.fromValue(e.value)),
+        inputs: values
+            .elementAsListOf<CborTagValue>(2)
+            .map((e) => AbiParameter.deserialize(cbor: e))
+            .toList(),
+        outputs: values
+            .elementAsListOf<CborTagValue>(3)
+            .map((e) => AbiParameter.deserialize(cbor: e))
+            .toList(),
+        constant: values.elementAt<CborBoleanValue?>(4)?.value,
+        payable: values.elementAt<CborBoleanValue?>(5)?.value);
+  }
+
+  /// Creates an [AbiFunctionFragment] instance.
+  AbiFunctionFragment({
+    required this.name,
+    this.stateMutability,
+    super.inputs = const [],
+    this.outputs = const [],
+    this.constant,
+    this.payable,
+  }) : super(type: FragmentTypes.function);
 
   /// The name of the function
   final String name;
-  @override
-  final FragmentTypes type = FragmentTypes.function;
 
   /// The state mutability of the function.
   final StateMutability? stateMutability;
-  @override
-  final List<AbiParameter> inputs;
 
   /// The list of output parameters for the function.
   final List<AbiParameter> outputs;
@@ -112,16 +199,6 @@ class AbiFunctionFragment implements AbiBaseFragment {
 
   /// The function selector.
   List<int> get selector => signature.sublist(0, ABIConst.selectorLength);
-
-  /// Creates an [AbiFunctionFragment] instance.
-  AbiFunctionFragment({
-    required this.name,
-    this.stateMutability,
-    this.inputs = const [],
-    this.outputs = const [],
-    this.constant,
-    this.payable,
-  });
 
   @override
   String toString() {
@@ -152,14 +229,6 @@ class AbiFunctionFragment implements AbiBaseFragment {
     return abi.result;
   }
 
-  // /// Decodes the output of the function from the encoded output bytes.
-  // List<dynamic> decodeOutput(List<int> encodedOutput) {
-  //   final abi =
-  //       AbiParameter(name: "", type: "tuple", components: List.from(outputs))
-  //           .decode(encodedOutput);
-  //   return abi.result;
-  // }
-
   /// Decodes the output of the function from the encoded hexadecimal string output.
   List<dynamic> decodeOutputHex(String encodedOutput) {
     return decodeOutput(BytesUtils.fromHexString(encodedOutput));
@@ -179,6 +248,43 @@ class AbiFunctionFragment implements AbiBaseFragment {
             .decode(encodeBytes);
     return abi.result;
   }
+
+  @override
+  CborTagValue<CborListValue> toCbor() {
+    return CborTagValue(
+        CborListValue.definite([
+          CborStringValue(name),
+          switch (stateMutability) {
+            final StateMutability stateMutability =>
+              CborBytesValue(stateMutability.tags),
+            _ => CborNullValue(),
+          },
+          CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
+          CborListValue.definite(outputs.map((e) => e.toCbor()).toList()),
+          switch (constant) {
+            final bool constant => CborBoleanValue(constant),
+            _ => CborNullValue(),
+          },
+          switch (payable) {
+            final bool payable => CborBoleanValue(payable),
+            _ => CborNullValue(),
+          },
+        ].cast()),
+        type.tags);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "stateMutability": stateMutability?.name,
+      "type": type.name,
+      "outputs": outputs.map((e) => e.toJson()).toList(),
+      "inputs": inputs.map((e) => e.toJson()).toList(),
+      "constant": constant,
+      "payable": payable
+    }.notNullValue;
+  }
 }
 
 class AbiReceiveFragment extends AbiFunctionFragment {
@@ -187,34 +293,72 @@ class AbiReceiveFragment extends AbiFunctionFragment {
   factory AbiReceiveFragment.fromJson(Map<String, dynamic> json) {
     return AbiReceiveFragment(
         name: 'receive',
-        mutability: StateMutability.fromName(json['stateMutability'])!);
+        mutability: StateMutability.fromName(json.valueAs("stateMutability")));
+  }
+
+  factory AbiReceiveFragment.deserialize(
+      {List<int>? cborBytes, CborObject? cbor}) {
+    final values = QuickCborObject.cborTagValue(
+        cborBytes: cborBytes, object: cbor, tags: FragmentTypes.receive.tags);
+    return AbiReceiveFragment(
+        name: values.elementAtString(0),
+        mutability: StateMutability.fromValue(values.elementAtBytes(1)));
   }
   @override
   FragmentTypes get type => FragmentTypes.receive;
-}
 
-/// Represents a fallback function fragment in ABI, providing methods for working with fallback functions.
-class AbiFallbackFragment implements AbiBaseFragment {
-  /// Creates an instance of [AbiFallbackFragment] from JSON representation.
-  factory AbiFallbackFragment.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> inputs = json['inputs'] ?? [];
-    final List<dynamic> outputs = json['outputs'] ?? [];
-    return AbiFallbackFragment(
-        stateMutability: StateMutability.fromName(json['stateMutability'])!,
-        inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList(),
-        outputs: outputs.map((e) => AbiParameter.fromJson(e)).toList(),
-        constant: json['constant'],
-        payable: json['payable']);
+  @override
+  Map<String, dynamic> toJson() {
+    return {"type": type.name, "stateMutability": stateMutability?.name}
+        .notNullValue;
   }
 
   @override
-  final FragmentTypes type = FragmentTypes.fallback;
+  CborTagValue<CborListValue> toCbor() {
+    return CborTagValue(
+        CborListValue.definite([
+          CborStringValue(name),
+          CborBytesValue(stateMutability!.tags)
+        ].cast()),
+        type.tags);
+  }
+}
+
+/// Represents a fallback function fragment in ABI, providing methods for working with fallback functions.
+class AbiFallbackFragment extends AbiBaseFragment {
+  /// Creates an instance of [AbiFallbackFragment] from JSON representation.
+  factory AbiFallbackFragment.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> inputs = json.valueAsList<List?>("inputs") ?? [];
+    final List<dynamic> outputs = json.valueAsList<List?>("outputs") ?? [];
+    return AbiFallbackFragment(
+        stateMutability:
+            StateMutability.fromName(json.valueAs("stateMutability")),
+        inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList(),
+        outputs: outputs.map((e) => AbiParameter.fromJson(e)).toList(),
+        constant: json.valueAs("constant"),
+        payable: json.valueAs("payable"));
+  }
+
+  factory AbiFallbackFragment.deserialize(
+      {List<int>? cborBytes, CborObject? cbor}) {
+    final values = QuickCborObject.cborTagValue(
+        cborBytes: cborBytes, object: cbor, tags: FragmentTypes.fallback.tags);
+    return AbiFallbackFragment(
+        stateMutability: StateMutability.fromValue(values.elementAtBytes(0)),
+        inputs: values
+            .elementAsListOf<CborTagValue>(1)
+            .map((e) => AbiParameter.deserialize(cbor: e))
+            .toList(),
+        outputs: values
+            .elementAsListOf<CborTagValue>(2)
+            .map((e) => AbiParameter.deserialize(cbor: e))
+            .toList(),
+        constant: values.elementAt<CborBoleanValue?>(3)?.value,
+        payable: values.elementAt<CborBoleanValue?>(4)?.value);
+  }
 
   /// The state mutability of the fallback function.
   final StateMutability stateMutability;
-
-  @override
-  final List<AbiParameter> inputs;
 
   /// The list of output parameters for the fallback function.
   final List<AbiParameter> outputs;
@@ -226,33 +370,73 @@ class AbiFallbackFragment implements AbiBaseFragment {
   final bool? payable;
 
   /// Creates an [AbiFallbackFragment] instance.
-  const AbiFallbackFragment({
+  AbiFallbackFragment({
     required this.stateMutability,
-    this.inputs = const [],
+    super.inputs = const [],
     this.outputs = const [],
     this.constant,
     this.payable,
-  });
+  }) : super(type: FragmentTypes.fallback);
+  @override
+  CborTagValue<CborListValue> toCbor() {
+    return CborTagValue(
+        CborListValue.definite([
+          CborBytesValue(stateMutability.tags),
+          CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
+          CborListValue.definite(outputs.map((e) => e.toCbor()).toList()),
+          switch (constant) {
+            final bool constant => CborBoleanValue(constant),
+            _ => CborNullValue(),
+          },
+          switch (payable) {
+            final bool payable => CborBoleanValue(payable),
+            _ => CborNullValue(),
+          },
+        ].cast()),
+        type.tags);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "stateMutability": stateMutability.name,
+      "type": type.name,
+      "outputs": outputs.map((e) => e.toJson()).toList().emptyAsNull,
+      "inputs": inputs.map((e) => e.toJson()).toList().emptyAsNull,
+      "constant": constant,
+      "payable": payable
+    }.notNullValue;
+  }
 }
 
 /// Represents an event fragment in ABI, providing methods for decoding event data.
-class AbiEventFragment implements AbiBaseFragment {
+class AbiEventFragment extends AbiBaseFragment {
   /// Creates an instance of [AbiEventFragment] from JSON representation.
   factory AbiEventFragment.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> inputs = json['inputs'] ?? [];
+    final List<dynamic> inputs = json.valueAsList<List?>("inputs") ?? [];
 
     return AbiEventFragment(
-        name: json['name'] ?? '',
-        anonymous: json['anonymous'],
-        inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList());
+      name: json.valueAs<String?>("name") ?? '',
+      inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList(),
+      anonymous: json.valueAs("anonymous"),
+    );
+  }
+
+  factory AbiEventFragment.deserialize(
+      {List<int>? cborBytes, CborObject? cbor}) {
+    final values = QuickCborObject.cborTagValue(
+        cborBytes: cborBytes, object: cbor, tags: FragmentTypes.event.tags);
+    return AbiEventFragment(
+        name: values.elementAtString(0),
+        inputs: values
+            .elementAsListOf<CborTagValue>(1)
+            .map((e) => AbiParameter.deserialize(cbor: e))
+            .toList(),
+        anonymous: values.elementAt<CborBoleanValue?>(2)?.value);
   }
 
   /// The name of the event fragment.
   final String name;
-  @override
-  final FragmentTypes type = FragmentTypes.event;
-  @override
-  final List<AbiParameter> inputs;
 
   /// Indicates whether the event is anonymous.
   final bool? anonymous;
@@ -266,34 +450,39 @@ class AbiEventFragment implements AbiBaseFragment {
   late final List<int> signature =
       QuickCrypto.keccack256Hash(StringUtils.encode(eventName));
 
+  late final String signatureHex = BytesUtils.toHexString(signature);
+
   /// Decodes the event data from the encoded bytes and topics.
+  /// Decodes the event parameters from `data` and `topics`.
+  /// `inputs` = list of event ABI inputs (with .name, .type, .indexed, etc.)
   List<dynamic> decode(List<int> data, List<List<int>?> topics) {
     final List<dynamic> result = [];
-    final noIndexed = inputs.where((e) {
-      return !e.indexed;
-    }).toList();
-    final indexed = inputs.where((e) {
-      return e.indexed;
-    }).toList();
-    int nonIndexedCounter =
-        topics.length > indexed.length ? topics.length - indexed.length : 0;
-    int noneIndexCounter = 0;
-    final abi = AbiParameter(name: '', type: 'tuple', components: noIndexed)
-        .decode(data);
-    for (int i = 0; i < inputs.length; i++) {
-      final input = inputs.elementAt(i);
+
+    // Split inputs into indexed and non-indexed
+    final nonIndexed = inputs.where((e) => !e.indexed).toList();
+    // Decode non-indexed parameters from `data` as a tuple
+    final nonIndexedDecoded = nonIndexed.isNotEmpty
+        ? AbiParameter(name: '', type: 'tuple', components: nonIndexed)
+            .decode(data)
+            .result
+        : [];
+
+    int topicIndex = 1;
+    int nonIndexedCounter = 0;
+
+    for (final input in inputs) {
       if (input.indexed) {
-        final topicBytes = topics.elementAt(nonIndexedCounter);
-        nonIndexedCounter++;
+        final topicBytes = topics[topicIndex++];
         if (topicBytes == null || input.isDynamic) {
+          // Dynamic indexed parameters cannot be decoded; store hash
           result.add(topicBytes);
-          continue;
+        } else {
+          // Static indexed parameters can be decoded directly
+          result.add(input.decode(topicBytes).result);
         }
-        final decode = input.decode(topicBytes).result;
-        result.add(decode);
       } else {
-        result.add(abi.result[noneIndexCounter]);
-        noneIndexCounter++;
+        // Non-indexed parameter: get from decoded data
+        result.add(nonIndexedDecoded[nonIndexedCounter++]);
       }
     }
 
@@ -303,33 +492,64 @@ class AbiEventFragment implements AbiBaseFragment {
   /// Creates an [AbiEventFragment] instance.
   AbiEventFragment({
     required this.name,
-    this.inputs = const [],
+    super.inputs = const [],
     this.anonymous,
-  });
+  }) : super(type: FragmentTypes.event);
+
+  @override
+  CborTagValue<CborListValue> toCbor() {
+    return CborTagValue(
+        CborListValue.definite([
+          CborStringValue(name),
+          CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
+          switch (anonymous) {
+            final bool anonymous => CborBoleanValue(anonymous),
+            _ => CborNullValue()
+          },
+        ].cast()),
+        type.tags);
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "type": type.name,
+      "inputs": inputs.map((e) => e.toJson(isEvent: true)).toList(),
+      "name": name,
+      "anonymous": anonymous,
+    }.notNullValue;
+  }
 }
 
 /// Represents an error fragment in ABI, providing methods for decoding errors.
-class AbiErrorFragment implements AbiBaseFragment {
+class AbiErrorFragment extends AbiBaseFragment {
   /// Creates an instance of [AbiErrorFragment] from JSON representation.
   factory AbiErrorFragment.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> inputs = json['inputs'] ?? [];
+    final List<dynamic> inputs = json.valueAs<List?>("inputs") ?? [];
     return AbiErrorFragment(
         inputs: inputs.map((e) => AbiParameter.fromJson(e)).toList(),
-        name: json['name']);
+        name: json.valueAs("name"));
+  }
+  factory AbiErrorFragment.deserialize(
+      {List<int>? cborBytes, CborObject? cbor}) {
+    final values = QuickCborObject.cborTagValue(
+        cborBytes: cborBytes, object: cbor, tags: FragmentTypes.error.tags);
+    return AbiErrorFragment(
+        name: values.elementAtString(0),
+        inputs: values
+            .elementAsListOf<CborTagValue>(1)
+            .map((e) => AbiParameter.deserialize(cbor: e))
+            .toList());
   }
 
   /// The name of the error fragment.
   final String name;
-  @override
-  final FragmentTypes type = FragmentTypes.error;
-  @override
-  final List<AbiParameter> inputs;
 
   /// Creates an [AbiErrorFragment] instance.
   AbiErrorFragment({
     required this.name,
-    this.inputs = const [],
-  });
+    super.inputs = const [],
+  }) : super(type: FragmentTypes.error);
 
   /// Gets the error function name.
   String get errorName {
@@ -352,79 +572,98 @@ class AbiErrorFragment implements AbiBaseFragment {
             .decode(encodeBytes);
     return abi.result;
   }
-}
 
-/// Enum class representing different state mutabilities of Ethereum functions.
-class StateMutability {
-  final String name;
-  const StateMutability._(this.name);
+  @override
+  CborTagValue<CborListValue> toCbor() {
+    return CborTagValue(
+        CborListValue.definite([
+          CborStringValue(name),
+          CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
+        ].cast()),
+        type.tags);
+  }
 
-  /// Function with no side effects and doesn't read from or modify the blockchain state.
-  static const StateMutability pure = StateMutability._('pure');
-
-  /// Function that doesn't modify the blockchain state but can read from it.
-  static const StateMutability view = StateMutability._('view');
-
-  /// Function that can receive Ether and modify the blockchain state.
-  static const StateMutability payable = StateMutability._('payable');
-
-  /// Function that can modify the blockchain state but cannot receive Ether.
-  static const StateMutability nonpayable = StateMutability._('nonpayable');
-
-  /// List of all possible state mutabilities.
-  static const List<StateMutability> values = [pure, view, payable, nonpayable];
-
-  /// Retrieves a StateMutability instance based on its name (case-insensitive).
-  static StateMutability? fromName(String? name) {
-    try {
-      return values
-          .firstWhere((element) => element.name == name?.toLowerCase());
-    } on StateError {
-      return null;
-    }
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "type": type.name,
+      "inputs": inputs.map((e) => e.toJson()).toList(),
+      "name": name,
+    }.notNullValue;
   }
 }
 
-/// Enum class representing different types of ABI fragments, such as constructor, event, function, fallback, and error.
-class FragmentTypes {
+/// Enum class representing different state mutabilities of Ethereum functions.
+enum StateMutability {
+  /// Function with no side effects and doesn't read from or modify the blockchain state.
+  pure('pure', [16]),
+
+  /// Function that doesn't modify the blockchain state but can read from it.
+  view('view', [17]),
+
+  /// Function that can receive Ether and modify the blockchain state.
+  payable('payable', [18]),
+
+  /// Function that can modify the blockchain state but cannot receive Ether.
+  nonpayable('nonpayable', [19]);
+
   final String name;
+  final List<int> tags;
+  bool get isExcutable => this == payable || this == nonpayable;
 
-  const FragmentTypes._(this.name);
+  const StateMutability(this.name, this.tags);
 
+  /// Retrieves a StateMutability instance based on its name (case-insensitive).
+  static StateMutability fromName(String? name) {
+    return StateMutability.values.firstWhere(
+      (e) => e.name == name?.toLowerCase(),
+      orElse: () => throw MessageException('unsupported mutability',
+          details: {'type': name}),
+    );
+  }
+
+  static StateMutability fromValue(List<int>? tags) {
+    return values.firstWhere((e) => CompareUtils.iterableIsEqual(tags, e.tags),
+        orElse: () => throw ItemNotFoundException(value: tags));
+  }
+}
+
+enum FragmentTypes {
   /// Constructor fragment type.
-  static const FragmentTypes constructor = FragmentTypes._('constructor');
+  constructor('constructor', [20]),
 
   /// Event fragment type.
-  static const FragmentTypes event = FragmentTypes._('event');
+  event('event', [21]),
 
   /// Function fragment type.
-  static const FragmentTypes function = FragmentTypes._('function');
+  function('function', [22]),
 
   /// Fallback fragment type.
-  static const FragmentTypes fallback = FragmentTypes._('fallback');
+  fallback('fallback', [23]),
 
   /// Error fragment type.
-  static const FragmentTypes error = FragmentTypes._('error');
+  error('error', [24]),
 
-  static const FragmentTypes receive = FragmentTypes._('receive');
+  /// Receive fragment type.
+  receive('receive', [25]);
 
-  /// List of all possible fragment types.
-  static const List<FragmentTypes> values = [
-    constructor,
-    event,
-    function,
-    fallback,
-    error,
-    receive,
-  ];
+  final String name;
+  final List<int> tags;
+
+  const FragmentTypes(this.name, this.tags);
 
   /// Retrieves a FragmentTypes instance based on its name (case-insensitive).
   static FragmentTypes fromName(String? name) {
     try {
-      return values
-          .firstWhere((element) => element.name == name?.toLowerCase());
+      return FragmentTypes.values
+          .firstWhere((e) => e.name == name?.toLowerCase());
     } catch (e) {
       throw MessageException('unsupported fragment', details: {'type': name});
     }
+  }
+
+  static FragmentTypes fromValue(List<int>? tags) {
+    return values.firstWhere((e) => CompareUtils.iterableIsEqual(tags, e.tags),
+        orElse: () => throw ItemNotFoundException(value: tags));
   }
 }

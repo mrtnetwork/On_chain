@@ -4,7 +4,7 @@ import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
-import 'package:on_chain/bcs/serialization/serialization.dart';
+import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 
 /// Abstract class representing an Aptos account with public key, authenticator, and signature.
 abstract class AptosAccount<

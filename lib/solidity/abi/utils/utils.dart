@@ -1,10 +1,10 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// Utility class providing helper methods for ABI encoding and decoding.
-class _ABIUtils {
+class ABIUtils {
   /// Retrieves the size of bytes from the given ABI type name.
   /// Returns `null` if the size cannot be determined.
-  static int? bytesSize(String name) {
+  static int? _bytesSize(String name) {
     _ABIValidator.validateBytes(name);
     final size = _ABIValidator.sizeDetectRegex.firstMatch(name)?.group(0);
     if (size == null) return null;
@@ -14,7 +14,7 @@ class _ABIUtils {
   /// Retrieves the size of numeric values from the given ABI type name.
   /// Optionally provides the size in bits if [bit] is set to true.
   /// Returns `null` if the size cannot be determined.
-  static int? numericSize(String name, {bool bit = false}) {
+  static int? _numericSize(String name, {bool bit = false}) {
     final size = _ABIValidator.sizeDetectRegex.firstMatch(name)?.group(0);
     if (size == null) return null;
     final bitSize = int.parse(size);
@@ -24,7 +24,7 @@ class _ABIUtils {
 
   /// Decodes a parameter from the given ABI parameter using the appropriate
   /// ABICoder based on the parameter's type.
-  static DecoderResult<dynamic> decodeParamFromAbiParameter(
+  static DecoderResult<dynamic> _decodeParamFromAbiParameter(
       AbiParameter param, List<int> bytes) {
     final abi = ABICoder.fromType(param.type);
     return abi.decode(param, bytes);
@@ -32,7 +32,7 @@ class _ABIUtils {
 
   /// Encodes dynamic parameters by calculating the static and dynamic size,
   /// and arranging them in the appropriate order for ABI encoding.
-  static List<int> encodeDynamicParams(List<EncoderResult> encodedParams) {
+  static List<int> _encodeDynamicParams(List<EncoderResult> encodedParams) {
     int staticSize = 0;
     int dynamicSize = 0;
     final List<EncoderResult> staticParams = [];
@@ -63,7 +63,7 @@ class _ABIUtils {
   }
 
   /// Extracts the array type and size information from the given ABI parameter.
-  static Tuple<AbiParameter, int> toArrayType(AbiParameter abi) {
+  static Tuple<AbiParameter, int> _toArrayType(AbiParameter abi) {
     final int arrayParenthesisStart = abi.type.lastIndexOf('[');
     final String arrayParamType = abi.type.substring(0, arrayParenthesisStart);
     final String sizeString = abi.type.substring(arrayParenthesisStart);
@@ -81,6 +81,44 @@ class _ABIUtils {
         AbiParameter(
             type: arrayParamType, name: '', components: abi.components),
         size);
+  }
+
+  static List<int> encodePacked(
+      {required List<String> types, required List<dynamic> params}) {
+    return EIP712Utils.legacyV1Encode(types, params);
+  }
+
+  static List<int> encode(
+      {required List<String> types, required List<dynamic> params}) {
+    return EIP712Utils.abiEncode(types, params);
+  }
+
+  static List<dynamic> decode(
+      {required List<String> types, required List<int> bytes}) {
+    final decode = EIP712Utils.abiDecode(types, bytes);
+    return decode;
+  }
+
+  static T decodeSingle<T extends Object>(
+      {required String type, required List<int> bytes}) {
+    final decode = EIP712Utils.abiDecode([type], bytes);
+    return JsonParser.valueAs(decode[0]);
+  }
+
+  static List<int> encodeKeccack256(
+      {required List<String> types, required List<dynamic> params}) {
+    return QuickCrypto.keccack256Hash(encode(types: types, params: params));
+  }
+
+  static List<int> encodePackedKeccack256(
+      {required List<String> types, required List<dynamic> params}) {
+    return QuickCrypto.keccack256Hash(
+        encodePacked(types: types, params: params));
+  }
+
+  static List<int> encodePackedSHA256(
+      {required List<String> types, required List<dynamic> params}) {
+    return QuickCrypto.sha256Hash(encodePacked(types: types, params: params));
   }
 }
 

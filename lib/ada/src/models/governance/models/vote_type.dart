@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
 /// Represents a vote type.
-class VoteType with ADASerialization {
+class VoteType with InternalCborSerialization {
   /// The name of the vote type.
   final String name;
 

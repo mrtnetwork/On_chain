@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents a native script type.
-class NativeScriptType with ADASerialization {
+class NativeScriptType with InternalCborSerialization {
   /// The name of the native script type.
   final String name;
 

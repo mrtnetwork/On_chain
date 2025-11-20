@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'native_script.dart';
 
 class NativeScriptsSerializationConfig {
@@ -20,7 +20,7 @@ class NativeScriptsSerializationConfig {
   }
 }
 
-class NativeScripts with ADASerialization {
+class NativeScripts with InternalCborSerialization {
   final List<NativeScript> scripts;
   final NativeScriptsSerializationConfig serializationConfig;
   NativeScripts(List<NativeScript> scripts,

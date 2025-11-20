@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/utils/utils/number_utils.dart';
 
 /// Represents an entry in Ethereum transaction logs.
@@ -45,15 +46,29 @@ class LogEntry {
   /// Creates a [LogEntry] instance from a JSON map.
   factory LogEntry.fromJson(Map<String, dynamic> json) {
     return LogEntry(
-      address: json['address'],
-      blockHash: json['blockHash'],
+      address: json.valueAs("address"),
+      blockHash: json.valueAs("blockHash"),
       blockNumber: PluginIntUtils.hexToInt(json['blockNumber']),
-      data: json['data'],
+      data: json.valueAs("data"),
       logIndex: PluginIntUtils.hexToInt(json['logIndex']),
-      removed: json['removed'],
-      topics: List<String>.from(json['topics'] ?? []),
-      transactionHash: json['transactionHash'],
+      removed: json.valueAs("removed"),
+      topics: json.valueAsList<List<String>?>("topics") ?? [],
+      transactionHash: json.valueAs("transactionHash"),
       transactionIndex: PluginIntUtils.hexToInt(json['transactionIndex']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "address": address,
+      "blockHash": blockHash,
+      "blockNumber": "0x${blockNumber.toRadixString(16)}",
+      "data": data,
+      "logIndex": "0x${logIndex.toRadixString(16)}",
+      "removed": removed,
+      "topics": topics,
+      "transactionHash": transactionHash,
+      "transactionIndex": "0x${transactionIndex.toRadixString(16)}"
+    };
   }
 }

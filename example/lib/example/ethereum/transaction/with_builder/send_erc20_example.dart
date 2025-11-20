@@ -34,7 +34,7 @@ void main() async {
       ETHAddress("0x6c6b4fd6502c74ed8a15d54b9152973f3aa24e51");
 
   /// Build an Ethereum transaction for a contract call (transfer)
-  final tr = ETHTransactionBuilder.contract(
+  final tr = ETHTransactionBuilder(
 
       /// Sender's Ethereum address
       from: address,
@@ -43,17 +43,14 @@ void main() async {
       transactionType: ETHTransactionType.eip2930,
 
       /// Target ERC-20 contract address
-      contractAddress: contractAddress,
-
-      /// Function to call (transfer)
-      function: contract.functionFromName("transfer"),
-      functionParams: [
+      to: contractAddress,
+      data: contract.functionFromName("transfer").encode([
         /// Recipient address
         ETHAddress("0xBfD365373f559Cd398A408b975FD18B16632d348"),
 
         /// Amount to transfer (in Wei)
         ETHHelper.toWei("100")
-      ],
+      ]),
 
       /// No Ether value sent with the transaction
       value: BigInt.zero,
@@ -71,7 +68,7 @@ void main() async {
   final _ = tr.transactionID;
 
   /// Send and submit the transaction to the Ethereum network
-  await tr.sendAndSubmitTransaction(rpc);
+  await tr.submitAndWatchTransactionAsync(rpc);
 
   /// https://mumbai.polygonscan.com/tx/0x37bfb931bcc84a84c69c34ec8c5e58660aaea2b2b693235cbc3652cf7971fc41
 }

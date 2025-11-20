@@ -16,6 +16,11 @@ class ETHAddress extends SolidityAddress {
   /// Private constructor for creating an instance of [ETHAddress] with a given Ethereum address
   const ETHAddress._(this.address) : super.unsafe(address);
 
+  static const ETHAddress zero =
+      ETHAddress._("0x0000000000000000000000000000000000000000");
+  static const ETHAddress one =
+      ETHAddress._("0x0000000000000000000000000000000000000001");
+
   /// Creates an [ETHAddress] instance from a public key represented as a bytes.
   factory ETHAddress.fromPublicKey(List<int> keyBytes) {
     try {
@@ -47,6 +52,10 @@ class ETHAddress extends SolidityAddress {
 
   /// Constant representing the length of the ETH address in bytes
   static const int lengthInBytes = 20;
+
+  BigInt toBigInt() {
+    return BigintUtils.fromBytes(toBytes());
+  }
 
   @override
   String toString() {

@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/action.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/governance_action_type.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/treasury_withdrawals.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class TreasuryWithdrawalsAction extends GovernanceAction {
   final TreasuryWithdrawals withdrawals;

@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding numeric types represented by BigInt.
-class NumbersCoder implements ABICoder<BigInt> {
+class NumbersCoder implements ABICoder<Object, BigInt> {
   /// Creates an instance of the NumbersCoder class.
   const NumbersCoder();
 
@@ -19,25 +19,25 @@ class NumbersCoder implements ABICoder<BigInt> {
 
   /// Encodes a numeric value (BigInt) to ABI-encoded bytes.
   @override
-  EncoderResult abiEncode(AbiParameter params, BigInt input) {
-    _ABIValidator.isValidNumber(params.type, input);
+  EncoderResult abiEncode(AbiParameter params, Object input) {
+    final number = BigintUtils.parse(input, allowHex: false);
+    _ABIValidator.isValidNumber(params.type, number);
     return EncoderResult(
         isDynamic: false,
-        encoded: BigintUtils.toBytes(input, length: 32),
+        encoded: BigintUtils.toBytes(number, length: 32),
         name: params.name);
   }
 
   /// Legacy EIP-712 encoding for numeric values (BigInt).
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
-  EncoderResult legacyEip712Encode(
-      AbiParameter params, BigInt input, bool keepSize) {
-    _ABIValidator.isValidNumber(params.type, input);
-    final size = _ABIUtils.numericSize(params.type) ?? 32;
+  EncoderResult encodePacked(AbiParameter params, Object input) {
+    final number = BigintUtils.parse(input, allowHex: false);
+    _ABIValidator.isValidNumber(params.type, number);
+    final size = ABIUtils._numericSize(params.type) ?? 32;
     return EncoderResult(
         isDynamic: false,
-        encoded: BigintUtils.toBytes(input.toUnsigned(size * 8),
-            length: keepSize ? 32 : size),
+        encoded: BigintUtils.toBytes(number.toUnsigned(size * 8), length: size),
         name: params.name);
   }
 }

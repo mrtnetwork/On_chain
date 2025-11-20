@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class ExUnits with ADASerialization {
+class ExUnits with InternalCborSerialization {
   final BigInt mem;
   final BigInt steps;
   const ExUnits({required this.mem, required this.steps});

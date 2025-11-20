@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_script/models/language.dart';
 
-class PlutusScript with ADASerialization {
+class PlutusScript with InternalCborSerialization {
   final List<int> bytes;
   final Language language;
 

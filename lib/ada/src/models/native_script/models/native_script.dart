@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script_type.dart';
 
@@ -12,7 +12,7 @@ import 'time_lock_start.dart';
 import 'timelock_expiry.dart';
 
 /// Represents a native script.
-abstract class NativeScript with ADASerialization {
+abstract class NativeScript with InternalCborSerialization {
   /// Constructs a [NativeScript].
   const NativeScript();
 

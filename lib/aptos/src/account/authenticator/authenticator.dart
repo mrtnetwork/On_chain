@@ -6,7 +6,7 @@ import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/aptos/src/keypair/types/types.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
-import 'package:on_chain/bcs/serialization/serialization.dart';
+import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
 

@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'bootstrap_witness.dart';
 
 class BootstrapWitnessesSerializationConfig {
@@ -22,7 +22,7 @@ class BootstrapWitnessesSerializationConfig {
 }
 
 /// BootstrapWitness
-class BootstrapWitnesses with ADASerialization {
+class BootstrapWitnesses with InternalCborSerialization {
   final List<BootstrapWitness> witnesses;
   final BootstrapWitnessesSerializationConfig serializationConfig;
   BootstrapWitnesses(List<BootstrapWitness> witnesses,

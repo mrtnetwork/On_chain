@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/move_instantaneous_reward/types/mir.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/move_instantaneous_reward/types/mir_pot.dart';
 
 /// Represents a move instantaneous reward.
-class MoveInstantaneousReward with ADASerialization {
+class MoveInstantaneousReward with InternalCborSerialization {
   /// The pot associated with the reward.
   final MIRPot pot;
 

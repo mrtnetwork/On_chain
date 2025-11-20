@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class CostModelSerializationConfig {
   final CborIterableEncodingType listEncoding;
@@ -18,7 +18,7 @@ class CostModelSerializationConfig {
 }
 
 /// Represents a cost model.
-class CostModel with ADASerialization {
+class CostModel with InternalCborSerialization {
   /// The list of values in the cost model.
   final List<BigInt> values;
 

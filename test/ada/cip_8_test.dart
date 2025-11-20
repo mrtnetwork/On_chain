@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/shelly/base_address.dart';
 import 'package:on_chain/ada/src/cip_8/models/models.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:test/test.dart';
 
 void main() {

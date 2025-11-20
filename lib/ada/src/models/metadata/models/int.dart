@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'config.dart';
 import 'metadata_json_schame.dart';
 import 'tranasction_metadata.dart';

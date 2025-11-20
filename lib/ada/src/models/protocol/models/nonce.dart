@@ -4,11 +4,11 @@ import 'package:blockchain_utils/cbor/types/types.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 
 import 'package:on_chain/ada/src/models/constants/constant.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/utils/utils.dart';
 
 /// Evolving nonce type (used for Update's crypto)
-class Nonce with ADASerialization {
+class Nonce with InternalCborSerialization {
   final List<int>? hash;
   Nonce([List<int>? nonce])
       : hash = nonce == null

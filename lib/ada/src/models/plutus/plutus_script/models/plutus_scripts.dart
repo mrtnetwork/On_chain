@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class PlutusScriptsSerializationConfig {
   final CborIterableEncodingType encoding;
@@ -19,7 +19,7 @@ class PlutusScriptsSerializationConfig {
   }
 }
 
-class PlutusScripts with ADASerialization {
+class PlutusScripts with InternalCborSerialization {
   final List<List<int>> scripts;
   final PlutusScriptsSerializationConfig serializationConfig;
   PlutusScripts(List<List<int>> scripts,

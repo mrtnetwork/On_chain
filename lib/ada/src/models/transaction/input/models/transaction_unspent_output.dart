@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/models/transaction/input/models/transaction_input.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/transaction_output.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class TransactionUnspentOutput with ADASerialization {
+class TransactionUnspentOutput with InternalCborSerialization {
   final TransactionInput input;
   final TransactionOutput output;
   const TransactionUnspentOutput({required this.input, required this.output});

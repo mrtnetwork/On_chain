@@ -6,7 +6,7 @@ import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/aptos/src/keypair/keys/secp256k1.dart';
 import 'package:on_chain/aptos/src/keypair/types/types.dart';
 import 'package:on_chain/aptos/src/keypair/utils/utils.dart';
-import 'package:on_chain/bcs/serialization/serialization.dart';
+import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 
 /// Abstract class for representing the private key of an Aptos account.
 /// The private key is used for signing messages and generating a public key.

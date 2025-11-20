@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/constants/constant.dart';
 import 'package:on_chain/ada/src/models/utils/utils.dart';
 
 /// Class representing an IPv6 address.
-class Ipv6 with ADASerialization {
+class Ipv6 with InternalCborSerialization {
   /// The IPv6 address.
   final List<int> ipv6;
 

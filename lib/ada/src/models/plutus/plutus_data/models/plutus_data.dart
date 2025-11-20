@@ -2,7 +2,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential_type.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/config.dart';
@@ -17,7 +17,7 @@ import 'package:on_chain/ada/src/models/plutus/utils/utils.dart';
 
 /// Abstract class representing Plutus data.
 abstract class PlutusData
-    with ADASerialization
+    with InternalCborSerialization
     implements Comparable<PlutusData> {
   const PlutusData();
 

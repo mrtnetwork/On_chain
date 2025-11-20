@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/compare/compare.dart';
 import 'package:blockchain_utils/utils/compare/hash_code.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script_type.dart';
 import 'package:on_chain/ada/src/models/native_script/utils/native_script_utils.dart';

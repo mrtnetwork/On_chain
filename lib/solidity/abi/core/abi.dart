@@ -1,15 +1,15 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// Solidity contract for encoding and decoding data according to Ethereum ABI specifications.
-abstract class ABICoder<T> {
+abstract class ABICoder<INPUT extends Object, OUTPUT extends Object> {
   /// ABI encode method.
-  EncoderResult abiEncode(AbiParameter params, T input);
+  EncoderResult abiEncode(AbiParameter params, INPUT input);
 
   /// EIP-712 Legacy Encode method with an option to keep a specific size.
-  EncoderResult legacyEip712Encode(AbiParameter params, T input, bool keepSize);
+  EncoderResult encodePacked(AbiParameter params, INPUT input);
 
   /// Decode method.
-  DecoderResult<T> decode(AbiParameter params, List<int> bytes);
+  DecoderResult<Object> decode(AbiParameter params, List<int> bytes);
 
   /// Static map associating type names with corresponding concrete ABICoder implementations.
   static const Map<String, ABICoder> _types = {
@@ -39,16 +39,17 @@ abstract class ABICoder<T> {
     }
     // Use the corrected type or the original type if not modified
     correctType ??= type;
-    if (!_types.containsKey(correctType)) {
+    final t = _types[correctType];
+    if (t == null) {
       throw SolidityAbiException('Unsuported ABI type. codec not found',
           details: {'type': type});
     }
     // Return the corresponding ABICoder instance
-    return _types[correctType]! as ABICoder<T>;
+    return t as ABICoder<INPUT, OUTPUT>;
   }
 }
 
-class AbiParameter {
+class AbiParameter with InternalCborSerialization {
   /// Static constant representing an ABI parameter for generic bytes data.
   static const AbiParameter bytes = AbiParameter(name: '', type: 'bytes');
 
@@ -67,12 +68,6 @@ class AbiParameter {
   /// The type of the parameter.
   final String type;
 
-  /// Flag indicating whether Tron types are used.
-  // final bool tronTypes;
-
-  /// The base type, if applicable.
-  final String? baseType;
-
   /// Flag indicating whether the parameter is indexed.
   final bool indexed;
 
@@ -87,7 +82,6 @@ class AbiParameter {
     /// The name of the parameter.
     required this.name,
     required this.type,
-    this.baseType,
     this.indexed = false,
     this.components = const [],
     this.internalType,
@@ -98,7 +92,6 @@ class AbiParameter {
   AbiParameter copyWith({
     String? name,
     String? type,
-    String? baseType,
     bool? indexed,
     List<AbiParameter>? components,
     String? internalType,
@@ -106,7 +99,6 @@ class AbiParameter {
     return AbiParameter(
       name: name ?? this.name,
       type: type ?? this.type,
-      baseType: baseType ?? this.baseType,
       indexed: indexed ?? this.indexed,
       components: components ??
           List<AbiParameter>.unmodifiable(components ?? this.components),
@@ -116,15 +108,32 @@ class AbiParameter {
 
   /// Factory method to create an AbiParameter instance from a JSON representation.
   factory AbiParameter.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> inputs = json['components'] ?? [];
-    final String name = json['name'] ?? '';
+    final List<dynamic> inputs = json.valueAsList<List?>("components") ?? [];
+    final String name = json.valueAs<String?>("name") ?? '';
     return AbiParameter(
-      name: name.isEmpty ? null : name,
-      type: json['type'],
-      internalType: json['internalType'],
-      indexed: json['indexed'] ?? false,
+      name: name,
+      type: json.valueAs("type"),
+      internalType: json.valueAs("internalType"),
+      indexed: json.valueAs<bool?>("indexed") ?? false,
       components: List<AbiParameter>.unmodifiable(
           inputs.map((e) => AbiParameter.fromJson(e)).toList()),
+    );
+  }
+
+  factory AbiParameter.deserialize({List<int>? cborBytes, CborObject? cbor}) {
+    final values = QuickCborObject.cborTagValue(
+        cborBytes: cborBytes,
+        object: cbor,
+        tags: InternalCborSerializationConst.defaultTag);
+    return AbiParameter(
+      name: values.elementAtString<String?>(0),
+      type: values.elementAtString<String>(1),
+      indexed: values.elementAt<CborBoleanValue>(2).value,
+      internalType: values.elementAtString<String?>(3),
+      components: values
+          .elementAsListOf<CborTagValue>(4)
+          .map((e) => AbiParameter.deserialize(cbor: e))
+          .toList(),
     );
   }
 
@@ -142,9 +151,9 @@ class AbiParameter {
   }
 
   /// Encodes the given value using the specified ABI encoding.
-  EncoderResult legacyEip712Encode(dynamic value, bool keepSize) {
+  EncoderResult encodePacked(dynamic value) {
     final abi = ABICoder.fromType(type);
-    return abi.legacyEip712Encode(this, value, keepSize);
+    return abi.encodePacked(this, value);
   }
 
   /// Encodes the given value using the ABI encoding.
@@ -173,10 +182,40 @@ class AbiParameter {
     }
 
     if (type.endsWith(']')) {
-      return _ABIUtils.toArrayType(this).item1.isDynamic;
+      return ABIUtils._toArrayType(this).item1.isDynamic;
     }
 
     return false;
+  }
+
+  @override
+  CborTagValue<CborListValue> toCbor() {
+    return CborTagValue(
+        CborListValue.definite([
+          switch (name) {
+            final String name => CborStringValue(name),
+            _ => CborNullValue()
+          },
+          CborStringValue(type),
+          CborBoleanValue(indexed),
+          switch (internalType) {
+            final String internalType => CborStringValue(internalType),
+            _ => CborNullValue()
+          },
+          CborListValue.definite(components.map((e) => e.toCbor()).toList())
+        ].cast()),
+        InternalCborSerializationConst.defaultTag);
+  }
+
+  @override
+  Map<String, dynamic> toJson({bool isEvent = false}) {
+    return {
+      "components": components.map((e) => e.toJson()).toList().emptyAsNull,
+      "name": name,
+      "type": type,
+      "internalType": internalType,
+      if (isEvent) "indexed": indexed
+    }.notNullValue;
   }
 }
 

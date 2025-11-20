@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/ada/src/models/transaction/auxiliary_data/models/auxiliary_data.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class AuxiliaryDataSet with ADASerialization {
+class AuxiliaryDataSet with InternalCborSerialization {
   final Map<int, AuxiliaryData> auxiliaryDataSet;
   AuxiliaryDataSet({Map<int, AuxiliaryData> auxiliaryDataSet = const {}})
       : auxiliaryDataSet = auxiliaryDataSet.immutable;

@@ -1,12 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/script_ref_type.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/native_script.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/plutus_script.dart';
 
 /// Abstract class representing a script reference.
-abstract class ScriptRef with ADASerialization {
+abstract class ScriptRef with InternalCborSerialization {
   static const List<int> _tag = [24];
 
   /// The type of the script reference.

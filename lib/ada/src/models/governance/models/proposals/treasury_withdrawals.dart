@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class TreasuryWithdrawals with ADASerialization {
+class TreasuryWithdrawals with InternalCborSerialization {
   final Map<ADARewardAddress, BigInt> withdrawals;
   TreasuryWithdrawals(Map<ADARewardAddress, BigInt> withdrawals)
       : withdrawals = withdrawals.immutable;

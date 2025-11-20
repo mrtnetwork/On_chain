@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class RedeemerTag with ADASerialization {
+class RedeemerTag with InternalCborSerialization {
   final String name;
   final int value;
   const RedeemerTag._(this.name, this.value);

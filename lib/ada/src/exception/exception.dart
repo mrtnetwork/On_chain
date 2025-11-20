@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:on_chain/exception/exception.dart';
 
-class ADAPluginException extends BlockchainUtilsException {
+class ADAPluginException extends OnChainPluginException {
   const ADAPluginException(super.message, {super.details});
 }

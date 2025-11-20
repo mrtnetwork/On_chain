@@ -36,17 +36,14 @@ void main() async {
       ETHAddress("0x42865dfd78a2a7c00e6f63746e1ba6da9353edc4");
 
   /// Build an Ethereum transaction for a contract call
-  final tr = ETHTransactionBuilder.contract(
+  final tr = ETHTransactionBuilder(
       // Sender's Ethereum address
       from: address,
       // Specify the transaction type (e.g., EIP-1559)
       transactionType: ETHTransactionType.eip1559,
       // Contract address where the call is made
-      contractAddress: contractAddress,
-      // Contract function to be called
-      function: contract.functionFromName("test5"),
-      // Parameters for the contract function
-      functionParams: [
+      to: contractAddress,
+      data: contract.functionFromName("test5").encode([
         [false, true], // Example boolean parameters bool[]
         [
           // Example byte array parameter bytes[]
@@ -55,7 +52,7 @@ void main() async {
         ],
         [address], // Example Ethereum address[] parameter
         BigInt.from(5) // Example uint256 parameter
-      ],
+      ]),
       // Amount of Ether to be sent with the transaction
       value: BigInt.from(4000),
       // Ethereum chain ID
@@ -71,7 +68,7 @@ void main() async {
   final _ = tr.transactionID;
 
   /// Send and submit the transaction to the Ethereum network
-  await tr.sendAndSubmitTransaction(rpc);
+  await tr.submitAndWatchTransactionAsync(rpc);
 
   /// https://mumbai.polygonscan.com/tx/0x4d9f4c7080bd7c14d243346820e669be9bc95318c10546959dd1ae804d83be15
 }

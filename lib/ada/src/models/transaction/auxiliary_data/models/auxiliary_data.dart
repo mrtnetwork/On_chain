@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/metadata/models/general_transaction_metadata.dart';
 import 'package:on_chain/ada/src/models/metadata/utils/metadata_utils.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
@@ -20,7 +20,7 @@ enum AuxiliaryDataCborEncoding {
 }
 
 /// Represents auxiliary data in a transaction.
-class AuxiliaryData with ADASerialization {
+class AuxiliaryData with InternalCborSerialization {
   final GeneralTransactionMetadata? metadata;
   final List<NativeScript>? nativeScripts;
   final List<PlutusScript>? plutusScripts;

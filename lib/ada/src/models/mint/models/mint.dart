@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/assets.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/multi_assets.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 
 import 'mint_assets.dart';
@@ -37,7 +37,7 @@ class MintInfo {
 }
 
 /// Represents a list of minting information.
-class Mint with ADASerialization {
+class Mint with InternalCborSerialization {
   final AssetsSerializationConfig serializationConfig;
 
   /// The list of minting information.

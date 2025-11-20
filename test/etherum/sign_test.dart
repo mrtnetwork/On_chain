@@ -14,10 +14,8 @@ void main() {
         BytesUtils.fromHexString('0x84df2267aa318f451199223385516162');
     final sign = privateKey.signPersonalMessage(message);
     final publicKey = privateKey.publicKey();
-    final verify = publicKey.verifyPersonalMessage(
-        message, BytesUtils.fromHexString(sign));
-    final recoverPubKey =
-        ETHPublicKey.getPublicKey(message, BytesUtils.fromHexString(sign));
+    final verify = publicKey.verifyPersonalMessage(message, sign);
+    final recoverPubKey = ETHPublicKey.getPublicKey(message, sign);
     expect(recoverPubKey?.toHex(), publicKey.toHex());
     expect(sign, correctSig);
     expect(verify, true);
@@ -27,12 +25,10 @@ void main() {
         'abfbd6391f206365d75b171bbe5efea6a7cbfff143d5fc83bdcb61e4ab8aa0f9');
     final sign2 = privateKey2.signPersonalMessage(message);
     final publicKey2 = privateKey2.publicKey();
-    final verify2 = publicKey2.verifyPersonalMessage(
-        message, BytesUtils.fromHexString(sign2));
+    final verify2 = publicKey2.verifyPersonalMessage(message, sign2);
     expect(sign2, correctSig2);
     expect(verify2, true);
-    final recoverPubKey2 =
-        ETHPublicKey.getPublicKey(message, BytesUtils.fromHexString(sign2));
+    final recoverPubKey2 = ETHPublicKey.getPublicKey(message, sign2);
     expect(recoverPubKey2?.toHex(), publicKey2.toHex());
   });
 }

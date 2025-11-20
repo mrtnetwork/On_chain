@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/multi_assets.dart';
 
 /// Represents the value of an output.
-class Value with ADASerialization {
+class Value with InternalCborSerialization {
   /// The amount of the coin.
   final BigInt coin;
 

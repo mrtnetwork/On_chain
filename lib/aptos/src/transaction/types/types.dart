@@ -6,8 +6,8 @@ import 'package:on_chain/aptos/src/helper/helper.dart';
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/aptos/src/transaction/utils/utils.dart';
-import 'package:on_chain/bcs/move/types/types.dart';
-import 'package:on_chain/bcs/serialization/serialization.dart';
+import 'package:on_chain/serialization/bcs/move/types/types.dart';
+import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 import 'package:on_chain/utils/utils/map_utils.dart';
 
 class AptosChainId extends BcsSerialization {

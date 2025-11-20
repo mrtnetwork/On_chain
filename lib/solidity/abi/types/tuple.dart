@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding tuple types.
-class TupleCoder implements ABICoder<List<dynamic>> {
+class TupleCoder implements ABICoder<List<dynamic>, List<dynamic>> {
   /// Creates an instance of the TupleCoder class.
   const TupleCoder();
 
@@ -24,7 +24,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
     if (isDynamic) {
       return EncoderResult(
           isDynamic: true,
-          encoded: _ABIUtils.encodeDynamicParams(encoded),
+          encoded: ABIUtils._encodeDynamicParams(encoded),
           name: params.name);
     }
     final re = encoded.map((e) => e.encoded).toList();
@@ -52,7 +52,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
         final DecoderResult<BigInt> offsetResult = const NumbersCoder()
             .decode(AbiParameter.uint32, bytes.sublist(consumed));
 
-        decodedResult = _ABIUtils.decodeParamFromAbiParameter(
+        decodedResult = ABIUtils._decodeParamFromAbiParameter(
           childParam,
           bytes.sublist(offsetResult.result.toInt()),
         );
@@ -60,7 +60,7 @@ class TupleCoder implements ABICoder<List<dynamic>> {
         consumed += offsetResult.consumed;
         dynamicConsumed += decodedResult.consumed;
       } else {
-        decodedResult = _ABIUtils.decodeParamFromAbiParameter(
+        decodedResult = ABIUtils._decodeParamFromAbiParameter(
             childParam, bytes.sublist(consumed));
         consumed += decodedResult.consumed;
       }
@@ -76,22 +76,19 @@ class TupleCoder implements ABICoder<List<dynamic>> {
   /// Legacy EIP-712 encoding for tuple values.
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
-  EncoderResult legacyEip712Encode(
-      AbiParameter params, List<dynamic> input, bool keepSize) {
+  EncoderResult encodePacked(AbiParameter params, List<dynamic> input) {
     final List<EncoderResult> encoded = [];
     if (input.length != params.components.length) {
       throw const SolidityAbiException('Invalid argument length detected.');
     }
     for (int i = 0; i < params.components.length; i++) {
       final paramComponent = params.components[i];
-      final EncoderResult result =
-          paramComponent.legacyEip712Encode(input[i], keepSize);
+      final EncoderResult result = paramComponent.encodePacked(input[i]);
       encoded.add(result);
     }
-    final re = encoded.map((e) => e.encoded).toList();
     return EncoderResult(
         isDynamic: false,
-        encoded: [for (final i in re) ...i],
+        encoded: encoded.expand((e) => e.encoded).toList(),
         name: params.name);
   }
 }

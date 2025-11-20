@@ -1,11 +1,11 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/move_instantaneous_reward/types/to_other_pot.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/move_instantaneous_reward/types/to_stake_credentials.dart';
 
 /// Abstract class representing a Move Instance Reward with serialization support.
-abstract class MIR with ADASerialization {
+abstract class MIR with InternalCborSerialization {
   const MIR();
 
   /// Deserializes a MIR object from its CBOR representation.

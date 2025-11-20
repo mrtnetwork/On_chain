@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents different types of Plutus data.
-class PlutusDataType with ADASerialization {
+class PlutusDataType with InternalCborSerialization {
   /// The numeric value representing the data type.
   final int value;
 

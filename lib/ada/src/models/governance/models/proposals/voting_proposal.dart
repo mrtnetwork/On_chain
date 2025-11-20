@@ -3,9 +3,9 @@ import 'package:blockchain_utils/utils/numbers/numbers.dart';
 import 'package:on_chain/ada/src/address/address.dart';
 import 'package:on_chain/ada/src/models/governance/models/anchor.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/action.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 
-class VotingProposal with ADASerialization {
+class VotingProposal with InternalCborSerialization {
   final GovernanceAction governanceAction;
   final Anchor anchor;
   final ADARewardAddress rewardAddress;

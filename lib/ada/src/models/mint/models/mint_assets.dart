@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/assets.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/asset_name.dart';
 
 /// Represents the assets to be minted.
-class MintAssets with ADASerialization {
+class MintAssets with InternalCborSerialization {
   final AssetsSerializationConfig serializationConfig;
 
   /// The map of asset names to amounts to be minted.

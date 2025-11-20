@@ -49,6 +49,8 @@ class EthereumMethods {
       EthereumMethods('eth_getBlockByNumber');
   static const EthereumMethods getTransactionByHash =
       EthereumMethods('eth_getTransactionByHash');
+  static const EthereumMethods getRawTransactionByHash =
+      EthereumMethods('eth_getRawTransactionByHash');
   static const EthereumMethods getTransactionByBlockHashAndIndex =
       EthereumMethods('eth_getTransactionByBlockHashAndIndex');
 

@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/ethereum/src/models/transaction.dart';
 import 'package:on_chain/utils/utils/number_utils.dart';
 
@@ -23,16 +24,20 @@ class Withdrawal {
       validatorIndex: json['validatorIndex'],
     );
   }
+  // Method to convert the Withdrawal object back to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'address': address,
+      'amount': amount,
+      'index': index,
+      'validatorIndex': validatorIndex,
+    };
+  }
 
   @override
   String toString() {
     return '''
-      Withdrawal {
-        address: $address,
-        amount: $amount,
-        index: $index,
-        validatorIndex: $validatorIndex,
-      }
+      Withdrawal${toJson()}
     ''';
   }
 }
@@ -134,33 +139,42 @@ class BlockDetails {
     );
   }
 
+  // Method to convert the BlockDetails object back to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'transactions': transactions.map((tx) => tx.toJson()).toList(),
+      'transactionIds': transactionIds,
+      'baseFeePerGas': baseFeePerGas != null
+          ? '0x${baseFeePerGas!.toRadixString(16)}'
+          : null,
+      'difficulty': '0x${difficulty.toRadixString(16)}',
+      'extraData': extraData,
+      'gasLimit': '0x${gasLimit.toRadixString(16)}',
+      'gasUsed': '0x${gasUsed.toRadixString(16)}',
+      'hash': hash,
+      'logsBloom': logsBloom,
+      'miner': miner,
+      'mixHash': mixHash,
+      'nonce': nonce != null ? '0x${nonce!.toRadixString(16)}' : null,
+      'number': '0x${number.toRadixString(16)}',
+      'parentHash': parentHash,
+      'receiptsRoot': receiptsRoot,
+      'sha3Uncles': sha3Uncles,
+      'size': '0x${size.toRadixString(16)}',
+      'stateRoot': stateRoot,
+      'timestamp': timestamp,
+      'totalDifficulty': totalDifficulty,
+      'transactionsRoot': transactionsRoot,
+      'uncles': uncles,
+      'withdrawals': withdrawals.map((w) => w.toJson()).toList(),
+      'withdrawalsRoot': withdrawalsRoot,
+    }.notNullValue;
+  }
+
   @override
   String toString() {
     return '''
-      BlockDetails {
-        baseFeePerGas: $baseFeePerGas,
-        difficulty: $difficulty,
-        extraData: $extraData,
-        gasLimit: $gasLimit,
-        gasUsed: $gasUsed,
-        hash: $hash,
-        logsBloom: $logsBloom,
-        miner: $miner,
-        mixHash: $mixHash,
-        nonce: $nonce,
-        number: $number,
-        parentHash: $parentHash,
-        receiptsRoot: $receiptsRoot,
-        sha3Uncles: $sha3Uncles,
-        size: $size,
-        stateRoot: $stateRoot,
-        timestamp: $timestamp,
-        totalDifficulty: $totalDifficulty,
-        transactionsRoot: $transactionsRoot,
-        uncles: $uncles,
-        withdrawals: $withdrawals,
-        withdrawalsRoot: $withdrawalsRoot,
-      }
+      BlockDetails${toJson()}
     ''';
   }
 }

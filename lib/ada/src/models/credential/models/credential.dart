@@ -1,13 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential_type.dart';
 import 'package:on_chain/ada/src/models/utils/utils.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/credential/models/key.dart';
 import 'package:on_chain/ada/src/models/credential/models/script.dart';
 import 'package:on_chain/ada/src/models/constants/constant.dart';
 
 /// Represents a stake credential.
-abstract class Credential with ADASerialization {
+abstract class Credential with InternalCborSerialization {
   final List<int> data;
 
   /// Constructs a [Credential] instance with the specified [hashBytes].

@@ -2,14 +2,14 @@ import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/era/shelly/ada_reward_address.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/core/relay.dart';
 import 'package:on_chain/ada/src/models/protocol/models/unit_interval.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/pool_meta_data.dart';
 
 /// Represents pool parameters with serialization support.
-class PoolParams with ADASerialization {
+class PoolParams with InternalCborSerialization {
   /// The operator of the pool.
   final Ed25519KeyHash operator;
 

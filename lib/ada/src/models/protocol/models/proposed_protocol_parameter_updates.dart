@@ -1,10 +1,10 @@
 import 'package:blockchain_utils/cbor/core/cbor.dart';
 import 'package:blockchain_utils/cbor/types/types.dart';
-import 'package:on_chain/ada/src/serialization/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/protocol/models/protocol_param_update.dart';
 
-class ProposedProtocolParameterUpdates with ADASerialization {
+class ProposedProtocolParameterUpdates with InternalCborSerialization {
   final Map<GenesisHash, ProtocolParamUpdate> parameters;
 
   ProposedProtocolParameterUpdates(

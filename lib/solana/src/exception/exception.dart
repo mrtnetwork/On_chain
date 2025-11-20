@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:on_chain/exception/exception.dart';
 
-class SolanaPluginException extends BlockchainUtilsException {
+class SolanaPluginException extends OnChainPluginException {
   const SolanaPluginException(super.message, {super.details});
 }

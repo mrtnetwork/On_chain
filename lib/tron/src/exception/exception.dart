@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:on_chain/exception/exception.dart';
 
-class TronPluginException extends BlockchainUtilsException {
+class TronPluginException extends OnChainPluginException {
   const TronPluginException(super.message, {super.details});
 }

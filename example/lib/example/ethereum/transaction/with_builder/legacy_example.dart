@@ -41,7 +41,7 @@ void main() async {
       to: receiverAddress,
 
       /// memo
-      memo: "https://github.com/mrtnetwork",
+      data: StringUtils.toBytes("https://github.com/mrtnetwork"),
 
       /// value /// 0.0000001 MATIC
       value: ETHHelper.toWei("0.0000001"),
@@ -59,7 +59,7 @@ void main() async {
   final _ = tr.transactionID;
 
   /// Send and submit the transaction to the Ethereum network
-  await tr.sendAndSubmitTransaction(rpc);
+  await tr.submitAndWatchTransactionAsync(rpc);
 
   /// https://mumbai.polygonscan.com/tx/0x47258e8676e4903f46c51afaf4cc259e0ca309417d76c476bc488f391fed7480
 }

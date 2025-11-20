@@ -3,7 +3,7 @@ import 'package:blockchain_utils/utils/numbers/rational/big_rational.dart';
 import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
-import 'package:on_chain/bcs/move/types/types.dart';
+import 'package:on_chain/serialization/bcs/move/types/types.dart';
 
 /// A utility class that provides helper functions for working with Aptos-related operations.
 class AptosHelper {

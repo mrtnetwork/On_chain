@@ -4,7 +4,7 @@ import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/helper/helper.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
-import 'package:on_chain/bcs/move/types/types.dart';
+import 'package:on_chain/serialization/bcs/move/types/types.dart';
 
 import 'provider.dart';
 

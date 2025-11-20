@@ -1,7 +1,7 @@
 part of 'package:on_chain/solidity/abi/abi.dart';
 
 /// ABICoder implementation for encoding and decoding function signatures (bytes).
-class FunctionCoder implements ABICoder<List<int>> {
+class FunctionCoder implements ABICoder<List<int>, List<int>> {
   /// Creates an instance of the FunctionCoder class.
   const FunctionCoder();
 
@@ -22,9 +22,7 @@ class FunctionCoder implements ABICoder<List<int>> {
   /// Legacy EIP-712 encoding for function signatures (bytes).
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
-  EncoderResult legacyEip712Encode(
-      AbiParameter params, List<int> input, bool keepSize) {
-    return const BytesCoder()
-        .legacyEip712Encode(AbiParameter.function, input, keepSize);
+  EncoderResult encodePacked(AbiParameter params, List<int> input) {
+    return const BytesCoder().encodePacked(AbiParameter.function, input);
   }
 }

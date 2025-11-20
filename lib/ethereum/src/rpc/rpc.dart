@@ -8,3 +8,5 @@ export 'methds/methods.dart';
 
 /// Exports providers for Ethereum-related functionality.
 export 'provider/provider.dart';
+
+export 'types/zks.dart';

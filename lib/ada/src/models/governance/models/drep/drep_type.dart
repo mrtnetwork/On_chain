@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
-import 'package:on_chain/ada/src/serialization/cbor/cbor_serialization.dart';
+import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
 /// Represents a drep type.
-class DRepType with ADASerialization {
+class DRepType with InternalCborSerialization {
   /// The name of the drep type.
   final String name;
 

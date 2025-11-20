@@ -6,7 +6,7 @@ import 'package:on_chain/sui/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/sui/src/keypair/keys/secp256k1.dart';
 import 'package:on_chain/sui/src/keypair/keys/secp256r1.dart';
 import 'package:on_chain/sui/src/keypair/types/types.dart';
-import 'package:on_chain/bcs/serialization/serialization.dart';
+import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 import 'package:on_chain/sui/src/keypair/utils/utils.dart';
 
 /// Abstract class defining a contract for authentication key schemes
