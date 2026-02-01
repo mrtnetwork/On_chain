@@ -10,7 +10,7 @@ class _Utils {
   ], property: 'extraAccountMetaList');
 }
 
-class ExtraAccountMetaAccountData extends LayoutSerializable {
+class ExtraAccountMetaAccountData extends BorshLayoutSerializable {
   ExtraAccountMetaAccountData({
     required this.instructionDiscriminator,
     required this.length,
@@ -20,8 +20,8 @@ class ExtraAccountMetaAccountData extends LayoutSerializable {
   final int length;
   final ExtraAccountMetaList extraAccountMetaList;
   factory ExtraAccountMetaAccountData.fromBuffer(List<int> accountBytes) {
-    final decode =
-        LayoutSerializable.decode(bytes: accountBytes, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+        bytes: accountBytes, layout: _Utils.layout);
     return ExtraAccountMetaAccountData(
         instructionDiscriminator: decode['instructionDiscriminator'],
         length: decode['length'],

@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class RuleSetToggle extends LayoutSerializable {
+class RuleSetToggle extends BorshLayoutSerializable {
   const RuleSetToggle._(this.name, this.value, this.fileds);
   final String name;
   final int value;

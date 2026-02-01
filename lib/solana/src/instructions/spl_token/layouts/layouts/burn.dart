@@ -14,10 +14,10 @@ class SPLTokenBurnLayout extends SPLTokenProgramLayout {
   });
 
   /// StructLayout structure for SPLTokenBurnLayout.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'amount')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'amount')
+      ]);
 
   /// Constructs an SPLTokenBurnLayout instance from buffer.
   factory SPLTokenBurnLayout.fromBuffer(List<int> bytes) {

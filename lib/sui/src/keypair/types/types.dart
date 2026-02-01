@@ -237,7 +237,7 @@ class SuiMultisigSignature extends SuiBaseSignature {
       {required this.publicKey,
       required List<SuiGenericSignature> signatures,
       required int bitmap})
-      : bitmap = bitmap.asUint16,
+      : bitmap = bitmap.asU16,
         signatures = signatures.immutable,
         super(scheme: SuiSigningScheme.multisig);
 
@@ -264,7 +264,7 @@ class SuiMultisigSignature extends SuiBaseSignature {
       {required SuiMultisigAccountPublicKey publicKey,
       required List<SuiGenericSignature> signatures,
       required int bitmap}) {
-    if (bitmap.isNegative || bitmap > mask16) {
+    if (bitmap.isNegative || bitmap > BinaryOps.mask16) {
       throw DartSuiPluginException("Invalid multisignature bitmap.",
           details: {"bitmap": bitmap});
     }

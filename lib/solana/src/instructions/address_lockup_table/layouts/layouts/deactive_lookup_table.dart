@@ -19,7 +19,7 @@ class AddressLookupDeactiveLookupTableLayout
   }
 
   // StructLayout layout definition.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
 
   @override

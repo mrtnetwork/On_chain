@@ -9,11 +9,11 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
 
   SPLToken2022ToggleCpiGuardLayout({required this.guard});
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(CpiGuardInstructionInstruction.staticLayout,
-        property: 'guard'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(CpiGuardInstructionInstruction.staticLayout,
+            property: 'guard'),
+      ]);
 
   factory SPLToken2022ToggleCpiGuardLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(

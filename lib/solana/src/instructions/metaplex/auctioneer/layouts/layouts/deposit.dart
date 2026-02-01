@@ -22,12 +22,12 @@ class MetaplexAuctioneerDepositLayout extends MetaplexAuctioneerProgramLayout {
         escrowPaymentBump: decode['escrowPaymentBump']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'escrowPaymentBump'),
-    LayoutConst.u8(property: 'auctioneerAuthorityBump'),
-    LayoutConst.u64(property: 'amount'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'escrowPaymentBump'),
+        LayoutConst.u8(property: 'auctioneerAuthorityBump'),
+        LayoutConst.u64(property: 'amount'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

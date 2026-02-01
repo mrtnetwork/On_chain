@@ -62,7 +62,7 @@ void main() async {
   /// Request and set access list for the transaction
   final accessList = await rpc
       .request(EthereumRequestCreateAccessList(transaction: tr.toEstimate()));
-  tr.setAccessList(accessList.item1);
+  tr.setAccessList(accessList.$1);
 
   /// Autofill the transaction details using the RPC service
   await tr.autoFill(rpc);

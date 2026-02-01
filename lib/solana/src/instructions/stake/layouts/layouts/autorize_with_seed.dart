@@ -38,13 +38,13 @@ class StakeAuthorizeWithSeedLayout extends StakeProgramLayout {
         authoritySeed: decode['authoritySeed'],
         authorityOwner: decode['authorityOwner']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('newAuthorized'),
-    LayoutConst.u32(property: 'stakeAuthorizationType'),
-    LayoutConst.rustString(property: 'authoritySeed'),
-    SolanaLayoutUtils.publicKey('authorityOwner')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('newAuthorized'),
+        LayoutConst.u32(property: 'stakeAuthorizationType'),
+        LayoutConst.rustString(property: 'authoritySeed'),
+        SolanaLayoutUtils.publicKey('authorityOwner')
+      ]);
 
   @override
   StructLayout get layout => _layout;

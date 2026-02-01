@@ -29,7 +29,7 @@ class _Utils {
       ]);
 }
 
-class VoteAccount extends LayoutSerializable {
+class VoteAccount extends BorshLayoutSerializable {
   final List<AuthorizedVoter> authorizedVoters;
   final SolAddress authorizedWithdrawer;
   final int commission;
@@ -54,7 +54,7 @@ class VoteAccount extends LayoutSerializable {
       required this.version});
   factory VoteAccount.fromBuffer(List<int> data) {
     final version = LayoutConst.u32().deserialize(data.sublist(0, 4)).value;
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data.sublist(4), layout: _Utils.layout(version));
     return VoteAccount(
         version: version,

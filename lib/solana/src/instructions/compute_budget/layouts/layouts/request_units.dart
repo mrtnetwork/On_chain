@@ -28,11 +28,11 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
     );
   }
   // StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u32(property: 'units'),
-    LayoutConst.u32(property: 'additionalFee'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u32(property: 'units'),
+        LayoutConst.u32(property: 'additionalFee'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

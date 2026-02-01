@@ -6,15 +6,15 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [130, 48, 247, 244, 182, 191, 30, 26];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('admin'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'description'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('admin'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'description'),
+      ]);
 }
 
-class Store extends LayoutSerializable {
+class Store extends BorshLayoutSerializable {
   final SolAddress admin;
   final String name;
   final String description;
@@ -25,7 +25,7 @@ class Store extends LayoutSerializable {
     required this.description,
   });
   factory Store.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

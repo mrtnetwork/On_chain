@@ -11,11 +11,11 @@ class StakeInitializeLayout extends StakeProgramLayout {
   final StakeLockup lockup;
 
   const StakeInitializeLayout._(this.authorized, this.lockup);
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    StakeAuthorized.staticLayout,
-    StakeLockup.staticLayout,
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        StakeAuthorized.staticLayout,
+        StakeLockup.staticLayout,
+      ]);
 
   factory StakeInitializeLayout(
       {required StakeAuthorized authorized, StakeLockup? lockup}) {

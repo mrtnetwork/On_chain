@@ -16,7 +16,7 @@ abstract class FixedBytes
 
   /// Constructs a FixedBytes object from a hexadecimal string and length for validate.
   FixedBytes.fromHex(String hexBytes, int length)
-      : data = AdaTransactionUtils.validateFixeHexByteslength(
+      : data = AdaTransactionUtils.validateFixedHexByteslength(
             hexBytes: hexBytes, length: length);
 
   @override

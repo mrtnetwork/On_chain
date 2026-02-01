@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/utils/binary/binary_operation.dart';
 
 class AptosAccountConst {
-  static const int multiKeyMaxKeys = mask32;
+  static const int multiKeyMaxKeys = BinaryOps.mask32;
   static const int mulitKeyMinRequiredSignature = 1;
   static const int multiKeyMaxRequiredSignature = 32;
 

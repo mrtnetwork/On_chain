@@ -18,11 +18,11 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
   });
 
   /// StructLayout structure for transferring checked tokens in SPL.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'amount'),
-    LayoutConst.u8(property: 'decimals'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'amount'),
+        LayoutConst.u8(property: 'decimals'),
+      ]);
 
   /// Constructs an SPLTokenTransferCheckedLayout instance from buffer.
   factory SPLTokenTransferCheckedLayout.fromBuffer(List<int> bytes) {

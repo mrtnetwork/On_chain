@@ -22,10 +22,10 @@ class MetaplexAuctionHouseUpdateAuctioneerLayout
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.vec(LayoutConst.u8(), property: 'scopes'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.vec(LayoutConst.u8(), property: 'scopes'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

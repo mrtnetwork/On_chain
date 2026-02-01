@@ -15,10 +15,10 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
   });
 
   /// StructLayout structure for initializing a multisignature account.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'numberOfRequiredSignatures')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'numberOfRequiredSignatures')
+      ]);
 
   /// Constructs an SPLTokenInitializeMultisigLayout instance from buffer.
   factory SPLTokenInitializeMultisigLayout.fromBuffer(List<int> bytes) {

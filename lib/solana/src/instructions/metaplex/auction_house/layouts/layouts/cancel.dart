@@ -19,11 +19,11 @@ class MetaplexAuctionHouseCancelLayout
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u64(property: 'buyerPrice'),
-    LayoutConst.u64(property: 'tokenSize'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u64(property: 'buyerPrice'),
+        LayoutConst.u64(property: 'tokenSize'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

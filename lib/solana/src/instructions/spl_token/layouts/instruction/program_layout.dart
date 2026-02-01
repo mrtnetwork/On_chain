@@ -57,7 +57,7 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
   const SPLTokenProgramLayout();
   @override
   SPLTokenProgramInstruction get instruction;
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     try {

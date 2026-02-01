@@ -11,7 +11,7 @@ abstract class SPLTokenMetaDataProgramLayout extends ProgramLayout {
   abstract final SPLTokenMetaDataProgramSplDiscriminate instruction;
 
   const SPLTokenMetaDataProgramLayout();
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =

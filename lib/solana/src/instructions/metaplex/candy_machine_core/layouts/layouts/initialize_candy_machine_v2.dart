@@ -21,12 +21,12 @@ class MetaplexCandyMachineInitializeCandyMachineV2Layout
         data: CandyMachineData.fromJson(decode['candyMachineData']),
         tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']));
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    CandyMachineData.staticLayout,
-    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-        property: 'tokenStandard')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        CandyMachineData.staticLayout,
+        LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
+            property: 'tokenStandard')
+      ]);
 
   @override
   StructLayout get layout => _layout;

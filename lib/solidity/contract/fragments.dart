@@ -617,8 +617,8 @@ enum StateMutability {
   static StateMutability fromName(String? name) {
     return StateMutability.values.firstWhere(
       (e) => e.name == name?.toLowerCase(),
-      orElse: () => throw MessageException('unsupported mutability',
-          details: {'type': name}),
+      orElse: () =>
+          throw ItemNotFoundException(value: name, details: {'type': name}),
     );
   }
 
@@ -658,7 +658,7 @@ enum FragmentTypes {
       return FragmentTypes.values
           .firstWhere((e) => e.name == name?.toLowerCase());
     } catch (e) {
-      throw MessageException('unsupported fragment', details: {'type': name});
+      throw ItemNotFoundException(value: name, details: {'type': name});
     }
   }
 

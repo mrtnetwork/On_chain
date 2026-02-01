@@ -7,21 +7,21 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 import 'token_account.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.boolean32(property: 'mintAuthorityOption'),
-    SolanaLayoutUtils.publicKey('mintAuthority'),
-    LayoutConst.u64(property: 'supply'),
-    LayoutConst.u8(property: 'decimals'),
-    LayoutConst.boolean(property: 'isInitialized'),
-    LayoutConst.boolean32(property: 'freezeAuthorityOption'),
-    SolanaLayoutUtils.publicKey('freezeAuthority'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.boolean32(property: 'mintAuthorityOption'),
+        SolanaLayoutUtils.publicKey('mintAuthority'),
+        LayoutConst.u64(property: 'supply'),
+        LayoutConst.u8(property: 'decimals'),
+        LayoutConst.boolean(property: 'isInitialized'),
+        LayoutConst.boolean32(property: 'freezeAuthorityOption'),
+        SolanaLayoutUtils.publicKey('freezeAuthority'),
+      ]);
 
   static int get mintSize => layout.span;
 }
 
 /// Mint data.
-class SolanaMintAccount extends LayoutSerializable {
+class SolanaMintAccount extends BorshLayoutSerializable {
   static int get size => _Utils.mintSize;
   final SolAddress address;
 
@@ -59,7 +59,7 @@ class SolanaMintAccount extends LayoutSerializable {
     }
 
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     final bool mintAuthorityOption = decode['mintAuthorityOption'];
     final bool freezeAuthorityOption = decode['freezeAuthorityOption'];
     if (data.length > _Utils.mintSize) {

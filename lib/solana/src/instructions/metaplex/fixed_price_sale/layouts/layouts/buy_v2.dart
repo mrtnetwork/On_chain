@@ -24,12 +24,12 @@ class MetaplexFixedPriceSaleBuyV2Layout
         editionMarkerNumber: decode['editionMarkerNumber']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'tradeHistoryBump'),
-    LayoutConst.u8(property: 'vaultOwnerBump'),
-    LayoutConst.u64(property: 'editionMarkerNumber'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'tradeHistoryBump'),
+        LayoutConst.u8(property: 'vaultOwnerBump'),
+        LayoutConst.u64(property: 'editionMarkerNumber'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class TransferFee extends LayoutSerializable {
+class TransferFee extends BorshLayoutSerializable {
   final BigInt epoch;
   final BigInt maximumFee;
   final int transferFeeBasisPoints;
@@ -16,11 +16,11 @@ class TransferFee extends LayoutSerializable {
         transferFeeBasisPoints: json['transferFeeBasisPoints']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'epoch'),
-    LayoutConst.u64(property: 'maximumFee'),
-    LayoutConst.u16(property: 'transferFeeBasisPoints')
-  ], property: 'transferFee');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'epoch'),
+        LayoutConst.u64(property: 'maximumFee'),
+        LayoutConst.u16(property: 'transferFeeBasisPoints')
+      ], property: 'transferFee');
 
   @override
   StructLayout get layout => staticLayout;

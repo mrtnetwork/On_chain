@@ -6,15 +6,15 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [191, 204, 149, 234, 213, 165, 13, 65];
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    LeafSchemaV1.staticLayout,
-    LayoutConst.u32(property: 'index'),
-    SolanaLayoutUtils.publicKey('merkleTree'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        LeafSchemaV1.staticLayout,
+        LayoutConst.u32(property: 'index'),
+        SolanaLayoutUtils.publicKey('merkleTree'),
+      ]);
 }
 
-class Voucher extends LayoutSerializable {
+class Voucher extends BorshLayoutSerializable {
   final LeafSchemaV1 leafSchema;
   final int index;
   final SolAddress merkleTree;
@@ -23,7 +23,7 @@ class Voucher extends LayoutSerializable {
       required this.index,
       required this.merkleTree});
   factory Voucher.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

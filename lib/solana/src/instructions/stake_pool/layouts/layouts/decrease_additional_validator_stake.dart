@@ -31,12 +31,12 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
       transientStakeSeed: decode['transientStakeSeed'],
     );
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.ns64(property: 'lamports'),
-    LayoutConst.ns64(property: 'transientStakeSeed'),
-    LayoutConst.ns64(property: 'ephemeralStakeSeed')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.ns64(property: 'lamports'),
+        LayoutConst.ns64(property: 'transientStakeSeed'),
+        LayoutConst.ns64(property: 'ephemeralStakeSeed')
+      ]);
 
   @override
   StakePoolProgramInstruction get instruction =>

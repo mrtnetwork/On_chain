@@ -6,16 +6,16 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [22, 183, 249, 157, 247, 95, 150, 96];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    LayoutConst.boolean(property: 'isClaimed'),
-    SolanaLayoutUtils.publicKey('claimant'),
-    LayoutConst.i64(property: 'claimedAt'),
-    LayoutConst.u64(property: 'amount'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        LayoutConst.boolean(property: 'isClaimed'),
+        SolanaLayoutUtils.publicKey('claimant'),
+        LayoutConst.i64(property: 'claimedAt'),
+        LayoutConst.u64(property: 'amount'),
+      ]);
 }
 
-class ClaimStatus extends LayoutSerializable {
+class ClaimStatus extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final bool isClaimed;
   final SolAddress claimant;
@@ -27,7 +27,7 @@ class ClaimStatus extends LayoutSerializable {
       required this.claimedAt,
       required this.amount});
   factory ClaimStatus.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

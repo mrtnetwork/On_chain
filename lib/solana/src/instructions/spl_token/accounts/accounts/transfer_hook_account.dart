@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static final StructLayout layout =
+  static StructLayout get layout =>
       LayoutConst.struct([LayoutConst.boolean(property: 'transferring')]);
 
   static int get accountSize => layout.span;
@@ -15,7 +15,8 @@ class _Utils {
         throw SolanaPluginException('Account data length is insufficient.',
             details: {'Expected': accountSize, 'length': extensionData.length});
       }
-      return LayoutSerializable.decode(bytes: extensionData, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionData, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -27,7 +28,8 @@ class _Utils {
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
               accountBytes: accountBytes,
               extensionType: ExtensionType.transferHookAccount);
-      return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionBytes, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -36,7 +38,9 @@ class _Utils {
 
 /// Indicates that the tokens from this account belong to a mint with a transfer
 /// hook
-class TransferHookAccount extends LayoutSerializable {
+class TransferHookAccount extends BorshLayoutSerializable {
+  static int get size => _Utils.accountSize;
+
   /// Flag to indicate that the account is in the middle of a transfer
   final bool transferring;
   const TransferHookAccount({required this.transferring});

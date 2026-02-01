@@ -94,7 +94,7 @@ class Ed25519ProgramLayout extends ProgramLayout {
         'length': signature.length
       });
     }
-    final int index = instructionIndex ?? mask16;
+    final int index = instructionIndex ?? BinaryOps.mask16;
     final publicKeyOffset = _layout.span;
     final signatureOffset = publicKeyOffset + publicKey.toBytes(false).length;
     final messageDataOffset = signatureOffset + signature.length;
@@ -145,17 +145,17 @@ class Ed25519ProgramLayout extends ProgramLayout {
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'numSignatures'),
-    LayoutConst.u8(property: 'padding'),
-    LayoutConst.u16(property: 'signatureOffset'),
-    LayoutConst.u16(property: 'signatureInstructionIndex'),
-    LayoutConst.u16(property: 'publicKeyOffset'),
-    LayoutConst.u16(property: 'publicKeyInstructionIndex'),
-    LayoutConst.u16(property: 'messageDataOffset'),
-    LayoutConst.u16(property: 'messageDataSize'),
-    LayoutConst.u16(property: 'messageInstructionIndex'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'numSignatures'),
+        LayoutConst.u8(property: 'padding'),
+        LayoutConst.u16(property: 'signatureOffset'),
+        LayoutConst.u16(property: 'signatureInstructionIndex'),
+        LayoutConst.u16(property: 'publicKeyOffset'),
+        LayoutConst.u16(property: 'publicKeyInstructionIndex'),
+        LayoutConst.u16(property: 'messageDataOffset'),
+        LayoutConst.u16(property: 'messageDataSize'),
+        LayoutConst.u16(property: 'messageInstructionIndex'),
+      ]);
   @override
   StructLayout get layout => _layout;
 

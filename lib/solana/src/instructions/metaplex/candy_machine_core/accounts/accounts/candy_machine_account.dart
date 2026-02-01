@@ -7,22 +7,22 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [51, 173, 177, 113, 25, 241, 109, 189];
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    LayoutConst.wrap(CandyMachineAccountVersion.staticLayout,
-        property: 'version'),
-    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-        property: 'tokenStandard'),
-    LayoutConst.blob(6, property: 'features'),
-    SolanaLayoutUtils.publicKey('authority'),
-    SolanaLayoutUtils.publicKey('mintAuthority'),
-    SolanaLayoutUtils.publicKey('collectionMint'),
-    LayoutConst.u64(property: 'itemsRedeemed'),
-    CandyMachineData.staticLayout
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        LayoutConst.wrap(CandyMachineAccountVersion.staticLayout,
+            property: 'version'),
+        LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
+            property: 'tokenStandard'),
+        LayoutConst.blob(6, property: 'features'),
+        SolanaLayoutUtils.publicKey('authority'),
+        SolanaLayoutUtils.publicKey('mintAuthority'),
+        SolanaLayoutUtils.publicKey('collectionMint'),
+        LayoutConst.u64(property: 'itemsRedeemed'),
+        CandyMachineData.staticLayout
+      ]);
 }
 
-class CandyMachineAccount extends LayoutSerializable {
+class CandyMachineAccount extends BorshLayoutSerializable {
   final CandyMachineAccountVersion version;
   final MetaDataTokenStandard tokenStandard;
   final List<int> features;
@@ -41,7 +41,7 @@ class CandyMachineAccount extends LayoutSerializable {
       required this.itemsRedeemed,
       required this.data});
   factory CandyMachineAccount.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

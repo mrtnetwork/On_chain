@@ -16,10 +16,10 @@ class MetaplexFixedPriceSaleClaimResourceLayout
         vaultOwnerBump: decode['vaultOwnerBump']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'vaultOwnerBump'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'vaultOwnerBump'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

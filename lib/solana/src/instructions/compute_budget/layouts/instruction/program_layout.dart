@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class ComputeBudgetProgramLayout extends ProgramLayout {
   const ComputeBudgetProgramLayout();
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =

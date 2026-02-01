@@ -22,10 +22,10 @@ class ComputeBudgetSetComputeUnitPriceLayout
         microLamports: decode['microLamports']);
   }
   // StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'microLamports'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'microLamports'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

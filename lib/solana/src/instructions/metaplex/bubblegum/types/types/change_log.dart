@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class ChangeLog extends LayoutSerializable {
+class ChangeLog extends BorshLayoutSerializable {
   final SolAddress root;
   final List<SolAddress> pathNodes;
   final BigInt index;

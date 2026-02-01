@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/typ
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class Group extends LayoutSerializable {
+class Group extends BorshLayoutSerializable {
   final String label;
   final GuardSet guards;
 
@@ -11,10 +11,10 @@ class Group extends LayoutSerializable {
     return Group(label: json['label'], guards: json['guards']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: 'label'),
-    GuardSet.staticLayout,
-  ], property: 'group');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.string(property: 'label'),
+        GuardSet.staticLayout,
+      ], property: 'group');
 
   @override
   StructLayout get layout => staticLayout;

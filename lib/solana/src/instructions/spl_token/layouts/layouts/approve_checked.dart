@@ -18,11 +18,11 @@ class SPLTokenApproveCheckedLayout extends SPLTokenProgramLayout {
   });
 
   /// StructLayout structure for SPLTokenApproveCheckedLayout.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'amount'),
-    LayoutConst.u8(property: 'decimals')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'amount'),
+        LayoutConst.u8(property: 'decimals')
+      ]);
 
   /// Constructs an SPLTokenApproveCheckedLayout instance from buffer.
   factory SPLTokenApproveCheckedLayout.fromBuffer(List<int> bytes) {

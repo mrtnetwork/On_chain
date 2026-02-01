@@ -5,13 +5,13 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('twitterRegistryKey'),
-    LayoutConst.string(property: 'twitterHandle'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('twitterRegistryKey'),
+        LayoutConst.string(property: 'twitterHandle'),
+      ]);
 }
 
-class ReverseTwitterRegistryAccount extends LayoutSerializable {
+class ReverseTwitterRegistryAccount extends BorshLayoutSerializable {
   final SolAddress twitterRegistryKey;
   final String twitterHandle;
 
@@ -19,14 +19,14 @@ class ReverseTwitterRegistryAccount extends LayoutSerializable {
       {required this.twitterRegistryKey, required this.twitterHandle});
   factory ReverseTwitterRegistryAccount.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return ReverseTwitterRegistryAccount(
         twitterRegistryKey: decode['twitterRegistryKey'],
         twitterHandle: decode['twitterHandle']);
   }
   factory ReverseTwitterRegistryAccount.fromAccountBytes(
       List<int> accountBytes) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: accountBytes.sublist(NameRegistryAccountUtils.hiddenDataOffset),
         layout: _Utils.layout);
     return ReverseTwitterRegistryAccount(

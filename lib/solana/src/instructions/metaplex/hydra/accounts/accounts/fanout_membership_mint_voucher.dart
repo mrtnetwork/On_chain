@@ -15,16 +15,16 @@ class _Utils {
     181
   ];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('fanout'),
-    SolanaLayoutUtils.publicKey('fanoutMint'),
-    LayoutConst.u64(property: 'lastInflow'),
-    LayoutConst.u8(property: 'bumpSeed')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('fanout'),
+        SolanaLayoutUtils.publicKey('fanoutMint'),
+        LayoutConst.u64(property: 'lastInflow'),
+        LayoutConst.u8(property: 'bumpSeed')
+      ]);
 }
 
-class FanoutMembershipMintVoucher extends LayoutSerializable {
+class FanoutMembershipMintVoucher extends BorshLayoutSerializable {
   final SolAddress fanout;
   final SolAddress fanoutMint;
   final BigInt lastInflow;
@@ -36,7 +36,7 @@ class FanoutMembershipMintVoucher extends LayoutSerializable {
       required this.lastInflow,
       required this.bumpSeed});
   factory FanoutMembershipMintVoucher.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

@@ -37,12 +37,12 @@ class SPLTokenSwapWithdrawLayout extends SPLTokenSwapProgramLayout {
   }
 
   /// The layout structure for withdrawing tokens.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'poolTokenAmount'),
-    LayoutConst.u64(property: 'minimumTokenA'),
-    LayoutConst.u64(property: 'minimumTokenB'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'poolTokenAmount'),
+        LayoutConst.u64(property: 'minimumTokenA'),
+        LayoutConst.u64(property: 'minimumTokenB'),
+      ]);
   @override
   StructLayout get layout => _layout;
 

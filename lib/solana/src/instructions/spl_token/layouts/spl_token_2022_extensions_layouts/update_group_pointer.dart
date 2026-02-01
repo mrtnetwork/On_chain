@@ -21,12 +21,12 @@ class SPLToken2022UpdateGroupPointerLayout extends SPLTokenProgramLayout {
             ? null
             : decode['groupAddress']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(GroupPointerInstruction.staticLayout,
-        property: 'groupPointer'),
-    SolanaLayoutUtils.publicKey('groupAddress'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(GroupPointerInstruction.staticLayout,
+            property: 'groupPointer'),
+        SolanaLayoutUtils.publicKey('groupAddress'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

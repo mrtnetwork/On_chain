@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class GroupPointerInstruction extends LayoutSerializable {
+class GroupPointerInstruction extends BorshLayoutSerializable {
   const GroupPointerInstruction._(this.name);
   final String name;
   static const GroupPointerInstruction initialize =

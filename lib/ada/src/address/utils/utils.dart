@@ -20,8 +20,14 @@ class AdaAddressUtils {
   /// Returns a [AdaGenericAddrDecoderResult] object containing the decoded address.
   static AdaGenericAddrDecoderResult decodeAddres(String address,
       {ADAAddressType? addrType, ADANetwork? network}) {
-    final decodeAddr =
-        AdaGenericAddrDecoder().decode(address, {'net_tag': network});
+    final decodeAddr = AdaGenericAddrDecoder().decode(address);
+    if (network != null && decodeAddr.network != network) {
+      throw ADAPluginException('Incorrect address network. ', details: {
+        'expected': network.name,
+        'network': decodeAddr.network.name
+      });
+    }
+
     if (addrType != null) {
       if (decodeAddr.type.header != addrType.header) {
         throw ADAPluginException('Incorrect address type. ',
@@ -57,8 +63,11 @@ class AdaAddressUtils {
     ADANetwork? network,
     bool keepPrefix = true,
   }) {
-    final decode =
-        AdaGenericAddrDecoder().decode(address, {'net_tag': network});
+    final decode = AdaGenericAddrDecoder().decode(address);
+    if (network != null && decode.network != network) {
+      throw ADAPluginException('Incorrect address network. ',
+          details: {'expected': network.name, 'network': decode.network.name});
+    }
     if (decode.type == ADAAddressType.byron) {
       throw ADAPluginException('Invalid shelly address.',
           details: {'address': address, 'type': decode.type});

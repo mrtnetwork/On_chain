@@ -29,13 +29,13 @@ class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
           : decode['groupAddress'],
     );
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(GroupPointerInstruction.staticLayout,
-        property: 'groupPointer'),
-    SolanaLayoutUtils.publicKey('authority'),
-    SolanaLayoutUtils.publicKey('groupAddress'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(GroupPointerInstruction.staticLayout,
+            property: 'groupPointer'),
+        SolanaLayoutUtils.publicKey('authority'),
+        SolanaLayoutUtils.publicKey('groupAddress'),
+      ]);
 
   /// Returns the layout structure.
   @override

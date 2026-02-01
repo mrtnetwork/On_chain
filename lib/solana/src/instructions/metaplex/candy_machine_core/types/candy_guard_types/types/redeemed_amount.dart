@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class RedeemedAmount extends LayoutSerializable {
+class RedeemedAmount extends BorshLayoutSerializable {
   final BigInt maximum;
 
   const RedeemedAmount({required this.maximum});
@@ -9,9 +9,9 @@ class RedeemedAmount extends LayoutSerializable {
     return RedeemedAmount(maximum: json['maximum']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct(
-      [LayoutConst.u64(property: 'maximum')],
-      property: 'redeemedAmount');
+  static StructLayout get staticLayout =>
+      LayoutConst.struct([LayoutConst.u64(property: 'maximum')],
+          property: 'redeemedAmount');
 
   @override
   StructLayout get layout => staticLayout;

@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class PriorVoters extends LayoutSerializable {
+class PriorVoters extends BorshLayoutSerializable {
   final List<PriorVoter> voters;
   final BigInt id;
   final bool isEmpty;
@@ -17,11 +17,11 @@ class PriorVoters extends LayoutSerializable {
             .toList());
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.array(PriorVoter.staticLayout, 32, property: 'voters'),
-    LayoutConst.u64(property: 'id'),
-    LayoutConst.boolean(property: 'isEmpty'),
-  ], property: 'priorVoters');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.array(PriorVoter.staticLayout, 32, property: 'voters'),
+        LayoutConst.u64(property: 'id'),
+        LayoutConst.boolean(property: 'isEmpty'),
+      ], property: 'priorVoters');
   @override
   StructLayout get layout => staticLayout;
 

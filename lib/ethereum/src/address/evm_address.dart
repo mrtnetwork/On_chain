@@ -37,7 +37,7 @@ class ETHAddress extends SolidityAddress {
   /// Optionally, [skipChecksum] can be set to true to skip the address checksum validation.
   factory ETHAddress(String address, {bool skipChecksum = true}) {
     try {
-      EthAddrDecoder().decodeAddr(address, {'skip_chksum_enc': skipChecksum});
+      EthAddrDecoder().decodeAddr(address, skipChecksum: skipChecksum);
       return ETHAddress._(EthAddrUtils.toChecksumAddress(address));
     } catch (e) {
       throw ETHPluginException('invalid ethereum address',

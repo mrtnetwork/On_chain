@@ -10,11 +10,8 @@ class EIP712Utils {
   /// Key name for the EIP-712 domain.
   static const String domainKeyName = 'EIP712Domain';
 
-  /// Regular expression for extracting the base type from a type string.
-  static final RegExp typeRegex = RegExp(r'^\w+');
-
   /// Regular expression for detecting array types and extracting the child type and size.
-  static final RegExp arrayRegex = RegExp(r'^(.*)\[([0-9]*?)]$');
+  static RegExp get arrayRegex => RegExp(r'^(.*)\[([0-9]*?)]$');
 
   /// Type name for bytes32.
   static const String bytes32TypeName = 'bytes32';
@@ -154,8 +151,8 @@ class EIP712Utils {
 
       final dynamic value = data[field.name];
       final encodedValue = encodeValue(fields, field.type, value, version);
-      typesName.add(encodedValue.item1);
-      inputBytes.add(encodedValue.item2);
+      typesName.add(encodedValue.$1);
+      inputBytes.add(encodedValue.$2);
     }
 
     return abiEncode(typesName, inputBytes);
@@ -166,6 +163,7 @@ class EIP712Utils {
   static List<String> _getDependencies(
       Map<String, List<Eip712TypeDetails>> types, String type,
       [List<String> dependencies = const []]) {
+    final RegExp typeRegex = RegExp(r'^\w+');
     final RegExpMatch? match = typeRegex.firstMatch(type);
     final String actualType = match != null ? match.group(0)! : type;
 
@@ -192,22 +190,22 @@ class EIP712Utils {
   /// Extracts array type information from a given type name using a regular expression.
   /// The type name is expected to follow the pattern `typeName[length]` where `length` is an optional integer.
   /// Returns a Tuple containing the array type and its length, or null if the type name does not match the pattern.
-  static Tuple<String, int>? _extractArrayType(String typeName) {
+  static (String, int)? _extractArrayType(String typeName) {
     final RegExpMatch? match = arrayRegex.firstMatch(typeName);
     if (match == null) return null;
     final String arrayType = match.group(1)!;
     String? arrLength = match.group(2);
     if (arrLength == null || arrLength.isEmpty) {
-      return Tuple(arrayType, 0);
+      return (arrayType, 0);
     }
     final int length = int.parse(arrLength);
-    return Tuple(arrayType, length);
+    return (arrayType, length);
   }
 
   /// Encodes a value according to its type in the context of EIP-712 structured data.
   /// The method handles array types, struct types, strings, and bytes.
   /// Returns a Tuple containing the encoded type and data.
-  static Tuple<String, dynamic> encodeValue(
+  static (String, dynamic) encodeValue(
       Map<String, List<Eip712TypeDetails>> types,
       String type,
       dynamic data,
@@ -220,36 +218,36 @@ class EIP712Utils {
               details: {'input': data});
         }
 
-        if (isArray.item2 > 0 && data.length != isArray.item2) {
+        if (isArray.$2 > 0 && data.length != isArray.$2) {
           throw SolidityAbiException(
-            'Invalid array length: expected ${isArray.item2}, but got ${data.length}',
+            'Invalid array length: expected ${isArray.$2}, but got ${data.length}',
             details: {'input': data},
           );
         }
 
         final encodedData = data
-            .map((item) => encodeValue(types, isArray.item1, item, version))
+            .map((item) => encodeValue(types, isArray.$1, item, version))
             .toList();
         final List<String> typesName =
-            encodedData.map((item) => item.item1).toList();
+            encodedData.map((item) => item.$1).toList();
         final List<dynamic> values =
-            encodedData.map((item) => item.item2).toList();
-        return Tuple(
-            bytes32TypeName,
-            QuickCrypto.keccack256Hash(
-                EIP712Utils.abiEncode(typesName, values)));
+            encodedData.map((item) => item.$2).toList();
+        return (
+          bytes32TypeName,
+          QuickCrypto.keccack256Hash(EIP712Utils.abiEncode(typesName, values))
+        );
       }
 
       if (types[type] != null) {
-        return Tuple(bytes32TypeName, structHash(types, type, data, version));
+        return (bytes32TypeName, structHash(types, type, data, version));
       }
       if (type == 'string' || type == 'bytes') {
         final List<int> bytesData = JsonParser.valueAsBytes(data,
             encoding: type == 'string' ? StringEncoding.utf8 : null,
             allowHex: type == 'bytes');
-        return Tuple(bytes32TypeName, QuickCrypto.keccack256Hash(bytesData));
+        return (bytes32TypeName, QuickCrypto.keccack256Hash(bytesData));
       }
-      return Tuple(type, data);
+      return (type, data);
     } catch (e) {
       throw SolidityAbiException(
         "Failed to encode value.",

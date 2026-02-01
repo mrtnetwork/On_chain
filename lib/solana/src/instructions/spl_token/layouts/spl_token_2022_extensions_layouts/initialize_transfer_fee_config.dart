@@ -25,14 +25,14 @@ class SPLToken2022InitializeTransferFeeConfigLayout
       required this.transferFeeBasisPoints,
       required this.maximumFee});
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'transferFee'),
-    SolanaLayoutUtils.cOptionPubkey(property: 'transferFeeConfigAuthority'),
-    SolanaLayoutUtils.cOptionPubkey(property: 'withdrawWithheldAuthority'),
-    LayoutConst.u16(property: 'transferFeeBasisPoints'),
-    LayoutConst.u64(property: 'maximumFee')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'transferFee'),
+        SolanaLayoutUtils.cOptionPubkey(property: 'transferFeeConfigAuthority'),
+        SolanaLayoutUtils.cOptionPubkey(property: 'withdrawWithheldAuthority'),
+        LayoutConst.u16(property: 'transferFeeBasisPoints'),
+        LayoutConst.u64(property: 'maximumFee')
+      ]);
 
   factory SPLToken2022InitializeTransferFeeConfigLayout.fromBuffer(
       List<int> bytes) {

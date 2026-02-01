@@ -17,10 +17,10 @@ class MetaplexTokenMetaDataSetCollectionSizeLayout
     return MetaplexTokenMetaDataSetCollectionSizeLayout(size: decode['size']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'size')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'size')
+      ]);
 
   @override
   StructLayout get layout => _layout;

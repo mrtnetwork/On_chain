@@ -21,10 +21,10 @@ class ComputeBudgetSetComputeUnitLimitLayout
     return ComputeBudgetSetComputeUnitLimitLayout(units: decode['units']);
   }
   // StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u32(property: 'units'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u32(property: 'units'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

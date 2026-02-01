@@ -35,15 +35,15 @@ class MetaplexAuctionHouseCreateAuctionHouseLayout
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.u8(property: 'feePayerBump'),
-    LayoutConst.u8(property: 'treasuryBump'),
-    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-    LayoutConst.boolean(property: 'requiresSignOff'),
-    LayoutConst.boolean(property: 'canChangeSalePrice'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.u8(property: 'feePayerBump'),
+        LayoutConst.u8(property: 'treasuryBump'),
+        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+        LayoutConst.boolean(property: 'requiresSignOff'),
+        LayoutConst.boolean(property: 'canChangeSalePrice'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

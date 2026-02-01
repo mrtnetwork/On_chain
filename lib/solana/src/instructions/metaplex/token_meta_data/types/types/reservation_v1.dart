@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class ReservationV1 extends LayoutSerializable {
+class ReservationV1 extends BorshLayoutSerializable {
   const ReservationV1(
       {required this.address,
       required this.spotsRemaining,
@@ -18,11 +18,11 @@ class ReservationV1 extends LayoutSerializable {
   final int spotsRemaining;
   final int totalSpots;
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('address'),
-    LayoutConst.u8(property: 'spotsRemaining'),
-    LayoutConst.u8(property: 'totalSpots'),
-  ], property: 'reservationV1');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('address'),
+        LayoutConst.u8(property: 'spotsRemaining'),
+        LayoutConst.u8(property: 'totalSpots'),
+      ], property: 'reservationV1');
 
   @override
   StructLayout get layout => staticLayout;

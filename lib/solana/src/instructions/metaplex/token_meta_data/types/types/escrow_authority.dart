@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class EscrowAuthority extends LayoutSerializable {
+class EscrowAuthority extends BorshLayoutSerializable {
   final String name;
   final dynamic fields;
   const EscrowAuthority._(this.name, this.fields);

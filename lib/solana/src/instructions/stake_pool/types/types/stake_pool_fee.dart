@@ -5,7 +5,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 /// the rewards
 /// If either the numerator or the denominator is 0, the fee is considered to be
 /// 0
-class StakePoolFee extends LayoutSerializable {
+class StakePoolFee extends BorshLayoutSerializable {
   /// denominator of the fee ratio
   final BigInt denominator;
 
@@ -17,10 +17,10 @@ class StakePoolFee extends LayoutSerializable {
         denominator: json['denominator'], numerator: json['numerator']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'denominator'),
-    LayoutConst.u64(property: 'numerator'),
-  ], property: 'fee');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'denominator'),
+        LayoutConst.u64(property: 'numerator'),
+      ], property: 'fee');
 
   @override
   StructLayout get layout => staticLayout;

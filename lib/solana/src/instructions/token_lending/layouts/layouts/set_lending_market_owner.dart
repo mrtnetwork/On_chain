@@ -19,10 +19,10 @@ class TokenLendingSetLendingMarketOwnerLayout
             TokenLendingProgramInstruction.setLendingMarketOwner.insturction);
     return TokenLendingSetLendingMarketOwnerLayout(newOwner: decode['owner']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('newOwner')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('newOwner')
+      ]);
 
   @override
   StructLayout get layout => _layout;

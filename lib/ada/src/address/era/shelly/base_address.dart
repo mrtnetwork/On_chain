@@ -49,10 +49,9 @@ class ADABaseAddress extends ADAShellyAddress {
       required Credential stakeCredential,
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaShelleyAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(baseCredential), {
-      'net_tag': network,
-      'pub_skey': AdaAddressUtils.toAdaStakeCredential(stakeCredential)
-    });
+        AdaAddressUtils.toAdaStakeCredential(baseCredential),
+        network: network,
+        pubSkey: AdaAddressUtils.toAdaStakeCredential(stakeCredential));
     return ADABaseAddress._(
         paymentCredential: baseCredential,
         address: encode,
@@ -70,10 +69,9 @@ class ADABaseAddress extends ADAShellyAddress {
     final stakeCredential =
         AdaAddressUtils.publicKeyToCredential(stakePubkeyBytes);
     final encode = AdaShelleyAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(baseCredential), {
-      'net_tag': network,
-      'pub_skey': AdaAddressUtils.toAdaStakeCredential(stakeCredential)
-    });
+        AdaAddressUtils.toAdaStakeCredential(baseCredential),
+        network: network,
+        pubSkey: AdaAddressUtils.toAdaStakeCredential(stakeCredential));
     return ADABaseAddress._(
         paymentCredential: baseCredential,
         stakeCredential: stakeCredential,
@@ -90,10 +88,9 @@ class ADABaseAddress extends ADAShellyAddress {
     final stakeCredential = AdaAddressUtils.publicKeyToCredential(
         shelleyWallet.bip44Sk.publicKey.compressed);
     final encode = AdaShelleyAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(baseCredential), {
-      'net_tag': network,
-      'pub_skey': AdaAddressUtils.toAdaStakeCredential(stakeCredential)
-    });
+        AdaAddressUtils.toAdaStakeCredential(baseCredential),
+        network: network,
+        pubSkey: AdaAddressUtils.toAdaStakeCredential(stakeCredential));
     return ADABaseAddress._(
         paymentCredential: baseCredential,
         stakeCredential: stakeCredential,

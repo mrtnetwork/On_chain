@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class DefaultAccountStateInstruction extends LayoutSerializable {
+class DefaultAccountStateInstruction extends BorshLayoutSerializable {
   const DefaultAccountStateInstruction._(this.name);
   final String name;
 

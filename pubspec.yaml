@@ -13,11 +13,11 @@ topics:
   - sui
   
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.7.0 <4.0.0'
 
 
 dependencies:
-  blockchain_utils: ^5.4.0
+  blockchain_utils: ^6.0.0
   # blockchain_utils:
   #   path: ../blockchain_utils
 

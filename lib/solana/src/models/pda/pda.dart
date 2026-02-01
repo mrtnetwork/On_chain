@@ -6,7 +6,7 @@ class ProgramDerivedAddress {
       {required List<List<int>> seedBytes, required SolAddress programId}) {
     final derive =
         SolanaUtils.findProgramAddress(seeds: seedBytes, programId: programId);
-    return ProgramDerivedAddress(address: derive.item1, bump: derive.item2);
+    return ProgramDerivedAddress(address: derive.$1, bump: derive.$2);
   }
   const ProgramDerivedAddress({required this.address, required this.bump});
   final SolAddress address;

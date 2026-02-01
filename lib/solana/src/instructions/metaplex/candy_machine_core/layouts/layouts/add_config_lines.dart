@@ -23,11 +23,11 @@ class MetaplexCandyMachineAddConfigLinesLayout
   }
 
   final int index;
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u32(property: 'index'),
-    LayoutConst.vec(ConfigLine.staticLayout, property: 'configLines')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u32(property: 'index'),
+        LayoutConst.vec(ConfigLine.staticLayout, property: 'configLines')
+      ]);
 
   @override
   late final StructLayout layout = _layout;

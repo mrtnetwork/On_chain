@@ -10,12 +10,12 @@ class SPLToken2022UpdateMetadataPointerLayout extends SPLTokenProgramLayout {
   final SolAddress? metadataAddress;
   SPLToken2022UpdateMetadataPointerLayout({required this.metadataAddress});
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
-        property: 'metadataPointer'),
-    SolanaLayoutUtils.publicKey('metadataAddress'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
+            property: 'metadataPointer'),
+        SolanaLayoutUtils.publicKey('metadataAddress'),
+      ]);
 
   factory SPLToken2022UpdateMetadataPointerLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(

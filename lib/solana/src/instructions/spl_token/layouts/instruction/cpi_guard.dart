@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class CpiGuardInstructionInstruction extends LayoutSerializable {
+class CpiGuardInstructionInstruction extends BorshLayoutSerializable {
   final String name;
   const CpiGuardInstructionInstruction._(this.name);
 

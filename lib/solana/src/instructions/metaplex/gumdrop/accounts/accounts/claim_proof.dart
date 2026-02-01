@@ -6,17 +6,17 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [48, 173, 176, 137, 53, 116, 40, 112];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    LayoutConst.u64(property: 'amount'),
-    LayoutConst.u64(property: 'count'),
-    SolanaLayoutUtils.publicKey('claimant'),
-    SolanaLayoutUtils.publicKey('resource'),
-    LayoutConst.vecU8(property: 'resourceNonce')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        LayoutConst.u64(property: 'amount'),
+        LayoutConst.u64(property: 'count'),
+        SolanaLayoutUtils.publicKey('claimant'),
+        SolanaLayoutUtils.publicKey('resource'),
+        LayoutConst.vecU8(property: 'resourceNonce')
+      ]);
 }
 
-class ClaimProof extends LayoutSerializable {
+class ClaimProof extends BorshLayoutSerializable {
   final BigInt amount;
   final BigInt count;
   final SolAddress claimant;
@@ -30,7 +30,7 @@ class ClaimProof extends LayoutSerializable {
       required List<int> resourceNonce})
       : resourceNonce = resourceNonce.asImmutableBytes;
   factory ClaimProof.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

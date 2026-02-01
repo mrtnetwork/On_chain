@@ -18,11 +18,11 @@ class MetaplexCandyMachineSetTokenStandardLayout
     return MetaplexCandyMachineSetTokenStandardLayout(
         tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']));
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-        property: 'tokenStandard')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
+            property: 'tokenStandard')
+      ]);
 
   @override
   StructLayout get layout => _layout;

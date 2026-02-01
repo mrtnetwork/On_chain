@@ -22,5 +22,5 @@ class SystemProgramConst {
       SolAddress.unchecked('SysvarS1otHistory11111111111111111111111111');
   static const sysvarStakeHistoryPubkey =
       SolAddress.unchecked('SysvarStakeHistory1111111111111111111111111');
-  static final BigInt nonceAccountSpace = BigInt.from(80);
+  static BigInt get nonceAccountSpace => BigInt.from(80);
 }

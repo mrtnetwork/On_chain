@@ -33,15 +33,15 @@ class MetaplexTokenEntanglerCreateEntangledPairLayout
         paysEveryTime: decode['paysEveryTime']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.u8(property: 'tokenAEscrowBump'),
-    LayoutConst.u8(property: 'reverseBump'),
-    LayoutConst.u8(property: 'tokenBEscrowBump'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.boolean(property: 'paysEveryTime'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.u8(property: 'tokenAEscrowBump'),
+        LayoutConst.u8(property: 'reverseBump'),
+        LayoutConst.u8(property: 'tokenBEscrowBump'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.boolean(property: 'paysEveryTime'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

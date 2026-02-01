@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/token_
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class CollectionDetailsToggle extends LayoutSerializable {
+class CollectionDetailsToggle extends BorshLayoutSerializable {
   final String name;
   final int value;
   final List<CollectionDetailsV1>? fileds;

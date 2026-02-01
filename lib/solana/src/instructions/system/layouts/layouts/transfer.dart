@@ -14,10 +14,10 @@ class SystemTransferLayout extends SystemProgramLayout {
         instruction: SystemProgramInstruction.transfer.insturction);
     return SystemTransferLayout(lamports: decode['lamports']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    LayoutConst.u64(property: 'lamports')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        LayoutConst.u64(property: 'lamports')
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -45,18 +45,19 @@ class MetaplexFixedPriceSaleCreateMarketLayout
             : GatingConfig.fromJson(decode['gatingConfig']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'treasuryOwnerBump'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'description'),
-    LayoutConst.boolean(property: 'mutable'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'piecesInOneWallet'),
-    LayoutConst.u64(property: 'startDate'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'endDate'),
-    LayoutConst.optional(GatingConfig.staticLayout, property: 'gatingConfig'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'treasuryOwnerBump'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'description'),
+        LayoutConst.boolean(property: 'mutable'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'piecesInOneWallet'),
+        LayoutConst.u64(property: 'startDate'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'endDate'),
+        LayoutConst.optional(GatingConfig.staticLayout,
+            property: 'gatingConfig'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

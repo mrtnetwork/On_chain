@@ -19,11 +19,11 @@ class MetaplexGumdropCloseDistributorLayout
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.u8(property: 'walletBump'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.u8(property: 'walletBump'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

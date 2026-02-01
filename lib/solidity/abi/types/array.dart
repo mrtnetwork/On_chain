@@ -8,11 +8,11 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
   @override
   EncoderResult abiEncode(AbiParameter params, List<dynamic> input) {
     final param = ABIUtils._toArrayType(params);
-    final encodedParams = input.map((e) => param.item1.abiEncode(e)).toList();
+    final encodedParams = input.map((e) => param.$1.abiEncode(e)).toList();
     final dynamicItems =
         encodedParams.isNotEmpty && encodedParams.first.isDynamic;
-    final bool isDynamic = param.item2 == -1;
-    if (!isDynamic && input.length != param.item2) {
+    final bool isDynamic = param.$2 == -1;
+    if (!isDynamic && input.length != param.$2) {
       throw const SolidityAbiException('Invalid argument length detected.');
     }
     if (isDynamic || dynamicItems) {
@@ -40,7 +40,7 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
   DecoderResult<List<dynamic>> decode(AbiParameter params, List<int> bytes) {
     final extract = ABIUtils._toArrayType(params);
     int consumed = 0;
-    int size = extract.item2;
+    int size = extract.$2;
     List<int> remainingBytes = List<int>.from(bytes);
     final List<dynamic> result = [];
     if (size.isNegative) {
@@ -49,13 +49,13 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
       consumed = length.consumed;
       remainingBytes = bytes.sublist(length.consumed);
     }
-    if (extract.item1.isDynamic) {
+    if (extract.$1.isDynamic) {
       for (int i = 0; i < size; i += 1) {
         final decodeOffset = const NumbersCoder().decode(AbiParameter.uint32,
             remainingBytes.sublist(i * ABIConst.uintBytesLength));
         consumed += decodeOffset.consumed;
         final decodeChild = ABIUtils._decodeParamFromAbiParameter(
-            extract.item1, remainingBytes.sublist(decodeOffset.result.toInt()));
+            extract.$1, remainingBytes.sublist(decodeOffset.result.toInt()));
         consumed += decodeChild.consumed;
         result.add(decodeChild.result);
       }
@@ -64,7 +64,7 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
     }
     for (int i = 0; i < size; i++) {
       final decodeChild = ABIUtils._decodeParamFromAbiParameter(
-          extract.item1, bytes.sublist(consumed));
+          extract.$1, bytes.sublist(consumed));
       consumed += decodeChild.consumed;
       result.add(decodeChild.result);
     }
@@ -77,8 +77,8 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
   EncoderResult encodePacked(AbiParameter params, List<dynamic> input) {
     final param = ABIUtils._toArrayType(params);
     final encodedParams = input.map((e) {
-      if (param.item1.isDynamic) return param.item1.encodePacked(e);
-      return param.item1.abiEncode(e);
+      if (param.$1.isDynamic) return param.$1.encodePacked(e);
+      return param.$1.abiEncode(e);
     }).toList();
     final resultBytes = encodedParams.expand((e) => e.encoded).toList();
     return EncoderResult(

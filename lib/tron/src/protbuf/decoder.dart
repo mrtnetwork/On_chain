@@ -1,9 +1,9 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/exception/exception.dart';
 
-class ProtocolBufferDecoder {
-  static List<ProtocolBufferDecoderResult> decode(List<int> bytes) {
-    final List<ProtocolBufferDecoderResult> results = [];
+class TronProtocolBufferDecoder {
+  static List<TronTronProtocolBufferDecoderResult> decode(List<int> bytes) {
+    final List<TronTronProtocolBufferDecoderResult> results = [];
     int index = 0;
     while (index < bytes.length) {
       final decodeTag = _decodeVarint(bytes.sublist(index));
@@ -16,7 +16,7 @@ class ProtocolBufferDecoder {
         case 2:
           final decodeLength = _decodeVarint(bytes.sublist(index));
           index += decodeLength.consumed;
-          results.add(ProtocolBufferDecoderResult<List<int>>(
+          results.add(TronTronProtocolBufferDecoderResult<List<int>>(
               tagNumber: fieldId,
               value: bytes.sublist(index, index + decodeLength.value)));
           index += decodeLength.value;
@@ -25,7 +25,7 @@ class ProtocolBufferDecoder {
         case 0:
           final decodeInt = _decodeInt(bytes.sublist(index));
           index += decodeInt.consumed;
-          final result = ProtocolBufferDecoderResult(
+          final result = TronTronProtocolBufferDecoderResult(
               tagNumber: fieldId, value: decodeInt.value);
           results.add(result);
           break;
@@ -77,8 +77,8 @@ class ProtocolBufferDecoder {
   }
 }
 
-class ProtocolBufferDecoderResult<T> {
-  const ProtocolBufferDecoderResult(
+class TronTronProtocolBufferDecoderResult<T> {
+  const TronTronProtocolBufferDecoderResult(
       {required this.tagNumber, required this.value});
   final int tagNumber;
   final T value;
@@ -98,7 +98,8 @@ class _Result<T> {
   }
 }
 
-extension QuickProtocolBufferResults on List<ProtocolBufferDecoderResult> {
+extension QuickProtocolBufferResults
+    on List<TronTronProtocolBufferDecoderResult> {
   bool hasTag(int tag) {
     try {
       firstWhere((element) => element.tagNumber == tag);
@@ -119,7 +120,7 @@ extension QuickProtocolBufferResults on List<ProtocolBufferDecoderResult> {
     }
   }
 
-  T getResult<T extends ProtocolBufferDecoderResult?>(int id) {
+  T getResult<T extends TronTronProtocolBufferDecoderResult?>(int id) {
     try {
       final result = firstWhere((element) => element.tagNumber == id);
       return result as T;
@@ -149,14 +150,14 @@ extension QuickProtocolBufferResults on List<ProtocolBufferDecoderResult> {
     }
     final Map<K, V> data = {};
     for (final i in result) {
-      final decode = ProtocolBufferDecoder.decode(i.value);
+      final decode = TronProtocolBufferDecoder.decode(i.value);
       data.addAll({decode.getField<K>(1): decode.getField<V>(2)});
     }
     return data;
   }
 }
 
-extension QuickProtocolBufferResult on ProtocolBufferDecoderResult {
+extension QuickProtocolBufferResult on TronTronProtocolBufferDecoderResult {
   bool _isTypeString<T>() {
     return '' is T;
   }

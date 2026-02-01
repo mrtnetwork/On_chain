@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class Lockout extends LayoutSerializable {
+class Lockout extends BorshLayoutSerializable {
   const Lockout({required this.slot, required this.confirmationCount});
   factory Lockout.fromJson(Map<String, dynamic> json) {
     return Lockout(
@@ -9,10 +9,10 @@ class Lockout extends LayoutSerializable {
   }
   final BigInt slot;
   final int confirmationCount;
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'slot'),
-    LayoutConst.u32(property: 'confirmationCount')
-  ], property: 'lockout');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'slot'),
+        LayoutConst.u32(property: 'confirmationCount')
+      ], property: 'lockout');
   @override
   StructLayout get layout => staticLayout;
 

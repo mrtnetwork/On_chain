@@ -9,7 +9,7 @@ class SPLTokenFreezAccountLayout extends SPLTokenProgramLayout {
   SPLTokenFreezAccountLayout();
 
   /// StructLayout structure for SPLTokenFreezAccountLayout.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenFreezAccountLayout instance from buffer.

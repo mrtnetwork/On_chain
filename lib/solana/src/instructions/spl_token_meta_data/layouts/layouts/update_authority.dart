@@ -31,11 +31,11 @@ class SPLTokenMetaDataUpdateAuthorityLayout
   }
 
   /// The layout structure of the update authority instruction.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    // Define the layout for the new authority public key.
-    SolanaLayoutUtils.publicKey('new_authority'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        // Define the layout for the new authority public key.
+        SolanaLayoutUtils.publicKey('new_authority'),
+      ]);
 
   /// Gets the layout structure of this update authority instruction.
   @override

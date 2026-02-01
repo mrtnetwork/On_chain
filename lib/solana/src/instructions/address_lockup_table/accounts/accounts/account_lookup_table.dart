@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/utils/binary/binary_operation.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/constant.dart';
@@ -8,7 +9,6 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 /// Utility class for handling address lookup table accounts.
 class _Utils {
   /// Maximum value for a 64-bit unsigned integer.
-  static final BigInt u64Max = BigInt.parse('0xffffffffffffffff');
 
   /// Layout definition for the lookup table metadata.
   static StructLayout lookupTableMetaLayout = LayoutConst.struct([
@@ -82,7 +82,7 @@ class AddressLookupTableAccount {
 
   /// Check if the account is active based on the deactivation slot.
   bool isActive() {
-    return deactivationSlot == _Utils.u64Max;
+    return deactivationSlot == BinaryOps.maxU64;
   }
 
   /// Factory method to create an AddressLookupTableAccount instance from buffer data.

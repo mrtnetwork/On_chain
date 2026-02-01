@@ -58,23 +58,24 @@ class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
             : MetaDataTokenStandard.fromJson(decode['tokenStandard']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'discriminator'),
-    SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
-    LayoutConst.optional(MetaDataData.staticLayout, property: 'data'),
-    LayoutConst.optional(LayoutConst.boolean(),
-        property: 'primarySaleHappened'),
-    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
-    LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
-    LayoutConst.wrap(CollectionDetailsToggle.staticLayout,
-        property: 'collectionDetails'),
-    LayoutConst.wrap(UsesToggle.staticLayout, property: 'uses'),
-    LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
-    LayoutConst.optional(MetaDataTokenStandard.staticLayout,
-        property: 'tokenStandard'),
-    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'discriminator'),
+        SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
+        LayoutConst.optional(MetaDataData.staticLayout, property: 'data'),
+        LayoutConst.optional(LayoutConst.boolean(),
+            property: 'primarySaleHappened'),
+        LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
+        LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
+        LayoutConst.wrap(CollectionDetailsToggle.staticLayout,
+            property: 'collectionDetails'),
+        LayoutConst.wrap(UsesToggle.staticLayout, property: 'uses'),
+        LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
+        LayoutConst.optional(MetaDataTokenStandard.staticLayout,
+            property: 'tokenStandard'),
+        LayoutConst.optional(Payload.staticLayout,
+            property: 'authorizationData'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

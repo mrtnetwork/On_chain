@@ -20,10 +20,10 @@ class MetaplexAuctionHouseCloseEscrowAccountLayout
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'escrowPaymentBump'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'escrowPaymentBump'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

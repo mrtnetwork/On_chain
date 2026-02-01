@@ -75,27 +75,27 @@ class MetaplexTokenMetaDataCreateV1Layout
         sellerFeeBasisPoints: decode['sellerFeeBasisPoints']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'discriminator'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'symbol'),
-    LayoutConst.string(property: 'uri'),
-    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-    LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-        property: 'creators'),
-    LayoutConst.boolean(property: 'primarySaleHappened'),
-    LayoutConst.boolean(property: 'isMutable'),
-    LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-        property: 'tokenStandard'),
-    LayoutConst.optional(Collection.staticLayout, property: 'collection'),
-    LayoutConst.optional(Uses.staticLayout, property: 'uses'),
-    LayoutConst.optional(CollectionDetailsV1.staticLayout,
-        property: 'collectionDetails'),
-    SolanaLayoutUtils.optionPubkey(property: 'ruleSet'),
-    LayoutConst.optional(LayoutConst.u8(), property: 'decimals'),
-    LayoutConst.optional(PrintSupply.staticLayout, property: 'printSupply')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'discriminator'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'symbol'),
+        LayoutConst.string(property: 'uri'),
+        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+        LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
+            property: 'creators'),
+        LayoutConst.boolean(property: 'primarySaleHappened'),
+        LayoutConst.boolean(property: 'isMutable'),
+        LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
+            property: 'tokenStandard'),
+        LayoutConst.optional(Collection.staticLayout, property: 'collection'),
+        LayoutConst.optional(Uses.staticLayout, property: 'uses'),
+        LayoutConst.optional(CollectionDetailsV1.staticLayout,
+            property: 'collectionDetails'),
+        SolanaLayoutUtils.optionPubkey(property: 'ruleSet'),
+        LayoutConst.optional(LayoutConst.u8(), property: 'decimals'),
+        LayoutConst.optional(PrintSupply.staticLayout, property: 'printSupply')
+      ]);
 
   static const int discriminator = 0;
 

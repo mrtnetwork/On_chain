@@ -23,11 +23,11 @@ class StakeAuthorizeLayout extends StakeProgramLayout {
         decode['newAuthorized'], decode['stakeAuthorizationType']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('newAuthorized'),
-    LayoutConst.u32(property: 'stakeAuthorizationType'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('newAuthorized'),
+        LayoutConst.u32(property: 'stakeAuthorizationType'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

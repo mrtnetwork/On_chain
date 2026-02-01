@@ -8,10 +8,10 @@ class SuiAddress extends MoveAddress {
   /// The string representation of the Sui address.
   final String address;
 
-  static final SuiAddress one = SuiAddress(
+  static SuiAddress get one => SuiAddress(
       "0x0000000000000000000000000000000000000000000000000000000000000001");
 
-  static final SuiAddress two = SuiAddress(
+  static SuiAddress get two => SuiAddress(
       "0x0000000000000000000000000000000000000000000000000000000000000002");
 
   /// Private constructor for initializing the Sui address.

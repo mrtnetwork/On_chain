@@ -17,11 +17,11 @@ class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
     return MetaplexCandyMachineMintLayout(
         mintArgs: (decode['mintArgs'] as List).cast(), group: decode['group']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.vecU8(property: 'mintArgs'),
-    LayoutConst.optional(LayoutConst.string(), property: 'group')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.vecU8(property: 'mintArgs'),
+        LayoutConst.optional(LayoutConst.string(), property: 'group')
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -21,7 +21,7 @@ import 'instructions.dart';
 
 abstract class MetaplexHydraProgramLayout extends ProgramLayout {
   const MetaplexHydraProgramLayout();
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   @override
   abstract final MetaplexHydraProgramInstruction instruction;

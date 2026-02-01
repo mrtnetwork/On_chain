@@ -13,7 +13,7 @@ class MetaplexCandyMachineSetCollectionLayout
             MetaplexCandyMachineProgramInstruction.setCollection.insturction);
     return const MetaplexCandyMachineSetCollectionLayout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
 
   @override

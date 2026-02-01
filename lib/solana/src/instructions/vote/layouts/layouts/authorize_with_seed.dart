@@ -42,15 +42,15 @@ class VoteProgramAuthorizeWithSeedLayout extends VoteProgramLayout {
         currentAuthorityDerivedKeySeed: currentAuthorityDerivedKeySeed,
         voteAuthorizationType: voteAuthorizationType);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    LayoutConst.struct([
-      LayoutConst.u32(property: 'voteAuthorizationType'),
-      SolanaLayoutUtils.publicKey('currentAuthorityDerivedKeyOwnerPubkey'),
-      LayoutConst.rustString(property: 'currentAuthorityDerivedKeySeed'),
-      SolanaLayoutUtils.publicKey('newAuthorized')
-    ], property: 'voteAuthorizeWithSeedArgs'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        LayoutConst.struct([
+          LayoutConst.u32(property: 'voteAuthorizationType'),
+          SolanaLayoutUtils.publicKey('currentAuthorityDerivedKeyOwnerPubkey'),
+          LayoutConst.rustString(property: 'currentAuthorityDerivedKeySeed'),
+          SolanaLayoutUtils.publicKey('newAuthorized')
+        ], property: 'voteAuthorizeWithSeedArgs'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/fixed
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class GumdropConfigData extends LayoutSerializable {
+class GumdropConfigData extends BorshLayoutSerializable {
   final String uuid;
   final String symbol;
   final int sellerFeeBasisPoints;
@@ -32,16 +32,16 @@ class GumdropConfigData extends LayoutSerializable {
         retainAuthority: json['retainAuthority'],
         maxNumberOfLines: json['maxNumberOfLines']);
   }
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: 'uuid'),
-    LayoutConst.string(property: 'symbol'),
-    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-    LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
-    LayoutConst.u64(property: 'maxSupply'),
-    LayoutConst.boolean(property: 'isMutable'),
-    LayoutConst.boolean(property: 'retainAuthority'),
-    LayoutConst.u32(property: 'maxNumberOfLines'),
-  ], property: 'configData');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.string(property: 'uuid'),
+        LayoutConst.string(property: 'symbol'),
+        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+        LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
+        LayoutConst.u64(property: 'maxSupply'),
+        LayoutConst.boolean(property: 'isMutable'),
+        LayoutConst.boolean(property: 'retainAuthority'),
+        LayoutConst.u32(property: 'maxNumberOfLines'),
+      ], property: 'configData');
   @override
   StructLayout get layout => staticLayout;
 

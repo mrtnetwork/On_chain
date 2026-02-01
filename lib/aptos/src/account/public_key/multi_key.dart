@@ -19,7 +19,7 @@ class AptosMultiKeyAccountPublicKey extends AptosAccountPublicKey {
       {required List<AptosCryptoPublicKey> publicKeys,
       required int requiredSignature})
       : publicKeys = publicKeys.immutable,
-        requiredSignature = requiredSignature.asUint8,
+        requiredSignature = requiredSignature.asU8,
         super(scheme: AptosSigningScheme.multikey);
   factory AptosMultiKeyAccountPublicKey(
       {required List<AptosCryptoPublicKey> publicKeys,

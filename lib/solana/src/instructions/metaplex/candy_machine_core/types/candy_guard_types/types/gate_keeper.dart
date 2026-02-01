@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class Gatekeeper extends LayoutSerializable {
+class Gatekeeper extends BorshLayoutSerializable {
   final bool expireOnUse;
   final SolAddress gatekeeperNetwork;
 
@@ -15,10 +15,10 @@ class Gatekeeper extends LayoutSerializable {
         gatekeeperNetwork: json['gatekeeperNetwork']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('gatekeeperNetwork'),
-    LayoutConst.boolean(property: 'expireOnUse')
-  ], property: 'gatekeeper');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('gatekeeperNetwork'),
+        LayoutConst.boolean(property: 'expireOnUse')
+      ], property: 'gatekeeper');
 
   @override
   StructLayout get layout => staticLayout;

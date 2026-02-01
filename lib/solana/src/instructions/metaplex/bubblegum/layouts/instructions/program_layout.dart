@@ -25,7 +25,7 @@ import 'instructions.dart';
 
 abstract class MetaplexBubblegumProgramLayout extends ProgramLayout {
   const MetaplexBubblegumProgramLayout();
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   @override
   abstract final MetaplexBubblegumProgramInstruction instruction;

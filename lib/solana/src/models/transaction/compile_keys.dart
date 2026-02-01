@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/accounts/accounts/account_lookup_table.dart';
 import 'package:on_chain/solana/src/models/lockup/extract_table_lookup.dart';
@@ -44,7 +43,7 @@ class CompiledKeys {
     return CompiledKeys._(payer: payer, keyMetaMap: keyMetaMap);
   }
 
-  Tuple<MessageHeader, List<SolAddress>> getMessageComponents() {
+  (MessageHeader, List<SolAddress>) getMessageComponents() {
     final mapEntries = _keyMetaMap.entries.toList();
     if (mapEntries.length > SolanaTransactionConstant.maximumAccountKeys) {
       throw const SolanaPluginException(
@@ -83,7 +82,7 @@ class CompiledKeys {
       ...readonlyNonSigners.map((entry) => SolAddress(entry.key)),
     ]);
 
-    return Tuple(header, staticAccountKeys);
+    return (header, staticAccountKeys);
   }
 
   ExtractTableLookup? extractTableLookup(
@@ -98,20 +97,20 @@ class CompiledKeys {
       (keyMeta) =>
           !keyMeta.isSigner && !keyMeta.isInvoked && !keyMeta.isWritable,
     );
-    if (writableIndexesAndKeys.item1.isEmpty &&
-        readonlyIndexesAndKeys.item1.isEmpty) {
+    if (writableIndexesAndKeys.$1.isEmpty &&
+        readonlyIndexesAndKeys.$1.isEmpty) {
       return null;
     }
     return ExtractTableLookup(
         lookup: AddressTableLookup(
             accountKey: lookupTable.key,
-            writableIndexes: writableIndexesAndKeys.item1,
-            readonlyIndexes: readonlyIndexesAndKeys.item1),
-        readable: readonlyIndexesAndKeys.item2,
-        writable: writableIndexesAndKeys.item2);
+            writableIndexes: writableIndexesAndKeys.$1,
+            readonlyIndexes: readonlyIndexesAndKeys.$1),
+        readable: readonlyIndexesAndKeys.$2,
+        writable: writableIndexesAndKeys.$2);
   }
 
-  Tuple<List<int>, List<SolAddress>> _drainKeysFoundInLookupTable(
+  (List<int>, List<SolAddress>) _drainKeysFoundInLookupTable(
       List<SolAddress> addresses, bool Function(_KeyMeta) predicate) {
     final indexes = <int>[];
     final drainedKeys = <SolAddress>[];
@@ -128,7 +127,7 @@ class CompiledKeys {
         }
       }
     }
-    return Tuple(indexes, drainedKeys);
+    return (indexes, drainedKeys);
   }
 }
 

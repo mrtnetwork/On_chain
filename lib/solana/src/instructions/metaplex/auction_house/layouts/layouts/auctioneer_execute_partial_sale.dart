@@ -37,16 +37,16 @@ class MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'escrowPaymentBump'),
-    LayoutConst.u8(property: 'freeTradeStateBump'),
-    LayoutConst.u8(property: 'programAsSignerBump'),
-    LayoutConst.u64(property: 'buyerPrice'),
-    LayoutConst.u64(property: 'tokenSize'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderSize'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderPrice')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'escrowPaymentBump'),
+        LayoutConst.u8(property: 'freeTradeStateBump'),
+        LayoutConst.u8(property: 'programAsSignerBump'),
+        LayoutConst.u64(property: 'buyerPrice'),
+        LayoutConst.u64(property: 'tokenSize'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderSize'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderPrice')
+      ]);
 
   @override
   StructLayout get layout => _layout;

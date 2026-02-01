@@ -5,17 +5,17 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'key'),
-    SolanaLayoutUtils.publicKey('masterEdition'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'supplySnapshot'),
-    LayoutConst.vec(ReservationV1.staticLayout, property: 'reservations'),
-    LayoutConst.u64(property: 'totalReservationSpots'),
-    LayoutConst.u64(property: 'currentReservationSpots')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'key'),
+        SolanaLayoutUtils.publicKey('masterEdition'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'supplySnapshot'),
+        LayoutConst.vec(ReservationV1.staticLayout, property: 'reservations'),
+        LayoutConst.u64(property: 'totalReservationSpots'),
+        LayoutConst.u64(property: 'currentReservationSpots')
+      ]);
 }
 
-class ReservationListV2 extends LayoutSerializable {
+class ReservationListV2 extends BorshLayoutSerializable {
   final MetaDataKey key;
   final SolAddress masterEdition;
   final BigInt? supplySnapshot;
@@ -32,7 +32,7 @@ class ReservationListV2 extends LayoutSerializable {
       required this.totalReservationSpots});
   factory ReservationListV2.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return ReservationListV2(
         key: MetaDataKey.fromValue(decode['key']),
         masterEdition: decode['masterEdition'],

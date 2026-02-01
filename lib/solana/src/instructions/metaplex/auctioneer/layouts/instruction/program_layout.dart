@@ -12,7 +12,7 @@ import 'instructions.dart';
 
 abstract class MetaplexAuctioneerProgramLayout extends ProgramLayout {
   const MetaplexAuctioneerProgramLayout();
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   @override
   abstract final MetaplexAuctioneerProgramInstruction instruction;
@@ -48,7 +48,7 @@ abstract class MetaplexAuctioneerProgramLayout extends ProgramLayout {
     required List<int> bytes,
     required List<int> instruction,
   }) {
-    return LayoutSerializable.decode(
+    return BorshLayoutSerializable.decode(
         bytes: bytes, layout: layout, validator: {'instruction': instruction});
   }
 }

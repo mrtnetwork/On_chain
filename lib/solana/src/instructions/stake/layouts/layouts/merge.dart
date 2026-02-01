@@ -12,7 +12,7 @@ class StakeMergeLayout extends StakeProgramLayout {
         instruction: StakeProgramInstruction.merge.insturction);
     return const StakeMergeLayout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
 
   @override

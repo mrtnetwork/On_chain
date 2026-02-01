@@ -6,26 +6,26 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [40, 108, 215, 107, 213, 85, 245, 48];
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('auctionHouseFeeAccount'),
-    SolanaLayoutUtils.publicKey('auctionHouseTreasury'),
-    SolanaLayoutUtils.publicKey('treasuryWithdrawalDestination'),
-    SolanaLayoutUtils.publicKey('feeWithdrawalDestination'),
-    SolanaLayoutUtils.publicKey('treasuryMint'),
-    SolanaLayoutUtils.publicKey('authority'),
-    SolanaLayoutUtils.publicKey('creator'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.u8(property: 'treasuryBump'),
-    LayoutConst.u8(property: 'feePayerBump'),
-    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-    LayoutConst.boolean(property: 'requiresSignOff'),
-    LayoutConst.boolean(property: 'canChangeSalePrice'),
-    LayoutConst.u8(property: 'escrowPaymentBump'),
-    LayoutConst.boolean(property: 'hasAuctioneer'),
-    SolanaLayoutUtils.publicKey('auctioneerAddress'),
-    LayoutConst.array(LayoutConst.boolean(), 7, property: 'scopes')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('auctionHouseFeeAccount'),
+        SolanaLayoutUtils.publicKey('auctionHouseTreasury'),
+        SolanaLayoutUtils.publicKey('treasuryWithdrawalDestination'),
+        SolanaLayoutUtils.publicKey('feeWithdrawalDestination'),
+        SolanaLayoutUtils.publicKey('treasuryMint'),
+        SolanaLayoutUtils.publicKey('authority'),
+        SolanaLayoutUtils.publicKey('creator'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.u8(property: 'treasuryBump'),
+        LayoutConst.u8(property: 'feePayerBump'),
+        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+        LayoutConst.boolean(property: 'requiresSignOff'),
+        LayoutConst.boolean(property: 'canChangeSalePrice'),
+        LayoutConst.u8(property: 'escrowPaymentBump'),
+        LayoutConst.boolean(property: 'hasAuctioneer'),
+        SolanaLayoutUtils.publicKey('auctioneerAddress'),
+        LayoutConst.array(LayoutConst.boolean(), 7, property: 'scopes')
+      ]);
 
   static List<AuthorityScope> decodeScoops(List<bool> bytes) {
     final List<AuthorityScope> scopes = [];
@@ -37,7 +37,7 @@ class _Utils {
   }
 }
 
-class AuctionHouse extends LayoutSerializable {
+class AuctionHouse extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final SolAddress auctionHouseFeeAccount;
   final SolAddress auctionHouseTreasury;
@@ -76,7 +76,7 @@ class AuctionHouse extends LayoutSerializable {
       required this.auctioneerAddress,
       required this.scopes});
   factory AuctionHouse.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

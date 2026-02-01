@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class PrintSupply extends LayoutSerializable {
+class PrintSupply extends BorshLayoutSerializable {
   final List<BigInt>? fields;
   final String name;
   final int kind;
@@ -35,13 +35,13 @@ class PrintSupply extends LayoutSerializable {
     return 'PrintSupply.$kind';
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.rustEnum([
-      LayoutConst.none(property: 'Zero'),
-      LayoutConst.tuple([LayoutConst.u64()], property: 'Limited'),
-      LayoutConst.none(property: 'Unlimited'),
-    ], property: 'print_supply')
-  ]);
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.rustEnum([
+          LayoutConst.none(property: 'Zero'),
+          LayoutConst.tuple([LayoutConst.u64()], property: 'Limited'),
+          LayoutConst.none(property: 'Unlimited'),
+        ], property: 'print_supply')
+      ]);
 
   @override
   StructLayout get layout => staticLayout;

@@ -114,7 +114,6 @@ void _test() {
     expect(type.toBcs(), LayoutConst.boolean().serialize(true));
     type = MoveBool.parse('false');
     expect(type.toBcs(), LayoutConst.boolean().serialize(false));
-
     expect(() => MoveBool.parse(2),
         throwsA(TypeMatcher<BcsSerializationException>()));
     expect(() => MoveBool.parse(-1),

@@ -16,10 +16,10 @@ class SPLToken2022WithdrawWithheldTokensFromMintLayout
     return SPLToken2022WithdrawWithheldTokensFromMintLayout();
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'transferFee'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'transferFee'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

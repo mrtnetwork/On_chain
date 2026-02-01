@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 
 class AdaTransactionUtils {
@@ -13,12 +12,12 @@ class AdaTransactionUtils {
     return bytes.asImmutableBytes;
   }
 
-  static List<int> validateFixeHexByteslength(
+  static List<int> validateFixedHexByteslength(
       {required String hexBytes, required int length}) {
     try {
       return validateFixedLengthBytes(
           bytes: BytesUtils.fromHexString(hexBytes), length: length);
-    } on MessageException {
+    } on ADAPluginException {
       rethrow;
     } catch (e) {
       throw ADAPluginException('Invalid hex bytes.',

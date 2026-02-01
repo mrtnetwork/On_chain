@@ -21,11 +21,11 @@ class SPLToken2022WithdrawWithheldTokensFromAccountsLayout
         numTokenAccounts: decode['numTokenAccounts']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'transferFee'),
-    LayoutConst.u8(property: 'numTokenAccounts'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'transferFee'),
+        LayoutConst.u8(property: 'numTokenAccounts'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

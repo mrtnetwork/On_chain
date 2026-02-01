@@ -17,10 +17,10 @@ class StakeSplitLayout extends StakeProgramLayout {
         instruction: StakeProgramInstruction.split.insturction);
     return StakeSplitLayout(lamports: decode['lamports']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    LayoutConst.ns64(property: 'lamports')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        LayoutConst.ns64(property: 'lamports')
+      ]);
   @override
   StructLayout get layout => _layout;
 

@@ -9,7 +9,7 @@ class SPLTokenInitializeAccountLayout extends SPLTokenProgramLayout {
   SPLTokenInitializeAccountLayout();
 
   /// StructLayout structure for SPLTokenInitializeAccountLayout.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenInitializeAccountLayout instance from buffer.

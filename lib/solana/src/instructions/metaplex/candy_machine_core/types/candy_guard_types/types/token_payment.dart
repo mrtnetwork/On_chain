@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class TokenPayment extends LayoutSerializable {
+class TokenPayment extends BorshLayoutSerializable {
   final BigInt amount;
   final SolAddress mint;
   final SolAddress destinationAta;
@@ -17,11 +17,11 @@ class TokenPayment extends LayoutSerializable {
         destinationAta: json['destinationAta']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'amount'),
-    SolanaLayoutUtils.publicKey('mint'),
-    SolanaLayoutUtils.publicKey('destinationAta'),
-  ], property: 'tokenPayment');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'amount'),
+        SolanaLayoutUtils.publicKey('mint'),
+        SolanaLayoutUtils.publicKey('destinationAta'),
+      ], property: 'tokenPayment');
 
   @override
   StructLayout get layout => staticLayout;

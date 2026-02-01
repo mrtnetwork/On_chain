@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class ConfigLine extends LayoutSerializable {
+class ConfigLine extends BorshLayoutSerializable {
   final String name;
   final String uri;
   const ConfigLine({required this.name, required this.uri});
@@ -9,10 +9,10 @@ class ConfigLine extends LayoutSerializable {
     return ConfigLine(name: json['name'], uri: json['uri']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'uri')
-  ], property: 'configLine');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'uri')
+      ], property: 'configLine');
 
   @override
   StructLayout get layout => staticLayout;

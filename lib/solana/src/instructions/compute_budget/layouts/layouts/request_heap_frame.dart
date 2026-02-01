@@ -20,10 +20,10 @@ class ComputeBudgetRequestHeapFrameLayout extends ComputeBudgetProgramLayout {
     return ComputeBudgetRequestHeapFrameLayout(bytes: decode['bytes']);
   }
   // StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u32(property: 'bytes'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u32(property: 'bytes'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

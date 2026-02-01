@@ -5,14 +5,14 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'key'),
-    SolanaLayoutUtils.publicKey('parent'),
-    LayoutConst.u64(property: 'edition'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'key'),
+        SolanaLayoutUtils.publicKey('parent'),
+        LayoutConst.u64(property: 'edition'),
+      ]);
 }
 
-class Edition extends LayoutSerializable {
+class Edition extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final MetaDataKey key;
   final BigInt edition;
@@ -22,7 +22,7 @@ class Edition extends LayoutSerializable {
       {required this.key, required this.edition, required this.parent});
   factory Edition.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return Edition(
         key: MetaDataKey.fromValue(decode['key']),
         edition: decode['edition'],

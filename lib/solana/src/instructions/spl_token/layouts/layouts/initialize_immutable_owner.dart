@@ -9,7 +9,7 @@ class SPLTokenInitializeImmutableOwnerLayout extends SPLTokenProgramLayout {
   SPLTokenInitializeImmutableOwnerLayout();
 
   /// StructLayout structure for SPLTokenInitializeImmutableOwnerLayout.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenInitializeImmutableOwnerLayout instance from buffer.

@@ -1,6 +1,5 @@
 import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
@@ -63,8 +62,8 @@ class SolanaTransactionUtils {
       }
     }
     final componets = compiledKeys.getMessageComponents();
-    final header = componets.item1;
-    final staticAccountKeys = componets.item2;
+    final header = componets.$1;
+    final staticAccountKeys = componets.$2;
     final accountKeys = MessageAccountKeys(staticAccountKeys,
         AccountLookupKeys(readonly: readonly, writable: writable));
     final compiledInstructions =
@@ -272,7 +271,7 @@ class SolanaTransactionUtils {
   }
 
   /// convert bytes to Message
-  static Tuple<VersionedMessage, List<List<int>>> deserializeTransaction(
+  static (VersionedMessage, List<List<int>>) deserializeTransaction(
       List<int> serializedTransaction) {
     final List<int> byteArray = [...serializedTransaction];
     final List<List<int>> signatures = [];
@@ -284,7 +283,7 @@ class SolanaTransactionUtils {
     }
     final message = VersionedMessage.fromBuffer(byteArray.sublist(
         signatures.length * SolanaTransactionConstant.signatureLengthInBytes));
-    return Tuple(message, signatures);
+    return (message, signatures);
   }
 
   /// serialize legacy Message to bytes
@@ -419,8 +418,8 @@ class SolanaTransactionUtils {
   }) {
     final compiledKeys = CompiledKeys.compile(transactionInstructions, payer);
     final componets = compiledKeys.getMessageComponents();
-    final header = componets.item1;
-    final staticAccountKeys = componets.item2;
+    final header = componets.$1;
+    final staticAccountKeys = componets.$2;
     final accountKeys = MessageAccountKeys(staticAccountKeys, null);
     final instructions =
         accountKeys.compileInstructions(transactionInstructions).map((ix) {

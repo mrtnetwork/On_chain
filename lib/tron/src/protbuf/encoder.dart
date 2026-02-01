@@ -5,10 +5,7 @@ import 'package:on_chain/tron/src/models/contract/base_contract/base_contract.da
 import 'package:on_chain/tron/src/models/contract/base_contract/common.dart';
 
 /// Class for encoding Tron transactions using minimal protobuf encoding.
-class ProtocolBufferEncoder {
-  static final BigInt _maxInt64 = BigInt.parse('7FFFFFFFFFFFFFFF', radix: 16);
-  static final BigInt _minInt64 = BigInt.parse('8000000000000000', radix: 16);
-
+class TronProtocolBufferEncoder {
   static const int _int64BitLength = 63;
   static const int int32BitLength = 31;
 
@@ -100,7 +97,7 @@ class ProtocolBufferEncoder {
     final int tag = (fieldNumber << 3) | 0;
     BigInt mybeZigZag = value;
     if (value.isNegative) {
-      mybeZigZag = ((value & _maxInt64) | _minInt64);
+      mybeZigZag = ((value & BinaryOps.maxInt64) | BinaryOps.minInt64);
     }
 
     // Encode the tag and value into varint format
@@ -138,7 +135,8 @@ class ProtocolBufferEncoder {
     final int tag = (fieldNumber << 3) | 0;
     result.addAll(_encodeVarint32(tag));
     if (value.isNegative) {
-      final BigInt zigzag = ((BigInt.from(value) & _maxInt64) | _minInt64);
+      final BigInt zigzag =
+          ((BigInt.from(value) & BinaryOps.maxInt64) | BinaryOps.minInt64);
       result.addAll(_encodeVarintBigInt(zigzag));
       return result;
     }

@@ -21,11 +21,11 @@ class MetaplexFixedPriceSaleWithdrawLayout
   final int payoutTicketBump;
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'treasuryOwnerBump'),
-    LayoutConst.u8(property: 'payoutTicketBump')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'treasuryOwnerBump'),
+        LayoutConst.u8(property: 'payoutTicketBump')
+      ]);
 
   @override
   StructLayout get layout => _layout;

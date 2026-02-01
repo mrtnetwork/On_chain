@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class ProgramGate extends LayoutSerializable {
+class ProgramGate extends BorshLayoutSerializable {
   final List<SolAddress> additional;
 
   const ProgramGate({required this.additional});
@@ -11,7 +11,7 @@ class ProgramGate extends LayoutSerializable {
     return ProgramGate(additional: (json['additional'] as List).cast());
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct(
+  static StructLayout get staticLayout => LayoutConst.struct(
       [LayoutConst.vec(SolanaLayoutUtils.publicKey(), property: 'additional')],
       property: 'programGate');
 

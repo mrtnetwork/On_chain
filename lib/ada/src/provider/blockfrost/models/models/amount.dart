@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/models/models.dart';
 import 'package:on_chain/ada/src/utils/ada_helper.dart';
 
@@ -39,7 +38,7 @@ class ADAAmountResponse {
       };
   bool get islovelace => unit == ADAHelper.adaUnit;
 
-  Tuple<PolicyID, AssetName>? get policyAndAssetName {
+  (PolicyID, AssetName)? get policyAndAssetName {
     if (islovelace) return null;
     return ADAHelper.separatePolcyAndAssetName(unit);
   }

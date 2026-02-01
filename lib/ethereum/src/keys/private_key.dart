@@ -80,5 +80,5 @@ class ETHPrivateKey with Equality implements EthereumSigner {
   }
 
   @override
-  List<dynamic> get variabels => [_privateKey];
+  List<dynamic> get variables => [_privateKey];
 }

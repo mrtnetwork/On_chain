@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class CollectionDetailsV1 extends LayoutSerializable {
+class CollectionDetailsV1 extends BorshLayoutSerializable {
   final BigInt size;
   const CollectionDetailsV1({required this.size});
   factory CollectionDetailsV1.fromJson(Map<String, dynamic> json) {

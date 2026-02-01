@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class BlockTimestamp extends LayoutSerializable {
+class BlockTimestamp extends BorshLayoutSerializable {
   final BigInt slot;
   final BigInt timestamp;
   const BlockTimestamp({required this.slot, required this.timestamp});
@@ -9,10 +9,10 @@ class BlockTimestamp extends LayoutSerializable {
     return BlockTimestamp(slot: json['slot'], timestamp: json['timestamp']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'slot'),
-    LayoutConst.i64(property: 'timestamp'),
-  ], property: 'blockTimestamp');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'slot'),
+        LayoutConst.i64(property: 'timestamp'),
+      ], property: 'blockTimestamp');
   @override
   StructLayout get layout => staticLayout;
 

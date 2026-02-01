@@ -9,7 +9,7 @@ class SPLTokenThawAccountLayout extends SPLTokenProgramLayout {
   SPLTokenThawAccountLayout();
 
   /// StructLayout structure for thawing an account in SPL.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenThawAccountLayout instance from buffer.

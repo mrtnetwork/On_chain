@@ -40,6 +40,7 @@ void _extendLookupTable() {
   test('extendLookupTable', () {
     final account1 = SolAddress('HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf');
     final account2 = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
+
     final layout =
         AddressExtendLookupTableLayout(addresses: [account1, account2]);
     expect(layout.toHex(),

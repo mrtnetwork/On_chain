@@ -148,7 +148,7 @@ class Assets with InternalCborSerialization {
 
   @override
   int get hashCode => assets.entries.fold(
-      mask32,
+      BinaryOps.mask32,
       (previousValue, element) =>
           previousValue ^ (element.key.hashCode ^ element.value.hashCode));
 }

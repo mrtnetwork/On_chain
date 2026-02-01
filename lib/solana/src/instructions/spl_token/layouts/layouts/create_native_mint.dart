@@ -9,7 +9,7 @@ class SPLTokenCreateNativeMintLayout extends SPLTokenProgramLayout {
   SPLTokenCreateNativeMintLayout();
 
   /// StructLayout structure for SPLTokenCreateNativeMintLayout.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenCreateNativeMintLayout instance from buffer.

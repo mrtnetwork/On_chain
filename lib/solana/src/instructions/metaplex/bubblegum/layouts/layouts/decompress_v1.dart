@@ -17,7 +17,7 @@ class MetaplexBubblegumDecompressV1Layout
         metaData: MetaData.fromJson(decode['metaData']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct(
+  static StructLayout get _layout => LayoutConst.struct(
       [LayoutConst.blob(8, property: 'instruction'), MetaData.staticLayout]);
 
   @override

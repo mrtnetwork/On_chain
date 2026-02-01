@@ -7,27 +7,27 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'accountType'),
-    SolanaLayoutUtils.publicKey('store'),
-    SolanaLayoutUtils.publicKey('authority'),
-    LayoutConst.string(property: 'description'),
-    LayoutConst.string(property: 'uri'),
-    LayoutConst.blob(32, property: 'name'),
-    LayoutConst.u32(property: 'packCards'),
-    LayoutConst.u32(property: 'packVouchers'),
-    LayoutConst.u64(property: 'totalWeight'),
-    LayoutConst.u64(property: 'totalEditions'),
-    LayoutConst.boolean(property: 'mutable'),
-    LayoutConst.u8(property: 'packState'),
-    LayoutConst.u8(property: 'distributionType'),
-    LayoutConst.u32(property: 'allowedAmountToRedeem'),
-    LayoutConst.u64(property: 'redeemStartDate'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'redeemEndDate')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'accountType'),
+        SolanaLayoutUtils.publicKey('store'),
+        SolanaLayoutUtils.publicKey('authority'),
+        LayoutConst.string(property: 'description'),
+        LayoutConst.string(property: 'uri'),
+        LayoutConst.blob(32, property: 'name'),
+        LayoutConst.u32(property: 'packCards'),
+        LayoutConst.u32(property: 'packVouchers'),
+        LayoutConst.u64(property: 'totalWeight'),
+        LayoutConst.u64(property: 'totalEditions'),
+        LayoutConst.boolean(property: 'mutable'),
+        LayoutConst.u8(property: 'packState'),
+        LayoutConst.u8(property: 'distributionType'),
+        LayoutConst.u32(property: 'allowedAmountToRedeem'),
+        LayoutConst.u64(property: 'redeemStartDate'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'redeemEndDate')
+      ]);
 }
 
-class PackSet extends LayoutSerializable {
+class PackSet extends BorshLayoutSerializable {
   final NFTPacksAccountType accountType;
   final SolAddress store;
   final SolAddress authority;
@@ -63,7 +63,7 @@ class PackSet extends LayoutSerializable {
       this.redeemEndDate});
   factory PackSet.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return PackSet(
         accountType: NFTPacksAccountType.fromValue(decode['accountType']),
         store: decode['store'],

@@ -15,10 +15,10 @@ class MetaplexHydraDistributeNftLayout extends MetaplexHydraProgramLayout {
         distributeForMint: decode['distributeForMint']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.boolean(property: 'distributeForMint'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.boolean(property: 'distributeForMint'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

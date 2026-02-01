@@ -30,13 +30,13 @@ class SPLToken2022TransferCheckedWithFeeLayout extends SPLTokenProgramLayout {
         fee: decode['fee']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'transferFee'),
-    LayoutConst.u64(property: 'amount'),
-    LayoutConst.u8(property: 'decimals'),
-    LayoutConst.u64(property: 'fee'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'transferFee'),
+        LayoutConst.u64(property: 'amount'),
+        LayoutConst.u8(property: 'decimals'),
+        LayoutConst.u64(property: 'fee'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

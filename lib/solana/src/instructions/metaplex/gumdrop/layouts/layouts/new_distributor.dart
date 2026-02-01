@@ -24,12 +24,12 @@ class MetaplexGumdropNewDistributorLayout extends MetaplexGumdropProgramLayout {
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.blob(32, property: 'root'),
-    SolanaLayoutUtils.publicKey('temporal'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.blob(32, property: 'root'),
+        SolanaLayoutUtils.publicKey('temporal'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

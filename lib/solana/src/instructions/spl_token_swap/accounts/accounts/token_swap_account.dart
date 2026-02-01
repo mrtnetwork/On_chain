@@ -25,7 +25,7 @@ class SPLTokenSwapAccountUtils {
   static int get size => layout.span;
 }
 
-class SPLTokenSwapAccount extends LayoutSerializable {
+class SPLTokenSwapAccount extends BorshLayoutSerializable {
   final int version;
 
   /// Is the swap initialized, with data written to it
@@ -77,7 +77,7 @@ class SPLTokenSwapAccount extends LayoutSerializable {
     required List<int> curveParameters,
   }) : curveParameters = curveParameters.asImmutableBytes;
   factory SPLTokenSwapAccount.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data, layout: SPLTokenSwapAccountUtils.layout);
     return SPLTokenSwapAccount.fromJson(decode);
   }

@@ -11,11 +11,11 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
 
   SPLToken2022ToggleMemoTransferLayout({required this.memoTransfer});
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(MemoTransferInstruction.staticLayout,
-        property: 'memoTransfer'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(MemoTransferInstruction.staticLayout,
+            property: 'memoTransfer'),
+      ]);
 
   factory SPLToken2022ToggleMemoTransferLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(

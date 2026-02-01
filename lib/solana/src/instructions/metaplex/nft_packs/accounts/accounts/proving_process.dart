@@ -5,19 +5,19 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'accountType'),
-    SolanaLayoutUtils.publicKey('walletKey'),
-    LayoutConst.boolean(property: 'isExhausted'),
-    SolanaLayoutUtils.publicKey('voucherMint'),
-    SolanaLayoutUtils.publicKey('packSet'),
-    LayoutConst.u32(property: 'cardsRedeemed'),
-    LayoutConst.map(LayoutConst.u32(), LayoutConst.u32(),
-        property: 'cardsToRedeem')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'accountType'),
+        SolanaLayoutUtils.publicKey('walletKey'),
+        LayoutConst.boolean(property: 'isExhausted'),
+        SolanaLayoutUtils.publicKey('voucherMint'),
+        SolanaLayoutUtils.publicKey('packSet'),
+        LayoutConst.u32(property: 'cardsRedeemed'),
+        LayoutConst.map(LayoutConst.u32(), LayoutConst.u32(),
+            property: 'cardsToRedeem')
+      ]);
 }
 
-class ProvingProcess extends LayoutSerializable {
+class ProvingProcess extends BorshLayoutSerializable {
   final NFTPacksAccountType accountType;
   final SolAddress walletKey;
   final bool isExhausted;
@@ -35,7 +35,7 @@ class ProvingProcess extends LayoutSerializable {
       required this.cardsToRedeem});
   factory ProvingProcess.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return ProvingProcess(
         accountType: NFTPacksAccountType.fromValue(decode['accountType']),
         walletKey: decode['walletKey'],

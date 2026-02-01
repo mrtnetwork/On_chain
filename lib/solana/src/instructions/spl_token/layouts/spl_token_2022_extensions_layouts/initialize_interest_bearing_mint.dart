@@ -15,13 +15,13 @@ class SPLToken2022InterestBearingMintInitializeLayout
   SPLToken2022InterestBearingMintInitializeLayout(
       {required this.rate, required this.rateAuthority});
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
-        property: 'interestBearingMint'),
-    SolanaLayoutUtils.publicKey('rateAuthority'),
-    LayoutConst.u16(property: 'rate'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
+            property: 'interestBearingMint'),
+        SolanaLayoutUtils.publicKey('rateAuthority'),
+        LayoutConst.u16(property: 'rate'),
+      ]);
 
   factory SPLToken2022InterestBearingMintInitializeLayout.fromBuffer(
       List<int> bytes) {

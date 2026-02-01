@@ -24,12 +24,12 @@ class MetaplexFixedPriceSaleInitSellingResourceLayout
         maxSupply: decode['maxSupply']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'masterEditionBump'),
-    LayoutConst.u8(property: 'vaultOwnerBump'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'masterEditionBump'),
+        LayoutConst.u8(property: 'vaultOwnerBump'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

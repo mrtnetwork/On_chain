@@ -5,18 +5,18 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'accountType'),
-    SolanaLayoutUtils.publicKey('packSet'),
-    SolanaLayoutUtils.publicKey('master'),
-    SolanaLayoutUtils.publicKey('metadata'),
-    SolanaLayoutUtils.publicKey('tokenAccount'),
-    LayoutConst.u32(property: 'maxSupply'),
-    LayoutConst.u16(property: 'weight'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'accountType'),
+        SolanaLayoutUtils.publicKey('packSet'),
+        SolanaLayoutUtils.publicKey('master'),
+        SolanaLayoutUtils.publicKey('metadata'),
+        SolanaLayoutUtils.publicKey('tokenAccount'),
+        LayoutConst.u32(property: 'maxSupply'),
+        LayoutConst.u16(property: 'weight'),
+      ]);
 }
 
-class PackCard extends LayoutSerializable {
+class PackCard extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final NFTPacksAccountType accountType;
   final SolAddress packSet;
@@ -36,7 +36,7 @@ class PackCard extends LayoutSerializable {
       required this.weight});
   factory PackCard.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return PackCard(
         accountType: NFTPacksAccountType.fromValue(decode['accountType']),
         packSet: decode['packSet'],

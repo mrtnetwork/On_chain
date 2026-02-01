@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class GatingConfig extends LayoutSerializable {
+class GatingConfig extends BorshLayoutSerializable {
   final SolAddress collection;
   final bool expireOnUse;
   final BigInt? gatingTime;
@@ -16,11 +16,11 @@ class GatingConfig extends LayoutSerializable {
         gatingTime: json['gatingTime']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('collection'),
-    LayoutConst.boolean(property: 'expireOnUse'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'gatingTime')
-  ], property: 'gatingConfig');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('collection'),
+        LayoutConst.boolean(property: 'expireOnUse'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'gatingTime')
+      ], property: 'gatingConfig');
 
   @override
   StructLayout get layout => staticLayout;

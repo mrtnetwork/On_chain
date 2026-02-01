@@ -14,7 +14,7 @@ class MetaplexCandyMachineMintFromCandyMachineV2Layout
             .mintFromCandyMachineV2.insturction);
     return const MetaplexCandyMachineMintFromCandyMachineV2Layout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
 
   @override

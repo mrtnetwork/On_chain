@@ -115,18 +115,17 @@ class SolanaTransaction {
         SolanaTransactionUtils.deserializeTransaction(serializedTransaction);
 
     final transaction = SolanaTransaction._(
-        List.generate(message.item1.header.numRequiredSignatures,
+        List.generate(message.$1.header.numRequiredSignatures,
             (index) => List<int>.unmodifiable(emptySignatureBytes)),
-        message: message.item1);
-    final signerPubkeys = message.item1.accountKeys
-        .sublist(0, message.item1.header.numRequiredSignatures);
-    for (int i = 0; i < message.item2.length; i++) {
-      if (BytesUtils.bytesEqual(
-          emptySignatureBytes, message.item2.elementAt(i))) {
+        message: message.$1);
+    final signerPubkeys = message.$1.accountKeys
+        .sublist(0, message.$1.header.numRequiredSignatures);
+    for (int i = 0; i < message.$2.length; i++) {
+      if (BytesUtils.bytesEqual(emptySignatureBytes, message.$2.elementAt(i))) {
         continue;
       }
       transaction.addSignature(
-          signerPubkeys.elementAt(i), message.item2.elementAt(i),
+          signerPubkeys.elementAt(i), message.$2.elementAt(i),
 
           /// Supports only versioned Transaction legacy or V0.
           /// Older Transactions may fail.

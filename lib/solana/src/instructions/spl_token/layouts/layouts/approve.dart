@@ -12,10 +12,10 @@ class SPLTokenApproveLayout extends SPLTokenProgramLayout {
   SPLTokenApproveLayout({required this.amount});
 
   /// StructLayout structure for SPLTokenApproveLayout.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'amount')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'amount')
+      ]);
 
   /// Constructs an SPLTokenApproveLayout instance from buffer.
   factory SPLTokenApproveLayout.fromBuffer(List<int> bytes) {

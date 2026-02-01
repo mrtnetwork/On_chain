@@ -14,10 +14,11 @@ class SPLTokenInitializeMintCloseAuthorityLayout extends SPLTokenProgramLayout {
   SPLTokenInitializeMintCloseAuthorityLayout({this.closeAuthority});
 
   /// StructLayout structure for SPLTokenInitializeMintCloseAuthorityLayout.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    SolanaLayoutUtils.optionPubkey(property: 'closeAuthority', keepSize: true)
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        SolanaLayoutUtils.optionPubkey(
+            property: 'closeAuthority', keepSize: true)
+      ]);
 
   /// Constructs an SPLTokenInitializeMintCloseAuthorityLayout instance from buffer.
   factory SPLTokenInitializeMintCloseAuthorityLayout.fromBuffer(

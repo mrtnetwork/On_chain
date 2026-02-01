@@ -5,24 +5,24 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [133, 118, 20, 210, 1, 54, 172, 116];
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('treasuryMint'),
-    SolanaLayoutUtils.publicKey('mintA'),
-    SolanaLayoutUtils.publicKey('mintB'),
-    SolanaLayoutUtils.publicKey('tokenAEscrow'),
-    SolanaLayoutUtils.publicKey('tokenBEscrow'),
-    SolanaLayoutUtils.publicKey('authority'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.u8(property: 'tokenAEscrowBump'),
-    LayoutConst.u8(property: 'tokenBEscrowBump'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.boolean(property: 'paid'),
-    LayoutConst.boolean(property: 'paysEveryTime')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('treasuryMint'),
+        SolanaLayoutUtils.publicKey('mintA'),
+        SolanaLayoutUtils.publicKey('mintB'),
+        SolanaLayoutUtils.publicKey('tokenAEscrow'),
+        SolanaLayoutUtils.publicKey('tokenBEscrow'),
+        SolanaLayoutUtils.publicKey('authority'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.u8(property: 'tokenAEscrowBump'),
+        LayoutConst.u8(property: 'tokenBEscrowBump'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.boolean(property: 'paid'),
+        LayoutConst.boolean(property: 'paysEveryTime')
+      ]);
 }
 
-class EntangledPair extends LayoutSerializable {
+class EntangledPair extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final SolAddress treasuryMint;
   final SolAddress mintA;
@@ -51,7 +51,7 @@ class EntangledPair extends LayoutSerializable {
       required this.paid,
       required this.paysEveryTime});
   factory EntangledPair.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

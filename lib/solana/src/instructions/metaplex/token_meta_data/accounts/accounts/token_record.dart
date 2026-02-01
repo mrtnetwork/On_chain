@@ -5,19 +5,19 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'key'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.wrap(TokenState.staticLayout, property: 'state'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'ruleSetRevision'),
-    SolanaLayoutUtils.optionPubkey(property: 'delegate'),
-    LayoutConst.optional(TokenDelegateRole.staticLayout,
-        property: 'delegateRole'),
-    SolanaLayoutUtils.optionPubkey(property: 'lockedTransfer'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'key'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.wrap(TokenState.staticLayout, property: 'state'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'ruleSetRevision'),
+        SolanaLayoutUtils.optionPubkey(property: 'delegate'),
+        LayoutConst.optional(TokenDelegateRole.staticLayout,
+            property: 'delegateRole'),
+        SolanaLayoutUtils.optionPubkey(property: 'lockedTransfer'),
+      ]);
 }
 
-class TokenRecord extends LayoutSerializable {
+class TokenRecord extends BorshLayoutSerializable {
   final MetaDataKey key;
   final int bump;
   final TokenState state;
@@ -36,7 +36,7 @@ class TokenRecord extends LayoutSerializable {
       required this.lockedTransfer});
   factory TokenRecord.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return TokenRecord(
         key: MetaDataKey.fromValue(decode['key']),
         bump: decode['bump'],

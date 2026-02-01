@@ -1,3 +1,11 @@
+## 8.0.0
+    - Update dependencies.
+    - Minimum required Dart SDK version updated to 3.7.
+    - Reduce static final variables.
+    - Added support for ethereum EIP-4844
+    - Added support for ethereum EIP-712 (ZKSync)
+    - Added support for ethereum EIP-7702
+
 ## 7.1.0
     - Update dependencies.
 

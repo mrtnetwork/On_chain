@@ -18,10 +18,10 @@ class MetaplexTokenMetaDataTransferOutOfEscrowLayout
         amount: decode['amount']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'amount')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'amount')
+      ]);
 
   @override
   StructLayout get layout => _layout;

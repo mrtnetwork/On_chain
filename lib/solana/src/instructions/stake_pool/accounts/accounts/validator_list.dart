@@ -10,7 +10,7 @@ class _Utils {
   ]);
 }
 
-class StakeValidatorListAccount extends LayoutSerializable {
+class StakeValidatorListAccount extends BorshLayoutSerializable {
   /// Account type, must be ValidatorList currently
   final StakePoolAccountType accountType;
 

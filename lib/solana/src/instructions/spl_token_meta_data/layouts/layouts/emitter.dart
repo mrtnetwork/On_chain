@@ -25,11 +25,11 @@ class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// The layout structure for this emit instruction.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.optionU64(property: 'start'),
-    LayoutConst.optionU64(property: 'end')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.optionU64(property: 'start'),
+        LayoutConst.optionU64(property: 'end')
+      ]);
 
   /// Gets the layout structure of this emit instruction.
   @override

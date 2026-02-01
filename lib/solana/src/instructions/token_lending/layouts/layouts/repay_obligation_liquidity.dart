@@ -21,10 +21,10 @@ class TokenLendingRepayObligationLiquidityLayout
         liquidityAmount: decode['liquidityAmount']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'liquidityAmount'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'liquidityAmount'),
+      ]);
   @override
   StructLayout get layout => _layout;
 

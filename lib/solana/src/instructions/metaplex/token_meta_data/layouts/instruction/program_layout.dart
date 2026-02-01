@@ -75,12 +75,12 @@ import 'instructions.dart';
 
 abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
   const MetaplexTokenMetaDataProgramLayout();
-  static final StructLayout __layout =
+  static StructLayout get __layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'discriminator'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'discriminator'),
+      ]);
 
   @override
   abstract final MetaplexTokenMetaDataProgramInstruction instruction;

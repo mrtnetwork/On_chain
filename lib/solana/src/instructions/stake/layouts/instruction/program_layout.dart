@@ -6,7 +6,7 @@ abstract class StakeProgramLayout extends ProgramLayout {
   const StakeProgramLayout();
   @override
   StakeProgramInstruction get instruction;
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =

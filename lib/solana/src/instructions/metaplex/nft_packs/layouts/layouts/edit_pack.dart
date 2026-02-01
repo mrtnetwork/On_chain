@@ -25,13 +25,13 @@ class MetaplexNFTPacksEditPackLayout extends MetaplexNFTPacksProgramLayout {
         mutable: decode['mutable']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.optional(LayoutConst.blob(32), property: 'name'),
-    LayoutConst.optional(LayoutConst.string(), property: 'desciption'),
-    LayoutConst.optional(LayoutConst.string(), property: 'uri'),
-    LayoutConst.optional(LayoutConst.boolean(), property: 'mutable'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.optional(LayoutConst.blob(32), property: 'name'),
+        LayoutConst.optional(LayoutConst.string(), property: 'desciption'),
+        LayoutConst.optional(LayoutConst.string(), property: 'uri'),
+        LayoutConst.optional(LayoutConst.boolean(), property: 'mutable'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

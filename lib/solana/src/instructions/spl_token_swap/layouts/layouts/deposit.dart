@@ -37,12 +37,12 @@ class SPLTokenSwapDepositLayout extends SPLTokenSwapProgramLayout {
   }
 
   /// The layout structure for depositing tokens.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'poolTokenAmount'),
-    LayoutConst.u64(property: 'maximumTokenA'),
-    LayoutConst.u64(property: 'maximumTokenB'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'poolTokenAmount'),
+        LayoutConst.u64(property: 'maximumTokenA'),
+        LayoutConst.u64(property: 'maximumTokenB'),
+      ]);
   @override
   StructLayout get layout => _layout;
 

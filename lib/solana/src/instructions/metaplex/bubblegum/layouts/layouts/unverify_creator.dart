@@ -37,15 +37,15 @@ class MetaplexBubblegumUnverifyCreatorLayout
         message: MetaData.fromJson(decode['metaData']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.blob(32, property: 'root'),
-    LayoutConst.blob(32, property: 'dataHash'),
-    LayoutConst.blob(32, property: 'creatorHash'),
-    LayoutConst.u64(property: 'nonce'),
-    LayoutConst.u32(property: 'index'),
-    MetaData.staticLayout,
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.blob(32, property: 'root'),
+        LayoutConst.blob(32, property: 'dataHash'),
+        LayoutConst.blob(32, property: 'creatorHash'),
+        LayoutConst.u64(property: 'nonce'),
+        LayoutConst.u32(property: 'index'),
+        MetaData.staticLayout,
+      ]);
 
   @override
   StructLayout get layout => _layout;

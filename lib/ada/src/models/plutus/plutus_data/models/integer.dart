@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:blockchain_utils/cbor/extention/extenton.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'config.dart';
 import 'plutus_data.dart';
@@ -74,7 +73,7 @@ class PlutusInteger extends PlutusData {
       case CborPlutusIntegerEncoding.bigInt:
         return CborBigIntValue(value, encoding: serializationConfig.encoding);
       default:
-        if (value <= maxU64) {
+        if (value <= BinaryOps.maxU64) {
           return CborSafeIntValue(value);
         }
         return CborBigIntValue(value);

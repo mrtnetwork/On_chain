@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class MetaDataData extends LayoutSerializable {
+class MetaDataData extends BorshLayoutSerializable {
   final String name;
   final String symbol;
   final String uri;
@@ -28,14 +28,14 @@ class MetaDataData extends LayoutSerializable {
                 .map((e) => Creator.fromJson(e))
                 .toList());
   }
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'symbol'),
-    LayoutConst.string(property: 'uri'),
-    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-    LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-        property: 'creators'),
-  ], property: 'metaDataData');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'symbol'),
+        LayoutConst.string(property: 'uri'),
+        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+        LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
+            property: 'creators'),
+      ], property: 'metaDataData');
 
   @override
   StructLayout get layout => staticLayout;

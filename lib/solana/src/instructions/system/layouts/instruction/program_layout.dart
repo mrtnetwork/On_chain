@@ -6,7 +6,7 @@ abstract class SystemProgramLayout extends ProgramLayout {
   const SystemProgramLayout();
   @override
   SystemProgramInstruction get instruction;
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =

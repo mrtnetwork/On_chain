@@ -29,11 +29,11 @@ class AddressLookupCreateLookupTableLayout
   }
 
   // StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    LayoutConst.u64(property: 'recentSlot'),
-    LayoutConst.u8(property: 'bumpSeed')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        LayoutConst.u64(property: 'recentSlot'),
+        LayoutConst.u8(property: 'bumpSeed')
+      ]);
 
   @override
   StructLayout get layout => _layout;

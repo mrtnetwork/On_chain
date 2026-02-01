@@ -31,14 +31,15 @@ class MetaplexFixedPriceSaleChangeMarketLayout
   final BigInt? newPiecesInOneWallet;
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.optional(LayoutConst.string(), property: 'newName'),
-    LayoutConst.optional(LayoutConst.string(), property: 'newDescription'),
-    LayoutConst.optional(LayoutConst.boolean(), property: 'mutable'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'newPrice'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'newPiecesInOneWallet'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.optional(LayoutConst.string(), property: 'newName'),
+        LayoutConst.optional(LayoutConst.string(), property: 'newDescription'),
+        LayoutConst.optional(LayoutConst.boolean(), property: 'mutable'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'newPrice'),
+        LayoutConst.optional(LayoutConst.u64(),
+            property: 'newPiecesInOneWallet'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

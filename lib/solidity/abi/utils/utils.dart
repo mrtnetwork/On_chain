@@ -63,7 +63,7 @@ class ABIUtils {
   }
 
   /// Extracts the array type and size information from the given ABI parameter.
-  static Tuple<AbiParameter, int> _toArrayType(AbiParameter abi) {
+  static (AbiParameter, int) _toArrayType(AbiParameter abi) {
     final int arrayParenthesisStart = abi.type.lastIndexOf('[');
     final String arrayParamType = abi.type.substring(0, arrayParenthesisStart);
     final String sizeString = abi.type.substring(arrayParenthesisStart);
@@ -77,10 +77,10 @@ class ABIUtils {
       }
       size = parseSize;
     }
-    return Tuple(
-        AbiParameter(
-            type: arrayParamType, name: '', components: abi.components),
-        size);
+    return (
+      AbiParameter(type: arrayParamType, name: '', components: abi.components),
+      size
+    );
   }
 
   static List<int> encodePacked(
@@ -134,11 +134,8 @@ class ABIConst {
 /// Regular expressions and exception messages related to array detection,
 /// size detection, and invalid arguments in Ethereum ABI.
 class _ABIValidator {
-  /// Regular expression for detecting arrays in ABI type.
-  static final RegExp arrayDetectRegex = RegExp(r'\[(\d*)\]|\[\]');
-
   /// Regular expression for detecting size in ABI type.
-  static final RegExp sizeDetectRegex = RegExp(r'\d+');
+  static RegExp get sizeDetectRegex => RegExp(r'\d+');
 
   /// Validates bytes based on type, checking for length constraints.
   ///

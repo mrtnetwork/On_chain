@@ -21,10 +21,10 @@ class TokenLendingDepositObligationCollateralLayout
         collateralAmount: decode['collateralAmount']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'collateralAmount'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'collateralAmount'),
+      ]);
   @override
   StructLayout get layout => _layout;
 

@@ -51,21 +51,22 @@ class MetaplexAuctioneerSellLayout extends MetaplexAuctioneerProgramLayout {
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'tradeStateBump'),
-    LayoutConst.u8(property: 'freeTradeStateBump'),
-    LayoutConst.u8(property: 'programAsSignerBump'),
-    LayoutConst.u8(property: 'auctioneerAuthorityBump'),
-    LayoutConst.u64(property: 'tokenSize'),
-    LayoutConst.i64(property: 'startTime'),
-    LayoutConst.i64(property: 'endTime'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'reservePrice'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'minBidIncrement'),
-    LayoutConst.optional(LayoutConst.u32(), property: 'timeExtPeriod'),
-    LayoutConst.optional(LayoutConst.u32(), property: 'timeExtDelta'),
-    LayoutConst.optional(LayoutConst.boolean(), property: 'allowHighBidCancel'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'tradeStateBump'),
+        LayoutConst.u8(property: 'freeTradeStateBump'),
+        LayoutConst.u8(property: 'programAsSignerBump'),
+        LayoutConst.u8(property: 'auctioneerAuthorityBump'),
+        LayoutConst.u64(property: 'tokenSize'),
+        LayoutConst.i64(property: 'startTime'),
+        LayoutConst.i64(property: 'endTime'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'reservePrice'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'minBidIncrement'),
+        LayoutConst.optional(LayoutConst.u32(), property: 'timeExtPeriod'),
+        LayoutConst.optional(LayoutConst.u32(), property: 'timeExtDelta'),
+        LayoutConst.optional(LayoutConst.boolean(),
+            property: 'allowHighBidCancel'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

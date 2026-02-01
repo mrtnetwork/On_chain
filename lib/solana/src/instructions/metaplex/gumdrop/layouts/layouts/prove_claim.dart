@@ -43,17 +43,17 @@ class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
         proof: (decode['proof'] as List).cast());
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.vecU8(property: 'claimPrefix'),
-    LayoutConst.u8(property: 'claimBump'),
-    LayoutConst.u64(property: 'index'),
-    LayoutConst.u64(property: 'amount'),
-    SolanaLayoutUtils.publicKey('claimantSecret'),
-    SolanaLayoutUtils.publicKey('resource'),
-    LayoutConst.vecU8(property: 'resourceNonce'),
-    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.vecU8(property: 'claimPrefix'),
+        LayoutConst.u8(property: 'claimBump'),
+        LayoutConst.u64(property: 'index'),
+        LayoutConst.u64(property: 'amount'),
+        SolanaLayoutUtils.publicKey('claimantSecret'),
+        SolanaLayoutUtils.publicKey('resource'),
+        LayoutConst.vecU8(property: 'resourceNonce'),
+        LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

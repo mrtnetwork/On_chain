@@ -38,15 +38,15 @@ class MetaplexGumdropClaimEditionLayout extends MetaplexGumdropProgramLayout {
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'claimBump'),
-    LayoutConst.u64(property: 'index'),
-    LayoutConst.u64(property: 'amount'),
-    LayoutConst.u64(property: 'edition'),
-    SolanaLayoutUtils.publicKey('claimantSecret'),
-    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'claimBump'),
+        LayoutConst.u64(property: 'index'),
+        LayoutConst.u64(property: 'amount'),
+        LayoutConst.u64(property: 'edition'),
+        SolanaLayoutUtils.publicKey('claimantSecret'),
+        LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

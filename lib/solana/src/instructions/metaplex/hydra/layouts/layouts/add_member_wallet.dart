@@ -14,10 +14,10 @@ class MetaplexHydraAddMemberWalletLayout extends MetaplexHydraProgramLayout {
     return MetaplexHydraAddMemberWalletLayout(shares: decode['shares']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u64(property: 'shares'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u64(property: 'shares'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

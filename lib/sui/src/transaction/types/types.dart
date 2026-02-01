@@ -52,7 +52,7 @@ class SuiObjectRef extends BcsSerialization {
   final SuiObjectDigest digest;
   SuiObjectRef(
       {required this.address, required BigInt version, required this.digest})
-      : version = version.asUint64;
+      : version = version.asU64;
   factory SuiObjectRef.fromStruct(Map<String, dynamic> json) {
     return SuiObjectRef(
         address: SuiAddress.fromStruct(json.asMap("address")),
@@ -462,7 +462,7 @@ class SuiArgumentGasCoin extends SuiArgument {
 class SuiArgumentInput extends SuiArgument {
   final int input;
   SuiArgumentInput(int input)
-      : input = input.asUint16,
+      : input = input.asU16,
         super(type: SuiArguments.input);
   factory SuiArgumentInput.fromStruct(Map<String, dynamic> json) {
     return SuiArgumentInput(json.as("input"));
@@ -487,7 +487,7 @@ class SuiArgumentInput extends SuiArgument {
 class SuiArgumentResult extends SuiArgument {
   final int result;
   SuiArgumentResult(int result)
-      : result = result.asUint16,
+      : result = result.asU16,
         super(type: SuiArguments.result);
 
   static StructLayout layout({String? property}) {
@@ -514,8 +514,8 @@ class SuiArgumentNestedResult extends SuiArgument {
   final int commandIndex;
   final int resultIndex;
   SuiArgumentNestedResult({required int commandIndex, required int resultIndex})
-      : commandIndex = commandIndex.asUint16,
-        resultIndex = resultIndex.asUint16,
+      : commandIndex = commandIndex.asU16,
+        resultIndex = resultIndex.asU16,
         super(type: SuiArguments.nestedResult);
 
   factory SuiArgumentNestedResult.fromStruct(Map<String, dynamic> json) {
@@ -566,8 +566,8 @@ class SuiGasData extends BcsSerialization {
       required BigInt price,
       required BigInt budget})
       : payment = payment.immutable,
-        price = price.asUint64,
-        budget = budget.asUint64;
+        price = price.asU64,
+        budget = budget.asU64;
   factory SuiGasData.fromStruct(Map<String, dynamic> json) {
     return SuiGasData(
         payment: json
@@ -1157,7 +1157,7 @@ class SuiObjectArgSharedObject extends SuiObjectArg {
       {required this.id,
       required BigInt initialSharedVersion,
       required this.mutable})
-      : initialSharedVersion = initialSharedVersion.asUint64,
+      : initialSharedVersion = initialSharedVersion.asU64,
         super(type: SuiObjectArgs.sharedObject);
   factory SuiObjectArgSharedObject.fromStruct(Map<String, dynamic> json) {
     return SuiObjectArgSharedObject(
@@ -1589,7 +1589,7 @@ class SuiTransactionExpirationNone extends SuiTransactionExpiration {
 class SuiTransactionExpirationEpoch extends SuiTransactionExpiration {
   final BigInt epochId;
   SuiTransactionExpirationEpoch({required BigInt epochId})
-      : epochId = epochId.asUint64,
+      : epochId = epochId.asU64,
         super(type: SuiTransactionV2TransactionExpirations.epoch);
   factory SuiTransactionExpirationEpoch.fromStruct(Map<String, dynamic> json) {
     return SuiTransactionExpirationEpoch(epochId: json.as("epochId"));

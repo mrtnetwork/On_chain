@@ -16,7 +16,7 @@ class AssociatedTokenAccountProgramInitializeLayout
             AssociatedTokenAccountProgramInstruction.initialize.insturction);
     return const AssociatedTokenAccountProgramInitializeLayout();
   }
-  static final StructLayout _layout = LayoutConst.struct([]);
+  static StructLayout get _layout => LayoutConst.struct([]);
   @override
   StructLayout get layout => _layout;
 

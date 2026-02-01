@@ -14,10 +14,10 @@ class SPLTokenInitializeAccount2Layout extends SPLTokenProgramLayout {
   SPLTokenInitializeAccount2Layout({required this.owner});
 
   /// StructLayout structure for SPLTokenInitializeAccount2Layout.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('owner')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('owner')
+      ]);
 
   /// Constructs an SPLTokenInitializeAccount2Layout instance from buffer.
   factory SPLTokenInitializeAccount2Layout.fromBuffer(List<int> bytes) {

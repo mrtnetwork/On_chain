@@ -25,11 +25,11 @@ class StakePoolUpdateValidatorListBalanceLayout extends StakePoolProgramLayout {
         noMerge: decode['noMerge'], startIndex: decode['startIndex']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u32(property: 'startIndex'),
-    LayoutConst.boolean(property: 'noMerge')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u32(property: 'startIndex'),
+        LayoutConst.boolean(property: 'noMerge')
+      ]);
   @override
   StructLayout get layout => _layout;
   @override

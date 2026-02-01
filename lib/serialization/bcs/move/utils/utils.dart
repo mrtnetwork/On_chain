@@ -31,7 +31,7 @@ class MoveUtils {
   static int parseU8({Object? value}) {
     try {
       final toint = IntUtils.parse(value);
-      return toint.asUint8;
+      return toint.asU8;
     } catch (e) {
       throw BcsSerializationException(
           "Invalid value for move type 'U8': Expected an unsigned 8-bit integer (0–255).",
@@ -43,7 +43,7 @@ class MoveUtils {
   static int parseU16({Object? value}) {
     try {
       final toint = IntUtils.parse(value);
-      return toint.asUint16;
+      return toint.asU16;
     } catch (e) {
       throw BcsSerializationException(
           "Invalid value for move type 'U16': Expected an unsigned 16-bit integer (0–65,535).",
@@ -55,7 +55,7 @@ class MoveUtils {
   static int parseU32({Object? value}) {
     try {
       final toint = IntUtils.parse(value);
-      return toint.asUint32;
+      return toint.asU32;
     } catch (e) {
       throw BcsSerializationException(
           "Invalid value for move type 'U32': Expected an unsigned 32-bit integer (0–4,294,967,295).",
@@ -67,7 +67,7 @@ class MoveUtils {
   static BigInt parseU64({Object? value}) {
     try {
       final toint = BigintUtils.parse(value);
-      return toint.asUint64;
+      return toint.asU64;
     } catch (e) {
       throw BcsSerializationException(
           "Invalid value for move type 'U64': Expected an unsigned 64-bit integer (0–2^64−1).",
@@ -79,7 +79,7 @@ class MoveUtils {
   static BigInt parseU128({Object? value}) {
     try {
       final toint = BigintUtils.parse(value);
-      return toint.asUint128;
+      return toint.asU128;
     } catch (e) {
       throw BcsSerializationException(
           "Invalid value for move type 'U128': Expected an unsigned 128-bit integer (0–2^128−1).",
@@ -91,7 +91,7 @@ class MoveUtils {
   static BigInt parseU256({Object? value}) {
     try {
       final toint = BigintUtils.parse(value);
-      return toint.asUint256;
+      return toint.asU256;
     } catch (e) {
       throw BcsSerializationException(
           "Invalid value for move type 'U256': Expected an unsigned 256-bit integer (0–2^256−1).",

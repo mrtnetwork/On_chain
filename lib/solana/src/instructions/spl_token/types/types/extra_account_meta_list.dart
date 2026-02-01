@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/spl_token/types/types/extra_acc
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class ExtraAccountMetaList extends LayoutSerializable {
+class ExtraAccountMetaList extends BorshLayoutSerializable {
   final int count;
   final List<ExtraAccountMeta> extraAccounts;
   ExtraAccountMetaList({

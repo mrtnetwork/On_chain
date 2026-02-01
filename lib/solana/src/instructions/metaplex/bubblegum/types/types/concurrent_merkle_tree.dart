@@ -3,7 +3,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class ConcurrentMerkleTree extends LayoutSerializable {
+class ConcurrentMerkleTree extends BorshLayoutSerializable {
   final BigInt sequenceNumber;
   final BigInt activeIndex;
   final BigInt bufferSize;

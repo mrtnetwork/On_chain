@@ -5,22 +5,22 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class _Utils {
   static const List<int> discriminator = [183, 196, 26, 41, 131, 46, 184, 115];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    LayoutConst.u8(property: 'version'),
-    LayoutConst.i64(property: 'startTime'),
-    LayoutConst.i64(property: 'endTime'),
-    Bid.staticLayout,
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.u64(property: 'reservePrice'),
-    LayoutConst.u64(property: 'minBidIncrement'),
-    LayoutConst.u32(property: 'timeExtPeriod'),
-    LayoutConst.u32(property: 'timeExtDelta'),
-    LayoutConst.boolean(property: 'allowHighBidCancel')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        LayoutConst.u8(property: 'version'),
+        LayoutConst.i64(property: 'startTime'),
+        LayoutConst.i64(property: 'endTime'),
+        Bid.staticLayout,
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.u64(property: 'reservePrice'),
+        LayoutConst.u64(property: 'minBidIncrement'),
+        LayoutConst.u32(property: 'timeExtPeriod'),
+        LayoutConst.u32(property: 'timeExtDelta'),
+        LayoutConst.boolean(property: 'allowHighBidCancel')
+      ]);
 }
 
-class ListingConfig extends LayoutSerializable {
+class ListingConfig extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final BigInt startTime;
   final BigInt endTime;
@@ -43,7 +43,7 @@ class ListingConfig extends LayoutSerializable {
       required this.timeExtDelta,
       required this.allowHighBidCancel});
   factory ListingConfig.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

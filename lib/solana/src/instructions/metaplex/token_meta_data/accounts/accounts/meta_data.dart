@@ -6,26 +6,26 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'key'),
-    SolanaLayoutUtils.publicKey('updateAuthority'),
-    SolanaLayoutUtils.publicKey('mint'),
-    MetaDataData.staticLayout,
-    LayoutConst.boolean(property: 'primarySaleHappened'),
-    LayoutConst.boolean(property: 'isMutable'),
-    LayoutConst.optional(LayoutConst.u8(), property: 'editionNonce'),
-    LayoutConst.optional(MetaDataTokenStandard.staticLayout,
-        property: 'tokenStandard'),
-    LayoutConst.optional(Collection.staticLayout, property: 'collection'),
-    LayoutConst.optional(Uses.staticLayout, property: 'uses'),
-    LayoutConst.optional(CollectionDetailsV1.staticLayout,
-        property: 'collectionDetails'),
-    LayoutConst.optional(ProgrammableConfigRecord.staticLayout,
-        property: 'programmableConfigRecord'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'key'),
+        SolanaLayoutUtils.publicKey('updateAuthority'),
+        SolanaLayoutUtils.publicKey('mint'),
+        MetaDataData.staticLayout,
+        LayoutConst.boolean(property: 'primarySaleHappened'),
+        LayoutConst.boolean(property: 'isMutable'),
+        LayoutConst.optional(LayoutConst.u8(), property: 'editionNonce'),
+        LayoutConst.optional(MetaDataTokenStandard.staticLayout,
+            property: 'tokenStandard'),
+        LayoutConst.optional(Collection.staticLayout, property: 'collection'),
+        LayoutConst.optional(Uses.staticLayout, property: 'uses'),
+        LayoutConst.optional(CollectionDetailsV1.staticLayout,
+            property: 'collectionDetails'),
+        LayoutConst.optional(ProgrammableConfigRecord.staticLayout,
+            property: 'programmableConfigRecord'),
+      ]);
 }
 
-class Metadata extends LayoutSerializable {
+class Metadata extends BorshLayoutSerializable {
   final MetaDataKey key;
   final SolAddress updateAuthority;
   final SolAddress mint;
@@ -54,7 +54,7 @@ class Metadata extends LayoutSerializable {
       required this.programmableConfigRecord});
   factory Metadata.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return Metadata(
         key: MetaDataKey.fromValue(decode['key']),
         updateAuthority: decode['updateAuthority'],

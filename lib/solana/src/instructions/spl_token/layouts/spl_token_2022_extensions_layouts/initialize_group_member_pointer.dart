@@ -32,13 +32,13 @@ class SPLToken2022InitializeGroupMemberPointerLayout
             ? null
             : decode['memberAddress']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(GroupMemberPointerInstruction.staticLayout,
-        property: 'groupMemberPointer'),
-    SolanaLayoutUtils.publicKey('authority'),
-    SolanaLayoutUtils.publicKey('memberAddress'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(GroupMemberPointerInstruction.staticLayout,
+            property: 'groupMemberPointer'),
+        SolanaLayoutUtils.publicKey('authority'),
+        SolanaLayoutUtils.publicKey('memberAddress'),
+      ]);
 
   /// Returns the layout structure.
   @override

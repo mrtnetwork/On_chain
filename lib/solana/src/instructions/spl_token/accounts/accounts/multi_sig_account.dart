@@ -5,18 +5,19 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaMultiSigAccountUtils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'numberOfSigners'),
-    LayoutConst.u8(property: 'numberOfPossibleSigners'),
-    LayoutConst.boolean(property: 'isInitialized'),
-    LayoutConst.array(SolanaLayoutUtils.publicKey(), 11, property: 'signers'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'numberOfSigners'),
+        LayoutConst.u8(property: 'numberOfPossibleSigners'),
+        LayoutConst.boolean(property: 'isInitialized'),
+        LayoutConst.array(SolanaLayoutUtils.publicKey(), 11,
+            property: 'signers'),
+      ]);
 
   static int get multisigSize => layout.span;
 }
 
 /// Multisignature data.
-class SolanaMultiSigAccount extends LayoutSerializable {
+class SolanaMultiSigAccount extends BorshLayoutSerializable {
   final SolAddress address;
 
   /// Number of signers required
@@ -47,7 +48,7 @@ class SolanaMultiSigAccount extends LayoutSerializable {
           });
     }
 
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data, layout: SolanaMultiSigAccountUtils.layout);
     final n = decode['numberOfPossibleSigners'];
     return SolanaMultiSigAccount(

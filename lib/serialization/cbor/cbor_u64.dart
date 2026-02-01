@@ -4,10 +4,10 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 
 /// A class representing a CBOR (Concise Binary Object Representation) int (64-byte) value.
-class CborUnsignedValue implements CborNumeric {
+class CborUnsignedValue extends CborNumeric {
   /// Constructor for creating a CborInt64Value instance with the provided parameters.
   /// It accepts the Bigint value.
-  const CborUnsignedValue._(this.value);
+  const CborUnsignedValue._(super.value);
 
   factory CborUnsignedValue.u64(dynamic value) {
     if (value is! int && value is! BigInt) {
@@ -29,9 +29,6 @@ class CborUnsignedValue implements CborNumeric {
     }
     return CborUnsignedValue._(value);
   }
-
-  @override
-  final dynamic value;
 
   /// Encode the value into CBOR bytes
   @override
@@ -73,15 +70,6 @@ class CborUnsignedValue implements CborNumeric {
     return value;
   }
 
-  /// override equal operation
   @override
-  bool operator ==(other) {
-    if (other is! CborNumeric) return false;
-    if (other is CborBigIntValue) return false;
-    return other.toBigInt() == toBigInt();
-  }
-
-  /// override hashcode
-  @override
-  int get hashCode => value.hashCode;
+  List<dynamic> get variables => [value];
 }

@@ -42,9 +42,9 @@ class SafeTransactionGasParams {
       required BigInt gasPrice,
       required this.gasToken,
       required this.refundReceiver})
-      : safeTxGas = safeTxGas.asUint256,
-        baseGas = baseGas.asUint256,
-        gasPrice = gasPrice.asUint256;
+      : safeTxGas = safeTxGas.asU256,
+        baseGas = baseGas.asU256,
+        gasPrice = gasPrice.asU256;
   factory SafeTransactionGasParams(
       {BigInt? safeTxGas,
       BigInt? baseGas,
@@ -94,9 +94,9 @@ class SafeTransaction {
       required this.operation,
       required BigInt nonce,
       required this.gasParams})
-      : value = value.asUint256,
+      : value = value.asU256,
         data = data.asImmutableBytes,
-        nonce = nonce.asUint256;
+        nonce = nonce.asU256;
   factory SafeTransaction(
       {required ETHAddress to,
       required BigInt nonce,
@@ -132,8 +132,11 @@ class SafeSignature {
   final List<int> signature;
   SafeSignature({required this.address, required List<int> signature})
       : signature = signature
-            .exc(CryptoSignerConst.ecdsaSignatureLength +
-                CryptoSignerConst.ecdsaRecoveryIdLength)
+            .exc(
+                length: CryptoSignerConst.ecdsaSignatureLength +
+                    CryptoSignerConst.ecdsaRecoveryIdLength,
+                operation: "SafeSignature",
+                reason: "Invalid signature bytes length.")
             .asImmutableBytes;
 }
 

@@ -51,12 +51,12 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
     return StakePoolCreateTokenMetaDataLayout(
         name: decode['name'], uri: decode['uri'], symbol: decode['symbol']);
   }
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'symbol'),
-    LayoutConst.string(property: 'uri'),
-  ]);
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'symbol'),
+        LayoutConst.string(property: 'uri'),
+      ]);
 
   @override
   StructLayout get layout => staticLayout;

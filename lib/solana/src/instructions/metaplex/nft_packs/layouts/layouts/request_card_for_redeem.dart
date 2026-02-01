@@ -17,10 +17,10 @@ class MetaplexNFTPacksRequestCardForRedeemLayout
     return MetaplexNFTPacksRequestCardForRedeemLayout(index: decode['index']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u32(property: 'index')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u32(property: 'index')
+      ]);
 
   @override
   StructLayout get layout => _layout;

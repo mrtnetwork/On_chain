@@ -28,7 +28,7 @@ class ContractABI with InternalCborSerialization {
       }).toList();
       return ContractABI._(fragments);
     } catch (e) {
-      throw MessageException('invalid contract abi',
+      throw SolidityAbiException('invalid contract abi',
           details: {'error': e.toString()});
     }
   }
@@ -142,7 +142,7 @@ class ContractABI with InternalCborSerialization {
   }
 
   /// solidity revert Error fragment
-  static final revert = AbiErrorFragment(
+  static AbiErrorFragment get revert => AbiErrorFragment(
       name: 'Error',
       inputs: [const AbiParameter(name: 'message', type: 'string')]);
 

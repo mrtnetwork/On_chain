@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Stake account lockup info
-class StakeLockup extends LayoutSerializable {
+class StakeLockup extends BorshLayoutSerializable {
   /// Unix timestamp of lockup expiration
   final BigInt timestamp;
 
@@ -22,17 +22,17 @@ class StakeLockup extends LayoutSerializable {
         custodian: json['custodian']);
   }
 
-  static final defaultLockup = StakeLockup(
-    custodian: SolAddress.defaultPubKey,
-    epoch: BigInt.zero,
-    timestamp: BigInt.zero,
-  );
+  static StakeLockup get defaultLockup => StakeLockup(
+        custodian: SolAddress.defaultPubKey,
+        epoch: BigInt.zero,
+        timestamp: BigInt.zero,
+      );
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.i64(property: 'timestamp'),
-    LayoutConst.u64(property: 'epoch'),
-    SolanaLayoutUtils.publicKey('custodian')
-  ], property: 'lockup');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.i64(property: 'timestamp'),
+        LayoutConst.u64(property: 'epoch'),
+        SolanaLayoutUtils.publicKey('custodian')
+      ], property: 'lockup');
 
   @override
   StructLayout get layout => staticLayout;

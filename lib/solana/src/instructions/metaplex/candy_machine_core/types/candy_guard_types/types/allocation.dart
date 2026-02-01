@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class Allocation extends LayoutSerializable {
+class Allocation extends BorshLayoutSerializable {
   final int id;
   final int limit;
 
@@ -10,10 +10,10 @@ class Allocation extends LayoutSerializable {
     return Allocation(id: json['id'], limit: json['limit']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u8(property: 'id'),
-    LayoutConst.u32(property: 'limit'),
-  ], property: 'allocation');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u8(property: 'id'),
+        LayoutConst.u32(property: 'limit'),
+      ], property: 'allocation');
 
   @override
   StructLayout get layout => staticLayout;

@@ -20,10 +20,10 @@ class MetaplexBubblegumSetDecompressibleStateLayout
             DecompressibleState.fromValue(decode['decompressableState']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'decompressableState'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'decompressableState'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -6,16 +6,18 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('transferFeeConfigAuthority'),
-    SolanaLayoutUtils.publicKey('withdrawWithheldAuthority'),
-    LayoutConst.u64(property: 'withheldAmount'),
-    LayoutConst.wrap(TransferFee.staticLayout, property: 'olderTransferFee'),
-    LayoutConst.wrap(TransferFee.staticLayout, property: 'newerTransferFee'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('transferFeeConfigAuthority'),
+        SolanaLayoutUtils.publicKey('withdrawWithheldAuthority'),
+        LayoutConst.u64(property: 'withheldAmount'),
+        LayoutConst.wrap(TransferFee.staticLayout,
+            property: 'olderTransferFee'),
+        LayoutConst.wrap(TransferFee.staticLayout,
+            property: 'newerTransferFee'),
+      ]);
 
   static int get accountSize => layout.span;
-  static final oneInBasisPoint = BigInt.from(10000);
+  static BigInt get oneInBasisPoint => BigInt.from(10000);
 
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
@@ -23,7 +25,8 @@ class _Utils {
         throw SolanaPluginException('Account data length is insufficient.',
             details: {'Expected': accountSize, 'length': extensionData.length});
       }
-      return LayoutSerializable.decode(bytes: extensionData, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionData, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -35,7 +38,8 @@ class _Utils {
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
               accountBytes: accountBytes,
               extensionType: ExtensionType.transferFeeConfig);
-      return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionBytes, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -43,7 +47,9 @@ class _Utils {
 }
 
 /// Transfer fee extension data for mints.
-class TransferFeeConfig extends LayoutSerializable {
+class TransferFeeConfig extends BorshLayoutSerializable {
+  static int get size => _Utils.accountSize;
+
   /// Optional authority to set the fee
   final SolAddress transferFeeConfigAuthority;
 

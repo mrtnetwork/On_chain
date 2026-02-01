@@ -107,32 +107,39 @@ class AptosConstants {
     109,
     212
   ];
-  static final AptosStructTag object = AptosStructTag(
-      address: AptosAddress.one, moduleName: 'object', name: 'Object');
-  static final AptosStructTag string = AptosStructTag(
-      address: AptosAddress.one, moduleName: 'string', name: 'String');
-  static final AptosStructTag option = AptosStructTag(
-      address: AptosAddress.one, moduleName: 'option', name: 'Option');
-
-  static final AptosModuleId systemFrameworkCoinModuleId =
-      AptosModuleId(address: AptosAddress.one, name: "coin");
-  static final AptosModuleId systemFrameworkAccountModuleId =
-      AptosModuleId(address: AptosAddress.one, name: "aptos_account");
+  static const String aptosCoinAssetType = "0x1::aptos_coin::AptosCoin";
   static const String transferFunctionName = 'transfer';
   static const String batchTransferFunctionName = 'batch_transfer';
-  static final AptosModuleId publishModuleModuleId =
-      AptosModuleId(address: AptosAddress.one, name: "code");
   static const String publishModuleFunctionName = 'publish_package_txn';
-  static final aptosCoinTypeStructArgs = AptosTypeTagStruct(AptosStructTag(
-      address: AptosAddress.one, moduleName: "aptos_coin", name: "AptosCoin"));
-  static final BigInt defaultMaxGasAmount = BigInt.from(200000);
-  static final BigInt defaultMinGasAmount = BigInt.from(15000);
-  static const String aptosCoinAssetType = "0x1::aptos_coin::AptosCoin";
-  static final AptosTypeTagStruct fungibleAssetMetadataTypeTag =
+
+  static AptosStructTag get object => AptosStructTag(
+      address: AptosAddress.one, moduleName: 'object', name: 'Object');
+  static AptosStructTag get string => AptosStructTag(
+      address: AptosAddress.one, moduleName: 'string', name: 'String');
+  static AptosStructTag get option => AptosStructTag(
+      address: AptosAddress.one, moduleName: 'option', name: 'Option');
+
+  static AptosModuleId get systemFrameworkCoinModuleId =>
+      AptosModuleId(address: AptosAddress.one, name: "coin");
+  static AptosModuleId get systemFrameworkAccountModuleId =>
+      AptosModuleId(address: AptosAddress.one, name: "aptos_account");
+
+  static AptosModuleId get publishModuleModuleId =>
+      AptosModuleId(address: AptosAddress.one, name: "code");
+
+  static AptosTypeTagStruct get aptosCoinTypeStructArgs =>
+      AptosTypeTagStruct(AptosStructTag(
+          address: AptosAddress.one,
+          moduleName: "aptos_coin",
+          name: "AptosCoin"));
+  static BigInt get defaultMaxGasAmount => BigInt.from(200000);
+  static BigInt get defaultMinGasAmount => BigInt.from(15000);
+
+  static AptosTypeTagStruct get fungibleAssetMetadataTypeTag =>
       AptosTypeTagStruct(AptosStructTag(
           address: AptosAddress.one,
           moduleName: "fungible_asset",
           name: "Metadata"));
-  static final primaryFungibleStoreModule =
+  static AptosModuleId get primaryFungibleStoreModule =>
       AptosModuleId(address: AptosAddress.one, name: "primary_fungible_store");
 }

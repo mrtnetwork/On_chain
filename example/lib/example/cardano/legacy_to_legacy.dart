@@ -5,8 +5,8 @@ import 'provider_example/provider.dart';
 void main() async {
   final byronLegacyWallet =
       CardanoByronLegacy.fromSeed(List<int>.filled(32, 12));
-  final privateKey = byronLegacyWallet.getPrivateKey(
-      firstIndex: Bip32KeyIndex(0), secondIndex: Bip32KeyIndex(2));
+  final key = byronLegacyWallet.deriveKey(Bip32KeyIndex(0), Bip32KeyIndex(2));
+  final privateKey = key.privateKey;
   final adaPrivateKey = AdaPrivateKey.fromBytes(privateKey.raw);
   final receiverLegacy = ADAByronAddress(
       "KjgoiXJS2coQ3nS6mdqjBvy1HnFKgiZEeTbNTtncA1HgTEDnbkhXkFKBQn5DxXiGZ4nZp25VtcqvMfpg4QRPdVELJE8LpWkyLav3kcKyXc2w",
@@ -38,7 +38,7 @@ void main() async {
       fee: ADAHelper.toLovelaces("1"));
 
   final withness = adaPrivateKey.createBootstrapWitness(
-      chainCode: privateKey.chainCode.toBytes(),
+      chainCode: key.chainCode.toBytes(),
       address: multiSig,
       digest: body.toHash().data);
 

@@ -43,12 +43,12 @@ class NameServiceCreateLayout extends NameServiceProgramLayout {
   }
 
   /// Generates the layout structure.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.vecU8(property: 'hashedName'),
-    LayoutConst.u64(property: 'lamports'),
-    LayoutConst.u32(property: 'space'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.vecU8(property: 'hashedName'),
+        LayoutConst.u64(property: 'lamports'),
+        LayoutConst.u32(property: 'space'),
+      ]);
 
   /// The layout structure.
   @override

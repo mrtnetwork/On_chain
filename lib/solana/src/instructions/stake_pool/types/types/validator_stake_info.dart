@@ -5,7 +5,7 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 import 'validator_stake_info_status.dart';
 
 /// Information about a validator in the pool
-class ValidatorStakeInfo extends LayoutSerializable {
+class ValidatorStakeInfo extends BorshLayoutSerializable {
   /// Amount of active stake delegated to this validator
   final BigInt activeStakeLamports;
 
@@ -45,15 +45,15 @@ class ValidatorStakeInfo extends LayoutSerializable {
         voteAccountAddress: json['voteAccountAddress']);
   }
 
-  static final staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'activeStakeLamports'),
-    LayoutConst.u64(property: 'transientStakeLamports'),
-    LayoutConst.u64(property: 'lastUpdateEpoch'),
-    LayoutConst.u64(property: 'transientSeedSuffixStart'),
-    LayoutConst.u64(property: 'transientSeedSuffixEnd'),
-    LayoutConst.u8(property: 'status'),
-    SolanaLayoutUtils.publicKey('voteAccountAddress'),
-  ], property: 'validatorStakeInfo');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'activeStakeLamports'),
+        LayoutConst.u64(property: 'transientStakeLamports'),
+        LayoutConst.u64(property: 'lastUpdateEpoch'),
+        LayoutConst.u64(property: 'transientSeedSuffixStart'),
+        LayoutConst.u64(property: 'transientSeedSuffixEnd'),
+        LayoutConst.u8(property: 'status'),
+        SolanaLayoutUtils.publicKey('voteAccountAddress'),
+      ], property: 'validatorStakeInfo');
 
   @override
   StructLayout get layout => staticLayout;

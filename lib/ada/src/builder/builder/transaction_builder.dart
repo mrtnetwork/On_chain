@@ -99,7 +99,7 @@ class ADATransactionBuilder {
     }
     final outs = _outputs.map((e) {
       if (e.amount.coin == BigInt.zero) {
-        return e.copyWith(amount: e.amount.copyWith(coin: maxU64));
+        return e.copyWith(amount: e.amount.copyWith(coin: BinaryOps.maxU64));
       }
       return e;
     }).toList();
@@ -109,7 +109,7 @@ class ADATransactionBuilder {
         inputs: TransactionInputs(utxos.map((e) => e.input).toList()),
         outputs: TransactionOutputs(outs),
         mint: getMint(),
-        fee: BigInt.from(mask32),
+        fee: BigInt.from(BinaryOps.mask32),
         certificates: certificates.isEmpty
             ? null
             : Certificates(certificates.map((e) => e.certificate).toList()),
@@ -140,7 +140,7 @@ class ADATransactionBuilder {
     }
     final outs = _outputs.map((e) {
       if (e.amount.coin == BigInt.zero) {
-        return e.copyWith(amount: e.amount.copyWith(coin: maxU64));
+        return e.copyWith(amount: e.amount.copyWith(coin: BinaryOps.maxU64));
       }
       return e;
     }).toList();
@@ -153,7 +153,7 @@ class ADATransactionBuilder {
           inputs: TransactionInputs(utxos.map((e) => e.input).toList()),
           outputs: TransactionOutputs(outs),
           mint: getMint(),
-          fee: BigInt.from(mask32),
+          fee: BigInt.from(BinaryOps.mask32),
           certificates: certificates.isEmpty
               ? null
               : Certificates(certificates.map((e) => e.certificate).toList()),

@@ -12,7 +12,7 @@ import 'package:on_chain/utils/utils/map_utils.dart';
 
 class AptosChainId extends BcsSerialization {
   final int chainId;
-  AptosChainId(int chainId) : chainId = chainId.asUint8;
+  AptosChainId(int chainId) : chainId = chainId.asU8;
   factory AptosChainId.fromStruct(Map<String, dynamic> json) {
     return AptosChainId(json.as("chainId"));
   }
@@ -405,7 +405,7 @@ class AptosTypeTagReference extends AptosTypeTag {
 class AptosTypeTagGeneric extends AptosTypeTag {
   final int index;
   AptosTypeTagGeneric(int index)
-      : index = index.asUint32,
+      : index = index.asU32,
         super(type: AptosTypeTags.generic);
   factory AptosTypeTagGeneric.fromStruct(Map<String, dynamic> json) {
     return AptosTypeTagGeneric(json.as("index"));
@@ -518,7 +518,11 @@ class AptosStructTag extends BcsSerialization {
             .map((e) => AptosTypeTag.fromStruct(e))
             .toList());
   }
-
+  const AptosStructTag.mutable(
+      {required this.address,
+      required this.moduleName,
+      required this.name,
+      required this.typeArgs});
   AptosStructTag(
       {required this.address,
       required this.moduleName,
@@ -1167,11 +1171,11 @@ class AptosRawTransaction extends BcsSerialization {
       required BigInt gasUnitPrice,
       required BigInt expirationTimestampSecs,
       required int chainId})
-      : sequenceNumber = sequenceNumber.asUint64,
-        maxGasAmount = maxGasAmount.asUint64,
-        gasUnitPrice = gasUnitPrice.asUint64,
-        expirationTimestampSecs = expirationTimestampSecs.asUint64,
-        chainId = chainId.asUint8;
+      : sequenceNumber = sequenceNumber.asU64,
+        maxGasAmount = maxGasAmount.asU64,
+        gasUnitPrice = gasUnitPrice.asU64,
+        expirationTimestampSecs = expirationTimestampSecs.asU64,
+        chainId = chainId.asU8;
   factory AptosRawTransaction.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosRawTransaction.fromStruct(decode);
@@ -1697,9 +1701,8 @@ class AptosSignedTransaction extends BcsSerialization {
 }
 
 class RotationProofChallenge extends BcsSerialization {
-  static final AptosAddress accountAddress = AptosAddress.one;
-  static final String moduleName = "account";
-  static final String structName = "RotationProofChallenge";
+  static const String moduleName = "account";
+  static const String structName = "RotationProofChallenge";
   final BigInt sequenceNumber;
   final AptosAddress orginator;
   final AptosAddress currentAuthKey;
@@ -1719,7 +1722,7 @@ class RotationProofChallenge extends BcsSerialization {
       required this.currentAuthKey,
       required this.newPublicKey,
       required BigInt sequenceNumber})
-      : sequenceNumber = sequenceNumber.asUint64;
+      : sequenceNumber = sequenceNumber.asU64;
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -1741,7 +1744,7 @@ class RotationProofChallenge extends BcsSerialization {
   @override
   Map<String, dynamic> toLayoutStruct() {
     return {
-      "accountAddress": accountAddress.toLayoutStruct(),
+      "accountAddress": AptosAddress.one.toLayoutStruct(),
       "moduleName": moduleName,
       "structName": structName,
       "orginator": orginator.toLayoutStruct(),

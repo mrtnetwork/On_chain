@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class AuthorizedVoter extends LayoutSerializable {
+class AuthorizedVoter extends BorshLayoutSerializable {
   final BigInt epoch;
   final SolAddress authorizedVoter;
   const AuthorizedVoter({required this.epoch, required this.authorizedVoter});
@@ -12,10 +12,10 @@ class AuthorizedVoter extends LayoutSerializable {
         epoch: json['epoch'], authorizedVoter: json['authorizedVoter']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'epoch'),
-    SolanaLayoutUtils.publicKey('authorizedVoter')
-  ], property: 'authorizedVoter');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'epoch'),
+        SolanaLayoutUtils.publicKey('authorizedVoter')
+      ], property: 'authorizedVoter');
   @override
   StructLayout get layout => staticLayout;
 

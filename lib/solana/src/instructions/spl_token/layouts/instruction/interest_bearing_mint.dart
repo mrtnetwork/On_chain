@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class InterestBearingMintInstruction extends LayoutSerializable {
+class InterestBearingMintInstruction extends BorshLayoutSerializable {
   const InterestBearingMintInstruction._(this.name);
   final String name;
   static const InterestBearingMintInstruction initialize =

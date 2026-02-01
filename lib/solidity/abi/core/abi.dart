@@ -143,8 +143,9 @@ class AbiParameter with InternalCborSerialization {
   /// Retrieves the argument name, considering tuple types.
   String get argName {
     if (isTupple) {
-      final String match =
-          _ABIValidator.arrayDetectRegex.firstMatch(type)?.group(0) ?? '';
+      /// Regular expression for detecting arrays in ABI type.
+      final RegExp arrayDetectRegex = RegExp(r'\[(\d*)\]|\[\]');
+      final String match = arrayDetectRegex.firstMatch(type)?.group(0) ?? '';
       return "(${components.map((e) => e.argName).join(",")})$match";
     }
     return type;
@@ -182,7 +183,7 @@ class AbiParameter with InternalCborSerialization {
     }
 
     if (type.endsWith(']')) {
-      return ABIUtils._toArrayType(this).item1.isDynamic;
+      return ABIUtils._toArrayType(this).$1.isDynamic;
     }
 
     return false;

@@ -17,10 +17,10 @@ class MetaplexCandyMachineInitializeCandyMachineLayout
     return MetaplexCandyMachineInitializeCandyMachineLayout(
         data: CandyMachineData.fromJson(decode['candyMachineData']));
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    CandyMachineData.staticLayout
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        CandyMachineData.staticLayout
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -54,11 +54,11 @@ class ADAAccountUTXOResponse {
     for (final i in amount) {
       if (i.islovelace) continue;
       final assetInfo = i.policyAndAssetName!;
-      final asset = Assets({assetInfo.item2: BigInt.parse(i.quantity)});
-      if (assets.containsKey(assetInfo.item1)) {
-        assets[assetInfo.item1] = assets[assetInfo.item1]! + asset;
+      final asset = Assets({assetInfo.$2: BigInt.parse(i.quantity)});
+      if (assets.containsKey(assetInfo.$1)) {
+        assets[assetInfo.$1] = assets[assetInfo.$1]! + asset;
       } else {
-        assets[assetInfo.item1] = asset;
+        assets[assetInfo.$1] = asset;
       }
     }
     return MultiAsset(assets);

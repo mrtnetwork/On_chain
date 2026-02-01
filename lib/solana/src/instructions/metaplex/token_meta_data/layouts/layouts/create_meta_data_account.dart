@@ -18,9 +18,9 @@ class MetaplexTokenMetaDataCreateMetadataAccountLayout
     return const MetaplexTokenMetaDataCreateMetadataAccountLayout();
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

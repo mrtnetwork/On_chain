@@ -4,15 +4,15 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class NameRegistryAccountUtils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('parentName'),
-    SolanaLayoutUtils.publicKey('owner'),
-    SolanaLayoutUtils.publicKey('classAccount'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('parentName'),
+        SolanaLayoutUtils.publicKey('owner'),
+        SolanaLayoutUtils.publicKey('classAccount'),
+      ]);
   static const int hiddenDataOffset = 96;
 }
 
-class NameRegistryAccount extends LayoutSerializable {
+class NameRegistryAccount extends BorshLayoutSerializable {
   final SolAddress parentName;
   final SolAddress owner;
   final SolAddress classAccount;
@@ -25,7 +25,7 @@ class NameRegistryAccount extends LayoutSerializable {
       required List<int> data})
       : data = data = data.asImmutableBytes;
   factory NameRegistryAccount.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data, layout: NameRegistryAccountUtils.layout);
     return NameRegistryAccount(
         parentName: decode['parentName'],

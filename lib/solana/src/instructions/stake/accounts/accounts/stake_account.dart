@@ -19,7 +19,7 @@ class _Utils {
   ]);
 }
 
-class StakeAccount extends LayoutSerializable {
+class StakeAccount extends BorshLayoutSerializable {
   final String name;
   final StakeMeta? meta;
   final StakeStake? stake;

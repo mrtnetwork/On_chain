@@ -21,10 +21,10 @@ class MetaplexAuctionHousePrintListingReceiptLayout
   }
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'receiptBump'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'receiptBump'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

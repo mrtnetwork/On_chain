@@ -11,7 +11,7 @@ import 'instructions.dart';
 
 abstract class MetaplexTokenEntanglerProgramLayout extends ProgramLayout {
   const MetaplexTokenEntanglerProgramLayout();
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
   @override
   abstract final MetaplexTokenEntanglerProgramInstruction instruction;

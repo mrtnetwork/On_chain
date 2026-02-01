@@ -48,8 +48,8 @@ class ADAByronAddress extends ADAAddress {
           hdPath: hdPath,
           network: network);
     }
-    final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
-        publicKey, {'net_tag': network, 'chain_code': chaincode});
+    final encode = AdaByronIcarusAddrEncoder()
+        .encodeKeyWithInfo(publicKey, network: network, chainCode: chaincode);
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
@@ -58,10 +58,9 @@ class ADAByronAddress extends ADAAddress {
       {required CardanoByronLegacyBip32 bip32,
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
-        bip32.publicKey.compressed, {
-      'net_tag': network,
-      'chain_code': bip32.publicKey.chainCode.toBytes()
-    });
+        bip32.publicKey.compressed,
+        network: network,
+        chainCode: bip32.chainCode.toBytes());
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
@@ -70,10 +69,9 @@ class ADAByronAddress extends ADAAddress {
       {required CardanoIcarusBip32 bip32,
       ADANetwork network = ADANetwork.mainnet}) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
-        bip32.publicKey.compressed, {
-      'net_tag': network,
-      'chain_code': bip32.publicKey.chainCode.toBytes()
-    });
+        bip32.publicKey.compressed,
+        network: network,
+        chainCode: bip32.chainCode.toBytes());
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
@@ -85,13 +83,13 @@ class ADAByronAddress extends ADAAddress {
       ADANetwork network = ADANetwork.mainnet}) {
     final publicKey =
         bip32.getPublicKey(firstIndex: firstIndex, secondIndex: secondIndex);
-    final encode = AdaByronLegacyAddrEncoder()
-        .encodeKeyWithInfo(publicKey.pubKey.compressed, {
-      'net_tag': network,
-      'chain_code': publicKey.chainCode.toBytes(),
-      'hd_path': 'm/${firstIndex.toInt()}\'/${secondIndex.toInt()}\'',
-      'hd_path_key': bip32.hdPathKey
-    });
+    final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(
+      publicKey.pubKey.compressed,
+      network: network,
+      chainCode: publicKey.chainCode.toBytes(),
+      hdPathKey: bip32.hdPathKey,
+      path: 'm/${firstIndex.toInt()}\'/${secondIndex.toInt()}\'',
+    );
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
@@ -102,12 +100,11 @@ class ADAByronAddress extends ADAAddress {
       required List<int> hdPathKey,
       required String hdPath,
       ADANetwork network = ADANetwork.mainnet}) {
-    final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(publicKey, {
-      'net_tag': network,
-      'chain_code': chaincode,
-      'hd_path': hdPath,
-      'hd_path_key': hdPathKey
-    });
+    final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(publicKey,
+        network: network,
+        chainCode: chaincode,
+        hdPathKey: hdPathKey,
+        path: hdPath);
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 

@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class ProgrammableConfigRecord extends LayoutSerializable {
+class ProgrammableConfigRecord extends BorshLayoutSerializable {
   final String name;
   final dynamic fields;
   const ProgrammableConfigRecord._(this.name, this.fields);

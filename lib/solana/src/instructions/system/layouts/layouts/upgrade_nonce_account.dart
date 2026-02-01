@@ -11,7 +11,7 @@ class SystemUpgradeNonceAccountLayout extends SystemProgramLayout {
         layout: _layout);
     return const SystemUpgradeNonceAccountLayout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
 
   @override

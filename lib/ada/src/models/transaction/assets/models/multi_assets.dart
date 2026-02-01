@@ -11,7 +11,7 @@ class MultiAsset
     with InternalCborSerialization
     implements Comparable<MultiAsset> {
   final AssetsSerializationConfig serializationConfig;
-  static final MultiAsset empty = MultiAsset({});
+  static MultiAsset get empty => MultiAsset({});
 
   /// Map of policy IDs to assets.
   final Map<PolicyID, Assets> assets;
@@ -186,7 +186,7 @@ class MultiAsset
 
   @override
   int get hashCode => assets.entries.fold(
-      mask32,
+      BinaryOps.mask32,
       (previousValue, element) =>
           previousValue ^ (element.key.hashCode ^ element.value.hashCode));
 }

@@ -15,10 +15,10 @@ class SystemAllocateLayout extends SystemProgramLayout {
         instruction: SystemProgramInstruction.allocate.insturction);
     return SystemAllocateLayout(space: decode['space']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    LayoutConst.ns64(property: 'space')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        LayoutConst.ns64(property: 'space')
+      ]);
   @override
   StructLayout get layout => _layout;
 

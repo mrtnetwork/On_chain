@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class GumdropCandyMachineData extends LayoutSerializable {
+class GumdropCandyMachineData extends BorshLayoutSerializable {
   final String uuid;
   final BigInt price;
   final BigInt itemsAvailable;
@@ -20,12 +20,12 @@ class GumdropCandyMachineData extends LayoutSerializable {
         goLiveDate: json['goLiveDate']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: 'uuid'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.u64(property: 'itemsAvailable'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'goLiveDate')
-  ], property: 'candyMachineData');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.string(property: 'uuid'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.u64(property: 'itemsAvailable'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'goLiveDate')
+      ], property: 'candyMachineData');
 
   @override
   StructLayout get layout => staticLayout;

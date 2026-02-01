@@ -25,11 +25,11 @@ class MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout
   final List<Creator> creators;
 
   /// StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'primaryMetadataCreatorsBump'),
-    LayoutConst.vec(Creator.creatorLayout, property: 'creators')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'primaryMetadataCreatorsBump'),
+        LayoutConst.vec(Creator.creatorLayout, property: 'creators')
+      ]);
 
   @override
   StructLayout get layout => _layout;

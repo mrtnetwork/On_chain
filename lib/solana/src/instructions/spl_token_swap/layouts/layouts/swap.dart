@@ -33,11 +33,11 @@ class SPLTokenSwapSwapLayout extends SPLTokenSwapProgramLayout {
   }
 
   /// The layout structure for swapping tokens.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'amountIn'),
-    LayoutConst.u64(property: 'minimumAmountOut'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'amountIn'),
+        LayoutConst.u64(property: 'minimumAmountOut'),
+      ]);
   @override
   StructLayout get layout => _layout;
 

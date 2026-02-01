@@ -7,26 +7,26 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [164, 101, 210, 92, 222, 14, 75, 156];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('authority'),
-    LayoutConst.string(property: 'name'),
-    SolanaLayoutUtils.publicKey('accountKey'),
-    LayoutConst.u64(property: 'totalShares'),
-    LayoutConst.u64(property: 'totalMembers'),
-    LayoutConst.u64(property: 'totalInflow'),
-    LayoutConst.u64(property: 'lastSnapshotAmount'),
-    LayoutConst.u8(property: 'bumpSeed'),
-    LayoutConst.u8(property: 'accountOwnerBumpSeed'),
-    LayoutConst.u64(property: 'totalAvailableShares'),
-    LayoutConst.u8(property: 'membershipModel'),
-    LayoutConst.optional(SolanaLayoutUtils.publicKey(),
-        property: 'membershipMint'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'totalStakedShares')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('authority'),
+        LayoutConst.string(property: 'name'),
+        SolanaLayoutUtils.publicKey('accountKey'),
+        LayoutConst.u64(property: 'totalShares'),
+        LayoutConst.u64(property: 'totalMembers'),
+        LayoutConst.u64(property: 'totalInflow'),
+        LayoutConst.u64(property: 'lastSnapshotAmount'),
+        LayoutConst.u8(property: 'bumpSeed'),
+        LayoutConst.u8(property: 'accountOwnerBumpSeed'),
+        LayoutConst.u64(property: 'totalAvailableShares'),
+        LayoutConst.u8(property: 'membershipModel'),
+        LayoutConst.optional(SolanaLayoutUtils.publicKey(),
+            property: 'membershipMint'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'totalStakedShares')
+      ]);
 }
 
-class Fanout extends LayoutSerializable {
+class Fanout extends BorshLayoutSerializable {
   final SolAddress authority;
   final String name;
   final SolAddress accountKey;
@@ -56,7 +56,7 @@ class Fanout extends LayoutSerializable {
       this.membershipMint,
       this.totalStakedShares});
   factory Fanout.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

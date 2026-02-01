@@ -20,10 +20,10 @@ class MetaplexCandyMachineSetCandyMachineAuthorityLayout
     return MetaplexCandyMachineSetCandyMachineAuthorityLayout(
         newAuthority: decode['newAuthority']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    SolanaLayoutUtils.publicKey('newAuthority')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        SolanaLayoutUtils.publicKey('newAuthority')
+      ]);
 
   @override
   StructLayout get layout => _layout;

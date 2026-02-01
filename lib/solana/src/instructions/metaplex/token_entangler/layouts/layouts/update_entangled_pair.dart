@@ -19,11 +19,11 @@ class MetaplexTokenEntanglerUpdateEntangledPairLayout
         price: decode['price'], paysEveryTime: decode['paysEveryTime']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.boolean(property: 'paysEveryTime'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.boolean(property: 'paysEveryTime'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

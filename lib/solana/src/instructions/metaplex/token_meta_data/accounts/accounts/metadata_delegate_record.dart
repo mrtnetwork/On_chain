@@ -5,16 +5,16 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'key'),
-    LayoutConst.u8(property: 'bump'),
-    SolanaLayoutUtils.publicKey('mint'),
-    SolanaLayoutUtils.publicKey('delegate'),
-    SolanaLayoutUtils.publicKey('updateAuthority'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'key'),
+        LayoutConst.u8(property: 'bump'),
+        SolanaLayoutUtils.publicKey('mint'),
+        SolanaLayoutUtils.publicKey('delegate'),
+        SolanaLayoutUtils.publicKey('updateAuthority'),
+      ]);
 }
 
-class MetadataDelegateRecord extends LayoutSerializable {
+class MetadataDelegateRecord extends BorshLayoutSerializable {
   final MetaDataKey key;
   final int bump;
   final SolAddress mint;
@@ -29,7 +29,7 @@ class MetadataDelegateRecord extends LayoutSerializable {
       required this.delegate});
   factory MetadataDelegateRecord.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return MetadataDelegateRecord(
         key: MetaDataKey.fromValue(decode['key']),
         updateAuthority: decode['updateAuthority'],

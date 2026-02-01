@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class AddCardToPack extends LayoutSerializable {
+class AddCardToPack extends BorshLayoutSerializable {
   final int maxSupply;
   final int weight;
   final int index;
@@ -17,11 +17,11 @@ class AddCardToPack extends LayoutSerializable {
         index: json['index']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u32(property: 'maxSupply'),
-    LayoutConst.u16(property: 'weight'),
-    LayoutConst.u32(property: 'index'),
-  ], property: 'addCardToPack');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u32(property: 'maxSupply'),
+        LayoutConst.u16(property: 'weight'),
+        LayoutConst.u32(property: 'index'),
+      ], property: 'addCardToPack');
   @override
   StructLayout get layout => staticLayout;
   @override

@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class CandyMachineData extends LayoutSerializable {
+class CandyMachineData extends BorshLayoutSerializable {
   final BigInt itemsAvailable;
   final String symbol;
   final int sellerFeeBasisPoints;
@@ -39,18 +39,18 @@ class CandyMachineData extends LayoutSerializable {
             : CandyMachineHiddenSettings.fromJson(json['hiddenSettings']));
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'itemsAvailable'),
-    LayoutConst.string(property: 'symbol'),
-    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-    LayoutConst.u64(property: 'maxSupply'),
-    LayoutConst.boolean(property: 'isMutable'),
-    LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
-    LayoutConst.optional(ConfigLineSettings.staticLayout,
-        property: 'configLineSettings'),
-    LayoutConst.optional(CandyMachineHiddenSettings.staticLayout,
-        property: 'hiddenSettings')
-  ], property: 'candyMachineData');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'itemsAvailable'),
+        LayoutConst.string(property: 'symbol'),
+        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+        LayoutConst.u64(property: 'maxSupply'),
+        LayoutConst.boolean(property: 'isMutable'),
+        LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
+        LayoutConst.optional(ConfigLineSettings.staticLayout,
+            property: 'configLineSettings'),
+        LayoutConst.optional(CandyMachineHiddenSettings.staticLayout,
+            property: 'hiddenSettings')
+      ], property: 'candyMachineData');
 
   @override
   Map<String, dynamic> serialize() {

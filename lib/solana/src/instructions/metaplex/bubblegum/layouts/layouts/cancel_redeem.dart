@@ -17,10 +17,10 @@ class MetaplexBubblegumCancelRedeemLayout
     return MetaplexBubblegumCancelRedeemLayout(root: decode['root']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.blob(32, property: 'root'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.blob(32, property: 'root'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

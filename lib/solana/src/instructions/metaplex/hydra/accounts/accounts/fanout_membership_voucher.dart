@@ -6,18 +6,18 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [185, 62, 74, 60, 105, 158, 178, 125];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('fanout'),
-    LayoutConst.u64(property: 'totalInflow'),
-    LayoutConst.u64(property: 'lastInflow'),
-    LayoutConst.u8(property: 'bumpSeed'),
-    SolanaLayoutUtils.publicKey('membershipKey'),
-    LayoutConst.u64(property: 'shares'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('fanout'),
+        LayoutConst.u64(property: 'totalInflow'),
+        LayoutConst.u64(property: 'lastInflow'),
+        LayoutConst.u8(property: 'bumpSeed'),
+        SolanaLayoutUtils.publicKey('membershipKey'),
+        LayoutConst.u64(property: 'shares'),
+      ]);
 }
 
-class FanoutMembershipVoucher extends LayoutSerializable {
+class FanoutMembershipVoucher extends BorshLayoutSerializable {
   final SolAddress fanout;
   final BigInt totalInflow;
   final BigInt lastInflow;
@@ -33,7 +33,7 @@ class FanoutMembershipVoucher extends LayoutSerializable {
       required this.shares,
       required this.totalInflow});
   factory FanoutMembershipVoucher.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

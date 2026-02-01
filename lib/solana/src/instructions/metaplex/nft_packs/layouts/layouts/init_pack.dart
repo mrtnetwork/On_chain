@@ -40,17 +40,17 @@ class MetaplexNFTPacksInitPackLayout extends MetaplexNFTPacksProgramLayout {
         redeemEndDate: decode['redeemEndDate']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.blob(32, property: 'name'),
-    LayoutConst.string(property: 'description'),
-    LayoutConst.string(property: 'uri'),
-    LayoutConst.boolean(property: 'mutable'),
-    LayoutConst.u8(property: 'distributionType'),
-    LayoutConst.u32(property: 'allowedAmountToRedeem'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'redeemStartDate'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'redeemEndDate'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.blob(32, property: 'name'),
+        LayoutConst.string(property: 'description'),
+        LayoutConst.string(property: 'uri'),
+        LayoutConst.boolean(property: 'mutable'),
+        LayoutConst.u8(property: 'distributionType'),
+        LayoutConst.u32(property: 'allowedAmountToRedeem'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'redeemStartDate'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'redeemEndDate'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

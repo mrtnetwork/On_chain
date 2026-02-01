@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents a field in SPL token metadata.
-class SPLTokenMetaDataField extends LayoutSerializable {
+class SPLTokenMetaDataField extends BorshLayoutSerializable {
   /// Constructs a new instance of `SPLTokenMetaDataField` with the provided instruction and value.
   const SPLTokenMetaDataField._(
     this.instruction,

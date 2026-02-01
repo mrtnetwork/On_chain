@@ -6,19 +6,19 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [227, 186, 40, 152, 7, 174, 131, 184];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('candyGuard'),
-    SolanaLayoutUtils.publicKey('candyMachine'),
-    LayoutConst.u64(property: 'frozenCount'),
-    LayoutConst.optional(LayoutConst.i64(), property: 'firstMintTime'),
-    LayoutConst.u64(property: 'freezePeriod'),
-    SolanaLayoutUtils.publicKey('destination'),
-    SolanaLayoutUtils.publicKey('authority')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('candyGuard'),
+        SolanaLayoutUtils.publicKey('candyMachine'),
+        LayoutConst.u64(property: 'frozenCount'),
+        LayoutConst.optional(LayoutConst.i64(), property: 'firstMintTime'),
+        LayoutConst.u64(property: 'freezePeriod'),
+        SolanaLayoutUtils.publicKey('destination'),
+        SolanaLayoutUtils.publicKey('authority')
+      ]);
 }
 
-class FreezeEscrowAccount extends LayoutSerializable {
+class FreezeEscrowAccount extends BorshLayoutSerializable {
   /// Candy guard address associated with this escrow.
   final SolAddress candyGuard;
 
@@ -52,7 +52,7 @@ class FreezeEscrowAccount extends LayoutSerializable {
       required this.destination,
       required this.authority});
   factory FreezeEscrowAccount.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

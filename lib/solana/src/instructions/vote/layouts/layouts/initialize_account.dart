@@ -29,15 +29,15 @@ class VoteProgramInitializeAccountLayout extends VoteProgramLayout {
       commission: voteData['commission'],
     );
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    LayoutConst.struct([
-      SolanaLayoutUtils.publicKey('nodePubkey'),
-      SolanaLayoutUtils.publicKey('authorizedVoter'),
-      SolanaLayoutUtils.publicKey('authorizedWithdrawer'),
-      LayoutConst.u8(property: 'commission')
-    ], property: 'voteInit')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        LayoutConst.struct([
+          SolanaLayoutUtils.publicKey('nodePubkey'),
+          SolanaLayoutUtils.publicKey('authorizedVoter'),
+          SolanaLayoutUtils.publicKey('authorizedWithdrawer'),
+          LayoutConst.u8(property: 'commission')
+        ], property: 'voteInit')
+      ]);
 
   @override
   StructLayout get layout => _layout;

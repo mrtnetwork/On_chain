@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class PriorVoter extends LayoutSerializable {
+class PriorVoter extends BorshLayoutSerializable {
   final SolAddress authorizedPubkey;
   final BigInt epochOfLastAuthorizedSwitch;
   final BigInt targetEpoch;
@@ -18,11 +18,11 @@ class PriorVoter extends LayoutSerializable {
         targetEpoch: json['targetEpoch']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('authorizedPubkey'),
-    LayoutConst.u64(property: 'epochOfLastAuthorizedSwitch'),
-    LayoutConst.u64(property: 'targetEpoch'),
-  ], property: 'priorVoter');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('authorizedPubkey'),
+        LayoutConst.u64(property: 'epochOfLastAuthorizedSwitch'),
+        LayoutConst.u64(property: 'targetEpoch'),
+      ], property: 'priorVoter');
   @override
   StructLayout get layout => staticLayout;
 

@@ -9,7 +9,7 @@ class SPLTokenRevokeLayout extends SPLTokenProgramLayout {
   SPLTokenRevokeLayout();
 
   /// StructLayout structure for revoking SPL tokens.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenRevokeLayout instance from buffer.

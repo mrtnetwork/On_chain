@@ -18,7 +18,7 @@ class MetaplexNFTPacksAddCardToPackLayout
         addCardToPack: AddCardToPack.fromJson(decode['addCardToPack']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct(
+  static StructLayout get _layout => LayoutConst.struct(
       [LayoutConst.u8(property: 'instruction'), AddCardToPack.staticLayout]);
 
   @override

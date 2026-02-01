@@ -18,10 +18,10 @@ class MetaplexCandyMachineUpdateCandyGuardLayout
     return MetaplexCandyMachineUpdateCandyGuardLayout(
         data: (decode['data'] as List).cast());
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.vecU8(property: 'data')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.vecU8(property: 'data')
+      ]);
 
   @override
   StructLayout get layout => _layout;

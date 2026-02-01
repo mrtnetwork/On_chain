@@ -30,7 +30,7 @@ class SuiCryptoUtils {
       }
       bitMap >>= 1;
       index++;
-      if (index > mask8) break;
+      if (index > BinaryOps.mask8) break;
     }
 
     return indexes;

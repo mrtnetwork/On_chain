@@ -46,11 +46,11 @@ abstract class TronProtocolBufferImpl {
       List<int> encode;
       if (value == null) continue;
       if (value is TronBaseContract) {
-        encode = ProtocolBufferEncoder.encode(tagNumber, value.toBuffer());
+        encode = TronProtocolBufferEncoder.encode(tagNumber, value.toBuffer());
       } else if (value is TronEnumerate) {
-        encode = ProtocolBufferEncoder.encode(tagNumber, value.value);
+        encode = TronProtocolBufferEncoder.encode(tagNumber, value.value);
       } else {
-        encode = ProtocolBufferEncoder.encode(tagNumber, value);
+        encode = TronProtocolBufferEncoder.encode(tagNumber, value);
       }
 
       bytes.add(encode);
@@ -61,8 +61,8 @@ abstract class TronProtocolBufferImpl {
   /// Gets the hexadecimal representation of the protocol buffer data.
   String get toHex => BytesUtils.toHexString(toBuffer());
 
-  static List<ProtocolBufferDecoderResult> decode(List<int> bytes) {
-    return ProtocolBufferDecoder.decode(bytes);
+  static List<TronTronProtocolBufferDecoderResult> decode(List<int> bytes) {
+    return TronProtocolBufferDecoder.decode(bytes);
   }
 }
 

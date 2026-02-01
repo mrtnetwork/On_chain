@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/bubblegum.da
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class CollectionToggle extends LayoutSerializable {
+class CollectionToggle extends BorshLayoutSerializable {
   final String name;
   final int value;
   final List<Collection>? fileds;

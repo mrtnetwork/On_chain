@@ -11,7 +11,7 @@ class MetaplexCandyMachineWrapLayout extends MetaplexCandyMachineProgramLayout {
         instruction: MetaplexCandyMachineProgramInstruction.wrap.insturction);
     return const MetaplexCandyMachineWrapLayout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
 
   @override

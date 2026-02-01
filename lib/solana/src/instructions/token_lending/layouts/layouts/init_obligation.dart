@@ -12,7 +12,7 @@ class TokenLendingInitObligationLayout extends TokenLendingProgramLayout {
         instruction: TokenLendingProgramInstruction.initObligation.insturction);
     return const TokenLendingInitObligationLayout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   @override
   StructLayout get layout => _layout;

@@ -9,5 +9,5 @@ class StakePoolProgramConst {
   static const int metadataMaxSymbolLength = 10;
   static const int metadataMaxUriLength = 200;
 
-  static final BigInt minimumActiveStake = BigInt.from(1000000000);
+  static BigInt get minimumActiveStake => BigInt.from(1000000000);
 }

@@ -7,7 +7,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 
 /// Abstract class for Borsh serializable programs.
-abstract class ProgramLayout extends LayoutSerializable {
+abstract class ProgramLayout extends BorshLayoutSerializable {
   const ProgramLayout();
 
   /// The layout representing the structure of the program.

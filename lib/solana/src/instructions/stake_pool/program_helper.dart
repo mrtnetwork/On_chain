@@ -397,8 +397,7 @@ class StakePoolProgramHelper {
   }
 
   /// Creates instructions required to completely update a stake pool after epoch change.
-  static Future<
-          Tuple<List<TransactionInstruction>, List<TransactionInstruction>>>
+  static Future<(List<TransactionInstruction>, List<TransactionInstruction>)>
       updateStakePool(SolanaProvider connection, StakePoolAccount stakePool,
           {bool noMerge = false}) async {
     final stakePoolAddress = stakePool.address;
@@ -469,7 +468,7 @@ class StakePoolProgramHelper {
         validatorList: stakePool.validatorList,
       ),
     );
-    return Tuple(updateListInstructions, instructions);
+    return (updateListInstructions, instructions);
   }
 
   /// Creates instructions required to redelegate stake.

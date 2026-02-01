@@ -21,12 +21,12 @@ class MetaplexGumdropClaimCandyProvenLayout
         index: decode['index']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'walletBump'),
-    LayoutConst.u8(property: 'claimBump'),
-    LayoutConst.u64(property: 'index')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'walletBump'),
+        LayoutConst.u8(property: 'claimBump'),
+        LayoutConst.u64(property: 'index')
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -7,18 +7,19 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('updateAuthority'),
-    SolanaLayoutUtils.publicKey('mint'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'symbol'),
-    LayoutConst.string(property: 'uri'),
-    LayoutConst.vec(AdditionalMetadata.staticLayout,
-        property: 'additionalMetadatas')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('updateAuthority'),
+        SolanaLayoutUtils.publicKey('mint'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'symbol'),
+        LayoutConst.string(property: 'uri'),
+        LayoutConst.vec(AdditionalMetadata.staticLayout,
+            property: 'additionalMetadatas')
+      ]);
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
-      return LayoutSerializable.decode(bytes: extensionData, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionData, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -31,7 +32,8 @@ class _Utils {
               accountBytes: accountDataBytes,
               extensionType: ExtensionType.tokenMetadata,
               type: SolanaTokenAccountType.mint);
-      return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionBytes, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -42,7 +44,7 @@ class _Utils {
 ///
 /// The type and length parts must be handled by the TLV library, and not stored
 /// as part of this struct.
-class SPLTokenMetaDataAccount extends LayoutSerializable {
+class SPLTokenMetaDataAccount extends BorshLayoutSerializable {
   /// The authority that can sign to update the metadata
   final SolAddress? updateAuthority;
 

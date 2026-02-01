@@ -3,7 +3,7 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class LeafSchemaV1 extends LayoutSerializable {
+class LeafSchemaV1 extends BorshLayoutSerializable {
   LeafSchemaV1({
     required this.id,
     required this.owner,

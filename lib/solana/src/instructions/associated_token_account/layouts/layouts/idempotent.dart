@@ -16,7 +16,7 @@ class AssociatedTokenAccountProgramIdempotentLayout
             AssociatedTokenAccountProgramInstruction.idempotent.insturction);
     return const AssociatedTokenAccountProgramIdempotentLayout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   @override
   StructLayout get layout => _layout;

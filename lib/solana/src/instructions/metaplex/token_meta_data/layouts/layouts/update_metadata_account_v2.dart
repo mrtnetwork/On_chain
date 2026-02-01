@@ -33,14 +33,14 @@ class MetaplexTokenMetaDataUpdateMetadataAccountV2Layout
         newUpdateAuthority: decode['newUpdateAuthority']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.optional(MetaDataV2.staticLayout, property: 'data'),
-    SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
-    LayoutConst.optional(LayoutConst.boolean(),
-        property: 'primarySaleHappened'),
-    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.optional(MetaDataV2.staticLayout, property: 'data'),
+        SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
+        LayoutConst.optional(LayoutConst.boolean(),
+            property: 'primarySaleHappened'),
+        LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

@@ -14,10 +14,10 @@ class SPLTokenInitializePermanentDelegateLayout extends SPLTokenProgramLayout {
   SPLTokenInitializePermanentDelegateLayout({this.delegate});
 
   /// StructLayout structure for initializing a permanent delegate.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('delegate')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('delegate')
+      ]);
 
   /// Constructs an SPLTokenInitializePermanentDelegateLayout instance from buffer.
   factory SPLTokenInitializePermanentDelegateLayout.fromBuffer(

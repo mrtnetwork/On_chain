@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 import 'guard_type.dart';
 
-class RouteArgs extends LayoutSerializable {
+class RouteArgs extends BorshLayoutSerializable {
   final GuardType guard;
   final List<int> data;
 
@@ -16,7 +16,7 @@ class RouteArgs extends LayoutSerializable {
         data: (json['data'] as List).cast());
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct(
+  static StructLayout get staticLayout => LayoutConst.struct(
       [LayoutConst.u8(property: 'guard'), LayoutConst.vecU8(property: 'data')],
       property: 'routeArgs');
 

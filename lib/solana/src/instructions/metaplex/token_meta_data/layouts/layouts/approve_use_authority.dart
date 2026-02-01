@@ -19,10 +19,10 @@ class MetaplexTokenMetaDataapproveUseAuthorityLayout
         numberOfUses: decode['numberOfUses']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'numberOfUses'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'numberOfUses'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

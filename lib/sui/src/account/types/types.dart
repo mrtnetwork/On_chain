@@ -18,7 +18,7 @@ class SuiMultisigPublicKeyInfo extends BcsSerialization {
 
   /// Private constructor enforcing the weight as an unsigned 8-bit integer.
   SuiMultisigPublicKeyInfo._({required this.publicKey, required int weight})
-      : weight = weight.asUint8;
+      : weight = weight.asU8;
 
   /// Factory constructor with validation for public key and weight constraints.
   factory SuiMultisigPublicKeyInfo(

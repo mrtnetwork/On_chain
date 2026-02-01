@@ -5,11 +5,11 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final headerLayout = LayoutConst.struct([
-    LayoutConst.u8(property: 'discriminator'),
-    LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
-        property: 'treeHeader')
-  ]);
+  static StructLayout get headerLayout => LayoutConst.struct([
+        LayoutConst.u8(property: 'discriminator'),
+        LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
+            property: 'treeHeader')
+      ]);
   static StructLayout layout(
           {required int maxBufferSize, required int maxDepth}) =>
       LayoutConst.struct([
@@ -25,7 +25,7 @@ class _Utils {
       ]);
 }
 
-class MerkleTree extends LayoutSerializable {
+class MerkleTree extends BorshLayoutSerializable {
   final CompressionAccountType accountType;
   final ConcurrentMerkleTreeHeader treeHeader;
   final ConcurrentMerkleTree tree;
@@ -37,13 +37,13 @@ class MerkleTree extends LayoutSerializable {
       required List<SolAddress> canopy})
       : canopy = List<SolAddress>.unmodifiable(canopy);
   factory MerkleTree.fromBuffer(List<int> data) {
-    final decodeheader =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.headerLayout);
+    final decodeheader = BorshLayoutSerializable.decode(
+        bytes: data, layout: _Utils.headerLayout);
     final accountType =
         CompressionAccountType.fromValue(decodeheader['discriminator']);
     final header =
         ConcurrentMerkleTreeHeader.fromJson(decodeheader['treeHeader']);
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout(
             maxBufferSize: header.field.maxBufferSize,

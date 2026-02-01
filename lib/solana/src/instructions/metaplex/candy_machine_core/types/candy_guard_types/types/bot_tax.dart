@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class BotTax extends LayoutSerializable {
+class BotTax extends BorshLayoutSerializable {
   final BigInt lamports;
   final bool lastInstruction;
 
@@ -11,10 +11,10 @@ class BotTax extends LayoutSerializable {
         lamports: json['lamports'], lastInstruction: json['lastInstruction']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'lamports'),
-    LayoutConst.boolean(property: 'lastInstruction')
-  ], property: 'botTax');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'lamports'),
+        LayoutConst.boolean(property: 'lastInstruction')
+      ], property: 'botTax');
 
   @override
   StructLayout get layout => staticLayout;

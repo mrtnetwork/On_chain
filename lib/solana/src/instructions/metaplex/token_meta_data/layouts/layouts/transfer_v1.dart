@@ -28,12 +28,13 @@ class MetaplexTokenMetaDataTransferV1Layout
         amount: decode['amount']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'discriminator'),
-    LayoutConst.u64(property: 'amount'),
-    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'discriminator'),
+        LayoutConst.u64(property: 'amount'),
+        LayoutConst.optional(Payload.staticLayout,
+            property: 'authorizationData'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

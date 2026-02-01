@@ -23,12 +23,12 @@ class MetaplexBubblegumCreateTreeLayout extends MetaplexBubblegumProgramLayout {
         maxDepth: decode['maxDepth']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u32(property: 'maxDepth'),
-    LayoutConst.u32(property: 'maxBufferSize'),
-    LayoutConst.optional(LayoutConst.boolean(), property: 'public')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u32(property: 'maxDepth'),
+        LayoutConst.u32(property: 'maxBufferSize'),
+        LayoutConst.optional(LayoutConst.boolean(), property: 'public')
+      ]);
 
   @override
   StructLayout get layout => _layout;

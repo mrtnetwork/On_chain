@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class ThirdPartySigner extends LayoutSerializable {
+class ThirdPartySigner extends BorshLayoutSerializable {
   final SolAddress signerKey;
 
   const ThirdPartySigner({required this.signerKey});
@@ -11,9 +11,9 @@ class ThirdPartySigner extends LayoutSerializable {
     return ThirdPartySigner(signerKey: json['signerKey']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct(
-      [SolanaLayoutUtils.publicKey('signerKey')],
-      property: 'thirdPartySigner');
+  static StructLayout get staticLayout =>
+      LayoutConst.struct([SolanaLayoutUtils.publicKey('signerKey')],
+          property: 'thirdPartySigner');
 
   @override
   StructLayout get layout => staticLayout;

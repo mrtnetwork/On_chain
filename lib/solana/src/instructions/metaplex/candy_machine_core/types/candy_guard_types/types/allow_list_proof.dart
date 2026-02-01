@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class AllowListProof extends LayoutSerializable {
+class AllowListProof extends BorshLayoutSerializable {
   final BigInt timestamp;
 
   const AllowListProof({required this.timestamp});
@@ -9,9 +9,9 @@ class AllowListProof extends LayoutSerializable {
     return AllowListProof(timestamp: json['timestamp']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.i64(property: 'timestamp'),
-  ], property: 'allowListProof');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.i64(property: 'timestamp'),
+      ], property: 'allowListProof');
 
   @override
   StructLayout get layout => staticLayout;

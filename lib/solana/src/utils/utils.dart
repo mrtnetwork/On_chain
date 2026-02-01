@@ -9,16 +9,14 @@ class SolanaUtils {
   static const int maxSeedLength = 32;
   static const String programDerivedAddressSeed = 'ProgramDerivedAddress';
   static const int decimal = 9;
-  static final BigRational _decimalPlaces = BigRational.from(10).pow(decimal);
 
   /// Converts a Solana value in string format to lamports.
   static BigInt toLamports(String value) {
-    final BigRational r = BigRational.parseDecimal(value);
-    return (r * _decimalPlaces).toBigInt();
+    return AmountConverter.sol.toUnit(value);
   }
 
   /// Converts a Solana value to lamports.
-  static Tuple<SolAddress, int> findProgramAddress(
+  static (SolAddress, int) findProgramAddress(
       {required List<List<int>> seeds, required SolAddress programId}) {
     int nonce = 255;
     List<int> seedBytes = [];
@@ -33,7 +31,7 @@ class SolanaUtils {
         final List<int> seedsWithNonce = [...seedBytes, nonce];
         final addr = createProgramAddress(
             seedBytes: seedsWithNonce, programId: programId);
-        return Tuple(addr, nonce);
+        return (addr, nonce);
       } catch (e) {
         nonce--;
         continue;

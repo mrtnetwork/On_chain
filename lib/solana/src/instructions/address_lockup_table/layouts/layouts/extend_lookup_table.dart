@@ -24,15 +24,15 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
   }
 
   // StructLayout layout definition.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    LayoutConst.padding(LayoutConst.u64(), propery: 'paddingLength'),
-    LayoutConst.seq(
-      SolanaLayoutUtils.publicKey('publicKey'),
-      LayoutConst.rustVecOffset(),
-      property: 'addresses',
-    )
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        LayoutConst.padding(LayoutConst.u64(), propery: 'paddingLength'),
+        LayoutConst.seq(
+          SolanaLayoutUtils.publicKey('publicKey'),
+          LayoutConst.rustVecOffset(),
+          property: 'addresses',
+        )
+      ]);
 
   @override
   StructLayout get layout => _layout;

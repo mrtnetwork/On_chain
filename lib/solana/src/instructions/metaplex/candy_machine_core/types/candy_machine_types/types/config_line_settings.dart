@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class ConfigLineSettings extends LayoutSerializable {
+class ConfigLineSettings extends BorshLayoutSerializable {
   final String prefixName;
   final int nameLength;
   final String prefixUri;
@@ -23,13 +23,13 @@ class ConfigLineSettings extends LayoutSerializable {
         isSequential: json['isSequential']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.string(property: 'prefixName'),
-    LayoutConst.u32(property: 'nameLength'),
-    LayoutConst.string(property: 'prefixUri'),
-    LayoutConst.u32(property: 'uriLength'),
-    LayoutConst.boolean(property: 'isSequential'),
-  ], property: 'configLineSettings');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.string(property: 'prefixName'),
+        LayoutConst.u32(property: 'nameLength'),
+        LayoutConst.string(property: 'prefixUri'),
+        LayoutConst.u32(property: 'uriLength'),
+        LayoutConst.boolean(property: 'isSequential'),
+      ], property: 'configLineSettings');
 
   @override
   StructLayout get layout => staticLayout;

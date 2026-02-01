@@ -24,12 +24,13 @@ class SPLTokenInitializeMintLayout extends SPLTokenProgramLayout {
   });
 
   /// StructLayout structure for SPLTokenInitializeMintLayout.
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'decimals'),
-    SolanaLayoutUtils.publicKey('mintAuthority'),
-    SolanaLayoutUtils.optionPubkey(property: 'freezeAuthority', keepSize: true)
-  ]);
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'decimals'),
+        SolanaLayoutUtils.publicKey('mintAuthority'),
+        SolanaLayoutUtils.optionPubkey(
+            property: 'freezeAuthority', keepSize: true)
+      ]);
 
   /// Constructs an SPLTokenInitializeMintLayout instance from buffer.
   factory SPLTokenInitializeMintLayout.fromBuffer(List<int> bytes) {

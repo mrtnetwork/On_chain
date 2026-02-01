@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
 import 'package:on_chain/solana/src/models/models.dart';
@@ -7,7 +6,7 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 
 class TransferHookUtils {
-  static Tuple<List<int>, int> unpackSeedLiteral(List<int> seeds) {
+  static (List<int>, int) unpackSeedLiteral(List<int> seeds) {
     if (seeds.isEmpty) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
@@ -15,10 +14,10 @@ class TransferHookUtils {
     if (seeds.length < length + 1) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
-    return Tuple(seeds.sublist(1, length + 1), 2 + length);
+    return (seeds.sublist(1, length + 1), 2 + length);
   }
 
-  static Tuple<List<int>, int> unpackSeedInstructionArg(
+  static (List<int>, int) unpackSeedInstructionArg(
       {required List<int> seeds, required List<int> instructionData}) {
     if (seeds.length < 2) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
@@ -28,10 +27,10 @@ class TransferHookUtils {
     if (instructionData.length < length + index) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
-    return Tuple(instructionData.sublist(index, index + length), 3);
+    return (instructionData.sublist(index, index + length), 3);
   }
 
-  static Tuple<List<int>, int> unpackSeedAccountKey(
+  static (List<int>, int) unpackSeedAccountKey(
       {required List<int> seeds, required List<AccountMeta> previousMetas}) {
     if (seeds.isEmpty) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
@@ -40,10 +39,10 @@ class TransferHookUtils {
     if (previousMetas.length <= index) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
-    return Tuple(previousMetas[index].publicKey.toBytes(), 2);
+    return (previousMetas[index].publicKey.toBytes(), 2);
   }
 
-  static Future<Tuple<List<int>, int>> unpackSeedAccountData(
+  static Future<(List<int>, int)> unpackSeedAccountData(
       {required List<int> seeds,
       required List<AccountMeta> previousMetas,
       required SolanaProvider connection}) async {
@@ -66,10 +65,10 @@ class TransferHookUtils {
     if (accountBytes.length < dataIndex + length) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
-    return Tuple(accountBytes.sublist(dataIndex, dataIndex + length), 4);
+    return (accountBytes.sublist(dataIndex, dataIndex + length), 4);
   }
 
-  Future<Tuple<List<int>, int>?> unpackFirstSeed(
+  Future<(List<int>, int)?> unpackFirstSeed(
       {required List<int> seeds,
       required List<AccountMeta> previousMetas,
       required List<int> instructionData,
@@ -113,8 +112,8 @@ class TransferHookUtils {
       if (seed == null) {
         break;
       }
-      unpackedSeeds.add(seed.item1);
-      i += seed.item2;
+      unpackedSeeds.add(seed.$1);
+      i += seed.$2;
     }
     return unpackedSeeds;
   }

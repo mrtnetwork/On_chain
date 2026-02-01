@@ -7,19 +7,20 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [51, 173, 177, 113, 25, 241, 109, 189];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('authority'),
-    SolanaLayoutUtils.publicKey('wallet'),
-    LayoutConst.optional(SolanaLayoutUtils.publicKey(), property: 'tokenMint'),
-    SolanaLayoutUtils.publicKey('config'),
-    GumdropCandyMachineData.staticLayout,
-    LayoutConst.u64(property: 'itemsRedeemed'),
-    LayoutConst.u8(property: 'bump')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('authority'),
+        SolanaLayoutUtils.publicKey('wallet'),
+        LayoutConst.optional(SolanaLayoutUtils.publicKey(),
+            property: 'tokenMint'),
+        SolanaLayoutUtils.publicKey('config'),
+        GumdropCandyMachineData.staticLayout,
+        LayoutConst.u64(property: 'itemsRedeemed'),
+        LayoutConst.u8(property: 'bump')
+      ]);
 }
 
-class GumdropCandyMachine extends LayoutSerializable {
+class GumdropCandyMachine extends BorshLayoutSerializable {
   final SolAddress authority;
   final SolAddress wallet;
   final SolAddress? tokenMint;
@@ -37,7 +38,7 @@ class GumdropCandyMachine extends LayoutSerializable {
       required this.itemsRedeemed,
       required this.bump});
   factory GumdropCandyMachine.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

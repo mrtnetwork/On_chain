@@ -7,20 +7,20 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [15, 32, 69, 235, 249, 39, 18, 167];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('store'),
-    SolanaLayoutUtils.publicKey('owner'),
-    SolanaLayoutUtils.publicKey('resource'),
-    SolanaLayoutUtils.publicKey('vault'),
-    SolanaLayoutUtils.publicKey('vaultOwner'),
-    LayoutConst.u64(property: 'supply'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
-    LayoutConst.u8(property: 'state')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('store'),
+        SolanaLayoutUtils.publicKey('owner'),
+        SolanaLayoutUtils.publicKey('resource'),
+        SolanaLayoutUtils.publicKey('vault'),
+        SolanaLayoutUtils.publicKey('vaultOwner'),
+        LayoutConst.u64(property: 'supply'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
+        LayoutConst.u8(property: 'state')
+      ]);
 }
 
-class SellingResource extends LayoutSerializable {
+class SellingResource extends BorshLayoutSerializable {
   final SolAddress store;
   final SolAddress owner;
   final SolAddress resource;
@@ -41,7 +41,7 @@ class SellingResource extends LayoutSerializable {
     required this.sellingResourceState,
   });
   factory SellingResource.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

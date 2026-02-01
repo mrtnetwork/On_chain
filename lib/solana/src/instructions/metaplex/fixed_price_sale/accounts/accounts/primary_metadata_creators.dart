@@ -4,17 +4,17 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static const List<int> discriminator = [66, 131, 48, 36, 100, 130, 177, 11];
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
+      ]);
 }
 
-class PrimaryMetadataCreators extends LayoutSerializable {
+class PrimaryMetadataCreators extends BorshLayoutSerializable {
   final List<Creator> creators;
   const PrimaryMetadataCreators({required this.creators});
   factory PrimaryMetadataCreators.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

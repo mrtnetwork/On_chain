@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('authority'),
-    SolanaLayoutUtils.publicKey('memberAddress'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('authority'),
+        SolanaLayoutUtils.publicKey('memberAddress'),
+      ]);
 
   static int get accountSize => layout.span;
 
@@ -19,7 +19,8 @@ class _Utils {
         throw SolanaPluginException('Account data length is insufficient.',
             details: {'Expected': accountSize, 'length': extensionData.length});
       }
-      return LayoutSerializable.decode(bytes: extensionData, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionData, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -31,14 +32,16 @@ class _Utils {
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
               accountBytes: accountBytes,
               extensionType: ExtensionType.groupMemberPointer);
-      return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionBytes, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
 
-class GroupMemberPointer extends LayoutSerializable {
+class GroupMemberPointer extends BorshLayoutSerializable {
+  static int get size => _Utils.accountSize;
   final SolAddress? authority;
   final SolAddress? memberAddress;
   const GroupMemberPointer(

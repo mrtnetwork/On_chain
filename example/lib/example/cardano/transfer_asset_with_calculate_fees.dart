@@ -32,7 +32,7 @@ void main() async {
       amount: Value(
           coin: BigInt.from(3000000),
           multiAsset: MultiAsset({
-            assetInfo.item1: Assets({assetInfo.item2: BigInt.from(1000)})
+            assetInfo.$1: Assets({assetInfo.$2: BigInt.from(1000)})
           })));
 
   /// set maximum fee

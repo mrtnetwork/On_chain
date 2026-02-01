@@ -9,7 +9,7 @@ class COSEUtils {
     int hash = offsetBasis;
     for (final byte in data) {
       hash ^= byte;
-      hash = (hash * fnvPrime) & mask32;
+      hash = (hash * fnvPrime) & BinaryOps.mask32;
     }
     return IntUtils.toBytes(hash, length: 4);
   }

@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class NftGate extends LayoutSerializable {
+class NftGate extends BorshLayoutSerializable {
   final SolAddress requiredCollection;
 
   const NftGate({required this.requiredCollection});
@@ -11,9 +11,9 @@ class NftGate extends LayoutSerializable {
     return NftGate(requiredCollection: json['requiredCollection']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('requiredCollection'),
-  ], property: 'nftGate');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('requiredCollection'),
+      ], property: 'nftGate');
 
   @override
   StructLayout get layout => staticLayout;

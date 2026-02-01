@@ -6,9 +6,9 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('delegate'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('delegate'),
+      ]);
 
   static int get accountSize => layout.span;
 
@@ -18,7 +18,8 @@ class _Utils {
         throw SolanaPluginException('Account data length is insufficient.',
             details: {'Expected': accountSize, 'length': extensionData.length});
       }
-      return LayoutSerializable.decode(bytes: extensionData, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionData, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -31,15 +32,17 @@ class _Utils {
               accountBytes: accountBytes,
               extensionType: ExtensionType.permanentDelegate,
               type: SolanaTokenAccountType.mint);
-      return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionBytes, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
   }
 }
 
-class PermanentDelegate extends LayoutSerializable {
+class PermanentDelegate extends BorshLayoutSerializable {
   final SolAddress delegate;
+  static int get size => _Utils.accountSize;
   const PermanentDelegate({required this.delegate});
 
   factory PermanentDelegate.fromBuffer(List<int> extensionData) {

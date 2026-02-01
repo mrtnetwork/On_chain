@@ -27,7 +27,7 @@ class SolanaRequestEncoding {
     }
   }
 
-  static Tuple<SolanaRequestEncoding, String> _findTypes(dynamic data) {
+  static (SolanaRequestEncoding, String) _findTypes(dynamic data) {
     if (data is List) {
       if (data.length != 2) {
         throw const SolanaPluginException(
@@ -35,9 +35,9 @@ class SolanaRequestEncoding {
       }
       switch (data[1]) {
         case 'base58':
-          return Tuple(SolanaRequestEncoding.base58, data[0]);
+          return (SolanaRequestEncoding.base58, data[0]);
         case 'base64':
-          return Tuple(SolanaRequestEncoding.base64, data[0]);
+          return (SolanaRequestEncoding.base64, data[0]);
         default:
           throw const SolanaPluginException(
               'Unsupported or invalid data types for decoding.');
@@ -47,15 +47,15 @@ class SolanaRequestEncoding {
       throw const SolanaPluginException(
           'Invalid (base58 or Base64) string. To decode data into bytes, please use SolanaRequestEncoding.base58 or SolanaRequestEncoding.base64.');
     }
-    return Tuple(SolanaRequestEncoding.base58, data);
+    return (SolanaRequestEncoding.base58, data);
   }
 
   static List<int> decode(dynamic data, {SolanaRequestEncoding? type}) {
     final correctType = _findTypes(data);
-    if (type != null && correctType.item1 != type) {
+    if (type != null && correctType.$1 != type) {
       throw SolanaPluginException('Incorrect type.',
-          details: {'expected': correctType.item1, 'type': type});
+          details: {'expected': correctType.$1, 'type': type});
     }
-    return _decode(correctType.item2, correctType.item1);
+    return _decode(correctType.$2, correctType.$1);
   }
 }

@@ -2,7 +2,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 
-class MemoTransferInstruction extends LayoutSerializable {
+class MemoTransferInstruction extends BorshLayoutSerializable {
   const MemoTransferInstruction._(this.name);
   final String name;
 

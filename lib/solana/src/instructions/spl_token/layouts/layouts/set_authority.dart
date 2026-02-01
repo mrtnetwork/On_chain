@@ -18,11 +18,11 @@ class SPLTokenSetAuthorityLayout extends SPLTokenProgramLayout {
   SPLTokenSetAuthorityLayout({required this.authorityType, this.newAuthority});
 
   /// StructLayout structure for setting authority in SPL tokens.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'authorityType'),
-    SolanaLayoutUtils.optionPubkey(property: 'newAuthority', keepSize: true)
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'authorityType'),
+        SolanaLayoutUtils.optionPubkey(property: 'newAuthority', keepSize: true)
+      ]);
 
   /// Constructs an SPLTokenSetAuthorityLayout instance from buffer.
   factory SPLTokenSetAuthorityLayout.fromBuffer(List<int> bytes) {

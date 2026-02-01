@@ -6,13 +6,13 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('rateAuthority'),
-    LayoutConst.ns64(property: 'initializationTimestamp'),
-    LayoutConst.s16(property: 'preUpdateAverageRate'),
-    LayoutConst.ns64(property: 'lastUpdateTimestamp'),
-    LayoutConst.s16(property: 'currentRate'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('rateAuthority'),
+        LayoutConst.ns64(property: 'initializationTimestamp'),
+        LayoutConst.s16(property: 'preUpdateAverageRate'),
+        LayoutConst.ns64(property: 'lastUpdateTimestamp'),
+        LayoutConst.s16(property: 'currentRate'),
+      ]);
 
   static int get accountSize => layout.span;
 
@@ -22,7 +22,8 @@ class _Utils {
         throw SolanaPluginException('Account data length is insufficient.',
             details: {'Expected': accountSize, 'length': extensionData.length});
       }
-      return LayoutSerializable.decode(bytes: extensionData, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionData, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -34,7 +35,8 @@ class _Utils {
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
               accountBytes: accountBytes,
               extensionType: ExtensionType.interestBearingConfig);
-      return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionBytes, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -42,7 +44,9 @@ class _Utils {
 }
 
 /// Interest-bearing extension data for mints
-class InterestBearingMintConfigState extends LayoutSerializable {
+class InterestBearingMintConfigState extends BorshLayoutSerializable {
+  static int get size => _Utils.accountSize;
+
   /// Authority that can set the interest rate and authority
   final SolAddress rateAuthority;
 

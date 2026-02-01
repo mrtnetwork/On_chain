@@ -46,7 +46,7 @@ class _Utils {
 }
 
 /// Initialized program details.
-class StakePoolAccount extends LayoutSerializable {
+class StakePoolAccount extends BorshLayoutSerializable {
   final SolAddress address;
 
   /// Account type, must be StakePool currently

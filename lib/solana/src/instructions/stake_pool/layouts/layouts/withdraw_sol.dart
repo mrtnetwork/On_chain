@@ -15,10 +15,10 @@ class StakePoolWithdrawSolLayout extends StakePoolProgramLayout {
     return StakePoolWithdrawSolLayout(poolTokens: decode['poolTokens']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.ns64(property: 'poolTokens')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.ns64(property: 'poolTokens')
+      ]);
   @override
   StructLayout get layout => _layout;
   @override

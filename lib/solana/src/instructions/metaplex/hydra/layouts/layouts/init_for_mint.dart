@@ -14,10 +14,10 @@ class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
     return MetaplexHydraInitForMintLayout(bumpSeed: decode['bumpSeed']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'bumpSeed')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'bumpSeed')
+      ]);
 
   @override
   StructLayout get layout => _layout;

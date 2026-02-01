@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class Payload extends LayoutSerializable {
+class Payload extends BorshLayoutSerializable {
   final Map<String, PayloadType> map;
   const Payload({required this.map});
   factory Payload.fromJson(Map<String, dynamic> json) {
@@ -11,10 +11,10 @@ class Payload extends LayoutSerializable {
       for (final i in payload.entries) i.key: PayloadType.fromJson(i.value)
     });
   }
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.map(LayoutConst.string(), PayloadType.staticLayout,
-        property: 'payload'),
-  ]);
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.map(LayoutConst.string(), PayloadType.staticLayout,
+            property: 'payload'),
+      ]);
   @override
   StructLayout get layout => staticLayout;
 

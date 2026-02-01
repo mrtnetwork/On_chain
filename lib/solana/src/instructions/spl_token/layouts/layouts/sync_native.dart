@@ -9,7 +9,7 @@ class SPLTokenSyncNativeLayout extends SPLTokenProgramLayout {
   SPLTokenSyncNativeLayout();
 
   /// StructLayout structure for syncing native tokens in SPL.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenSyncNativeLayout instance from buffer.

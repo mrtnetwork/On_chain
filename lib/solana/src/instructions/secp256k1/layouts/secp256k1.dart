@@ -7,6 +7,8 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/secp256k1/instruction/instructions.dart';
 
 class Secp256k1Layout extends ProgramLayout {
+  static int get size => _layout.span;
+
   /// Ethereum address used in the layout.
   final ETHAddress ethAddress;
 
@@ -124,20 +126,20 @@ class Secp256k1Layout extends ProgramLayout {
   }
 
   /// StructLayout structure for Secp256k1Layout.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'numSignatures'),
-    LayoutConst.u16(property: 'signatureOffset'),
-    LayoutConst.u8(property: 'signatureInstructionIndex'),
-    LayoutConst.u16(property: 'ethAddressOffset'),
-    LayoutConst.u8(property: 'ethAddressInstructionIndex'),
-    LayoutConst.u16(property: 'messageDataOffset'),
-    LayoutConst.u16(property: 'messageDataSize'),
-    LayoutConst.u8(property: 'messageInstructionIndex'),
-    LayoutConst.blob(ETHAddress.lengthInBytes, property: 'ethAddress'),
-    LayoutConst.blob(CryptoSignerConst.ecdsaSignatureLength,
-        property: 'signature'),
-    LayoutConst.u8(property: 'recoveryId')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'numSignatures'),
+        LayoutConst.u16(property: 'signatureOffset'),
+        LayoutConst.u8(property: 'signatureInstructionIndex'),
+        LayoutConst.u16(property: 'ethAddressOffset'),
+        LayoutConst.u8(property: 'ethAddressInstructionIndex'),
+        LayoutConst.u16(property: 'messageDataOffset'),
+        LayoutConst.u16(property: 'messageDataSize'),
+        LayoutConst.u8(property: 'messageInstructionIndex'),
+        LayoutConst.blob(ETHAddress.lengthInBytes, property: 'ethAddress'),
+        LayoutConst.blob(CryptoSignerConst.ecdsaSignatureLength,
+            property: 'signature'),
+        LayoutConst.u8(property: 'recoveryId')
+      ]);
 
   /// Gets the layout structure.
   @override

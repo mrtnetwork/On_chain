@@ -18,7 +18,7 @@ class AptosMultiEd25519AccountPublicKey extends AptosAccountPublicKey {
   AptosMultiEd25519AccountPublicKey._(
       {required List<AptosED25519PublicKey> publicKeys, required int threshold})
       : publicKeys = publicKeys.immutable,
-        threshold = threshold.asUint8,
+        threshold = threshold.asU8,
         super(scheme: AptosSigningScheme.multiEd25519);
   factory AptosMultiEd25519AccountPublicKey(
       {required List<AptosED25519PublicKey> publicKeys,

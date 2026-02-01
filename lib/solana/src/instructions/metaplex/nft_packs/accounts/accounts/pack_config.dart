@@ -21,7 +21,7 @@ class _Utils {
       ]);
 }
 
-class PackConfig extends LayoutSerializable {
+class PackConfig extends BorshLayoutSerializable {
   final NFTPacksAccountType accountType;
   final List<List<int>> weight;
   final CleanUpAction actionToDo;
@@ -45,10 +45,11 @@ class PackConfig extends LayoutSerializable {
   }
 
   factory PackConfig.fromBuffer(List<int> data) {
-    Map<String, dynamic> decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout(null));
+    Map<String, dynamic> decode = BorshLayoutSerializable.decode(
+        bytes: data, layout: _Utils.layout(null));
     if (decode['cleanUpAction'] == 0) {
-      decode = LayoutSerializable.decode(bytes: data, layout: _Utils.layout(0));
+      decode =
+          BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout(0));
     }
     return PackConfig(
         accountType: NFTPacksAccountType.fromValue(decode['accountType']),

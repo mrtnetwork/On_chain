@@ -6,26 +6,26 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaTokenAccountUtils {
-  static final StructLayout layout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('mint'),
-    SolanaLayoutUtils.publicKey('owner'),
-    LayoutConst.u64(property: 'amount'),
-    LayoutConst.boolean32(property: 'delegateOption'),
-    SolanaLayoutUtils.publicKey('delegate'),
-    LayoutConst.u8(property: 'state'),
-    LayoutConst.boolean32(property: 'isNativeOption'),
-    LayoutConst.u64(property: 'rentExemptReserve'),
-    LayoutConst.u64(property: 'delegatedAmount'),
-    LayoutConst.boolean32(property: 'closeAuthorityOption'),
-    SolanaLayoutUtils.publicKey('closeAuthority'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('mint'),
+        SolanaLayoutUtils.publicKey('owner'),
+        LayoutConst.u64(property: 'amount'),
+        LayoutConst.boolean32(property: 'delegateOption'),
+        SolanaLayoutUtils.publicKey('delegate'),
+        LayoutConst.u8(property: 'state'),
+        LayoutConst.boolean32(property: 'isNativeOption'),
+        LayoutConst.u64(property: 'rentExemptReserve'),
+        LayoutConst.u64(property: 'delegatedAmount'),
+        LayoutConst.boolean32(property: 'closeAuthorityOption'),
+        SolanaLayoutUtils.publicKey('closeAuthority'),
+      ]);
 
   static int get accountSize => layout.span;
   static const int accountTypeSize = 1;
 }
 
 /// Account data.
-class SolanaTokenAccount extends LayoutSerializable {
+class SolanaTokenAccount extends BorshLayoutSerializable {
   final SolAddress address;
 
   /// The mint associated with this account
@@ -76,7 +76,7 @@ class SolanaTokenAccount extends LayoutSerializable {
             'length': data.length
           });
     }
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data, layout: SolanaTokenAccountUtils.layout);
     final bool delegateOption = decode['delegateOption'];
     final bool isNativeOption = decode['isNativeOption'];

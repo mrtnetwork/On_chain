@@ -14,7 +14,7 @@ class StakeDelegateLayout extends StakeProgramLayout {
   }
   @override
   StakeProgramInstruction get instruction => StakeProgramInstruction.delegate;
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u32(property: 'instruction')]);
   @override
   StructLayout get layout => _layout;

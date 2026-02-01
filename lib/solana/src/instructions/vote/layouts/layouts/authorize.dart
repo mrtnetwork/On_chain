@@ -19,11 +19,11 @@ class VoteProgramAuthorizeLayout extends VoteProgramLayout {
         newAuthorized: decode['newAuthorized'],
         voteAuthorizationType: decode['voteAuthorizationType']);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('newAuthorized'),
-    LayoutConst.u32(property: 'voteAuthorizationType')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('newAuthorized'),
+        LayoutConst.u32(property: 'voteAuthorizationType')
+      ]);
 
   @override
   StructLayout get layout => _layout;

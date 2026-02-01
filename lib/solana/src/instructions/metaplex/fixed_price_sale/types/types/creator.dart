@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
-class Creator extends LayoutSerializable {
+class Creator extends BorshLayoutSerializable {
   final SolAddress address;
   final bool verified;
   final int share;
@@ -17,11 +17,11 @@ class Creator extends LayoutSerializable {
         share: json['share']);
   }
 
-  static final StructLayout creatorLayout = LayoutConst.struct([
-    SolanaLayoutUtils.publicKey('address'),
-    LayoutConst.boolean(property: 'verified'),
-    LayoutConst.u8(property: 'share'),
-  ], property: 'creator');
+  static StructLayout get creatorLayout => LayoutConst.struct([
+        SolanaLayoutUtils.publicKey('address'),
+        LayoutConst.boolean(property: 'verified'),
+        LayoutConst.u8(property: 'share'),
+      ], property: 'creator');
 
   @override
   StructLayout get layout => creatorLayout;

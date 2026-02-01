@@ -6,16 +6,16 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [77, 119, 139, 70, 84, 247, 12, 26];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('base'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.blob(32, property: 'root'),
-    SolanaLayoutUtils.publicKey('temporal'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('base'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.blob(32, property: 'root'),
+        SolanaLayoutUtils.publicKey('temporal'),
+      ]);
 }
 
-class MerkleDistributor extends LayoutSerializable {
+class MerkleDistributor extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final SolAddress base;
   final int bump;
@@ -28,7 +28,7 @@ class MerkleDistributor extends LayoutSerializable {
       required this.temporal})
       : root = root.asImmutableBytes;
   factory MerkleDistributor.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

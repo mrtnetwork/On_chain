@@ -2,7 +2,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 
-class SolanaTokenAccountType extends LayoutSerializable {
+class SolanaTokenAccountType extends BorshLayoutSerializable {
   const SolanaTokenAccountType._(this.name, this.value);
   final String name;
   final int value;

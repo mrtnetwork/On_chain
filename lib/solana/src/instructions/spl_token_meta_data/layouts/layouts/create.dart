@@ -37,12 +37,12 @@ class SPLTokenMetaDataInitializeLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// Creates a static layout based on the provided lengths of name, symbol, and URI bytes.
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'symbol'),
-    LayoutConst.string(property: 'uri'),
-  ]);
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'symbol'),
+        LayoutConst.string(property: 'uri'),
+      ]);
 
   /// The layout structure of this create instruction.
   @override

@@ -2,8 +2,8 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 
 /// Abstract class for objects that can be serialized using a specific layout.
-abstract class LayoutSerializable {
-  const LayoutSerializable();
+abstract class BorshLayoutSerializable {
+  const BorshLayoutSerializable();
 
   /// The layout representing the structure of the object for serialization.
   abstract final StructLayout layout;
@@ -56,7 +56,7 @@ abstract class LayoutSerializable {
       return BytesUtils.toHexString(value, prefix: '0x');
     } else if (value is BigInt) {
       return value.toString();
-    } else if (value is LayoutSerializable) {
+    } else if (value is BorshLayoutSerializable) {
       return value.toJson();
     }
     return value.toString();

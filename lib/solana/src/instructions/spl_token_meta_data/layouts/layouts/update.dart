@@ -25,11 +25,11 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// Creates a static layout based on the provided value length and key length.
-  static final _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.wrap(SPLTokenMetaDataField.staticLayout,
-        property: 'metaDataField')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.wrap(SPLTokenMetaDataField.staticLayout,
+            property: 'metaDataField')
+      ]);
 
   /// The layout structure of this update instruction.
   @override

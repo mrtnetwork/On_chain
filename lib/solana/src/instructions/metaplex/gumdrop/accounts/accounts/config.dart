@@ -7,20 +7,20 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [155, 12, 170, 224, 30, 250, 204, 130];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('authority'),
-    GumdropConfigData.staticLayout
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('authority'),
+        GumdropConfigData.staticLayout
+      ]);
 }
 
-class GumdropConfig extends LayoutSerializable {
+class GumdropConfig extends BorshLayoutSerializable {
   final SolAddress authority;
   final GumdropConfigData data;
 
   GumdropConfig({required this.authority, required this.data});
   factory GumdropConfig.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

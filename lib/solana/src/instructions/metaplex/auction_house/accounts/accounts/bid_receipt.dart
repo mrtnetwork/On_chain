@@ -5,25 +5,25 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [186, 150, 141, 135, 59, 122, 39, 99];
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('tradeState'),
-    SolanaLayoutUtils.publicKey('bookkeeper'),
-    SolanaLayoutUtils.publicKey('auctionHouse'),
-    SolanaLayoutUtils.publicKey('buyer'),
-    SolanaLayoutUtils.publicKey('metadata'),
-    SolanaLayoutUtils.optionPubkey(property: 'tokenAccount'),
-    SolanaLayoutUtils.optionPubkey(property: 'purchaseReceipt'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.u64(property: 'tokenSize'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.u8(property: 'tradeStateBump'),
-    LayoutConst.i64(property: 'createdAt'),
-    LayoutConst.optional(LayoutConst.i64(), property: 'canceledAt')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('tradeState'),
+        SolanaLayoutUtils.publicKey('bookkeeper'),
+        SolanaLayoutUtils.publicKey('auctionHouse'),
+        SolanaLayoutUtils.publicKey('buyer'),
+        SolanaLayoutUtils.publicKey('metadata'),
+        SolanaLayoutUtils.optionPubkey(property: 'tokenAccount'),
+        SolanaLayoutUtils.optionPubkey(property: 'purchaseReceipt'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.u64(property: 'tokenSize'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.u8(property: 'tradeStateBump'),
+        LayoutConst.i64(property: 'createdAt'),
+        LayoutConst.optional(LayoutConst.i64(), property: 'canceledAt')
+      ]);
 }
 
-class BidReceipt extends LayoutSerializable {
+class BidReceipt extends BorshLayoutSerializable {
   final SolAddress tradeState;
   final SolAddress bookkeeper;
   final SolAddress auctionHouse;
@@ -55,7 +55,7 @@ class BidReceipt extends LayoutSerializable {
       required this.createdAt,
       this.canceledAt});
   factory BidReceipt.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

@@ -27,11 +27,11 @@ class SPLTokenMetaDataRemoveFieldLayout extends SPLTokenMetaDataProgramLayout {
   }
 
   /// Creates a static layout based on fields.
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.boolean(property: 'idempotent'),
-    LayoutConst.string(property: 'key'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.boolean(property: 'idempotent'),
+        LayoutConst.string(property: 'key'),
+      ]);
 
   /// The layout structure of this remove field instruction.
   @override

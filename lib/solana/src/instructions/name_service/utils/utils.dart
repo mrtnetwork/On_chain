@@ -24,7 +24,7 @@ class NameServiceProgramUtils {
     return SolanaUtils.findProgramAddress(
       seeds: seeds,
       programId: NameServiceProgramConst.programId,
-    ).item1;
+    ).$1;
   }
 
   static SolAddress getTwitterRegistryKey({required String twitterHandle}) {

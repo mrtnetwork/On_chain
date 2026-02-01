@@ -20,10 +20,10 @@ class MetaplexTokenMetaDataVerifyCollectionV1Layout
         verification: Verification.fromValue(decode['discriminator']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'discriminator')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'discriminator')
+      ]);
 
   @override
   StructLayout get layout => _layout;

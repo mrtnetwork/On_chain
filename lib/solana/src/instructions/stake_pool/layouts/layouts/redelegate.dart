@@ -38,13 +38,13 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
   @override
   StakePoolProgramInstruction get instruction =>
       StakePoolProgramInstruction.redelegate;
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.ns64(property: 'lamports'),
-    LayoutConst.ns64(property: 'sourceTransientStakeSeed'),
-    LayoutConst.ns64(property: 'ephemeralStakeSeed'),
-    LayoutConst.ns64(property: 'destinationTransientStakeSeed')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.ns64(property: 'lamports'),
+        LayoutConst.ns64(property: 'sourceTransientStakeSeed'),
+        LayoutConst.ns64(property: 'ephemeralStakeSeed'),
+        LayoutConst.ns64(property: 'destinationTransientStakeSeed')
+      ]);
 
   @override
   StructLayout get layout => _layout;

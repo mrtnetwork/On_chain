@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class TokenDelegateRole extends LayoutSerializable {
+class TokenDelegateRole extends BorshLayoutSerializable {
   final String name;
   const TokenDelegateRole._(this.name);
   static const TokenDelegateRole sale = TokenDelegateRole._('Sale');
@@ -36,11 +36,11 @@ class TokenDelegateRole extends LayoutSerializable {
     );
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'tokenDelegateRole')
-  ]);
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.rustEnum(
+            values.map((e) => LayoutConst.none(property: e.name)).toList(),
+            property: 'tokenDelegateRole')
+      ]);
   @override
   String toString() {
     return 'TokenDelegateRole.$name';

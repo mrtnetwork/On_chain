@@ -15,7 +15,7 @@ class MetaplexTokenMetaDataCollectLayout
     return const MetaplexTokenMetaDataCollectLayout();
   }
 
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   @override

@@ -29,14 +29,14 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
         membershipModel: MembershipModel.fromValue(decode['membershipModel']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.u8(property: 'bumpSeed'),
-    LayoutConst.u8(property: 'nativeAccountBumpSeed'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.u64(property: 'totalShares'),
-    LayoutConst.u8(property: 'membershipModel')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.u8(property: 'bumpSeed'),
+        LayoutConst.u8(property: 'nativeAccountBumpSeed'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.u64(property: 'totalShares'),
+        LayoutConst.u8(property: 'membershipModel')
+      ]);
 
   @override
   StructLayout get layout => _layout;

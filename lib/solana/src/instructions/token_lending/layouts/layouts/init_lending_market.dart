@@ -28,11 +28,11 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
     return TokenLendingInitLendingMarketLayout._(
         owner: owner, quoteCurrency: quoteCurrency);
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('owner'),
-    LayoutConst.blob(32, property: 'quoteCurrency'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('owner'),
+        LayoutConst.blob(32, property: 'quoteCurrency'),
+      ]);
 
   factory TokenLendingInitLendingMarketLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(

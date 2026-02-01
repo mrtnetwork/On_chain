@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class AllocationTracker extends LayoutSerializable {
+class AllocationTracker extends BorshLayoutSerializable {
   final int count;
 
   const AllocationTracker({required this.count});
@@ -9,9 +9,9 @@ class AllocationTracker extends LayoutSerializable {
     return AllocationTracker(count: json['count']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u32(property: 'count'),
-  ], property: 'allocationTracker');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u32(property: 'count'),
+      ], property: 'allocationTracker');
 
   @override
   StructLayout get layout => staticLayout;

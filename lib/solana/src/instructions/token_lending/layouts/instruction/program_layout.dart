@@ -6,7 +6,7 @@ abstract class TokenLendingProgramLayout extends ProgramLayout {
   const TokenLendingProgramLayout();
   @override
   TokenLendingProgramInstruction get instruction;
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     final decode =

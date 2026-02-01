@@ -33,14 +33,14 @@ class MetaplexBubblegumUpdateMetadataLayout
         updateMetadata: UpdateMetaData.fromJson(decode['updateMetaData']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.blob(32, property: 'root'),
-    LayoutConst.u64(property: 'nonce'),
-    LayoutConst.u32(property: 'index'),
-    MetaData.staticLayout,
-    UpdateMetaData.staticLayout
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.blob(32, property: 'root'),
+        LayoutConst.u64(property: 'nonce'),
+        LayoutConst.u32(property: 'index'),
+        MetaData.staticLayout,
+        UpdateMetaData.staticLayout
+      ]);
 
   @override
   StructLayout get layout => _layout;

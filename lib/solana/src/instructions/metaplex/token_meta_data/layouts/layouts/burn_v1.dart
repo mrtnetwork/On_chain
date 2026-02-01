@@ -18,11 +18,11 @@ class MetaplexTokenMetaDataBurnV1Layout
     return MetaplexTokenMetaDataBurnV1Layout(amount: decode['amount']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u8(property: 'discriminator'),
-    LayoutConst.u64(property: 'amount')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u8(property: 'discriminator'),
+        LayoutConst.u64(property: 'amount')
+      ]);
 
   @override
   StructLayout get layout => _layout;

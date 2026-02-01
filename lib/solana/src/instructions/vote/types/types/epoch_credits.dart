@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class EpochCredits extends LayoutSerializable {
+class EpochCredits extends BorshLayoutSerializable {
   final BigInt epoch;
   final BigInt credits;
   final BigInt prevCredits;
@@ -14,11 +14,11 @@ class EpochCredits extends LayoutSerializable {
         prevCredits: json['prevCredits']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.u64(property: 'epoch'),
-    LayoutConst.u64(property: 'credits'),
-    LayoutConst.u64(property: 'prevCredits'),
-  ], property: 'epochCredits');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.u64(property: 'epoch'),
+        LayoutConst.u64(property: 'credits'),
+        LayoutConst.u64(property: 'prevCredits'),
+      ], property: 'epochCredits');
   @override
   StructLayout get layout => staticLayout;
 

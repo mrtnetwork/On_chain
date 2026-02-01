@@ -16,7 +16,7 @@ class MetaplexCandyMachineDeleteCandyGuardLayout
     return const MetaplexCandyMachineDeleteCandyGuardLayout();
   }
 
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
 
   @override

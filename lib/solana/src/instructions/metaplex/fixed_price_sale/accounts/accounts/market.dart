@@ -6,28 +6,29 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static const List<int> discriminator = [219, 190, 213, 55, 0, 227, 198, 154];
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('store'),
-    SolanaLayoutUtils.publicKey('sellingResource'),
-    SolanaLayoutUtils.publicKey('treasuryMint'),
-    SolanaLayoutUtils.publicKey('treasuryHolder'),
-    SolanaLayoutUtils.publicKey('treasuryOwner'),
-    SolanaLayoutUtils.publicKey('owner'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'description'),
-    LayoutConst.boolean(property: 'mutable'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'piecesInOneWallet'),
-    LayoutConst.u64(property: 'startDate'),
-    LayoutConst.optional(LayoutConst.u64(), property: 'endDate'),
-    LayoutConst.u8(property: 'state'),
-    LayoutConst.u64(property: 'fundsCollected'),
-    LayoutConst.optional(GatingConfig.staticLayout, property: 'gatingConfig')
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('store'),
+        SolanaLayoutUtils.publicKey('sellingResource'),
+        SolanaLayoutUtils.publicKey('treasuryMint'),
+        SolanaLayoutUtils.publicKey('treasuryHolder'),
+        SolanaLayoutUtils.publicKey('treasuryOwner'),
+        SolanaLayoutUtils.publicKey('owner'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'description'),
+        LayoutConst.boolean(property: 'mutable'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'piecesInOneWallet'),
+        LayoutConst.u64(property: 'startDate'),
+        LayoutConst.optional(LayoutConst.u64(), property: 'endDate'),
+        LayoutConst.u8(property: 'state'),
+        LayoutConst.u64(property: 'fundsCollected'),
+        LayoutConst.optional(GatingConfig.staticLayout,
+            property: 'gatingConfig')
+      ]);
 }
 
-class Market extends LayoutSerializable {
+class Market extends BorshLayoutSerializable {
   final SolAddress store;
   final SolAddress sellingResource;
   final SolAddress treasuryMint;
@@ -63,7 +64,7 @@ class Market extends LayoutSerializable {
       required this.fundsCollected,
       this.gatekeeper});
   factory Market.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

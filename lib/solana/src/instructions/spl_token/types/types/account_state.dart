@@ -3,7 +3,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/exception/exception.dart';
 
 /// Account state.
-class AccountState extends LayoutSerializable {
+class AccountState extends BorshLayoutSerializable {
   final String name;
   final int value;
 

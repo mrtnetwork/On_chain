@@ -39,14 +39,14 @@ class SystemCreateWithSeedLayout extends SystemProgramLayout {
         programId: decode['programId']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('base'),
-    LayoutConst.rustString(property: 'seed'),
-    LayoutConst.ns64(property: 'lamports'),
-    LayoutConst.ns64(property: 'space'),
-    SolanaLayoutUtils.publicKey('programId'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('base'),
+        LayoutConst.rustString(property: 'seed'),
+        LayoutConst.ns64(property: 'lamports'),
+        LayoutConst.ns64(property: 'space'),
+        SolanaLayoutUtils.publicKey('programId'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

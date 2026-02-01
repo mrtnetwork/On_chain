@@ -3,7 +3,7 @@ import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'concurrent_merkle_tree_header_data_v1.dart';
 
-class ConcurrentMerkleTreeHeader extends LayoutSerializable {
+class ConcurrentMerkleTreeHeader extends BorshLayoutSerializable {
   const ConcurrentMerkleTreeHeader._(this.name, this.value, this.field);
   final String name;
   final int value;

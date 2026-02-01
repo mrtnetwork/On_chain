@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/numbers/rational/big_rational.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
@@ -10,15 +10,11 @@ class AptosHelper {
   // The decimal precision for Aptos values, commonly 8 decimals
   static const int decimal = 8;
 
-  // A constant BigRational representing the scaling factor for Aptos (10^8)
-  static final _decimal = BigRational(BigInt.from(10).pow(decimal));
-
   /// Converts a string representing an Aptos amount to a BigInt in the smallest unit.
   /// This method multiplies the value by the scaling factor (10^8) to handle decimal precision.
   static BigInt toApt(String aptos) {
     try {
-      final parse = BigRational.parseDecimal(aptos);
-      return (parse * _decimal).toBigInt();
+      return AmountConverter.aptos.toUnit(aptos);
     } catch (e) {
       throw DartAptosPluginException("Invalid aptos amount provided.",
           details: {"amount": aptos});
@@ -28,8 +24,7 @@ class AptosHelper {
   /// Converts a BigInt value representing an Aptos amount in the smallest unit
   /// back to a string with the standard decimal precision (8 decimal places).
   static String toAptos(BigInt apt) {
-    final price = BigRational(apt);
-    return (price / _decimal).toDecimal(digits: decimal);
+    return AmountConverter.aptos.toAmount(apt);
   }
 
   /// Creates an Aptos transaction entry for transferring coins to another account.

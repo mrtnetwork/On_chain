@@ -5,15 +5,15 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'key'),
-    SolanaLayoutUtils.publicKey('baseToken'),
-    LayoutConst.wrap(EscrowAuthority.staticLayout, property: 'authority'),
-    LayoutConst.u8(property: 'bump'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'key'),
+        SolanaLayoutUtils.publicKey('baseToken'),
+        LayoutConst.wrap(EscrowAuthority.staticLayout, property: 'authority'),
+        LayoutConst.u8(property: 'bump'),
+      ]);
 }
 
-class TokenOwnedEscrow extends LayoutSerializable {
+class TokenOwnedEscrow extends BorshLayoutSerializable {
   final MetaDataKey key;
   final SolAddress baseToken;
   final EscrowAuthority authority;
@@ -26,7 +26,7 @@ class TokenOwnedEscrow extends LayoutSerializable {
       required this.bump});
   factory TokenOwnedEscrow.fromBuffer(List<int> data) {
     final decode =
-        LayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
     return TokenOwnedEscrow(
         key: MetaDataKey.fromValue(decode['key']),
         baseToken: decode['baseToken'],

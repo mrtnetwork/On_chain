@@ -2,7 +2,7 @@ import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class AllowList extends LayoutSerializable {
+class AllowList extends BorshLayoutSerializable {
   final List<int> merkleRoot;
 
   AllowList({required List<int> merkleRoot})
@@ -11,9 +11,9 @@ class AllowList extends LayoutSerializable {
     return AllowList(merkleRoot: (json['merkleRoot'] as List).cast());
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.blob(32, property: 'merkleRoot'),
-  ], property: 'allowList');
+  static StructLayout get staticLayout => LayoutConst.struct([
+        LayoutConst.blob(32, property: 'merkleRoot'),
+      ], property: 'allowList');
 
   @override
   StructLayout get layout => staticLayout;

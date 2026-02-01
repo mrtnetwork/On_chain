@@ -15,21 +15,21 @@ class _Utils {
     134
   ];
 
-  static final StructLayout layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'discriminator'),
-    SolanaLayoutUtils.publicKey('bookkeeper'),
-    SolanaLayoutUtils.publicKey('buyer'),
-    SolanaLayoutUtils.publicKey('seller'),
-    SolanaLayoutUtils.publicKey('auctionHouse'),
-    SolanaLayoutUtils.publicKey('metadata'),
-    LayoutConst.u64(property: 'tokenSize'),
-    LayoutConst.u64(property: 'price'),
-    LayoutConst.u8(property: 'bump'),
-    LayoutConst.i64(property: 'createdAt'),
-  ]);
+  static StructLayout get layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'discriminator'),
+        SolanaLayoutUtils.publicKey('bookkeeper'),
+        SolanaLayoutUtils.publicKey('buyer'),
+        SolanaLayoutUtils.publicKey('seller'),
+        SolanaLayoutUtils.publicKey('auctionHouse'),
+        SolanaLayoutUtils.publicKey('metadata'),
+        LayoutConst.u64(property: 'tokenSize'),
+        LayoutConst.u64(property: 'price'),
+        LayoutConst.u8(property: 'bump'),
+        LayoutConst.i64(property: 'createdAt'),
+      ]);
 }
 
-class PurchaseReceipt extends LayoutSerializable {
+class PurchaseReceipt extends BorshLayoutSerializable {
   static int get size => _Utils.layout.span;
   final SolAddress bookkeeper;
   final SolAddress buyer;
@@ -52,7 +52,7 @@ class PurchaseReceipt extends LayoutSerializable {
       required this.bump,
       required this.createdAt});
   factory PurchaseReceipt.fromBuffer(List<int> data) {
-    final decode = LayoutSerializable.decode(
+    final decode = BorshLayoutSerializable.decode(
         bytes: data,
         layout: _Utils.layout,
         validator: {'discriminator': _Utils.discriminator});

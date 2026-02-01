@@ -10,12 +10,12 @@ class SPLToken2022InterestBearingMintUpdateRateLayout
   final int rate;
   SPLToken2022InterestBearingMintUpdateRateLayout({required this.rate});
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
-        property: 'interestBearingMint'),
-    LayoutConst.u16(property: 'rate'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
+            property: 'interestBearingMint'),
+        LayoutConst.u16(property: 'rate'),
+      ]);
 
   factory SPLToken2022InterestBearingMintUpdateRateLayout.fromBuffer(
       List<int> bytes) {

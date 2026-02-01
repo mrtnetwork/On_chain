@@ -16,7 +16,7 @@ class AssociatedTokenAccountProgramRecoverNestedLayout
             AssociatedTokenAccountProgramInstruction.recoverNested.insturction);
     return const AssociatedTokenAccountProgramRecoverNestedLayout();
   }
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   @override
   StructLayout get layout => _layout;

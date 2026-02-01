@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class StartDate extends LayoutSerializable {
+class StartDate extends BorshLayoutSerializable {
   final BigInt date;
 
   const StartDate({required this.date});
@@ -9,9 +9,9 @@ class StartDate extends LayoutSerializable {
     return StartDate(date: json['date']);
   }
 
-  static final StructLayout staticLayout = LayoutConst.struct(
-      [LayoutConst.i64(property: 'date')],
-      property: 'startDate');
+  static StructLayout get staticLayout =>
+      LayoutConst.struct([LayoutConst.i64(property: 'date')],
+          property: 'startDate');
 
   @override
   StructLayout get layout => staticLayout;

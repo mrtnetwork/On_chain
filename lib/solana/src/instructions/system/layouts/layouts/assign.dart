@@ -9,10 +9,10 @@ class SystemAssignLayout extends SystemProgramLayout {
   /// address of the program to assign as the owner
   final SolAddress programId;
   const SystemAssignLayout({required this.programId});
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u32(property: 'instruction'),
-    SolanaLayoutUtils.publicKey('programId')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u32(property: 'instruction'),
+        SolanaLayoutUtils.publicKey('programId')
+      ]);
 
   factory SystemAssignLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(

@@ -23,11 +23,11 @@ class TokenLendingInitReserveLayout extends TokenLendingProgramLayout {
         liquidityAmount: decode['liquidityAmount'],
         config: ReserveConfig.fromJson(decode['config']));
   }
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.u64(property: 'liquidityAmount'),
-    ReserveConfig.layout
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.u64(property: 'liquidityAmount'),
+        ReserveConfig.layout
+      ]);
 
   @override
   StructLayout get layout => _layout;

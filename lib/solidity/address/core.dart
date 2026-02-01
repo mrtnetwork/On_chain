@@ -22,7 +22,7 @@ class SolidityAddress {
     }
     EthAddrDecoder().decodeAddr(
         '${CoinsConf.ethereum.params.addrPrefix}$address',
-        {'skip_chksum_enc': skipChecksum});
+        skipChecksum: skipChecksum);
     return SolidityAddress.unsafe(EthAddrUtils.toChecksumAddress(address));
   }
   factory SolidityAddress.fromBytes(List<int> bytes,

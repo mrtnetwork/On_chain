@@ -4,7 +4,7 @@ import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static final StructLayout layout =
+  static StructLayout get layout =>
       LayoutConst.struct([LayoutConst.u64(property: 'withheldAmount')]);
 
   static int get accountSize => layout.span;
@@ -15,7 +15,8 @@ class _Utils {
         throw SolanaPluginException('Account data length is insufficient.',
             details: {'Expected': accountSize, 'length': extensionData.length});
       }
-      return LayoutSerializable.decode(bytes: extensionData, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionData, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -27,7 +28,8 @@ class _Utils {
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
               accountBytes: accountBytes,
               extensionType: ExtensionType.transferFeeAmount);
-      return LayoutSerializable.decode(bytes: extensionBytes, layout: layout);
+      return BorshLayoutSerializable.decode(
+          bytes: extensionBytes, layout: layout);
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -35,7 +37,9 @@ class _Utils {
 }
 
 /// Transfer fee extension data for accounts.
-class TransferFeeAmount extends LayoutSerializable {
+class TransferFeeAmount extends BorshLayoutSerializable {
+  static int get size => _Utils.accountSize;
+
   /// Amount withheld during transfers, to be harvested to the mint
   final BigInt withheldAmount;
   const TransferFeeAmount({required this.withheldAmount});

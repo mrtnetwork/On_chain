@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class UpdateMetaData extends LayoutSerializable {
+class UpdateMetaData extends BorshLayoutSerializable {
   final String? name;
   final String? symbol;
   final String? uri;
@@ -34,7 +34,7 @@ class UpdateMetaData extends LayoutSerializable {
   }
   factory UpdateMetaData.fromBuffer(List<int> bytes) {
     final decode =
-        LayoutSerializable.decode(bytes: bytes, layout: staticLayout);
+        BorshLayoutSerializable.decode(bytes: bytes, layout: staticLayout);
     return UpdateMetaData.fromJson(decode);
   }
   static StructLayout staticLayout = LayoutConst.struct([

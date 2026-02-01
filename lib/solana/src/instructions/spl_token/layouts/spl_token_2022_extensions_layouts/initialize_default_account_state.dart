@@ -11,12 +11,12 @@ class SPLToken2022InitializeDefaultAccountStateLayout
   final AccountState accountState;
   SPLToken2022InitializeDefaultAccountStateLayout({required this.accountState});
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(DefaultAccountStateInstruction.staticLayout,
-        property: 'defaultAccountState'),
-    LayoutConst.wrap(AccountState.staticLayout, property: 'accountState'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(DefaultAccountStateInstruction.staticLayout,
+            property: 'defaultAccountState'),
+        LayoutConst.wrap(AccountState.staticLayout, property: 'accountState'),
+      ]);
 
   factory SPLToken2022InitializeDefaultAccountStateLayout.fromBuffer(
       List<int> bytes) {

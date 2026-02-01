@@ -30,13 +30,13 @@ class MetaplexTokenMetaDataCreateMetadataAccountV3Layout
             : CollectionDetailsV1.fromJson(decode['collectionDetails']));
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    MetaDataV2.staticLayout,
-    LayoutConst.boolean(property: 'isMutable'),
-    LayoutConst.optional(CollectionDetailsV1.staticLayout,
-        property: 'collectionDetails'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        MetaDataV2.staticLayout,
+        LayoutConst.boolean(property: 'isMutable'),
+        LayoutConst.optional(CollectionDetailsV1.staticLayout,
+            property: 'collectionDetails'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

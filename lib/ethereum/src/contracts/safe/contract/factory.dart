@@ -197,8 +197,8 @@ class SafeFactoryContract extends ISafeFactoryContract {
           });
     }
     if (method != SafeContractFunction.createProxy) {
-      saltNonce ??=
-          BigintUtils.fromBytes(QuickCrypto.generateRandom()) & maxU256;
+      saltNonce ??= BigintUtils.fromBytes(QuickCrypto.generateRandom()) &
+          BinaryOps.maxU256;
     } else {
       saltNonce = null;
     }

@@ -16,7 +16,7 @@ class MetaplexHydraProgramUtils {
       membership.toBytes(),
       mint.toBytes(),
     ], programId: MetaplexHydraProgramConst.programId);
-    return ProgramDerivedAddress(address: address.item1, bump: address.item2);
+    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
   }
 
   static ProgramDerivedAddress findFanoutPda({required String name}) {
@@ -24,7 +24,7 @@ class MetaplexHydraProgramUtils {
       'fanout-config'.codeUnits,
       StringUtils.encode(name),
     ], programId: MetaplexHydraProgramConst.programId);
-    return ProgramDerivedAddress(address: address.item1, bump: address.item2);
+    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
   }
 
   static ProgramDerivedAddress findFanoutMembershipVoucherPda(
@@ -34,7 +34,7 @@ class MetaplexHydraProgramUtils {
       fanout.toBytes(),
       member.toBytes()
     ], programId: MetaplexHydraProgramConst.programId);
-    return ProgramDerivedAddress(address: address.item1, bump: address.item2);
+    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
   }
 
   static ProgramDerivedAddress findFanoutMintPda(
@@ -42,6 +42,6 @@ class MetaplexHydraProgramUtils {
     final address = SolanaUtils.findProgramAddress(
         seeds: ['fanout-config'.codeUnits, fanout.toBytes(), mint.toBytes()],
         programId: MetaplexHydraProgramConst.programId);
-    return ProgramDerivedAddress(address: address.item1, bump: address.item2);
+    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
   }
 }

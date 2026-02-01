@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
-class MetadataPointerInstruction extends LayoutSerializable {
+class MetadataPointerInstruction extends BorshLayoutSerializable {
   const MetadataPointerInstruction._(this.name);
   final String name;
   static const MetadataPointerInstruction initialize =

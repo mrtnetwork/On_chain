@@ -18,11 +18,11 @@ class MetaplexFixedPriceSaleCreateStoreLayout
         name: decode['name'], description: decode['description']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.blob(8, property: 'instruction'),
-    LayoutConst.string(property: 'name'),
-    LayoutConst.string(property: 'description'),
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.blob(8, property: 'instruction'),
+        LayoutConst.string(property: 'name'),
+        LayoutConst.string(property: 'description'),
+      ]);
 
   @override
   StructLayout get layout => _layout;

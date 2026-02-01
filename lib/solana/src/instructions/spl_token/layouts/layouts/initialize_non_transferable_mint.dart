@@ -10,7 +10,7 @@ class SPLTokenInitializeNonTransferableMintLayout
   SPLTokenInitializeNonTransferableMintLayout();
 
   /// StructLayout structure for initializing a non-transferable mint.
-  static final StructLayout _layout =
+  static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// Constructs an SPLTokenInitializeNonTransferableMintLayout instance from buffer.

@@ -21,12 +21,12 @@ class SPLToken2022UpdateTransferHookLayout extends SPLTokenProgramLayout {
         transferHookProgramId: decode['transferHookProgramId']);
   }
 
-  static final StructLayout _layout = LayoutConst.struct([
-    LayoutConst.u8(property: 'instruction'),
-    LayoutConst.wrap(TransferHookInstruction.staticLayout,
-        property: 'transferHook'),
-    SolanaLayoutUtils.publicKey('transferHookProgramId')
-  ]);
+  static StructLayout get _layout => LayoutConst.struct([
+        LayoutConst.u8(property: 'instruction'),
+        LayoutConst.wrap(TransferHookInstruction.staticLayout,
+            property: 'transferHook'),
+        SolanaLayoutUtils.publicKey('transferHookProgramId')
+      ]);
 
   @override
   StructLayout get layout => _layout;
