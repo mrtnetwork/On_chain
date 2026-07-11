@@ -18,13 +18,16 @@ class MintInfo {
   MintInfo({required this.policyID, required this.assets});
   factory MintInfo.fromJson(Map<String, dynamic> json) {
     return MintInfo(
-        policyID: PolicyID.fromHex(json.keys.first),
-        assets: MintAssets.fromJson(json.values.first));
+      policyID: PolicyID.fromHex(json.keys.first),
+      assets: MintAssets.fromJson(json.values.first),
+    );
   }
 
   MintInfo copyWith({PolicyID? policyID, MintAssets? assets}) {
     return MintInfo(
-        policyID: policyID ?? this.policyID, assets: assets ?? this.assets);
+      policyID: policyID ?? this.policyID,
+      assets: assets ?? this.assets,
+    );
   }
 
   /// Converts [MintInfo] instance to JSON format.
@@ -32,8 +35,9 @@ class MintInfo {
     return {policyID.toJson(): assets.toJson()};
   }
 
-  late final MultiAsset multiAsset =
-      MultiAsset({policyID: Assets(assets.assets)});
+  late final MultiAsset multiAsset = MultiAsset({
+    policyID: Assets(assets.assets),
+  });
 }
 
 /// Represents a list of minting information.
@@ -44,46 +48,63 @@ class Mint with InternalCborSerialization {
   final List<MintInfo> mints;
 
   /// Constructs a [Mint] instance.
-  Mint(List<MintInfo> mint,
-      {this.serializationConfig = const AssetsSerializationConfig()})
-      : mints = List<MintInfo>.unmodifiable(mint);
+  Mint(
+    List<MintInfo> mint, {
+    this.serializationConfig = const AssetsSerializationConfig(),
+  }) : mints = List<MintInfo>.unmodifiable(mint);
 
   /// Deserializes a [Mint] instance from a CBOR map value.
   factory Mint.deserialize(CborMapValue<CborObject, CborObject> cbor) {
     final List<MintInfo> mints = [];
     for (final i in cbor.value.entries) {
-      mints.add(MintInfo(
-          policyID: PolicyID.deserialize(i.key.as<CborBytesValue>("PolicyID")),
-          assets: MintAssets.deserialize(
-              i.value.asMap<CborObject, CborObject>("Assets"))));
+      mints.add(
+        MintInfo(
+          policyID: PolicyID.deserialize(
+            i.key.as<CborBytesValue>(operation: "PolicyID"),
+          ),
+          assets: MintAssets.deserialize(i.value.as<CborMapValue>()),
+        ),
+      );
     }
-    return Mint(mints,
-        serializationConfig: AssetsSerializationConfig(
-            encoding: cbor.definite
+    return Mint(
+      mints,
+      serializationConfig: AssetsSerializationConfig(
+        encoding:
+            cbor.definite
                 ? CborMapEncodingType.definite
-                : CborMapEncodingType.inDefinite));
+                : CborMapEncodingType.inDefinite,
+      ),
+    );
   }
   factory Mint.fromJson(Map<String, dynamic> json) {
     return Mint(
-        (json["assets"] as List).map((e) => MintInfo.fromJson(e)).toList(),
-        serializationConfig: AssetsSerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      (json["assets"] as List).map((e) => MintInfo.fromJson(e)).toList(),
+      serializationConfig: AssetsSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
-  Mint copyWith(
-      {List<MintInfo>? mints, AssetsSerializationConfig? serializationConfig}) {
-    return Mint(mints ?? this.mints,
-        serializationConfig: serializationConfig ?? this.serializationConfig);
+  Mint copyWith({
+    List<MintInfo>? mints,
+    AssetsSerializationConfig? serializationConfig,
+  }) {
+    return Mint(
+      mints ?? this.mints,
+      serializationConfig: serializationConfig ?? this.serializationConfig,
+    );
   }
 
   @override
   CborObject toCbor() {
     switch (serializationConfig.encoding) {
       case CborMapEncodingType.definite:
-        return CborMapValue.definite(
-            {for (final i in mints) i.policyID.toCbor(): i.assets.toCbor()});
+        return CborMapValue.definite({
+          for (final i in mints) i.policyID.toCbor(): i.assets.toCbor(),
+        });
       case CborMapEncodingType.inDefinite:
-        return CborMapValue.inDefinite(
-            {for (final i in mints) i.policyID.toCbor(): i.assets.toCbor()});
+        return CborMapValue.inDefinite({
+          for (final i in mints) i.policyID.toCbor(): i.assets.toCbor(),
+        });
     }
   }
 
@@ -91,7 +112,7 @@ class Mint with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "assets": mints.map((e) => e.toJson()).toList(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }

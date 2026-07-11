@@ -7,29 +7,33 @@ class MetaplexTokenMetaDataMintV1Layout
     extends MetaplexTokenMetaDataProgramLayout {
   final Payload? authorizationData;
   final BigInt amount;
-  const MetaplexTokenMetaDataMintV1Layout(
-      {this.authorizationData, required this.amount});
+  const MetaplexTokenMetaDataMintV1Layout({
+    this.authorizationData,
+    required this.amount,
+  });
 
   factory MetaplexTokenMetaDataMintV1Layout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction.mintV1.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.mintV1.insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataMintV1Layout(
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']),
-        amount: decode['amount']);
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+      amount: decode['amount'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
   static const int discriminator = 0;
 
   @override
@@ -44,7 +48,7 @@ class MetaplexTokenMetaDataMintV1Layout
     return {
       'authorizationData': authorizationData?.serialize(),
       'discriminator': discriminator,
-      'amount': amount
+      'amount': amount,
     };
   }
 }

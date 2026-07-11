@@ -7,11 +7,12 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/gettransaction
 class SolanaRequestGetTransaction
     extends SolanaRequest<VersionedTransactionResponse, Map<String, dynamic>> {
-  const SolanaRequestGetTransaction(
-      {required this.transactionSignature,
-      this.maxSupportedTransactionVersion,
-      super.commitment,
-      SolanaRequestEncoding? encoding = SolanaRequestEncoding.base64});
+  const SolanaRequestGetTransaction({
+    required this.transactionSignature,
+    this.maxSupportedTransactionVersion,
+    super.commitment,
+    SolanaRequestEncoding? encoding = SolanaRequestEncoding.base64,
+  });
 
   /// getTransaction
   @override

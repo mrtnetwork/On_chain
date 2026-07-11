@@ -7,9 +7,10 @@ class StakeDeactivateLayout extends StakeProgramLayout {
 
   factory StakeDeactivateLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: StakeProgramInstruction.deactivate.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: StakeProgramInstruction.deactivate.insturction,
+    );
     return const StakeDeactivateLayout();
   }
   static StructLayout get _layout =>

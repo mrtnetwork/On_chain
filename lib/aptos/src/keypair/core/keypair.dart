@@ -10,8 +10,10 @@ import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 
 /// Abstract class for representing the private key of an Aptos account.
 /// The private key is used for signing messages and generating a public key.
-abstract class AptosBasePrivateKey<PUBLICKEY extends AptosCryptoPublicKey,
-    SIGNATURE extends AptosAnySignature> {
+abstract class AptosBasePrivateKey<
+  PUBLICKEY extends AptosCryptoPublicKey,
+  SIGNATURE extends AptosAnySignature
+> {
   /// The key algorithm (e.g., Ed25519, Secp256k1)
   final AptosKeyAlgorithm algorithm;
 
@@ -26,13 +28,16 @@ abstract class AptosBasePrivateKey<PUBLICKEY extends AptosCryptoPublicKey,
       final keyBytes = decode.$2;
       final key = switch (algorithm) {
         AptosKeyAlgorithm.ed25519 => AptosED25519PrivateKey.fromBytes(keyBytes),
-        AptosKeyAlgorithm.secp256k1 =>
-          AptosSecp256k1PrivateKey.fromBytes(keyBytes)
+        AptosKeyAlgorithm.secp256k1 => AptosSecp256k1PrivateKey.fromBytes(
+          keyBytes,
+        ),
       };
       return key as AptosBasePrivateKey<PUBLICKEY, SIGNATURE>;
     } catch (e) {
-      throw DartAptosPluginException("Invalid aptos AIP-80 private key style.",
-          details: {"error": e.toString()});
+      throw DartAptosPluginException(
+        "Invalid aptos AIP-80 private key style.",
+        details: {"error": e.toString()},
+      );
     }
   }
 
@@ -70,12 +75,14 @@ abstract class AptosPublicKey extends BcsSerialization {
 /// Abstract class for representing a crypto public key in Aptos,
 /// extending from `AptosPublicKey` and adding cryptographic verification capabilities.
 abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
-    extends BcsVariantSerialization implements AptosPublicKey {
+    extends BcsVariantSerialization
+    implements AptosPublicKey {
   final PUBLICKEY publicKey;
 
-  factory AptosCryptoPublicKey.fromBytes(
-      {required List<int> publicKeyBytes,
-      required EllipticCurveTypes algorithm}) {
+  factory AptosCryptoPublicKey.fromBytes({
+    required List<int> publicKeyBytes,
+    required EllipticCurveTypes algorithm,
+  }) {
     final AptosCryptoPublicKey publicKey;
     switch (algorithm) {
       case EllipticCurveTypes.ed25519:
@@ -85,11 +92,10 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
         publicKey = AptosSecp256k1PublicKey.fromBytes(publicKeyBytes);
         break;
       default:
-        throw DartAptosPluginException("Unsuported public key algorithm.",
-            details: {
-              "type": algorithm.name,
-              "expected": "ED25519, Secp256k1"
-            });
+        throw DartAptosPluginException(
+          "Unsuported public key algorithm.",
+          details: {"type": algorithm.name, "expected": "ED25519, Secp256k1"},
+        );
     }
     return publicKey.cast();
   }
@@ -106,8 +112,11 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
   /// Convert the public key bytes to hexadecimal string with optional prefix
   @override
   String toHex({bool lowerCase = true, String prefix = ''}) {
-    return BytesUtils.toHexString(toBytes(),
-        lowerCase: lowerCase, prefix: prefix);
+    return BytesUtils.toHexString(
+      toBytes(),
+      lowerCase: lowerCase,
+      prefix: prefix,
+    );
   }
 
   /// public key in hexadecimal format
@@ -115,38 +124,49 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
 
   /// The key algorithm used (e.g., Ed25519, Secp256k1)
   final AptosKeyAlgorithm algorithm;
-  const AptosCryptoPublicKey(
-      {required this.algorithm, required this.publicKey});
+  const AptosCryptoPublicKey({
+    required this.algorithm,
+    required this.publicKey,
+  });
 
   /// Constructor that requires the key algorithm
   bool verify({required List<int> message, required List<int> signature});
-  factory AptosCryptoPublicKey.deserialize(List<int> bytes,
-      {String? property}) {
+  factory AptosCryptoPublicKey.deserialize(
+    List<int> bytes, {
+    String? property,
+  }) {
     final decode = BcsVariantSerialization.deserialize(
-        bytes: bytes, layout: layout(property: property));
+      bytes: bytes,
+      layout: layout(property: property),
+    );
     return AptosCryptoPublicKey.fromStruct(decode);
   }
   factory AptosCryptoPublicKey.fromStruct(Map<String, dynamic> json) {
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
     final algorithm = AptosKeyAlgorithm.fromName(decode.variantName);
     return switch (algorithm) {
-      AptosKeyAlgorithm.ed25519 =>
-        AptosED25519PublicKey.fromStruct(decode.value),
-      AptosKeyAlgorithm.secp256k1 =>
-        AptosSecp256k1PublicKey.fromStruct(decode.value),
-    } as AptosCryptoPublicKey<PUBLICKEY>;
+          AptosKeyAlgorithm.ed25519 => AptosED25519PublicKey.fromStruct(
+            decode.value,
+          ),
+          AptosKeyAlgorithm.secp256k1 => AptosSecp256k1PublicKey.fromStruct(
+            decode.value,
+          ),
+        }
+        as AptosCryptoPublicKey<PUBLICKEY>;
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosED25519PublicKey.layout,
-          property: AptosKeyAlgorithm.ed25519.name,
-          index: AptosKeyAlgorithm.ed25519.value),
+        layout: AptosED25519PublicKey.layout,
+        property: AptosKeyAlgorithm.ed25519.name,
+        index: AptosKeyAlgorithm.ed25519.value,
+      ),
       LazyVariantModel(
-          layout: AptosSecp256k1PublicKey.layout,
-          property: AptosKeyAlgorithm.secp256k1.name,
-          index: AptosKeyAlgorithm.secp256k1.value),
+        layout: AptosSecp256k1PublicKey.layout,
+        property: AptosKeyAlgorithm.secp256k1.name,
+        index: AptosKeyAlgorithm.secp256k1.value,
+      ),
     ], property: property);
   }
 
@@ -160,8 +180,10 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
 
   T cast<T extends AptosCryptoPublicKey>() {
     if (this is! T) {
-      throw DartAptosPluginException("Invalid public key type.",
-          details: {"expected": "$T", "type": algorithm.name});
+      throw DartAptosPluginException(
+        "Invalid public key type.",
+        details: {"expected": "$T", "type": algorithm.name},
+      );
     }
     return this as T;
   }

@@ -8,16 +8,16 @@ class _Utils {
   static const List<int> discriminator = [15, 32, 69, 235, 249, 39, 18, 167];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('store'),
-        SolanaLayoutUtils.publicKey('owner'),
-        SolanaLayoutUtils.publicKey('resource'),
-        SolanaLayoutUtils.publicKey('vault'),
-        SolanaLayoutUtils.publicKey('vaultOwner'),
-        LayoutConst.u64(property: 'supply'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
-        LayoutConst.u8(property: 'state')
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('store'),
+    SolanaLayoutUtils.publicKey('owner'),
+    SolanaLayoutUtils.publicKey('resource'),
+    SolanaLayoutUtils.publicKey('vault'),
+    SolanaLayoutUtils.publicKey('vaultOwner'),
+    LayoutConst.u64(property: 'supply'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
+    LayoutConst.u8(property: 'state'),
+  ]);
 }
 
 class SellingResource extends BorshLayoutSerializable {
@@ -42,18 +42,20 @@ class SellingResource extends BorshLayoutSerializable {
   });
   factory SellingResource.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return SellingResource(
-        store: decode['store'],
-        owner: decode['owner'],
-        resource: decode['resource'],
-        vault: decode['vault'],
-        vaultOwner: decode['vaultOwner'],
-        supply: decode['supply'],
-        sellingResourceState: SellingResourceState.fromValue(decode['state']),
-        maxSupply: decode['maxSupply']);
+      store: decode['store'],
+      owner: decode['owner'],
+      resource: decode['resource'],
+      vault: decode['vault'],
+      vaultOwner: decode['vaultOwner'],
+      supply: decode['supply'],
+      sellingResourceState: SellingResourceState.fromValue(decode['state']),
+      maxSupply: decode['maxSupply'],
+    );
   }
 
   @override
@@ -70,7 +72,7 @@ class SellingResource extends BorshLayoutSerializable {
       'vaultOwner': vaultOwner,
       'supply': supply,
       'maxSupply': maxSupply,
-      'state': sellingResourceState.value
+      'state': sellingResourceState.value,
     };
   }
 

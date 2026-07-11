@@ -11,7 +11,9 @@ class ADAAccountUTXOResponse {
   ADAAddressType get type => toAdddress.addressType;
 
   late final TransactionInput toInput = TransactionInput(
-      index: outputIndex, transactionId: TransactionHash.fromHex(txHash));
+    index: outputIndex,
+    transactionId: TransactionHash.fromHex(txHash),
+  );
 
   /// Transaction hash of the UTXO
   final String txHash;
@@ -38,13 +40,16 @@ class ADAAccountUTXOResponse {
   final String? referenceScriptHash;
 
   TransactionInput get input => TransactionInput(
-      index: outputIndex, transactionId: TransactionHash.fromHex(txHash));
+    index: outputIndex,
+    transactionId: TransactionHash.fromHex(txHash),
+  );
 
   late final BigInt sumOflovelace = amount.fold(
-      BigInt.zero,
-      (previousValue, element) =>
-          previousValue +
-          (element.islovelace ? BigInt.parse(element.quantity) : BigInt.zero));
+    BigInt.zero,
+    (previousValue, element) =>
+        previousValue +
+        (element.islovelace ? BigInt.parse(element.quantity) : BigInt.zero),
+  );
 
   late final MultiAsset multiAsset = _multiAsset;
   bool get haveAsset => _multiAsset.assets.isNotEmpty;
@@ -78,44 +83,50 @@ class ADAAccountUTXOResponse {
 
   factory ADAAccountUTXOResponse.fromJson(Map<String, dynamic> json) {
     return ADAAccountUTXOResponse(
-        address: json['address'],
-        txHash: json['tx_hash'],
-        txIndex: json['tx_index'],
-        outputIndex: json['output_index'],
-        block: json['block'],
-        dataHash: json['data_hash'],
-        inlineDatum: json['inline_datum'],
-        referenceScriptHash: json['reference_script_hash'],
-        amount: (json['amount'] as List)
-            .map((e) => ADAAmountResponse.fromJson(e))
-            .toList());
+      address: json['address'],
+      txHash: json['tx_hash'],
+      txIndex: json['tx_index'],
+      outputIndex: json['output_index'],
+      block: json['block'],
+      dataHash: json['data_hash'],
+      inlineDatum: json['inline_datum'],
+      referenceScriptHash: json['reference_script_hash'],
+      amount:
+          (json['amount'] as List)
+              .map((e) => ADAAmountResponse.fromJson(e))
+              .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'tx_hash': txHash,
-        'tx_index': txIndex,
-        'output_index': outputIndex,
-        'block': block,
-        'data_hash': dataHash,
-        'inline_datum': inlineDatum,
-        'reference_script_hash': referenceScriptHash,
-        'amount': amount.map((e) => e.toJson()).toList()
-      };
+    'address': address,
+    'tx_hash': txHash,
+    'tx_index': txIndex,
+    'output_index': outputIndex,
+    'block': block,
+    'data_hash': dataHash,
+    'inline_datum': inlineDatum,
+    'reference_script_hash': referenceScriptHash,
+    'amount': amount.map((e) => e.toJson()).toList(),
+  };
   @override
   String toString() {
     return 'ADAAccountUTXOResponse${toJson()}';
   }
 }
 
-extension QuicketADAUtxoCalculation on Iterable<ADAAccountUTXOResponse> {
+extension ExtQuicketADAUtxoCalculation on Iterable<ADAAccountUTXOResponse> {
   BigInt get sumOflovelace {
-    return fold(BigInt.zero,
-        (previousValue, element) => previousValue + element.sumOflovelace);
+    return fold(
+      BigInt.zero,
+      (previousValue, element) => previousValue + element.sumOflovelace,
+    );
   }
 
   MultiAsset get multiAsset {
-    return fold(MultiAsset({}),
-        (previousValue, element) => previousValue + element.multiAsset);
+    return fold(
+      MultiAsset({}),
+      (previousValue, element) => previousValue + element.multiAsset,
+    );
   }
 }

@@ -8,7 +8,6 @@ import 'package:on_chain/aptos/src/keypair/types/types.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 /// An `AccountAuthenticator` is an abstraction of a signature scheme. It must know:
 /// (1) How to check its signature against a message and public key
@@ -30,10 +29,15 @@ enum AptosAccountAuthenticators {
   final int value;
   const AptosAccountAuthenticators({required this.value});
   static AptosAccountAuthenticators fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartAptosPluginException(
-            "cannot find correct account authenticator from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartAptosPluginException(
+                "cannot find correct account authenticator from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -62,33 +66,41 @@ abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
         AptosAccountAuthenticatorSingleKey.fromStruct(decode.value),
       AptosAccountAuthenticators.noAccountAuthenticator =>
         AptosAccountAuthenticatorNoAccountAuthenticator(),
-      _ => throw DartAptosPluginException("Unsuported account athenticator.",
-          details: {"type": type.name})
+      _ =>
+        throw DartAptosPluginException(
+          "Unsuported account athenticator.",
+          details: {"type": type.name},
+        ),
     };
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosAccountAuthenticatorEd25519.layout,
-          property: AptosAccountAuthenticators.ed25519.name,
-          index: AptosAccountAuthenticators.ed25519.value),
+        layout: AptosAccountAuthenticatorEd25519.layout,
+        property: AptosAccountAuthenticators.ed25519.name,
+        index: AptosAccountAuthenticators.ed25519.value,
+      ),
       LazyVariantModel(
-          layout: AptosAccountAuthenticatorMultiEd25519.layout,
-          property: AptosAccountAuthenticators.multiEd25519.name,
-          index: AptosAccountAuthenticators.multiEd25519.value),
+        layout: AptosAccountAuthenticatorMultiEd25519.layout,
+        property: AptosAccountAuthenticators.multiEd25519.name,
+        index: AptosAccountAuthenticators.multiEd25519.value,
+      ),
       LazyVariantModel(
-          layout: AptosAccountAuthenticatorMultiKey.layout,
-          property: AptosAccountAuthenticators.multiKey.name,
-          index: AptosAccountAuthenticators.multiKey.value),
+        layout: AptosAccountAuthenticatorMultiKey.layout,
+        property: AptosAccountAuthenticators.multiKey.name,
+        index: AptosAccountAuthenticators.multiKey.value,
+      ),
       LazyVariantModel(
-          layout: AptosAccountAuthenticatorSingleKey.layout,
-          property: AptosAccountAuthenticators.singleKey.name,
-          index: AptosAccountAuthenticators.singleKey.value),
+        layout: AptosAccountAuthenticatorSingleKey.layout,
+        property: AptosAccountAuthenticators.singleKey.name,
+        index: AptosAccountAuthenticators.singleKey.value,
+      ),
       LazyVariantModel(
-          layout: AptosAccountAuthenticatorNoAccountAuthenticator.layout,
-          property: AptosAccountAuthenticators.noAccountAuthenticator.name,
-          index: AptosAccountAuthenticators.noAccountAuthenticator.value),
+        layout: AptosAccountAuthenticatorNoAccountAuthenticator.layout,
+        property: AptosAccountAuthenticators.noAccountAuthenticator.name,
+        index: AptosAccountAuthenticators.noAccountAuthenticator.value,
+      ),
     ], property: property);
   }
 
@@ -102,8 +114,10 @@ abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
 
   T cast<T extends AptosAccountAuthenticator>() {
     if (this is! T) {
-      throw DartAptosPluginException("Invalid account authenticated.",
-          details: {"expected": "$T", "type": type.name});
+      throw DartAptosPluginException(
+        "Invalid account authenticated.",
+        details: {"expected": "$T", "type": type.name},
+      );
     }
     return this as T;
   }
@@ -114,26 +128,30 @@ class AptosEd25519Signature extends AptosSignature {
   /// The Ed25519 signature bytes.
   final List<int> signature;
   AptosEd25519Signature._({required List<int> signature})
-      : signature = signature.asImmutableBytes;
+    : signature = signature.asImmutableBytes;
   factory AptosEd25519Signature.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosEd25519Signature.fromStruct(decode);
   }
   factory AptosEd25519Signature(List<int> signature) {
     if (signature.length != CryptoSignerConst.ed25519SignatureLength) {
-      throw DartSuiPluginException("Invalid signature length.", details: {
-        "expected": CryptoSignerConst.ed25519SignatureLength,
-        "length": signature.length
-      });
+      throw DartSuiPluginException(
+        "Invalid signature length.",
+        details: {
+          "expected": CryptoSignerConst.ed25519SignatureLength.toString(),
+          "length": signature.length.toString(),
+        },
+      );
     }
     return AptosEd25519Signature._(signature: signature);
   }
   factory AptosEd25519Signature.fromStruct(Map<String, dynamic> json) {
-    return AptosEd25519Signature(json.asBytes("signature"));
+    return AptosEd25519Signature(json.valueAsBytes("signature"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsBytes(property: "signature")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsBytes(property: "signature"),
+    ], property: property);
   }
 
   @override
@@ -162,27 +180,31 @@ class AptosEd25519AnySignature extends AptosAnySignature {
   /// The Ed25519 signature bytes.
   final List<int> signature;
   AptosEd25519AnySignature._({required List<int> signature})
-      : signature = signature.asImmutableBytes,
-        super(type: AptosAnySignatures.ed25519);
+    : signature = signature.asImmutableBytes,
+      super(type: AptosAnySignatures.ed25519);
   factory AptosEd25519AnySignature.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosEd25519AnySignature.fromStruct(decode);
   }
   factory AptosEd25519AnySignature(List<int> signature) {
     if (signature.length != CryptoSignerConst.ed25519SignatureLength) {
-      throw DartSuiPluginException("Invalid signature length.", details: {
-        "expected": CryptoSignerConst.ed25519SignatureLength,
-        "length": signature.length
-      });
+      throw DartSuiPluginException(
+        "Invalid signature length.",
+        details: {
+          "expected": CryptoSignerConst.ed25519SignatureLength.toString(),
+          "length": signature.length.toString(),
+        },
+      );
     }
     return AptosEd25519AnySignature._(signature: signature);
   }
   factory AptosEd25519AnySignature.fromStruct(Map<String, dynamic> json) {
-    return AptosEd25519AnySignature(json.asBytes("signature"));
+    return AptosEd25519AnySignature(json.valueAsBytes("signature"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsBytes(property: "signature")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsBytes(property: "signature"),
+    ], property: property);
   }
 
   @override
@@ -206,19 +228,22 @@ class AptosSecp256k1AnySignature extends AptosAnySignature {
   /// The Secp256k1 signature bytes.
   final List<int> signature;
   AptosSecp256k1AnySignature._({required List<int> signature})
-      : signature = signature.asImmutableBytes,
-        super(type: AptosAnySignatures.secp256k1);
+    : signature = signature.asImmutableBytes,
+      super(type: AptosAnySignatures.secp256k1);
   factory AptosSecp256k1AnySignature(List<int> signature) {
     if (signature.length != CryptoSignerConst.ed25519SignatureLength) {
-      throw DartSuiPluginException("Invalid signature length.", details: {
-        "expected": CryptoSignerConst.ecdsaSignatureLength,
-        "length": signature.length
-      });
+      throw DartSuiPluginException(
+        "Invalid signature length.",
+        details: {
+          "expected": CryptoSignerConst.ecdsaSignatureLength.toString(),
+          "length": signature.length.toString(),
+        },
+      );
     }
     return AptosSecp256k1AnySignature._(signature: signature);
   }
   factory AptosSecp256k1AnySignature.fromStruct(Map<String, dynamic> json) {
-    return AptosSecp256k1AnySignature(json.asBytes("signature"));
+    return AptosSecp256k1AnySignature(json.valueAsBytes("signature"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -250,14 +275,21 @@ class AptosAccountAuthenticatorEd25519 extends AptosAccountAuthenticator {
   /// The Ed25519 signature used for authentication.
   @override
   final AptosEd25519Signature signature;
-  AptosAccountAuthenticatorEd25519(
-      {required this.publicKey, required this.signature})
-      : super(type: AptosAccountAuthenticators.ed25519);
+  AptosAccountAuthenticatorEd25519({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptosAccountAuthenticators.ed25519);
   factory AptosAccountAuthenticatorEd25519.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosAccountAuthenticatorEd25519(
-        publicKey: AptosED25519PublicKey.fromStruct(json.asMap("publicKey")),
-        signature: AptosEd25519Signature.fromStruct(json.asMap("signature")));
+      publicKey: AptosED25519PublicKey.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("publicKey"),
+      ),
+      signature: AptosEd25519Signature.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("signature"),
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -275,7 +307,7 @@ class AptosAccountAuthenticatorEd25519 extends AptosAccountAuthenticator {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "publicKey": publicKey.toLayoutStruct(),
-      "signature": signature.toLayoutStruct()
+      "signature": signature.toLayoutStruct(),
     };
   }
 }
@@ -292,53 +324,65 @@ class AptosMultiEd25519Signature extends AptosSignature {
 
   /// A bitmap indicating which public keys are associated with the signatures.
   final List<int> bitmap;
-  AptosMultiEd25519Signature._(
-      {required List<AptosEd25519Signature> signatures,
-      required List<int> bitmap})
-      : signatures = signatures.immutable,
-        bitmap = bitmap.asImmutableBytes;
+  AptosMultiEd25519Signature._({
+    required List<AptosEd25519Signature> signatures,
+    required List<int> bitmap,
+  }) : signatures = signatures.immutable,
+       bitmap = bitmap.asImmutableBytes;
   factory AptosMultiEd25519Signature.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosMultiEd25519Signature.fromStruct(decode);
   }
-  factory AptosMultiEd25519Signature(
-      {required List<AptosEd25519Signature> signatures,
-      required List<int> bitmap}) {
+  factory AptosMultiEd25519Signature({
+    required List<AptosEd25519Signature> signatures,
+    required List<int> bitmap,
+  }) {
     if (signatures.length > AptosConstants.maxSignatureLength) {
       throw DartAptosPluginException(
-          "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.");
+        "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.",
+      );
     }
     if (bitmap.length != AptosConstants.bitmapLength) {
       throw DartAptosPluginException(
-          "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
-          details: {"length": bitmap.length});
+        "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
+        details: {"length": bitmap.length.toString()},
+      );
     }
     return AptosMultiEd25519Signature._(signatures: signatures, bitmap: bitmap);
   }
 
   factory AptosMultiEd25519Signature.fromStruct(Map<String, dynamic> json) {
-    final List<int> signature = json.asBytes("signature");
+    final List<int> signature = json.valueAsBytes("signature");
     if ((signature.length - AptosConstants.bitmapLength) %
             CryptoSignerConst.ed25519SignatureLength !=
         0) {
       throw DartAptosPluginException(
-          "Invalid MultiEd25519 signature bytes length.",
-          details: {"length": signature.length});
+        "Invalid MultiEd25519 signature bytes length.",
+        details: {"length": signature.length.toString()},
+      );
     }
-    final signatureLength = (signature.length - AptosConstants.bitmapLength) ~/
+    final signatureLength =
+        (signature.length - AptosConstants.bitmapLength) ~/
         CryptoSignerConst.ed25519SignatureLength;
     return AptosMultiEd25519Signature(
-        signatures: List.generate(signatureLength, (i) {
-          final index = i * CryptoSignerConst.ed25519SignatureLength;
-          return AptosEd25519Signature(signature.sublist(
-              index, index + CryptoSignerConst.ed25519SignatureLength));
-        }),
-        bitmap: signature.sublist(
-            signatureLength * CryptoSignerConst.ed25519SignatureLength));
+      signatures: List.generate(signatureLength, (i) {
+        final index = i * CryptoSignerConst.ed25519SignatureLength;
+        return AptosEd25519Signature(
+          signature.sublist(
+            index,
+            index + CryptoSignerConst.ed25519SignatureLength,
+          ),
+        );
+      }),
+      bitmap: signature.sublist(
+        signatureLength * CryptoSignerConst.ed25519SignatureLength,
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsBytes(property: 'signature')],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsBytes(property: 'signature'),
+    ], property: property);
   }
 
   @override
@@ -396,17 +440,22 @@ enum AptosAnySignatures {
 
   /// Retrieves the signature type based on its name.
   static AptosAnySignatures fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartAptosPluginException(
-            "Cannot find correct Signature from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartAptosPluginException(
+                "Cannot find correct Signature from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 
   AptosKeyAlgorithm? get toSupportedKeyAlgorithm {
     return switch (this) {
       AptosAnySignatures.ed25519 => AptosKeyAlgorithm.ed25519,
       AptosAnySignatures.secp256k1 => AptosKeyAlgorithm.secp256k1,
-      _ => null
+      _ => null,
     };
   }
 }
@@ -428,32 +477,41 @@ abstract class AptosAnySignature extends BcsVariantSerialization
   /// Constructor to initialize the signature type.
   const AptosAnySignature({required this.type});
   factory AptosAnySignature.deserialize(List<int> bytes) {
-    final decode =
-        BcsVariantSerialization.deserialize(bytes: bytes, layout: layout());
+    final decode = BcsVariantSerialization.deserialize(
+      bytes: bytes,
+      layout: layout(),
+    );
     return AptosAnySignature.fromStruct(decode);
   }
   factory AptosAnySignature.fromStruct(Map<String, dynamic> json) {
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
     final type = AptosAnySignatures.fromName(decode.variantName);
     return switch (type) {
-      AptosAnySignatures.ed25519 =>
-        AptosEd25519AnySignature.fromStruct(decode.value),
-      AptosAnySignatures.secp256k1 =>
-        AptosSecp256k1AnySignature.fromStruct(decode.value),
-      _ => throw DartAptosPluginException("Unsuported signature type.",
-          details: {"type": type.name})
+      AptosAnySignatures.ed25519 => AptosEd25519AnySignature.fromStruct(
+        decode.value,
+      ),
+      AptosAnySignatures.secp256k1 => AptosSecp256k1AnySignature.fromStruct(
+        decode.value,
+      ),
+      _ =>
+        throw DartAptosPluginException(
+          "Unsuported signature type.",
+          details: {"type": type.name},
+        ),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosEd25519AnySignature.layout,
-          property: AptosAnySignatures.ed25519.name,
-          index: AptosAnySignatures.ed25519.value),
+        layout: AptosEd25519AnySignature.layout,
+        property: AptosAnySignatures.ed25519.name,
+        index: AptosAnySignatures.ed25519.value,
+      ),
       LazyVariantModel(
-          layout: AptosSecp256k1AnySignature.layout,
-          property: AptosAnySignatures.secp256k1.name,
-          index: AptosAnySignatures.secp256k1.value)
+        layout: AptosSecp256k1AnySignature.layout,
+        property: AptosAnySignatures.secp256k1.name,
+        index: AptosAnySignatures.secp256k1.value,
+      ),
     ], property: property);
   }
 
@@ -479,16 +537,21 @@ class AptosAccountAuthenticatorMultiEd25519 extends AptosAccountAuthenticator {
   /// The MultiEd25519 signature used for the account authentication.
   @override
   final AptosMultiEd25519Signature signature;
-  AptosAccountAuthenticatorMultiEd25519(
-      {required this.publicKey, required this.signature})
-      : super(type: AptosAccountAuthenticators.multiEd25519);
+  AptosAccountAuthenticatorMultiEd25519({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptosAccountAuthenticators.multiEd25519);
   factory AptosAccountAuthenticatorMultiEd25519.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosAccountAuthenticatorMultiEd25519(
-        publicKey: AptosMultiEd25519AccountPublicKey.fromStruct(
-            json.asMap("publicKey")),
-        signature:
-            AptosMultiEd25519Signature.fromStruct(json.asMap("signature")));
+      publicKey: AptosMultiEd25519AccountPublicKey.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("publicKey"),
+      ),
+      signature: AptosMultiEd25519Signature.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("signature"),
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -506,7 +569,7 @@ class AptosAccountAuthenticatorMultiEd25519 extends AptosAccountAuthenticator {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "publicKey": publicKey.toLayoutStruct(),
-      "signature": signature.toLayoutStruct()
+      "signature": signature.toLayoutStruct(),
     };
   }
 }
@@ -517,21 +580,25 @@ class AptosMultiKeySignature extends AptosSignature {
   final List<AptosAnySignature> signatures;
 
   final List<int> bitmap;
-  AptosMultiKeySignature._(
-      {required List<AptosAnySignature> signatures, required List<int> bitmap})
-      : signatures = signatures.immutable,
-        bitmap = bitmap.asImmutableBytes;
-  factory AptosMultiKeySignature(
-      {required List<AptosAnySignature> signatures,
-      required List<int> bitmap}) {
+  AptosMultiKeySignature._({
+    required List<AptosAnySignature> signatures,
+    required List<int> bitmap,
+  }) : signatures = signatures.immutable,
+       bitmap = bitmap.asImmutableBytes;
+  factory AptosMultiKeySignature({
+    required List<AptosAnySignature> signatures,
+    required List<int> bitmap,
+  }) {
     if (signatures.length > AptosConstants.maxSignatureLength) {
       throw DartAptosPluginException(
-          "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.");
+        "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.",
+      );
     }
     if (bitmap.length != AptosConstants.bitmapLength) {
       throw DartAptosPluginException(
-          "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
-          details: {"length": bitmap.length});
+        "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
+        details: {"length": bitmap.length.toString()},
+      );
     }
     return AptosMultiKeySignature._(signatures: signatures, bitmap: bitmap);
   }
@@ -542,16 +609,18 @@ class AptosMultiKeySignature extends AptosSignature {
 
   factory AptosMultiKeySignature.fromStruct(Map<String, dynamic> json) {
     return AptosMultiKeySignature(
-        signatures: json
-            .asListOfMap("signatures")!
-            .map((e) => AptosAnySignature.fromStruct(e))
-            .toList(),
-        bitmap: json.asBytes("bitmap"));
+      signatures:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("signatures")
+              .map((e) => AptosAnySignature.fromStruct(e))
+              .toList(),
+      bitmap: json.valueAsBytes("bitmap"),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       LayoutConst.bcsVector(AptosAnySignature.layout(), property: 'signatures'),
-      LayoutConst.bcsBytes(property: "bitmap")
+      LayoutConst.bcsBytes(property: "bitmap"),
     ], property: property);
   }
 
@@ -564,7 +633,7 @@ class AptosMultiKeySignature extends AptosSignature {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "signatures": signatures.map((e) => e.toVariantLayoutStruct()).toList(),
-      "bitmap": bitmap
+      "bitmap": bitmap,
     };
   }
 
@@ -602,15 +671,21 @@ class AptosAccountAuthenticatorMultiKey extends AptosAccountAuthenticator {
   /// The multi-key signature, which contains the signatures and their validity.
   @override
   final AptosMultiKeySignature signature;
-  AptosAccountAuthenticatorMultiKey(
-      {required this.publicKey, required this.signature})
-      : super(type: AptosAccountAuthenticators.multiKey);
+  AptosAccountAuthenticatorMultiKey({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptosAccountAuthenticators.multiKey);
   factory AptosAccountAuthenticatorMultiKey.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosAccountAuthenticatorMultiKey(
-        publicKey:
-            AptosMultiKeyAccountPublicKey.fromStruct(json.asMap("publicKey")),
-        signature: AptosMultiKeySignature.fromStruct(json.asMap("signature")));
+      publicKey: AptosMultiKeyAccountPublicKey.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("publicKey"),
+      ),
+      signature: AptosMultiKeySignature.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("signature"),
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -628,7 +703,7 @@ class AptosAccountAuthenticatorMultiKey extends AptosAccountAuthenticator {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "publicKey": publicKey.toLayoutStruct(),
-      "signature": signature.toLayoutStruct()
+      "signature": signature.toLayoutStruct(),
     };
   }
 }
@@ -642,14 +717,21 @@ class AptosAccountAuthenticatorSingleKey extends AptosAccountAuthenticator {
   @override
   final AptosAnySignature signature;
 
-  AptosAccountAuthenticatorSingleKey(
-      {required this.publicKey, required this.signature})
-      : super(type: AptosAccountAuthenticators.singleKey);
+  AptosAccountAuthenticatorSingleKey({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptosAccountAuthenticators.singleKey);
   factory AptosAccountAuthenticatorSingleKey.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosAccountAuthenticatorSingleKey(
-        publicKey: AptosCryptoPublicKey.fromStruct(json.asMap("publicKey")),
-        signature: AptosAnySignature.fromStruct(json.asMap("signature")));
+      publicKey: AptosCryptoPublicKey.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("publicKey"),
+      ),
+      signature: AptosAnySignature.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("signature"),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -668,7 +750,7 @@ class AptosAccountAuthenticatorSingleKey extends AptosAccountAuthenticator {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "publicKey": publicKey.toVariantLayoutStruct(),
-      "signature": signature.toVariantLayoutStruct()
+      "signature": signature.toVariantLayoutStruct(),
     };
   }
 }
@@ -677,7 +759,7 @@ class AptosAccountAuthenticatorSingleKey extends AptosAccountAuthenticator {
 class AptosAccountAuthenticatorNoAccountAuthenticator
     extends AptosAccountAuthenticator {
   AptosAccountAuthenticatorNoAccountAuthenticator()
-      : super(type: AptosAccountAuthenticators.noAccountAuthenticator);
+    : super(type: AptosAccountAuthenticators.noAccountAuthenticator);
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.noArgs(property: property);
@@ -694,6 +776,8 @@ class AptosAccountAuthenticatorNoAccountAuthenticator
   }
 
   @override
-  AptosSignature get signature => throw DartAptosPluginException(
-      "The signature is unavailable in `NoAccountAuthenticator`");
+  AptosSignature get signature =>
+      throw DartAptosPluginException(
+        "The signature is unavailable in `NoAccountAuthenticator`",
+      );
 }

@@ -27,17 +27,27 @@ enum SuiKeyAlgorithm implements SuiAuthenticationKeyScheme {
 
   final int flag;
   static SuiKeyAlgorithm fromName(String name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find Key Algorithm from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find Key Algorithm from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 
   static SuiKeyAlgorithm fromFlag(int flag) {
-    return values.firstWhere((e) => e.flag == flag,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find Key Algorithm from the given flag.",
-            details: {"flag": flag}));
+    return values.firstWhere(
+      (e) => e.flag == flag,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find Key Algorithm from the given flag.",
+                details: {"flag": flag.toString()},
+              ),
+    );
   }
 
   static SuiKeyAlgorithm fromEllipticCurveType(EllipticCurveTypes type) {
@@ -45,10 +55,12 @@ enum SuiKeyAlgorithm implements SuiAuthenticationKeyScheme {
       EllipticCurveTypes.ed25519 => SuiKeyAlgorithm.ed25519,
       EllipticCurveTypes.secp256k1 => SuiKeyAlgorithm.secp256k1,
       EllipticCurveTypes.nist256p1 ||
-      EllipticCurveTypes.nist256p1Hybrid =>
-        SuiKeyAlgorithm.secp256r1,
-      _ => throw DartSuiPluginException("Unsuported Elliptic curve type.",
-          details: {"algorithm": type.name})
+      EllipticCurveTypes.nist256p1Hybrid => SuiKeyAlgorithm.secp256r1,
+      _ =>
+        throw DartSuiPluginException(
+          "Unsuported Elliptic curve type.",
+          details: {"algorithm": type.name},
+        ),
     };
   }
 
@@ -56,7 +68,7 @@ enum SuiKeyAlgorithm implements SuiAuthenticationKeyScheme {
     return switch (this) {
       SuiKeyAlgorithm.ed25519 => EllipticCurveTypes.ed25519,
       SuiKeyAlgorithm.secp256k1 => EllipticCurveTypes.secp256k1,
-      SuiKeyAlgorithm.secp256r1 => EllipticCurveTypes.nist256p1
+      SuiKeyAlgorithm.secp256r1 => EllipticCurveTypes.nist256p1,
     };
   }
 }
@@ -74,10 +86,15 @@ enum SuiSigningScheme implements SuiAuthenticationKeyScheme {
   @override
   final int value;
   static SuiSigningScheme fromName(String name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find Signature scheme from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find Signature scheme from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -94,15 +111,22 @@ abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey> {
       final algorithm = decode.$1;
       final keyBytes = decode.$2;
       return switch (algorithm) {
-        SuiKeyAlgorithm.ed25519 => SuiED25519PrivateKey.fromBytes(keyBytes),
-        SuiKeyAlgorithm.secp256k1 => SuiSecp256k1PrivateKey.fromBytes(keyBytes),
-        SuiKeyAlgorithm.secp256r1 => SuiSecp256r1PrivateKey.fromBytes(keyBytes)
-      } as SuiBasePrivateKey<PUBLICKEY>;
+            SuiKeyAlgorithm.ed25519 => SuiED25519PrivateKey.fromBytes(keyBytes),
+            SuiKeyAlgorithm.secp256k1 => SuiSecp256k1PrivateKey.fromBytes(
+              keyBytes,
+            ),
+            SuiKeyAlgorithm.secp256r1 => SuiSecp256r1PrivateKey.fromBytes(
+              keyBytes,
+            ),
+          }
+          as SuiBasePrivateKey<PUBLICKEY>;
     } on DartSuiPluginException {
       rethrow;
     } catch (e) {
-      throw DartSuiPluginException("Invalid sui secret key.",
-          details: {"error": e.toString()});
+      throw DartSuiPluginException(
+        "Invalid sui secret key.",
+        details: {"error": e.toString()},
+      );
     }
   }
 
@@ -123,8 +147,10 @@ abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey> {
   /// The encoded format includes the `suiprivkey` HRP,
   /// the key scheme flag, and the secret key bytes.
   String toSuiPrivateKey() {
-    return Bech32Encoder.encode(
-        SuiKeypairConst.suiPrivateKeyPrefix, [algorithm.flag, ...toBytes()]);
+    return Bech32Encoder.encode(SuiKeypairConst.suiPrivateKeyPrefix, [
+      algorithm.flag,
+      ...toBytes(),
+    ]);
   }
 }
 
@@ -135,19 +161,31 @@ abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
 
   T cast<T extends SuiCryptoPublicKey>() {
     if (this is! T) {
-      throw DartSuiPluginException("Invalid public key.",
-          details: {"expected": "$T", "type": algorithm.name});
+      throw DartSuiPluginException(
+        "Invalid public key.",
+        details: {"expected": "$T", "type": algorithm.name},
+      );
     }
     return this as T;
   }
 
-  factory SuiCryptoPublicKey.fromBytes(
-      {required List<int> keyBytes, required SuiKeyAlgorithm algorithm}) {
-    final SuiCryptoPublicKey key = switch (algorithm) {
-      SuiKeyAlgorithm.secp256r1 => SuiSecp256r1PublicKey.fromBytes(keyBytes),
-      SuiKeyAlgorithm.secp256k1 => SuiSecp256k1PublicKey.fromBytes(keyBytes),
-      SuiKeyAlgorithm.ed25519 => SuiED25519PublicKey.fromBytes(keyBytes)
-    } as SuiCryptoPublicKey;
+  factory SuiCryptoPublicKey.fromBytes({
+    required List<int> keyBytes,
+    required SuiKeyAlgorithm algorithm,
+  }) {
+    final SuiCryptoPublicKey key =
+        switch (algorithm) {
+              SuiKeyAlgorithm.secp256r1 => SuiSecp256r1PublicKey.fromBytes(
+                keyBytes,
+              ),
+              SuiKeyAlgorithm.secp256k1 => SuiSecp256k1PublicKey.fromBytes(
+                keyBytes,
+              ),
+              SuiKeyAlgorithm.ed25519 => SuiED25519PublicKey.fromBytes(
+                keyBytes,
+              ),
+            }
+            as SuiCryptoPublicKey;
     return key.cast();
   }
 
@@ -168,27 +206,35 @@ abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
     final algorithm = SuiKeyAlgorithm.fromName(decode.variantName);
     return switch (algorithm) {
-      SuiKeyAlgorithm.ed25519 => SuiED25519PublicKey.fromStruct(decode.value),
-      SuiKeyAlgorithm.secp256k1 =>
-        SuiSecp256k1PublicKey.fromStruct(decode.value),
-      SuiKeyAlgorithm.secp256r1 =>
-        SuiSecp256r1PublicKey.fromStruct(decode.value)
-    } as SuiCryptoPublicKey<PUBLICKEY>;
+          SuiKeyAlgorithm.ed25519 => SuiED25519PublicKey.fromStruct(
+            decode.value,
+          ),
+          SuiKeyAlgorithm.secp256k1 => SuiSecp256k1PublicKey.fromStruct(
+            decode.value,
+          ),
+          SuiKeyAlgorithm.secp256r1 => SuiSecp256r1PublicKey.fromStruct(
+            decode.value,
+          ),
+        }
+        as SuiCryptoPublicKey<PUBLICKEY>;
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiED25519PublicKey.layout,
-          property: SuiKeyAlgorithm.ed25519.name,
-          index: SuiKeyAlgorithm.ed25519.value),
+        layout: SuiED25519PublicKey.layout,
+        property: SuiKeyAlgorithm.ed25519.name,
+        index: SuiKeyAlgorithm.ed25519.value,
+      ),
       LazyVariantModel(
-          layout: SuiSecp256k1PublicKey.layout,
-          property: SuiKeyAlgorithm.secp256k1.name,
-          index: SuiKeyAlgorithm.secp256k1.value),
+        layout: SuiSecp256k1PublicKey.layout,
+        property: SuiKeyAlgorithm.secp256k1.name,
+        index: SuiKeyAlgorithm.secp256k1.value,
+      ),
       LazyVariantModel(
-          layout: SuiSecp256r1PublicKey.layout,
-          property: SuiKeyAlgorithm.secp256r1.name,
-          index: SuiKeyAlgorithm.secp256r1.value),
+        layout: SuiSecp256r1PublicKey.layout,
+        property: SuiKeyAlgorithm.secp256r1.name,
+        index: SuiKeyAlgorithm.secp256r1.value,
+      ),
     ], property: property);
   }
 

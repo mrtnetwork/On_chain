@@ -2,45 +2,47 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 /// Creates a trading pair.
 class ExchangeCreateContract extends TronBaseContract {
   /// Create a new [ExchangeCreateContract] instance by parsing a JSON map.
   factory ExchangeCreateContract.fromJson(Map<String, dynamic> json) {
     return ExchangeCreateContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      firstTokenId: OnChainUtils.parseBytes(
-          value: json['first_token_id'], name: 'first_token_id'),
-      firstTokenBalance: OnChainUtils.parseBigInt(
-          value: json['first_token_balance'], name: 'first_token_balance'),
-      secondTokenId: OnChainUtils.parseBytes(
-          value: json['second_token_id'], name: 'second_token_id'),
-      secondTokenBalance: OnChainUtils.parseBigInt(
-          value: json['second_token_balance'], name: 'second_token_balance'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      firstTokenId: json.valueAsBytes(
+        "first_token_id",
+        encoding: StringEncoding.utf8,
+      ),
+
+      firstTokenBalance: json.valueAsBigInt("first_token_balance"),
+      secondTokenId: json.valueAsBytes(
+        "second_token_id",
+        encoding: StringEncoding.utf8,
+      ),
+
+      secondTokenBalance: json.valueAsBigInt("second_token_balance"),
     );
   }
   factory ExchangeCreateContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return ExchangeCreateContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        firstTokenId: decode.getField(2),
-        firstTokenBalance: decode.getField(3),
-        secondTokenId: decode.getField(4),
-        secondTokenBalance: decode.getField(5));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      firstTokenId: decode.getField(2),
+      firstTokenBalance: decode.getField(3),
+      secondTokenId: decode.getField(4),
+      secondTokenBalance: decode.getField(5),
+    );
   }
 
   /// Create a new [ExchangeCreateContract] instance with specified parameters.
-  ExchangeCreateContract(
-      {required this.ownerAddress,
-      this.firstTokenBalance,
-      List<int>? firstTokenId,
-      this.secondTokenBalance,
-      List<int>? secondTokenId})
-      : firstTokenId = BytesUtils.tryToBytes(firstTokenId, unmodifiable: true),
-        secondTokenId =
-            BytesUtils.tryToBytes(secondTokenId, unmodifiable: true);
+  ExchangeCreateContract({
+    required this.ownerAddress,
+    this.firstTokenBalance,
+    List<int>? firstTokenId,
+    this.secondTokenBalance,
+    List<int>? secondTokenId,
+  }) : firstTokenId = BytesUtils.tryToBytes(firstTokenId, unmodifiable: true),
+       secondTokenId = BytesUtils.tryToBytes(secondTokenId, unmodifiable: true);
 
   /// Account address
   @override
@@ -63,12 +65,12 @@ class ExchangeCreateContract extends TronBaseContract {
 
   @override
   List get values => [
-        ownerAddress,
-        firstTokenId,
-        firstTokenBalance,
-        secondTokenId,
-        secondTokenBalance
-      ];
+    ownerAddress,
+    firstTokenId,
+    firstTokenBalance,
+    secondTokenId,
+    secondTokenBalance,
+  ];
 
   /// Convert the [ExchangeCreateContract] object to a JSON representation.
   @override

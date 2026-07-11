@@ -7,12 +7,12 @@ class _Utils {
   static const List<int> discriminator = [77, 119, 139, 70, 84, 247, 12, 26];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('base'),
-        LayoutConst.u8(property: 'bump'),
-        LayoutConst.blob(32, property: 'root'),
-        SolanaLayoutUtils.publicKey('temporal'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('base'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.blob(32, property: 'root'),
+    SolanaLayoutUtils.publicKey('temporal'),
+  ]);
 }
 
 class MerkleDistributor extends BorshLayoutSerializable {
@@ -21,22 +21,24 @@ class MerkleDistributor extends BorshLayoutSerializable {
   final int bump;
   final List<int> root;
   final SolAddress temporal;
-  MerkleDistributor(
-      {required this.base,
-      required this.bump,
-      required List<int> root,
-      required this.temporal})
-      : root = root.asImmutableBytes;
+  MerkleDistributor({
+    required this.base,
+    required this.bump,
+    required List<int> root,
+    required this.temporal,
+  }) : root = root.asImmutableBytes;
   factory MerkleDistributor.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return MerkleDistributor(
-        base: decode['base'],
-        bump: decode['bump'],
-        root: (decode['root'] as List).cast(),
-        temporal: decode['temporal']);
+      base: decode['base'],
+      bump: decode['bump'],
+      root: (decode['root'] as List).cast(),
+      temporal: decode['temporal'],
+    );
   }
 
   @override
@@ -49,7 +51,7 @@ class MerkleDistributor extends BorshLayoutSerializable {
       'base': base,
       'bump': bump,
       'root': root,
-      'temporal': temporal
+      'temporal': temporal,
     };
   }
 

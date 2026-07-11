@@ -26,7 +26,7 @@ class SPLTokenSwapProgramInstruction implements ProgramLayoutInstruction {
     depositToken,
     withdrawToken,
     depositSingleToken,
-    withdrawSingleToken
+    withdrawSingleToken,
   ];
   static SPLTokenSwapProgramInstruction? getInstruction(dynamic value) {
     try {

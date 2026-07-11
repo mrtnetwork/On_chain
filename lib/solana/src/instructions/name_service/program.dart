@@ -19,9 +19,10 @@ class NameServiceProgram extends TransactionInstruction {
     SolAddress programId = NameServiceProgramConst.programId,
   }) {
     return NameServiceProgram(
-        layout: NameServiceProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: NameServiceProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Create an empty name record

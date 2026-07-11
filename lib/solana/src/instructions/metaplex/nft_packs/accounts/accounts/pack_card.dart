@@ -6,14 +6,14 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'accountType'),
-        SolanaLayoutUtils.publicKey('packSet'),
-        SolanaLayoutUtils.publicKey('master'),
-        SolanaLayoutUtils.publicKey('metadata'),
-        SolanaLayoutUtils.publicKey('tokenAccount'),
-        LayoutConst.u32(property: 'maxSupply'),
-        LayoutConst.u16(property: 'weight'),
-      ]);
+    LayoutConst.u8(property: 'accountType'),
+    SolanaLayoutUtils.publicKey('packSet'),
+    SolanaLayoutUtils.publicKey('master'),
+    SolanaLayoutUtils.publicKey('metadata'),
+    SolanaLayoutUtils.publicKey('tokenAccount'),
+    LayoutConst.u32(property: 'maxSupply'),
+    LayoutConst.u16(property: 'weight'),
+  ]);
 }
 
 class PackCard extends BorshLayoutSerializable {
@@ -26,25 +26,29 @@ class PackCard extends BorshLayoutSerializable {
   final int maxSupply;
   final int weight;
 
-  const PackCard(
-      {required this.accountType,
-      required this.packSet,
-      required this.master,
-      required this.metadata,
-      required this.tokenAccount,
-      required this.maxSupply,
-      required this.weight});
+  const PackCard({
+    required this.accountType,
+    required this.packSet,
+    required this.master,
+    required this.metadata,
+    required this.tokenAccount,
+    required this.maxSupply,
+    required this.weight,
+  });
   factory PackCard.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return PackCard(
-        accountType: NFTPacksAccountType.fromValue(decode['accountType']),
-        packSet: decode['packSet'],
-        master: decode['master'],
-        metadata: decode['metadata'],
-        tokenAccount: decode['tokenAccount'],
-        maxSupply: decode['maxSupply'],
-        weight: decode['weight']);
+      accountType: NFTPacksAccountType.fromValue(decode['accountType']),
+      packSet: decode['packSet'],
+      master: decode['master'],
+      metadata: decode['metadata'],
+      tokenAccount: decode['tokenAccount'],
+      maxSupply: decode['maxSupply'],
+      weight: decode['weight'],
+    );
   }
 
   @override
@@ -58,7 +62,7 @@ class PackCard extends BorshLayoutSerializable {
       'metadata': metadata,
       'tokenAccount': tokenAccount,
       'maxSupply': maxSupply,
-      'weight': weight
+      'weight': weight,
     };
   }
 

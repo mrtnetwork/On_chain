@@ -12,14 +12,18 @@ class Revoke {
   static const Revoke stakingV1 = Revoke._('StakingV1', 5);
   static const Revoke standardV1 = Revoke._('StandardV1', 6);
   static const Revoke lockedTransferV1 = Revoke._('LockedTransferV1', 7);
-  static const Revoke programmableConfigV1 =
-      Revoke._('ProgrammableConfigV1', 8);
+  static const Revoke programmableConfigV1 = Revoke._(
+    'ProgrammableConfigV1',
+    8,
+  );
   static const Revoke migrationV1 = Revoke._('MigrationV1', 9);
   static const Revoke authorityItemV1 = Revoke._('AuthorityItemV1', 10);
   static const Revoke dataItemV1 = Revoke._('DataItemV1', 11);
   static const Revoke collectionItemV1 = Revoke._('CollectionItemV1', 12);
-  static const Revoke programmableConfigItemV1 =
-      Revoke._('ProgrammableConfigItemV1', 13);
+  static const Revoke programmableConfigItemV1 = Revoke._(
+    'ProgrammableConfigItemV1',
+    13,
+  );
   static const Revoke printDelegateV1 = Revoke._('PrintDelegateV1', 14);
 
   static const List<Revoke> values = [
@@ -36,24 +40,30 @@ class Revoke {
     authorityItemV1,
     dataItemV1,
     collectionItemV1,
-    programmableConfigItemV1
+    programmableConfigItemV1,
   ];
 
   static Revoke fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No MetaDataTokenStandard found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MetaDataTokenStandard found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static Revoke fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No Revoke found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No Revoke found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

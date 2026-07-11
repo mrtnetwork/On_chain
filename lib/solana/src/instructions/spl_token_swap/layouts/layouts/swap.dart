@@ -34,10 +34,10 @@ class SPLTokenSwapSwapLayout extends SPLTokenSwapProgramLayout {
 
   /// The layout structure for swapping tokens.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amountIn'),
-        LayoutConst.u64(property: 'minimumAmountOut'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amountIn'),
+    LayoutConst.u64(property: 'minimumAmountOut'),
+  ]);
   @override
   StructLayout get layout => _layout;
 
@@ -47,9 +47,6 @@ class SPLTokenSwapSwapLayout extends SPLTokenSwapProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {
-      'amountIn': amountIn,
-      'minimumAmountOut': minimumAmountOut,
-    };
+    return {'amountIn': amountIn, 'minimumAmountOut': minimumAmountOut};
   }
 }

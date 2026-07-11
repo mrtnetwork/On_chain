@@ -4,8 +4,9 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 
 /// Return the total coin balance for all coin type, owned by the address owner.
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_getallbalances)
-class SuiRequestGetAllBalances extends SuiRequest<List<SuiApiBalanceResponse>,
-    List<Map<String, dynamic>>> {
+class SuiRequestGetAllBalances
+    extends
+        SuiRequest<List<SuiApiBalanceResponse>, List<Map<String, dynamic>>> {
   /// The owner's Sui address
   const SuiRequestGetAllBalances({required this.owner});
   final SuiAddress owner;

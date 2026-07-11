@@ -7,8 +7,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Returns the lamport balance of the account of provided Pubkey
 /// https://solana.com/docs/rpc/http/getbalance
 class SolanaRequestGetBalance extends SolanaRequest<BigInt, dynamic> {
-  const SolanaRequestGetBalance(
-      {required this.account, super.commitment, super.minContextSlot});
+  const SolanaRequestGetBalance({
+    required this.account,
+    super.commitment,
+    super.minContextSlot,
+  });
 
   /// Pubkey of account to query, as base-58 encoded string
   final SolAddress account;
@@ -21,8 +24,10 @@ class SolanaRequestGetBalance extends SolanaRequest<BigInt, dynamic> {
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRequestUtils.createConfig(
-          [commitment?.toJson(), minContextSlot?.toJson()])
+      SolanaRequestUtils.createConfig([
+        commitment?.toJson(),
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 

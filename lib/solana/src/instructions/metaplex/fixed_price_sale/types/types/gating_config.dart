@@ -7,20 +7,24 @@ class GatingConfig extends BorshLayoutSerializable {
   final SolAddress collection;
   final bool expireOnUse;
   final BigInt? gatingTime;
-  const GatingConfig(
-      {required this.collection, required this.expireOnUse, this.gatingTime});
+  const GatingConfig({
+    required this.collection,
+    required this.expireOnUse,
+    this.gatingTime,
+  });
   factory GatingConfig.fromJson(Map<String, dynamic> json) {
     return GatingConfig(
-        collection: json['collection'],
-        expireOnUse: json['expireOnUse'],
-        gatingTime: json['gatingTime']);
+      collection: json['collection'],
+      expireOnUse: json['expireOnUse'],
+      gatingTime: json['gatingTime'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('collection'),
-        LayoutConst.boolean(property: 'expireOnUse'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'gatingTime')
-      ], property: 'gatingConfig');
+    SolanaLayoutUtils.publicKey('collection'),
+    LayoutConst.boolean(property: 'expireOnUse'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'gatingTime'),
+  ], property: 'gatingConfig');
 
   @override
   StructLayout get layout => staticLayout;
@@ -29,7 +33,7 @@ class GatingConfig extends BorshLayoutSerializable {
     return {
       'collection': collection,
       'expireOnUse': expireOnUse,
-      'gatingTime': gatingTime
+      'gatingTime': gatingTime,
     };
   }
 

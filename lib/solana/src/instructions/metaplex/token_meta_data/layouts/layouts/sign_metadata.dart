@@ -8,10 +8,11 @@ class MetaplexTokenMetaDataSignMetadataLayout
 
   factory MetaplexTokenMetaDataSignMetadataLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.signMetadata.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction.signMetadata.insturction,
+    );
     return const MetaplexTokenMetaDataSignMetadataLayout();
   }
 

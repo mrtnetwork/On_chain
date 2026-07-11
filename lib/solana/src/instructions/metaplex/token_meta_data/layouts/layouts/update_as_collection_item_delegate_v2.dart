@@ -9,30 +9,37 @@ class MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout
   final Payload? authorizationData;
   final CollectionToggle collection;
   static int discriminator = 7;
-  const MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout(
-      {required this.collection, this.authorizationData});
+  const MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout({
+    required this.collection,
+    this.authorizationData,
+  });
 
   factory MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .updateAsCollectionItemDelegateV2.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .updateAsCollectionItemDelegateV2
+              .insturction,
+    );
     return MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout(
-        collection: CollectionToggle.fromJson(decode['collection']),
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']));
+      collection: CollectionToggle.fromJson(decode['collection']),
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -46,7 +53,7 @@ class MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout
     return {
       'authorizationData': authorizationData?.serialize(),
       'discriminator': discriminator,
-      'collection': collection.serialize()
+      'collection': collection.serialize(),
     };
   }
 }

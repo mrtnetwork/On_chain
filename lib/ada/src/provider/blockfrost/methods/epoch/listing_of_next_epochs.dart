@@ -4,11 +4,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the list of epochs following a specific epoch.
 /// https://blockfrost.dev/api/listing-of-next-epochs
-class BlockfrostRequestListingOfNextEpoches extends BlockFrostRequest<
-    List<ADAEpochInfoResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestListingOfNextEpoches(this.epoch,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestListingOfNextEpoches
+    extends
+        BlockFrostRequest<
+          List<ADAEpochInfoResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestListingOfNextEpoches(
+    this.epoch, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// Number of the requested epoch.
   final int epoch;

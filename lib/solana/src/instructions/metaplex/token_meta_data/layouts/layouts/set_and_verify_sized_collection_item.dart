@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout
   const MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout();
 
   factory MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .setAndVerifySizedCollectionItem.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .setAndVerifySizedCollectionItem
+              .insturction,
+    );
     return const MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout();
   }
 

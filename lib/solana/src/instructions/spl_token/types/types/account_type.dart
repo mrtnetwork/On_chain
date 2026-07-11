@@ -6,22 +6,29 @@ class SolanaTokenAccountType extends BorshLayoutSerializable {
   const SolanaTokenAccountType._(this.name, this.value);
   final String name;
   final int value;
-  static const SolanaTokenAccountType uninitialized =
-      SolanaTokenAccountType._('Uninitialized', 0);
-  static const SolanaTokenAccountType mint =
-      SolanaTokenAccountType._('Mint', 1);
-  static const SolanaTokenAccountType account =
-      SolanaTokenAccountType._('Account', 2);
+  static const SolanaTokenAccountType uninitialized = SolanaTokenAccountType._(
+    'Uninitialized',
+    0,
+  );
+  static const SolanaTokenAccountType mint = SolanaTokenAccountType._(
+    'Mint',
+    1,
+  );
+  static const SolanaTokenAccountType account = SolanaTokenAccountType._(
+    'Account',
+    2,
+  );
   static const List<SolanaTokenAccountType> values = [
     uninitialized,
     mint,
-    account
+    account,
   ];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'solanaTokenAccountType')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'solanaTokenAccountType',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -29,7 +36,7 @@ class SolanaTokenAccountType extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'solanaTokenAccountType': {name: null}
+      'solanaTokenAccountType': {name: null},
     };
   }
 
@@ -39,18 +46,24 @@ class SolanaTokenAccountType extends BorshLayoutSerializable {
   static SolanaTokenAccountType fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No SolanaTokenAccountType found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No SolanaTokenAccountType found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static SolanaTokenAccountType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No SolanaTokenAccountType found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No SolanaTokenAccountType found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 }

@@ -5,10 +5,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// signature reaches the specified commitment level.
 /// https://solana.com/docs/rpc/websocket/signaturesubscribe
 class SolanaRequestSignatureSubscribe extends SolanaRequest<int, int> {
-  const SolanaRequestSignatureSubscribe(
-      {required this.transactionSignature,
-      super.commitment,
-      this.enableReceivedNotification});
+  const SolanaRequestSignatureSubscribe({
+    required this.transactionSignature,
+    super.commitment,
+    this.enableReceivedNotification,
+  });
 
   /// transaction signature, as base-58 encoded string
   final String transactionSignature;
@@ -27,8 +28,8 @@ class SolanaRequestSignatureSubscribe extends SolanaRequest<int, int> {
       transactionSignature,
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {'enableReceivedNotification': enableReceivedNotification}
-      ])
+        {'enableReceivedNotification': enableReceivedNotification},
+      ]),
     ];
   }
 }

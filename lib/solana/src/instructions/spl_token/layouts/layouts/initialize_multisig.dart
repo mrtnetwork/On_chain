@@ -10,15 +10,13 @@ class SPLTokenInitializeMultisigLayout extends SPLTokenProgramLayout {
   final int numberOfRequiredSignatures;
 
   /// Constructs an SPLTokenInitializeMultisigLayout instance.
-  SPLTokenInitializeMultisigLayout({
-    required this.numberOfRequiredSignatures,
-  });
+  SPLTokenInitializeMultisigLayout({required this.numberOfRequiredSignatures});
 
   /// StructLayout structure for initializing a multisignature account.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'numberOfRequiredSignatures')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'numberOfRequiredSignatures'),
+  ]);
 
   /// Constructs an SPLTokenInitializeMultisigLayout instance from buffer.
   factory SPLTokenInitializeMultisigLayout.fromBuffer(List<int> bytes) {

@@ -5,25 +5,32 @@ import 'package:blockchain_utils/layout/layout.dart';
 class MetaplexBubblegumSetDecompressibleStateLayout
     extends MetaplexBubblegumProgramLayout {
   final DecompressibleState decompressibleState;
-  const MetaplexBubblegumSetDecompressibleStateLayout(
-      {required this.decompressibleState});
+  const MetaplexBubblegumSetDecompressibleStateLayout({
+    required this.decompressibleState,
+  });
 
   factory MetaplexBubblegumSetDecompressibleStateLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexBubblegumProgramInstruction
-            .setDecompressibleState.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexBubblegumProgramInstruction
+              .setDecompressibleState
+              .insturction,
+    );
     return MetaplexBubblegumSetDecompressibleStateLayout(
-        decompressibleState:
-            DecompressibleState.fromValue(decode['decompressableState']));
+      decompressibleState: DecompressibleState.fromValue(
+        decode['decompressableState'],
+      ),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'decompressableState'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'decompressableState'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

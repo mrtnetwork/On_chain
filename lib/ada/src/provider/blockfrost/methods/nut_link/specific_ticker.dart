@@ -4,11 +4,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of records of a specific ticker
 /// https://blockfrost.dev/api/specific-ticker
-class BlockfrostRequestSpecificTicker extends BlockFrostRequest<
-    List<Map<String, dynamic>>, List<Map<String, dynamic>>> {
-  BlockfrostRequestSpecificTicker(this.ticker,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestSpecificTicker
+    extends
+        BlockFrostRequest<
+          List<Map<String, dynamic>>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestSpecificTicker(
+    this.ticker, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   final String ticker;
 

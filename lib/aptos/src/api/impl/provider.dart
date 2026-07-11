@@ -19,7 +19,7 @@ mixin AptosQuickApiProviderHelper {
       await provider.request(AptosRequestGetAccount(address: address));
       return true;
     } on RPCError catch (e) {
-      if (e.details?["error_code"] ==
+      if (e.jsonRpcErrpr?["error_code"] ==
           AptosProviderConst.accountNotFoundErrorCode) {
         return false;
       }
@@ -49,18 +49,26 @@ mixin AptosQuickApiProviderHelper {
   ///
   /// [transaction] is the signed transaction data to be submitted.
   Future<AptosApiPendingTransaction> submitTransaction(
-      AptosSignedTransaction transaction) {
-    return provider.request(AptosRequestSubmitTransaction(
-        signedTransactionData: transaction.toBcs()));
+    AptosSignedTransaction transaction,
+  ) {
+    return provider.request(
+      AptosRequestSubmitTransaction(signedTransactionData: transaction.toBcs()),
+    );
   }
 
   /// Executes a view function from an Aptos module.
   ///
   /// [entry] defines the function to call, and [ledgerVersion] (optional)
   /// specifies the ledger version to query against.
-  Future<List<T>> callFunction<T>(AptosTransactionEntryFunction entry,
-      {BigInt? ledgerVersion}) {
-    return provider.request(AptosRequestExecuteViewFunctionOfaModule<T>.bcs(
-        entry: entry, ledgerVersion: ledgerVersion));
+  Future<List<T>> callFunction<T>(
+    AptosTransactionEntryFunction entry, {
+    BigInt? ledgerVersion,
+  }) {
+    return provider.request(
+      AptosRequestExecuteViewFunctionOfaModule<T>.bcs(
+        entry: entry,
+        ledgerVersion: ledgerVersion,
+      ),
+    );
   }
 }

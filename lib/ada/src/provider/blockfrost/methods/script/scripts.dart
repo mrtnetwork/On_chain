@@ -8,7 +8,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 class BlockfrostRequestScripts
     extends BlockFrostRequest<List<String>, List<Map<String, dynamic>>> {
   BlockfrostRequestScripts({BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+    : super(filter: filter);
 
   /// Scripts
   @override

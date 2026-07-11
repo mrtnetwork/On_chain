@@ -5,23 +5,27 @@ import 'package:blockchain_utils/layout/layout.dart';
 class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
   final List<int> mintArgs;
   final String? group;
-  MetaplexCandyMachineMintLayout(
-      {required List<int> mintArgs, required this.group})
-      : mintArgs = mintArgs.asImmutableBytes;
+  MetaplexCandyMachineMintLayout({
+    required List<int> mintArgs,
+    required this.group,
+  }) : mintArgs = mintArgs.asImmutableBytes;
 
   factory MetaplexCandyMachineMintLayout.fromBuffer(List<int> data) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction.mint.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexCandyMachineProgramInstruction.mint.insturction,
+    );
     return MetaplexCandyMachineMintLayout(
-        mintArgs: (decode['mintArgs'] as List).cast(), group: decode['group']);
+      mintArgs: (decode['mintArgs'] as List).cast(),
+      group: decode['group'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.vecU8(property: 'mintArgs'),
-        LayoutConst.optional(LayoutConst.string(), property: 'group')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.vecU8(property: 'mintArgs'),
+    LayoutConst.optional(LayoutConst.string(), property: 'group'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

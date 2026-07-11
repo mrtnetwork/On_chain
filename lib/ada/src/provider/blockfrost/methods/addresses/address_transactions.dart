@@ -5,10 +5,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Transactions on the address.
 /// https://blockfrost.dev/api/address-transactions
-class BlockfrostRequestAddressTransactions extends BlockFrostRequest<
-    List<ADATransactionSummaryInfoResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestAddressTransactions(this.address,
-      {BlockFrostRequestTransactionFilterParams? filter});
+class BlockfrostRequestAddressTransactions
+    extends
+        BlockFrostRequest<
+          List<ADATransactionSummaryInfoResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAddressTransactions(
+    this.address, {
+    BlockFrostRequestTransactionFilterParams? filter,
+  });
 
   final ADAAddress address;
 
@@ -21,7 +27,8 @@ class BlockfrostRequestAddressTransactions extends BlockFrostRequest<
 
   @override
   List<ADATransactionSummaryInfoResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADATransactionSummaryInfoResponse.fromJson(e))
         .toList();

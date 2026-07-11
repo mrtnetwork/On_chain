@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:on_chain/tron/tron.dart';
 
-class TronHTTPProvider implements TronServiceProvider {
+class TronHTTPProvider with TronServiceProvider {
   TronHTTPProvider(
       {required this.url,
       http.Client? client,
@@ -13,17 +13,20 @@ class TronHTTPProvider implements TronServiceProvider {
   final Duration defaultRequestTimeout;
 
   @override
-  Future<TronServiceResponse<T>> doRequest<T>(TronRequestDetails params,
+  Future<TronServiceResponse> doRequest(TronRequestDetails params,
       {Duration? timeout}) async {
-    if (params.type.isPostRequest) {
+    if (params.requestMethod.isPost) {
       final response = await client
-          .post(params.toUri(url), headers: params.headers, body: params.body())
+          .post(params.encodeUrl(url),
+              headers: params.headers, body: params.encodeBody())
           .timeout(timeout ?? defaultRequestTimeout);
-      return params.toResponse(response.bodyBytes, response.statusCode);
+      return params.toResponse(response.bodyBytes,
+          statusCode: response.statusCode);
     }
     final response = await client
-        .get(params.toUri(url), headers: params.headers)
+        .get(params.encodeUrl(url), headers: params.headers)
         .timeout(timeout ?? defaultRequestTimeout);
-    return params.toResponse(response.bodyBytes, response.statusCode);
+    return params.toResponse(response.bodyBytes,
+        statusCode: response.statusCode);
   }
 }

@@ -4,10 +4,16 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// Returns an ordered list of transaction responses The method will throw an error if
 /// the input contains any duplicate or the input size exceeds QUERY_MAX_RESULT_LIMIT
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_multigettransactionblocks)
-class SuiRequestMultiGetTransactionBlocks extends SuiRequest<
-    List<SuiApiTransactionBlockResponse>, List<Map<String, dynamic>>> {
-  const SuiRequestMultiGetTransactionBlocks(
-      {required this.digests, this.options});
+class SuiRequestMultiGetTransactionBlocks
+    extends
+        SuiRequest<
+          List<SuiApiTransactionBlockResponse>,
+          List<Map<String, dynamic>>
+        > {
+  const SuiRequestMultiGetTransactionBlocks({
+    required this.digests,
+    this.options,
+  });
 
   /// A list of transaction digests.
   final List<String> digests;
@@ -25,7 +31,8 @@ class SuiRequestMultiGetTransactionBlocks extends SuiRequest<
 
   @override
   List<SuiApiTransactionBlockResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => SuiApiTransactionBlockResponse.fromJson(e))
         .toList();

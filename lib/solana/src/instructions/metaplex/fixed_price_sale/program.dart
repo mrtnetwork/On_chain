@@ -37,29 +37,33 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      market.toWritable(),
-      sellingResource.toWritable(),
-      userTokenAccount.toWritable(),
-      userWallet.toSignerAndWritable(),
-      tradeHistory.toWritable(),
-      treasuryHolder.toWritable(),
-      newMetadata.toWritable(),
-      newEdition.toWritable(),
-      masterEdition.toWritable(),
-      newMint.toWritable(),
-      editionMarker.toWritable(),
-      vault.toWritable(),
-      owner.toReadOnly(),
-      newTokenAccount.toWritable(),
-      masterEditionMetadata.toWritable(),
-      clock.toReadOnly(),
-      rent.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts,
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        market.toWritable(),
+        sellingResource.toWritable(),
+        userTokenAccount.toWritable(),
+        userWallet.toSignerAndWritable(),
+        tradeHistory.toWritable(),
+        treasuryHolder.toWritable(),
+        newMetadata.toWritable(),
+        newEdition.toWritable(),
+        masterEdition.toWritable(),
+        newMint.toWritable(),
+        editionMarker.toWritable(),
+        vault.toWritable(),
+        owner.toReadOnly(),
+        newTokenAccount.toWritable(),
+        masterEditionMetadata.toWritable(),
+        clock.toReadOnly(),
+        rent.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.buyV2({
     required SolAddress market,
@@ -85,29 +89,33 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      market.toWritable(),
-      sellingResource.toWritable(),
-      userTokenAccount.toWritable(),
-      userWallet.toSignerAndWritable(),
-      tradeHistory.toWritable(),
-      treasuryHolder.toWritable(),
-      newMetadata.toWritable(),
-      newEdition.toWritable(),
-      masterEdition.toWritable(),
-      newMint.toWritable(),
-      editionMarker.toWritable(),
-      vault.toWritable(),
-      owner.toReadOnly(),
-      newTokenAccount.toWritable(),
-      masterEditionMetadata.toWritable(),
-      clock.toReadOnly(),
-      rent.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        market.toWritable(),
+        sellingResource.toWritable(),
+        userTokenAccount.toWritable(),
+        userWallet.toSignerAndWritable(),
+        tradeHistory.toWritable(),
+        treasuryHolder.toWritable(),
+        newMetadata.toWritable(),
+        newEdition.toWritable(),
+        masterEdition.toWritable(),
+        newMint.toWritable(),
+        editionMarker.toWritable(),
+        vault.toWritable(),
+        owner.toReadOnly(),
+        newTokenAccount.toWritable(),
+        masterEditionMetadata.toWritable(),
+        clock.toReadOnly(),
+        rent.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.changeMarket({
     required SolAddress market,
@@ -116,12 +124,16 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     required MetaplexFixedPriceSaleChangeMarketLayout layout,
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      market.toWritable(),
-      owner.toSigner(),
-      clock.toReadOnly(),
-      ...anchorRemainingAccounts,
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        market.toWritable(),
+        owner.toSigner(),
+        clock.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.claimResource({
     required SolAddress market,
@@ -139,21 +151,25 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      market.toReadOnly(),
-      treasuryHolder.toReadOnly(),
-      sellingResource.toReadOnly(),
-      sellingResourceOwner.toSigner(),
-      vault.toWritable(),
-      metadata.toWritable(),
-      owner.toReadOnly(),
-      destination.toWritable(),
-      clock.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        market.toReadOnly(),
+        treasuryHolder.toReadOnly(),
+        sellingResource.toReadOnly(),
+        sellingResourceOwner.toSigner(),
+        vault.toWritable(),
+        metadata.toWritable(),
+        owner.toReadOnly(),
+        destination.toWritable(),
+        clock.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.closeMarket({
     required SolAddress market,
@@ -162,14 +178,15 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
     return MetaplexFixedPriceSaleProgram(
-        keys: [
-          market.toWritable(),
-          owner.toSigner(),
-          clock.toReadOnly(),
-          ...anchorRemainingAccounts
-        ],
-        programId: MetaplexFixedPriceSaleProgramConst.programId,
-        layout: MetaplexFixedPriceSaleCloseMarketLayout());
+      keys: [
+        market.toWritable(),
+        owner.toSigner(),
+        clock.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: MetaplexFixedPriceSaleCloseMarketLayout(),
+    );
   }
 
   factory MetaplexFixedPriceSaleProgram.createMarket({
@@ -184,17 +201,21 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     SolAddress systemProgram = SystemProgramConst.programId,
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      market.toSignerAndWritable(),
-      store.toReadOnly(),
-      sellingResourceOwner.toSignerAndWritable(),
-      sellingResource.toWritable(),
-      mint.toReadOnly(),
-      treasuryHolder.toWritable(),
-      owner.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts,
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        market.toSignerAndWritable(),
+        store.toReadOnly(),
+        sellingResourceOwner.toSignerAndWritable(),
+        sellingResource.toWritable(),
+        mint.toReadOnly(),
+        treasuryHolder.toWritable(),
+        owner.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.createStore({
     required SolAddress admin,
@@ -203,12 +224,16 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      admin.toSignerAndWritable(),
-      store.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        admin.toSignerAndWritable(),
+        store.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.initSellingResource({
     required SolAddress store,
@@ -227,22 +252,26 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      store.toReadOnly(),
-      admin.toSignerAndWritable(),
-      sellingResource.toSignerAndWritable(),
-      sellingResourceOwner.toReadOnly(),
-      resourceMint.toReadOnly(),
-      masterEdition.toReadOnly(),
-      metadata.toReadOnly(),
-      vault.toWritable(),
-      owner.toReadOnly(),
-      resourceToken.toWritable(),
-      rent.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts,
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        store.toReadOnly(),
+        admin.toSignerAndWritable(),
+        sellingResource.toSignerAndWritable(),
+        sellingResourceOwner.toReadOnly(),
+        resourceMint.toReadOnly(),
+        masterEdition.toReadOnly(),
+        metadata.toReadOnly(),
+        vault.toWritable(),
+        owner.toReadOnly(),
+        resourceToken.toWritable(),
+        rent.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.resumeMarket({
     required SolAddress market,
@@ -251,14 +280,15 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
     return MetaplexFixedPriceSaleProgram(
-        keys: [
-          market.toWritable(),
-          owner.toSigner(),
-          clock.toReadOnly(),
-          ...anchorRemainingAccounts
-        ],
-        programId: MetaplexFixedPriceSaleProgramConst.programId,
-        layout: MetaplexFixedPriceSaleResumeMarketLayout());
+      keys: [
+        market.toWritable(),
+        owner.toSigner(),
+        clock.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: MetaplexFixedPriceSaleResumeMarketLayout(),
+    );
   }
   factory MetaplexFixedPriceSaleProgram.savePrimaryMetadataCreators({
     required SolAddress admin,
@@ -268,13 +298,17 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      admin.toSignerAndWritable(),
-      metadata.toWritable(),
-      primaryMetadataCreators.toWritable(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        admin.toSignerAndWritable(),
+        metadata.toWritable(),
+        primaryMetadataCreators.toWritable(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexFixedPriceSaleProgram.suspendMarket({
     required SolAddress market,
@@ -283,14 +317,15 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
     return MetaplexFixedPriceSaleProgram(
-        keys: [
-          market.toWritable(),
-          owner.toSigner(),
-          clock.toReadOnly(),
-          ...anchorRemainingAccounts
-        ],
-        programId: MetaplexFixedPriceSaleProgramConst.programId,
-        layout: MetaplexFixedPriceSaleSuspendMarketLayout());
+      keys: [
+        market.toWritable(),
+        owner.toSigner(),
+        clock.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: MetaplexFixedPriceSaleSuspendMarketLayout(),
+    );
   }
   factory MetaplexFixedPriceSaleProgram.withdraw({
     required SolAddress market,
@@ -311,23 +346,27 @@ class MetaplexFixedPriceSaleProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexFixedPriceSaleProgram(keys: [
-      market.toReadOnly(),
-      sellingResource.toReadOnly(),
-      metadata.toReadOnly(),
-      treasuryHolder.toWritable(),
-      treasuryMint.toReadOnly(),
-      owner.toReadOnly(),
-      destination.toWritable(),
-      funder.toReadOnly(),
-      payer.toSignerAndWritable(),
-      payoutTicket.toWritable(),
-      rent.toReadOnly(),
-      clock.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      associatedTokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexFixedPriceSaleProgramConst.programId, layout: layout);
+    return MetaplexFixedPriceSaleProgram(
+      keys: [
+        market.toReadOnly(),
+        sellingResource.toReadOnly(),
+        metadata.toReadOnly(),
+        treasuryHolder.toWritable(),
+        treasuryMint.toReadOnly(),
+        owner.toReadOnly(),
+        destination.toWritable(),
+        funder.toReadOnly(),
+        payer.toSignerAndWritable(),
+        payoutTicket.toWritable(),
+        rent.toReadOnly(),
+        clock.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        associatedTokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexFixedPriceSaleProgramConst.programId,
+      layout: layout,
+    );
   }
 }

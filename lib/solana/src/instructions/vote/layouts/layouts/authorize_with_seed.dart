@@ -10,47 +10,53 @@ class VoteProgramAuthorizeWithSeedLayout extends VoteProgramLayout {
   final SolAddress currentAuthorityDerivedKeyOwnerPubkey;
   final String currentAuthorityDerivedKeySeed;
   final int voteAuthorizationType;
-  const VoteProgramAuthorizeWithSeedLayout._(
-      {required this.newAuthorized,
-      required this.currentAuthorityDerivedKeyOwnerPubkey,
-      required this.currentAuthorityDerivedKeySeed,
-      required this.voteAuthorizationType});
+  const VoteProgramAuthorizeWithSeedLayout._({
+    required this.newAuthorized,
+    required this.currentAuthorityDerivedKeyOwnerPubkey,
+    required this.currentAuthorityDerivedKeySeed,
+    required this.voteAuthorizationType,
+  });
   factory VoteProgramAuthorizeWithSeedLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: VoteProgramInstruction.authorizeWithSeed.insturction);
-    final voteData =
-        Map<String, dynamic>.from(decode['voteAuthorizeWithSeedArgs']);
+      layout: _layout,
+      bytes: data,
+      instruction: VoteProgramInstruction.authorizeWithSeed.insturction,
+    );
+    final voteData = Map<String, dynamic>.from(
+      decode['voteAuthorizeWithSeedArgs'],
+    );
     return VoteProgramAuthorizeWithSeedLayout(
-        newAuthorized: voteData['newAuthorized'],
-        currentAuthorityDerivedKeyOwnerPubkey:
-            voteData['currentAuthorityDerivedKeyOwnerPubkey'],
-        currentAuthorityDerivedKeySeed:
-            voteData['currentAuthorityDerivedKeySeed'],
-        voteAuthorizationType: voteData['voteAuthorizationType']);
+      newAuthorized: voteData['newAuthorized'],
+      currentAuthorityDerivedKeyOwnerPubkey:
+          voteData['currentAuthorityDerivedKeyOwnerPubkey'],
+      currentAuthorityDerivedKeySeed:
+          voteData['currentAuthorityDerivedKeySeed'],
+      voteAuthorizationType: voteData['voteAuthorizationType'],
+    );
   }
-  factory VoteProgramAuthorizeWithSeedLayout(
-      {required SolAddress newAuthorized,
-      required SolAddress currentAuthorityDerivedKeyOwnerPubkey,
-      required String currentAuthorityDerivedKeySeed,
-      required int voteAuthorizationType}) {
+  factory VoteProgramAuthorizeWithSeedLayout({
+    required SolAddress newAuthorized,
+    required SolAddress currentAuthorityDerivedKeyOwnerPubkey,
+    required String currentAuthorityDerivedKeySeed,
+    required int voteAuthorizationType,
+  }) {
     return VoteProgramAuthorizeWithSeedLayout._(
-        newAuthorized: newAuthorized,
-        currentAuthorityDerivedKeyOwnerPubkey:
-            currentAuthorityDerivedKeyOwnerPubkey,
-        currentAuthorityDerivedKeySeed: currentAuthorityDerivedKeySeed,
-        voteAuthorizationType: voteAuthorizationType);
+      newAuthorized: newAuthorized,
+      currentAuthorityDerivedKeyOwnerPubkey:
+          currentAuthorityDerivedKeyOwnerPubkey,
+      currentAuthorityDerivedKeySeed: currentAuthorityDerivedKeySeed,
+      voteAuthorizationType: voteAuthorizationType,
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.struct([
-          LayoutConst.u32(property: 'voteAuthorizationType'),
-          SolanaLayoutUtils.publicKey('currentAuthorityDerivedKeyOwnerPubkey'),
-          LayoutConst.rustString(property: 'currentAuthorityDerivedKeySeed'),
-          SolanaLayoutUtils.publicKey('newAuthorized')
-        ], property: 'voteAuthorizeWithSeedArgs'),
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.struct([
+      LayoutConst.u32(property: 'voteAuthorizationType'),
+      SolanaLayoutUtils.publicKey('currentAuthorityDerivedKeyOwnerPubkey'),
+      LayoutConst.rustString(property: 'currentAuthorityDerivedKeySeed'),
+      SolanaLayoutUtils.publicKey('newAuthorized'),
+    ], property: 'voteAuthorizeWithSeedArgs'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -67,8 +73,8 @@ class VoteProgramAuthorizeWithSeedLayout extends VoteProgramLayout {
         'currentAuthorityDerivedKeyOwnerPubkey':
             currentAuthorityDerivedKeyOwnerPubkey,
         'currentAuthorityDerivedKeySeed': currentAuthorityDerivedKeySeed,
-        'newAuthorized': newAuthorized
-      }
+        'newAuthorized': newAuthorized,
+      },
     };
   }
 }

@@ -26,14 +26,15 @@ class TronRequestTriggerConstantContract
     final rawBytes = function.encode(params, true);
 
     return TronRequestTriggerConstantContract._(
-        ownerAddress: ownerAddress,
-        contractAddress: contractAddress,
-        callTokenValue: callTokenValue,
-        callValue: callValue,
-        data: rawBytes.isEmpty ? null : BytesUtils.toHexString(rawBytes),
-        fragment: function,
-        tokenId: tokenId,
-        visible: visible);
+      ownerAddress: ownerAddress,
+      contractAddress: contractAddress,
+      callTokenValue: callTokenValue,
+      callValue: callValue,
+      data: rawBytes.isEmpty ? null : BytesUtils.toHexString(rawBytes),
+      fragment: function,
+      tokenId: tokenId,
+      visible: visible,
+    );
   }
   factory TronRequestTriggerConstantContract({
     required TronAddress ownerAddress,
@@ -48,28 +49,30 @@ class TronRequestTriggerConstantContract
     bool visible = true,
   }) {
     return TronRequestTriggerConstantContract._(
-        ownerAddress: ownerAddress,
-        contractAddress: contractAddress,
-        functionSelector: functionSelector,
-        parameter: parameter,
-        callTokenValue: callTokenValue,
-        callValue: callValue,
-        data: data,
-        fragment: fragment,
-        tokenId: tokenId,
-        visible: visible);
+      ownerAddress: ownerAddress,
+      contractAddress: contractAddress,
+      functionSelector: functionSelector,
+      parameter: parameter,
+      callTokenValue: callTokenValue,
+      callValue: callValue,
+      data: data,
+      fragment: fragment,
+      tokenId: tokenId,
+      visible: visible,
+    );
   }
-  TronRequestTriggerConstantContract._(
-      {required this.ownerAddress,
-      this.contractAddress,
-      this.functionSelector,
-      this.parameter,
-      this.fragment,
-      this.data,
-      this.callValue,
-      this.callTokenValue,
-      this.tokenId,
-      this.visible = true});
+  TronRequestTriggerConstantContract._({
+    required this.ownerAddress,
+    this.contractAddress,
+    this.functionSelector,
+    this.parameter,
+    this.fragment,
+    this.data,
+    this.callValue,
+    this.callTokenValue,
+    this.tokenId,
+    this.visible = true,
+  });
 
   /// Owner address that triggers the contract.
   final TronAddress ownerAddress;

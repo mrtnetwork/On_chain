@@ -7,23 +7,27 @@ class ChangeLog extends BorshLayoutSerializable {
   final SolAddress root;
   final List<SolAddress> pathNodes;
   final BigInt index;
-  ChangeLog(
-      {required this.root,
-      required List<SolAddress> pathNodes,
-      required this.index})
-      : pathNodes = List<SolAddress>.unmodifiable(pathNodes);
+  ChangeLog({
+    required this.root,
+    required List<SolAddress> pathNodes,
+    required this.index,
+  }) : pathNodes = List<SolAddress>.unmodifiable(pathNodes);
   factory ChangeLog.fromJson(Map<String, dynamic> json) {
     return ChangeLog(
-        root: json['root'],
-        pathNodes: (json['pathNodes'] as List).cast(),
-        index: json['index']);
+      root: json['root'],
+      pathNodes: (json['pathNodes'] as List).cast(),
+      index: json['index'],
+    );
   }
   static StructLayout staticLayout({required int maxDepth}) =>
       LayoutConst.struct([
         SolanaLayoutUtils.publicKey('root'),
-        LayoutConst.array(SolanaLayoutUtils.publicKey(), maxDepth,
-            property: 'pathNodes'),
-        LayoutConst.u64(property: 'index')
+        LayoutConst.array(
+          SolanaLayoutUtils.publicKey(),
+          maxDepth,
+          property: 'pathNodes',
+        ),
+        LayoutConst.u64(property: 'index'),
       ], property: 'changeLog');
 
   @override

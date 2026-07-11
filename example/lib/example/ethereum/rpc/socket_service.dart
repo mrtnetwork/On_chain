@@ -32,6 +32,8 @@ class RPCWebSocketService with EthereumServiceProvider {
   OnResponse? onEvents;
   Map<int, WebsockerRequestCompeleter> requests = {};
   bool _isDiscounnect = false;
+  final StreamController<Map<String, dynamic>> _controller =
+      StreamController.broadcast();
 
   bool get isConnected => _isDiscounnect;
 
@@ -41,7 +43,7 @@ class RPCWebSocketService with EthereumServiceProvider {
     if (_isDiscounnect) {
       throw StateError("socket has beed discounected");
     }
-    _socket?.sink.add(params.body());
+    _socket?.sink.add(params.encodeBody());
   }
 
   void _onClose(Object? error) {
@@ -89,11 +91,12 @@ class RPCWebSocketService with EthereumServiceProvider {
       request?.completer.complete(decode);
     } else {
       onEvents?.call(decode);
+      _controller.add(decode);
     }
   }
 
   @override
-  Future<BaseServiceResponse<T>> doRequest<T>(EthereumRequestDetails params,
+  Future<BaseServiceResponse> doRequest(EthereumRequestDetails params,
       {Duration? timeout}) async {
     final WebsockerRequestCompeleter compeleter =
         WebsockerRequestCompeleter(params);
@@ -103,6 +106,37 @@ class RPCWebSocketService with EthereumServiceProvider {
       final result = await compeleter.completer.future
           .timeout(timeout ?? defaultRequestTimeOut);
       return params.toResponse(result);
+    } finally {
+      requests.remove(params.requestID);
+    }
+  }
+
+  @override
+  Future<DefaultServiceSubscribtionResponse> doSubscribtionRequest(
+      {required EthereumRequestDetails params,
+      required BaseServiceSubscribtionRequest<dynamic, dynamic,
+              BaseSubscribtionEvent<dynamic>, EthereumRequestDetails>
+          request,
+      Duration? timeout}) async {
+    final WebsockerRequestCompeleter compeleter =
+        WebsockerRequestCompeleter(params);
+    try {
+      requests[params.requestID] = compeleter;
+      add(params);
+      final result = await compeleter.completer.future
+          .timeout(timeout ?? defaultRequestTimeOut);
+      final response = params.toResponse(result);
+      final identifier = request.toIdentifier(response);
+      return DefaultServiceSubscribtionResponse(
+          response: params.toResponse(result),
+          stream: identifier == null
+              ? const Stream<BaseSubscribtionEvent>.empty()
+              : _controller.stream.transform(StreamTransformer.fromHandlers(
+                  handleData: (data, sink) {
+                    final toEvent = request.toEvent(identifier, data);
+                    if (toEvent != null) sink.add(toEvent);
+                  },
+                )));
     } finally {
       requests.remove(params.requestID);
     }

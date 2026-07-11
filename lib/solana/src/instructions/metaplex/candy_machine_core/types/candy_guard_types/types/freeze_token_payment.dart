@@ -15,16 +15,17 @@ class FreezeTokenPayment extends BorshLayoutSerializable {
   });
   factory FreezeTokenPayment.fromJson(Map<String, dynamic> json) {
     return FreezeTokenPayment(
-        amount: json['amount'],
-        mint: json['mint'],
-        destinationAta: json['destinationAta']);
+      amount: json['amount'],
+      mint: json['mint'],
+      destinationAta: json['destinationAta'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'amount'),
-        SolanaLayoutUtils.publicKey('mint'),
-        SolanaLayoutUtils.publicKey('destinationAta')
-      ], property: 'freezeTokenPayment');
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('destinationAta'),
+  ], property: 'freezeTokenPayment');
 
   @override
   StructLayout get layout => staticLayout;

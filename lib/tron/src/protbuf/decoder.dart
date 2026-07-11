@@ -16,9 +16,12 @@ class TronProtocolBufferDecoder {
         case 2:
           final decodeLength = _decodeVarint(bytes.sublist(index));
           index += decodeLength.consumed;
-          results.add(TronTronProtocolBufferDecoderResult<List<int>>(
+          results.add(
+            TronTronProtocolBufferDecoderResult<List<int>>(
               tagNumber: fieldId,
-              value: bytes.sublist(index, index + decodeLength.value)));
+              value: bytes.sublist(index, index + decodeLength.value),
+            ),
+          );
           index += decodeLength.value;
           break;
 
@@ -26,12 +29,15 @@ class TronProtocolBufferDecoder {
           final decodeInt = _decodeInt(bytes.sublist(index));
           index += decodeInt.consumed;
           final result = TronTronProtocolBufferDecoderResult(
-              tagNumber: fieldId, value: decodeInt.value);
+            tagNumber: fieldId,
+            value: decodeInt.value,
+          );
           results.add(result);
           break;
         default:
           throw TronPluginException(
-              'protobuf wiretype not supported. filedId :$fieldId $wireType $tag');
+            'protobuf wiretype not supported. filedId :$fieldId $wireType $tag',
+          );
       }
     }
 
@@ -78,8 +84,10 @@ class TronProtocolBufferDecoder {
 }
 
 class TronTronProtocolBufferDecoderResult<T> {
-  const TronTronProtocolBufferDecoderResult(
-      {required this.tagNumber, required this.value});
+  const TronTronProtocolBufferDecoderResult({
+    required this.tagNumber,
+    required this.value,
+  });
   final int tagNumber;
   final T value;
   @override
@@ -98,7 +106,7 @@ class _Result<T> {
   }
 }
 
-extension QuickProtocolBufferResults
+extension ExtQuickProtocolBufferResults
     on List<TronTronProtocolBufferDecoderResult> {
   bool hasTag(int tag) {
     try {
@@ -115,8 +123,13 @@ extension QuickProtocolBufferResults
       return result.get<T>();
     } on StateError {
       if (null is T) return null as T;
-      throw TronPluginException('field id does not exist.',
-          details: {'fieldIds': map((e) => e.tagNumber).join(', '), 'id': tag});
+      throw TronPluginException(
+        'field id does not exist.',
+        details: {
+          'fieldIds': map((e) => e.tagNumber).join(', '),
+          'id': tag.toString(),
+        },
+      );
     }
   }
 
@@ -126,16 +139,26 @@ extension QuickProtocolBufferResults
       return result as T;
     } on StateError {
       if (null is T) return null as T;
-      throw TronPluginException('field id does not exist.',
-          details: {'fieldIds': map((e) => e.tagNumber).join(', '), 'id': id});
+      throw TronPluginException(
+        'field id does not exist.',
+        details: {
+          'fieldIds': map((e) => e.tagNumber).join(', '),
+          'id': id.toString(),
+        },
+      );
     }
   }
 
   List<T> getFields<T>(int tag, {bool allowNull = true}) {
     final result = where((element) => element.tagNumber == tag);
     if (result.isEmpty && !allowNull) {
-      throw TronPluginException('field id does not exist.',
-          details: {'fieldIds': map((e) => e.tagNumber).join(', '), 'id': tag});
+      throw TronPluginException(
+        'field id does not exist.',
+        details: {
+          'fieldIds': map((e) => e.tagNumber).join(', '),
+          'id': tag.toString(),
+        },
+      );
     }
     return result.map((e) => e.get<T>()).toList();
   }
@@ -143,10 +166,13 @@ extension QuickProtocolBufferResults
   Map<K, V> getMap<K, V>(int tagId, {bool allowNull = true}) {
     final result = where((element) => element.tagNumber == tagId);
     if (result.isEmpty && !allowNull) {
-      throw TronPluginException('field id does not exist.', details: {
-        'fieldIds': map((e) => e.tagNumber).join(', '),
-        'id': tagId
-      });
+      throw TronPluginException(
+        'field id does not exist.',
+        details: {
+          'fieldIds': map((e) => e.tagNumber).join(', '),
+          'id': tagId.toString(),
+        },
+      );
     }
     final Map<K, V> data = {};
     for (final i in result) {
@@ -157,7 +183,7 @@ extension QuickProtocolBufferResults
   }
 }
 
-extension QuickProtocolBufferResult on TronTronProtocolBufferDecoderResult {
+extension ExtQuickProtocolBufferResult on TronTronProtocolBufferDecoderResult {
   bool _isTypeString<T>() {
     return '' is T;
   }
@@ -172,16 +198,20 @@ extension QuickProtocolBufferResult on TronTronProtocolBufferDecoderResult {
         return BigInt.from(value) as T;
       } else if (false is T) {
         if (value != 0 && value != 1) {
-          throw TronPluginException('Invalid boolean value.',
-              details: {'value': value});
+          throw TronPluginException(
+            'Invalid boolean value.',
+            details: {'value': value?.toString()},
+          );
         }
         return (value == 1 ? true : false) as T;
       }
     } else if (value is BigInt && 0 is T) {
       return (value as BigInt).toInt() as T;
     }
-    throw TronPluginException('Invalid type.',
-        details: {'type': '$T', 'expected': value.runtimeType.toString()});
+    throw TronPluginException(
+      'Invalid type.',
+      details: {'type': '$T', 'expected': value.runtimeType.toString()},
+    );
   }
 
   T cast<T>() {
@@ -191,8 +221,10 @@ extension QuickProtocolBufferResult on TronTronProtocolBufferDecoderResult {
         return BigInt.from(value) as T;
       } else if (T == bool) {
         if (value != 0 && value != 1) {
-          throw TronPluginException('Invalid boolean value.',
-              details: {'value': value});
+          throw TronPluginException(
+            'Invalid boolean value.',
+            details: {'value': value?.toString()},
+          );
         }
         return (value == 1 ? true : false) as T;
       }
@@ -204,11 +236,14 @@ extension QuickProtocolBufferResult on TronTronProtocolBufferDecoderResult {
     if (value is List<int> && T == String) {
       return StringUtils.decode(value) as T;
     }
-    throw TronPluginException('cannot cast value.', details: {
-      'Type': '$T',
-      'expected': value.runtimeType.toString(),
-      'value': value
-    });
+    throw TronPluginException(
+      'cannot cast value.',
+      details: {
+        'Type': '$T',
+        'expected': value.runtimeType.toString(),
+        'value': value,
+      },
+    );
   }
 
   E castTo<E, T>(E Function(T e) toe) {

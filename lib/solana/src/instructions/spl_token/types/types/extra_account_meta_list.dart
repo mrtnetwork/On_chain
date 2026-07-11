@@ -12,16 +12,20 @@ class ExtraAccountMetaList extends BorshLayoutSerializable {
 
   factory ExtraAccountMetaList.fromJson(Map<String, dynamic> json) {
     return ExtraAccountMetaList(
-        count: json['count'],
-        extraAccounts: (json['extraAccounts'] as List)
-            .map((e) => ExtraAccountMeta.fromJson(e))
-            .toList());
+      count: json['count'],
+      extraAccounts:
+          (json['extraAccounts'] as List)
+              .map((e) => ExtraAccountMeta.fromJson(e))
+              .toList(),
+    );
   }
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.u32(property: 'count'),
-    LayoutConst.greedyArray(ExtraAccountMeta.staticLayout,
-        property: 'extraAccounts')
+    LayoutConst.greedyArray(
+      ExtraAccountMeta.staticLayout,
+      property: 'extraAccounts',
+    ),
   ], property: 'extraAccountMetaList');
   @override
   StructLayout get layout => staticLayout;

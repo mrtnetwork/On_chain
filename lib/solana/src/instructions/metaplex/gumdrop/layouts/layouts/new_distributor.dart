@@ -7,29 +7,32 @@ class MetaplexGumdropNewDistributorLayout extends MetaplexGumdropProgramLayout {
   final int bump;
   final SolAddress temporal;
   final List<int> root;
-  MetaplexGumdropNewDistributorLayout(
-      {required this.bump, required this.temporal, required List<int> root})
-      : root = List<int>.unmodifiable(root);
+  MetaplexGumdropNewDistributorLayout({
+    required this.bump,
+    required this.temporal,
+    required List<int> root,
+  }) : root = List<int>.unmodifiable(root);
 
   factory MetaplexGumdropNewDistributorLayout.fromBuffer(List<int> data) {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexGumdropProgramInstruction.newDistributor.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexGumdropProgramInstruction.newDistributor.insturction,
+    );
     return MetaplexGumdropNewDistributorLayout(
-        bump: decode['bump'],
-        temporal: decode['temporal'],
-        root: decode['root']);
+      bump: decode['bump'],
+      temporal: decode['temporal'],
+      root: decode['root'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'bump'),
-        LayoutConst.blob(32, property: 'root'),
-        SolanaLayoutUtils.publicKey('temporal'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.blob(32, property: 'root'),
+    SolanaLayoutUtils.publicKey('temporal'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

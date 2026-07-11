@@ -29,7 +29,7 @@ class MemoLayout extends ProgramLayout {
   /// matter.
   String get memo => StringUtils.decode(
     memoBytes,
-    type: StringEncoding.utf8,
+    encoding: StringEncoding.utf8,
     allowInvalidOrMalformed: true,
   );
 

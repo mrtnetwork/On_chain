@@ -8,15 +8,19 @@ class MetaplexBubblegumMintV1Layout extends MetaplexBubblegumProgramLayout {
 
   factory MetaplexBubblegumMintV1Layout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexBubblegumProgramInstruction.mintV1.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexBubblegumProgramInstruction.mintV1.insturction,
+    );
     return MetaplexBubblegumMintV1Layout(
-        message: MetaData.fromJson(decode['metaData']));
+      message: MetaData.fromJson(decode['metaData']),
+    );
   }
 
-  static StructLayout get _layout => LayoutConst.struct(
-      [LayoutConst.blob(8, property: 'instruction'), MetaData.staticLayout]);
+  static StructLayout get _layout => LayoutConst.struct([
+    LayoutConst.blob(8, property: 'instruction'),
+    MetaData.staticLayout,
+  ]);
 
   @override
   StructLayout get layout => _layout;

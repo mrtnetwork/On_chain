@@ -10,8 +10,9 @@ class TokenDelegateRole extends BorshLayoutSerializable {
   static const TokenDelegateRole utility = TokenDelegateRole._('Utility');
   static const TokenDelegateRole staking = TokenDelegateRole._('Staking');
   static const TokenDelegateRole standard = TokenDelegateRole._('Standard');
-  static const TokenDelegateRole lockedTransfer =
-      TokenDelegateRole._('LockedTransfer');
+  static const TokenDelegateRole lockedTransfer = TokenDelegateRole._(
+    'LockedTransfer',
+  );
   static const TokenDelegateRole migration = TokenDelegateRole._('Migration');
   static const List<TokenDelegateRole> values = [
     sale,
@@ -20,7 +21,7 @@ class TokenDelegateRole extends BorshLayoutSerializable {
     staking,
     standard,
     lockedTransfer,
-    migration
+    migration,
   ];
 
   factory TokenDelegateRole.fromJson(Map<String, dynamic> json) {
@@ -30,17 +31,21 @@ class TokenDelegateRole extends BorshLayoutSerializable {
   factory TokenDelegateRole.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No TokenDelegateRole found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No TokenDelegateRole found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.rustEnum(
-            values.map((e) => LayoutConst.none(property: e.name)).toList(),
-            property: 'tokenDelegateRole')
-      ]);
+    LayoutConst.rustEnum(
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'tokenDelegateRole',
+    ),
+  ]);
   @override
   String toString() {
     return 'TokenDelegateRole.$name';
@@ -52,7 +57,7 @@ class TokenDelegateRole extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'tokenDelegateRole': {name: null}
+      'tokenDelegateRole': {name: null},
     };
   }
 }

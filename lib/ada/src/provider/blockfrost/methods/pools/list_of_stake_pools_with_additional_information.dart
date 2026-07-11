@@ -5,11 +5,14 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// List of registered stake pools with additional information.
 /// https://blockfrost.dev/api/list-of-stake-pools-with-additional-information
 class BlockfrostRequestListOfStakePoolsWithAdditionalInformation
-    extends BlockFrostRequest<List<ADAPoolInfoResponse>,
-        List<Map<String, dynamic>>> {
-  BlockfrostRequestListOfStakePoolsWithAdditionalInformation(
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+    extends
+        BlockFrostRequest<
+          List<ADAPoolInfoResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestListOfStakePoolsWithAdditionalInformation({
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// List of stake pools with additional information
   @override

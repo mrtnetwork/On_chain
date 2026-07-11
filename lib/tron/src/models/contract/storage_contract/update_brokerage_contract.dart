@@ -1,7 +1,7 @@
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 class UpdateBrokerageContract extends TronBaseContract {
   /// Create a new [UpdateBrokerageContract] instance with specified parameters.
@@ -10,17 +10,16 @@ class UpdateBrokerageContract extends TronBaseContract {
   /// Create a new [UpdateBrokerageContract] instance by parsing a JSON map.
   factory UpdateBrokerageContract.fromJson(Map<String, dynamic> json) {
     return UpdateBrokerageContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      brokerage:
-          OnChainUtils.parseInt(value: json['brokerage'], name: 'brokerage'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      brokerage: json.valueAsInt("brokerage"),
     );
   }
   factory UpdateBrokerageContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return UpdateBrokerageContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        brokerage: decode.getField(2));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      brokerage: decode.getField(2),
+    );
   }
 
   /// Account address

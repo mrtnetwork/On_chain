@@ -7,12 +7,16 @@ class MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .executeSaleRemainingAccounts.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction
+              .executeSaleRemainingAccounts
+              .insturction,
+    );
     return const MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout();
   }
 

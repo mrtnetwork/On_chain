@@ -78,39 +78,47 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
   static StructLayout get __layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+  ]);
 
   @override
   abstract final MetaplexTokenMetaDataProgramInstruction instruction;
 
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: __layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: __layout,
+      bytes: data,
+    );
     MetaplexTokenMetaDataProgramInstruction? instruction =
         MetaplexTokenMetaDataProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
     if (instruction == null) {
       return UnknownProgramLayout(data);
     }
     if (instruction.hasDiscriminator) {
-      final decode =
-          ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+      final decode = ProgramLayout.decodeAndValidateStruct(
+        layout: _layout,
+        bytes: data,
+      );
       instruction = MetaplexTokenMetaDataProgramInstruction.getInstruction(
-          decode['instruction'],
-          discriminator: decode['discriminator']);
+        decode['instruction'],
+        discriminator: decode['discriminator'],
+      );
     }
 
     switch (instruction) {
       case MetaplexTokenMetaDataProgramInstruction.approveCollectionAuthority:
         return MetaplexTokenMetaDataApproveCollectionAuthorityLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.approveUseAuthority:
         return MetaplexTokenMetaDataapproveUseAuthorityLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.bubblegumSetCollectionSize:
         return MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.burnEditionNft:
         return MetaplexTokenMetaDataBurnEditionNftLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.burnNft:
@@ -123,31 +131,38 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
         return MetaplexTokenMetaDataCollectLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.convertMasterEditionV1ToV2:
         return MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.createEscrowAccount:
         return MetaplexTokenMetaDataCreateEscrowAccountLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.createMasterEdition:
         return MetaplexTokenMetaDataCreateMasterEditionLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.createMasterEditionV3:
         return MetaplexTokenMetaDataCreateMasterEditionV3Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.createMetadataAccount:
         return MetaplexTokenMetaDataCreateMetadataAccountLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.createMetadataAccountV2:
         return MetaplexTokenMetaDataCreateMetadataAccountV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.createMetadataAccountV3:
         return MetaplexTokenMetaDataCreateMetadataAccountV3Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.createV1:
         return MetaplexTokenMetaDataCreateV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.delegateAuthorityItemV1:
         return MetaplexTokenMetaDataDelegateAuthorityItemV1Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.delegateCollectionItemV1:
         return MetaplexTokenMetaDataDelegateCollectionItemV1Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.delegateCollectionV1:
         return MetaplexTokenMetaDataDelegateCollectionV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.delegateDataItemV1:
@@ -156,17 +171,21 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
         return MetaplexTokenMetaDataDelegateDataV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.delegateLockedTransferV1:
         return MetaplexTokenMetaDataDelegateLockedTransferV1Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.delegatePrintDelegateV1:
         return MetaplexTokenMetaDataDelegatePrintDelegateV1Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .delegateProgrammableConfigItemV1:
-        return MetaplexTokenMetaDataDelegateProgrammableConfigItemV1Layout
-            .fromBuffer(data);
+          .delegateProgrammableConfigItemV1:
+        return MetaplexTokenMetaDataDelegateProgrammableConfigItemV1Layout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.delegateProgrammableConfigV1:
-        return MetaplexTokenMetaDataDelegateProgrammableConfigV1Layout
-            .fromBuffer(data);
+        return MetaplexTokenMetaDataDelegateProgrammableConfigV1Layout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.delegateSaleV1:
         return MetaplexTokenMetaDataDelegateSaleV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.delegateStakingV1:
@@ -178,24 +197,28 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
       case MetaplexTokenMetaDataProgramInstruction.delegateUtilityV1:
         return MetaplexTokenMetaDataDelegateUtilityV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction
-            .deprecatedMintNewEditionFromMasterEditionViaPrintingToken:
-        return MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout
-            .fromBuffer(data);
+          .deprecatedMintNewEditionFromMasterEditionViaPrintingToken:
+        return MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.freezeDelegatedAccount:
         return MetaplexTokenMetaDataFreezeDelegatedAccountLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.lockV1:
         return MetaplexTokenMetaDataLockV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.migrate:
         return MetaplexTokenMetaDataMigrateLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction
-            .mintNewEditionFromMasterEditionViaToken:
-        return MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaTokenLayout
-            .fromBuffer(data);
+          .mintNewEditionFromMasterEditionViaToken:
+        return MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaTokenLayout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .mintNewEditionFromMasterEditionViaVaultProxy:
-        return MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout
-            .fromBuffer(data);
+          .mintNewEditionFromMasterEditionViaVaultProxy:
+        return MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.mintV1:
         return MetaplexTokenMetaDataMintV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.printV1:
@@ -206,16 +229,19 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
         return MetaplexTokenMetaDataPuffMetadataLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.removeCreatorVerification:
         return MetaplexTokenMetaDataRemoveCreatorVerificationLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.revokeUseAuthority:
         return MetaplexTokenMetaDataRevokeUseAuthorityLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.setAndVerifyCollection:
         return MetaplexTokenMetaDataSetAndVerifyCollectionLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .setAndVerifySizedCollectionItem:
-        return MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout
-            .fromBuffer(data);
+          .setAndVerifySizedCollectionItem:
+        return MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.setCollectionSize:
         return MetaplexTokenMetaDataSetCollectionSizeLayout.fromBuffer(data);
 
@@ -236,43 +262,54 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
       case MetaplexTokenMetaDataProgramInstruction.unverifyCollectionV1:
         return MetaplexTokenMetaDataUnverifyLayout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.unverifySizedCollectionItem:
-        return MetaplexTokenMetaDataUnverifySizedCollectionItemLayout
-            .fromBuffer(data);
+        return MetaplexTokenMetaDataUnverifySizedCollectionItemLayout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .updateAsAuthorityItemDelegateV2:
-        return MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout
-            .fromBuffer(data);
+          .updateAsAuthorityItemDelegateV2:
+        return MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.updateAsCollectionDelegateV2:
-        return MetaplexTokenMetaDataUpdateAsCollectionDelegateV2Layout
-            .fromBuffer(data);
+        return MetaplexTokenMetaDataUpdateAsCollectionDelegateV2Layout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .updateAsCollectionItemDelegateV2:
-        return MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout
-            .fromBuffer(data);
+          .updateAsCollectionItemDelegateV2:
+        return MetaplexTokenMetaDataUpdateAsCollectionItemDelegateV2Layout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.updateAsDataDelegateV2:
         return MetaplexTokenMetaDataUpdateAsDataDelegateV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.updateAsDataItemDelegateV2:
         return MetaplexTokenMetaDataUpdateAsDataItemDelegateV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .updateAsProgrammableConfigDelegateV2:
-        return MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout
-            .fromBuffer(data);
+          .updateAsProgrammableConfigDelegateV2:
+        return MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .updateAsProgrammableConfigItemDelegateV2:
-        return MetaplexTokenMetaDataUpdateAsProgrammableConfigItemDelegateV2Layout
-            .fromBuffer(data);
+          .updateAsProgrammableConfigItemDelegateV2:
+        return MetaplexTokenMetaDataUpdateAsProgrammableConfigItemDelegateV2Layout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.updateAsUpdateAuthorityV2:
         return MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.updateMetadataAccountV2:
         return MetaplexTokenMetaDataUpdateMetadataAccountV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction
-            .updatePrimarySaleHappenedViaToken:
-        return MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout
-            .fromBuffer(data);
+          .updatePrimarySaleHappenedViaToken:
+        return MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.updateV1:
         return MetaplexTokenMetaDataUpdateV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.useV1:
@@ -285,7 +322,8 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
         return MetaplexTokenMetaDataVerifyCollectionV1Layout.fromBuffer(data);
       case MetaplexTokenMetaDataProgramInstruction.verifySizedCollectionItem:
         return MetaplexTokenMetaDataVerifySizedCollectionItemLayout.fromBuffer(
-            data);
+          data,
+        );
       default:
         return UnknownProgramLayout(data);
     }

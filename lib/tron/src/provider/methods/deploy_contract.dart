@@ -7,18 +7,19 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-deploycontract).
 class TronRequestDeployContract
     extends TronRequest<Transaction, Map<String, dynamic>> {
-  TronRequestDeployContract(
-      {required this.abi,
-      required this.byteCode,
-      this.feeLimit,
-      this.originEnergyLimit,
-      required this.ownerAddress,
-      required this.name,
-      this.callValue,
-      this.consumeUserResourcePercent,
-      this.permissionId,
-      this.parameter,
-      this.visible = true});
+  TronRequestDeployContract({
+    required this.abi,
+    required this.byteCode,
+    this.feeLimit,
+    this.originEnergyLimit,
+    required this.ownerAddress,
+    required this.name,
+    this.callValue,
+    this.consumeUserResourcePercent,
+    this.permissionId,
+    this.parameter,
+    this.visible = true,
+  });
 
   /// Smart Contract's Application Binary Interface
   final List<Map<String, dynamic>> abi;
@@ -74,7 +75,7 @@ class TronRequestDeployContract
       'call_value': callValue,
       'consume_user_resource_percent': consumeUserResourcePercent,
       'permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

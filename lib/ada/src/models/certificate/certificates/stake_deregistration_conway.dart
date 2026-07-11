@@ -9,31 +9,37 @@ class StakeDeregistrationConway extends Certificate {
   final Credential stakeCredential;
   final BigInt? coin;
 
-  const StakeDeregistrationConway(
-      {required this.stakeCredential, required this.coin});
+  const StakeDeregistrationConway({
+    required this.stakeCredential,
+    required this.coin,
+  });
 
   factory StakeDeregistrationConway.deserialize(CborListValue cbor) {
     CertificateType.deserialize(
-      cbor.elementAt<CborIntValue>(0),
+      cbor.objectAt<CborIntValue>(0),
       validate: CertificateType.stakeDeregistrationConway,
     );
     return StakeDeregistrationConway(
-        stakeCredential:
-            Credential.deserialize(cbor.elementAt<CborListValue>(1)),
-        coin: cbor.elementAsInteger(2));
+      stakeCredential: Credential.deserialize(cbor.objectAt<CborListValue>(1)),
+      coin: cbor.rawValueAt(2),
+    );
   }
   factory StakeDeregistrationConway.fromJson(Map<String, dynamic> json) {
     final currentJson =
         json[CertificateType.stakeDeregistrationConway.name] ?? json;
     return StakeDeregistrationConway(
-        stakeCredential: Credential.fromJson(currentJson['stake_credential']),
-        coin: BigintUtils.tryParse(currentJson["coin"]));
+      stakeCredential: Credential.fromJson(currentJson['stake_credential']),
+      coin: BigintUtils.tryParse(currentJson["coin"]),
+    );
   }
-  StakeDeregistrationConway copyWith(
-      {Credential? stakeCredential, BigInt? coin}) {
+  StakeDeregistrationConway copyWith({
+    Credential? stakeCredential,
+    BigInt? coin,
+  }) {
     return StakeDeregistrationConway(
-        stakeCredential: stakeCredential ?? this.stakeCredential,
-        coin: coin ?? this.coin);
+      stakeCredential: stakeCredential ?? this.stakeCredential,
+      coin: coin ?? this.coin,
+    );
   }
 
   @override
@@ -41,7 +47,7 @@ class StakeDeregistrationConway extends Certificate {
     return CborListValue.definite([
       type.toCbor(),
       stakeCredential.toCbor(),
-      if (coin != null) CborUnsignedValue.u64(coin)
+      if (coin != null) CborUnsignedValue.u64(coin),
     ]);
   }
 
@@ -53,8 +59,8 @@ class StakeDeregistrationConway extends Certificate {
     return {
       type.name: {
         'stake_credential': stakeCredential.toJson(),
-        'coin': coin?.toString()
-      }
+        'coin': coin?.toString(),
+      },
     };
   }
 

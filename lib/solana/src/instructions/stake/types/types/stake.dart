@@ -9,14 +9,15 @@ class StakeStake extends BorshLayoutSerializable {
   const StakeStake({required this.delegation, required this.creditsObserved});
   factory StakeStake.fromJson(Map<String, dynamic> json) {
     return StakeStake(
-        delegation: SolanaStakeDelegation.fromJson(json['delegation']),
-        creditsObserved: json['creditsObserved']);
+      delegation: SolanaStakeDelegation.fromJson(json['delegation']),
+      creditsObserved: json['creditsObserved'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaStakeDelegation.staticLayout,
-        LayoutConst.u64(property: 'creditsObserved'),
-      ], property: 'stake');
+    SolanaStakeDelegation.staticLayout,
+    LayoutConst.u64(property: 'creditsObserved'),
+  ], property: 'stake');
 
   @override
   StructLayout get layout => staticLayout;
@@ -25,7 +26,7 @@ class StakeStake extends BorshLayoutSerializable {
   Map<String, dynamic> serialize() {
     return {
       'delegation': delegation.serialize(),
-      'creditsObserved': creditsObserved
+      'creditsObserved': creditsObserved,
     };
   }
 

@@ -1,11 +1,17 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
-class AptosGraphQLRequestGetNumberOfDelegators extends AptosGraphQLRequest<
-    List<AptosGraphQLNumActiveDelegatorPerPool>, Map<String, dynamic>> {
-  AptosGraphQLRequestGetNumberOfDelegators(
-      {required this.variables, this.headers});
+class AptosGraphQLRequestGetNumberOfDelegators
+    extends
+        AptosGraphQLRequest<
+          List<AptosGraphQLNumActiveDelegatorPerPool>,
+          Map<String, dynamic>
+        > {
+  AptosGraphQLRequestGetNumberOfDelegators({
+    required this.variables,
+    this.headers,
+  });
   @override
   final Map<String, String>? headers;
   final AptosGraphQLWhereConditionWithOrderVariablesParams variables;
@@ -17,9 +23,12 @@ class AptosGraphQLRequestGetNumberOfDelegators extends AptosGraphQLRequest<
 
   @override
   List<AptosGraphQLNumActiveDelegatorPerPool> onResonse(
-      Map<String, dynamic> result) {
+    Map<String, dynamic> result,
+  ) {
     return result
-        .asListOfMap("num_active_delegator_per_pool")!
+        .valueEnsureAsList<Map<String, dynamic>>(
+          "num_active_delegator_per_pool",
+        )
         .map((e) => AptosGraphQLNumActiveDelegatorPerPool.fromJson(e))
         .toList();
   }

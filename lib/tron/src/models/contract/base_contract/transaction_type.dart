@@ -59,8 +59,10 @@ class TransactionContractType implements TronEnumerate {
       TransactionContractType._(30, 'CreateSmartContract');
   static const TransactionContractType triggerSmartContract =
       TransactionContractType._(31, 'TriggerSmartContract');
-  static const TransactionContractType getContract =
-      TransactionContractType._(32, 'GetContract');
+  static const TransactionContractType getContract = TransactionContractType._(
+    32,
+    'GetContract',
+  );
   static const TransactionContractType updateSettingContract =
       TransactionContractType._(33, 'UpdateSettingContract');
   static const TransactionContractType exchangeCreateContract =
@@ -147,9 +149,10 @@ class TransactionContractType implements TronEnumerate {
   ///
   /// Case-sensitive matching is performed.
   static TransactionContractType findByName(String name) {
-    return values.firstWhere((element) => element.name == name,
-        orElse: () =>
-            throw const TronPluginException('Contact does not found.'));
+    return values.firstWhere(
+      (element) => element.name == name,
+      orElse: () => throw const TronPluginException('Contact does not found.'),
+    );
   }
 
   /// Finds and returns a [TransactionContractType] by its [value].

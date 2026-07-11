@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
@@ -15,16 +14,18 @@ class StakeDeregistration extends Certificate {
   /// Deserializes a StakeDeregistration object from its CBOR representation.
   factory StakeDeregistration.deserialize(CborListValue cbor) {
     CertificateType.deserialize(
-      cbor.elementAt<CborIntValue>(0),
+      cbor.objectAt<CborIntValue>(0),
       validate: CertificateType.stakeDeregistration,
     );
     return StakeDeregistration(
-        Credential.deserialize(cbor.elementAt<CborListValue>(1)));
+      Credential.deserialize(cbor.objectAt<CborListValue>(1)),
+    );
   }
   factory StakeDeregistration.fromJson(Map<String, dynamic> json) {
     final currentJson = json[CertificateType.stakeDeregistration.name] ?? json;
     return StakeDeregistration(
-        Credential.fromJson(currentJson['stake_credential']));
+      Credential.fromJson(currentJson['stake_credential']),
+    );
   }
   StakeDeregistration copyWith({Credential? stakeCredential}) {
     return StakeDeregistration(stakeCredential ?? this.stakeCredential);
@@ -32,10 +33,7 @@ class StakeDeregistration extends Certificate {
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      type.toCbor(),
-      stakeCredential.toCbor(),
-    ]);
+    return CborListValue.definite([type.toCbor(), stakeCredential.toCbor()]);
   }
 
   @override
@@ -44,7 +42,7 @@ class StakeDeregistration extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'stake_credential': stakeCredential.toJson()}
+      type.name: {'stake_credential': stakeCredential.toJson()},
     };
   }
 

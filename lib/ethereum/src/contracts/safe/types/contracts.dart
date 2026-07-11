@@ -13,8 +13,10 @@ enum SafeContractExecutionOpration {
   final int value;
   const SafeContractExecutionOpration(this.value);
   static SafeContractExecutionOpration fromValue(int? value) {
-    return values.firstWhere((e) => e.value == value,
-        orElse: () => throw ItemNotFoundException(value: value));
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ItemNotFoundException(value: value),
+    );
   }
 }
 
@@ -22,12 +24,12 @@ class SafeContractEncodedCall {
   final AbiFunctionFragment func;
   final List<Object> params;
   final List<int> encode;
-  SafeContractEncodedCall(
-      {required this.func,
-      List<Object> params = const [],
-      required List<int> encode})
-      : params = params.immutable,
-        encode = encode.asImmutableBytes;
+  SafeContractEncodedCall({
+    required this.func,
+    List<Object> params = const [],
+    required List<int> encode,
+  }) : params = params.immutable,
+       encode = encode.asImmutableBytes;
 }
 
 enum SafeContractFunction {
@@ -87,8 +89,10 @@ enum SafeContractFunction {
   final String functionName;
   const SafeContractFunction(this.functionName);
   static SafeContractFunction fromFunctionName(String? name) {
-    return values.firstWhere((e) => e.functionName == name,
-        orElse: () => throw ItemNotFoundException(value: name));
+    return values.firstWhere(
+      (e) => e.functionName == name,
+      orElse: () => throw ItemNotFoundException(value: name),
+    );
   }
 
   static SafeContractFunction? fromFunctionNameOrNull(String? name) {
@@ -104,42 +108,58 @@ enum SafeContractFlavor {
   final int value;
   const SafeContractFlavor(this.value);
   static SafeContractFlavor fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw ItemNotFoundException(value: name));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse: () => throw ItemNotFoundException(value: name),
+    );
   }
 
   static SafeContractFlavor fromValue(int? value) {
-    return values.firstWhere((e) => e.value == value,
-        orElse: () => throw ItemNotFoundException(value: value));
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ItemNotFoundException(value: value),
+    );
   }
 }
 
 enum SafeContractName {
   gnosisSafe(contractName: "GnosisSafe", layer: SafeContractLayer.l1, value: 0),
   gnosisSafeL2(
-      contractName: "GnosisSafeL2", layer: SafeContractLayer.l2, value: 1),
+    contractName: "GnosisSafeL2",
+    layer: SafeContractLayer.l2,
+    value: 1,
+  ),
   gnosisSafeProxyFactory(contractName: "GnosisSafeProxyFactory", value: 2),
   proxyFactory(contractName: "ProxyFactory", value: 3),
   safeL2(contractName: "SafeL2", layer: SafeContractLayer.l2, value: 4),
   safe(contractName: "Safe", layer: SafeContractLayer.l1, value: 5),
   safeProxyFactory(contractName: "SafeProxyFactory", value: 6),
   compatibilityFallbackHandler(
-      contractName: "CompatibilityFallbackHandler", value: 7),
+    contractName: "CompatibilityFallbackHandler",
+    value: 7,
+  ),
   defaultCallbackHandler(contractName: "DefaultCallbackHandler", value: 8);
 
   final String contractName;
   final SafeContractLayer? layer;
   final int value;
-  const SafeContractName(
-      {required this.contractName, this.layer, required this.value});
+  const SafeContractName({
+    required this.contractName,
+    this.layer,
+    required this.value,
+  });
   static SafeContractName fromContractName(String? contractName) {
-    return values.firstWhere((e) => e.contractName == contractName,
-        orElse: () => throw ItemNotFoundException(value: contractName));
+    return values.firstWhere(
+      (e) => e.contractName == contractName,
+      orElse: () => throw ItemNotFoundException(value: contractName),
+    );
   }
 
   static SafeContractName fromValue(int? value) {
-    return values.firstWhere((e) => e.value == value,
-        orElse: () => throw ItemNotFoundException(value: value));
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ItemNotFoundException(value: value),
+    );
   }
 }
 
@@ -157,13 +177,17 @@ enum SafeContractVersion implements Comparable<SafeContractVersion> {
   const SafeContractVersion(this.version, this.value);
 
   static SafeContractVersion fromVersion(String? version) {
-    return values.firstWhere((e) => e.version == version,
-        orElse: () => throw ItemNotFoundException(value: version));
+    return values.firstWhere(
+      (e) => e.version == version,
+      orElse: () => throw ItemNotFoundException(value: version),
+    );
   }
 
   static SafeContractVersion fromValue(int? value) {
-    return values.firstWhere((e) => e.value == value,
-        orElse: () => throw ItemNotFoundException(value: value));
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ItemNotFoundException(value: value),
+    );
   }
 
   // Compare to operator (<=>) for general comparison
@@ -193,39 +217,44 @@ class SafeContractDeployment with InternalCborSerialization {
   final ETHAddress address;
   final List<int> codeHash;
   SafeContractDeployment({required this.address, required List<int> codeHash})
-      : codeHash = codeHash.asImmutableBytes;
+    : codeHash = codeHash.asImmutableBytes;
   factory SafeContractDeployment.fromJson(Map<String, dynamic> json) {
     return SafeContractDeployment(
-        address: ETHAddress(json.valueAs("address")),
-        codeHash: json.valueAsBytes("codeHash"));
+      address: ETHAddress(json.valueAs("address")),
+      codeHash: json.valueAsBytes("codeHash"),
+    );
   }
 
-  factory SafeContractDeployment.deserialize(
-      {List<int>? cborBytes, CborObject? cbor}) {
-    final values = QuickCborObject.cborTagValue(
-        cborBytes: cborBytes,
-        object: cbor,
-        tags: InternalCborSerializationConst.defaultTag);
+  factory SafeContractDeployment.deserialize({
+    List<int>? cborBytes,
+    CborObject? cbor,
+  }) {
+    final values = CborSerializable.decodeTaggedValue<CborListValue>(
+      cborBytes: cborBytes,
+      cborObject: cbor,
+      tagIds: InternalCborSerializationConst.defaultTag,
+    );
     return SafeContractDeployment(
-        address: ETHAddress.fromBytes(values.elementAtBytes(0)),
-        codeHash: values.elementAtBytes(1));
+      address: ETHAddress.fromBytes(values.rawValueAt(0)),
+      codeHash: values.rawValueAt(1),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
     return {
       "address": address.address,
-      "codeHash": BytesUtils.toHexString(codeHash, prefix: "0x")
+      "codeHash": BytesUtils.toHexString(codeHash, prefix: "0x"),
     };
   }
 
   @override
   CborObject<CborListValue> toCbor() {
     return CborTagValue(
-        CborListValue.definite([
-          CborBytesValue(address.toBytes()),
-          CborBytesValue(codeHash),
-        ].cast()),
-        InternalCborSerializationConst.defaultTag);
+      CborListValue.definite(
+        [CborBytesValue(address.toBytes()), CborBytesValue(codeHash)].cast(),
+      ),
+      InternalCborSerializationConst.defaultTag,
+    );
   }
 }
 
@@ -244,87 +273,129 @@ class SafeContractManifest with InternalCborSerialization {
         .toList();
   }
 
-  SafeContractManifest(
-      {required this.released,
-      required this.contractName,
-      required this.version,
-      required Map<SafeContractFlavor, SafeContractDeployment> deployments,
-      required Map<BigInt, List<SafeContractFlavor>> networkAddresses,
-      required this.abi})
-      : deployments = deployments.immutable,
-        networkAddresses = networkAddresses
-            .map((k, v) =>
-                MapEntry<BigInt, List<SafeContractFlavor>>(k, v.toImutableList))
-            .immutable;
+  SafeContractManifest({
+    required this.released,
+    required this.contractName,
+    required this.version,
+    required Map<SafeContractFlavor, SafeContractDeployment> deployments,
+    required Map<BigInt, List<SafeContractFlavor>> networkAddresses,
+    required this.abi,
+  }) : deployments = deployments.immutable,
+       networkAddresses =
+           networkAddresses
+               .map(
+                 (k, v) => MapEntry<BigInt, List<SafeContractFlavor>>(
+                   k,
+                   v.toImutableList,
+                 ),
+               )
+               .immutable;
   factory SafeContractManifest.fromJson(Map<String, dynamic> json) {
     return SafeContractManifest(
-        released: json.valueAs("released"),
-        contractName:
-            SafeContractName.fromContractName(json.valueAs("contractName")),
-        version: SafeContractVersion.fromVersion(json.valueAs("version")),
-        deployments: json.valueEnsureAsMap<String, dynamic>("deployments").map(
-            (k, v) => MapEntry(SafeContractFlavor.fromName(k),
-                SafeContractDeployment.fromJson(v))),
-        networkAddresses: json
-            .valueEnsureAsMap<String, dynamic>("networkAddresses")
-            .map((k, v) {
-          List<SafeContractFlavor> types = [];
-          if (v is String) {
-            types.add(SafeContractFlavor.fromName(v));
-          } else {
-            types.addAll(JsonParser.valueEnsureAsList<String>(v)
-                .map(SafeContractFlavor.fromName));
-          }
-          return MapEntry(
-              JsonParser.valueAsBigInt<BigInt>(k), types.toImutableList);
-        }),
-        abi: ContractABI.fromJson(json.valueAs("abi")));
+      released: json.valueAs("released"),
+      contractName: SafeContractName.fromContractName(
+        json.valueAs("contractName"),
+      ),
+      version: SafeContractVersion.fromVersion(json.valueAs("version")),
+      deployments: json
+          .valueEnsureAsMap<String, dynamic>("deployments")
+          .map(
+            (k, v) => MapEntry(
+              SafeContractFlavor.fromName(k),
+              SafeContractDeployment.fromJson(v),
+            ),
+          ),
+      networkAddresses: json
+          .valueEnsureAsMap<String, dynamic>("networkAddresses")
+          .map((k, v) {
+            List<SafeContractFlavor> types = [];
+            if (v is String) {
+              types.add(SafeContractFlavor.fromName(v));
+            } else {
+              types.addAll(
+                JsonParser.valueEnsureAsList<String>(
+                  v,
+                ).map(SafeContractFlavor.fromName),
+              );
+            }
+            return MapEntry(
+              JsonParser.valueAsBigInt<BigInt>(k),
+              types.toImutableList,
+            );
+          }),
+      abi: ContractABI.fromJson(json.valueAs("abi")),
+    );
   }
-  factory SafeContractManifest.deserialize(
-      {List<int>? cborBytes, CborObject? cbor}) {
-    final values = QuickCborObject.cborTagValue(
-        cborBytes: cborBytes,
-        object: cbor,
-        tags: InternalCborSerializationConst.defaultTag);
+  factory SafeContractManifest.deserialize({
+    List<int>? cborBytes,
+    CborObject? cbor,
+  }) {
+    final values = CborSerializable.decodeTaggedValue<CborListValue>(
+      cborBytes: cborBytes,
+      cborObject: cbor,
+      tagIds: InternalCborSerializationConst.defaultTag,
+    );
     return SafeContractManifest(
-        released: values.elementAt<CborBoleanValue>(0).value,
-        contractName:
-            SafeContractName.fromValue(values.elementAt<CborIntValue>(1).value),
-        version: SafeContractVersion.fromValue(
-            values.elementAt<CborIntValue>(2).value),
-        deployments: values
-            .elementAt<CborMapValue>(3)
-            .valueAsMap<CborIntValue, CborTagValue>()
-            .map((k, v) => MapEntry(SafeContractFlavor.fromValue(k.value),
-                SafeContractDeployment.deserialize(cbor: v))),
-        networkAddresses: values
-            .elementAt<CborMapValue>(4)
-            .valueAsMap<CborBigIntValue, CborListValue>()
-            .map((k, v) => MapEntry(
-                k.value,
-                v
-                    .valueAsListOf<CborIntValue>()
-                    .map((e) => SafeContractFlavor.fromValue(e.value))
-                    .toList())),
-        abi: ContractABI.deserialize(cbor: values.elementAt<CborTagValue>(5)));
+      released: values.objectAt<CborBoleanValue>(0).value,
+      contractName: SafeContractName.fromValue(
+        values.objectAt<CborIntValue>(1).value,
+      ),
+      version: SafeContractVersion.fromValue(
+        values.objectAt<CborIntValue>(2).value,
+      ),
+      deployments: values
+          .objectAt<CborMapValue>(3)
+          .asMap<CborIntValue, CborTagValue>()
+          .map(
+            (k, v) => MapEntry(
+              SafeContractFlavor.fromValue(k.value),
+              SafeContractDeployment.deserialize(cbor: v),
+            ),
+          ),
+      networkAddresses: values
+          .objectAt<CborMapValue>(4)
+          .asMap<CborBigIntValue, CborListValue>()
+          .map(
+            (k, v) => MapEntry(
+              k.value,
+              v
+                  .allObjectsAs<CborIntValue>()
+                  .map((e) => SafeContractFlavor.fromValue(e.value))
+                  .toList(),
+            ),
+          ),
+      abi: ContractABI.deserialize(cbor: values.objectAt<CborTagValue>(5)),
+    );
   }
 
   @override
   CborTagValue<CborListValue> toCbor() {
     return CborTagValue(
-        CborListValue.definite([
+      CborListValue.definite(
+        [
           CborBoleanValue(released),
           CborIntValue(contractName.value),
           CborIntValue(version.value),
-          CborMapValue.definite(deployments
-              .map((k, v) => MapEntry(CborIntValue(k.value), v.toCbor()))),
-          CborMapValue.definite(networkAddresses.map((k, v) => MapEntry(
-              CborBigIntValue(k),
-              CborListValue.definite(
-                  v.map((e) => CborIntValue(e.value)).toList())))),
+          CborMapValue.definite(
+            deployments.map(
+              (k, v) => MapEntry(CborIntValue(k.value), v.toCbor()),
+            ),
+          ),
+          CborMapValue.definite(
+            networkAddresses.map(
+              (k, v) => MapEntry(
+                CborBigIntValue(k),
+                CborListValue.definite(
+                  v.map((e) => CborIntValue(e.value)).toList(),
+                ),
+              ),
+            ),
+          ),
           abi.toCbor(),
-        ].cast()),
-        InternalCborSerializationConst.defaultTag);
+        ].cast(),
+      ),
+      InternalCborSerializationConst.defaultTag,
+    );
   }
 
   @override
@@ -334,69 +405,98 @@ class SafeContractManifest with InternalCborSerialization {
       "contractName": contractName.contractName,
       "version": version.version,
       "deployments": deployments.map((k, v) => MapEntry(k.name, v.toJson())),
-      "networkAddresses": networkAddresses.map((k, v) => MapEntry(k.toString(),
-          v.length == 1 ? v.first.name : v.map((e) => e.name).toList())),
-      "abi": abi.toJson()
+      "networkAddresses": networkAddresses.map(
+        (k, v) => MapEntry(
+          k.toString(),
+          v.length == 1 ? v.first.name : v.map((e) => e.name).toList(),
+        ),
+      ),
+      "abi": abi.toJson(),
     };
   }
 }
 
 class SafeContractAssets with InternalCborSerialization {
   final Map<SafeContractVersion, SafeContractVersionedManifest> manifests;
-  SafeContractAssets(
-      {required Map<SafeContractVersion, SafeContractVersionedManifest>
-          manifests})
-      : manifests = manifests.immutable;
+  SafeContractAssets({
+    required Map<SafeContractVersion, SafeContractVersionedManifest> manifests,
+  }) : manifests = manifests.immutable;
   factory SafeContractAssets.fromJson(Map<String, dynamic> json) {
     return SafeContractAssets(
-        manifests: json.valueEnsureAsMap<String, dynamic>("manifests").map(
-            (k, v) => MapEntry(SafeContractVersion.fromVersion(k),
-                SafeContractVersionedManifest.fromJson(v))));
+      manifests: json
+          .valueEnsureAsMap<String, dynamic>("manifests")
+          .map(
+            (k, v) => MapEntry(
+              SafeContractVersion.fromVersion(k),
+              SafeContractVersionedManifest.fromJson(v),
+            ),
+          ),
+    );
   }
-  factory SafeContractAssets.deserialize(
-      {List<int>? cborBytes, CborObject? cbor}) {
-    final values = QuickCborObject.cborTagValue(
-        cborBytes: cborBytes,
-        object: cbor,
-        tags: InternalCborSerializationConst.defaultTag);
+  factory SafeContractAssets.deserialize({
+    List<int>? cborBytes,
+    CborObject? cbor,
+  }) {
+    final values = CborSerializable.decodeTaggedValue<CborListValue>(
+      cborBytes: cborBytes,
+      cborObject: cbor,
+      tagIds: InternalCborSerializationConst.defaultTag,
+    );
     return SafeContractAssets(
       manifests: values
-          .elementAt<CborMapValue>(0)
-          .valueAsMap<CborIntValue, CborTagValue>()
-          .map((k, v) => MapEntry(SafeContractVersion.fromValue(k.value),
-              SafeContractVersionedManifest.deserialize(cbor: v))),
+          .objectAt<CborMapValue>(0)
+          .asMap<CborIntValue, CborTagValue>()
+          .map(
+            (k, v) => MapEntry(
+              SafeContractVersion.fromValue(k.value),
+              SafeContractVersionedManifest.deserialize(cbor: v),
+            ),
+          ),
     );
   }
   @override
   CborTagValue<CborListValue> toCbor() {
     return CborTagValue(
-        CborListValue.definite([
-          CborMapValue.definite(manifests
-              .map((k, v) => MapEntry(CborIntValue(k.value), v.toCbor())))
-        ].cast()),
-        InternalCborSerializationConst.defaultTag);
+      CborListValue.definite(
+        [
+          CborMapValue.definite(
+            manifests.map(
+              (k, v) => MapEntry(CborIntValue(k.value), v.toCbor()),
+            ),
+          ),
+        ].cast(),
+      ),
+      InternalCborSerializationConst.defaultTag,
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "manifests": manifests.map((k, v) => MapEntry(k.version, v.toJson()))
+      "manifests": manifests.map((k, v) => MapEntry(k.version, v.toJson())),
     };
   }
 
   SafeContractVersionedManifest getLatestDeployment({BigInt? chainId}) {
     if (this.manifests.isEmpty) {
-      throw ETHPluginException('No deployment found.',
-          details: {"chainId": chainId.toString});
+      throw ETHPluginException(
+        'No deployment found.',
+        details: {"chainId": chainId.toString()},
+      );
     }
-    final manifests = this.manifests.values.toList()
-      ..sort((a, b) => b.version.compareTo(a.version));
+    final manifests =
+        this.manifests.values.toList()
+          ..sort((a, b) => b.version.compareTo(a.version));
     if (chainId == null) return manifests.first;
     return manifests.firstWhere(
-        (e) => e.proxy.networkAddresses.containsKey(chainId),
-        orElse: () => throw ETHPluginException(
-            'No deployment found for the specified chain ID.',
-            details: {"chainId": chainId.toString}));
+      (e) => e.proxy.networkAddresses.containsKey(chainId),
+      orElse:
+          () =>
+              throw ETHPluginException(
+                'No deployment found for the specified chain ID.',
+                details: {"chainId": chainId.toString()},
+              ),
+    );
   }
 
   SafeContractVersionedManifest atVersion(SafeContractVersion version) {
@@ -421,8 +521,10 @@ class SafeContractAssets with InternalCborSerialization {
     );
   }
 
-  List<BigInt> getSupportedChainIds(
-      {SafeContractFlavor? flavor, SafeContractVersion? version}) {
+  List<BigInt> getSupportedChainIds({
+    SafeContractFlavor? flavor,
+    SafeContractVersion? version,
+  }) {
     if (version != null) {
       return manifests[version]?.singleton.getSupportChainIds(flavor: flavor) ??
           [];
@@ -441,11 +543,12 @@ class SafeContractVersionedManifest with InternalCborSerialization {
   final SafeContractManifest? singltonL2;
   final SafeContractManifest? fallbackHandler;
   SafeContractVersion get version => singleton.version;
-  const SafeContractVersionedManifest._(
-      {required this.singleton,
-      required this.proxy,
-      this.singltonL2,
-      this.fallbackHandler});
+  const SafeContractVersionedManifest._({
+    required this.singleton,
+    required this.proxy,
+    this.singltonL2,
+    this.fallbackHandler,
+  });
   factory SafeContractVersionedManifest({
     required SafeContractManifest singleton,
     required SafeContractManifest proxy,
@@ -456,14 +559,18 @@ class SafeContractVersionedManifest with InternalCborSerialization {
     if (singleton.version == SafeContractVersion.v1_0_0) {
       if (proxy.version != SafeContractVersion.v1_0_0) {
         throw const ETHPluginException(
-            'ProxyFactory version must match singleton version v1.0.0.');
+          'ProxyFactory version must match singleton version v1.0.0.',
+        );
       }
       if (fallBackHandler != null || singltonL2 != null) {
         throw const ETHPluginException(
-            'Fallback handler and Singleton L2 are not supported for v1.0.0 contracts.');
+          'Fallback handler and Singleton L2 are not supported for v1.0.0 contracts.',
+        );
       }
       return SafeContractVersionedManifest._(
-          singleton: singleton, proxy: proxy);
+        singleton: singleton,
+        proxy: proxy,
+      );
     }
 
     // v1.1.1 and v1.2.0 logic
@@ -472,22 +579,26 @@ class SafeContractVersionedManifest with InternalCborSerialization {
       case SafeContractVersion.v1_2_0:
         if (singltonL2 != null) {
           throw ETHPluginException(
-              'Singleton L2 is not supported for version ${singleton.version}.');
+            'Singleton L2 is not supported for version ${singleton.version}.',
+          );
         }
         if (proxy.version != SafeContractVersion.v1_1_1) {
           throw ETHPluginException(
-              'ProxyFactory must have version v1.1.1 for this singleton version ${singleton.version.version}.');
+            'ProxyFactory must have version v1.1.1 for this singleton version ${singleton.version.version}.',
+          );
         }
         if (fallBackHandler == null ||
             fallBackHandler.version != SafeContractVersion.v1_1_1) {
           throw const ETHPluginException(
-              'Fallback handler is required and must have version v1.1.1 for this singleton version.');
+            'Fallback handler is required and must have version v1.1.1 for this singleton version.',
+          );
         }
         return SafeContractVersionedManifest._(
-            singleton: singleton,
-            proxy: proxy,
-            fallbackHandler: fallBackHandler,
-            singltonL2: singltonL2);
+          singleton: singleton,
+          proxy: proxy,
+          fallbackHandler: fallBackHandler,
+          singltonL2: singltonL2,
+        );
 
       default:
         if (fallBackHandler == null ||
@@ -496,7 +607,7 @@ class SafeContractVersionedManifest with InternalCborSerialization {
                   singleton.version,
                   proxy.version,
                   fallBackHandler.version,
-                  singltonL2.version
+                  singltonL2.version,
                 }.length !=
                 1) {
           throw const ETHPluginException(
@@ -504,63 +615,82 @@ class SafeContractVersionedManifest with InternalCborSerialization {
           );
         }
         return SafeContractVersionedManifest._(
-            singleton: singleton,
-            proxy: proxy,
-            fallbackHandler: fallBackHandler,
-            singltonL2: singltonL2);
+          singleton: singleton,
+          proxy: proxy,
+          fallbackHandler: fallBackHandler,
+          singltonL2: singltonL2,
+        );
     }
   }
 
-  factory SafeContractVersionedManifest.deserialize(
-      {List<int>? cborBytes, CborObject? cbor}) {
-    final values = QuickCborObject.cborTagValue(
-        cborBytes: cborBytes,
-        object: cbor,
-        tags: InternalCborSerializationConst.defaultTag);
+  factory SafeContractVersionedManifest.deserialize({
+    List<int>? cborBytes,
+    CborObject? cbor,
+  }) {
+    final values = CborSerializable.decodeTaggedValue<CborListValue>(
+      cborBytes: cborBytes,
+      cborObject: cbor,
+      tagIds: InternalCborSerializationConst.defaultTag,
+    );
     return SafeContractVersionedManifest(
-        singleton: SafeContractManifest.deserialize(
-            cbor: values.elementAt<CborTagValue>(0)),
-        proxy: SafeContractManifest.deserialize(
-            cbor: values.elementAt<CborTagValue>(1)),
-        singltonL2: values.elementMaybeAt<SafeContractManifest, CborTagValue>(
-            2, (e) => SafeContractManifest.deserialize(cbor: e)),
-        fallBackHandler:
-            values.elementMaybeAt<SafeContractManifest, CborTagValue>(
-                3, (e) => SafeContractManifest.deserialize(cbor: e)));
+      singleton: SafeContractManifest.deserialize(
+        cbor: values.objectAt<CborTagValue>(0),
+      ),
+      proxy: SafeContractManifest.deserialize(
+        cbor: values.objectAt<CborTagValue>(1),
+      ),
+      singltonL2: values.maybeObjectAt<SafeContractManifest, CborTagValue>(
+        2,
+        (e) => SafeContractManifest.deserialize(cbor: e),
+      ),
+      fallBackHandler: values.maybeObjectAt<SafeContractManifest, CborTagValue>(
+        3,
+        (e) => SafeContractManifest.deserialize(cbor: e),
+      ),
+    );
   }
   factory SafeContractVersionedManifest.fromJson(Map<String, dynamic> json) {
     return SafeContractVersionedManifest(
-        singleton: SafeContractManifest.fromJson(
-            json.valueEnsureAsMap<String, dynamic>("singleton")),
-        proxy: SafeContractManifest.fromJson(
-            json.valueEnsureAsMap<String, dynamic>("proxy")),
-        singltonL2: json.valueTo<SafeContractManifest?, Map<String, dynamic>>(
-            key: "singletonL2", parse: (v) => SafeContractManifest.fromJson(v)),
-        fallBackHandler:
-            json.valueTo<SafeContractManifest?, Map<String, dynamic>>(
-                key: "handler",
-                parse: (v) => SafeContractManifest.fromJson(v)));
+      singleton: SafeContractManifest.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("singleton"),
+      ),
+      proxy: SafeContractManifest.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("proxy"),
+      ),
+      singltonL2: json.valueTo<SafeContractManifest?, Map<String, dynamic>>(
+        key: "singletonL2",
+        parse: (v) => SafeContractManifest.fromJson(v),
+      ),
+      fallBackHandler: json
+          .valueTo<SafeContractManifest?, Map<String, dynamic>>(
+            key: "handler",
+            parse: (v) => SafeContractManifest.fromJson(v),
+          ),
+    );
   }
 
-  SafeContractDeployment getSafeSingletonDeployment(
-      {required BigInt chainId,
-      SafeContractFlavor flavor = SafeContractFlavor.canonical,
-      SafeContractLayer layer = SafeContractLayer.l1}) {
+  SafeContractDeployment getSafeSingletonDeployment({
+    required BigInt chainId,
+    SafeContractFlavor flavor = SafeContractFlavor.canonical,
+    SafeContractLayer layer = SafeContractLayer.l1,
+  }) {
     final singleton = switch (layer) {
       SafeContractLayer.l1 => this.singleton,
-      SafeContractLayer.l2 => singltonL2
+      SafeContractLayer.l2 => singltonL2,
     };
     if (singleton == null) {
       throw ETHPluginException(
-          'L2 proxy is not configured for this Safe version.',
-          details: {'version': version.version});
+        'L2 proxy is not configured for this Safe version.',
+        details: {'version': version.version},
+      );
     }
 
     final networkAddress = singleton.networkAddresses[chainId];
 
     if (networkAddress == null) {
       throw const ETHPluginException(
-          'No deployment found for the specified chain ID.');
+        'No deployment found for the specified chain ID.',
+      );
     }
 
     if (!networkAddress.contains(flavor)) {
@@ -591,25 +721,20 @@ class SafeContractVersionedManifest with InternalCborSerialization {
     }
     throw ETHPluginException(
       "The provided address $address does not match any known Safe singleton deployment.",
-      details: {
-        "address": address.address,
-        "availableSingletons": [
-          ...singleton.deployments.values.map((e) => e.address.address),
-          if (singltonL2 != null)
-            ...singltonL2!.deployments.values.map((e) => e.address.address)
-        ]
-      },
+      details: {"address": address.address},
     );
   }
 
-  SafeContractDeployment getSafeFactoryDeployment(
-      {required BigInt chainId,
-      SafeContractFlavor flavor = SafeContractFlavor.canonical}) {
+  SafeContractDeployment getSafeFactoryDeployment({
+    required BigInt chainId,
+    SafeContractFlavor flavor = SafeContractFlavor.canonical,
+  }) {
     final networkAddress = proxy.networkAddresses[chainId];
 
     if (networkAddress == null) {
       throw const ETHPluginException(
-          'No deployment found for the specified chain ID.');
+        'No deployment found for the specified chain ID.',
+      );
     }
 
     if (!networkAddress.contains(flavor)) {
@@ -630,26 +755,30 @@ class SafeContractVersionedManifest with InternalCborSerialization {
     return deployment;
   }
 
-  SafeContractDeployment? tryGetSafeFallBackHandlerDeployment(
-      {required BigInt chainId,
-      SafeContractFlavor flavor = SafeContractFlavor.canonical}) {
+  SafeContractDeployment? tryGetSafeFallBackHandlerDeployment({
+    required BigInt chainId,
+    SafeContractFlavor flavor = SafeContractFlavor.canonical,
+  }) {
     if (fallbackHandler == null) return null;
     return getSafeFallBackHandlerDeployment(chainId: chainId, flavor: flavor);
   }
 
-  SafeContractDeployment getSafeFallBackHandlerDeployment(
-      {required BigInt chainId,
-      SafeContractFlavor flavor = SafeContractFlavor.canonical}) {
+  SafeContractDeployment getSafeFallBackHandlerDeployment({
+    required BigInt chainId,
+    SafeContractFlavor flavor = SafeContractFlavor.canonical,
+  }) {
     final fallBackHandler = fallbackHandler;
     if (fallBackHandler == null) {
       throw const ETHPluginException(
-          'Fallback handler is not configured for this Safe version.');
+        'Fallback handler is not configured for this Safe version.',
+      );
     }
 
     final networkAddress = fallBackHandler.networkAddresses[chainId];
     if (networkAddress == null) {
       throw const ETHPluginException(
-          'No fallback handler deployment found for the specified chain ID.');
+        'No fallback handler deployment found for the specified chain ID.',
+      );
     }
 
     if (!networkAddress.contains(flavor)) {
@@ -670,15 +799,17 @@ class SafeContractVersionedManifest with InternalCborSerialization {
     return deployment;
   }
 
-  ContractABI getSingletonContractAbi(
-      {SafeContractLayer layer = SafeContractLayer.l1}) {
+  ContractABI getSingletonContractAbi({
+    SafeContractLayer layer = SafeContractLayer.l1,
+  }) {
     switch (layer) {
       case SafeContractLayer.l1:
         return singleton.abi;
       case SafeContractLayer.l2:
         if (singltonL2 == null) {
           throw const ETHPluginException(
-              'L2 proxy is not configured for this Safe version.');
+            'L2 proxy is not configured for this Safe version.',
+          );
         }
         return singltonL2!.abi;
     }
@@ -687,13 +818,16 @@ class SafeContractVersionedManifest with InternalCborSerialization {
   @override
   CborTagValue<CborListValue> toCbor() {
     return CborTagValue(
-        CborListValue.definite([
+      CborListValue.definite(
+        [
           singleton.toCbor(),
           proxy.toCbor(),
           singltonL2?.toCbor() ?? const CborNullValue(),
-          fallbackHandler?.toCbor() ?? const CborNullValue()
-        ].cast()),
-        InternalCborSerializationConst.defaultTag);
+          fallbackHandler?.toCbor() ?? const CborNullValue(),
+        ].cast(),
+      ),
+      InternalCborSerializationConst.defaultTag,
+    );
   }
 
   @override

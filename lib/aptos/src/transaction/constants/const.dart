@@ -37,7 +37,7 @@ class AptosConstants {
     170,
     0,
     177,
-    147
+    147,
   ];
   static const List<int> rawTransactionWithDataSalt = [
     94,
@@ -71,7 +71,7 @@ class AptosConstants {
     80,
     217,
     230,
-    124
+    124,
   ];
   static const List<int> transactionHashDomain = [
     250,
@@ -105,7 +105,7 @@ class AptosConstants {
     233,
     38,
     109,
-    212
+    212,
   ];
   static const String aptosCoinAssetType = "0x1::aptos_coin::AptosCoin";
   static const String transferFunctionName = 'transfer';
@@ -113,11 +113,20 @@ class AptosConstants {
   static const String publishModuleFunctionName = 'publish_package_txn';
 
   static AptosStructTag get object => AptosStructTag(
-      address: AptosAddress.one, moduleName: 'object', name: 'Object');
+    address: AptosAddress.one,
+    moduleName: 'object',
+    name: 'Object',
+  );
   static AptosStructTag get string => AptosStructTag(
-      address: AptosAddress.one, moduleName: 'string', name: 'String');
+    address: AptosAddress.one,
+    moduleName: 'string',
+    name: 'String',
+  );
   static AptosStructTag get option => AptosStructTag(
-      address: AptosAddress.one, moduleName: 'option', name: 'Option');
+    address: AptosAddress.one,
+    moduleName: 'option',
+    name: 'Option',
+  );
 
   static AptosModuleId get systemFrameworkCoinModuleId =>
       AptosModuleId(address: AptosAddress.one, name: "coin");
@@ -127,19 +136,24 @@ class AptosConstants {
   static AptosModuleId get publishModuleModuleId =>
       AptosModuleId(address: AptosAddress.one, name: "code");
 
-  static AptosTypeTagStruct get aptosCoinTypeStructArgs =>
-      AptosTypeTagStruct(AptosStructTag(
-          address: AptosAddress.one,
-          moduleName: "aptos_coin",
-          name: "AptosCoin"));
-  static BigInt get defaultMaxGasAmount => BigInt.from(200000);
-  static BigInt get defaultMinGasAmount => BigInt.from(15000);
+  static AptosTypeTagStruct get aptosCoinTypeStructArgs => AptosTypeTagStruct(
+    AptosStructTag(
+      address: AptosAddress.one,
+      moduleName: "aptos_coin",
+      name: "AptosCoin",
+    ),
+  );
+  static BigInt get defaultMaxGasAmount => BigInt.from(2000000);
+  static BigInt get defaultMinGasAmount => BigInt.from(2000);
 
   static AptosTypeTagStruct get fungibleAssetMetadataTypeTag =>
-      AptosTypeTagStruct(AptosStructTag(
+      AptosTypeTagStruct(
+        AptosStructTag(
           address: AptosAddress.one,
           moduleName: "fungible_asset",
-          name: "Metadata"));
+          name: "Metadata",
+        ),
+      );
   static AptosModuleId get primaryFungibleStoreModule =>
       AptosModuleId(address: AptosAddress.one, name: "primary_fungible_store");
 }

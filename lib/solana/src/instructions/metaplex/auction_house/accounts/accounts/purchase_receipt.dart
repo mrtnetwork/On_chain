@@ -12,21 +12,21 @@ class _Utils {
     154,
     131,
     150,
-    134
+    134,
   ];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('bookkeeper'),
-        SolanaLayoutUtils.publicKey('buyer'),
-        SolanaLayoutUtils.publicKey('seller'),
-        SolanaLayoutUtils.publicKey('auctionHouse'),
-        SolanaLayoutUtils.publicKey('metadata'),
-        LayoutConst.u64(property: 'tokenSize'),
-        LayoutConst.u64(property: 'price'),
-        LayoutConst.u8(property: 'bump'),
-        LayoutConst.i64(property: 'createdAt'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('bookkeeper'),
+    SolanaLayoutUtils.publicKey('buyer'),
+    SolanaLayoutUtils.publicKey('seller'),
+    SolanaLayoutUtils.publicKey('auctionHouse'),
+    SolanaLayoutUtils.publicKey('metadata'),
+    LayoutConst.u64(property: 'tokenSize'),
+    LayoutConst.u64(property: 'price'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.i64(property: 'createdAt'),
+  ]);
 }
 
 class PurchaseReceipt extends BorshLayoutSerializable {
@@ -41,31 +41,34 @@ class PurchaseReceipt extends BorshLayoutSerializable {
   final int bump;
   final BigInt createdAt;
 
-  const PurchaseReceipt(
-      {required this.bookkeeper,
-      required this.buyer,
-      required this.auctionHouse,
-      required this.seller,
-      required this.metadata,
-      required this.price,
-      required this.tokenSize,
-      required this.bump,
-      required this.createdAt});
+  const PurchaseReceipt({
+    required this.bookkeeper,
+    required this.buyer,
+    required this.auctionHouse,
+    required this.seller,
+    required this.metadata,
+    required this.price,
+    required this.tokenSize,
+    required this.bump,
+    required this.createdAt,
+  });
   factory PurchaseReceipt.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return PurchaseReceipt(
-        buyer: decode['buyer'],
-        bookkeeper: decode['bookkeeper'],
-        auctionHouse: decode['auctionHouse'],
-        seller: decode['seller'],
-        metadata: decode['metadata'],
-        price: decode['price'],
-        tokenSize: decode['tokenSize'],
-        bump: decode['bump'],
-        createdAt: decode['createdAt']);
+      buyer: decode['buyer'],
+      bookkeeper: decode['bookkeeper'],
+      auctionHouse: decode['auctionHouse'],
+      seller: decode['seller'],
+      metadata: decode['metadata'],
+      price: decode['price'],
+      tokenSize: decode['tokenSize'],
+      bump: decode['bump'],
+      createdAt: decode['createdAt'],
+    );
   }
 
   @override

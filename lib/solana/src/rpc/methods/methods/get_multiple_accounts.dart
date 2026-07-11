@@ -8,12 +8,13 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getmultipleaccounts
 class SolanaRequestGetMultipleAccounts
     extends SolanaRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  const SolanaRequestGetMultipleAccounts(
-      {required this.pubkeys,
-      this.dataSlice,
-      super.commitment,
-      super.minContextSlot,
-      super.encoding});
+  const SolanaRequestGetMultipleAccounts({
+    required this.pubkeys,
+    this.dataSlice,
+    super.commitment,
+    super.minContextSlot,
+    super.encoding,
+  });
 
   /// getMultipleAccounts
   @override
@@ -33,7 +34,7 @@ class SolanaRequestGetMultipleAccounts
         commitment?.toJson(),
         minContextSlot?.toJson(),
         dataSlice?.toJson(),
-        encoding?.toJson()
+        encoding?.toJson(),
       ]),
     ];
   }

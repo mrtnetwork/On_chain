@@ -8,9 +8,10 @@ import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 
 /// Abstract class representing an Aptos account with public key, authenticator, and signature.
 abstract class AptosAccount<
-    PUBLICKEY extends AptosAccountPublicKey,
-    AUTHENTICATOR extends AptosAccountAuthenticator,
-    SIGNATURE extends AptosSignature> {
+  PUBLICKEY extends AptosAccountPublicKey,
+  AUTHENTICATOR extends AptosAccountAuthenticator,
+  SIGNATURE extends AptosSignature
+> {
   /// The signing scheme used for this account.
   final AptosSigningScheme scheme;
 
@@ -52,18 +53,25 @@ abstract class AptosAccountPublicKey extends BcsSerialization
   /// Convert the public key to a hexadecimal string.
   @override
   String toHex({bool lowerCase = true, String prefix = ''}) {
-    return BytesUtils.toHexString(toBytes(),
-        prefix: prefix, lowerCase: lowerCase);
+    return BytesUtils.toHexString(
+      toBytes(),
+      prefix: prefix,
+      lowerCase: lowerCase,
+    );
   }
 
   /// signature must a valid aptos signature serialized as BCS (AnySignature,ED25519Signature,MultiKeySignature or...);
-  bool verifySignature(
-      {required List<int> message, required List<int> signature});
+  bool verifySignature({
+    required List<int> message,
+    required List<int> signature,
+  });
 
   T cast<T extends AptosAccountPublicKey>() {
     if (this is! T) {
-      throw DartAptosPluginException("Invalid public key.",
-          details: {"expected": "$T", "type": scheme.name});
+      throw DartAptosPluginException(
+        "Invalid public key.",
+        details: {"expected": "$T", "type": scheme.name},
+      );
     }
     return this as T;
   }

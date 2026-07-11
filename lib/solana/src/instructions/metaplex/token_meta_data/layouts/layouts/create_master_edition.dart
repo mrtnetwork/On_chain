@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataCreateMasterEditionLayout
   const MetaplexTokenMetaDataCreateMasterEditionLayout();
 
   factory MetaplexTokenMetaDataCreateMasterEditionLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .createMasterEdition.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .createMasterEdition
+              .insturction,
+    );
     return const MetaplexTokenMetaDataCreateMasterEditionLayout();
   }
   static StructLayout get _layout =>

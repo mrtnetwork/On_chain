@@ -5,9 +5,7 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getBlockTransactionCountByHash)
 class EthereumRequestGetGetBlockTransactionCountByHash
     extends EthereumRequest<int, Object> {
-  EthereumRequestGetGetBlockTransactionCountByHash({
-    required this.blockHash,
-  });
+  EthereumRequestGetGetBlockTransactionCountByHash({required this.blockHash});
 
   /// eth_getBlockTransactionCountByHash
   @override

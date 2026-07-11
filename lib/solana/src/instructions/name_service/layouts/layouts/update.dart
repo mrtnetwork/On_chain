@@ -13,7 +13,7 @@ class NameServiceUpdateLayout extends NameServiceProgramLayout {
 
   /// Constructs a NameServiceUpdateLayout instance with the specified input data and offset.
   NameServiceUpdateLayout({required List<int> inputData, required this.offset})
-      : inputData = inputData.asImmutableBytes;
+    : inputData = inputData.asImmutableBytes;
 
   /// Creates a NameServiceUpdateLayout instance from buffer data.
   factory NameServiceUpdateLayout.fromBuffer(List<int> data) {
@@ -30,10 +30,10 @@ class NameServiceUpdateLayout extends NameServiceProgramLayout {
 
   /// The layout structure.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'offset'),
-        LayoutConst.vecU8(property: 'inputData')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'offset'),
+    LayoutConst.vecU8(property: 'inputData'),
+  ]);
 
   /// The layout structure.
   @override

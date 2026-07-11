@@ -6,12 +6,13 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-updatesetting).
 class TronRequestUpdateSetting
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestUpdateSetting(
-      {required this.ownerAddress,
-      required this.contractAddress,
-      required this.consumeUserResourcePercent,
-      this.permissionId,
-      this.visible = true});
+  TronRequestUpdateSetting({
+    required this.ownerAddress,
+    required this.contractAddress,
+    required this.consumeUserResourcePercent,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Transaction creator address
   final TronAddress ownerAddress;
@@ -38,7 +39,7 @@ class TronRequestUpdateSetting
       'contract_address': contractAddress.toAddress(visible),
       'consume_user_resource_percent': consumeUserResourcePercent,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

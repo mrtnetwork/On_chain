@@ -5,13 +5,17 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// UTXOs of the address.
 /// https://blockfrost.dev/api/specific-account-address
-class BlockfrostRequestAddressUTXOsOfAGivenAsset extends BlockFrostRequest<
-    List<ADAAccountUTXOResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestAddressUTXOsOfAGivenAsset(
-      {required this.address,
-      required this.asset,
-      BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestAddressUTXOsOfAGivenAsset
+    extends
+        BlockFrostRequest<
+          List<ADAAccountUTXOResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAddressUTXOsOfAGivenAsset({
+    required this.address,
+    required this.asset,
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   final ADAAddress address;
 

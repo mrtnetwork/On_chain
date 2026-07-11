@@ -9,25 +9,29 @@ class StakeAuthorizeLayout extends StakeProgramLayout {
   final int stakeAuthorizationType;
   const StakeAuthorizeLayout._(this.newAuthorized, this.stakeAuthorizationType);
 
-  factory StakeAuthorizeLayout(
-      {required SolAddress newAuthorized,
-      required int stakeAuthorizationType}) {
+  factory StakeAuthorizeLayout({
+    required SolAddress newAuthorized,
+    required int stakeAuthorizationType,
+  }) {
     return StakeAuthorizeLayout._(newAuthorized, stakeAuthorizationType);
   }
   factory StakeAuthorizeLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: StakeProgramInstruction.authorize.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: StakeProgramInstruction.authorize.insturction,
+    );
     return StakeAuthorizeLayout._(
-        decode['newAuthorized'], decode['stakeAuthorizationType']);
+      decode['newAuthorized'],
+      decode['stakeAuthorizationType'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('newAuthorized'),
-        LayoutConst.u32(property: 'stakeAuthorizationType'),
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newAuthorized'),
+    LayoutConst.u32(property: 'stakeAuthorizationType'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -39,7 +43,7 @@ class StakeAuthorizeLayout extends StakeProgramLayout {
   Map<String, dynamic> serialize() {
     return {
       'newAuthorized': newAuthorized,
-      'stakeAuthorizationType': stakeAuthorizationType
+      'stakeAuthorizationType': stakeAuthorizationType,
     };
   }
 }

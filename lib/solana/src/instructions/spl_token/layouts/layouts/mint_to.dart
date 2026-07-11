@@ -13,16 +13,17 @@ class SPLTokenMintToLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for minting tokens.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   /// Constructs an SPLTokenMintToLayout instance from buffer.
   factory SPLTokenMintToLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.mintTo.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.mintTo.insturction,
+    );
 
     return SPLTokenMintToLayout(amount: decode['amount']);
   }

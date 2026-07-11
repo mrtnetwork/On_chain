@@ -8,8 +8,10 @@ class MemoProgramInstruction implements ProgramLayoutInstruction {
   @override
   final String name;
   const MemoProgramInstruction(this.insturction, this.name);
-  static const MemoProgramInstruction memo =
-      MemoProgramInstruction(null, 'Memo');
+  static const MemoProgramInstruction memo = MemoProgramInstruction(
+    null,
+    'Memo',
+  );
 
   static const List<MemoProgramInstruction> values = [memo];
 

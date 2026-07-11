@@ -7,20 +7,27 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('authority'),
-        SolanaLayoutUtils.publicKey('memberAddress'),
-      ]);
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('memberAddress'),
+  ]);
 
   static int get accountSize => layout.span;
 
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -30,10 +37,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.groupMemberPointer);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.groupMemberPointer,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -44,29 +54,35 @@ class GroupMemberPointer extends BorshLayoutSerializable {
   static int get size => _Utils.accountSize;
   final SolAddress? authority;
   final SolAddress? memberAddress;
-  const GroupMemberPointer(
-      {required this.authority, required this.memberAddress});
+  const GroupMemberPointer({
+    required this.authority,
+    required this.memberAddress,
+  });
 
   factory GroupMemberPointer.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return GroupMemberPointer(
-      authority: decode['authority'] == SolAddress.defaultPubKey
-          ? null
-          : decode['authority'],
-      memberAddress: decode['memberAddress'] == SolAddress.defaultPubKey
-          ? null
-          : decode['memberAddress'],
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      memberAddress:
+          decode['memberAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['memberAddress'],
     );
   }
   factory GroupMemberPointer.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return GroupMemberPointer(
-      authority: decode['authority'] == SolAddress.defaultPubKey
-          ? null
-          : decode['authority'],
-      memberAddress: decode['memberAddress'] == SolAddress.defaultPubKey
-          ? null
-          : decode['memberAddress'],
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      memberAddress:
+          decode['memberAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['memberAddress'],
     );
   }
 
@@ -76,7 +92,7 @@ class GroupMemberPointer extends BorshLayoutSerializable {
   Map<String, dynamic> serialize() {
     return {
       'authority': authority ?? SolAddress.defaultPubKey,
-      'memberAddress': memberAddress ?? SolAddress.defaultPubKey
+      'memberAddress': memberAddress ?? SolAddress.defaultPubKey,
     };
   }
 

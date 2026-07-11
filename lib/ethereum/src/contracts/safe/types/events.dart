@@ -8,7 +8,7 @@ class SafeContractEventConst {
   static const List<SafeContractEventType> proxyCreationEventTypes = [
     SafeContractEventType.proxyCreation,
     SafeContractEventType.proxyCreationL2,
-    SafeContractEventType.chainSpecificProxyCreationL2
+    SafeContractEventType.chainSpecificProxyCreationL2,
   ];
 }
 
@@ -41,8 +41,10 @@ enum SafeContractEventType {
   final String eventName;
   const SafeContractEventType(this.eventName);
   static SafeContractEventType fromEventName(String? name) {
-    return values.firstWhere((e) => e.eventName == name,
-        orElse: () => throw ItemNotFoundException(value: name));
+    return values.firstWhere(
+      (e) => e.eventName == name,
+      orElse: () => throw ItemNotFoundException(value: name),
+    );
   }
 
   static SafeContractEventType? fromEventNameOrNull(String? name) {
@@ -53,8 +55,10 @@ enum SafeContractEventType {
 abstract class SafeContractEvent {
   final SafeContractEventType type;
   const SafeContractEvent(this.type);
-  factory SafeContractEvent.deserialize(
-      {required SafeContractEventType type, required List<dynamic> result}) {
+  factory SafeContractEvent.deserialize({
+    required SafeContractEventType type,
+    required List<dynamic> result,
+  }) {
     switch (type) {
       case SafeContractEventType.executionFailed:
         return SafeContractEventExecutionFailed.fromEvent(result);
@@ -116,25 +120,29 @@ abstract class SafeContractEvent {
 abstract class BaseSafeContractEventProxyCreation extends SafeContractEvent {
   final ETHAddress proxy;
   final ETHAddress? singleton;
-  BaseSafeContractEventProxyCreation(
-      {required this.proxy,
-      required this.singleton,
-      required SafeContractEventType type})
-      : super(type);
+  BaseSafeContractEventProxyCreation({
+    required this.proxy,
+    required this.singleton,
+    required SafeContractEventType type,
+  }) : super(type);
 }
 
 class SafeContractEventProxyCreation
     extends BaseSafeContractEventProxyCreation {
   SafeContractEventProxyCreation({required super.proxy, super.singleton})
-      : super(type: SafeContractEventType.proxyCreation);
+    : super(type: SafeContractEventType.proxyCreation);
 
   factory SafeContractEventProxyCreation.fromEvent(List<dynamic> result) {
     return SafeContractEventProxyCreation(
-        proxy: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress(),
-        singleton: JsonParser.valueTo<ETHAddress?, SolidityAddress>(
-            value: result.elementAtOrNull(1),
-            parse: (v) => v.toEthereumAddress()));
+      proxy:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+      singleton: JsonParser.valueTo<ETHAddress?, SolidityAddress>(
+        value: result.elementAtOrNull(1),
+        parse: (v) => v.toEthereumAddress(),
+      ),
+    );
   }
 }
 
@@ -145,14 +153,17 @@ class SafeContractEventApproveHash extends SafeContractEvent {
   SafeContractEventApproveHash({
     required List<int> approvedHash,
     required this.owner,
-  })  : approvedHash = approvedHash.asImmutableBytes,
-        super(SafeContractEventType.approveHash);
+  }) : approvedHash = approvedHash.asImmutableBytes,
+       super(SafeContractEventType.approveHash);
 
   factory SafeContractEventApproveHash.fromEvent(List<dynamic> result) {
     return SafeContractEventApproveHash(
-        approvedHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
-        owner: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(1))
-            .toEthereumAddress());
+      approvedHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
+      owner:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(1),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -160,13 +171,15 @@ class SafeContractEventAddedOwner extends SafeContractEvent {
   final ETHAddress owner;
 
   SafeContractEventAddedOwner({required this.owner})
-      : super(SafeContractEventType.addedOwner);
+    : super(SafeContractEventType.addedOwner);
 
   factory SafeContractEventAddedOwner.fromEvent(List<dynamic> result) {
     return SafeContractEventAddedOwner(
-        owner: JsonParser.valueAs<SolidityAddress>(
-      result.elementAtOrNull(0),
-    ).toEthereumAddress());
+      owner:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -174,13 +187,15 @@ class SafeContractEventChangedMasterCopy extends SafeContractEvent {
   final ETHAddress masterCopy;
 
   SafeContractEventChangedMasterCopy({required this.masterCopy})
-      : super(SafeContractEventType.changedMasterCopy);
+    : super(SafeContractEventType.changedMasterCopy);
 
   factory SafeContractEventChangedMasterCopy.fromEvent(List<dynamic> result) {
     return SafeContractEventChangedMasterCopy(
-        masterCopy: JsonParser.valueAs<SolidityAddress>(
-      result.elementAtOrNull(0),
-    ).toEthereumAddress());
+      masterCopy:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -188,12 +203,15 @@ class SafeContractEventDisabledModule extends SafeContractEvent {
   final ETHAddress module;
 
   SafeContractEventDisabledModule({required this.module})
-      : super(SafeContractEventType.disabledModule);
+    : super(SafeContractEventType.disabledModule);
 
   factory SafeContractEventDisabledModule.fromEvent(List<dynamic> result) {
     return SafeContractEventDisabledModule(
-        module: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress());
+      module:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -201,12 +219,15 @@ class SafeContractEventEnabledModule extends SafeContractEvent {
   final ETHAddress module;
 
   SafeContractEventEnabledModule({required this.module})
-      : super(SafeContractEventType.enabledModule);
+    : super(SafeContractEventType.enabledModule);
 
   factory SafeContractEventEnabledModule.fromEvent(List<dynamic> result) {
     return SafeContractEventEnabledModule(
-        module: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress());
+      module:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -214,13 +235,17 @@ class SafeContractEventExecutionFromModuleFailure extends SafeContractEvent {
   final ETHAddress module;
 
   SafeContractEventExecutionFromModuleFailure({required this.module})
-      : super(SafeContractEventType.executionFromModuleFailure);
+    : super(SafeContractEventType.executionFromModuleFailure);
 
   factory SafeContractEventExecutionFromModuleFailure.fromEvent(
-      List<dynamic> result) {
+    List<dynamic> result,
+  ) {
     return SafeContractEventExecutionFromModuleFailure(
-        module: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress());
+      module:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -228,13 +253,17 @@ class SafeContractEventExecutionFromModuleSuccess extends SafeContractEvent {
   final ETHAddress module;
 
   SafeContractEventExecutionFromModuleSuccess({required this.module})
-      : super(SafeContractEventType.executionFromModuleSuccess);
+    : super(SafeContractEventType.executionFromModuleSuccess);
 
   factory SafeContractEventExecutionFromModuleSuccess.fromEvent(
-      List<dynamic> result) {
+    List<dynamic> result,
+  ) {
     return SafeContractEventExecutionFromModuleSuccess(
-        module: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress());
+      module:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -242,12 +271,15 @@ class SafeContractEventRemovedOwner extends SafeContractEvent {
   final ETHAddress owner;
 
   SafeContractEventRemovedOwner({required this.owner})
-      : super(SafeContractEventType.removedOwner);
+    : super(SafeContractEventType.removedOwner);
 
   factory SafeContractEventRemovedOwner.fromEvent(List<dynamic> result) {
     return SafeContractEventRemovedOwner(
-        owner: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress());
+      owner:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -255,13 +287,17 @@ class SafeContractEventChangedFallbackHandler extends SafeContractEvent {
   final ETHAddress handler;
 
   SafeContractEventChangedFallbackHandler({required this.handler})
-      : super(SafeContractEventType.changedFallbackHandler);
+    : super(SafeContractEventType.changedFallbackHandler);
 
   factory SafeContractEventChangedFallbackHandler.fromEvent(
-      List<dynamic> result) {
+    List<dynamic> result,
+  ) {
     return SafeContractEventChangedFallbackHandler(
-        handler: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress());
+      handler:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -269,12 +305,15 @@ class SafeContractEventChangedGuard extends SafeContractEvent {
   final ETHAddress guard;
 
   SafeContractEventChangedGuard({required this.guard})
-      : super(SafeContractEventType.changedGuard);
+    : super(SafeContractEventType.changedGuard);
 
   factory SafeContractEventChangedGuard.fromEvent(List<dynamic> result) {
     return SafeContractEventChangedGuard(
-        guard: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress());
+      guard:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -282,13 +321,15 @@ class SafeContractEventChangedModuleGuard extends SafeContractEvent {
   final ETHAddress moduleGuard;
 
   SafeContractEventChangedModuleGuard({required this.moduleGuard})
-      : super(SafeContractEventType.changedModuleGuard);
+    : super(SafeContractEventType.changedModuleGuard);
 
   factory SafeContractEventChangedModuleGuard.fromEvent(List<dynamic> result) {
     return SafeContractEventChangedModuleGuard(
-        moduleGuard:
-            JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-                .toEthereumAddress());
+      moduleGuard:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -296,13 +337,15 @@ class SafeContractEventContractCreation extends SafeContractEvent {
   final ETHAddress moduleGuard;
 
   SafeContractEventContractCreation({required this.moduleGuard})
-      : super(SafeContractEventType.contractCreation);
+    : super(SafeContractEventType.contractCreation);
 
   factory SafeContractEventContractCreation.fromEvent(List<dynamic> result) {
     return SafeContractEventContractCreation(
-        moduleGuard:
-            JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-                .toEthereumAddress());
+      moduleGuard:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+    );
   }
 }
 
@@ -310,11 +353,12 @@ class SafeContractEventChangedThreshold extends SafeContractEvent {
   final BigInt threshold;
 
   SafeContractEventChangedThreshold({required this.threshold})
-      : super(SafeContractEventType.changedThreshold);
+    : super(SafeContractEventType.changedThreshold);
 
   factory SafeContractEventChangedThreshold.fromEvent(List<dynamic> result) {
     return SafeContractEventChangedThreshold(
-        threshold: JsonParser.valueAsBigInt(result.elementAtOrNull(0)));
+      threshold: JsonParser.valueAsBigInt(result.elementAtOrNull(0)),
+    );
   }
 }
 
@@ -325,13 +369,14 @@ class SafeContractEventExecutionFailure extends SafeContractEvent {
   SafeContractEventExecutionFailure({
     required this.payment,
     required List<int> txHash,
-  })  : txHash = txHash.asImmutableBytes,
-        super(SafeContractEventType.executionFailure);
+  }) : txHash = txHash.asImmutableBytes,
+       super(SafeContractEventType.executionFailure);
 
   factory SafeContractEventExecutionFailure.fromEvent(List<dynamic> result) {
     return SafeContractEventExecutionFailure(
-        txHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
-        payment: JsonParser.valueAsBigInt(result.elementAtOrNull(1)));
+      txHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
+      payment: JsonParser.valueAsBigInt(result.elementAtOrNull(1)),
+    );
   }
 }
 
@@ -342,27 +387,28 @@ class SafeContractEventExecutionSuccess extends SafeContractEvent {
   SafeContractEventExecutionSuccess({
     required this.payment,
     required List<int> txHash,
-  })  : txHash = txHash.asImmutableBytes,
-        super(SafeContractEventType.executionSuccess);
+  }) : txHash = txHash.asImmutableBytes,
+       super(SafeContractEventType.executionSuccess);
 
   factory SafeContractEventExecutionSuccess.fromEvent(List<dynamic> result) {
     return SafeContractEventExecutionSuccess(
-        txHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
-        payment: JsonParser.valueAsBigInt(result.elementAtOrNull(1)));
+      txHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
+      payment: JsonParser.valueAsBigInt(result.elementAtOrNull(1)),
+    );
   }
 }
 
 class SafeContractEventSignMsg extends SafeContractEvent {
   final List<int> msgHash;
 
-  SafeContractEventSignMsg({
-    required List<int> msgHash,
-  })  : msgHash = msgHash.asImmutableBytes,
-        super(SafeContractEventType.signMsg);
+  SafeContractEventSignMsg({required List<int> msgHash})
+    : msgHash = msgHash.asImmutableBytes,
+      super(SafeContractEventType.signMsg);
 
   factory SafeContractEventSignMsg.fromEvent(List<dynamic> result) {
     return SafeContractEventSignMsg(
-        msgHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)));
+      msgHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
+    );
   }
 }
 
@@ -370,30 +416,31 @@ class SafeContractEventSafeReceived extends SafeContractEvent {
   final ETHAddress sender;
   final BigInt value;
 
-  SafeContractEventSafeReceived({
-    required this.sender,
-    required this.value,
-  }) : super(SafeContractEventType.safeReceived);
+  SafeContractEventSafeReceived({required this.sender, required this.value})
+    : super(SafeContractEventType.safeReceived);
 
   factory SafeContractEventSafeReceived.fromEvent(List<dynamic> result) {
     return SafeContractEventSafeReceived(
-        sender: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress(),
-        value: JsonParser.valueAsBigInt(result.elementAtOrNull(1)));
+      sender:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+      value: JsonParser.valueAsBigInt(result.elementAtOrNull(1)),
+    );
   }
 }
 
 class SafeContractEventExecutionFailed extends SafeContractEvent {
   final List<int> txHash;
 
-  SafeContractEventExecutionFailed({
-    required List<int> txHash,
-  })  : txHash = txHash.asImmutableBytes,
-        super(SafeContractEventType.executionFailed);
+  SafeContractEventExecutionFailed({required List<int> txHash})
+    : txHash = txHash.asImmutableBytes,
+      super(SafeContractEventType.executionFailed);
 
   factory SafeContractEventExecutionFailed.fromEvent(List<dynamic> result) {
     return SafeContractEventExecutionFailed(
-        txHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)));
+      txHash: JsonParser.valueAsBytes(result.elementAtOrNull(0)),
+    );
   }
 }
 
@@ -410,21 +457,27 @@ class SafeContractEventSafeModuleTransaction extends SafeContractEvent {
     required this.value,
     required List<int> data,
     required this.operation,
-  })  : data = data.asImmutableBytes,
-        super(SafeContractEventType.safeModuleTransaction);
+  }) : data = data.asImmutableBytes,
+       super(SafeContractEventType.safeModuleTransaction);
 
   factory SafeContractEventSafeModuleTransaction.fromEvent(
-      List<dynamic> result) {
+    List<dynamic> result,
+  ) {
     return SafeContractEventSafeModuleTransaction(
-      module: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-          .toEthereumAddress(),
-      to: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(1))
-          .toEthereumAddress(),
+      module:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+      to:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(1),
+          ).toEthereumAddress(),
       value: JsonParser.valueAsBigInt(result.elementAtOrNull(2)),
       data: JsonParser.valueAsBytes(result.elementAtOrNull(3)),
       operation: JsonParser.valueTo<SafeContractExecutionOpration, int>(
-          value: result.elementAtOrNull(4),
-          parse: (e) => SafeContractExecutionOpration.fromValue(e)),
+        value: result.elementAtOrNull(4),
+        parse: (e) => SafeContractExecutionOpration.fromValue(e),
+      ),
     );
   }
 }
@@ -454,29 +507,36 @@ class SafeContractEventSafeMultiSigTransaction extends SafeContractEvent {
     required this.refundReceiver,
     required List<int> signatures,
     required List<int> additionalInfo,
-  })  : data = data.asImmutableBytes,
-        signatures = signatures.asImmutableBytes,
-        additionalInfo = additionalInfo.asImmutableBytes,
-        super(SafeContractEventType.safeMultiSigTransaction);
+  }) : data = data.asImmutableBytes,
+       signatures = signatures.asImmutableBytes,
+       additionalInfo = additionalInfo.asImmutableBytes,
+       super(SafeContractEventType.safeMultiSigTransaction);
 
   factory SafeContractEventSafeMultiSigTransaction.fromEvent(
-      List<dynamic> result) {
+    List<dynamic> result,
+  ) {
     return SafeContractEventSafeMultiSigTransaction(
-      to: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-          .toEthereumAddress(),
+      to:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
       value: JsonParser.valueAsBigInt(result.elementAtOrNull(1)),
       data: JsonParser.valueAsBytes(result.elementAtOrNull(2)),
       operation: JsonParser.valueTo<SafeContractExecutionOpration, int>(
-          value: result.elementAtOrNull(3),
-          parse: (e) => SafeContractExecutionOpration.fromValue(e)),
+        value: result.elementAtOrNull(3),
+        parse: (e) => SafeContractExecutionOpration.fromValue(e),
+      ),
       safeTxGas: JsonParser.valueAsBigInt(result.elementAtOrNull(4)),
       baseGas: JsonParser.valueAsBigInt(result.elementAtOrNull(5)),
       gasPrice: JsonParser.valueAsBigInt(result.elementAtOrNull(6)),
-      gasToken: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(7))
-          .toEthereumAddress(),
+      gasToken:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(7),
+          ).toEthereumAddress(),
       refundReceiver:
-          JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(8))
-              .toEthereumAddress(),
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(8),
+          ).toEthereumAddress(),
       signatures: JsonParser.valueAsBytes(result.elementAtOrNull(9)),
       additionalInfo: JsonParser.valueAsBytes(result.elementAtOrNull(10)),
     );
@@ -496,23 +556,28 @@ class SafeContractEventSafeSetup extends SafeContractEvent {
     required this.threshold,
     required this.initializer,
     required this.fallbackHandler,
-  })  : owners = owners.immutable,
-        super(SafeContractEventType.safeSetup);
+  }) : owners = owners.immutable,
+       super(SafeContractEventType.safeSetup);
 
   factory SafeContractEventSafeSetup.fromEvent(List<dynamic> result) {
     return SafeContractEventSafeSetup(
-      initiator: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-          .toEthereumAddress(),
-      owners: JsonParser.valueEnsureAsList<SolidityAddress>(1)
-          .map((e) => e.toEthereumAddress())
-          .toList(),
+      initiator:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+      owners:
+          JsonParser.valueEnsureAsList<SolidityAddress>(
+            1,
+          ).map((e) => e.toEthereumAddress()).toList(),
       threshold: JsonParser.valueAsBigInt(result.elementAtOrNull(2)),
       initializer:
-          JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(3))
-              .toEthereumAddress(),
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(3),
+          ).toEthereumAddress(),
       fallbackHandler:
-          JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(4))
-              .toEthereumAddress(),
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(4),
+          ).toEthereumAddress(),
     );
   }
 }
@@ -529,17 +594,21 @@ class SafeContractEventChainSpecificProxyCreationL2
     required List<int> initializer,
     required this.saltNonce,
     required this.chainId,
-  })  : initializer = initializer.asImmutableBytes,
-        super(type: SafeContractEventType.chainSpecificProxyCreationL2);
+  }) : initializer = initializer.asImmutableBytes,
+       super(type: SafeContractEventType.chainSpecificProxyCreationL2);
 
   factory SafeContractEventChainSpecificProxyCreationL2.fromEvent(
-      List<dynamic> result) {
+    List<dynamic> result,
+  ) {
     return SafeContractEventChainSpecificProxyCreationL2(
-      proxy: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-          .toEthereumAddress(),
-      singleton: JsonParser.valueAs<SolidityAddress>(
-        result.elementAtOrNull(1),
-      ).toEthereumAddress(),
+      proxy:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+      singleton:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(1),
+          ).toEthereumAddress(),
       initializer: JsonParser.valueAsBytes(result.elementAtOrNull(2)),
       saltNonce: JsonParser.valueAsBigInt(result.elementAtOrNull(3)),
       chainId: JsonParser.valueAsBigInt(result.elementAtOrNull(4)),
@@ -557,17 +626,21 @@ class SafeContractEventProxyCreationL2
     required super.singleton,
     required List<int> initializer,
     required this.saltNonce,
-  })  : initializer = initializer.asImmutableBytes,
-        super(type: SafeContractEventType.proxyCreationL2);
+  }) : initializer = initializer.asImmutableBytes,
+       super(type: SafeContractEventType.proxyCreationL2);
 
   factory SafeContractEventProxyCreationL2.fromEvent(List<dynamic> result) {
     return SafeContractEventProxyCreationL2(
-        proxy: JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-            .toEthereumAddress(),
-        singleton: JsonParser.valueAs<SolidityAddress>(
-          result.elementAtOrNull(1),
-        ).toEthereumAddress(),
-        initializer: JsonParser.valueAsBytes(result.elementAtOrNull(2)),
-        saltNonce: JsonParser.valueAsBigInt(result.elementAtOrNull(3)));
+      proxy:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(0),
+          ).toEthereumAddress(),
+      singleton:
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(1),
+          ).toEthereumAddress(),
+      initializer: JsonParser.valueAsBytes(result.elementAtOrNull(2)),
+      saltNonce: JsonParser.valueAsBigInt(result.elementAtOrNull(3)),
+    );
   }
 }

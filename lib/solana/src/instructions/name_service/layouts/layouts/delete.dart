@@ -18,9 +18,8 @@ class NameServiceDeleteLayout extends NameServiceProgramLayout {
   }
 
   /// The layout structure.
-  static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-      ]);
+  static StructLayout get _layout =>
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   /// The layout structure.
   @override

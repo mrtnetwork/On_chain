@@ -5,6 +5,7 @@ class MetaplexHydraProgramConst {
   static int fanoutMintSize = 200;
   static int fanoutMembershipMintVoucherSize = 105;
   static int fanoutSize = 300;
-  static const SolAddress programId =
-      SolAddress.unchecked('hyDQ4Nz1eYyegS6JfenyKwKzYxRsCWCriYSAjtzP4Vg');
+  static const SolAddress programId = SolAddress.unchecked(
+    'hyDQ4Nz1eYyegS6JfenyKwKzYxRsCWCriYSAjtzP4Vg',
+  );
 }

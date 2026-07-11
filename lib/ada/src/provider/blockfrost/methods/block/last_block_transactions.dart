@@ -6,9 +6,9 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/latest-block-transactions
 class BlockfrostRequestLastBlockTransactions
     extends BlockFrostRequest<List<String>, List<dynamic>> {
-  BlockfrostRequestLastBlockTransactions(
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+  BlockfrostRequestLastBlockTransactions({
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// Latest block transactions
   @override

@@ -19,28 +19,29 @@ class PoolRetirement extends Certificate {
 
   /// Deserializes a PoolRetirement object from its CBOR representation.
   factory PoolRetirement.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: CertificateType.poolRetirement);
+    CertificateType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: CertificateType.poolRetirement,
+    );
     return PoolRetirement(
-        epoch: cbor.elementAt<CborNumeric>(2).toInt(),
-        poolKeyHash:
-            Ed25519KeyHash.deserialize(cbor.elementAt<CborBytesValue>(1)));
+      epoch: cbor.objectAt<CborNumeric>(2).toInt(),
+      poolKeyHash: Ed25519KeyHash.deserialize(cbor.objectAt<CborBytesValue>(1)),
+    );
   }
   factory PoolRetirement.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> correctJson =
         json[CertificateType.poolRetirement.name] ?? json;
     return PoolRetirement(
-        epoch: correctJson['epoch'],
-        poolKeyHash: Ed25519KeyHash.fromHex(correctJson['pool_keyhash']));
+      epoch: correctJson['epoch'],
+      poolKeyHash: Ed25519KeyHash.fromHex(correctJson['pool_keyhash']),
+    );
   }
 
-  PoolRetirement copyWith({
-    Ed25519KeyHash? poolKeyHash,
-    int? epoch,
-  }) {
+  PoolRetirement copyWith({Ed25519KeyHash? poolKeyHash, int? epoch}) {
     return PoolRetirement(
-        poolKeyHash: poolKeyHash ?? this.poolKeyHash,
-        epoch: epoch ?? this.epoch);
+      poolKeyHash: poolKeyHash ?? this.poolKeyHash,
+      epoch: epoch ?? this.epoch,
+    );
   }
 
   @override
@@ -48,14 +49,17 @@ class PoolRetirement extends Certificate {
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite(
-        [type.toCbor(), poolKeyHash.toCbor(), CborUnsignedValue.u32(epoch)]);
+    return CborListValue.definite([
+      type.toCbor(),
+      poolKeyHash.toCbor(),
+      CborUnsignedValue.u32(epoch),
+    ]);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'pool_keyhash': poolKeyHash.toJson(), 'epoch': epoch}
+      type.name: {'pool_keyhash': poolKeyHash.toJson(), 'epoch': epoch},
     };
   }
 

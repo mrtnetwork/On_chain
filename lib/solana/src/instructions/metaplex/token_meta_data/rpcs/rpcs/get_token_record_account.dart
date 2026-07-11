@@ -23,8 +23,8 @@ class SolanaRPCGetTokenRecordAccount
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         SolanaRequestEncoding.base64.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 

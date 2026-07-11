@@ -22,7 +22,7 @@ class SolanaRequestGetLargestAccounts
     return [
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {'filter': filter}
+        {'filter': filter},
       ]),
     ];
   }

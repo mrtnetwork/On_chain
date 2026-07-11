@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 import 'package:on_chain/on_chain.dart';
 
-class AptosHttpService implements AptosServiceProvider {
+class AptosHttpService with AptosServiceProvider {
   AptosHttpService(this.url,
       {Client? client, this.defaultTimeOut = const Duration(seconds: 30)})
       : client = client ?? Client();
@@ -10,19 +10,21 @@ class AptosHttpService implements AptosServiceProvider {
   final Client client;
   final Duration defaultTimeOut;
   @override
-  Future<AptosServiceResponse<T>> doRequest<T>(AptosRequestDetails params,
+  Future<AptosServiceResponse> doRequest(AptosRequestDetails params,
       {Duration? timeout}) async {
-    final url = params.toUri(this.url);
+    final url = params.encodeUrl(this.url);
     final defaultTimeOut = timeout ?? this.defaultTimeOut;
-    if (params.type.isPostRequest) {
+    if (params.requestMethod.isPost) {
       final response = await client
-          .post(url, headers: params.headers, body: params.body())
+          .post(url, headers: params.headers, body: params.encodeBody())
           .timeout(defaultTimeOut);
-      return params.parseResponse(response.bodyBytes, response.statusCode);
+      return params.toResponse(response.bodyBytes,
+          statusCode: response.statusCode);
     }
     final response =
         await client.get(url, headers: params.headers).timeout(defaultTimeOut);
-    return params.parseResponse(response.bodyBytes, response.statusCode);
+    return params.toResponse(response.bodyBytes,
+        statusCode: response.statusCode);
   }
 }
 

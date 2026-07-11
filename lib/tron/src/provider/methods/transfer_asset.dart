@@ -9,8 +9,12 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/transferasset).
 class TronRequestTransferAsset
     extends TronRequest<Transaction, Map<String, dynamic>> {
-  factory TronRequestTransferAsset.fromJson(TransferAssetContract contract,
-      {bool visible = true, int? permissionId, String? extraData}) {
+  factory TronRequestTransferAsset.fromJson(
+    TransferAssetContract contract, {
+    bool visible = true,
+    int? permissionId,
+    String? extraData,
+  }) {
     return TronRequestTransferAsset(
       ownerAddress: contract.ownerAddress,
       toAddress: contract.toAddress,
@@ -22,14 +26,15 @@ class TronRequestTransferAsset
     );
   }
 
-  TronRequestTransferAsset(
-      {required this.ownerAddress,
-      required this.toAddress,
-      required this.assetName,
-      required this.amount,
-      this.permissionId,
-      this.extraData,
-      this.visible = true});
+  TronRequestTransferAsset({
+    required this.ownerAddress,
+    required this.toAddress,
+    required this.assetName,
+    required this.amount,
+    this.permissionId,
+    this.extraData,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -64,7 +69,7 @@ class TronRequestTransferAsset
       'amount': amount,
       'Permission_id': permissionId,
       'visible': visible,
-      'extra_data': extraData
+      'extra_data': extraData,
     };
   }
 

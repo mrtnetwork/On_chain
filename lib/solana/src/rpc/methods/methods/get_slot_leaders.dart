@@ -6,8 +6,10 @@ import 'package:on_chain/solana/src/rpc/core/methods.dart';
 /// https://solana.com/docs/rpc/http/getslotleaders
 class SolanaRequestGetSlotLeaders
     extends SolanaRequest<List<SolAddress>, List> {
-  const SolanaRequestGetSlotLeaders(
-      {required this.startSlot, required this.limit});
+  const SolanaRequestGetSlotLeaders({
+    required this.startSlot,
+    required this.limit,
+  });
 
   /// getSlotLeaders
   @override

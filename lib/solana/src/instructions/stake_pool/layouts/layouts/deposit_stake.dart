@@ -8,9 +8,10 @@ class StakePoolDepositStakeLayout extends StakePoolProgramLayout {
 
   factory StakePoolDepositStakeLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: StakePoolProgramInstruction.depositStake.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: StakePoolProgramInstruction.depositStake.insturction,
+    );
     return const StakePoolDepositStakeLayout();
   }
   static StructLayout get _layout =>

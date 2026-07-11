@@ -6,23 +6,30 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get headerLayout => LayoutConst.struct([
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
-            property: 'treeHeader')
-      ]);
-  static StructLayout layout(
-          {required int maxBufferSize, required int maxDepth}) =>
-      LayoutConst.struct([
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.wrap(ConcurrentMerkleTreeHeader.staticLayout,
-            property: 'treeHeader'),
-        LayoutConst.wrap(
-            ConcurrentMerkleTree.staticLayout(
-                maxBufferSize: maxBufferSize, maxDepth: maxDepth),
-            property: 'tree'),
-        LayoutConst.greedyArray(SolanaLayoutUtils.publicKey(),
-            property: 'canopy'),
-      ]);
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.wrap(
+      ConcurrentMerkleTreeHeader.staticLayout,
+      property: 'treeHeader',
+    ),
+  ]);
+  static StructLayout layout({
+    required int maxBufferSize,
+    required int maxDepth,
+  }) => LayoutConst.struct([
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.wrap(
+      ConcurrentMerkleTreeHeader.staticLayout,
+      property: 'treeHeader',
+    ),
+    LayoutConst.wrap(
+      ConcurrentMerkleTree.staticLayout(
+        maxBufferSize: maxBufferSize,
+        maxDepth: maxDepth,
+      ),
+      property: 'tree',
+    ),
+    LayoutConst.greedyArray(SolanaLayoutUtils.publicKey(), property: 'canopy'),
+  ]);
 }
 
 class MerkleTree extends BorshLayoutSerializable {
@@ -30,35 +37,43 @@ class MerkleTree extends BorshLayoutSerializable {
   final ConcurrentMerkleTreeHeader treeHeader;
   final ConcurrentMerkleTree tree;
   final List<SolAddress> canopy;
-  MerkleTree(
-      {required this.accountType,
-      required this.treeHeader,
-      required this.tree,
-      required List<SolAddress> canopy})
-      : canopy = List<SolAddress>.unmodifiable(canopy);
+  MerkleTree({
+    required this.accountType,
+    required this.treeHeader,
+    required this.tree,
+    required List<SolAddress> canopy,
+  }) : canopy = List<SolAddress>.unmodifiable(canopy);
   factory MerkleTree.fromBuffer(List<int> data) {
     final decodeheader = BorshLayoutSerializable.decode(
-        bytes: data, layout: _Utils.headerLayout);
-    final accountType =
-        CompressionAccountType.fromValue(decodeheader['discriminator']);
-    final header =
-        ConcurrentMerkleTreeHeader.fromJson(decodeheader['treeHeader']);
+      bytes: data,
+      layout: _Utils.headerLayout,
+    );
+    final accountType = CompressionAccountType.fromValue(
+      decodeheader['discriminator'],
+    );
+    final header = ConcurrentMerkleTreeHeader.fromJson(
+      decodeheader['treeHeader'],
+    );
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout(
-            maxBufferSize: header.field.maxBufferSize,
-            maxDepth: header.field.maxDepth));
+      bytes: data,
+      layout: _Utils.layout(
+        maxBufferSize: header.field.maxBufferSize,
+        maxDepth: header.field.maxDepth,
+      ),
+    );
     return MerkleTree(
-        accountType: accountType,
-        treeHeader: header,
-        tree: ConcurrentMerkleTree.fromJson(decode['tree']),
-        canopy: (decode['canopy'] as List).cast());
+      accountType: accountType,
+      treeHeader: header,
+      tree: ConcurrentMerkleTree.fromJson(decode['tree']),
+      canopy: (decode['canopy'] as List).cast(),
+    );
   }
 
   @override
   StructLayout get layout => _Utils.layout(
-      maxBufferSize: treeHeader.field.maxBufferSize,
-      maxDepth: treeHeader.field.maxDepth);
+    maxBufferSize: treeHeader.field.maxBufferSize,
+    maxDepth: treeHeader.field.maxDepth,
+  );
 
   @override
   Map<String, dynamic> serialize() {
@@ -66,7 +81,7 @@ class MerkleTree extends BorshLayoutSerializable {
       'discriminator': accountType.value,
       'treeHeader': treeHeader.serialize(),
       'tree': tree.serialize(),
-      'canopy': canopy
+      'canopy': canopy,
     };
   }
 

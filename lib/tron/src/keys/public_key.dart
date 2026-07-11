@@ -16,8 +16,10 @@ class TronPublicKey {
       final pubKey = Secp256k1PublicKey.fromBytes(keyBytes);
       return TronPublicKey._(pubKey);
     } catch (e) {
-      throw TronPluginException('invalid tron public key',
-          details: {'input': BytesUtils.toHexString(keyBytes)});
+      throw TronPluginException(
+        'invalid tron public key',
+        details: {'input': BytesUtils.toHexString(keyBytes)},
+      );
     }
   }
 
@@ -48,28 +50,37 @@ class TronPublicKey {
   ///
   /// Optionally, [hashMessage] can be set to false to skip hashing the message before verification.
   /// Optionally, [payloadLength] can be set to specify the payload length for the message.
-  bool verifyPersonalMessage(List<int> messageDigest, String signature,
-      {bool hashMessage = true,
-      int? payloadLength,
-      bool useEthereumPrefix = false}) {
+  bool verifyPersonalMessage(
+    List<int> messageDigest,
+    String signature, {
+    bool hashMessage = true,
+    int? payloadLength,
+    bool useEthereumPrefix = false,
+  }) {
     final verifier = TronVerifier.fromKeyBytes(toBytes());
     return verifier.verifyPersonalMessage(
-        messageDigest, BytesUtils.fromHexString(signature),
-        hashMessage: hashMessage,
-        payloadLength: payloadLength,
-        useEthPrefix: useEthereumPrefix);
+      messageDigest,
+      BytesUtils.fromHexString(signature),
+      hashMessage: hashMessage,
+      payloadLength: payloadLength,
+      useEthPrefix: useEthereumPrefix,
+    );
   }
 
   static TronPublicKey fromPersonalSignature(
-      List<int> messageDigest, String signature,
-      {bool hashMessage = true,
-      int? payloadLength,
-      bool useEthereumPrefix = false}) {
+    List<int> messageDigest,
+    String signature, {
+    bool hashMessage = true,
+    int? payloadLength,
+    bool useEthereumPrefix = false,
+  }) {
     final publicKey = TronVerifier.getPublicKey(
-        messageDigest, BytesUtils.fromHexString(signature),
-        hashMessage: hashMessage,
-        payloadLength: payloadLength,
-        useEthPrefix: useEthereumPrefix);
+      messageDigest,
+      BytesUtils.fromHexString(signature),
+      hashMessage: hashMessage,
+      payloadLength: payloadLength,
+      useEthPrefix: useEthereumPrefix,
+    );
     final pubKey = Secp256k1PublicKey.fromBytes(publicKey.point.toBytes());
     return TronPublicKey._(pubKey);
   }

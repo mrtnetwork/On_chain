@@ -6,32 +6,40 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('twitterRegistryKey'),
-        LayoutConst.string(property: 'twitterHandle'),
-      ]);
+    SolanaLayoutUtils.publicKey('twitterRegistryKey'),
+    LayoutConst.string(property: 'twitterHandle'),
+  ]);
 }
 
 class ReverseTwitterRegistryAccount extends BorshLayoutSerializable {
   final SolAddress twitterRegistryKey;
   final String twitterHandle;
 
-  ReverseTwitterRegistryAccount(
-      {required this.twitterRegistryKey, required this.twitterHandle});
+  ReverseTwitterRegistryAccount({
+    required this.twitterRegistryKey,
+    required this.twitterHandle,
+  });
   factory ReverseTwitterRegistryAccount.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return ReverseTwitterRegistryAccount(
-        twitterRegistryKey: decode['twitterRegistryKey'],
-        twitterHandle: decode['twitterHandle']);
+      twitterRegistryKey: decode['twitterRegistryKey'],
+      twitterHandle: decode['twitterHandle'],
+    );
   }
   factory ReverseTwitterRegistryAccount.fromAccountBytes(
-      List<int> accountBytes) {
+    List<int> accountBytes,
+  ) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: accountBytes.sublist(NameRegistryAccountUtils.hiddenDataOffset),
-        layout: _Utils.layout);
+      bytes: accountBytes.sublist(NameRegistryAccountUtils.hiddenDataOffset),
+      layout: _Utils.layout,
+    );
     return ReverseTwitterRegistryAccount(
-        twitterRegistryKey: decode['twitterRegistryKey'],
-        twitterHandle: decode['twitterHandle']);
+      twitterRegistryKey: decode['twitterRegistryKey'],
+      twitterHandle: decode['twitterHandle'],
+    );
   }
 
   @override
@@ -40,7 +48,7 @@ class ReverseTwitterRegistryAccount extends BorshLayoutSerializable {
   Map<String, dynamic> serialize() {
     return {
       'twitterRegistryKey': twitterRegistryKey,
-      'twitterHandle': twitterHandle
+      'twitterHandle': twitterHandle,
     };
   }
 

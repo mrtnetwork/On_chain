@@ -12,18 +12,19 @@ abstract class Credential with InternalCborSerialization {
 
   /// Constructs a [Credential] instance with the specified [hashBytes].
   Credential(List<int> hashBytes)
-      : data = AdaTransactionUtils.validateFixedLengthBytes(
-            bytes: hashBytes,
-            length: AdaTransactionConstant.blake2b224DigestSize);
+    : data = AdaTransactionUtils.validateFixedLengthBytes(
+        bytes: hashBytes,
+        length: AdaTransactionConstant.blake2b224DigestSize,
+      );
 
   /// Deserializes a [Credential] from a CBOR list value [cbor].
   factory Credential.deserialize(CborListValue cbor) {
-    final type = CredentialType.deserialize(cbor.elementAt<CborIntValue>(0));
+    final type = CredentialType.deserialize(cbor.objectAt<CborIntValue>(0));
     switch (type) {
       case CredentialType.key:
-        return CredentialKey.deserialize(cbor.elementAt<CborBytesValue>(1));
+        return CredentialKey.deserialize(cbor.objectAt<CborBytesValue>(1));
       default:
-        return CredentialScript.deserialize(cbor.elementAt<CborBytesValue>(1));
+        return CredentialScript.deserialize(cbor.objectAt<CborBytesValue>(1));
     }
   }
   factory Credential.fromJson(Map<String, dynamic> json) {
@@ -42,10 +43,7 @@ abstract class Credential with InternalCborSerialization {
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      type.toCbor(),
-      CborBytesValue(data),
-    ]);
+    return CborListValue.definite([type.toCbor(), CborBytesValue(data)]);
   }
 
   @override

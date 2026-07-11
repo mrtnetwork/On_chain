@@ -15,34 +15,42 @@ class PoolVotingThresholds with InternalCborSerialization {
   final UnitInterval committeeNoConfidence;
   final UnitInterval hardForkInitiation;
   final UnitInterval securityRelevantThreshold;
-  const PoolVotingThresholds(
-      {required this.motionNoConfidence,
-      required this.committeeNormal,
-      required this.committeeNoConfidence,
-      required this.hardForkInitiation,
-      required this.securityRelevantThreshold});
+  const PoolVotingThresholds({
+    required this.motionNoConfidence,
+    required this.committeeNormal,
+    required this.committeeNoConfidence,
+    required this.hardForkInitiation,
+    required this.securityRelevantThreshold,
+  });
   factory PoolVotingThresholds.deserialize(CborListValue cbor) {
     return PoolVotingThresholds(
-        motionNoConfidence:
-            UnitInterval.deserialize(cbor.elementAt<CborTagValue>(0)),
-        committeeNormal:
-            UnitInterval.deserialize(cbor.elementAt<CborTagValue>(1)),
-        committeeNoConfidence:
-            UnitInterval.deserialize(cbor.elementAt<CborTagValue>(2)),
-        hardForkInitiation:
-            UnitInterval.deserialize(cbor.elementAt<CborTagValue>(3)),
-        securityRelevantThreshold:
-            UnitInterval.deserialize(cbor.elementAt<CborTagValue>(4)));
+      motionNoConfidence: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(0),
+      ),
+      committeeNormal: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(1)),
+      committeeNoConfidence: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(2),
+      ),
+      hardForkInitiation: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(3),
+      ),
+      securityRelevantThreshold: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(4),
+      ),
+    );
   }
   factory PoolVotingThresholds.fromJson(Map<String, dynamic> json) {
     return PoolVotingThresholds(
-        motionNoConfidence: UnitInterval.fromJson(json["motion_no_confidence"]),
-        committeeNormal: UnitInterval.fromJson(json["committee_normal"]),
-        committeeNoConfidence:
-            UnitInterval.fromJson(json["committee_no_confidence"]),
-        hardForkInitiation: UnitInterval.fromJson(json["hard_fork_initiation"]),
-        securityRelevantThreshold:
-            UnitInterval.fromJson(json["security_relevant_threshold"]));
+      motionNoConfidence: UnitInterval.fromJson(json["motion_no_confidence"]),
+      committeeNormal: UnitInterval.fromJson(json["committee_normal"]),
+      committeeNoConfidence: UnitInterval.fromJson(
+        json["committee_no_confidence"],
+      ),
+      hardForkInitiation: UnitInterval.fromJson(json["hard_fork_initiation"]),
+      securityRelevantThreshold: UnitInterval.fromJson(
+        json["security_relevant_threshold"],
+      ),
+    );
   }
 
   @override
@@ -52,7 +60,7 @@ class PoolVotingThresholds with InternalCborSerialization {
       committeeNormal.toCbor(),
       committeeNoConfidence.toCbor(),
       hardForkInitiation.toCbor(),
-      securityRelevantThreshold.toCbor()
+      securityRelevantThreshold.toCbor(),
     ]);
   }
 
@@ -63,7 +71,7 @@ class PoolVotingThresholds with InternalCborSerialization {
       "committee_normal": committeeNormal.toJson(),
       "committee_no_confidence": committeeNoConfidence.toJson(),
       "hard_fork_initiation": hardForkInitiation.toJson(),
-      "security_relevant_threshold": securityRelevantThreshold.toJson()
+      "security_relevant_threshold": securityRelevantThreshold.toJson(),
     };
   }
 }
@@ -93,40 +101,47 @@ class DRepVotingThresholds with InternalCborSerialization {
   });
   factory DRepVotingThresholds.deserialize(CborListValue cbor) {
     return DRepVotingThresholds(
-      motionNoConfidence:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(0)),
-      committeeNormal:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(1)),
-      committeeNoConfidence:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(2)),
-      updateConstitution:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(3)),
-      hardForkInitiation:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(4)),
-      ppNetworkGroup: UnitInterval.deserialize(cbor.elementAt<CborTagValue>(5)),
-      ppEconomicGroup:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(6)),
-      ppTechnicalGroup:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(7)),
-      ppGovernanceGroup:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(8)),
-      treasuryWithdrawal:
-          UnitInterval.deserialize(cbor.elementAt<CborTagValue>(9)),
+      motionNoConfidence: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(0),
+      ),
+      committeeNormal: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(1)),
+      committeeNoConfidence: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(2),
+      ),
+      updateConstitution: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(3),
+      ),
+      hardForkInitiation: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(4),
+      ),
+      ppNetworkGroup: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(5)),
+      ppEconomicGroup: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(6)),
+      ppTechnicalGroup: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(7),
+      ),
+      ppGovernanceGroup: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(8),
+      ),
+      treasuryWithdrawal: UnitInterval.deserialize(
+        cbor.objectAt<CborTagValue>(9),
+      ),
     );
   }
   factory DRepVotingThresholds.fromJson(Map<String, dynamic> json) {
     return DRepVotingThresholds(
-        motionNoConfidence: UnitInterval.fromJson(json["motion_no_confidence"]),
-        committeeNormal: UnitInterval.fromJson(json["committee_normal"]),
-        committeeNoConfidence:
-            UnitInterval.fromJson(json["committee_no_confidence"]),
-        hardForkInitiation: UnitInterval.fromJson(json["hard_fork_initiation"]),
-        updateConstitution: UnitInterval.fromJson(json["update_constitution"]),
-        ppEconomicGroup: UnitInterval.fromJson(json["pp_economic_group"]),
-        ppGovernanceGroup: UnitInterval.fromJson(json["pp_governance_group"]),
-        ppNetworkGroup: UnitInterval.fromJson(json["pp_network_group"]),
-        ppTechnicalGroup: UnitInterval.fromJson(json["pp_technical_group"]),
-        treasuryWithdrawal: UnitInterval.fromJson(json["treasury_withdrawal"]));
+      motionNoConfidence: UnitInterval.fromJson(json["motion_no_confidence"]),
+      committeeNormal: UnitInterval.fromJson(json["committee_normal"]),
+      committeeNoConfidence: UnitInterval.fromJson(
+        json["committee_no_confidence"],
+      ),
+      hardForkInitiation: UnitInterval.fromJson(json["hard_fork_initiation"]),
+      updateConstitution: UnitInterval.fromJson(json["update_constitution"]),
+      ppEconomicGroup: UnitInterval.fromJson(json["pp_economic_group"]),
+      ppGovernanceGroup: UnitInterval.fromJson(json["pp_governance_group"]),
+      ppNetworkGroup: UnitInterval.fromJson(json["pp_network_group"]),
+      ppTechnicalGroup: UnitInterval.fromJson(json["pp_technical_group"]),
+      treasuryWithdrawal: UnitInterval.fromJson(json["treasury_withdrawal"]),
+    );
   }
 
   @override
@@ -141,7 +156,7 @@ class DRepVotingThresholds with InternalCborSerialization {
       ppEconomicGroup.toCbor(),
       ppTechnicalGroup.toCbor(),
       ppGovernanceGroup.toCbor(),
-      treasuryWithdrawal.toCbor()
+      treasuryWithdrawal.toCbor(),
     ]);
   }
 
@@ -157,7 +172,7 @@ class DRepVotingThresholds with InternalCborSerialization {
       "pp_economic_group": ppEconomicGroup.toJson(),
       "pp_technical_group": ppTechnicalGroup.toJson(),
       "pp_governance_group": ppGovernanceGroup.toJson(),
-      "treasury_withdrawal": treasuryWithdrawal.toJson()
+      "treasury_withdrawal": treasuryWithdrawal.toJson(),
     };
   }
 }
@@ -235,79 +250,89 @@ class ProtocolParamUpdate with InternalCborSerialization {
   });
   factory ProtocolParamUpdate.fromCborBytes(List<int> cborBytes) {
     return ProtocolParamUpdate.deserialize(
-        CborObject.fromCbor(cborBytes).as<CborMapValue>());
+      CborObject.fromCbor(cborBytes).as<CborMapValue>(),
+    );
   }
   factory ProtocolParamUpdate.deserialize(CborMapValue cbor) {
     return ProtocolParamUpdate(
-      minfeeA: cbor.getIntValueAs<CborNumeric?>(0)?.toBigInt(),
-      minFeeB: cbor.getIntValueAs<CborNumeric?>(1)?.toBigInt(),
-      maxBlockBodySize: cbor.getIntValueAs<CborIntValue?>(2)?.value,
-      maxTxSize: cbor.getIntValueAs<CborIntValue?>(3)?.value,
-      maxBlockHeaderSize: cbor.getIntValueAs<CborIntValue?>(4)?.value,
-      keyDeposit: cbor.getIntValueAs<CborNumeric?>(5)?.toBigInt(),
-      poolDeposit: cbor.getIntValueAs<CborNumeric?>(6)?.toBigInt(),
-      maxEpoch: cbor.getIntValueAs<CborIntValue?>(7)?.value,
-      nOpt: cbor.getIntValueAs<CborIntValue?>(8)?.value,
+      minfeeA: cbor.getIntKeyAs<CborNumeric?>(0)?.toBigInt(),
+      minFeeB: cbor.getIntKeyAs<CborNumeric?>(1)?.toBigInt(),
+      maxBlockBodySize: cbor.getIntKeyAs<CborIntValue?>(2)?.value,
+      maxTxSize: cbor.getIntKeyAs<CborIntValue?>(3)?.value,
+      maxBlockHeaderSize: cbor.getIntKeyAs<CborIntValue?>(4)?.value,
+      keyDeposit: cbor.getIntKeyAs<CborNumeric?>(5)?.toBigInt(),
+      poolDeposit: cbor.getIntKeyAs<CborNumeric?>(6)?.toBigInt(),
+      maxEpoch: cbor.getIntKeyAs<CborIntValue?>(7)?.value,
+      nOpt: cbor.getIntKeyAs<CborIntValue?>(8)?.value,
       poolPledgeInfluence: cbor
-          .getIntValueAs<CborTagValue?>(9)
-          ?.convertTo<UnitInterval, CborTagValue>(
-              (e) => UnitInterval.deserialize(e)),
+          .getIntKeyAs<CborTagValue?>(9)
+          ?.objectTo<UnitInterval, CborTagValue>(
+            (e) => UnitInterval.deserialize(e),
+          ),
       expansionRate: cbor
-          .getIntValueAs<CborTagValue?>(10)
-          ?.convertTo<UnitInterval, CborTagValue>(
-              (e) => UnitInterval.deserialize(e)),
+          .getIntKeyAs<CborTagValue?>(10)
+          ?.objectTo<UnitInterval, CborTagValue>(
+            (e) => UnitInterval.deserialize(e),
+          ),
       treasuryGrowthRate: cbor
-          .getIntValueAs<CborTagValue?>(11)
-          ?.convertTo<UnitInterval, CborTagValue>(
-              (e) => UnitInterval.deserialize(e)),
+          .getIntKeyAs<CborTagValue?>(11)
+          ?.objectTo<UnitInterval, CborTagValue>(
+            (e) => UnitInterval.deserialize(e),
+          ),
       d: cbor
-          .getIntValueAs<CborTagValue?>(12)
-          ?.convertTo<UnitInterval, CborTagValue>(
-              (e) => UnitInterval.deserialize(e)),
+          .getIntKeyAs<CborTagValue?>(12)
+          ?.objectTo<UnitInterval, CborTagValue>(
+            (e) => UnitInterval.deserialize(e),
+          ),
       extraEntropy: cbor
-          .getIntValueAs<CborListValue?>(13)
-          ?.convertTo<Nonce, CborListValue>((e) => Nonce.deserialize(e)),
+          .getIntKeyAs<CborListValue?>(13)
+          ?.objectTo<Nonce, CborListValue>((e) => Nonce.deserialize(e)),
       protocolVersion: cbor
-          .getIntValueAs<CborListValue?>(14)
-          ?.convertTo<ProtocolVersion, CborListValue>(
-              (e) => ProtocolVersion.deserialize(e)),
-      minPoolCost: cbor.getIntValueAs<CborNumeric?>(16)?.toBigInt(),
-      adaPerUtxoByte: cbor.getIntValueAs<CborNumeric?>(17)?.toBigInt(),
+          .getIntKeyAs<CborListValue?>(14)
+          ?.objectTo<ProtocolVersion, CborListValue>(
+            (e) => ProtocolVersion.deserialize(e),
+          ),
+      minPoolCost: cbor.getIntKeyAs<CborNumeric?>(16)?.toBigInt(),
+      adaPerUtxoByte: cbor.getIntKeyAs<CborNumeric?>(17)?.toBigInt(),
       costModel: cbor
-          .getIntValueAs<CborMapValue?>(18)
-          ?.convertTo<Costmdls, CborMapValue>((e) => Costmdls.deserialize(e)),
+          .getIntKeyAs<CborMapValue?>(18)
+          ?.objectTo<Costmdls, CborMapValue>((e) => Costmdls.deserialize(e)),
       executionCosts: cbor
-          .getIntValueAs<CborListValue?>(19)
-          ?.convertTo<ExUnitPrices, CborListValue>(
-              (e) => ExUnitPrices.deserialize(e)),
+          .getIntKeyAs<CborListValue?>(19)
+          ?.objectTo<ExUnitPrices, CborListValue>(
+            (e) => ExUnitPrices.deserialize(e),
+          ),
       maxTxExUnits: cbor
-          .getIntValueAs<CborListValue?>(20)
-          ?.convertTo<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
+          .getIntKeyAs<CborListValue?>(20)
+          ?.objectTo<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
       maxBlockExUnits: cbor
-          .getIntValueAs<CborListValue?>(21)
-          ?.convertTo<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
-      maxValueSize: cbor.getIntValueAs<CborIntValue?>(22)?.value,
-      collateralPercentage: cbor.getIntValueAs<CborIntValue?>(23)?.value,
-      maxCollateralInputs: cbor.getIntValueAs<CborIntValue?>(24)?.value,
+          .getIntKeyAs<CborListValue?>(21)
+          ?.objectTo<ExUnits, CborListValue>((e) => ExUnits.deserialize(e)),
+      maxValueSize: cbor.getIntKeyAs<CborIntValue?>(22)?.value,
+      collateralPercentage: cbor.getIntKeyAs<CborIntValue?>(23)?.value,
+      maxCollateralInputs: cbor.getIntKeyAs<CborIntValue?>(24)?.value,
       poolVotingThresholds: cbor
-          .getIntValueAs<CborListValue?>(25)
-          ?.convertTo<PoolVotingThresholds, CborListValue>(
-              (e) => PoolVotingThresholds.deserialize(e)),
+          .getIntKeyAs<CborListValue?>(25)
+          ?.objectTo<PoolVotingThresholds, CborListValue>(
+            (e) => PoolVotingThresholds.deserialize(e),
+          ),
       drepVotingThresholds: cbor
-          .getIntValueAs<CborListValue?>(26)
-          ?.convertTo<DRepVotingThresholds, CborListValue>(
-              (e) => DRepVotingThresholds.deserialize(e)),
-      minCommitteeSize: cbor.getIntValueAs<CborIntValue?>(27)?.value,
-      committeeTermLimit: cbor.getIntValueAs<CborIntValue?>(28)?.value,
+          .getIntKeyAs<CborListValue?>(26)
+          ?.objectTo<DRepVotingThresholds, CborListValue>(
+            (e) => DRepVotingThresholds.deserialize(e),
+          ),
+      minCommitteeSize: cbor.getIntKeyAs<CborIntValue?>(27)?.value,
+      committeeTermLimit: cbor.getIntKeyAs<CborIntValue?>(28)?.value,
       governanceActionValidityPeriod:
-          cbor.getIntValueAs<CborIntValue?>(29)?.value,
-      governanceActionDeposit: cbor.getIntValueAs<CborIntValue?>(30)?.value,
-      drepDeposit: cbor.getIntValueAs<CborNumeric?>(31)?.toBigInt(),
-      drepInactivityPeriod: cbor.getIntValueAs<CborIntValue?>(32)?.value,
+          cbor.getIntKeyAs<CborIntValue?>(29)?.value,
+      governanceActionDeposit: cbor.getIntKeyAs<CborIntValue?>(30)?.value,
+      drepDeposit: cbor.getIntKeyAs<CborNumeric?>(31)?.toBigInt(),
+      drepInactivityPeriod: cbor.getIntKeyAs<CborIntValue?>(32)?.value,
       refScriptCoinsPerByte: cbor
-          .getIntValueAs<CborTagValue?>(33)
-          ?.convertTo<UnitInterval, CborTagValue>(
-              (e) => UnitInterval.deserialize(e)),
+          .getIntKeyAs<CborTagValue?>(33)
+          ?.objectTo<UnitInterval, CborTagValue>(
+            (e) => UnitInterval.deserialize(e),
+          ),
     );
   }
   ProtocolParamUpdate copyWith({
@@ -419,8 +444,9 @@ class ProtocolParamUpdate with InternalCborSerialization {
       if (committeeTermLimit != null)
         const CborIntValue(28): CborUnsignedValue.u32(committeeTermLimit!),
       if (governanceActionValidityPeriod != null)
-        const CborIntValue(29):
-            CborUnsignedValue.u32(governanceActionValidityPeriod!),
+        const CborIntValue(29): CborUnsignedValue.u32(
+          governanceActionValidityPeriod!,
+        ),
       if (governanceActionDeposit != null)
         const CborIntValue(30): CborUnsignedValue.u32(governanceActionDeposit!),
       if (drepDeposit != null)
@@ -434,62 +460,73 @@ class ProtocolParamUpdate with InternalCborSerialization {
 
   factory ProtocolParamUpdate.fromJson(Map<String, dynamic> json) {
     return ProtocolParamUpdate(
-        minfeeA: BigintUtils.tryParse(json['minfee_a']),
-        minFeeB: BigintUtils.tryParse(json['minFeeB']),
-        maxBlockBodySize: json['max_block_body_size'],
-        maxTxSize: json['max_tx_size'],
-        maxBlockHeaderSize: json['max_block_header_size'],
-        keyDeposit: BigintUtils.tryParse(json['key_deposit']),
-        poolDeposit: BigintUtils.tryParse(json['pool_deposit']),
-        maxEpoch: json['max_epoch'],
-        nOpt: json['n_opt'],
-        poolPledgeInfluence: json['pool_pledge_influence'] == null
-            ? null
-            : UnitInterval.fromJson(json['pool_pledge_influence']),
-        expansionRate: json['expansion_rate'] == null
-            ? null
-            : UnitInterval.fromJson(json['expansion_rate']),
-        treasuryGrowthRate: json['treasury_growth_rate'] == null
-            ? null
-            : UnitInterval.fromJson(json['treasury_growth_rate']),
-        d: json['d'] == null ? null : UnitInterval.fromJson(json['d']),
-        extraEntropy: json['extra_entropy'] == null
-            ? null
-            : Nonce.fromJson(json['extra_entropy']),
-        protocolVersion: json['protocol_version'] == null
-            ? null
-            : ProtocolVersion.fromJson(json['protocol_version']),
-        minPoolCost: BigintUtils.tryParse(json['min_pool_cost']),
-        adaPerUtxoByte: BigintUtils.tryParse(json['ada_per_utxo_byte']),
-        costModel: json['cost_models'] == null
-            ? null
-            : Costmdls.fromJson(json['cost_models']),
-        executionCosts: json['execution_costs'] == null
-            ? null
-            : ExUnitPrices.fromJson(json['execution_costs']),
-        maxTxExUnits: json['max_tx_ex_units'] == null
-            ? null
-            : ExUnits.fromJson(json['max_tx_ex_units']),
-        maxBlockExUnits: json['max_block_ex_units'] == null
-            ? null
-            : ExUnits.fromJson(json['max_block_ex_units']),
-        maxValueSize: json['max_value_size'],
-        collateralPercentage: json['collateral_percentage'],
-        maxCollateralInputs: json['max_collateral_inputs'],
-        poolVotingThresholds: json["pool_voting_thresholds"] == null
-            ? null
-            : PoolVotingThresholds.fromJson(json["pool_voting_thresholds"]),
-        drepVotingThresholds: json["drep_voting_thresholds"] == null
-            ? null
-            : DRepVotingThresholds.fromJson(json["drep_voting_thresholds"]),
-        minCommitteeSize: json["min_committee_size"],
-        committeeTermLimit: json["committee_term_limit"],
-        governanceActionValidityPeriod:
-            json["governance_action_validity_period"],
-        governanceActionDeposit: json["governance_action_deposit"],
-        drepDeposit: BigintUtils.tryParse(json["drep_deposit"]),
-        drepInactivityPeriod: json["drep_inactivity_period"],
-        refScriptCoinsPerByte: json["ref_script_coins_per_byte"]);
+      minfeeA: BigintUtils.tryParse(json['minfee_a']),
+      minFeeB: BigintUtils.tryParse(json['minFeeB']),
+      maxBlockBodySize: json['max_block_body_size'],
+      maxTxSize: json['max_tx_size'],
+      maxBlockHeaderSize: json['max_block_header_size'],
+      keyDeposit: BigintUtils.tryParse(json['key_deposit']),
+      poolDeposit: BigintUtils.tryParse(json['pool_deposit']),
+      maxEpoch: json['max_epoch'],
+      nOpt: json['n_opt'],
+      poolPledgeInfluence:
+          json['pool_pledge_influence'] == null
+              ? null
+              : UnitInterval.fromJson(json['pool_pledge_influence']),
+      expansionRate:
+          json['expansion_rate'] == null
+              ? null
+              : UnitInterval.fromJson(json['expansion_rate']),
+      treasuryGrowthRate:
+          json['treasury_growth_rate'] == null
+              ? null
+              : UnitInterval.fromJson(json['treasury_growth_rate']),
+      d: json['d'] == null ? null : UnitInterval.fromJson(json['d']),
+      extraEntropy:
+          json['extra_entropy'] == null
+              ? null
+              : Nonce.fromJson(json['extra_entropy']),
+      protocolVersion:
+          json['protocol_version'] == null
+              ? null
+              : ProtocolVersion.fromJson(json['protocol_version']),
+      minPoolCost: BigintUtils.tryParse(json['min_pool_cost']),
+      adaPerUtxoByte: BigintUtils.tryParse(json['ada_per_utxo_byte']),
+      costModel:
+          json['cost_models'] == null
+              ? null
+              : Costmdls.fromJson(json['cost_models']),
+      executionCosts:
+          json['execution_costs'] == null
+              ? null
+              : ExUnitPrices.fromJson(json['execution_costs']),
+      maxTxExUnits:
+          json['max_tx_ex_units'] == null
+              ? null
+              : ExUnits.fromJson(json['max_tx_ex_units']),
+      maxBlockExUnits:
+          json['max_block_ex_units'] == null
+              ? null
+              : ExUnits.fromJson(json['max_block_ex_units']),
+      maxValueSize: json['max_value_size'],
+      collateralPercentage: json['collateral_percentage'],
+      maxCollateralInputs: json['max_collateral_inputs'],
+      poolVotingThresholds:
+          json["pool_voting_thresholds"] == null
+              ? null
+              : PoolVotingThresholds.fromJson(json["pool_voting_thresholds"]),
+      drepVotingThresholds:
+          json["drep_voting_thresholds"] == null
+              ? null
+              : DRepVotingThresholds.fromJson(json["drep_voting_thresholds"]),
+      minCommitteeSize: json["min_committee_size"],
+      committeeTermLimit: json["committee_term_limit"],
+      governanceActionValidityPeriod: json["governance_action_validity_period"],
+      governanceActionDeposit: json["governance_action_deposit"],
+      drepDeposit: BigintUtils.tryParse(json["drep_deposit"]),
+      drepInactivityPeriod: json["drep_inactivity_period"],
+      refScriptCoinsPerByte: json["ref_script_coins_per_byte"],
+    );
   }
 
   @override
@@ -527,7 +564,7 @@ class ProtocolParamUpdate with InternalCborSerialization {
       "governance_action_deposit": governanceActionDeposit,
       "drep_deposit": drepDeposit?.toString(),
       "drep_inactivity_period": drepInactivityPeriod,
-      "ref_script_coins_per_byte": refScriptCoinsPerByte
+      "ref_script_coins_per_byte": refScriptCoinsPerByte,
     };
   }
 }

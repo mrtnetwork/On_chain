@@ -12,55 +12,62 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     required ProgramLayout layout,
   }) : super(data: layout.toBytes());
 
-  factory MetaplexTokenMetaDataProgram.approveCollectionAuthority(
-      {required SolAddress collectionAuthorityRecord,
-      required SolAddress newCollectionAuthority,
-      required SolAddress metadata,
-      required SolAddress mint,
-      required SolAddress updateAuthority,
-      required SolAddress payer,
-      SolAddress systemProgram = SystemProgramConst.programId,
-      SolAddress? rent}) {
+  factory MetaplexTokenMetaDataProgram.approveCollectionAuthority({
+    required SolAddress collectionAuthorityRecord,
+    required SolAddress newCollectionAuthority,
+    required SolAddress metadata,
+    required SolAddress mint,
+    required SolAddress updateAuthority,
+    required SolAddress payer,
+    SolAddress systemProgram = SystemProgramConst.programId,
+    SolAddress? rent,
+  }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          collectionAuthorityRecord.toWritable(),
-          newCollectionAuthority.toReadOnly(),
-          updateAuthority.toSignerAndWritable(),
-          payer.toSignerAndWritable(),
-          metadata.toReadOnly(),
-          mint.toReadOnly(),
-          systemProgram.toReadOnly(),
-          if (rent != null) rent.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataApproveCollectionAuthorityLayout());
+      keys: [
+        collectionAuthorityRecord.toWritable(),
+        newCollectionAuthority.toReadOnly(),
+        updateAuthority.toSignerAndWritable(),
+        payer.toSignerAndWritable(),
+        metadata.toReadOnly(),
+        mint.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataApproveCollectionAuthorityLayout(),
+    );
   }
-  factory MetaplexTokenMetaDataProgram.approveUseAuthority(
-      {required SolAddress useAuthorityRecord,
-      required SolAddress owner,
-      required SolAddress payer,
-      required SolAddress user,
-      required SolAddress ownerTokenAccount,
-      required SolAddress metadata,
-      required SolAddress mint,
-      required SolAddress burner,
-      required MetaplexTokenMetaDataapproveUseAuthorityLayout layout,
-      SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
-      SolAddress systemProgram = SystemProgramConst.programId,
-      SolAddress? rent}) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      useAuthorityRecord.toWritable(),
-      owner.toSignerAndWritable(),
-      payer.toSignerAndWritable(),
-      user.toReadOnly(),
-      ownerTokenAccount.toWritable(),
-      metadata.toReadOnly(),
-      mint.toReadOnly(),
-      burner.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      if (rent != null) rent.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+  factory MetaplexTokenMetaDataProgram.approveUseAuthority({
+    required SolAddress useAuthorityRecord,
+    required SolAddress owner,
+    required SolAddress payer,
+    required SolAddress user,
+    required SolAddress ownerTokenAccount,
+    required SolAddress metadata,
+    required SolAddress mint,
+    required SolAddress burner,
+    required MetaplexTokenMetaDataapproveUseAuthorityLayout layout,
+    SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
+    SolAddress systemProgram = SystemProgramConst.programId,
+    SolAddress? rent,
+  }) {
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        useAuthorityRecord.toWritable(),
+        owner.toSignerAndWritable(),
+        payer.toSignerAndWritable(),
+        user.toReadOnly(),
+        ownerTokenAccount.toWritable(),
+        metadata.toReadOnly(),
+        mint.toReadOnly(),
+        burner.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.bubblegumSetCollectionSize({
     required SolAddress collectionMetadata,
@@ -70,14 +77,18 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
     required MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout layout,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      collectionMetadata.toWritable(),
-      collectionAuthority.toSignerAndWritable(),
-      collectionMint.toReadOnly(),
-      bubblegumSigner.toSigner(),
-      if (collectionAuthorityRecord != null)
-        collectionAuthorityRecord.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        collectionMetadata.toWritable(),
+        collectionAuthority.toSignerAndWritable(),
+        collectionMint.toReadOnly(),
+        bubblegumSigner.toSigner(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.burnEditionNft({
     required SolAddress metadata,
@@ -92,20 +103,21 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          owner.toSignerAndWritable(),
-          printEditionMint.toWritable(),
-          masterEditionMint.toReadOnly(),
-          printEditionTokenAccount.toWritable(),
-          masterEditionTokenAccount.toReadOnly(),
-          masterEditionAccount.toWritable(),
-          printEditionAccount.toWritable(),
-          editionMarkerAccount.toWritable(),
-          tokenProgram.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataBurnEditionNftLayout());
+      keys: [
+        metadata.toWritable(),
+        owner.toSignerAndWritable(),
+        printEditionMint.toWritable(),
+        masterEditionMint.toReadOnly(),
+        printEditionTokenAccount.toWritable(),
+        masterEditionTokenAccount.toReadOnly(),
+        masterEditionAccount.toWritable(),
+        printEditionAccount.toWritable(),
+        editionMarkerAccount.toWritable(),
+        tokenProgram.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataBurnEditionNftLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.burnNft({
     required SolAddress metadata,
@@ -117,17 +129,18 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          owner.toSignerAndWritable(),
-          mint.toWritable(),
-          tokenAccount.toWritable(),
-          masterEditionAccount.toWritable(),
-          tokenProgram.toReadOnly(),
-          if (collectionMetadata != null) collectionMetadata.toWritable()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataburnNftLayout());
+      keys: [
+        metadata.toWritable(),
+        owner.toSignerAndWritable(),
+        mint.toWritable(),
+        tokenAccount.toWritable(),
+        masterEditionAccount.toWritable(),
+        tokenProgram.toReadOnly(),
+        if (collectionMetadata != null) collectionMetadata.toWritable(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataburnNftLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.burnV1({
     required SolAddress authority,
@@ -146,29 +159,33 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress systemProgram = SystemProgramConst.programId,
     SolAddress sysvarInstructions = SystemProgramConst.sysvarInstructionsPubkey,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      authority.toSignerAndWritable(),
-      collectionMetadata?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      metadata.toWritable(),
-      edition?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      mint.toWritable(),
-      token.toWritable(),
-      masterEdition?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      masterEditionMint?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      masterEditionToken?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      editionMarker?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      tokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      tokenProgram.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        authority.toSignerAndWritable(),
+        collectionMetadata?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        metadata.toWritable(),
+        edition?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        mint.toWritable(),
+        token.toWritable(),
+        masterEdition?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        masterEditionMint?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        masterEditionToken?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        editionMarker?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        tokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        tokenProgram.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.closeEscrowAccount({
     required SolAddress escrow,
@@ -181,30 +198,29 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress sysvarInstructions = SystemProgramConst.sysvarInstructionsPubkey,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          escrow.toWritable(),
-          metadata.toWritable(),
-          mint.toReadOnly(),
-          tokenAccount.toReadOnly(),
-          edition.toReadOnly(),
-          payer.toSignerAndWritable(),
-          systemProgram.toReadOnly(),
-          sysvarInstructions.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataCloseEscrowAccountLayout());
+      keys: [
+        escrow.toWritable(),
+        metadata.toWritable(),
+        mint.toReadOnly(),
+        tokenAccount.toReadOnly(),
+        edition.toReadOnly(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataCloseEscrowAccountLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.collect({
     required SolAddress authority,
     required SolAddress recipient,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          authority.toSigner(),
-          recipient.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataCollectLayout());
+      keys: [authority.toSigner(), recipient.toReadOnly()],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataCollectLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.convertMasterEditionV1ToV2({
     required SolAddress masterEdition,
@@ -212,13 +228,14 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress printingMint,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          masterEdition.toWritable(),
-          oneTimeAuth.toWritable(),
-          printingMint.toWritable()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout());
+      keys: [
+        masterEdition.toWritable(),
+        oneTimeAuth.toWritable(),
+        printingMint.toWritable(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.createEscrowAccount({
     required SolAddress escrow,
@@ -232,19 +249,20 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress sysvarInstructions = SystemProgramConst.sysvarInstructionsPubkey,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          escrow.toWritable(),
-          metadata.toWritable(),
-          mint.toReadOnly(),
-          tokenAccount.toReadOnly(),
-          edition.toReadOnly(),
-          payer.toSignerAndWritable(),
-          systemProgram.toReadOnly(),
-          sysvarInstructions.toReadOnly(),
-          if (authority != null) authority.toSigner()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataCreateEscrowAccountLayout());
+      keys: [
+        escrow.toWritable(),
+        metadata.toWritable(),
+        mint.toReadOnly(),
+        tokenAccount.toReadOnly(),
+        edition.toReadOnly(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        if (authority != null) authority.toSigner(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataCreateEscrowAccountLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.createMasterEdition({
     required SolAddress edition,
@@ -258,19 +276,20 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress rent = SystemProgramConst.sysvarRentPubkey,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          edition.toWritable(),
-          mint.toWritable(),
-          updateAuthority.toSigner(),
-          mintAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          metadata.toReadOnly(),
-          tokenProgram.toReadOnly(),
-          systemProgram.toReadOnly(),
-          rent.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataCreateMasterEditionLayout());
+      keys: [
+        edition.toWritable(),
+        mint.toWritable(),
+        updateAuthority.toSigner(),
+        mintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        metadata.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataCreateMasterEditionLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.createMasterEditionV3({
     required SolAddress edition,
@@ -284,17 +303,21 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress? rent,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      edition.toWritable(),
-      mint.toWritable(),
-      updateAuthority.toSigner(),
-      mintAuthority.toSigner(),
-      payer.toSignerAndWritable(),
-      metadata.toWritable(),
-      tokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      if (rent != null) rent.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        edition.toWritable(),
+        mint.toWritable(),
+        updateAuthority.toSigner(),
+        mintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        metadata.toWritable(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.createMetadataAccount({
     required SolAddress metadata,
@@ -306,17 +329,18 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress rent = SystemProgramConst.sysvarRentPubkey,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          mint.toReadOnly(),
-          mintAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          updateAuthority.toReadOnly(),
-          systemProgram.toReadOnly(),
-          rent.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataCreateMetadataAccountLayout());
+      keys: [
+        metadata.toWritable(),
+        mint.toReadOnly(),
+        mintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        updateAuthority.toReadOnly(),
+        systemProgram.toReadOnly(),
+        rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataCreateMetadataAccountLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.createMetadataAccountV2({
     required SolAddress metadata,
@@ -328,17 +352,18 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? rent,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          mint.toReadOnly(),
-          mintAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          updateAuthority.toReadOnly(),
-          systemProgram.toReadOnly(),
-          if (rent != null) rent.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataCreateMetadataAccountV2Layout());
+      keys: [
+        metadata.toWritable(),
+        mint.toReadOnly(),
+        mintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        updateAuthority.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataCreateMetadataAccountV2Layout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.createMetadataAccountV3({
     required SolAddress metadata,
@@ -350,15 +375,19 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress systemProgram = SystemProgramConst.programId,
     SolAddress? rent,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      metadata.toWritable(),
-      mint.toReadOnly(),
-      mintAuthority.toSigner(),
-      payer.toSignerAndWritable(),
-      updateAuthority.toReadOnly(),
-      systemProgram.toReadOnly(),
-      if (rent != null) rent.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        metadata.toWritable(),
+        mint.toReadOnly(),
+        mintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        updateAuthority.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.createV1({
     required SolAddress metadata,
@@ -372,18 +401,22 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress sysvarInstructions = SystemProgramConst.sysvarInstructionsPubkey,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      metadata.toWritable(),
-      masterEdition?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      mint.toWritable(),
-      authority.toSigner(),
-      payer.toSignerAndWritable(),
-      updateAuthority.toReadOnly(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      tokenProgram.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        metadata.toWritable(),
+        masterEdition?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        mint.toWritable(),
+        authority.toSigner(),
+        payer.toSignerAndWritable(),
+        updateAuthority.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        tokenProgram.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.delegate({
     required SolAddress delegate,
@@ -402,31 +435,35 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      delegateRecord?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      delegate.toReadOnly(),
-      metadata.toWritable(),
-      masterEdition?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      (tokenRecord?.toReadOnly() ??
-              MetaplexTokenMetaDataProgramConst.programId.toReadOnly())
-          .copyWith(isWritable: tokenRecord != null),
-      mint.toReadOnly(),
-      (token?.toReadOnly() ??
-              MetaplexTokenMetaDataProgramConst.programId.toReadOnly())
-          .copyWith(isWritable: token != null),
-      authority.toSigner(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      splTokenProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        delegateRecord?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        delegate.toReadOnly(),
+        metadata.toWritable(),
+        masterEdition?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        (tokenRecord?.toReadOnly() ??
+                MetaplexTokenMetaDataProgramConst.programId.toReadOnly())
+            .copyWith(isWritable: tokenRecord != null),
+        mint.toReadOnly(),
+        (token?.toReadOnly() ??
+                MetaplexTokenMetaDataProgramConst.programId.toReadOnly())
+            .copyWith(isWritable: token != null),
+        authority.toSigner(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
 
   factory MetaplexTokenMetaDataProgram.deprecatedMintNewEditionFromMasterEditionViaPrintingToken({
@@ -448,27 +485,28 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? reservationList,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          edition.toWritable(),
-          masterEdition.toWritable(),
-          mint.toWritable(),
-          mintAuthority.toSigner(),
-          printingMint.toWritable(),
-          masterTokenAccount.toWritable(),
-          editionMarker.toWritable(),
-          burnAuthority.toSigner(),
-          payer.toSigner(),
-          masterUpdateAuthority.toReadOnly(),
-          masterMetadata.toReadOnly(),
-          tokenProgram.toReadOnly(),
-          systemProgram.toReadOnly(),
-          rent.toReadOnly(),
-          if (reservationList != null) reservationList.toWritable()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout:
-            const MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout());
+      keys: [
+        metadata.toWritable(),
+        edition.toWritable(),
+        masterEdition.toWritable(),
+        mint.toWritable(),
+        mintAuthority.toSigner(),
+        printingMint.toWritable(),
+        masterTokenAccount.toWritable(),
+        editionMarker.toWritable(),
+        burnAuthority.toSigner(),
+        payer.toSigner(),
+        masterUpdateAuthority.toReadOnly(),
+        masterMetadata.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        rent.toReadOnly(),
+        if (reservationList != null) reservationList.toWritable(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout:
+          const MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.freezeDelegatedAccount({
     required SolAddress delegate,
@@ -478,15 +516,16 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          delegate.toSignerAndWritable(),
-          tokenAccount.toWritable(),
-          edition.toReadOnly(),
-          mint.toReadOnly(),
-          tokenProgram.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataFreezeDelegatedAccountLayout());
+      keys: [
+        delegate.toSignerAndWritable(),
+        tokenAccount.toWritable(),
+        edition.toReadOnly(),
+        mint.toReadOnly(),
+        tokenProgram.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataFreezeDelegatedAccountLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.lockV1({
     required SolAddress authority,
@@ -504,27 +543,31 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      authority.toSigner(),
-      tokenOwner?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      token.toWritable(),
-      mint.toReadOnly(),
-      metadata.toWritable(),
-      edition?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      tokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      splTokenProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        authority.toSigner(),
+        tokenOwner?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        token.toWritable(),
+        mint.toReadOnly(),
+        metadata.toWritable(),
+        edition?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        tokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.migrate({
     required SolAddress metadata,
@@ -544,27 +587,28 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRules,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          edition.toWritable(),
-          token.toWritable(),
-          tokenOwner.toReadOnly(),
-          mint.toReadOnly(),
-          payer.toSignerAndWritable(),
-          authority.toSigner(),
-          collectionMetadata.toReadOnly(),
-          delegateRecord.toReadOnly(),
-          tokenRecord.toWritable(),
-          systemProgram.toReadOnly(),
-          sysvarInstructions.toReadOnly(),
-          splTokenProgram.toReadOnly(),
-          authorizationRulesProgram?.toReadOnly() ??
-              MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-          authorizationRules?.toReadOnly() ??
-              MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataMigrateLayout());
+      keys: [
+        metadata.toWritable(),
+        edition.toWritable(),
+        token.toWritable(),
+        tokenOwner.toReadOnly(),
+        mint.toReadOnly(),
+        payer.toSignerAndWritable(),
+        authority.toSigner(),
+        collectionMetadata.toReadOnly(),
+        delegateRecord.toReadOnly(),
+        tokenRecord.toWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataMigrateLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.mintNewEditionFromMasterEditionViaToken({
     required SolAddress newMetadata,
@@ -579,27 +623,31 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress newMetadataUpdateAuthority,
     required SolAddress metadata,
     required MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaTokenLayout
-        layout,
+    layout,
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress systemProgram = SystemProgramConst.programId,
     SolAddress? rent,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      newMetadata.toWritable(),
-      newEdition.toWritable(),
-      masterEdition.toWritable(),
-      newMint.toWritable(),
-      editionMarkPda.toWritable(),
-      newMintAuthority.toSigner(),
-      payer.toSignerAndWritable(),
-      tokenAccountOwner.toSigner(),
-      tokenAccount.toReadOnly(),
-      newMetadataUpdateAuthority.toReadOnly(),
-      metadata.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      if (rent != null) rent.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        newMetadata.toWritable(),
+        newEdition.toWritable(),
+        masterEdition.toWritable(),
+        newMint.toWritable(),
+        editionMarkPda.toWritable(),
+        newMintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        tokenAccountOwner.toSigner(),
+        tokenAccount.toReadOnly(),
+        newMetadataUpdateAuthority.toReadOnly(),
+        metadata.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.mintNewEditionFromMasterEditionViaVaultProxy({
     required SolAddress newMetadata,
@@ -617,30 +665,34 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress metadata,
     required SolAddress tokenVaultProgram,
     required MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout
-        layout,
+    layout,
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress systemProgram = SystemProgramConst.programId,
     SolAddress? rent,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      newMetadata.toWritable(),
-      newEdition.toWritable(),
-      masterEdition.toWritable(),
-      newMint.toWritable(),
-      editionMarkPda.toWritable(),
-      newMintAuthority.toSigner(),
-      payer.toSignerAndWritable(),
-      vaultAuthority.toSigner(),
-      safetyDepositStore.toReadOnly(),
-      safetyDepositBox.toReadOnly(),
-      vault.toReadOnly(),
-      newMetadataUpdateAuthority.toReadOnly(),
-      metadata.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      tokenVaultProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      if (rent != null) rent.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        newMetadata.toWritable(),
+        newEdition.toWritable(),
+        masterEdition.toWritable(),
+        newMint.toWritable(),
+        editionMarkPda.toWritable(),
+        newMintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        vaultAuthority.toSigner(),
+        safetyDepositStore.toReadOnly(),
+        safetyDepositBox.toReadOnly(),
+        vault.toReadOnly(),
+        newMetadataUpdateAuthority.toReadOnly(),
+        metadata.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        tokenVaultProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.mintV1({
     required SolAddress token,
@@ -660,29 +712,33 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      token.toWritable(),
-      tokenOwner?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      metadata.toReadOnly(),
-      masterEdition?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      tokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      mint.toWritable(),
-      authority.toSigner(),
-      delegateRecord?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      splTokenProgram.toReadOnly(),
-      splAtaProgram.toReadOnly(),
-      authorizationRulesProgram?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        token.toWritable(),
+        tokenOwner?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        metadata.toReadOnly(),
+        masterEdition?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        tokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        mint.toWritable(),
+        authority.toSigner(),
+        delegateRecord?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram.toReadOnly(),
+        splAtaProgram.toReadOnly(),
+        authorizationRulesProgram?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.printV1({
     required SolAddress editionMetadata,
@@ -705,46 +761,50 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress systemProgram = SystemProgramConst.programId,
     SolAddress? editionTokenRecord,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      editionMetadata.toWritable(),
-      edition.toWritable(),
-      editionMint.toWritable(),
-      editionTokenAccountOwner.toReadOnly(),
-      editionTokenAccount.toWritable(),
-      editionMintAuthority.toSigner(),
-      editionTokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      masterEdition.toWritable(),
-      editionMarkerPda.toWritable(),
-      payer.toSignerAndWritable(),
-      masterTokenAccountOwner.toSigner(),
-      masterTokenAccount.toReadOnly(),
-      masterMetadata.toReadOnly(),
-      updateAuthority.toReadOnly(),
-      splTokenProgram.toReadOnly(),
-      splAtaProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      systemProgram.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
-  }
-  factory MetaplexTokenMetaDataProgram.puffMetadata(
-      {required SolAddress metadata}) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataPuffMetadataLayout());
+      keys: [
+        editionMetadata.toWritable(),
+        edition.toWritable(),
+        editionMint.toWritable(),
+        editionTokenAccountOwner.toReadOnly(),
+        editionTokenAccount.toWritable(),
+        editionMintAuthority.toSigner(),
+        editionTokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        masterEdition.toWritable(),
+        editionMarkerPda.toWritable(),
+        payer.toSignerAndWritable(),
+        masterTokenAccountOwner.toSigner(),
+        masterTokenAccount.toReadOnly(),
+        masterMetadata.toReadOnly(),
+        updateAuthority.toReadOnly(),
+        splTokenProgram.toReadOnly(),
+        splAtaProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        systemProgram.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
-  factory MetaplexTokenMetaDataProgram.removeCreatorVerification(
-      {required SolAddress metadata, required SolAddress creator}) {
+  factory MetaplexTokenMetaDataProgram.puffMetadata({
+    required SolAddress metadata,
+  }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          creator.toSigner(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataRemoveCreatorVerificationLayout());
+      keys: [metadata.toWritable()],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataPuffMetadataLayout(),
+    );
+  }
+  factory MetaplexTokenMetaDataProgram.removeCreatorVerification({
+    required SolAddress metadata,
+    required SolAddress creator,
+  }) {
+    return MetaplexTokenMetaDataProgram(
+      keys: [metadata.toWritable(), creator.toSigner()],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataRemoveCreatorVerificationLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.revoke({
     required SolAddress delegate,
@@ -763,29 +823,33 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      delegateRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      delegate.toReadOnly(),
-      metadata.toWritable(),
-      masterEdition?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      tokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      mint.toReadOnly(),
-      token?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authority.toSigner(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      splTokenProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        delegateRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        delegate.toReadOnly(),
+        metadata.toWritable(),
+        masterEdition?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        tokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        mint.toReadOnly(),
+        token?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authority.toSigner(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.revokeCollectionAuthority({
     required SolAddress collectionAuthorityRecord,
@@ -795,15 +859,16 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress mint,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          collectionAuthorityRecord.toWritable(),
-          delegateAuthority.toWritable(),
-          revokeAuthority.toSignerAndWritable(),
-          metadata.toReadOnly(),
-          mint.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataRevokeCollectionAuthorityLayout());
+      keys: [
+        collectionAuthorityRecord.toWritable(),
+        delegateAuthority.toWritable(),
+        revokeAuthority.toSignerAndWritable(),
+        metadata.toReadOnly(),
+        mint.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataRevokeCollectionAuthorityLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.revokeUseAuthority({
     required SolAddress useAuthorityRecord,
@@ -817,19 +882,20 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? rent,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          useAuthorityRecord.toWritable(),
-          owner.toSignerAndWritable(),
-          user.toReadOnly(),
-          ownerTokenAccount.toWritable(),
-          mint.toReadOnly(),
-          metadata.toReadOnly(),
-          tokenProgram.toReadOnly(),
-          systemProgram.toReadOnly(),
-          if (rent != null) rent.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataRevokeUseAuthorityLayout());
+      keys: [
+        useAuthorityRecord.toWritable(),
+        owner.toSignerAndWritable(),
+        user.toReadOnly(),
+        ownerTokenAccount.toWritable(),
+        mint.toReadOnly(),
+        metadata.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        if (rent != null) rent.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataRevokeUseAuthorityLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.setAndVerifyCollection({
     required SolAddress metadata,
@@ -842,19 +908,20 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          collectionAuthority.toSignerAndWritable(),
-          payer.toSignerAndWritable(),
-          updateAuthority.toReadOnly(),
-          collectionMint.toReadOnly(),
-          collection.toReadOnly(),
-          collectionMasterEditionAccount.toReadOnly(),
-          if (collectionAuthorityRecord != null)
-            collectionAuthorityRecord.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataSetAndVerifyCollectionLayout());
+      keys: [
+        metadata.toWritable(),
+        collectionAuthority.toSignerAndWritable(),
+        payer.toSignerAndWritable(),
+        updateAuthority.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collection.toReadOnly(),
+        collectionMasterEditionAccount.toReadOnly(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataSetAndVerifyCollectionLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.setAndVerifySizedCollectionItem({
     required SolAddress metadata,
@@ -867,20 +934,21 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          collectionAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          updateAuthority.toReadOnly(),
-          collectionMint.toReadOnly(),
-          collection.toWritable(),
-          collectionMasterEditionAccount.toWritable(),
-          if (collectionAuthorityRecord != null)
-            collectionAuthorityRecord.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout:
-            const MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout());
+      keys: [
+        metadata.toWritable(),
+        collectionAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        updateAuthority.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collection.toWritable(),
+        collectionMasterEditionAccount.toWritable(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout:
+          const MetaplexTokenMetaDataSetAndVerifySizedCollectionItemLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.setCollectionSize({
     required SolAddress collectionMetadata,
@@ -889,13 +957,17 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
     required MetaplexTokenMetaDataSetCollectionSizeLayout layout,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      collectionMetadata.toWritable(),
-      collectionAuthority.toSignerAndWritable(),
-      collectionMint.toReadOnly(),
-      if (collectionAuthorityRecord != null)
-        collectionAuthorityRecord.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        collectionMetadata.toWritable(),
+        collectionAuthority.toSignerAndWritable(),
+        collectionMint.toReadOnly(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.setTokenStandard({
     required SolAddress metadata,
@@ -904,23 +976,25 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? edition,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          updateAuthority.toSigner(),
-          mint.toReadOnly(),
-          if (edition != null) edition.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataSetTokenStandardLayout());
+      keys: [
+        metadata.toWritable(),
+        updateAuthority.toSigner(),
+        mint.toReadOnly(),
+        if (edition != null) edition.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataSetTokenStandardLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.signMetadata({
     required SolAddress metadata,
     required SolAddress creator,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [metadata.toWritable(), creator.toSigner()],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataSignMetadataLayout());
+      keys: [metadata.toWritable(), creator.toSigner()],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataSignMetadataLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.thawDelegatedAccount({
     required SolAddress delegate,
@@ -930,15 +1004,16 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          delegate.toSignerAndWritable(),
-          tokenAccount.toWritable(),
-          edition.toReadOnly(),
-          mint.toReadOnly(),
-          tokenProgram.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataThawDelegatedAccountLayout());
+      keys: [
+        delegate.toSignerAndWritable(),
+        tokenAccount.toWritable(),
+        edition.toReadOnly(),
+        mint.toReadOnly(),
+        tokenProgram.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataThawDelegatedAccountLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.transferOutOfEscrow({
     required SolAddress escrow,
@@ -957,21 +1032,25 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
     SolAddress? authority,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      escrow.toReadOnly(),
-      metadata.toWritable(),
-      payer.toSignerAndWritable(),
-      attributeMint.toReadOnly(),
-      attributeSrc.toWritable(),
-      attributeDst.toWritable(),
-      escrowMint.toReadOnly(),
-      escrowAccount.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ataProgram.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      if (authority != null) authority.toSigner()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        escrow.toReadOnly(),
+        metadata.toWritable(),
+        payer.toSignerAndWritable(),
+        attributeMint.toReadOnly(),
+        attributeSrc.toWritable(),
+        attributeDst.toWritable(),
+        escrowMint.toReadOnly(),
+        escrowAccount.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ataProgram.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        if (authority != null) authority.toSigner(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.transferV1({
     required SolAddress token,
@@ -993,30 +1072,34 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      token.toWritable(),
-      tokenOwner.toReadOnly(),
-      destination.toWritable(),
-      destinationOwner.toReadOnly(),
-      mint.toReadOnly(),
-      metadata.toWritable(),
-      edition?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      ownerTokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      destinationTokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authority.toSigner(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      splTokenProgram.toReadOnly(),
-      splAtaProgram.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        token.toWritable(),
+        tokenOwner.toReadOnly(),
+        destination.toWritable(),
+        destinationOwner.toReadOnly(),
+        mint.toReadOnly(),
+        metadata.toWritable(),
+        edition?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        ownerTokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        destinationTokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authority.toSigner(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram.toReadOnly(),
+        splAtaProgram.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.unlockV1({
     required SolAddress authority,
@@ -1034,27 +1117,31 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      authority.toSigner(),
-      tokenOwner?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      token.toWritable(),
-      mint.toReadOnly(),
-      metadata.toWritable(),
-      edition?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      tokenRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      splTokenProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        authority.toSigner(),
+        tokenOwner?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        token.toWritable(),
+        mint.toReadOnly(),
+        metadata.toWritable(),
+        edition?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        tokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.unverify({
     required SolAddress authority,
@@ -1066,18 +1153,22 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionMetadata,
     SolAddress? delegateRecord,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      authority.toSigner(),
-      delegateRecord?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      metadata.toWritable(),
-      collectionMint?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      collectionMetadata?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        authority.toSigner(),
+        delegateRecord?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        metadata.toWritable(),
+        collectionMint?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        collectionMetadata?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.unverifyCollection({
     required SolAddress metadata,
@@ -1088,17 +1179,18 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          collectionAuthority.toSignerAndWritable(),
-          collectionMint.toReadOnly(),
-          collection.toReadOnly(),
-          collectionMasterEditionAccount.toReadOnly(),
-          if (collectionAuthorityRecord != null)
-            collectionAuthorityRecord.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataUnverifyCollectionLayout());
+      keys: [
+        metadata.toWritable(),
+        collectionAuthority.toSignerAndWritable(),
+        collectionMint.toReadOnly(),
+        collection.toReadOnly(),
+        collectionMasterEditionAccount.toReadOnly(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataUnverifyCollectionLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.unverifySizedCollectionItem({
     required SolAddress metadata,
@@ -1110,18 +1202,19 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          collectionAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          collectionMint.toReadOnly(),
-          collection.toWritable(),
-          collectionMasterEditionAccount.toReadOnly(),
-          if (collectionAuthorityRecord != null)
-            collectionAuthorityRecord.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataUnverifySizedCollectionItemLayout());
+      keys: [
+        metadata.toWritable(),
+        collectionAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        collectionMint.toReadOnly(),
+        collection.toWritable(),
+        collectionMasterEditionAccount.toReadOnly(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataUnverifySizedCollectionItemLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.update({
     required SolAddress authority,
@@ -1137,34 +1230,39 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      authority.toSigner(),
-      delegateRecord?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      token?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      mint.toReadOnly(),
-      metadata.toWritable(),
-      edition?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        authority.toSigner(),
+        delegateRecord?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        token?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        mint.toReadOnly(),
+        metadata.toWritable(),
+        edition?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.updateMetadataAccountV2({
     required SolAddress metadata,
     required SolAddress updateAuthority,
     required MetaplexTokenMetaDataUpdateMetadataAccountV2Layout layout,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      metadata.toWritable(),
-      updateAuthority.toSigner(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [metadata.toWritable(), updateAuthority.toSigner()],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.updatePrimarySaleHappenedViaToken({
     required SolAddress metadata,
@@ -1172,14 +1270,11 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress token,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          owner.toSigner(),
-          token.toReadOnly(),
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout:
-            const MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout());
+      keys: [metadata.toWritable(), owner.toSigner(), token.toReadOnly()],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout:
+          const MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.useV1({
     required SolAddress authority,
@@ -1196,26 +1291,30 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      authority.toSigner(),
-      delegateRecord?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      token?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      mint.toReadOnly(),
-      metadata.toWritable(),
-      edition?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      payer.toSigner(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      splTokenProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        authority.toSigner(),
+        delegateRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        token?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        mint.toReadOnly(),
+        metadata.toWritable(),
+        edition?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        payer.toSigner(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        splTokenProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.utilize({
     required SolAddress metadata,
@@ -1235,22 +1334,27 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     if (burner != null) {
       if (useAuthorityRecord == null) {
         throw const SolanaPluginException(
-            "When providing 'burner' then 'accounts.useAuthorityRecord' need(s) to be provided as well.");
+          "When providing 'burner' then 'accounts.useAuthorityRecord' need(s) to be provided as well.",
+        );
       }
     }
-    return MetaplexTokenMetaDataProgram(keys: [
-      metadata.toWritable(),
-      tokenAccount.toWritable(),
-      mint.toWritable(),
-      useAuthority.toSignerAndWritable(),
-      owner.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      ataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      rent.toReadOnly(),
-      if (useAuthorityRecord != null) useAuthorityRecord.toWritable(),
-      if (burner != null) burner.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        metadata.toWritable(),
+        tokenAccount.toWritable(),
+        mint.toWritable(),
+        useAuthority.toSignerAndWritable(),
+        owner.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        ataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        rent.toReadOnly(),
+        if (useAuthorityRecord != null) useAuthorityRecord.toWritable(),
+        if (burner != null) burner.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.verify({
     required SolAddress authority,
@@ -1263,20 +1367,24 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionMasterEdition,
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexTokenMetaDataProgram(keys: [
-      authority.toSigner(),
-      delegateRecord?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      metadata.toWritable(),
-      collectionMint?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      collectionMetadata?.toWritable() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      collectionMasterEdition?.toReadOnly() ??
-          MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly()
-    ], programId: MetaplexTokenMetaDataProgramConst.programId, layout: layout);
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        authority.toSigner(),
+        delegateRecord?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        metadata.toWritable(),
+        collectionMint?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        collectionMetadata?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        collectionMasterEdition?.toReadOnly() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexTokenMetaDataProgram.verifyCollection({
     required SolAddress metadata,
@@ -1288,18 +1396,19 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          collectionAuthority.toSignerAndWritable(),
-          payer.toSignerAndWritable(),
-          collectionMint.toReadOnly(),
-          collection.toReadOnly(),
-          collectionMasterEditionAccount.toReadOnly(),
-          if (collectionAuthorityRecord != null)
-            collectionAuthorityRecord.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataVerifyCollectionLayout());
+      keys: [
+        metadata.toWritable(),
+        collectionAuthority.toSignerAndWritable(),
+        payer.toSignerAndWritable(),
+        collectionMint.toReadOnly(),
+        collection.toReadOnly(),
+        collectionMasterEditionAccount.toReadOnly(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataVerifyCollectionLayout(),
+    );
   }
   factory MetaplexTokenMetaDataProgram.verifySizedCollection({
     required SolAddress metadata,
@@ -1311,17 +1420,18 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
     SolAddress? collectionAuthorityRecord,
   }) {
     return MetaplexTokenMetaDataProgram(
-        keys: [
-          metadata.toWritable(),
-          collectionAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          collectionMint.toReadOnly(),
-          collection.toWritable(),
-          collectionMasterEditionAccount.toReadOnly(),
-          if (collectionAuthorityRecord != null)
-            collectionAuthorityRecord.toReadOnly()
-        ],
-        programId: MetaplexTokenMetaDataProgramConst.programId,
-        layout: const MetaplexTokenMetaDataVerifySizedCollectionItemLayout());
+      keys: [
+        metadata.toWritable(),
+        collectionAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        collectionMint.toReadOnly(),
+        collection.toWritable(),
+        collectionMasterEditionAccount.toReadOnly(),
+        if (collectionAuthorityRecord != null)
+          collectionAuthorityRecord.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: const MetaplexTokenMetaDataVerifySizedCollectionItemLayout(),
+    );
   }
 }

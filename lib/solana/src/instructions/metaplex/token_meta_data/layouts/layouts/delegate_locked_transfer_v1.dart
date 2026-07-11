@@ -18,29 +18,34 @@ class MetaplexTokenMetaDataDelegateLockedTransferV1Layout
   });
 
   factory MetaplexTokenMetaDataDelegateLockedTransferV1Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .delegateLockedTransferV1.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .delegateLockedTransferV1
+              .insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataDelegateLockedTransferV1Layout(
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']),
-        lockedAddress: decode['lockedAddress'],
-        amount: decode['amount']);
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+      lockedAddress: decode['lockedAddress'],
+      amount: decode['amount'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.u64(property: 'amount'),
-        SolanaLayoutUtils.publicKey('lockedAddress'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('lockedAddress'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -55,7 +60,7 @@ class MetaplexTokenMetaDataDelegateLockedTransferV1Layout
       'authorizationData': authorizationData?.serialize(),
       'discriminator': discriminator,
       'amount': amount,
-      'lockedAddress': lockedAddress
+      'lockedAddress': lockedAddress,
     };
   }
 }

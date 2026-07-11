@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/associated_token_account/constant.dart';
@@ -18,15 +19,12 @@ class AssociatedTokenAccountProgramInstruction
   static const List<AssociatedTokenAccountProgramInstruction> values = [
     initialize,
     idempotent,
-    recoverNested
+    recoverNested,
   ];
   static AssociatedTokenAccountProgramInstruction? getInstruction(
-      dynamic value) {
-    try {
-      return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
-      return null;
-    }
+    dynamic value,
+  ) {
+    return values.firstWhereNullable((element) => element.insturction == value);
   }
 
   @override

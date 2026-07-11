@@ -23,7 +23,7 @@ class TronRequestWithdrawBalance
   Map<String, dynamic> toJson() {
     return {
       'owner_address': ownerAddress.toAddress(visible),
-      'visible': visible
+      'visible': visible,
     };
   }
 

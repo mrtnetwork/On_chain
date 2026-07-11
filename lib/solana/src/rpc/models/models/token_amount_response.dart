@@ -1,15 +1,17 @@
 class TokenAmoutResponse {
-  const TokenAmoutResponse(
-      {required this.amount,
-      required this.decimals,
-      this.uiAmount,
-      this.uiAmountString});
+  const TokenAmoutResponse({
+    required this.amount,
+    required this.decimals,
+    this.uiAmount,
+    this.uiAmountString,
+  });
   factory TokenAmoutResponse.fromJson(Map<String, dynamic> json) {
     return TokenAmoutResponse(
-        amount: json['amount'],
-        decimals: json['decimals'],
-        uiAmount: json['uiAmount'],
-        uiAmountString: json['uiAmountString']);
+      amount: json['amount'],
+      decimals: json['decimals'],
+      uiAmount: json['uiAmount'],
+      uiAmountString: json['uiAmountString'],
+    );
   }
 
   /// Raw amount of tokens as string ignoring decimals

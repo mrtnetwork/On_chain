@@ -6,14 +6,15 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/exchangetransaction).
 class TronRequestExchangeTransaction
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestExchangeTransaction(
-      {required this.ownerAddress,
-      required this.exchangeId,
-      required this.tokenId,
-      required this.quant,
-      required this.expected,
-      this.permissionId,
-      this.visible = true});
+  TronRequestExchangeTransaction({
+    required this.ownerAddress,
+    required this.exchangeId,
+    required this.tokenId,
+    required this.quant,
+    required this.expected,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Trader's wallet address
   final TronAddress ownerAddress;
@@ -48,7 +49,7 @@ class TronRequestExchangeTransaction
       'quant': quant,
       'expected': expected,
       'permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

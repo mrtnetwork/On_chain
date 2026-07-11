@@ -15,15 +15,17 @@ class TronHelper {
 
   /// Decodes permission operations from a hex representation.
   static List<TransactionContractType> decodePermissionOperation(
-      final String operations) {
+    final String operations,
+  ) {
     final List<TransactionContractType> accountPermissions = [];
     final operationBytes = BytesUtils.fromHexString(operations);
     for (int i = 0; i < 32; i++) {
       for (int j = 0; j < 8; j++) {
         if ((operationBytes[i] >> j & 0x1) == 1) {
           final int permissionValue = i * 8 + j;
-          final operation =
-              TransactionContractType.findByValue(permissionValue);
+          final operation = TransactionContractType.findByValue(
+            permissionValue,
+          );
           if (operation != null) {
             accountPermissions.add(operation);
           }
@@ -35,7 +37,8 @@ class TronHelper {
 
   /// Encodes permission operations into a bytes representation.
   static List<int> encodePermissionOperations(
-      List<TransactionContractType> values) {
+    List<TransactionContractType> values,
+  ) {
     final valuesInt = values.map((e) => e.value).toList();
     final List<int> operationBuffer = List<int>.filled(32, 0);
     for (final int value in valuesInt) {

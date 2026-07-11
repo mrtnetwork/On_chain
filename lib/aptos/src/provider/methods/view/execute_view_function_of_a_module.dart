@@ -14,23 +14,25 @@ class AptosRequestExecuteViewFunctionOfaModule<T>
   /// Ledger version to get state of accountIf not provided, it will be the latest version
   final BigInt? ledgerVersion;
 
-  AptosRequestExecuteViewFunctionOfaModule.json(
-      {required ExecuteViewFunctionOfAModuleRequestParams data,
-      this.ledgerVersion})
-      : body = data.toJson(),
-        headers = null;
-  AptosRequestExecuteViewFunctionOfaModule.bcs(
-      {required AptosTransactionEntryFunction entry, this.ledgerVersion})
-      : body = entry.toBcs(),
-        headers = {
-          "Content-Type": AptosProviderConst.viewFunctionBcsContentType
-        };
-  AptosRequestExecuteViewFunctionOfaModule.bcsBytes(
-      {required List<int> bcsBytes, this.ledgerVersion})
-      : body = bcsBytes.asImmutableBytes,
-        headers = {
-          "Content-Type": AptosProviderConst.viewFunctionBcsContentType
-        };
+  AptosRequestExecuteViewFunctionOfaModule.json({
+    required ExecuteViewFunctionOfAModuleRequestParams data,
+    this.ledgerVersion,
+  }) : body = data.toJson(),
+       headers = null;
+  AptosRequestExecuteViewFunctionOfaModule.bcs({
+    required AptosTransactionEntryFunction entry,
+    this.ledgerVersion,
+  }) : body = entry.toBcs(),
+       headers = {
+         "Content-Type": AptosProviderConst.viewFunctionBcsContentType,
+       };
+  AptosRequestExecuteViewFunctionOfaModule.bcsBytes({
+    required List<int> bcsBytes,
+    this.ledgerVersion,
+  }) : body = bcsBytes.asImmutableBytes,
+       headers = {
+         "Content-Type": AptosProviderConst.viewFunctionBcsContentType,
+       };
 
   @override
   String get method => AptosApiMethod.executeViewFunctionOfAModule.url;
@@ -38,8 +40,9 @@ class AptosRequestExecuteViewFunctionOfaModule<T>
   final Map<String, String>? headers;
 
   @override
-  Map<String, String?> get queryParameters =>
-      {"ledger_version": ledgerVersion?.toString()};
+  Map<String, String?> get queryParameters => {
+    "ledger_version": ledgerVersion?.toString(),
+  };
 
   @override
   final Object body;

@@ -10,38 +10,49 @@ class MetaplexHydraProgramUtils {
     required SolAddress membership,
     required SolAddress mint,
   }) {
-    final address = SolanaUtils.findProgramAddress(seeds: [
-      'fanout-membership'.codeUnits,
-      fanout.toBytes(),
-      membership.toBytes(),
-      mint.toBytes(),
-    ], programId: MetaplexHydraProgramConst.programId);
+    final address = SolanaUtils.findProgramAddress(
+      seeds: [
+        'fanout-membership'.codeUnits,
+        fanout.toBytes(),
+        membership.toBytes(),
+        mint.toBytes(),
+      ],
+      programId: MetaplexHydraProgramConst.programId,
+    );
     return ProgramDerivedAddress(address: address.$1, bump: address.$2);
   }
 
   static ProgramDerivedAddress findFanoutPda({required String name}) {
-    final address = SolanaUtils.findProgramAddress(seeds: [
-      'fanout-config'.codeUnits,
-      StringUtils.encode(name),
-    ], programId: MetaplexHydraProgramConst.programId);
-    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
-  }
-
-  static ProgramDerivedAddress findFanoutMembershipVoucherPda(
-      {required SolAddress fanout, required SolAddress member}) {
-    final address = SolanaUtils.findProgramAddress(seeds: [
-      'fanout-membership'.codeUnits,
-      fanout.toBytes(),
-      member.toBytes()
-    ], programId: MetaplexHydraProgramConst.programId);
-    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
-  }
-
-  static ProgramDerivedAddress findFanoutMintPda(
-      {required SolAddress fanout, required SolAddress mint}) {
     final address = SolanaUtils.findProgramAddress(
-        seeds: ['fanout-config'.codeUnits, fanout.toBytes(), mint.toBytes()],
-        programId: MetaplexHydraProgramConst.programId);
+      seeds: ['fanout-config'.codeUnits, StringUtils.encode(name)],
+      programId: MetaplexHydraProgramConst.programId,
+    );
+    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
+  }
+
+  static ProgramDerivedAddress findFanoutMembershipVoucherPda({
+    required SolAddress fanout,
+    required SolAddress member,
+  }) {
+    final address = SolanaUtils.findProgramAddress(
+      seeds: [
+        'fanout-membership'.codeUnits,
+        fanout.toBytes(),
+        member.toBytes(),
+      ],
+      programId: MetaplexHydraProgramConst.programId,
+    );
+    return ProgramDerivedAddress(address: address.$1, bump: address.$2);
+  }
+
+  static ProgramDerivedAddress findFanoutMintPda({
+    required SolAddress fanout,
+    required SolAddress mint,
+  }) {
+    final address = SolanaUtils.findProgramAddress(
+      seeds: ['fanout-config'.codeUnits, fanout.toBytes(), mint.toBytes()],
+      programId: MetaplexHydraProgramConst.programId,
+    );
     return ProgramDerivedAddress(address: address.$1, bump: address.$2);
   }
 }

@@ -24,22 +24,30 @@ class _Utils {
     LayoutConst.wrap(StakePoolFee.staticLayout, property: 'epochFee'),
     LayoutConst.optional(StakePoolFee.staticLayout, property: 'nextEpochFee'),
     SolanaLayoutUtils.optionPubkey(
-        property: 'preferredDepositValidatorVoteAddress'),
+      property: 'preferredDepositValidatorVoteAddress',
+    ),
     SolanaLayoutUtils.optionPubkey(
-        property: 'preferredWithdrawValidatorVoteAddress'),
+      property: 'preferredWithdrawValidatorVoteAddress',
+    ),
     LayoutConst.wrap(StakePoolFee.staticLayout, property: 'stakeDepositFee'),
     LayoutConst.wrap(StakePoolFee.staticLayout, property: 'stakeWithdrawalFee'),
-    LayoutConst.optional(StakePoolFee.staticLayout,
-        property: 'nextStakeWithdrawalFee'),
+    LayoutConst.optional(
+      StakePoolFee.staticLayout,
+      property: 'nextStakeWithdrawalFee',
+    ),
     LayoutConst.u8(property: 'stakeReferralFee'),
     SolanaLayoutUtils.optionPubkey(property: 'solDepositAuthority'),
     LayoutConst.wrap(StakePoolFee.staticLayout, property: 'solDepositFee'),
     LayoutConst.u8(property: 'solReferralFee'),
-    LayoutConst.optional(SolanaLayoutUtils.publicKey(),
-        property: 'solWithdrawAuthority'),
+    LayoutConst.optional(
+      SolanaLayoutUtils.publicKey(),
+      property: 'solWithdrawAuthority',
+    ),
     LayoutConst.wrap(StakePoolFee.staticLayout, property: 'solWithdrawalFee'),
-    LayoutConst.optional(StakePoolFee.staticLayout,
-        property: 'nextSolWithdrawalFee'),
+    LayoutConst.optional(
+      StakePoolFee.staticLayout,
+      property: 'nextSolWithdrawalFee',
+    ),
     LayoutConst.u64(property: 'lastEpochPoolTokenSupply'),
     LayoutConst.u64(property: 'lastEpochTotalLamports'),
   ]);
@@ -156,82 +164,89 @@ class StakePoolAccount extends BorshLayoutSerializable {
 
   /// Last epoch's total lamports, used only for APR estimation
   final BigInt lastEpochTotalLamports;
-  const StakePoolAccount(
-      {required this.accountType,
-      required this.manager,
-      required this.staker,
-      required this.stakeDepositAuthority,
-      required this.stakeWithdrawBumpSeed,
-      required this.validatorList,
-      required this.reserveStake,
-      required this.poolMint,
-      required this.managerFeeAccount,
-      required this.tokenProgramId,
-      required this.totalLamports,
-      required this.poolTokenSupply,
-      required this.lastUpdateEpoch,
-      required this.lockup,
-      required this.epochFee,
-      this.nextEpochFee,
-      this.preferredDepositValidatorVoteAddress,
-      this.preferredWithdrawValidatorVoteAddress,
-      required this.stakeDepositFee,
-      required this.stakeWithdrawalFee,
-      required this.nextStakeWithdrawalFee,
-      required this.stakeReferralFee,
-      this.solDepositAuthority,
-      required this.solDepositFee,
-      required this.solReferralFee,
-      this.solWithdrawAuthority,
-      required this.solWithdrawalFee,
-      this.nextSolWithdrawalFee,
-      required this.lastEpochPoolTokenSupply,
-      required this.lastEpochTotalLamports,
-      required this.address});
+  const StakePoolAccount({
+    required this.accountType,
+    required this.manager,
+    required this.staker,
+    required this.stakeDepositAuthority,
+    required this.stakeWithdrawBumpSeed,
+    required this.validatorList,
+    required this.reserveStake,
+    required this.poolMint,
+    required this.managerFeeAccount,
+    required this.tokenProgramId,
+    required this.totalLamports,
+    required this.poolTokenSupply,
+    required this.lastUpdateEpoch,
+    required this.lockup,
+    required this.epochFee,
+    this.nextEpochFee,
+    this.preferredDepositValidatorVoteAddress,
+    this.preferredWithdrawValidatorVoteAddress,
+    required this.stakeDepositFee,
+    required this.stakeWithdrawalFee,
+    required this.nextStakeWithdrawalFee,
+    required this.stakeReferralFee,
+    this.solDepositAuthority,
+    required this.solDepositFee,
+    required this.solReferralFee,
+    this.solWithdrawAuthority,
+    required this.solWithdrawalFee,
+    this.nextSolWithdrawalFee,
+    required this.lastEpochPoolTokenSupply,
+    required this.lastEpochTotalLamports,
+    required this.address,
+  });
 
-  factory StakePoolAccount.fromBuffer(
-      {required List<int> data, required SolAddress address}) {
+  factory StakePoolAccount.fromBuffer({
+    required List<int> data,
+    required SolAddress address,
+  }) {
     final decode = _Utils.layout.deserialize(data).value;
     return StakePoolAccount(
-        address: address,
-        accountType: StakePoolAccountType.fromValue(decode['accountType']),
-        manager: decode['manager'],
-        staker: decode['staker'],
-        stakeDepositAuthority: decode['stakeDepositAuthority'],
-        stakeWithdrawBumpSeed: decode['stakeWithdrawBumpSeed'],
-        validatorList: decode['validatorList'],
-        reserveStake: decode['reserveStake'],
-        poolMint: decode['poolMint'],
-        managerFeeAccount: decode['managerFeeAccount'],
-        tokenProgramId: decode['tokenProgramId'],
-        totalLamports: decode['totalLamports'],
-        poolTokenSupply: decode['poolTokenSupply'],
-        lastUpdateEpoch: decode['lastUpdateEpoch'],
-        lockup: StakeLockup.fromJson(decode['lockup']),
-        epochFee: StakePoolFee.fromJson(decode['epochFee']),
-        nextEpochFee: decode['nextEpochFee'] == null
-            ? null
-            : StakePoolFee.fromJson(decode['nextEpochFee']),
-        preferredDepositValidatorVoteAddress:
-            decode['preferredDepositValidatorVoteAddress'],
-        preferredWithdrawValidatorVoteAddress:
-            decode['preferredWithdrawValidatorVoteAddress'],
-        stakeDepositFee: StakePoolFee.fromJson(decode['stakeDepositFee']),
-        stakeWithdrawalFee: StakePoolFee.fromJson(decode['stakeWithdrawalFee']),
-        nextStakeWithdrawalFee: decode['nextStakeWithdrawalFee'] == null
-            ? null
-            : StakePoolFee.fromJson(decode['nextStakeWithdrawalFee']),
-        nextSolWithdrawalFee: decode['nextSolWithdrawalFee'] == null
-            ? null
-            : StakePoolFee.fromJson(decode['nextSolWithdrawalFee']),
-        stakeReferralFee: decode['stakeReferralFee'],
-        solDepositAuthority: decode['solDepositAuthority'],
-        solDepositFee: StakePoolFee.fromJson(decode['solDepositFee']),
-        solReferralFee: decode['solReferralFee'],
-        solWithdrawAuthority: decode['solWithdrawAuthority'],
-        solWithdrawalFee: StakePoolFee.fromJson(decode['solWithdrawalFee']),
-        lastEpochPoolTokenSupply: decode['lastEpochPoolTokenSupply'],
-        lastEpochTotalLamports: decode['lastEpochTotalLamports']);
+      address: address,
+      accountType: StakePoolAccountType.fromValue(decode['accountType']),
+      manager: decode['manager'],
+      staker: decode['staker'],
+      stakeDepositAuthority: decode['stakeDepositAuthority'],
+      stakeWithdrawBumpSeed: decode['stakeWithdrawBumpSeed'],
+      validatorList: decode['validatorList'],
+      reserveStake: decode['reserveStake'],
+      poolMint: decode['poolMint'],
+      managerFeeAccount: decode['managerFeeAccount'],
+      tokenProgramId: decode['tokenProgramId'],
+      totalLamports: decode['totalLamports'],
+      poolTokenSupply: decode['poolTokenSupply'],
+      lastUpdateEpoch: decode['lastUpdateEpoch'],
+      lockup: StakeLockup.fromJson(decode['lockup']),
+      epochFee: StakePoolFee.fromJson(decode['epochFee']),
+      nextEpochFee:
+          decode['nextEpochFee'] == null
+              ? null
+              : StakePoolFee.fromJson(decode['nextEpochFee']),
+      preferredDepositValidatorVoteAddress:
+          decode['preferredDepositValidatorVoteAddress'],
+      preferredWithdrawValidatorVoteAddress:
+          decode['preferredWithdrawValidatorVoteAddress'],
+      stakeDepositFee: StakePoolFee.fromJson(decode['stakeDepositFee']),
+      stakeWithdrawalFee: StakePoolFee.fromJson(decode['stakeWithdrawalFee']),
+      nextStakeWithdrawalFee:
+          decode['nextStakeWithdrawalFee'] == null
+              ? null
+              : StakePoolFee.fromJson(decode['nextStakeWithdrawalFee']),
+      nextSolWithdrawalFee:
+          decode['nextSolWithdrawalFee'] == null
+              ? null
+              : StakePoolFee.fromJson(decode['nextSolWithdrawalFee']),
+      stakeReferralFee: decode['stakeReferralFee'],
+      solDepositAuthority: decode['solDepositAuthority'],
+      solDepositFee: StakePoolFee.fromJson(decode['solDepositFee']),
+      solReferralFee: decode['solReferralFee'],
+      solWithdrawAuthority: decode['solWithdrawAuthority'],
+      solWithdrawalFee: StakePoolFee.fromJson(decode['solWithdrawalFee']),
+      lastEpochPoolTokenSupply: decode['lastEpochPoolTokenSupply'],
+      lastEpochTotalLamports: decode['lastEpochTotalLamports'],
+    );
   }
 
   @override
@@ -271,7 +286,7 @@ class StakePoolAccount extends BorshLayoutSerializable {
       'solWithdrawalFee': solWithdrawalFee.serialize(),
       'nextSolWithdrawalFee': nextSolWithdrawalFee?.serialize(),
       'lastEpochPoolTokenSupply': lastEpochPoolTokenSupply,
-      'lastEpochTotalLamports': lastEpochTotalLamports
+      'lastEpochTotalLamports': lastEpochTotalLamports,
     };
   }
 

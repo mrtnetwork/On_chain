@@ -5,10 +5,11 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_getnormalizedmovestruct)
 class SuiRequestGetNormalizedMoveStruct
     extends SuiRequest<SuiApiMoveNormalizedStruct, Map<String, dynamic>> {
-  const SuiRequestGetNormalizedMoveStruct(
-      {required this.package,
-      required this.moduleName,
-      required this.structName});
+  const SuiRequestGetNormalizedMoveStruct({
+    required this.package,
+    required this.moduleName,
+    required this.structName,
+  });
 
   final String package;
   final String moduleName;

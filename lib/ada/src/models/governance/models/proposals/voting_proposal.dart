@@ -18,19 +18,21 @@ class VotingProposal with InternalCborSerialization {
   });
   factory VotingProposal.deserialize(CborListValue cbor) {
     return VotingProposal(
-      deposit: cbor.elementAsInteger(0),
-      rewardAddress: ADAAddress.deserialize(cbor.elementAt<CborBytesValue>(1)),
-      governanceAction:
-          GovernanceAction.deserialize(cbor.elementAt<CborListValue>(2)),
-      anchor: Anchor.deserialize(cbor.elementAt<CborListValue>(3)),
+      deposit: cbor.rawValueAt(0),
+      rewardAddress: ADAAddress.deserialize(cbor.objectAt<CborBytesValue>(1)),
+      governanceAction: GovernanceAction.deserialize(
+        cbor.objectAt<CborListValue>(2),
+      ),
+      anchor: Anchor.deserialize(cbor.objectAt<CborListValue>(3)),
     );
   }
   factory VotingProposal.fromJson(Map<String, dynamic> json) {
     return VotingProposal(
-        anchor: Anchor.fromJson(json["anchor"]),
-        governanceAction: GovernanceAction.fromJson(json["governance_action"]),
-        rewardAddress: ADARewardAddress(json["reward_account"]),
-        deposit: BigintUtils.parse(json["deposit"]));
+      anchor: Anchor.fromJson(json["anchor"]),
+      governanceAction: GovernanceAction.fromJson(json["governance_action"]),
+      rewardAddress: ADARewardAddress(json["reward_account"]),
+      deposit: BigintUtils.parse(json["deposit"]),
+    );
   }
 
   @override
@@ -39,7 +41,7 @@ class VotingProposal with InternalCborSerialization {
       CborUnsignedValue.u64(deposit),
       rewardAddress.toCbor(),
       governanceAction.toCbor(),
-      anchor.toCbor()
+      anchor.toCbor(),
     ]);
   }
 
@@ -49,7 +51,7 @@ class VotingProposal with InternalCborSerialization {
       "anchor": anchor.toJson(),
       "governance_action": governanceAction.toJson(),
       "deposit": deposit.toString(),
-      "reward_account": rewardAddress.address
+      "reward_account": rewardAddress.address,
     };
   }
 }

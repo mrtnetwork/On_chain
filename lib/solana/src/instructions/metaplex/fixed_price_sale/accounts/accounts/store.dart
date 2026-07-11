@@ -7,11 +7,11 @@ class _Utils {
   static const List<int> discriminator = [130, 48, 247, 244, 182, 191, 30, 26];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('admin'),
-        LayoutConst.string(property: 'name'),
-        LayoutConst.string(property: 'description'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('admin'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'description'),
+  ]);
 }
 
 class Store extends BorshLayoutSerializable {
@@ -26,13 +26,15 @@ class Store extends BorshLayoutSerializable {
   });
   factory Store.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return Store(
-        name: decode['name'],
-        admin: decode['admin'],
-        description: decode['description']);
+      name: decode['name'],
+      admin: decode['admin'],
+      description: decode['description'],
+    );
   }
 
   @override
@@ -44,7 +46,7 @@ class Store extends BorshLayoutSerializable {
       'discriminator': _Utils.discriminator,
       'description': description,
       'admin': admin,
-      'name': name
+      'name': name,
     };
   }
 

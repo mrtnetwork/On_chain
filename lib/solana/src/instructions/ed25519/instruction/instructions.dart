@@ -8,8 +8,10 @@ class Ed25519ProgramInstruction implements ProgramLayoutInstruction {
   @override
   final String name;
   const Ed25519ProgramInstruction(this.insturction, this.name);
-  static const Ed25519ProgramInstruction ed25519 =
-      Ed25519ProgramInstruction(null, 'Ed25519');
+  static const Ed25519ProgramInstruction ed25519 = Ed25519ProgramInstruction(
+    null,
+    'Ed25519',
+  );
 
   static const List<Ed25519ProgramInstruction> values = [ed25519];
 

@@ -5,22 +5,24 @@ class TransferFee extends BorshLayoutSerializable {
   final BigInt epoch;
   final BigInt maximumFee;
   final int transferFeeBasisPoints;
-  const TransferFee(
-      {required this.epoch,
-      required this.maximumFee,
-      required this.transferFeeBasisPoints});
+  const TransferFee({
+    required this.epoch,
+    required this.maximumFee,
+    required this.transferFeeBasisPoints,
+  });
   factory TransferFee.fromJson(Map<String, dynamic> json) {
     return TransferFee(
-        epoch: json['epoch'],
-        maximumFee: json['maximumFee'],
-        transferFeeBasisPoints: json['transferFeeBasisPoints']);
+      epoch: json['epoch'],
+      maximumFee: json['maximumFee'],
+      transferFeeBasisPoints: json['transferFeeBasisPoints'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'epoch'),
-        LayoutConst.u64(property: 'maximumFee'),
-        LayoutConst.u16(property: 'transferFeeBasisPoints')
-      ], property: 'transferFee');
+    LayoutConst.u64(property: 'epoch'),
+    LayoutConst.u64(property: 'maximumFee'),
+    LayoutConst.u16(property: 'transferFeeBasisPoints'),
+  ], property: 'transferFee');
 
   @override
   StructLayout get layout => staticLayout;
@@ -30,7 +32,7 @@ class TransferFee extends BorshLayoutSerializable {
     return {
       'epoch': epoch,
       'maximumFee': maximumFee,
-      'transferFeeBasisPoints': transferFeeBasisPoints
+      'transferFeeBasisPoints': transferFeeBasisPoints,
     };
   }
 

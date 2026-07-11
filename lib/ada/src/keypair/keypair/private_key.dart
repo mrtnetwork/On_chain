@@ -19,11 +19,14 @@ class AdaPrivateKey {
   factory AdaPrivateKey.fromBytes(List<int> privateKeyBytes) {
     if (privateKeyBytes.length != Ed25519KeysConst.privKeyByteLen &&
         privateKeyBytes.length != Ed25519KholawKeysConst.privKeyByteLen) {
-      throw ADAPluginException('Invalid private key bytes.', details: {
-        'length': privateKeyBytes.length,
-        'expected':
-            '${Ed25519KeysConst.privKeyByteLen} or ${Ed25519KholawKeysConst.privKeyByteLen}'
-      });
+      throw ADAPluginException(
+        'Invalid private key bytes.',
+        details: {
+          'length': privateKeyBytes.length.toString(),
+          'expected':
+              '${Ed25519KeysConst.privKeyByteLen} or ${Ed25519KholawKeysConst.privKeyByteLen}',
+        },
+      );
     }
     IPrivateKey key;
     if (privateKeyBytes.length == Ed25519KholawKeysConst.privKeyByteLen) {
@@ -68,18 +71,21 @@ class AdaPrivateKey {
   /// Returns a Vkeywitness object containing the verification key and signature.
   Vkeywitness createSignatureWitness(List<int> digest) {
     return Vkeywitness(
-        vKey: publicKey().toVerificationKey(),
-        signature: Ed25519Signature(sign(digest)));
+      vKey: publicKey().toVerificationKey(),
+      signature: Ed25519Signature(sign(digest)),
+    );
   }
 
-  BootstrapWitness createBootstrapWitness(
-      {required List<int> digest,
-      required ADAByronAddress address,
-      required List<int> chainCode}) {
+  BootstrapWitness createBootstrapWitness({
+    required List<int> digest,
+    required ADAByronAddress address,
+    required List<int> chainCode,
+  }) {
     return BootstrapWitness(
-        vkey: Vkey(publicKey().toBytes(false)),
-        signature: Ed25519Signature(sign(digest)),
-        chainCode: chainCode,
-        attributes: address.attributeSerialize());
+      vkey: Vkey(publicKey().toBytes(false)),
+      signature: Ed25519Signature(sign(digest)),
+      chainCode: chainCode,
+      attributes: address.attributeSerialize(),
+    );
   }
 }

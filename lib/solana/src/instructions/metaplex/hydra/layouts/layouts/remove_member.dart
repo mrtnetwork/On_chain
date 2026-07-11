@@ -6,10 +6,11 @@ class MetaplexHydraRemoveMemberLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraRemoveMemberLayout.fromBuffer(List<int> data) {
     MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexHydraProgramInstruction.processRemoveMember.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexHydraProgramInstruction.processRemoveMember.insturction,
+    );
     return const MetaplexHydraRemoveMemberLayout();
   }
 

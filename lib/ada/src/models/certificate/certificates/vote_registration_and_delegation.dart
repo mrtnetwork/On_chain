@@ -9,33 +9,43 @@ class VoteRegistrationAndDelegation extends Certificate {
   final Credential stakeCredential;
   final DRep drep;
   final BigInt coin;
-  const VoteRegistrationAndDelegation(
-      {required this.stakeCredential, required this.drep, required this.coin});
+  const VoteRegistrationAndDelegation({
+    required this.stakeCredential,
+    required this.drep,
+    required this.coin,
+  });
 
   factory VoteRegistrationAndDelegation.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: CertificateType.voteRegistrationAndDelegation);
+    CertificateType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: CertificateType.voteRegistrationAndDelegation,
+    );
     return VoteRegistrationAndDelegation(
-        stakeCredential:
-            Credential.deserialize(cbor.elementAt<CborListValue>(1)),
-        drep: DRep.deserialize(cbor.elementAt<CborListValue>(2)),
-        coin: cbor.elementAsInteger(3));
+      stakeCredential: Credential.deserialize(cbor.objectAt<CborListValue>(1)),
+      drep: DRep.deserialize(cbor.objectAt<CborListValue>(2)),
+      coin: cbor.rawValueAt(3),
+    );
   }
   factory VoteRegistrationAndDelegation.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> correctJson =
         json[CertificateType.voteRegistrationAndDelegation.name] ?? json;
     return VoteRegistrationAndDelegation(
-        stakeCredential: Credential.fromJson(correctJson['stake_credential']),
-        drep: DRep.fromJson(correctJson["drep"]),
-        coin: BigintUtils.parse(correctJson['coin']));
+      stakeCredential: Credential.fromJson(correctJson['stake_credential']),
+      drep: DRep.fromJson(correctJson["drep"]),
+      coin: BigintUtils.parse(correctJson['coin']),
+    );
   }
 
-  VoteRegistrationAndDelegation copyWith(
-      {Credential? stakeCredential, DRep? drep, BigInt? coin}) {
+  VoteRegistrationAndDelegation copyWith({
+    Credential? stakeCredential,
+    DRep? drep,
+    BigInt? coin,
+  }) {
     return VoteRegistrationAndDelegation(
-        stakeCredential: stakeCredential ?? this.stakeCredential,
-        drep: drep ?? this.drep,
-        coin: coin ?? this.coin);
+      stakeCredential: stakeCredential ?? this.stakeCredential,
+      drep: drep ?? this.drep,
+      coin: coin ?? this.coin,
+    );
   }
 
   @override
@@ -44,7 +54,7 @@ class VoteRegistrationAndDelegation extends Certificate {
       type.toCbor(),
       stakeCredential.toCbor(),
       drep.toCbor(),
-      CborUnsignedValue.u64(coin)
+      CborUnsignedValue.u64(coin),
     ]);
   }
 
@@ -57,8 +67,8 @@ class VoteRegistrationAndDelegation extends Certificate {
       type.name: {
         'stake_credential': stakeCredential.toJson(),
         'drep': drep.toJson(),
-        'coin': coin.toString()
-      }
+        'coin': coin.toString(),
+      },
     };
   }
 

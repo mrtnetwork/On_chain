@@ -20,80 +20,113 @@ class ADARewardAddress extends ADAShellyAddress {
   ADAAddressType get addressType => ADAAddressType.reward;
 
   /// Constructor for ADARewardAddress.
-  const ADARewardAddress._(
-      {required this.paymentCredential,
-      required this.address,
-      required this.network})
-      : super.init();
+  const ADARewardAddress._({
+    required this.paymentCredential,
+    required this.address,
+    required this.network,
+  }) : super.init();
 
   /// Factory method to create an ADARewardAddress instance from a given address string.
   factory ADARewardAddress(String address, {ADANetwork? network}) {
-    final decode = AdaAddressUtils.decodeAddres(address,
-        addrType: ADAAddressType.reward, network: network);
+    final decode = AdaAddressUtils.decodeAddres(
+      address,
+      addrType: ADAAddressType.reward,
+      network: network,
+    );
     return ADARewardAddress._(
-        paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
-        address: address,
-        network: decode.network);
+      paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
+      address: address,
+      network: network ?? decode.network,
+    );
   }
 
   /// Factory method to create an ADARewardAddress instance from a payment credential.
-  factory ADARewardAddress.fromCredential(
-      {required Credential credential,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADARewardAddress.fromCredential({
+    required Credential credential,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final encode = AdaShelleyStakingAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADARewardAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory method to create an ADARewardAddress instance from a public key.
-  factory ADARewardAddress.fromPublicKey(
-      {required List<int> pubkeyBytes,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADARewardAddress.fromPublicKey({
+    required List<int> pubkeyBytes,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final credential = AdaAddressUtils.publicKeyToCredential(pubkeyBytes);
     final encode = AdaShelleyStakingAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADARewardAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory method to create an ADARewardAddress instance from a Bip32 structure.
-  factory ADARewardAddress.fromBip32(
-      {required CardanoByronLegacyBip32 bip32,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
+  factory ADARewardAddress.fromBip32({
+    required CardanoByronLegacyBip32 bip32,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      bip32.publicKey.compressed,
+    );
     final encode = AdaShelleyStakingAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADARewardAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory method to create an ADARewardAddress instance from an Icarus structure.
-  factory ADARewardAddress.fromIcarus(
-      {required CardanoIcarusBip32 bip32,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
+  factory ADARewardAddress.fromIcarus({
+    required CardanoIcarusBip32 bip32,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      bip32.publicKey.compressed,
+    );
     final encode = AdaShelleyStakingAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADARewardAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory method to create an ADARewardAddress instance from a CIP1852 structure.
-  factory ADARewardAddress.fromCip1852(
-      {required Cip1852 cip1582, ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(cip1582.publicKey.compressed);
+  factory ADARewardAddress.fromCip1852({
+    required Cip1852 cip1582,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      cip1582.publicKey.compressed,
+    );
     final encode = AdaShelleyStakingAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADARewardAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
 }

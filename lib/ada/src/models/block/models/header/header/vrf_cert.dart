@@ -7,11 +7,12 @@ class VRFCert with InternalCborSerialization {
   final List<int> output;
   final List<int> proof;
   VRFCert({required List<int> output, required List<int> proof})
-      : output = output.asImmutableBytes,
-        proof = AdaTransactionUtils.validateFixedLengthBytes(
-            bytes: proof,
-            length: AdaTransactionConstant.proofLength,
-            objectName: 'proof');
+    : output = output.asImmutableBytes,
+      proof = AdaTransactionUtils.validateFixedLengthBytes(
+        bytes: proof,
+        length: AdaTransactionConstant.proofLength,
+        objectName: 'proof',
+      );
 
   VRFCert copyWith({List<int>? output, List<int>? proof}) {
     return VRFCert(output: output ?? this.output, proof: proof ?? this.proof);
@@ -19,26 +20,28 @@ class VRFCert with InternalCborSerialization {
 
   factory VRFCert.fromJson(Map<String, dynamic> json) {
     return VRFCert(
-        output: BytesUtils.fromHexString(json["output"]),
-        proof: BytesUtils.fromHexString(json["proof"]));
+      output: BytesUtils.fromHexString(json["output"]),
+      proof: BytesUtils.fromHexString(json["proof"]),
+    );
   }
 
   factory VRFCert.deserialize(CborListValue cbor) {
-    return VRFCert(
-        output: cbor.elementAtBytes(0), proof: cbor.elementAtBytes(1));
+    return VRFCert(output: cbor.rawValueAt(0), proof: cbor.rawValueAt(1));
   }
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite(
-        [CborBytesValue(output), CborBytesValue(proof)]);
+    return CborListValue.definite([
+      CborBytesValue(output),
+      CborBytesValue(proof),
+    ]);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'output': BytesUtils.toHexString(output),
-      'proof': BytesUtils.toHexString(proof)
+      'proof': BytesUtils.toHexString(proof),
     };
   }
 }

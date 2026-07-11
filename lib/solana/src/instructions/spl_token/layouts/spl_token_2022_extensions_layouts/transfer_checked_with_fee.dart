@@ -15,28 +15,32 @@ class SPLToken2022TransferCheckedWithFeeLayout extends SPLTokenProgramLayout {
   /// mint.
   final BigInt fee;
 
-  SPLToken2022TransferCheckedWithFeeLayout(
-      {required this.amount, required this.decimals, required this.fee});
+  SPLToken2022TransferCheckedWithFeeLayout({
+    required this.amount,
+    required this.decimals,
+    required this.fee,
+  });
 
   factory SPLToken2022TransferCheckedWithFeeLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            SPLTokenProgramInstruction.transferFeeExtension.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.transferFeeExtension.insturction,
+    );
     return SPLToken2022TransferCheckedWithFeeLayout(
-        amount: decode['amount'],
-        decimals: decode['decimals'],
-        fee: decode['fee']);
+      amount: decode['amount'],
+      decimals: decode['decimals'],
+      fee: decode['fee'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'transferFee'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.u8(property: 'decimals'),
-        LayoutConst.u64(property: 'fee'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'transferFee'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u8(property: 'decimals'),
+    LayoutConst.u64(property: 'fee'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -52,7 +56,7 @@ class SPLToken2022TransferCheckedWithFeeLayout extends SPLTokenProgramLayout {
           TransferFeeInstructionInstruction.transferCheckedWithFee.value,
       'amount': amount,
       'decimals': decimals,
-      'fee': fee
+      'fee': fee,
     };
   }
 }

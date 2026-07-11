@@ -18,8 +18,10 @@ void _testEd25519SuiSecretKey() {
     final decode = SuiCryptoUtils.decodeSuiSecretKey(secretKey);
     expect(decode.$1, SuiKeyAlgorithm.ed25519);
     expect(decode.$2, keyBytes);
-    final encode = SuiCryptoUtils.encodeSuiSecretKey(keyBytes,
-        type: privateKey.algorithm.curveType);
+    final encode = SuiCryptoUtils.encodeSuiSecretKey(
+      keyBytes,
+      type: privateKey.algorithm.curveType,
+    );
     expect(encode, secretKey);
   });
   test('Ed25519 encode decode sui secret key', () {
@@ -34,8 +36,10 @@ void _testEd25519SuiSecretKey() {
     final decode = SuiCryptoUtils.decodeSuiSecretKey(secretKey);
     expect(decode.$1, SuiKeyAlgorithm.ed25519);
     expect(decode.$2, keyBytes);
-    final encode = SuiCryptoUtils.encodeSuiSecretKey(keyBytes,
-        type: privateKey.algorithm.curveType);
+    final encode = SuiCryptoUtils.encodeSuiSecretKey(
+      keyBytes,
+      type: privateKey.algorithm.curveType,
+    );
     expect(encode, secretKey);
   });
   test('Secp256k1 encode decode sui secret key', () {
@@ -50,8 +54,10 @@ void _testEd25519SuiSecretKey() {
     final decode = SuiCryptoUtils.decodeSuiSecretKey(secretKey);
     expect(decode.$1, SuiKeyAlgorithm.secp256k1);
     expect(decode.$2, keyBytes);
-    final encode = SuiCryptoUtils.encodeSuiSecretKey(keyBytes,
-        type: privateKey.algorithm.curveType);
+    final encode = SuiCryptoUtils.encodeSuiSecretKey(
+      keyBytes,
+      type: privateKey.algorithm.curveType,
+    );
     expect(encode, secretKey);
   });
   test('Secp256r1 encode decode sui secret key', () {
@@ -66,8 +72,10 @@ void _testEd25519SuiSecretKey() {
     final decode = SuiCryptoUtils.decodeSuiSecretKey(secretKey);
     expect(decode.$1, SuiKeyAlgorithm.secp256r1);
     expect(decode.$2, keyBytes);
-    final encode = SuiCryptoUtils.encodeSuiSecretKey(keyBytes,
-        type: privateKey.algorithm.curveType);
+    final encode = SuiCryptoUtils.encodeSuiSecretKey(
+      keyBytes,
+      type: privateKey.algorithm.curveType,
+    );
     expect(encode, secretKey);
   });
 }

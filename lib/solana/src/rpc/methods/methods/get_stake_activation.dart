@@ -8,11 +8,12 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getstakeactivation
 class SolanaRequestGetStakeActivation
     extends SolanaRequest<StakeActivationData, Map<String, dynamic>> {
-  const SolanaRequestGetStakeActivation(
-      {required this.account,
-      this.epoch,
-      super.commitment,
-      super.minContextSlot});
+  const SolanaRequestGetStakeActivation({
+    required this.account,
+    this.epoch,
+    super.commitment,
+    super.minContextSlot,
+  });
 
   /// getStakeActivation
   @override
@@ -33,8 +34,8 @@ class SolanaRequestGetStakeActivation
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
-        {'epoch': epoch}
-      ])
+        {'epoch': epoch},
+      ]),
     ];
   }
 

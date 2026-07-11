@@ -8,19 +8,24 @@ class MetaplexCandyMachineInitializeCandyMachineLayout
   const MetaplexCandyMachineInitializeCandyMachineLayout({required this.data});
 
   factory MetaplexCandyMachineInitializeCandyMachineLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .initializeCandyMachine.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction
+              .initializeCandyMachine
+              .insturction,
+    );
     return MetaplexCandyMachineInitializeCandyMachineLayout(
-        data: CandyMachineData.fromJson(decode['candyMachineData']));
+      data: CandyMachineData.fromJson(decode['candyMachineData']),
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        CandyMachineData.staticLayout
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    CandyMachineData.staticLayout,
+  ]);
 
   @override
   StructLayout get layout => _layout;

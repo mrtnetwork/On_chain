@@ -20,9 +20,10 @@ class StakePoolProgram extends TransactionInstruction {
     SolAddress programId = StakePoolProgramConst.programId,
   }) {
     return StakePoolProgram(
-        layout: StakePoolProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: StakePoolProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Cleans up validator stake account entries marked as `ReadyForRemoval`
@@ -34,12 +35,10 @@ class StakePoolProgram extends TransactionInstruction {
     required SolAddress validatorList,
   }) {
     return StakePoolProgram(
-        layout: const StakePoolCleanupRemovedValidatorEntriesLayout(),
-        keys: [
-          stakePool.toReadOnly(),
-          validatorList.toWritable(),
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: const StakePoolCleanupRemovedValidatorEntriesLayout(),
+      keys: [stakePool.toReadOnly(), validatorList.toWritable()],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   ///  Updates balances of validator and transient stake accounts in the pool
@@ -68,18 +67,19 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolUpdateValidatorListBalanceLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          withdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          reserveStake.toWritable(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly(),
-          ...validatorAndTransientStakePairs.map((e) => e.toWritable())
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        withdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        reserveStake.toWritable(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+        ...validatorAndTransientStakePairs.map((e) => e.toWritable()),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// Updates total pool balance based on balances in the reserve and
@@ -104,17 +104,18 @@ class StakePoolProgram extends TransactionInstruction {
     required SolAddress poolMint,
   }) {
     return StakePoolProgram(
-        layout: const StakePoolUpdateStakePoolBalanceLayout(),
-        keys: [
-          stakePool.toWritable(),
-          withdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          reserveStake.toReadOnly(),
-          managerFeeAccount.toWritable(),
-          poolMint.toWritable(),
-          SPLTokenProgramConst.tokenProgramId.toReadOnly()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: const StakePoolUpdateStakePoolBalanceLayout(),
+      keys: [
+        stakePool.toWritable(),
+        withdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        reserveStake.toReadOnly(),
+        managerFeeAccount.toWritable(),
+        poolMint.toWritable(),
+        SPLTokenProgramConst.tokenProgramId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// (Staker only) Decrease active stake on a validator, eventually moving it
@@ -149,20 +150,21 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolDecreaseValidatorStakeLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          staker.toSigner(),
-          withdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          validatorStake.toWritable(),
-          transientStake.toWritable(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly(),
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        staker.toSigner(),
+        withdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        validatorStake.toWritable(),
+        transientStake.toWritable(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// (Staker only) Decrease active stake on a validator, eventually moving it
@@ -204,21 +206,22 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolDecreaseValidatorStakeWithReserveLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          staker.toSigner(),
-          withdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          reserveStake.toWritable(),
-          validatorStake.toWritable(),
-          transientStake.toWritable(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly(),
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        staker.toSigner(),
+        withdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        reserveStake.toWritable(),
+        validatorStake.toWritable(),
+        transientStake.toWritable(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// (Staker only) Decrease active stake again from a validator, eventually
@@ -264,22 +267,23 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolDecreaseAdditionalValidatorStakeLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          staker.toSigner(),
-          withdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          reserveStake.toWritable(),
-          validatorStake.toWritable(),
-          ephemeralStake.toWritable(),
-          transientStake.toWritable(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        staker.toSigner(),
+        withdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        reserveStake.toWritable(),
+        validatorStake.toWritable(),
+        ephemeralStake.toWritable(),
+        transientStake.toWritable(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// (Staker only) Increase stake on a validator from the reserve account
@@ -316,24 +320,25 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolIncreaseValidatorStakeLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          staker.toSigner(),
-          withdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          reserveStake.toWritable(),
-          transientStake.toWritable(),
-          validatorStake.toReadOnly(),
-          validatorVote.toReadOnly(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          StakeProgramConst.stakeConfigId.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        staker.toSigner(),
+        withdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        reserveStake.toWritable(),
+        transientStake.toWritable(),
+        validatorStake.toReadOnly(),
+        validatorVote.toReadOnly(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        StakeProgramConst.stakeConfigId.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// (Staker only) Increase stake on a validator again in an epoch.
@@ -376,24 +381,25 @@ class StakePoolProgram extends TransactionInstruction {
     required SolAddress ephemeralStake,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          staker.toSigner(),
-          withdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          reserveStake.toWritable(),
-          ephemeralStake.toWritable(),
-          transientStake.toWritable(),
-          validatorStake.toReadOnly(),
-          validatorVote.toReadOnly(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          StakeProgramConst.stakeConfigId.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        staker.toSigner(),
+        withdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        reserveStake.toWritable(),
+        ephemeralStake.toWritable(),
+        transientStake.toWritable(),
+        validatorStake.toReadOnly(),
+        validatorVote.toReadOnly(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        StakeProgramConst.stakeConfigId.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// Deposit some stake into the pool. The output is a "pool" token
@@ -437,25 +443,26 @@ class StakePoolProgram extends TransactionInstruction {
     required SolAddress poolMint,
   }) {
     return StakePoolProgram(
-        layout: const StakePoolDepositStakeLayout(),
-        keys: [
-          stakePool.toWritable(),
-          validatorList.toWritable(),
-          depositAuthority.toReadOnly(),
-          withdrawAuthority.toReadOnly(),
-          depositStake.toWritable(),
-          validatorStake.toWritable(),
-          reserveStake.toWritable(),
-          destinationPoolAccount.toWritable(),
-          managerFeeAccount.toWritable(),
-          referralPoolAccount.toWritable(),
-          poolMint.toWritable(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          SPLTokenProgramConst.tokenProgramId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: const StakePoolDepositStakeLayout(),
+      keys: [
+        stakePool.toWritable(),
+        validatorList.toWritable(),
+        depositAuthority.toReadOnly(),
+        withdrawAuthority.toReadOnly(),
+        depositStake.toWritable(),
+        validatorStake.toWritable(),
+        reserveStake.toWritable(),
+        destinationPoolAccount.toWritable(),
+        managerFeeAccount.toWritable(),
+        referralPoolAccount.toWritable(),
+        poolMint.toWritable(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        SPLTokenProgramConst.tokenProgramId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// Withdraw the token from the pool at the current ratio.
@@ -492,23 +499,24 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolWithdrawStakeLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toWritable(),
-          validatorList.toWritable(),
-          withdrawAuthority.toReadOnly(),
-          validatorStake.toWritable(),
-          destinationStake.toWritable(),
-          destinationStakeAuthority.toReadOnly(),
-          sourceTransferAuthority.toSigner(),
-          sourcePoolAccount.toWritable(),
-          managerFeeAccount.toWritable(),
-          poolMint.toWritable(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SPLTokenProgramConst.tokenProgramId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toWritable(),
+        validatorList.toWritable(),
+        withdrawAuthority.toReadOnly(),
+        validatorStake.toWritable(),
+        destinationStake.toWritable(),
+        destinationStakeAuthority.toReadOnly(),
+        sourceTransferAuthority.toSigner(),
+        sourcePoolAccount.toWritable(),
+        managerFeeAccount.toWritable(),
+        poolMint.toWritable(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SPLTokenProgramConst.tokenProgramId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// Withdraw SOL directly from the pool's reserve account.
@@ -543,23 +551,24 @@ class StakePoolProgram extends TransactionInstruction {
     SolAddress? solWithdrawAuthority,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toWritable(),
-          withdrawAuthority.toReadOnly(),
-          sourceTransferAuthority.toSigner(),
-          sourcePoolAccount.toWritable(),
-          reserveStake.toWritable(),
-          destinationSystemAccount.toWritable(),
-          managerFeeAccount.toWritable(),
-          poolMint.toWritable(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly(),
-          SPLTokenProgramConst.tokenProgramId.toReadOnly(),
-          if (solWithdrawAuthority != null) solWithdrawAuthority.toSigner()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toWritable(),
+        withdrawAuthority.toReadOnly(),
+        sourceTransferAuthority.toSigner(),
+        sourcePoolAccount.toWritable(),
+        reserveStake.toWritable(),
+        destinationSystemAccount.toWritable(),
+        managerFeeAccount.toWritable(),
+        poolMint.toWritable(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+        SPLTokenProgramConst.tokenProgramId.toReadOnly(),
+        if (solWithdrawAuthority != null) solWithdrawAuthority.toSigner(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// Deposit SOL directly into the pool's reserve account. The output is a
@@ -595,21 +604,22 @@ class StakePoolProgram extends TransactionInstruction {
     SolAddress? depositAuthority,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toWritable(),
-          withdrawAuthority.toReadOnly(),
-          reserveStake.toWritable(),
-          fundingAccount.toSignerAndWritable(),
-          destinationPoolAccount.toWritable(),
-          managerFeeAccount.toWritable(),
-          referralPoolAccount.toWritable(),
-          poolMint.toWritable(),
-          SystemProgramConst.programId.toReadOnly(),
-          SPLTokenProgramConst.tokenProgramId.toReadOnly(),
-          if (depositAuthority != null) depositAuthority.toSigner(),
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toWritable(),
+        withdrawAuthority.toReadOnly(),
+        reserveStake.toWritable(),
+        fundingAccount.toSignerAndWritable(),
+        destinationPoolAccount.toWritable(),
+        managerFeeAccount.toWritable(),
+        referralPoolAccount.toWritable(),
+        poolMint.toWritable(),
+        SystemProgramConst.programId.toReadOnly(),
+        SPLTokenProgramConst.tokenProgramId.toReadOnly(),
+        if (depositAuthority != null) depositAuthority.toSigner(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// (Staker only) Redelegate active stake on a validator, eventually moving
@@ -675,26 +685,27 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolReDelegateLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          staker.toSigner(),
-          stakePoolWithdrawAuthority.toReadOnly(),
-          validatorList.toWritable(),
-          reserveStake.toWritable(),
-          sourceValidatorStake.toWritable(),
-          sourceTransientStake.toWritable(),
-          ephemeralStake.toWritable(),
-          destinationTransientStake.toWritable(),
-          destinationValidatorStake.toReadOnly(),
-          validator.toReadOnly(),
-          SystemProgramConst.sysvarClockPubkey.toReadOnly(),
-          SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
-          StakeProgramConst.stakeConfigId.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          StakeProgramConst.programId.toReadOnly()
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        staker.toSigner(),
+        stakePoolWithdrawAuthority.toReadOnly(),
+        validatorList.toWritable(),
+        reserveStake.toWritable(),
+        sourceValidatorStake.toWritable(),
+        sourceTransientStake.toWritable(),
+        ephemeralStake.toWritable(),
+        destinationTransientStake.toWritable(),
+        destinationValidatorStake.toReadOnly(),
+        validator.toReadOnly(),
+        SystemProgramConst.sysvarClockPubkey.toReadOnly(),
+        SystemProgramConst.sysvarStakeHistoryPubkey.toReadOnly(),
+        StakeProgramConst.stakeConfigId.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        StakeProgramConst.programId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// Create token metadata for the stake-pool token in the
@@ -720,46 +731,48 @@ class StakePoolProgram extends TransactionInstruction {
     required StakePoolCreateTokenMetaDataLayout layout,
   }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          manager.toSigner(),
-          withdrawAuthority.toReadOnly(),
-          poolMint.toReadOnly(),
-          payer.toSignerAndWritable(),
-          tokenMetadata.toWritable(),
-          SPLTokenProgramConst.metaDataProgramId.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        manager.toSigner(),
+        withdrawAuthority.toReadOnly(),
+        poolMint.toReadOnly(),
+        payer.toSignerAndWritable(),
+        tokenMetadata.toWritable(),
+        SPLTokenProgramConst.metaDataProgramId.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 
   /// Update token metadata for the stake-pool token in the
   /// metaplex-token program
-  factory StakePoolProgram.updateTokenMetadata(
-      {
-      /// Stake pool
-      required SolAddress stakePool,
+  factory StakePoolProgram.updateTokenMetadata({
+    /// Stake pool
+    required SolAddress stakePool,
 
-      /// Manager
-      required SolAddress manager,
+    /// Manager
+    required SolAddress manager,
 
-      /// Token metadata account
-      required SolAddress tokenMetadata,
+    /// Token metadata account
+    required SolAddress tokenMetadata,
 
-      /// Stake pool withdraw authority
-      required SolAddress withdrawAuthority,
-      required StakePoolUpdateTokenMetaDataLayout layout}) {
+    /// Stake pool withdraw authority
+    required SolAddress withdrawAuthority,
+    required StakePoolUpdateTokenMetaDataLayout layout,
+  }) {
     return StakePoolProgram(
-        layout: layout,
-        keys: [
-          stakePool.toReadOnly(),
-          manager.toSigner(),
-          withdrawAuthority.toReadOnly(),
-          tokenMetadata.toWritable(),
-          SPLTokenProgramConst.metaDataProgramId.toReadOnly(),
-        ],
-        programId: StakePoolProgramConst.programId);
+      layout: layout,
+      keys: [
+        stakePool.toReadOnly(),
+        manager.toSigner(),
+        withdrawAuthority.toReadOnly(),
+        tokenMetadata.toWritable(),
+        SPLTokenProgramConst.metaDataProgramId.toReadOnly(),
+      ],
+      programId: StakePoolProgramConst.programId,
+    );
   }
 }

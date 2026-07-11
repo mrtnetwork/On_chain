@@ -7,9 +7,10 @@ class MetaplexNFTPacksClosePackLayout extends MetaplexNFTPacksProgramLayout {
 
   factory MetaplexNFTPacksClosePackLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexNFTPacksProgramInstruction.closePack.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexNFTPacksProgramInstruction.closePack.insturction,
+    );
     return const MetaplexNFTPacksClosePackLayout();
   }
 

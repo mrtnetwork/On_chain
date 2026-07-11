@@ -2,37 +2,35 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Transfer TRC10 token.
 class TransferAssetContract extends TronBaseContract {
   /// Create a new [TransferAssetContract] instance by parsing a JSON map.
   factory TransferAssetContract.fromJson(Map<String, dynamic> json) {
     return TransferAssetContract(
-      assetName: OnChainUtils.parseBytes(
-          value: json['asset_name'], name: 'asset_name'),
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      toAddress: OnChainUtils.parseTronAddress(
-          value: json['to_address'], name: 'to_address'),
-      amount: OnChainUtils.parseBigInt(value: json['amount'], name: 'amount'),
+      assetName: json.valueAsBytes("asset_name", encoding: StringEncoding.utf8),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      toAddress: TronAddress(json.valueAs("to_address")),
+
+      amount: json.valueAsBigInt("amount"),
     );
   }
 
   /// Create a new [TransferAssetContract] instance with specified parameters.
-  TransferAssetContract(
-      {required List<int> assetName,
-      required this.ownerAddress,
-      required this.toAddress,
-      required this.amount})
-      : assetName = assetName.asImmutableBytes;
+  TransferAssetContract({
+    required List<int> assetName,
+    required this.ownerAddress,
+    required this.toAddress,
+    required this.amount,
+  }) : assetName = assetName.asImmutableBytes;
   factory TransferAssetContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return TransferAssetContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(2)),
-        toAddress: TronAddress.fromBytes(decode.getField(3)),
-        assetName: decode.getField(1),
-        amount: decode.getField(4));
+      ownerAddress: TronAddress.fromBytes(decode.getField(2)),
+      toAddress: TronAddress.fromBytes(decode.getField(3)),
+      assetName: decode.getField(1),
+      amount: decode.getField(4),
+    );
   }
 
   /// Token id
@@ -63,7 +61,7 @@ class TransferAssetContract extends TronBaseContract {
       'owner_address': ownerAddress.toAddress(visible),
       'to_address': toAddress.toAddress(visible),
       'asset_name': StringUtils.decode(assetName),
-      'amount': amount.toString()
+      'amount': amount.toString(),
     }..removeWhere((key, value) => value == null);
   }
 

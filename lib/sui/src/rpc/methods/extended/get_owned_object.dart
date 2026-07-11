@@ -9,8 +9,11 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_getownedobjects)
 class SuiRequestGetOwnedObjects
     extends SuiRequest<SuiApiPaginatedObjectResponse, Map<String, dynamic>> {
-  const SuiRequestGetOwnedObjects(
-      {required this.address, this.query, super.pagination});
+  const SuiRequestGetOwnedObjects({
+    required this.address,
+    this.query,
+    super.pagination,
+  });
 
   /// The owner's Sui address
   final SuiAddress address;

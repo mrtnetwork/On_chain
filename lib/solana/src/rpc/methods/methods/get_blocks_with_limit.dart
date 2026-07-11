@@ -5,8 +5,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Returns a list of confirmed blocks starting at the given slot
 /// https://solana.com/docs/rpc/http/getblockswithlimit
 class SolanaRequestGetBlocksWithLimit extends SolanaRequest<List<int>, List> {
-  const SolanaRequestGetBlocksWithLimit(
-      {required this.startSlot, required this.limit, super.commitment});
+  const SolanaRequestGetBlocksWithLimit({
+    required this.startSlot,
+    required this.limit,
+    super.commitment,
+  });
 
   /// getBlocksWithLimit
   @override
@@ -23,7 +26,7 @@ class SolanaRequestGetBlocksWithLimit extends SolanaRequest<List<int>, List> {
     return [
       startSlot,
       limit,
-      SolanaRequestUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 

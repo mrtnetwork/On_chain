@@ -5,10 +5,11 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_getnormalizedmovefunction)
 class SuiRequestGetNormalizedMoveFunction
     extends SuiRequest<SuiApiMoveNormalizedFunction, Map<String, dynamic>> {
-  const SuiRequestGetNormalizedMoveFunction(
-      {required this.package,
-      required this.moduleName,
-      required this.functionName});
+  const SuiRequestGetNormalizedMoveFunction({
+    required this.package,
+    required this.moduleName,
+    required this.functionName,
+  });
 
   final String package;
   final String moduleName;

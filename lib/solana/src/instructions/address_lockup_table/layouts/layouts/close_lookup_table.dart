@@ -10,10 +10,11 @@ class AddressLookupCloseLookupTableLayout
   /// Constructs the layout from raw bytes.
   factory AddressLookupCloseLookupTableLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            AddressLookupTableProgramInstruction.closeLookupTable.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AddressLookupTableProgramInstruction.closeLookupTable.insturction,
+    );
     return const AddressLookupCloseLookupTableLayout();
   }
 

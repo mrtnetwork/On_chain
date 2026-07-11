@@ -27,7 +27,7 @@ class TronRequestScanShieldedTrc20NotesByOvk
       'end_block_index': endBlockIndex,
       'shielded_TRC20_contract_address': shieldedTRC20ContractAddress,
       'ovk': ovk,
-      'visible': visible
+      'visible': visible,
     };
   }
 

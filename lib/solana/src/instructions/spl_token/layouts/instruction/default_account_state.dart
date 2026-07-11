@@ -16,13 +16,14 @@ class DefaultAccountStateInstruction extends BorshLayoutSerializable {
       DefaultAccountStateInstruction._('Update');
   static const List<DefaultAccountStateInstruction> values = [
     initialize,
-    update
+    update,
   ];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'defaultAccountState')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'defaultAccountState',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -30,7 +31,7 @@ class DefaultAccountStateInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'defaultAccountState': {name: null}
+      'defaultAccountState': {name: null},
     };
   }
 
@@ -40,9 +41,12 @@ class DefaultAccountStateInstruction extends BorshLayoutSerializable {
   static DefaultAccountStateInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No DefaultAccountState found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No DefaultAccountState found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

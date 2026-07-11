@@ -10,23 +10,28 @@ class StringCoder implements ABICoder<String, String> {
   DecoderResult<String> decode(AbiParameter params, List<int> bytes) {
     final decode = const BytesCoder().decode(AbiParameter.bytes, bytes);
     return DecoderResult(
-        result: StringUtils.decode(decode.result),
-        consumed: decode.consumed,
-        name: params.name);
+      result: StringUtils.decode(decode.result),
+      consumed: decode.consumed,
+      name: params.name,
+    );
   }
 
   /// Encodes a string value to ABI-encoded bytes.
   @override
   EncoderResult abiEncode(AbiParameter params, String input) {
-    return const BytesCoder()
-        .abiEncode(AbiParameter.bytes, StringUtils.encode(input));
+    return const BytesCoder().abiEncode(
+      AbiParameter.bytes,
+      StringUtils.encode(input),
+    );
   }
 
   /// Legacy EIP-712 encoding for string values.
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
   EncoderResult encodePacked(AbiParameter params, String input) {
-    return const BytesCoder()
-        .encodePacked(AbiParameter.bytes, StringUtils.encode(input));
+    return const BytesCoder().encodePacked(
+      AbiParameter.bytes,
+      StringUtils.encode(input),
+    );
   }
 }

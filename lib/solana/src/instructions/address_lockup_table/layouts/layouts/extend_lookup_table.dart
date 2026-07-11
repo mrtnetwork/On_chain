@@ -15,24 +15,26 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
   /// Constructs the layout from raw bytes.
   factory AddressExtendLookupTableLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            AddressLookupTableProgramInstruction.extendLookupTable.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AddressLookupTableProgramInstruction.extendLookupTable.insturction,
+    );
     return AddressExtendLookupTableLayout(
-        addresses: (decode['addresses'] as List).cast<SolAddress>());
+      addresses: (decode['addresses'] as List).cast<SolAddress>(),
+    );
   }
 
   // StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.padding(LayoutConst.u64(), propery: 'paddingLength'),
-        LayoutConst.seq(
-          SolanaLayoutUtils.publicKey('publicKey'),
-          LayoutConst.rustVecOffset(),
-          property: 'addresses',
-        )
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.padding(LayoutConst.u64(), propery: 'paddingLength'),
+    LayoutConst.seq(
+      SolanaLayoutUtils.publicKey('publicKey'),
+      LayoutConst.rustVecOffset(),
+      property: 'addresses',
+    ),
+  ]);
 
   @override
   StructLayout get layout => _layout;

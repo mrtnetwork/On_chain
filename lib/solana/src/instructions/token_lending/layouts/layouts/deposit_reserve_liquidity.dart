@@ -7,22 +7,25 @@ class TokenLendingDepositReserveLiquidityLayout
     extends TokenLendingProgramLayout {
   /// Amount of liquidity to deposit in exchange for collateral tokens
   final BigInt liquidityAmount;
-  const TokenLendingDepositReserveLiquidityLayout(
-      {required this.liquidityAmount});
+  const TokenLendingDepositReserveLiquidityLayout({
+    required this.liquidityAmount,
+  });
 
   factory TokenLendingDepositReserveLiquidityLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            TokenLendingProgramInstruction.depositReserveLiquidity.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          TokenLendingProgramInstruction.depositReserveLiquidity.insturction,
+    );
     return TokenLendingDepositReserveLiquidityLayout(
-        liquidityAmount: decode['liquidityAmount']);
+      liquidityAmount: decode['liquidityAmount'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'liquidityAmount'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'liquidityAmount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

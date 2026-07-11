@@ -6,20 +6,23 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 class TransactionBodies with InternalCborSerialization {
   final List<TransactionBody> transactions;
   TransactionBodies({List<TransactionBody> transactions = const []})
-      : transactions = transactions.immutable;
+    : transactions = transactions.immutable;
   factory TransactionBodies.deserialize(CborListValue cbor) {
     return TransactionBodies(
-        transactions: cbor
-            .valueAsListOf<CborMapValue>()
-            .map((e) => TransactionBody.deserialize(
-                e.asMap<CborIntValue, CborObject>()))
-            .toList());
+      transactions:
+          cbor
+              .allObjectsAs<CborMapValue>()
+              .map((e) => TransactionBody.deserialize(e))
+              .toList(),
+    );
   }
   factory TransactionBodies.fromJson(Map<String, dynamic> json) {
     return TransactionBodies(
-        transactions: (json["transactions"] as List)
-            .map((e) => TransactionBody.fromJson(e))
-            .toList());
+      transactions:
+          (json["transactions"] as List)
+              .map((e) => TransactionBody.fromJson(e))
+              .toList(),
+    );
   }
 
   @override

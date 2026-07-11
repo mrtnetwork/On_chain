@@ -10,22 +10,25 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 class TronRequestFreezeBalanceV2
     extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestFreezeBalanceV2.fromContract(
-      FreezeBalanceV2Contract contract,
-      {int? permissionId,
-      bool visible = true}) {
+    FreezeBalanceV2Contract contract, {
+    int? permissionId,
+    bool visible = true,
+  }) {
     return TronRequestFreezeBalanceV2(
-        ownerAddress: contract.ownerAddress,
-        frozenBalance: contract.frozenBalance,
-        resource: contract.resource?.name,
-        permissionId: permissionId,
-        visible: visible);
+      ownerAddress: contract.ownerAddress,
+      frozenBalance: contract.frozenBalance,
+      resource: contract.resource?.name,
+      permissionId: permissionId,
+      visible: visible,
+    );
   }
-  TronRequestFreezeBalanceV2(
-      {required this.ownerAddress,
-      required this.frozenBalance,
-      this.resource,
-      this.permissionId,
-      this.visible = true});
+  TronRequestFreezeBalanceV2({
+    required this.ownerAddress,
+    required this.frozenBalance,
+    this.resource,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -51,7 +54,7 @@ class TronRequestFreezeBalanceV2
       'frozen_balance': frozenBalance,
       'resource': resource,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

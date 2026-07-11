@@ -8,37 +8,39 @@ class MetaplexBubblegumTransferLayout extends MetaplexBubblegumProgramLayout {
   final List<int> creatorHash;
   final BigInt nonce;
   final int index;
-  MetaplexBubblegumTransferLayout(
-      {required List<int> root,
-      required List<int> dataHash,
-      required List<int> creatorHash,
-      required this.nonce,
-      required this.index})
-      : root = root.asImmutableBytes,
-        dataHash = dataHash.asImmutableBytes,
-        creatorHash = creatorHash.asImmutableBytes;
+  MetaplexBubblegumTransferLayout({
+    required List<int> root,
+    required List<int> dataHash,
+    required List<int> creatorHash,
+    required this.nonce,
+    required this.index,
+  }) : root = root.asImmutableBytes,
+       dataHash = dataHash.asImmutableBytes,
+       creatorHash = creatorHash.asImmutableBytes;
 
   factory MetaplexBubblegumTransferLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexBubblegumProgramInstruction.transfer.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexBubblegumProgramInstruction.transfer.insturction,
+    );
     return MetaplexBubblegumTransferLayout(
-        root: decode['root'],
-        dataHash: decode['dataHash'],
-        creatorHash: decode['creatorHash'],
-        nonce: decode['nonce'],
-        index: decode['index']);
+      root: decode['root'],
+      dataHash: decode['dataHash'],
+      creatorHash: decode['creatorHash'],
+      nonce: decode['nonce'],
+      index: decode['index'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.blob(32, property: 'root'),
-        LayoutConst.blob(32, property: 'dataHash'),
-        LayoutConst.blob(32, property: 'creatorHash'),
-        LayoutConst.u64(property: 'nonce'),
-        LayoutConst.u32(property: 'index'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.blob(32, property: 'dataHash'),
+    LayoutConst.blob(32, property: 'creatorHash'),
+    LayoutConst.u64(property: 'nonce'),
+    LayoutConst.u32(property: 'index'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -54,7 +56,7 @@ class MetaplexBubblegumTransferLayout extends MetaplexBubblegumProgramLayout {
       'dataHash': dataHash,
       'creatorHash': creatorHash,
       'nonce': nonce,
-      'index': index
+      'index': index,
     };
   }
 }

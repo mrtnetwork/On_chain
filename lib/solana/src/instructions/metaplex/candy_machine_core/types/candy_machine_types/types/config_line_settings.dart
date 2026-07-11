@@ -8,28 +8,30 @@ class ConfigLineSettings extends BorshLayoutSerializable {
   final int uriLength;
   final bool isSequential;
 
-  const ConfigLineSettings(
-      {required this.prefixName,
-      required this.nameLength,
-      required this.prefixUri,
-      required this.uriLength,
-      required this.isSequential});
+  const ConfigLineSettings({
+    required this.prefixName,
+    required this.nameLength,
+    required this.prefixUri,
+    required this.uriLength,
+    required this.isSequential,
+  });
   factory ConfigLineSettings.fromJson(Map<String, dynamic> json) {
     return ConfigLineSettings(
-        prefixName: json['prefixName'],
-        nameLength: json['nameLength'],
-        prefixUri: json['prefixUri'],
-        uriLength: json['uriLength'],
-        isSequential: json['isSequential']);
+      prefixName: json['prefixName'],
+      nameLength: json['nameLength'],
+      prefixUri: json['prefixUri'],
+      uriLength: json['uriLength'],
+      isSequential: json['isSequential'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.string(property: 'prefixName'),
-        LayoutConst.u32(property: 'nameLength'),
-        LayoutConst.string(property: 'prefixUri'),
-        LayoutConst.u32(property: 'uriLength'),
-        LayoutConst.boolean(property: 'isSequential'),
-      ], property: 'configLineSettings');
+    LayoutConst.string(property: 'prefixName'),
+    LayoutConst.u32(property: 'nameLength'),
+    LayoutConst.string(property: 'prefixUri'),
+    LayoutConst.u32(property: 'uriLength'),
+    LayoutConst.boolean(property: 'isSequential'),
+  ], property: 'configLineSettings');
 
   @override
   StructLayout get layout => staticLayout;
@@ -40,7 +42,7 @@ class ConfigLineSettings extends BorshLayoutSerializable {
       'nameLength': nameLength,
       'prefixUri': prefixUri,
       'uriLength': uriLength,
-      'isSequential': isSequential
+      'isSequential': isSequential,
     };
   }
 

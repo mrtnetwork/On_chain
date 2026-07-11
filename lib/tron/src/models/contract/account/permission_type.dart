@@ -36,22 +36,32 @@ class PermissionType implements TronEnumerate {
   /// Returns the [PermissionType] associated with the given [name].
   ///
   /// Returns `null` if no match is found.
-  static PermissionType fromName(String? name,
-      {PermissionType? defaultPermission}) {
-    return values.firstWhere((element) => element.name == name, orElse: () {
-      if (defaultPermission != null) return defaultPermission;
-      throw const TronPluginException('No permission Type is found.');
-    });
+  static PermissionType fromName(
+    String? name, {
+    PermissionType? defaultPermission,
+  }) {
+    return values.firstWhere(
+      (element) => element.name == name,
+      orElse: () {
+        if (defaultPermission != null) return defaultPermission;
+        throw const TronPluginException('No permission Type is found.');
+      },
+    );
   }
 
   /// Returns the [PermissionType] associated with the given [value].
   ///
   /// Throws an error if no match is found.
-  static PermissionType fromValue(int? value,
-      {PermissionType? defaultPermission}) {
-    return values.firstWhere((element) => element.value == value, orElse: () {
-      if (defaultPermission != null) return defaultPermission;
-      throw const TronPluginException('No permission Type is found.');
-    });
+  static PermissionType fromValue(
+    int? value, {
+    PermissionType? defaultPermission,
+  }) {
+    return values.firstWhere(
+      (element) => element.value == value,
+      orElse: () {
+        if (defaultPermission != null) return defaultPermission;
+        throw const TronPluginException('No permission Type is found.');
+      },
+    );
   }
 }

@@ -10,43 +10,49 @@ class MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout
   final BigInt tokenSize;
   final BigInt? partialOrderSize;
   final BigInt? partialOrderPrice;
-  const MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout(
-      {required this.escrowPaymentBump,
-      required this.freeTradeStateBump,
-      required this.programAsSignerBump,
-      required this.buyerPrice,
-      required this.tokenSize,
-      this.partialOrderSize,
-      this.partialOrderPrice});
+  const MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout({
+    required this.escrowPaymentBump,
+    required this.freeTradeStateBump,
+    required this.programAsSignerBump,
+    required this.buyerPrice,
+    required this.tokenSize,
+    this.partialOrderSize,
+    this.partialOrderPrice,
+  });
 
   factory MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .auctioneerExecutePartialSale.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction
+              .auctioneerExecutePartialSale
+              .insturction,
+    );
     return MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout(
-        escrowPaymentBump: decode['escrowPaymentBump'],
-        freeTradeStateBump: decode['freeTradeStateBump'],
-        programAsSignerBump: decode['programAsSignerBump'],
-        buyerPrice: decode['buyerPrice'],
-        tokenSize: decode['tokenSize'],
-        partialOrderPrice: decode['partialOrderPrice'],
-        partialOrderSize: decode['partialOrderSize']);
+      escrowPaymentBump: decode['escrowPaymentBump'],
+      freeTradeStateBump: decode['freeTradeStateBump'],
+      programAsSignerBump: decode['programAsSignerBump'],
+      buyerPrice: decode['buyerPrice'],
+      tokenSize: decode['tokenSize'],
+      partialOrderPrice: decode['partialOrderPrice'],
+      partialOrderSize: decode['partialOrderSize'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'escrowPaymentBump'),
-        LayoutConst.u8(property: 'freeTradeStateBump'),
-        LayoutConst.u8(property: 'programAsSignerBump'),
-        LayoutConst.u64(property: 'buyerPrice'),
-        LayoutConst.u64(property: 'tokenSize'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderSize'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderPrice')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u8(property: 'freeTradeStateBump'),
+    LayoutConst.u8(property: 'programAsSignerBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderSize'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'partialOrderPrice'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

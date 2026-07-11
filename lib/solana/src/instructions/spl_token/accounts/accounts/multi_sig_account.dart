@@ -6,12 +6,11 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaMultiSigAccountUtils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'numberOfSigners'),
-        LayoutConst.u8(property: 'numberOfPossibleSigners'),
-        LayoutConst.boolean(property: 'isInitialized'),
-        LayoutConst.array(SolanaLayoutUtils.publicKey(), 11,
-            property: 'signers'),
-      ]);
+    LayoutConst.u8(property: 'numberOfSigners'),
+    LayoutConst.u8(property: 'numberOfPossibleSigners'),
+    LayoutConst.boolean(property: 'isInitialized'),
+    LayoutConst.array(SolanaLayoutUtils.publicKey(), 11, property: 'signers'),
+  ]);
 
   static int get multisigSize => layout.span;
 }
@@ -32,31 +31,39 @@ class SolanaMultiSigAccount extends BorshLayoutSerializable {
   /// Signer addresses
   final List<SolAddress> signers;
 
-  const SolanaMultiSigAccount(
-      {required this.address,
-      required this.numberOfSigners,
-      required this.numberOfPossibleSigners,
-      required this.isInitialized,
-      required this.signers});
-  factory SolanaMultiSigAccount.fromBuffer(
-      {required List<int> data, required SolAddress address}) {
+  const SolanaMultiSigAccount({
+    required this.address,
+    required this.numberOfSigners,
+    required this.numberOfPossibleSigners,
+    required this.isInitialized,
+    required this.signers,
+  });
+  factory SolanaMultiSigAccount.fromBuffer({
+    required List<int> data,
+    required SolAddress address,
+  }) {
     if (data.length != SolanaMultiSigAccountUtils.multisigSize) {
-      throw SolanaPluginException('Account data length is insufficient.',
-          details: {
-            'Expected': SolanaMultiSigAccountUtils.multisigSize,
-            'length': data.length
-          });
+      throw SolanaPluginException(
+        'Account data length is insufficient.',
+        details: {
+          'Expected': SolanaMultiSigAccountUtils.multisigSize.toString(),
+          'length': data.length.toString(),
+        },
+      );
     }
 
     final decode = BorshLayoutSerializable.decode(
-        bytes: data, layout: SolanaMultiSigAccountUtils.layout);
+      bytes: data,
+      layout: SolanaMultiSigAccountUtils.layout,
+    );
     final n = decode['numberOfPossibleSigners'];
     return SolanaMultiSigAccount(
-        address: address,
-        numberOfSigners: decode['numberOfSigners'],
-        numberOfPossibleSigners: n,
-        isInitialized: decode['isInitialized'],
-        signers: (decode['signers'] as List).cast<SolAddress>().sublist(0, n));
+      address: address,
+      numberOfSigners: decode['numberOfSigners'],
+      numberOfPossibleSigners: n,
+      isInitialized: decode['isInitialized'],
+      signers: (decode['signers'] as List).cast<SolAddress>().sublist(0, n),
+    );
   }
 
   @override
@@ -68,10 +75,12 @@ class SolanaMultiSigAccount extends BorshLayoutSerializable {
       'numberOfPossibleSigners': numberOfPossibleSigners,
       'isInitialized': isInitialized,
       'signers': List.generate(
-          11,
-          (index) => signers.length > index
-              ? signers.elementAt(index)
-              : SolAddress.defaultPubKey)
+        11,
+        (index) =>
+            signers.length > index
+                ? signers.elementAt(index)
+                : SolAddress.defaultPubKey,
+      ),
     };
   }
 

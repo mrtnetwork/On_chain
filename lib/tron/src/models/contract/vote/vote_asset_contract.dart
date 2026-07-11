@@ -1,42 +1,40 @@
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 class VoteAssetContract extends TronBaseContract {
   /// Create a new [VoteAssetContract] instance by parsing a JSON map.
   factory VoteAssetContract.fromJson(Map<String, dynamic> json) {
     return VoteAssetContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      voteAddress: OnChainUtils.parseList<String>(
-              value: json['vote_address'],
-              name: 'vote_address',
-              throwOnNull: true)!
-          .map((address) => TronAddress(address))
-          .toList(),
-      support:
-          OnChainUtils.parseBoolean(value: json['support'], name: 'support'),
-      count: OnChainUtils.parseInt(value: json['count'], name: 'count'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      voteAddress:
+          json
+              .valueEnsureAsList<String>("vote_address")
+              .map((address) => TronAddress(address))
+              .toList(),
+      support: json.valueAs("support"),
+      count: json.valueAsInt("count"),
     );
   }
 
   /// Create a new [VoteAssetContract] instance with specified parameters.
-  VoteAssetContract(
-      {required this.ownerAddress,
-      required List<TronAddress> voteAddress,
-      this.support,
-      this.count})
-      : voteAddress = List<TronAddress>.unmodifiable(voteAddress);
+  VoteAssetContract({
+    required this.ownerAddress,
+    required List<TronAddress> voteAddress,
+    this.support,
+    this.count,
+  }) : voteAddress = List<TronAddress>.unmodifiable(voteAddress);
 
   factory VoteAssetContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return VoteAssetContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        voteAddress:
-            decode.getFields(2).map((e) => TronAddress.fromBytes(e)).toList(),
-        support: decode.getField(3),
-        count: decode.getField(5));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      voteAddress:
+          decode.getFields(2).map((e) => TronAddress.fromBytes(e)).toList(),
+      support: decode.getField(3),
+      count: decode.getField(5),
+    );
   }
 
   @override

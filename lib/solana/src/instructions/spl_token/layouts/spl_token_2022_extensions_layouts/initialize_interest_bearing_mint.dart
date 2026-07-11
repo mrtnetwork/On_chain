@@ -12,26 +12,34 @@ class SPLToken2022InterestBearingMintInitializeLayout
 
   /// The public key for the account that can update the rate
   final SolAddress rateAuthority;
-  SPLToken2022InterestBearingMintInitializeLayout(
-      {required this.rate, required this.rateAuthority});
+  SPLToken2022InterestBearingMintInitializeLayout({
+    required this.rate,
+    required this.rateAuthority,
+  });
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
-            property: 'interestBearingMint'),
-        SolanaLayoutUtils.publicKey('rateAuthority'),
-        LayoutConst.u16(property: 'rate'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.wrap(
+      InterestBearingMintInstruction.staticLayout,
+      property: 'interestBearingMint',
+    ),
+    SolanaLayoutUtils.publicKey('rateAuthority'),
+    LayoutConst.u16(property: 'rate'),
+  ]);
 
   factory SPLToken2022InterestBearingMintInitializeLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction
-            .interestBearingMintExtension.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          SPLTokenProgramInstruction.interestBearingMintExtension.insturction,
+    );
     return SPLToken2022InterestBearingMintInitializeLayout(
-        rate: decode['rate'], rateAuthority: decode['rateAuthority']);
+      rate: decode['rate'],
+      rateAuthority: decode['rateAuthority'],
+    );
   }
 
   @override
@@ -47,7 +55,7 @@ class SPLToken2022InterestBearingMintInitializeLayout
       'interestBearingMint':
           InterestBearingMintInstruction.initialize.serialize(),
       'rate': rate,
-      'rateAuthority': rateAuthority
+      'rateAuthority': rateAuthority,
     };
   }
 }

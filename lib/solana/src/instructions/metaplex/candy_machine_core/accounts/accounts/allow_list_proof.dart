@@ -10,8 +10,10 @@ class AllowListProofAccount extends BorshLayoutSerializable {
   final BigInt timestamp;
   const AllowListProofAccount({required this.timestamp});
   factory AllowListProofAccount.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return AllowListProofAccount(timestamp: decode['timestamp']);
   }
 

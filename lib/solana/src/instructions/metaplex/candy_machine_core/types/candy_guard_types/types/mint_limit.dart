@@ -11,9 +11,9 @@ class MintLimit extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u8(property: 'id'),
-        LayoutConst.u16(property: 'limit'),
-      ], property: 'mintLimit');
+    LayoutConst.u8(property: 'id'),
+    LayoutConst.u16(property: 'limit'),
+  ], property: 'mintLimit');
 
   @override
   StructLayout get layout => staticLayout;

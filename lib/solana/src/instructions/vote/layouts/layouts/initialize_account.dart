@@ -11,16 +11,18 @@ class VoteProgramInitializeAccountLayout extends VoteProgramLayout {
   final SolAddress authorizedWithdrawer;
   final int commission;
 
-  const VoteProgramInitializeAccountLayout(
-      {required this.nodePubkey,
-      required this.authorizedVoter,
-      required this.authorizedWithdrawer,
-      required this.commission});
+  const VoteProgramInitializeAccountLayout({
+    required this.nodePubkey,
+    required this.authorizedVoter,
+    required this.authorizedWithdrawer,
+    required this.commission,
+  });
   factory VoteProgramInitializeAccountLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: VoteProgramInstruction.initializeAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: VoteProgramInstruction.initializeAccount.insturction,
+    );
     final voteData = Map<String, dynamic>.from(decode['voteInit']);
     return VoteProgramInitializeAccountLayout(
       nodePubkey: voteData['nodePubkey'],
@@ -30,14 +32,14 @@ class VoteProgramInitializeAccountLayout extends VoteProgramLayout {
     );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.struct([
-          SolanaLayoutUtils.publicKey('nodePubkey'),
-          SolanaLayoutUtils.publicKey('authorizedVoter'),
-          SolanaLayoutUtils.publicKey('authorizedWithdrawer'),
-          LayoutConst.u8(property: 'commission')
-        ], property: 'voteInit')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.struct([
+      SolanaLayoutUtils.publicKey('nodePubkey'),
+      SolanaLayoutUtils.publicKey('authorizedVoter'),
+      SolanaLayoutUtils.publicKey('authorizedWithdrawer'),
+      LayoutConst.u8(property: 'commission'),
+    ], property: 'voteInit'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -53,8 +55,8 @@ class VoteProgramInitializeAccountLayout extends VoteProgramLayout {
         'nodePubkey': nodePubkey,
         'authorizedVoter': authorizedVoter,
         'authorizedWithdrawer': authorizedWithdrawer,
-        'commission': commission
-      }
+        'commission': commission,
+      },
     };
   }
 }

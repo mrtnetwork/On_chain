@@ -19,14 +19,18 @@ class Secp256k1Program extends TransactionInstruction {
     SolAddress programId = Secp256k1ProgramConst.programId,
   }) {
     return Secp256k1Program._(
-        layout: Secp256k1Layout.fromBuffer(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: Secp256k1Layout.fromBuffer(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Constructs a Secp256k1Program instruction from a layout.
   factory Secp256k1Program({required Secp256k1Layout layout}) {
     return Secp256k1Program._(
-        layout: layout, keys: [], programId: Secp256k1ProgramConst.programId);
+      layout: layout,
+      keys: [],
+      programId: Secp256k1ProgramConst.programId,
+    );
   }
 }

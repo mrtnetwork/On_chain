@@ -10,8 +10,8 @@ class AllocationTracker extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u32(property: 'count'),
-      ], property: 'allocationTracker');
+    LayoutConst.u32(property: 'count'),
+  ], property: 'allocationTracker');
 
   @override
   StructLayout get layout => staticLayout;

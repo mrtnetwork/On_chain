@@ -42,18 +42,22 @@ class MessageHeader {
     return index < numRequiredSignatures;
   }
 
-  bool isAccountWritable(
-      {required int index,
-      required int numStaticAccountKeys,
-      List<AddressTableLookup> addressTableLookups = const []}) {
+  bool isAccountWritable({
+    required int index,
+    required int numStaticAccountKeys,
+    List<AddressTableLookup> addressTableLookups = const [],
+  }) {
     if (index >= numStaticAccountKeys) {
       if (addressTableLookups.isEmpty) {
         throw const SolanaPluginException(
-            'Invalid index. The index must be lower than numStaticAccountKeys.');
+          'Invalid index. The index must be lower than numStaticAccountKeys.',
+        );
       }
       final lookupAccountKeysIndex = index - numStaticAccountKeys;
       final numWritableLookupAccountKeys = addressTableLookups.fold<int>(
-          0, (count, lookup) => count + lookup.writableIndexes.length);
+        0,
+        (count, lookup) => count + lookup.writableIndexes.length,
+      );
       return lookupAccountKeysIndex < numWritableLookupAccountKeys;
     } else if (index >= numRequiredSignatures) {
       final unsignedAccountIndex = index - numRequiredSignatures;

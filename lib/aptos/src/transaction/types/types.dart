@@ -8,13 +8,12 @@ import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/aptos/src/transaction/utils/utils.dart';
 import 'package:on_chain/serialization/bcs/move/types/types.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 class AptosChainId extends BcsSerialization {
   final int chainId;
   AptosChainId(int chainId) : chainId = chainId.asU8;
   factory AptosChainId.fromStruct(Map<String, dynamic> json) {
-    return AptosChainId(json.as("chainId"));
+    return AptosChainId(json.valueAs("chainId"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -39,7 +38,9 @@ class AptosModuleId extends BcsSerialization {
   const AptosModuleId._({required this.address, required this.name});
   factory AptosModuleId({required AptosAddress address, required String name}) {
     return AptosModuleId._(
-        address: address, name: AptosTransactionUtils.validateIdentifier(name));
+      address: address,
+      name: AptosTransactionUtils.validateIdentifier(name),
+    );
   }
   factory AptosModuleId.fromString(String module) {
     final parts = AptosTransactionUtils.getModuleIdPart(module);
@@ -47,8 +48,11 @@ class AptosModuleId extends BcsSerialization {
   }
   factory AptosModuleId.fromStruct(Map<String, dynamic> json) {
     return AptosModuleId(
-        address: AptosAddress.fromStruct(json.asMap("address")),
-        name: json.as("name"));
+      address: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("address"),
+      ),
+      name: json.valueAs("name"),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -104,17 +108,23 @@ enum AptosTypeTags {
   final int value;
   const AptosTypeTags({required this.value});
   static AptosTypeTags fromName(String? name) {
-    return values.firstWhere((e) => e.name.toLowerCase() == name?.toLowerCase(),
-        orElse: () => throw DartAptosPluginException(
-            "cannot find correct TypeTag from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name.toLowerCase() == name?.toLowerCase(),
+      orElse:
+          () =>
+              throw DartAptosPluginException(
+                "cannot find correct TypeTag from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 
   static AptosTypeTags? find(String? name) {
     try {
       if (name?.toLowerCase() == 'bool') return AptosTypeTags.boolean;
-      return values
-          .firstWhere((e) => e.name.toLowerCase() == name?.toLowerCase());
+      return values.firstWhere(
+        (e) => e.name.toLowerCase() == name?.toLowerCase(),
+      );
     } on StateError {
       return null;
     }
@@ -127,57 +137,70 @@ abstract class AptosTypeTag extends BcsVariantSerialization {
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosTypeTagNumeric.layout,
-          property: AptosTypeTags.u8.name,
-          index: AptosTypeTags.u8.value),
+        layout: AptosTypeTagNumeric.layout,
+        property: AptosTypeTags.u8.name,
+        index: AptosTypeTags.u8.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagNumeric.layout,
-          property: AptosTypeTags.u16.name,
-          index: AptosTypeTags.u16.value),
+        layout: AptosTypeTagNumeric.layout,
+        property: AptosTypeTags.u16.name,
+        index: AptosTypeTags.u16.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagNumeric.layout,
-          property: AptosTypeTags.u32.name,
-          index: AptosTypeTags.u32.value),
+        layout: AptosTypeTagNumeric.layout,
+        property: AptosTypeTags.u32.name,
+        index: AptosTypeTags.u32.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagNumeric.layout,
-          property: AptosTypeTags.u64.name,
-          index: AptosTypeTags.u64.value),
+        layout: AptosTypeTagNumeric.layout,
+        property: AptosTypeTags.u64.name,
+        index: AptosTypeTags.u64.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagNumeric.layout,
-          property: AptosTypeTags.u128.name,
-          index: AptosTypeTags.u128.value),
+        layout: AptosTypeTagNumeric.layout,
+        property: AptosTypeTags.u128.name,
+        index: AptosTypeTags.u128.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagNumeric.layout,
-          property: AptosTypeTags.u256.name,
-          index: AptosTypeTags.u256.value),
+        layout: AptosTypeTagNumeric.layout,
+        property: AptosTypeTags.u256.name,
+        index: AptosTypeTags.u256.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagNumeric.layout,
-          property: AptosTypeTags.boolean.name,
-          index: AptosTypeTags.boolean.value),
+        layout: AptosTypeTagNumeric.layout,
+        property: AptosTypeTags.boolean.name,
+        index: AptosTypeTags.boolean.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagSigner.layout,
-          property: AptosTypeTags.signer.name,
-          index: AptosTypeTags.signer.value),
+        layout: AptosTypeTagSigner.layout,
+        property: AptosTypeTags.signer.name,
+        index: AptosTypeTags.signer.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagAddress.layout,
-          property: AptosTypeTags.address.name,
-          index: AptosTypeTags.address.value),
+        layout: AptosTypeTagAddress.layout,
+        property: AptosTypeTags.address.name,
+        index: AptosTypeTags.address.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagStruct.layout,
-          property: AptosTypeTags.struct.name,
-          index: AptosTypeTags.struct.value),
+        layout: AptosTypeTagStruct.layout,
+        property: AptosTypeTags.struct.name,
+        index: AptosTypeTags.struct.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagVector.layout,
-          property: AptosTypeTags.vector.name,
-          index: AptosTypeTags.vector.value),
+        layout: AptosTypeTagVector.layout,
+        property: AptosTypeTags.vector.name,
+        index: AptosTypeTags.vector.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagReference.layout,
-          property: AptosTypeTags.reference.name,
-          index: AptosTypeTags.reference.value),
+        layout: AptosTypeTagReference.layout,
+        property: AptosTypeTags.reference.name,
+        index: AptosTypeTags.reference.value,
+      ),
       LazyVariantModel(
-          layout: AptosTypeTagGeneric.layout,
-          property: AptosTypeTags.generic.name,
-          index: AptosTypeTags.generic.value),
+        layout: AptosTypeTagGeneric.layout,
+        property: AptosTypeTags.generic.name,
+        index: AptosTypeTags.generic.value,
+      ),
     ], property: property);
   }
 
@@ -194,8 +217,11 @@ abstract class AptosTypeTag extends BcsVariantSerialization {
       AptosTypeTags.struct => AptosTypeTagStruct.fromStruct(decode.value),
       AptosTypeTags.generic => AptosTypeTagGeneric.fromStruct(decode.value),
       AptosTypeTags.boolean => AptosTypeTagBoolean(),
-      _ => throw DartAptosPluginException("Invalid type tag.",
-          details: {"type": type.name}),
+      _ =>
+        throw DartAptosPluginException(
+          "Invalid type tag.",
+          details: {"type": type.name},
+        ),
     };
   }
 
@@ -222,8 +248,10 @@ abstract class AptosTypeTag extends BcsVariantSerialization {
   /// This method handles the transformation of generic Dart [value]s into a format
   /// compatible with Aptos Move entry function arguments, considering any provided
   /// [typeArgs] for generic types.
-  AptosEntryFunctionArguments toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []});
+  AptosEntryFunctionArguments toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  });
 }
 
 class AptosTypeTagNumeric extends AptosTypeTag {
@@ -262,8 +290,10 @@ class AptosTypeTagNumeric extends AptosTypeTag {
   }
 
   @override
-  MoveArgument toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  MoveArgument toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     switch (type) {
       case AptosTypeTags.u8:
         return MoveU8.parse(value);
@@ -278,8 +308,10 @@ class AptosTypeTagNumeric extends AptosTypeTag {
       case AptosTypeTags.u256:
         return MoveU256.parse(value);
       default:
-        throw DartAptosPluginException("Invalid numeric type tag.",
-            details: {"type": type.name});
+        throw DartAptosPluginException(
+          "Invalid numeric type tag.",
+          details: {"type": type.name},
+        );
     }
   }
 }
@@ -302,8 +334,10 @@ class AptosTypeTagBoolean extends AptosTypeTag {
   }
 
   @override
-  MoveArgument toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  MoveArgument toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     return MoveBool.parse(value);
   }
 }
@@ -326,8 +360,10 @@ class AptosTypeTagAddress extends AptosTypeTag {
   }
 
   @override
-  MoveArgument toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  MoveArgument toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     return MoveAddress.parse(value);
   }
 }
@@ -350,8 +386,10 @@ class AptosTypeTagSigner extends AptosTypeTag {
   }
 
   @override
-  MoveArgument toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  MoveArgument toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     return MoveAddress.parse(value);
   }
 }
@@ -365,7 +403,9 @@ class AptosTypeTagReference extends AptosTypeTag {
   }
 
   factory AptosTypeTagReference.fromStruct(Map<String, dynamic> json) {
-    return AptosTypeTagReference(AptosTypeTag.fromStruct(json.asMap("value")));
+    return AptosTypeTagReference(
+      AptosTypeTag.fromStruct(json.valueEnsureAsMap<String, dynamic>("value")),
+    );
   }
 
   @override
@@ -394,25 +434,29 @@ class AptosTypeTagReference extends AptosTypeTag {
   /// compatible with Aptos Move entry function arguments, considering any provided
   /// [typeArgs] for generic types.
   @override
-  AptosEntryFunctionArguments toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  AptosEntryFunctionArguments toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     if (value is AptosEntryFunctionArguments) return value;
     throw DartAptosPluginException(
-        "Unsupported conversion: Cannot convert the provided value to an EntryFunctionArgument for reference type.");
+      "Unsupported conversion: Cannot convert the provided value to an EntryFunctionArgument for reference type.",
+    );
   }
 }
 
 class AptosTypeTagGeneric extends AptosTypeTag {
   final int index;
   AptosTypeTagGeneric(int index)
-      : index = index.asU32,
-        super(type: AptosTypeTags.generic);
+    : index = index.asU32,
+      super(type: AptosTypeTags.generic);
   factory AptosTypeTagGeneric.fromStruct(Map<String, dynamic> json) {
-    return AptosTypeTagGeneric(json.as("index"));
+    return AptosTypeTagGeneric(json.valueAs("index"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u32(property: "index")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u32(property: "index"),
+    ], property: property);
   }
 
   @override
@@ -442,15 +486,20 @@ class AptosTypeTagGeneric extends AptosTypeTag {
   /// compatible with Aptos Move entry function arguments, considering any provided
   /// [typeArgs] for generic types.
   @override
-  AptosEntryFunctionArguments toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  AptosEntryFunctionArguments toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     final typeArg = genericTypeArgs.elementAtOrNull(index);
     if (typeArg == null) {
       throw DartAptosPluginException(
-          "Missing generic type argument reference at index '$index'. ");
+        "Missing generic type argument reference at index '$index'. ",
+      );
     }
     return typeArg.toEntryFunctionArguments(
-        value: value, genericTypeArgs: genericTypeArgs);
+      value: value,
+      genericTypeArgs: genericTypeArgs,
+    );
   }
 }
 
@@ -458,12 +507,15 @@ class AptosTypeTagVector extends AptosTypeTag {
   final AptosTypeTag value;
   AptosTypeTagVector(this.value) : super(type: AptosTypeTags.vector);
   factory AptosTypeTagVector.fromStruct(Map<String, dynamic> json) {
-    return AptosTypeTagVector(AptosTypeTag.fromStruct(json.asMap("value")));
+    return AptosTypeTagVector(
+      AptosTypeTag.fromStruct(json.valueEnsureAsMap<String, dynamic>("value")),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([AptosTypeTag.layout(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      AptosTypeTag.layout(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -487,18 +539,32 @@ class AptosTypeTagVector extends AptosTypeTag {
   @override
   int get hashCode => HashCodeGenerator.generateHashCode([type, value]);
   @override
-  MoveVector toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  MoveVector toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     if (value is MoveVector) {
-      return MoveVector((value.value as List)
-          .map((e) => this.value.toEntryFunctionArguments(
-              value: e, genericTypeArgs: genericTypeArgs))
-          .toList());
+      return MoveVector(
+        (value.value as List)
+            .map(
+              (e) => this.value.toEntryFunctionArguments(
+                value: e,
+                genericTypeArgs: genericTypeArgs,
+              ),
+            )
+            .toList(),
+      );
     }
-    return MoveVector((value as List)
-        .map((e) => this.value.toEntryFunctionArguments(
-            value: e, genericTypeArgs: genericTypeArgs))
-        .toList());
+    return MoveVector(
+      (value as List)
+          .map(
+            (e) => this.value.toEntryFunctionArguments(
+              value: e,
+              genericTypeArgs: genericTypeArgs,
+            ),
+          )
+          .toList(),
+    );
   }
 }
 
@@ -510,32 +576,37 @@ class AptosStructTag extends BcsSerialization {
 
   factory AptosStructTag.fromStruct(Map<String, dynamic> json) {
     return AptosStructTag(
-        address: AptosAddress.fromStruct(json.asMap("address")),
-        moduleName: json.as("moduleName"),
-        name: json.as("name"),
-        typeArgs: json
-            .asListOfMap("typeArgs")!
-            .map((e) => AptosTypeTag.fromStruct(e))
-            .toList());
+      address: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("address"),
+      ),
+      moduleName: json.valueAs("moduleName"),
+      name: json.valueAs("name"),
+      typeArgs:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("typeArgs")
+              .map((e) => AptosTypeTag.fromStruct(e))
+              .toList(),
+    );
   }
-  const AptosStructTag.mutable(
-      {required this.address,
-      required this.moduleName,
-      required this.name,
-      required this.typeArgs});
-  AptosStructTag(
-      {required this.address,
-      required this.moduleName,
-      required this.name,
-      List<AptosTypeTag> typeArgs = const []})
-      : typeArgs = typeArgs.immutable;
+  const AptosStructTag.mutable({
+    required this.address,
+    required this.moduleName,
+    required this.name,
+    required this.typeArgs,
+  });
+  AptosStructTag({
+    required this.address,
+    required this.moduleName,
+    required this.name,
+    List<AptosTypeTag> typeArgs = const [],
+  }) : typeArgs = typeArgs.immutable;
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosAddress.layout(property: "address"),
       LayoutConst.bcsString(property: "moduleName"),
       LayoutConst.bcsString(property: "name"),
-      LayoutConst.bcsVector(AptosTypeTag.layout(), property: "typeArgs")
+      LayoutConst.bcsVector(AptosTypeTag.layout(), property: "typeArgs"),
     ], property: property);
   }
 
@@ -550,7 +621,7 @@ class AptosStructTag extends BcsSerialization {
       "address": address.toLayoutStruct(),
       "moduleName": moduleName,
       "name": name,
-      "typeArgs": typeArgs.map((e) => e.toVariantLayoutStruct()).toList()
+      "typeArgs": typeArgs.map((e) => e.toVariantLayoutStruct()).toList(),
     };
   }
 
@@ -590,8 +661,10 @@ class AptosStructTag extends BcsSerialization {
   /// This method handles the transformation of generic Dart [value]s into a format
   /// compatible with Aptos Move entry function arguments, considering any provided
   /// [typeArgs] for generic types.
-  AptosEntryFunctionArguments toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  AptosEntryFunctionArguments toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     if (isObject) {
       return MoveAddress.parse(value);
     } else if (isString) {
@@ -604,11 +677,19 @@ class AptosStructTag extends BcsSerialization {
         if (value.value == null) {
           return MoveOption<MoveBool>(null);
         }
-        return MoveOption<MoveType>(typeArgs[0].toEntryFunctionArguments(
-            value: value.value, genericTypeArgs: genericTypeArgs));
+        return MoveOption<MoveType>(
+          typeArgs[0].toEntryFunctionArguments(
+            value: value.value,
+            genericTypeArgs: genericTypeArgs,
+          ),
+        );
       }
-      return MoveOption<MoveType>(typeArgs[0].toEntryFunctionArguments(
-          value: value, genericTypeArgs: genericTypeArgs));
+      return MoveOption<MoveType>(
+        typeArgs[0].toEntryFunctionArguments(
+          value: value,
+          genericTypeArgs: genericTypeArgs,
+        ),
+      );
     }
     throw DartAptosPluginException("Unsuported Struct tag.");
   }
@@ -623,12 +704,17 @@ class AptosTypeTagStruct extends AptosTypeTag {
   AptosTypeTagStruct(this.value) : super(type: AptosTypeTags.struct);
 
   factory AptosTypeTagStruct.fromStruct(Map<String, dynamic> json) {
-    return AptosTypeTagStruct(AptosStructTag.fromStruct(json.asMap("value")));
+    return AptosTypeTagStruct(
+      AptosStructTag.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("value"),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([AptosStructTag.layout(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      AptosStructTag.layout(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -657,10 +743,14 @@ class AptosTypeTagStruct extends AptosTypeTag {
   /// compatible with Aptos Move entry function arguments, considering any provided
   /// [typeArgs] for generic types.
   @override
-  AptosEntryFunctionArguments toEntryFunctionArguments(
-      {Object? value, List<AptosTypeTag> genericTypeArgs = const []}) {
+  AptosEntryFunctionArguments toEntryFunctionArguments({
+    Object? value,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
     return this.value.toEntryFunctionArguments(
-        value: value, genericTypeArgs: genericTypeArgs);
+      value: value,
+      genericTypeArgs: genericTypeArgs,
+    );
   }
 }
 
@@ -682,10 +772,15 @@ enum AptosTransactionPayloads {
   final int value;
   const AptosTransactionPayloads({required this.value});
   static AptosTransactionPayloads fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartAptosPluginException(
-            "cannot find correct transaction payload from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartAptosPluginException(
+                "cannot find correct transaction payload from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -702,24 +797,30 @@ abstract class AptosTransactionPayload extends BcsVariantSerialization {
         AptosTransactionPayloadEntryFunction.fromStruct(decode.value),
       AptosTransactionPayloads.multisig =>
         AptosTransactionPayloadMultisig.fromStruct(decode.value),
-      _ => throw DartAptosPluginException("unsuported transaction payload.",
-          details: {"type": type.name})
+      _ =>
+        throw DartAptosPluginException(
+          "unsuported transaction payload.",
+          details: {"type": type.name},
+        ),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosTransactionPayloadScript.layout,
-          property: AptosTransactionPayloads.script.name,
-          index: AptosTransactionPayloads.script.value),
+        layout: AptosTransactionPayloadScript.layout,
+        property: AptosTransactionPayloads.script.name,
+        index: AptosTransactionPayloads.script.value,
+      ),
       LazyVariantModel(
-          layout: AptosTransactionPayloadEntryFunction.layout,
-          property: AptosTransactionPayloads.entryFunction.name,
-          index: AptosTransactionPayloads.entryFunction.value),
+        layout: AptosTransactionPayloadEntryFunction.layout,
+        property: AptosTransactionPayloads.entryFunction.name,
+        index: AptosTransactionPayloads.entryFunction.value,
+      ),
       LazyVariantModel(
-          layout: AptosTransactionPayloadMultisig.layout,
-          property: AptosTransactionPayloads.multisig.name,
-          index: AptosTransactionPayloads.multisig.value),
+        layout: AptosTransactionPayloadMultisig.layout,
+        property: AptosTransactionPayloads.multisig.name,
+        index: AptosTransactionPayloads.multisig.value,
+      ),
     ], property: property);
   }
 
@@ -736,13 +837,13 @@ class AptosScript extends BcsSerialization {
   final List<int> byteCode;
   final List<AptosTypeTag> typeArgs;
   final List<MoveArgument> arguments;
-  AptosScript(
-      {required List<int> byteCode,
-      required List<AptosTypeTag> typeArgs,
-      required List<AptosScriptArguments> arguments})
-      : byteCode = byteCode.asImmutableBytes,
-        typeArgs = typeArgs.immutable,
-        arguments = arguments.map((e) => e.asMoveArgument()).toImutableList;
+  AptosScript({
+    required List<int> byteCode,
+    required List<AptosTypeTag> typeArgs,
+    required List<AptosScriptArguments> arguments,
+  }) : byteCode = byteCode.asImmutableBytes,
+       typeArgs = typeArgs.immutable,
+       arguments = arguments.map((e) => e.asMoveArgument()).toImutableList;
 
   factory AptosScript.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
@@ -750,21 +851,24 @@ class AptosScript extends BcsSerialization {
   }
   factory AptosScript.fromStruct(Map<String, dynamic> json) {
     return AptosScript(
-        byteCode: json.asBytes("byteCode"),
-        typeArgs: json
-            .asListOfMap("typeArgs")!
-            .map((e) => AptosTypeTag.fromStruct(e))
-            .toList(),
-        arguments: json
-            .asListOfMap("args")!
-            .map((e) => MoveArgument.fromStruct(e))
-            .toList());
+      byteCode: json.valueAsBytes("byteCode"),
+      typeArgs:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("typeArgs")
+              .map((e) => AptosTypeTag.fromStruct(e))
+              .toList(),
+      arguments:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("args")
+              .map((e) => MoveArgument.fromStruct(e))
+              .toList(),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       LayoutConst.bcsBytes(property: "byteCode"),
       LayoutConst.bcsVector(AptosTypeTag.layout(), property: "typeArgs"),
-      LayoutConst.bcsVector(MoveArgument.layout(), property: "args")
+      LayoutConst.bcsVector(MoveArgument.layout(), property: "args"),
     ], property: property);
   }
 
@@ -778,7 +882,7 @@ class AptosScript extends BcsSerialization {
     return {
       "byteCode": byteCode,
       "typeArgs": typeArgs.map((e) => e.toVariantLayoutStruct()).toList(),
-      "args": arguments.map((e) => e.toVariantLayoutStruct()).toList()
+      "args": arguments.map((e) => e.toVariantLayoutStruct()).toList(),
     };
   }
 
@@ -800,14 +904,17 @@ class AptosScript extends BcsSerialization {
 class AptosTransactionPayloadScript extends AptosTransactionPayload {
   final AptosScript script;
   const AptosTransactionPayloadScript({required this.script})
-      : super(type: AptosTransactionPayloads.script);
+    : super(type: AptosTransactionPayloads.script);
   factory AptosTransactionPayloadScript.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosTransactionPayloadScript.fromStruct(decode);
   }
   factory AptosTransactionPayloadScript.fromStruct(Map<String, dynamic> json) {
     return AptosTransactionPayloadScript(
-        script: AptosScript.fromStruct(json.asMap("script")));
+      script: AptosScript.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("script"),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -841,12 +948,12 @@ class AptosTransactionArgumentBytes
     extends AptosEntryFunctionArguments<List<int>> {
   AptosTransactionArgumentBytes(List<int> data) : super(data.asImmutableBytes);
   factory AptosTransactionArgumentBytes.fromStruct(Map<String, dynamic> json) {
-    return AptosTransactionArgumentBytes(json.asBytes("data"));
+    return AptosTransactionArgumentBytes(json.valueAsBytes("data"));
   }
   static Layout<Map<String, dynamic>> layout(int length, {String? property}) {
-    return LayoutConst.struct(
-        [LayoutConst.fixedBlobN(length, property: 'data')],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.fixedBlobN(length, property: 'data'),
+    ], property: property);
   }
 
   @override
@@ -866,37 +973,42 @@ class AptosTransactionEntryFunction extends BcsSerialization {
   final List<AptosTypeTag> typeArgs;
   final List<AptosEntryFunctionArguments> args;
 
-  AptosTransactionEntryFunction(
-      {required this.moduleId,
-      required String functionName,
-      List<AptosTypeTag> typeArgs = const [],
-      required List<AptosEntryFunctionArguments> args})
-      : typeArgs = typeArgs.immutable,
-        args = args.immutable,
-        functionName = AptosTransactionUtils.validateIdentifier(functionName);
+  AptosTransactionEntryFunction({
+    required this.moduleId,
+    required String functionName,
+    List<AptosTypeTag> typeArgs = const [],
+    required List<AptosEntryFunctionArguments> args,
+  }) : typeArgs = typeArgs.immutable,
+       args = args.immutable,
+       functionName = AptosTransactionUtils.validateIdentifier(functionName);
   factory AptosTransactionEntryFunction.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosTransactionEntryFunction.fromStruct(decode);
   }
   factory AptosTransactionEntryFunction.fromStruct(Map<String, dynamic> json) {
     return AptosTransactionEntryFunction(
-        moduleId: AptosModuleId.fromStruct(json.asMap("moduleId")),
-        functionName: json.as("functionName"),
-        typeArgs: json
-            .asListOfMap("typeArgs")!
-            .map((e) => AptosTypeTag.fromStruct(e))
-            .toList(),
-        args: json
-            .asListOfBytes("args")!
-            .map((e) => AptosTransactionArgumentBytes(e))
-            .toList());
+      moduleId: AptosModuleId.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("moduleId"),
+      ),
+      functionName: json.valueAs("functionName"),
+      typeArgs:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("typeArgs")
+              .map((e) => AptosTypeTag.fromStruct(e))
+              .toList(),
+      args:
+          json
+              .valueEnsureAsList<List<int>>("args")
+              .map((e) => AptosTransactionArgumentBytes(e))
+              .toList(),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosModuleId.layout(property: "moduleId"),
       LayoutConst.bcsString(property: "functionName"),
       LayoutConst.bcsVector(AptosTypeTag.layout(), property: "typeArgs"),
-      LayoutConst.bcsVector(LayoutConst.bcsBytes(), property: "args")
+      LayoutConst.bcsVector(LayoutConst.bcsBytes(), property: "args"),
     ], property: property);
   }
 
@@ -911,7 +1023,7 @@ class AptosTransactionEntryFunction extends BcsSerialization {
       "moduleId": moduleId.toLayoutStruct(),
       "functionName": functionName,
       "typeArgs": typeArgs.map((e) => e.toVariantLayoutStruct()).toList(),
-      "args": args.map((e) => e.toBcs()).toList()
+      "args": args.map((e) => e.toBcs()).toList(),
     };
   }
 
@@ -926,23 +1038,30 @@ class AptosTransactionEntryFunction extends BcsSerialization {
   }
 
   @override
-  int get hashCode => HashCodeGenerator.generateHashCode(
-      [moduleId, functionName, typeArgs, args]);
+  int get hashCode => HashCodeGenerator.generateHashCode([
+    moduleId,
+    functionName,
+    typeArgs,
+    args,
+  ]);
 }
 
 class AptosTransactionPayloadEntryFunction extends AptosTransactionPayload {
   final AptosTransactionEntryFunction entryFunction;
   const AptosTransactionPayloadEntryFunction({required this.entryFunction})
-      : super(type: AptosTransactionPayloads.entryFunction);
+    : super(type: AptosTransactionPayloads.entryFunction);
   factory AptosTransactionPayloadEntryFunction.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosTransactionPayloadEntryFunction.fromStruct(decode);
   }
   factory AptosTransactionPayloadEntryFunction.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosTransactionPayloadEntryFunction(
-        entryFunction: AptosTransactionEntryFunction.fromStruct(
-            json.asMap("entryFunction")));
+      entryFunction: AptosTransactionEntryFunction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("entryFunction"),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -968,10 +1087,15 @@ enum AptosMultisigTransactionPayloads {
   final int value;
   const AptosMultisigTransactionPayloads({required this.value});
   static AptosMultisigTransactionPayloads fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartAptosPluginException(
-            "cannot find correct multisig transaction payload from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartAptosPluginException(
+                "cannot find correct multisig transaction payload from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -980,7 +1104,8 @@ abstract class AptosMultisigTransactionPayload extends BcsVariantSerialization {
   const AptosMultisigTransactionPayload({required this.type});
 
   factory AptosMultisigTransactionPayload.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
     final type = AptosMultisigTransactionPayloads.fromName(decode.variantName);
     return switch (type) {
@@ -992,9 +1117,10 @@ abstract class AptosMultisigTransactionPayload extends BcsVariantSerialization {
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosMultisigTransactionPayloadEntryFunction.layout,
-          property: AptosMultisigTransactionPayloads.entryFunction.name,
-          index: AptosMultisigTransactionPayloads.entryFunction.value)
+        layout: AptosMultisigTransactionPayloadEntryFunction.layout,
+        property: AptosMultisigTransactionPayloads.entryFunction.name,
+        index: AptosMultisigTransactionPayloads.entryFunction.value,
+      ),
     ]);
   }
 
@@ -1010,15 +1136,18 @@ abstract class AptosMultisigTransactionPayload extends BcsVariantSerialization {
 class AptosMultisigTransactionPayloadEntryFunction
     extends AptosMultisigTransactionPayload {
   final AptosTransactionEntryFunction entryFunction;
-  const AptosMultisigTransactionPayloadEntryFunction(
-      {required this.entryFunction})
-      : super(type: AptosMultisigTransactionPayloads.entryFunction);
+  const AptosMultisigTransactionPayloadEntryFunction({
+    required this.entryFunction,
+  }) : super(type: AptosMultisigTransactionPayloads.entryFunction);
 
   factory AptosMultisigTransactionPayloadEntryFunction.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosMultisigTransactionPayloadEntryFunction(
-        entryFunction: AptosTransactionEntryFunction.fromStruct(
-            json.asMap("entryFunction")));
+      entryFunction: AptosTransactionEntryFunction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("entryFunction"),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -1054,17 +1183,23 @@ class AptosMultisig extends BcsSerialization {
   const AptosMultisig({required this.multisigAddress, this.transactionPayload});
   factory AptosMultisig.fromStruct(Map<String, dynamic> json) {
     return AptosMultisig(
-        multisigAddress: AptosAddress.fromStruct(json.asMap("multisigAddress")),
-        transactionPayload:
-            json.mybeAs<AptosMultisigTransactionPayload, Map<String, dynamic>>(
-                key: "transactionPayload",
-                onValue: (e) => AptosMultisigTransactionPayload.fromStruct(e)));
+      multisigAddress: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("multisigAddress"),
+      ),
+      transactionPayload: json
+          .valueTo<AptosMultisigTransactionPayload?, Map<String, dynamic>>(
+            key: "transactionPayload",
+            parse: (e) => AptosMultisigTransactionPayload.fromStruct(e),
+          ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosAddress.layout(property: "multisigAddress"),
-      LayoutConst.optional(AptosMultisigTransactionPayload.layout(),
-          property: "transactionPayload"),
+      LayoutConst.optional(
+        AptosMultisigTransactionPayload.layout(),
+        property: "transactionPayload",
+      ),
     ], property: property);
   }
 
@@ -1077,7 +1212,7 @@ class AptosMultisig extends BcsSerialization {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "multisigAddress": multisigAddress.toLayoutStruct(),
-      "transactionPayload": transactionPayload?.toVariantLayoutStruct()
+      "transactionPayload": transactionPayload?.toVariantLayoutStruct(),
     };
   }
 
@@ -1097,16 +1232,20 @@ class AptosMultisig extends BcsSerialization {
 class AptosTransactionPayloadMultisig extends AptosTransactionPayload {
   final AptosMultisig multisig;
   const AptosTransactionPayloadMultisig({required this.multisig})
-      : super(type: AptosTransactionPayloads.multisig);
+    : super(type: AptosTransactionPayloads.multisig);
 
   factory AptosTransactionPayloadMultisig.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosTransactionPayloadMultisig.fromStruct(decode);
   }
   factory AptosTransactionPayloadMultisig.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosTransactionPayloadMultisig(
-        multisig: AptosMultisig.fromStruct(json.asMap("multisig")));
+      multisig: AptosMultisig.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("multisig"),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -1163,33 +1302,37 @@ class AptosRawTransaction extends BcsSerialization {
 
   /// Chain ID of the Aptos network this transaction is intended for.
   final int chainId;
-  AptosRawTransaction(
-      {required this.sender,
-      required BigInt sequenceNumber,
-      required this.transactionPayload,
-      required BigInt maxGasAmount,
-      required BigInt gasUnitPrice,
-      required BigInt expirationTimestampSecs,
-      required int chainId})
-      : sequenceNumber = sequenceNumber.asU64,
-        maxGasAmount = maxGasAmount.asU64,
-        gasUnitPrice = gasUnitPrice.asU64,
-        expirationTimestampSecs = expirationTimestampSecs.asU64,
-        chainId = chainId.asU8;
+  AptosRawTransaction({
+    required this.sender,
+    required BigInt sequenceNumber,
+    required this.transactionPayload,
+    required BigInt maxGasAmount,
+    required BigInt gasUnitPrice,
+    required BigInt expirationTimestampSecs,
+    required int chainId,
+  }) : sequenceNumber = sequenceNumber.asU64,
+       maxGasAmount = maxGasAmount.asU64,
+       gasUnitPrice = gasUnitPrice.asU64,
+       expirationTimestampSecs = expirationTimestampSecs.asU64,
+       chainId = chainId.asU8;
   factory AptosRawTransaction.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosRawTransaction.fromStruct(decode);
   }
   factory AptosRawTransaction.fromStruct(Map<String, dynamic> json) {
     return AptosRawTransaction(
-        sender: AptosAddress.fromStruct(json.asMap("sender")),
-        sequenceNumber: json.as("sequenceNumber"),
-        transactionPayload: AptosTransactionPayload.fromStruct(
-            json.asMap("transactionPayload")),
-        maxGasAmount: json.as("maxGasAmount"),
-        gasUnitPrice: json.as("gasUnitPrice"),
-        expirationTimestampSecs: json.as("expirationTimestampSecs"),
-        chainId: json.as("chainId"));
+      sender: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("sender"),
+      ),
+      sequenceNumber: json.valueAs("sequenceNumber"),
+      transactionPayload: AptosTransactionPayload.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("transactionPayload"),
+      ),
+      maxGasAmount: json.valueAs("maxGasAmount"),
+      gasUnitPrice: json.valueAs("gasUnitPrice"),
+      expirationTimestampSecs: json.valueAs("expirationTimestampSecs"),
+      chainId: json.valueAs("chainId"),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -1203,24 +1346,29 @@ class AptosRawTransaction extends BcsSerialization {
     ], property: property);
   }
 
-  List<int> signingSerialize(
-      {AptosAddress? feePayerAddress,
-      List<AptosAddress>? secondarySignerAddresses}) {
+  List<int> signingSerialize({
+    AptosAddress? feePayerAddress,
+    List<AptosAddress>? secondarySignerAddresses,
+  }) {
     if (feePayerAddress != null) {
       final feePayerTx = AptosRawTransactionWithDataFeePayer(
-          rawTransaction: this,
-          secondarySignerAddresses: secondarySignerAddresses ?? [],
-          feePayerAddress: feePayerAddress);
+        rawTransaction: this,
+        secondarySignerAddresses: secondarySignerAddresses ?? [],
+        feePayerAddress: feePayerAddress,
+      );
       return AptosTransactionUtils.generateSigningDigest(
-          feePayerTx.toVariantBcs(),
-          withData: true);
+        feePayerTx.toVariantBcs(),
+        withData: true,
+      );
     } else if (secondarySignerAddresses != null) {
       final feePayerTx = AptosRawTransactionWithDataMultiAgent(
-          rawTransaction: this,
-          secondarySignerAddresses: secondarySignerAddresses);
+        rawTransaction: this,
+        secondarySignerAddresses: secondarySignerAddresses,
+      );
       return AptosTransactionUtils.generateSigningDigest(
-          feePayerTx.toVariantBcs(),
-          withData: true);
+        feePayerTx.toVariantBcs(),
+        withData: true,
+      );
     }
     return AptosTransactionUtils.generateSigningDigest(toBcs());
   }
@@ -1262,14 +1410,14 @@ class AptosRawTransaction extends BcsSerialization {
 
   @override
   int get hashCode => HashCodeGenerator.generateHashCode([
-        sender,
-        sequenceNumber,
-        transactionPayload,
-        maxGasAmount,
-        gasUnitPrice,
-        expirationTimestampSecs,
-        chainId
-      ]);
+    sender,
+    sequenceNumber,
+    transactionPayload,
+    maxGasAmount,
+    gasUnitPrice,
+    expirationTimestampSecs,
+    chainId,
+  ]);
 }
 
 abstract class AptosAnyTransaction extends BcsSerialization {
@@ -1293,22 +1441,30 @@ class AptosMultiAgentTransaction extends AptosAnyTransaction {
   }
   factory AptosMultiAgentTransaction.fromStruct(Map<String, dynamic> json) {
     return AptosMultiAgentTransaction(
-        rawTransaction:
-            AptosRawTransaction.fromStruct(json.asMap("rawTransaction")),
-        secondarySignerAddresses: json
-            .asListOfMap("secondarySignerAddresses")!
-            .map((e) => AptosAddress.fromStruct(e))
-            .toList(),
-        feePayerAddress: json.mybeAs<AptosAddress, Map<String, dynamic>>(
-            key: "feePayerAddress",
-            onValue: (e) => AptosAddress.fromStruct(e)));
+      rawTransaction: AptosRawTransaction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("rawTransaction"),
+      ),
+      secondarySignerAddresses:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>(
+                "secondarySignerAddresses",
+              )
+              .map((e) => AptosAddress.fromStruct(e))
+              .toList(),
+      feePayerAddress: json.valueTo<AptosAddress?, Map<String, dynamic>>(
+        key: "feePayerAddress",
+        parse: (e) => AptosAddress.fromStruct(e),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosRawTransaction.layout(property: "rawTransaction"),
-      LayoutConst.bcsVector(AptosAddress.layout(),
-          property: "secondarySignerAddresses"),
+      LayoutConst.bcsVector(
+        AptosAddress.layout(),
+        property: "secondarySignerAddresses",
+      ),
       LayoutConst.optional(AptosAddress.layout(), property: "feePayerAddress"),
     ], property: property);
   }
@@ -1324,7 +1480,7 @@ class AptosMultiAgentTransaction extends AptosAnyTransaction {
       "rawTransaction": rawTransaction.toLayoutStruct(),
       "feePayerAddress": feePayerAddress?.toLayoutStruct(),
       "secondarySignerAddresses":
-          secondarySignerAddresses.map((e) => e.toLayoutStruct()).toList()
+          secondarySignerAddresses.map((e) => e.toLayoutStruct()).toList(),
     };
   }
 }
@@ -1341,11 +1497,14 @@ class AptosSimpleTransaction extends AptosAnyTransaction {
   }
   factory AptosSimpleTransaction.fromStruct(Map<String, dynamic> json) {
     return AptosSimpleTransaction(
-        rawTransaction:
-            AptosRawTransaction.fromStruct(json.asMap("rawTransaction")),
-        feePayerAddress: json.mybeAs<AptosAddress, Map<String, dynamic>>(
-            key: "feePayerAddress",
-            onValue: (e) => AptosAddress.fromStruct(e)));
+      rawTransaction: AptosRawTransaction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("rawTransaction"),
+      ),
+      feePayerAddress: json.valueTo<AptosAddress?, Map<String, dynamic>>(
+        key: "feePayerAddress",
+        parse: (e) => AptosAddress.fromStruct(e),
+      ),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -1364,7 +1523,7 @@ class AptosSimpleTransaction extends AptosAnyTransaction {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "rawTransaction": rawTransaction.toLayoutStruct(),
-      "feePayerAddress": feePayerAddress?.toLayoutStruct()
+      "feePayerAddress": feePayerAddress?.toLayoutStruct(),
     };
   }
 }
@@ -1379,10 +1538,15 @@ enum AptosTransactionAuthenticators {
   final int value;
   const AptosTransactionAuthenticators({required this.value});
   static AptosTransactionAuthenticators fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartAptosPluginException(
-            "cannot find correct transaction authenticator from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartAptosPluginException(
+                "cannot find correct transaction authenticator from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1412,25 +1576,30 @@ abstract class AptosTransactionAuthenticator extends BcsVariantSerialization {
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosTransactionAuthenticatorEd25519.layout,
-          property: AptosTransactionAuthenticators.ed25519.name,
-          index: AptosTransactionAuthenticators.ed25519.value),
+        layout: AptosTransactionAuthenticatorEd25519.layout,
+        property: AptosTransactionAuthenticators.ed25519.name,
+        index: AptosTransactionAuthenticators.ed25519.value,
+      ),
       LazyVariantModel(
-          layout: AptosTransactionAuthenticatorMultiEd25519.layout,
-          property: AptosTransactionAuthenticators.multiEd25519.name,
-          index: AptosTransactionAuthenticators.multiEd25519.value),
+        layout: AptosTransactionAuthenticatorMultiEd25519.layout,
+        property: AptosTransactionAuthenticators.multiEd25519.name,
+        index: AptosTransactionAuthenticators.multiEd25519.value,
+      ),
       LazyVariantModel(
-          layout: AptosTransactionAuthenticatorMultiAgent.layout,
-          property: AptosTransactionAuthenticators.multiAgent.name,
-          index: AptosTransactionAuthenticators.multiAgent.value),
+        layout: AptosTransactionAuthenticatorMultiAgent.layout,
+        property: AptosTransactionAuthenticators.multiAgent.name,
+        index: AptosTransactionAuthenticators.multiAgent.value,
+      ),
       LazyVariantModel(
-          layout: AptosTransactionAuthenticatorSignleSender.layout,
-          property: AptosTransactionAuthenticators.singleSender.name,
-          index: AptosTransactionAuthenticators.singleSender.value),
+        layout: AptosTransactionAuthenticatorSignleSender.layout,
+        property: AptosTransactionAuthenticators.singleSender.name,
+        index: AptosTransactionAuthenticators.singleSender.value,
+      ),
       LazyVariantModel(
-          layout: AptosTransactionAuthenticatorFeePayer.layout,
-          property: AptosTransactionAuthenticators.feePayer.name,
-          index: AptosTransactionAuthenticators.feePayer.value),
+        layout: AptosTransactionAuthenticatorFeePayer.layout,
+        property: AptosTransactionAuthenticators.feePayer.name,
+        index: AptosTransactionAuthenticators.feePayer.value,
+      ),
     ], property: property);
   }
 
@@ -1447,14 +1616,21 @@ class AptosTransactionAuthenticatorEd25519
     extends AptosTransactionAuthenticator {
   final AptosED25519PublicKey publicKey;
   final AptosEd25519Signature signature;
-  AptosTransactionAuthenticatorEd25519(
-      {required this.publicKey, required this.signature})
-      : super(type: AptosTransactionAuthenticators.ed25519);
+  AptosTransactionAuthenticatorEd25519({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptosTransactionAuthenticators.ed25519);
   factory AptosTransactionAuthenticatorEd25519.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosTransactionAuthenticatorEd25519(
-        publicKey: AptosED25519PublicKey.fromStruct(json.asMap("publicKey")),
-        signature: AptosEd25519Signature.fromStruct(json.asMap("signature")));
+      publicKey: AptosED25519PublicKey.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("publicKey"),
+      ),
+      signature: AptosEd25519Signature.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("signature"),
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -1472,7 +1648,7 @@ class AptosTransactionAuthenticatorEd25519
   Map<String, dynamic> toLayoutStruct() {
     return {
       "publicKey": publicKey.toLayoutStruct(),
-      "signature": signature.toLayoutStruct()
+      "signature": signature.toLayoutStruct(),
     };
   }
 }
@@ -1481,16 +1657,21 @@ class AptosTransactionAuthenticatorMultiEd25519
     extends AptosTransactionAuthenticator {
   final AptosMultiEd25519AccountPublicKey publicKey;
   final AptosMultiEd25519Signature signature;
-  AptosTransactionAuthenticatorMultiEd25519(
-      {required this.publicKey, required this.signature})
-      : super(type: AptosTransactionAuthenticators.multiEd25519);
+  AptosTransactionAuthenticatorMultiEd25519({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptosTransactionAuthenticators.multiEd25519);
   factory AptosTransactionAuthenticatorMultiEd25519.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosTransactionAuthenticatorMultiEd25519(
-        publicKey: AptosMultiEd25519AccountPublicKey.fromStruct(
-            json.asMap("publicKey")),
-        signature:
-            AptosMultiEd25519Signature.fromStruct(json.asMap("signature")));
+      publicKey: AptosMultiEd25519AccountPublicKey.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("publicKey"),
+      ),
+      signature: AptosMultiEd25519Signature.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("signature"),
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -1508,7 +1689,7 @@ class AptosTransactionAuthenticatorMultiEd25519
   Map<String, dynamic> toLayoutStruct() {
     return {
       "publicKey": publicKey.toLayoutStruct(),
-      "signature": signature.toLayoutStruct()
+      "signature": signature.toLayoutStruct(),
     };
   }
 }
@@ -1522,29 +1703,41 @@ class AptosTransactionAuthenticatorMultiAgent
     required this.sender,
     List<AptosAddress> secondarySignerAddressess = const [],
     List<AptosAccountAuthenticator> secondarySigner = const [],
-  })  : secondarySignerAddressess = secondarySignerAddressess.toImutableList,
-        secondarySigner = secondarySigner.toImutableList,
-        super(type: AptosTransactionAuthenticators.multiAgent);
+  }) : secondarySignerAddressess = secondarySignerAddressess.toImutableList,
+       secondarySigner = secondarySigner.toImutableList,
+       super(type: AptosTransactionAuthenticators.multiAgent);
   factory AptosTransactionAuthenticatorMultiAgent.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosTransactionAuthenticatorMultiAgent(
-        sender: AptosAccountAuthenticator.fromStruct(json.asMap("sender")),
-        secondarySignerAddressess: json
-            .asListOfMap("secondarySignerAddressess")!
-            .map((e) => AptosAddress.fromStruct(e))
-            .toList(),
-        secondarySigner: json
-            .asListOfMap("secondarySigner")!
-            .map((e) => AptosAccountAuthenticator.fromStruct(e))
-            .toList());
+      sender: AptosAccountAuthenticator.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("sender"),
+      ),
+      secondarySignerAddressess:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>(
+                "secondarySignerAddressess",
+              )
+              .map((e) => AptosAddress.fromStruct(e))
+              .toList(),
+      secondarySigner:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("secondarySigner")
+              .map((e) => AptosAccountAuthenticator.fromStruct(e))
+              .toList(),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosAccountAuthenticator.layout(property: "sender"),
-      LayoutConst.bcsVector(AptosAddress.layout(),
-          property: "secondarySignerAddressess"),
-      LayoutConst.bcsVector(AptosAccountAuthenticator.layout(),
-          property: "secondarySigner"),
+      LayoutConst.bcsVector(
+        AptosAddress.layout(),
+        property: "secondarySignerAddressess",
+      ),
+      LayoutConst.bcsVector(
+        AptosAccountAuthenticator.layout(),
+        property: "secondarySigner",
+      ),
     ], property: property);
   }
 
@@ -1560,7 +1753,7 @@ class AptosTransactionAuthenticatorMultiAgent
       "secondarySignerAddressess":
           secondarySignerAddressess.map((e) => e.toLayoutStruct()).toList(),
       "secondarySigner":
-          secondarySigner.map((e) => e.toVariantLayoutStruct()).toList()
+          secondarySigner.map((e) => e.toVariantLayoutStruct()).toList(),
     };
   }
 }
@@ -1578,32 +1771,47 @@ class AptosTransactionAuthenticatorFeePayer
     List<AptosAccountAuthenticator> secondarySigner = const [],
     required this.feePayerAddress,
     required this.feePayerAuthenticator,
-  })  : secondarySignerAddressess = secondarySignerAddressess.toImutableList,
-        secondarySigner = secondarySigner.toImutableList,
-        super(type: AptosTransactionAuthenticators.feePayer);
+  }) : secondarySignerAddressess = secondarySignerAddressess.toImutableList,
+       secondarySigner = secondarySigner.toImutableList,
+       super(type: AptosTransactionAuthenticators.feePayer);
   factory AptosTransactionAuthenticatorFeePayer.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosTransactionAuthenticatorFeePayer(
-        sender: AptosAccountAuthenticator.fromStruct(json.asMap("sender")),
-        secondarySignerAddressess: json
-            .asListOfMap("secondarySignerAddressess")!
-            .map((e) => AptosAddress.fromStruct(e))
-            .toList(),
-        secondarySigner: json
-            .asListOfMap("secondarySigner")!
-            .map((e) => AptosAccountAuthenticator.fromStruct(e))
-            .toList(),
-        feePayerAddress: AptosAddress.fromStruct(json.asMap("feePayerAddress")),
-        feePayerAuthenticator: AptosAccountAuthenticator.fromStruct(
-            json.asMap("feePayerAuthenticator")));
+      sender: AptosAccountAuthenticator.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("sender"),
+      ),
+      secondarySignerAddressess:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>(
+                "secondarySignerAddressess",
+              )
+              .map((e) => AptosAddress.fromStruct(e))
+              .toList(),
+      secondarySigner:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("secondarySigner")
+              .map((e) => AptosAccountAuthenticator.fromStruct(e))
+              .toList(),
+      feePayerAddress: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("feePayerAddress"),
+      ),
+      feePayerAuthenticator: AptosAccountAuthenticator.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("feePayerAuthenticator"),
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosAccountAuthenticator.layout(property: "sender"),
-      LayoutConst.bcsVector(AptosAddress.layout(),
-          property: "secondarySignerAddressess"),
-      LayoutConst.bcsVector(AptosAccountAuthenticator.layout(),
-          property: "secondarySigner"),
+      LayoutConst.bcsVector(
+        AptosAddress.layout(),
+        property: "secondarySignerAddressess",
+      ),
+      LayoutConst.bcsVector(
+        AptosAccountAuthenticator.layout(),
+        property: "secondarySigner",
+      ),
       AptosAddress.layout(property: "feePayerAddress"),
       AptosAccountAuthenticator.layout(property: "feePayerAuthenticator"),
     ], property: property);
@@ -1632,11 +1840,15 @@ class AptosTransactionAuthenticatorSignleSender
     extends AptosTransactionAuthenticator {
   final AptosAccountAuthenticator sender;
   AptosTransactionAuthenticatorSignleSender(this.sender)
-      : super(type: AptosTransactionAuthenticators.singleSender);
+    : super(type: AptosTransactionAuthenticators.singleSender);
   factory AptosTransactionAuthenticatorSignleSender.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosTransactionAuthenticatorSignleSender(
-        AptosAccountAuthenticator.fromStruct(json.asMap("sender")));
+      AptosAccountAuthenticator.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("sender"),
+      ),
+    );
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -1659,18 +1871,22 @@ class AptosSignedTransaction extends BcsSerialization {
   final AptosRawTransaction rawTransaction;
   final AptosTransactionAuthenticator authenticator;
 
-  const AptosSignedTransaction(
-      {required this.rawTransaction, required this.authenticator});
+  const AptosSignedTransaction({
+    required this.rawTransaction,
+    required this.authenticator,
+  });
   factory AptosSignedTransaction.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosSignedTransaction.fromStruct(decode);
   }
   factory AptosSignedTransaction.fromStruct(Map<String, dynamic> json) {
     return AptosSignedTransaction(
-      rawTransaction:
-          AptosRawTransaction.fromStruct(json.asMap("rawTransaction")),
-      authenticator:
-          AptosTransactionAuthenticator.fromStruct(json.asMap("authenticator")),
+      rawTransaction: AptosRawTransaction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("rawTransaction"),
+      ),
+      authenticator: AptosTransactionAuthenticator.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("authenticator"),
+      ),
     );
   }
 
@@ -1690,7 +1906,7 @@ class AptosSignedTransaction extends BcsSerialization {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "rawTransaction": rawTransaction.toLayoutStruct(),
-      "authenticator": authenticator.toVariantLayoutStruct()
+      "authenticator": authenticator.toVariantLayoutStruct(),
     };
   }
 
@@ -1710,19 +1926,23 @@ class RotationProofChallenge extends BcsSerialization {
 
   factory RotationProofChallenge.fromStruct(Map<String, dynamic> json) {
     return RotationProofChallenge(
-      sequenceNumber: json.as("sequenceNumber"),
-      orginator: AptosAddress.fromStruct(json.asMap("orginator")),
-      currentAuthKey: AptosAddress.fromStruct(json.asMap("currentAuthKey")),
-      newPublicKey: json.asBytes("newPublicKey"),
+      sequenceNumber: json.valueAs("sequenceNumber"),
+      orginator: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("orginator"),
+      ),
+      currentAuthKey: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("currentAuthKey"),
+      ),
+      newPublicKey: json.valueAsBytes("newPublicKey"),
     );
   }
 
-  RotationProofChallenge(
-      {required this.orginator,
-      required this.currentAuthKey,
-      required this.newPublicKey,
-      required BigInt sequenceNumber})
-      : sequenceNumber = sequenceNumber.asU64;
+  RotationProofChallenge({
+    required this.orginator,
+    required this.currentAuthKey,
+    required this.newPublicKey,
+    required BigInt sequenceNumber,
+  }) : sequenceNumber = sequenceNumber.asU64;
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
@@ -1750,7 +1970,7 @@ class RotationProofChallenge extends BcsSerialization {
       "orginator": orginator.toLayoutStruct(),
       "currentAuthKey": currentAuthKey.toLayoutStruct(),
       "newPublicKey": newPublicKey.toBytes(),
-      "sequenceNumber": sequenceNumber
+      "sequenceNumber": sequenceNumber,
     };
   }
 }
@@ -1762,10 +1982,15 @@ enum AptosRawTransactionType {
   final int value;
   const AptosRawTransactionType({required this.value});
   static AptosRawTransactionType fromName(String? name) {
-    return values.firstWhere((e) => e.name.toLowerCase() == name?.toLowerCase(),
-        orElse: () => throw DartAptosPluginException(
-            "cannot find correct raw transaction from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name.toLowerCase() == name?.toLowerCase(),
+      orElse:
+          () =>
+              throw DartAptosPluginException(
+                "cannot find correct raw transaction from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1779,20 +2004,22 @@ abstract class AptosRawTransactionWithData extends BcsVariantSerialization {
       AptosRawTransactionType.multiAgentTransaction =>
         AptosRawTransactionWithDataMultiAgent.fromStruct(decode.value),
       AptosRawTransactionType.feePayerTransaction =>
-        AptosRawTransactionWithDataFeePayer.fromStruct(decode.value)
+        AptosRawTransactionWithDataFeePayer.fromStruct(decode.value),
     };
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: AptosRawTransactionWithDataMultiAgent.layout,
-          property: AptosRawTransactionType.multiAgentTransaction.name,
-          index: AptosRawTransactionType.multiAgentTransaction.value),
+        layout: AptosRawTransactionWithDataMultiAgent.layout,
+        property: AptosRawTransactionType.multiAgentTransaction.name,
+        index: AptosRawTransactionType.multiAgentTransaction.value,
+      ),
       LazyVariantModel(
-          layout: AptosRawTransactionWithDataFeePayer.layout,
-          property: AptosRawTransactionType.feePayerTransaction.name,
-          index: AptosRawTransactionType.feePayerTransaction.value),
+        layout: AptosRawTransactionWithDataFeePayer.layout,
+        property: AptosRawTransactionType.feePayerTransaction.name,
+        index: AptosRawTransactionType.feePayerTransaction.value,
+      ),
     ], property: property);
   }
 
@@ -1813,82 +2040,37 @@ class AptosRawTransactionWithDataMultiAgent
   AptosRawTransactionWithDataMultiAgent({
     required this.rawTransaction,
     required List<AptosAddress> secondarySignerAddresses,
-  })  : secondarySignerAddresses = secondarySignerAddresses.immutable,
-        super(type: AptosRawTransactionType.multiAgentTransaction);
+  }) : secondarySignerAddresses = secondarySignerAddresses.immutable,
+       super(type: AptosRawTransactionType.multiAgentTransaction);
 
   factory AptosRawTransactionWithDataMultiAgent.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return AptosRawTransactionWithDataMultiAgent.fromStruct(decode);
   }
   factory AptosRawTransactionWithDataMultiAgent.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosRawTransactionWithDataMultiAgent(
-        rawTransaction:
-            AptosRawTransaction.fromStruct(json.asMap("rawTransaction")),
-        secondarySignerAddresses: json
-            .asListOfMap("secondarySignerAddresses")!
-            .map((e) => AptosAddress.fromStruct(e))
-            .toList());
+      rawTransaction: AptosRawTransaction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("rawTransaction"),
+      ),
+      secondarySignerAddresses:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>(
+                "secondarySignerAddresses",
+              )
+              .map((e) => AptosAddress.fromStruct(e))
+              .toList(),
+    );
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       AptosRawTransaction.layout(property: "rawTransaction"),
-      LayoutConst.bcsVector(AptosAddress.layout(),
-          property: "secondarySignerAddresses"),
-    ], property: property);
-  }
-
-  @override
-  Layout<Map<String, dynamic>> createLayout({String? property}) {
-    return layout(property: property);
-  }
-
-  @override
-  Map<String, dynamic> toLayoutStruct() {
-    return {
-      "rawTransaction": rawTransaction.toLayoutStruct(),
-      "secondarySignerAddresses":
-          secondarySignerAddresses.map((e) => e.toLayoutStruct()).toList()
-    };
-  }
-}
-
-class AptosRawTransactionWithDataFeePayer extends AptosRawTransactionWithData {
-  final AptosRawTransaction rawTransaction;
-  final List<AptosAddress> secondarySignerAddresses;
-  final AptosAddress feePayerAddress;
-
-  AptosRawTransactionWithDataFeePayer({
-    required this.rawTransaction,
-    required List<AptosAddress> secondarySignerAddresses,
-    required this.feePayerAddress,
-  })  : secondarySignerAddresses = secondarySignerAddresses.immutable,
-        super(type: AptosRawTransactionType.feePayerTransaction);
-
-  factory AptosRawTransactionWithDataFeePayer.deserialize(List<int> bytes) {
-    final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
-    return AptosRawTransactionWithDataFeePayer.fromStruct(decode);
-  }
-  factory AptosRawTransactionWithDataFeePayer.fromStruct(
-      Map<String, dynamic> json) {
-    return AptosRawTransactionWithDataFeePayer(
-        rawTransaction:
-            AptosRawTransaction.fromStruct(json.asMap("rawTransaction")),
-        secondarySignerAddresses: json
-            .asListOfMap("secondarySignerAddresses")!
-            .map((e) => AptosAddress.fromStruct(e))
-            .toList(),
-        feePayerAddress:
-            AptosAddress.fromStruct(json.asMap("feePayerAddress")));
-  }
-
-  static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([
-      AptosRawTransaction.layout(property: "rawTransaction"),
-      LayoutConst.bcsVector(AptosAddress.layout(),
-          property: "secondarySignerAddresses"),
-      AptosAddress.layout(property: "feePayerAddress")
+      LayoutConst.bcsVector(
+        AptosAddress.layout(),
+        property: "secondarySignerAddresses",
+      ),
     ], property: property);
   }
 
@@ -1903,7 +2085,69 @@ class AptosRawTransactionWithDataFeePayer extends AptosRawTransactionWithData {
       "rawTransaction": rawTransaction.toLayoutStruct(),
       "secondarySignerAddresses":
           secondarySignerAddresses.map((e) => e.toLayoutStruct()).toList(),
-      "feePayerAddress": feePayerAddress.toLayoutStruct()
+    };
+  }
+}
+
+class AptosRawTransactionWithDataFeePayer extends AptosRawTransactionWithData {
+  final AptosRawTransaction rawTransaction;
+  final List<AptosAddress> secondarySignerAddresses;
+  final AptosAddress feePayerAddress;
+
+  AptosRawTransactionWithDataFeePayer({
+    required this.rawTransaction,
+    required List<AptosAddress> secondarySignerAddresses,
+    required this.feePayerAddress,
+  }) : secondarySignerAddresses = secondarySignerAddresses.immutable,
+       super(type: AptosRawTransactionType.feePayerTransaction);
+
+  factory AptosRawTransactionWithDataFeePayer.deserialize(List<int> bytes) {
+    final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
+    return AptosRawTransactionWithDataFeePayer.fromStruct(decode);
+  }
+  factory AptosRawTransactionWithDataFeePayer.fromStruct(
+    Map<String, dynamic> json,
+  ) {
+    return AptosRawTransactionWithDataFeePayer(
+      rawTransaction: AptosRawTransaction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("rawTransaction"),
+      ),
+      secondarySignerAddresses:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>(
+                "secondarySignerAddresses",
+              )
+              .map((e) => AptosAddress.fromStruct(e))
+              .toList(),
+      feePayerAddress: AptosAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("feePayerAddress"),
+      ),
+    );
+  }
+
+  static Layout<Map<String, dynamic>> layout({String? property}) {
+    return LayoutConst.struct([
+      AptosRawTransaction.layout(property: "rawTransaction"),
+      LayoutConst.bcsVector(
+        AptosAddress.layout(),
+        property: "secondarySignerAddresses",
+      ),
+      AptosAddress.layout(property: "feePayerAddress"),
+    ], property: property);
+  }
+
+  @override
+  Layout<Map<String, dynamic>> createLayout({String? property}) {
+    return layout(property: property);
+  }
+
+  @override
+  Map<String, dynamic> toLayoutStruct() {
+    return {
+      "rawTransaction": rawTransaction.toLayoutStruct(),
+      "secondarySignerAddresses":
+          secondarySignerAddresses.map((e) => e.toLayoutStruct()).toList(),
+      "feePayerAddress": feePayerAddress.toLayoutStruct(),
     };
   }
 }
@@ -1942,8 +2186,9 @@ class AptosTransferParams {
     bool allowCreate = true,
   }) {
     return AptosTransferParams.apt(
-        apt: AptosHelper.toApt(aptos),
-        destination: destination,
-        allowCreate: allowCreate);
+      apt: AptosHelper.toApt(aptos),
+      destination: destination,
+      allowCreate: allowCreate,
+    );
   }
 }

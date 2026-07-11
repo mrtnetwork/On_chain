@@ -12,8 +12,8 @@ class NftGate extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('requiredCollection'),
-      ], property: 'nftGate');
+    SolanaLayoutUtils.publicKey('requiredCollection'),
+  ], property: 'nftGate');
 
   @override
   StructLayout get layout => staticLayout;

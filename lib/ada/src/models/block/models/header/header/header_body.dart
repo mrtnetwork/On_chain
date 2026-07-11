@@ -19,25 +19,27 @@ class HeaderBody with InternalCborSerialization {
   final OperationalCert operationalCert;
   final ProtocolVersion protocolVersion;
 
-  const HeaderBody(
-      {required this.blockBodyHash,
-      required this.slot,
-      required this.blockBodySize,
-      required this.blockNumber,
-      required this.issuerKey,
-      required this.leaderCert,
-      required this.operationalCert,
-      required this.prevHash,
-      required this.protocolVersion,
-      required this.vrfvKey});
+  const HeaderBody({
+    required this.blockBodyHash,
+    required this.slot,
+    required this.blockBodySize,
+    required this.blockNumber,
+    required this.issuerKey,
+    required this.leaderCert,
+    required this.operationalCert,
+    required this.prevHash,
+    required this.protocolVersion,
+    required this.vrfvKey,
+  });
 
   factory HeaderBody.fromJson(Map<String, dynamic> json) {
     return HeaderBody(
       blockNumber: json['block_number'],
       slot: BigInt.parse(json['slot']),
-      prevHash: json['prev_hash'] != null
-          ? BlockHash.fromHex(json['prev_hash'])
-          : null,
+      prevHash:
+          json['prev_hash'] != null
+              ? BlockHash.fromHex(json['prev_hash'])
+              : null,
       issuerKey: AdaPublicKey.fromHex(json['issuer_key']),
       vrfvKey: VRFVKey.fromHex(json['vrfv_key']),
       leaderCert: HeaderLeaderCert.fromJson(json['leader_cert']),
@@ -50,31 +52,37 @@ class HeaderBody with InternalCborSerialization {
 
   factory HeaderBody.fromCborBytes(List<int> cborBytes) {
     return HeaderBody.deserialize(
-        CborObject.fromCbor(cborBytes).as<CborListValue>("HeaderBody"));
+      CborObject.fromCbor(cborBytes).as<CborListValue>(operation: "HeaderBody"),
+    );
   }
   factory HeaderBody.deserialize(CborListValue cbor) {
     final int leaderCertSize =
-        cbor.elementAt<CborObject>(6).hasType<CborListValue>() ? 2 : 1;
+        cbor.objectAt<CborObject>(6).hasType<CborListValue>() ? 2 : 1;
     final int operationIndex = 5 + leaderCertSize + 2;
     final int protocolVersionIndex = operationIndex + 4;
     return HeaderBody(
-        blockBodyHash: BlockHash.deserialize(
-            cbor.elementAt<CborBytesValue>(5 + leaderCertSize + 1)),
-        slot: cbor.elementAsInteger(1),
-        blockBodySize: cbor.elementAt<CborNumeric>(5 + leaderCertSize).toInt(),
-        blockNumber: cbor.elementAt<CborNumeric>(0).toInt(),
-        issuerKey: AdaPublicKey.fromBytes(cbor.elementAtBytes(3)),
-        leaderCert:
-            HeaderLeaderCert.deserialize(cbor.sublist(5, 5 + leaderCertSize)),
-        operationalCert: OperationalCert.deserialize(
-            cbor.sublist(operationIndex, operationIndex + 4)),
-        prevHash: cbor
-            .elementAt<CborBytesValue?>(2)
-            ?.convertTo<BlockHash, CborBytesValue>(
-                (e) => BlockHash.deserialize(e)),
-        protocolVersion:
-            ProtocolVersion.deserialize(cbor.sublist(protocolVersionIndex)),
-        vrfvKey: VRFVKey.deserialize(cbor.elementAt<CborBytesValue>(4)));
+      blockBodyHash: BlockHash.deserialize(
+        cbor.objectAt<CborBytesValue>(5 + leaderCertSize + 1),
+      ),
+      slot: cbor.rawValueAt(1),
+      blockBodySize: cbor.objectAt<CborNumeric>(5 + leaderCertSize).toInt(),
+      blockNumber: cbor.objectAt<CborNumeric>(0).toInt(),
+      issuerKey: AdaPublicKey.fromBytes(cbor.rawValueAt(3)),
+      leaderCert: HeaderLeaderCert.deserialize(
+        cbor.sublist(5, 5 + leaderCertSize),
+      ),
+      operationalCert: OperationalCert.deserialize(
+        cbor.sublist(operationIndex, operationIndex + 4),
+      ),
+      prevHash: cbor.maybeObjectAt<BlockHash, CborBytesValue>(
+        2,
+        (e) => BlockHash.deserialize(e),
+      ),
+      protocolVersion: ProtocolVersion.deserialize(
+        cbor.sublist(protocolVersionIndex),
+      ),
+      vrfvKey: VRFVKey.deserialize(cbor.objectAt<CborBytesValue>(4)),
+    );
   }
 
   @override
@@ -89,7 +97,7 @@ class HeaderBody with InternalCborSerialization {
       CborUnsignedValue.u32(blockBodySize),
       blockBodyHash.toCbor(),
       ...operationalCert.toCborObjects(),
-      ...protocolVersion.toCborObjects()
+      ...protocolVersion.toCborObjects(),
     ]);
   }
 

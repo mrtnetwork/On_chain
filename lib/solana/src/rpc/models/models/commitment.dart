@@ -25,12 +25,15 @@ class Commitment {
   static const Commitment finalized = Commitment._('finalized');
   static const List<Commitment> values = [processed, confirmed, finalized];
   static Commitment fromName(String value, {Commitment? defaultValue}) {
-    return values.firstWhere((e) => e.value == value, orElse: () {
-      if (defaultValue == null) {
-        throw const SolanaPluginException('Invalid commitment');
-      }
-      return defaultValue;
-    });
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse: () {
+        if (defaultValue == null) {
+          throw const SolanaPluginException('Invalid commitment');
+        }
+        return defaultValue;
+      },
+    );
   }
 
   @override

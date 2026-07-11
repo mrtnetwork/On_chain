@@ -7,19 +7,21 @@ class MetaplexAuctionHouseAuctioneerSellLayout
   final int freeTradeStateBump;
   final int programAsSignerBump;
   final BigInt tokenSize;
-  const MetaplexAuctionHouseAuctioneerSellLayout(
-      {required this.tradeStateBump,
-      required this.freeTradeStateBump,
-      required this.programAsSignerBump,
-      required this.tokenSize});
+  const MetaplexAuctionHouseAuctioneerSellLayout({
+    required this.tradeStateBump,
+    required this.freeTradeStateBump,
+    required this.programAsSignerBump,
+    required this.tokenSize,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseAuctioneerSellLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexAuctionHouseProgramInstruction.auctioneerSell.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.auctioneerSell.insturction,
+    );
     return MetaplexAuctionHouseAuctioneerSellLayout(
       tradeStateBump: decode['tradeStateBump'],
       freeTradeStateBump: decode['freeTradeStateBump'],
@@ -30,12 +32,12 @@ class MetaplexAuctionHouseAuctioneerSellLayout
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'tradeStateBump'),
-        LayoutConst.u8(property: 'freeTradeStateBump'),
-        LayoutConst.u8(property: 'programAsSignerBump'),
-        LayoutConst.u64(property: 'tokenSize'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.u8(property: 'freeTradeStateBump'),
+    LayoutConst.u8(property: 'programAsSignerBump'),
+    LayoutConst.u64(property: 'tokenSize'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -50,7 +52,7 @@ class MetaplexAuctionHouseAuctioneerSellLayout
       'tradeStateBump': tradeStateBump,
       'freeTradeStateBump': freeTradeStateBump,
       'programAsSignerBump': programAsSignerBump,
-      'tokenSize': tokenSize
+      'tokenSize': tokenSize,
     };
   }
 }

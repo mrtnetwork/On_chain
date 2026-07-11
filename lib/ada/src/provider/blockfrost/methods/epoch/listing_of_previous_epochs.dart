@@ -4,11 +4,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the list of epochs preceding a specific epoch.
 /// https://blockfrost.dev/api/listing-of-previous-epochs
-class BlockfrostRequestListingOfPreviousEpoches extends BlockFrostRequest<
-    List<ADAEpochInfoResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestListingOfPreviousEpoches(this.epoch,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestListingOfPreviousEpoches
+    extends
+        BlockFrostRequest<
+          List<ADAEpochInfoResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestListingOfPreviousEpoches(
+    this.epoch, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// Number of the epoch
   final int epoch;

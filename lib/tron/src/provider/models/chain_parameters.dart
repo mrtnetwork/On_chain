@@ -1,178 +1,216 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 class TronChainParameters {
-  const TronChainParameters(
-      {this.getMaintenanceTimeInterval,
-      this.getAccountUpgradeCost,
-      this.getCreateAccountFee,
-      this.getTransactionFee,
-      this.getAssetIssueFee,
-      this.getWitnessPayPerBlock,
-      this.getWitnessStandbyAllowance,
-      this.getCreateNewAccountFeeInSystemContract,
-      this.getCreateNewAccountBandwidthRate,
-      this.getAllowCreationOfContracts,
-      this.getRemoveThePowerOfTheGr,
-      this.getEnergyFee,
-      this.getExchangeCreateFee,
-      this.getMaxCpuTimeOfOneTx,
-      this.getAllowUpdateAccountName,
-      this.getAllowSameTokenName,
-      this.getAllowDelegateResource,
-      this.getTotalEnergyLimit,
-      this.getAllowTvmTransferTrc10,
-      this.getTotalEnergyCurrentLimit,
-      this.getAllowMultiSign,
-      this.getAllowAdaptiveEnergy,
-      this.getTotalEnergyTargetLimit,
-      this.getTotalEnergyAverageUsage,
-      this.getUpdateAccountPermissionFee,
-      this.getMultiSignFee,
-      this.getAllowAccountStateRoot,
-      this.getAllowProtoFilterNum,
-      this.getAllowTvmConstantinople,
-      this.getAllowTvmSolidity059,
-      this.getAllowTvmIstanbul,
-      this.getAllowShieldedTRC20Transaction,
-      this.getForbidTransferToContract,
-      this.getAdaptiveResourceLimitTargetRatio,
-      this.getAdaptiveResourceLimitMultiplier,
-      this.getChangeDelegation,
-      this.getWitness127PayPerBlock,
-      this.getAllowMarketTransaction,
-      this.getMarketSellFee,
-      this.getMarketCancelFee,
-      this.getAllowPBFT,
-      this.getAllowTransactionFeePool,
-      this.getMaxFeeLimit,
-      this.getAllowOptimizeBlackHole,
-      this.getAllowNewResourceModel,
-      this.getAllowTvmFreeze,
-      this.getAllowTvmVote,
-      this.getAllowTvmLondon,
-      this.getAllowTvmCompatibleEvm,
-      this.getAllowAccountAssetOptimization,
-      this.getFreeNetLimit,
-      this.getTotalNetLimit,
-      this.getAllowHigherLimitForMaxCpuTimeOfOneTx,
-      this.getAllowAssetOptimization,
-      this.getAllowNewReward,
-      this.getMemoFee,
-      this.getAllowDelegateOptimization,
-      this.getUnfreezeDelayDays,
-      this.getAllowOptimizedReturnValueOfChainId,
-      this.getAllowDynamicEnergy,
-      this.getDynamicEnergyThreshold,
-      this.getDynamicEnergyIncreaseFactor,
-      this.getDynamicEnergyMaxFactor,
-      this.getAllowTvmShangHai,
-      this.getAllowCancelAllUnfreezeV2,
-      this.getMaxDelegateLockPeriod});
+  const TronChainParameters({
+    this.getMaintenanceTimeInterval,
+    this.getAccountUpgradeCost,
+    this.getCreateAccountFee,
+    this.getTransactionFee,
+    this.getAssetIssueFee,
+    this.getWitnessPayPerBlock,
+    this.getWitnessStandbyAllowance,
+    this.getCreateNewAccountFeeInSystemContract,
+    this.getCreateNewAccountBandwidthRate,
+    this.getAllowCreationOfContracts,
+    this.getRemoveThePowerOfTheGr,
+    this.getEnergyFee,
+    this.getExchangeCreateFee,
+    this.getMaxCpuTimeOfOneTx,
+    this.getAllowUpdateAccountName,
+    this.getAllowSameTokenName,
+    this.getAllowDelegateResource,
+    this.getTotalEnergyLimit,
+    this.getAllowTvmTransferTrc10,
+    this.getTotalEnergyCurrentLimit,
+    this.getAllowMultiSign,
+    this.getAllowAdaptiveEnergy,
+    this.getTotalEnergyTargetLimit,
+    this.getTotalEnergyAverageUsage,
+    this.getUpdateAccountPermissionFee,
+    this.getMultiSignFee,
+    this.getAllowAccountStateRoot,
+    this.getAllowProtoFilterNum,
+    this.getAllowTvmConstantinople,
+    this.getAllowTvmSolidity059,
+    this.getAllowTvmIstanbul,
+    this.getAllowShieldedTRC20Transaction,
+    this.getForbidTransferToContract,
+    this.getAdaptiveResourceLimitTargetRatio,
+    this.getAdaptiveResourceLimitMultiplier,
+    this.getChangeDelegation,
+    this.getWitness127PayPerBlock,
+    this.getAllowMarketTransaction,
+    this.getMarketSellFee,
+    this.getMarketCancelFee,
+    this.getAllowPBFT,
+    this.getAllowTransactionFeePool,
+    this.getMaxFeeLimit,
+    this.getAllowOptimizeBlackHole,
+    this.getAllowNewResourceModel,
+    this.getAllowTvmFreeze,
+    this.getAllowTvmVote,
+    this.getAllowTvmLondon,
+    this.getAllowTvmCompatibleEvm,
+    this.getAllowAccountAssetOptimization,
+    this.getFreeNetLimit,
+    this.getTotalNetLimit,
+    this.getAllowHigherLimitForMaxCpuTimeOfOneTx,
+    this.getAllowAssetOptimization,
+    this.getAllowNewReward,
+    this.getMemoFee,
+    this.getAllowDelegateOptimization,
+    this.getUnfreezeDelayDays,
+    this.getAllowOptimizedReturnValueOfChainId,
+    this.getAllowDynamicEnergy,
+    this.getDynamicEnergyThreshold,
+    this.getDynamicEnergyIncreaseFactor,
+    this.getDynamicEnergyMaxFactor,
+    this.getAllowTvmShangHai,
+    this.getAllowCancelAllUnfreezeV2,
+    this.getMaxDelegateLockPeriod,
+  });
   factory TronChainParameters.fromJson(Map<String, dynamic> json) {
     return TronChainParameters(
-      getMaintenanceTimeInterval:
-          BigintUtils.tryParse(json['getMaintenanceTimeInterval']),
-      getAccountUpgradeCost:
-          BigintUtils.tryParse(json['getAccountUpgradeCost']),
+      getMaintenanceTimeInterval: BigintUtils.tryParse(
+        json['getMaintenanceTimeInterval'],
+      ),
+      getAccountUpgradeCost: BigintUtils.tryParse(
+        json['getAccountUpgradeCost'],
+      ),
       getCreateAccountFee: IntUtils.tryParse(json['getCreateAccountFee']),
       getTransactionFee: IntUtils.tryParse(json['getTransactionFee']),
       getAssetIssueFee: BigintUtils.tryParse(json['getAssetIssueFee']),
-      getWitnessPayPerBlock:
-          BigintUtils.tryParse(json['getWitnessPayPerBlock']),
-      getWitnessStandbyAllowance:
-          BigintUtils.tryParse(json['getWitnessStandbyAllowance']),
-      getCreateNewAccountFeeInSystemContract:
-          IntUtils.tryParse(json['getCreateNewAccountFeeInSystemContract']),
-      getCreateNewAccountBandwidthRate:
-          IntUtils.tryParse(json['getCreateNewAccountBandwidthRate']),
-      getAllowCreationOfContracts:
-          IntUtils.tryParse(json['getAllowCreationOfContracts']),
-      getRemoveThePowerOfTheGr:
-          IntUtils.tryParse(json['getRemoveThePowerOfTheGr']),
+      getWitnessPayPerBlock: BigintUtils.tryParse(
+        json['getWitnessPayPerBlock'],
+      ),
+      getWitnessStandbyAllowance: BigintUtils.tryParse(
+        json['getWitnessStandbyAllowance'],
+      ),
+      getCreateNewAccountFeeInSystemContract: IntUtils.tryParse(
+        json['getCreateNewAccountFeeInSystemContract'],
+      ),
+      getCreateNewAccountBandwidthRate: IntUtils.tryParse(
+        json['getCreateNewAccountBandwidthRate'],
+      ),
+      getAllowCreationOfContracts: IntUtils.tryParse(
+        json['getAllowCreationOfContracts'],
+      ),
+      getRemoveThePowerOfTheGr: IntUtils.tryParse(
+        json['getRemoveThePowerOfTheGr'],
+      ),
       getEnergyFee: IntUtils.tryParse(json['getEnergyFee']),
       getExchangeCreateFee: BigintUtils.tryParse(json['getExchangeCreateFee']),
       getMaxCpuTimeOfOneTx: IntUtils.tryParse(json['getMaxCpuTimeOfOneTx']),
-      getAllowUpdateAccountName:
-          IntUtils.tryParse(json['getAllowUpdateAccountName']),
+      getAllowUpdateAccountName: IntUtils.tryParse(
+        json['getAllowUpdateAccountName'],
+      ),
       getAllowSameTokenName: IntUtils.tryParse(json['getAllowSameTokenName']),
-      getAllowDelegateResource:
-          IntUtils.tryParse(json['getAllowDelegateResource']),
+      getAllowDelegateResource: IntUtils.tryParse(
+        json['getAllowDelegateResource'],
+      ),
       getTotalEnergyLimit: BigintUtils.tryParse(json['getTotalEnergyLimit']),
-      getAllowTvmTransferTrc10:
-          IntUtils.tryParse(json['getAllowTvmTransferTrc10']),
-      getTotalEnergyCurrentLimit:
-          BigintUtils.tryParse(json['getTotalEnergyCurrentLimit']),
+      getAllowTvmTransferTrc10: IntUtils.tryParse(
+        json['getAllowTvmTransferTrc10'],
+      ),
+      getTotalEnergyCurrentLimit: BigintUtils.tryParse(
+        json['getTotalEnergyCurrentLimit'],
+      ),
       getAllowMultiSign: IntUtils.tryParse(json['getAllowMultiSign']),
       getAllowAdaptiveEnergy: IntUtils.tryParse(json['getAllowAdaptiveEnergy']),
-      getTotalEnergyTargetLimit:
-          BigintUtils.tryParse(json['getTotalEnergyTargetLimit']),
-      getTotalEnergyAverageUsage:
-          BigintUtils.tryParse(json['getTotalEnergyAverageUsage']),
-      getUpdateAccountPermissionFee:
-          BigintUtils.tryParse(json['getUpdateAccountPermissionFee']),
+      getTotalEnergyTargetLimit: BigintUtils.tryParse(
+        json['getTotalEnergyTargetLimit'],
+      ),
+      getTotalEnergyAverageUsage: BigintUtils.tryParse(
+        json['getTotalEnergyAverageUsage'],
+      ),
+      getUpdateAccountPermissionFee: BigintUtils.tryParse(
+        json['getUpdateAccountPermissionFee'],
+      ),
       getMultiSignFee: IntUtils.tryParse(json['getMultiSignFee']),
-      getAllowAccountStateRoot:
-          IntUtils.tryParse(json['getAllowAccountStateRoot']),
+      getAllowAccountStateRoot: IntUtils.tryParse(
+        json['getAllowAccountStateRoot'],
+      ),
       getAllowProtoFilterNum: IntUtils.tryParse(json['getAllowProtoFilterNum']),
-      getAllowTvmConstantinople:
-          IntUtils.tryParse(json['getAllowTvmConstantinople']),
+      getAllowTvmConstantinople: IntUtils.tryParse(
+        json['getAllowTvmConstantinople'],
+      ),
       getAllowTvmSolidity059: IntUtils.tryParse(json['getAllowTvmSolidity059']),
       getAllowTvmIstanbul: BigintUtils.tryParse(json['getAllowTvmIstanbul']),
-      getAllowShieldedTRC20Transaction:
-          IntUtils.tryParse(json['getAllowShieldedTRC20Transaction']),
-      getForbidTransferToContract:
-          BigintUtils.tryParse(json['getForbidTransferToContract']),
-      getAdaptiveResourceLimitTargetRatio:
-          IntUtils.tryParse(json['getAdaptiveResourceLimitTargetRatio']),
-      getAdaptiveResourceLimitMultiplier:
-          IntUtils.tryParse(json['getAdaptiveResourceLimitMultiplier']),
+      getAllowShieldedTRC20Transaction: IntUtils.tryParse(
+        json['getAllowShieldedTRC20Transaction'],
+      ),
+      getForbidTransferToContract: BigintUtils.tryParse(
+        json['getForbidTransferToContract'],
+      ),
+      getAdaptiveResourceLimitTargetRatio: IntUtils.tryParse(
+        json['getAdaptiveResourceLimitTargetRatio'],
+      ),
+      getAdaptiveResourceLimitMultiplier: IntUtils.tryParse(
+        json['getAdaptiveResourceLimitMultiplier'],
+      ),
       getChangeDelegation: IntUtils.tryParse(json['getChangeDelegation']),
-      getWitness127PayPerBlock:
-          BigintUtils.tryParse(json['getWitness127PayPerBlock']),
-      getAllowMarketTransaction:
-          IntUtils.tryParse(json['getAllowMarketTransaction']),
+      getWitness127PayPerBlock: BigintUtils.tryParse(
+        json['getWitness127PayPerBlock'],
+      ),
+      getAllowMarketTransaction: IntUtils.tryParse(
+        json['getAllowMarketTransaction'],
+      ),
       getMarketSellFee: BigintUtils.tryParse(json['getMarketSellFee']),
       getMarketCancelFee: BigintUtils.tryParse(json['getMarketCancelFee']),
       getAllowPBFT: IntUtils.tryParse(json['getAllowPBFT']),
-      getAllowTransactionFeePool:
-          IntUtils.tryParse(json['getAllowTransactionFeePool']),
+      getAllowTransactionFeePool: IntUtils.tryParse(
+        json['getAllowTransactionFeePool'],
+      ),
       getMaxFeeLimit: BigintUtils.tryParse(json['getMaxFeeLimit']),
-      getAllowOptimizeBlackHole:
-          IntUtils.tryParse(json['getAllowOptimizeBlackHole']),
-      getAllowNewResourceModel:
-          IntUtils.tryParse(json['getAllowNewResourceModel']),
+      getAllowOptimizeBlackHole: IntUtils.tryParse(
+        json['getAllowOptimizeBlackHole'],
+      ),
+      getAllowNewResourceModel: IntUtils.tryParse(
+        json['getAllowNewResourceModel'],
+      ),
       getAllowTvmFreeze: IntUtils.tryParse(json['getAllowTvmFreeze']),
       getAllowTvmVote: IntUtils.tryParse(json['getAllowTvmVote']),
       getAllowTvmLondon: IntUtils.tryParse(json['getAllowTvmLondon']),
-      getAllowTvmCompatibleEvm:
-          IntUtils.tryParse(json['getAllowTvmCompatibleEvm']),
-      getAllowAccountAssetOptimization:
-          IntUtils.tryParse(json['getAllowAccountAssetOptimization']),
+      getAllowTvmCompatibleEvm: IntUtils.tryParse(
+        json['getAllowTvmCompatibleEvm'],
+      ),
+      getAllowAccountAssetOptimization: IntUtils.tryParse(
+        json['getAllowAccountAssetOptimization'],
+      ),
       getFreeNetLimit: BigintUtils.tryParse(json['getFreeNetLimit']),
       getTotalNetLimit: BigintUtils.tryParse(json['getTotalNetLimit']),
-      getAllowHigherLimitForMaxCpuTimeOfOneTx:
-          IntUtils.tryParse(json['getAllowHigherLimitForMaxCpuTimeOfOneTx']),
-      getAllowAssetOptimization:
-          IntUtils.tryParse(json['getAllowAssetOptimization']),
+      getAllowHigherLimitForMaxCpuTimeOfOneTx: IntUtils.tryParse(
+        json['getAllowHigherLimitForMaxCpuTimeOfOneTx'],
+      ),
+      getAllowAssetOptimization: IntUtils.tryParse(
+        json['getAllowAssetOptimization'],
+      ),
       getAllowNewReward: IntUtils.tryParse(json['getAllowNewReward']),
       getMemoFee: IntUtils.tryParse(json['getMemoFee']),
-      getAllowDelegateOptimization:
-          IntUtils.tryParse(json['getAllowDelegateOptimization']),
+      getAllowDelegateOptimization: IntUtils.tryParse(
+        json['getAllowDelegateOptimization'],
+      ),
       getUnfreezeDelayDays: IntUtils.tryParse(json['getUnfreezeDelayDays']),
-      getAllowOptimizedReturnValueOfChainId:
-          IntUtils.tryParse(json['getAllowOptimizedReturnValueOfChainId']),
+      getAllowOptimizedReturnValueOfChainId: IntUtils.tryParse(
+        json['getAllowOptimizedReturnValueOfChainId'],
+      ),
       getAllowDynamicEnergy: IntUtils.tryParse(json['getAllowDynamicEnergy']),
-      getDynamicEnergyThreshold:
-          BigintUtils.tryParse(json['getDynamicEnergyThreshold']),
-      getDynamicEnergyIncreaseFactor:
-          IntUtils.tryParse(json['getDynamicEnergyIncreaseFactor']),
-      getDynamicEnergyMaxFactor:
-          IntUtils.tryParse(json['getDynamicEnergyMaxFactor']),
+      getDynamicEnergyThreshold: BigintUtils.tryParse(
+        json['getDynamicEnergyThreshold'],
+      ),
+      getDynamicEnergyIncreaseFactor: IntUtils.tryParse(
+        json['getDynamicEnergyIncreaseFactor'],
+      ),
+      getDynamicEnergyMaxFactor: IntUtils.tryParse(
+        json['getDynamicEnergyMaxFactor'],
+      ),
       getAllowTvmShangHai: IntUtils.tryParse(json['getAllowTvmShangHai']),
-      getAllowCancelAllUnfreezeV2:
-          IntUtils.tryParse(json['getAllowCancelAllUnfreezeV2']),
-      getMaxDelegateLockPeriod:
-          IntUtils.tryParse(json['getMaxDelegateLockPeriod']),
+      getAllowCancelAllUnfreezeV2: IntUtils.tryParse(
+        json['getAllowCancelAllUnfreezeV2'],
+      ),
+      getMaxDelegateLockPeriod: IntUtils.tryParse(
+        json['getMaxDelegateLockPeriod'],
+      ),
     );
   }
   // TronChainParameters.fromJson(Map<String, dynamic> json) {}

@@ -23,13 +23,18 @@ class EIP712Version {
   static const List<EIP712Version> values = [v1, v3, v4];
 
   static EIP712Version fromVersion(int? version) {
-    return values.firstWhere((e) => e.version == version,
-        orElse: () => throw SolidityAbiException(
+    return values.firstWhere(
+      (e) => e.version == version,
+      orElse:
+          () =>
+              throw SolidityAbiException(
                 'Invalid EIP712Version version.',
                 details: {
-                  'version': version,
-                  'expected': values.map((e) => e.version).join(', ')
-                }));
+                  'version': version?.toString(),
+                  'expected': values.map((e) => e.version).join(', '),
+                },
+              ),
+    );
   }
 }
 
@@ -108,8 +113,10 @@ class Eip712TypedData implements EIP712Base {
     this.version = EIP712Version.v4,
   }) : assert(version != EIP712Version.v1, 'use EIP712V1 class for EIP712 V1');
 
-  factory Eip712TypedData.fromJson(Map<String, dynamic> json,
-      {EIP712Version? version = EIP712Version.v4}) {
+  factory Eip712TypedData.fromJson(
+    Map<String, dynamic> json, {
+    EIP712Version? version = EIP712Version.v4,
+  }) {
     try {
       final jsonTypes = Map<String, List<dynamic>>.from(json['types']);
       final Map<String, List<Eip712TypeDetails>> types = {};
@@ -120,26 +127,37 @@ class Eip712TypedData implements EIP712Base {
             values.map((e) => Eip712TypeDetails.fromJson(e)).toList();
         types[i.key] = eip712Types;
       }
-      final String primaryType = json.as("primaryType",
-          error: const SolidityAbiException("missing or invalid primaryType."));
-      final Map<String, dynamic> domain = json.asMap("domain",
-          error: const SolidityAbiException("missing or invalid domain data."));
-      final Map<String, dynamic> message = json.asMap("message",
-          error:
-              const SolidityAbiException("missing or invalid message data."));
+      if (!json.hasValue("primaryType")) {
+        throw const SolidityAbiException("missing or invalid primaryType.");
+      }
+      final String primaryType = json.valueAs("primaryType");
+      if (!json.hasValue("domain")) {
+        throw const SolidityAbiException("missing or invalid domain data.");
+      }
+      final Map<String, dynamic> domain = json
+          .valueEnsureAsMap<String, dynamic>("domain");
+      if (!json.hasValue("message")) {
+        throw const SolidityAbiException("missing or invalid message data.");
+      }
+      final Map<String, dynamic> message = json
+          .valueEnsureAsMap<String, dynamic>("message");
       if (version == null) {
         version = EIP712Utils._detectVersion(
-            types, EIP712Utils.domainKeyName, domain);
+          types,
+          EIP712Utils.domainKeyName,
+          domain,
+        );
         if (version == EIP712Version.v4) {
           version = EIP712Utils._detectVersion(types, primaryType, message);
         }
       }
       return Eip712TypedData(
-          types: types,
-          primaryType: primaryType,
-          domain: domain,
-          message: message,
-          version: version);
+        types: types,
+        primaryType: primaryType,
+        domain: domain,
+        message: message,
+        version: version,
+      );
     } on SolidityAbiException {
       rethrow;
     } catch (e) {
@@ -158,11 +176,13 @@ class Eip712TypedData implements EIP712Base {
     if (type == primaryType) {
       return EIP712Utils.structHash(types, primaryType, message, version);
     }
-    final eipType =
-        types[primaryType]?.firstWhereNullable((e) => e.type == type);
+    final eipType = types[primaryType]?.firstWhereNullable(
+      (e) => e.type == type,
+    );
     if (eipType == null) {
       throw SolidityAbiException(
-          'EIP-712 type definition not found for "$type".');
+        'EIP-712 type definition not found for "$type".',
+      );
     }
     return EIP712Utils.structHash(types, type, message[eipType.name], version);
   }
@@ -174,7 +194,7 @@ class Eip712TypedData implements EIP712Base {
     final List<int> encode = [
       ...EIP712Utils.eip191PrefixBytes,
       ...hashDomain(),
-      ...EIP712Utils.structHash(types, primaryType, message, version)
+      ...EIP712Utils.structHash(types, primaryType, message, version),
     ];
     if (hash) {
       return QuickCrypto.keccack256Hash(encode);
@@ -191,12 +211,13 @@ class Eip712TypedData implements EIP712Base {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'types':
-          types.map((k, v) => MapEntry(k, v.map((e) => e.toJson()).toList())),
+      'types': types.map(
+        (k, v) => MapEntry(k, v.map((e) => e.toJson()).toList()),
+      ),
       'domain': domain,
       'message': message,
       'primaryType': primaryType,
-      'version': version.version
+      'version': version.version,
     };
   }
 }
@@ -204,21 +225,31 @@ class Eip712TypedData implements EIP712Base {
 /// Represents a typed data field for EIP-712 version 1.
 /// This class is used to create instances of typed data fields with specified type, name, and value.
 class Eip712TypedDataV1 {
-  factory Eip712TypedDataV1(
-      {required String type, required String name, required dynamic value}) {
+  factory Eip712TypedDataV1({
+    required String type,
+    required String name,
+    required dynamic value,
+  }) {
     return Eip712TypedDataV1._(
-        name: name,
-        value: EIP712Utils._ensureCorrectValues(type, value),
-        type: type);
+      name: name,
+      value: EIP712Utils._ensureCorrectValues(type, value),
+      type: type,
+    );
   }
   factory Eip712TypedDataV1.fromJson(Map<String, dynamic> json) {
     return Eip712TypedDataV1(
-        type: json['type'], name: json['name'], value: json['value']);
+      type: json['type'],
+      name: json['name'],
+      value: json['value'],
+    );
   }
 
   /// Private constructor for creating instances of Eip712TypedDataV1.
-  const Eip712TypedDataV1._(
-      {required this.name, required this.value, required this.type});
+  const Eip712TypedDataV1._({
+    required this.name,
+    required this.value,
+    required this.type,
+  });
 
   /// The name of the typed data field.
   final String name;
@@ -233,7 +264,7 @@ class Eip712TypedDataV1 {
     return {
       'name': name,
       'type': type,
-      'value': EIP712Utils.eip712TypedDataV1ValueToJson(type, value)
+      'value': EIP712Utils.eip712TypedDataV1ValueToJson(type, value),
     };
   }
 }
@@ -245,9 +276,11 @@ class EIP712Legacy implements EIP712Base {
   const EIP712Legacy(this.typesData);
 
   factory EIP712Legacy.fromJson(List messages) {
-    return EIP712Legacy(messages
-        .map((e) => Eip712TypedDataV1.fromJson((e as Map).cast()))
-        .toList());
+    return EIP712Legacy(
+      messages
+          .map((e) => Eip712TypedDataV1.fromJson((e as Map).cast()))
+          .toList(),
+    );
   }
 
   /// List of Eip712TypedDataV1 instances representing the typed data fields.
@@ -265,12 +298,19 @@ class EIP712Legacy implements EIP712Base {
     final types = typesData.map((e) => e.type).toList();
     final names = typesData.map((e) => '${e.type} ${e.name}').toList();
     // Calculate hashes for types and names
-    final typesHash =
-        QuickCrypto.keccack256Hash(EIP712Utils.legacyV1Encode(types, values));
-    final namesHash = QuickCrypto.keccack256Hash(EIP712Utils.legacyV1Encode(
-        List.generate(names.length, (index) => 'string'), names));
+    final typesHash = QuickCrypto.keccack256Hash(
+      EIP712Utils.legacyV1Encode(types, values),
+    );
+    final namesHash = QuickCrypto.keccack256Hash(
+      EIP712Utils.legacyV1Encode(
+        List.generate(names.length, (index) => 'string'),
+        names,
+      ),
+    );
     final toBytes = EIP712Utils.legacyV1Encode(
-        ['bytes32', 'bytes32'], [namesHash, typesHash]);
+      ['bytes32', 'bytes32'],
+      [namesHash, typesHash],
+    );
     if (!hash) {
       return toBytes;
     }
@@ -286,7 +326,7 @@ class EIP712Legacy implements EIP712Base {
   Map<String, dynamic> toJson() {
     return {
       'types': typesData.map((e) => e.toJson()).toList(),
-      'version': version.version
+      'version': version.version,
     };
   }
 }

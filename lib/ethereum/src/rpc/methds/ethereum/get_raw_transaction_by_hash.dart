@@ -5,9 +5,7 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getTransactionByHash)
 class EthereumRequestGetRawTransactionByHash
     extends EthereumRequest<String?, String?> {
-  EthereumRequestGetRawTransactionByHash({
-    required this.transactionHash,
-  });
+  EthereumRequestGetRawTransactionByHash({required this.transactionHash});
 
   /// eth_getTransactionByHash
   @override

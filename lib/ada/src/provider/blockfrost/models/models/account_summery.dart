@@ -22,9 +22,10 @@ class ADAAccountSummaryResponse {
 
   factory ADAAccountSummaryResponse.fromJson(Map<String, dynamic> json) {
     final receivedSumList = json['received_sum'] as List;
-    final List<ADAAmountResponse> receivedSum = receivedSumList
-        .map((item) => ADAAmountResponse.fromJson(item))
-        .toList();
+    final List<ADAAmountResponse> receivedSum =
+        receivedSumList
+            .map((item) => ADAAmountResponse.fromJson(item))
+            .toList();
 
     final sentSumList = json['sent_sum'] as List;
     final List<ADAAmountResponse> sentSum =
@@ -39,11 +40,11 @@ class ADAAccountSummaryResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'received_sum': receivedSum.map((asset) => asset.toJson()).toList(),
-        'sent_sum': sentSum.map((asset) => asset.toJson()).toList(),
-        'tx_count': txCount,
-      };
+    'address': address,
+    'received_sum': receivedSum.map((asset) => asset.toJson()).toList(),
+    'sent_sum': sentSum.map((asset) => asset.toJson()).toList(),
+    'tx_count': txCount,
+  };
   @override
   String toString() {
     return 'ADAAccountSummaryResponse${toJson()}';

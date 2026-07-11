@@ -14,82 +14,139 @@ class ExtensionType {
   const ExtensionType._(this.value, this.name, this.layoutSize);
 
   /// Extension type for uninitialized.
-  static const ExtensionType uninitialized =
-      ExtensionType._(0, 'Uninitialized', 0);
+  static const ExtensionType uninitialized = ExtensionType._(
+    0,
+    'Uninitialized',
+    0,
+  );
 
   /// Extension type for transfer fee configuration.
-  static const ExtensionType transferFeeConfig =
-      ExtensionType._(1, 'TransferFeeConfig', 108);
+  static const ExtensionType transferFeeConfig = ExtensionType._(
+    1,
+    'TransferFeeConfig',
+    108,
+  );
 
   /// Extension type for transfer fee amount.
-  static const ExtensionType transferFeeAmount =
-      ExtensionType._(2, 'TransferFeeAmount', 8);
+  static const ExtensionType transferFeeAmount = ExtensionType._(
+    2,
+    'TransferFeeAmount',
+    8,
+  );
 
   /// Extension type for mint close authority.
-  static const ExtensionType mintCloseAuthority =
-      ExtensionType._(3, 'MintCloseAuthority', 32);
+  static const ExtensionType mintCloseAuthority = ExtensionType._(
+    3,
+    'MintCloseAuthority',
+    32,
+  );
 
   /// Extension type for confidential transfer mint.
-  static const ExtensionType confidentialTransferMint =
-      ExtensionType._(4, 'ConfidentialTransferMint', 97);
+  static const ExtensionType confidentialTransferMint = ExtensionType._(
+    4,
+    'ConfidentialTransferMint',
+    97,
+  );
 
   /// Extension type for confidential transfer account.
-  static const ExtensionType confidentialTransferAccount =
-      ExtensionType._(5, 'ConfidentialTransferAccount', 286);
+  static const ExtensionType confidentialTransferAccount = ExtensionType._(
+    5,
+    'ConfidentialTransferAccount',
+    286,
+  );
 
   /// Extension type for default account state.
-  static const ExtensionType defaultAccountState =
-      ExtensionType._(6, 'DefaultAccountState', 1);
+  static const ExtensionType defaultAccountState = ExtensionType._(
+    6,
+    'DefaultAccountState',
+    1,
+  );
 
   /// Extension type for immutable owner.
-  static const ExtensionType immutableOwner =
-      ExtensionType._(7, 'ImmutableOwner', 0);
+  static const ExtensionType immutableOwner = ExtensionType._(
+    7,
+    'ImmutableOwner',
+    0,
+  );
 
   /// Extension type for memo transfer.
-  static const ExtensionType memoTransfer =
-      ExtensionType._(8, 'MemoTransfer', 1);
+  static const ExtensionType memoTransfer = ExtensionType._(
+    8,
+    'MemoTransfer',
+    1,
+  );
 
   /// Extension type for non-transferable.
-  static const ExtensionType nonTransferable =
-      ExtensionType._(9, 'NonTransferable', 0);
+  static const ExtensionType nonTransferable = ExtensionType._(
+    9,
+    'NonTransferable',
+    0,
+  );
 
   /// Extension type for interest-bearing configuration.
-  static const ExtensionType interestBearingConfig =
-      ExtensionType._(10, 'InterestBearingConfig', 52);
+  static const ExtensionType interestBearingConfig = ExtensionType._(
+    10,
+    'InterestBearingConfig',
+    52,
+  );
 
   /// Extension type for CPI guard.
   static const ExtensionType cpiGuard = ExtensionType._(11, 'CpiGuard', 1);
 
   /// Extension type for permanent delegate.
-  static const ExtensionType permanentDelegate =
-      ExtensionType._(12, 'PermanentDelegate', 32);
+  static const ExtensionType permanentDelegate = ExtensionType._(
+    12,
+    'PermanentDelegate',
+    32,
+  );
 
   /// Extension type for non-transferable account.
-  static const ExtensionType nonTransferableAccount =
-      ExtensionType._(13, 'NonTransferableAccount', 0);
+  static const ExtensionType nonTransferableAccount = ExtensionType._(
+    13,
+    'NonTransferableAccount',
+    0,
+  );
 
   /// Extension type for transfer hook.
-  static const ExtensionType transferHook =
-      ExtensionType._(14, 'TransferHook', 64);
+  static const ExtensionType transferHook = ExtensionType._(
+    14,
+    'TransferHook',
+    64,
+  );
 
   /// Extension type for transfer hook account.
-  static const ExtensionType transferHookAccount =
-      ExtensionType._(15, 'TransferHookAccount', 1);
+  static const ExtensionType transferHookAccount = ExtensionType._(
+    15,
+    'TransferHookAccount',
+    1,
+  );
 
   /// Extension type for metadata pointer.
-  static const ExtensionType metadataPointer =
-      ExtensionType._(18, 'MetadataPointer', 64);
+  static const ExtensionType metadataPointer = ExtensionType._(
+    18,
+    'MetadataPointer',
+    64,
+  );
 
   /// Extension type for token metadata.
-  static const ExtensionType tokenMetadata =
-      ExtensionType._(19, 'TokenMetadata', null);
+  static const ExtensionType tokenMetadata = ExtensionType._(
+    19,
+    'TokenMetadata',
+    null,
+  );
 
-  static const ExtensionType groupPointer =
-      ExtensionType._(20, 'GroupPointer', 64);
+  static const ExtensionType groupPointer = ExtensionType._(
+    20,
+    'GroupPointer',
+    64,
+  );
 
   /// Extension type for token metadata.
-  static const ExtensionType groupMemberPointer =
-      ExtensionType._(21, 'GroupMemberPointer', 64);
+  static const ExtensionType groupMemberPointer = ExtensionType._(
+    21,
+    'GroupMemberPointer',
+    64,
+  );
 
   /// List of all ExtensionType values.
   static const List<ExtensionType> values = [
@@ -110,19 +167,22 @@ class ExtensionType {
     transferHook,
     transferHookAccount,
     metadataPointer,
-    tokenMetadata
+    tokenMetadata,
   ];
 
   /// Creates an ExtensionType instance from the provided value.
   ///
   /// Throws a [SolanaPluginException] if no ExtensionType is found for the given value.
   factory ExtensionType.fromValue(int v) {
-    try {
-      return values.firstWhere((element) => element.value == v);
-    } on StateError {
-      throw SolanaPluginException('No ExtensionType found for the given value.',
-          details: {'value': v});
-    }
+    return values.firstWhere(
+      (element) => element.value == v,
+      orElse: () {
+        throw SolanaPluginException(
+          'No ExtensionType found for the given value.',
+          details: {'value': v.toString()},
+        );
+      },
+    );
   }
 
   bool get isMintExtension {
@@ -184,8 +244,10 @@ class ExtensionType {
       case ExtensionType.transferHookAccount:
         return ExtensionType.uninitialized;
       default:
-        throw SolanaPluginException('unsuported type',
-            details: {'ExtensionType': name});
+        throw SolanaPluginException(
+          'unsuported type',
+          details: {'ExtensionType': name},
+        );
     }
   }
 

@@ -15,10 +15,11 @@ class AptosApiBuildTransactionParams {
   /// Set sequenceNumber to zero if the account is inactive
   /// and you want to create a feePayer transaction.
   final BigInt? sequenceNumber;
-  const AptosApiBuildTransactionParams(
-      {this.chainId,
-      this.transactionExpireTime,
-      this.maxGasAmount,
-      this.gasUnitPrice,
-      this.sequenceNumber});
+  const AptosApiBuildTransactionParams({
+    this.chainId,
+    this.transactionExpireTime,
+    this.maxGasAmount,
+    this.gasUnitPrice,
+    this.sequenceNumber,
+  });
 }

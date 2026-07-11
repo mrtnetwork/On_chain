@@ -20,20 +20,23 @@ class AddressLookupCreateLookupTableLayout
   /// Constructs the layout from raw bytes.
   factory AddressLookupCreateLookupTableLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            AddressLookupTableProgramInstruction.createLookupTable.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AddressLookupTableProgramInstruction.createLookupTable.insturction,
+    );
     return AddressLookupCreateLookupTableLayout(
-        recentSlot: decode['recentSlot'], bumpSeed: decode['bumpSeed']);
+      recentSlot: decode['recentSlot'],
+      bumpSeed: decode['bumpSeed'],
+    );
   }
 
   // StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.u64(property: 'recentSlot'),
-        LayoutConst.u8(property: 'bumpSeed')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.u64(property: 'recentSlot'),
+    LayoutConst.u8(property: 'bumpSeed'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

@@ -5,41 +5,54 @@ import 'package:on_chain/ada/src/models/protocol/models/proposed_protocol_parame
 class Update with InternalCborSerialization {
   final ProposedProtocolParameterUpdates proposedProtocolParameterUpdates;
   final int epoch;
-  const Update(
-      {required this.proposedProtocolParameterUpdates, required this.epoch});
+  const Update({
+    required this.proposedProtocolParameterUpdates,
+    required this.epoch,
+  });
   factory Update.fromCborBytes(List<int> cborBytes) {
     return Update.deserialize(
-        CborObject.fromCbor(cborBytes).as<CborListValue>("Update"));
+      CborObject.fromCbor(cborBytes).as<CborListValue>(operation: "Update"),
+    );
   }
   factory Update.deserialize(CborListValue cbor) {
     return Update(
-        epoch: cbor.elementAt<CborIntValue>(1).toInt(),
-        proposedProtocolParameterUpdates:
-            ProposedProtocolParameterUpdates.deserialize(cbor
-                .elementAt<CborObject>(0)
-                .asMap("ProposedProtocolParameterUpdates")));
+      epoch: cbor.objectAt<CborIntValue>(1).toInt(),
+      proposedProtocolParameterUpdates:
+          ProposedProtocolParameterUpdates.deserialize(
+            cbor
+                .objectAt<CborObject>(0)
+                .as<CborMapValue>(
+                  operation: "ProposedProtocolParameterUpdates",
+                ),
+          ),
+    );
   }
   factory Update.fromJson(Map<String, dynamic> json) {
     return Update(
-        epoch: json['epoch'],
-        proposedProtocolParameterUpdates:
-            ProposedProtocolParameterUpdates.fromJson(
-                json['proposed_protocol_parameter_updates']));
+      epoch: json['epoch'],
+      proposedProtocolParameterUpdates:
+          ProposedProtocolParameterUpdates.fromJson(
+            json['proposed_protocol_parameter_updates'],
+          ),
+    );
   }
-  Update copyWith(
-      {ProposedProtocolParameterUpdates? proposedProtocolParameterUpdates,
-      int? epoch}) {
+  Update copyWith({
+    ProposedProtocolParameterUpdates? proposedProtocolParameterUpdates,
+    int? epoch,
+  }) {
     return Update(
-        proposedProtocolParameterUpdates: proposedProtocolParameterUpdates ??
-            this.proposedProtocolParameterUpdates,
-        epoch: epoch ?? this.epoch);
+      proposedProtocolParameterUpdates:
+          proposedProtocolParameterUpdates ??
+          this.proposedProtocolParameterUpdates,
+      epoch: epoch ?? this.epoch,
+    );
   }
 
   @override
   CborObject toCbor() {
     return CborListValue.definite([
       proposedProtocolParameterUpdates.toCbor(),
-      CborUnsignedValue.u32(epoch)
+      CborUnsignedValue.u32(epoch),
     ]);
   }
 
@@ -48,7 +61,7 @@ class Update with InternalCborSerialization {
     return {
       'proposed_protocol_parameter_updates':
           proposedProtocolParameterUpdates.toJson(),
-      'epoch': epoch
+      'epoch': epoch,
     };
   }
 }

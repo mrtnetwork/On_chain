@@ -9,18 +9,22 @@ class ShieldedTransferContract extends TronBaseContract {
   /// Create a new [ShieldedTransferContract] instance by parsing a JSON map.
   factory ShieldedTransferContract.fromJson(Map<String, dynamic> json) {
     return ShieldedTransferContract(
-      transparentFromAddress:
-          BytesUtils.tryFromHexString(json['transparent_from_address']),
+      transparentFromAddress: BytesUtils.tryFromHexString(
+        json['transparent_from_address'],
+      ),
       fromAmount: BigintUtils.tryParse(json['from_amount']),
-      spendDescription: (json['spend_description'] as List?)
-          ?.map((desc) => SpendDescription.fromJson(desc))
-          .toList(),
-      receiveDescription: (json['receive_description'] as List?)
-          ?.map((desc) => ReceiveDescription.fromJson(desc))
-          .toList(),
+      spendDescription:
+          (json['spend_description'] as List?)
+              ?.map((desc) => SpendDescription.fromJson(desc))
+              .toList(),
+      receiveDescription:
+          (json['receive_description'] as List?)
+              ?.map((desc) => ReceiveDescription.fromJson(desc))
+              .toList(),
       bindingSignature: BytesUtils.tryFromHexString(json['binding_signature']),
-      transparentToAddress:
-          BytesUtils.tryFromHexString(json['transparent_to_address']),
+      transparentToAddress: BytesUtils.tryFromHexString(
+        json['transparent_to_address'],
+      ),
       toAmount: BigintUtils.tryParse(json['to_amount']),
     );
   }
@@ -28,42 +32,53 @@ class ShieldedTransferContract extends TronBaseContract {
   factory ShieldedTransferContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return ShieldedTransferContract(
-        transparentFromAddress: decode.getField(1),
-        fromAmount: decode.getField(2),
-        spendDescription: decode
-            .getFields(3)
-            .map((e) => SpendDescription.deserialize(e))
-            .toList(),
-        receiveDescription: decode
-            .getFields(4)
-            .map((e) => ReceiveDescription.deserialize(e))
-            .toList(),
-        bindingSignature: decode.getField(5),
-        transparentToAddress: decode.getField(6),
-        toAmount: decode.getField(7));
+      transparentFromAddress: decode.getField(1),
+      fromAmount: decode.getField(2),
+      spendDescription:
+          decode
+              .getFields(3)
+              .map((e) => SpendDescription.deserialize(e))
+              .toList(),
+      receiveDescription:
+          decode
+              .getFields(4)
+              .map((e) => ReceiveDescription.deserialize(e))
+              .toList(),
+      bindingSignature: decode.getField(5),
+      transparentToAddress: decode.getField(6),
+      toAmount: decode.getField(7),
+    );
   }
 
   /// Create a new [ShieldedTransferContract] instance with specified parameters.
-  ShieldedTransferContract(
-      {List<int>? transparentFromAddress,
-      this.fromAmount,
-      List<SpendDescription>? spendDescription,
-      List<ReceiveDescription>? receiveDescription,
-      List<int>? bindingSignature,
-      List<int>? transparentToAddress,
-      this.toAmount})
-      : transparentFromAddress =
-            BytesUtils.tryToBytes(transparentFromAddress, unmodifiable: true),
-        bindingSignature =
-            BytesUtils.tryToBytes(bindingSignature, unmodifiable: true),
-        transparentToAddress =
-            BytesUtils.tryToBytes(transparentToAddress, unmodifiable: true),
-        spendDescription = spendDescription == null
-            ? null
-            : List<SpendDescription>.unmodifiable(spendDescription),
-        receiveDescription = receiveDescription == null
-            ? null
-            : List<ReceiveDescription>.unmodifiable(receiveDescription);
+  ShieldedTransferContract({
+    List<int>? transparentFromAddress,
+    this.fromAmount,
+    List<SpendDescription>? spendDescription,
+    List<ReceiveDescription>? receiveDescription,
+    List<int>? bindingSignature,
+    List<int>? transparentToAddress,
+    this.toAmount,
+  }) : transparentFromAddress = BytesUtils.tryToBytes(
+         transparentFromAddress,
+         unmodifiable: true,
+       ),
+       bindingSignature = BytesUtils.tryToBytes(
+         bindingSignature,
+         unmodifiable: true,
+       ),
+       transparentToAddress = BytesUtils.tryToBytes(
+         transparentToAddress,
+         unmodifiable: true,
+       ),
+       spendDescription =
+           spendDescription == null
+               ? null
+               : List<SpendDescription>.unmodifiable(spendDescription),
+       receiveDescription =
+           receiveDescription == null
+               ? null
+               : List<ReceiveDescription>.unmodifiable(receiveDescription);
   final List<int>? transparentFromAddress;
   final BigInt? fromAmount;
   final List<SpendDescription>? spendDescription;
@@ -77,21 +92,22 @@ class ShieldedTransferContract extends TronBaseContract {
 
   @override
   List get values => [
-        transparentFromAddress,
-        fromAmount,
-        spendDescription,
-        receiveDescription,
-        bindingSignature,
-        transparentToAddress,
-        toAmount
-      ];
+    transparentFromAddress,
+    fromAmount,
+    spendDescription,
+    receiveDescription,
+    bindingSignature,
+    transparentToAddress,
+    toAmount,
+  ];
 
   /// Convert the [ShieldedTransferContract] object to a JSON representation.
   @override
   Map<String, dynamic> toJson({bool visible = true}) {
     return {
-      'transparent_from_address':
-          BytesUtils.tryToHexString(transparentFromAddress),
+      'transparent_from_address': BytesUtils.tryToHexString(
+        transparentFromAddress,
+      ),
       'from_amount': fromAmount?.toString(),
       'spend_description':
           spendDescription?.map((desc) => desc.toJson()).toList(),

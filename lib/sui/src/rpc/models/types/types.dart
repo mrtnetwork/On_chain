@@ -3,7 +3,6 @@ import 'package:on_chain/serialization/bcs/move/move.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/transaction/types/types.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 class SuiApiRequestPagination {
   final String? cursor;
@@ -19,8 +18,8 @@ abstract class SuiApiResponsePagination {
   final String? nextCursor;
   const SuiApiResponsePagination({this.hasNextPage = false, this.nextCursor});
   SuiApiResponsePagination.fromJson(Map<String, dynamic> json)
-      : hasNextPage = json.as("hasNextPage"),
-        nextCursor = json.as("nextCursor");
+    : hasNextPage = json.valueAs("hasNextPage"),
+      nextCursor = json.valueAs("nextCursor");
   Map<String, dynamic> toJson() {
     return {"hasNextPage": hasNextPage, "nextCursor": nextCursor};
   }
@@ -35,26 +34,29 @@ class SuiApiCoinResponse {
   final BigInt version;
   SuiObjectRef toObjectRef() {
     return SuiObjectRef(
-        address: coinObjectId,
-        version: version,
-        digest: SuiObjectDigest.fromBase58(digest));
+      address: coinObjectId,
+      version: version,
+      digest: SuiObjectDigest.fromBase58(digest),
+    );
   }
 
-  const SuiApiCoinResponse(
-      {required this.balance,
-      required this.coinObjectId,
-      required this.coinType,
-      required this.digest,
-      required this.previousTransaction,
-      required this.version});
+  const SuiApiCoinResponse({
+    required this.balance,
+    required this.coinObjectId,
+    required this.coinType,
+    required this.digest,
+    required this.previousTransaction,
+    required this.version,
+  });
   factory SuiApiCoinResponse.fromJson(Map<String, dynamic> json) {
     return SuiApiCoinResponse(
-        balance: json.asBigInt("balance"),
-        coinObjectId: SuiAddress(json.as("coinObjectId")),
-        coinType: json.as("coinType"),
-        digest: json.as("digest"),
-        previousTransaction: json.as("previousTransaction"),
-        version: json.asBigInt("version"));
+      balance: json.valueAsBigInt("balance"),
+      coinObjectId: SuiAddress(json.valueAs("coinObjectId")),
+      coinType: json.valueAs("coinType"),
+      digest: json.valueAs("digest"),
+      previousTransaction: json.valueAs("previousTransaction"),
+      version: json.valueAsBigInt("version"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -63,7 +65,7 @@ class SuiApiCoinResponse {
       "coinType": coinType,
       "digest": digest,
       "previousTransaction": previousTransaction,
-      "version": version.toString()
+      "version": version.toString(),
     };
   }
 }
@@ -81,17 +83,18 @@ class SuiApiBalanceResponse {
   });
   factory SuiApiBalanceResponse.fromJson(Map<String, dynamic> json) {
     return SuiApiBalanceResponse(
-        coinObjectCount: json.asInt("coinObjectCount"),
-        coinType: json["coinType"],
-        totalBalance: json.asBigInt('totalBalance'),
-        lockedBalance: json.asMap("lockedBalance"));
+      coinObjectCount: json.valueAsInt("coinObjectCount"),
+      coinType: json["coinType"],
+      totalBalance: json.valueAsBigInt('totalBalance'),
+      lockedBalance: json.valueEnsureAsMap<String, dynamic>("lockedBalance"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "coinObjectCount": coinObjectCount,
       "coinType": coinType,
       "totalBalance": totalBalance.toString(),
-      "lockedBalance": lockedBalance
+      "lockedBalance": lockedBalance,
     };
   }
 }
@@ -100,11 +103,12 @@ class SuiApiGetCoinResponse extends SuiApiResponsePagination {
   final List<SuiApiCoinResponse> data;
   const SuiApiGetCoinResponse({required this.data});
   SuiApiGetCoinResponse.fromJson(super.json)
-      : data = json
-            .asListOfMap("data")!
-            .map((e) => SuiApiCoinResponse.fromJson(e))
-            .toList(),
-        super.fromJson();
+    : data =
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("data")
+              .map((e) => SuiApiCoinResponse.fromJson(e))
+              .toList(),
+      super.fromJson();
   @override
   Map<String, dynamic> toJson() {
     return {"data": data.map((e) => e.toJson()).toList(), ...super.toJson()};
@@ -129,21 +133,23 @@ class SuiApiCoinMetadataResponse {
 
   /// Symbol for the token
   final String symbol;
-  const SuiApiCoinMetadataResponse(
-      {required this.decimals,
-      required this.description,
-      required this.iconUrl,
-      required this.id,
-      required this.name,
-      required this.symbol});
+  const SuiApiCoinMetadataResponse({
+    required this.decimals,
+    required this.description,
+    required this.iconUrl,
+    required this.id,
+    required this.name,
+    required this.symbol,
+  });
   factory SuiApiCoinMetadataResponse.fromJson(Map<String, dynamic> json) {
     return SuiApiCoinMetadataResponse(
-        decimals: json.asInt("decimals"),
-        description: json.as("description"),
-        iconUrl: json.as("iconUrl"),
-        id: json.as("id"),
-        name: json.as("name"),
-        symbol: json.as("symbol"));
+      decimals: json.valueAsInt("decimals"),
+      description: json.valueAs("description"),
+      iconUrl: json.valueAs("iconUrl"),
+      id: json.valueAs("id"),
+      name: json.valueAs("name"),
+      symbol: json.valueAs("symbol"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -152,7 +158,7 @@ class SuiApiCoinMetadataResponse {
       "iconUrl": iconUrl,
       "id": id,
       "name": name,
-      "symbol": symbol
+      "symbol": symbol,
     };
   }
 }
@@ -163,7 +169,9 @@ class SuiApiDynamicFieldName {
   const SuiApiDynamicFieldName({required this.type, required this.value});
   factory SuiApiDynamicFieldName.fromJson(Map<String, dynamic> json) {
     return SuiApiDynamicFieldName(
-        type: json.as("type"), value: json.as("value"));
+      type: json.valueAs("type"),
+      value: json.valueAs("value"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"type": type, "value": value};
@@ -177,9 +185,12 @@ enum SuiApiDataType {
   static SuiApiDataType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct DataType from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct DataType from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -189,16 +200,18 @@ abstract class SuiApiRawDataResponse {
   Map<String, dynamic> toJson();
   const SuiApiRawDataResponse({required this.dataType});
   factory SuiApiRawDataResponse.fromJson(Map<String, dynamic> json) {
-    final type = SuiApiDataType.fromName(json.as("dataType"));
+    final type = SuiApiDataType.fromName(json.valueAs("dataType"));
     return switch (type) {
       SuiApiDataType.moveObject => SuiApiMoveObject.fromJson(json),
-      SuiApiDataType.package => SuiApiRawDataPackage.fromJson(json)
+      SuiApiDataType.package => SuiApiRawDataPackage.fromJson(json),
     };
   }
   T cast<T extends SuiApiRawDataResponse>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiRawDataResponse casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiRawDataResponse casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -209,18 +222,19 @@ class SuiApiMoveObject extends SuiApiRawDataResponse {
   final bool hasPublicTransfer;
   final String type;
   final String version;
-  const SuiApiMoveObject(
-      {required this.bcsBytes,
-      required this.hasPublicTransfer,
-      required this.type,
-      required this.version})
-      : super(dataType: SuiApiDataType.moveObject);
+  const SuiApiMoveObject({
+    required this.bcsBytes,
+    required this.hasPublicTransfer,
+    required this.type,
+    required this.version,
+  }) : super(dataType: SuiApiDataType.moveObject);
   factory SuiApiMoveObject.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveObject(
-        bcsBytes: json.as("bcsBytes"),
-        hasPublicTransfer: json.as("hasPublicTransfer"),
-        type: json.as("type"),
-        version: json.as("version"));
+      bcsBytes: json.valueAs("bcsBytes"),
+      hasPublicTransfer: json.valueAs("hasPublicTransfer"),
+      type: json.valueAs("type"),
+      version: json.valueAs("version"),
+    );
   }
 
   @override
@@ -230,7 +244,7 @@ class SuiApiMoveObject extends SuiApiRawDataResponse {
       "hasPublicTransfer": hasPublicTransfer,
       "type": type,
       "version": version,
-      "dataType": dataType.name
+      "dataType": dataType.name,
     };
   }
 }
@@ -242,19 +256,19 @@ class SuiApiUpgradeInfo {
 
   /// Version of the upgraded package
   final String upgradeVersion;
-  const SuiApiUpgradeInfo(
-      {required this.upgradeId, required this.upgradeVersion});
+  const SuiApiUpgradeInfo({
+    required this.upgradeId,
+    required this.upgradeVersion,
+  });
   factory SuiApiUpgradeInfo.fromJson(Map<String, dynamic> json) {
     return SuiApiUpgradeInfo(
-        upgradeId: json.as("upgraded_id"),
-        upgradeVersion: json.as("upgraded_version"));
+      upgradeId: json.valueAs("upgraded_id"),
+      upgradeVersion: json.valueAs("upgraded_version"),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      "upgraded_version": upgradeVersion,
-      "upgraded_id": upgradeId,
-    };
+    return {"upgraded_version": upgradeVersion, "upgraded_id": upgradeId};
   }
 }
 
@@ -262,10 +276,11 @@ class SuiApiTypeOrigin {
   final String dataTypeName;
   final String moduleName;
   final String package;
-  const SuiApiTypeOrigin(
-      {required this.dataTypeName,
-      required this.moduleName,
-      required this.package});
+  const SuiApiTypeOrigin({
+    required this.dataTypeName,
+    required this.moduleName,
+    required this.package,
+  });
   factory SuiApiTypeOrigin.fromJson(Map<String, dynamic> json) {
     return SuiApiTypeOrigin(
       dataTypeName: json["datatype_name"],
@@ -289,25 +304,27 @@ class SuiApiRawDataPackage extends SuiApiRawDataResponse {
   final List<SuiApiTypeOrigin> typeOriginTable;
   final String version;
 
-  const SuiApiRawDataPackage(
-      {required this.id,
-      required this.linkageTable,
-      required this.moduleMap,
-      required this.typeOriginTable,
-      required this.version})
-      : super(dataType: SuiApiDataType.package);
+  const SuiApiRawDataPackage({
+    required this.id,
+    required this.linkageTable,
+    required this.moduleMap,
+    required this.typeOriginTable,
+    required this.version,
+  }) : super(dataType: SuiApiDataType.package);
   factory SuiApiRawDataPackage.fromJson(Map<String, dynamic> json) {
     return SuiApiRawDataPackage(
-        id: json.as("id"),
-        moduleMap: json.as<Map>("moduleMap").cast<String, String>(),
-        version: json.as("version"),
-        typeOriginTable: json
-            .asListOfMap("typeOriginTable")!
-            .map((e) => SuiApiTypeOrigin.fromJson(e))
-            .toList(),
-        linkageTable: json.asMap<Map<String, dynamic>>("linkageTable").map(
-              (k, v) => MapEntry(k, SuiApiUpgradeInfo.fromJson(v)),
-            ));
+      id: json.valueAs("id"),
+      moduleMap: json.valueAs<Map>("moduleMap").cast<String, String>(),
+      version: json.valueAs("version"),
+      typeOriginTable:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("typeOriginTable")
+              .map((e) => SuiApiTypeOrigin.fromJson(e))
+              .toList(),
+      linkageTable: json
+          .valueEnsureAsMap<String, dynamic>("linkageTable")
+          .map((k, v) => MapEntry(k, SuiApiUpgradeInfo.fromJson(v))),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -315,7 +332,7 @@ class SuiApiRawDataPackage extends SuiApiRawDataResponse {
       "linkageTable": linkageTable.map((k, v) => MapEntry(k, v.toJson())),
       "id": id,
       "typeOriginTable": typeOriginTable.map((e) => e.toJson()).toList(),
-      "moduleMap": moduleMap
+      "moduleMap": moduleMap,
     };
   }
 }
@@ -325,16 +342,18 @@ abstract class SuiApiParsedData {
   Map<String, dynamic> toJson();
   const SuiApiParsedData({required this.dataType});
   factory SuiApiParsedData.fromJson(Map<String, dynamic> json) {
-    final type = SuiApiDataType.fromName(json.as("dataType"));
+    final type = SuiApiDataType.fromName(json.valueAs("dataType"));
     return switch (type) {
       SuiApiDataType.moveObject => SuiApiParsedDataMoveObject.fromJson(json),
-      SuiApiDataType.package => SuiApiParsedDataPackage.fromJson(json)
+      SuiApiDataType.package => SuiApiParsedDataPackage.fromJson(json),
     };
   }
   T cast<T extends SuiApiParsedData>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiParsedData casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiParsedData casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -344,16 +363,17 @@ class SuiApiParsedDataMoveObject extends SuiApiParsedData {
   final Object fields;
   final bool hasPublicTransfer;
   final String type;
-  const SuiApiParsedDataMoveObject(
-      {required this.fields,
-      required this.hasPublicTransfer,
-      required this.type})
-      : super(dataType: SuiApiDataType.moveObject);
+  const SuiApiParsedDataMoveObject({
+    required this.fields,
+    required this.hasPublicTransfer,
+    required this.type,
+  }) : super(dataType: SuiApiDataType.moveObject);
   factory SuiApiParsedDataMoveObject.fromJson(Map<String, dynamic> json) {
     return SuiApiParsedDataMoveObject(
-        fields: json.as("fields"),
-        hasPublicTransfer: json.as("hasPublicTransfer"),
-        type: json.as("type"));
+      fields: json.valueAs("fields"),
+      hasPublicTransfer: json.valueAs("hasPublicTransfer"),
+      type: json.valueAs("type"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -361,7 +381,7 @@ class SuiApiParsedDataMoveObject extends SuiApiParsedData {
       "fields": fields,
       "hasPublicTransfer": hasPublicTransfer,
       "type": type,
-      "dataType": dataType.name
+      "dataType": dataType.name,
     };
   }
 }
@@ -369,9 +389,11 @@ class SuiApiParsedDataMoveObject extends SuiApiParsedData {
 class SuiApiParsedDataPackage extends SuiApiParsedData {
   final Map<String, dynamic> disassembled;
   const SuiApiParsedDataPackage(this.disassembled)
-      : super(dataType: SuiApiDataType.package);
+    : super(dataType: SuiApiDataType.package);
   factory SuiApiParsedDataPackage.fromJson(Map<String, dynamic> json) {
-    return SuiApiParsedDataPackage(json.asMap("disassembled"));
+    return SuiApiParsedDataPackage(
+      json.valueEnsureAsMap<String, dynamic>("disassembled"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -389,9 +411,12 @@ enum SuiApiObjectErrors {
   static SuiApiObjectErrors fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct Error type from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct Error type from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -401,21 +426,24 @@ abstract class SuiApiObjectError {
   Map<String, dynamic> toJson();
   const SuiApiObjectError({required this.code});
   factory SuiApiObjectError.fromJson(Map<String, dynamic> json) {
-    final type = SuiApiObjectErrors.fromName(json.as("code"));
+    final type = SuiApiObjectErrors.fromName(json.valueAs("code"));
     return switch (type) {
       SuiApiObjectErrors.notExists => SuiApiObjectErrorNotExists.fromJson(json),
       SuiApiObjectErrors.dynamicFieldNotFound =>
         SuiApiObjectErrorDynamicFieldNotFound.fromJson(json),
       SuiApiObjectErrors.deleted => SuiApiObjectErrorDeleted.fromJson(json),
       SuiApiObjectErrors.unknown => SuiApiObjectErrorUnknown(),
-      SuiApiObjectErrors.displayError =>
-        SuiApiObjectErrorDisplayError.fromJson(json)
+      SuiApiObjectErrors.displayError => SuiApiObjectErrorDisplayError.fromJson(
+        json,
+      ),
     };
   }
   T cast<T extends SuiApiObjectError>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiObjectError casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiObjectError casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -426,9 +454,9 @@ abstract class SuiApiObjectError {
 class SuiApiObjectErrorNotExists extends SuiApiObjectError {
   final String objectId;
   const SuiApiObjectErrorNotExists({required this.objectId})
-      : super(code: SuiApiObjectErrors.notExists);
+    : super(code: SuiApiObjectErrors.notExists);
   factory SuiApiObjectErrorNotExists.fromJson(Map<String, dynamic> json) {
-    return SuiApiObjectErrorNotExists(objectId: json.as("object_id"));
+    return SuiApiObjectErrorNotExists(objectId: json.valueAs("object_id"));
   }
   @override
   Map<String, dynamic> toJson() {
@@ -442,11 +470,13 @@ class SuiApiObjectErrorNotExists extends SuiApiObjectError {
 class SuiApiObjectErrorDynamicFieldNotFound extends SuiApiObjectError {
   final String parentObjectId;
   const SuiApiObjectErrorDynamicFieldNotFound({required this.parentObjectId})
-      : super(code: SuiApiObjectErrors.dynamicFieldNotFound);
+    : super(code: SuiApiObjectErrors.dynamicFieldNotFound);
   factory SuiApiObjectErrorDynamicFieldNotFound.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiObjectErrorDynamicFieldNotFound(
-        parentObjectId: json.as("parent_object_id"));
+      parentObjectId: json.valueAs("parent_object_id"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -461,14 +491,17 @@ class SuiApiObjectErrorDeleted extends SuiApiObjectError {
   final String digest;
   final String objectId;
   final String version;
-  const SuiApiObjectErrorDeleted(
-      {required this.digest, required this.objectId, required this.version})
-      : super(code: SuiApiObjectErrors.deleted);
+  const SuiApiObjectErrorDeleted({
+    required this.digest,
+    required this.objectId,
+    required this.version,
+  }) : super(code: SuiApiObjectErrors.deleted);
   factory SuiApiObjectErrorDeleted.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectErrorDeleted(
-        digest: json.as("digest"),
-        objectId: json.as("object_id"),
-        version: json.as("version"));
+      digest: json.valueAs("digest"),
+      objectId: json.valueAs("object_id"),
+      version: json.valueAs("version"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -476,7 +509,7 @@ class SuiApiObjectErrorDeleted extends SuiApiObjectError {
       "digest": digest,
       "object_id": objectId,
       "version": version,
-      "code": code.name
+      "code": code.name,
     };
   }
 
@@ -498,9 +531,9 @@ class SuiApiObjectErrorUnknown extends SuiApiObjectError {
 class SuiApiObjectErrorDisplayError extends SuiApiObjectError {
   final String error;
   const SuiApiObjectErrorDisplayError(this.error)
-      : super(code: SuiApiObjectErrors.displayError);
+    : super(code: SuiApiObjectErrors.displayError);
   factory SuiApiObjectErrorDisplayError.fromJson(Map<String, dynamic> json) {
-    return SuiApiObjectErrorDisplayError(json.as("error"));
+    return SuiApiObjectErrorDisplayError(json.valueAs("error"));
   }
   @override
   Map<String, dynamic> toJson() {
@@ -517,11 +550,14 @@ class SuiApiDisplayFields {
   const SuiApiDisplayFields({required this.data, required this.error});
   factory SuiApiDisplayFields.fromJson(Map<String, dynamic> json) {
     return SuiApiDisplayFields(
-        data: json.as<Map?>("data")?.cast<String, String>(),
-        error: json["error"] == null
-            ? null
-            : SuiApiObjectError.fromJson(
-                json.asMap<Map<String, dynamic>>("error")));
+      data: json.valueAs<Map?>("data")?.cast<String, String>(),
+      error:
+          json["error"] == null
+              ? null
+              : SuiApiObjectError.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("error"),
+              ),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -539,9 +575,12 @@ enum SuiApiObjectOwnerType {
   static SuiApiObjectOwnerType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct Object owner from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct Object owner from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -568,17 +607,20 @@ abstract class SuiApiObjectOwner {
           SuiApiObjectOwnerObjectOwner.fromJson(jsonMap),
         SuiApiObjectOwnerType.consensusV2 =>
           SuiApiObjectOwnerConsensusV2.fromJson(jsonMap),
-        SuiApiObjectOwnerType.shared =>
-          SuiApiObjectOwnerShared.fromJson(jsonMap),
-        _ => throw DartSuiPluginException("Invalid object owner type.")
+        SuiApiObjectOwnerType.shared => SuiApiObjectOwnerShared.fromJson(
+          jsonMap,
+        ),
+        _ => throw DartSuiPluginException("Invalid object owner type."),
       };
     }
   }
 
   T cast<T extends SuiApiObjectOwner>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiObjectOwner casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiObjectOwner casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -587,9 +629,9 @@ abstract class SuiApiObjectOwner {
 class SuiApiObjectOwnerAddressOwner extends SuiApiObjectOwner {
   final String addressOwner;
   const SuiApiObjectOwnerAddressOwner(this.addressOwner)
-      : super(type: SuiApiObjectOwnerType.addressOwner);
+    : super(type: SuiApiObjectOwnerType.addressOwner);
   factory SuiApiObjectOwnerAddressOwner.fromJson(Map<String, dynamic> json) {
-    return SuiApiObjectOwnerAddressOwner(json.as("AddressOwner"));
+    return SuiApiObjectOwnerAddressOwner(json.valueAs("AddressOwner"));
   }
   @override
   Map<String, dynamic> toJson() {
@@ -600,9 +642,9 @@ class SuiApiObjectOwnerAddressOwner extends SuiApiObjectOwner {
 class SuiApiObjectOwnerObjectOwner extends SuiApiObjectOwner {
   final String objectOwner;
   const SuiApiObjectOwnerObjectOwner(this.objectOwner)
-      : super(type: SuiApiObjectOwnerType.objectOwner);
+    : super(type: SuiApiObjectOwnerType.objectOwner);
   factory SuiApiObjectOwnerObjectOwner.fromJson(Map<String, dynamic> json) {
-    return SuiApiObjectOwnerObjectOwner(json.as("ObjectOwner"));
+    return SuiApiObjectOwnerObjectOwner(json.valueAs("ObjectOwner"));
   }
   @override
   Map<String, dynamic> toJson() {
@@ -614,7 +656,7 @@ class SuiApiShared {
   final BigInt initialSharedVersion;
   const SuiApiShared(this.initialSharedVersion);
   factory SuiApiShared.fromJson(Map<String, dynamic> json) {
-    return SuiApiShared(json.asBigInt("initial_shared_version"));
+    return SuiApiShared(json.valueAsBigInt("initial_shared_version"));
   }
 
   Map<String, dynamic> toJson() {
@@ -626,7 +668,7 @@ class SuiApiAuthenticator {
   final String singleOwner;
   const SuiApiAuthenticator(this.singleOwner);
   factory SuiApiAuthenticator.fromJson(Map<String, dynamic> json) {
-    return SuiApiAuthenticator(json.as("SingleOwner"));
+    return SuiApiAuthenticator(json.valueAs("SingleOwner"));
   }
 
   Map<String, dynamic> toJson() {
@@ -637,10 +679,12 @@ class SuiApiAuthenticator {
 class SuiApiObjectOwnerConsensusV2 extends SuiApiObjectOwner {
   final SuiApiConsensusV2 consensusV2;
   const SuiApiObjectOwnerConsensusV2(this.consensusV2)
-      : super(type: SuiApiObjectOwnerType.shared);
+    : super(type: SuiApiObjectOwnerType.shared);
   factory SuiApiObjectOwnerConsensusV2.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectOwnerConsensusV2(
-      SuiApiConsensusV2.fromJson(json.asMap("ConsensusV2")),
+      SuiApiConsensusV2.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("ConsensusV2"),
+      ),
     );
   }
   @override
@@ -658,22 +702,24 @@ class SuiApiConsensusV2 {
   });
   factory SuiApiConsensusV2.fromJson(Map<String, dynamic> json) {
     return SuiApiConsensusV2(
-        authenticator:
-            SuiApiAuthenticator.fromJson(json.asMap("authenticator")),
-        startVersion: json.as("start_version"));
+      authenticator: SuiApiAuthenticator.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("authenticator"),
+      ),
+      startVersion: json.valueAs("start_version"),
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "authenticator": authenticator.toJson(),
-      "start_version": startVersion
+      "start_version": startVersion,
     };
   }
 }
 
 class SuiApiObjectOwnerImmutable extends SuiApiObjectOwner {
   const SuiApiObjectOwnerImmutable()
-      : super(type: SuiApiObjectOwnerType.immutable);
+    : super(type: SuiApiObjectOwnerType.immutable);
   @override
   Map<String, dynamic> toJson() {
     return {};
@@ -683,10 +729,10 @@ class SuiApiObjectOwnerImmutable extends SuiApiObjectOwner {
 class SuiApiObjectOwnerShared extends SuiApiObjectOwner {
   final SuiApiShared shared;
   const SuiApiObjectOwnerShared(this.shared)
-      : super(type: SuiApiObjectOwnerType.shared);
+    : super(type: SuiApiObjectOwnerType.shared);
   factory SuiApiObjectOwnerShared.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectOwnerShared(
-      SuiApiShared.fromJson(json.asMap("Shared")),
+      SuiApiShared.fromJson(json.valueEnsureAsMap<String, dynamic>("Shared")),
     );
   }
   @override
@@ -709,42 +755,55 @@ class SuiApiObjectData {
 
   SuiObjectRef toObjectRef() {
     return SuiObjectRef(
-        address: objectId,
-        version: version,
-        digest: SuiObjectDigest.fromBase58(digest));
+      address: objectId,
+      version: version,
+      digest: SuiObjectDigest.fromBase58(digest),
+    );
   }
 
-  SuiApiObjectData(
-      {required this.bcs,
-      required this.content,
-      required this.digest,
-      required this.display,
-      required this.objectId,
-      required this.owner,
-      required this.previousTransaction,
-      required this.storageRebate,
-      required this.type,
-      required this.version});
+  SuiApiObjectData({
+    required this.bcs,
+    required this.content,
+    required this.digest,
+    required this.display,
+    required this.objectId,
+    required this.owner,
+    required this.previousTransaction,
+    required this.storageRebate,
+    required this.type,
+    required this.version,
+  });
   factory SuiApiObjectData.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectData(
-        bcs: json["bcs"] == null
-            ? null
-            : SuiApiRawDataResponse.fromJson(json.asMap("bcs")),
-        content: json["content"] == null
-            ? null
-            : SuiApiParsedData.fromJson(json.asMap("content")),
-        digest: json.as("digest"),
-        display: json["display"] == null
-            ? null
-            : SuiApiDisplayFields.fromJson(json.asMap("display")),
-        objectId: SuiAddress(json.as("objectId")),
-        owner: json["owner"] == null
-            ? null
-            : SuiApiObjectOwner.fromJson(json.as("owner")),
-        previousTransaction: json.as("previousTransaction"),
-        storageRebate: json.as("storageRebate"),
-        type: json.as("type"),
-        version: json.asBigInt("version"));
+      bcs:
+          json["bcs"] == null
+              ? null
+              : SuiApiRawDataResponse.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("bcs"),
+              ),
+      content:
+          json["content"] == null
+              ? null
+              : SuiApiParsedData.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("content"),
+              ),
+      digest: json.valueAs("digest"),
+      display:
+          json["display"] == null
+              ? null
+              : SuiApiDisplayFields.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("display"),
+              ),
+      objectId: SuiAddress(json.valueAs("objectId")),
+      owner:
+          json["owner"] == null
+              ? null
+              : SuiApiObjectOwner.fromJson(json.valueAs("owner")),
+      previousTransaction: json.valueAs("previousTransaction"),
+      storageRebate: json.valueAs("storageRebate"),
+      type: json.valueAs("type"),
+      version: json.valueAsBigInt("version"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -757,7 +816,7 @@ class SuiApiObjectData {
       "previousTransaction": previousTransaction,
       "storageRebate": storageRebate,
       "type": type,
-      "version": version.toString()
+      "version": version.toString(),
     };
   }
 }
@@ -765,17 +824,27 @@ class SuiApiObjectData {
 class SuiApiGetDynamicFieldObjectResponse {
   final SuiApiObjectData? data;
   final SuiApiObjectError? error;
-  const SuiApiGetDynamicFieldObjectResponse(
-      {required this.error, required this.data});
+  const SuiApiGetDynamicFieldObjectResponse({
+    required this.error,
+    required this.data,
+  });
   factory SuiApiGetDynamicFieldObjectResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiGetDynamicFieldObjectResponse(
-        error: json["error"] == null
-            ? null
-            : SuiApiObjectError.fromJson(json.asMap("error")),
-        data: json["data"] == null
-            ? null
-            : SuiApiObjectData.fromJson(json.asMap("data")));
+      error:
+          json["error"] == null
+              ? null
+              : SuiApiObjectError.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("error"),
+              ),
+      data:
+          json["data"] == null
+              ? null
+              : SuiApiObjectData.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("data"),
+              ),
+    );
   }
 }
 
@@ -788,36 +857,41 @@ class SuiApiDynamicFieldInfo {
   final String version;
   final String bcsEncoding;
   final String bcsName;
-  const SuiApiDynamicFieldInfo(
-      {required this.digest,
-      required this.name,
-      required this.objectId,
-      required this.objectType,
-      required this.type,
-      required this.version,
-      required this.bcsEncoding,
-      required this.bcsName});
+  const SuiApiDynamicFieldInfo({
+    required this.digest,
+    required this.name,
+    required this.objectId,
+    required this.objectType,
+    required this.type,
+    required this.version,
+    required this.bcsEncoding,
+    required this.bcsName,
+  });
   factory SuiApiDynamicFieldInfo.fromJson(Map<String, dynamic> json) {
     return SuiApiDynamicFieldInfo(
-        digest: json.as("digest"),
-        name: SuiApiDynamicFieldName.fromJson(json.asMap("name")),
-        objectId: json.as("objectId"),
-        objectType: json.as("objectType"),
-        type: json.as("type"),
-        version: json.as("version"),
-        bcsEncoding: json.as("bcsEncoding"),
-        bcsName: json.as("bcsName"));
+      digest: json.valueAs("digest"),
+      name: SuiApiDynamicFieldName.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("name"),
+      ),
+      objectId: json.valueAs("objectId"),
+      objectType: json.valueAs("objectType"),
+      type: json.valueAs("type"),
+      version: json.valueAs("version"),
+      bcsEncoding: json.valueAs("bcsEncoding"),
+      bcsName: json.valueAs("bcsName"),
+    );
   }
 }
 
 class SuiApiGetDynamicFieldsResponse extends SuiApiResponsePagination {
   final List<SuiApiDynamicFieldInfo> data;
   SuiApiGetDynamicFieldsResponse.fromJson(super.json)
-      : data = json
-            .asListOfMap("data")!
-            .map((e) => SuiApiDynamicFieldInfo.fromJson(e))
-            .toImutableList,
-        super.fromJson();
+    : data =
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("data")
+              .map((e) => SuiApiDynamicFieldInfo.fromJson(e))
+              .toImutableList,
+      super.fromJson();
 }
 
 abstract class SuiApiObjectDataFilter {
@@ -825,8 +899,10 @@ abstract class SuiApiObjectDataFilter {
   const SuiApiObjectDataFilter();
   T cast<T extends SuiApiObjectDataFilter>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiObjectDataFilter casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiObjectDataFilter casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -875,13 +951,15 @@ class SuiApiObjectDataFilterPackage extends SuiApiObjectDataFilter {
 class SuiApiObjectDataFilterMoveModule extends SuiApiObjectDataFilter {
   final String module;
   final String package;
-  const SuiApiObjectDataFilterMoveModule(
-      {required this.module, required this.package});
+  const SuiApiObjectDataFilterMoveModule({
+    required this.module,
+    required this.package,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "MoveModule": {"module": module, "package": package}
+      "MoveModule": {"module": module, "package": package},
     };
   }
 }
@@ -954,14 +1032,15 @@ class SuiApiObjectDataOptions {
   final bool? showPreviousTransaction;
   final bool? showStorageRebate;
   final bool? showType;
-  const SuiApiObjectDataOptions(
-      {this.showBcs,
-      this.showContent,
-      this.showDisplay,
-      this.showOwner,
-      this.showPreviousTransaction,
-      this.showStorageRebate,
-      this.showType});
+  const SuiApiObjectDataOptions({
+    this.showBcs,
+    this.showContent,
+    this.showDisplay,
+    this.showOwner,
+    this.showPreviousTransaction,
+    this.showStorageRebate,
+    this.showType,
+  });
   Map<String, dynamic> toJson() {
     return {
       "showBcs": showBcs,
@@ -970,7 +1049,7 @@ class SuiApiObjectDataOptions {
       "showOwner": showOwner,
       "showPreviousTransaction": showPreviousTransaction,
       "showStorageRebate": showStorageRebate,
-      "showType": showType
+      "showType": showType,
     }..removeWhere((k, v) => v == null);
   }
 }
@@ -988,11 +1067,12 @@ class SuiApiPaginatedObjectResponse extends SuiApiResponsePagination {
   final List<SuiApiObjectResponse> data;
   const SuiApiPaginatedObjectResponse({required this.data});
   SuiApiPaginatedObjectResponse.fromJson(super.json)
-      : data = json
-            .asListOfMap("data")!
-            .map((e) => SuiApiObjectResponse.fromJson(e))
-            .toImutableList,
-        super.fromJson();
+    : data =
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("data")
+              .map((e) => SuiApiObjectResponse.fromJson(e))
+              .toImutableList,
+      super.fromJson();
   @override
   Map<String, dynamic> toJson() {
     return {"data": data.map((e) => e.toJson()).toList(), ...super.toJson()};
@@ -1004,12 +1084,18 @@ class SuiApiObjectResponse extends SuiApiResponsePagination {
   final SuiApiObjectError? error;
   const SuiApiObjectResponse({required this.error, required this.data});
   SuiApiObjectResponse.fromJson(Map<String, dynamic> json)
-      : error = json["error"] == null
-            ? null
-            : SuiApiObjectError.fromJson(json.asMap("error")),
-        data = json["data"] == null
-            ? null
-            : SuiApiObjectData.fromJson(json.asMap("data"));
+    : error =
+          json["error"] == null
+              ? null
+              : SuiApiObjectError.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("error"),
+              ),
+      data =
+          json["data"] == null
+              ? null
+              : SuiApiObjectData.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("data"),
+              );
   @override
   Map<String, dynamic> toJson() {
     return {"error": error?.toJson(), "data": data?.toJson()};
@@ -1022,7 +1108,9 @@ class SuiApiEventId {
   const SuiApiEventId({required this.eventSeq, required this.txDigest});
   factory SuiApiEventId.fromJson(Map<String, dynamic> json) {
     return SuiApiEventId(
-        eventSeq: json.as("eventSeq"), txDigest: json.as("txDigest"));
+      eventSeq: json.valueAs("eventSeq"),
+      txDigest: json.valueAs("txDigest"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"eventSeq": eventSeq, "txDigest": txDigest};
@@ -1034,8 +1122,10 @@ abstract class SuiApiEventFilter {
   const SuiApiEventFilter();
   T cast<T extends SuiApiEventFilter>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiEventFilter casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiEventFilter casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -1084,13 +1174,15 @@ class SuiApiEventFilterTransaction extends SuiApiEventFilter {
 class SuiApiEventFilterMoveModule extends SuiApiEventFilter {
   final String module;
   final String package;
-  const SuiApiEventFilterMoveModule(
-      {required this.module, required this.package});
+  const SuiApiEventFilterMoveModule({
+    required this.module,
+    required this.package,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "MoveModule": {"module": module, "package": package}
+      "MoveModule": {"module": module, "package": package},
     };
   }
 }
@@ -1108,13 +1200,15 @@ class SuiApiEventFilterMoveEventType extends SuiApiEventFilter {
 class SuiApiEventFilterMoveEventModule extends SuiApiEventFilter {
   final String module;
   final String package;
-  const SuiApiEventFilterMoveEventModule(
-      {required this.module, required this.package});
+  const SuiApiEventFilterMoveEventModule({
+    required this.module,
+    required this.package,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "MoveEventModule": {"module": module, "package": package}
+      "MoveEventModule": {"module": module, "package": package},
     };
   }
 }
@@ -1122,13 +1216,15 @@ class SuiApiEventFilterMoveEventModule extends SuiApiEventFilter {
 class SuiApiEventFilterTimeRange extends SuiApiEventFilter {
   final String endTime;
   final String startTime;
-  const SuiApiEventFilterTimeRange(
-      {required this.endTime, required this.startTime});
+  const SuiApiEventFilterTimeRange({
+    required this.endTime,
+    required this.startTime,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "TimeRange": {"endTime": endTime, "startTime": startTime}
+      "TimeRange": {"endTime": endTime, "startTime": startTime},
     };
   }
 }
@@ -1143,27 +1239,29 @@ class SuiApiEvent {
   final String type;
   final String bcs;
   final String bcsEncoding;
-  const SuiApiEvent(
-      {required this.id,
-      required this.packageId,
-      required this.parsedJson,
-      required this.sender,
-      required this.timestampMs,
-      required this.transactionModule,
-      required this.type,
-      required this.bcs,
-      required this.bcsEncoding});
+  const SuiApiEvent({
+    required this.id,
+    required this.packageId,
+    required this.parsedJson,
+    required this.sender,
+    required this.timestampMs,
+    required this.transactionModule,
+    required this.type,
+    required this.bcs,
+    required this.bcsEncoding,
+  });
   factory SuiApiEvent.fromJson(Map<String, dynamic> json) {
     return SuiApiEvent(
-        id: SuiApiEventId.fromJson(json.asMap("id")),
-        packageId: json.as("packageId"),
-        parsedJson: json.as("parsedJson"),
-        sender: json.as("sender"),
-        timestampMs: json.as("timestampMs"),
-        transactionModule: json.as("transactionModule"),
-        type: json.as("type"),
-        bcs: json.as("bcs"),
-        bcsEncoding: json.as("bcsEncoding"));
+      id: SuiApiEventId.fromJson(json.valueEnsureAsMap<String, dynamic>("id")),
+      packageId: json.valueAs("packageId"),
+      parsedJson: json.valueAs("parsedJson"),
+      sender: json.valueAs("sender"),
+      timestampMs: json.valueAs("timestampMs"),
+      transactionModule: json.valueAs("transactionModule"),
+      type: json.valueAs("type"),
+      bcs: json.valueAs("bcs"),
+      bcsEncoding: json.valueAs("bcsEncoding"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -1175,7 +1273,7 @@ class SuiApiEvent {
       "transactionModule": transactionModule,
       "type": type,
       "bcs": bcs,
-      "bcsEncoding": bcsEncoding
+      "bcsEncoding": bcsEncoding,
     };
   }
 }
@@ -1184,11 +1282,12 @@ class SuiApiQueryEventsRepose extends SuiApiResponsePagination {
   final List<SuiApiEvent> data;
   const SuiApiQueryEventsRepose(this.data);
   SuiApiQueryEventsRepose.fromJson(super.json)
-      : data = json
-            .asListOfMap("data")!
-            .map((e) => SuiApiEvent.fromJson(e))
-            .toImutableList,
-        super.fromJson();
+    : data =
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("data")
+              .map((e) => SuiApiEvent.fromJson(e))
+              .toImutableList,
+      super.fromJson();
 }
 
 abstract class SuiApiTransactionFilter {
@@ -1196,8 +1295,10 @@ abstract class SuiApiTransactionFilter {
   const SuiApiTransactionFilter();
   T cast<T extends SuiApiTransactionFilter>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiTransactionFilter casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiTransactionFilter casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -1217,8 +1318,11 @@ class SuiApiTransactionFilterMoveFunction extends SuiApiTransactionFilter {
   final String? function;
   final String? module;
   final String package;
-  const SuiApiTransactionFilterMoveFunction(
-      {this.function, this.module, required this.package});
+  const SuiApiTransactionFilterMoveFunction({
+    this.function,
+    this.module,
+    required this.package,
+  });
 
   @override
   Map<String, dynamic> toJson() {
@@ -1226,8 +1330,8 @@ class SuiApiTransactionFilterMoveFunction extends SuiApiTransactionFilter {
       "MoveFunction": {
         "function": function,
         "module": module,
-        "package": package
-      }
+        "package": package,
+      },
     };
   }
 }
@@ -1285,8 +1389,10 @@ class SuiApiTransactionFilterToAddress extends SuiApiTransactionFilter {
 class SuiApiTransactionFilterFromAndToAddress extends SuiApiTransactionFilter {
   final String from;
   final String to;
-  const SuiApiTransactionFilterFromAndToAddress(
-      {required this.from, required this.to});
+  const SuiApiTransactionFilterFromAndToAddress({
+    required this.from,
+    required this.to,
+  });
 
   @override
   Map<String, dynamic> toJson() {
@@ -1303,7 +1409,7 @@ class SuiApiTransactionFilterFromOrToAddress extends SuiApiTransactionFilter {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "FromOrToAddress": {"addr": addr}
+      "FromOrToAddress": {"addr": addr},
     };
   }
 }
@@ -1336,24 +1442,27 @@ class SuiApiTransactionBlockResponseOptions {
   final bool? showObjectChanges;
   final bool? showRawEffects;
   final bool? showRawInput;
-  const SuiApiTransactionBlockResponseOptions(
-      {this.showBalanceChange,
-      this.showEffects,
-      this.showEvents,
-      this.showInput,
-      this.showObjectChanges,
-      this.showRawEffects,
-      this.showRawInput});
+  const SuiApiTransactionBlockResponseOptions({
+    this.showBalanceChange,
+    this.showEffects,
+    this.showEvents,
+    this.showInput,
+    this.showObjectChanges,
+    this.showRawEffects,
+    this.showRawInput,
+  });
   factory SuiApiTransactionBlockResponseOptions.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockResponseOptions(
-        showBalanceChange: json["showBalanceChange"],
-        showEffects: json["showEffects"],
-        showEvents: json["showEvents"],
-        showInput: json["showInput"],
-        showObjectChanges: json["showObjectChanges"],
-        showRawEffects: json["showRawEffects"],
-        showRawInput: json["showRawInput"]);
+      showBalanceChange: json["showBalanceChange"],
+      showEffects: json["showEffects"],
+      showEvents: json["showEvents"],
+      showInput: json["showInput"],
+      showObjectChanges: json["showObjectChanges"],
+      showRawEffects: json["showRawEffects"],
+      showRawInput: json["showRawInput"],
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -1363,7 +1472,7 @@ class SuiApiTransactionBlockResponseOptions {
       "showInput": showInput,
       "showObjectChanges": showObjectChanges,
       "showRawEffects": showRawEffects,
-      "showRawInput": showRawInput
+      "showRawInput": showRawInput,
     }..removeWhere((k, v) => v == null);
   }
 }
@@ -1381,14 +1490,18 @@ class SuiApiBalanceChange {
   final String amount;
   final String coinType;
   final SuiApiObjectOwner owner;
-  const SuiApiBalanceChange(
-      {required this.amount, required this.coinType, required this.owner});
+  const SuiApiBalanceChange({
+    required this.amount,
+    required this.coinType,
+    required this.owner,
+  });
 
   factory SuiApiBalanceChange.fromJson(Map<String, dynamic> json) {
     return SuiApiBalanceChange(
-        amount: json.as("amount"),
-        coinType: json.as("coinType"),
-        owner: SuiApiObjectOwner.fromJson(json.as("owner")));
+      amount: json.valueAs("amount"),
+      coinType: json.valueAs("coinType"),
+      owner: SuiApiObjectOwner.fromJson(json.valueAs("owner")),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1400,14 +1513,18 @@ class SuiApiObjectRef {
   final String digest;
   final String objectId;
   final String version;
-  const SuiApiObjectRef(
-      {required this.digest, required this.objectId, required this.version});
+  const SuiApiObjectRef({
+    required this.digest,
+    required this.objectId,
+    required this.version,
+  });
 
   factory SuiApiObjectRef.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectRef(
-        digest: json.as("digest"),
-        objectId: json.as("objectId"),
-        version: json.asBigInt<BigInt>("version").toString());
+      digest: json.valueAs("digest"),
+      objectId: json.valueAs("objectId"),
+      version: json.valueAsBigInt<BigInt>("version").toString(),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1422,8 +1539,11 @@ class SuiApiOwnedObjectRef {
 
   factory SuiApiOwnedObjectRef.fromJson(Map<String, dynamic> json) {
     return SuiApiOwnedObjectRef(
-        owner: SuiApiObjectOwner.fromJson(json.as("owner")),
-        reference: SuiApiObjectRef.fromJson(json.asMap("reference")));
+      owner: SuiApiObjectOwner.fromJson(json.valueAs("owner")),
+      reference: SuiApiObjectRef.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("reference"),
+      ),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1436,18 +1556,20 @@ class SuiApiGasCostSummary {
   final BigInt nonRefundableStorageFee;
   final BigInt storageCost;
   final BigInt storageRebate;
-  const SuiApiGasCostSummary(
-      {required this.computationCost,
-      required this.nonRefundableStorageFee,
-      required this.storageCost,
-      required this.storageRebate});
+  const SuiApiGasCostSummary({
+    required this.computationCost,
+    required this.nonRefundableStorageFee,
+    required this.storageCost,
+    required this.storageRebate,
+  });
 
   factory SuiApiGasCostSummary.fromJson(Map<String, dynamic> json) {
     return SuiApiGasCostSummary(
-        computationCost: json.asBigInt("computationCost"),
-        nonRefundableStorageFee: json.asBigInt("nonRefundableStorageFee"),
-        storageCost: json.asBigInt("storageCost"),
-        storageRebate: json.asBigInt("storageRebate"));
+      computationCost: json.valueAsBigInt("computationCost"),
+      nonRefundableStorageFee: json.valueAsBigInt("nonRefundableStorageFee"),
+      storageCost: json.valueAsBigInt("storageCost"),
+      storageRebate: json.valueAsBigInt("storageRebate"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1455,7 +1577,7 @@ class SuiApiGasCostSummary {
       "computationCost": computationCost.toString(),
       "nonRefundableStorageFee": nonRefundableStorageFee.toString(),
       "storageCost": storageCost.toString(),
-      "storageRebate": storageRebate.toString()
+      "storageRebate": storageRebate.toString(),
     };
   }
 }
@@ -1463,14 +1585,18 @@ class SuiApiGasCostSummary {
 class SuiApiTransactionBlockEffectsModifiedAtVersion {
   final String objectId;
   final String sequenceNumber;
-  const SuiApiTransactionBlockEffectsModifiedAtVersion(
-      {required this.objectId, required this.sequenceNumber});
+  const SuiApiTransactionBlockEffectsModifiedAtVersion({
+    required this.objectId,
+    required this.sequenceNumber,
+  });
 
   factory SuiApiTransactionBlockEffectsModifiedAtVersion.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockEffectsModifiedAtVersion(
-        objectId: json.as("objectId"),
-        sequenceNumber: json.as("sequenceNumber"));
+      objectId: json.valueAs("objectId"),
+      sequenceNumber: json.valueAs("sequenceNumber"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1487,9 +1613,12 @@ enum SuiApiExecutionStatusType {
   static SuiApiExecutionStatusType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct SuiApiExecutionStatusType from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct SuiApiExecutionStatusType from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -1501,8 +1630,9 @@ class SuiApiExecutionStatus {
 
   factory SuiApiExecutionStatus.fromJson(Map<String, dynamic> json) {
     return SuiApiExecutionStatus(
-        status: SuiApiExecutionStatusType.fromName(json.as("status")),
-        error: json.as("error"));
+      status: SuiApiExecutionStatusType.fromName(json.valueAs("status")),
+      error: json.valueAs("error"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1526,63 +1656,80 @@ class SuiApiTransactionEffects {
   final List<SuiApiOwnedObjectRef>? unwrapped;
   final List<SuiApiObjectRef>? unwrappedThenDeleted;
   final List<SuiApiObjectRef>? wrapped;
-  const SuiApiTransactionEffects(
-      {required this.created,
-      required this.deleted,
-      required this.dependencies,
-      required this.eventsDigest,
-      required this.executedEpoch,
-      required this.gasObject,
-      required this.gasUsed,
-      required this.modifiedAtVersion,
-      required this.mutated,
-      required this.sharedObjects,
-      required this.status,
-      required this.transactionDigest,
-      required this.unwrapped,
-      required this.unwrappedThenDeleted,
-      required this.wrapped});
+  const SuiApiTransactionEffects({
+    required this.created,
+    required this.deleted,
+    required this.dependencies,
+    required this.eventsDigest,
+    required this.executedEpoch,
+    required this.gasObject,
+    required this.gasUsed,
+    required this.modifiedAtVersion,
+    required this.mutated,
+    required this.sharedObjects,
+    required this.status,
+    required this.transactionDigest,
+    required this.unwrapped,
+    required this.unwrappedThenDeleted,
+    required this.wrapped,
+  });
   factory SuiApiTransactionEffects.fromJson(Map<String, dynamic> json) {
     return SuiApiTransactionEffects(
-        created: json
-            .asListOfMap("created", throwOnNull: false)
-            ?.map((e) => SuiApiOwnedObjectRef.fromJson(e))
-            .toList(),
-        deleted: json
-            .asListOfMap("deleted", throwOnNull: false)
-            ?.map((e) => SuiApiObjectRef.fromJson(e))
-            .toList(),
-        dependencies: json.asListOfString("dependencies", throwOnNull: false),
-        eventsDigest: json.as("eventsDigest"),
-        executedEpoch: json.as("executedEpoch"),
-        gasObject: SuiApiOwnedObjectRef.fromJson(json.asMap("gasObject")),
-        gasUsed: SuiApiGasCostSummary.fromJson(json.asMap("gasUsed")),
-        modifiedAtVersion: json["modifiedAtVersion"] == null
-            ? null
-            : SuiApiTransactionBlockEffectsModifiedAtVersion.fromJson(
-                json.asMap("modifiedAtVersion")),
-        mutated: json
-            .asListOfMap("mutated", throwOnNull: false)
-            ?.map((e) => SuiApiOwnedObjectRef.fromJson(e))
-            .toList(),
-        sharedObjects: json
-            .asListOfMap("sharedObjects", throwOnNull: false)
-            ?.map((e) => SuiApiObjectRef.fromJson(e))
-            .toList(),
-        status: SuiApiExecutionStatus.fromJson(json.asMap("status")),
-        transactionDigest: json.as("transactionDigest"),
-        unwrapped: json
-            .asListOfMap("unwrapped", throwOnNull: false)
-            ?.map((e) => SuiApiOwnedObjectRef.fromJson(e))
-            .toList(),
-        unwrappedThenDeleted: json
-            .asListOfMap("unwrappedThenDeleted", throwOnNull: false)
-            ?.map((e) => SuiApiObjectRef.fromJson(e))
-            .toList(),
-        wrapped: json
-            .asListOfMap("wrapped", throwOnNull: false)
-            ?.map((e) => SuiApiObjectRef.fromJson(e))
-            .toList());
+      created:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("created")
+              ?.map((e) => SuiApiOwnedObjectRef.fromJson(e))
+              .toList(),
+      deleted:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("deleted")
+              ?.map((e) => SuiApiObjectRef.fromJson(e))
+              .toList(),
+      dependencies: json.valueAsList<List<String>?>("dependencies"),
+      eventsDigest: json.valueAs("eventsDigest"),
+      executedEpoch: json.valueAs("executedEpoch"),
+      gasObject: SuiApiOwnedObjectRef.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("gasObject"),
+      ),
+      gasUsed: SuiApiGasCostSummary.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("gasUsed"),
+      ),
+      modifiedAtVersion:
+          json["modifiedAtVersion"] == null
+              ? null
+              : SuiApiTransactionBlockEffectsModifiedAtVersion.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("modifiedAtVersion"),
+              ),
+      mutated:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("mutated")
+              ?.map((e) => SuiApiOwnedObjectRef.fromJson(e))
+              .toList(),
+      sharedObjects:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("sharedObjects")
+              ?.map((e) => SuiApiObjectRef.fromJson(e))
+              .toList(),
+      status: SuiApiExecutionStatus.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("status"),
+      ),
+      transactionDigest: json.valueAs("transactionDigest"),
+      unwrapped:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("unwrapped")
+              ?.map((e) => SuiApiOwnedObjectRef.fromJson(e))
+              .toList(),
+      unwrappedThenDeleted:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("unwrappedThenDeleted")
+              ?.map((e) => SuiApiObjectRef.fromJson(e))
+              .toList(),
+      wrapped:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("wrapped")
+              ?.map((e) => SuiApiObjectRef.fromJson(e))
+              .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -1602,7 +1749,7 @@ class SuiApiTransactionEffects {
       "unwrapped": unwrapped?.map((e) => e.toJson()).toList(),
       "unwrappedThenDeleted":
           unwrappedThenDeleted?.map((e) => e.toJson()).toList(),
-      "wrapped": wrapped?.map((e) => e.toJson()).toList()
+      "wrapped": wrapped?.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -1618,9 +1765,12 @@ enum SuiApiObjectChanges {
   static SuiApiObjectChanges fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct ObjectChange from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct ObjectChange from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -1630,22 +1780,26 @@ abstract class SuiApiObjectChange {
   const SuiApiObjectChange({required this.type});
   Map<String, dynamic> toJson();
   factory SuiApiObjectChange.fromJson(Map<String, dynamic> json) {
-    final type = SuiApiObjectChanges.fromName(json.as("type"));
+    final type = SuiApiObjectChanges.fromName(json.valueAs("type"));
     return switch (type) {
-      SuiApiObjectChanges.published =>
-        SuiApiObjectChangePublished.fromJson(json),
-      SuiApiObjectChanges.transferred =>
-        SuiApiObjectChangeTransferred.fromJson(json),
+      SuiApiObjectChanges.published => SuiApiObjectChangePublished.fromJson(
+        json,
+      ),
+      SuiApiObjectChanges.transferred => SuiApiObjectChangeTransferred.fromJson(
+        json,
+      ),
       SuiApiObjectChanges.mutated => SuiApiObjectChangeMutated.fromJson(json),
       SuiApiObjectChanges.deleted => SuiApiObjectChangeDeleted.fromJson(json),
       SuiApiObjectChanges.wrapped => SuiApiObjectChangeWrapped.fromJson(json),
-      SuiApiObjectChanges.created => SuiApiObjectChangeCreated.fromJson(json)
+      SuiApiObjectChanges.created => SuiApiObjectChangeCreated.fromJson(json),
     };
   }
   T cast<T extends SuiApiObjectChange>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiObjectChange casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiObjectChange casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -1664,10 +1818,11 @@ class SuiApiObjectChangePublished extends SuiApiObjectChange {
   }) : super(type: SuiApiObjectChanges.published);
   factory SuiApiObjectChangePublished.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectChangePublished(
-        digest: json.as("digest"),
-        modules: json.asListOfString("modules")!,
-        packageId: json.as("packageId"),
-        version: json.as("version"));
+      digest: json.valueAs("digest"),
+      modules: json.valueEnsureAsList<String>("modules"),
+      packageId: json.valueAs("packageId"),
+      version: json.valueAs("version"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -1675,7 +1830,7 @@ class SuiApiObjectChangePublished extends SuiApiObjectChange {
       "digest": digest,
       "modules": modules,
       "packageId": packageId,
-      "version": version
+      "version": version,
     };
   }
 }
@@ -1697,12 +1852,12 @@ class SuiApiObjectChangeTransferred extends SuiApiObjectChange {
   }) : super(type: SuiApiObjectChanges.transferred);
   factory SuiApiObjectChangeTransferred.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectChangeTransferred(
-      digest: json.as("digest"),
-      recipient: SuiApiObjectOwner.fromJson(json.as("recipient")),
-      objectType: json.as("objectType"),
-      version: json.as("version"),
-      objectId: json.as("objectId"),
-      sender: json.as("sender"),
+      digest: json.valueAs("digest"),
+      recipient: SuiApiObjectOwner.fromJson(json.valueAs("recipient")),
+      objectType: json.valueAs("objectType"),
+      version: json.valueAs("version"),
+      objectId: json.valueAs("objectId"),
+      sender: json.valueAs("sender"),
     );
   }
   @override
@@ -1714,7 +1869,7 @@ class SuiApiObjectChangeTransferred extends SuiApiObjectChange {
       "objectId": objectId,
       "sender": sender,
       "version": version,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -1738,13 +1893,14 @@ class SuiApiObjectChangeMutated extends SuiApiObjectChange {
   }) : super(type: SuiApiObjectChanges.mutated);
   factory SuiApiObjectChangeMutated.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectChangeMutated(
-        digest: json.as("digest"),
-        owner: SuiApiObjectOwner.fromJson(json.as("owner")),
-        objectType: json.as("objectType"),
-        version: json.as("version"),
-        objectId: json.as("objectId"),
-        sender: json.as("sender"),
-        previousVersion: json.as("previousVersion"));
+      digest: json.valueAs("digest"),
+      owner: SuiApiObjectOwner.fromJson(json.valueAs("owner")),
+      objectType: json.valueAs("objectType"),
+      version: json.valueAs("version"),
+      objectId: json.valueAs("objectId"),
+      sender: json.valueAs("sender"),
+      previousVersion: json.valueAs("previousVersion"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -1756,7 +1912,7 @@ class SuiApiObjectChangeMutated extends SuiApiObjectChange {
       "sender": sender,
       "version": version,
       "previousVersion": previousVersion,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -1774,10 +1930,11 @@ class SuiApiObjectChangeDeleted extends SuiApiObjectChange {
   }) : super(type: SuiApiObjectChanges.deleted);
   factory SuiApiObjectChangeDeleted.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectChangeDeleted(
-        objectType: json.as("objectType"),
-        version: json.as("version"),
-        objectId: json.as("objectId"),
-        sender: json.as("sender"));
+      objectType: json.valueAs("objectType"),
+      version: json.valueAs("version"),
+      objectId: json.valueAs("objectId"),
+      sender: json.valueAs("sender"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -1786,7 +1943,7 @@ class SuiApiObjectChangeDeleted extends SuiApiObjectChange {
       "objectId": objectId,
       "sender": sender,
       "version": version,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -1804,10 +1961,11 @@ class SuiApiObjectChangeWrapped extends SuiApiObjectChange {
   }) : super(type: SuiApiObjectChanges.wrapped);
   factory SuiApiObjectChangeWrapped.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectChangeWrapped(
-        objectType: json.as("objectType"),
-        version: json.as("version"),
-        objectId: json.as("objectId"),
-        sender: json.as("sender"));
+      objectType: json.valueAs("objectType"),
+      version: json.valueAs("version"),
+      objectId: json.valueAs("objectId"),
+      sender: json.valueAs("sender"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -1816,7 +1974,7 @@ class SuiApiObjectChangeWrapped extends SuiApiObjectChange {
       "objectId": objectId,
       "sender": sender,
       "version": version,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -1838,12 +1996,13 @@ class SuiApiObjectChangeCreated extends SuiApiObjectChange {
   }) : super(type: SuiApiObjectChanges.created);
   factory SuiApiObjectChangeCreated.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectChangeCreated(
-        digest: json.as("digest"),
-        owner: SuiApiObjectOwner.fromJson(json.as("owner")),
-        objectType: json.as("objectType"),
-        version: json.as("version"),
-        objectId: json.as("objectId"),
-        sender: json.as("sender"));
+      digest: json.valueAs("digest"),
+      owner: SuiApiObjectOwner.fromJson(json.valueAs("owner")),
+      objectType: json.valueAs("objectType"),
+      version: json.valueAs("version"),
+      objectId: json.valueAs("objectId"),
+      sender: json.valueAs("sender"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -1854,7 +2013,7 @@ class SuiApiObjectChangeCreated extends SuiApiObjectChange {
       "objectId": objectId,
       "sender": sender,
       "version": version,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -1864,27 +2023,30 @@ class SuiApiGasData {
   final String owner;
   final List<SuiApiObjectRef> payment;
   final String price;
-  const SuiApiGasData(
-      {required this.budget,
-      required this.owner,
-      required this.payment,
-      required this.price});
+  const SuiApiGasData({
+    required this.budget,
+    required this.owner,
+    required this.payment,
+    required this.price,
+  });
   factory SuiApiGasData.fromJson(Map<String, dynamic> json) {
     return SuiApiGasData(
-        budget: json.as("budget"),
-        owner: json.as("owner"),
-        payment: json
-            .asListOfMap("payment")!
-            .map((e) => SuiApiObjectRef.fromJson(e))
-            .toList(),
-        price: json.as("price"));
+      budget: json.valueAs("budget"),
+      owner: json.valueAs("owner"),
+      payment:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("payment")
+              .map((e) => SuiApiObjectRef.fromJson(e))
+              .toList(),
+      price: json.valueAs("price"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "budget": budget,
       "owner": owner,
       "payment": payment.map((e) => e.toJson()).toList(),
-      "price": price
+      "price": price,
     };
   }
 }
@@ -1899,9 +2061,12 @@ enum SuiApiCallArgs {
     if (name == null && defaultArg != null) return defaultArg;
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct CallArg from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct CallArg from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -1911,20 +2076,25 @@ abstract class SuiApiCallArg {
   const SuiApiCallArg({required this.objectType});
   Map<String, dynamic> toJson();
   factory SuiApiCallArg.fromJson(Map<String, dynamic> json) {
-    final type = SuiApiCallArgs.fromName(json.as("objectType"),
-        defaultArg: SuiApiCallArgs.pure);
+    final type = SuiApiCallArgs.fromName(
+      json.valueAs("objectType"),
+      defaultArg: SuiApiCallArgs.pure,
+    );
     return switch (type) {
-      SuiApiCallArgs.immOrOwnedObject =>
-        SuiApiCallArgImmOrOwnedObject.fromJson(json),
+      SuiApiCallArgs.immOrOwnedObject => SuiApiCallArgImmOrOwnedObject.fromJson(
+        json,
+      ),
       SuiApiCallArgs.sharedObject => SuiApiCallArgSharedObject.fromJson(json),
       SuiApiCallArgs.receiving => SuiApiCallArgReceiving.fromJson(json),
-      SuiApiCallArgs.pure => SuiApiCallArgPure.fromJson(json)
+      SuiApiCallArgs.pure => SuiApiCallArgPure.fromJson(json),
     };
   }
   T cast<T extends SuiApiCallArg>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiCallArg casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiCallArg casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -1934,14 +2104,17 @@ class SuiApiCallArgImmOrOwnedObject extends SuiApiCallArg {
   final String digest;
   final String objectId;
   final String version;
-  const SuiApiCallArgImmOrOwnedObject(
-      {required this.digest, required this.objectId, required this.version})
-      : super(objectType: SuiApiCallArgs.immOrOwnedObject);
+  const SuiApiCallArgImmOrOwnedObject({
+    required this.digest,
+    required this.objectId,
+    required this.version,
+  }) : super(objectType: SuiApiCallArgs.immOrOwnedObject);
   factory SuiApiCallArgImmOrOwnedObject.fromJson(Map<String, dynamic> json) {
     return SuiApiCallArgImmOrOwnedObject(
-        digest: json.as("digest"),
-        objectId: json.as("objectId"),
-        version: json.as("version"));
+      digest: json.valueAs("digest"),
+      objectId: json.valueAs("objectId"),
+      version: json.valueAs("version"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -1949,7 +2122,7 @@ class SuiApiCallArgImmOrOwnedObject extends SuiApiCallArg {
       "digest": digest,
       "objectId": objectId,
       "version": version,
-      "objectType": objectType.name
+      "objectType": objectType.name,
     };
   }
 }
@@ -1959,16 +2132,17 @@ class SuiApiCallArgSharedObject extends SuiApiCallArg {
   final String initialSharedVersion;
   final bool mutable;
   final String objectId;
-  const SuiApiCallArgSharedObject(
-      {required this.initialSharedVersion,
-      required this.objectId,
-      required this.mutable})
-      : super(objectType: SuiApiCallArgs.sharedObject);
+  const SuiApiCallArgSharedObject({
+    required this.initialSharedVersion,
+    required this.objectId,
+    required this.mutable,
+  }) : super(objectType: SuiApiCallArgs.sharedObject);
   factory SuiApiCallArgSharedObject.fromJson(Map<String, dynamic> json) {
     return SuiApiCallArgSharedObject(
-        initialSharedVersion: json.as("initialSharedVersion"),
-        objectId: json.as("objectId"),
-        mutable: json.as("mutable"));
+      initialSharedVersion: json.valueAs("initialSharedVersion"),
+      objectId: json.valueAs("objectId"),
+      mutable: json.valueAs("mutable"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -1976,7 +2150,7 @@ class SuiApiCallArgSharedObject extends SuiApiCallArg {
       "mutable": mutable,
       "objectId": objectId,
       "initialSharedVersion": initialSharedVersion,
-      "objectType": objectType.name
+      "objectType": objectType.name,
     };
   }
 }
@@ -1985,14 +2159,17 @@ class SuiApiCallArgReceiving extends SuiApiCallArg {
   final String digest;
   final String objectId;
   final String version;
-  const SuiApiCallArgReceiving(
-      {required this.digest, required this.objectId, required this.version})
-      : super(objectType: SuiApiCallArgs.receiving);
+  const SuiApiCallArgReceiving({
+    required this.digest,
+    required this.objectId,
+    required this.version,
+  }) : super(objectType: SuiApiCallArgs.receiving);
   factory SuiApiCallArgReceiving.fromJson(Map<String, dynamic> json) {
     return SuiApiCallArgReceiving(
-        digest: json.as("digest"),
-        objectId: json.as("objectId"),
-        version: json.as("version"));
+      digest: json.valueAs("digest"),
+      objectId: json.valueAs("objectId"),
+      version: json.valueAs("version"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2000,7 +2177,7 @@ class SuiApiCallArgReceiving extends SuiApiCallArg {
       "digest": digest,
       "objectId": objectId,
       "version": version,
-      "objectType": objectType.name
+      "objectType": objectType.name,
     };
   }
 }
@@ -2009,10 +2186,12 @@ class SuiApiCallArgPure extends SuiApiCallArg {
   final Object? unknown;
   final String? valueType;
   const SuiApiCallArgPure({required this.unknown, required this.valueType})
-      : super(objectType: SuiApiCallArgs.pure);
+    : super(objectType: SuiApiCallArgs.pure);
   factory SuiApiCallArgPure.fromJson(Map<String, dynamic> json) {
     return SuiApiCallArgPure(
-        unknown: json.as("unknown"), valueType: json.as("valueType"));
+      unknown: json.valueAs("unknown"),
+      valueType: json.valueAs("valueType"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2028,15 +2207,16 @@ class SuiApiArgument {
   factory SuiApiArgument.fromJson(Object json) {
     if (json == "GasCoin") return SuiApiArgument();
     if (json is! Map<String, dynamic>) {
-      throw DartSuiPluginException("Invalid Argument json data.",
-          details: {"expected": "Map", "data": json});
+      throw DartSuiPluginException("Invalid SuiApiArgument json data.");
     }
     return SuiApiArgument(
-        input: json.as("Input"),
-        result: json.as("TronResult"),
-        nestedResult: json["NestedResult"] == null
-            ? null
-            : (json["NestedResult"] as List).cast());
+      input: json.valueAs("Input"),
+      result: json.valueAs("TronResult"),
+      nestedResult:
+          json["NestedResult"] == null
+              ? null
+              : (json["NestedResult"] as List).cast(),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"Input": input, "TronResult": result, "NestedResult": nestedResult};
@@ -2049,23 +2229,25 @@ class SuiApiMoveCallTransaction {
   final String module;
   final String package;
   final List<String>? typeArguments;
-  const SuiApiMoveCallTransaction(
-      {required this.arguments,
-      required this.function,
-      required this.module,
-      required this.package,
-      required this.typeArguments});
+  const SuiApiMoveCallTransaction({
+    required this.arguments,
+    required this.function,
+    required this.module,
+    required this.package,
+    required this.typeArguments,
+  });
   factory SuiApiMoveCallTransaction.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveCallTransaction(
-        arguments: json
-            .asListOfMap("arguments", throwOnNull: false)
-            ?.map((e) => SuiApiArgument.fromJson(e))
-            .toList(),
-        function: json.as("function"),
-        module: json.as("module"),
-        package: json.as("package"),
-        typeArguments:
-            json.asListOfString("type_arguments", throwOnNull: false));
+      arguments:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("arguments")
+              ?.map((e) => SuiApiArgument.fromJson(e))
+              .toList(),
+      function: json.valueAs("function"),
+      module: json.valueAs("module"),
+      package: json.valueAs("package"),
+      typeArguments: json.valueAsList<List<String>?>("type_arguments"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -2073,7 +2255,7 @@ class SuiApiMoveCallTransaction {
       "function": function,
       "module": module,
       "package": package,
-      "type_arguments": typeArguments
+      "type_arguments": typeArguments,
     };
   }
 }
@@ -2113,10 +2295,15 @@ enum SuiApiTransactionCommands {
   final int value;
   const SuiApiTransactionCommands({required this.value});
   static SuiApiTransactionCommands fromName(String? name) {
-    return values.firstWhere((e) => e.name.toLowerCase() == name?.toLowerCase(),
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct Commands from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name.toLowerCase() == name?.toLowerCase(),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct Commands from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -2128,18 +2315,21 @@ abstract class SuiApiTransaction {
     final key = json.keys.first;
     final type = SuiApiTransactionCommands.fromName(key);
     return switch (type) {
-      SuiApiTransactionCommands.moveCall =>
-        SuiApiTransactionMoveCall.fromJson(json),
+      SuiApiTransactionCommands.moveCall => SuiApiTransactionMoveCall.fromJson(
+        json,
+      ),
       SuiApiTransactionCommands.transferObjects =>
         SuiApiTransactionTransferObjects.fromJson(json),
       SuiApiTransactionCommands.splitCoins =>
         SuiApiTransactionSplitCoins.fromJson(json),
       SuiApiTransactionCommands.mergeCoins =>
         SuiApiTransactionMergeCoins.fromJson(json),
-      SuiApiTransactionCommands.publish =>
-        SuiApiTransactionPublish.fromJson(json),
-      SuiApiTransactionCommands.upgrade =>
-        SuiApiTransactionUpgrade.fromJson(json),
+      SuiApiTransactionCommands.publish => SuiApiTransactionPublish.fromJson(
+        json,
+      ),
+      SuiApiTransactionCommands.upgrade => SuiApiTransactionUpgrade.fromJson(
+        json,
+      ),
       SuiApiTransactionCommands.makeMoveVec =>
         SuiApiTransactionMakeMoveVec.fromJson(json),
     };
@@ -2147,8 +2337,10 @@ abstract class SuiApiTransaction {
 
   T cast<T extends SuiApiTransaction>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiTransaction casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiTransaction casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -2157,10 +2349,11 @@ abstract class SuiApiTransaction {
 class SuiApiTransactionMoveCall extends SuiApiTransaction {
   final SuiApiMoveCallTransaction moveCall;
   const SuiApiTransactionMoveCall(this.moveCall)
-      : super(type: SuiApiTransactionCommands.moveCall);
+    : super(type: SuiApiTransactionCommands.moveCall);
   factory SuiApiTransactionMoveCall.fromJson(Map<String, dynamic> json) {
     return SuiApiTransactionMoveCall(
-        SuiApiMoveCallTransaction.fromJson(json.as("MoveCall")));
+      SuiApiMoveCallTransaction.fromJson(json.valueAs("MoveCall")),
+    );
   }
 
   @override
@@ -2172,15 +2365,17 @@ class SuiApiTransactionMoveCall extends SuiApiTransaction {
 class SuiApiTransactionTransferObjects extends SuiApiTransaction {
   final List<SuiApiArgument> objects;
   final SuiApiArgument address;
-  const SuiApiTransactionTransferObjects(
-      {required this.objects, required this.address})
-      : super(type: SuiApiTransactionCommands.transferObjects);
+  const SuiApiTransactionTransferObjects({
+    required this.objects,
+    required this.address,
+  }) : super(type: SuiApiTransactionCommands.transferObjects);
   factory SuiApiTransactionTransferObjects.fromJson(Map<String, dynamic> json) {
     final object = json["TransferObjects"] as List;
     return SuiApiTransactionTransferObjects(
-        objects:
-            (object[0] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
-        address: SuiApiArgument.fromJson(object[1]));
+      objects:
+          (object[0] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
+      address: SuiApiArgument.fromJson(object[1]),
+    );
   }
 
   @override
@@ -2188,8 +2383,8 @@ class SuiApiTransactionTransferObjects extends SuiApiTransaction {
     return {
       "TransferObjects": [
         objects.map((e) => e.toJson()).toList(),
-        address.toJson()
-      ]
+        address.toJson(),
+      ],
     };
   }
 }
@@ -2198,22 +2393,20 @@ class SuiApiTransactionSplitCoins extends SuiApiTransaction {
   final List<SuiApiArgument> amounts;
   final SuiApiArgument coin;
   const SuiApiTransactionSplitCoins({required this.coin, required this.amounts})
-      : super(type: SuiApiTransactionCommands.splitCoins);
+    : super(type: SuiApiTransactionCommands.splitCoins);
   factory SuiApiTransactionSplitCoins.fromJson(Map<String, dynamic> json) {
     final object = json["SplitCoins"] as List;
     return SuiApiTransactionSplitCoins(
-        amounts:
-            (object[1] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
-        coin: SuiApiArgument.fromJson(object[0]));
+      amounts:
+          (object[1] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
+      coin: SuiApiArgument.fromJson(object[0]),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "SplitCoins": [
-        coin.toJson(),
-        amounts.map((e) => e.toJson()).toList(),
-      ]
+      "SplitCoins": [coin.toJson(), amounts.map((e) => e.toJson()).toList()],
     };
   }
 }
@@ -2221,15 +2414,17 @@ class SuiApiTransactionSplitCoins extends SuiApiTransaction {
 class SuiApiTransactionMergeCoins extends SuiApiTransaction {
   final List<SuiApiArgument> sources;
   final SuiApiArgument destination;
-  const SuiApiTransactionMergeCoins(
-      {required this.destination, required this.sources})
-      : super(type: SuiApiTransactionCommands.mergeCoins);
+  const SuiApiTransactionMergeCoins({
+    required this.destination,
+    required this.sources,
+  }) : super(type: SuiApiTransactionCommands.mergeCoins);
   factory SuiApiTransactionMergeCoins.fromJson(Map<String, dynamic> json) {
     final object = json["MergeCoins"] as List;
     return SuiApiTransactionMergeCoins(
-        sources:
-            (object[1] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
-        destination: SuiApiArgument.fromJson(object[0]));
+      sources:
+          (object[1] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
+      destination: SuiApiArgument.fromJson(object[0]),
+    );
   }
 
   @override
@@ -2238,7 +2433,7 @@ class SuiApiTransactionMergeCoins extends SuiApiTransaction {
       "MergeCoins": [
         destination.toJson(),
         sources.map((e) => e.toJson()).toList(),
-      ]
+      ],
     };
   }
 }
@@ -2246,9 +2441,9 @@ class SuiApiTransactionMergeCoins extends SuiApiTransaction {
 class SuiApiTransactionPublish extends SuiApiTransaction {
   final List<String> publish;
   const SuiApiTransactionPublish(this.publish)
-      : super(type: SuiApiTransactionCommands.publish);
+    : super(type: SuiApiTransactionCommands.publish);
   factory SuiApiTransactionPublish.fromJson(Map<String, dynamic> json) {
-    return SuiApiTransactionPublish(json.asListOfString("Publish")!);
+    return SuiApiTransactionPublish(json.valueEnsureAsList<String>("Publish"));
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2260,21 +2455,24 @@ class SuiApiTransactionUpgrade extends SuiApiTransaction {
   final List<String> modules;
   final String package;
   final SuiApiArgument ticket;
-  const SuiApiTransactionUpgrade(
-      {required this.modules, required this.package, required this.ticket})
-      : super(type: SuiApiTransactionCommands.upgrade);
+  const SuiApiTransactionUpgrade({
+    required this.modules,
+    required this.package,
+    required this.ticket,
+  }) : super(type: SuiApiTransactionCommands.upgrade);
   factory SuiApiTransactionUpgrade.fromJson(Map<String, dynamic> json) {
     final object = json["Upgrade"] as List;
     return SuiApiTransactionUpgrade(
-        modules: (object[0] as List).cast(),
-        package: object[1],
-        ticket: SuiApiArgument.fromJson(object[2]));
+      modules: (object[0] as List).cast(),
+      package: object[1],
+      ticket: SuiApiArgument.fromJson(object[2]),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "Upgrade": [modules, package, ticket.toJson()]
+      "Upgrade": [modules, package, ticket.toJson()],
     };
   }
 }
@@ -2282,24 +2480,23 @@ class SuiApiTransactionUpgrade extends SuiApiTransaction {
 class SuiApiTransactionMakeMoveVec extends SuiApiTransaction {
   final List<SuiApiArgument> elements;
   final String? inputType;
-  const SuiApiTransactionMakeMoveVec(
-      {required this.inputType, required this.elements})
-      : super(type: SuiApiTransactionCommands.makeMoveVec);
+  const SuiApiTransactionMakeMoveVec({
+    required this.inputType,
+    required this.elements,
+  }) : super(type: SuiApiTransactionCommands.makeMoveVec);
   factory SuiApiTransactionMakeMoveVec.fromJson(Map<String, dynamic> json) {
     final object = json["MakeMoveVec"] as List;
     return SuiApiTransactionMakeMoveVec(
-        elements:
-            (object[1] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
-        inputType: object[0]);
+      elements:
+          (object[1] as List).map((e) => SuiApiArgument.fromJson(e)).toList(),
+      inputType: object[0],
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "MakeMoveVec": [
-        inputType,
-        elements.map((e) => e.toJson()).toList(),
-      ]
+      "MakeMoveVec": [inputType, elements.map((e) => e.toJson()).toList()],
     };
   }
 }
@@ -2309,14 +2506,19 @@ class SuiApiJWK {
   final String e;
   final String kty;
   final String n;
-  const SuiApiJWK(
-      {required this.alg, required this.e, required this.kty, required this.n});
+  const SuiApiJWK({
+    required this.alg,
+    required this.e,
+    required this.kty,
+    required this.n,
+  });
   factory SuiApiJWK.fromJson(Map<String, dynamic> json) {
     return SuiApiJWK(
-        alg: json.as("alg"),
-        e: json.as("e"),
-        kty: json.as("kty"),
-        n: json.as("n"));
+      alg: json.valueAs("alg"),
+      e: json.valueAs("e"),
+      kty: json.valueAs("kty"),
+      n: json.valueAs("n"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"alg": alg, "e": e, "kty": kty, "n": n};
@@ -2328,7 +2530,7 @@ class SuiApiJwkId {
   final String kid;
   const SuiApiJwkId({required this.iss, required this.kid});
   factory SuiApiJwkId.fromJson(Map<String, dynamic> json) {
-    return SuiApiJwkId(iss: json.as("iss"), kid: json.as("kid"));
+    return SuiApiJwkId(iss: json.valueAs("iss"), kid: json.valueAs("kid"));
   }
   Map<String, dynamic> toJson() {
     return {"iss": iss, "kid": kid};
@@ -2339,13 +2541,19 @@ class SuiApiActiveJWK {
   final String epoch;
   final SuiApiJWK jwk;
   final SuiApiJwkId jwkId;
-  const SuiApiActiveJWK(
-      {required this.epoch, required this.jwk, required this.jwkId});
+  const SuiApiActiveJWK({
+    required this.epoch,
+    required this.jwk,
+    required this.jwkId,
+  });
   factory SuiApiActiveJWK.fromJson(Map<String, dynamic> json) {
     return SuiApiActiveJWK(
-        epoch: json.as("epoch"),
-        jwk: SuiApiJWK.fromJson(json.asMap("jwk")),
-        jwkId: SuiApiJwkId.fromJson(json.asMap("jwk_id")));
+      epoch: json.valueAs("epoch"),
+      jwk: SuiApiJWK.fromJson(json.valueEnsureAsMap<String, dynamic>("jwk")),
+      jwkId: SuiApiJwkId.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("jwk_id"),
+      ),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"epoch": epoch, "jwk": jwk.toJson(), "jwk_id": jwkId.toJson()};
@@ -2358,19 +2566,21 @@ class SuiApiChangeEpoch {
   final String epochStartTimestampMS;
   final String storageCharge;
   final String storageRebate;
-  const SuiApiChangeEpoch(
-      {required this.computationCharge,
-      required this.epoch,
-      required this.epochStartTimestampMS,
-      required this.storageCharge,
-      required this.storageRebate});
+  const SuiApiChangeEpoch({
+    required this.computationCharge,
+    required this.epoch,
+    required this.epochStartTimestampMS,
+    required this.storageCharge,
+    required this.storageRebate,
+  });
   factory SuiApiChangeEpoch.fromJson(Map<String, dynamic> json) {
     return SuiApiChangeEpoch(
-        computationCharge: json.as("computation_charge"),
-        epoch: json.as("epoch"),
-        epochStartTimestampMS: json.as("epoch_start_timestamp_ms"),
-        storageCharge: json.as("storage_charge"),
-        storageRebate: json.as("storage_rebate"));
+      computationCharge: json.valueAs("computation_charge"),
+      epoch: json.valueAs("epoch"),
+      epochStartTimestampMS: json.valueAs("epoch_start_timestamp_ms"),
+      storageCharge: json.valueAs("storage_charge"),
+      storageRebate: json.valueAs("storage_rebate"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -2378,7 +2588,7 @@ class SuiApiChangeEpoch {
       "epoch": epoch,
       "epoch_start_timestamp_ms": epochStartTimestampMS,
       "storage_charge": storageCharge,
-      "storage_rebate": storageRebate
+      "storage_rebate": storageRebate,
     };
   }
 }
@@ -2387,7 +2597,7 @@ class SuiApiAuthenticatorStateExpire {
   final String minEpoch;
   const SuiApiAuthenticatorStateExpire(this.minEpoch);
   factory SuiApiAuthenticatorStateExpire.fromJson(Map<String, dynamic> json) {
-    return SuiApiAuthenticatorStateExpire(json.as("min_epoch"));
+    return SuiApiAuthenticatorStateExpire(json.valueAs("min_epoch"));
   }
   Map<String, dynamic> toJson() {
     return {"min_epoch": minEpoch};
@@ -2406,9 +2616,12 @@ enum SuiApiEndOfEpochTransactionKinds {
   static SuiApiEndOfEpochTransactionKinds fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct EndOfEpochTransactionKind from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct EndOfEpochTransactionKind from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -2440,8 +2653,9 @@ abstract class SuiApiEndOfEpochTransactionKind {
   T cast<T extends SuiApiEndOfEpochTransactionKind>() {
     if (this is! T) {
       throw DartSuiPluginException(
-          "SuiApiEndOfEpochTransactionKind casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+        "SuiApiEndOfEpochTransactionKind casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -2450,7 +2664,7 @@ abstract class SuiApiEndOfEpochTransactionKind {
 class SuiApiEndOfEpochTransactionKindAuthenticatorStateCreate
     extends SuiApiEndOfEpochTransactionKind {
   SuiApiEndOfEpochTransactionKindAuthenticatorStateCreate()
-      : super(type: SuiApiEndOfEpochTransactionKinds.authenticatorStateCreate);
+    : super(type: SuiApiEndOfEpochTransactionKinds.authenticatorStateCreate);
 
   @override
   Map<String, dynamic> toJson() {
@@ -2461,7 +2675,7 @@ class SuiApiEndOfEpochTransactionKindAuthenticatorStateCreate
 class SuiApiEndOfEpochTransactionKindRandomNessStateCreate
     extends SuiApiEndOfEpochTransactionKind {
   SuiApiEndOfEpochTransactionKindRandomNessStateCreate()
-      : super(type: SuiApiEndOfEpochTransactionKinds.randomNessStateCreate);
+    : super(type: SuiApiEndOfEpochTransactionKinds.randomNessStateCreate);
 
   @override
   Map<String, dynamic> toJson() {
@@ -2472,7 +2686,7 @@ class SuiApiEndOfEpochTransactionKindRandomNessStateCreate
 class SuiApiEndOfEpochTransactionKindCoinDenyListStateCreate
     extends SuiApiEndOfEpochTransactionKind {
   SuiApiEndOfEpochTransactionKindCoinDenyListStateCreate()
-      : super(type: SuiApiEndOfEpochTransactionKinds.coinDenyListStateCreate);
+    : super(type: SuiApiEndOfEpochTransactionKinds.coinDenyListStateCreate);
 
   @override
   Map<String, dynamic> toJson() {
@@ -2484,11 +2698,15 @@ class SuiApiEndOfEpochTransactionKindChangeEpoch
     extends SuiApiEndOfEpochTransactionKind {
   final SuiApiChangeEpoch changeEpoch;
   SuiApiEndOfEpochTransactionKindChangeEpoch(this.changeEpoch)
-      : super(type: SuiApiEndOfEpochTransactionKinds.changeEpoch);
+    : super(type: SuiApiEndOfEpochTransactionKinds.changeEpoch);
   factory SuiApiEndOfEpochTransactionKindChangeEpoch.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiEndOfEpochTransactionKindChangeEpoch(
-        SuiApiChangeEpoch.fromJson(json.asMap("ChangeEpoch")));
+      SuiApiChangeEpoch.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("ChangeEpoch"),
+      ),
+    );
   }
 
   @override
@@ -2501,20 +2719,23 @@ class SuiApiEndOfEpochTransactionKindAuthenticatorStateExpire
     extends SuiApiEndOfEpochTransactionKind {
   final SuiApiAuthenticatorStateExpire authenticatorStateExpire;
   SuiApiEndOfEpochTransactionKindAuthenticatorStateExpire(
-      this.authenticatorStateExpire)
-      : super(type: SuiApiEndOfEpochTransactionKinds.authenticatorStateExpire);
+    this.authenticatorStateExpire,
+  ) : super(type: SuiApiEndOfEpochTransactionKinds.authenticatorStateExpire);
   factory SuiApiEndOfEpochTransactionKindAuthenticatorStateExpire.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiEndOfEpochTransactionKindAuthenticatorStateExpire(
-        SuiApiAuthenticatorStateExpire.fromJson(
-            json.asMap("AuthenticatorStateExpire")));
+      SuiApiAuthenticatorStateExpire.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("AuthenticatorStateExpire"),
+      ),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "type": type.name,
-      "AuthenticatorStateExpire": authenticatorStateExpire.toJson()
+      "AuthenticatorStateExpire": authenticatorStateExpire.toJson(),
     };
   }
 }
@@ -2523,11 +2744,13 @@ class SuiApiEndOfEpochTransactionKindBridgeStateCreate
     extends SuiApiEndOfEpochTransactionKind {
   final String bridgeStateCreate;
   SuiApiEndOfEpochTransactionKindBridgeStateCreate(this.bridgeStateCreate)
-      : super(type: SuiApiEndOfEpochTransactionKinds.bridgeStateCreate);
+    : super(type: SuiApiEndOfEpochTransactionKinds.bridgeStateCreate);
   factory SuiApiEndOfEpochTransactionKindBridgeStateCreate.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiEndOfEpochTransactionKindBridgeStateCreate(
-        json.as("BridgeStateCreate"));
+      json.valueAs("BridgeStateCreate"),
+    );
   }
 
   @override
@@ -2540,12 +2763,14 @@ class SuiApiEndOfEpochTransactionKindBridgeCommitteeUpdate
     extends SuiApiEndOfEpochTransactionKind {
   final String bridgeCommitteeUpdate;
   SuiApiEndOfEpochTransactionKindBridgeCommitteeUpdate(
-      this.bridgeCommitteeUpdate)
-      : super(type: SuiApiEndOfEpochTransactionKinds.bridgeCommitteeUpdate);
+    this.bridgeCommitteeUpdate,
+  ) : super(type: SuiApiEndOfEpochTransactionKinds.bridgeCommitteeUpdate);
   factory SuiApiEndOfEpochTransactionKindBridgeCommitteeUpdate.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiEndOfEpochTransactionKindBridgeCommitteeUpdate(
-        json.as("BridgeCommitteeUpdate"));
+      json.valueAs("BridgeCommitteeUpdate"),
+    );
   }
 
   @override
@@ -2568,9 +2793,12 @@ enum SuiApiTransactionBlockKinds {
   static SuiApiTransactionBlockKinds fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct TransactionBlockKind from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct TransactionBlockKind from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -2580,7 +2808,7 @@ abstract class SuiApiTransactionBlockKind {
   const SuiApiTransactionBlockKind({required this.kind});
   Map<String, dynamic> toJson();
   factory SuiApiTransactionBlockKind.fromJson(Map<String, dynamic> json) {
-    final kind = SuiApiTransactionBlockKinds.fromName(json.as("kind"));
+    final kind = SuiApiTransactionBlockKinds.fromName(json.valueAs("kind"));
     return switch (kind) {
       SuiApiTransactionBlockKinds.changeEpoch =>
         SuiApiTransactionBlockKindChangeEpoch.fromJson(json),
@@ -2604,8 +2832,10 @@ abstract class SuiApiTransactionBlockKind {
   }
   T cast<T extends SuiApiTransactionBlockKind>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiTransactionBlockKind casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiTransactionBlockKind casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -2617,21 +2847,23 @@ class SuiApiTransactionBlockKindChangeEpoch extends SuiApiTransactionBlockKind {
   final String epochStartTimestampMS;
   final String storageCharge;
   final String storageRebate;
-  const SuiApiTransactionBlockKindChangeEpoch(
-      {required this.computationCharge,
-      required this.epoch,
-      required this.epochStartTimestampMS,
-      required this.storageCharge,
-      required this.storageRebate})
-      : super(kind: SuiApiTransactionBlockKinds.changeEpoch);
+  const SuiApiTransactionBlockKindChangeEpoch({
+    required this.computationCharge,
+    required this.epoch,
+    required this.epochStartTimestampMS,
+    required this.storageCharge,
+    required this.storageRebate,
+  }) : super(kind: SuiApiTransactionBlockKinds.changeEpoch);
   factory SuiApiTransactionBlockKindChangeEpoch.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockKindChangeEpoch(
-        computationCharge: json.as("computation_charge"),
-        epoch: json.as("epoch"),
-        epochStartTimestampMS: json.as("epoch_start_timestamp_ms"),
-        storageCharge: json.as("storage_charge"),
-        storageRebate: json.as("storage_rebate"));
+      computationCharge: json.valueAs("computation_charge"),
+      epoch: json.valueAs("epoch"),
+      epochStartTimestampMS: json.valueAs("epoch_start_timestamp_ms"),
+      storageCharge: json.valueAs("storage_charge"),
+      storageRebate: json.valueAs("storage_rebate"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2641,7 +2873,7 @@ class SuiApiTransactionBlockKindChangeEpoch extends SuiApiTransactionBlockKind {
       "epoch": epoch,
       "epoch_start_timestamp_ms": epochStartTimestampMS,
       "storage_charge": storageCharge,
-      "storage_rebate": storageRebate
+      "storage_rebate": storageRebate,
     };
   }
 }
@@ -2649,10 +2881,13 @@ class SuiApiTransactionBlockKindChangeEpoch extends SuiApiTransactionBlockKind {
 class SuiApiTransactionBlockKindGenesis extends SuiApiTransactionBlockKind {
   final List<String> objects;
   const SuiApiTransactionBlockKindGenesis(this.objects)
-      : super(kind: SuiApiTransactionBlockKinds.genesis);
+    : super(kind: SuiApiTransactionBlockKinds.genesis);
   factory SuiApiTransactionBlockKindGenesis.fromJson(
-      Map<String, dynamic> json) {
-    return SuiApiTransactionBlockKindGenesis(json.asListOfString("objects")!);
+    Map<String, dynamic> json,
+  ) {
+    return SuiApiTransactionBlockKindGenesis(
+      json.valueEnsureAsList<String>("objects"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2665,17 +2900,19 @@ class SuiApiTransactionBlockKindConsensusCommitPrologue
   final String commitTimestampMs;
   final String epoch;
   final String round;
-  const SuiApiTransactionBlockKindConsensusCommitPrologue(
-      {required this.commitTimestampMs,
-      required this.epoch,
-      required this.round})
-      : super(kind: SuiApiTransactionBlockKinds.consensusCommitPrologue);
+  const SuiApiTransactionBlockKindConsensusCommitPrologue({
+    required this.commitTimestampMs,
+    required this.epoch,
+    required this.round,
+  }) : super(kind: SuiApiTransactionBlockKinds.consensusCommitPrologue);
   factory SuiApiTransactionBlockKindConsensusCommitPrologue.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockKindConsensusCommitPrologue(
-        commitTimestampMs: json.as("commit_timestamp_ms"),
-        epoch: json.as("epoch"),
-        round: json.as("round"));
+      commitTimestampMs: json.valueAs("commit_timestamp_ms"),
+      epoch: json.valueAs("epoch"),
+      round: json.valueAs("round"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2683,7 +2920,7 @@ class SuiApiTransactionBlockKindConsensusCommitPrologue
       "kind": kind.name,
       "commit_timestamp_ms": commitTimestampMs,
       "epoch": epoch,
-      "round": round
+      "round": round,
     };
   }
 }
@@ -2692,20 +2929,24 @@ class SuiApiTransactionBlockKindProgrammableTransaction
     extends SuiApiTransactionBlockKind {
   final List<SuiApiCallArg> inputs;
   final List<SuiApiTransaction> transactions;
-  const SuiApiTransactionBlockKindProgrammableTransaction(
-      {required this.inputs, required this.transactions})
-      : super(kind: SuiApiTransactionBlockKinds.programmableTransaction);
+  const SuiApiTransactionBlockKindProgrammableTransaction({
+    required this.inputs,
+    required this.transactions,
+  }) : super(kind: SuiApiTransactionBlockKinds.programmableTransaction);
   factory SuiApiTransactionBlockKindProgrammableTransaction.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockKindProgrammableTransaction(
-      inputs: json
-          .asListOfMap("inputs")!
-          .map((e) => SuiApiCallArg.fromJson(e))
-          .toList(),
-      transactions: json
-          .asListOfMap("transactions")!
-          .map((e) => SuiApiTransaction.fromJson(e))
-          .toList(),
+      inputs:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("inputs")
+              .map((e) => SuiApiCallArg.fromJson(e))
+              .toList(),
+      transactions:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("transactions")
+              .map((e) => SuiApiTransaction.fromJson(e))
+              .toList(),
     );
   }
   @override
@@ -2713,7 +2954,7 @@ class SuiApiTransactionBlockKindProgrammableTransaction
     return {
       "kind": kind.name,
       "transactions": transactions.map((e) => e.toJson()).toList(),
-      "inputs": inputs.map((e) => e.toJson()).toList()
+      "inputs": inputs.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -2723,18 +2964,23 @@ class SuiApiTransactionBlockKindAuthenticatorStateUpdate
   final List<SuiApiActiveJWK> newActiveJwks;
   final String epoch;
   final String round;
-  const SuiApiTransactionBlockKindAuthenticatorStateUpdate(
-      {required this.newActiveJwks, required this.epoch, required this.round})
-      : super(kind: SuiApiTransactionBlockKinds.authenticatorStateUpdate);
+  const SuiApiTransactionBlockKindAuthenticatorStateUpdate({
+    required this.newActiveJwks,
+    required this.epoch,
+    required this.round,
+  }) : super(kind: SuiApiTransactionBlockKinds.authenticatorStateUpdate);
   factory SuiApiTransactionBlockKindAuthenticatorStateUpdate.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockKindAuthenticatorStateUpdate(
-        newActiveJwks: json
-            .asListOfMap("new_active_jwks")!
-            .map((e) => SuiApiActiveJWK.fromJson(e))
-            .toList(),
-        epoch: json.as("epoch"),
-        round: json.as("round"));
+      newActiveJwks:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("new_active_jwks")
+              .map((e) => SuiApiActiveJWK.fromJson(e))
+              .toList(),
+      epoch: json.valueAs("epoch"),
+      round: json.valueAs("round"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2742,7 +2988,7 @@ class SuiApiTransactionBlockKindAuthenticatorStateUpdate
       "kind": kind.name,
       "new_active_jwks": newActiveJwks.map((e) => e.toJson()).toList(),
       "round": round,
-      "epoch": epoch
+      "epoch": epoch,
     };
   }
 }
@@ -2752,17 +2998,19 @@ class SuiApiTransactionBlockKindRandomNessStateUpdate
   final List<int> randomBytes;
   final String epoch;
   final String randomNessRound;
-  const SuiApiTransactionBlockKindRandomNessStateUpdate(
-      {required this.randomBytes,
-      required this.epoch,
-      required this.randomNessRound})
-      : super(kind: SuiApiTransactionBlockKinds.randomNessStateUpdate);
+  const SuiApiTransactionBlockKindRandomNessStateUpdate({
+    required this.randomBytes,
+    required this.epoch,
+    required this.randomNessRound,
+  }) : super(kind: SuiApiTransactionBlockKinds.randomNessStateUpdate);
   factory SuiApiTransactionBlockKindRandomNessStateUpdate.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockKindRandomNessStateUpdate(
-        randomBytes: (json["random_bytes"] as List).cast(),
-        epoch: json.as("epoch"),
-        randomNessRound: json.as("randomness_round"));
+      randomBytes: (json["random_bytes"] as List).cast(),
+      epoch: json.valueAs("epoch"),
+      randomNessRound: json.valueAs("randomness_round"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2770,7 +3018,7 @@ class SuiApiTransactionBlockKindRandomNessStateUpdate
       "kind": kind.name,
       "random_bytes": randomBytes,
       "randomness_round": randomNessRound,
-      "epoch": epoch
+      "epoch": epoch,
     };
   }
 }
@@ -2780,19 +3028,22 @@ class SuiApiTransactionBlockKindEndOfEpochTransaction
   final List<SuiApiEndOfEpochTransactionKind> transactions;
 
   const SuiApiTransactionBlockKindEndOfEpochTransaction(this.transactions)
-      : super(kind: SuiApiTransactionBlockKinds.endOfEpochTransaction);
+    : super(kind: SuiApiTransactionBlockKinds.endOfEpochTransaction);
   factory SuiApiTransactionBlockKindEndOfEpochTransaction.fromJson(
-      Map<String, dynamic> json) {
-    return SuiApiTransactionBlockKindEndOfEpochTransaction(json
-        .asListOfMap("transactions")!
-        .map((e) => SuiApiEndOfEpochTransactionKind.fromJson(e))
-        .toList());
+    Map<String, dynamic> json,
+  ) {
+    return SuiApiTransactionBlockKindEndOfEpochTransaction(
+      json
+          .valueEnsureAsList<Map<String, dynamic>>("transactions")
+          .map((e) => SuiApiEndOfEpochTransactionKind.fromJson(e))
+          .toList(),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
     return {
       "kind": kind.name,
-      "transactions": transactions.map((e) => e.toJson()).toList()
+      "transactions": transactions.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -2804,19 +3055,21 @@ class SuiApiTransactionBlockKindConsensusCommitPrologueV2
   final String epoch;
   final String round;
 
-  const SuiApiTransactionBlockKindConsensusCommitPrologueV2(
-      {required this.commitTimestampMs,
-      required this.consensusCommitDigest,
-      required this.epoch,
-      required this.round})
-      : super(kind: SuiApiTransactionBlockKinds.consensusCommitPrologueV2);
+  const SuiApiTransactionBlockKindConsensusCommitPrologueV2({
+    required this.commitTimestampMs,
+    required this.consensusCommitDigest,
+    required this.epoch,
+    required this.round,
+  }) : super(kind: SuiApiTransactionBlockKinds.consensusCommitPrologueV2);
   factory SuiApiTransactionBlockKindConsensusCommitPrologueV2.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockKindConsensusCommitPrologueV2(
-        commitTimestampMs: json.as("commit_timestamp_ms"),
-        consensusCommitDigest: json.as("consensus_commit_digest"),
-        epoch: json.as("epoch"),
-        round: json.as("round"));
+      commitTimestampMs: json.valueAs("commit_timestamp_ms"),
+      consensusCommitDigest: json.valueAs("consensus_commit_digest"),
+      epoch: json.valueAs("epoch"),
+      round: json.valueAs("round"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2825,7 +3078,7 @@ class SuiApiTransactionBlockKindConsensusCommitPrologueV2
       "epoch": epoch,
       "round": round,
       "consensus_commit_digest": consensusCommitDigest,
-      "commit_timestamp_ms": commitTimestampMs
+      "commit_timestamp_ms": commitTimestampMs,
     };
   }
 }
@@ -2834,7 +3087,8 @@ class ConsensusDeterminedVersionAssignments {
   final List<dynamic> canceledTransactions;
   const ConsensusDeterminedVersionAssignments(this.canceledTransactions);
   factory ConsensusDeterminedVersionAssignments.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ConsensusDeterminedVersionAssignments(json["CancelledTransactions"]);
   }
   Map<String, dynamic> toJson() {
@@ -2847,30 +3101,33 @@ class SuiApiTransactionBlockKindConsensusCommitPrologueV3
   final String commitTimestampMs;
   final String consensusCommitDigest;
   final ConsensusDeterminedVersionAssignments
-      consensusDeterminedVersionAssignments;
+  consensusDeterminedVersionAssignments;
   final String epoch;
   final String round;
   final String? subDgIndex;
 
-  const SuiApiTransactionBlockKindConsensusCommitPrologueV3(
-      {required this.commitTimestampMs,
-      required this.consensusCommitDigest,
-      required this.consensusDeterminedVersionAssignments,
-      required this.subDgIndex,
-      required this.epoch,
-      required this.round})
-      : super(kind: SuiApiTransactionBlockKinds.consensusCommitPrologueV3);
+  const SuiApiTransactionBlockKindConsensusCommitPrologueV3({
+    required this.commitTimestampMs,
+    required this.consensusCommitDigest,
+    required this.consensusDeterminedVersionAssignments,
+    required this.subDgIndex,
+    required this.epoch,
+    required this.round,
+  }) : super(kind: SuiApiTransactionBlockKinds.consensusCommitPrologueV3);
   factory SuiApiTransactionBlockKindConsensusCommitPrologueV3.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiTransactionBlockKindConsensusCommitPrologueV3(
-        commitTimestampMs: json.as("commit_timestamp_ms"),
-        consensusCommitDigest: json.as("consensus_commit_digest"),
-        epoch: json.as("epoch"),
-        round: json.as("round"),
-        consensusDeterminedVersionAssignments:
-            ConsensusDeterminedVersionAssignments.fromJson(
-                json.as("consensus_determined_version_assignments")),
-        subDgIndex: json.as("sub_dg_index"));
+      commitTimestampMs: json.valueAs("commit_timestamp_ms"),
+      consensusCommitDigest: json.valueAs("consensus_commit_digest"),
+      epoch: json.valueAs("epoch"),
+      round: json.valueAs("round"),
+      consensusDeterminedVersionAssignments:
+          ConsensusDeterminedVersionAssignments.fromJson(
+            json.valueAs("consensus_determined_version_assignments"),
+          ),
+      subDgIndex: json.valueAs("sub_dg_index"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -2882,7 +3139,7 @@ class SuiApiTransactionBlockKindConsensusCommitPrologueV3
       "commit_timestamp_ms": commitTimestampMs,
       "consensus_determined_version_assignments":
           consensusDeterminedVersionAssignments.toJson(),
-      "sub_dg_index": subDgIndex
+      "sub_dg_index": subDgIndex,
     };
   }
 }
@@ -2891,20 +3148,27 @@ class SuiApiTransactionBlockData {
   final SuiApiGasData gasData;
   final String sender;
   final SuiApiTransactionBlockKind transaction;
-  const SuiApiTransactionBlockData(
-      {required this.gasData, required this.sender, required this.transaction});
+  const SuiApiTransactionBlockData({
+    required this.gasData,
+    required this.sender,
+    required this.transaction,
+  });
   factory SuiApiTransactionBlockData.fromJson(Map<String, dynamic> json) {
     return SuiApiTransactionBlockData(
-        gasData: SuiApiGasData.fromJson(json.asMap("gasData")),
-        sender: json.as("sender"),
-        transaction:
-            SuiApiTransactionBlockKind.fromJson(json.asMap("transaction")));
+      gasData: SuiApiGasData.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("gasData"),
+      ),
+      sender: json.valueAs("sender"),
+      transaction: SuiApiTransactionBlockKind.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("transaction"),
+      ),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "gasData": gasData.toJson(),
       "sender": sender,
-      "transaction": transaction.toJson()
+      "transaction": transaction.toJson(),
     };
   }
 }
@@ -2912,12 +3176,17 @@ class SuiApiTransactionBlockData {
 class SuiApiTransactionBlock {
   final SuiApiTransactionBlockData data;
   final List<String> txSignatures;
-  const SuiApiTransactionBlock(
-      {required this.data, required this.txSignatures});
+  const SuiApiTransactionBlock({
+    required this.data,
+    required this.txSignatures,
+  });
   factory SuiApiTransactionBlock.fromJson(Map<String, dynamic> json) {
     return SuiApiTransactionBlock(
-        data: SuiApiTransactionBlockData.fromJson(json.asMap("data")),
-        txSignatures: json.asListOfString("txSignatures")!);
+      data: SuiApiTransactionBlockData.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("data"),
+      ),
+      txSignatures: json.valueEnsureAsList<String>("txSignatures"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"data": data.toJson(), "txSignatures": txSignatures};
@@ -2937,46 +3206,57 @@ class SuiApiTransactionBlockResponse {
   final String? rawTransaction;
   final String? timestampMs;
   final SuiApiTransactionBlock? transaction;
-  const SuiApiTransactionBlockResponse(
-      {required this.balanceChanges,
-      required this.checkpoint,
-      required this.confirmedLocalExecution,
-      required this.digest,
-      required this.effects,
-      required this.errors,
-      required this.events,
-      required this.objectChanges,
-      required this.rawEffects,
-      required this.rawTransaction,
-      required this.timestampMs,
-      required this.transaction});
+  const SuiApiTransactionBlockResponse({
+    required this.balanceChanges,
+    required this.checkpoint,
+    required this.confirmedLocalExecution,
+    required this.digest,
+    required this.effects,
+    required this.errors,
+    required this.events,
+    required this.objectChanges,
+    required this.rawEffects,
+    required this.rawTransaction,
+    required this.timestampMs,
+    required this.transaction,
+  });
   factory SuiApiTransactionBlockResponse.fromJson(Map<String, dynamic> json) {
     return SuiApiTransactionBlockResponse(
-        balanceChanges: json
-            .asListOfMap("balanceChanges", throwOnNull: false)
-            ?.map((e) => SuiApiBalanceChange.fromJson(e))
-            .toList(),
-        checkpoint: json.as("checkpoint"),
-        confirmedLocalExecution: json.as("confirmedLocalExecution"),
-        digest: json.as("digest"),
-        effects: json["effects"] == null
-            ? null
-            : SuiApiTransactionEffects.fromJson(json.asMap("effects")),
-        errors: (json["errors"] as List?)?.cast(),
-        events: json
-            .asListOfMap("events", throwOnNull: false)
-            ?.map((e) => SuiApiEvent.fromJson(e))
-            .toList(),
-        objectChanges: json
-            .asListOfMap("objectChanges", throwOnNull: false)
-            ?.map((e) => SuiApiObjectChange.fromJson(e))
-            .toList(),
-        rawEffects: (json["rawEffects"] as List?)?.cast(),
-        rawTransaction: json.as("rawTransaction"),
-        timestampMs: json.as("timestampMs"),
-        transaction: json["transaction"] == null
-            ? null
-            : SuiApiTransactionBlock.fromJson(json.asMap("transaction")));
+      balanceChanges:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("balanceChanges")
+              ?.map((e) => SuiApiBalanceChange.fromJson(e))
+              .toList(),
+      checkpoint: json.valueAs("checkpoint"),
+      confirmedLocalExecution: json.valueAs("confirmedLocalExecution"),
+      digest: json.valueAs("digest"),
+      effects:
+          json["effects"] == null
+              ? null
+              : SuiApiTransactionEffects.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("effects"),
+              ),
+      errors: (json["errors"] as List?)?.cast(),
+      events:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("events")
+              ?.map((e) => SuiApiEvent.fromJson(e))
+              .toList(),
+      objectChanges:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("objectChanges")
+              ?.map((e) => SuiApiObjectChange.fromJson(e))
+              .toList(),
+      rawEffects: (json["rawEffects"] as List?)?.cast(),
+      rawTransaction: json.valueAs("rawTransaction"),
+      timestampMs: json.valueAs("timestampMs"),
+      transaction:
+          json["transaction"] == null
+              ? null
+              : SuiApiTransactionBlock.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("transaction"),
+              ),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -2991,7 +3271,7 @@ class SuiApiTransactionBlockResponse {
       "rawEffects": rawEffects,
       "rawTransaction": rawTransaction,
       "timestampMs": timestampMs,
-      "transaction": transaction?.toJson()
+      "transaction": transaction?.toJson(),
     };
   }
 }
@@ -3000,19 +3280,20 @@ class SuiApiPaginatedTransactionResponse extends SuiApiResponsePagination {
   final List<SuiApiTransactionBlockResponse> data;
   const SuiApiPaginatedTransactionResponse({required this.data});
   SuiApiPaginatedTransactionResponse.fromJson(super.json)
-      : data = json
-            .asListOfMap("data")!
-            .map((e) => SuiApiTransactionBlockResponse.fromJson(e))
-            .toImutableList,
-        super.fromJson();
+    : data =
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("data")
+              .map((e) => SuiApiTransactionBlockResponse.fromJson(e))
+              .toImutableList,
+      super.fromJson();
 }
 
 class SuiApiResolveNameServiceNamesResponse extends SuiApiResponsePagination {
   final List<String> data;
   const SuiApiResolveNameServiceNamesResponse({required this.data});
   SuiApiResolveNameServiceNamesResponse.fromJson(super.json)
-      : data = json.asListOfString("data")!,
-        super.fromJson();
+    : data = json.valueEnsureAsList<String>("data"),
+      super.fromJson();
 }
 
 class SuiApiCommitteeInfo {
@@ -3021,10 +3302,12 @@ class SuiApiCommitteeInfo {
   const SuiApiCommitteeInfo({required this.epoch, required this.validators});
   factory SuiApiCommitteeInfo.fromJson(Map<String, dynamic> json) {
     return SuiApiCommitteeInfo(
-        epoch: json.as("epoch"),
-        validators: (json["validators"] as List)
-            .map((e) => (e as List).cast<String>())
-            .toList());
+      epoch: json.valueAs("epoch"),
+      validators:
+          (json["validators"] as List)
+              .map((e) => (e as List).cast<String>())
+              .toList(),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"epoch": epoch, "validators": validators};
@@ -3038,21 +3321,23 @@ class SuiApiStakeObject {
   final String stakedSuiId;
   final String status;
   final String? estimatedReward;
-  const SuiApiStakeObject(
-      {required this.principal,
-      required this.stakeActiveEpoch,
-      required this.stakeRequestEpoch,
-      required this.stakedSuiId,
-      required this.status,
-      required this.estimatedReward});
+  const SuiApiStakeObject({
+    required this.principal,
+    required this.stakeActiveEpoch,
+    required this.stakeRequestEpoch,
+    required this.stakedSuiId,
+    required this.status,
+    required this.estimatedReward,
+  });
   factory SuiApiStakeObject.fromJson(Map<String, dynamic> json) {
     return SuiApiStakeObject(
-        principal: json.as("principal"),
-        stakeActiveEpoch: json.as("stakeActiveEpoch"),
-        stakeRequestEpoch: json.as("stakeRequestEpoch"),
-        stakedSuiId: json.as("stakedSuiId"),
-        status: json.as("status"),
-        estimatedReward: json.as("estimatedReward"));
+      principal: json.valueAs("principal"),
+      stakeActiveEpoch: json.valueAs("stakeActiveEpoch"),
+      stakeRequestEpoch: json.valueAs("stakeRequestEpoch"),
+      stakedSuiId: json.valueAs("stakedSuiId"),
+      status: json.valueAs("status"),
+      estimatedReward: json.valueAs("estimatedReward"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3062,7 +3347,7 @@ class SuiApiStakeObject {
       "stakeRequestEpoch": stakeRequestEpoch,
       "stakedSuiId": stakedSuiId,
       "status": status,
-      "estimatedReward": estimatedReward
+      "estimatedReward": estimatedReward,
     };
   }
 }
@@ -3071,25 +3356,28 @@ class SuiApiDelegatedStake {
   final List<SuiApiStakeObject> stakes;
   final String stakingPool;
   final String validatorAddress;
-  const SuiApiDelegatedStake(
-      {required this.stakes,
-      required this.stakingPool,
-      required this.validatorAddress});
+  const SuiApiDelegatedStake({
+    required this.stakes,
+    required this.stakingPool,
+    required this.validatorAddress,
+  });
   factory SuiApiDelegatedStake.fromJson(Map<String, dynamic> json) {
     return SuiApiDelegatedStake(
-        stakes: json
-            .asListOfMap("stakes")!
-            .map((e) => SuiApiStakeObject.fromJson(e))
-            .toList(),
-        stakingPool: json.as("stakingPool"),
-        validatorAddress: json.as("validatorAddress"));
+      stakes:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("stakes")
+              .map((e) => SuiApiStakeObject.fromJson(e))
+              .toList(),
+      stakingPool: json.valueAs("stakingPool"),
+      validatorAddress: json.valueAs("validatorAddress"),
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "stakes": stakes.map((e) => e.toJson()).toList(),
       "stakingPool": stakingPool,
-      "validatorAddress": validatorAddress
+      "validatorAddress": validatorAddress,
     };
   }
 }
@@ -3099,7 +3387,10 @@ class SuiApiValidatorApy {
   final String address;
   const SuiApiValidatorApy({required this.apy, required this.address});
   factory SuiApiValidatorApy.fromJson(Map<String, dynamic> json) {
-    return SuiApiValidatorApy(apy: json.as("apy"), address: json.as("address"));
+    return SuiApiValidatorApy(
+      apy: json.valueAs("apy"),
+      address: json.valueAs("address"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3113,11 +3404,13 @@ class SuiApiValidatorsApy {
   const SuiApiValidatorsApy({required this.apys, required this.epoch});
   factory SuiApiValidatorsApy.fromJson(Map<String, dynamic> json) {
     return SuiApiValidatorsApy(
-        apys: json
-            .asListOfMap("apys")!
-            .map((e) => SuiApiValidatorApy.fromJson(e))
-            .toList(),
-        epoch: json.as("epoch"));
+      apys:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("apys")
+              .map((e) => SuiApiValidatorApy.fromJson(e))
+              .toList(),
+      epoch: json.valueAs("epoch"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3140,8 +3433,11 @@ class SuiApiCheckpointCommitment {
   final SuiApiECMHLiveObjectSetDigest ecmhLiveObjectSetDigest;
   const SuiApiCheckpointCommitment(this.ecmhLiveObjectSetDigest);
   factory SuiApiCheckpointCommitment.fromJson(Map<String, dynamic> json) {
-    return SuiApiCheckpointCommitment(SuiApiECMHLiveObjectSetDigest.fromJson(
-        json.asMap("SuiApiECMHLiveObjectSetDigest")));
+    return SuiApiCheckpointCommitment(
+      SuiApiECMHLiveObjectSetDigest.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("SuiApiECMHLiveObjectSetDigest"),
+      ),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"SuiApiECMHLiveObjectSetDigest": ecmhLiveObjectSetDigest.toJson()};
@@ -3152,26 +3448,30 @@ class SuiApiEndOfEpochData {
   final List<SuiApiCheckpointCommitment> epochCommitments;
   final List<List<String>> nextEpochCommittee;
   final String nextEpochProtocolVersion;
-  const SuiApiEndOfEpochData(
-      {required this.epochCommitments,
-      required this.nextEpochCommittee,
-      required this.nextEpochProtocolVersion});
+  const SuiApiEndOfEpochData({
+    required this.epochCommitments,
+    required this.nextEpochCommittee,
+    required this.nextEpochProtocolVersion,
+  });
   factory SuiApiEndOfEpochData.fromJson(Map<String, dynamic> json) {
     return SuiApiEndOfEpochData(
-        epochCommitments: json
-            .asListOfMap("epochCommitments")!
-            .map((e) => SuiApiCheckpointCommitment.fromJson(e))
-            .toList(),
-        nextEpochCommittee: (json["nextEpochCommittee"] as List)
-            .map((e) => (e as List).cast<String>())
-            .toList(),
-        nextEpochProtocolVersion: json.as("nextEpochProtocolVersion"));
+      epochCommitments:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("epochCommitments")
+              .map((e) => SuiApiCheckpointCommitment.fromJson(e))
+              .toList(),
+      nextEpochCommittee:
+          (json["nextEpochCommittee"] as List)
+              .map((e) => (e as List).cast<String>())
+              .toList(),
+      nextEpochProtocolVersion: json.valueAs("nextEpochProtocolVersion"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "epochCommitments": epochCommitments.map((e) => e.toJson()).toList(),
       "nextEpochCommittee": nextEpochCommittee,
-      "nextEpochProtocolVersion": nextEpochProtocolVersion
+      "nextEpochProtocolVersion": nextEpochProtocolVersion,
     };
   }
 }
@@ -3188,37 +3488,44 @@ class SuiApiCheckPoint {
   final String timestampMs;
   final List<String> transactions;
   final String validatorSignature;
-  const SuiApiCheckPoint(
-      {required this.checkpointCommitments,
-      required this.digest,
-      required this.endOfEpochData,
-      required this.epoch,
-      required this.epochRollingGasCostSummary,
-      required this.networkTotalTransactions,
-      required this.previousDigest,
-      required this.sequenceNumber,
-      required this.timestampMs,
-      required this.transactions,
-      required this.validatorSignature});
+  const SuiApiCheckPoint({
+    required this.checkpointCommitments,
+    required this.digest,
+    required this.endOfEpochData,
+    required this.epoch,
+    required this.epochRollingGasCostSummary,
+    required this.networkTotalTransactions,
+    required this.previousDigest,
+    required this.sequenceNumber,
+    required this.timestampMs,
+    required this.transactions,
+    required this.validatorSignature,
+  });
   factory SuiApiCheckPoint.fromJson(Map<String, dynamic> json) {
     return SuiApiCheckPoint(
-        checkpointCommitments: json
-            .asListOfMap("checkpointCommitments")!
-            .map((e) => SuiApiCheckpointCommitment.fromJson(e))
-            .toList(),
-        digest: json.as("digest"),
-        endOfEpochData: json["endOfEpochData"] == null
-            ? null
-            : SuiApiEndOfEpochData.fromJson(json.asMap("endOfEpochData")),
-        epoch: json.as("epoch"),
-        epochRollingGasCostSummary: SuiApiGasCostSummary.fromJson(
-            json.asMap("epochRollingGasCostSummary")),
-        networkTotalTransactions: json.as("networkTotalTransactions"),
-        previousDigest: json.as("previousDigest"),
-        sequenceNumber: json.as("sequenceNumber"),
-        timestampMs: json.as("timestampMs"),
-        transactions: json.asListOfString("transactions")!,
-        validatorSignature: json.as("validatorSignature"));
+      checkpointCommitments:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("checkpointCommitments")
+              .map((e) => SuiApiCheckpointCommitment.fromJson(e))
+              .toList(),
+      digest: json.valueAs("digest"),
+      endOfEpochData:
+          json["endOfEpochData"] == null
+              ? null
+              : SuiApiEndOfEpochData.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("endOfEpochData"),
+              ),
+      epoch: json.valueAs("epoch"),
+      epochRollingGasCostSummary: SuiApiGasCostSummary.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("epochRollingGasCostSummary"),
+      ),
+      networkTotalTransactions: json.valueAs("networkTotalTransactions"),
+      previousDigest: json.valueAs("previousDigest"),
+      sequenceNumber: json.valueAs("sequenceNumber"),
+      timestampMs: json.valueAs("timestampMs"),
+      transactions: json.valueEnsureAsList<String>("transactions"),
+      validatorSignature: json.valueAs("validatorSignature"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3234,7 +3541,7 @@ class SuiApiCheckPoint {
       "sequenceNumber": sequenceNumber,
       "timestampMs": timestampMs,
       "transactions": transactions,
-      "validatorSignature": validatorSignature
+      "validatorSignature": validatorSignature,
     };
   }
 }
@@ -3243,11 +3550,12 @@ class SuiApiPaginatedCheckPointResponse extends SuiApiResponsePagination {
   final List<SuiApiCheckPoint> data;
   const SuiApiPaginatedCheckPointResponse({required this.data});
   SuiApiPaginatedCheckPointResponse.fromJson(super.json)
-      : data = json
-            .asListOfMap("data")!
-            .map((e) => SuiApiCheckPoint.fromJson(e))
-            .toImutableList,
-        super.fromJson();
+    : data =
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("data")
+              .map((e) => SuiApiCheckPoint.fromJson(e))
+              .toImutableList,
+      super.fromJson();
   @override
   Map<String, dynamic> toJson() {
     return {"data": data.map((e) => e.toJson()).toList(), ...super.toJson()};
@@ -3260,12 +3568,13 @@ class SuiApiProtocolConfig {
   final String maxSupportedProtocolVersion;
   final String minSupportedProtocolVersion;
   final String protocolVersion;
-  const SuiApiProtocolConfig(
-      {required this.attributes,
-      required this.featureFlags,
-      required this.maxSupportedProtocolVersion,
-      required this.minSupportedProtocolVersion,
-      required this.protocolVersion});
+  const SuiApiProtocolConfig({
+    required this.attributes,
+    required this.featureFlags,
+    required this.maxSupportedProtocolVersion,
+    required this.minSupportedProtocolVersion,
+    required this.protocolVersion,
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -3273,17 +3582,18 @@ class SuiApiProtocolConfig {
       "featureFlags": featureFlags,
       "maxSupportedProtocolVersion": maxSupportedProtocolVersion,
       "minSupportedProtocolVersion": minSupportedProtocolVersion,
-      "protocolVersion": protocolVersion
+      "protocolVersion": protocolVersion,
     };
   }
 
   factory SuiApiProtocolConfig.fromJson(Map<String, dynamic> json) {
     return SuiApiProtocolConfig(
-        attributes: json.asMap("attributes"),
-        featureFlags: json.asMap<Map<String, dynamic>>("featureFlags").cast(),
-        maxSupportedProtocolVersion: json.as("maxSupportedProtocolVersion"),
-        minSupportedProtocolVersion: json.as("minSupportedProtocolVersion"),
-        protocolVersion: json.as("protocolVersion"));
+      attributes: json.valueEnsureAsMap<String, dynamic>("attributes"),
+      featureFlags: json.valueEnsureAsMap<String, bool>("featureFlags").cast(),
+      maxSupportedProtocolVersion: json.valueAs("maxSupportedProtocolVersion"),
+      minSupportedProtocolVersion: json.valueAs("minSupportedProtocolVersion"),
+      protocolVersion: json.valueAs("protocolVersion"),
+    );
   }
 }
 
@@ -3297,9 +3607,12 @@ enum SuiApiObjectReadStatus {
   static SuiApiObjectReadStatus fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct ObjectReadStatus from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct ObjectReadStatus from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -3309,7 +3622,7 @@ abstract class SuiApiObjectRead {
   const SuiApiObjectRead({required this.status});
   Map<String, dynamic> toJson();
   factory SuiApiObjectRead.fromJson(Map<String, dynamic> json) {
-    final status = SuiApiObjectReadStatus.fromName(json.as("status"));
+    final status = SuiApiObjectReadStatus.fromName(json.valueAs("status"));
     return switch (status) {
       SuiApiObjectReadStatus.versionFound =>
         SuiApiObjectReadVersionFound.fromJson(json),
@@ -3320,13 +3633,15 @@ abstract class SuiApiObjectRead {
       SuiApiObjectReadStatus.versionNotFound =>
         SuiApiObjectReadObjectVersionNoFound.fromJson(json),
       SuiApiObjectReadStatus.versionToHigh =>
-        SuiApiObjectReadObjectVersionToHigh.fromJson(json)
+        SuiApiObjectReadObjectVersionToHigh.fromJson(json),
     };
   }
   T cast<T extends SuiApiObjectRead>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiObjectRead casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiObjectRead casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -3335,10 +3650,13 @@ abstract class SuiApiObjectRead {
 class SuiApiObjectReadVersionFound extends SuiApiObjectRead {
   final SuiApiObjectData details;
   const SuiApiObjectReadVersionFound({required this.details})
-      : super(status: SuiApiObjectReadStatus.versionFound);
+    : super(status: SuiApiObjectReadStatus.versionFound);
   factory SuiApiObjectReadVersionFound.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectReadVersionFound(
-        details: SuiApiObjectData.fromJson(json.asMap("details")));
+      details: SuiApiObjectData.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("details"),
+      ),
+    );
   }
 
   @override
@@ -3350,9 +3668,9 @@ class SuiApiObjectReadVersionFound extends SuiApiObjectRead {
 class SuiApiObjectReadObjectNotExists extends SuiApiObjectRead {
   final String details;
   const SuiApiObjectReadObjectNotExists({required this.details})
-      : super(status: SuiApiObjectReadStatus.objectNotExists);
+    : super(status: SuiApiObjectReadStatus.objectNotExists);
   factory SuiApiObjectReadObjectNotExists.fromJson(Map<String, dynamic> json) {
-    return SuiApiObjectReadObjectNotExists(details: json.as("details"));
+    return SuiApiObjectReadObjectNotExists(details: json.valueAs("details"));
   }
 
   @override
@@ -3364,10 +3682,13 @@ class SuiApiObjectReadObjectNotExists extends SuiApiObjectRead {
 class SuiApiObjectReadObjectDeleted extends SuiApiObjectRead {
   final SuiApiObjectRef details;
   const SuiApiObjectReadObjectDeleted({required this.details})
-      : super(status: SuiApiObjectReadStatus.objectDeleted);
+    : super(status: SuiApiObjectReadStatus.objectDeleted);
   factory SuiApiObjectReadObjectDeleted.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectReadObjectDeleted(
-        details: SuiApiObjectRef.fromJson(json.asMap("details")));
+      details: SuiApiObjectRef.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("details"),
+      ),
+    );
   }
 
   @override
@@ -3380,21 +3701,23 @@ class SuiApiObjectVersionHighResponse {
   final String askedVersion;
   final String latestVersion;
   final String objectId;
-  const SuiApiObjectVersionHighResponse(
-      {required this.askedVersion,
-      required this.latestVersion,
-      required this.objectId});
+  const SuiApiObjectVersionHighResponse({
+    required this.askedVersion,
+    required this.latestVersion,
+    required this.objectId,
+  });
   factory SuiApiObjectVersionHighResponse.fromJson(Map<String, dynamic> json) {
     return SuiApiObjectVersionHighResponse(
-        askedVersion: json.as("asked_version"),
-        latestVersion: json.as("latest_version"),
-        objectId: json.as("object_id"));
+      askedVersion: json.valueAs("asked_version"),
+      latestVersion: json.valueAs("latest_version"),
+      objectId: json.valueAs("object_id"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "asked_version": askedVersion,
       "latest_version": latestVersion,
-      "object_id": objectId
+      "object_id": objectId,
     };
   }
 }
@@ -3402,11 +3725,13 @@ class SuiApiObjectVersionHighResponse {
 class SuiApiObjectReadObjectVersionNoFound extends SuiApiObjectRead {
   final List<String> details;
   const SuiApiObjectReadObjectVersionNoFound({required this.details})
-      : super(status: SuiApiObjectReadStatus.versionNotFound);
+    : super(status: SuiApiObjectReadStatus.versionNotFound);
   factory SuiApiObjectReadObjectVersionNoFound.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiObjectReadObjectVersionNoFound(
-        details: json.asListOfString("details")!);
+      details: json.valueEnsureAsList<String>("details"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -3417,12 +3742,15 @@ class SuiApiObjectReadObjectVersionNoFound extends SuiApiObjectRead {
 class SuiApiObjectReadObjectVersionToHigh extends SuiApiObjectRead {
   final SuiApiObjectVersionHighResponse details;
   const SuiApiObjectReadObjectVersionToHigh({required this.details})
-      : super(status: SuiApiObjectReadStatus.versionToHigh);
+    : super(status: SuiApiObjectReadStatus.versionToHigh);
   factory SuiApiObjectReadObjectVersionToHigh.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiObjectReadObjectVersionToHigh(
-        details:
-            SuiApiObjectVersionHighResponse.fromJson(json.asMap("details")!));
+      details: SuiApiObjectVersionHighResponse.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("details"),
+      ),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -3433,8 +3761,10 @@ class SuiApiObjectReadObjectVersionToHigh extends SuiApiObjectRead {
 class SuiApiGetPastObjectRequest {
   final String objectId;
   final String version;
-  const SuiApiGetPastObjectRequest(
-      {required this.objectId, required this.version});
+  const SuiApiGetPastObjectRequest({
+    required this.objectId,
+    required this.version,
+  });
   Map<String, dynamic> toJson() {
     return {"objectId": objectId, "version": version};
   }
@@ -3449,8 +3779,10 @@ abstract class SuiApiMoveFunctionArgType {
   Map<String, dynamic> toJson();
   T cast<T extends SuiApiMoveFunctionArgType>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiMoveFunctionArgType casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiMoveFunctionArgType casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -3467,7 +3799,7 @@ class SuiApiMoveFunctionArgTypeObject extends SuiApiMoveFunctionArgType {
   final String object;
   const SuiApiMoveFunctionArgTypeObject({required this.object});
   factory SuiApiMoveFunctionArgTypeObject.fromJson(Map<String, dynamic> json) {
-    return SuiApiMoveFunctionArgTypeObject(object: json.as("Object"));
+    return SuiApiMoveFunctionArgTypeObject(object: json.valueAs("Object"));
   }
 
   @override
@@ -3495,9 +3827,12 @@ enum SuiApiMoveNormalizedTypes {
   static SuiApiMoveNormalizedTypes fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
-      orElse: () => throw DartSuiPluginException(
-          "cannot find correct SuiApiMoveNormalizedType from the given name.",
-          details: {"name": name}),
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct SuiApiMoveNormalizedType from the given name.",
+                details: {"name": name},
+              ),
     );
   }
 }
@@ -3523,15 +3858,20 @@ abstract class SuiApiMoveNormalizedType {
         SuiApiMoveNormalizedTypeReference.fromJson(json),
       SuiApiMoveNormalizedTypes.mutableReference =>
         SuiApiMoveNormalizedTypeMutableReference.fromJson(json),
-      _ => throw DartSuiPluginException("Invalid SuiApiMoveNormalizedTypes.",
-          details: {"type": type.name})
+      _ =>
+        throw DartSuiPluginException(
+          "Invalid SuiApiMoveNormalizedTypes.",
+          details: {"type": type.name},
+        ),
     };
   }
   Map<String, dynamic> toJson();
   T cast<T extends SuiApiMoveNormalizedType>() {
     if (this is! T) {
-      throw DartSuiPluginException("SuiApiMoveNormalizedType casting failed.",
-          details: {"expected": "$T", "type": "$runtimeType"});
+      throw DartSuiPluginException(
+        "SuiApiMoveNormalizedType casting failed.",
+        details: {"expected": "$T", "type": "$runtimeType"},
+      );
     }
     return this as T;
   }
@@ -3543,7 +3883,8 @@ class SuiApiMoveNormalizedTypePrimitive extends SuiApiMoveNormalizedType {
   SuiApiMoveNormalizedTypePrimitive({required super.type});
   factory SuiApiMoveNormalizedTypePrimitive.fromJson(String json) {
     return SuiApiMoveNormalizedTypePrimitive(
-        type: SuiApiMoveNormalizedTypes.fromName(json));
+      type: SuiApiMoveNormalizedTypes.fromName(json),
+    );
   }
 
   @override
@@ -3554,15 +3895,16 @@ class SuiApiMoveNormalizedTypePrimitive extends SuiApiMoveNormalizedType {
   @override
   MoveType? toSuiCallArgPrue({Object? value}) {
     return switch (type) {
-      SuiApiMoveNormalizedTypes.u8 => MoveU8.parse(value),
-      SuiApiMoveNormalizedTypes.u16 => MoveU16.parse(value),
-      SuiApiMoveNormalizedTypes.u32 => MoveU32.parse(value),
-      SuiApiMoveNormalizedTypes.u64 => MoveU64.parse(value),
-      SuiApiMoveNormalizedTypes.u128 => MoveU128.parse(value),
-      SuiApiMoveNormalizedTypes.u256 => MoveU256.parse(value),
-      SuiApiMoveNormalizedTypes.address => MoveAddress.parse(value),
-      _ => null
-    } as MoveType?;
+          SuiApiMoveNormalizedTypes.u8 => MoveU8.parse(value),
+          SuiApiMoveNormalizedTypes.u16 => MoveU16.parse(value),
+          SuiApiMoveNormalizedTypes.u32 => MoveU32.parse(value),
+          SuiApiMoveNormalizedTypes.u64 => MoveU64.parse(value),
+          SuiApiMoveNormalizedTypes.u128 => MoveU128.parse(value),
+          SuiApiMoveNormalizedTypes.u256 => MoveU256.parse(value),
+          SuiApiMoveNormalizedTypes.address => MoveAddress.parse(value),
+          _ => null,
+        }
+        as MoveType?;
   }
 }
 
@@ -3589,20 +3931,24 @@ class SuiApiMoveNormalizedTypeStructObject {
   bool get isReceiving =>
       address == SuiAddress.two && name == 'Receiving' && module == 'transfer';
 
-  const SuiApiMoveNormalizedTypeStructObject(
-      {required this.address,
-      required this.module,
-      required this.name,
-      required this.typeArguments});
+  const SuiApiMoveNormalizedTypeStructObject({
+    required this.address,
+    required this.module,
+    required this.name,
+    required this.typeArguments,
+  });
   factory SuiApiMoveNormalizedTypeStructObject.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiMoveNormalizedTypeStructObject(
-        address: SuiAddress(json.as("address")),
-        module: json.as("module"),
-        name: json.as("name"),
-        typeArguments: (json["typeArguments"] as List)
-            .map((e) => SuiApiMoveNormalizedType.fromJson(e))
-            .toList());
+      address: SuiAddress(json.valueAs("address")),
+      module: json.valueAs("module"),
+      name: json.valueAs("name"),
+      typeArguments:
+          (json["typeArguments"] as List)
+              .map((e) => SuiApiMoveNormalizedType.fromJson(e))
+              .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3610,7 +3956,7 @@ class SuiApiMoveNormalizedTypeStructObject {
       "address": address,
       "module": module,
       "name": name,
-      "typeArguments": typeArguments.map((e) => e.toJson()).toList()
+      "typeArguments": typeArguments.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -3628,7 +3974,8 @@ class SuiApiMoveNormalizedTypeStructObject {
           return MoveOption<MoveBool>(null);
         }
         return MoveOption<MoveType>(
-            typeArguments[0].toSuiCallArgPrue(value: value.value)!);
+          typeArguments[0].toSuiCallArgPrue(value: value.value)!,
+        );
       }
       final type = typeArguments[0].toSuiCallArgPrue(value: value);
       if (type == null) {
@@ -3643,18 +3990,18 @@ class SuiApiMoveNormalizedTypeStructObject {
 class SuiApiMoveNormalizedTypeStruct extends SuiApiMoveNormalizedType {
   final SuiApiMoveNormalizedTypeStructObject struct;
   SuiApiMoveNormalizedTypeStruct(this.struct)
-      : super(type: SuiApiMoveNormalizedTypes.struct);
+    : super(type: SuiApiMoveNormalizedTypes.struct);
   factory SuiApiMoveNormalizedTypeStruct.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveNormalizedTypeStruct(
-        SuiApiMoveNormalizedTypeStructObject.fromJson(json.asMap("Struct")));
+      SuiApiMoveNormalizedTypeStructObject.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("Struct"),
+      ),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "type": type.name,
-      "struct": struct.toJson(),
-    };
+    return {"type": type.name, "struct": struct.toJson()};
   }
 
   @override
@@ -3666,46 +4013,44 @@ class SuiApiMoveNormalizedTypeStruct extends SuiApiMoveNormalizedType {
 class SuiApiMoveNormalizedTypeVector extends SuiApiMoveNormalizedType {
   final SuiApiMoveNormalizedType vector;
   SuiApiMoveNormalizedTypeVector(this.vector)
-      : super(type: SuiApiMoveNormalizedTypes.vector);
+    : super(type: SuiApiMoveNormalizedTypes.vector);
   factory SuiApiMoveNormalizedTypeVector.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveNormalizedTypeVector(
-        SuiApiMoveNormalizedType.fromJson(json.as("Vector")));
+      SuiApiMoveNormalizedType.fromJson(json.valueAs("Vector")),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "type": type.name,
-      "Vector": vector.toJson(),
-    };
+    return {"type": type.name, "Vector": vector.toJson()};
   }
 
   @override
   MoveType? toSuiCallArgPrue({Object? value}) {
     if (value is MoveVector) {
-      return MoveVector((value.value as List).map((e) {
-        return vector.toSuiCallArgPrue(value: e)!;
-      }).toList());
+      return MoveVector(
+        (value.value as List).map((e) {
+          return vector.toSuiCallArgPrue(value: e)!;
+        }).toList(),
+      );
     }
-    return MoveVector((value as List)
-        .map((e) => vector.toSuiCallArgPrue(value: e)!)
-        .toList());
+    return MoveVector(
+      (value as List).map((e) => vector.toSuiCallArgPrue(value: e)!).toList(),
+    );
   }
 }
 
 class SuiApiMoveNormalizedTypeTypeParameter extends SuiApiMoveNormalizedType {
   final int typeParameter;
   SuiApiMoveNormalizedTypeTypeParameter(this.typeParameter)
-      : super(type: SuiApiMoveNormalizedTypes.typeParameter);
+    : super(type: SuiApiMoveNormalizedTypes.typeParameter);
   factory SuiApiMoveNormalizedTypeTypeParameter.fromJson(
-      Map<String, dynamic> json) {
-    return SuiApiMoveNormalizedTypeTypeParameter(json.as("TypeParameter"));
+    Map<String, dynamic> json,
+  ) {
+    return SuiApiMoveNormalizedTypeTypeParameter(json.valueAs("TypeParameter"));
   }
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "type": type.name,
-      "TypeParameter": typeParameter,
-    };
+    return {"type": type.name, "TypeParameter": typeParameter};
   }
 
   @override
@@ -3717,18 +4062,17 @@ class SuiApiMoveNormalizedTypeTypeParameter extends SuiApiMoveNormalizedType {
 class SuiApiMoveNormalizedTypeReference extends SuiApiMoveNormalizedType {
   final SuiApiMoveNormalizedType reference;
   SuiApiMoveNormalizedTypeReference(this.reference)
-      : super(type: SuiApiMoveNormalizedTypes.reference);
+    : super(type: SuiApiMoveNormalizedTypes.reference);
   factory SuiApiMoveNormalizedTypeReference.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiMoveNormalizedTypeReference(
-        SuiApiMoveNormalizedType.fromJson(json.as("Reference")));
+      SuiApiMoveNormalizedType.fromJson(json.valueAs("Reference")),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "type": type.name,
-      "Reference": reference.toJson(),
-    };
+    return {"type": type.name, "Reference": reference.toJson()};
   }
 
   @override
@@ -3741,18 +4085,17 @@ class SuiApiMoveNormalizedTypeMutableReference
     extends SuiApiMoveNormalizedType {
   final SuiApiMoveNormalizedType mutableReference;
   SuiApiMoveNormalizedTypeMutableReference(this.mutableReference)
-      : super(type: SuiApiMoveNormalizedTypes.mutableReference);
+    : super(type: SuiApiMoveNormalizedTypes.mutableReference);
   factory SuiApiMoveNormalizedTypeMutableReference.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiMoveNormalizedTypeMutableReference(
-        SuiApiMoveNormalizedType.fromJson(json.as("MutableReference")));
+      SuiApiMoveNormalizedType.fromJson(json.valueAs("MutableReference")),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "type": type.name,
-      "MutableReference": mutableReference.toJson(),
-    };
+    return {"type": type.name, "MutableReference": mutableReference.toJson()};
   }
 
   @override
@@ -3765,13 +4108,11 @@ class SuiApiMoveAbilitySet {
   final List<String> abilities;
   const SuiApiMoveAbilitySet(this.abilities);
   factory SuiApiMoveAbilitySet.fromJson(Map<String, dynamic> json) {
-    return SuiApiMoveAbilitySet(json.asListOfString("abilities")!);
+    return SuiApiMoveAbilitySet(json.valueEnsureAsList<String>("abilities"));
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      "abilities": abilities,
-    };
+    return {"abilities": abilities};
   }
 }
 
@@ -3784,31 +4125,36 @@ class SuiApiMoveNormalizedFunction {
 
   factory SuiApiMoveNormalizedFunction.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveNormalizedFunction(
-        isEntry: json.as("isEntry"),
-        parameters: (json["parameters"] as List)
-            .map((e) => SuiApiMoveNormalizedType.fromJson(e))
-            .toList(),
-        returnParameters: (json["return"] as List)
-            .map((e) => SuiApiMoveNormalizedType.fromJson(e))
-            .toList(),
-        typeParameters: (json["typeParameters"] as List)
-            .map((e) => SuiApiMoveAbilitySet.fromJson(e))
-            .toList(),
-        visibility: json.as("visibility"));
+      isEntry: json.valueAs("isEntry"),
+      parameters:
+          (json["parameters"] as List)
+              .map((e) => SuiApiMoveNormalizedType.fromJson(e))
+              .toList(),
+      returnParameters:
+          (json["return"] as List)
+              .map((e) => SuiApiMoveNormalizedType.fromJson(e))
+              .toList(),
+      typeParameters:
+          (json["typeParameters"] as List)
+              .map((e) => SuiApiMoveAbilitySet.fromJson(e))
+              .toList(),
+      visibility: json.valueAs("visibility"),
+    );
   }
-  const SuiApiMoveNormalizedFunction(
-      {required this.isEntry,
-      required this.parameters,
-      required this.returnParameters,
-      required this.typeParameters,
-      required this.visibility});
+  const SuiApiMoveNormalizedFunction({
+    required this.isEntry,
+    required this.parameters,
+    required this.returnParameters,
+    required this.typeParameters,
+    required this.visibility,
+  });
   Map<String, dynamic> toJson() {
     return {
       "isEntry": isEntry,
       "parameters": parameters.map((e) => e.toJson()).toList(),
       "return": returnParameters.map((e) => e.toJson()).toList(),
       "typeParameters": typeParameters.map((e) => e.toJson()).toList(),
-      "visibility": visibility
+      "visibility": visibility,
     };
   }
 }
@@ -3816,12 +4162,17 @@ class SuiApiMoveNormalizedFunction {
 class SuiApiMoveStructTypeParameter {
   final SuiApiMoveAbilitySet constraints;
   final bool isPhantom;
-  const SuiApiMoveStructTypeParameter(
-      {required this.constraints, required this.isPhantom});
+  const SuiApiMoveStructTypeParameter({
+    required this.constraints,
+    required this.isPhantom,
+  });
   factory SuiApiMoveStructTypeParameter.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveStructTypeParameter(
-        constraints: SuiApiMoveAbilitySet.fromJson(json.asMap("constraints")),
-        isPhantom: json.as("isPhantom"));
+      constraints: SuiApiMoveAbilitySet.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("constraints"),
+      ),
+      isPhantom: json.valueAs("isPhantom"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3835,8 +4186,9 @@ class SuiApiMoveNormalizedField {
   const SuiApiMoveNormalizedField({required this.name, required this.type});
   factory SuiApiMoveNormalizedField.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveNormalizedField(
-        type: SuiApiMoveNormalizedType.fromJson(json.as("type")),
-        name: json.as("name"));
+      type: SuiApiMoveNormalizedType.fromJson(json.valueAs("type")),
+      name: json.valueAs("name"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3850,7 +4202,9 @@ class SuiApiMoveModuleId {
   const SuiApiMoveModuleId({required this.name, required this.address});
   factory SuiApiMoveModuleId.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveModuleId(
-        address: json.as("address"), name: json.as("name"));
+      address: json.valueAs("address"),
+      name: json.valueAs("name"),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3862,28 +4216,34 @@ class SuiApiMoveNormalizedEnum {
   final SuiApiMoveAbilitySet abilities;
   final List<SuiApiMoveStructTypeParameter> typeParameters;
   final Map<String, SuiApiMoveNormalizedField> variants;
-  const SuiApiMoveNormalizedEnum(
-      {required this.abilities,
-      required this.typeParameters,
-      required this.variants});
+  const SuiApiMoveNormalizedEnum({
+    required this.abilities,
+    required this.typeParameters,
+    required this.variants,
+  });
   factory SuiApiMoveNormalizedEnum.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveNormalizedEnum(
-        abilities: SuiApiMoveAbilitySet.fromJson(json.asMap("abilities")),
-        typeParameters: json
-            .asListOfMap("typeParameters")!
-            .map((e) => SuiApiMoveStructTypeParameter.fromJson(e))
-            .toList(),
-        variants: json
-            .asMap<Map<String, dynamic>>("variants")
-            .map((k, v) => MapEntry(k, SuiApiMoveNormalizedField.fromJson(v))));
+      abilities: SuiApiMoveAbilitySet.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("abilities"),
+      ),
+      typeParameters:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("typeParameters")
+              .map((e) => SuiApiMoveStructTypeParameter.fromJson(e))
+              .toList(),
+      variants: json
+          .valueEnsureAsMap<String, dynamic>("variants")
+          .map((k, v) => MapEntry(k, SuiApiMoveNormalizedField.fromJson(v))),
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "abilities": abilities.toJson(),
       "typeParameters": typeParameters.map((e) => e.toJson()).toList(),
-      "variants":
-          variants.map((k, v) => MapEntry<String, dynamic>(k, v.toJson()))
+      "variants": variants.map(
+        (k, v) => MapEntry<String, dynamic>(k, v.toJson()),
+      ),
     };
   }
 }
@@ -3892,28 +4252,34 @@ class SuiApiMoveNormalizedStruct {
   final SuiApiMoveAbilitySet abilities;
   final List<SuiApiMoveStructTypeParameter> typeParameters;
   final List<SuiApiMoveNormalizedField> fields;
-  const SuiApiMoveNormalizedStruct(
-      {required this.abilities,
-      required this.typeParameters,
-      required this.fields});
+  const SuiApiMoveNormalizedStruct({
+    required this.abilities,
+    required this.typeParameters,
+    required this.fields,
+  });
   factory SuiApiMoveNormalizedStruct.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveNormalizedStruct(
-        abilities: SuiApiMoveAbilitySet.fromJson(json.asMap("abilities")),
-        typeParameters: json
-            .asListOfMap("typeParameters")!
-            .map((e) => SuiApiMoveStructTypeParameter.fromJson(e))
-            .toList(),
-        fields: json
-            .asListOfMap("fields")!
-            .map((e) => SuiApiMoveNormalizedField.fromJson(e))
-            .toList());
+      abilities: SuiApiMoveAbilitySet.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("abilities"),
+      ),
+      typeParameters:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("typeParameters")
+              .map((e) => SuiApiMoveStructTypeParameter.fromJson(e))
+              .toList(),
+      fields:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("fields")
+              .map((e) => SuiApiMoveNormalizedField.fromJson(e))
+              .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "abilities": abilities.toJson(),
       "typeParameters": typeParameters.map((e) => e.toJson()).toList(),
-      "fields": fields.map((e) => e.toJson()).toList()
+      "fields": fields.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -3927,34 +4293,40 @@ class SuiApiMoveNormalizedModule {
   final String name;
   final Map<String, SuiApiMoveNormalizedStruct> structs;
 
-  const SuiApiMoveNormalizedModule(
-      {required this.address,
-      required this.enums,
-      required this.exposedFunctions,
-      required this.fileFormatVersion,
-      required this.friends,
-      required this.name,
-      required this.structs});
+  const SuiApiMoveNormalizedModule({
+    required this.address,
+    required this.enums,
+    required this.exposedFunctions,
+    required this.fileFormatVersion,
+    required this.friends,
+    required this.name,
+    required this.structs,
+  });
   factory SuiApiMoveNormalizedModule.fromJson(Map<String, dynamic> json) {
     return SuiApiMoveNormalizedModule(
-        address: json.as("address"),
-        name: json.as("name"),
-        fileFormatVersion: json.as("fileFormatVersion"),
-        friends: json
-            .asListOfMap("friends")!
-            .map((e) => SuiApiMoveModuleId.fromJson(e))
-            .toList(),
-        exposedFunctions: json
-            .asMap<Map<String, dynamic>>("exposedFunctions")
-            .map((k, v) =>
-                MapEntry(k, SuiApiMoveNormalizedFunction.fromJson(v))),
-        structs: json
-            .asMap<Map<String, dynamic>>("structs")
-            .map((k, v) => MapEntry(k, SuiApiMoveNormalizedStruct.fromJson(v))),
-        enums: json["enums"] == null
-            ? null
-            : json.asMap<Map<String, dynamic>>("enums").map(
-                (k, v) => MapEntry(k, SuiApiMoveNormalizedEnum.fromJson(v))));
+      address: json.valueAs("address"),
+      name: json.valueAs("name"),
+      fileFormatVersion: json.valueAs("fileFormatVersion"),
+      friends:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("friends")
+              .map((e) => SuiApiMoveModuleId.fromJson(e))
+              .toList(),
+      exposedFunctions: json
+          .valueEnsureAsMap<String, dynamic>("exposedFunctions")
+          .map((k, v) => MapEntry(k, SuiApiMoveNormalizedFunction.fromJson(v))),
+      structs: json
+          .valueEnsureAsMap<String, dynamic>("structs")
+          .map((k, v) => MapEntry(k, SuiApiMoveNormalizedStruct.fromJson(v))),
+      enums:
+          json["enums"] == null
+              ? null
+              : json
+                  .valueEnsureAsMap<String, dynamic>("enums")
+                  .map(
+                    (k, v) => MapEntry(k, SuiApiMoveNormalizedEnum.fromJson(v)),
+                  ),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -3963,10 +4335,12 @@ class SuiApiMoveNormalizedModule {
       "name": name,
       "fileFormatVersion": fileFormatVersion,
       "friends": friends.map((e) => e.toJson()).toList(),
-      "exposedFunctions": exposedFunctions
-          .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
-      "structs":
-          structs.map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
+      "exposedFunctions": exposedFunctions.map(
+        (k, v) => MapEntry<String, dynamic>(k, v.toJson()),
+      ),
+      "structs": structs.map(
+        (k, v) => MapEntry<String, dynamic>(k, v.toJson()),
+      ),
       "enums": enums?.map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
     };
   }
@@ -3975,8 +4349,10 @@ class SuiApiMoveNormalizedModule {
 class SuiApiExecutionResult {
   final List<List<dynamic>>? mutableReferenceOutputs;
   final List<List<dynamic>>? returnValues;
-  const SuiApiExecutionResult(
-      {required this.mutableReferenceOutputs, required this.returnValues});
+  const SuiApiExecutionResult({
+    required this.mutableReferenceOutputs,
+    required this.returnValues,
+  });
   factory SuiApiExecutionResult.fromJson(Map<String, dynamic> json) {
     final List<List<dynamic>> mutableReferenceOutputs = [];
     final List<List<dynamic>> returnValues = [];
@@ -4000,20 +4376,22 @@ class SuiApiExecutionResult {
       }
     }
     return SuiApiExecutionResult(
-        mutableReferenceOutputs:
-            mutableReferenceOutputs.isEmpty ? null : mutableReferenceOutputs,
-        returnValues: returnValues);
+      mutableReferenceOutputs:
+          mutableReferenceOutputs.isEmpty ? null : mutableReferenceOutputs,
+      returnValues: returnValues,
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "returnValues": returnValues,
-      "mutableReferenceOutputs": mutableReferenceOutputs == null
-          ? null
-          : [
-              (mutableReferenceOutputs![0] as SuiApiArgument).toJson(),
-              mutableReferenceOutputs![1],
-              mutableReferenceOutputs![2]
-            ]
+      "mutableReferenceOutputs":
+          mutableReferenceOutputs == null
+              ? null
+              : [
+                (mutableReferenceOutputs![0] as SuiApiArgument).toJson(),
+                mutableReferenceOutputs![1],
+                mutableReferenceOutputs![2],
+              ],
     };
   }
 }
@@ -4024,19 +4402,20 @@ class SuiApiDevInspectArgs {
   final String? gasSponsor;
   final bool? showRawTxnDataAndEffects;
   final bool? skipChecks;
-  const SuiApiDevInspectArgs(
-      {this.gasBudget,
-      this.gasObjects,
-      this.gasSponsor,
-      this.showRawTxnDataAndEffects,
-      this.skipChecks});
+  const SuiApiDevInspectArgs({
+    this.gasBudget,
+    this.gasObjects,
+    this.gasSponsor,
+    this.showRawTxnDataAndEffects,
+    this.skipChecks,
+  });
   Map<String, dynamic> toJson() {
     return {
       "gasBudget": gasBudget,
       "gasObjects": gasObjects,
       "gasSponsor": gasSponsor,
       "showRawTxnDataAndEffects": showRawTxnDataAndEffects,
-      "skipChecks": skipChecks
+      "skipChecks": skipChecks,
     }..removeWhere((k, v) => v == null);
   }
 }
@@ -4049,27 +4428,33 @@ class SuiApiDevInspectResult {
   final List<int>? rawTxnData;
   final List<SuiApiExecutionResult>? results;
 
-  const SuiApiDevInspectResult(
-      {required this.effects,
-      required this.error,
-      required this.events,
-      required this.rawEffects,
-      required this.rawTxnData,
-      required this.results});
+  const SuiApiDevInspectResult({
+    required this.effects,
+    required this.error,
+    required this.events,
+    required this.rawEffects,
+    required this.rawTxnData,
+    required this.results,
+  });
   factory SuiApiDevInspectResult.fromJson(Map<String, dynamic> json) {
     return SuiApiDevInspectResult(
-        effects: SuiApiTransactionEffects.fromJson(json.asMap("effects")),
-        error: json.as("error"),
-        events: json
-            .asListOfMap("events")!
-            .map((e) => SuiApiEvent.fromJson(e))
-            .toList(),
-        rawEffects: (json["rawEffects"] as List?)?.cast(),
-        rawTxnData: (json["rawTxnData"] as List?)?.cast(),
-        results: json
-            .asListOfMap("results", throwOnNull: false)
-            ?.map((e) => SuiApiExecutionResult.fromJson(e))
-            .toList());
+      effects: SuiApiTransactionEffects.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("effects"),
+      ),
+      error: json.valueAs("error"),
+      events:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("events")
+              .map((e) => SuiApiEvent.fromJson(e))
+              .toList(),
+      rawEffects: (json["rawEffects"] as List?)?.cast(),
+      rawTxnData: (json["rawTxnData"] as List?)?.cast(),
+      results:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("results")
+              ?.map((e) => SuiApiExecutionResult.fromJson(e))
+              .toList(),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -4078,7 +4463,7 @@ class SuiApiDevInspectResult {
       "events": events.map((e) => e.toJson()).toList(),
       "rawEffects": rawEffects,
       "rawTxnData": rawTxnData,
-      "results": results?.map((e) => e.toJson()).toList()
+      "results": results?.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -4089,39 +4474,49 @@ class SuiApiDryRunTransactionBlockResponse {
   final List<SuiApiEvent> events;
   final SuiApiTransactionBlockData input;
   final List<SuiApiObjectChange> objectChanges;
-  const SuiApiDryRunTransactionBlockResponse(
-      {required this.balanceChanges,
-      required this.effects,
-      required this.events,
-      required this.input,
-      required this.objectChanges});
+  const SuiApiDryRunTransactionBlockResponse({
+    required this.balanceChanges,
+    required this.effects,
+    required this.events,
+    required this.input,
+    required this.objectChanges,
+  });
   Map<String, dynamic> toJson() {
     return {
       "balanceChanges": balanceChanges.map((e) => e.toJson()).toList(),
       "effects": effects.toJson(),
       "events": events.map((e) => e.toJson()).toList(),
       "input": input.toJson(),
-      "objectChanges": objectChanges.map((e) => e.toJson()).toList()
+      "objectChanges": objectChanges.map((e) => e.toJson()).toList(),
     };
   }
 
   factory SuiApiDryRunTransactionBlockResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiApiDryRunTransactionBlockResponse(
-        balanceChanges: json
-            .asListOfMap("balanceChanges")!
-            .map((e) => SuiApiBalanceChange.fromJson(e))
-            .toList(),
-        effects: SuiApiTransactionEffects.fromJson(json.asMap("effects")),
-        events: json
-            .asListOfMap("events")!
-            .map((e) => SuiApiEvent.fromJson(e))
-            .toList(),
-        input: SuiApiTransactionBlockData.fromJson(json.asMap("input")),
-        objectChanges: json
-            .asListOfMap("objectChanges")!
-            .map((e) => SuiApiObjectChange.fromJson(e))
-            .toList());
+      balanceChanges:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("balanceChanges")
+              .map((e) => SuiApiBalanceChange.fromJson(e))
+              .toList(),
+      effects: SuiApiTransactionEffects.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("effects"),
+      ),
+      events:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("events")
+              .map((e) => SuiApiEvent.fromJson(e))
+              .toList(),
+      input: SuiApiTransactionBlockData.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("input"),
+      ),
+      objectChanges:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("objectChanges")
+              .map((e) => SuiApiObjectChange.fromJson(e))
+              .toList(),
+    );
   }
 }
 
@@ -4389,11 +4784,12 @@ class SuiApiSystemStateSummary {
   // Factory constructor for creating an instance from JSON
   factory SuiApiSystemStateSummary.fromJson(Map<String, dynamic> json) {
     return SuiApiSystemStateSummary(
-      activeValidators: json
-          .asListOfMap("activeValidators")!
-          .map((e) => SuiApiValidatorSummary.fromJson(e))
-          .toList(),
-      atRiskValidators: json.asListOfString("atRiskValidators")!,
+      activeValidators:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("activeValidators")
+              .map((e) => SuiApiValidatorSummary.fromJson(e))
+              .toList(),
+      atRiskValidators: json.valueEnsureAsList<String>("atRiskValidators"),
       epoch: json['epoch'],
       epochDurationMs: json['epochDurationMs'],
       epochStartTimestampMs: json['epochStartTimestampMs'],
@@ -4403,7 +4799,7 @@ class SuiApiSystemStateSummary {
       minValidatorJoiningStake: json['minValidatorJoiningStake'],
       pendingActiveValidatorsId: json['pendingActiveValidatorsId'],
       pendingActiveValidatorsSize: json['pendingActiveValidatorsSize'],
-      pendingRemovals: json.asListOfString("pendingRemovals")!,
+      pendingRemovals: json.valueEnsureAsList<String>("pendingRemovals"),
       protocolVersion: json['protocolVersion'],
       referenceGasPrice: json['referenceGasPrice'],
       safeMode: json['safeMode'],
@@ -4429,8 +4825,9 @@ class SuiApiSystemStateSummary {
       validatorCandidatesSize: json['validatorCandidatesSize'],
       validatorLowStakeGracePeriod: json['validatorLowStakeGracePeriod'],
       validatorLowStakeThreshold: json['validatorLowStakeThreshold'],
-      validatorReportRecords:
-          List<dynamic>.from(json['validatorReportRecords']),
+      validatorReportRecords: List<dynamic>.from(
+        json['validatorReportRecords'],
+      ),
       validatorVeryLowStakeThreshold: json['validatorVeryLowStakeThreshold'],
     );
   }

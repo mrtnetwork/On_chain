@@ -5,11 +5,12 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/isshieldedtrc20contractnotespent).
 class TronRequestIsShieldedTrc20ContractNoteSpent
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestIsShieldedTrc20ContractNoteSpent(
-      {required this.ak,
-      required this.nk,
-      required this.position,
-      required this.shieldedTRC20ContractAddress});
+  TronRequestIsShieldedTrc20ContractNoteSpent({
+    required this.ak,
+    required this.nk,
+    required this.position,
+    required this.shieldedTRC20ContractAddress,
+  });
   final String ak;
   final String nk;
   final int position;
@@ -26,7 +27,7 @@ class TronRequestIsShieldedTrc20ContractNoteSpent
       'ak': ak,
       'nk': nk,
       'position': position,
-      'shielded_TRC20_contract_address': shieldedTRC20ContractAddress
+      'shielded_TRC20_contract_address': shieldedTRC20ContractAddress,
     };
   }
 

@@ -10,21 +10,27 @@ class MetadataJsonSchema {
   const MetadataJsonSchema._(this.value, this.name);
 
   /// No conversions JSON schema.
-  static const MetadataJsonSchema noConversions =
-      MetadataJsonSchema._(0, 'NoConversions');
+  static const MetadataJsonSchema noConversions = MetadataJsonSchema._(
+    0,
+    'NoConversions',
+  );
 
   /// Basic conversions JSON schema.
-  static const MetadataJsonSchema basicConversions =
-      MetadataJsonSchema._(1, 'BasicConversions');
+  static const MetadataJsonSchema basicConversions = MetadataJsonSchema._(
+    1,
+    'BasicConversions',
+  );
 
   /// Detailed schema JSON schema.
-  static const MetadataJsonSchema detailedSchema =
-      MetadataJsonSchema._(2, 'DetailedSchema');
+  static const MetadataJsonSchema detailedSchema = MetadataJsonSchema._(
+    2,
+    'DetailedSchema',
+  );
 
   static const List<MetadataJsonSchema> values = [
     noConversions,
     basicConversions,
-    detailedSchema
+    detailedSchema,
   ];
 
   @override

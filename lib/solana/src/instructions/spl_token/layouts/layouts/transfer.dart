@@ -13,9 +13,9 @@ class SPLTokenTransferLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for transferring tokens in SPL.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   /// Constructs an SPLTokenTransferLayout instance from buffer.
   factory SPLTokenTransferLayout.fromBuffer(List<int> bytes) {

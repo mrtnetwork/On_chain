@@ -9,23 +9,27 @@ class MetaplexAuctionHouseDelegateAuctioneerLayout
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseDelegateAuctioneerLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .delegateAuctioneer.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.delegateAuctioneer.insturction,
+    );
     return MetaplexAuctionHouseDelegateAuctioneerLayout(
-        scopes: (decode['scopes'] as List)
-            .map((e) => AuthorityScope.fromValue(e))
-            .toList());
+      scopes:
+          (decode['scopes'] as List)
+              .map((e) => AuthorityScope.fromValue(e))
+              .toList(),
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.vec(LayoutConst.u8(), property: 'scopes')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.vec(LayoutConst.u8(), property: 'scopes'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -38,7 +42,7 @@ class MetaplexAuctionHouseDelegateAuctioneerLayout
   Map<String, dynamic> serialize() {
     return {
       'scopes': scopes.map((e) => e.value).toList(),
-      'length': scopes.length
+      'length': scopes.length,
     };
   }
 }

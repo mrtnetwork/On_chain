@@ -9,17 +9,17 @@ import 'governance_action_id.dart';
 class VotingProcedures with InternalCborSerialization {
   final Map<Voter, Map<GovernanceActionId, VotingProcedure>> votes;
   VotingProcedures(Map<Voter, Map<GovernanceActionId, VotingProcedure>> votes)
-      : votes = votes.immutable;
+    : votes = votes.immutable;
   factory VotingProcedures.deserialize(CborMapValue cbor) {
-    final entries = cbor.valueAsMap<CborListValue, CborMapValue>().entries;
+    final entries = cbor.asMap<CborListValue, CborMapValue>().entries;
     return VotingProcedures({
       for (final i in entries)
         Voter.deserialize(i.key): {
-          for (final e
-              in i.value.valueAsMap<CborListValue, CborListValue>().entries)
-            GovernanceActionId.deserialize(e.key):
-                VotingProcedure.deserialize(e.value)
-        }
+          for (final e in i.value.asMap<CborListValue, CborListValue>().entries)
+            GovernanceActionId.deserialize(e.key): VotingProcedure.deserialize(
+              e.value,
+            ),
+        },
     });
   }
   factory VotingProcedures.fromJson(Map<dynamic, dynamic> json) {
@@ -27,9 +27,10 @@ class VotingProcedures with InternalCborSerialization {
       for (final i in (json["votes"] as Map).entries)
         Voter.fromJson(Map<String, dynamic>.from(i.key)): {
           for (final e in (i.value as Map).entries)
-            GovernanceActionId.fromJson(e.key):
-                VotingProcedure.fromJson(Map<String, dynamic>.from(e.value))
-        }
+            GovernanceActionId.fromJson(e.key): VotingProcedure.fromJson(
+              Map<String, dynamic>.from(e.value),
+            ),
+        },
     });
   }
 
@@ -37,8 +38,9 @@ class VotingProcedures with InternalCborSerialization {
   CborObject toCbor() {
     return CborMapValue.definite({
       for (final i in votes.entries)
-        i.key.toCbor(): CborMapValue.definite(
-            {for (final e in i.value.entries) e.key.toCbor(): e.value.toCbor()})
+        i.key.toCbor(): CborMapValue.definite({
+          for (final e in i.value.entries) e.key.toCbor(): e.value.toCbor(),
+        }),
     });
   }
 
@@ -48,9 +50,9 @@ class VotingProcedures with InternalCborSerialization {
       "votes": {
         for (final i in votes.entries)
           i.key.toJson(): {
-            for (final e in i.value.entries) e.key.toJson(): e.value.toJson()
-          }
-      }
+            for (final e in i.value.entries) e.key.toJson(): e.value.toJson(),
+          },
+      },
     };
   }
 }

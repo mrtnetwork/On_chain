@@ -1,7 +1,7 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Withdraw unfrozen balance in Stake2.0, the user can
 /// call this API to get back their funds after executing /wallet/unfreezebalancev2
@@ -10,14 +10,14 @@ class WithdrawExpireUnfreezeContract extends TronBaseContract {
   /// Create a new [WithdrawExpireUnfreezeContract] instance by parsing a JSON map.
   factory WithdrawExpireUnfreezeContract.fromJson(Map<String, dynamic> json) {
     return WithdrawExpireUnfreezeContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
     );
   }
   factory WithdrawExpireUnfreezeContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return WithdrawExpireUnfreezeContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+    );
   }
 
   /// Create a new [WithdrawExpireUnfreezeContract] instance with specified parameters.

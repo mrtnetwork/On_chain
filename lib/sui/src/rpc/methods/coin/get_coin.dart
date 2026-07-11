@@ -6,8 +6,11 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_getcoins)
 class SuiRequestGetCoins
     extends SuiRequest<SuiApiGetCoinResponse, Map<String, dynamic>> {
-  const SuiRequestGetCoins(
-      {required this.owner, this.coinType, super.pagination});
+  const SuiRequestGetCoins({
+    required this.owner,
+    this.coinType,
+    super.pagination,
+  });
 
   /// The owner's Sui address
   final SuiAddress owner;

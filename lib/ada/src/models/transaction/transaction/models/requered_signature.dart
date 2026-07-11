@@ -5,16 +5,21 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 class RequiredSignersSerializationConfig {
   final CborIterableEncodingType encoding;
   final List<int>? tags;
-  const RequiredSignersSerializationConfig(
-      {this.encoding = CborIterableEncodingType.set, this.tags});
+  const RequiredSignersSerializationConfig({
+    this.encoding = CborIterableEncodingType.set,
+    this.tags,
+  });
 
   factory RequiredSignersSerializationConfig.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RequiredSignersSerializationConfig(
-        tags: (json["tags"] as List?)?.cast(),
-        encoding: json["encoding"] == null
-            ? CborIterableEncodingType.set
-            : CborIterableEncodingType.fromName(json["encoding"]));
+      tags: (json["tags"] as List?)?.cast(),
+      encoding:
+          json["encoding"] == null
+              ? CborIterableEncodingType.set
+              : CborIterableEncodingType.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name, "tags": tags};
@@ -24,53 +29,67 @@ class RequiredSignersSerializationConfig {
 class RequiredSigners with InternalCborSerialization {
   final List<Ed25519KeyHash> outputs;
   final RequiredSignersSerializationConfig serializationConfig;
-  RequiredSigners(List<Ed25519KeyHash> outputs,
-      {this.serializationConfig = const RequiredSignersSerializationConfig()})
-      : outputs = outputs.immutable;
+  RequiredSigners(
+    List<Ed25519KeyHash> outputs, {
+    this.serializationConfig = const RequiredSignersSerializationConfig(),
+  }) : outputs = outputs.immutable;
   factory RequiredSigners.deserialize(CborObject cbor) {
     if (cbor.hasType<CborTagValue>()) {
-      final tag = cbor.as<CborTagValue>("required signers");
-      final list = tag.valueAs<CborIterableObject>('required signers');
+      final tag = cbor.as<CborTagValue>(operation: "required signers");
+      final list = tag.asValue<CborIterableObject>(
+        operation: 'required signers',
+      );
       return RequiredSigners(
-          list
-              .valueAsListOf<CborBytesValue>("required signers")
-              .map((e) => Ed25519KeyHash.deserialize(e))
-              .toList(),
-          serializationConfig: RequiredSignersSerializationConfig(
-              encoding: list.encoding, tags: tag.tags));
-    }
-    final list = cbor.as<CborIterableObject>('required signers');
-    return RequiredSigners(
         list
-            .valueAsListOf<CborBytesValue>("required signers")
+            .allObjectsAs<CborBytesValue>()
             .map((e) => Ed25519KeyHash.deserialize(e))
             .toList(),
-        serializationConfig:
-            RequiredSignersSerializationConfig(encoding: list.encoding));
+        serializationConfig: RequiredSignersSerializationConfig(
+          encoding: list.encoding,
+          tags: tag.tags,
+        ),
+      );
+    }
+    final list = cbor.as<CborIterableObject>(operation: 'required signers');
+    return RequiredSigners(
+      list
+          .allObjectsAs<CborBytesValue>()
+          .map((e) => Ed25519KeyHash.deserialize(e))
+          .toList(),
+      serializationConfig: RequiredSignersSerializationConfig(
+        encoding: list.encoding,
+      ),
+    );
   }
   factory RequiredSigners.fromJson(Map<String, dynamic> json) {
     return RequiredSigners(
-        (json["required_signers"] as List)
-            .map((e) => Ed25519KeyHash.fromHex(e))
-            .toList(),
-        serializationConfig: RequiredSignersSerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      (json["required_signers"] as List)
+          .map((e) => Ed25519KeyHash.fromHex(e))
+          .toList(),
+      serializationConfig: RequiredSignersSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
 
   @override
   CborObject toCbor() {
-    final obj = () {
-      switch (serializationConfig.encoding) {
-        case CborIterableEncodingType.inDefinite:
-          return CborListValue.inDefinite(
-              outputs.map((e) => e.toCbor()).toList());
-        case CborIterableEncodingType.definite:
-          return CborListValue.definite(
-              outputs.map((e) => e.toCbor()).toList());
-        case CborIterableEncodingType.set:
-          return CborSetValue(outputs.map((e) => e.toCbor()));
-      }
-    }() as CborObject;
+    final obj =
+        () {
+              switch (serializationConfig.encoding) {
+                case CborIterableEncodingType.inDefinite:
+                  return CborListValue.inDefinite(
+                    outputs.map((e) => e.toCbor()).toList(),
+                  );
+                case CborIterableEncodingType.definite:
+                  return CborListValue.definite(
+                    outputs.map((e) => e.toCbor()).toList(),
+                  );
+                case CborIterableEncodingType.set:
+                  return CborSetValue(outputs.map((e) => e.toCbor()));
+              }
+            }()
+            as CborObject;
     final tags = serializationConfig.tags;
     if (tags != null) {
       return CborTagValue(obj, tags);
@@ -82,7 +101,7 @@ class RequiredSigners with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "required_signers": outputs.map((e) => e.toJson()).toList(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }

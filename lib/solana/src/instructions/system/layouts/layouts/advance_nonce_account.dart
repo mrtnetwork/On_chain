@@ -8,9 +8,10 @@ class SystemAdvanceNonceLayout extends SystemProgramLayout {
 
   factory SystemAdvanceNonceLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.advanceNonceAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.advanceNonceAccount.insturction,
+    );
     return const SystemAdvanceNonceLayout();
   }
 

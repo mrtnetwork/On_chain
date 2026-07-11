@@ -7,31 +7,31 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 class NameServiceProgramHelper {
   /// Creates a name account with the given rent budget, allocated space, owner and class
-  static Future<TransactionInstruction> createNameRegistry(
-      {
-      /// The solana connection object to the RPC node
-      required SolanaProvider rpc,
+  static Future<TransactionInstruction> createNameRegistry({
+    /// The solana connection object to the RPC node
+    required SolanaProvider rpc,
 
-      /// The name of the new account
-      required String name,
+    /// The name of the new account
+    required String name,
 
-      /// The space in bytes allocated to the account
-      required int space,
+    /// The space in bytes allocated to the account
+    required int space,
 
-      /// The allocation cost payer
-      required SolAddress payerKey,
+    /// The allocation cost payer
+    required SolAddress payerKey,
 
-      /// The pubkey to be set as owner of the new name account
-      required SolAddress nameOwner,
+    /// The pubkey to be set as owner of the new name account
+    required SolAddress nameOwner,
 
-      /// The budget to be set for the name account. If not specified, it'll be the minimum for rent exemption
-      BigInt? lamports,
+    /// The budget to be set for the name account. If not specified, it'll be the minimum for rent exemption
+    BigInt? lamports,
 
-      /// The class of this new name
-      SolAddress? nameClass,
+    /// The class of this new name
+    SolAddress? nameClass,
 
-      /// The parent name of the new name. If specified its owner needs to sign
-      SolAddress? parentName}) async {
+    /// The parent name of the new name. If specified its owner needs to sign
+    SolAddress? parentName,
+  }) async {
     final hashedName = NameServiceProgramUtils.getHashedName(name);
     final nameAccountKey = NameServiceProgramUtils.getNameAccountProgram(
       hashedName: hashedName,
@@ -39,14 +39,17 @@ class NameServiceProgramHelper {
       nameParent: parentName,
     );
 
-    final BigInt balance = lamports ??
+    final BigInt balance =
+        lamports ??
         await rpc.request(
-            SolanaRequestGetMinimumBalanceForRentExemption(size: space));
+          SolanaRequestGetMinimumBalanceForRentExemption(size: space),
+        );
 
     SolAddress? nameParentOwner;
     if (parentName != null) {
-      final account =
-          await rpc.request(SolanaRPCNameRegistryAccount(account: parentName));
+      final account = await rpc.request(
+        SolanaRPCNameRegistryAccount(account: parentName),
+      );
       if (account == null) {
         throw const SolanaPluginException('Account not found.');
       }
@@ -58,7 +61,10 @@ class NameServiceProgramHelper {
       nameOwnerKey: nameOwner,
       payerKey: payerKey,
       layout: NameServiceCreateLayout(
-          lamports: balance, hashedName: hashedName, space: space),
+        lamports: balance,
+        hashedName: hashedName,
+        space: space,
+      ),
       nameClassKey: nameClass,
       nameParent: parentName,
       nameParentOwner: nameParentOwner,
@@ -68,25 +74,25 @@ class NameServiceProgramHelper {
   }
 
   /// Overwrite the data of the given name registry.
-  static Future<TransactionInstruction> updateNameRegistryData(
-      {
-      /// The solana connection object to the RPC node
-      required SolanaProvider rpc,
+  static Future<TransactionInstruction> updateNameRegistryData({
+    /// The solana connection object to the RPC node
+    required SolanaProvider rpc,
 
-      /// The name of the name registry to update
-      required String name,
+    /// The name of the name registry to update
+    required String name,
 
-      /// The offset to which the data should be written into the registry
-      required int offset,
+    /// The offset to which the data should be written into the registry
+    required int offset,
 
-      /// The data to be written
-      required List<int> inputData,
+    /// The data to be written
+    required List<int> inputData,
 
-      /// The class of this name, if it exsists
-      SolAddress? nameClass,
+    /// The class of this name, if it exsists
+    SolAddress? nameClass,
 
-      /// The parent name of this name, if it exists
-      SolAddress? nameParent}) async {
+    /// The parent name of this name, if it exists
+    SolAddress? nameParent,
+  }) async {
     final hashedName = NameServiceProgramUtils.getHashedName(name);
     final nameAccountKey = NameServiceProgramUtils.getNameAccountProgram(
       hashedName: hashedName,
@@ -96,8 +102,9 @@ class NameServiceProgramHelper {
 
     SolAddress? signer = nameClass;
     if (signer == null) {
-      final account = await rpc
-          .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
+      final account = await rpc.request(
+        SolanaRPCNameRegistryAccount(account: nameAccountKey),
+      );
       if (account == null) {
         throw const SolanaPluginException('Account not found.');
       }
@@ -113,22 +120,22 @@ class NameServiceProgramHelper {
   }
 
   /// Change the owner of a given name account.
-  static Future<TransactionInstruction> transferNameOwnership(
-      {
-      /// The solana connection object to the RPC node
-      required SolanaProvider rpc,
+  static Future<TransactionInstruction> transferNameOwnership({
+    /// The solana connection object to the RPC node
+    required SolanaProvider rpc,
 
-      /// The name of the name account
-      required String name,
+    /// The name of the name account
+    required String name,
 
-      /// The new owner to be set
-      required SolAddress newOwner,
+    /// The new owner to be set
+    required SolAddress newOwner,
 
-      /// The class of this name, if it exsists
-      SolAddress? nameClass,
+    /// The class of this name, if it exsists
+    SolAddress? nameClass,
 
-      /// The parent name of this name, if it exists
-      SolAddress? nameParent}) async {
+    /// The parent name of this name, if it exists
+    SolAddress? nameParent,
+  }) async {
     final hashedName = NameServiceProgramUtils.getHashedName(name);
     final nameAccountKey = NameServiceProgramUtils.getNameAccountProgram(
       hashedName: hashedName,
@@ -138,8 +145,9 @@ class NameServiceProgramHelper {
 
     SolAddress? currentNameOwner = nameClass;
     if (currentNameOwner == null) {
-      final account = await rpc
-          .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
+      final account = await rpc.request(
+        SolanaRPCNameRegistryAccount(account: nameAccountKey),
+      );
       if (account == null) {
         throw const SolanaPluginException('Account not found.');
       }
@@ -181,8 +189,9 @@ class NameServiceProgramHelper {
 
     SolAddress? nameOwner = nameClass;
     if (nameOwner == null) {
-      final account = await rpc
-          .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
+      final account = await rpc.request(
+        SolanaRPCNameRegistryAccount(account: nameAccountKey),
+      );
       if (account == null) {
         throw const SolanaPluginException('Account not found.');
       }
@@ -225,8 +234,9 @@ class NameServiceProgramHelper {
 
     SolAddress? nameOwner = nameClass;
     if (nameOwner == null) {
-      final account = await rpc
-          .request(SolanaRPCNameRegistryAccount(account: nameAccountKey));
+      final account = await rpc.request(
+        SolanaRPCNameRegistryAccount(account: nameAccountKey),
+      );
       if (account == null) {
         throw const SolanaPluginException('Account not found.');
       }

@@ -8,48 +8,57 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Issue a TRC10 token. [developers.tron.network](https://developers.tron.network/reference/createassetissue).
 class TronRequestCreateAssetIssue
     extends TronRequest<Transaction, Map<String, dynamic>> {
-  factory TronRequestCreateAssetIssue.fromContract(AssetIssueContract contract,
-      {bool visible = true}) {
+  factory TronRequestCreateAssetIssue.fromContract(
+    AssetIssueContract contract, {
+    bool visible = true,
+  }) {
     return TronRequestCreateAssetIssue(
-        ownerAddress: contract.ownerAddress,
-        name: StringUtils.decode(contract.name),
-        abbr: StringUtils.decode(contract.abbr),
-        totalSupply: contract.totalSupply,
-        trxNum: contract.trxNum,
-        num: contract.num,
-        startTime: contract.startTime,
-        endTime: contract.endTime,
-        description: StringUtils.tryDecode(contract.description),
-        url: StringUtils.tryDecode(contract.url),
-        freeAssetNetLimit: contract.freeAssetNetLimit,
-        publicFreeAssetNetLimit: contract.publicFreeAssetNetLimit,
-        frozenSupply: (contract.frozenSupply)
-            ?.map((e) => Map<String, BigInt>.from(
-                {'frozen_amount': e.frozenAmount, 'frozen_days': e.frozenDays}))
-            .toList(),
-        precision: contract.precision,
-        visible: visible,
-        publicFreeAssetNetUsage: contract.publicFreeAssetNetUsage,
-        publicLatestFreeNetTime: contract.publicLatestFreeNetTime);
+      ownerAddress: contract.ownerAddress,
+      name: StringUtils.decode(contract.name),
+      abbr: StringUtils.decode(contract.abbr),
+      totalSupply: contract.totalSupply,
+      trxNum: contract.trxNum,
+      num: contract.num,
+      startTime: contract.startTime,
+      endTime: contract.endTime,
+      description: StringUtils.tryDecode(contract.description),
+      url: StringUtils.tryDecode(contract.url),
+      freeAssetNetLimit: contract.freeAssetNetLimit,
+      publicFreeAssetNetLimit: contract.publicFreeAssetNetLimit,
+      frozenSupply:
+          (contract.frozenSupply)
+              ?.map(
+                (e) => Map<String, BigInt>.from({
+                  'frozen_amount': e.frozenAmount,
+                  'frozen_days': e.frozenDays,
+                }),
+              )
+              .toList(),
+      precision: contract.precision,
+      visible: visible,
+      publicFreeAssetNetUsage: contract.publicFreeAssetNetUsage,
+      publicLatestFreeNetTime: contract.publicLatestFreeNetTime,
+    );
   }
-  TronRequestCreateAssetIssue(
-      {required this.ownerAddress,
-      required this.name,
-      required this.abbr,
-      this.totalSupply,
-      this.num,
-      this.startTime,
-      this.endTime,
-      this.description,
-      this.url,
-      this.freeAssetNetLimit,
-      this.publicFreeAssetNetLimit,
-      this.frozenSupply,
-      this.precision,
-      required this.trxNum,
-      this.publicFreeAssetNetUsage,
-      this.publicLatestFreeNetTime,
-      this.visible = true});
+  TronRequestCreateAssetIssue({
+    required this.ownerAddress,
+    required this.name,
+    required this.abbr,
+    this.totalSupply,
+    this.num,
+    this.startTime,
+    this.endTime,
+    this.description,
+    this.url,
+    this.freeAssetNetLimit,
+    this.publicFreeAssetNetLimit,
+    this.frozenSupply,
+    this.precision,
+    required this.trxNum,
+    this.publicFreeAssetNetUsage,
+    this.publicLatestFreeNetTime,
+    this.visible = true,
+  });
 
   /// issuer address
   final TronAddress ownerAddress;
@@ -121,7 +130,7 @@ class TronRequestCreateAssetIssue
       'public_free_asset_netimit': publicFreeAssetNetLimit,
       'frozen_supply': frozenSupply,
       'precision': precision,
-      'visible': visible
+      'visible': visible,
     };
   }
 

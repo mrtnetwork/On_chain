@@ -61,8 +61,8 @@ class Ed25519ProgramLayout extends ProgramLayout {
     required this.publicKey,
     required List<int> message,
     required List<int> signature,
-  })  : signature = signature.asImmutableBytes,
-        message = message.asImmutableBytes;
+  }) : signature = signature.asImmutableBytes,
+       message = message.asImmutableBytes;
 
   /// Create an ed25519 instruction with a private key.
   factory Ed25519ProgramLayout.fromPrivateKey({
@@ -89,10 +89,13 @@ class Ed25519ProgramLayout extends ProgramLayout {
     int? instructionIndex,
   }) {
     if (signature.length != Ed25519ProgramConst.signatureLen) {
-      throw SolanaPluginException('invalid signature length.', details: {
-        'expected': Ed25519ProgramConst.signatureLen,
-        'length': signature.length
-      });
+      throw SolanaPluginException(
+        'invalid signature length.',
+        details: {
+          'expected': Ed25519ProgramConst.signatureLen.toString(),
+          'length': signature.length.toString(),
+        },
+      );
     }
     final int index = instructionIndex ?? BinaryOps.mask16;
     final publicKeyOffset = _layout.span;
@@ -117,16 +120,22 @@ class Ed25519ProgramLayout extends ProgramLayout {
 
   /// Constructs the layout from raw bytes.
   factory Ed25519ProgramLayout.fromBuffer(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final int publicKeyOffset = decode['publicKeyOffset'];
     final int signatureOffset = decode['signatureOffset'];
     final int messageOffset = decode['messageDataOffset'];
     final int messageSize = decode['messageDataSize'];
     final pubKey = data.sublist(
-        publicKeyOffset, publicKeyOffset + Ed25519KeysConst.pubKeyByteLen);
+      publicKeyOffset,
+      publicKeyOffset + Ed25519KeysConst.pubKeyByteLen,
+    );
     final signature = data.sublist(
-        signatureOffset, signatureOffset + Ed25519ProgramConst.signatureLen);
+      signatureOffset,
+      signatureOffset + Ed25519ProgramConst.signatureLen,
+    );
     final message = data.sublist(messageOffset, messageOffset + messageSize);
     return Ed25519ProgramLayout._(
       numSignatures: decode['numSignatures'],
@@ -146,16 +155,16 @@ class Ed25519ProgramLayout extends ProgramLayout {
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'numSignatures'),
-        LayoutConst.u8(property: 'padding'),
-        LayoutConst.u16(property: 'signatureOffset'),
-        LayoutConst.u16(property: 'signatureInstructionIndex'),
-        LayoutConst.u16(property: 'publicKeyOffset'),
-        LayoutConst.u16(property: 'publicKeyInstructionIndex'),
-        LayoutConst.u16(property: 'messageDataOffset'),
-        LayoutConst.u16(property: 'messageDataSize'),
-        LayoutConst.u16(property: 'messageInstructionIndex'),
-      ]);
+    LayoutConst.u8(property: 'numSignatures'),
+    LayoutConst.u8(property: 'padding'),
+    LayoutConst.u16(property: 'signatureOffset'),
+    LayoutConst.u16(property: 'signatureInstructionIndex'),
+    LayoutConst.u16(property: 'publicKeyOffset'),
+    LayoutConst.u16(property: 'publicKeyInstructionIndex'),
+    LayoutConst.u16(property: 'messageDataOffset'),
+    LayoutConst.u16(property: 'messageDataSize'),
+    LayoutConst.u16(property: 'messageInstructionIndex'),
+  ]);
   @override
   StructLayout get layout => _layout;
 
@@ -199,8 +208,9 @@ class Ed25519ProgramLayout extends ProgramLayout {
       'messageInstructionIndex': messageInstructionIndex,
       'publicKey': publicKey.toAddress().address,
       'signature': BytesUtils.toHexString(signature, prefix: '0x'),
-      'message': StringUtils.tryDecode(message) ??
-          BytesUtils.toHexString(message, prefix: '0x')
+      'message':
+          StringUtils.tryDecode(message) ??
+          BytesUtils.toHexString(message, prefix: '0x'),
     };
   }
 

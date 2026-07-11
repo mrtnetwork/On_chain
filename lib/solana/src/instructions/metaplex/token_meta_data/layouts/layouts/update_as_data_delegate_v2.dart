@@ -9,32 +9,38 @@ class MetaplexTokenMetaDataUpdateAsDataDelegateV2Layout
   final MetaDataData? data;
   static int discriminator = 4;
   final Payload? authorizationData;
-  const MetaplexTokenMetaDataUpdateAsDataDelegateV2Layout(
-      {required this.data, this.authorizationData});
+  const MetaplexTokenMetaDataUpdateAsDataDelegateV2Layout({
+    required this.data,
+    this.authorizationData,
+  });
 
   factory MetaplexTokenMetaDataUpdateAsDataDelegateV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .updateAsDataDelegateV2.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .updateAsDataDelegateV2
+              .insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataUpdateAsDataDelegateV2Layout(
-        data: MetaDataData.fromJson(decode['metaDataData']),
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']));
+      data: MetaDataData.fromJson(decode['metaDataData']),
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.optional(MetaDataData.staticLayout,
-            property: 'metaDataData'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.optional(MetaDataData.staticLayout, property: 'metaDataData'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -48,7 +54,7 @@ class MetaplexTokenMetaDataUpdateAsDataDelegateV2Layout
     return {
       'discriminator': discriminator,
       'metaDataData': data?.serialize(),
-      'authorizationData': authorizationData?.serialize()
+      'authorizationData': authorizationData?.serialize(),
     };
   }
 }

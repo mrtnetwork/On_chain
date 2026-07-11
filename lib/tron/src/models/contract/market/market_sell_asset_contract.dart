@@ -2,42 +2,43 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 class MarketSellAssetContract extends TronBaseContract {
   /// Create a new [MarketSellAssetContract] instance by parsing a JSON map.
   factory MarketSellAssetContract.fromJson(Map<String, dynamic> json) {
     return MarketSellAssetContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      sellTokenId: OnChainUtils.parseBytes(
-          value: json['sell_token_id'], name: 'sell_token_id'),
-      sellTokenQuantity: OnChainUtils.parseBigInt(
-          value: json['sell_token_quantity'], name: 'sell_token_quantity'),
-      buyTokenId: OnChainUtils.parseBytes(
-          value: json['buy_token_id'], name: 'buy_token_id'),
-      buyTokenQuantity: OnChainUtils.parseBigInt(
-          value: json['buy_token_quantity'], name: 'buy_token_quantity'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      sellTokenId: json.valueAsBytes(
+        "sell_token_id",
+        encoding: StringEncoding.utf8,
+      ),
+      sellTokenQuantity: json.valueAsBigInt("sell_token_quantity"),
+      buyTokenId: json.valueAsBytes(
+        "buy_token_id",
+        encoding: StringEncoding.utf8,
+      ),
+      buyTokenQuantity: json.valueAsBigInt("buy_token_quantity"),
     );
   }
 
   /// Create a new [MarketSellAssetContract] instance with specified parameters.
-  MarketSellAssetContract(
-      {required this.ownerAddress,
-      List<int>? sellTokenId,
-      this.sellTokenQuantity,
-      List<int>? buyTokenId,
-      this.buyTokenQuantity})
-      : sellTokenId = BytesUtils.tryToBytes(sellTokenId, unmodifiable: true),
-        buyTokenId = BytesUtils.tryToBytes(buyTokenId, unmodifiable: true);
+  MarketSellAssetContract({
+    required this.ownerAddress,
+    List<int>? sellTokenId,
+    this.sellTokenQuantity,
+    List<int>? buyTokenId,
+    this.buyTokenQuantity,
+  }) : sellTokenId = BytesUtils.tryToBytes(sellTokenId, unmodifiable: true),
+       buyTokenId = BytesUtils.tryToBytes(buyTokenId, unmodifiable: true);
   factory MarketSellAssetContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return MarketSellAssetContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        sellTokenId: decode.getField(2),
-        sellTokenQuantity: decode.getField(3),
-        buyTokenId: decode.getField(4),
-        buyTokenQuantity: decode.getField(5));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      sellTokenId: decode.getField(2),
+      sellTokenQuantity: decode.getField(3),
+      buyTokenId: decode.getField(4),
+      buyTokenQuantity: decode.getField(5),
+    );
   }
 
   /// Account address
@@ -53,12 +54,12 @@ class MarketSellAssetContract extends TronBaseContract {
 
   @override
   List get values => [
-        ownerAddress,
-        sellTokenId,
-        sellTokenQuantity,
-        buyTokenId,
-        buyTokenQuantity
-      ];
+    ownerAddress,
+    sellTokenId,
+    sellTokenQuantity,
+    buyTokenId,
+    buyTokenQuantity,
+  ];
 
   /// Convert the [MarketSellAssetContract] object to a JSON representation.
   @override

@@ -14,24 +14,29 @@ class SystemTransferWithSeedLayout extends SystemProgramLayout {
 
   /// Program id to use to derive the funding account address
   final SolAddress programId;
-  const SystemTransferWithSeedLayout(
-      {required this.lamports, required this.seed, required this.programId});
+  const SystemTransferWithSeedLayout({
+    required this.lamports,
+    required this.seed,
+    required this.programId,
+  });
   factory SystemTransferWithSeedLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.transferWithSeed.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.transferWithSeed.insturction,
+    );
     return SystemTransferWithSeedLayout(
-        lamports: decode['lamports'],
-        seed: decode['seed'],
-        programId: decode['programId']);
+      lamports: decode['lamports'],
+      seed: decode['seed'],
+      programId: decode['programId'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.u64(property: 'lamports'),
-        LayoutConst.rustString(property: 'seed'),
-        SolanaLayoutUtils.publicKey('programId'),
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.u64(property: 'lamports'),
+    LayoutConst.rustString(property: 'seed'),
+    SolanaLayoutUtils.publicKey('programId'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

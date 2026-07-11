@@ -2,8 +2,11 @@ import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 class EthereumRequestSubmitWork extends EthereumRequest<Object?, Object?> {
-  EthereumRequestSubmitWork(
-      {required this.nonce, required this.hash, required this.digest});
+  EthereumRequestSubmitWork({
+    required this.nonce,
+    required this.hash,
+    required this.digest,
+  });
 
   /// eth_submitWork
   @override

@@ -10,9 +10,9 @@ class ConfigLine extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.string(property: 'name'),
-        LayoutConst.string(property: 'uri')
-      ], property: 'configLine');
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'uri'),
+  ], property: 'configLine');
 
   @override
   StructLayout get layout => staticLayout;

@@ -11,8 +11,10 @@ class AllocationTrackerAccount extends BorshLayoutSerializable {
 
   const AllocationTrackerAccount({required this.count});
   factory AllocationTrackerAccount.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return AllocationTrackerAccount(count: decode['count']);
   }
 

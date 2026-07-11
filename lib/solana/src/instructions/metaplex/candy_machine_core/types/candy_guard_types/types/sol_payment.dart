@@ -10,13 +10,15 @@ class SolPayment extends BorshLayoutSerializable {
   const SolPayment({required this.lamports, required this.destination});
   factory SolPayment.fromJson(Map<String, dynamic> json) {
     return SolPayment(
-        lamports: json['lamports'], destination: json['destination']);
+      lamports: json['lamports'],
+      destination: json['destination'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'lamports'),
-        SolanaLayoutUtils.publicKey('destination')
-      ], property: 'solPayment');
+    LayoutConst.u64(property: 'lamports'),
+    SolanaLayoutUtils.publicKey('destination'),
+  ], property: 'solPayment');
 
   @override
   StructLayout get layout => staticLayout;

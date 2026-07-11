@@ -8,8 +8,10 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/gettokenlargestaccounts
 class SolanaRequestGetTokenLargestAccounts
     extends SolanaRequest<List<TokenAccountBalancePair>, List> {
-  const SolanaRequestGetTokenLargestAccounts(
-      {required this.account, super.commitment});
+  const SolanaRequestGetTokenLargestAccounts({
+    required this.account,
+    super.commitment,
+  });
 
   /// getTokenLargestAccounts
   @override
@@ -22,7 +24,7 @@ class SolanaRequestGetTokenLargestAccounts
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRequestUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 

@@ -6,11 +6,12 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/proposalcreate).
 class TronRequestProposalCreate
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestProposalCreate(
-      {required this.ownerAddress,
-      required this.parameters,
-      this.permissionId,
-      required this.visible});
+  TronRequestProposalCreate({
+    required this.ownerAddress,
+    required this.parameters,
+    this.permissionId,
+    required this.visible,
+  });
 
   /// Address of the transaction creator
   final TronAddress ownerAddress;
@@ -33,7 +34,7 @@ class TronRequestProposalCreate
       'owner_address': ownerAddress.toAddress(visible),
       'parameters': parameters,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

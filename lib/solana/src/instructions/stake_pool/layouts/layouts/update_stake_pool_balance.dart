@@ -8,10 +8,11 @@ class StakePoolUpdateStakePoolBalanceLayout extends StakePoolProgramLayout {
 
   factory StakePoolUpdateStakePoolBalanceLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            StakePoolProgramInstruction.updateStakePoolBalance.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          StakePoolProgramInstruction.updateStakePoolBalance.insturction,
+    );
     return const StakePoolUpdateStakePoolBalanceLayout();
   }
   static StructLayout get _layout =>

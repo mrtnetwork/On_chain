@@ -19,7 +19,8 @@ abstract class DataOption with InternalCborSerialization {
       return DataOptionDataHash.deserialize(cbor);
     }
     final type = TransactionDataOptionType.deserialize(
-        cbor.as<CborListValue>("DataOption").elementAt<CborIntValue>(0));
+      cbor.as<CborListValue>(operation: "DataOption").objectAt<CborIntValue>(0),
+    );
     if (type == TransactionDataOptionType.dataHash) {
       return DataOptionDataHash.deserialize(cbor);
     }
@@ -33,8 +34,10 @@ abstract class DataOption with InternalCborSerialization {
       case TransactionDataOptionType.data:
         return DataOptionData.fromJson(json);
       default:
-        throw throw ADAPluginException('Invalid TransactionDataOptionType.',
-            details: {'name': type.name});
+        throw throw ADAPluginException(
+          'Invalid TransactionDataOptionType.',
+          details: {'name': type.name},
+        );
     }
   }
 

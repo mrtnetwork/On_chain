@@ -16,30 +16,35 @@ class ReceiveDescription extends TronProtocolBufferImpl {
   }
 
   /// Create a new [ReceiveDescription] instance with specified parameters.
-  ReceiveDescription(
-      {List<int>? valueCommitment,
-      List<int>? noteCommitment,
-      List<int>? epk,
-      List<int>? cEnc,
-      List<int>? cOut,
-      List<int>? zkproof})
-      : valueCommitment =
-            BytesUtils.tryToBytes(valueCommitment, unmodifiable: true),
-        noteCommitment =
-            BytesUtils.tryToBytes(noteCommitment, unmodifiable: true),
-        epk = BytesUtils.tryToBytes(epk, unmodifiable: true),
-        cEnc = BytesUtils.tryToBytes(cEnc, unmodifiable: true),
-        cOut = BytesUtils.tryToBytes(cOut, unmodifiable: true),
-        zkproof = BytesUtils.tryToBytes(zkproof, unmodifiable: true);
+  ReceiveDescription({
+    List<int>? valueCommitment,
+    List<int>? noteCommitment,
+    List<int>? epk,
+    List<int>? cEnc,
+    List<int>? cOut,
+    List<int>? zkproof,
+  }) : valueCommitment = BytesUtils.tryToBytes(
+         valueCommitment,
+         unmodifiable: true,
+       ),
+       noteCommitment = BytesUtils.tryToBytes(
+         noteCommitment,
+         unmodifiable: true,
+       ),
+       epk = BytesUtils.tryToBytes(epk, unmodifiable: true),
+       cEnc = BytesUtils.tryToBytes(cEnc, unmodifiable: true),
+       cOut = BytesUtils.tryToBytes(cOut, unmodifiable: true),
+       zkproof = BytesUtils.tryToBytes(zkproof, unmodifiable: true);
   factory ReceiveDescription.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return ReceiveDescription(
-        valueCommitment: decode.getField(1),
-        noteCommitment: decode.getField(2),
-        epk: decode.getField(3),
-        cEnc: decode.getField(4),
-        cOut: decode.getField(5),
-        zkproof: decode.getField(6));
+      valueCommitment: decode.getField(1),
+      noteCommitment: decode.getField(2),
+      epk: decode.getField(3),
+      cEnc: decode.getField(4),
+      cOut: decode.getField(5),
+      zkproof: decode.getField(6),
+    );
   }
 
   final List<int>? valueCommitment;
@@ -53,8 +58,14 @@ class ReceiveDescription extends TronProtocolBufferImpl {
   List<int> get fieldIds => [1, 2, 3, 4, 5, 6];
 
   @override
-  List get values =>
-      [valueCommitment, noteCommitment, epk, cEnc, cOut, zkproof];
+  List get values => [
+    valueCommitment,
+    noteCommitment,
+    epk,
+    cEnc,
+    cOut,
+    zkproof,
+  ];
 
   /// Convert the [ReceiveDescription] object to a JSON representation.
   @override

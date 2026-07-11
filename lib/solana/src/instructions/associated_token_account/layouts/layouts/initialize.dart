@@ -8,12 +8,14 @@ class AssociatedTokenAccountProgramInitializeLayout
   const AssociatedTokenAccountProgramInitializeLayout();
 
   factory AssociatedTokenAccountProgramInitializeLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            AssociatedTokenAccountProgramInstruction.initialize.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AssociatedTokenAccountProgramInstruction.initialize.insturction,
+    );
     return const AssociatedTokenAccountProgramInitializeLayout();
   }
   static StructLayout get _layout => LayoutConst.struct([]);

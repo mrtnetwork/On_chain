@@ -6,27 +6,28 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout layout(int version) => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('nodePubkey'),
-        SolanaLayoutUtils.publicKey('authorizedWithdrawer'),
-        LayoutConst.u8(property: 'commission'),
-        if (version > 1)
-          LayoutConst.rustVec(
-              LayoutConst.struct([
-                LayoutConst.u8(),
-                ...Lockout.staticLayout.fields,
-              ], property: 'lockout'),
-              property: 'votes')
-        else
-          LayoutConst.rustVec(Lockout.staticLayout, property: 'votes'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'rootSlot'),
-        LayoutConst.rustVec(AuthorizedVoter.staticLayout,
-            property: 'authorizedVoters'),
-        PriorVoters.staticLayout,
-        LayoutConst.rustVec(EpochCredits.staticLayout,
-            property: 'epochCredits'),
-        LayoutConst.wrap(BlockTimestamp.staticLayout,
-            property: 'lastTimestamp'),
-      ]);
+    SolanaLayoutUtils.publicKey('nodePubkey'),
+    SolanaLayoutUtils.publicKey('authorizedWithdrawer'),
+    LayoutConst.u8(property: 'commission'),
+    if (version > 1)
+      LayoutConst.rustVec(
+        LayoutConst.struct([
+          LayoutConst.u8(),
+          ...Lockout.staticLayout.fields,
+        ], property: 'lockout'),
+        property: 'votes',
+      )
+    else
+      LayoutConst.rustVec(Lockout.staticLayout, property: 'votes'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'rootSlot'),
+    LayoutConst.rustVec(
+      AuthorizedVoter.staticLayout,
+      property: 'authorizedVoters',
+    ),
+    PriorVoters.staticLayout,
+    LayoutConst.rustVec(EpochCredits.staticLayout, property: 'epochCredits'),
+    LayoutConst.wrap(BlockTimestamp.staticLayout, property: 'lastTimestamp'),
+  ]);
 }
 
 class VoteAccount extends BorshLayoutSerializable {
@@ -41,37 +42,42 @@ class VoteAccount extends BorshLayoutSerializable {
   final BigInt? rootSlot;
   final List<Lockout> votes;
 
-  const VoteAccount(
-      {required this.authorizedVoters,
-      required this.authorizedWithdrawer,
-      required this.commission,
-      required this.epochCredits,
-      required this.lastTimestamp,
-      required this.nodePubkey,
-      required this.priorVoter,
-      required this.rootSlot,
-      required this.votes,
-      required this.version});
+  const VoteAccount({
+    required this.authorizedVoters,
+    required this.authorizedWithdrawer,
+    required this.commission,
+    required this.epochCredits,
+    required this.lastTimestamp,
+    required this.nodePubkey,
+    required this.priorVoter,
+    required this.rootSlot,
+    required this.votes,
+    required this.version,
+  });
   factory VoteAccount.fromBuffer(List<int> data) {
     final version = LayoutConst.u32().deserialize(data.sublist(0, 4)).value;
     final decode = BorshLayoutSerializable.decode(
-        bytes: data.sublist(4), layout: _Utils.layout(version));
+      bytes: data.sublist(4),
+      layout: _Utils.layout(version),
+    );
     return VoteAccount(
-        version: version,
-        authorizedVoters: (decode['authorizedVoters'] as List)
-            .map((e) => AuthorizedVoter.fromJson(e))
-            .toList(),
-        authorizedWithdrawer: decode['authorizedWithdrawer'],
-        commission: decode['commission'],
-        epochCredits: (decode['epochCredits'] as List)
-            .map((e) => EpochCredits.fromJson(e))
-            .toList(),
-        lastTimestamp: BlockTimestamp.fromJson(decode['lastTimestamp']),
-        nodePubkey: decode['nodePubkey'],
-        priorVoter: PriorVoters.fromJson(decode['priorVoters']),
-        rootSlot: decode['rootSlot'],
-        votes:
-            (decode['votes'] as List).map((e) => Lockout.fromJson(e)).toList());
+      version: version,
+      authorizedVoters:
+          (decode['authorizedVoters'] as List)
+              .map((e) => AuthorizedVoter.fromJson(e))
+              .toList(),
+      authorizedWithdrawer: decode['authorizedWithdrawer'],
+      commission: decode['commission'],
+      epochCredits:
+          (decode['epochCredits'] as List)
+              .map((e) => EpochCredits.fromJson(e))
+              .toList(),
+      lastTimestamp: BlockTimestamp.fromJson(decode['lastTimestamp']),
+      nodePubkey: decode['nodePubkey'],
+      priorVoter: PriorVoters.fromJson(decode['priorVoters']),
+      rootSlot: decode['rootSlot'],
+      votes: (decode['votes'] as List).map((e) => Lockout.fromJson(e)).toList(),
+    );
   }
 
   @override
@@ -87,7 +93,7 @@ class VoteAccount extends BorshLayoutSerializable {
       'nodePubkey': nodePubkey,
       'priorVoters': priorVoter.serialize(),
       'rootSlot': rootSlot,
-      'votes': votes.map((e) => e.serialize()).toList()
+      'votes': votes.map((e) => e.serialize()).toList(),
     };
   }
 

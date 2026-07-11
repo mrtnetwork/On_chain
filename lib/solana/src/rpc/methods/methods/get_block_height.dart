@@ -17,7 +17,7 @@ class SolanaRequestGetBlockHeight extends SolanaRequest<int, int> {
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
-      ])
+      ]),
     ];
   }
 }

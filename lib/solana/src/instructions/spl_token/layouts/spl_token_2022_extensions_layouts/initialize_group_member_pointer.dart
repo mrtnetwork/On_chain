@@ -13,11 +13,14 @@ class SPLToken2022InitializeGroupMemberPointerLayout
   /// Account address that holds the member
   final SolAddress? memberAddress;
 
-  SPLToken2022InitializeGroupMemberPointerLayout(
-      {this.authority, this.memberAddress});
+  SPLToken2022InitializeGroupMemberPointerLayout({
+    this.authority,
+    this.memberAddress,
+  });
 
   factory SPLToken2022InitializeGroupMemberPointerLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
@@ -25,20 +28,25 @@ class SPLToken2022InitializeGroupMemberPointerLayout
           SPLTokenProgramInstruction.groupMemberPointerExtension.insturction,
     );
     return SPLToken2022InitializeGroupMemberPointerLayout(
-        authority: decode['authority'] == SolAddress.defaultPubKey
-            ? null
-            : decode['authority'],
-        memberAddress: decode['memberAddress'] == SolAddress.defaultPubKey
-            ? null
-            : decode['memberAddress']);
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      memberAddress:
+          decode['memberAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['memberAddress'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.wrap(GroupMemberPointerInstruction.staticLayout,
-            property: 'groupMemberPointer'),
-        SolanaLayoutUtils.publicKey('authority'),
-        SolanaLayoutUtils.publicKey('memberAddress'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.wrap(
+      GroupMemberPointerInstruction.staticLayout,
+      property: 'groupMemberPointer',
+    ),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('memberAddress'),
+  ]);
 
   /// Returns the layout structure.
   @override
@@ -56,7 +64,7 @@ class SPLToken2022InitializeGroupMemberPointerLayout
       'groupMemberPointer':
           GroupMemberPointerInstruction.initialize.serialize(),
       'memberAddress': memberAddress ?? SolAddress.defaultPubKey,
-      'authority': authority ?? SolAddress.defaultPubKey
+      'authority': authority ?? SolAddress.defaultPubKey,
     };
   }
 }

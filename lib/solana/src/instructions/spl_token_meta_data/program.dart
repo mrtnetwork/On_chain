@@ -18,9 +18,10 @@ class SPLTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress programId,
   }) {
     return SPLTokenMetaDataProgram(
-        layout: SPLTokenMetaDataProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: SPLTokenMetaDataProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Initializes a TLV.
@@ -41,14 +42,15 @@ class SPLTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress programId,
   }) {
     return SPLTokenMetaDataProgram(
-        layout: layout,
-        keys: [
-          metadata.toWritable(),
-          updateAuthority.toReadOnly(),
-          mint.toReadOnly(),
-          mintAuthority.toSigner()
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [
+        metadata.toWritable(),
+        updateAuthority.toReadOnly(),
+        mint.toReadOnly(),
+        mintAuthority.toSigner(),
+      ],
+      programId: programId,
+    );
   }
 
   /// Updates a field in a token-metadata account.
@@ -63,12 +65,10 @@ class SPLTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress updateAuthority,
   }) {
     return SPLTokenMetaDataProgram(
-        layout: layout,
-        keys: [
-          metadata.toWritable(),
-          updateAuthority.toSigner(),
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [metadata.toWritable(), updateAuthority.toSigner()],
+      programId: programId,
+    );
   }
 
   /// Removes a key-value pair in a token-metadata account.
@@ -83,12 +83,10 @@ class SPLTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress updateAuthority,
   }) {
     return SPLTokenMetaDataProgram(
-        layout: layout,
-        keys: [
-          metadata.toWritable(),
-          updateAuthority.toSigner(),
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [metadata.toWritable(), updateAuthority.toSigner()],
+      programId: programId,
+    );
   }
 
   /// Updates the token-metadata authority.
@@ -103,12 +101,10 @@ class SPLTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress oldAuthority,
   }) {
     return SPLTokenMetaDataProgram(
-        layout: layout,
-        keys: [
-          metadata.toWritable(),
-          oldAuthority.toSigner(),
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [metadata.toWritable(), oldAuthority.toSigner()],
+      programId: programId,
+    );
   }
 
   /// Emits the token-metadata as return data
@@ -120,6 +116,9 @@ class SPLTokenMetaDataProgram extends TransactionInstruction {
     required SolAddress metadata,
   }) {
     return SPLTokenMetaDataProgram(
-        layout: layout, keys: [metadata.toReadOnly()], programId: programId);
+      layout: layout,
+      keys: [metadata.toReadOnly()],
+      programId: programId,
+    );
   }
 }

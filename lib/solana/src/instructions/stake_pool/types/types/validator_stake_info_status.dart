@@ -7,8 +7,10 @@ class ValidatorStakeInfoStatus {
   const ValidatorStakeInfoStatus._(this.name, this.value);
 
   /// Stake account is active, there may be a transient stake as well
-  static const ValidatorStakeInfoStatus active =
-      ValidatorStakeInfoStatus._('Active', 0);
+  static const ValidatorStakeInfoStatus active = ValidatorStakeInfoStatus._(
+    'Active',
+    0,
+  );
 
   /// Only transient stake account exists, when a transient stake is
   /// deactivating during validator removal
@@ -35,7 +37,7 @@ class ValidatorStakeInfoStatus {
     deactivatingTransient,
     readyForRemoval,
     deactivatingValidator,
-    deactivatingAll
+    deactivatingAll,
   ];
 
   factory ValidatorStakeInfoStatus.fromJson(Map<String, dynamic> json) {
@@ -45,17 +47,23 @@ class ValidatorStakeInfoStatus {
   factory ValidatorStakeInfoStatus.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No ValidatorStakeInfoStatus found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No ValidatorStakeInfoStatus found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
   factory ValidatorStakeInfoStatus.fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No ValidatorStakeInfoStatus found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No ValidatorStakeInfoStatus found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

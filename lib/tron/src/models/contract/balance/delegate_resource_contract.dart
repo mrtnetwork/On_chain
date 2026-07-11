@@ -1,46 +1,50 @@
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Delegate bandwidth or energy resources to other accounts in Stake2.0.
 class DelegateResourceContract extends TronBaseContract {
   /// Create a new [DelegateResourceContract] instance by parsing a JSON map.
   factory DelegateResourceContract.fromJson(Map<String, dynamic> json) {
     return DelegateResourceContract(
-        ownerAddress: OnChainUtils.parseTronAddress(
-            value: json['owner_address'], name: 'owner_address'),
-        balance:
-            OnChainUtils.parseBigInt(value: json['balance'], name: 'balance'),
-        receiverAddress: OnChainUtils.parseTronAddress(
-            value: json['receiver_address'], name: 'receiver_address'),
-        lock: OnChainUtils.parseBoolean(value: json['lock'], name: 'lock'),
-        resource: ResourceCode.fromName(
-            OnChainUtils.parseString(value: json['resource'], name: 'resource'),
-            orElse: ResourceCode.bandWidth),
-        lockPeriod: OnChainUtils.parseBigInt(
-            value: json['lock_period'], name: 'lock_period'));
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      balance: json.valueAsBigInt("balance"),
+      receiverAddress: TronAddress(json.valueAs("receiver_address")),
+
+      lock: json.valueAs("lock"),
+      resource: ResourceCode.fromName(
+        json.valueAs("resource"),
+        orElse: ResourceCode.bandWidth,
+      ),
+      lockPeriod: json.valueAsBigInt("lock_period"),
+    );
   }
   factory DelegateResourceContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return DelegateResourceContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        resource: decode.getResult(2)?.castTo<ResourceCode, int>(
-            (e) => ResourceCode.fromValue(decode.getField(2))),
-        balance: decode.getField(3),
-        receiverAddress: TronAddress.fromBytes(decode.getField(4)),
-        lock: decode.getField(5),
-        lockPeriod: decode.getField(6));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      resource: decode
+          .getResult(2)
+          ?.castTo<ResourceCode, int>(
+            (e) => ResourceCode.fromValue(decode.getField(2)),
+          ),
+      balance: decode.getField(3),
+      receiverAddress: TronAddress.fromBytes(decode.getField(4)),
+      lock: decode.getField(5),
+      lockPeriod: decode.getField(6),
+    );
   }
 
   /// Create a new [DelegateResourceContract] instance with specified parameters.
-  DelegateResourceContract(
-      {required this.ownerAddress,
-      required this.balance,
-      required this.receiverAddress,
-      this.lock,
-      this.resource,
-      this.lockPeriod});
+  DelegateResourceContract({
+    required this.ownerAddress,
+    required this.balance,
+    required this.receiverAddress,
+    this.lock,
+    this.resource,
+    this.lockPeriod,
+  });
 
   /// Account address
   @override
@@ -70,17 +74,17 @@ class DelegateResourceContract extends TronBaseContract {
 
   @override
   List get values => [
-        ownerAddress,
+    ownerAddress,
 
-        /// its default value and null reduce transaction size (FEE)
-        resource == ResourceCode.bandWidth ? null : resource,
-        balance,
-        receiverAddress,
+    /// its default value and null reduce transaction size (FEE)
+    resource == ResourceCode.bandWidth ? null : resource,
+    balance,
+    receiverAddress,
 
-        /// its default value and null reduce transaction size (FEE)
-        lock == false ? null : lock,
-        lockPeriod
-      ];
+    /// its default value and null reduce transaction size (FEE)
+    lock == false ? null : lock,
+    lockPeriod,
+  ];
 
   /// Convert the [DelegateResourceContract] object to a JSON representation.
   @override
@@ -91,7 +95,7 @@ class DelegateResourceContract extends TronBaseContract {
       'lock': lock,
       'lock_period': lockPeriod?.toString(),
       'balance': balance.toString(),
-      'resource': resource?.name
+      'resource': resource?.name,
     }..removeWhere((key, value) => value == null);
   }
 

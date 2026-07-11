@@ -13,18 +13,23 @@ class StakePoolIncreaseAdditionalValidatorStakeLayout
 
   /// seed used to create ephemeral account.
   final BigInt ephemeralStakeSeed;
-  const StakePoolIncreaseAdditionalValidatorStakeLayout(
-      {required this.lamports,
-      required this.ephemeralStakeSeed,
-      required this.transientStakeSeed});
+  const StakePoolIncreaseAdditionalValidatorStakeLayout({
+    required this.lamports,
+    required this.ephemeralStakeSeed,
+    required this.transientStakeSeed,
+  });
 
   factory StakePoolIncreaseAdditionalValidatorStakeLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: StakePoolProgramInstruction
-            .increaseAdditionalValidatorStake.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          StakePoolProgramInstruction
+              .increaseAdditionalValidatorStake
+              .insturction,
+    );
     return StakePoolIncreaseAdditionalValidatorStakeLayout(
       ephemeralStakeSeed: decode['ephemeralStakeSeed'],
       lamports: decode['lamports'],
@@ -33,11 +38,11 @@ class StakePoolIncreaseAdditionalValidatorStakeLayout
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports'),
-        LayoutConst.ns64(property: 'transientStakeSeed'),
-        LayoutConst.ns64(property: 'ephemeralStakeSeed')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'transientStakeSeed'),
+    LayoutConst.ns64(property: 'ephemeralStakeSeed'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -49,7 +54,7 @@ class StakePoolIncreaseAdditionalValidatorStakeLayout
     return {
       'lamports': lamports,
       'ephemeralStakeSeed': ephemeralStakeSeed,
-      'transientStakeSeed': transientStakeSeed
+      'transientStakeSeed': transientStakeSeed,
     };
   }
 }

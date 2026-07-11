@@ -24,9 +24,9 @@ class NameServiceTransferLayout extends NameServiceProgramLayout {
 
   /// The layout structure.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('newOwnerKey'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newOwnerKey'),
+  ]);
 
   /// The layout structure.
   @override

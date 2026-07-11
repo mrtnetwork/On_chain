@@ -15,16 +15,17 @@ class SPLTokenInitializeAccount3Layout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for SPLTokenInitializeAccount3Layout.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('owner')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('owner'),
+  ]);
 
   /// Constructs an SPLTokenInitializeAccount3Layout instance from buffer.
   factory SPLTokenInitializeAccount3Layout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.initializeAccount3.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.initializeAccount3.insturction,
+    );
     return SPLTokenInitializeAccount3Layout(owner: decode['owner']);
   }
 

@@ -16,11 +16,18 @@ class ADATransactionUTXOSResponse {
 
   factory ADATransactionUTXOSResponse.fromJson(Map<String, dynamic> json) {
     return ADATransactionUTXOSResponse(
-        hash: json['hash'],
-        inputs: List<ADATransactionInput>.from((json['inputs'] as List)
-            .map((inputJson) => ADATransactionInput.fromJson(inputJson))),
-        outputs: List<ADATransactionOutput>.from((json['outputs'] as List)
-            .map((outputJson) => ADATransactionOutput.fromJson(outputJson))));
+      hash: json['hash'],
+      inputs: List<ADATransactionInput>.from(
+        (json['inputs'] as List).map(
+          (inputJson) => ADATransactionInput.fromJson(inputJson),
+        ),
+      ),
+      outputs: List<ADATransactionOutput>.from(
+        (json['outputs'] as List).map(
+          (outputJson) => ADATransactionOutput.fromJson(outputJson),
+        ),
+      ),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -87,7 +94,8 @@ class ADATransactionInput {
       referenceScriptHash: json['reference_script_hash'],
       collateral: json['collateral'],
       reference: json['reference'],
-      amount: (json['amount'] as List?)
+      amount:
+          (json['amount'] as List?)
               ?.map((e) => ADATransactionAmount.fromJson(e))
               .toList() ??
           [],
@@ -104,7 +112,7 @@ class ADATransactionInput {
       'reference_script_hash': referenceScriptHash,
       'collateral': collateral,
       'reference': reference,
-      'amount': amount.map((e) => e.toJson()).toList()
+      'amount': amount.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -154,7 +162,8 @@ class ADATransactionOutput {
       inlineDatum: json['inline_datum'],
       collateral: json['collateral'],
       referenceScriptHash: json['reference_script_hash'],
-      amount: (json['amount'] as List?)
+      amount:
+          (json['amount'] as List?)
               ?.map((e) => ADATransactionAmount.fromJson(e))
               .toList() ??
           [],
@@ -169,7 +178,7 @@ class ADATransactionOutput {
       'inline_datum': inlineDatum,
       'collateral': collateral,
       'reference_script_hash': referenceScriptHash,
-      'amount': amount.map((e) => e.toJson()).toList()
+      'amount': amount.map((e) => e.toJson()).toList(),
     };
   }
 

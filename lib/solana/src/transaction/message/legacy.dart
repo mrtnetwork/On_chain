@@ -31,18 +31,19 @@ class Message implements VersionedMessage {
   });
 
   @override
-  Message copyWith(
-      {MessageHeader? header,
-      List<SolAddress>? accountKeys,
-      SolAddress? recentBlockhash,
-      List<CompiledInstruction>? compiledInstructions,
-      List<AddressTableLookup>? addressTableLookups}) {
+  Message copyWith({
+    MessageHeader? header,
+    List<SolAddress>? accountKeys,
+    SolAddress? recentBlockhash,
+    List<CompiledInstruction>? compiledInstructions,
+    List<AddressTableLookup>? addressTableLookups,
+  }) {
     return Message(
-        header: header ?? this.header,
-        accountKeys: accountKeys ?? this.accountKeys,
-        recentBlockhash: recentBlockhash ?? this.recentBlockhash,
-        compiledInstructions:
-            compiledInstructions ?? this.compiledInstructions);
+      header: header ?? this.header,
+      accountKeys: accountKeys ?? this.accountKeys,
+      recentBlockhash: recentBlockhash ?? this.recentBlockhash,
+      compiledInstructions: compiledInstructions ?? this.compiledInstructions,
+    );
   }
 
   /// Constructs a message from a serialized buffer.
@@ -86,9 +87,10 @@ class Message implements VersionedMessage {
   /// Checks if an account at the specified index is writable.
   @override
   bool isAccountWritable(int index) => header.isAccountWritable(
-      index: index,
-      numStaticAccountKeys: accountKeys.length,
-      addressTableLookups: const []);
+    index: index,
+    numStaticAccountKeys: accountKeys.length,
+    addressTableLookups: const [],
+  );
 
   /// Serializes the message.
   @override

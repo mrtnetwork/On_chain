@@ -10,24 +10,28 @@ class TokenLendingInitReserveLayout extends TokenLendingProgramLayout {
 
   /// Reserve configuration values
   final ReserveConfig config;
-  const TokenLendingInitReserveLayout(
-      {required this.liquidityAmount, required this.config});
+  const TokenLendingInitReserveLayout({
+    required this.liquidityAmount,
+    required this.config,
+  });
 
   factory TokenLendingInitReserveLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: TokenLendingProgramInstruction.initReserve.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: TokenLendingProgramInstruction.initReserve.insturction,
+    );
 
     return TokenLendingInitReserveLayout(
-        liquidityAmount: decode['liquidityAmount'],
-        config: ReserveConfig.fromJson(decode['config']));
+      liquidityAmount: decode['liquidityAmount'],
+      config: ReserveConfig.fromJson(decode['config']),
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'liquidityAmount'),
-        ReserveConfig.layout
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'liquidityAmount'),
+    ReserveConfig.layout,
+  ]);
 
   @override
   StructLayout get layout => _layout;

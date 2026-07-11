@@ -24,8 +24,10 @@ abstract class ProgramLayout extends BorshLayoutSerializable {
   /// Converts the program to bytes using Borsh serialization.
   @override
   List<int> toBytes() {
-    return layout
-        .serialize({'instruction': instruction.insturction, ...serialize()});
+    return layout.serialize({
+      'instruction': instruction.insturction,
+      ...serialize(),
+    });
   }
 
   /// Converts the program to a hexadecimal string.
@@ -49,18 +51,24 @@ abstract class ProgramLayout extends BorshLayoutSerializable {
     final decode = layout.deserialize(bytes).value;
     if (instruction != null) {
       if (decode['instruction'] != instruction) {
-        throw SolanaPluginException('invalid instruction index', details: {
-          'expected': instruction,
-          'instruction': decode['instruction']
-        });
+        throw SolanaPluginException(
+          'invalid instruction index',
+          details: {
+            'expected': instruction.toString(),
+            'instruction': decode['instruction'],
+          },
+        );
       }
     }
     if (discriminator != null) {
       if (decode['discriminator'] != discriminator) {
-        throw SolanaPluginException('invalid discriminator', details: {
-          'expected': discriminator,
-          'instruction': decode['discriminator']
-        });
+        throw SolanaPluginException(
+          'invalid discriminator',
+          details: {
+            'expected': discriminator.toString(),
+            'instruction': decode['discriminator'],
+          },
+        );
       }
     }
     return decode;

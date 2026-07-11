@@ -10,16 +10,19 @@ class MetaplexNFTPacksAddCardToPackLayout
 
   factory MetaplexNFTPacksAddCardToPackLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexNFTPacksProgramInstruction.addCardToPack.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexNFTPacksProgramInstruction.addCardToPack.insturction,
+    );
     return MetaplexNFTPacksAddCardToPackLayout(
-        addCardToPack: AddCardToPack.fromJson(decode['addCardToPack']));
+      addCardToPack: AddCardToPack.fromJson(decode['addCardToPack']),
+    );
   }
 
-  static StructLayout get _layout => LayoutConst.struct(
-      [LayoutConst.u8(property: 'instruction'), AddCardToPack.staticLayout]);
+  static StructLayout get _layout => LayoutConst.struct([
+    LayoutConst.u8(property: 'instruction'),
+    AddCardToPack.staticLayout,
+  ]);
 
   @override
   StructLayout get layout => _layout;

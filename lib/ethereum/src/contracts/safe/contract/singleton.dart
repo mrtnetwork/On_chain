@@ -1,33 +1,42 @@
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
-import 'package:on_chain/ethereum/src/rpc/provider/provider.dart';
+import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 import 'package:on_chain/solidity/address/core.dart';
 
 import '../core/singleton.dart';
 import '../types/contracts.dart';
 
 class SafeSingletonContract extends ISafeSingletonContract {
-  SafeSingletonContract(
-      {required super.contract,
-      required super.contractAddress,
-      required super.version});
+  SafeSingletonContract({
+    required super.contract,
+    required super.contractAddress,
+    required super.version,
+  });
 
   /// Returns a descriptive version of the Safe contract.
   @override
-  Future<String> getVersion(EthereumProvider provider) async {
+  Future<String> getVersion(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<String>(
-        functionName: SafeContractFunction.version, provider: provider);
+      functionName: SafeContractFunction.version,
+      provider: provider,
+    );
   }
 
   /// "stateMutability": "nonpayable",
   /// Adds the owner `owner` to the Safe and updates the threshold to `threshold`.
   @override
-  Future<SafeContractEncodedCall> addOwnerWithThreshold(
-      {required ETHAddress address, required int threshold}) async {
+  Future<SafeContractEncodedCall> addOwnerWithThreshold({
+    required ETHAddress address,
+    required int threshold,
+  }) async {
     final params = [address, threshold];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.addOwnerWithThreshold,
-        params: params);
+      functionName: SafeContractFunction.addOwnerWithThreshold,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -36,24 +45,28 @@ class SafeSingletonContract extends ISafeSingletonContract {
   Future<SafeContractEncodedCall> approveHash(List<int> hashToApprove) async {
     final params = [hashToApprove];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.approveHash, params: params);
+      functionName: SafeContractFunction.approveHash,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns a non-zero value if the `messageHash` is approved by the `owner`
   @override
-  Future<bool> approvedHashes(
-      {required EthereumProvider provider,
-      required ETHAddress address,
-      required List<int> messageHash}) async {
+  Future<bool> approvedHashes({
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+    required ETHAddress address,
+    required List<int> messageHash,
+  }) async {
     final params = [address, messageHash];
     return queryContract<bool>(
       functionName: SafeContractFunction.approvedHashes,
       params: params,
       provider: provider,
       onResponse: (result) {
-        final BigInt approved =
-            JsonParser.valueAsBigInt(result.elementAtOrNull(0));
+        final BigInt approved = JsonParser.valueAsBigInt(
+          result.elementAtOrNull(0),
+        );
         return approved > BigInt.zero;
       },
     );
@@ -65,19 +78,22 @@ class SafeSingletonContract extends ISafeSingletonContract {
   Future<SafeContractEncodedCall> changeThreshold(int threshold) async {
     final params = [threshold];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.changeThreshold, params: params);
+      functionName: SafeContractFunction.changeThreshold,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// Checks whether the provided signature is valid for the given hash.
   /// Reverts if the signature is invalid.
   @override
-  Future<bool> checkNSignatures(
-      {required List<int> dataHash,
-      required List<int> data,
-      required List<int> signatures,
-      required BigInt requiredSignatures,
-      required EthereumProvider provider}) async {
+  Future<bool> checkNSignatures({
+    required List<int> dataHash,
+    required List<int> data,
+    required List<int> signatures,
+    required BigInt requiredSignatures,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  }) async {
     final params = [dataHash, data, signatures, requiredSignatures];
     return queryContract<bool>(
       provider: provider,
@@ -99,7 +115,7 @@ class SafeSingletonContract extends ISafeSingletonContract {
     required List<int> dataHash,
     required List<int> signatures,
     required BigInt requiredSignatures,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   }) async {
     final params = [address, dataHash, signatures, requiredSignatures];
     return queryContract<bool>(
@@ -116,11 +132,12 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// Checks whether the signature provided is valid for the provided data and hash. Reverts otherwise.
   @override
-  Future<bool> checkSignatures(
-      {required List<int> dataHash,
-      required List<int> data,
-      required List<int> signatures,
-      required EthereumProvider provider}) async {
+  Future<bool> checkSignatures({
+    required List<int> dataHash,
+    required List<int> data,
+    required List<int> signatures,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  }) async {
     final params = [dataHash, data, signatures];
     return queryContract<bool>(
       functionName: SafeContractFunction.checkSignatures,
@@ -136,11 +153,12 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// Checks whether the signature provided is valid for the provided data and hash and executor. Reverts otherwise.
   @override
-  Future<bool> checkSignatures2(
-      {required List<int> dataHash,
-      required ETHAddress executor,
-      required List<int> signatures,
-      required EthereumProvider provider}) async {
+  Future<bool> checkSignatures2({
+    required List<int> dataHash,
+    required ETHAddress executor,
+    required List<int> signatures,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  }) async {
     final params = [executor, dataHash, signatures];
     return queryContract<bool>(
       functionName: SafeContractFunction.checkSignatures,
@@ -156,19 +174,27 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "nonpayable",
   /// Disables the module `module` for the Safe.
   @override
-  Future<SafeContractEncodedCall> disableModule(
-      {required ETHAddress prevModule, required ETHAddress module}) async {
+  Future<SafeContractEncodedCall> disableModule({
+    required ETHAddress prevModule,
+    required ETHAddress module,
+  }) async {
     final params = [prevModule, module];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.disableModule, params: params);
+      functionName: SafeContractFunction.disableModule,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns the domain separator for this contract, as defined in the EIP-712 standard.
   @override
-  Future<List<int>> domainSeparator(EthereumProvider provider) async {
+  Future<List<int>> domainSeparator(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<int>>(
-        functionName: SafeContractFunction.domainSeparator, provider: provider);
+      functionName: SafeContractFunction.domainSeparator,
+      provider: provider,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -177,7 +203,9 @@ class SafeSingletonContract extends ISafeSingletonContract {
   Future<SafeContractEncodedCall> enableModule(ETHAddress module) async {
     final params = [module];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.enableModule, params: params);
+      functionName: SafeContractFunction.enableModule,
+      params: params,
+    );
   }
 
   /// "stateMutability": "payable",
@@ -216,10 +244,12 @@ class SafeSingletonContract extends ISafeSingletonContract {
       gasPrice ?? BigInt.zero,
       gasToken ?? ETHAddress.zero,
       refundReceiver ?? ETHAddress.zero,
-      signatures
+      signatures,
     ];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.execTransaction, params: params);
+      functionName: SafeContractFunction.execTransaction,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -231,16 +261,18 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// - [data]: Data payload of the module transaction.
   /// - [operation]: Operation type of the module transaction
   @override
-  Future<SafeContractEncodedCall> execTransactionFromModule(
-      {required ETHAddress to,
-      BigInt? value,
-      List<int>? data,
-      SafeContractExecutionOpration operation =
-          SafeContractExecutionOpration.call}) async {
+  Future<SafeContractEncodedCall> execTransactionFromModule({
+    required ETHAddress to,
+    BigInt? value,
+    List<int>? data,
+    SafeContractExecutionOpration operation =
+        SafeContractExecutionOpration.call,
+  }) async {
     final params = [to, value ?? BigInt.zero, data ?? <int>[], operation.value];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.execTransactionFromModule,
-        params: params);
+      functionName: SafeContractFunction.execTransactionFromModule,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -253,28 +285,33 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// - [data]: Data payload for the module transaction.
   /// - [operation]: Type of operation
   @override
-  Future<SafeContractEncodedCall> execTransactionFromModuleReturnData(
-      {required ETHAddress to,
-      BigInt? value,
-      List<int>? data,
-      SafeContractExecutionOpration operation =
-          SafeContractExecutionOpration.call}) async {
+  Future<SafeContractEncodedCall> execTransactionFromModuleReturnData({
+    required ETHAddress to,
+    BigInt? value,
+    List<int>? data,
+    SafeContractExecutionOpration operation =
+        SafeContractExecutionOpration.call,
+  }) async {
     final params = [to, value ?? BigInt.zero, data ?? <int>[], operation.value];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.execTransactionFromModuleReturnData,
-        params: params);
+      functionName: SafeContractFunction.execTransactionFromModuleReturnData,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns a list of Safe owners.
   @override
-  Future<List<ETHAddress>> getOwners(EthereumProvider provider) async {
+  Future<List<ETHAddress>> getOwners(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<ETHAddress>>(
       functionName: SafeContractFunction.getOwners,
       provider: provider,
       onResponse: (result) {
         final owners = JsonParser.valueEnsureAsList<SolidityAddress>(
-            result.elementAtOrNull(0));
+          result.elementAtOrNull(0),
+        );
         return owners.map((e) => e.toEthereumAddress()).toList();
       },
     );
@@ -283,23 +320,29 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// [length] bytes of storage in the current contract
   @override
-  Future<List<int>> getStorageAt(
-      {required EthereumProvider provider,
-      required int offset,
-      required int length}) async {
+  Future<List<int>> getStorageAt({
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+    required int offset,
+    required int length,
+  }) async {
     final params = [BigInt.from(offset), BigInt.from(length)];
     return queryContract<List<int>>(
-        provider: provider,
-        functionName: SafeContractFunction.getStorageAt,
-        params: params);
+      provider: provider,
+      functionName: SafeContractFunction.getStorageAt,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   ///  Returns the number of required confirmations for a Safe transaction aka the threshold.
   @override
-  Future<BigInt> getThreshold(EthereumProvider provider) async {
+  Future<BigInt> getThreshold(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<BigInt>(
-        provider: provider, functionName: SafeContractFunction.getThreshold);
+      provider: provider,
+      functionName: SafeContractFunction.getThreshold,
+    );
   }
 
   /// "stateMutability": "view",
@@ -319,19 +362,20 @@ class SafeSingletonContract extends ISafeSingletonContract {
   ///   (`0x0` means `tx.origin`).
   /// - [nonce]: Nonce of the Safe transaction.
   @override
-  Future<List<int>> getTransactionHash(
-      {required ETHAddress to,
-      BigInt? value,
-      List<int>? data,
-      SafeContractExecutionOpration operation =
-          SafeContractExecutionOpration.call,
-      BigInt? safeTxGas,
-      BigInt? baseGas,
-      BigInt? gasPrice,
-      ETHAddress? gasToken,
-      ETHAddress? refundReceiver,
-      required BigInt nonce,
-      required EthereumProvider provider}) async {
+  Future<List<int>> getTransactionHash({
+    required ETHAddress to,
+    BigInt? value,
+    List<int>? data,
+    SafeContractExecutionOpration operation =
+        SafeContractExecutionOpration.call,
+    BigInt? safeTxGas,
+    BigInt? baseGas,
+    BigInt? gasPrice,
+    ETHAddress? gasToken,
+    ETHAddress? refundReceiver,
+    required BigInt nonce,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  }) async {
     final List<Object> params = [
       to,
       value ?? BigInt.zero,
@@ -342,19 +386,22 @@ class SafeSingletonContract extends ISafeSingletonContract {
       gasPrice ?? BigInt.zero,
       gasToken ?? ETHAddress.zero,
       refundReceiver ?? ETHAddress.zero,
-      nonce
+      nonce,
     ];
     return queryContract<List<int>>(
-        functionName: SafeContractFunction.getTransactionHash,
-        params: params,
-        provider: provider);
+      functionName: SafeContractFunction.getTransactionHash,
+      params: params,
+      provider: provider,
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns whether or not a module is enabled.
   @override
-  Future<bool> isModuleEnabled(
-      {required ETHAddress address, required EthereumProvider provider}) async {
+  Future<bool> isModuleEnabled({
+    required ETHAddress address,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  }) async {
     final params = [address];
     return queryContract<bool>(
       functionName: SafeContractFunction.isModuleEnabled,
@@ -366,8 +413,10 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// if [owner] is an owner of the Safe.
   @override
-  Future<bool> isOwner(
-      {required ETHAddress owner, required EthereumProvider provider}) async {
+  Future<bool> isOwner({
+    required ETHAddress owner,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  }) async {
     final params = [owner];
     return queryContract<bool>(
       functionName: SafeContractFunction.isOwner,
@@ -379,7 +428,9 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// Returns the nonce of the Safe contract.
   @override
-  Future<BigInt> nonce(EthereumProvider provider) async {
+  Future<BigInt> nonce(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<BigInt>(
       functionName: SafeContractFunction.nonce,
       provider: provider,
@@ -400,13 +451,16 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// - [owner]: The owner address to remove from the Safe.
   /// - [threshold]: The new threshold value to apply after the removal.
   @override
-  Future<SafeContractEncodedCall> removeOwner(
-      {required ETHAddress prevOwner,
-      required ETHAddress owner,
-      required BigInt threshold}) async {
+  Future<SafeContractEncodedCall> removeOwner({
+    required ETHAddress prevOwner,
+    required ETHAddress owner,
+    required BigInt threshold,
+  }) async {
     final params = [prevOwner, owner, threshold];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.removeOwner, params: params);
+      functionName: SafeContractFunction.removeOwner,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -428,7 +482,9 @@ class SafeSingletonContract extends ISafeSingletonContract {
   Future<SafeContractEncodedCall> setFallbackHandler(ETHAddress handler) async {
     final params = [handler];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.setFallbackHandler, params: params);
+      functionName: SafeContractFunction.setFallbackHandler,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -438,7 +494,9 @@ class SafeSingletonContract extends ISafeSingletonContract {
   Future<SafeContractEncodedCall> setGuard(ETHAddress guard) async {
     final params = [guard];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.setGuard, params: params);
+      functionName: SafeContractFunction.setGuard,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -462,7 +520,9 @@ class SafeSingletonContract extends ISafeSingletonContract {
   Future<SafeContractEncodedCall> setModuleGuard(ETHAddress moduleGuard) async {
     final params = [moduleGuard];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.setModuleGuard, params: params);
+      functionName: SafeContractFunction.setModuleGuard,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -517,23 +577,27 @@ class SafeSingletonContract extends ISafeSingletonContract {
       paymentReceiver ?? ETHAddress.zero,
     ];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.setup, params: params);
+      functionName: SafeContractFunction.setup,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns a non-zero value if the [messageHash] is signed for the Safe.
   @override
-  Future<bool> signedMessages(
-      {required EthereumProvider provider,
-      required List<int> messageHash}) async {
+  Future<bool> signedMessages({
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+    required List<int> messageHash,
+  }) async {
     final params = [messageHash];
     return queryContract<bool>(
       functionName: SafeContractFunction.signedMessages,
       params: params,
       provider: provider,
       onResponse: (result) {
-        final BigInt approved =
-            JsonParser.valueAsBigInt(result.elementAtOrNull(0));
+        final BigInt approved = JsonParser.valueAsBigInt(
+          result.elementAtOrNull(0),
+        );
         return approved > BigInt.zero;
       },
     );
@@ -557,12 +621,15 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// - [calldataPayload]: Calldata sent to the target contract
   ///   (includes the encoded function selector and arguments).
   @override
-  Future<SafeContractEncodedCall> simulateAndRevert(
-      {required ETHAddress targetContract,
-      required List<int> calldataPayload}) async {
+  Future<SafeContractEncodedCall> simulateAndRevert({
+    required ETHAddress targetContract,
+    required List<int> calldataPayload,
+  }) async {
     final params = [targetContract, calldataPayload];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.simulateAndRevert, params: params);
+      functionName: SafeContractFunction.simulateAndRevert,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -585,19 +652,24 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// - [oldOwner]: Owner address to be replaced.
   /// - [newOwner]: New owner address to replace the old one.
   @override
-  Future<SafeContractEncodedCall> swapOwner(
-      {required ETHAddress prevOwner,
-      required ETHAddress oldOwner,
-      required ETHAddress newOwner}) async {
+  Future<SafeContractEncodedCall> swapOwner({
+    required ETHAddress prevOwner,
+    required ETHAddress oldOwner,
+    required ETHAddress newOwner,
+  }) async {
     final params = [prevOwner, oldOwner, newOwner];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.swapOwner, params: params);
+      functionName: SafeContractFunction.swapOwner,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// The precomputed EIP-712 domain separator hash for Safe typed data hashing and signing.
   @override
-  Future<List<int>> domainSeparatorTypeHash(EthereumProvider provider) async {
+  Future<List<int>> domainSeparatorTypeHash(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<int>>(
       functionName: SafeContractFunction.domainSeparatorTypeHash,
       provider: provider,
@@ -607,7 +679,9 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// The precomputed EIP-712 type hash for the Safe message type.
   @override
-  Future<List<int>> safeMsgTypeHash(EthereumProvider provider) async {
+  Future<List<int>> safeMsgTypeHash(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<int>>(
       functionName: SafeContractFunction.safeMsgTypeHash,
       provider: provider,
@@ -617,7 +691,9 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// The precomputed EIP-712 type hash for the Safe transaction type.
   @override
-  Future<List<int>> safeTxTypeHash(EthereumProvider provider) async {
+  Future<List<int>> safeTxTypeHash(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<int>>(
       functionName: SafeContractFunction.safeTxTypeHash,
       provider: provider,
@@ -627,30 +703,42 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// "stateMutability": "view",
   /// The sentinel module value in the {ModuleManager.modules} linked list.
   @override
-  Future<ETHAddress> sentinelModules(EthereumProvider provider) async {
+  Future<ETHAddress> sentinelModules(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<ETHAddress>(
-        functionName: SafeContractFunction.sentinelModules,
-        provider: provider,
-        onResponse: (result) =>
-            JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-                .toEthereumAddress());
+      functionName: SafeContractFunction.sentinelModules,
+      provider: provider,
+      onResponse:
+          (result) =>
+              JsonParser.valueAs<SolidityAddress>(
+                result.elementAtOrNull(0),
+              ).toEthereumAddress(),
+    );
   }
 
   /// The sentinel owner value in the {owners} linked list.
   @override
-  Future<ETHAddress> sentinelOwners(EthereumProvider provider) async {
+  Future<ETHAddress> sentinelOwners(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<ETHAddress>(
-        functionName: SafeContractFunction.sentinelOwners,
-        provider: provider,
-        onResponse: (result) =>
-            JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(0))
-                .toEthereumAddress());
+      functionName: SafeContractFunction.sentinelOwners,
+      provider: provider,
+      onResponse:
+          (result) =>
+              JsonParser.valueAs<SolidityAddress>(
+                result.elementAtOrNull(0),
+              ).toEthereumAddress(),
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns a descriptive version of the Safe contract.
   @override
-  Future<String> name(EthereumProvider provider) async {
+  Future<String> name(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<String>(
       functionName: SafeContractFunction.name,
       provider: provider,
@@ -659,17 +747,22 @@ class SafeSingletonContract extends ISafeSingletonContract {
 
   @override
   Future<SafeContractEncodedCall> changeMasterCopy(
-      ETHAddress masterCopy) async {
+    ETHAddress masterCopy,
+  ) async {
     final params = [masterCopy];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.changeMasterCopy, params: params);
+      functionName: SafeContractFunction.changeMasterCopy,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns the hash of a message to be signed by owners.
   @override
-  Future<List<int>> getMessageHash(
-      {required EthereumProvider provider, required List<int> message}) async {
+  Future<List<int>> getMessageHash({
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+    required List<int> message,
+  }) async {
     final params = [message];
     return queryContract<List<int>>(
       functionName: SafeContractFunction.getMessageHash,
@@ -679,27 +772,33 @@ class SafeSingletonContract extends ISafeSingletonContract {
   }
 
   @override
-  Future<SafeContractEncodedCall> requiredTxGas(
-      {required ETHAddress to,
-      BigInt? value,
-      List<int>? data,
-      SafeContractExecutionOpration operation =
-          SafeContractExecutionOpration.call}) async {
+  Future<SafeContractEncodedCall> requiredTxGas({
+    required ETHAddress to,
+    BigInt? value,
+    List<int>? data,
+    SafeContractExecutionOpration operation =
+        SafeContractExecutionOpration.call,
+  }) async {
     final params = [to, value ?? BigInt.zero, data ?? <int>[], operation.value];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.requiredTxGas, params: params);
+      functionName: SafeContractFunction.requiredTxGas,
+      params: params,
+    );
   }
 
   /// "stateMutability": "view",
   /// Returns array of first 10 modules.
   @override
-  Future<List<ETHAddress>> getModules(EthereumProvider provider) async {
+  Future<List<ETHAddress>> getModules(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<ETHAddress>>(
       functionName: SafeContractFunction.getModules,
       provider: provider,
       onResponse: (result) {
         final owners = JsonParser.valueEnsureAsList<SolidityAddress>(
-            result.elementAtOrNull(0));
+          result.elementAtOrNull(0),
+        );
         return owners.map((e) => e.toEthereumAddress()).toList();
       },
     );
@@ -715,7 +814,7 @@ class SafeSingletonContract extends ISafeSingletonContract {
   /// - [pageSize]: Maximum number of modules that should be returned. Must be greater than 0.
   @override
   Future<(List<ETHAddress>, ETHAddress)> getModulesPaginated({
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
     ETHAddress? start,
     required int pageSize,
   }) async {
@@ -726,11 +825,13 @@ class SafeSingletonContract extends ISafeSingletonContract {
       params: params,
       onResponse: (result) {
         final owners = JsonParser.valueEnsureAsList<SolidityAddress>(
-            result.elementAtOrNull(0));
+          result.elementAtOrNull(0),
+        );
         return (
           owners.map((e) => e.toEthereumAddress()).toList(),
-          JsonParser.valueAs<SolidityAddress>(result.elementAtOrNull(1))
-              .toEthereumAddress()
+          JsonParser.valueAs<SolidityAddress>(
+            result.elementAtOrNull(1),
+          ).toEthereumAddress(),
         );
       },
     );
@@ -753,19 +854,20 @@ class SafeSingletonContract extends ISafeSingletonContract {
   ///   (`0x0` means `tx.origin`).
   /// - [nonce]: Nonce of the Safe transaction.
   @override
-  Future<List<int>> encodeTransactionData(
-      {required ETHAddress to,
-      BigInt? value,
-      List<int>? data,
-      SafeContractExecutionOpration operation =
-          SafeContractExecutionOpration.call,
-      BigInt? safeTxGas,
-      BigInt? baseGas,
-      BigInt? gasPrice,
-      ETHAddress? gasToken,
-      ETHAddress? refundReceiver,
-      required BigInt nonce,
-      required EthereumProvider provider}) async {
+  Future<List<int>> encodeTransactionData({
+    required ETHAddress to,
+    BigInt? value,
+    List<int>? data,
+    SafeContractExecutionOpration operation =
+        SafeContractExecutionOpration.call,
+    BigInt? safeTxGas,
+    BigInt? baseGas,
+    BigInt? gasPrice,
+    ETHAddress? gasToken,
+    ETHAddress? refundReceiver,
+    required BigInt nonce,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  }) async {
     final List<Object> params = [
       to,
       value ?? BigInt.zero,
@@ -776,21 +878,26 @@ class SafeSingletonContract extends ISafeSingletonContract {
       gasPrice ?? BigInt.zero,
       gasToken ?? ETHAddress.zero,
       refundReceiver ?? ETHAddress.zero,
-      nonce
+      nonce,
     ];
     return queryContract<List<int>>(
-        provider: provider,
-        functionName: SafeContractFunction.encodeTransactionData,
-        params: params);
+      provider: provider,
+      functionName: SafeContractFunction.encodeTransactionData,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
   @override
-  Future<SafeContractEncodedCall> isValidSignature(
-      {required List<int> data, required List<int> signature}) async {
+  Future<SafeContractEncodedCall> isValidSignature({
+    required List<int> data,
+    required List<int> signature,
+  }) async {
     final params = [data, signature];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.isValidSignature, params: params);
+      functionName: SafeContractFunction.isValidSignature,
+      params: params,
+    );
   }
 
   /// "stateMutability": "nonpayable",
@@ -799,13 +906,19 @@ class SafeSingletonContract extends ISafeSingletonContract {
   Future<SafeContractEncodedCall> signMessage(List<int> data) async {
     final params = [data];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.signMessage, params: params);
+      functionName: SafeContractFunction.signMessage,
+      params: params,
+    );
   }
 
   /// Returns the ID of the chain the contract is currently deployed on.
   @override
-  Future<BigInt> getChainId(EthereumProvider provider) async {
+  Future<BigInt> getChainId(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<BigInt>(
-        provider: provider, functionName: SafeContractFunction.getChainId);
+      provider: provider,
+      functionName: SafeContractFunction.getChainId,
+    );
   }
 }

@@ -39,12 +39,12 @@ class ADAAddressSummaryResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'amount': amount.map((amount) => amount.toJson()).toList(),
-        'stake_address': stakeAddress,
-        'type': type,
-        'script': script,
-      };
+    'address': address,
+    'amount': amount.map((amount) => amount.toJson()).toList(),
+    'stake_address': stakeAddress,
+    'type': type,
+    'script': script,
+  };
 
   @override
   String toString() {

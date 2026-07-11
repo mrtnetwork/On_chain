@@ -13,23 +13,29 @@ class TransactionConfirmationStatus {
   static const List<TransactionConfirmationStatus> values = [
     processed,
     confirmed,
-    finalized
+    finalized,
   ];
 
   factory TransactionConfirmationStatus.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name.toLowerCase() == value?.toLowerCase(),
-      orElse: () => throw SolanaPluginException(
-          'No TransactionConfirmationStatus found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No TransactionConfirmationStatus found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
   factory TransactionConfirmationStatus.fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No TransactionConfirmationStatus found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No TransactionConfirmationStatus found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

@@ -7,7 +7,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 class BlockfrostRequestListOfStakePools
     extends BlockFrostRequest<List<String>, List<dynamic>> {
   BlockfrostRequestListOfStakePools({BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+    : super(filter: filter);
 
   /// List of stake pools
   @override

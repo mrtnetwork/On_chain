@@ -9,10 +9,13 @@ abstract class StakePoolProgramLayout extends ProgramLayout {
   static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    final instruction =
-        StakePoolProgramInstruction.getInstruction(decode['instruction']);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
+    final instruction = StakePoolProgramInstruction.getInstruction(
+      decode['instruction'],
+    );
     switch (instruction) {
       case StakePoolProgramInstruction.cleanupRemovedValidatorEntries:
         return StakePoolCleanupRemovedValidatorEntriesLayout.fromBuffer(data);
@@ -38,7 +41,8 @@ abstract class StakePoolProgramLayout extends ProgramLayout {
         return StakePoolIncreaseAdditionalValidatorStakeLayout.fromBuffer(data);
       case StakePoolProgramInstruction.decreaseValidatorStakeWithReserve:
         return StakePoolDecreaseValidatorStakeWithReserveLayout.fromBuffer(
-            data);
+          data,
+        );
       case StakePoolProgramInstruction.redelegate:
         return StakePoolReDelegateLayout.fromBuffer(data);
       case StakePoolProgramInstruction.createTokenMetaData:

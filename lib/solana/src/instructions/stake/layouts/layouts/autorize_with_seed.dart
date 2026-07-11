@@ -16,35 +16,39 @@ class StakeAuthorizeWithSeedLayout extends StakeProgramLayout {
     required this.authoritySeed,
   });
 
-  factory StakeAuthorizeWithSeedLayout(
-      {required SolAddress newAuthorized,
-      required int stakeAuthorizationType,
-      required String authoritySeed,
-      required SolAddress authorityOwner}) {
+  factory StakeAuthorizeWithSeedLayout({
+    required SolAddress newAuthorized,
+    required int stakeAuthorizationType,
+    required String authoritySeed,
+    required SolAddress authorityOwner,
+  }) {
     return StakeAuthorizeWithSeedLayout._(
-        newAuthorized: newAuthorized,
-        stakeAuthorizationType: stakeAuthorizationType,
-        authorityOwner: authorityOwner,
-        authoritySeed: authoritySeed);
+      newAuthorized: newAuthorized,
+      stakeAuthorizationType: stakeAuthorizationType,
+      authorityOwner: authorityOwner,
+      authoritySeed: authoritySeed,
+    );
   }
   factory StakeAuthorizeWithSeedLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: StakeProgramInstruction.authorizeWithSeed.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: StakeProgramInstruction.authorizeWithSeed.insturction,
+    );
     return StakeAuthorizeWithSeedLayout(
-        newAuthorized: decode['newAuthorized'],
-        stakeAuthorizationType: decode['stakeAuthorizationType'],
-        authoritySeed: decode['authoritySeed'],
-        authorityOwner: decode['authorityOwner']);
+      newAuthorized: decode['newAuthorized'],
+      stakeAuthorizationType: decode['stakeAuthorizationType'],
+      authoritySeed: decode['authoritySeed'],
+      authorityOwner: decode['authorityOwner'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('newAuthorized'),
-        LayoutConst.u32(property: 'stakeAuthorizationType'),
-        LayoutConst.rustString(property: 'authoritySeed'),
-        SolanaLayoutUtils.publicKey('authorityOwner')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newAuthorized'),
+    LayoutConst.u32(property: 'stakeAuthorizationType'),
+    LayoutConst.rustString(property: 'authoritySeed'),
+    SolanaLayoutUtils.publicKey('authorityOwner'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -59,7 +63,7 @@ class StakeAuthorizeWithSeedLayout extends StakeProgramLayout {
       'newAuthorized': newAuthorized,
       'stakeAuthorizationType': stakeAuthorizationType,
       'authoritySeed': authoritySeed,
-      'authorityOwner': authorityOwner
+      'authorityOwner': authorityOwner,
     };
   }
 }

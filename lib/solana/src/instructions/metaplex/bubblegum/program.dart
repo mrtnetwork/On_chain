@@ -9,47 +9,57 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     required super.programId,
     required ProgramLayout layout,
   }) : super(data: layout.toBytes());
-  factory MetaplexBubblegumProgram.burn(
-      {required SolAddress treeAuthority,
-      required SolAddress leafOwner,
-      required SolAddress leafDelegate,
-      required SolAddress merkleTree,
-      required SolAddress logWrapper,
-      required SolAddress compressionProgram,
-      required MetaplexBubblegumBurnLayout layout,
-      List<AccountMeta> anchorRemainingAccounts = const [],
-      SolAddress systemProgram = SystemProgramConst.programId}) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+  factory MetaplexBubblegumProgram.burn({
+    required SolAddress treeAuthority,
+    required SolAddress leafOwner,
+    required SolAddress leafDelegate,
+    required SolAddress merkleTree,
+    required SolAddress logWrapper,
+    required SolAddress compressionProgram,
+    required MetaplexBubblegumBurnLayout layout,
+    List<AccountMeta> anchorRemainingAccounts = const [],
+    SolAddress systemProgram = SystemProgramConst.programId,
+  }) {
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
-  factory MetaplexBubblegumProgram.cancelRedeem(
-      {required SolAddress treeAuthority,
-      required SolAddress leafOwner,
-      required SolAddress merkleTree,
-      required SolAddress voucher,
-      required SolAddress logWrapper,
-      required SolAddress compressionProgram,
-      required MetaplexBubblegumCancelRedeemLayout layout,
-      List<AccountMeta> anchorRemainingAccounts = const [],
-      SolAddress systemProgram = SystemProgramConst.programId}) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toSignerAndWritable(),
-      merkleTree.toWritable(),
-      voucher.toWritable(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+  factory MetaplexBubblegumProgram.cancelRedeem({
+    required SolAddress treeAuthority,
+    required SolAddress leafOwner,
+    required SolAddress merkleTree,
+    required SolAddress voucher,
+    required SolAddress logWrapper,
+    required SolAddress compressionProgram,
+    required MetaplexBubblegumCancelRedeemLayout layout,
+    List<AccountMeta> anchorRemainingAccounts = const [],
+    SolAddress systemProgram = SystemProgramConst.programId,
+  }) {
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toSignerAndWritable(),
+        merkleTree.toWritable(),
+        voucher.toWritable(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.compress({
     required SolAddress treeAuthority,
@@ -69,25 +79,26 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
     return MetaplexBubblegumProgram(
-        keys: [
-          treeAuthority.toReadOnly(),
-          leafOwner.toSigner(),
-          leafDelegate.toReadOnly(),
-          merkleTree.toReadOnly(),
-          tokenAccount.toWritable(),
-          mint.toWritable(),
-          metadata.toWritable(),
-          masterEdition.toWritable(),
-          payer.toSignerAndWritable(),
-          logWrapper.toReadOnly(),
-          compressionProgram.toReadOnly(),
-          tokenProgram.toReadOnly(),
-          tokenMetadataProgram.toReadOnly(),
-          systemProgram.toReadOnly(),
-          ...anchorRemainingAccounts
-        ],
-        programId: MetaplexBubblegumProgramConst.programId,
-        layout: const MetaplexBubblegumCompressLayout());
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toSigner(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toReadOnly(),
+        tokenAccount.toWritable(),
+        mint.toWritable(),
+        metadata.toWritable(),
+        masterEdition.toWritable(),
+        payer.toSignerAndWritable(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: const MetaplexBubblegumCompressLayout(),
+    );
   }
   factory MetaplexBubblegumProgram.createTree({
     required SolAddress treeAuthority,
@@ -100,16 +111,20 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toWritable(),
-      merkleTree.toWritable(),
-      payer.toSignerAndWritable(),
-      treeCreator.toSigner(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toWritable(),
+        merkleTree.toWritable(),
+        payer.toSignerAndWritable(),
+        treeCreator.toSigner(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.decompressV1({
     required SolAddress voucher,
@@ -128,22 +143,26 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     SolAddress systemProgram = SystemProgramConst.programId,
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      voucher.toWritable(),
-      leafOwner.toSignerAndWritable(),
-      tokenAccount.toWritable(),
-      mint.toWritable(),
-      mintAuthority.toWritable(),
-      metadata.toWritable(),
-      masterEdition.toWritable(),
-      systemProgram.toReadOnly(),
-      sysvarRent.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      associatedTokenProgram.toReadOnly(),
-      logWrapper.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        voucher.toWritable(),
+        leafOwner.toSignerAndWritable(),
+        tokenAccount.toWritable(),
+        mint.toWritable(),
+        mintAuthority.toWritable(),
+        metadata.toWritable(),
+        masterEdition.toWritable(),
+        systemProgram.toReadOnly(),
+        sysvarRent.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        associatedTokenProgram.toReadOnly(),
+        logWrapper.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.delegate({
     required SolAddress treeAuthority,
@@ -157,17 +176,21 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toSigner(),
-      previousLeafDelegate.toReadOnly(),
-      newLeafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toSigner(),
+        previousLeafDelegate.toReadOnly(),
+        newLeafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.mintToCollectionV1({
     required SolAddress treeAuthority,
@@ -189,25 +212,29 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toWritable(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      payer.toSigner(),
-      treeDelegate.toSigner(),
-      collectionAuthority.toSigner(),
-      collectionAuthorityRecordPda.toReadOnly(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toWritable(),
-      editionAccount.toReadOnly(),
-      bubblegumSigner.toReadOnly(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toWritable(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        payer.toSigner(),
+        treeDelegate.toSigner(),
+        collectionAuthority.toSigner(),
+        collectionAuthorityRecordPda.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        editionAccount.toReadOnly(),
+        bubblegumSigner.toReadOnly(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.mintV1({
     required SolAddress treeAuthority,
@@ -222,18 +249,22 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toWritable(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      payer.toSigner(),
-      treeDelegate.toSigner(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toWritable(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        payer.toSigner(),
+        treeDelegate.toSigner(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.redeem({
     required SolAddress treeAuthority,
@@ -247,17 +278,21 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toSignerAndWritable(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      voucher.toWritable(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toSignerAndWritable(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        voucher.toWritable(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.setAndVerifyCollection({
     required SolAddress treeAuthority,
@@ -279,25 +314,29 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      payer.toSigner(),
-      treeDelegate.toReadOnly(),
-      collectionAuthority.toSigner(),
-      collectionAuthorityRecordPda.toReadOnly(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toWritable(),
-      editionAccount.toReadOnly(),
-      bubblegumSigner.toReadOnly(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        payer.toSigner(),
+        treeDelegate.toReadOnly(),
+        collectionAuthority.toSigner(),
+        collectionAuthorityRecordPda.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        editionAccount.toReadOnly(),
+        bubblegumSigner.toReadOnly(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.setDecompressibleState({
     required SolAddress treeAuthority,
@@ -305,11 +344,15 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     required MetaplexBubblegumSetDecompressibleStateLayout layout,
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toWritable(),
-      treeCreator.toSigner(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toWritable(),
+        treeCreator.toSigner(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.setTreeDelegate({
     required SolAddress treeAuthority,
@@ -320,16 +363,17 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
     return MetaplexBubblegumProgram(
-        keys: [
-          treeAuthority.toWritable(),
-          treeCreator.toSigner(),
-          newTreeDelegate.toReadOnly(),
-          merkleTree.toReadOnly(),
-          systemProgram.toReadOnly(),
-          ...anchorRemainingAccounts
-        ],
-        programId: MetaplexBubblegumProgramConst.programId,
-        layout: const MetaplexBubblegumSetTreeDelegateLayout());
+      keys: [
+        treeAuthority.toWritable(),
+        treeCreator.toSigner(),
+        newTreeDelegate.toReadOnly(),
+        merkleTree.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: const MetaplexBubblegumSetTreeDelegateLayout(),
+    );
   }
   factory MetaplexBubblegumProgram.transfer({
     required SolAddress treeAuthority,
@@ -343,17 +387,21 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     SolAddress systemProgram = SystemProgramConst.programId,
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      newLeafOwner.toReadOnly(),
-      merkleTree.toWritable(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        newLeafOwner.toReadOnly(),
+        merkleTree.toWritable(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.unverifyCollection({
     required SolAddress treeAuthority,
@@ -375,25 +423,29 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     SolAddress systemProgram = SystemProgramConst.programId,
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      payer.toSigner(),
-      treeDelegate.toReadOnly(),
-      collectionAuthority.toSigner(),
-      collectionAuthorityRecordPda.toReadOnly(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toWritable(),
-      editionAccount.toReadOnly(),
-      bubblegumSigner.toReadOnly(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        payer.toSigner(),
+        treeDelegate.toReadOnly(),
+        collectionAuthority.toSigner(),
+        collectionAuthorityRecordPda.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        editionAccount.toReadOnly(),
+        bubblegumSigner.toReadOnly(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.unverifyCreator({
     required SolAddress treeAuthority,
@@ -408,18 +460,22 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      payer.toSigner(),
-      creator.toSigner(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        payer.toSigner(),
+        creator.toSigner(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.updateMetadata({
     required SolAddress treeAuthority,
@@ -438,25 +494,29 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      authority.toSigner(),
-      collectionMint?.toReadOnly() ??
-          MetaplexBubblegumProgramConst.programId.toReadOnly(),
-      collectionMetadata?.toReadOnly() ??
-          MetaplexBubblegumProgramConst.programId.toReadOnly(),
-      collectionAuthorityRecordPda?.toReadOnly() ??
-          MetaplexBubblegumProgramConst.programId.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      payer.toSigner(),
-      merkleTree.toWritable(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        authority.toSigner(),
+        collectionMint?.toReadOnly() ??
+            MetaplexBubblegumProgramConst.programId.toReadOnly(),
+        collectionMetadata?.toReadOnly() ??
+            MetaplexBubblegumProgramConst.programId.toReadOnly(),
+        collectionAuthorityRecordPda?.toReadOnly() ??
+            MetaplexBubblegumProgramConst.programId.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        payer.toSigner(),
+        merkleTree.toWritable(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.verifyCollection({
     required SolAddress treeAuthority,
@@ -478,25 +538,29 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      payer.toSigner(),
-      treeDelegate.toReadOnly(),
-      collectionAuthority.toSigner(),
-      collectionAuthorityRecordPda.toReadOnly(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toWritable(),
-      editionAccount.toReadOnly(),
-      bubblegumSigner.toReadOnly(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        payer.toSigner(),
+        treeDelegate.toReadOnly(),
+        collectionAuthority.toSigner(),
+        collectionAuthorityRecordPda.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        editionAccount.toReadOnly(),
+        bubblegumSigner.toReadOnly(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.verifyCreator({
     required SolAddress treeAuthority,
@@ -511,18 +575,22 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
     SolAddress systemProgram = SystemProgramConst.programId,
   }) {
-    return MetaplexBubblegumProgram(keys: [
-      treeAuthority.toReadOnly(),
-      leafOwner.toReadOnly(),
-      leafDelegate.toReadOnly(),
-      merkleTree.toWritable(),
-      payer.toSigner(),
-      creator.toSigner(),
-      logWrapper.toReadOnly(),
-      compressionProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      ...anchorRemainingAccounts
-    ], programId: MetaplexBubblegumProgramConst.programId, layout: layout);
+    return MetaplexBubblegumProgram(
+      keys: [
+        treeAuthority.toReadOnly(),
+        leafOwner.toReadOnly(),
+        leafDelegate.toReadOnly(),
+        merkleTree.toWritable(),
+        payer.toSigner(),
+        creator.toSigner(),
+        logWrapper.toReadOnly(),
+        compressionProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        ...anchorRemainingAccounts,
+      ],
+      programId: MetaplexBubblegumProgramConst.programId,
+      layout: layout,
+    );
   }
   factory MetaplexBubblegumProgram.verifyLeaf({
     required SolAddress merkleTree,
@@ -531,8 +599,9 @@ class MetaplexBubblegumProgram extends TransactionInstruction {
     List<AccountMeta> anchorRemainingAccounts = const [],
   }) {
     return MetaplexBubblegumProgram(
-        keys: [merkleTree.toReadOnly(), ...anchorRemainingAccounts],
-        programId: programId,
-        layout: layout);
+      keys: [merkleTree.toReadOnly(), ...anchorRemainingAccounts],
+      programId: programId,
+      layout: layout,
+    );
   }
 }

@@ -13,13 +13,15 @@ class StakeAuthorized extends BorshLayoutSerializable {
   const StakeAuthorized({required this.staker, required this.withdrawer});
   factory StakeAuthorized.fromJson(Map<String, dynamic> json) {
     return StakeAuthorized(
-        staker: json['staker'], withdrawer: json['withdrawer']);
+      staker: json['staker'],
+      withdrawer: json['withdrawer'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('staker'),
-        SolanaLayoutUtils.publicKey('withdrawer')
-      ], property: 'authorized');
+    SolanaLayoutUtils.publicKey('staker'),
+    SolanaLayoutUtils.publicKey('withdrawer'),
+  ], property: 'authorized');
 
   @override
   StructLayout get layout => staticLayout;

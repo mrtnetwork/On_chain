@@ -15,9 +15,10 @@ class SPLTokenCreateNativeMintLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenCreateNativeMintLayout instance from buffer.
   factory SPLTokenCreateNativeMintLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.createNativeMint.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.createNativeMint.insturction,
+    );
     return SPLTokenCreateNativeMintLayout();
   }
 

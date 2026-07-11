@@ -5,29 +5,33 @@ import 'package:blockchain_utils/layout/layout.dart';
 class MetaplexCandyMachineAddConfigLinesLayout
     extends MetaplexCandyMachineProgramLayout {
   final List<ConfigLine> configLines;
-  MetaplexCandyMachineAddConfigLinesLayout(
-      {required List<ConfigLine> configLines, required this.index})
-      : configLines = List.unmodifiable(configLines);
+  MetaplexCandyMachineAddConfigLinesLayout({
+    required List<ConfigLine> configLines,
+    required this.index,
+  }) : configLines = List.unmodifiable(configLines);
 
   factory MetaplexCandyMachineAddConfigLinesLayout.fromBuffer(List<int> data) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexCandyMachineProgramInstruction.addConfigLines.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction.addConfigLines.insturction,
+    );
     return MetaplexCandyMachineAddConfigLinesLayout(
-        configLines: (decode['configLines'] as List)
-            .map((e) => ConfigLine.fromJson(e))
-            .toList(),
-        index: decode['index']);
+      configLines:
+          (decode['configLines'] as List)
+              .map((e) => ConfigLine.fromJson(e))
+              .toList(),
+      index: decode['index'],
+    );
   }
 
   final int index;
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u32(property: 'index'),
-        LayoutConst.vec(ConfigLine.staticLayout, property: 'configLines')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u32(property: 'index'),
+    LayoutConst.vec(ConfigLine.staticLayout, property: 'configLines'),
+  ]);
 
   @override
   late final StructLayout layout = _layout;
@@ -40,7 +44,7 @@ class MetaplexCandyMachineAddConfigLinesLayout
   Map<String, dynamic> serialize() {
     return {
       'index': index,
-      'configLines': configLines.map((e) => e.serialize()).toList()
+      'configLines': configLines.map((e) => e.serialize()).toList(),
     };
   }
 }

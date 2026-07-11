@@ -18,9 +18,10 @@ class Ed25519Program extends TransactionInstruction {
     SolAddress programId = Ed25519ProgramConst.programId,
   }) {
     return Ed25519Program._(
-        layout: Ed25519ProgramLayout.fromBuffer(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: Ed25519ProgramLayout.fromBuffer(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Constructs an Ed25519Program instruction from a layout.

@@ -8,12 +8,14 @@ class AssociatedTokenAccountProgramIdempotentLayout
   const AssociatedTokenAccountProgramIdempotentLayout();
 
   factory AssociatedTokenAccountProgramIdempotentLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            AssociatedTokenAccountProgramInstruction.idempotent.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AssociatedTokenAccountProgramInstruction.idempotent.insturction,
+    );
     return const AssociatedTokenAccountProgramIdempotentLayout();
   }
   static StructLayout get _layout =>

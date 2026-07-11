@@ -30,7 +30,7 @@ class UsesToggle extends BorshLayoutSerializable {
       LayoutConst.none(property: 'NoneLayout'),
       LayoutConst.none(property: 'Clear'),
       LayoutConst.tuple([Uses.staticLayout], property: 'Set'),
-    ], property: 'usesToggle')
+    ], property: 'usesToggle'),
   ]);
 
   @override
@@ -39,7 +39,7 @@ class UsesToggle extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'usesToggle': {name: fileds?.map((e) => e.serialize()).toList()}
+      'usesToggle': {name: fileds?.map((e) => e.serialize()).toList()},
     };
   }
 }

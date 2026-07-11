@@ -6,20 +6,25 @@ class CandyMachineHiddenSettings extends BorshLayoutSerializable {
   final String name;
   final String uri;
   final List<int> hash;
-  CandyMachineHiddenSettings(
-      {required this.name, required this.uri, required List<int> hash})
-      : assert(hash.length == 32, 'Hash must be exactly 32 bytes.'),
-        hash = hash.asImmutableBytes;
+  CandyMachineHiddenSettings({
+    required this.name,
+    required this.uri,
+    required List<int> hash,
+  }) : assert(hash.length == 32, 'Hash must be exactly 32 bytes.'),
+       hash = hash.asImmutableBytes;
   factory CandyMachineHiddenSettings.fromJson(Map<String, dynamic> json) {
     return CandyMachineHiddenSettings(
-        name: json['name'], uri: json['uri'], hash: json['hash']);
+      name: json['name'],
+      uri: json['uri'],
+      hash: json['hash'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.string(property: 'name'),
-        LayoutConst.string(property: 'uri'),
-        LayoutConst.blob(32, property: 'hash')
-      ], property: 'hiddenSettings');
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.blob(32, property: 'hash'),
+  ], property: 'hiddenSettings');
 
   @override
   StructLayout get layout => staticLayout;

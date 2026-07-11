@@ -4,10 +4,11 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of assets. If an asset is completely burned, it will stay on the list with quantity 0 (order of assets is immutable
 /// https://blockfrost.dev/api/assets
-class BlockfrostRequestAssets extends BlockFrostRequest<List<ADAAssetsResponse>,
-    List<Map<String, dynamic>>> {
+class BlockfrostRequestAssets
+    extends
+        BlockFrostRequest<List<ADAAssetsResponse>, List<Map<String, dynamic>>> {
   BlockfrostRequestAssets({BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+    : super(filter: filter);
 
   /// Assets
   @override

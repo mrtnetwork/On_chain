@@ -6,12 +6,12 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        LayoutConst.u8(property: 'bump'),
-        SolanaLayoutUtils.publicKey('mint'),
-        SolanaLayoutUtils.publicKey('delegate'),
-        SolanaLayoutUtils.publicKey('updateAuthority'),
-      ]);
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u8(property: 'bump'),
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('delegate'),
+    SolanaLayoutUtils.publicKey('updateAuthority'),
+  ]);
 }
 
 class MetadataDelegateRecord extends BorshLayoutSerializable {
@@ -21,21 +21,25 @@ class MetadataDelegateRecord extends BorshLayoutSerializable {
   final SolAddress delegate;
   final SolAddress updateAuthority;
 
-  MetadataDelegateRecord(
-      {required this.key,
-      required this.updateAuthority,
-      required this.mint,
-      required this.bump,
-      required this.delegate});
+  MetadataDelegateRecord({
+    required this.key,
+    required this.updateAuthority,
+    required this.mint,
+    required this.bump,
+    required this.delegate,
+  });
   factory MetadataDelegateRecord.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return MetadataDelegateRecord(
-        key: MetaDataKey.fromValue(decode['key']),
-        updateAuthority: decode['updateAuthority'],
-        mint: decode['mint'],
-        bump: decode['bump'],
-        delegate: decode['delegate']);
+      key: MetaDataKey.fromValue(decode['key']),
+      updateAuthority: decode['updateAuthority'],
+      mint: decode['mint'],
+      bump: decode['bump'],
+      delegate: decode['delegate'],
+    );
   }
 
   @override
@@ -47,7 +51,7 @@ class MetadataDelegateRecord extends BorshLayoutSerializable {
       'updateAuthority': updateAuthority,
       'mint': mint,
       'bump': bump,
-      'delegate': delegate
+      'delegate': delegate,
     };
   }
 }

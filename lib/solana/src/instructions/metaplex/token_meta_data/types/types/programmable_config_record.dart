@@ -15,14 +15,18 @@ class ProgrammableConfigRecord extends BorshLayoutSerializable {
     final name = json['programmableConfigRecord']['key'];
     if (name != 'V1') {
       throw SolanaPluginException(
-          'Invalid ProgrammableConfigRecord version: $name. Expected version: V1');
+        'Invalid ProgrammableConfigRecord version: $name. Expected version: V1',
+      );
     }
-    return ProgrammableConfigRecord._(json['programmableConfigRecord']['key'],
-        json['programmableConfigRecord']['value']);
+    return ProgrammableConfigRecord._(
+      json['programmableConfigRecord']['key'],
+      json['programmableConfigRecord']['value'],
+    );
   }
   static StructLayout staticLayout = LayoutConst.struct([
-    LayoutConst.rustEnum([SolanaLayoutUtils.optionPubkey(property: 'V1')],
-        property: 'programmableConfigRecord')
+    LayoutConst.rustEnum([
+      SolanaLayoutUtils.optionPubkey(property: 'V1'),
+    ], property: 'programmableConfigRecord'),
   ]);
 
   @override
@@ -30,7 +34,7 @@ class ProgrammableConfigRecord extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'programmableConfigRecord': {name: fields}
+      'programmableConfigRecord': {name: fields},
     };
   }
 }

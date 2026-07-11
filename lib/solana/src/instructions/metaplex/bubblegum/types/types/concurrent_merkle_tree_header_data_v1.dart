@@ -10,27 +10,28 @@ class ConcurrentMerkleTreeHeaderDataV1 extends BorshLayoutSerializable {
   final SolAddress authority;
   final BigInt creationSlot;
   final List<int> padding;
-  ConcurrentMerkleTreeHeaderDataV1(
-      {required this.maxBufferSize,
-      required this.maxDepth,
-      required this.authority,
-      required this.creationSlot,
-      required List<int> padding})
-      : padding = padding.asImmutableBytes;
+  ConcurrentMerkleTreeHeaderDataV1({
+    required this.maxBufferSize,
+    required this.maxDepth,
+    required this.authority,
+    required this.creationSlot,
+    required List<int> padding,
+  }) : padding = padding.asImmutableBytes;
   factory ConcurrentMerkleTreeHeaderDataV1.fromJson(Map<String, dynamic> json) {
     return ConcurrentMerkleTreeHeaderDataV1(
-        maxBufferSize: json['maxBufferSize'],
-        maxDepth: json['maxDepth'],
-        authority: json['authority'],
-        creationSlot: json['creationSlot'],
-        padding: (json['padding'] as List).cast());
+      maxBufferSize: json['maxBufferSize'],
+      maxDepth: json['maxDepth'],
+      authority: json['authority'],
+      creationSlot: json['creationSlot'],
+      padding: (json['padding'] as List).cast(),
+    );
   }
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.u32(property: 'maxBufferSize'),
     LayoutConst.u32(property: 'maxDepth'),
     SolanaLayoutUtils.publicKey('authority'),
     LayoutConst.u64(property: 'creationSlot'),
-    LayoutConst.blob(6, property: 'padding')
+    LayoutConst.blob(6, property: 'padding'),
   ], property: 'concurrentMerkleTreeHeaderDataV1');
 
   @override
@@ -43,7 +44,7 @@ class ConcurrentMerkleTreeHeaderDataV1 extends BorshLayoutSerializable {
       'maxDepth': maxDepth,
       'authority': authority,
       'creationSlot': creationSlot,
-      'padding': padding
+      'padding': padding,
     };
   }
 

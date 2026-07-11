@@ -15,9 +15,10 @@ class SPLTokenRevokeLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenRevokeLayout instance from buffer.
   factory SPLTokenRevokeLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.revoke.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.revoke.insturction,
+    );
     return SPLTokenRevokeLayout();
   }
 

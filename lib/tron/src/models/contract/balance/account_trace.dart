@@ -16,7 +16,9 @@ class AccountTrace extends TronProtocolBufferImpl {
   factory AccountTrace.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return AccountTrace(
-        balance: decode.getField(1), placeholder: decode.getField(99));
+      balance: decode.getField(1),
+      placeholder: decode.getField(99),
+    );
   }
   final BigInt? balance;
   final BigInt? placeholder;

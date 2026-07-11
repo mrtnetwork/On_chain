@@ -8,13 +8,14 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getsignaturesforaddress
 class SolanaRequestGetSignaturesForAddress
     extends SolanaRequest<List<Map<String, dynamic>>, List> {
-  const SolanaRequestGetSignaturesForAddress(
-      {required this.account,
-      this.limit = 1000,
-      this.before,
-      this.until,
-      super.commitment,
-      super.minContextSlot});
+  const SolanaRequestGetSignaturesForAddress({
+    required this.account,
+    this.limit = 1000,
+    this.before,
+    this.until,
+    super.commitment,
+    super.minContextSlot,
+  });
 
   /// getSignaturesForAddress
   @override
@@ -42,8 +43,8 @@ class SolanaRequestGetSignaturesForAddress
         minContextSlot?.toJson(),
         {'limit': limit},
         {'before': before},
-        {'until': until}
-      ])
+        {'until': until},
+      ]),
     ];
   }
 

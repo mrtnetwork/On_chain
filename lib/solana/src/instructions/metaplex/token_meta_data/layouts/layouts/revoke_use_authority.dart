@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataRevokeUseAuthorityLayout
   const MetaplexTokenMetaDataRevokeUseAuthorityLayout();
 
   factory MetaplexTokenMetaDataRevokeUseAuthorityLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .revokeUseAuthority.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .revokeUseAuthority
+              .insturction,
+    );
     return const MetaplexTokenMetaDataRevokeUseAuthorityLayout();
   }
 

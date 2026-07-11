@@ -7,18 +7,21 @@ class Gatekeeper extends BorshLayoutSerializable {
   final bool expireOnUse;
   final SolAddress gatekeeperNetwork;
 
-  const Gatekeeper(
-      {required this.expireOnUse, required this.gatekeeperNetwork});
+  const Gatekeeper({
+    required this.expireOnUse,
+    required this.gatekeeperNetwork,
+  });
   factory Gatekeeper.fromJson(Map<String, dynamic> json) {
     return Gatekeeper(
-        expireOnUse: json['expireOnUse'],
-        gatekeeperNetwork: json['gatekeeperNetwork']);
+      expireOnUse: json['expireOnUse'],
+      gatekeeperNetwork: json['gatekeeperNetwork'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('gatekeeperNetwork'),
-        LayoutConst.boolean(property: 'expireOnUse')
-      ], property: 'gatekeeper');
+    SolanaLayoutUtils.publicKey('gatekeeperNetwork'),
+    LayoutConst.boolean(property: 'expireOnUse'),
+  ], property: 'gatekeeper');
 
   @override
   StructLayout get layout => staticLayout;

@@ -14,14 +14,17 @@ class MarketState {
     created,
     suspended,
     active,
-    ended
+    ended,
   ];
   static MarketState fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No MarketState found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MarketState found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

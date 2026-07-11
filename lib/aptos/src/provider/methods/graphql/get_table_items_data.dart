@@ -1,9 +1,10 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
-class AptosGraphQLRequestGetTableItemsData extends AptosGraphQLRequest<
-    List<AptosGraphQLTableItem>, Map<String, dynamic>> {
+class AptosGraphQLRequestGetTableItemsData
+    extends
+        AptosGraphQLRequest<List<AptosGraphQLTableItem>, Map<String, dynamic>> {
   AptosGraphQLRequestGetTableItemsData({required this.variables, this.headers});
   @override
   final Map<String, String>? headers;
@@ -17,7 +18,7 @@ class AptosGraphQLRequestGetTableItemsData extends AptosGraphQLRequest<
   @override
   List<AptosGraphQLTableItem> onResonse(Map<String, dynamic> result) {
     return result
-        .asListOfMap("table_items")!
+        .valueEnsureAsList<Map<String, dynamic>>("table_items")
         .map((e) => AptosGraphQLTableItem.fromJson(e))
         .toList();
   }

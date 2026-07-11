@@ -23,10 +23,10 @@ class ADAMetadataLabelResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'label': label,
-        'cip10': cip10,
-        'count': count,
-      };
+    'label': label,
+    'cip10': cip10,
+    'count': count,
+  };
 
   @override
   String toString() {

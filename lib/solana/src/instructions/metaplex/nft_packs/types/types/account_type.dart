@@ -17,14 +17,17 @@ class NFTPacksAccountType {
     packCard,
     packVoucher,
     provingProcess,
-    packConfig
+    packConfig,
   ];
   static NFTPacksAccountType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No NFTPacksAccountType found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No NFTPacksAccountType found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

@@ -11,41 +11,47 @@ class UnitInterval with InternalCborSerialization {
   const UnitInterval({required this.numerator, required this.denominator});
   UnitInterval copyWith({BigInt? numerator, BigInt? denominator}) {
     return UnitInterval(
-        numerator: numerator ?? this.numerator,
-        denominator: denominator ?? this.denominator);
+      numerator: numerator ?? this.numerator,
+      denominator: denominator ?? this.denominator,
+    );
   }
 
   factory UnitInterval.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(cbor.tags, _cborTag)) {
-      throw ADAPluginException('Invalid UnitInterval cbor tag.',
-          details: {'expected': _cborTag, 'Tag': cbor.tags});
+      throw ADAPluginException(
+        'Invalid UnitInterval cbor tag.',
+        details: {'expected': _cborTag.join(","), 'Tag': cbor.tags.join(",")},
+      );
     }
-    final cborList = cbor.valueAs<CborListValue>("UnitInterval");
+    final cborList = cbor.asValue<CborListValue>(operation: "UnitInterval");
     return UnitInterval(
-        numerator: cborList.elementAsInteger(0, name: "numerator"),
-        denominator: cborList.elementAsInteger(1, name: "denominator"));
+      numerator: cborList.rawValueAt(0),
+      denominator: cborList.rawValueAt(1),
+    );
   }
   factory UnitInterval.fromJson(Map<String, dynamic> json) {
     return UnitInterval(
-        numerator: BigintUtils.parse(json['numerator']),
-        denominator: BigintUtils.parse(json['denominator']));
+      numerator: BigintUtils.parse(json['numerator']),
+      denominator: BigintUtils.parse(json['denominator']),
+    );
   }
 
   @override
   CborObject toCbor() {
     return CborTagValue(
-        CborListValue.definite([
-          CborUnsignedValue.u64(numerator),
-          CborUnsignedValue.u64(denominator)
-        ]),
-        _cborTag);
+      CborListValue.definite([
+        CborUnsignedValue.u64(numerator),
+        CborUnsignedValue.u64(denominator),
+      ]),
+      _cborTag,
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'numerator': numerator.toString(),
-      'denominator': denominator.toString()
+      'denominator': denominator.toString(),
     };
   }
 }

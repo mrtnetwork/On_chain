@@ -6,16 +6,17 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-deploycontract).
 class TronRequestEstimateEnergy
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestEstimateEnergy(
-      {required this.ownerAddress,
-      required this.contractAddress,
-      required this.functionSelector,
-      required this.parameter,
-      this.data,
-      this.callValue,
-      this.callTokenValue,
-      this.tokenId,
-      this.visible = true});
+  TronRequestEstimateEnergy({
+    required this.ownerAddress,
+    required this.contractAddress,
+    required this.functionSelector,
+    required this.parameter,
+    this.data,
+    this.callValue,
+    this.callTokenValue,
+    this.tokenId,
+    this.visible = true,
+  });
 
   /// Owner address that triggers the contract
   final TronAddress ownerAddress;
@@ -61,7 +62,7 @@ class TronRequestEstimateEnergy
       'call_value': callValue,
       'call_token_value': callTokenValue,
       'token_id': tokenId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

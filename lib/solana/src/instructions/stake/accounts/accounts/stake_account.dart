@@ -4,18 +4,20 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static StructLayout layout = LayoutConst.struct([
-    LayoutConst.rustEnum([
-      LayoutConst.none(property: 'Uninitialized'),
-      LayoutConst.struct([
-        StakeMeta.staticLayout,
-      ], property: 'Initialized'),
-      LayoutConst.struct([
-        StakeMeta.staticLayout,
-        StakeStake.staticLayout,
-        LayoutConst.u8(property: 'stakeFlags')
-      ], property: 'Stake'),
-      LayoutConst.none(property: 'Uninitialized')
-    ], discriminant: LayoutConst.u32(), property: 'stakeAccount')
+    LayoutConst.rustEnum(
+      [
+        LayoutConst.none(property: 'Uninitialized'),
+        LayoutConst.struct([StakeMeta.staticLayout], property: 'Initialized'),
+        LayoutConst.struct([
+          StakeMeta.staticLayout,
+          StakeStake.staticLayout,
+          LayoutConst.u8(property: 'stakeFlags'),
+        ], property: 'Stake'),
+        LayoutConst.none(property: 'Uninitialized'),
+      ],
+      discriminant: LayoutConst.u32(),
+      property: 'stakeAccount',
+    ),
   ]);
 }
 
@@ -25,15 +27,26 @@ class StakeAccount extends BorshLayoutSerializable {
   final StakeStake? stake;
   final int? stakeFlags;
   const StakeAccount._(this.name, this.meta, this.stake, this.stakeFlags);
-  static const StakeAccount uninitialized =
-      StakeAccount._('Uninitialized', null, null, null);
-  static const StakeAccount rewardsPool =
-      StakeAccount._('RewardsPool', null, null, null);
+  static const StakeAccount uninitialized = StakeAccount._(
+    'Uninitialized',
+    null,
+    null,
+    null,
+  );
+  static const StakeAccount rewardsPool = StakeAccount._(
+    'RewardsPool',
+    null,
+    null,
+    null,
+  );
   factory StakeAccount.initialized({required StakeMeta meta}) {
     return StakeAccount._('Initialized', meta, null, null);
   }
-  factory StakeAccount.stake(
-      {required StakeMeta meta, required StakeStake stake, int? stakeFlags}) {
+  factory StakeAccount.stake({
+    required StakeMeta meta,
+    required StakeStake stake,
+    int? stakeFlags,
+  }) {
     return StakeAccount._('Stake', meta, stake, stakeFlags);
   }
   factory StakeAccount.fromJson(Map<String, dynamic> json) {
@@ -46,12 +59,14 @@ class StakeAccount extends BorshLayoutSerializable {
         return rewardsPool;
       case 'Initialized':
         return StakeAccount.initialized(
-            meta: StakeMeta.fromJson(value['meta']));
+          meta: StakeMeta.fromJson(value['meta']),
+        );
       default:
         return StakeAccount.stake(
-            meta: StakeMeta.fromJson(value['meta']),
-            stake: StakeStake.fromJson(value['stake']),
-            stakeFlags: value['stakeFlags']);
+          meta: StakeMeta.fromJson(value['meta']),
+          stake: StakeStake.fromJson(value['stake']),
+          stakeFlags: value['stakeFlags'],
+        );
     }
   }
   factory StakeAccount.fromBuffer(List<int> bytes) {
@@ -66,9 +81,9 @@ class StakeAccount extends BorshLayoutSerializable {
         name: {
           'meta': meta?.serialize(),
           'stake': stake?.serialize(),
-          'stakeFlags': stakeFlags
-        }
-      }
+          'stakeFlags': stakeFlags,
+        },
+      },
     };
   }
 

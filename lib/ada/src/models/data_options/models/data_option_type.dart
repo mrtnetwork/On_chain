@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
@@ -15,12 +16,16 @@ class TransactionDataOptionType with InternalCborSerialization {
   const TransactionDataOptionType._(this.value, this.name);
 
   /// Option type for data hash.
-  static const TransactionDataOptionType dataHash =
-      TransactionDataOptionType._(0, 'DataHash');
+  static const TransactionDataOptionType dataHash = TransactionDataOptionType._(
+    0,
+    'DataHash',
+  );
 
   /// Option type for data.
-  static const TransactionDataOptionType data =
-      TransactionDataOptionType._(1, 'Data');
+  static const TransactionDataOptionType data = TransactionDataOptionType._(
+    1,
+    'Data',
+  );
 
   /// List of all available option types.
   static const List<TransactionDataOptionType> values = [dataHash, data];
@@ -36,12 +41,16 @@ class TransactionDataOptionType with InternalCborSerialization {
   }
 
   /// Deserializes a TransactionDataOptionType object from its CBOR representation.
-  factory TransactionDataOptionType.deserialize(CborIntValue cbor,
-      {TransactionDataOptionType? validate}) {
+  factory TransactionDataOptionType.deserialize(
+    CborIntValue cbor, {
+    TransactionDataOptionType? validate,
+  }) {
     final type = fromValue(cbor.value);
     if (validate != null && validate != type) {
-      throw ADAPluginException('Invalid TransactionDataOptionType.',
-          details: {'expected': validate, 'Type': type});
+      throw ADAPluginException(
+        'Invalid TransactionDataOptionType.',
+        details: {'expected': validate.toString(), 'Type': type.toString()},
+      );
     }
     return type;
   }
@@ -50,18 +59,16 @@ class TransactionDataOptionType with InternalCborSerialization {
   static TransactionDataOptionType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No TransactionDataOptionType found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () => throw ItemNotFoundException(name: "TransactionDataOptionType"),
     );
   }
 
   static TransactionDataOptionType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No TransactionDataOptionType found matching the specified name',
-          details: {'name': name}),
+      orElse:
+          () => throw ItemNotFoundException(name: "TransactionDataOptionType"),
     );
   }
 

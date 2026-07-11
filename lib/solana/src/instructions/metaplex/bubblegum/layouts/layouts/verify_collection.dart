@@ -11,40 +11,42 @@ class MetaplexBubblegumVerifyCollectionLayout
   final BigInt nonce;
   final int index;
   final MetaData message;
-  MetaplexBubblegumVerifyCollectionLayout(
-      {required List<int> root,
-      required List<int> dataHash,
-      required List<int> creatorHash,
-      required this.nonce,
-      required this.index,
-      required this.message})
-      : root = root.asImmutableBytes,
-        dataHash = dataHash.asImmutableBytes,
-        creatorHash = creatorHash.asImmutableBytes;
+  MetaplexBubblegumVerifyCollectionLayout({
+    required List<int> root,
+    required List<int> dataHash,
+    required List<int> creatorHash,
+    required this.nonce,
+    required this.index,
+    required this.message,
+  }) : root = root.asImmutableBytes,
+       dataHash = dataHash.asImmutableBytes,
+       creatorHash = creatorHash.asImmutableBytes;
   factory MetaplexBubblegumVerifyCollectionLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexBubblegumProgramInstruction.verifyCollection.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexBubblegumProgramInstruction.verifyCollection.insturction,
+    );
     return MetaplexBubblegumVerifyCollectionLayout(
-        root: decode['root'],
-        dataHash: decode['dataHash'],
-        creatorHash: decode['creatorHash'],
-        nonce: decode['nonce'],
-        index: decode['index'],
-        message: MetaData.fromJson(decode['metaData']));
+      root: decode['root'],
+      dataHash: decode['dataHash'],
+      creatorHash: decode['creatorHash'],
+      nonce: decode['nonce'],
+      index: decode['index'],
+      message: MetaData.fromJson(decode['metaData']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.blob(32, property: 'root'),
-        LayoutConst.blob(32, property: 'dataHash'),
-        LayoutConst.blob(32, property: 'creatorHash'),
-        LayoutConst.u64(property: 'nonce'),
-        LayoutConst.u32(property: 'index'),
-        MetaData.staticLayout
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.blob(32, property: 'dataHash'),
+    LayoutConst.blob(32, property: 'creatorHash'),
+    LayoutConst.u64(property: 'nonce'),
+    LayoutConst.u32(property: 'index'),
+    MetaData.staticLayout,
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -61,7 +63,7 @@ class MetaplexBubblegumVerifyCollectionLayout
       'creatorHash': creatorHash,
       'nonce': nonce,
       'index': index,
-      'metaData': message.serialize()
+      'metaData': message.serialize(),
     };
   }
 }

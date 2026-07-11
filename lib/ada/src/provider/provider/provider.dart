@@ -2,19 +2,19 @@ import 'dart:async';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 import 'package:on_chain/ada/src/provider/exception/blockfrost_api_error.dart';
-import 'package:on_chain/ada/src/provider/service/service.dart';
 
-/// Facilitates communication with the blockfrost by making requests using a provided [BlockFrostProvider].
-class BlockFrostProvider implements BaseProvider<BlockFrostRequestDetails> {
-  /// The underlying blockfrost service provider used for network communication.
-  final BlockFrostServiceProvider rpc;
-
-  /// Constructs a new [BlockFrostProvider] instance with the specified [rpc] service provider.
-  BlockFrostProvider(this.rpc);
-
-  static void _paraseError(Map err, BlockFrostRequestDetails params) {
+class BlockFrostProvider<SERVICE extends IServiceProvider>
+    implements IProvider<SERVICE, BlockFrostRequestDetails> {
+  @override
+  final SERVICE service;
+  BlockFrostProvider(this.service);
+  static void _paraseError(
+    Map err,
+    BlockFrostRequestDetails params,
+    int statusCode,
+  ) {
     final String error = err['error'].toString();
-    final int? errorCode = IntUtils.tryParse(err['status_code'].toString());
+    final int? errorCode = err.valueAs("status_code");
     final String? msg = err['message']?.toString();
     String message = error;
     if (msg != null) {
@@ -23,33 +23,41 @@ class BlockFrostProvider implements BaseProvider<BlockFrostRequestDetails> {
     throw RPCError(
       message: message,
       errorCode: errorCode,
+      relatedNetwork: BlockchainNetwork.cardano,
       request: params.toJson(),
+      statusCode: statusCode,
     );
   }
 
-  static SERVICERESPONSE _findError<SERVICERESPONSE>(
-      {required BaseServiceResponse<SERVICERESPONSE> response,
-      required BlockFrostRequestDetails params}) {
+  static SERVICERESPONSE _findError<SERVICERESPONSE>({
+    required BaseServiceResponse response,
+    required BlockFrostRequestDetails params,
+  }) {
     if (response.type == ServiceResponseType.error) {
-      final error = response.cast<ServiceErrorResponse>();
-      final toJson = StringUtils.tryToJson<Map<String, dynamic>>(error.error);
+      final error = response.cast<BaseServiceErrorResponse>();
+
+      if (!error.validate) throw error.defaultError();
+      final toJson = error.tryToJson();
       if (toJson != null &&
-          toJson.containsKey('status_code') &&
-          toJson.containsKey('error')) {
-        _paraseError(toJson, params);
+          toJson.hasValue('status_code') &&
+          toJson.hasValue('error')) {
+        _paraseError(toJson, params, response.statusCode);
       }
       throw RPCError(
-        message: error.error ??
-            BlockfrostStatusCode.getErrorMessage(response.statusCode),
+        relatedNetwork: BlockchainNetwork.cardano,
+        message:
+            BlockfrostStatusCode.getErrorMessage(response.statusCode) ??
+            error.findErrorMessage(),
+        statusCode: response.statusCode,
       );
     }
-    final SERVICERESPONSE r = response.getResult(params);
-    if (r is Map) {
-      if (r.containsKey('status_code') && r.containsKey('error')) {
-        _paraseError(r, params);
+    final SERVICERESPONSE result = params.toEncodingResponse(response);
+    if (result is Map) {
+      if (result.hasValue('status_code') && result.hasValue('error')) {
+        _paraseError(result, params, response.statusCode);
       }
     }
-    return r;
+    return result;
   }
 
   int _id = 0;
@@ -58,12 +66,17 @@ class BlockFrostProvider implements BaseProvider<BlockFrostRequestDetails> {
   ///
   /// The [timeout] parameter, if provided, sets the maximum duration for the request.
   /// Whatever is received will be returned
+
   @override
   Future<RESULT> request<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, BlockFrostRequestDetails>
-          request,
-      {Duration? timeout}) async {
-    final r = await requestDynamic(request, timeout: timeout);
+    IServiceRequest<RESULT, SERVICERESPONSE, BlockFrostRequestDetails>
+    request, {
+    Duration? timeout,
+  }) async {
+    final r = await requestDynamic<RESULT, SERVICERESPONSE>(
+      request,
+      timeout: timeout,
+    );
     return request.onResonse(r);
   }
 
@@ -73,13 +86,13 @@ class BlockFrostProvider implements BaseProvider<BlockFrostRequestDetails> {
   /// Whatever is received will be returned
   @override
   Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, BlockFrostRequestDetails>
-          request,
-      {Duration? timeout}) async {
+    IServiceRequest<RESULT, SERVICERESPONSE, BlockFrostRequestDetails>
+    request, {
+    Duration? timeout,
+  }) async {
     final id = ++_id;
     final params = request.buildRequest(id);
-    final response =
-        await rpc.doRequest<SERVICERESPONSE>(params, timeout: timeout);
-    return _findError(params: params, response: response);
+    final response = await service.doRequest(params, timeout: timeout);
+    return _findError<SERVICERESPONSE>(params: params, response: response);
   }
 }

@@ -13,7 +13,7 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
 
   /// Constructs a TransactionMetadataBytes object.
   TransactionMetadataBytes({required List<int> value})
-      : value = value.asImmutableBytes;
+    : value = value.asImmutableBytes;
 
   /// Deserializes a TransactionMetadataBytes object from CBOR.
   factory TransactionMetadataBytes.deserialize(CborBytesValue cbor) {
@@ -21,7 +21,8 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
   }
   factory TransactionMetadataBytes.fromJson(Map<String, dynamic> json) {
     return TransactionMetadataBytes(
-        value: BytesUtils.fromHexString(json['bytes']));
+      value: BytesUtils.fromHexString(json['bytes']),
+    );
   }
   TransactionMetadataBytes copyWith({List<int>? value}) {
     return TransactionMetadataBytes(value: value ?? this.value);
@@ -38,12 +39,15 @@ class TransactionMetadataBytes extends TransactionMetadata<List<int>> {
   }
 
   @override
-  Object toJsonSchema(
-      {MetadataSchemaConfig config = const MetadataSchemaConfig(
-          jsonSchema: MetadataJsonSchema.noConversions)}) {
+  Object toJsonSchema({
+    MetadataSchemaConfig config = const MetadataSchemaConfig(
+      jsonSchema: MetadataJsonSchema.noConversions,
+    ),
+  }) {
     if (config.jsonSchema == MetadataJsonSchema.noConversions) {
       throw const ADAPluginException(
-          'bytes not allowed in JSON in specified schema.');
+        'bytes not allowed in JSON in specified schema.',
+      );
     }
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
       return {'bytes': BytesUtils.toHexString(value)};

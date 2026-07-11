@@ -18,9 +18,7 @@ class SolanaRequestlogsSubscribe extends SolanaRequest<int, int> {
   List<dynamic> toJson() {
     return [
       filter.toJson(),
-      SolanaRequestUtils.createConfig([
-        commitment?.toJson(),
-      ])
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 }

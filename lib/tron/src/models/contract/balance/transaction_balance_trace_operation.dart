@@ -14,17 +14,21 @@ class TransactionBalanceTraceOperation extends TronProtocolBufferImpl {
   }
 
   /// Create a new [TransactionBalanceTraceOperation] instance with specified parameters.
-  TransactionBalanceTraceOperation(
-      {this.operationIdentifier, this.address, this.amount});
+  TransactionBalanceTraceOperation({
+    this.operationIdentifier,
+    this.address,
+    this.amount,
+  });
 
   factory TransactionBalanceTraceOperation.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return TransactionBalanceTraceOperation(
-        operationIdentifier: decode.getField(1),
-        address: decode
-            .getResult(2)
-            ?.castTo<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
-        amount: decode.getField(3));
+      operationIdentifier: decode.getField(1),
+      address: decode
+          .getResult(2)
+          ?.castTo<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
+      amount: decode.getField(3),
+    );
   }
 
   final BigInt? operationIdentifier;

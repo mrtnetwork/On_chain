@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/metadata/models/general_transaction_metadata.dart';
 import 'package:on_chain/ada/src/models/metadata/utils/metadata_utils.dart';
@@ -14,8 +13,11 @@ enum AuxiliaryDataCborEncoding {
   conwayEra;
 
   static AuxiliaryDataCborEncoding fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw const ADAPluginException("Invalid encoding type."));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () => throw ItemNotFoundException(name: "AuxiliaryDataCborEncoding"),
+    );
   }
 }
 
@@ -31,8 +33,8 @@ class AuxiliaryData with InternalCborSerialization {
     List<NativeScript>? nativeScripts,
     List<PlutusScript>? plutusScripts,
     this.encoding = AuxiliaryDataCborEncoding.conwayEra,
-  })  : nativeScripts = nativeScripts?.immutable,
-        plutusScripts = plutusScripts?.immutable;
+  }) : nativeScripts = nativeScripts?.immutable,
+       plutusScripts = plutusScripts?.immutable;
 
   /// Constructs an AuxiliaryData object from CBOR bytes.
   factory AuxiliaryData.fromCborBytes(List<int> cborBytes) {
@@ -42,84 +44,103 @@ class AuxiliaryData with InternalCborSerialization {
   factory AuxiliaryData.deserialize(CborObject cbor) {
     if (cbor.hasType<CborMapValue>()) {
       return AuxiliaryData(
-          metadata:
-              GeneralTransactionMetadata.deserialize(cbor.as("AuxiliaryData")),
-          encoding: AuxiliaryDataCborEncoding.shellyEra);
-    }
-    if (cbor.hasType<CborListValue>()) {
-      final list = cbor.as<CborListValue>("AuxiliaryData");
-      return AuxiliaryData(
-        encoding: AuxiliaryDataCborEncoding.alonzoEra,
-        metadata: list
-            .elementAt<CborObject?>(0)
-            ?.convertTo<GeneralTransactionMetadata, CborMapValue>(
-                (e) => GeneralTransactionMetadata.deserialize(e)),
-        nativeScripts: list
-            .elementAt<CborObject?>(1)
-            ?.convertTo<List<NativeScript>, CborListValue>((e) => e
-                .valueAsListOf<CborListValue>()
-                .map((i) => NativeScript.deserialize(i))
-                .toList()),
+        metadata: GeneralTransactionMetadata.deserialize(
+          cbor.as(operation: "AuxiliaryData"),
+        ),
+        encoding: AuxiliaryDataCborEncoding.shellyEra,
       );
     }
-    final tag = cbor.as<CborTagValue>("AuxiliaryData");
-    final CborMapValue cobrList = tag.valueAs<CborMapValue>("AuxiliaryData");
+    if (cbor.hasType<CborListValue>()) {
+      final list = cbor.as<CborListValue>(operation: "AuxiliaryData");
+      return AuxiliaryData(
+        encoding: AuxiliaryDataCborEncoding.alonzoEra,
+        metadata: list.maybeObjectAt<GeneralTransactionMetadata, CborMapValue>(
+          0,
+          (e) => GeneralTransactionMetadata.deserialize(e),
+        ),
+        nativeScripts: list.maybeObjectAt<List<NativeScript>, CborListValue>(
+          1,
+          (e) =>
+              e
+                  .allObjectsAs<CborListValue>()
+                  .map((i) => NativeScript.deserialize(i))
+                  .toList(),
+        ),
+      );
+    }
+    final tag = cbor.as<CborTagValue>(operation: "AuxiliaryData");
+    final CborMapValue cobrList = tag.asValue<CborMapValue>(
+      operation: "AuxiliaryData",
+    );
     final pV1 = cobrList
-        .getIntValueAs<CborObject?>(2)
-        ?.convertTo<List<PlutusScript>, CborListValue>((e) {
-      return e
-          .valueAsListOf<CborBytesValue>("plutusScripts")
-          .map((i) => PlutusScript.deserialize(i))
-          .toList();
-    });
+        .getIntKeyAs<CborObject?>(2)
+        ?.objectTo<List<PlutusScript>, CborListValue>((e) {
+          return e
+              .allObjectsAs<CborBytesValue>()
+              .map((i) => PlutusScript.deserialize(i))
+              .toList();
+        });
     final pV2 = cobrList
-        .getIntValueAs<CborObject?>(3)
-        ?.convertTo<List<PlutusScript>, CborListValue>((e) {
-      return e
-          .valueAsListOf<CborBytesValue>("plutusScripts")
-          .map((i) => PlutusScript.deserialize(i, language: Language.plutusV2))
-          .toList();
-    });
+        .getIntKeyAs<CborObject?>(3)
+        ?.objectTo<List<PlutusScript>, CborListValue>((e) {
+          return e
+              .allObjectsAs<CborBytesValue>()
+              .map(
+                (i) => PlutusScript.deserialize(i, language: Language.plutusV2),
+              )
+              .toList();
+        });
     final pV3 = cobrList
-        .getIntValueAs<CborObject?>(4)
-        ?.convertTo<List<PlutusScript>, CborListValue>((e) {
-      return e
-          .valueAsListOf<CborBytesValue>("plutusScripts")
-          .map((i) => PlutusScript.deserialize(i, language: Language.plutusV3))
-          .toList();
-    });
+        .getIntKeyAs<CborObject?>(4)
+        ?.objectTo<List<PlutusScript>, CborListValue>((e) {
+          return e
+              .allObjectsAs<CborBytesValue>()
+              .map(
+                (i) => PlutusScript.deserialize(i, language: Language.plutusV3),
+              )
+              .toList();
+        });
     bool hasPlutus = pV1 != null || pV2 != null || pV3 != null;
     final List<PlutusScript> plutus = [
       ...pV1 ?? [],
       ...pV2 ?? [],
-      ...pV3 ?? []
+      ...pV3 ?? [],
     ];
     return AuxiliaryData(
-        encoding: AuxiliaryDataCborEncoding.conwayEra,
-        metadata: cobrList
-            .getIntValueAs<CborObject?>(0)
-            ?.convertTo<GeneralTransactionMetadata, CborMapValue>(
-                (e) => GeneralTransactionMetadata.deserialize(e)),
-        nativeScripts: cobrList
-            .getIntValueAs<CborObject?>(1)
-            ?.convertTo<List<NativeScript>, CborListValue>((e) => e
-                .valueAsListOf<CborListValue>()
-                .map((i) => NativeScript.deserialize(i))
-                .toList()),
-        plutusScripts: hasPlutus ? plutus : null);
+      encoding: AuxiliaryDataCborEncoding.conwayEra,
+      metadata: cobrList
+          .getIntKeyAs<CborObject?>(0)
+          ?.objectTo<GeneralTransactionMetadata, CborMapValue>(
+            (e) => GeneralTransactionMetadata.deserialize(e),
+          ),
+      nativeScripts: cobrList
+          .getIntKeyAs<CborObject?>(1)
+          ?.objectTo<List<NativeScript>, CborListValue>(
+            (e) =>
+                e
+                    .allObjectsAs<CborListValue>()
+                    .map((i) => NativeScript.deserialize(i))
+                    .toList(),
+          ),
+      plutusScripts: hasPlutus ? plutus : null,
+    );
   }
   factory AuxiliaryData.fromJson(Map<String, dynamic> json) {
     return AuxiliaryData(
-        metadata: json['metadata'] == null
-            ? null
-            : GeneralTransactionMetadata.fromJson(json['metadata']),
-        nativeScripts: (json['native_scripts'] as List?)
-            ?.map((e) => NativeScript.fromJson(e))
-            .toList(),
-        plutusScripts: (json['plutus_scripts'] as List?)
-            ?.map((e) => PlutusScript.fromJson(e))
-            .toList(),
-        encoding: AuxiliaryDataCborEncoding.fromName(json["encoding"]));
+      metadata:
+          json['metadata'] == null
+              ? null
+              : GeneralTransactionMetadata.fromJson(json['metadata']),
+      nativeScripts:
+          (json['native_scripts'] as List?)
+              ?.map((e) => NativeScript.fromJson(e))
+              .toList(),
+      plutusScripts:
+          (json['plutus_scripts'] as List?)
+              ?.map((e) => PlutusScript.fromJson(e))
+              .toList(),
+      encoding: AuxiliaryDataCborEncoding.fromName(json["encoding"]),
+    );
   }
 
   AuxiliaryData copyWith({
@@ -147,42 +168,47 @@ class AuxiliaryData with InternalCborSerialization {
           metadata?.toCbor() ?? CborNullValue(),
           if (nativeScripts != null)
             CborListValue.definite(
-                nativeScripts!.map((e) => e.toCbor()).toList())
+              nativeScripts!.map((e) => e.toCbor()).toList(),
+            ),
         ]);
       case AuxiliaryDataCborEncoding.conwayEra:
-        final plutusV2 = CborListValue.definite(plutusScripts
-                ?.where((element) => element.language == Language.plutusV2)
-                .map((e) => e.toCbor())
-                .toList() ??
-            <CborObject>[]);
-        final plutusV3 = CborListValue.definite(plutusScripts
-                ?.where((element) => element.language == Language.plutusV3)
-                .map((e) => e.toCbor())
-                .toList() ??
-            <CborObject>[]);
+        final plutusV2 = CborListValue.definite(
+          plutusScripts
+                  ?.where((element) => element.language == Language.plutusV2)
+                  .map((e) => e.toCbor())
+                  .toList() ??
+              <CborObject>[],
+        );
+        final plutusV3 = CborListValue.definite(
+          plutusScripts
+                  ?.where((element) => element.language == Language.plutusV3)
+                  .map((e) => e.toCbor())
+                  .toList() ??
+              <CborObject>[],
+        );
         return CborTagValue(
-            CborMapValue.definite({
-              if (metadata != null) ...{
-                const CborIntValue(0): metadata!.toCbor()
-              },
-              if (nativeScripts?.isNotEmpty ?? false) ...{
-                const CborIntValue(1): CborListValue.definite(
-                    nativeScripts!.map((e) => e.toCbor()).toList())
-              },
-              if (plutusScripts != null) ...{
-                const CborIntValue(2): CborListValue.definite(plutusScripts!
+          CborMapValue.definite({
+            if (metadata != null) ...{
+              const CborIntValue(0): metadata!.toCbor(),
+            },
+            if (nativeScripts?.isNotEmpty ?? false) ...{
+              const CborIntValue(1): CborListValue.definite(
+                nativeScripts!.map((e) => e.toCbor()).toList(),
+              ),
+            },
+            if (plutusScripts != null) ...{
+              const CborIntValue(2): CborListValue.definite(
+                plutusScripts!
                     .where((element) => element.language == Language.plutusV1)
                     .map((e) => e.toCbor())
-                    .toList())
-              },
-              if (plutusV2.value.isNotEmpty) ...{
-                const CborIntValue(3): plutusV2
-              },
-              if (plutusV3.value.isNotEmpty) ...{
-                const CborIntValue(4): plutusV3
-              },
-            }),
-            TransactionMetadataUtils.auxiliaryDataCborTag);
+                    .toList(),
+              ),
+            },
+            if (plutusV2.value.isNotEmpty) ...{const CborIntValue(3): plutusV2},
+            if (plutusV3.value.isNotEmpty) ...{const CborIntValue(4): plutusV3},
+          }),
+          TransactionMetadataUtils.auxiliaryDataCborTag,
+        );
     }
   }
 
@@ -196,7 +222,7 @@ class AuxiliaryData with InternalCborSerialization {
       'metadata': metadata?.toJson(),
       'native_scripts': nativeScripts?.map((e) => e.toJson()).toList(),
       'plutus_scripts': plutusScripts?.map((e) => e.toJson()).toList(),
-      'encoding': encoding.name
+      'encoding': encoding.name,
     };
   }
 }

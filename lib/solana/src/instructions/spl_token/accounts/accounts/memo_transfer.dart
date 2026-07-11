@@ -4,19 +4,27 @@ import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static StructLayout get layout => LayoutConst.struct(
-      [LayoutConst.boolean(property: 'requireIncomingTransferMemos')]);
+  static StructLayout get layout => LayoutConst.struct([
+    LayoutConst.boolean(property: 'requireIncomingTransferMemos'),
+  ]);
 
   static int get accountSize => layout.span;
 
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -26,10 +34,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.memoTransfer);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.memoTransfer,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -47,12 +58,14 @@ class MemoTransfer extends BorshLayoutSerializable {
   factory MemoTransfer.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return MemoTransfer(
-        requireIncomingTransferMemos: decode['requireIncomingTransferMemos']);
+      requireIncomingTransferMemos: decode['requireIncomingTransferMemos'],
+    );
   }
   factory MemoTransfer.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return MemoTransfer(
-        requireIncomingTransferMemos: decode['requireIncomingTransferMemos']);
+      requireIncomingTransferMemos: decode['requireIncomingTransferMemos'],
+    );
   }
 
   @override

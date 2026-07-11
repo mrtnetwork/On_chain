@@ -12,11 +12,13 @@ abstract class HeaderLeaderCert with InternalCborSerialization {
   factory HeaderLeaderCert.deserialize(CborListValue cbor) {
     if (cbor.value.length > 1) {
       return HeaderLeaderCertNonceAndLeader(
-          nonceVrf: VRFCert.deserialize(cbor.elementAt<CborListValue>(0)),
-          leaderVrf: VRFCert.deserialize(cbor.elementAt<CborListValue>(1)));
+        nonceVrf: VRFCert.deserialize(cbor.objectAt<CborListValue>(0)),
+        leaderVrf: VRFCert.deserialize(cbor.objectAt<CborListValue>(1)),
+      );
     }
     return HeaderLeaderCertVrfResult(
-        VRFCert.deserialize(cbor.elementAt<CborListValue>(0)));
+      VRFCert.deserialize(cbor.objectAt<CborListValue>(0)),
+    );
   }
   factory HeaderLeaderCert.fromJson(Map<String, dynamic> json) {
     final type = HeaderLeaderCertType.fromName(json.keys.firstOrNull);

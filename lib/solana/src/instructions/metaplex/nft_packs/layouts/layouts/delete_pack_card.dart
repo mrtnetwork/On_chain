@@ -8,10 +8,11 @@ class MetaplexNFTPacksDeletePackCardLayout
 
   factory MetaplexNFTPacksDeletePackCardLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexNFTPacksProgramInstruction.deletePackCard.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexNFTPacksProgramInstruction.deletePackCard.insturction,
+    );
     return const MetaplexNFTPacksDeletePackCardLayout();
   }
 

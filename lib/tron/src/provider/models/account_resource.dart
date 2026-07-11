@@ -35,14 +35,15 @@ class AccountResourceModel {
   }
 
   factory AccountResourceModel.empty() => AccountResourceModel(
-      freeNetUsed: BigInt.zero,
-      freeNetLimit: BigInt.zero,
-      netLimit: BigInt.zero,
-      netUsed: BigInt.zero,
-      energyLimit: BigInt.zero,
-      energyUsed: BigInt.zero,
-      tronPowerLimit: 0,
-      tronPowerUsed: 0);
+    freeNetUsed: BigInt.zero,
+    freeNetLimit: BigInt.zero,
+    netLimit: BigInt.zero,
+    netUsed: BigInt.zero,
+    energyLimit: BigInt.zero,
+    energyUsed: BigInt.zero,
+    tronPowerLimit: 0,
+    tronPowerUsed: 0,
+  );
 
   factory AccountResourceModel.fromJson(Map<String, dynamic> json) {
     return AccountResourceModel(

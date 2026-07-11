@@ -4,26 +4,30 @@ import 'package:blockchain_utils/layout/layout.dart';
 class MetaplexAuctionHouseCloseEscrowAccountLayout
     extends MetaplexAuctionHouseProgramLayout {
   final int escrowPaymentBump;
-  const MetaplexAuctionHouseCloseEscrowAccountLayout(
-      {required this.escrowPaymentBump});
+  const MetaplexAuctionHouseCloseEscrowAccountLayout({
+    required this.escrowPaymentBump,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseCloseEscrowAccountLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .closeEscrowAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.closeEscrowAccount.insturction,
+    );
     return MetaplexAuctionHouseCloseEscrowAccountLayout(
-        escrowPaymentBump: decode['escrowPaymentBump']);
+      escrowPaymentBump: decode['escrowPaymentBump'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'escrowPaymentBump'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

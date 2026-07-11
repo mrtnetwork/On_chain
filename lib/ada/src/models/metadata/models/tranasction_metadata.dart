@@ -42,7 +42,8 @@ abstract class TransactionMetadata<T>
 
   factory TransactionMetadata.fromJson(Map<String, dynamic> json) {
     TransactionMetadataType type = TransactionMetadataType.fromName(
-        json.keys.firstWhereNullable((e) => e != "serialization_config"));
+      json.keys.firstWhereNullable((e) => e != "serialization_config"),
+    );
     final TransactionMetadata metadata;
     switch (type) {
       case TransactionMetadataType.metadataBytes:
@@ -68,9 +69,11 @@ abstract class TransactionMetadata<T>
   @override
   Map<String, dynamic> toJson();
 
-  dynamic toJsonSchema(
-      {MetadataSchemaConfig config = const MetadataSchemaConfig(
-          jsonSchema: MetadataJsonSchema.noConversions)});
+  dynamic toJsonSchema({
+    MetadataSchemaConfig config = const MetadataSchemaConfig(
+      jsonSchema: MetadataJsonSchema.noConversions,
+    ),
+  });
 
   /// The value of the transaction metadata.
   abstract final T value;

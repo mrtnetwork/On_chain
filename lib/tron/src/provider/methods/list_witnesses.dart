@@ -22,9 +22,10 @@ class TronRequestListWitnesses
 
   @override
   List<WitnessesAccount> onResonse(Map<String, dynamic> result) {
-    final witnesses = (result['witnesses'] as List)
-        .map((e) => WitnessesAccount.fromJson(e))
-        .toList();
+    final witnesses =
+        (result['witnesses'] as List)
+            .map((e) => WitnessesAccount.fromJson(e))
+            .toList();
     return witnesses;
   }
 }

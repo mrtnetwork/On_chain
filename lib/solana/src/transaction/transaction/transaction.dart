@@ -21,7 +21,7 @@ class TransactionSerializeEncoding {
       case TransactionSerializeEncoding.base58:
         return Base58Encoder.encode(data);
       case TransactionSerializeEncoding.base64:
-        return StringUtils.decode(data, type: StringEncoding.base64);
+        return StringUtils.decode(data, encoding: StringEncoding.base64);
       default:
         return BytesUtils.toHexString(data);
     }
@@ -46,10 +46,8 @@ class SolanaTransaction {
   List<List<int>> get signatures => _signatures;
 
   /// Constructs a [SolanaTransaction] with required parameters.
-  SolanaTransaction._(
-    this._signatures, {
-    required this.message,
-  }) : _serializeMessage = List<int>.unmodifiable(message.serialize());
+  SolanaTransaction._(this._signatures, {required this.message})
+    : _serializeMessage = List<int>.unmodifiable(message.serialize());
 
   /// Constructs a Solana transaction with provided parameters.
   factory SolanaTransaction({
@@ -70,7 +68,8 @@ class SolanaTransaction {
       if (type == TransactionType.legacy &&
           addressLookupTableAccounts.isNotEmpty) {
         throw const SolanaPluginException(
-            'Do not use addressLookupTableAccounts in legacy transactions.');
+          'Do not use addressLookupTableAccounts in legacy transactions.',
+        );
       }
     }
     VersionedMessage message;
@@ -91,13 +90,15 @@ class SolanaTransaction {
     if (signatures.isNotEmpty) {
       if (signatures.length != message.header.numRequiredSignatures) {
         throw const SolanaPluginException(
-            'The expected length of signatures should match the number of required signatures.');
+          'The expected length of signatures should match the number of required signatures.',
+        );
       }
     } else {
       signatures = List.generate(
         message.header.numRequiredSignatures,
-        (index) => List<int>.unmodifiable(List<int>.filled(
-            SolanaTransactionConstant.signatureLengthInBytes, 0)),
+        (index) => List<int>.unmodifiable(
+          List<int>.filled(SolanaTransactionConstant.signatureLengthInBytes, 0),
+        ),
       );
     }
     return SolanaTransaction._(
@@ -107,66 +108,90 @@ class SolanaTransaction {
   }
 
   /// Deserializes a Solana transaction from a serialized buffer.
-  factory SolanaTransaction.deserialize(List<int> serializedTransaction,
-      {bool verifySignatures = false}) {
+  factory SolanaTransaction.deserialize(
+    List<int> serializedTransaction, {
+    bool verifySignatures = false,
+  }) {
     final emptySignatureBytes = List<int>.unmodifiable(
-        List<int>.filled(SolanaTransactionConstant.signatureLengthInBytes, 0));
-    final message =
-        SolanaTransactionUtils.deserializeTransaction(serializedTransaction);
+      List<int>.filled(SolanaTransactionConstant.signatureLengthInBytes, 0),
+    );
+    final message = SolanaTransactionUtils.deserializeTransaction(
+      serializedTransaction,
+    );
 
     final transaction = SolanaTransaction._(
-        List.generate(message.$1.header.numRequiredSignatures,
-            (index) => List<int>.unmodifiable(emptySignatureBytes)),
-        message: message.$1);
-    final signerPubkeys = message.$1.accountKeys
-        .sublist(0, message.$1.header.numRequiredSignatures);
+      List.generate(
+        message.$1.header.numRequiredSignatures,
+        (index) => List<int>.unmodifiable(emptySignatureBytes),
+      ),
+      message: message.$1,
+    );
+    final signerPubkeys = message.$1.accountKeys.sublist(
+      0,
+      message.$1.header.numRequiredSignatures,
+    );
     for (int i = 0; i < message.$2.length; i++) {
       if (BytesUtils.bytesEqual(emptySignatureBytes, message.$2.elementAt(i))) {
         continue;
       }
       transaction.addSignature(
-          signerPubkeys.elementAt(i), message.$2.elementAt(i),
+        signerPubkeys.elementAt(i),
+        message.$2.elementAt(i),
 
-          /// Supports only versioned Transaction legacy or V0.
-          /// Older Transactions may fail.
-          verifySignature: verifySignatures);
+        /// Supports only versioned Transaction legacy or V0.
+        /// Older Transactions may fail.
+        verifySignature: verifySignatures,
+      );
     }
 
     return transaction;
   }
-  factory SolanaTransaction.fromJson(Map<String, dynamic> json,
-      {TransactionType? version}) {
+  factory SolanaTransaction.fromJson(
+    Map<String, dynamic> json, {
+    TransactionType? version,
+  }) {
     final message = VersionedMessage.fromJson(json['message'], type: version);
 
-    final List<List<int>> signatures = (json['signatures'] as List)
-        .map<List<int>>((e) => Base58Decoder.decode(e))
-        .toList();
+    final List<List<int>> signatures =
+        (json['signatures'] as List)
+            .map<List<int>>((e) => Base58Decoder.decode(e))
+            .toList();
     final transaction = SolanaTransaction._(
-        List.generate(
-            message.header.numRequiredSignatures,
-            (index) => List<int>.unmodifiable(List<int>.filled(
-                SolanaTransactionConstant.signatureLengthInBytes, 0))),
-        message: message);
-    final signerPubkeys =
-        message.accountKeys.sublist(0, message.header.numRequiredSignatures);
+      List.generate(
+        message.header.numRequiredSignatures,
+        (index) => List<int>.unmodifiable(
+          List<int>.filled(SolanaTransactionConstant.signatureLengthInBytes, 0),
+        ),
+      ),
+      message: message,
+    );
+    final signerPubkeys = message.accountKeys.sublist(
+      0,
+      message.header.numRequiredSignatures,
+    );
     for (int i = 0; i < signatures.length; i++) {
       transaction.addSignature(
-          signerPubkeys.elementAt(i), signatures.elementAt(i),
+        signerPubkeys.elementAt(i),
+        signatures.elementAt(i),
 
-          /// Supports only versioned Transaction legacy or V0.
-          /// Older Transactions may fail.
-          verifySignature: version != null);
+        /// Supports only versioned Transaction legacy or V0.
+        /// Older Transactions may fail.
+        verifySignature: version != null,
+      );
     }
     return transaction;
   }
 
   factory SolanaTransaction.fromMessage(VersionedMessage message) {
     return SolanaTransaction._(
-        List.generate(
-            message.header.numRequiredSignatures,
-            (index) => List<int>.unmodifiable(List<int>.filled(
-                SolanaTransactionConstant.signatureLengthInBytes, 0))),
-        message: message);
+      List.generate(
+        message.header.numRequiredSignatures,
+        (index) => List<int>.unmodifiable(
+          List<int>.filled(SolanaTransactionConstant.signatureLengthInBytes, 0),
+        ),
+      ),
+      message: message,
+    );
   }
 
   /// Serializes the message of the transaction.
@@ -175,9 +200,9 @@ class SolanaTransaction {
   }
 
   /// Serializes the message of the transaction to hexadecimal format.
-  String serializeMessageString(
-      {TransactionSerializeEncoding encoding =
-          TransactionSerializeEncoding.hex}) {
+  String serializeMessageString({
+    TransactionSerializeEncoding encoding = TransactionSerializeEncoding.hex,
+  }) {
     return encoding.encode(serializeMessage());
   }
 
@@ -186,17 +211,18 @@ class SolanaTransaction {
     if (verifySignatures) {
       if (!areSignaturesReady()) {
         throw const SolanaPluginException(
-            'Not all transaction signatures are ready.');
+          'Not all transaction signatures are ready.',
+        );
       }
     }
     return SolanaTransactionUtils.serializeTransaction(message, _signatures);
   }
 
   /// Serializes the transaction to string format.
-  String serializeString(
-      {TransactionSerializeEncoding encoding =
-          TransactionSerializeEncoding.base58,
-      bool verifySignatures = false}) {
+  String serializeString({
+    TransactionSerializeEncoding encoding = TransactionSerializeEncoding.base58,
+    bool verifySignatures = false,
+  }) {
     final ser = serialize(verifySignatures: verifySignatures);
     return encoding.encode(ser);
   }
@@ -213,14 +239,18 @@ class SolanaTransaction {
 
   /// Checks if all signatures of the transaction are ready.
   bool areSignaturesReady() {
-    final signerPubkeys =
-        message.accountKeys.sublist(0, message.header.numRequiredSignatures);
+    final signerPubkeys = message.accountKeys.sublist(
+      0,
+      message.header.numRequiredSignatures,
+    );
     if (signerPubkeys.isEmpty) return false;
     for (int i = 0; i < signerPubkeys.length; i++) {
       final signer = signerPubkeys[i].toPublicKey();
       final signerSignature = _signatures[i];
       if (!signer.verify(
-          message: serializeMessage(), signature: signerSignature)) {
+        message: serializeMessage(),
+        signature: signerSignature,
+      )) {
         return false;
       }
     }
@@ -232,23 +262,31 @@ class SolanaTransaction {
       message.accountKeys.sublist(0, message.header.numRequiredSignatures);
 
   /// Adds a signature to the transaction.
-  void addSignature(SolAddress address, List<int> signature,
-      {bool verifySignature = true}) {
+  void addSignature(
+    SolAddress address,
+    List<int> signature, {
+    bool verifySignature = true,
+  }) {
     if (signature.length != SolanaTransactionConstant.signatureLengthInBytes) {
       throw const SolanaPluginException('Signature must be 64 bytes long');
     }
-    final signerPubkeys =
-        message.accountKeys.sublist(0, message.header.numRequiredSignatures);
-    final signerIndex =
-        signerPubkeys.indexWhere((pubkey) => pubkey.address == address.address);
+    final signerPubkeys = message.accountKeys.sublist(
+      0,
+      message.header.numRequiredSignatures,
+    );
+    final signerIndex = signerPubkeys.indexWhere(
+      (pubkey) => pubkey.address == address.address,
+    );
     if (signerIndex < 0) {
       throw SolanaPluginException(
-          'Cannot add signature, $address is not required to sign this transaction');
+        'Cannot add signature, $address is not required to sign this transaction',
+      );
     }
     if (verifySignature &&
-        !address
-            .toPublicKey()
-            .verify(message: serializeMessage(), signature: signature)) {
+        !address.toPublicKey().verify(
+          message: serializeMessage(),
+          signature: signature,
+        )) {
       throw const SolanaPluginException('Signature verification failed.');
     }
     final List<List<int>> currentSigs = List.from(_signatures);

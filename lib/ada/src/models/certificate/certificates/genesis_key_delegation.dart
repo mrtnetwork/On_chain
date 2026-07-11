@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
@@ -17,29 +16,36 @@ class GenesisKeyDelegation extends Certificate {
   final VRFKeyHash vrfKeyHash;
 
   /// Constructs a [GenesisKeyDelegation] certificate.
-  const GenesisKeyDelegation(
-      {required this.genesisDelegateHash,
-      required this.genesisHash,
-      required this.vrfKeyHash});
+  const GenesisKeyDelegation({
+    required this.genesisDelegateHash,
+    required this.genesisHash,
+    required this.vrfKeyHash,
+  });
 
   /// Constructs a [GenesisKeyDelegation] instance from its serialized form.
   factory GenesisKeyDelegation.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: CertificateType.genesisKeyDelegation);
+    CertificateType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: CertificateType.genesisKeyDelegation,
+    );
     return GenesisKeyDelegation(
-        genesisDelegateHash:
-            GenesisDelegateHash.deserialize(cbor.elementAt<CborBytesValue>(2)),
-        genesisHash: GenesisHash.deserialize(cbor.elementAt<CborBytesValue>(1)),
-        vrfKeyHash: VRFKeyHash.deserialize(cbor.elementAt<CborBytesValue>(3)));
+      genesisDelegateHash: GenesisDelegateHash.deserialize(
+        cbor.objectAt<CborBytesValue>(2),
+      ),
+      genesisHash: GenesisHash.deserialize(cbor.objectAt<CborBytesValue>(1)),
+      vrfKeyHash: VRFKeyHash.deserialize(cbor.objectAt<CborBytesValue>(3)),
+    );
   }
   factory GenesisKeyDelegation.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> correctJson =
         json[CertificateType.genesisKeyDelegation.name] ?? json;
     return GenesisKeyDelegation(
-        genesisDelegateHash:
-            GenesisDelegateHash.fromHex(correctJson['genesis_delegate_hash']),
-        genesisHash: GenesisHash.fromHex(correctJson['genesishash']),
-        vrfKeyHash: VRFKeyHash.fromHex(correctJson['vrf_keyhash']));
+      genesisDelegateHash: GenesisDelegateHash.fromHex(
+        correctJson['genesis_delegate_hash'],
+      ),
+      genesisHash: GenesisHash.fromHex(correctJson['genesishash']),
+      vrfKeyHash: VRFKeyHash.fromHex(correctJson['vrf_keyhash']),
+    );
   }
 
   @override
@@ -48,7 +54,7 @@ class GenesisKeyDelegation extends Certificate {
       type.toCbor(),
       genesisHash.toCbor(),
       genesisDelegateHash.toCbor(),
-      vrfKeyHash.toCbor()
+      vrfKeyHash.toCbor(),
     ]);
   }
 
@@ -61,8 +67,8 @@ class GenesisKeyDelegation extends Certificate {
       type.name: {
         'genesishash': genesisHash.toJson(),
         'genesis_delegate_hash': genesisDelegateHash.toJson(),
-        'vrf_keyhash': vrfKeyHash.toJson()
-      }
+        'vrf_keyhash': vrfKeyHash.toJson(),
+      },
     };
   }
 

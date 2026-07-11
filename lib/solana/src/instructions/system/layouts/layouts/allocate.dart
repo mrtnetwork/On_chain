@@ -10,15 +10,16 @@ class SystemAllocateLayout extends SystemProgramLayout {
 
   factory SystemAllocateLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.allocate.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.allocate.insturction,
+    );
     return SystemAllocateLayout(space: decode['space']);
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.ns64(property: 'space')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'space'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

@@ -14,8 +14,10 @@ class TronProtocolBufferEncoder {
     if (value.bitLength <= _int64BitLength) {
       return;
     }
-    throw TronPluginException('Value overflows 64-bit signed integer range',
-        details: {'input': value});
+    throw TronPluginException(
+      'Value overflows 64-bit signed integer range',
+      details: {'input': value.toString()},
+    );
   }
 
   /// Validate if an [int] value fits within the 32-bit signed integer range.
@@ -23,8 +25,10 @@ class TronProtocolBufferEncoder {
     if (value.bitLength <= int32BitLength) {
       return;
     }
-    throw TronPluginException('Value overflows 32-bit signed integer range',
-        details: {'input': value});
+    throw TronPluginException(
+      'Value overflows 32-bit signed integer range',
+      details: {'input': value.toString()},
+    );
   }
 
   /// Encode a protobuf field with the given [fieldNumber] and [value].
@@ -50,8 +54,10 @@ class TronProtocolBufferEncoder {
     } else if (value is Map) {
       return _encodeMap(fieldNumber, value);
     }
-    throw TronPluginException('unsupported type',
-        details: {'runtime': value.runtimeType, 'value': value});
+    throw TronPluginException(
+      'unsupported type',
+      details: {'runtime': value.runtimeType.toString(), 'value': value},
+    );
   }
 
   /// Encode a [Map] with the given [fieldNumber] and [value].

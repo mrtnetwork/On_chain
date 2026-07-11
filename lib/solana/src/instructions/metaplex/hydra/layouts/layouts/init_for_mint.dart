@@ -7,17 +7,18 @@ class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraInitForMintLayout.fromBuffer(List<int> data) {
     final decode = MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexHydraProgramInstruction.processInitForMint.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexHydraProgramInstruction.processInitForMint.insturction,
+    );
     return MetaplexHydraInitForMintLayout(bumpSeed: decode['bumpSeed']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'bumpSeed')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bumpSeed'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

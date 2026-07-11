@@ -2,7 +2,6 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
 import 'package:on_chain/sui/src/keypair/core/core.dart';
 import 'package:on_chain/sui/src/keypair/types/types.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 /// Represents a Sui ED25519 private key with signing capabilities.
 class SuiED25519PrivateKey extends SuiBasePrivateKey<SuiED25519PublicKey> {
@@ -10,7 +9,7 @@ class SuiED25519PrivateKey extends SuiBasePrivateKey<SuiED25519PublicKey> {
 
   /// Private constructor to initialize the ED25519 private key.
   SuiED25519PrivateKey._(this._privateKey)
-      : super(algorithm: SuiKeyAlgorithm.ed25519);
+    : super(algorithm: SuiKeyAlgorithm.ed25519);
 
   /// Creates an instance from raw private key bytes.
   factory SuiED25519PrivateKey.fromBytes(List<int> keyBytes) {
@@ -19,15 +18,18 @@ class SuiED25519PrivateKey extends SuiBasePrivateKey<SuiED25519PublicKey> {
 
   /// Returns the corresponding public key for the private key.
   @override
-  late final SuiED25519PublicKey publicKey =
-      SuiED25519PublicKey._(_privateKey.publicKey);
+  late final SuiED25519PublicKey publicKey = SuiED25519PublicKey._(
+    _privateKey.publicKey,
+  );
 
   /// Signs a digest and returns the signature.
   @override
   SuiGenericSignature sign(List<int> digest) {
     final signer = Ed25519Signer.fromKeyBytes(toBytes());
     return SuiGenericSignature(
-        signature: signer.signConst(digest), algorithm: algorithm);
+      signature: signer.signConst(digest),
+      algorithm: algorithm,
+    );
   }
 
   /// Returns the raw bytes of the private key.
@@ -47,7 +49,7 @@ class SuiED25519PrivateKey extends SuiBasePrivateKey<SuiED25519PublicKey> {
 class SuiED25519PublicKey extends SuiCryptoPublicKey<Ed25519PublicKey> {
   /// Private constructor to initialize the ED25519 public key.
   const SuiED25519PublicKey._(Ed25519PublicKey publicKey)
-      : super(algorithm: SuiKeyAlgorithm.ed25519, publicKey: publicKey);
+    : super(algorithm: SuiKeyAlgorithm.ed25519, publicKey: publicKey);
 
   /// Creates an instance from raw public key bytes.
   factory SuiED25519PublicKey.fromBytes(List<int> keyBytes) {
@@ -55,7 +57,7 @@ class SuiED25519PublicKey extends SuiCryptoPublicKey<Ed25519PublicKey> {
   }
 
   factory SuiED25519PublicKey.fromStruct(Map<String, dynamic> json) {
-    return SuiED25519PublicKey.fromBytes(json.asBytes("key"));
+    return SuiED25519PublicKey.fromBytes(json.valueAsBytes("key"));
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {

@@ -1,18 +1,22 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 /// Represents a Sui blockchain address with utilities for serialization and comparison.
-class SuiAddress extends MoveAddress {
+class SuiAddress extends MoveAddress
+    with CborTagSerializable, Equality
+    implements IAddress {
   /// The string representation of the Sui address.
+  @override
   final String address;
 
   static SuiAddress get one => SuiAddress(
-      "0x0000000000000000000000000000000000000000000000000000000000000001");
+    "0x0000000000000000000000000000000000000000000000000000000000000001",
+  );
 
   static SuiAddress get two => SuiAddress(
-      "0x0000000000000000000000000000000000000000000000000000000000000002");
+    "0x0000000000000000000000000000000000000000000000000000000000000002",
+  );
 
   /// Private constructor for initializing the Sui address.
   SuiAddress._(this.address, super.value);
@@ -20,11 +24,15 @@ class SuiAddress extends MoveAddress {
   /// Creates a Sui address from a hexadecimal string.
   factory SuiAddress(String address) {
     address = StringUtils.strip0x(address);
-    List<int>? toBytes =
-        BytesUtils.tryFromHexString(address, paddingZero: address.length == 1);
+    List<int>? toBytes = BytesUtils.tryFromHexString(
+      address,
+      paddingZero: address.length == 1,
+    );
     if (toBytes == null) {
-      throw DartSuiPluginException("Invalid sui address.",
-          details: {"address": address});
+      throw DartSuiPluginException(
+        "Invalid sui address.",
+        details: {"address": address},
+      );
     }
 
     /// handle special addresses.
@@ -44,8 +52,20 @@ class SuiAddress extends MoveAddress {
     return SuiAddress._(BytesUtils.toHexString(bytes, prefix: "0x"), bytes);
   }
 
+  factory SuiAddress.deserializeIAddress({
+    List<int>? bytes,
+    CborObject? object,
+  }) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: BlockchainNetwork.sui.identifier,
+      cborBytes: bytes,
+      cborObject: object,
+    );
+    return SuiAddress.fromBytes(values.rawValueAt(0));
+  }
+
   factory SuiAddress.fromStruct(Map<String, dynamic> json) {
-    return SuiAddress.fromBytes(json.asBytes("value"));
+    return SuiAddress.fromBytes(json.valueAsBytes("value"));
   }
 
   /// Converts the Sui address to a byte array.
@@ -55,8 +75,10 @@ class SuiAddress extends MoveAddress {
 
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
-      LayoutConst.fixedBlobN(SuiAddrConst.addressBytesLength,
-          property: "value"),
+      LayoutConst.fixedBlobN(
+        SuiAddrConst.addressBytesLength,
+        property: "value",
+      ),
     ], property: property);
   }
 
@@ -76,15 +98,24 @@ class SuiAddress extends MoveAddress {
     return address;
   }
 
-  /// Compares two Sui addresses for equality based on their string representation.
   @override
-  operator ==(other) {
-    if (identical(this, other)) return true;
-    if (other is! SuiAddress) return false;
-    return address == other.address;
+  BlockchainNetwork get blockchainNetwork => BlockchainNetwork.sui;
+
+  @override
+  List<int> encodeAsIAddress() {
+    return toCbor().encode();
   }
 
-  /// Returns the hash code for the Sui address, based on its string representation.
   @override
-  int get hashCode => address.hashCode;
+  SerializationIdentifier get serializationIdentifier =>
+      blockchainNetwork.identifier;
+
+  @override
+  List<CborObject?> get serializationItems => [CborBytesValue(toBytes())];
+
+  @override
+  List<dynamic> get variables => [address];
+
+  @override
+  String? get viewType => null;
 }

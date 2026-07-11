@@ -11,21 +11,20 @@ class MIRToStakeCredentials extends MIR {
 
   /// Constructs a MIRToStakeCredentials object with the specified rewards.
   MIRToStakeCredentials(Map<Credential, BigInt> rewards)
-      : rewards = Map<Credential, BigInt>.unmodifiable(rewards);
+    : rewards = Map<Credential, BigInt>.unmodifiable(rewards);
 
   /// Deserializes a MIRToStakeCredentials object from its CBOR representation.
   factory MIRToStakeCredentials.deserialize(CborMapValue cbor) {
-    final map =
-        cbor.valueAsMap<CborListValue, CborNumeric>("MIRToStakeCredentials");
+    final map = cbor.asMap<CborListValue, CborNumeric>("MIRToStakeCredentials");
     return MIRToStakeCredentials({
       for (final entry in map.entries)
-        Credential.deserialize(entry.key): entry.value.toBigInt()
+        Credential.deserialize(entry.key): entry.value.toBigInt(),
     });
   }
   factory MIRToStakeCredentials.fromJson(Map<dynamic, dynamic> json) {
     return MIRToStakeCredentials({
       for (final i in json.entries)
-        Credential.fromJson(i.key): BigintUtils.parse(i.value)
+        Credential.fromJson(i.key): BigintUtils.parse(i.value),
     });
   }
   MIRToStakeCredentials copyWith({Map<Credential, BigInt>? rewards}) {
@@ -36,7 +35,7 @@ class MIRToStakeCredentials extends MIR {
   CborObject toCbor() {
     return CborMapValue.definite({
       for (final entry in rewards.entries)
-        entry.key.toCbor(): CborSignedValue.i64(entry.value)
+        entry.key.toCbor(): CborSignedValue.i64(entry.value),
     });
   }
 
@@ -44,7 +43,7 @@ class MIRToStakeCredentials extends MIR {
   Map<dynamic, dynamic> toJson() {
     return {
       for (final entry in rewards.entries)
-        entry.key.toJson(): entry.value.toString()
+        entry.key.toJson(): entry.value.toString(),
     };
   }
 }

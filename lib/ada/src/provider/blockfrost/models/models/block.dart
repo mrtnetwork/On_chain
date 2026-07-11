@@ -93,24 +93,24 @@ class ADABlockResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'time': time,
-        'height': height,
-        'hash': hash,
-        'slot': slot,
-        'epoch': epoch,
-        'epoch_slot': epochSlot,
-        'slot_leader': slotLeader,
-        'size': size,
-        'tx_count': txCount,
-        'output': output,
-        'fees': fees,
-        'block_vrf': blockVrf,
-        'op_cert': opCert,
-        'op_cert_counter': opCertCounter,
-        'previous_block': previousBlock,
-        'next_block': nextBlock,
-        'confirmations': confirmations,
-      };
+    'time': time,
+    'height': height,
+    'hash': hash,
+    'slot': slot,
+    'epoch': epoch,
+    'epoch_slot': epochSlot,
+    'slot_leader': slotLeader,
+    'size': size,
+    'tx_count': txCount,
+    'output': output,
+    'fees': fees,
+    'block_vrf': blockVrf,
+    'op_cert': opCert,
+    'op_cert_counter': opCertCounter,
+    'previous_block': previousBlock,
+    'next_block': nextBlock,
+    'confirmations': confirmations,
+  };
   @override
   String toString() {
     return 'ADABlockResponse${toJson()}';

@@ -18,8 +18,9 @@ class SolanaPrivateKey {
 
   /// Factory method to create a SolanaPrivateKey instance from a seed represented as a hexadecimal string.
   factory SolanaPrivateKey.fromSeedHex(String seedHex) {
-    final privateKey =
-        Ed25519PrivateKey.fromBytes(BytesUtils.fromHexString(seedHex));
+    final privateKey = Ed25519PrivateKey.fromBytes(
+      BytesUtils.fromHexString(seedHex),
+    );
     return SolanaPrivateKey._(privateKey);
   }
 
@@ -35,8 +36,9 @@ class SolanaPrivateKey {
     if (keypairBytes.length !=
         (Ed25519KeysConst.privKeyByteLen + Ed25519KeysConst.pubKeyByteLen)) {
       throw SolanaPluginException(
-          'Invalid Solana keypair length. A valid keypair must consist of exactly 64 bytes, combining both the seed and public key components.',
-          details: {'length': keypairBytes.length});
+        'Invalid Solana keypair length. A valid keypair must consist of exactly 64 bytes, combining both the seed and public key components.',
+        details: {'length': keypairBytes.length.toString()},
+      );
     }
     // Extract seed bytes and public bytes from the keypair bytes.
     final seedBytes = keypairBytes.sublist(0, Ed25519KeysConst.privKeyByteLen);
@@ -45,9 +47,11 @@ class SolanaPrivateKey {
     final privateKey = Ed25519PrivateKey.fromBytes(seedBytes);
     // Check if the extracted public bytes match the public key derived from the private key.
     if (!BytesUtils.bytesEqual(
-        privateKey.publicKey.compressed
-            .sublist(Ed25519KeysConst.pubKeyPrefix.length),
-        publicBytes)) {
+      privateKey.publicKey.compressed.sublist(
+        Ed25519KeysConst.pubKeyPrefix.length,
+      ),
+      publicBytes,
+    )) {
       throw const SolanaPluginException('Invalid keypair');
     }
     return SolanaPrivateKey._(privateKey);
@@ -72,8 +76,9 @@ class SolanaPrivateKey {
   List<int> keypairBytes() {
     return [
       ..._privateKey.raw,
-      ..._privateKey.publicKey.compressed
-          .sublist(Ed25519KeysConst.pubKeyPrefix.length)
+      ..._privateKey.publicKey.compressed.sublist(
+        Ed25519KeysConst.pubKeyPrefix.length,
+      ),
     ];
   }
 

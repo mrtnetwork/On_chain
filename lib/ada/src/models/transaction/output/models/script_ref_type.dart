@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/cbor/core/cbor.dart';
 import 'package:blockchain_utils/cbor/types/int.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus.dart';
@@ -44,7 +45,7 @@ class ScriptRefType with InternalCborSerialization {
     nativeScript,
     plutusScriptV1,
     plutusScriptV2,
-    plutusScriptV3
+    plutusScriptV3,
   ];
 
   Language toPlutusLanguage() {
@@ -61,12 +62,16 @@ class ScriptRefType with InternalCborSerialization {
   }
 
   /// Deserializes a [ScriptRefType] instance from CBOR.
-  factory ScriptRefType.deserialize(CborIntValue cbor,
-      {ScriptRefType? validate}) {
+  factory ScriptRefType.deserialize(
+    CborIntValue cbor, {
+    ScriptRefType? validate,
+  }) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw ADAPluginException('Invalid ScriptRefType.',
-          details: {'Expected': validate, 'Type': type});
+      throw ADAPluginException(
+        'Invalid ScriptRefType.',
+        details: {'Expected': validate.toString(), 'Type': type.toString()},
+      );
     }
     return fromValue(cbor.value);
   }
@@ -80,9 +85,7 @@ class ScriptRefType with InternalCborSerialization {
   static ScriptRefType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No ScriptRefType found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "ScriptRefType"),
     );
   }
 
@@ -90,9 +93,7 @@ class ScriptRefType with InternalCborSerialization {
   static ScriptRefType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No ScriptRefType found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "ScriptRefType"),
     );
   }
 

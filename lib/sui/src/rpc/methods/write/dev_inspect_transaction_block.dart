@@ -8,12 +8,13 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_devinspecttransactionblock)
 class SuiRequestDevInspectTransactionBlock
     extends SuiRequest<SuiApiDevInspectResult, Map<String, dynamic>> {
-  const SuiRequestDevInspectTransactionBlock(
-      {required this.sender,
-      required this.txBytes,
-      this.gasPrice,
-      this.epoch,
-      this.additionalArgs});
+  const SuiRequestDevInspectTransactionBlock({
+    required this.sender,
+    required this.txBytes,
+    this.gasPrice,
+    this.epoch,
+    this.additionalArgs,
+  });
 
   final SuiAddress sender;
 

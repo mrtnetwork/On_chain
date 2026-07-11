@@ -14,18 +14,20 @@ class InflationReward {
 
   /// vote account commission when the reward was credited
   final int? commission;
-  const InflationReward(
-      {required this.epoch,
-      required this.effectiveSlot,
-      required this.amount,
-      required this.postBalance,
-      required this.commission});
+  const InflationReward({
+    required this.epoch,
+    required this.effectiveSlot,
+    required this.amount,
+    required this.postBalance,
+    required this.commission,
+  });
   factory InflationReward.fromJson(Map<String, dynamic> json) {
     return InflationReward(
-        epoch: json['epoch'],
-        effectiveSlot: json['effectiveSlot'],
-        amount: json['amount'],
-        postBalance: json['postBalance'],
-        commission: json['commission']);
+      epoch: json['epoch'],
+      effectiveSlot: json['effectiveSlot'],
+      amount: json['amount'],
+      postBalance: json['postBalance'],
+      commission: json['commission'],
+    );
   }
 }

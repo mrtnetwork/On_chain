@@ -18,15 +18,23 @@ class CollectionDetailsToggle extends BorshLayoutSerializable {
         return clear;
       default:
         return CollectionDetailsToggle.set(
-            collection: CollectionDetailsV1.fromJson(value[0]));
+          collection: CollectionDetailsV1.fromJson(value[0]),
+        );
     }
   }
-  static const CollectionDetailsToggle none =
-      CollectionDetailsToggle._('NoneLayout', 0, null);
-  static const CollectionDetailsToggle clear =
-      CollectionDetailsToggle._('Clear', 1, null);
-  factory CollectionDetailsToggle.set(
-      {required CollectionDetailsV1 collection}) {
+  static const CollectionDetailsToggle none = CollectionDetailsToggle._(
+    'NoneLayout',
+    0,
+    null,
+  );
+  static const CollectionDetailsToggle clear = CollectionDetailsToggle._(
+    'Clear',
+    1,
+    null,
+  );
+  factory CollectionDetailsToggle.set({
+    required CollectionDetailsV1 collection,
+  }) {
     return CollectionDetailsToggle._('Set', 2, [collection]);
   }
 
@@ -35,7 +43,7 @@ class CollectionDetailsToggle extends BorshLayoutSerializable {
       LayoutConst.none(property: 'NoneLayout'),
       LayoutConst.none(property: 'Clear'),
       LayoutConst.tuple([CollectionDetailsV1.staticLayout], property: 'Set'),
-    ], property: 'collectionDetailsToggle')
+    ], property: 'collectionDetailsToggle'),
   ]);
 
   @override
@@ -45,8 +53,8 @@ class CollectionDetailsToggle extends BorshLayoutSerializable {
   Map<String, dynamic> serialize() {
     return {
       'collectionDetailsToggle': {
-        name: fileds?.map((e) => e.serialize()).toList()
-      }
+        name: fileds?.map((e) => e.serialize()).toList(),
+      },
     };
   }
 }

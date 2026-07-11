@@ -18,8 +18,9 @@ class CpiGuardInstructionInstruction extends BorshLayoutSerializable {
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'cpiGuard')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'cpiGuard',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -27,7 +28,7 @@ class CpiGuardInstructionInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'cpiGuard': {name: null}
+      'cpiGuard': {name: null},
     };
   }
 
@@ -37,9 +38,12 @@ class CpiGuardInstructionInstruction extends BorshLayoutSerializable {
   static CpiGuardInstructionInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No CpiGuardInstructionInstruction found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No CpiGuardInstructionInstruction found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 }

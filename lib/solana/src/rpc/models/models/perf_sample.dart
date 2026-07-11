@@ -12,16 +12,18 @@ class PerfSample {
   /// Sample window in seconds
   final int samplePeriodSecs;
 
-  const PerfSample(
-      {required this.slot,
-      required this.numTransactions,
-      required this.numSlots,
-      required this.samplePeriodSecs});
+  const PerfSample({
+    required this.slot,
+    required this.numTransactions,
+    required this.numSlots,
+    required this.samplePeriodSecs,
+  });
   factory PerfSample.fromJson(Map<String, dynamic> json) {
     return PerfSample(
-        slot: json['slot'],
-        numTransactions: json['numTransactions'],
-        numSlots: json['numSlots'],
-        samplePeriodSecs: json['samplePeriodSecs']);
+      slot: json['slot'],
+      numTransactions: json['numTransactions'],
+      numSlots: json['numSlots'],
+      samplePeriodSecs: json['samplePeriodSecs'],
+    );
   }
 }

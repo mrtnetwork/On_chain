@@ -15,10 +15,11 @@ class SPLTokenInitializeImmutableOwnerLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenInitializeImmutableOwnerLayout instance from buffer.
   factory SPLTokenInitializeImmutableOwnerLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            SPLTokenProgramInstruction.initializeImmutableOwner.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          SPLTokenProgramInstruction.initializeImmutableOwner.insturction,
+    );
     return SPLTokenInitializeImmutableOwnerLayout();
   }
 

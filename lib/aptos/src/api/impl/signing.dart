@@ -13,22 +13,24 @@ mixin AptosQuickApiSigningHelper {
   /// - [secondarySignerAccounts] (optional): A list of secondary accounts for multi-agent transactions.
   ///
   /// Returns an [AptosSignedTransaction] containing the raw transaction and its corresponding authenticator.
-  AptosSignedTransaction signTransaction(
-      {required AptosAccount account,
-      required AptosRawTransaction transaction,
-      AptosAccount? feePayerAccount,
-      List<AptosAccount>? secondarySignerAccounts}) {
+  AptosSignedTransaction signTransaction({
+    required AptosAccount account,
+    required AptosRawTransaction transaction,
+    AptosAccount? feePayerAccount,
+    List<AptosAccount>? secondarySignerAccounts,
+  }) {
     final digest = transaction.signingSerialize(
-        feePayerAddress: feePayerAccount?.toAddress(),
-        secondarySignerAddresses:
-            secondarySignerAccounts?.map((e) => e.toAddress()).toList());
+      feePayerAddress: feePayerAccount?.toAddress(),
+      secondarySignerAddresses:
+          secondarySignerAccounts?.map((e) => e.toAddress()).toList(),
+    );
 
     // Sign the transaction digest with the primary account
     final sender = account.signWithAuth(digest);
 
     // Sign with fee payer account if provided
-    AptosAccountAuthenticator? feePayerAuthenticator =
-        feePayerAccount?.signWithAuth(digest);
+    AptosAccountAuthenticator? feePayerAuthenticator = feePayerAccount
+        ?.signWithAuth(digest);
 
     // Sign with secondary signer accounts if provided
     List<AptosAccountAuthenticator>? secondarySignerAuthenticator =
@@ -36,15 +38,18 @@ mixin AptosQuickApiSigningHelper {
 
     // Build the transaction authenticator based on the provided signers
     final txAuthenticated = _toTransactionAuthenticated(
-        sender: sender,
-        feePayerAddress: feePayerAccount?.toAddress(),
-        feePayerAuthenticator: feePayerAuthenticator,
-        secondarySignerAddressess:
-            secondarySignerAccounts?.map((e) => e.toAddress()).toList(),
-        secondarySignerAuthenticated: secondarySignerAuthenticator);
+      sender: sender,
+      feePayerAddress: feePayerAccount?.toAddress(),
+      feePayerAuthenticator: feePayerAuthenticator,
+      secondarySignerAddressess:
+          secondarySignerAccounts?.map((e) => e.toAddress()).toList(),
+      secondarySignerAuthenticated: secondarySignerAuthenticator,
+    );
 
     return AptosSignedTransaction(
-        rawTransaction: transaction, authenticator: txAuthenticated);
+      rawTransaction: transaction,
+      authenticator: txAuthenticated,
+    );
   }
 
   /// Creates the appropriate transaction authenticator based on the provided signers.

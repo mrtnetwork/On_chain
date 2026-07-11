@@ -13,8 +13,10 @@ class BytesCoder implements ABICoder<Object, List<int>> {
     List<int> remainingBytes = List<int>.from(bytes);
     int? size = ABIUtils._bytesSize(params.type);
     if (size == null) {
-      final decode =
-          const NumbersCoder().decode(AbiParameter.uint32, remainingBytes);
+      final decode = const NumbersCoder().decode(
+        AbiParameter.uint32,
+        remainingBytes,
+      );
       consumed = decode.consumed;
       size = decode.result.toInt();
       partsCount = (size / ABIConst.uintBytesLength).ceil();
@@ -22,32 +24,45 @@ class BytesCoder implements ABICoder<Object, List<int>> {
     }
     _ABIValidator.validateBytesLength(bytes, size);
     return DecoderResult(
-        result: remainingBytes.sublist(0, size),
-        consumed: consumed + partsCount * ABIConst.uintBytesLength,
-        name: params.name);
+      result: remainingBytes.sublist(0, size),
+      consumed: consumed + partsCount * ABIConst.uintBytesLength,
+      name: params.name,
+    );
   }
 
   /// Encodes a byte array to ABI-encoded bytes.
   @override
   EncoderResult abiEncode(AbiParameter params, Object input) {
-    final inputAsBytes =
-        JsonParser.valueAsBytes<List<int>>(input, allowHex: true);
+    final inputAsBytes = JsonParser.valueAsBytes<List<int>>(
+      input,
+      allowHex: true,
+    );
     if (params.isDynamic) {
       final parseLength =
           (inputAsBytes.length / ABIConst.uintBytesLength).ceil();
       final encoded = List<int>.filled(
-          ABIConst.uintBytesLength + parseLength * ABIConst.uintBytesLength, 0);
-      final number = const NumbersCoder()
-          .abiEncode(AbiParameter.uint32, BigInt.from(inputAsBytes.length))
-          .encoded;
+        ABIConst.uintBytesLength + parseLength * ABIConst.uintBytesLength,
+        0,
+      );
+      final number =
+          const NumbersCoder()
+              .abiEncode(AbiParameter.uint32, BigInt.from(inputAsBytes.length))
+              .encoded;
       encoded.setAll(0, number);
       encoded.setAll(ABIConst.uintBytesLength, inputAsBytes);
       return EncoderResult(
-          isDynamic: true, encoded: encoded, name: params.name);
+        isDynamic: true,
+        encoded: encoded,
+        name: params.name,
+      );
     }
     final size = ABIUtils._bytesSize(params.type);
-    _ABIValidator.validateBytes(params.type,
-        bytes: inputAsBytes, minLength: size!, maxLength: size);
+    _ABIValidator.validateBytes(
+      params.type,
+      bytes: inputAsBytes,
+      minLength: size!,
+      maxLength: size,
+    );
     final bytes = List<int>.filled(ABIConst.uintBytesLength, 0);
     bytes.setAll(0, inputAsBytes);
     return EncoderResult(isDynamic: false, encoded: bytes, name: params.name);
@@ -57,13 +72,18 @@ class BytesCoder implements ABICoder<Object, List<int>> {
   /// Optionally keeps the size unchanged based on the `keepSize` parameter.
   @override
   EncoderResult encodePacked(AbiParameter params, Object input) {
-    final inputAsBytes =
-        JsonParser.valueAsBytes<List<int>>(input, allowHex: true);
+    final inputAsBytes = JsonParser.valueAsBytes<List<int>>(
+      input,
+      allowHex: true,
+    );
     final size = ABIUtils._bytesSize(params.type);
     if (size != null && inputAsBytes.length != size) {
       throw const SolidityAbiException('Invalid bytes length');
     }
     return EncoderResult(
-        isDynamic: false, encoded: inputAsBytes, name: params.name);
+      isDynamic: false,
+      encoded: inputAsBytes,
+      name: params.name,
+    );
   }
 }

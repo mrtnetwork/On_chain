@@ -20,23 +20,32 @@ class TransactionMetadataUtils {
     if (cbor is! CborMapValue &&
         cbor is! CborListValue &&
         cbor is! CborTagValue) {
-      throw ADAPluginException('Invalid AuxiliaryData cbor object type.',
-          details: {
-            'Type': cbor.runtimeType,
-            'expected': '$CborMapValue, $CborListValue or $CborTagValue'
-          });
+      throw ADAPluginException(
+        'Invalid AuxiliaryData cbor object type.',
+        details: {
+          'Type': cbor.runtimeType.toString(),
+          'expected': '$CborMapValue, $CborListValue or $CborTagValue',
+        },
+      );
     }
     if (cbor is CborTagValue) {
       if (!BytesUtils.bytesEqual(cbor.tags, auxiliaryDataCborTag)) {
-        throw ADAPluginException('Invalid AuxiliaryData cbor tag.',
-            details: {'Exepted': auxiliaryDataCborTag, 'Tag': cbor.tags});
+        throw ADAPluginException(
+          'Invalid AuxiliaryData cbor tag.',
+          details: {
+            'Exepted': auxiliaryDataCborTag.join(","),
+            'Tag': cbor.tags.join(","),
+          },
+        );
       }
     }
   }
 
   /// Parses transaction metadata based on JSON schema.
   static TransactionMetadata parseTransactionMetadata(
-      dynamic value, MetadataJsonSchema jsonSchema) {
+    dynamic value,
+    MetadataJsonSchema jsonSchema,
+  ) {
     _validateType(value);
     switch (jsonSchema) {
       case MetadataJsonSchema.basicConversions:
@@ -55,10 +64,13 @@ class TransactionMetadataUtils {
   }
 
   static TransactionMetadata _parseDetailed(
-      dynamic value, MetadataJsonSchema jsonSchema) {
+    dynamic value,
+    MetadataJsonSchema jsonSchema,
+  ) {
     if (value is! Map<String, dynamic> || value.length != 1) {
       throw const ADAPluginException(
-          'DetailedSchema requires types to be tagged objects');
+        'DetailedSchema requires types to be tagged objects',
+      );
     }
     final entry = value.entries.first;
     final String key = entry.key;
@@ -71,14 +83,18 @@ class TransactionMetadataUtils {
       case 'bytes':
         final bytes = BytesUtils.tryFromHexString(v);
         if (bytes == null) {
-          throw ADAPluginException('invalid hex string.',
-              details: {'Value': v});
+          throw ADAPluginException(
+            'invalid hex string.',
+            details: {'Value': v.toString()},
+          );
         }
         return TransactionMetadataBytes(value: bytes);
       case 'list':
         if (v is! List) {
-          throw ADAPluginException('key does not match type.',
-              details: {'Key': key, 'Value': v});
+          throw ADAPluginException(
+            'key does not match type.',
+            details: {'Key': key, 'Value': v.toString()},
+          );
         }
         return _encodeArray(v, jsonSchema);
       case 'map':
@@ -100,8 +116,10 @@ class TransactionMetadataUtils {
             );
           }
           values.addAll({
-            parseTransactionMetadata(i['k'], jsonSchema):
-                parseTransactionMetadata(i['v'], jsonSchema)
+            parseTransactionMetadata(
+              i['k'],
+              jsonSchema,
+            ): parseTransactionMetadata(i['v'], jsonSchema),
           });
         }
         return TransactionMetadataMap(value: values);
@@ -124,8 +142,10 @@ class TransactionMetadataUtils {
     } else if (obj is CborListValue) {
       metadata = TransactionMetadataList.deserialize(obj);
     } else {
-      throw ADAPluginException('Invalid metadata type.',
-          details: {'Type': obj.runtimeType});
+      throw ADAPluginException(
+        'Invalid metadata type.',
+        details: {'Type': obj.runtimeType.toString()},
+      );
     }
     return metadata;
   }
@@ -136,10 +156,14 @@ class TransactionMetadataUtils {
   }
 
   static TransactionMetadata _encodeString(
-      dynamic value, MetadataJsonSchema jsonSchema) {
+    dynamic value,
+    MetadataJsonSchema jsonSchema,
+  ) {
     if (value is! String) {
-      throw ADAPluginException('Invalid string format.',
-          details: {'Value': '$value', 'Type': '${value.runtimeType}'});
+      throw ADAPluginException(
+        'Invalid string format.',
+        details: {'Value': '$value', 'Type': '${value.runtimeType}'},
+      );
     }
     if (jsonSchema == MetadataJsonSchema.basicConversions) {
       final toBytes = BytesUtils.tryFromHexString(value);
@@ -151,14 +175,18 @@ class TransactionMetadataUtils {
   }
 
   static TransactionMetadata _encodeArray(
-      List<dynamic> value, MetadataJsonSchema jsonSchema) {
+    List<dynamic> value,
+    MetadataJsonSchema jsonSchema,
+  ) {
     return TransactionMetadataList(
-        value:
-            value.map((e) => parseTransactionMetadata(e, jsonSchema)).toList());
+      value: value.map((e) => parseTransactionMetadata(e, jsonSchema)).toList(),
+    );
   }
 
   static TransactionMetadata _encodeMap(
-      Map value, MetadataJsonSchema jsonSchema) {
+    Map value,
+    MetadataJsonSchema jsonSchema,
+  ) {
     final Map<TransactionMetadata, TransactionMetadata> values = {};
     for (final i in value.entries) {
       TransactionMetadata? key;
@@ -186,15 +214,18 @@ class TransactionMetadataUtils {
       }
     }
     if (val != null) {
-      throw ADAPluginException('Invalid metadata format. type not allowed.',
-          details: {'Value': val, 'Type': '${val.runtimeType}'});
+      throw ADAPluginException(
+        'Invalid metadata format. type not allowed.',
+        details: {'Value': val.toString(), 'Type': '${val.runtimeType}'},
+      );
     }
     throw const ADAPluginException('null not allowed in metadata');
   }
 
-  static dynamic encodeKey(
-      {required TransactionMetadata key,
-      required MetadataSchemaConfig config}) {
+  static dynamic encodeKey({
+    required TransactionMetadata key,
+    required MetadataSchemaConfig config,
+  }) {
     switch (key.type) {
       case TransactionMetadataType.metadataText:
         return key.toJsonSchema(config: config);
@@ -213,7 +244,8 @@ class TransactionMetadataUtils {
         return key.toJsonSchema(config: config);
     }
     throw ADAPluginException(
-        'Key type not allowed in JSON under specified schema.',
-        details: {'Key': key, 'type': key.type});
+      'Key type not allowed in JSON under specified schema.',
+      details: {'Key': key.toString(), 'type': key.type.toString()},
+    );
   }
 }

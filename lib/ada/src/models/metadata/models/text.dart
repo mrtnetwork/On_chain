@@ -7,14 +7,18 @@ import 'transaction_metadata_types.dart';
 
 class TransactionMetadataTextSerializationConfig {
   final CborLengthEncoding encoding;
-  const TransactionMetadataTextSerializationConfig(
-      {this.encoding = CborLengthEncoding.canonical});
+  const TransactionMetadataTextSerializationConfig({
+    this.encoding = CborLengthEncoding.canonical,
+  });
   factory TransactionMetadataTextSerializationConfig.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TransactionMetadataTextSerializationConfig(
-        encoding: json["encoding"] == null
-            ? CborLengthEncoding.canonical
-            : CborLengthEncoding.fromName(json["encoding"]));
+      encoding:
+          json["encoding"] == null
+              ? CborLengthEncoding.canonical
+              : CborLengthEncoding.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name};
@@ -30,24 +34,28 @@ class TransactionMetadataText extends TransactionMetadata<String> {
   final TransactionMetadataTextSerializationConfig serializationConfig;
 
   /// Constructs a TransactionMetadataText object.
-  const TransactionMetadataText(
-      {required this.value,
-      this.serializationConfig =
-          const TransactionMetadataTextSerializationConfig()});
+  const TransactionMetadataText({
+    required this.value,
+    this.serializationConfig =
+        const TransactionMetadataTextSerializationConfig(),
+  });
 
   /// Deserializes a TransactionMetadataText object from CBOR.
   factory TransactionMetadataText.deserialize(CborStringValue cbor) {
     return TransactionMetadataText(
-        value: cbor.value,
-        serializationConfig: TransactionMetadataTextSerializationConfig(
-            encoding: cbor.lengthEncoding));
+      value: cbor.value,
+      serializationConfig: TransactionMetadataTextSerializationConfig(
+        encoding: cbor.lengthEncoding,
+      ),
+    );
   }
   factory TransactionMetadataText.fromJson(Map<String, dynamic> json) {
     return TransactionMetadataText(
-        value: json[TransactionMetadataType.metadataText.name],
-        serializationConfig:
-            TransactionMetadataTextSerializationConfig.fromJson(
-                json["serialization_config"] ?? {}));
+      value: json[TransactionMetadataType.metadataText.name],
+      serializationConfig: TransactionMetadataTextSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
   TransactionMetadataText copyWith({String? value}) {
     return TransactionMetadataText(value: value ?? this.value);
@@ -62,14 +70,16 @@ class TransactionMetadataText extends TransactionMetadata<String> {
   Map<String, dynamic> toJson() {
     return {
       type.name: value,
-      'serialization_config': serializationConfig.toJson()
+      'serialization_config': serializationConfig.toJson(),
     };
   }
 
   @override
-  Object toJsonSchema(
-      {MetadataSchemaConfig config = const MetadataSchemaConfig(
-          jsonSchema: MetadataJsonSchema.noConversions)}) {
+  Object toJsonSchema({
+    MetadataSchemaConfig config = const MetadataSchemaConfig(
+      jsonSchema: MetadataJsonSchema.noConversions,
+    ),
+  }) {
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
       return {'string': value};
     }

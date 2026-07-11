@@ -4,10 +4,13 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of asset minted under a specific policy.
 /// https://blockfrost.dev/api/assets-of-a-specific-policy
-class BlockfrostRequestAssetsOfaSpecificPolicy extends BlockFrostRequest<
-    List<ADAAssetsResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestAssetsOfaSpecificPolicy(this.policyId,
-      {BlockFrostRequestFilterParams? filter});
+class BlockfrostRequestAssetsOfaSpecificPolicy
+    extends
+        BlockFrostRequest<List<ADAAssetsResponse>, List<Map<String, dynamic>>> {
+  BlockfrostRequestAssetsOfaSpecificPolicy(
+    this.policyId, {
+    BlockFrostRequestFilterParams? filter,
+  });
 
   /// Specific policy_id
   final String policyId;

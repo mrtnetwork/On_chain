@@ -1,39 +1,42 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 /// Creates a proposal transaction.
 class ProposalCreateContract extends TronBaseContract {
   /// Create a new [ProposalCreateContract] instance by parsing a JSON map.
   factory ProposalCreateContract.fromJson(Map<String, dynamic> json) {
     return ProposalCreateContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      parameters: OnChainUtils.parseMap<dynamic, dynamic>(
-                  value: json['parameters'], name: 'parameters') ==
-              null
-          ? null
-          : (json['parameters'] as Map).map(
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      parameters: json.valueTo<Map<BigInt, BigInt>?, Map<dynamic, dynamic>>(
+        key: "parameters",
+        parse:
+            (e) => e.map(
               (key, value) => MapEntry<BigInt, BigInt>(
-                  OnChainUtils.parseBigInt(value: key, name: 'parameters'),
-                  OnChainUtils.parseBigInt(value: value, name: 'parameters')),
+                JsonParser.valueAsBigInt(key),
+                JsonParser.valueAsBigInt(value),
+              ),
             ),
+      ),
     );
   }
   factory ProposalCreateContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return ProposalCreateContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        parameters: decode.getMap<BigInt, BigInt>(2));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      parameters: decode.getMap<BigInt, BigInt>(2),
+    );
   }
 
   /// Create a new [ProposalCreateContract] instance with specified parameters.
-  ProposalCreateContract(
-      {required this.ownerAddress, Map<BigInt, BigInt>? parameters})
-      : parameters = parameters == null
-            ? null
-            : Map<BigInt, BigInt>.unmodifiable(parameters);
+  ProposalCreateContract({
+    required this.ownerAddress,
+    Map<BigInt, BigInt>? parameters,
+  }) : parameters =
+           parameters == null
+               ? null
+               : Map<BigInt, BigInt>.unmodifiable(parameters);
 
   /// Account address
   @override
@@ -53,8 +56,9 @@ class ProposalCreateContract extends TronBaseContract {
   Map<String, dynamic> toJson({bool visible = true}) {
     return {
       'owner_address': ownerAddress.toAddress(visible),
-      'parameters': parameters
-          ?.map((key, value) => MapEntry(key.toString(), value.toString())),
+      'parameters': parameters?.map(
+        (key, value) => MapEntry(key.toString(), value.toString()),
+      ),
     };
   }
 

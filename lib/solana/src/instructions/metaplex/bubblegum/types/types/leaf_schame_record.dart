@@ -11,17 +11,18 @@ class LeafSchemaV1 extends BorshLayoutSerializable {
     required this.nonce,
     required List<int> dataHash,
     required List<int> creatorHash,
-  })  : dataHash = dataHash.asImmutableBytes,
-        creatorHash = creatorHash.asImmutableBytes;
+  }) : dataHash = dataHash.asImmutableBytes,
+       creatorHash = creatorHash.asImmutableBytes;
 
   factory LeafSchemaV1.fromJson(Map<String, dynamic> json) {
     return LeafSchemaV1(
-        id: json['id'],
-        owner: json['owner'],
-        delegate: json['delegate'],
-        nonce: json['nonce'],
-        dataHash: json['dataHash'],
-        creatorHash: json['creatorHash']);
+      id: json['id'],
+      owner: json['owner'],
+      delegate: json['delegate'],
+      nonce: json['nonce'],
+      dataHash: json['dataHash'],
+      creatorHash: json['creatorHash'],
+    );
   }
 
   static const int version = 0;
@@ -53,7 +54,7 @@ class LeafSchemaV1 extends BorshLayoutSerializable {
       'delegate': delegate,
       'nonce': nonce,
       'dataHash': dataHash,
-      'creatorHash': creatorHash
+      'creatorHash': creatorHash,
     };
   }
 

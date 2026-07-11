@@ -17,32 +17,36 @@ class MoveInstantaneousReward with InternalCborSerialization {
   /// Deserializes a MoveInstantaneousReward object from its CBOR representation.
   factory MoveInstantaneousReward.deserialize(CborListValue cbor) {
     return MoveInstantaneousReward(
-        pot: MIRPot.deserialize(cbor.elementAt<CborIntValue>(0)),
-        variant: MIR.deserialize(cbor.elementAt<CborObject>(1)));
+      pot: MIRPot.deserialize(cbor.objectAt<CborIntValue>(0)),
+      variant: MIR.deserialize(cbor.objectAt<CborObject>(1)),
+    );
   }
 
   /// Constructs a MoveInstantaneousReward object from its CBOR byte representation.
   factory MoveInstantaneousReward.fromCborBytes(List<int> cborBytes) {
-    return MoveInstantaneousReward.deserialize(CborObject.fromCbor(cborBytes)
-        .as<CborListValue>("MoveInstantaneousReward"));
+    return MoveInstantaneousReward.deserialize(
+      CborObject.fromCbor(
+        cborBytes,
+      ).as<CborListValue>(operation: "MoveInstantaneousReward"),
+    );
   }
   MoveInstantaneousReward copyWith({MIRPot? pot, MIR? variant}) {
     return MoveInstantaneousReward(
-        pot: pot ?? this.pot, variant: variant ?? this.variant);
+      pot: pot ?? this.pot,
+      variant: variant ?? this.variant,
+    );
   }
 
   factory MoveInstantaneousReward.fromJson(Map<String, dynamic> json) {
     return MoveInstantaneousReward(
-        pot: MIRPot.fromName(json['pot']),
-        variant: MIR.fromJson(json['variant']));
+      pot: MIRPot.fromName(json['pot']),
+      variant: MIR.fromJson(json['variant']),
+    );
   }
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      pot.toCbor(),
-      variant.toCbor(),
-    ]);
+    return CborListValue.definite([pot.toCbor(), variant.toCbor()]);
   }
 
   @override

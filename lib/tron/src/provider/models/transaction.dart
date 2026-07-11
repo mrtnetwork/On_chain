@@ -2,7 +2,6 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solidity/solidity.dart';
 import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/models.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 enum TronResultCode {
   sucess("SUCESS"),
@@ -11,8 +10,10 @@ enum TronResultCode {
   final String value;
   const TronResultCode(this.value);
   static TronResultCode fromValue(String value) {
-    return values.firstWhere((e) => e.value == value,
-        orElse: () => throw TronPluginException("Invalid TronResultCode name"));
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw TronPluginException("Invalid TronResultCode name"),
+    );
   }
 }
 
@@ -37,9 +38,11 @@ enum TronContractResult {
   final String value;
   const TronContractResult(this.value);
   static TronContractResult fromValue(String value) {
-    return values.firstWhere((e) => e.value == value,
-        orElse: () =>
-            throw TronPluginException("Invalid TronContractResult name"));
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse:
+          () => throw TronPluginException("Invalid TronContractResult name"),
+    );
   }
 }
 
@@ -59,30 +62,40 @@ class TronTransactionExtention {
   bool get isSuccess =>
       result.result &&
       transaction != null &&
-      !transaction!.ret.any((e) =>
-          e.ret == TronResultCode.failed ||
-          (e.contractRet != null &&
-              e.contractRet != TronContractResult.success));
+      !transaction!.ret.any(
+        (e) =>
+            e.ret == TronResultCode.failed ||
+            (e.contractRet != null &&
+                e.contractRet != TronContractResult.success),
+      );
   String? get error => result.message;
-  const TronTransactionExtention(
-      {required this.transaction,
-      required this.constantResult,
-      required this.energyUsed,
-      required this.energyPenalty,
-      required this.result,
-      this.fragment});
-  factory TronTransactionExtention.fromJson(Map<String, dynamic> json,
-      {AbiFunctionFragment? fragment}) {
+  const TronTransactionExtention({
+    required this.transaction,
+    required this.constantResult,
+    required this.energyUsed,
+    required this.energyPenalty,
+    required this.result,
+    this.fragment,
+  });
+  factory TronTransactionExtention.fromJson(
+    Map<String, dynamic> json, {
+    AbiFunctionFragment? fragment,
+  }) {
     return TronTransactionExtention(
-        transaction: json["transaction"] == null
-            ? null
-            : TronTransactionWithResult.fromJson(json.asMap("transaction")),
-        constantResult:
-            json.asListOfString("constant_result", throwOnNull: false) ?? [],
-        energyUsed: json.asInt("energy_used"),
-        energyPenalty: json.asBigInt("energy_penalty"),
-        result: TronReturn.fromJson(json.asMap("result")),
-        fragment: fragment);
+      transaction:
+          json["transaction"] == null
+              ? null
+              : TronTransactionWithResult.fromJson(
+                json.valueEnsureAsMap<String, dynamic>("transaction"),
+              ),
+      constantResult: json.valueAsList<List<String>?>("constant_result") ?? [],
+      energyUsed: json.valueAsInt("energy_used"),
+      energyPenalty: json.valueAsBigInt("energy_penalty"),
+      result: TronReturn.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("result"),
+      ),
+      fragment: fragment,
+    );
   }
 }
 
@@ -97,30 +110,32 @@ class TronTransactionWithResult {
       "raw_data": rawData.toJson(),
       "signature": signature,
       "ret": ret.map((e) => e.toJson()).toList(),
-      "raw_data_hex": rawDatahex
+      "raw_data_hex": rawDatahex,
     };
   }
 
   /// Create a new [Transaction] instance with specified parameters.
-  TronTransactionWithResult(
-      {required this.rawData,
-      required List<String> signature,
-      required List<TronResult> ret,
-      this.rawDatahex})
-      : signature = signature.immutable,
-        ret = ret.immutable;
+  TronTransactionWithResult({
+    required this.rawData,
+    required List<String> signature,
+    required List<TronResult> ret,
+    this.rawDatahex,
+  }) : signature = signature.immutable,
+       ret = ret.immutable;
 
   factory TronTransactionWithResult.fromJson(Map<String, dynamic> json) {
     return TronTransactionWithResult(
-        rawData: TransactionRaw.fromJson(json['raw_data']),
-        signature: json.asListOfString("signature", throwOnNull: false) ?? [],
-        rawDatahex: json.as("raw_data_hex"),
-        ret: json
-                .asListOfMap('ret', throwOnNull: false)
-                ?.where((e) => e.isNotEmpty)
-                .map((e) => TronResult.fromJson(e))
-                .toList() ??
-            []);
+      rawData: TransactionRaw.fromJson(json['raw_data']),
+      signature: json.valueAsList<List<String>?>("signature") ?? [],
+      rawDatahex: json.valueAs("raw_data_hex"),
+      ret:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>('ret')
+              ?.where((e) => e.isNotEmpty)
+              .map((e) => TronResult.fromJson(e))
+              .toList() ??
+          [],
+    );
   }
 }
 
@@ -159,24 +174,28 @@ class TronResult {
 
   factory TronResult.fromJson(Map<String, dynamic> json) {
     return TronResult(
-      fee: json.asBigInt("fee"),
+      fee: json.valueAsBigInt("fee"),
       ret: json["ret"] == null ? null : TronResultCode.fromValue(json['ret']),
-      contractRet: json["contractRet"] == null
-          ? null
-          : TronContractResult.fromValue(json.as("contractRet")),
-      assetIssueID: json.as("assetIssueID"),
-      withdrawAmount: json.asBigInt("withdraw_amount"),
-      unfreezeAmount: json.asBigInt("unfreeze_amount"),
-      exchangeReceivedAmount: json.asBigInt("exchange_received_amount"),
-      exchangeInjectAnotherAmount:
-          json.asBigInt("exchange_inject_another_amount"),
-      exchangeWithdrawAnotherAmount:
-          json.asBigInt("exchange_withdraw_another_amount"),
-      exchangeId: json.asBigInt("exchange_id"),
-      shieldedTransactionFee: json.asBigInt("shielded_transaction_fee"),
+      contractRet:
+          json["contractRet"] == null
+              ? null
+              : TronContractResult.fromValue(json.valueAs("contractRet")),
+      assetIssueID: json.valueAs("assetIssueID"),
+      withdrawAmount: json.valueAsBigInt("withdraw_amount"),
+      unfreezeAmount: json.valueAsBigInt("unfreeze_amount"),
+      exchangeReceivedAmount: json.valueAsBigInt("exchange_received_amount"),
+      exchangeInjectAnotherAmount: json.valueAsBigInt(
+        "exchange_inject_another_amount",
+      ),
+      exchangeWithdrawAnotherAmount: json.valueAsBigInt(
+        "exchange_withdraw_another_amount",
+      ),
+      exchangeId: json.valueAsBigInt("exchange_id"),
+      shieldedTransactionFee: json.valueAsBigInt("shielded_transaction_fee"),
       withdrawExpireAmount: json['withdraw_expire_amount'],
-      cancelUnfreezeV2Amount: (json['cancel_unfreezeV2_amount'] as Map?)
-          ?.map((k, v) => MapEntry(k.toString(), BigintUtils.parse(v))),
+      cancelUnfreezeV2Amount: (json['cancel_unfreezeV2_amount'] as Map?)?.map(
+        (k, v) => MapEntry(k.toString(), BigintUtils.parse(v)),
+      ),
     );
   }
   Map<String, dynamic> toJson() {
@@ -194,8 +213,9 @@ class TronResult {
       "exchange_id": exchangeId?.toString(),
       "shielded_transaction_fee": shieldedTransactionFee?.toString(),
       "withdraw_expire_amount": withdrawExpireAmount?.toString(),
-      "cancel_unfreezeV2_amount":
-          cancelUnfreezeV2Amount?.map((k, v) => MapEntry(k, v.toString()))
+      "cancel_unfreezeV2_amount": cancelUnfreezeV2Amount?.map(
+        (k, v) => MapEntry(k, v.toString()),
+      ),
     };
   }
 }
@@ -222,7 +242,7 @@ enum TronResponseCode {
   static TronResponseCode fromValue(String value) {
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw Exception("Invalid TronResponseCode name: $value"),
+      orElse: () => throw ItemNotFoundException(name: "TronResponseCode"),
     );
   }
 }
@@ -236,11 +256,13 @@ class TronReturn {
 
   factory TronReturn.fromJson(Map<String, dynamic> json) {
     return TronReturn(
-        result: json.as<bool?>("result") ?? false,
-        code: json['code'] != null
-            ? TronResponseCode.fromValue(json.as("code"))
-            : null,
-        message: json.as("message"));
+      result: json.valueAs<bool?>("result") ?? false,
+      code:
+          json['code'] != null
+              ? TronResponseCode.fromValue(json.valueAs("code"))
+              : null,
+      message: json.valueAs("message"),
+    );
   }
 }
 
@@ -250,19 +272,21 @@ class TronBroadcastHexResponse {
   final String? code;
   final String? message;
   final Map<String, dynamic> transaction;
-  TronBroadcastHexResponse(
-      {required this.result,
-      required this.code,
-      required this.message,
-      required this.transaction,
-      required this.txid});
+  TronBroadcastHexResponse({
+    required this.result,
+    required this.code,
+    required this.message,
+    required this.transaction,
+    required this.txid,
+  });
   factory TronBroadcastHexResponse.fromJson(Map<String, dynamic> json) {
     return TronBroadcastHexResponse(
-        code: json.as("code"),
-        message: json.as("message"),
-        result: json.as("result"),
-        transaction: StringUtils.toJson(json["transaction"]),
-        txid: json.as("txid"));
+      code: json.valueAs("code"),
+      message: json.valueAs("message"),
+      result: json.valueAs("result"),
+      transaction: StringUtils.toJson(json["transaction"]),
+      txid: json.valueAs("txid"),
+    );
   }
 
   Transaction toTronTransaction() {
@@ -276,27 +300,33 @@ class TronGetTransactionByIdResponse {
   final Map<String, dynamic> rawData;
   final List<String> signature;
   final String rawDataHex;
-  bool get isSuccess => !ret.any((e) =>
-      e.ret == TronResultCode.failed ||
-      (e.ret != null && e.ret != TronResultCode.sucess));
-  const TronGetTransactionByIdResponse(
-      {required this.ret,
-      required this.txID,
-      required this.rawData,
-      required this.signature,
-      required this.rawDataHex});
+  bool get isSuccess =>
+      !ret.any(
+        (e) =>
+            e.ret == TronResultCode.failed ||
+            (e.ret != null && e.ret != TronResultCode.sucess),
+      );
+  const TronGetTransactionByIdResponse({
+    required this.ret,
+    required this.txID,
+    required this.rawData,
+    required this.signature,
+    required this.rawDataHex,
+  });
   factory TronGetTransactionByIdResponse.fromJson(Map<String, dynamic> json) {
     return TronGetTransactionByIdResponse(
-        ret: json
-                .asListOfMap("ret", throwOnNull: false)
-                ?.where((e) => e.isNotEmpty)
-                .map((e) => TronResult.fromJson(e))
-                .toList() ??
-            [],
-        txID: json.as("txID"),
-        rawData: json.asMap("raw_data"),
-        signature: json.asListOfString("signature", throwOnNull: false) ?? [],
-        rawDataHex: json.as("raw_data_hex"));
+      ret:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("ret")
+              ?.where((e) => e.isNotEmpty)
+              .map((e) => TronResult.fromJson(e))
+              .toList() ??
+          [],
+      txID: json.valueAs("txID"),
+      rawData: json.valueEnsureAsMap<String, dynamic>("raw_data"),
+      signature: json.valueAsList<List<String>?>("signature") ?? [],
+      rawDataHex: json.valueAs("raw_data_hex"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -304,14 +334,14 @@ class TronGetTransactionByIdResponse {
       "txID": txID,
       "raw_data": rawData,
       "signature": signature,
-      "raw_data_hex": rawDataHex
+      "raw_data_hex": rawDataHex,
     };
   }
 
   Transaction toTronTransaction() {
     return Transaction(
-        rawData:
-            TransactionRaw.deserialize(BytesUtils.fromHexString(rawDataHex)),
-        signature: signature.map((e) => BytesUtils.fromHexString(e)).toList());
+      rawData: TransactionRaw.deserialize(BytesUtils.fromHexString(rawDataHex)),
+      signature: signature.map((e) => BytesUtils.fromHexString(e)).toList(),
+    );
   }
 }

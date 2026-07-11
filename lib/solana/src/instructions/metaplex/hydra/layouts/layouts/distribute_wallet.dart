@@ -7,18 +7,20 @@ class MetaplexHydraDistributeWalletLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraDistributeWalletLayout.fromBuffer(List<int> data) {
     final decode = MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexHydraProgramInstruction
-            .processDistributeWallet.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexHydraProgramInstruction.processDistributeWallet.insturction,
+    );
     return MetaplexHydraDistributeWalletLayout(
-        distributeForMint: decode['distributeForMint']);
+      distributeForMint: decode['distributeForMint'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.boolean(property: 'distributeForMint'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.boolean(property: 'distributeForMint'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

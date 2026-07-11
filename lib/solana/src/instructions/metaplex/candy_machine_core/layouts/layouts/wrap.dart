@@ -6,9 +6,10 @@ class MetaplexCandyMachineWrapLayout extends MetaplexCandyMachineProgramLayout {
 
   factory MetaplexCandyMachineWrapLayout.fromBuffer(List<int> data) {
     MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction.wrap.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexCandyMachineProgramInstruction.wrap.insturction,
+    );
     return const MetaplexCandyMachineWrapLayout();
   }
   static StructLayout get _layout =>

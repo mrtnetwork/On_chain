@@ -11,13 +11,17 @@ abstract class FixedBytes
 
   /// Constructs a FixedBytes object with hash bytes data and length for validate.
   FixedBytes(List<int> hashBytes, int length)
-      : data = AdaTransactionUtils.validateFixedLengthBytes(
-            bytes: hashBytes, length: length);
+    : data = AdaTransactionUtils.validateFixedLengthBytes(
+        bytes: hashBytes,
+        length: length,
+      );
 
   /// Constructs a FixedBytes object from a hexadecimal string and length for validate.
   FixedBytes.fromHex(String hexBytes, int length)
-      : data = AdaTransactionUtils.validateFixedHexByteslength(
-            hexBytes: hexBytes, length: length);
+    : data = AdaTransactionUtils.validateFixedHexByteslength(
+        hexBytes: hexBytes,
+        length: length,
+      );
 
   @override
   bool operator ==(other) {

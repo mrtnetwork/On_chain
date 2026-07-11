@@ -6,8 +6,11 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/derive-an-address
 class BlockfrostRequestDeriveAnAddress
     extends BlockFrostRequest<ADADeriveAddressResponse, Map<String, dynamic>> {
-  BlockfrostRequestDeriveAnAddress(
-      {required this.xpub, required this.role, required this.index});
+  BlockfrostRequestDeriveAnAddress({
+    required this.xpub,
+    required this.role,
+    required this.index,
+  });
 
   /// Hex xpub
   final String xpub;

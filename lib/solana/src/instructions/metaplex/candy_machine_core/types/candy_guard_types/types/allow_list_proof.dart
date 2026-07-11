@@ -10,8 +10,8 @@ class AllowListProof extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.i64(property: 'timestamp'),
-      ], property: 'allowListProof');
+    LayoutConst.i64(property: 'timestamp'),
+  ], property: 'allowListProof');
 
   @override
   StructLayout get layout => staticLayout;

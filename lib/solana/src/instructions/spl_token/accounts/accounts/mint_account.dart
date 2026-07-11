@@ -8,14 +8,14 @@ import 'token_account.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.boolean32(property: 'mintAuthorityOption'),
-        SolanaLayoutUtils.publicKey('mintAuthority'),
-        LayoutConst.u64(property: 'supply'),
-        LayoutConst.u8(property: 'decimals'),
-        LayoutConst.boolean(property: 'isInitialized'),
-        LayoutConst.boolean32(property: 'freezeAuthorityOption'),
-        SolanaLayoutUtils.publicKey('freezeAuthority'),
-      ]);
+    LayoutConst.boolean32(property: 'mintAuthorityOption'),
+    SolanaLayoutUtils.publicKey('mintAuthority'),
+    LayoutConst.u64(property: 'supply'),
+    LayoutConst.u8(property: 'decimals'),
+    LayoutConst.boolean(property: 'isInitialized'),
+    LayoutConst.boolean32(property: 'freezeAuthorityOption'),
+    SolanaLayoutUtils.publicKey('freezeAuthority'),
+  ]);
 
   static int get mintSize => layout.span;
 }
@@ -44,22 +44,32 @@ class SolanaMintAccount extends BorshLayoutSerializable {
   final SolAddress? freezeAuthority;
   // final List<int> tlvData;
 
-  const SolanaMintAccount(
-      {required this.address,
-      required this.mintAuthority,
-      required this.supply,
-      required this.decimals,
-      required this.isInitialized,
-      required this.freezeAuthority});
-  factory SolanaMintAccount.fromBuffer(
-      {required List<int> data, required SolAddress address}) {
+  const SolanaMintAccount({
+    required this.address,
+    required this.mintAuthority,
+    required this.supply,
+    required this.decimals,
+    required this.isInitialized,
+    required this.freezeAuthority,
+  });
+  factory SolanaMintAccount.fromBuffer({
+    required List<int> data,
+    required SolAddress address,
+  }) {
     if (data.length < _Utils.mintSize) {
-      throw SolanaPluginException('Account data length is insufficient.',
-          details: {'Expected': _Utils.mintSize, 'length': data.length});
+      throw SolanaPluginException(
+        'Account data length is insufficient.',
+        details: {
+          'Expected': _Utils.mintSize.toString(),
+          'length': data.length.toString(),
+        },
+      );
     }
 
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     final bool mintAuthorityOption = decode['mintAuthorityOption'];
     final bool freezeAuthorityOption = decode['freezeAuthorityOption'];
     if (data.length > _Utils.mintSize) {
@@ -67,12 +77,16 @@ class SolanaMintAccount extends BorshLayoutSerializable {
         throw const SolanaPluginException('Invalid account size');
       }
       final accountType = SolanaTokenAccountType.fromValue(
-          data[SolanaTokenAccountUtils.accountSize]);
+        data[SolanaTokenAccountUtils.accountSize],
+      );
       if (accountType != SolanaTokenAccountType.mint) {
-        throw SolanaPluginException('Invalid account type.', details: {
-          'account type': accountType.name,
-          'expected': SolanaTokenAccountType.mint
-        });
+        throw SolanaPluginException(
+          'Invalid account type.',
+          details: {
+            'account type': accountType.name,
+            'expected': SolanaTokenAccountType.mint.toString(),
+          },
+        );
       }
     }
     return SolanaMintAccount(
@@ -96,7 +110,7 @@ class SolanaMintAccount extends BorshLayoutSerializable {
       'decimals': decimals,
       'isInitialized': isInitialized,
       'freezeAuthorityOption': freezeAuthority == null ? false : true,
-      'freezeAuthority': freezeAuthority ?? SolAddress.defaultPubKey
+      'freezeAuthority': freezeAuthority ?? SolAddress.defaultPubKey,
     };
   }
 

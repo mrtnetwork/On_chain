@@ -21,21 +21,25 @@ class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
       instruction: SPLTokenProgramInstruction.groupPointerExtension.insturction,
     );
     return SPLToken2022InitializeGroupPointerLayout(
-      authority: decode['authority'] == SolAddress.defaultPubKey
-          ? null
-          : decode['authority'],
-      groupAddress: decode['groupAddress'] == SolAddress.defaultPubKey
-          ? null
-          : decode['groupAddress'],
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      groupAddress:
+          decode['groupAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['groupAddress'],
     );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.wrap(GroupPointerInstruction.staticLayout,
-            property: 'groupPointer'),
-        SolanaLayoutUtils.publicKey('authority'),
-        SolanaLayoutUtils.publicKey('groupAddress'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.wrap(
+      GroupPointerInstruction.staticLayout,
+      property: 'groupPointer',
+    ),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('groupAddress'),
+  ]);
 
   /// Returns the layout structure.
   @override
@@ -52,7 +56,7 @@ class SPLToken2022InitializeGroupPointerLayout extends SPLTokenProgramLayout {
     return {
       'groupPointer': GroupPointerInstruction.initialize.serialize(),
       'groupAddress': groupAddress ?? SolAddress.defaultPubKey,
-      'authority': authority ?? SolAddress.defaultPubKey
+      'authority': authority ?? SolAddress.defaultPubKey,
     };
   }
 }

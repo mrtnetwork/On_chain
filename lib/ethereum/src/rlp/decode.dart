@@ -13,7 +13,11 @@ class RLPDecoder {
 
   /// Decode an RLP-encoded array.
   static _Decoded _decodeArray(
-      List<int> data, int offset, int childOffset, int length) {
+    List<int> data,
+    int offset,
+    int childOffset,
+    int length,
+  ) {
     final result = <dynamic>[];
 
     while (childOffset < offset + 1 + length) {
@@ -40,7 +44,11 @@ class RLPDecoder {
       final lengthLength = data[offset] - 0xf7;
       final length = _decodeLength(data, offset + 1, lengthLength);
       return _decodeArray(
-          data, offset, offset + 1 + lengthLength, lengthLength + length);
+        data,
+        offset,
+        offset + 1 + lengthLength,
+        lengthLength + length,
+      );
     } else if (data[offset] >= 0xc0) {
       final length = data[offset] - 0xc0;
       return _decodeArray(data, offset, offset + 1, length);
@@ -48,7 +56,9 @@ class RLPDecoder {
       final lengthLength = data[offset] - 0xb7;
       final length = _decodeLength(data, offset + 1, lengthLength);
       final result = data.sublist(
-          offset + 1 + lengthLength, offset + 1 + lengthLength + length);
+        offset + 1 + lengthLength,
+        offset + 1 + lengthLength + length,
+      );
       return _Decoded(consumed: (1 + lengthLength + length), result: result);
     } else if (data[offset] >= 0x80) {
       final length = data[offset] - 0x80;

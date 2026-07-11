@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/bip/address/ada/ada.dart';
 import 'package:blockchain_utils/bip/address/addr_key_validator.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
@@ -18,22 +17,37 @@ class AdaAddressUtils {
   /// [network]: The network type.
   ///
   /// Returns a [AdaGenericAddrDecoderResult] object containing the decoded address.
-  static AdaGenericAddrDecoderResult decodeAddres(String address,
-      {ADAAddressType? addrType, ADANetwork? network}) {
+  static AdaGenericAddrDecoderResult decodeAddres(
+    String address, {
+    ADAAddressType? addrType,
+    ADANetwork? network,
+  }) {
     final decodeAddr = AdaGenericAddrDecoder().decode(address);
-    if (network != null && decodeAddr.network != network) {
-      throw ADAPluginException('Incorrect address network. ', details: {
-        'expected': network.name,
-        'network': decodeAddr.network.name
-      });
-    }
 
     if (addrType != null) {
       if (decodeAddr.type.header != addrType.header) {
-        throw ADAPluginException('Incorrect address type. ',
-            details: {'expected': addrType.name, 'type': decodeAddr.type});
+        throw ADAPluginException(
+          'Incorrect address type. ',
+          details: {
+            'expected': addrType.name,
+            'type': decodeAddr.type.toString(),
+          },
+        );
       }
     }
+    if (network != null && decodeAddr.network != network) {
+      /// same shelly prefix address.
+      if (decodeAddr.type.isShelly &&
+          network.isTestnet &&
+          decodeAddr.network.isTestnet) {
+        return decodeAddr;
+      }
+      throw ADAPluginException(
+        'Incorrect address network. ',
+        details: {'expected': network.name, 'network': decodeAddr.network.name},
+      );
+    }
+
     return decodeAddr;
   }
 
@@ -65,12 +79,16 @@ class AdaAddressUtils {
   }) {
     final decode = AdaGenericAddrDecoder().decode(address);
     if (network != null && decode.network != network) {
-      throw ADAPluginException('Incorrect address network. ',
-          details: {'expected': network.name, 'network': decode.network.name});
+      throw ADAPluginException(
+        'Incorrect address network. ',
+        details: {'expected': network.name, 'network': decode.network.name},
+      );
     }
     if (decode.type == ADAAddressType.byron) {
-      throw ADAPluginException('Invalid shelly address.',
-          details: {'address': address, 'type': decode.type});
+      throw ADAPluginException(
+        'Invalid shelly address.',
+        details: {'address': address, 'type': decode.type.toString()},
+      );
     }
     if (keepPrefix) {
       return decode.addressBytes;
@@ -98,10 +116,14 @@ class AdaAddressUtils {
   static AdaStakeCredential toAdaStakeCredential(Credential credential) {
     if (credential.type == CredentialType.key) {
       return AdaStakeCredential(
-          hash: credential.data, type: AdaStakeCredType.key);
+        hash: credential.data,
+        type: AdaStakeCredType.key,
+      );
     }
     return AdaStakeCredential(
-        hash: credential.data, type: AdaStakeCredType.script);
+      hash: credential.data,
+      type: AdaStakeCredType.script,
+    );
   }
 
   /// Convert a public key byte list to a [CredentialKey].

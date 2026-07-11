@@ -21,8 +21,8 @@ class SolanaRPCGetMintAccount
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         SolanaRequestEncoding.base64.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 
@@ -32,6 +32,8 @@ class SolanaRPCGetMintAccount
     final accountInfo = SolanaAccountInfo.fromJson(result);
 
     return SolanaMintAccount.fromBuffer(
-        address: account, data: accountInfo.toBytesData());
+      address: account,
+      data: accountInfo.toBytesData(),
+    );
   }
 }

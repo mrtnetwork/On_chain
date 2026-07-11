@@ -15,61 +15,76 @@ class MultiAsset
 
   /// Map of policy IDs to assets.
   final Map<PolicyID, Assets> assets;
-  MultiAsset._(Map<PolicyID, Assets> assets,
-      {this.serializationConfig = const AssetsSerializationConfig()})
-      : assets = Map<PolicyID, Assets>.unmodifiable(assets);
+  MultiAsset._(
+    Map<PolicyID, Assets> assets, {
+    this.serializationConfig = const AssetsSerializationConfig(),
+  }) : assets = Map<PolicyID, Assets>.unmodifiable(assets);
 
   /// Constructs an instance of MultiAsset.
-  factory MultiAsset(Map<PolicyID, Assets> assets,
-      {AssetsSerializationConfig serializationConfig =
-          const AssetsSerializationConfig()}) {
+  factory MultiAsset(
+    Map<PolicyID, Assets> assets, {
+    AssetsSerializationConfig serializationConfig =
+        const AssetsSerializationConfig(),
+  }) {
     final keys = assets.keys.toList()..sort();
-    return MultiAsset._({for (final i in keys) i: assets[i]!},
-        serializationConfig: serializationConfig);
+    return MultiAsset._({
+      for (final i in keys) i: assets[i]!,
+    }, serializationConfig: serializationConfig);
   }
 
   /// Constructs an instance of MultiAsset from a CBOR object.
   factory MultiAsset.deserialize(CborMapValue cbor) {
-    final map = cbor.valueAsMap<CborBytesValue, CborMapValue>();
+    final map = cbor.asMap<CborBytesValue, CborMapValue>();
     final assets = {
       for (final i in map.entries)
-        PolicyID.deserialize(i.key): Assets.deserialize(i.value)
+        PolicyID.deserialize(i.key): Assets.deserialize(i.value),
     };
-    return MultiAsset._(assets,
-        serializationConfig: AssetsSerializationConfig(
-            encoding: cbor.definite
+    return MultiAsset._(
+      assets,
+      serializationConfig: AssetsSerializationConfig(
+        encoding:
+            cbor.definite
                 ? CborMapEncodingType.definite
-                : CborMapEncodingType.inDefinite));
+                : CborMapEncodingType.inDefinite,
+      ),
+    );
   }
 
   factory MultiAsset.fromJson(Map<String, dynamic> json) {
-    return MultiAsset._({
-      for (final i in (json["multiassets"] as Map).entries)
-        PolicyID.fromHex(i.key): Assets.fromJson(i.value)
-    },
-        serializationConfig: AssetsSerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+    return MultiAsset._(
+      {
+        for (final i in (json["multiassets"] as Map).entries)
+          PolicyID.fromHex(i.key): Assets.fromJson(i.value),
+      },
+      serializationConfig: AssetsSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
   MultiAsset copyWith({Map<PolicyID, Assets>? assets}) {
     return MultiAsset._(assets ?? this.assets);
   }
 
-  MultiAsset updateAssetName(
-      {required PolicyID polcyId,
-      required AssetName assetName,
-      required BigInt amount}) {
+  MultiAsset updateAssetName({
+    required PolicyID polcyId,
+    required AssetName assetName,
+    required BigInt amount,
+  }) {
     final assets = this.assets.clone();
     if (assets.containsKey(polcyId)) {
       assets[polcyId] = assets[polcyId]!.updateAssetName(assetName, amount);
     } else {
-      assets[polcyId] =
-          Assets({assetName: amount}, serializationConfig: serializationConfig);
+      assets[polcyId] = Assets({
+        assetName: amount,
+      }, serializationConfig: serializationConfig);
     }
     return MultiAsset(assets, serializationConfig: serializationConfig);
   }
 
-  MultiAsset removeAssetName(
-      {required PolicyID polcyId, required AssetName assetName}) {
+  MultiAsset removeAssetName({
+    required PolicyID polcyId,
+    required AssetName assetName,
+  }) {
     final assets = this.assets.clone();
     if (assets.containsKey(polcyId)) {
       final updateAssets = assets[polcyId]!.removeAssetName(assetName);
@@ -154,11 +169,13 @@ class MultiAsset
   CborObject toCbor() {
     switch (serializationConfig.encoding) {
       case CborMapEncodingType.definite:
-        return CborMapValue.definite(
-            {for (final i in assets.entries) i.key.toCbor(): i.value.toCbor()});
+        return CborMapValue.definite({
+          for (final i in assets.entries) i.key.toCbor(): i.value.toCbor(),
+        });
       case CborMapEncodingType.inDefinite:
-        return CborMapValue.inDefinite(
-            {for (final i in assets.entries) i.key.toCbor(): i.value.toCbor()});
+        return CborMapValue.inDefinite({
+          for (final i in assets.entries) i.key.toCbor(): i.value.toCbor(),
+        });
     }
   }
 
@@ -166,9 +183,9 @@ class MultiAsset
   Map<String, dynamic> toJson() {
     return {
       "multiassets": {
-        for (final i in assets.entries) i.key.toJson(): i.value.toJson()
+        for (final i in assets.entries) i.key.toJson(): i.value.toJson(),
       },
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 
@@ -186,7 +203,8 @@ class MultiAsset
 
   @override
   int get hashCode => assets.entries.fold(
-      BinaryOps.mask32,
-      (previousValue, element) =>
-          previousValue ^ (element.key.hashCode ^ element.value.hashCode));
+    BinaryOps.mask32,
+    (previousValue, element) =>
+        previousValue ^ (element.key.hashCode ^ element.value.hashCode),
+  );
 }

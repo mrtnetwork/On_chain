@@ -16,8 +16,10 @@ class AptosHelper {
     try {
       return AmountConverter.aptos.toUnit(aptos);
     } catch (e) {
-      throw DartAptosPluginException("Invalid aptos amount provided.",
-          details: {"amount": aptos});
+      throw DartAptosPluginException(
+        "Invalid aptos amount provided.",
+        details: {"amount": aptos},
+      );
     }
   }
 
@@ -30,39 +32,40 @@ class AptosHelper {
   /// Creates an Aptos transaction entry for transferring coins to another account.
   /// It sets up the required module, function, and arguments for the transaction.
   static AptosTransactionEntryFunction createCoinTransferEntry(
-      AptosTransferParams transfer) {
+    AptosTransferParams transfer,
+  ) {
     return AptosTransactionEntryFunction(
-        moduleId: AptosConstants.systemFrameworkCoinModuleId,
-        functionName: AptosConstants.transferFunctionName,
-        typeArgs: [
-          AptosConstants.aptosCoinTypeStructArgs,
-        ],
-        args: [
-          transfer.destination,
-          MoveU64(transfer.apt)
-        ]);
+      moduleId: AptosConstants.systemFrameworkCoinModuleId,
+      functionName: AptosConstants.transferFunctionName,
+      typeArgs: [AptosConstants.aptosCoinTypeStructArgs],
+      args: [transfer.destination, MoveU64(transfer.apt)],
+    );
   }
 
   /// Creates an Aptos transaction entry for transferring coins to an account.
   static AptosTransactionEntryFunction createAccountTransferEntry(
-      AptosTransferParams transfer) {
+    AptosTransferParams transfer,
+  ) {
     return AptosTransactionEntryFunction(
-        moduleId: AptosConstants.systemFrameworkAccountModuleId,
-        functionName: AptosConstants.transferFunctionName,
-        args: [transfer.destination, MoveU64(transfer.apt)]);
+      moduleId: AptosConstants.systemFrameworkAccountModuleId,
+      functionName: AptosConstants.transferFunctionName,
+      args: [transfer.destination, MoveU64(transfer.apt)],
+    );
   }
 
   /// Creates an Aptos transaction entry for transferring coins in bulk.
   /// This allows multiple transfers to different addresses in one transaction.
   static AptosTransactionEntryFunction createBatchTransferTransferEntry(
-      List<AptosTransferParams> transfers) {
+    List<AptosTransferParams> transfers,
+  ) {
     return AptosTransactionEntryFunction(
-        moduleId: AptosConstants.systemFrameworkAccountModuleId,
-        functionName: AptosConstants.batchTransferFunctionName,
-        typeArgs: [],
-        args: [
-          MoveVector<MoveAddress>(transfers.map((e) => e.destination).toList()),
-          MoveVector.u64(transfers.map((e) => e.apt).toList())
-        ]);
+      moduleId: AptosConstants.systemFrameworkAccountModuleId,
+      functionName: AptosConstants.batchTransferFunctionName,
+      typeArgs: [],
+      args: [
+        MoveVector<MoveAddress>(transfers.map((e) => e.destination).toList()),
+        MoveVector.u64(transfers.map((e) => e.apt).toList()),
+      ],
+    );
   }
 }

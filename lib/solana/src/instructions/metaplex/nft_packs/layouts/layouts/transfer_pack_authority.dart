@@ -7,12 +7,14 @@ class MetaplexNFTPacksTransferPackAuthorityLayout
   const MetaplexNFTPacksTransferPackAuthorityLayout();
 
   factory MetaplexNFTPacksTransferPackAuthorityLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexNFTPacksProgramInstruction
-            .transferPackAuthority.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexNFTPacksProgramInstruction.transferPackAuthority.insturction,
+    );
     return const MetaplexNFTPacksTransferPackAuthorityLayout();
   }
 

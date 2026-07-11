@@ -9,6 +9,8 @@ class MetadataSchemaConfig {
   final bool useIntInsteadBigInt;
 
   /// Constructs a MetadataSchemaConfig with the given JSON schema and integer preference.
-  const MetadataSchemaConfig(
-      {required this.jsonSchema, this.useIntInsteadBigInt = true});
+  const MetadataSchemaConfig({
+    required this.jsonSchema,
+    this.useIntInsteadBigInt = true,
+  });
 }

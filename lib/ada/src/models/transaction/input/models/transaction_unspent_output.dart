@@ -9,20 +9,24 @@ class TransactionUnspentOutput with InternalCborSerialization {
   const TransactionUnspentOutput({required this.input, required this.output});
   factory TransactionUnspentOutput.fromJson(Map<String, dynamic> json) {
     return TransactionUnspentOutput(
-        output: TransactionOutput.fromJson(json["output"]),
-        input: TransactionInput.fromJson(json["input"]));
+      output: TransactionOutput.fromJson(json["output"]),
+      input: TransactionInput.fromJson(json["input"]),
+    );
   }
 
   factory TransactionUnspentOutput.deserialize(CborIterableObject cbor) {
     return TransactionUnspentOutput(
-        output: TransactionOutput.deserialize(cbor.elementAt(1)),
-        input: TransactionInput.deserialize(cbor.elementAt(0)));
+      output: TransactionOutput.deserialize(cbor.objectAt(1)),
+      input: TransactionInput.deserialize(cbor.objectAt(0)),
+    );
   }
 
   @override
   CborListValue<CborObject> toCbor() {
-    return CborListValue<CborObject>.definite(
-        [input.toCbor(), output.toCbor()]);
+    return CborListValue<CborObject>.definite([
+      input.toCbor(),
+      output.toCbor(),
+    ]);
   }
 
   @override

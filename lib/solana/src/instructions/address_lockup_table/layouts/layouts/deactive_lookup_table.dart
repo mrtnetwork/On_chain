@@ -11,10 +11,13 @@ class AddressLookupDeactiveLookupTableLayout
   factory AddressLookupDeactiveLookupTableLayout.fromBuffer(List<int> data) {
     // Decode and validate the structure.
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: AddressLookupTableProgramInstruction
-            .deactivateLookupTable.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AddressLookupTableProgramInstruction
+              .deactivateLookupTable
+              .insturction,
+    );
     return const AddressLookupDeactiveLookupTableLayout();
   }
 

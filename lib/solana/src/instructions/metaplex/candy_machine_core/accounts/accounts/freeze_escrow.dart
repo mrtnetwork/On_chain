@@ -7,15 +7,15 @@ class _Utils {
   static const List<int> discriminator = [227, 186, 40, 152, 7, 174, 131, 184];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('candyGuard'),
-        SolanaLayoutUtils.publicKey('candyMachine'),
-        LayoutConst.u64(property: 'frozenCount'),
-        LayoutConst.optional(LayoutConst.i64(), property: 'firstMintTime'),
-        LayoutConst.u64(property: 'freezePeriod'),
-        SolanaLayoutUtils.publicKey('destination'),
-        SolanaLayoutUtils.publicKey('authority')
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('candyGuard'),
+    SolanaLayoutUtils.publicKey('candyMachine'),
+    LayoutConst.u64(property: 'frozenCount'),
+    LayoutConst.optional(LayoutConst.i64(), property: 'firstMintTime'),
+    LayoutConst.u64(property: 'freezePeriod'),
+    SolanaLayoutUtils.publicKey('destination'),
+    SolanaLayoutUtils.publicKey('authority'),
+  ]);
 }
 
 class FreezeEscrowAccount extends BorshLayoutSerializable {
@@ -43,27 +43,30 @@ class FreezeEscrowAccount extends BorshLayoutSerializable {
   /// address able to unlock the funds in case the candy guard account is
   /// closed.
   final SolAddress authority;
-  const FreezeEscrowAccount(
-      {required this.candyGuard,
-      required this.candyMachine,
-      required this.frozenCount,
-      this.firstMintTime,
-      required this.freezePeriod,
-      required this.destination,
-      required this.authority});
+  const FreezeEscrowAccount({
+    required this.candyGuard,
+    required this.candyMachine,
+    required this.frozenCount,
+    this.firstMintTime,
+    required this.freezePeriod,
+    required this.destination,
+    required this.authority,
+  });
   factory FreezeEscrowAccount.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return FreezeEscrowAccount(
-        candyGuard: decode['candyGuard'],
-        candyMachine: decode['candyMachine'],
-        frozenCount: decode['frozenCount'],
-        freezePeriod: decode['freezePeriod'],
-        destination: decode['destination'],
-        authority: decode['authority'],
-        firstMintTime: decode['firstMintTime']);
+      candyGuard: decode['candyGuard'],
+      candyMachine: decode['candyMachine'],
+      frozenCount: decode['frozenCount'],
+      freezePeriod: decode['freezePeriod'],
+      destination: decode['destination'],
+      authority: decode['authority'],
+      firstMintTime: decode['firstMintTime'],
+    );
   }
 
   @override
@@ -79,7 +82,7 @@ class FreezeEscrowAccount extends BorshLayoutSerializable {
       'firstMintTime': firstMintTime,
       'freezePeriod': freezePeriod,
       'destination': destination,
-      'authority': authority
+      'authority': authority,
     };
   }
 

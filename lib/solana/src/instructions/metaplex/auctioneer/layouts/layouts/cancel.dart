@@ -6,30 +6,33 @@ class MetaplexAuctioneerCancelLayout extends MetaplexAuctioneerProgramLayout {
   final int auctioneerAuthorityBump;
   final BigInt buyerPrice;
   final BigInt tokenSize;
-  const MetaplexAuctioneerCancelLayout(
-      {required this.auctioneerAuthorityBump,
-      required this.buyerPrice,
-      required this.tokenSize});
+  const MetaplexAuctioneerCancelLayout({
+    required this.auctioneerAuthorityBump,
+    required this.buyerPrice,
+    required this.tokenSize,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctioneerCancelLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctioneerProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctioneerProgramInstruction.cancel.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexAuctioneerProgramInstruction.cancel.insturction,
+    );
     return MetaplexAuctioneerCancelLayout(
-        auctioneerAuthorityBump: decode['auctioneerAuthorityBump'],
-        buyerPrice: decode['buyerPrice'],
-        tokenSize: decode['tokenSize']);
+      auctioneerAuthorityBump: decode['auctioneerAuthorityBump'],
+      buyerPrice: decode['buyerPrice'],
+      tokenSize: decode['tokenSize'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'auctioneerAuthorityBump'),
-        LayoutConst.u64(property: 'buyerPrice'),
-        LayoutConst.u64(property: 'tokenSize'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'auctioneerAuthorityBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -43,7 +46,7 @@ class MetaplexAuctioneerCancelLayout extends MetaplexAuctioneerProgramLayout {
     return {
       'auctioneerAuthorityBump': auctioneerAuthorityBump,
       'buyerPrice': buyerPrice,
-      'tokenSize': tokenSize
+      'tokenSize': tokenSize,
     };
   }
 }

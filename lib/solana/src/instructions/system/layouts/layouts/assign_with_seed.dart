@@ -14,24 +14,29 @@ class SystemAssignWithSeedLayout extends SystemProgramLayout {
 
   /// address of the program to assign as the owner
   final SolAddress programId;
-  const SystemAssignWithSeedLayout(
-      {required this.base, required this.seed, required this.programId});
+  const SystemAssignWithSeedLayout({
+    required this.base,
+    required this.seed,
+    required this.programId,
+  });
   factory SystemAssignWithSeedLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.assignWithSeed.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.assignWithSeed.insturction,
+    );
     return SystemAssignWithSeedLayout(
-        base: decode['base'],
-        seed: decode['seed'],
-        programId: decode['programId']);
+      base: decode['base'],
+      seed: decode['seed'],
+      programId: decode['programId'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('base'),
-        LayoutConst.rustString(property: 'seed'),
-        SolanaLayoutUtils.publicKey('programId'),
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('base'),
+    LayoutConst.rustString(property: 'seed'),
+    SolanaLayoutUtils.publicKey('programId'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/transaction/utils/utils.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 class TableItemRequestParams {
   /// ^(bool|u8|u64|u128|address|signer|vector<.+>|0x[0-9a-zA-Z:_<, >]+)$
@@ -18,8 +17,11 @@ class TableItemRequestParams {
 
   /// The value of the table item's key
   final Object key;
-  const TableItemRequestParams(
-      {required this.key, required this.keyType, required this.valueType});
+  const TableItemRequestParams({
+    required this.key,
+    required this.keyType,
+    required this.valueType,
+  });
 
   Map<String, dynamic> toJson() {
     return {"key_type": keyType, "value_type": valueType, "key": key};
@@ -35,13 +37,13 @@ class ExecuteViewFunctionOfAModuleRequestParams {
 
   /// Arguments of the function
   final List<Object> arguments;
-  ExecuteViewFunctionOfAModuleRequestParams(
-      {required String function,
-      required List<String> typeArguments,
-      required List<Object> arguments})
-      : typeArguments = typeArguments.immutable,
-        arguments = arguments.immutable,
-        function = AptosTransactionUtils.validateFunction(function);
+  ExecuteViewFunctionOfAModuleRequestParams({
+    required String function,
+    required List<String> typeArguments,
+    required List<Object> arguments,
+  }) : typeArguments = typeArguments.immutable,
+       arguments = arguments.immutable,
+       function = AptosTransactionUtils.validateFunction(function);
   Map<String, dynamic> toJson() {
     return {"function": function, "type_arguments": [], "arguments": arguments};
   }
@@ -50,17 +52,20 @@ class ExecuteViewFunctionOfAModuleRequestParams {
 class AptosApiAccountData {
   final BigInt sequenceNumber;
   final String authenticationKey;
-  const AptosApiAccountData(
-      {required this.sequenceNumber, required this.authenticationKey});
+  const AptosApiAccountData({
+    required this.sequenceNumber,
+    required this.authenticationKey,
+  });
   factory AptosApiAccountData.fromJson(Map<String, dynamic> json) {
     return AptosApiAccountData(
-        sequenceNumber: json.asBigInt("sequence_number"),
-        authenticationKey: json.as("authentication_key"));
+      sequenceNumber: json.valueAsBigInt("sequence_number"),
+      authenticationKey: json.valueAs("authentication_key"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "sequence_number": sequenceNumber.toString(),
-      "authentication_key": authenticationKey
+      "authentication_key": authenticationKey,
     };
   }
 }
@@ -70,7 +75,10 @@ class AptosApiMoveResource {
   final Map<dynamic, dynamic> data;
   const AptosApiMoveResource({required this.type, required this.data});
   factory AptosApiMoveResource.fromJson(Map<String, dynamic> json) {
-    return AptosApiMoveResource(type: json.as("type"), data: json.as("data"));
+    return AptosApiMoveResource(
+      type: json.valueAs("type"),
+      data: json.valueAs("data"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"type": type, "data": data};
@@ -83,10 +91,15 @@ enum AptosApiMoveFunctionVisibilty {
   friend;
 
   static AptosApiMoveFunctionVisibilty fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct MoveFunctionVisibilty from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct MoveFunctionVisibilty from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -97,25 +110,33 @@ enum AptosApiMoveAbility {
   copy;
 
   static AptosApiMoveAbility fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct MoveFunctionVisibilty from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct MoveFunctionVisibilty from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
 class AptosApiMoveFunctionGenericTypeParams {
   final List<AptosApiMoveAbility> constraints;
-  AptosApiMoveFunctionGenericTypeParams(
-      {required List<AptosApiMoveAbility> constraints})
-      : constraints = constraints.immutable;
+  AptosApiMoveFunctionGenericTypeParams({
+    required List<AptosApiMoveAbility> constraints,
+  }) : constraints = constraints.immutable;
   factory AptosApiMoveFunctionGenericTypeParams.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiMoveFunctionGenericTypeParams(
-        constraints: json
-            .asListOfString("constraints")!
-            .map((e) => AptosApiMoveAbility.fromName(e))
-            .toList());
+      constraints:
+          json
+              .valueEnsureAsList<String>("constraints")
+              .map((e) => AptosApiMoveAbility.fromName(e))
+              .toList(),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"constraints": constraints.map((e) => e.name).toList()};
@@ -130,30 +151,33 @@ class AptosApiMoveFunction {
   final List<AptosApiMoveFunctionGenericTypeParams> genericTypeParams;
   final List<String> params;
   final List<String> returnTypes;
-  AptosApiMoveFunction(
-      {required this.name,
-      required this.visibility,
-      required this.isEntry,
-      required this.isView,
-      required List<AptosApiMoveFunctionGenericTypeParams> genericTypeParams,
-      required List<String> params,
-      required List<String> returnTypes})
-      : genericTypeParams = genericTypeParams.immutable,
-        params = params.immutable,
-        returnTypes = returnTypes.immutable;
+  AptosApiMoveFunction({
+    required this.name,
+    required this.visibility,
+    required this.isEntry,
+    required this.isView,
+    required List<AptosApiMoveFunctionGenericTypeParams> genericTypeParams,
+    required List<String> params,
+    required List<String> returnTypes,
+  }) : genericTypeParams = genericTypeParams.immutable,
+       params = params.immutable,
+       returnTypes = returnTypes.immutable;
   factory AptosApiMoveFunction.fromJson(Map<String, dynamic> json) {
     return AptosApiMoveFunction(
-        name: json.as("name"),
-        visibility:
-            AptosApiMoveFunctionVisibilty.fromName(json.as("visibility")),
-        isEntry: json.as("is_entry"),
-        isView: json.as("is_view"),
-        genericTypeParams: json
-            .asListOfMap("generic_type_params")!
-            .map((e) => AptosApiMoveFunctionGenericTypeParams.fromJson(e))
-            .toList(),
-        params: json.asListOfString("params")!,
-        returnTypes: json.asListOfString("return")!);
+      name: json.valueAs("name"),
+      visibility: AptosApiMoveFunctionVisibilty.fromName(
+        json.valueAs("visibility"),
+      ),
+      isEntry: json.valueAs("is_entry"),
+      isView: json.valueAs("is_view"),
+      genericTypeParams:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("generic_type_params")
+              .map((e) => AptosApiMoveFunctionGenericTypeParams.fromJson(e))
+              .toList(),
+      params: json.valueEnsureAsList<String>("params"),
+      returnTypes: json.valueEnsureAsList<String>("return"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -163,7 +187,7 @@ class AptosApiMoveFunction {
       "is_view": isView,
       "generic_type_params": genericTypeParams.map((e) => e.toJson()),
       "params": params,
-      "return": returnTypes
+      "return": returnTypes,
     };
   }
 }
@@ -174,7 +198,9 @@ class AptosApiMoveStrictField {
   const AptosApiMoveStrictField({required this.name, required this.type});
   factory AptosApiMoveStrictField.fromJson(Map<String, dynamic> json) {
     return AptosApiMoveStrictField(
-        name: json.as("name"), type: json.as("type"));
+      name: json.valueAs("name"),
+      type: json.valueAs("type"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"name": name, "type": type};
@@ -188,33 +214,37 @@ class AptosApiMoveStrunct {
   final List<AptosApiMoveAbility> abilities;
   final List<AptosApiMoveFunctionGenericTypeParams> genericTypeParams;
   final List<AptosApiMoveStrictField> fields;
-  AptosApiMoveStrunct(
-      {required this.name,
-      required this.isNative,
-      required this.isEvent,
-      required List<AptosApiMoveAbility> abilities,
-      required List<AptosApiMoveFunctionGenericTypeParams> genericTypeParams,
-      required List<AptosApiMoveStrictField> fields})
-      : genericTypeParams = genericTypeParams.immutable,
-        abilities = abilities.immutable,
-        fields = fields.immutable;
+  AptosApiMoveStrunct({
+    required this.name,
+    required this.isNative,
+    required this.isEvent,
+    required List<AptosApiMoveAbility> abilities,
+    required List<AptosApiMoveFunctionGenericTypeParams> genericTypeParams,
+    required List<AptosApiMoveStrictField> fields,
+  }) : genericTypeParams = genericTypeParams.immutable,
+       abilities = abilities.immutable,
+       fields = fields.immutable;
   factory AptosApiMoveStrunct.fromJson(Map<String, dynamic> json) {
     return AptosApiMoveStrunct(
-        name: json.as("name"),
-        isEvent: json.as("is_event"),
-        isNative: json.as("is_native"),
-        abilities: json
-            .asListOfString("abilities")!
-            .map((e) => AptosApiMoveAbility.fromName(e))
-            .toList(),
-        genericTypeParams: json
-            .asListOfMap("generic_type_params")!
-            .map((e) => AptosApiMoveFunctionGenericTypeParams.fromJson(e))
-            .toList(),
-        fields: json
-            .asListOfMap("fields")!
-            .map((e) => AptosApiMoveStrictField.fromJson(e))
-            .toList());
+      name: json.valueAs("name"),
+      isEvent: json.valueAs("is_event"),
+      isNative: json.valueAs("is_native"),
+      abilities:
+          json
+              .valueEnsureAsList<String>("abilities")
+              .map((e) => AptosApiMoveAbility.fromName(e))
+              .toList(),
+      genericTypeParams:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("generic_type_params")
+              .map((e) => AptosApiMoveFunctionGenericTypeParams.fromJson(e))
+              .toList(),
+      fields:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("fields")
+              .map((e) => AptosApiMoveStrictField.fromJson(e))
+              .toList(),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -223,7 +253,7 @@ class AptosApiMoveStrunct {
       "is_native": isNative,
       "abilities": abilities.map((e) => e.name).toList(),
       "generic_type_params": genericTypeParams.map((e) => e.toJson()),
-      "fields": fields.map((e) => e.toJson()).toList()
+      "fields": fields.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -287,28 +317,31 @@ class AptosApiMoveModule {
     );
   }
 
-  AptosApiMoveModule(
-      {required this.address,
-      required this.name,
-      required List<String> friends,
-      required List<AptosApiMoveFunction> exposedFunctions,
-      required List<AptosApiMoveStrunct> structs})
-      : friends = friends.immutable,
-        exposedFunctions = exposedFunctions.immutable,
-        structs = structs.immutable;
+  AptosApiMoveModule({
+    required this.address,
+    required this.name,
+    required List<String> friends,
+    required List<AptosApiMoveFunction> exposedFunctions,
+    required List<AptosApiMoveStrunct> structs,
+  }) : friends = friends.immutable,
+       exposedFunctions = exposedFunctions.immutable,
+       structs = structs.immutable;
   factory AptosApiMoveModule.fromJson(Map<String, dynamic> json) {
     return AptosApiMoveModule(
-        address: json.as("address"),
-        name: json.as("name"),
-        friends: json.asListOfString("friends")!,
-        exposedFunctions: json
-            .asListOfMap("exposed_functions")!
-            .map((e) => AptosApiMoveFunction.fromJson(e))
-            .toList(),
-        structs: json
-            .asListOfMap("structs")!
-            .map((e) => AptosApiMoveStrunct.fromJson(e))
-            .toList());
+      address: json.valueAs("address"),
+      name: json.valueAs("name"),
+      friends: json.valueEnsureAsList<String>("friends"),
+      exposedFunctions:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("exposed_functions")
+              .map((e) => AptosApiMoveFunction.fromJson(e))
+              .toList(),
+      structs:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("structs")
+              .map((e) => AptosApiMoveStrunct.fromJson(e))
+              .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -317,7 +350,7 @@ class AptosApiMoveModule {
       "name": name,
       "friends": friends,
       "exposed_functions": exposedFunctions.map((e) => e.toJson()).toList(),
-      "structs": structs.map((e) => e.toJson()).toList()
+      "structs": structs.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -328,8 +361,11 @@ class AptosApiMoveModuleByteCode {
   const AptosApiMoveModuleByteCode({required this.abi, required this.byteCode});
   factory AptosApiMoveModuleByteCode.fromJson(Map<String, dynamic> json) {
     return AptosApiMoveModuleByteCode(
-        abi: AptosApiMoveModule.fromJson(json.asMap("abi")),
-        byteCode: json.as("bytecode"));
+      abi: AptosApiMoveModule.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("abi"),
+      ),
+      byteCode: json.valueAs("bytecode"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"abi": abi.toJson(), "bytecode": byteCode};
@@ -342,9 +378,12 @@ class AptosApiMoveScruptByteCode {
   const AptosApiMoveScruptByteCode({required this.abi, required this.byteCode});
   factory AptosApiMoveScruptByteCode.fromJson(Map<String, dynamic> json) {
     return AptosApiMoveScruptByteCode(
-        abi: json.mybeAs<AptosApiMoveFunction, Map<String, dynamic>>(
-            key: "abi", onValue: (e) => AptosApiMoveFunction.fromJson(e)),
-        byteCode: json.as("bytecode"));
+      abi: json.valueTo<AptosApiMoveFunction?, Map<String, dynamic>>(
+        key: "abi",
+        parse: (e) => AptosApiMoveFunction.fromJson(e),
+      ),
+      byteCode: json.valueAs("bytecode"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"abi": abi?.toJson(), "bytecode": byteCode};
@@ -360,10 +399,15 @@ enum AptosApiTransactionPayloadTye {
   final String name;
   const AptosApiTransactionPayloadTye(this.name);
   static AptosApiTransactionPayloadTye fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct transaction payload from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct transaction payload from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -371,14 +415,14 @@ abstract class AptosApiTransactionPayload {
   final AptosApiTransactionPayloadTye type;
   const AptosApiTransactionPayload({required this.type});
   factory AptosApiTransactionPayload.froMJson(Map<String, dynamic> json) {
-    final type = AptosApiTransactionPayloadTye.fromName(json.as("type"));
+    final type = AptosApiTransactionPayloadTye.fromName(json.valueAs("type"));
     return switch (type) {
       AptosApiTransactionPayloadTye.entryFunctionPayload =>
         AptosApiTransactionPayloadEntryFunction.fromJson(json),
       AptosApiTransactionPayloadTye.scriptPayload =>
         AptosApiTransactionPayloadScript.fromJson(json),
       AptosApiTransactionPayloadTye.multisigPayload =>
-        AptosApiTransactionPayloadMultisig.fromJson(json)
+        AptosApiTransactionPayloadMultisig.fromJson(json),
     };
   }
   Map<String, dynamic> toJson();
@@ -389,19 +433,21 @@ class AptosApiTransactionPayloadEntryFunction
   final String function;
   final List<String> typeArguments;
   final List<Object> arguments;
-  AptosApiTransactionPayloadEntryFunction(
-      {required this.function,
-      required List<String> typeArguments,
-      required List<Object> arguments})
-      : typeArguments = typeArguments.immutable,
-        arguments = arguments.immutable,
-        super(type: AptosApiTransactionPayloadTye.entryFunctionPayload);
+  AptosApiTransactionPayloadEntryFunction({
+    required this.function,
+    required List<String> typeArguments,
+    required List<Object> arguments,
+  }) : typeArguments = typeArguments.immutable,
+       arguments = arguments.immutable,
+       super(type: AptosApiTransactionPayloadTye.entryFunctionPayload);
   factory AptosApiTransactionPayloadEntryFunction.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiTransactionPayloadEntryFunction(
-        function: json.as("function"),
-        typeArguments: json.asListOfString("type_arguments")!,
-        arguments: json.as<List>("arguments").cast());
+      function: json.valueAs("function"),
+      typeArguments: json.valueEnsureAsList<String>("type_arguments"),
+      arguments: json.valueAs<List>("arguments").cast(),
+    );
   }
 
   @override
@@ -410,7 +456,7 @@ class AptosApiTransactionPayloadEntryFunction
       "type": type.name,
       "function": function,
       "type_arguments": typeArguments,
-      "arguments": arguments
+      "arguments": arguments,
     };
   }
 }
@@ -419,18 +465,21 @@ class AptosApiTransactionPayloadScript extends AptosApiTransactionPayload {
   final AptosApiMoveScruptByteCode code;
   final List<String> typeArguments;
   final List<Object> arguments;
-  AptosApiTransactionPayloadScript(
-      {required this.code,
-      required List<String> typeArguments,
-      required List<Object> arguments})
-      : typeArguments = typeArguments.immutable,
-        arguments = arguments.immutable,
-        super(type: AptosApiTransactionPayloadTye.scriptPayload);
+  AptosApiTransactionPayloadScript({
+    required this.code,
+    required List<String> typeArguments,
+    required List<Object> arguments,
+  }) : typeArguments = typeArguments.immutable,
+       arguments = arguments.immutable,
+       super(type: AptosApiTransactionPayloadTye.scriptPayload);
   factory AptosApiTransactionPayloadScript.fromJson(Map<String, dynamic> json) {
     return AptosApiTransactionPayloadScript(
-        code: AptosApiMoveScruptByteCode.fromJson(json.asMap("code")),
-        typeArguments: json.asListOfString("type_arguments")!,
-        arguments: json.as<List>("arguments").cast());
+      code: AptosApiMoveScruptByteCode.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("code"),
+      ),
+      typeArguments: json.valueEnsureAsList<String>("type_arguments"),
+      arguments: json.valueAs<List>("arguments").cast(),
+    );
   }
 
   @override
@@ -439,7 +488,7 @@ class AptosApiTransactionPayloadScript extends AptosApiTransactionPayload {
       "type": type.name,
       "code": code.toJson(),
       "type_arguments": typeArguments,
-      "arguments": arguments
+      "arguments": arguments,
     };
   }
 }
@@ -447,18 +496,23 @@ class AptosApiTransactionPayloadScript extends AptosApiTransactionPayload {
 class AptosApiTransactionPayloadMultisig extends AptosApiTransactionPayload {
   final AptosApiTransactionPayloadEntryFunction? transactionPayload;
   final String multisigAddress;
-  AptosApiTransactionPayloadMultisig(
-      {required this.transactionPayload, required this.multisigAddress})
-      : super(type: AptosApiTransactionPayloadTye.multisigPayload);
+  AptosApiTransactionPayloadMultisig({
+    required this.transactionPayload,
+    required this.multisigAddress,
+  }) : super(type: AptosApiTransactionPayloadTye.multisigPayload);
   factory AptosApiTransactionPayloadMultisig.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiTransactionPayloadMultisig(
-        transactionPayload: json.mybeAs<AptosApiTransactionPayloadEntryFunction,
-                Map<String, dynamic>>(
-            key: "transaction_payload",
-            onValue: (e) =>
-                AptosApiTransactionPayloadEntryFunction.fromJson(e)),
-        multisigAddress: json.as("multisig_address"));
+      transactionPayload: json.valueTo<
+        AptosApiTransactionPayloadEntryFunction?,
+        Map<String, dynamic>
+      >(
+        key: "transaction_payload",
+        parse: (e) => AptosApiTransactionPayloadEntryFunction.fromJson(e),
+      ),
+      multisigAddress: json.valueAs("multisig_address"),
+    );
   }
 
   @override
@@ -466,7 +520,7 @@ class AptosApiTransactionPayloadMultisig extends AptosApiTransactionPayload {
     return {
       "type": type.name,
       "multisig_address": multisigAddress,
-      "transaction_payload": transactionPayload?.toJson()
+      "transaction_payload": transactionPayload?.toJson(),
     };
   }
 }
@@ -483,10 +537,15 @@ enum AptoApiTransactionSignatureType {
   final String name;
   const AptoApiTransactionSignatureType(this.name);
   static AptoApiTransactionSignatureType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct transaction signature from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct transaction signature from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -501,10 +560,15 @@ enum AptoApiAccountSignatureType {
   final String name;
   const AptoApiAccountSignatureType(this.name);
   static AptoApiAccountSignatureType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct account signature from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct account signature from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -513,7 +577,7 @@ abstract class AptosApiAccountSignature {
   const AptosApiAccountSignature({required this.type});
   Map<String, dynamic> toJson();
   factory AptosApiAccountSignature.fromJson(Map<String, dynamic> json) {
-    final type = AptoApiAccountSignatureType.fromName(json.as("type"));
+    final type = AptoApiAccountSignatureType.fromName(json.valueAs("type"));
     return switch (type) {
       AptoApiAccountSignatureType.ed25519Signature =>
         AptosApiAccountSignatureEd25519Signature.fromJson(json),
@@ -535,13 +599,17 @@ class AptosApiAccountSignatureEd25519Signature
     extends AptosApiAccountSignature {
   final String publicKey;
   final String signature;
-  AptosApiAccountSignatureEd25519Signature(
-      {required this.publicKey, required this.signature})
-      : super(type: AptoApiAccountSignatureType.ed25519Signature);
+  AptosApiAccountSignatureEd25519Signature({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptoApiAccountSignatureType.ed25519Signature);
   factory AptosApiAccountSignatureEd25519Signature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiAccountSignatureEd25519Signature(
-        publicKey: json.as("public_key"), signature: json.as("signature"));
+      publicKey: json.valueAs("public_key"),
+      signature: json.valueAs("signature"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -553,20 +621,24 @@ class AptosApiAccountSignatureAbstractionSignature
     extends AptosApiAccountSignature {
   final String functionInfo;
   final String authData;
-  AptosApiAccountSignatureAbstractionSignature(
-      {required this.functionInfo, required this.authData})
-      : super(type: AptoApiAccountSignatureType.abstractionSignature);
+  AptosApiAccountSignatureAbstractionSignature({
+    required this.functionInfo,
+    required this.authData,
+  }) : super(type: AptoApiAccountSignatureType.abstractionSignature);
   factory AptosApiAccountSignatureAbstractionSignature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiAccountSignatureAbstractionSignature(
-        functionInfo: json.as("function_info"), authData: json.as("auth_data"));
+      functionInfo: json.valueAs("function_info"),
+      authData: json.valueAs("auth_data"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
     return {
       "function_info": functionInfo,
       "auth_data": authData,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -577,21 +649,23 @@ class AptosApiAccountSignatureMultiEd25519Signature
   final List<String> signatures;
   final int threshold;
   final String bitmap;
-  AptosApiAccountSignatureMultiEd25519Signature(
-      {required List<String> publicKeys,
-      required List<String> signatures,
-      required this.threshold,
-      required this.bitmap})
-      : publicKeys = publicKeys.immutable,
-        signatures = signatures.immutable,
-        super(type: AptoApiAccountSignatureType.multiEd25519Signature);
+  AptosApiAccountSignatureMultiEd25519Signature({
+    required List<String> publicKeys,
+    required List<String> signatures,
+    required this.threshold,
+    required this.bitmap,
+  }) : publicKeys = publicKeys.immutable,
+       signatures = signatures.immutable,
+       super(type: AptoApiAccountSignatureType.multiEd25519Signature);
   factory AptosApiAccountSignatureMultiEd25519Signature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiAccountSignatureMultiEd25519Signature(
-        publicKeys: json.asListOfString("public_keys")!,
-        signatures: json.asListOfString("signatures")!,
-        threshold: json.as("threshold"),
-        bitmap: json.as("bitmap"));
+      publicKeys: json.valueEnsureAsList<String>("public_keys"),
+      signatures: json.valueEnsureAsList<String>("signatures"),
+      threshold: json.valueAs("threshold"),
+      bitmap: json.valueAs("bitmap"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -600,7 +674,7 @@ class AptosApiAccountSignatureMultiEd25519Signature
       "signatures": signatures,
       "bitmap": bitmap,
       "threshold": threshold,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -614,21 +688,25 @@ class AptosApiAccountSignatureMultiKeySignature
     required List<AptosApiPublicKey> publicKeys,
     required List<AptosApiIndexedSignature> signatures,
     required this.signaturesRequired,
-  })  : publicKeys = publicKeys.immutable,
-        signatures = signatures.immutable,
-        super(type: AptoApiAccountSignatureType.multiKeySignature);
+  }) : publicKeys = publicKeys.immutable,
+       signatures = signatures.immutable,
+       super(type: AptoApiAccountSignatureType.multiKeySignature);
   factory AptosApiAccountSignatureMultiKeySignature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiAccountSignatureMultiKeySignature(
-        publicKeys: json
-            .asListOfMap("public_keys")!
-            .map((e) => AptosApiPublicKey.fromJson(e))
-            .toList(),
-        signatures: json
-            .asListOfMap("signatures")!
-            .map((e) => AptosApiIndexedSignature.fromJson(e))
-            .toList(),
-        signaturesRequired: json.as("signatures_required"));
+      publicKeys:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("public_keys")
+              .map((e) => AptosApiPublicKey.fromJson(e))
+              .toList(),
+      signatures:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("signatures")
+              .map((e) => AptosApiIndexedSignature.fromJson(e))
+              .toList(),
+      signaturesRequired: json.valueAs("signatures_required"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -636,7 +714,7 @@ class AptosApiAccountSignatureMultiKeySignature
       "public_keys": publicKeys.map((e) => e.toJson()).toList(),
       "signatures": signatures.map((e) => e.toJson()).toList(),
       "signatures_required": signaturesRequired,
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -644,7 +722,7 @@ class AptosApiAccountSignatureMultiKeySignature
 class AptosApiTransactionNoAccountSignature
     extends AptosApiTransactionSignature {
   AptosApiTransactionNoAccountSignature()
-      : super(type: AptoApiTransactionSignatureType.noAccountSignature);
+    : super(type: AptoApiTransactionSignatureType.noAccountSignature);
 
   @override
   Map<String, dynamic> toJson() {
@@ -655,7 +733,7 @@ class AptosApiTransactionNoAccountSignature
 class AptosApiAccountSignatureNoAccountSignature
     extends AptosApiAccountSignature {
   AptosApiAccountSignatureNoAccountSignature()
-      : super(type: AptoApiAccountSignatureType.noAccountSignature);
+    : super(type: AptoApiAccountSignatureType.noAccountSignature);
 
   @override
   Map<String, dynamic> toJson() {
@@ -666,14 +744,15 @@ class AptosApiAccountSignatureNoAccountSignature
 class AptosApiIndexedSignature extends AptosApiAccountSignature {
   final AptosApiSignature signature;
   final int index;
-  AptosApiIndexedSignature({
-    required this.signature,
-    required this.index,
-  }) : super(type: AptoApiAccountSignatureType.multiKeySignature);
+  AptosApiIndexedSignature({required this.signature, required this.index})
+    : super(type: AptoApiAccountSignatureType.multiKeySignature);
   factory AptosApiIndexedSignature.fromJson(Map<String, dynamic> json) {
     return AptosApiIndexedSignature(
-        signature: AptosApiSignature.fromJson(json.asMap("signature")),
-        index: json.as("index"));
+      signature: AptosApiSignature.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("signature"),
+      ),
+      index: json.valueAs("index"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -691,10 +770,15 @@ enum AptoApiPublicKeyType {
   final String name;
   const AptoApiPublicKeyType(this.name);
   static AptoApiPublicKeyType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct public key from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct public key from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -704,8 +788,9 @@ class AptosApiPublicKey {
   const AptosApiPublicKey({required this.type, required this.value});
   factory AptosApiPublicKey.fromJson(Map<String, dynamic> json) {
     return AptosApiPublicKey(
-        type: AptoApiPublicKeyType.fromName(json.as("type")),
-        value: json.as("value"));
+      type: AptoApiPublicKeyType.fromName(json.valueAs("type")),
+      value: json.valueAs("value"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"value": value, "type": type.name};
@@ -715,21 +800,24 @@ class AptosApiPublicKey {
 class AptosApiAccountSingleKeySignature extends AptosApiAccountSignature {
   final AptosApiPublicKey publicKey;
   final AptosApiSignature signature;
-  const AptosApiAccountSingleKeySignature(
-      {required this.publicKey, required this.signature})
-      : super(type: AptoApiAccountSignatureType.singleKeySignature);
+  const AptosApiAccountSingleKeySignature({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptoApiAccountSignatureType.singleKeySignature);
   factory AptosApiAccountSingleKeySignature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiAccountSingleKeySignature(
-        publicKey: AptosApiPublicKey.fromJson(json.as("public_key")),
-        signature: AptosApiSignature.fromJson(json.as("signature")));
+      publicKey: AptosApiPublicKey.fromJson(json.valueAs("public_key")),
+      signature: AptosApiSignature.fromJson(json.valueAs("signature")),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
     return {
       "public_key": publicKey.toJson(),
       "signature": signature.toJson(),
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -743,10 +831,15 @@ enum AptoApiSignatureType {
   final String name;
   const AptoApiSignatureType(this.name);
   static AptoApiSignatureType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct signature from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct signature from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -756,8 +849,9 @@ class AptosApiSignature {
   const AptosApiSignature({required this.type, required this.value});
   factory AptosApiSignature.fromJson(Map<String, dynamic> json) {
     return AptosApiSignature(
-        type: AptoApiSignatureType.fromName(json.as("type")),
-        value: json.as("value"));
+      type: AptoApiSignatureType.fromName(json.valueAs("type")),
+      value: json.valueAs("value"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"value": value, "type": type.name};
@@ -768,7 +862,7 @@ abstract class AptosApiTransactionSignature {
   final AptoApiTransactionSignatureType type;
   const AptosApiTransactionSignature({required this.type});
   factory AptosApiTransactionSignature.fromJson(Map<String, dynamic> json) {
-    final type = AptoApiTransactionSignatureType.fromName(json.as("type"));
+    final type = AptoApiTransactionSignatureType.fromName(json.valueAs("type"));
     return switch (type) {
       AptoApiTransactionSignatureType.ed25519Signature =>
         AptosApiTransactionEd25519Signature.fromJson(json),
@@ -792,13 +886,17 @@ abstract class AptosApiTransactionSignature {
 class AptosApiTransactionEd25519Signature extends AptosApiTransactionSignature {
   final String publicKey;
   final String signature;
-  AptosApiTransactionEd25519Signature(
-      {required this.publicKey, required this.signature})
-      : super(type: AptoApiTransactionSignatureType.ed25519Signature);
+  AptosApiTransactionEd25519Signature({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptoApiTransactionSignatureType.ed25519Signature);
   factory AptosApiTransactionEd25519Signature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiTransactionEd25519Signature(
-        publicKey: json.as("public_key"), signature: json.as("signature"));
+      publicKey: json.valueAs("public_key"),
+      signature: json.valueAs("signature"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -810,13 +908,17 @@ class AptosApiTransactionSecp256k1EcdsaSignature
     extends AptosApiTransactionSignature {
   final String publicKey;
   final String signature;
-  AptosApiTransactionSecp256k1EcdsaSignature(
-      {required this.publicKey, required this.signature})
-      : super(type: AptoApiTransactionSignatureType.secp256k1EcdsaSignature);
+  AptosApiTransactionSecp256k1EcdsaSignature({
+    required this.publicKey,
+    required this.signature,
+  }) : super(type: AptoApiTransactionSignatureType.secp256k1EcdsaSignature);
   factory AptosApiTransactionSecp256k1EcdsaSignature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiTransactionSecp256k1EcdsaSignature(
-        publicKey: json.as("public_key"), signature: json.as("signature"));
+      publicKey: json.valueAs("public_key"),
+      signature: json.valueAs("signature"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -830,21 +932,23 @@ class AptosApiTransactionMultiEd25519Signature
   final List<String> signatures;
   final int threshold;
   final String bitmap;
-  AptosApiTransactionMultiEd25519Signature(
-      {required List<String> publicKeys,
-      required List<String> signatures,
-      required this.threshold,
-      required this.bitmap})
-      : publicKeys = publicKeys.immutable,
-        signatures = signatures.immutable,
-        super(type: AptoApiTransactionSignatureType.multiEd25519Signature);
+  AptosApiTransactionMultiEd25519Signature({
+    required List<String> publicKeys,
+    required List<String> signatures,
+    required this.threshold,
+    required this.bitmap,
+  }) : publicKeys = publicKeys.immutable,
+       signatures = signatures.immutable,
+       super(type: AptoApiTransactionSignatureType.multiEd25519Signature);
   factory AptosApiTransactionMultiEd25519Signature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiTransactionMultiEd25519Signature(
-        publicKeys: json.asListOfString("public_keys")!,
-        signatures: json.asListOfString("signatures")!,
-        threshold: json.as("threshold"),
-        bitmap: json.as("bitmap"));
+      publicKeys: json.valueEnsureAsList<String>("public_keys"),
+      signatures: json.valueEnsureAsList<String>("signatures"),
+      threshold: json.valueAs("threshold"),
+      bitmap: json.valueAs("bitmap"),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -852,7 +956,7 @@ class AptosApiTransactionMultiEd25519Signature
       "public_keys": publicKeys,
       "signatures": signatures,
       "bitmap": bitmap,
-      "threshold": threshold
+      "threshold": threshold,
     };
   }
 }
@@ -862,30 +966,36 @@ class AptosApiTransactionMultiAgentSignature
   final List<String> secondarySignerAddresses;
   final List<AptosApiAccountSignature> secondarySigners;
   final AptosApiAccountSignature sender;
-  AptosApiTransactionMultiAgentSignature(
-      {required List<String> secondarySignerAddresses,
-      required List<AptosApiAccountSignature> secondarySigners,
-      required this.sender})
-      : secondarySignerAddresses = secondarySignerAddresses.immutable,
-        secondarySigners = secondarySigners.immutable,
-        super(type: AptoApiTransactionSignatureType.multiAgentSignature);
+  AptosApiTransactionMultiAgentSignature({
+    required List<String> secondarySignerAddresses,
+    required List<AptosApiAccountSignature> secondarySigners,
+    required this.sender,
+  }) : secondarySignerAddresses = secondarySignerAddresses.immutable,
+       secondarySigners = secondarySigners.immutable,
+       super(type: AptoApiTransactionSignatureType.multiAgentSignature);
   factory AptosApiTransactionMultiAgentSignature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiTransactionMultiAgentSignature(
-        secondarySignerAddresses:
-            json.asListOfString("secondary_signer_addresses")!,
-        secondarySigners: json
-            .asListOfMap("secondary_signers")!
-            .map((e) => AptosApiAccountSignature.fromJson(e))
-            .toList(),
-        sender: AptosApiAccountSignature.fromJson(json.asMap("sender")));
+      secondarySignerAddresses: json.valueEnsureAsList<String>(
+        "secondary_signer_addresses",
+      ),
+      secondarySigners:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("secondary_signers")
+              .map((e) => AptosApiAccountSignature.fromJson(e))
+              .toList(),
+      sender: AptosApiAccountSignature.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("sender"),
+      ),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
     return {
       "secondary_signer_addresses": secondarySignerAddresses,
       "secondary_signers": secondarySigners.map((e) => e.toJson()).toList(),
-      "sender": sender.toJson()
+      "sender": sender.toJson(),
     };
   }
 }
@@ -897,28 +1007,35 @@ class AptosApiTransactionFeePayerSignature
   final AptosApiAccountSignature sender;
   final String feePayerAddress;
   final AptosApiAccountSignature feePayerSigner;
-  AptosApiTransactionFeePayerSignature(
-      {required List<String> secondarySignerAddresses,
-      required List<AptosApiAccountSignature> secondarySigners,
-      required this.sender,
-      required this.feePayerAddress,
-      required this.feePayerSigner})
-      : secondarySignerAddresses = secondarySignerAddresses.immutable,
-        secondarySigners = secondarySigners.immutable,
-        super(type: AptoApiTransactionSignatureType.feePayerSignature);
+  AptosApiTransactionFeePayerSignature({
+    required List<String> secondarySignerAddresses,
+    required List<AptosApiAccountSignature> secondarySigners,
+    required this.sender,
+    required this.feePayerAddress,
+    required this.feePayerSigner,
+  }) : secondarySignerAddresses = secondarySignerAddresses.immutable,
+       secondarySigners = secondarySigners.immutable,
+       super(type: AptoApiTransactionSignatureType.feePayerSignature);
   factory AptosApiTransactionFeePayerSignature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiTransactionFeePayerSignature(
-        secondarySignerAddresses:
-            json.asListOfString("secondary_signer_addresses")!,
-        secondarySigners: json
-            .asListOfMap("secondary_signers")!
-            .map((e) => AptosApiAccountSignature.fromJson(e))
-            .toList(),
-        sender: AptosApiAccountSignature.fromJson(json.asMap("sender")),
-        feePayerAddress: json.as("fee_payer_address"),
-        feePayerSigner:
-            AptosApiAccountSignature.fromJson(json.asMap("fee_payer_signer")));
+      secondarySignerAddresses: json.valueEnsureAsList<String>(
+        "secondary_signer_addresses",
+      ),
+      secondarySigners:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("secondary_signers")
+              .map((e) => AptosApiAccountSignature.fromJson(e))
+              .toList(),
+      sender: AptosApiAccountSignature.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("sender"),
+      ),
+      feePayerAddress: json.valueAs("fee_payer_address"),
+      feePayerSigner: AptosApiAccountSignature.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("fee_payer_signer"),
+      ),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -928,7 +1045,7 @@ class AptosApiTransactionFeePayerSignature
       "sender": sender.toJson(),
       "fee_payer_address": feePayerAddress,
       "fee_payer_signer": feePayerSigner.toJson(),
-      "type": type.name
+      "type": type.name,
     };
   }
 }
@@ -937,33 +1054,38 @@ class AptosApiTransactionSingleSenderSignature
     extends AptosApiTransactionSignature {
   final AptosApiAccountSignature signature;
   AptosApiTransactionSingleSenderSignature({required this.signature})
-      : super(type: AptoApiTransactionSignatureType.singleSender);
+    : super(type: AptoApiTransactionSignatureType.singleSender);
   factory AptosApiTransactionSingleSenderSignature.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     if (json.containsKey("signatures_required")) {
       return AptosApiTransactionSingleSenderSignature(
-          signature: AptosApiAccountSignatureMultiKeySignature.fromJson(json));
+        signature: AptosApiAccountSignatureMultiKeySignature.fromJson(json),
+      );
     }
     if (json.containsKey("threshold")) {
       return AptosApiTransactionSingleSenderSignature(
-          signature:
-              AptosApiAccountSignatureMultiEd25519Signature.fromJson(json));
+        signature: AptosApiAccountSignatureMultiEd25519Signature.fromJson(json),
+      );
     }
     if (json.containsKey("function_info")) {
       return AptosApiTransactionSingleSenderSignature(
-          signature:
-              AptosApiAccountSignatureAbstractionSignature.fromJson(json));
+        signature: AptosApiAccountSignatureAbstractionSignature.fromJson(json),
+      );
     }
     if (json["public_key"] is String) {
       return AptosApiTransactionSingleSenderSignature(
-          signature: AptosApiAccountSignatureEd25519Signature.fromJson(json));
+        signature: AptosApiAccountSignatureEd25519Signature.fromJson(json),
+      );
     }
     if (json.containsKey("public_key")) {
       return AptosApiTransactionSingleSenderSignature(
-          signature: AptosApiAccountSingleKeySignature.fromJson(json));
+        signature: AptosApiAccountSingleKeySignature.fromJson(json),
+      );
     }
     return AptosApiTransactionSingleSenderSignature(
-        signature: AptosApiAccountSignatureNoAccountSignature());
+      signature: AptosApiAccountSignatureNoAccountSignature(),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -985,10 +1107,15 @@ enum AptoApiTransactionType {
   final String name;
   const AptoApiTransactionType(this.name);
   static AptoApiTransactionType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct transaction from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct transaction from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -997,7 +1124,7 @@ abstract class AptosApiTransaction {
   const AptosApiTransaction({required this.type});
   Map<String, dynamic> toJson();
   factory AptosApiTransaction.fromJson(Map<String, dynamic> json) {
-    final type = AptoApiTransactionType.fromName(json.as("type"));
+    final type = AptoApiTransactionType.fromName(json.valueAs("type"));
     return switch (type) {
       AptoApiTransactionType.pendingTransaction =>
         AptosApiPendingTransaction.fromJson(json),
@@ -1026,29 +1153,32 @@ class AptosApiPendingTransaction extends AptosApiTransaction {
   final String expirationTimestampSecs;
   final AptosApiTransactionPayload payload;
   final AptosApiTransactionSignature? signature;
-  AptosApiPendingTransaction(
-      {required this.hash,
-      required this.sender,
-      required this.sequenceNumber,
-      required this.maxGasAmount,
-      required this.gasUnitPrice,
-      required this.expirationTimestampSecs,
-      required this.payload,
-      this.signature})
-      : super(type: AptoApiTransactionType.pendingTransaction);
+  AptosApiPendingTransaction({
+    required this.hash,
+    required this.sender,
+    required this.sequenceNumber,
+    required this.maxGasAmount,
+    required this.gasUnitPrice,
+    required this.expirationTimestampSecs,
+    required this.payload,
+    this.signature,
+  }) : super(type: AptoApiTransactionType.pendingTransaction);
   factory AptosApiPendingTransaction.fromJson(Map<String, dynamic> json) {
     return AptosApiPendingTransaction(
-      hash: json.as("hash"),
-      sender: json.as("sender"),
-      sequenceNumber: json.as("sequence_number"),
-      maxGasAmount: json.as("max_gas_amount"),
-      gasUnitPrice: json.as("gas_unit_price"),
-      expirationTimestampSecs: json.as("expiration_timestamp_secs"),
-      payload: AptosApiTransactionPayload.froMJson(json.asMap("payload")),
-      signature:
-          json.mybeAs<AptosApiTransactionSignature, Map<String, dynamic>>(
-              key: "signature",
-              onValue: (e) => AptosApiTransactionSignature.fromJson(e)),
+      hash: json.valueAs("hash"),
+      sender: json.valueAs("sender"),
+      sequenceNumber: json.valueAs("sequence_number"),
+      maxGasAmount: json.valueAs("max_gas_amount"),
+      gasUnitPrice: json.valueAs("gas_unit_price"),
+      expirationTimestampSecs: json.valueAs("expiration_timestamp_secs"),
+      payload: AptosApiTransactionPayload.froMJson(
+        json.valueEnsureAsMap<String, dynamic>("payload"),
+      ),
+      signature: json
+          .valueTo<AptosApiTransactionSignature?, Map<String, dynamic>>(
+            key: "signature",
+            parse: (e) => AptosApiTransactionSignature.fromJson(e),
+          ),
     );
   }
 
@@ -1111,34 +1241,40 @@ class AptosApiUserTransaction extends AptosApiTransaction {
   }) : super(type: AptoApiTransactionType.userTransaction);
   factory AptosApiUserTransaction.fromJson(Map<String, dynamic> json) {
     return AptosApiUserTransaction(
-        version: json.as("version"),
-        hash: json.as("hash"),
-        stateChangeHash: json.as("state_change_hash"),
-        eventRootHash: json.as("event_root_hash"),
-        stateCheckpointHash: json.as("state_checkpoint_hash"),
-        gasUsed: json.asBigInt("gas_used"),
-        success: json.as("success"),
-        vmStatus: json.as("vm_status"),
-        accumulatorRootHash: json.as("accumulator_root_hash"),
-        changes: json
-            .asListOfMap("changes")!
-            .map((e) => AptosApiWriteSetChange.fromJson(e))
-            .toList(),
-        sender: json.as("sender"),
-        sequenceNumber: json.as("sequence_number"),
-        maxGasAmount: json.asBigInt("max_gas_amount"),
-        gasUnitPrice: json.asBigInt("gas_unit_price"),
-        expirationTimestampSecs: json.as("expiration_timestamp_secs"),
-        payload: AptosApiTransactionPayload.froMJson(json.asMap("payload")),
-        signature:
-            json.mybeAs<AptosApiTransactionSignature, Map<String, dynamic>>(
-                key: "signature",
-                onValue: (e) => AptosApiTransactionSignature.fromJson(e)),
-        events: json
-            .asListOfMap("events")!
-            .map((e) => AptosApiEvent.fromJson(e))
-            .toList(),
-        timeStamp: json.as("timestamp"));
+      version: json.valueAs("version"),
+      hash: json.valueAs("hash"),
+      stateChangeHash: json.valueAs("state_change_hash"),
+      eventRootHash: json.valueAs("event_root_hash"),
+      stateCheckpointHash: json.valueAs("state_checkpoint_hash"),
+      gasUsed: json.valueAsBigInt("gas_used"),
+      success: json.valueAs("success"),
+      vmStatus: json.valueAs("vm_status"),
+      accumulatorRootHash: json.valueAs("accumulator_root_hash"),
+      changes:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("changes")
+              .map((e) => AptosApiWriteSetChange.fromJson(e))
+              .toList(),
+      sender: json.valueAs("sender"),
+      sequenceNumber: json.valueAs("sequence_number"),
+      maxGasAmount: json.valueAsBigInt("max_gas_amount"),
+      gasUnitPrice: json.valueAsBigInt("gas_unit_price"),
+      expirationTimestampSecs: json.valueAs("expiration_timestamp_secs"),
+      payload: AptosApiTransactionPayload.froMJson(
+        json.valueEnsureAsMap<String, dynamic>("payload"),
+      ),
+      signature: json
+          .valueTo<AptosApiTransactionSignature?, Map<String, dynamic>>(
+            key: "signature",
+            parse: (e) => AptosApiTransactionSignature.fromJson(e),
+          ),
+      events:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("events")
+              .map((e) => AptosApiEvent.fromJson(e))
+              .toList(),
+      timeStamp: json.valueAs("timestamp"),
+    );
   }
 
   @override
@@ -1163,7 +1299,7 @@ class AptosApiUserTransaction extends AptosApiTransaction {
       "payload": payload.toJson(),
       "signature": signature?.toJson(),
       "events": events.map((e) => e.toJson()).toList(),
-      "timestamp": timeStamp
+      "timestamp": timeStamp,
     };
   }
 }
@@ -1197,24 +1333,29 @@ class AptosApiGenesisTransaction extends AptosApiTransaction {
   }) : super(type: AptoApiTransactionType.genesisTransaction);
   factory AptosApiGenesisTransaction.fromJson(Map<String, dynamic> json) {
     return AptosApiGenesisTransaction(
-        version: json.as("version"),
-        hash: json.as("hash"),
-        stateChangeHash: json.as("state_change_hash"),
-        eventRootHash: json.as("event_root_hash"),
-        stateCheckpointHash: json.as("state_checkpoint_hash"),
-        gasUsed: json.as("gas_used"),
-        success: json.as("success"),
-        vmStatus: json.as("vm_status"),
-        accumulatorRootHash: json.as("accumulator_root_hash"),
-        changes: json
-            .asListOfMap("changes")!
-            .map((e) => AptosApiWriteSetChange.fromJson(e))
-            .toList(),
-        payload: AptosApiTransactionPayload.froMJson(json.asMap("payload")),
-        events: json
-            .asListOfMap("events")!
-            .map((e) => AptosApiEvent.fromJson(e))
-            .toList());
+      version: json.valueAs("version"),
+      hash: json.valueAs("hash"),
+      stateChangeHash: json.valueAs("state_change_hash"),
+      eventRootHash: json.valueAs("event_root_hash"),
+      stateCheckpointHash: json.valueAs("state_checkpoint_hash"),
+      gasUsed: json.valueAs("gas_used"),
+      success: json.valueAs("success"),
+      vmStatus: json.valueAs("vm_status"),
+      accumulatorRootHash: json.valueAs("accumulator_root_hash"),
+      changes:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("changes")
+              .map((e) => AptosApiWriteSetChange.fromJson(e))
+              .toList(),
+      payload: AptosApiTransactionPayload.froMJson(
+        json.valueEnsureAsMap<String, dynamic>("payload"),
+      ),
+      events:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("events")
+              .map((e) => AptosApiEvent.fromJson(e))
+              .toList(),
+    );
   }
 
   @override
@@ -1256,52 +1397,58 @@ class AptosApiBlockMetadataTransaction extends AptosApiTransaction {
   final String proposer;
   final List<int> failedProposerIndices;
   final String timestamp;
-  AptosApiBlockMetadataTransaction(
-      {required this.version,
-      required this.hash,
-      required this.stateChangeHash,
-      required this.eventRootHash,
-      required this.stateCheckpointHash,
-      required this.gasUsed,
-      required this.success,
-      required this.vmStatus,
-      required this.accumulatorRootHash,
-      required this.changes,
-      required this.id,
-      required this.epoch,
-      required this.round,
-      required this.proposer,
-      required this.previousBlockVotesBitVec,
-      required this.failedProposerIndices,
-      required this.events,
-      required this.timestamp})
-      : super(type: AptoApiTransactionType.blockMetadataTransaction);
+  AptosApiBlockMetadataTransaction({
+    required this.version,
+    required this.hash,
+    required this.stateChangeHash,
+    required this.eventRootHash,
+    required this.stateCheckpointHash,
+    required this.gasUsed,
+    required this.success,
+    required this.vmStatus,
+    required this.accumulatorRootHash,
+    required this.changes,
+    required this.id,
+    required this.epoch,
+    required this.round,
+    required this.proposer,
+    required this.previousBlockVotesBitVec,
+    required this.failedProposerIndices,
+    required this.events,
+    required this.timestamp,
+  }) : super(type: AptoApiTransactionType.blockMetadataTransaction);
   factory AptosApiBlockMetadataTransaction.fromJson(Map<String, dynamic> json) {
     return AptosApiBlockMetadataTransaction(
-        version: json.as("version"),
-        hash: json.as("hash"),
-        stateChangeHash: json.as("state_change_hash"),
-        eventRootHash: json.as("event_root_hash"),
-        stateCheckpointHash: json.as("state_checkpoint_hash"),
-        gasUsed: json.as("gas_used"),
-        success: json.as("success"),
-        vmStatus: json.as("vm_status"),
-        accumulatorRootHash: json.as("accumulator_root_hash"),
-        changes: json
-            .asListOfMap("changes")!
-            .map((e) => AptosApiWriteSetChange.fromJson(e))
-            .toList(),
-        epoch: json.as("epoch"),
-        id: json.as("id"),
-        proposer: json.as("proposer"),
-        round: json.as("round"),
-        timestamp: json.as("timestamp"),
-        previousBlockVotesBitVec: json.asBytes("previous_block_votes_bitvec"),
-        failedProposerIndices: json.as<List>("failed_proposer_indices").cast(),
-        events: json
-            .asListOfMap("events")!
-            .map((e) => AptosApiEvent.fromJson(e))
-            .toList());
+      version: json.valueAs("version"),
+      hash: json.valueAs("hash"),
+      stateChangeHash: json.valueAs("state_change_hash"),
+      eventRootHash: json.valueAs("event_root_hash"),
+      stateCheckpointHash: json.valueAs("state_checkpoint_hash"),
+      gasUsed: json.valueAs("gas_used"),
+      success: json.valueAs("success"),
+      vmStatus: json.valueAs("vm_status"),
+      accumulatorRootHash: json.valueAs("accumulator_root_hash"),
+      changes:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("changes")
+              .map((e) => AptosApiWriteSetChange.fromJson(e))
+              .toList(),
+      epoch: json.valueAs("epoch"),
+      id: json.valueAs("id"),
+      proposer: json.valueAs("proposer"),
+      round: json.valueAs("round"),
+      timestamp: json.valueAs("timestamp"),
+      previousBlockVotesBitVec: json.valueAsBytes(
+        "previous_block_votes_bitvec",
+      ),
+      failedProposerIndices:
+          json.valueAs<List>("failed_proposer_indices").cast(),
+      events:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("events")
+              .map((e) => AptosApiEvent.fromJson(e))
+              .toList(),
+    );
   }
 
   @override
@@ -1356,22 +1503,25 @@ class AptosApiStateCheckpointTransaction extends AptosApiTransaction {
     required this.timestamp,
   }) : super(type: AptoApiTransactionType.stateCheckpointTransaction);
   factory AptosApiStateCheckpointTransaction.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiStateCheckpointTransaction(
-        version: json.as("version"),
-        hash: json.as("hash"),
-        stateChangeHash: json.as("state_change_hash"),
-        eventRootHash: json.as("event_root_hash"),
-        stateCheckpointHash: json.as("state_checkpoint_hash"),
-        gasUsed: json.as("gas_used"),
-        success: json.as("success"),
-        vmStatus: json.as("vm_status"),
-        accumulatorRootHash: json.as("accumulator_root_hash"),
-        changes: json
-            .asListOfMap("changes")!
-            .map((e) => AptosApiWriteSetChange.fromJson(e))
-            .toList(),
-        timestamp: json.as("timestamp"));
+      version: json.valueAs("version"),
+      hash: json.valueAs("hash"),
+      stateChangeHash: json.valueAs("state_change_hash"),
+      eventRootHash: json.valueAs("event_root_hash"),
+      stateCheckpointHash: json.valueAs("state_checkpoint_hash"),
+      gasUsed: json.valueAs("gas_used"),
+      success: json.valueAs("success"),
+      vmStatus: json.valueAs("vm_status"),
+      accumulatorRootHash: json.valueAs("accumulator_root_hash"),
+      changes:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("changes")
+              .map((e) => AptosApiWriteSetChange.fromJson(e))
+              .toList(),
+      timestamp: json.valueAs("timestamp"),
+    );
   }
 
   @override
@@ -1388,7 +1538,7 @@ class AptosApiStateCheckpointTransaction extends AptosApiTransaction {
       "vm_status": vmStatus,
       "accumulator_root_hash": accumulatorRootHash,
       "changes": changes.map((e) => e.toJson()).toList(),
-      "timestamp": timestamp
+      "timestamp": timestamp,
     };
   }
 }
@@ -1422,24 +1572,27 @@ class AptosApiValidatorTransaction extends AptosApiTransaction {
   }) : super(type: AptoApiTransactionType.validatorTransaction);
   factory AptosApiValidatorTransaction.fromJson(Map<String, dynamic> json) {
     return AptosApiValidatorTransaction(
-        version: json.as("version"),
-        hash: json.as("hash"),
-        stateChangeHash: json.as("state_change_hash"),
-        eventRootHash: json.as("event_root_hash"),
-        stateCheckpointHash: json.as("state_checkpoint_hash"),
-        gasUsed: json.as("gas_used"),
-        success: json.as("success"),
-        vmStatus: json.as("vm_status"),
-        accumulatorRootHash: json.as("accumulator_root_hash"),
-        changes: json
-            .asListOfMap("changes")!
-            .map((e) => AptosApiWriteSetChange.fromJson(e))
-            .toList(),
-        events: json
-            .asListOfMap("events")!
-            .map((e) => AptosApiEvent.fromJson(e))
-            .toList(),
-        timestamp: json.as("timestamp"));
+      version: json.valueAs("version"),
+      hash: json.valueAs("hash"),
+      stateChangeHash: json.valueAs("state_change_hash"),
+      eventRootHash: json.valueAs("event_root_hash"),
+      stateCheckpointHash: json.valueAs("state_checkpoint_hash"),
+      gasUsed: json.valueAs("gas_used"),
+      success: json.valueAs("success"),
+      vmStatus: json.valueAs("vm_status"),
+      accumulatorRootHash: json.valueAs("accumulator_root_hash"),
+      changes:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("changes")
+              .map((e) => AptosApiWriteSetChange.fromJson(e))
+              .toList(),
+      events:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("events")
+              .map((e) => AptosApiEvent.fromJson(e))
+              .toList(),
+      timestamp: json.valueAs("timestamp"),
+    );
   }
 
   @override
@@ -1457,7 +1610,7 @@ class AptosApiValidatorTransaction extends AptosApiTransaction {
       "accumulator_root_hash": accumulatorRootHash,
       "changes": changes.map((e) => e.toJson()).toList(),
       "events": events.map((e) => e.toJson()).toList(),
-      "timestamp": timestamp
+      "timestamp": timestamp,
     };
   }
 }
@@ -1491,24 +1644,26 @@ class AptosApiBlockEpilogueTransaction extends AptosApiTransaction {
   }) : super(type: AptoApiTransactionType.blockEpilogueTransaction);
   factory AptosApiBlockEpilogueTransaction.fromJson(Map<String, dynamic> json) {
     return AptosApiBlockEpilogueTransaction(
-        version: json.as("version"),
-        hash: json.as("hash"),
-        stateChangeHash: json.as("state_change_hash"),
-        eventRootHash: json.as("event_root_hash"),
-        stateCheckpointHash: json.as("state_checkpoint_hash"),
-        gasUsed: json.as("gas_used"),
-        success: json.as("success"),
-        vmStatus: json.as("vm_status"),
-        accumulatorRootHash: json.as("accumulator_root_hash"),
-        changes: json
-            .asListOfMap("changes")!
-            .map((e) => AptosApiWriteSetChange.fromJson(e))
-            .toList(),
-        blockEndInfo: json.mybeAs<AptosApiBlockEndInfo, Map<String, dynamic>>(
-          key: "block_end_info",
-          onValue: (e) => AptosApiBlockEndInfo.fromJson(e),
-        ),
-        timestamp: json.as("timestamp"));
+      version: json.valueAs("version"),
+      hash: json.valueAs("hash"),
+      stateChangeHash: json.valueAs("state_change_hash"),
+      eventRootHash: json.valueAs("event_root_hash"),
+      stateCheckpointHash: json.valueAs("state_checkpoint_hash"),
+      gasUsed: json.valueAs("gas_used"),
+      success: json.valueAs("success"),
+      vmStatus: json.valueAs("vm_status"),
+      accumulatorRootHash: json.valueAs("accumulator_root_hash"),
+      changes:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("changes")
+              .map((e) => AptosApiWriteSetChange.fromJson(e))
+              .toList(),
+      blockEndInfo: json.valueTo<AptosApiBlockEndInfo?, Map<String, dynamic>>(
+        key: "block_end_info",
+        parse: (e) => AptosApiBlockEndInfo.fromJson(e),
+      ),
+      timestamp: json.valueAs("timestamp"),
+    );
   }
 
   @override
@@ -1526,7 +1681,7 @@ class AptosApiBlockEpilogueTransaction extends AptosApiTransaction {
       "accumulator_root_hash": accumulatorRootHash,
       "changes": changes.map((e) => e.toJson()).toList(),
       "block_end_info": blockEndInfo?.toJson(),
-      "timestamp": timestamp
+      "timestamp": timestamp,
     };
   }
 }
@@ -1536,24 +1691,28 @@ class AptosApiBlockEndInfo {
   final bool blockOutputLimitReached;
   final int blockEffectiveBlockGasUnits;
   final int blockApproxOutputSize;
-  const AptosApiBlockEndInfo(
-      {required this.blockApproxOutputSize,
-      required this.blockOutputLimitReached,
-      required this.blockEffectiveBlockGasUnits,
-      required this.blockGasLimitReached});
+  const AptosApiBlockEndInfo({
+    required this.blockApproxOutputSize,
+    required this.blockOutputLimitReached,
+    required this.blockEffectiveBlockGasUnits,
+    required this.blockGasLimitReached,
+  });
   factory AptosApiBlockEndInfo.fromJson(Map<String, dynamic> json) {
     return AptosApiBlockEndInfo(
-        blockGasLimitReached: json.as("block_gas_limit_reached"),
-        blockApproxOutputSize: json.as("block_approx_output_size"),
-        blockEffectiveBlockGasUnits: json.as("block_effective_block_gas_units"),
-        blockOutputLimitReached: json.as("block_output_limit_reached"));
+      blockGasLimitReached: json.valueAs("block_gas_limit_reached"),
+      blockApproxOutputSize: json.valueAs("block_approx_output_size"),
+      blockEffectiveBlockGasUnits: json.valueAs(
+        "block_effective_block_gas_units",
+      ),
+      blockOutputLimitReached: json.valueAs("block_output_limit_reached"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "block_gas_limit_reached": blockGasLimitReached,
       "block_approx_output_size": blockApproxOutputSize,
       "block_effective_block_gas_units": blockEffectiveBlockGasUnits,
-      "block_output_limit_reached": blockOutputLimitReached
+      "block_output_limit_reached": blockOutputLimitReached,
     };
   }
 }
@@ -1561,17 +1720,20 @@ class AptosApiBlockEndInfo {
 class AptosApiEventGuid {
   final String creationNumber;
   final String accountAddress;
-  const AptosApiEventGuid(
-      {required this.creationNumber, required this.accountAddress});
+  const AptosApiEventGuid({
+    required this.creationNumber,
+    required this.accountAddress,
+  });
   factory AptosApiEventGuid.fromJson(Map<String, dynamic> json) {
     return AptosApiEventGuid(
-        creationNumber: json.as("creation_number"),
-        accountAddress: json.as("account_address"));
+      creationNumber: json.valueAs("creation_number"),
+      accountAddress: json.valueAs("account_address"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "creation_number": creationNumber,
-      "account_address": accountAddress
+      "account_address": accountAddress,
     };
   }
 }
@@ -1581,24 +1743,28 @@ class AptosApiEvent {
   final String sequenceNumber;
   final String type;
   final Object data;
-  const AptosApiEvent(
-      {required this.guid,
-      required this.sequenceNumber,
-      required this.type,
-      required this.data});
+  const AptosApiEvent({
+    required this.guid,
+    required this.sequenceNumber,
+    required this.type,
+    required this.data,
+  });
   factory AptosApiEvent.fromJson(Map<String, dynamic> json) {
     return AptosApiEvent(
-        guid: AptosApiEventGuid.fromJson(json.asMap("guid")),
-        sequenceNumber: json.as("sequence_number"),
-        data: json.as("data"),
-        type: json.as("type"));
+      guid: AptosApiEventGuid.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("guid"),
+      ),
+      sequenceNumber: json.valueAs("sequence_number"),
+      data: json.valueAs("data"),
+      type: json.valueAs("type"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "guid": guid.toJson(),
       "sequence_number": sequenceNumber,
       "data": data,
-      "type": type
+      "type": type,
     };
   }
 }
@@ -1614,10 +1780,15 @@ enum AptosApiWriteSetChangeType {
   final String name;
   const AptosApiWriteSetChangeType(this.name);
   static AptosApiWriteSetChangeType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct write set change from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct write set change from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1626,7 +1797,7 @@ abstract class AptosApiWriteSetChange {
   const AptosApiWriteSetChange({required this.type});
   Map<String, dynamic> toJson();
   factory AptosApiWriteSetChange.fromJson(Map<String, dynamic> json) {
-    final type = AptosApiWriteSetChangeType.fromName(json.as("type"));
+    final type = AptosApiWriteSetChangeType.fromName(json.valueAs("type"));
     return switch (type) {
       AptosApiWriteSetChangeType.deleteModule =>
         AptosApiWriteSetChangeDeleteModule.fromJson(json),
@@ -1645,15 +1816,19 @@ abstract class AptosApiWriteSetChange {
 }
 
 class AptosApiWriteSetChangeDeleteModule extends AptosApiWriteSetChange {
-  AptosApiWriteSetChangeDeleteModule(
-      {required this.address, required this.stateKeyHash, required this.module})
-      : super(type: AptosApiWriteSetChangeType.deleteModule);
+  AptosApiWriteSetChangeDeleteModule({
+    required this.address,
+    required this.stateKeyHash,
+    required this.module,
+  }) : super(type: AptosApiWriteSetChangeType.deleteModule);
   factory AptosApiWriteSetChangeDeleteModule.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiWriteSetChangeDeleteModule(
-        address: json.as("address"),
-        stateKeyHash: json.as("state_key_hash"),
-        module: json.as("module"));
+      address: json.valueAs("address"),
+      stateKeyHash: json.valueAs("state_key_hash"),
+      module: json.valueAs("module"),
+    );
   }
   final String address;
   final String stateKeyHash;
@@ -1664,23 +1839,25 @@ class AptosApiWriteSetChangeDeleteModule extends AptosApiWriteSetChange {
     return {
       "state_key_hash": stateKeyHash,
       "address": address,
-      "module": module
+      "module": module,
     };
   }
 }
 
 class AptosApiWriteSetChangeDeleteResource extends AptosApiWriteSetChange {
-  AptosApiWriteSetChangeDeleteResource(
-      {required this.address,
-      required this.stateKeyHash,
-      required this.resource})
-      : super(type: AptosApiWriteSetChangeType.deleteResource);
+  AptosApiWriteSetChangeDeleteResource({
+    required this.address,
+    required this.stateKeyHash,
+    required this.resource,
+  }) : super(type: AptosApiWriteSetChangeType.deleteResource);
   factory AptosApiWriteSetChangeDeleteResource.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiWriteSetChangeDeleteResource(
-        address: json.as("address"),
-        stateKeyHash: json.as("state_key_hash"),
-        resource: json.as("resource"));
+      address: json.valueAs("address"),
+      stateKeyHash: json.valueAs("state_key_hash"),
+      resource: json.valueAs("resource"),
+    );
   }
   final String address;
   final String stateKeyHash;
@@ -1691,7 +1868,7 @@ class AptosApiWriteSetChangeDeleteResource extends AptosApiWriteSetChange {
     return {
       "state_key_hash": stateKeyHash,
       "address": address,
-      "resource": resource
+      "resource": resource,
     };
   }
 }
@@ -1700,7 +1877,9 @@ class AptosApiDeleteTableData {
   AptosApiDeleteTableData({required this.key, required this.keyType});
   factory AptosApiDeleteTableData.fromJson(Map<String, dynamic> json) {
     return AptosApiDeleteTableData(
-        key: json.as("key"), keyType: json.as("key_type"));
+      key: json.valueAs("key"),
+      keyType: json.valueAs("key_type"),
+    );
   }
   final Object key;
   final String keyType;
@@ -1711,20 +1890,24 @@ class AptosApiDeleteTableData {
 }
 
 class AptosApiWriteSetChangeDeleteTableItem extends AptosApiWriteSetChange {
-  AptosApiWriteSetChangeDeleteTableItem(
-      {required this.handle,
-      required this.stateKeyHash,
-      required this.key,
-      this.data})
-      : super(type: AptosApiWriteSetChangeType.deleteTableItem);
+  AptosApiWriteSetChangeDeleteTableItem({
+    required this.handle,
+    required this.stateKeyHash,
+    required this.key,
+    this.data,
+  }) : super(type: AptosApiWriteSetChangeType.deleteTableItem);
   factory AptosApiWriteSetChangeDeleteTableItem.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiWriteSetChangeDeleteTableItem(
-        handle: json.as("handle"),
-        key: json.as("key"),
-        stateKeyHash: json.as("state_key_hash"),
-        data: json.mybeAs<AptosApiDeleteTableData, Map<String, dynamic>>(
-            key: "data", onValue: (e) => AptosApiDeleteTableData.fromJson(e)));
+      handle: json.valueAs("handle"),
+      key: json.valueAs("key"),
+      stateKeyHash: json.valueAs("state_key_hash"),
+      data: json.valueTo<AptosApiDeleteTableData?, Map<String, dynamic>>(
+        key: "data",
+        parse: (e) => AptosApiDeleteTableData.fromJson(e),
+      ),
+    );
   }
   final String stateKeyHash;
   final String handle;
@@ -1737,21 +1920,27 @@ class AptosApiWriteSetChangeDeleteTableItem extends AptosApiWriteSetChange {
       "state_key_hash": stateKeyHash,
       "handle": handle,
       "key": key,
-      "data": data?.toJson()
+      "data": data?.toJson(),
     };
   }
 }
 
 class AptosApiWriteSetChangeWriteModule extends AptosApiWriteSetChange {
-  AptosApiWriteSetChangeWriteModule(
-      {required this.address, required this.stateKeyHash, required this.data})
-      : super(type: AptosApiWriteSetChangeType.writeModule);
+  AptosApiWriteSetChangeWriteModule({
+    required this.address,
+    required this.stateKeyHash,
+    required this.data,
+  }) : super(type: AptosApiWriteSetChangeType.writeModule);
   factory AptosApiWriteSetChangeWriteModule.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiWriteSetChangeWriteModule(
-        address: json.as("address"),
-        stateKeyHash: json.as("state_key_hash"),
-        data: AptosApiMoveModuleByteCode.fromJson(json.asMap("data")));
+      address: json.valueAs("address"),
+      stateKeyHash: json.valueAs("state_key_hash"),
+      data: AptosApiMoveModuleByteCode.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("data"),
+      ),
+    );
   }
   final String stateKeyHash;
   final String address;
@@ -1762,21 +1951,27 @@ class AptosApiWriteSetChangeWriteModule extends AptosApiWriteSetChange {
     return {
       "state_key_hash": stateKeyHash,
       "address": address,
-      "data": data.toJson()
+      "data": data.toJson(),
     };
   }
 }
 
 class AptosApiWriteSetChangeWriteResource extends AptosApiWriteSetChange {
-  AptosApiWriteSetChangeWriteResource(
-      {required this.address, required this.stateKeyHash, required this.data})
-      : super(type: AptosApiWriteSetChangeType.writeResource);
+  AptosApiWriteSetChangeWriteResource({
+    required this.address,
+    required this.stateKeyHash,
+    required this.data,
+  }) : super(type: AptosApiWriteSetChangeType.writeResource);
   factory AptosApiWriteSetChangeWriteResource.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiWriteSetChangeWriteResource(
-        address: json.as("address"),
-        stateKeyHash: json.as("state_key_hash"),
-        data: AptosApiMoveResource.fromJson(json.asMap("data")));
+      address: json.valueAs("address"),
+      stateKeyHash: json.valueAs("state_key_hash"),
+      data: AptosApiMoveResource.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("data"),
+      ),
+    );
   }
   final String stateKeyHash;
   final String address;
@@ -1787,7 +1982,7 @@ class AptosApiWriteSetChangeWriteResource extends AptosApiWriteSetChange {
     return {
       "state_key_hash": stateKeyHash,
       "address": address,
-      "data": data.toJson()
+      "data": data.toJson(),
     };
   }
 }
@@ -1797,24 +1992,26 @@ class AptosApiDecodeTableData {
   final String keyType;
   final Object value;
   final String valueType;
-  const AptosApiDecodeTableData(
-      {required this.key,
-      required this.keyType,
-      required this.value,
-      required this.valueType});
+  const AptosApiDecodeTableData({
+    required this.key,
+    required this.keyType,
+    required this.value,
+    required this.valueType,
+  });
   factory AptosApiDecodeTableData.fromJson(Map<String, dynamic> json) {
     return AptosApiDecodeTableData(
-        key: json.as("key"),
-        value: json.as("value"),
-        keyType: json.as("key_type"),
-        valueType: json.as("value_type"));
+      key: json.valueAs("key"),
+      value: json.valueAs("value"),
+      keyType: json.valueAs("key_type"),
+      valueType: json.valueAs("value_type"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "key": key,
       "value": value,
       "key_type": keyType,
-      "value_type": valueType
+      "value_type": valueType,
     };
   }
 }
@@ -1828,14 +2025,18 @@ class AptosApiWriteSetChangeWriteTableItem extends AptosApiWriteSetChange {
     required this.data,
   }) : super(type: AptosApiWriteSetChangeType.writeTableItem);
   factory AptosApiWriteSetChangeWriteTableItem.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosApiWriteSetChangeWriteTableItem(
-        handle: json.as("handle"),
-        stateKeyHash: json.as("state_key_hash"),
-        key: json.as("key"),
-        value: json.as("value"),
-        data: json.mybeAs<AptosApiDecodeTableData, Map<String, dynamic>>(
-            key: "data", onValue: (e) => AptosApiDecodeTableData.fromJson(e)));
+      handle: json.valueAs("handle"),
+      stateKeyHash: json.valueAs("state_key_hash"),
+      key: json.valueAs("key"),
+      value: json.valueAs("value"),
+      data: json.valueTo<AptosApiDecodeTableData?, Map<String, dynamic>>(
+        key: "data",
+        parse: (e) => AptosApiDecodeTableData.fromJson(e),
+      ),
+    );
   }
   final String stateKeyHash;
   final String handle;
@@ -1851,7 +2052,7 @@ class AptosApiWriteSetChangeWriteTableItem extends AptosApiWriteSetChange {
       "handle": handle,
       "key": key,
       "value": value,
-      "data": data?.toJson()
+      "data": data?.toJson(),
     };
   }
 }
@@ -1863,25 +2064,27 @@ class AptosApiBlock {
   final String firstVersion;
   final String lastVersion;
   final List<AptosApiTransaction>? transactions;
-  AptosApiBlock(
-      {required this.blockHash,
-      required this.blockHeight,
-      required this.blockTimestamp,
-      required this.firstVersion,
-      required this.lastVersion,
-      required List<AptosApiTransaction>? transactions})
-      : transactions = transactions?.immutable;
+  AptosApiBlock({
+    required this.blockHash,
+    required this.blockHeight,
+    required this.blockTimestamp,
+    required this.firstVersion,
+    required this.lastVersion,
+    required List<AptosApiTransaction>? transactions,
+  }) : transactions = transactions?.immutable;
   factory AptosApiBlock.fromJson(Map<String, dynamic> json) {
     return AptosApiBlock(
-        blockHash: json.as("block_hash"),
-        blockHeight: json.as("block_height"),
-        blockTimestamp: json.as("block_timestamp"),
-        firstVersion: json.as("first_version"),
-        lastVersion: json.as("last_version"),
-        transactions: json
-            .asListOfMap("transactions", throwOnNull: false)
-            ?.map((e) => AptosApiTransaction.fromJson(e))
-            .toList());
+      blockHash: json.valueAs("block_hash"),
+      blockHeight: json.valueAs("block_height"),
+      blockTimestamp: json.valueAs("block_timestamp"),
+      firstVersion: json.valueAs("first_version"),
+      lastVersion: json.valueAs("last_version"),
+      transactions:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("transactions")
+              ?.map((e) => AptosApiTransaction.fromJson(e))
+              .toList(),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -1890,7 +2093,7 @@ class AptosApiBlock {
       "block_timestamp": blockTimestamp,
       "first_version": firstVersion,
       "last_version": lastVersion,
-      "transactions": transactions?.map((e) => e.toJson()).toList()
+      "transactions": transactions?.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -1906,15 +2109,16 @@ class AptosApiGasEstimation {
   });
   factory AptosApiGasEstimation.fromJson(Map<String, dynamic> json) {
     return AptosApiGasEstimation(
-        deprioritizedGasEstimate: json.as("deprioritized_gas_estimate"),
-        gasEstimate: json.as("gas_estimate"),
-        prioritizedGasEstimate: json.as("prioritized_gas_estimate"));
+      deprioritizedGasEstimate: json.valueAs("deprioritized_gas_estimate"),
+      gasEstimate: json.valueAs("gas_estimate"),
+      prioritizedGasEstimate: json.valueAs("prioritized_gas_estimate"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
       "deprioritized_gas_estimate": deprioritizedGasEstimate,
       "gas_estimate": gasEstimate,
-      "prioritized_gas_estimate": prioritizedGasEstimate
+      "prioritized_gas_estimate": prioritizedGasEstimate,
     };
   }
 }
@@ -1926,10 +2130,15 @@ enum AptosApiRoleType {
   final String name;
   const AptosApiRoleType(this.name);
   static AptosApiRoleType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct role type from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct role type from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1944,27 +2153,29 @@ class AptosApiLedgerInfo {
   final String blockHeight;
   final String? gitHash;
 
-  AptosApiLedgerInfo(
-      {required this.chainId,
-      required this.epoch,
-      required this.ledgerVersion,
-      required this.oldestLedgerVersion,
-      required this.ledgerTimestamp,
-      required this.nodeRole,
-      required this.oldestBlockHeight,
-      required this.blockHeight,
-      required this.gitHash});
+  AptosApiLedgerInfo({
+    required this.chainId,
+    required this.epoch,
+    required this.ledgerVersion,
+    required this.oldestLedgerVersion,
+    required this.ledgerTimestamp,
+    required this.nodeRole,
+    required this.oldestBlockHeight,
+    required this.blockHeight,
+    required this.gitHash,
+  });
   factory AptosApiLedgerInfo.fromJson(Map<String, dynamic> json) {
     return AptosApiLedgerInfo(
-        chainId: json.as("chain_id"),
-        epoch: json.as("epoch"),
-        ledgerVersion: json.as("ledger_version"),
-        oldestLedgerVersion: json.as("oldest_ledger_version"),
-        ledgerTimestamp: json.as("ledger_timestamp"),
-        nodeRole: AptosApiRoleType.fromName(json.as("node_role")),
-        oldestBlockHeight: json.as("oldest_block_height"),
-        blockHeight: json.as("block_height"),
-        gitHash: json.as("git_hash"));
+      chainId: json.valueAs("chain_id"),
+      epoch: json.valueAs("epoch"),
+      ledgerVersion: json.valueAs("ledger_version"),
+      oldestLedgerVersion: json.valueAs("oldest_ledger_version"),
+      ledgerTimestamp: json.valueAs("ledger_timestamp"),
+      nodeRole: AptosApiRoleType.fromName(json.valueAs("node_role")),
+      oldestBlockHeight: json.valueAs("oldest_block_height"),
+      blockHeight: json.valueAs("block_height"),
+      gitHash: json.valueAs("git_hash"),
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -1976,7 +2187,7 @@ class AptosApiLedgerInfo {
       "node_role": nodeRole.name,
       "oldest_block_height": oldestBlockHeight,
       "block_height": blockHeight,
-      "git_hash": gitHash
+      "git_hash": gitHash,
     };
   }
 }

@@ -7,9 +7,7 @@ import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 /// https://solana.com/docs/rpc/http/getrecentperformancesamples
 class SolanaRequestGetRecentPerformanceSamples
     extends SolanaRequest<List<PerfSample>, List> {
-  const SolanaRequestGetRecentPerformanceSamples({
-    required this.limit,
-  });
+  const SolanaRequestGetRecentPerformanceSamples({required this.limit});
 
   /// getRecentPerformanceSamples
   @override

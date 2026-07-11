@@ -6,9 +6,10 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getTransactionByBlockNumberAndIndex)
 class EthereumRequestGetTransactionByBlockNumberAndIndex
     extends EthereumRequest<Map<String, dynamic>?, Map<String, dynamic>?> {
-  EthereumRequestGetTransactionByBlockNumberAndIndex(
-      {required BlockTagOrNumber blockNumber, required this.index})
-      : super(blockNumber: blockNumber);
+  EthereumRequestGetTransactionByBlockNumberAndIndex({
+    required BlockTagOrNumber blockNumber,
+    required this.index,
+  }) : super(blockNumber: blockNumber);
 
   /// eth_getTransactionByBlockNumberAndIndex
   @override

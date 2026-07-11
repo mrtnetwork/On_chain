@@ -12,18 +12,24 @@ class Verification {
   static Verification fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No MetaDataTokenStandard found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MetaDataTokenStandard found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static Verification fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No Verification found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No Verification found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

@@ -10,19 +10,19 @@ class MetaplexTokenMetaDataBurnV1Layout
 
   factory MetaplexTokenMetaDataBurnV1Layout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        discriminator: discriminator,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.burnV1.insturction);
+      layout: _layout,
+      bytes: data,
+      discriminator: discriminator,
+      instruction: MetaplexTokenMetaDataProgramInstruction.burnV1.insturction,
+    );
     return MetaplexTokenMetaDataBurnV1Layout(amount: decode['amount']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.u64(property: 'amount')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

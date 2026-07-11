@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents different types of Plutus data.
@@ -14,8 +14,10 @@ class PlutusDataType with InternalCborSerialization {
   const PlutusDataType._(this.value, this.name);
 
   /// Plutus data type representing constructed Plutus data.
-  static const PlutusDataType constrPlutusData =
-      PlutusDataType._(0, 'ConstrPlutusData');
+  static const PlutusDataType constrPlutusData = PlutusDataType._(
+    0,
+    'ConstrPlutusData',
+  );
 
   /// Plutus data type representing a map.
   static const PlutusDataType map = PlutusDataType._(1, 'Map');
@@ -35,7 +37,7 @@ class PlutusDataType with InternalCborSerialization {
     map,
     list,
     integer,
-    bytes
+    bytes,
   ];
 
   /// Constructs a [PlutusDataType] from its serialized form.
@@ -47,9 +49,7 @@ class PlutusDataType with InternalCborSerialization {
   static PlutusDataType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No PlutusDataType found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "PlutusDataType"),
     );
   }
 
@@ -57,9 +57,7 @@ class PlutusDataType with InternalCborSerialization {
   static PlutusDataType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No PlutusDataType found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "PlutusDataType"),
     );
   }
 

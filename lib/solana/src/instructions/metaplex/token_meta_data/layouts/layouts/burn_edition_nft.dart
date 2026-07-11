@@ -8,10 +8,11 @@ class MetaplexTokenMetaDataBurnEditionNftLayout
 
   factory MetaplexTokenMetaDataBurnEditionNftLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.burnEditionNft.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction.burnEditionNft.insturction,
+    );
     return const MetaplexTokenMetaDataBurnEditionNftLayout();
   }
 

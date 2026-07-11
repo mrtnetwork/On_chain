@@ -15,7 +15,8 @@ class WithdrawBalanceContract extends TronBaseContract {
   factory WithdrawBalanceContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return WithdrawBalanceContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+    );
   }
   @override
   final TronAddress ownerAddress;

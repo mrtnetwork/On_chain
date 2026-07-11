@@ -21,8 +21,8 @@ class SolanaRPCGetAccountLookupAddres
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         SolanaRequestEncoding.base64.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 
@@ -31,6 +31,8 @@ class SolanaRPCGetAccountLookupAddres
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return AddressLookupTableAccount.fromBuffer(
-        accountKey: account, accountData: accountInfo.toBytesData());
+      accountKey: account,
+      accountData: accountInfo.toBytesData(),
+    );
   }
 }

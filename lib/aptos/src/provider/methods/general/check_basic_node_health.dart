@@ -17,8 +17,9 @@ class AptosRequestCheckBasicNodeHealth
   String get method => AptosApiMethod.checkBasicNodeHealth.url;
 
   @override
-  Map<String, String?> get queryParameters =>
-      {"duration_secs": durationSecs?.toString()};
+  Map<String, String?> get queryParameters => {
+    "duration_secs": durationSecs?.toString(),
+  };
 
   @override
   String onResonse(Map<String, dynamic> result) {

@@ -8,20 +8,25 @@ class MetaplexTokenMetaDataTransferOutOfEscrowLayout
   const MetaplexTokenMetaDataTransferOutOfEscrowLayout({required this.amount});
 
   factory MetaplexTokenMetaDataTransferOutOfEscrowLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .transferOutOfEscrow.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .transferOutOfEscrow
+              .insturction,
+    );
     return MetaplexTokenMetaDataTransferOutOfEscrowLayout(
-        amount: decode['amount']);
+      amount: decode['amount'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

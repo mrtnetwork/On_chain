@@ -8,16 +8,17 @@ class MetaplexNFTPacksClaimPackLayout extends MetaplexNFTPacksProgramLayout {
 
   factory MetaplexNFTPacksClaimPackLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexNFTPacksProgramInstruction.claimPack.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexNFTPacksProgramInstruction.claimPack.insturction,
+    );
     return MetaplexNFTPacksClaimPackLayout(index: decode['index']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'index')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'index'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

@@ -7,9 +7,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/mempool-by-address
 class BlockfrostRequestMempoolByAddress
     extends BlockFrostRequest<List<String>, List<Map<String, dynamic>>> {
-  BlockfrostRequestMempoolByAddress(this.addresss,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+  BlockfrostRequestMempoolByAddress(
+    this.addresss, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   final ADAAddress addresss;
 

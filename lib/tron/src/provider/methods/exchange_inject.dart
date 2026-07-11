@@ -7,13 +7,14 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/exchangeinject).
 class TronRequestExchangeInject
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestExchangeInject(
-      {required this.ownerAddress,
-      required this.exchangeId,
-      required this.tokenId,
-      required this.quant,
-      this.permissionId,
-      this.visible = true});
+  TronRequestExchangeInject({
+    required this.ownerAddress,
+    required this.exchangeId,
+    required this.tokenId,
+    required this.quant,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Transaction to the creator's address
   final TronAddress ownerAddress;
@@ -43,7 +44,7 @@ class TronRequestExchangeInject
       'token_id': tokenId,
       'quant': quant,
       'permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

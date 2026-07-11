@@ -40,7 +40,7 @@ class SolanaRequestSendTransaction extends SolanaRequest<String, String> {
         {'skipPreflight': skipPreflight},
         commitment?.toJson(true),
         {'maxRetries': maxRetries},
-        minContextSlot?.toJson()
+        minContextSlot?.toJson(),
       ]),
     ];
   }

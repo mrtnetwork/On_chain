@@ -5,9 +5,11 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about stake pool retirements within a specific transaction.
 /// https://blockfrost.dev/api/transaction-stake-pool-retirement-certificates
 class BlockfrostRequestTransactionStakePoolRetirementCertificates
-    extends BlockFrostRequest<
-        List<ADATransactionPoolRetirementCertificateResponse>,
-        List<Map<String, dynamic>>> {
+    extends
+        BlockFrostRequest<
+          List<ADATransactionPoolRetirementCertificateResponse>,
+          List<Map<String, dynamic>>
+        > {
   BlockfrostRequestTransactionStakePoolRetirementCertificates(this.hash);
 
   /// Hash of the requested transaction
@@ -23,7 +25,8 @@ class BlockfrostRequestTransactionStakePoolRetirementCertificates
 
   @override
   List<ADATransactionPoolRetirementCertificateResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADATransactionPoolRetirementCertificateResponse.fromJson(e))
         .toList();

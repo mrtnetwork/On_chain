@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/cbor/exception.dart';
 
 class InternalCborSerializationConst {
   static const List<int> defaultTag = [120];
@@ -11,8 +10,10 @@ enum CborMapEncodingType {
 
   bool get isFixed => this == definite;
   static CborMapEncodingType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw ItemNotFoundException(value: name));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse: () => throw ItemNotFoundException(value: name),
+    );
   }
 }
 
@@ -35,9 +36,10 @@ abstract mixin class InternalCborSerialization {
   static T desrialize<T extends CborObject>(List<int> cborBytes) {
     final decode = CborObject.fromCbor(cborBytes);
     if (decode is! T) {
-      throw CborSerializationException(
-          'Failed to deserialize CBOR bytes into type.',
-          details: {'type': '$T', 'expected': decode.runtimeType});
+      throw CborSerializableException(
+        'Failed to deserialize CBOR bytes into type.',
+        details: {'type': '$T', 'expected': decode.runtimeType.toString()},
+      );
     }
     return decode;
   }

@@ -1,53 +1,71 @@
 import 'dart:async';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
-import 'package:on_chain/aptos/src/provider/service/service.dart';
 
-class AptosProvider implements BaseProvider<AptosRequestDetails> {
-  final AptosServiceProvider rpc;
+class AptosProvider<SERVICE extends IServiceProvider>
+    implements IProvider<SERVICE, AptosRequestDetails> {
+  @override
+  final SERVICE service;
 
-  AptosProvider(this.rpc);
+  AptosProvider(this.service);
 
-  static SERVICERESPONSE _findError<SERVICERESPONSE>(
-      {required BaseServiceResponse<SERVICERESPONSE> response,
-      required AptosRequestDetails params,
-      required bool isDynamicRequest}) {
+  static SERVICERESPONSE _findError<SERVICERESPONSE>({
+    required BaseServiceResponse response,
+    required AptosRequestDetails params,
+    required bool isDynamicRequest,
+  }) {
     if (response.type == ServiceResponseType.error) {
-      final error = response.cast<ServiceErrorResponse>();
-      final errorJson =
-          StringUtils.tryToJson<Map<String, dynamic>>(error.error);
-      final String message = errorJson?["message"] ?? ServiceConst.defaultError;
-      errorJson?.removeWhere((k, v) => k == "message");
+      final error = response.cast<BaseServiceErrorResponse>();
+      if (!error.validate) throw error.defaultError();
+      final errorJson = error.tryToJson();
+      if (errorJson == null) throw error.defaultError();
+      final message = errorJson["message"];
+      errorJson.removeWhere((k, v) => k == "message");
       throw RPCError(
-          message: message,
-          details: {...errorJson ?? {}, "statusCode": error.statusCode},
-          errorCode: IntUtils.tryParse(errorJson?["vm_error_code"]));
+        message: (message is String ? message : ServiceConst.defaultError),
+        relatedNetwork: BlockchainNetwork.aptos,
+        errorCode: errorJson.valueAs("vm_error_code"),
+        statusCode: error.statusCode,
+        jsonRpcErrpr: errorJson,
+      );
     }
-    final r = response.getResult(params);
-    switch (params.aptosRequestType) {
+    final result = params.toEncodingResponse<SERVICERESPONSE>(response);
+    switch (params.api) {
       case AptosRequestType.graphQl:
-        if (isDynamicRequest) return r;
-        final Map<String, dynamic> data = (r as Map).cast<String, dynamic>();
+        if (isDynamicRequest) return result;
+        final Map<String, dynamic> data =
+            ServiceProviderUtils.toResponse<Map<String, dynamic>>(
+              object: result,
+              params: params,
+            );
 
-        final Map<String, dynamic>? successData = data["data"];
+        final successData = data["data"];
         if (successData != null) {
-          return successData as SERVICERESPONSE;
+          return ServiceProviderUtils.toResponse<SERVICERESPONSE>(
+            object: successData,
+            params: params,
+          );
         }
         final List<Map<String, dynamic>> errors =
             (data["errors"] as List?)?.cast() ?? [];
         if (errors.isEmpty) {
           throw RPCError(
-              message: ServiceConst.defaultError,
-              details: {...data, "statusCode": response.statusCode});
+            relatedNetwork: BlockchainNetwork.aptos,
+            message: ServiceConst.defaultError,
+            jsonRpcErrpr: data,
+            statusCode: response.statusCode,
+          );
         }
-        final List<String> messages =
-            errors.map((e) => e["message"] as String).toList();
+        final List<String> messages = data.valueEnsureAsList<String>("message");
         throw RPCError(
-            message: messages.join(", "),
-            details: {...data, "statusCode": response.statusCode});
+          relatedNetwork: BlockchainNetwork.aptos,
+          message: messages.join(", "),
+          jsonRpcErrpr: data,
+          statusCode: response.statusCode,
+        );
 
       default:
-        return r;
+        return result;
     }
   }
 
@@ -59,9 +77,14 @@ class AptosProvider implements BaseProvider<AptosRequestDetails> {
   /// Whatever is received will be returned
   @override
   Future<RESULT> request<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, AptosRequestDetails> request,
-      {Duration? timeout}) async {
-    final r = await _requestDynamic(request, false, timeout: timeout);
+    IServiceRequest<RESULT, SERVICERESPONSE, AptosRequestDetails> request, {
+    Duration? timeout,
+  }) async {
+    final r = await _requestDynamic<RESULT, SERVICERESPONSE>(
+      request,
+      false,
+      timeout: timeout,
+    );
     return request.onResonse(r);
   }
 
@@ -71,20 +94,28 @@ class AptosProvider implements BaseProvider<AptosRequestDetails> {
   /// Whatever is received will be returned
   @override
   Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, AptosRequestDetails> request,
-      {Duration? timeout}) async {
-    return _requestDynamic(request, true, timeout: timeout);
+    IServiceRequest<RESULT, SERVICERESPONSE, AptosRequestDetails> request, {
+    Duration? timeout,
+  }) async {
+    return _requestDynamic<RESULT, SERVICERESPONSE>(
+      request,
+      true,
+      timeout: timeout,
+    );
   }
 
   Future<SERVICERESPONSE> _requestDynamic<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, AptosRequestDetails> request,
-      bool isDynamic,
-      {Duration? timeout}) async {
+    IServiceRequest<RESULT, SERVICERESPONSE, AptosRequestDetails> request,
+    bool isDynamic, {
+    Duration? timeout,
+  }) async {
     final id = ++_id;
     final params = request.buildRequest(id);
-    final response =
-        await rpc.doRequest<SERVICERESPONSE>(params, timeout: timeout);
-    return _findError(
-        params: params, response: response, isDynamicRequest: isDynamic);
+    final response = await service.doRequest(params, timeout: timeout);
+    return _findError<SERVICERESPONSE>(
+      params: params,
+      response: response,
+      isDynamicRequest: isDynamic,
+    );
   }
 }

@@ -14,8 +14,10 @@ class SolanaRequestGetSlotLeader extends SolanaRequest<SolAddress, String> {
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRequestUtils.createConfig(
-          [commitment?.toJson(), minContextSlot?.toJson()])
+      SolanaRequestUtils.createConfig([
+        commitment?.toJson(),
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 

@@ -6,12 +6,18 @@ class MetaDataTokenStandard extends BorshLayoutSerializable {
   final String name;
   final int value;
   const MetaDataTokenStandard._(this.name, this.value);
-  static const MetaDataTokenStandard nonFungible =
-      MetaDataTokenStandard._('NonFungible', 0);
-  static const MetaDataTokenStandard fungibleAsset =
-      MetaDataTokenStandard._('FungibleAsset', 1);
-  static const MetaDataTokenStandard fungible =
-      MetaDataTokenStandard._('Fungible', 2);
+  static const MetaDataTokenStandard nonFungible = MetaDataTokenStandard._(
+    'NonFungible',
+    0,
+  );
+  static const MetaDataTokenStandard fungibleAsset = MetaDataTokenStandard._(
+    'FungibleAsset',
+    1,
+  );
+  static const MetaDataTokenStandard fungible = MetaDataTokenStandard._(
+    'Fungible',
+    2,
+  );
   static const MetaDataTokenStandard nonFungibleEdition =
       MetaDataTokenStandard._('NonFungibleEdition', 3);
   static const MetaDataTokenStandard programmableNonFungible =
@@ -24,28 +30,35 @@ class MetaDataTokenStandard extends BorshLayoutSerializable {
     fungible,
     nonFungibleEdition,
     programmableNonFungible,
-    programmableNonFungibleEdition
+    programmableNonFungibleEdition,
   ];
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'metaDataTokenStandard')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'metaDataTokenStandard',
+    ),
   ]);
   static MetaDataTokenStandard fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No MetaDataTokenStandard found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MetaDataTokenStandard found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static MetaDataTokenStandard fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No MetaDataTokenStandard found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MetaDataTokenStandard found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
@@ -59,7 +72,7 @@ class MetaDataTokenStandard extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'metaDataTokenStandard': {name: null}
+      'metaDataTokenStandard': {name: null},
     };
   }
 }

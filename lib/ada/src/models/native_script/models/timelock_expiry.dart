@@ -17,8 +17,10 @@ class NativeScriptTimelockExpiry extends NativeScript {
   /// Deserializes a [NativeScriptTimelockExpiry] from CBOR.
   factory NativeScriptTimelockExpiry.deserialize(CborListValue cbor) {
     NativeScriptUtils.validateCborTypeObject(
-        cbor.elementAt<CborObject>(0), NativeScriptType.timelockExpiry);
-    return NativeScriptTimelockExpiry(cbor.elementAsInteger(1));
+      cbor.objectAt<CborObject>(0),
+      NativeScriptType.timelockExpiry,
+    );
+    return NativeScriptTimelockExpiry(cbor.rawValueAt(1));
   }
 
   factory NativeScriptTimelockExpiry.fromJson(Map<String, dynamic> json) {
@@ -31,10 +33,7 @@ class NativeScriptTimelockExpiry extends NativeScript {
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      type.toCbor(),
-      CborUnsignedValue.u64(slot),
-    ]);
+    return CborListValue.definite([type.toCbor(), CborUnsignedValue.u64(slot)]);
   }
 
   @override
@@ -43,7 +42,7 @@ class NativeScriptTimelockExpiry extends NativeScript {
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'slot': slot}
+      type.name: {'slot': slot},
     };
   }
 

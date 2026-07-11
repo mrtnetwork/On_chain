@@ -1,6 +1,6 @@
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 class SmartContractBABIEntryParam extends TronProtocolBufferImpl {
   /// Create a new [SmartContractBABIEntryParam] instance with specified parameters.
@@ -9,17 +9,18 @@ class SmartContractBABIEntryParam extends TronProtocolBufferImpl {
   /// Create a new [SmartContractBABIEntryParam] instance by parsing a JSON map.
   factory SmartContractBABIEntryParam.fromJson(Map<String, dynamic> json) {
     return SmartContractBABIEntryParam(
-        type: OnChainUtils.parseString(value: json['type'], name: 'type'),
-        name: OnChainUtils.parseString(value: json['name'], name: 'name'),
-        indexed:
-            OnChainUtils.parseBoolean(value: json['indexed'], name: 'indexed'));
+      type: json.valueAs("type"),
+      name: json.valueAs("name"),
+      indexed: json.valueAs("indexed"),
+    );
   }
   factory SmartContractBABIEntryParam.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return SmartContractBABIEntryParam(
-        type: decode.getField(3),
-        name: decode.getField(2),
-        indexed: decode.getField(1));
+      type: decode.getField(3),
+      name: decode.getField(2),
+      indexed: decode.getField(1),
+    );
   }
   final bool? indexed;
   final String? name;
@@ -30,10 +31,10 @@ class SmartContractBABIEntryParam extends TronProtocolBufferImpl {
 
   @override
   List get values => [
-        indexed == false ? null : indexed,
-        (name?.isEmpty ?? true) ? null : name,
-        type
-      ];
+    indexed == false ? null : indexed,
+    (name?.isEmpty ?? true) ? null : name,
+    type,
+  ];
 
   /// Convert the [SmartContractBABIEntryParam] object to a JSON representation.
   @override

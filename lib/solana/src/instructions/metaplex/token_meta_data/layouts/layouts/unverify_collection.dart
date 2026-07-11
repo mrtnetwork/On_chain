@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataUnverifyCollectionLayout
   const MetaplexTokenMetaDataUnverifyCollectionLayout();
 
   factory MetaplexTokenMetaDataUnverifyCollectionLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .unverifyCollection.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .unverifyCollection
+              .insturction,
+    );
     return const MetaplexTokenMetaDataUnverifyCollectionLayout();
   }
 

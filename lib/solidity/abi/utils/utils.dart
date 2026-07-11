@@ -25,7 +25,9 @@ class ABIUtils {
   /// Decodes a parameter from the given ABI parameter using the appropriate
   /// ABICoder based on the parameter's type.
   static DecoderResult<dynamic> _decodeParamFromAbiParameter(
-      AbiParameter param, List<int> bytes) {
+    AbiParameter param,
+    List<int> bytes,
+  ) {
     final abi = ABICoder.fromType(param.type);
     return abi.decode(param, bytes);
   }
@@ -47,8 +49,12 @@ class ABIUtils {
     }
     for (final EncoderResult encodedParam in encodedParams) {
       if (encodedParam.isDynamic) {
-        staticParams.add(const NumbersCoder().abiEncode(
-            AbiParameter.uint256, BigInt.from(staticSize + dynamicSize)));
+        staticParams.add(
+          const NumbersCoder().abiEncode(
+            AbiParameter.uint256,
+            BigInt.from(staticSize + dynamicSize),
+          ),
+        );
         dynamicParams.add(encodedParam);
         dynamicSize += encodedParam.encoded.length;
       } else {
@@ -69,55 +75,72 @@ class ABIUtils {
     final String sizeString = abi.type.substring(arrayParenthesisStart);
     int size = -1;
     if (sizeString != '[]') {
-      final parseSize =
-          int.tryParse(sizeString.substring(1, sizeString.length - 1));
+      final parseSize = int.tryParse(
+        sizeString.substring(1, sizeString.length - 1),
+      );
       if (parseSize == null) {
         throw const SolidityAbiException(
-            'Invalid fixed-size arrays. length is invalid.');
+          'Invalid fixed-size arrays. length is invalid.',
+        );
       }
       size = parseSize;
     }
     return (
       AbiParameter(type: arrayParamType, name: '', components: abi.components),
-      size
+      size,
     );
   }
 
-  static List<int> encodePacked(
-      {required List<String> types, required List<dynamic> params}) {
+  static List<int> encodePacked({
+    required List<String> types,
+    required List<dynamic> params,
+  }) {
     return EIP712Utils.legacyV1Encode(types, params);
   }
 
-  static List<int> encode(
-      {required List<String> types, required List<dynamic> params}) {
+  static List<int> encode({
+    required List<String> types,
+    required List<dynamic> params,
+  }) {
     return EIP712Utils.abiEncode(types, params);
   }
 
-  static List<dynamic> decode(
-      {required List<String> types, required List<int> bytes}) {
+  static List<dynamic> decode({
+    required List<String> types,
+    required List<int> bytes,
+  }) {
     final decode = EIP712Utils.abiDecode(types, bytes);
     return decode;
   }
 
-  static T decodeSingle<T extends Object>(
-      {required String type, required List<int> bytes}) {
+  static T decodeSingle<T extends Object>({
+    required String type,
+    required List<int> bytes,
+  }) {
     final decode = EIP712Utils.abiDecode([type], bytes);
     return JsonParser.valueAs(decode[0]);
   }
 
-  static List<int> encodeKeccack256(
-      {required List<String> types, required List<dynamic> params}) {
+  static List<int> encodeKeccack256({
+    required List<String> types,
+    required List<dynamic> params,
+  }) {
     return QuickCrypto.keccack256Hash(encode(types: types, params: params));
   }
 
-  static List<int> encodePackedKeccack256(
-      {required List<String> types, required List<dynamic> params}) {
+  static List<int> encodePackedKeccack256({
+    required List<String> types,
+    required List<dynamic> params,
+  }) {
     return QuickCrypto.keccack256Hash(
-        encodePacked(types: types, params: params));
+      encodePacked(types: types, params: params),
+    );
   }
 
-  static List<int> encodePackedSHA256(
-      {required List<String> types, required List<dynamic> params}) {
+  static List<int> encodePackedSHA256({
+    required List<String> types,
+    required List<dynamic> params,
+  }) {
     return QuickCrypto.sha256Hash(encodePacked(types: types, params: params));
   }
 }
@@ -141,8 +164,12 @@ class _ABIValidator {
   ///
   /// Throws [SolidityAbiException] if the type is not "bytes" and
   /// [SolidityAbiException] if the length constraints are violated.
-  static void validateBytes(String typeName,
-      {List<int>? bytes, int? maxLength, int? minLength}) {
+  static void validateBytes(
+    String typeName, {
+    List<int>? bytes,
+    int? maxLength,
+    int? minLength,
+  }) {
     if (typeName.contains('bytes')) {
       if (bytes != null) {
         if (maxLength != null) {
@@ -158,7 +185,8 @@ class _ABIValidator {
       }
     } else {
       throw const SolidityAbiException(
-          'Invalid data provided for bytes codec.');
+        'Invalid data provided for bytes codec.',
+      );
     }
   }
 
@@ -179,7 +207,8 @@ class _ABIValidator {
       return;
     }
     throw const SolidityAbiException(
-        'Invalid data provided for boolean codec.');
+      'Invalid data provided for boolean codec.',
+    );
   }
 
   /// Validates the length of bytes to avoid decoding errors.
@@ -216,8 +245,9 @@ class _ABIValidator {
         sign = false;
       } else {
         throw SolidityAbiException(
-            'Invalid type name provided for number codec.',
-            details: {'type': type, 'value': value});
+          'Invalid type name provided for number codec.',
+          details: {'type': type, 'value': value.toString()},
+        );
       }
 
       if (sign) {
@@ -232,7 +262,9 @@ class _ABIValidator {
     } catch (e) {
       if (e is SolidityAbiException) rethrow;
     }
-    throw SolidityAbiException('Invalid data provided for number codec.',
-        details: {'type': type, 'value': value});
+    throw SolidityAbiException(
+      'Invalid data provided for number codec.',
+      details: {'type': type, 'value': value.toString()},
+    );
   }
 }

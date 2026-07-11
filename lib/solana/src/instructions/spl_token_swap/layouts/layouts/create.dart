@@ -37,11 +37,11 @@ class SPLTokenSwapInitSwapLayout extends SPLTokenSwapProgramLayout {
 
   /// The layout structure for creating a token swap.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        TokenSwapFees.staticLayout,
-        LayoutConst.u8(property: 'curveType'),
-        LayoutConst.blob(32, property: 'curveParameters'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    TokenSwapFees.staticLayout,
+    LayoutConst.u8(property: 'curveType'),
+    LayoutConst.blob(32, property: 'curveParameters'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

@@ -9,23 +9,27 @@ class Path extends BorshLayoutSerializable {
   final int index;
   final int padding;
 
-  Path(
-      {required List<SolAddress> proof,
-      required this.index,
-      required this.leaf,
-      required this.padding})
-      : proof = List<SolAddress>.unmodifiable(proof);
+  Path({
+    required List<SolAddress> proof,
+    required this.index,
+    required this.leaf,
+    required this.padding,
+  }) : proof = List<SolAddress>.unmodifiable(proof);
   factory Path.fromJson(Map<String, dynamic> json) {
     return Path(
-        proof: (json['proof'] as List).cast(),
-        index: json['index'],
-        leaf: json['leaf'],
-        padding: json['padding']);
+      proof: (json['proof'] as List).cast(),
+      index: json['index'],
+      leaf: json['leaf'],
+      padding: json['padding'],
+    );
   }
   static StructLayout staticLayout({required int maxDepth}) =>
       LayoutConst.struct([
-        LayoutConst.array(SolanaLayoutUtils.publicKey(), maxDepth,
-            property: 'proof'),
+        LayoutConst.array(
+          SolanaLayoutUtils.publicKey(),
+          maxDepth,
+          property: 'proof',
+        ),
         SolanaLayoutUtils.publicKey('leaf'),
         LayoutConst.u32(property: 'index'),
         LayoutConst.u32(property: 'padding'),

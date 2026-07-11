@@ -5,15 +5,19 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 class VkeyWitnessesSerializationConfig {
   final CborIterableEncodingType encoding;
   final List<int>? tags;
-  const VkeyWitnessesSerializationConfig(
-      {this.tags, this.encoding = CborIterableEncodingType.set});
+  const VkeyWitnessesSerializationConfig({
+    this.tags,
+    this.encoding = CborIterableEncodingType.set,
+  });
 
   factory VkeyWitnessesSerializationConfig.fromJson(Map<String, dynamic> json) {
     return VkeyWitnessesSerializationConfig(
-        tags: (json["tags"] as List?)?.cast(),
-        encoding: json["encoding"] == null
-            ? CborIterableEncodingType.set
-            : CborIterableEncodingType.fromName(json["encoding"]));
+      tags: (json["tags"] as List?)?.cast(),
+      encoding:
+          json["encoding"] == null
+              ? CborIterableEncodingType.set
+              : CborIterableEncodingType.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name, "tags": tags};
@@ -24,53 +28,63 @@ class VkeyWitnessesSerializationConfig {
 class VkeyWitnesses with InternalCborSerialization {
   final List<Vkeywitness> witnesses;
   final VkeyWitnessesSerializationConfig serializationConfig;
-  VkeyWitnesses(List<Vkeywitness> witnesses,
-      {this.serializationConfig = const VkeyWitnessesSerializationConfig()})
-      : witnesses = witnesses.immutable;
+  VkeyWitnesses(
+    List<Vkeywitness> witnesses, {
+    this.serializationConfig = const VkeyWitnessesSerializationConfig(),
+  }) : witnesses = witnesses.immutable;
   factory VkeyWitnesses.deserialize(CborObject cbor) {
     if (cbor.hasType<CborTagValue>()) {
-      final tag = cbor.as<CborTagValue>("witnesses");
-      final list = tag.valueAs<CborIterableObject>('witnesses');
+      final tag = cbor.as<CborTagValue>(operation: "witnesses");
+      final list = tag.asValue<CborIterableObject>(operation: 'witnesses');
       return VkeyWitnesses(
-          list
-              .valueAsListOf<CborListValue>("witnesses")
-              .map((e) => Vkeywitness.deserialize(e))
-              .toList(),
-          serializationConfig: VkeyWitnessesSerializationConfig(
-              encoding: list.encoding, tags: tag.tags));
-    }
-    final list = cbor.as<CborIterableObject>('witnesses');
-    return VkeyWitnesses(
         list
-            .valueAsListOf<CborListValue>("witnesses")
+            .allObjectsAs<CborListValue>()
             .map((e) => Vkeywitness.deserialize(e))
             .toList(),
-        serializationConfig:
-            VkeyWitnessesSerializationConfig(encoding: list.encoding));
+        serializationConfig: VkeyWitnessesSerializationConfig(
+          encoding: list.encoding,
+          tags: tag.tags,
+        ),
+      );
+    }
+    final list = cbor.as<CborIterableObject>(operation: 'witnesses');
+    return VkeyWitnesses(
+      list
+          .allObjectsAs<CborListValue>()
+          .map((e) => Vkeywitness.deserialize(e))
+          .toList(),
+      serializationConfig: VkeyWitnessesSerializationConfig(
+        encoding: list.encoding,
+      ),
+    );
   }
   factory VkeyWitnesses.fromJson(Map<String, dynamic> json) {
     return VkeyWitnesses(
-        (json["witnesses"] as List)
-            .map((e) => Vkeywitness.fromJson(e))
-            .toList(),
-        serializationConfig: VkeyWitnessesSerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      (json["witnesses"] as List).map((e) => Vkeywitness.fromJson(e)).toList(),
+      serializationConfig: VkeyWitnessesSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
 
   @override
   CborObject toCbor() {
-    final obj = () {
-      switch (serializationConfig.encoding) {
-        case CborIterableEncodingType.inDefinite:
-          return CborListValue.inDefinite(
-              witnesses.map((e) => e.toCbor()).toList());
-        case CborIterableEncodingType.definite:
-          return CborListValue.definite(
-              witnesses.map((e) => e.toCbor()).toList());
-        case CborIterableEncodingType.set:
-          return CborSetValue(witnesses.map((e) => e.toCbor()));
-      }
-    }() as CborObject;
+    final obj =
+        () {
+              switch (serializationConfig.encoding) {
+                case CborIterableEncodingType.inDefinite:
+                  return CborListValue.inDefinite(
+                    witnesses.map((e) => e.toCbor()).toList(),
+                  );
+                case CborIterableEncodingType.definite:
+                  return CborListValue.definite(
+                    witnesses.map((e) => e.toCbor()).toList(),
+                  );
+                case CborIterableEncodingType.set:
+                  return CborSetValue(witnesses.map((e) => e.toCbor()));
+              }
+            }()
+            as CborObject;
     final tags = serializationConfig.tags;
     if (tags != null) {
       return CborTagValue(obj, tags);
@@ -82,7 +96,7 @@ class VkeyWitnesses with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "witnesses": witnesses.map((e) => e.toJson()).toList(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }

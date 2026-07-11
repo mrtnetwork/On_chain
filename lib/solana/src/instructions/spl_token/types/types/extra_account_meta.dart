@@ -7,18 +7,19 @@ class ExtraAccountMeta extends BorshLayoutSerializable {
   final List<int> addressConfig;
   final bool isSigner;
   final bool isWritable;
-  ExtraAccountMeta(
-      {required this.discriminator,
-      required List<int> addressConfig,
-      required this.isSigner,
-      required this.isWritable})
-      : addressConfig = addressConfig.asImmutableBytes;
+  ExtraAccountMeta({
+    required this.discriminator,
+    required List<int> addressConfig,
+    required this.isSigner,
+    required this.isWritable,
+  }) : addressConfig = addressConfig.asImmutableBytes;
   factory ExtraAccountMeta.fromJson(Map<String, dynamic> json) {
     return ExtraAccountMeta(
-        discriminator: json['discriminator'],
-        addressConfig: (json['addressConfig'] as List).cast(),
-        isSigner: json['isSigner'],
-        isWritable: json['isWritable']);
+      discriminator: json['discriminator'],
+      addressConfig: (json['addressConfig'] as List).cast(),
+      isSigner: json['isSigner'],
+      isWritable: json['isWritable'],
+    );
   }
 
   static StructLayout staticLayout = LayoutConst.struct([
@@ -36,7 +37,7 @@ class ExtraAccountMeta extends BorshLayoutSerializable {
       'discriminator': discriminator,
       'addressConfig': addressConfig,
       'isSigner': isSigner,
-      'isWritable': isWritable
+      'isWritable': isWritable,
     };
   }
 

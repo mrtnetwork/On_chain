@@ -10,33 +10,42 @@ class MetaplexTokenMetaDataCreateMetadataAccountV3Layout
   final MetaDataV2 metaDataV2;
   final bool isMutable;
   final CollectionDetailsV1? collectionDetailsV1;
-  const MetaplexTokenMetaDataCreateMetadataAccountV3Layout(
-      {required this.metaDataV2,
-      required this.isMutable,
-      this.collectionDetailsV1});
+  const MetaplexTokenMetaDataCreateMetadataAccountV3Layout({
+    required this.metaDataV2,
+    required this.isMutable,
+    this.collectionDetailsV1,
+  });
 
   factory MetaplexTokenMetaDataCreateMetadataAccountV3Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .createMetadataAccountV3.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .createMetadataAccountV3
+              .insturction,
+    );
     return MetaplexTokenMetaDataCreateMetadataAccountV3Layout(
-        metaDataV2: MetaDataV2.fromJson(decode['metaDataV2']),
-        isMutable: decode['isMutable'],
-        collectionDetailsV1: decode['collectionDetails'] == null
-            ? null
-            : CollectionDetailsV1.fromJson(decode['collectionDetails']));
+      metaDataV2: MetaDataV2.fromJson(decode['metaDataV2']),
+      isMutable: decode['isMutable'],
+      collectionDetailsV1:
+          decode['collectionDetails'] == null
+              ? null
+              : CollectionDetailsV1.fromJson(decode['collectionDetails']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        MetaDataV2.staticLayout,
-        LayoutConst.boolean(property: 'isMutable'),
-        LayoutConst.optional(CollectionDetailsV1.staticLayout,
-            property: 'collectionDetails'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    MetaDataV2.staticLayout,
+    LayoutConst.boolean(property: 'isMutable'),
+    LayoutConst.optional(
+      CollectionDetailsV1.staticLayout,
+      property: 'collectionDetails',
+    ),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -50,7 +59,7 @@ class MetaplexTokenMetaDataCreateMetadataAccountV3Layout
     return {
       'metaDataV2': metaDataV2.serialize(),
       'isMutable': isMutable,
-      'collectionDetails': collectionDetailsV1?.serialize()
+      'collectionDetails': collectionDetailsV1?.serialize(),
     };
   }
 }

@@ -14,17 +14,18 @@ class ComputeBudgetSetComputeUnitLimitLayout
   /// Constructs the layout from raw bytes.
   factory ComputeBudgetSetComputeUnitLimitLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            ComputeBudgetProgramInstruction.setComputeUnitLimit.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          ComputeBudgetProgramInstruction.setComputeUnitLimit.insturction,
+    );
     return ComputeBudgetSetComputeUnitLimitLayout(units: decode['units']);
   }
   // StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'units'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'units'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

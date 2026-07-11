@@ -17,11 +17,14 @@ abstract class MetaplexAuctioneerProgramLayout extends ProgramLayout {
   @override
   abstract final MetaplexAuctioneerProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexAuctioneerProgramInstruction? instruction =
         MetaplexAuctioneerProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
 
     switch (instruction) {
       case MetaplexAuctioneerProgramInstruction.authorize:
@@ -49,6 +52,9 @@ abstract class MetaplexAuctioneerProgramLayout extends ProgramLayout {
     required List<int> instruction,
   }) {
     return BorshLayoutSerializable.decode(
-        bytes: bytes, layout: layout, validator: {'instruction': instruction});
+      bytes: bytes,
+      layout: layout,
+      validator: {'instruction': instruction},
+    );
   }
 }

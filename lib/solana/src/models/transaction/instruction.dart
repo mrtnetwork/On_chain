@@ -4,11 +4,11 @@ import 'package:on_chain/solana/src/models/account/account_meta.dart';
 
 /// Transaction Instruction
 class TransactionInstruction {
-  TransactionInstruction(
-      {required List<AccountMeta> keys,
-      required this.programId,
-      required this.data})
-      : keys = List<AccountMeta>.unmodifiable(keys);
+  TransactionInstruction({
+    required List<AccountMeta> keys,
+    required this.programId,
+    required this.data,
+  }) : keys = List<AccountMeta>.unmodifiable(keys);
 
   /// Public keys to include in this transaction
   /// Boolean represents whether this pubkey needs to sign the transaction

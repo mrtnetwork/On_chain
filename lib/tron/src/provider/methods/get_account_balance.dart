@@ -6,10 +6,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getaccountbalance).
 class TronRequestGetAccountBalance
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetAccountBalance(
-      {required this.accountIdentifier,
-      required this.blockIdentifier,
-      this.visible = true});
+  TronRequestGetAccountBalance({
+    required this.accountIdentifier,
+    required this.blockIdentifier,
+    this.visible = true,
+  });
 
   /// account_identifier
   final Map<String, TronAddress> accountIdentifier;
@@ -29,7 +30,7 @@ class TronRequestGetAccountBalance
         (key, value) => MapEntry(key, value.toAddress(visible)),
       ),
       'block_identifier': blockIdentifier,
-      'visible': visible
+      'visible': visible,
     };
   }
 

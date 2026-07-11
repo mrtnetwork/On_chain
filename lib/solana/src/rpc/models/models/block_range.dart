@@ -3,7 +3,9 @@ class RPCBlockRangeConfig {
   const RPCBlockRangeConfig({required this.firstSlot, this.lastSlot});
   factory RPCBlockRangeConfig.fromJson(Map<String, dynamic> json) {
     return RPCBlockRangeConfig(
-        firstSlot: json['firstSlot'], lastSlot: json['lastSlot']);
+      firstSlot: json['firstSlot'],
+      lastSlot: json['lastSlot'],
+    );
   }
 
   /// first slot to return block production information for (inclusive)
@@ -15,8 +17,8 @@ class RPCBlockRangeConfig {
     return {
       'range': {
         'firstSlot': firstSlot,
-        if (lastSlot != null) 'lastSlot': lastSlot
-      }
+        if (lastSlot != null) 'lastSlot': lastSlot,
+      },
     };
   }
 }

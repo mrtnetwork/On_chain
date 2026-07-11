@@ -8,18 +8,17 @@ class ExUnitPrices with InternalCborSerialization {
   const ExUnitPrices({required this.memPrice, required this.stepPrice});
   factory ExUnitPrices.deserialize(CborListValue cbor) {
     return ExUnitPrices(
-        memPrice: UnitInterval.deserialize(cbor.elementAt<CborTagValue>(0)),
-        stepPrice: UnitInterval.deserialize(cbor.elementAt<CborTagValue>(1)));
+      memPrice: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(0)),
+      stepPrice: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(1)),
+    );
   }
   factory ExUnitPrices.fromJson(Map<String, dynamic> json) {
     return ExUnitPrices(
-        memPrice: UnitInterval.fromJson(json['mem_price']),
-        stepPrice: UnitInterval.fromJson(json['step_price']));
+      memPrice: UnitInterval.fromJson(json['mem_price']),
+      stepPrice: UnitInterval.fromJson(json['step_price']),
+    );
   }
-  ExUnitPrices copyWith({
-    UnitInterval? memPrice,
-    UnitInterval? stepPrice,
-  }) {
+  ExUnitPrices copyWith({UnitInterval? memPrice, UnitInterval? stepPrice}) {
     return ExUnitPrices(
       memPrice: memPrice ?? this.memPrice,
       stepPrice: stepPrice ?? this.stepPrice,
@@ -28,10 +27,7 @@ class ExUnitPrices with InternalCborSerialization {
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      memPrice.toCbor(),
-      stepPrice.toCbor(),
-    ]);
+    return CborListValue.definite([memPrice.toCbor(), stepPrice.toCbor()]);
   }
 
   @override

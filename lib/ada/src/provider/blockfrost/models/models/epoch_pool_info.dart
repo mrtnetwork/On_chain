@@ -43,14 +43,14 @@ class ADAPoolEpochInfoResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'epoch': epoch,
-        'blocks': blocks,
-        'active_stake': activeStake,
-        'active_size': activeSize,
-        'delegators_count': delegatorsCount,
-        'rewards': rewards,
-        'fees': fees,
-      };
+    'epoch': epoch,
+    'blocks': blocks,
+    'active_stake': activeStake,
+    'active_size': activeSize,
+    'delegators_count': delegatorsCount,
+    'rewards': rewards,
+    'fees': fees,
+  };
 
   @override
   String toString() {

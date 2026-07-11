@@ -8,12 +8,16 @@ class StakePoolCleanupRemovedValidatorEntriesLayout
   const StakePoolCleanupRemovedValidatorEntriesLayout();
 
   factory StakePoolCleanupRemovedValidatorEntriesLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: StakePoolProgramInstruction
-            .cleanupRemovedValidatorEntries.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          StakePoolProgramInstruction
+              .cleanupRemovedValidatorEntries
+              .insturction,
+    );
     return const StakePoolCleanupRemovedValidatorEntriesLayout();
   }
   @override

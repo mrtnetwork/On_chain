@@ -8,8 +8,9 @@ class ProtocolVersion with InternalCborSerialization {
 
   factory ProtocolVersion.deserialize(CborListValue cbor) {
     return ProtocolVersion(
-        major: cbor.elementAt<CborIntValue>(0).value,
-        minor: cbor.elementAt<CborIntValue>(1).value);
+      major: cbor.objectAt<CborIntValue>(0).value,
+      minor: cbor.objectAt<CborIntValue>(1).value,
+    );
   }
   factory ProtocolVersion.fromJson(Map<String, dynamic> json) {
     return ProtocolVersion(major: json['major'], minor: json['minor']);

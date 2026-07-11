@@ -6,14 +6,15 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/exchangecreate).
 class TronRequestExchangeCreate
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestExchangeCreate(
-      {required this.ownerAddress,
-      required this.firstTokenId,
-      required this.firstTokenBalance,
-      required this.secondTokenId,
-      required this.secondTokenBalance,
-      this.permissionId,
-      this.visible = true});
+  TronRequestExchangeCreate({
+    required this.ownerAddress,
+    required this.firstTokenId,
+    required this.firstTokenBalance,
+    required this.secondTokenId,
+    required this.secondTokenBalance,
+    this.permissionId,
+    this.visible = true,
+  });
   final TronAddress ownerAddress;
 
   /// The first token's id
@@ -46,7 +47,7 @@ class TronRequestExchangeCreate
       'second_token_id': secondTokenId,
       'second_token_balance': secondTokenBalance,
       'permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

@@ -21,8 +21,8 @@ class SolanaRPCGetMultisigAccount
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         SolanaRequestEncoding.base64.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 
@@ -31,6 +31,8 @@ class SolanaRPCGetMultisigAccount
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return SolanaMultiSigAccount.fromBuffer(
-        address: account, data: accountInfo.toBytesData());
+      address: account,
+      data: accountInfo.toBytesData(),
+    );
   }
 }

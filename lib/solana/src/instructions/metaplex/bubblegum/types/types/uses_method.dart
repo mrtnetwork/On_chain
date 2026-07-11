@@ -11,9 +11,12 @@ class UseMethod {
   static UseMethod fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No UsesMethod found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No UsesMethod found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

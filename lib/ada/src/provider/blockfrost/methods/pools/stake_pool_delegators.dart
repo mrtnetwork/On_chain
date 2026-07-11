@@ -4,11 +4,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of current stake pools delegators.
 /// https://blockfrost.dev/api/stake-pool-delegators
-class BlockfrostRequestStakePoolDelegators extends BlockFrostRequest<
-    List<ADAPoolDelegatorInfoResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestStakePoolDelegators(this.poolId,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestStakePoolDelegators
+    extends
+        BlockFrostRequest<
+          List<ADAPoolDelegatorInfoResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestStakePoolDelegators(
+    this.poolId, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// Bech32 or hexadecimal pool ID.
   final String poolId;
@@ -22,7 +27,8 @@ class BlockfrostRequestStakePoolDelegators extends BlockFrostRequest<
 
   @override
   List<ADAPoolDelegatorInfoResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result.map((e) => ADAPoolDelegatorInfoResponse.fromJson(e)).toList();
   }
 }

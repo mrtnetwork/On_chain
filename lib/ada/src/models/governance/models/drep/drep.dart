@@ -15,17 +15,17 @@ abstract class DRep with InternalCborSerialization {
       DRepType.drepScriptHash => DRepScriptHash.fromJson(json),
       DRepType.alwaysAbstain => AlwaysAbstain.fromJson(json),
       DRepType.alwaysNoConfidence => AlwaysNoConfidence.fromJson(json),
-      _ => throw UnimplementedError("Invalid drep type.")
+      _ => throw UnimplementedError("Invalid drep type."),
     };
   }
   factory DRep.deserialize(CborListValue cbor) {
-    final type = DRepType.deserialize(cbor.elementAt<CborIntValue>(0));
+    final type = DRepType.deserialize(cbor.objectAt<CborIntValue>(0));
     return switch (type) {
       DRepType.drepKeyHash => DRepKeyHash.deserialize(cbor),
       DRepType.drepScriptHash => DRepScriptHash.deserialize(cbor),
       DRepType.alwaysAbstain => AlwaysAbstain.deserialize(cbor),
       DRepType.alwaysNoConfidence => AlwaysNoConfidence.deserialize(cbor),
-      _ => throw UnimplementedError("Invalid drep type.")
+      _ => throw UnimplementedError("Invalid drep type."),
     };
   }
 }
@@ -34,10 +34,13 @@ class DRepKeyHash extends DRep {
   final Ed25519KeyHash key;
   const DRepKeyHash(this.key) : super(type: DRepType.drepKeyHash);
   factory DRepKeyHash.deserialize(CborListValue cbor) {
-    DRepType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: DRepType.drepKeyHash);
+    DRepType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: DRepType.drepKeyHash,
+    );
     return DRepKeyHash(
-        Ed25519KeyHash.deserialize(cbor.elementAt<CborBytesValue>(1)));
+      Ed25519KeyHash.deserialize(cbor.objectAt<CborBytesValue>(1)),
+    );
   }
   factory DRepKeyHash.fromJson(Map<String, dynamic> json) {
     DRepType.fromJson(json, validate: DRepType.drepKeyHash);
@@ -59,10 +62,13 @@ class DRepScriptHash extends DRep {
   final ScriptHash scriptHash;
   const DRepScriptHash(this.scriptHash) : super(type: DRepType.drepScriptHash);
   factory DRepScriptHash.deserialize(CborListValue cbor) {
-    DRepType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: DRepType.drepScriptHash);
+    DRepType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: DRepType.drepScriptHash,
+    );
     return DRepScriptHash(
-        ScriptHash.deserialize(cbor.elementAt<CborBytesValue>(1)));
+      ScriptHash.deserialize(cbor.objectAt<CborBytesValue>(1)),
+    );
   }
   factory DRepScriptHash.fromJson(Map<String, dynamic> json) {
     DRepType.fromJson(json, validate: DRepType.drepScriptHash);
@@ -83,8 +89,10 @@ class DRepScriptHash extends DRep {
 class AlwaysAbstain extends DRep {
   const AlwaysAbstain() : super(type: DRepType.alwaysAbstain);
   factory AlwaysAbstain.deserialize(CborListValue cbor) {
-    DRepType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: DRepType.alwaysAbstain);
+    DRepType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: DRepType.alwaysAbstain,
+    );
     return AlwaysAbstain();
   }
   factory AlwaysAbstain.fromJson(Map<String, dynamic> json) {
@@ -106,8 +114,10 @@ class AlwaysAbstain extends DRep {
 class AlwaysNoConfidence extends DRep {
   const AlwaysNoConfidence() : super(type: DRepType.alwaysNoConfidence);
   factory AlwaysNoConfidence.deserialize(CborListValue cbor) {
-    DRepType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: DRepType.alwaysNoConfidence);
+    DRepType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: DRepType.alwaysNoConfidence,
+    );
     return AlwaysNoConfidence();
   }
   factory AlwaysNoConfidence.fromJson(Map<String, dynamic> json) {

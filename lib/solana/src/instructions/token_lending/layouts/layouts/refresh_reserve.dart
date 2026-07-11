@@ -7,9 +7,10 @@ class TokenLendingRefreshReserveLayout extends TokenLendingProgramLayout {
 
   factory TokenLendingRefreshReserveLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: TokenLendingProgramInstruction.refreshReserve.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: TokenLendingProgramInstruction.refreshReserve.insturction,
+    );
     return const TokenLendingRefreshReserveLayout();
   }
 

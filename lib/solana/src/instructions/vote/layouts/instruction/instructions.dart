@@ -10,17 +10,21 @@ class VoteProgramInstruction implements ProgramLayoutInstruction {
   const VoteProgramInstruction(this.insturction, this.name);
   static const VoteProgramInstruction initializeAccount =
       VoteProgramInstruction(0, 'InitializeAccount');
-  static const VoteProgramInstruction authorize =
-      VoteProgramInstruction(1, 'Authorize');
-  static const VoteProgramInstruction withdraw =
-      VoteProgramInstruction(3, 'Withdraw');
+  static const VoteProgramInstruction authorize = VoteProgramInstruction(
+    1,
+    'Authorize',
+  );
+  static const VoteProgramInstruction withdraw = VoteProgramInstruction(
+    3,
+    'Withdraw',
+  );
   static const VoteProgramInstruction authorizeWithSeed =
       VoteProgramInstruction(10, 'AuthorizeWithSeed');
   static const List<VoteProgramInstruction> values = [
     initializeAccount,
     authorize,
     withdraw,
-    authorizeWithSeed
+    authorizeWithSeed,
   ];
   static VoteProgramInstruction? getInstruction(dynamic value) {
     try {

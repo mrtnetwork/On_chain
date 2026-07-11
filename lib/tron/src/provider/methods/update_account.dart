@@ -9,19 +9,24 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/updateaccount).
 class TronRequestUpdateAccount
     extends TronRequest<Transaction, Map<String, dynamic>> {
-  factory TronRequestUpdateAccount.fromContract(AccountUpdateContract contract,
-      {int? permissionId, bool visible = true}) {
+  factory TronRequestUpdateAccount.fromContract(
+    AccountUpdateContract contract, {
+    int? permissionId,
+    bool visible = true,
+  }) {
     return TronRequestUpdateAccount(
-        ownerAddress: contract.ownerAddress,
-        accountName: StringUtils.decode(contract.accountName),
-        pemissionId: permissionId,
-        visible: visible);
+      ownerAddress: contract.ownerAddress,
+      accountName: StringUtils.decode(contract.accountName),
+      pemissionId: permissionId,
+      visible: visible,
+    );
   }
-  TronRequestUpdateAccount(
-      {required this.ownerAddress,
-      required this.accountName,
-      this.pemissionId,
-      this.visible = true});
+  TronRequestUpdateAccount({
+    required this.ownerAddress,
+    required this.accountName,
+    this.pemissionId,
+    this.visible = true,
+  });
 
   /// Owner_address is the account address to be modified,
   final TronAddress ownerAddress;
@@ -42,7 +47,7 @@ class TronRequestUpdateAccount
       'owner_address': ownerAddress.toAddress(visible),
       'account_name': accountName,
       'visible': visible,
-      'Permission_id': pemissionId
+      'Permission_id': pemissionId,
     };
   }
 

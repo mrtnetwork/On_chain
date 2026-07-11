@@ -4,26 +4,32 @@ import 'package:blockchain_utils/layout/layout.dart';
 class MetaplexAuctionHousePrintPurchaseReceiptLayout
     extends MetaplexAuctionHouseProgramLayout {
   final int purchaseReceiptBump;
-  const MetaplexAuctionHousePrintPurchaseReceiptLayout(
-      {required this.purchaseReceiptBump});
+  const MetaplexAuctionHousePrintPurchaseReceiptLayout({
+    required this.purchaseReceiptBump,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHousePrintPurchaseReceiptLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .printPurchaseReceipt.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction
+              .printPurchaseReceipt
+              .insturction,
+    );
     return MetaplexAuctionHousePrintPurchaseReceiptLayout(
-        purchaseReceiptBump: decode['purchaseReceiptBump']);
+      purchaseReceiptBump: decode['purchaseReceiptBump'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'purchaseReceiptBump'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'purchaseReceiptBump'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

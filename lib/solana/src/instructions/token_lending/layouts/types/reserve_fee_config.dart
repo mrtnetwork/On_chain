@@ -20,28 +20,30 @@ class ReserveFeesConfig {
 
   /// Amount of fee going to host account, if provided in liquidate and repay
   final int hostFeePercentage;
-  const ReserveFeesConfig(
-      {required this.borrowFeeWad,
-      required this.flashLoanFeeWad,
-      required this.hostFeePercentage});
+  const ReserveFeesConfig({
+    required this.borrowFeeWad,
+    required this.flashLoanFeeWad,
+    required this.hostFeePercentage,
+  });
   factory ReserveFeesConfig.fromJson(Map<String, dynamic> json) {
     return ReserveFeesConfig(
-        borrowFeeWad: json['borrowFeeWad'],
-        flashLoanFeeWad: json['flashLoanFeeWad'],
-        hostFeePercentage: json['hostFeePercentage']);
+      borrowFeeWad: json['borrowFeeWad'],
+      flashLoanFeeWad: json['flashLoanFeeWad'],
+      hostFeePercentage: json['hostFeePercentage'],
+    );
   }
 
   static StructLayout layout = LayoutConst.struct([
     LayoutConst.u64(property: 'borrowFeeWad'),
     LayoutConst.u64(property: 'flashLoanFeeWad'),
-    LayoutConst.u8(property: 'hostFeePercentage')
+    LayoutConst.u8(property: 'hostFeePercentage'),
   ], property: 'fees');
 
   Map<String, dynamic> serialize() {
     return {
       'borrowFeeWad': borrowFeeWad,
       'flashLoanFeeWad': flashLoanFeeWad,
-      'hostFeePercentage': hostFeePercentage
+      'hostFeePercentage': hostFeePercentage,
     };
   }
 

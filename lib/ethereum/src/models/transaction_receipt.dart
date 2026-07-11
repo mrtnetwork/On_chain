@@ -50,8 +50,9 @@ class TransactionReceipt {
     final gasUsed = this.gasUsed;
     final effectiveGasPrice = this.effectiveGasPrice;
     if (gasUsed == null || effectiveGasPrice == null) return "0";
-    return AmountConverter.eth
-        .toAmount(BigInt.from(gasUsed) * BigInt.from(effectiveGasPrice));
+    return AmountConverter.eth.toAmount(
+      BigInt.from(gasUsed) * BigInt.from(effectiveGasPrice),
+    );
   }
 
   /// Creates a new instance of the [TransactionReceipt] class.
@@ -74,26 +75,26 @@ class TransactionReceipt {
 
   /// Creates a [TransactionReceipt] instance from a JSON map.
   factory TransactionReceipt.fromJson(Map<String, dynamic> json) {
-    final List<LogEntry>? logs = (json.valueAsList<List?>("logs"))
-        ?.map((e) => LogEntry.fromJson(e))
-        .toList();
+    final List<LogEntry>? logs =
+        (json.valueAsList<List?>(
+          "logs",
+        ))?.map((e) => LogEntry.fromJson(e)).toList();
     return TransactionReceipt(
-        logs: logs ?? [],
-        blockHash: json.valueAs("blockHash"),
-        blockNumber: PluginIntUtils.tryHexToInt(json['blockNumber']),
-        contractAddress: json.valueAs("contractAddress"),
-        cumulativeGasUsed:
-            PluginIntUtils.tryHexToInt(json['cumulativeGasUsed']),
-        effectiveGasPrice:
-            PluginIntUtils.tryHexToInt(json['effectiveGasPrice']),
-        from: json.valueAs("from"),
-        gasUsed: PluginIntUtils.tryHexToInt(json['gasUsed']),
-        logsBloom: json.valueAs("logsBloom"),
-        status: PluginIntUtils.tryHexToBool(json['status']),
-        to: json.valueAs("to"),
-        transactionHash: json.valueAs("transactionHash"),
-        transactionIndex: PluginIntUtils.tryHexToInt(json['transactionIndex']),
-        type: PluginIntUtils.hexToInt(json['type']));
+      logs: logs ?? [],
+      blockHash: json.valueAs("blockHash"),
+      blockNumber: PluginIntUtils.tryHexToInt(json['blockNumber']),
+      contractAddress: json.valueAs("contractAddress"),
+      cumulativeGasUsed: PluginIntUtils.tryHexToInt(json['cumulativeGasUsed']),
+      effectiveGasPrice: PluginIntUtils.tryHexToInt(json['effectiveGasPrice']),
+      from: json.valueAs("from"),
+      gasUsed: PluginIntUtils.tryHexToInt(json['gasUsed']),
+      logsBloom: json.valueAs("logsBloom"),
+      status: PluginIntUtils.tryHexToBool(json['status']),
+      to: json.valueAs("to"),
+      transactionHash: json.valueAs("transactionHash"),
+      transactionIndex: PluginIntUtils.tryHexToInt(json['transactionIndex']),
+      type: PluginIntUtils.hexToInt(json['type']),
+    );
   }
 
   /// Converts the [TransactionReceipt] instance to a JSON map.
@@ -103,21 +104,24 @@ class TransactionReceipt {
       'blockNumber':
           blockNumber != null ? '0x${blockNumber!.toRadixString(16)}' : null,
       'contractAddress': contractAddress,
-      'cumulativeGasUsed': cumulativeGasUsed != null
-          ? '0x${cumulativeGasUsed!.toRadixString(16)}'
-          : null,
-      'effectiveGasPrice': effectiveGasPrice != null
-          ? '0x${effectiveGasPrice!.toRadixString(16)}'
-          : null,
+      'cumulativeGasUsed':
+          cumulativeGasUsed != null
+              ? '0x${cumulativeGasUsed!.toRadixString(16)}'
+              : null,
+      'effectiveGasPrice':
+          effectiveGasPrice != null
+              ? '0x${effectiveGasPrice!.toRadixString(16)}'
+              : null,
       'from': from,
       'gasUsed': gasUsed != null ? '0x${gasUsed!.toRadixString(16)}' : null,
       'logsBloom': logsBloom,
       'status': status != null ? (status! ? '0x1' : '0x0') : null,
       'to': to,
       'transactionHash': transactionHash,
-      'transactionIndex': transactionIndex != null
-          ? '0x${transactionIndex!.toRadixString(16)}'
-          : null,
+      'transactionIndex':
+          transactionIndex != null
+              ? '0x${transactionIndex!.toRadixString(16)}'
+              : null,
       'type': '0x${type.toRadixString(16)}',
       'logs': logs.map((log) => log.toJson()).toList(),
     }.notNullValue;

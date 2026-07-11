@@ -19,44 +19,50 @@ class MetaData extends BorshLayoutSerializable {
   final Uses? uses;
   final TokenProgramVersion tokenProgramVersion;
   final List<Creator> creators;
-  const MetaData(
-      {required this.name,
-      required this.symbol,
-      required this.uri,
-      required this.sellerFeeBasisPoints,
-      required this.primarySaleHappened,
-      required this.isMutable,
-      required this.editionNonce,
-      required this.tokenStandard,
-      required this.collection,
-      required this.uses,
-      required this.tokenProgramVersion,
-      required this.creators});
+  const MetaData({
+    required this.name,
+    required this.symbol,
+    required this.uri,
+    required this.sellerFeeBasisPoints,
+    required this.primarySaleHappened,
+    required this.isMutable,
+    required this.editionNonce,
+    required this.tokenStandard,
+    required this.collection,
+    required this.uses,
+    required this.tokenProgramVersion,
+    required this.creators,
+  });
   factory MetaData.fromJson(Map<String, dynamic> json) {
     return MetaData(
-        name: json['name'],
-        symbol: json['symbol'],
-        uri: json['uri'],
-        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
-        primarySaleHappened: json['primarySaleHappened'],
-        isMutable: json['isMutable'],
-        editionNonce: json['editionNonce'],
-        tokenStandard: json['tokenStandard'] == null
-            ? null
-            : TokenStandard.fromValue(json['tokenStandard']),
-        collection: json['collection'] == null
-            ? null
-            : Collection.fromJson(json['collection']),
-        uses: json['uses'] == null ? null : Uses.fromJson(json['uses']),
-        tokenProgramVersion:
-            TokenProgramVersion.fromValue(json['tokenProgramVersion']),
-        creators: (json['creators'] as List)
-            .map((e) => Creator.fromJson(e))
-            .toList());
+      name: json['name'],
+      symbol: json['symbol'],
+      uri: json['uri'],
+      sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
+      primarySaleHappened: json['primarySaleHappened'],
+      isMutable: json['isMutable'],
+      editionNonce: json['editionNonce'],
+      tokenStandard:
+          json['tokenStandard'] == null
+              ? null
+              : TokenStandard.fromValue(json['tokenStandard']),
+      collection:
+          json['collection'] == null
+              ? null
+              : Collection.fromJson(json['collection']),
+      uses: json['uses'] == null ? null : Uses.fromJson(json['uses']),
+      tokenProgramVersion: TokenProgramVersion.fromValue(
+        json['tokenProgramVersion'],
+      ),
+      creators:
+          (json['creators'] as List).map((e) => Creator.fromJson(e)).toList(),
+    );
   }
   factory MetaData.fromBuffer(List<int> bytes) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: bytes, layout: staticLayout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: bytes,
+      layout: staticLayout,
+    );
     return MetaData.fromJson(decode);
   }
   static StructLayout staticLayout = LayoutConst.struct([
@@ -71,7 +77,7 @@ class MetaData extends BorshLayoutSerializable {
     LayoutConst.optional(Collection.staticLayout, property: 'collection'),
     LayoutConst.optional(Uses.staticLayout, property: 'uses'),
     LayoutConst.u8(property: 'tokenProgramVersion'),
-    LayoutConst.vec(Creator.creatorLayout, property: 'creators')
+    LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
   ], property: 'metaData');
 
   @override
@@ -90,7 +96,7 @@ class MetaData extends BorshLayoutSerializable {
       'collection': collection?.serialize(),
       'uses': uses?.serialize(),
       'tokenProgramVersion': tokenProgramVersion.value,
-      'creators': creators.map((e) => e.serialize()).toList()
+      'creators': creators.map((e) => e.serialize()).toList(),
     };
   }
 

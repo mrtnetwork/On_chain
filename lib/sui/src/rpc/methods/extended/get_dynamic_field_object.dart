@@ -3,11 +3,14 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 
 /// Return the dynamic field object information for a specified object
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_getdynamicfieldobject)
-class SuiRequestGetDynamicFieldObject extends SuiRequest<
-    SuiApiGetDynamicFieldObjectResponse, Map<String, dynamic>> {
+class SuiRequestGetDynamicFieldObject
+    extends
+        SuiRequest<SuiApiGetDynamicFieldObjectResponse, Map<String, dynamic>> {
   /// The owner's Sui address
-  const SuiRequestGetDynamicFieldObject(
-      {required this.parentObjectId, required this.name});
+  const SuiRequestGetDynamicFieldObject({
+    required this.parentObjectId,
+    required this.name,
+  });
 
   /// The ID of the queried parent object
   final String parentObjectId;

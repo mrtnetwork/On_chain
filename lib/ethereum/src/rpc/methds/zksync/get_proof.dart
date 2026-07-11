@@ -15,8 +15,11 @@ class ZKSRequestGetProof
   /// Number of the L1 batch specifying the point in time at which the requested values are returned.
   final int total;
 
-  const ZKSRequestGetProof(
-      {required this.address, required this.keys, required this.total});
+  const ZKSRequestGetProof({
+    required this.address,
+    required this.keys,
+    required this.total,
+  });
   @override
   String get method => "zks_getProof";
   @override

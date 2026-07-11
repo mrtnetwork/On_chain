@@ -31,11 +31,11 @@ class ADAAmountResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'unit': unit,
-        'quantity': quantity,
-        'decimals': decimals,
-        'hasNftOnchainMetadata': hasNftOnchainMetadata
-      };
+    'unit': unit,
+    'quantity': quantity,
+    'decimals': decimals,
+    'hasNftOnchainMetadata': hasNftOnchainMetadata,
+  };
   bool get islovelace => unit == ADAHelper.adaUnit;
 
   (PolicyID, AssetName)? get policyAndAssetName {

@@ -30,8 +30,11 @@ void _stringRoundTrip() {
     for (final memo in memos) {
       final encoded = MemoLayout.fromString(memo).toBytes();
       final decoded = MemoLayout.fromBuffer(encoded);
-      expect(decoded.memo, memo,
-          reason: 'fromBuffer(fromString(x)).memo must equal x for "$memo"');
+      expect(
+        decoded.memo,
+        memo,
+        reason: 'fromBuffer(fromString(x)).memo must equal x for "$memo"',
+      );
     }
   });
 }
@@ -52,8 +55,9 @@ void _nonAscii() {
     expect(MemoLayout.fromString('é').toBytes(), [0xC3, 0xA9]);
     const memos = ['привет 🚀', 'café', '日本語'];
     for (final memo in memos) {
-      final decoded =
-          MemoLayout.fromBuffer(MemoLayout.fromString(memo).toBytes());
+      final decoded = MemoLayout.fromBuffer(
+        MemoLayout.fromString(memo).toBytes(),
+      );
       expect(decoded.memo, memo);
     }
   });

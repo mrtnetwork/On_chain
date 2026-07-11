@@ -9,13 +9,15 @@ class BooleanCoder implements ABICoder<bool, bool> {
   /// Validates the decoded value using _ABIValidator.
   @override
   DecoderResult<bool> decode(AbiParameter params, List<int> bytes) {
-    final toBigInt =
-        BigintUtils.fromBytes(bytes.sublist(0, ABIConst.uintBytesLength));
+    final toBigInt = BigintUtils.fromBytes(
+      bytes.sublist(0, ABIConst.uintBytesLength),
+    );
     _ABIValidator.validateBoolean(params, toBigInt);
     return DecoderResult(
-        result: toBigInt == BigInt.one,
-        consumed: ABIConst.uintBytesLength,
-        name: params.name);
+      result: toBigInt == BigInt.one,
+      consumed: ABIConst.uintBytesLength,
+      name: params.name,
+    );
   }
 
   /// Encodes a boolean value to ABI-encoded bytes.

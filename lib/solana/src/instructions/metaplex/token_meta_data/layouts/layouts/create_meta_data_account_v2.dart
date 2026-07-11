@@ -9,18 +9,21 @@ class MetaplexTokenMetaDataCreateMetadataAccountV2Layout
   const MetaplexTokenMetaDataCreateMetadataAccountV2Layout();
 
   factory MetaplexTokenMetaDataCreateMetadataAccountV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .createMetadataAccountV2.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .createMetadataAccountV2
+              .insturction,
+    );
     return const MetaplexTokenMetaDataCreateMetadataAccountV2Layout();
   }
 
-  static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-      ]);
+  static StructLayout get _layout =>
+      LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
 
   @override
   StructLayout get layout => _layout;

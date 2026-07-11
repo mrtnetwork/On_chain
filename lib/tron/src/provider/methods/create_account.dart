@@ -8,23 +8,25 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// Activate an account. [developers.tron.network](https://developers.tron.network/reference/account-createaccount).
 class TronRequestCreateAccount
     extends TronRequest<Transaction, Map<String, dynamic>> {
-  TronRequestCreateAccount(
-      {required this.ownerAddress,
-      required this.accountAddress,
-      this.type,
-      this.permissionId,
-      this.visible = true});
+  TronRequestCreateAccount({
+    required this.ownerAddress,
+    required this.accountAddress,
+    this.type,
+    this.permissionId,
+    this.visible = true,
+  });
   factory TronRequestCreateAccount.fromContract(
     AccountCreateContract contract, {
     int? permissionId,
     bool visible = true,
   }) {
     return TronRequestCreateAccount(
-        ownerAddress: contract.ownerAddress,
-        accountAddress: contract.accountAddress,
-        type: contract.type?.name,
-        permissionId: permissionId,
-        visible: visible);
+      ownerAddress: contract.ownerAddress,
+      accountAddress: contract.accountAddress,
+      type: contract.type?.name,
+      permissionId: permissionId,
+      visible: visible,
+    );
   }
 
   /// Transaction initiator address
@@ -50,7 +52,7 @@ class TronRequestCreateAccount
       'account_address': accountAddress.toAddress(visible),
       'permission_id': permissionId,
       'type': type,
-      'visible': visible
+      'visible': visible,
     };
   }
 

@@ -30,6 +30,10 @@ void main() {
 
     final decode = ETHTransaction.fromSerialized(signedSerialize);
     expect(decode.signedSerialized(), signedSerialize);
+    expect(
+      ETHAddress.deserializeIAddress(bytes: addr.encodeAsIAddress()),
+      addr,
+    );
   });
 
   /// A zero-valued BigInt field must be RLP-encoded as the canonical empty byte

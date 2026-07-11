@@ -54,8 +54,10 @@ class ResourceCode implements TronEnumerate {
   ///
   /// Throws an error if no match is found.
   static ResourceCode fromValue(int? val, {ResourceCode? orElse}) {
-    return values.firstWhere((element) => element.value == val,
-        orElse: orElse == null ? null : () => orElse);
+    return values.firstWhere(
+      (element) => element.value == val,
+      orElse: orElse == null ? null : () => orElse,
+    );
   }
 
   @override

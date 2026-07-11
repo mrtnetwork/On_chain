@@ -5,8 +5,10 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_getdynamicfields)
 class SuiRequestGetDynamicFields
     extends SuiRequest<SuiApiGetDynamicFieldsResponse, Map<String, dynamic>> {
-  const SuiRequestGetDynamicFields(
-      {required this.parentObjectId, super.pagination});
+  const SuiRequestGetDynamicFields({
+    required this.parentObjectId,
+    super.pagination,
+  });
 
   /// The ID of the queried parent object
   final String parentObjectId;

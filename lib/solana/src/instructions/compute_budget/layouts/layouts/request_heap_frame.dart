@@ -13,17 +13,17 @@ class ComputeBudgetRequestHeapFrameLayout extends ComputeBudgetProgramLayout {
   /// Constructs the layout from raw bytes.
   factory ComputeBudgetRequestHeapFrameLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            ComputeBudgetProgramInstruction.requestHeapFrame.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: ComputeBudgetProgramInstruction.requestHeapFrame.insturction,
+    );
     return ComputeBudgetRequestHeapFrameLayout(bytes: decode['bytes']);
   }
   // StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'bytes'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'bytes'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

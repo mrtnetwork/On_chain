@@ -6,8 +6,10 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getassetissuelist).
 class TronRequestGetAvailableUnfreezeCount
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetAvailableUnfreezeCount(
-      {required this.ownerAddress, this.visible = true});
+  TronRequestGetAvailableUnfreezeCount({
+    required this.ownerAddress,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -22,7 +24,7 @@ class TronRequestGetAvailableUnfreezeCount
   Map<String, dynamic> toJson() {
     return {
       'owner_address': ownerAddress.toAddress(visible),
-      'visible': visible
+      'visible': visible,
     };
   }
 

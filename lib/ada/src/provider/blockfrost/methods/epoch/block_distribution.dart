@@ -6,9 +6,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/block-distribution
 class BlockfrostRequestBlockDistribution
     extends BlockFrostRequest<List<String>, List<dynamic>> {
-  BlockfrostRequestBlockDistribution(this.epoch,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+  BlockfrostRequestBlockDistribution(
+    this.epoch, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// Number of the epoch
   final int epoch;

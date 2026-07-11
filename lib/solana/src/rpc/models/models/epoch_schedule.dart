@@ -15,18 +15,20 @@ class EpochSchedule {
   /// The first slot of [firstNormalEpoch]
   final int firstNormalSlot;
 
-  const EpochSchedule(
-      {required this.slotsPerEpoch,
-      required this.leaderScheduleSlotOffset,
-      required this.warmup,
-      required this.firstNormalEpoch,
-      required this.firstNormalSlot});
+  const EpochSchedule({
+    required this.slotsPerEpoch,
+    required this.leaderScheduleSlotOffset,
+    required this.warmup,
+    required this.firstNormalEpoch,
+    required this.firstNormalSlot,
+  });
   factory EpochSchedule.fromJson(Map<String, dynamic> json) {
     return EpochSchedule(
-        slotsPerEpoch: json['slotsPerEpoch'],
-        leaderScheduleSlotOffset: json['leaderScheduleSlotOffset'],
-        warmup: json['warmup'],
-        firstNormalEpoch: json['firstNormalEpoch'],
-        firstNormalSlot: json['firstNormalSlot']);
+      slotsPerEpoch: json['slotsPerEpoch'],
+      leaderScheduleSlotOffset: json['leaderScheduleSlotOffset'],
+      warmup: json['warmup'],
+      firstNormalEpoch: json['firstNormalEpoch'],
+      firstNormalSlot: json['firstNormalSlot'],
+    );
   }
 }

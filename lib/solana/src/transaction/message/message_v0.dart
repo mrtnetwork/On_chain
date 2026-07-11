@@ -35,18 +35,20 @@ class MessageV0 implements VersionedMessage {
   });
 
   @override
-  MessageV0 copyWith(
-      {MessageHeader? header,
-      List<SolAddress>? accountKeys,
-      SolAddress? recentBlockhash,
-      List<CompiledInstruction>? compiledInstructions,
-      List<AddressTableLookup>? addressTableLookups}) {
+  MessageV0 copyWith({
+    MessageHeader? header,
+    List<SolAddress>? accountKeys,
+    SolAddress? recentBlockhash,
+    List<CompiledInstruction>? compiledInstructions,
+    List<AddressTableLookup>? addressTableLookups,
+  }) {
     return MessageV0(
-        header: header ?? this.header,
-        accountKeys: accountKeys ?? this.accountKeys,
-        recentBlockhash: recentBlockhash ?? this.recentBlockhash,
-        compiledInstructions: compiledInstructions ?? this.compiledInstructions,
-        addressTableLookups: addressTableLookups ?? this.addressTableLookups);
+      header: header ?? this.header,
+      accountKeys: accountKeys ?? this.accountKeys,
+      recentBlockhash: recentBlockhash ?? this.recentBlockhash,
+      compiledInstructions: compiledInstructions ?? this.compiledInstructions,
+      addressTableLookups: addressTableLookups ?? this.addressTableLookups,
+    );
   }
 
   /// Compiles a version 0 message from provided parameters.
@@ -75,8 +77,10 @@ class MessageV0 implements VersionedMessage {
 
   /// Gets the number of account keys from lookups.
   int get numAccountKeysFromLookups {
-    return addressTableLookups.fold<int>(0,
-        (previousValue, element) => previousValue + element.numberOfAccounts);
+    return addressTableLookups.fold<int>(
+      0,
+      (previousValue, element) => previousValue + element.numberOfAccounts,
+    );
   }
 
   /// Gets the accounts associated with the message.
@@ -89,13 +93,15 @@ class MessageV0 implements VersionedMessage {
       if (numAccountKeysFromLookups !=
           lookupKeys.writable.length + lookupKeys.readonly.length) {
         throw const SolanaPluginException(
-            'Failed to get account keys because of a mismatch in the number of account keys from lookups');
+          'Failed to get account keys because of a mismatch in the number of account keys from lookups',
+        );
       }
     } else if (addressLookupTableAccounts.isNotEmpty) {
       lookupKeys = _resolveAddressTableLookups(addressLookupTableAccounts);
     } else if (addressTableLookups.isNotEmpty) {
       throw const SolanaPluginException(
-          'Failed to get account keys because address table lookups were not resolved');
+        'Failed to get account keys because address table lookups were not resolved',
+      );
     }
     return MessageAccountKeys(accountKeys, lookupKeys);
   }
@@ -107,27 +113,33 @@ class MessageV0 implements VersionedMessage {
   /// Checks if an account at the specified index is writable.
   @override
   bool isAccountWritable(int index) => header.isAccountWritable(
-      index: index,
-      numStaticAccountKeys: accountKeys.length,
-      addressTableLookups: addressTableLookups);
+    index: index,
+    numStaticAccountKeys: accountKeys.length,
+    addressTableLookups: addressTableLookups,
+  );
 
   /// Resolves address table lookups.
   AccountLookupKeys _resolveAddressTableLookups(
-      List<AddressLookupTableAccount> addressLookupTableAccounts) {
+    List<AddressLookupTableAccount> addressLookupTableAccounts,
+  ) {
     final List<SolAddress> writable = [];
     final List<SolAddress> readonly = [];
     for (final tableLookup in addressTableLookups) {
       final tableAccount = addressLookupTableAccounts.firstWhere(
         (account) => account.key == tableLookup.accountKey,
-        orElse: () => throw SolanaPluginException(
-            'Failed to find address lookup table account for table key ${tableLookup.accountKey}'),
+        orElse:
+            () =>
+                throw SolanaPluginException(
+                  'Failed to find address lookup table account for table key ${tableLookup.accountKey}',
+                ),
       );
       for (final index in tableLookup.writableIndexes) {
         if (index < tableAccount.addresses.length) {
           writable.add(tableAccount.addresses[index]);
         } else {
           throw SolanaPluginException(
-              'Failed to find address for index $index in address lookup table ${tableLookup.accountKey}');
+            'Failed to find address for index $index in address lookup table ${tableLookup.accountKey}',
+          );
         }
       }
       for (final index in tableLookup.readonlyIndexes) {
@@ -135,7 +147,8 @@ class MessageV0 implements VersionedMessage {
           readonly.add(tableAccount.addresses[index]);
         } else {
           throw SolanaPluginException(
-              'Failed to find address for index $index in address lookup table ${tableLookup.accountKey}');
+            'Failed to find address for index $index in address lookup table ${tableLookup.accountKey}',
+          );
         }
       }
     }

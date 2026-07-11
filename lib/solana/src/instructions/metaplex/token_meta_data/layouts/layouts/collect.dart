@@ -8,10 +8,10 @@ class MetaplexTokenMetaDataCollectLayout
 
   factory MetaplexTokenMetaDataCollectLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.collect.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.collect.insturction,
+    );
     return const MetaplexTokenMetaDataCollectLayout();
   }
 

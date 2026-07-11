@@ -10,10 +10,11 @@ class Ipv6 with InternalCborSerialization {
 
   /// Constructs an IPv6 instance.
   Ipv6(List<int> ipv6)
-      : ipv6 = AdaTransactionUtils.validateFixedLengthBytes(
-            bytes: ipv6,
-            length: AdaTransactionConstant.ipv6Length,
-            objectName: 'IPv6');
+    : ipv6 = AdaTransactionUtils.validateFixedLengthBytes(
+        bytes: ipv6,
+        length: AdaTransactionConstant.ipv6Length,
+        objectName: 'IPv6',
+      );
 
   /// Deserialize an IPv6 instance from CBOR data.
   factory Ipv6.deserialize(CborBytesValue cbor) {
@@ -21,11 +22,10 @@ class Ipv6 with InternalCborSerialization {
   }
   factory Ipv6.fromJson(String value) {
     return Ipv6(
-        value.split(':').map<int>((e) => int.parse(e, radix: 16)).toList());
+      value.split(':').map<int>((e) => int.parse(e, radix: 16)).toList(),
+    );
   }
-  Ipv6 copyWith({
-    List<int>? ipv6,
-  }) {
+  Ipv6 copyWith({List<int>? ipv6}) {
     return Ipv6(ipv6 ?? this.ipv6);
   }
 

@@ -19,33 +19,36 @@ class SPLToken2022InitializeTransferFeeConfigLayout
 
   /// Maximum fee assessed on transfers
   final BigInt maximumFee;
-  SPLToken2022InitializeTransferFeeConfigLayout(
-      {this.transferFeeConfigAuthority,
-      this.withdrawWithheldAuthority,
-      required this.transferFeeBasisPoints,
-      required this.maximumFee});
+  SPLToken2022InitializeTransferFeeConfigLayout({
+    this.transferFeeConfigAuthority,
+    this.withdrawWithheldAuthority,
+    required this.transferFeeBasisPoints,
+    required this.maximumFee,
+  });
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'transferFee'),
-        SolanaLayoutUtils.cOptionPubkey(property: 'transferFeeConfigAuthority'),
-        SolanaLayoutUtils.cOptionPubkey(property: 'withdrawWithheldAuthority'),
-        LayoutConst.u16(property: 'transferFeeBasisPoints'),
-        LayoutConst.u64(property: 'maximumFee')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'transferFee'),
+    SolanaLayoutUtils.cOptionPubkey(property: 'transferFeeConfigAuthority'),
+    SolanaLayoutUtils.cOptionPubkey(property: 'withdrawWithheldAuthority'),
+    LayoutConst.u16(property: 'transferFeeBasisPoints'),
+    LayoutConst.u64(property: 'maximumFee'),
+  ]);
 
   factory SPLToken2022InitializeTransferFeeConfigLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            SPLTokenProgramInstruction.transferFeeExtension.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.transferFeeExtension.insturction,
+    );
     return SPLToken2022InitializeTransferFeeConfigLayout(
-        transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
-        withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
-        transferFeeBasisPoints: decode['transferFeeBasisPoints'],
-        maximumFee: decode['maximumFee']);
+      transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
+      withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
+      transferFeeBasisPoints: decode['transferFeeBasisPoints'],
+      maximumFee: decode['maximumFee'],
+    );
   }
 
   @override
@@ -63,7 +66,7 @@ class SPLToken2022InitializeTransferFeeConfigLayout
       'transferFeeConfigAuthority': transferFeeConfigAuthority,
       'withdrawWithheldAuthority': withdrawWithheldAuthority,
       'transferFeeBasisPoints': transferFeeBasisPoints,
-      'maximumFee': maximumFee
+      'maximumFee': maximumFee,
     };
   }
 }

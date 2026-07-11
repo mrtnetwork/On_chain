@@ -7,8 +7,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/unfreezeasset).
 class TronRequestUnfreezeAsset
     extends TronRequest<Transaction, Map<String, dynamic>> {
-  TronRequestUnfreezeAsset(
-      {required this.ownerAddress, this.permissionId, this.visible = true});
+  TronRequestUnfreezeAsset({
+    required this.ownerAddress,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -27,7 +30,7 @@ class TronRequestUnfreezeAsset
     return {
       'owner_address': ownerAddress.toAddress(visible),
       'permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

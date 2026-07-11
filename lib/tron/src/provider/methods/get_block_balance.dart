@@ -5,8 +5,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getblockbalance).
 class TronRequestGetBlockBalance
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetBlockBalance(
-      {required this.hash, required this.number, required this.visible});
+  TronRequestGetBlockBalance({
+    required this.hash,
+    required this.number,
+    required this.visible,
+  });
   final String hash;
   final int number;
   @override

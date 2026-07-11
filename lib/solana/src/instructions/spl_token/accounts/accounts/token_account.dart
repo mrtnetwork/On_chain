@@ -7,18 +7,18 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaTokenAccountUtils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('mint'),
-        SolanaLayoutUtils.publicKey('owner'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.boolean32(property: 'delegateOption'),
-        SolanaLayoutUtils.publicKey('delegate'),
-        LayoutConst.u8(property: 'state'),
-        LayoutConst.boolean32(property: 'isNativeOption'),
-        LayoutConst.u64(property: 'rentExemptReserve'),
-        LayoutConst.u64(property: 'delegatedAmount'),
-        LayoutConst.boolean32(property: 'closeAuthorityOption'),
-        SolanaLayoutUtils.publicKey('closeAuthority'),
-      ]);
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('owner'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.boolean32(property: 'delegateOption'),
+    SolanaLayoutUtils.publicKey('delegate'),
+    LayoutConst.u8(property: 'state'),
+    LayoutConst.boolean32(property: 'isNativeOption'),
+    LayoutConst.u64(property: 'rentExemptReserve'),
+    LayoutConst.u64(property: 'delegatedAmount'),
+    LayoutConst.boolean32(property: 'closeAuthorityOption'),
+    SolanaLayoutUtils.publicKey('closeAuthority'),
+  ]);
 
   static int get accountSize => layout.span;
   static const int accountTypeSize = 1;
@@ -57,51 +57,63 @@ class SolanaTokenAccount extends BorshLayoutSerializable {
   /// accounts do not drop below this threshold.
   bool get isNative => rentExemptReserve != null;
 
-  const SolanaTokenAccount(
-      {required this.address,
-      required this.mint,
-      required this.owner,
-      required this.amount,
-      required this.delegate,
-      required this.delegatedAmount,
-      required this.rentExemptReserve,
-      required this.closeAuthority,
-      required this.state});
-  factory SolanaTokenAccount.fromBuffer(
-      {required List<int> data, required SolAddress address}) {
+  const SolanaTokenAccount({
+    required this.address,
+    required this.mint,
+    required this.owner,
+    required this.amount,
+    required this.delegate,
+    required this.delegatedAmount,
+    required this.rentExemptReserve,
+    required this.closeAuthority,
+    required this.state,
+  });
+  factory SolanaTokenAccount.fromBuffer({
+    required List<int> data,
+    required SolAddress address,
+  }) {
     if (data.length < SolanaTokenAccountUtils.accountSize) {
-      throw SolanaPluginException('Account data length is insufficient.',
-          details: {
-            'Expected': SolanaTokenAccountUtils.accountSize,
-            'length': data.length
-          });
+      throw SolanaPluginException(
+        'Account data length is insufficient.',
+        details: {
+          'Expected': SolanaTokenAccountUtils.accountSize.toString(),
+          'length': data.length.toString(),
+        },
+      );
     }
     final decode = BorshLayoutSerializable.decode(
-        bytes: data, layout: SolanaTokenAccountUtils.layout);
+      bytes: data,
+      layout: SolanaTokenAccountUtils.layout,
+    );
     final bool delegateOption = decode['delegateOption'];
     final bool isNativeOption = decode['isNativeOption'];
     final bool hasCloseAuthority = decode['closeAuthorityOption'];
     final AccountState state = AccountState.fromValue(decode['state']);
     if (data.length > SolanaTokenAccountUtils.accountSize) {
       final accountType = SolanaTokenAccountType.fromValue(
-          data[SolanaTokenAccountUtils.accountSize]);
+        data[SolanaTokenAccountUtils.accountSize],
+      );
       if (accountType != SolanaTokenAccountType.account) {
-        throw SolanaPluginException('Invalid account type.', details: {
-          'account type': accountType.name,
-          'expected': SolanaTokenAccountType.account
-        });
+        throw SolanaPluginException(
+          'Invalid account type.',
+          details: {
+            'account type': accountType.name,
+            'expected': SolanaTokenAccountType.account.toString(),
+          },
+        );
       }
     }
     return SolanaTokenAccount(
-        address: address,
-        mint: decode['mint'],
-        owner: decode['owner'],
-        amount: decode['amount'],
-        delegate: delegateOption ? decode['delegate'] : null,
-        delegatedAmount: decode['delegatedAmount'],
-        state: state,
-        rentExemptReserve: isNativeOption ? decode['rentExemptReserve'] : null,
-        closeAuthority: hasCloseAuthority ? decode['closeAuthority'] : null);
+      address: address,
+      mint: decode['mint'],
+      owner: decode['owner'],
+      amount: decode['amount'],
+      delegate: delegateOption ? decode['delegate'] : null,
+      delegatedAmount: decode['delegatedAmount'],
+      state: state,
+      rentExemptReserve: isNativeOption ? decode['rentExemptReserve'] : null,
+      closeAuthority: hasCloseAuthority ? decode['closeAuthority'] : null,
+    );
   }
 
   @override

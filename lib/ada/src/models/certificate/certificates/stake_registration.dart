@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
@@ -14,15 +13,19 @@ class StakeRegistration extends Certificate {
 
   /// Deserializes a StakeRegistration object from its CBOR representation.
   factory StakeRegistration.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: CertificateType.stakeRegistration);
+    CertificateType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: CertificateType.stakeRegistration,
+    );
     return StakeRegistration(
-        Credential.deserialize(cbor.elementAt<CborListValue>(1)));
+      Credential.deserialize(cbor.objectAt<CborListValue>(1)),
+    );
   }
   factory StakeRegistration.fromJson(Map<String, dynamic> json) {
     final currentJson = json[CertificateType.stakeRegistration.name] ?? json;
     return StakeRegistration(
-        Credential.fromJson(currentJson['stake_credential']));
+      Credential.fromJson(currentJson['stake_credential']),
+    );
   }
   StakeRegistration copyWith({Credential? stakeCredential}) {
     return StakeRegistration(stakeCredential ?? this.stakeCredential);
@@ -30,10 +33,7 @@ class StakeRegistration extends Certificate {
 
   @override
   CborListValue toCbor() {
-    return CborListValue.definite([
-      type.toCbor(),
-      stakeCredential.toCbor(),
-    ]);
+    return CborListValue.definite([type.toCbor(), stakeCredential.toCbor()]);
   }
 
   @override
@@ -42,7 +42,7 @@ class StakeRegistration extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'stake_credential': stakeCredential.toJson()}
+      type.name: {'stake_credential': stakeCredential.toJson()},
     };
   }
 

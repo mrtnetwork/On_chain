@@ -7,15 +7,17 @@ class MetadataPointerInstruction extends BorshLayoutSerializable {
   final String name;
   static const MetadataPointerInstruction initialize =
       MetadataPointerInstruction._('Initialize');
-  static const MetadataPointerInstruction update =
-      MetadataPointerInstruction._('Update');
+  static const MetadataPointerInstruction update = MetadataPointerInstruction._(
+    'Update',
+  );
 
   static const List<MetadataPointerInstruction> values = [initialize, update];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'metadataPointer')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'metadataPointer',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -23,7 +25,7 @@ class MetadataPointerInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'metadataPointer': {name: null}
+      'metadataPointer': {name: null},
     };
   }
 
@@ -33,9 +35,12 @@ class MetadataPointerInstruction extends BorshLayoutSerializable {
   static MetadataPointerInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No MetadataPointerInstruction found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MetadataPointerInstruction found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

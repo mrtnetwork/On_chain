@@ -144,7 +144,7 @@ class AptosGraphqlQueriesConst {
     ...CurrentTokenOwnershipFields
   }
 }''' +
-          currentTokenOwnershipFieldsFragmentDoc;
+      currentTokenOwnershipFieldsFragmentDoc;
   static String getAccountOwnedTokensByTokenData =
       r'''query getAccountOwnedTokensByTokenData($where_condition: current_token_ownerships_v2_bool_exp!, $offset: Int, $limit: Int, $order_by: [current_token_ownerships_v2_order_by!]) {
   current_token_ownerships_v2(
@@ -156,7 +156,7 @@ class AptosGraphqlQueriesConst {
     ...CurrentTokenOwnershipFields
   }
 }''' +
-          currentTokenOwnershipFieldsFragmentDoc;
+      currentTokenOwnershipFieldsFragmentDoc;
 
   static String getAccountOwnedTokensFromCollection =
       r'''query getAccountOwnedTokensFromCollection($where_condition: current_token_ownerships_v2_bool_exp!, $offset: Int, $limit: Int, $order_by: [current_token_ownerships_v2_order_by!]) {
@@ -169,7 +169,7 @@ class AptosGraphqlQueriesConst {
     ...CurrentTokenOwnershipFields
   }
 }''' +
-          currentTokenOwnershipFieldsFragmentDoc;
+      currentTokenOwnershipFieldsFragmentDoc;
 
   static const String getAccountTokensCount =
       r'''query getAccountTokensCount($where_condition: current_token_ownerships_v2_bool_exp, $offset: Int, $limit: Int) {
@@ -354,7 +354,7 @@ class AptosGraphqlQueriesConst {
     ...AnsTokenFragment
   }
 }''' +
-          ansTokenFragmentFragmentDoc;
+      ansTokenFragmentFragmentDoc;
   static const String getNumberOfDelegators =
       r'''query getNumberOfDelegators($where_condition: num_active_delegator_per_pool_bool_exp, $order_by: [num_active_delegator_per_pool_order_by!]) {
   num_active_delegator_per_pool(where: $where_condition, order_by: $order_by) {
@@ -445,7 +445,7 @@ class AptosGraphqlQueriesConst {
     ...TokenActivitiesFields
   }
 }''' +
-          tokenActivitiesFieldsFragmentDoc;
+      tokenActivitiesFieldsFragmentDoc;
   static const String getCurrentTokenOwnership =
       r'''query getCurrentTokenOwnership($where_condition: current_token_ownerships_v2_bool_exp!, $offset: Int, $limit: Int, $order_by: [current_token_ownerships_v2_order_by!]) {
   current_token_ownerships_v2(
@@ -457,7 +457,7 @@ class AptosGraphqlQueriesConst {
     ...CurrentTokenOwnershipFields
   }
 }''' +
-          currentTokenOwnershipFieldsFragmentDoc;
+      currentTokenOwnershipFieldsFragmentDoc;
 
   static const String getTokenData =
       r'''query getTokenData($where_condition: current_token_datas_v2_bool_exp, $offset: Int, $limit: Int, $order_by: [current_token_datas_v2_order_by!]) {
@@ -567,9 +567,7 @@ class AptosGraphQLWhereConditionVariablesParams {
 
   // Converts the object to a JSON representation
   Map<String, dynamic> toJson() {
-    return {
-      'where_condition': whereCondition,
-    };
+    return {'where_condition': whereCondition};
   }
 }
 
@@ -578,15 +576,18 @@ class AptosGraphQLPaginatedVariablesParams {
   final int? offset;
   final int? limit;
 
-  AptosGraphQLPaginatedVariablesParams(
-      {this.whereCondition = const {}, this.offset, this.limit});
+  AptosGraphQLPaginatedVariablesParams({
+    this.whereCondition = const {},
+    this.offset,
+    this.limit,
+  });
 
   // Converts the object to a JSON representation
   Map<String, dynamic> toJson() {
     return {
       'where_condition': whereCondition,
       'offset': offset,
-      'limit': limit
+      'limit': limit,
     };
   }
 }
@@ -627,9 +628,10 @@ class AptosGraphQLFungibleAssetBalance {
       ownerAddress: json['owner_address'],
       storageId: json['storage_id'],
       tokenStandard: json['token_standard'],
-      metadata: json['metadata'] != null
-          ? AptosGraphQLFungibleAssetMetadata.fromJson(json['metadata'])
-          : null,
+      metadata:
+          json['metadata'] != null
+              ? AptosGraphQLFungibleAssetMetadata.fromJson(json['metadata'])
+              : null,
     );
   }
 
@@ -679,7 +681,8 @@ class AptosGraphQLFungibleAssetMetadata {
   });
 
   factory AptosGraphQLFungibleAssetMetadata.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLFungibleAssetMetadata(
       tokenStandard: json['token_standard'],
       symbol: json['symbol'],
@@ -738,7 +741,8 @@ class AptosGraphQLCollectionOwnershipV2View {
   });
 
   factory AptosGraphQLCollectionOwnershipV2View.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLCollectionOwnershipV2View(
       collectionId: json['collection_id'],
       collectionName: json['collection_name'],
@@ -748,10 +752,12 @@ class AptosGraphQLCollectionOwnershipV2View {
       lastTransactionVersion: json['last_transaction_version'],
       ownerAddress: json['owner_address'],
       singleTokenUri: json['single_token_uri'],
-      currentCollection: json['current_collection'] != null
-          ? AptosGraphQLCollectionOwnershipV2ViewCollection.fromJson(
-              json['current_collection'])
-          : null,
+      currentCollection:
+          json['current_collection'] != null
+              ? AptosGraphQLCollectionOwnershipV2ViewCollection.fromJson(
+                json['current_collection'],
+              )
+              : null,
     );
   }
 
@@ -804,7 +810,8 @@ class AptosGraphQLCollectionOwnershipV2ViewCollection {
   });
 
   factory AptosGraphQLCollectionOwnershipV2ViewCollection.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLCollectionOwnershipV2ViewCollection(
       collectionId: json['collection_id'],
       collectionName: json['collection_name'],
@@ -888,10 +895,12 @@ class AptosGraphQLTokenOwnershipV2 {
       isSoulboundV2: json['is_soulbound_v2'],
       isFungibleV2: json['is_fungible_v2'],
       amount: json['amount'],
-      currentTokenData: json['current_token_data'] == null
-          ? null
-          : AptosGraphQLTokenOwnershipV2TokenData.fromJson(
-              json['current_token_data']),
+      currentTokenData:
+          json['current_token_data'] == null
+              ? null
+              : AptosGraphQLTokenOwnershipV2TokenData.fromJson(
+                json['current_token_data'],
+              ),
     );
   }
 
@@ -950,7 +959,8 @@ class AptosGraphQLTokenOwnershipV2TokenData {
   });
 
   factory AptosGraphQLTokenOwnershipV2TokenData.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLTokenOwnershipV2TokenData(
       collectionId: json['collection_id'],
       description: json['description'],
@@ -966,10 +976,12 @@ class AptosGraphQLTokenOwnershipV2TokenData {
       tokenStandard: json['token_standard'],
       tokenUri: json['token_uri'],
       decimals: json['decimals'],
-      currentCollection: json['current_collection'] == null
-          ? null
-          : AptosGraphQLTokenOwnershipV2TokenDataCollection.fromJson(
-              json['current_collection']),
+      currentCollection:
+          json['current_collection'] == null
+              ? null
+              : AptosGraphQLTokenOwnershipV2TokenDataCollection.fromJson(
+                json['current_collection'],
+              ),
     );
   }
 
@@ -1028,7 +1040,8 @@ class AptosGraphQLTokenOwnershipV2TokenDataCollection {
   });
 
   factory AptosGraphQLTokenOwnershipV2TokenDataCollection.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLTokenOwnershipV2TokenDataCollection(
       collectionId: json['collection_id'],
       collectionName: json['collection_name'],
@@ -1118,10 +1131,12 @@ class AptosGraphQLCollectionV2 {
       currentSupply: json['current_supply'],
       lastTransactionTimestamp: json['last_transaction_timestamp'],
       lastTransactionVersion: json['last_transaction_version'],
-      cdnAssetUris: json['cdn_asset_uris'] == null
-          ? null
-          : AptosGraphQLCollectionV2CdnAssetUris.fromJson(
-              json['cdn_asset_uris']),
+      cdnAssetUris:
+          json['cdn_asset_uris'] == null
+              ? null
+              : AptosGraphQLCollectionV2CdnAssetUris.fromJson(
+                json['cdn_asset_uris'],
+              ),
     );
   }
 
@@ -1170,7 +1185,8 @@ class AptosGraphQLCollectionV2CdnAssetUris {
   });
 
   factory AptosGraphQLCollectionV2CdnAssetUris.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLCollectionV2CdnAssetUris(
       assetUri: json['asset_uri'],
       animationOptimizerRetryCount: json['animation_optimizer_retry_count'],
@@ -1217,7 +1233,8 @@ class AptosGraphQLDelegatedStakingActivity {
   });
 
   factory AptosGraphQLDelegatedStakingActivity.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLDelegatedStakingActivity(
       amount: json['amount'],
       delegatorAddress: json['delegator_address'],
@@ -1330,7 +1347,8 @@ class AptosGraphQLFungibleAssetActivity {
   });
 
   factory AptosGraphQLFungibleAssetActivity.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLFungibleAssetActivity(
       amount: json['amount'],
       assetType: json['asset_type'],
@@ -1435,7 +1453,8 @@ class AptosGraphQLNumActiveDelegatorPerPool {
   });
 
   factory AptosGraphQLNumActiveDelegatorPerPool.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return AptosGraphQLNumActiveDelegatorPerPool(
       numActiveDelegator: json['num_active_delegator'],
       poolAddress: json['pool_address'],
@@ -1582,11 +1601,7 @@ class AptosGraphQLTableMetadata {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'handle': handle,
-      'key_type': keyType,
-      'value_type': valueType,
-    };
+    return {'handle': handle, 'key_type': keyType, 'value_type': valueType};
   }
 }
 
@@ -1789,9 +1804,10 @@ class AptosGraphQLTokenData {
       tokenStandard: json['token_standard'],
       tokenUri: json['token_uri'],
       decimals: json['decimals'],
-      currentCollection: json['current_collection'] != null
-          ? AptosGraphQLTokenCollection.fromJson(json['current_collection'])
-          : null,
+      currentCollection:
+          json['current_collection'] != null
+              ? AptosGraphQLTokenCollection.fromJson(json['current_collection'])
+              : null,
     );
   }
 

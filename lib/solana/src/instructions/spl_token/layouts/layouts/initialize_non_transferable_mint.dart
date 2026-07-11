@@ -15,7 +15,8 @@ class SPLTokenInitializeNonTransferableMintLayout
 
   /// Constructs an SPLTokenInitializeNonTransferableMintLayout instance from buffer.
   factory SPLTokenInitializeNonTransferableMintLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,

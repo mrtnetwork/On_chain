@@ -5,8 +5,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Returns a list of confirmed blocks between two slots
 /// https://solana.com/docs/rpc/http/getblocks
 class SolanaRequestGetBlocks extends SolanaRequest<List<int>, List> {
-  const SolanaRequestGetBlocks(
-      {required this.startSlot, this.endSlot, super.commitment});
+  const SolanaRequestGetBlocks({
+    required this.startSlot,
+    this.endSlot,
+    super.commitment,
+  });
 
   /// getBlocks
   @override
@@ -26,7 +29,7 @@ class SolanaRequestGetBlocks extends SolanaRequest<List<int>, List> {
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
-      ])
+      ]),
     ];
   }
 

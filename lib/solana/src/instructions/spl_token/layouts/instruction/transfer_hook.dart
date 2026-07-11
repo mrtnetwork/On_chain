@@ -7,19 +7,22 @@ class TransferHookInstruction extends BorshLayoutSerializable {
   const TransferHookInstruction._(this.name);
 
   /// Initialize a new mint with a transfer hook program.
-  static const TransferHookInstruction initialize =
-      TransferHookInstruction._('Initialize');
+  static const TransferHookInstruction initialize = TransferHookInstruction._(
+    'Initialize',
+  );
 
   /// Update the transfer hook program id. Only supported for mints that
   /// include the `TransferHook` extension.
-  static const TransferHookInstruction update =
-      TransferHookInstruction._('Update');
+  static const TransferHookInstruction update = TransferHookInstruction._(
+    'Update',
+  );
   static const List<TransferHookInstruction> values = [initialize, update];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'transferHook')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'transferHook',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -27,7 +30,7 @@ class TransferHookInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'transferHook': {name: null}
+      'transferHook': {name: null},
     };
   }
 
@@ -37,9 +40,12 @@ class TransferHookInstruction extends BorshLayoutSerializable {
   static TransferHookInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No TransferHookInstruction found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No TransferHookInstruction found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 }

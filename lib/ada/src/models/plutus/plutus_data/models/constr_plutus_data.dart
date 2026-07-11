@@ -11,15 +11,20 @@ import 'plutus_json_schame.dart';
 class ConstrPlutusDataSerializationConfig {
   final List<int> tags;
   final BigInt? alternative;
-  const ConstrPlutusDataSerializationConfig(
-      {required this.tags, this.alternative});
+  const ConstrPlutusDataSerializationConfig({
+    required this.tags,
+    this.alternative,
+  });
   factory ConstrPlutusDataSerializationConfig.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ConstrPlutusDataSerializationConfig(
-        tags: (json["tags"] as List).cast(),
-        alternative: json["alternative"] == null
-            ? null
-            : BigintUtils.parse(json["alternative"]));
+      tags: (json["tags"] as List).cast(),
+      alternative:
+          json["alternative"] == null
+              ? null
+              : BigintUtils.parse(json["alternative"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"tags": tags, "alternative": alternative?.toString()};
@@ -28,10 +33,11 @@ class ConstrPlutusDataSerializationConfig {
 
 /// Represents constructed Plutus data.
 class ConstrPlutusData extends PlutusData {
-  const ConstrPlutusData(
-      {required this.alternative,
-      required this.data,
-      this.serializationConfig});
+  const ConstrPlutusData({
+    required this.alternative,
+    required this.data,
+    this.serializationConfig,
+  });
 
   /// The alternative value.
   final BigInt alternative;
@@ -44,38 +50,46 @@ class ConstrPlutusData extends PlutusData {
   /// Deserializes a [ConstrPlutusData] instance from CBOR.
   factory ConstrPlutusData.deserialize(CborTagValue cbor) {
     if (BytesUtils.bytesEqual(cbor.tags, [PlutusDataUtils.generalFormTag])) {
-      final CborListValue data =
-          cbor.valueAs<CborListValue>("ConstrPlutusData");
-      final alternative = data.elementAt<CborNumeric>(0).toBigInt();
+      final CborListValue data = cbor.asValue<CborListValue>(
+        operation: "ConstrPlutusData",
+      );
+      final alternative = data.objectAt<CborNumeric>(0).toBigInt();
       final encode = ConstrPlutusData(
-          alternative: data.elementAt<CborNumeric>(0).toBigInt(),
-          data: PlutusList.deserialize(data.elementAt<CborObject>(1)),
-          serializationConfig: ConstrPlutusDataSerializationConfig(
-              tags: cbor.tags, alternative: alternative));
+        alternative: data.objectAt<CborNumeric>(0).toBigInt(),
+        data: PlutusList.deserialize(data.objectAt<CborObject>(1)),
+        serializationConfig: ConstrPlutusDataSerializationConfig(
+          tags: cbor.tags,
+          alternative: alternative,
+        ),
+      );
       return encode;
     }
-    final BigInt? alternative =
-        PlutusDataUtils.cborTagToAlternative(cbor.tags.first);
+    final BigInt? alternative = PlutusDataUtils.cborTagToAlternative(
+      cbor.tags.first,
+    );
     if (alternative == null) {
       throw const ADAPluginException('Invalid ConstrPlutusData tag.');
     }
     final encode = ConstrPlutusData(
-        serializationConfig:
-            ConstrPlutusDataSerializationConfig(tags: cbor.tags),
-        alternative: alternative,
-        data: PlutusList.deserialize(cbor.valueAs("PlutusList")));
+      serializationConfig: ConstrPlutusDataSerializationConfig(tags: cbor.tags),
+      alternative: alternative,
+      data: PlutusList.deserialize(cbor.asValue(operation: "PlutusList")),
+    );
     return encode;
   }
 
   factory ConstrPlutusData.fromJson(Map<String, dynamic> json) {
     final correctJson = json[PlutusDataType.constrPlutusData.name];
     return ConstrPlutusData(
-        alternative: BigintUtils.parse(correctJson['constructor']),
-        data: PlutusList.fromJson(correctJson['fields']),
-        serializationConfig: correctJson["serialization_config"] == null
-            ? null
-            : ConstrPlutusDataSerializationConfig.fromJson(
-                correctJson['serialization_config']));
+      alternative: BigintUtils.parse(correctJson['constructor']),
+      data: PlutusList.fromJson(correctJson['fields']),
+      serializationConfig:
+          correctJson["serialization_config"] == null
+              ? null
+              : ConstrPlutusDataSerializationConfig.fromJson(
+                correctJson['serialization_config'],
+              ),
+    );
   }
 
   @override
@@ -88,9 +102,12 @@ class ConstrPlutusData extends PlutusData {
       final alternative = config.alternative;
       if (alternative != null) {
         return CborTagValue(
-            CborListValue.definite(
-                [CborUnsignedValue.u64(alternative), data.toCbor()]),
-            config.tags);
+          CborListValue.definite([
+            CborUnsignedValue.u64(alternative),
+            data.toCbor(),
+          ]),
+          config.tags,
+        );
       }
       return CborTagValue(data.toCbor(), config.tags);
     }
@@ -99,9 +116,12 @@ class ConstrPlutusData extends PlutusData {
       return CborTagValue(data.toCbor(), [tag]);
     }
     return CborTagValue(
-        CborListValue.definite(
-            [CborUnsignedValue.u64(alternative), data.toCbor()]),
-        [PlutusDataUtils.generalFormTag]);
+      CborListValue.definite([
+        CborUnsignedValue.u64(alternative),
+        data.toCbor(),
+      ]),
+      [PlutusDataUtils.generalFormTag],
+    );
   }
 
   @override
@@ -110,8 +130,8 @@ class ConstrPlutusData extends PlutusData {
       type.name: {
         'constructor': alternative.toString(),
         'fields': data.toJson(),
-        'serialization_config': serializationConfig?.toJson()
-      }
+        'serialization_config': serializationConfig?.toJson(),
+      },
     };
   }
 
@@ -124,9 +144,11 @@ class ConstrPlutusData extends PlutusData {
   }
 
   @override
-  Map<String, Object> toJsonSchema(
-      {PlutusSchemaConfig config = const PlutusSchemaConfig(
-          jsonSchema: PlutusJsonSchema.basicConversions)}) {
+  Map<String, Object> toJsonSchema({
+    PlutusSchemaConfig config = const PlutusSchemaConfig(
+      jsonSchema: PlutusJsonSchema.basicConversions,
+    ),
+  }) {
     return {
       'constructor':
           config.useIntInsteadBigInt ? alternative.toInt() : alternative,

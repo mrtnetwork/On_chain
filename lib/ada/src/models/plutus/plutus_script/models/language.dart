@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class Language with InternalCborSerialization {
@@ -9,11 +8,12 @@ class Language with InternalCborSerialization {
   const Language._(this.name, this.value, this.scriptHashNameSpace);
   factory Language.deserialize(CborObject cbor) {
     if (cbor.hasType<CborBytesValue>()) {
-      final decodingView = CborObject.fromCbor(cbor.as<CborBytesValue>().value)
-          .as<CborIntValue>('Language');
+      final decodingView = CborObject.fromCbor(
+        cbor.as<CborBytesValue>().value,
+      ).as<CborIntValue>(operation: 'Language');
       return fromValue(decodingView.value);
     }
-    return fromValue(cbor.as<CborIntValue>('Language').value);
+    return fromValue(cbor.as<CborIntValue>(operation: 'Language').value);
   }
   static const Language plutusV1 = Language._('plutus_v1', 0, 1);
   static const Language plutusV2 = Language._('plutus_v2', 1, 2);
@@ -34,18 +34,14 @@ class Language with InternalCborSerialization {
   static Language fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No Language found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "Language"),
     );
   }
 
   static Language fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No Language found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "Language"),
     );
   }
 

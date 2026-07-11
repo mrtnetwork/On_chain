@@ -14,8 +14,10 @@ class NativeScriptType with InternalCborSerialization {
   const NativeScriptType._(this.name, this.value);
 
   /// Native script type representing a script pubkey.
-  static const NativeScriptType scriptPubkey =
-      NativeScriptType._('ScriptPubkey', 0);
+  static const NativeScriptType scriptPubkey = NativeScriptType._(
+    'ScriptPubkey',
+    0,
+  );
 
   /// Native script type representing a script all.
   static const NativeScriptType scriptAll = NativeScriptType._('ScriptAll', 1);
@@ -24,16 +26,22 @@ class NativeScriptType with InternalCborSerialization {
   static const NativeScriptType scriptAny = NativeScriptType._('ScriptAny', 2);
 
   /// Native script type representing a script n-of-k.
-  static const NativeScriptType scriptNOfK =
-      NativeScriptType._('ScriptNOfK', 3);
+  static const NativeScriptType scriptNOfK = NativeScriptType._(
+    'ScriptNOfK',
+    3,
+  );
 
   /// Native script type representing a timelock start.
-  static const NativeScriptType timelockStart =
-      NativeScriptType._('TimelockStart', 4);
+  static const NativeScriptType timelockStart = NativeScriptType._(
+    'TimelockStart',
+    4,
+  );
 
   /// Native script type representing a timelock expiry.
-  static const NativeScriptType timelockExpiry =
-      NativeScriptType._('TimelockExpiry', 5);
+  static const NativeScriptType timelockExpiry = NativeScriptType._(
+    'TimelockExpiry',
+    5,
+  );
 
   /// List of all native script types.
   static const List<NativeScriptType> values = [
@@ -42,7 +50,7 @@ class NativeScriptType with InternalCborSerialization {
     scriptAny,
     scriptNOfK,
     timelockStart,
-    timelockExpiry
+    timelockExpiry,
   ];
 
   /// Deserializes a [NativeScriptType] from CBOR.
@@ -59,9 +67,12 @@ class NativeScriptType with InternalCborSerialization {
   static NativeScriptType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No NativeScriptType found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw ADAPluginException(
+                'No NativeScriptType found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
@@ -69,9 +80,12 @@ class NativeScriptType with InternalCborSerialization {
   static NativeScriptType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No NativeScriptType found matching the specified name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw ADAPluginException(
+                'No NativeScriptType found matching the specified name',
+                details: {'name': name},
+              ),
     );
   }
 

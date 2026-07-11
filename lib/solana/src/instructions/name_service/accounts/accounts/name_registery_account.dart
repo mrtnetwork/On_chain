@@ -5,10 +5,10 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class NameRegistryAccountUtils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('parentName'),
-        SolanaLayoutUtils.publicKey('owner'),
-        SolanaLayoutUtils.publicKey('classAccount'),
-      ]);
+    SolanaLayoutUtils.publicKey('parentName'),
+    SolanaLayoutUtils.publicKey('owner'),
+    SolanaLayoutUtils.publicKey('classAccount'),
+  ]);
   static const int hiddenDataOffset = 96;
 }
 
@@ -18,20 +18,23 @@ class NameRegistryAccount extends BorshLayoutSerializable {
   final SolAddress classAccount;
   final List<int> data;
 
-  NameRegistryAccount(
-      {required this.parentName,
-      required this.owner,
-      required this.classAccount,
-      required List<int> data})
-      : data = data = data.asImmutableBytes;
+  NameRegistryAccount({
+    required this.parentName,
+    required this.owner,
+    required this.classAccount,
+    required List<int> data,
+  }) : data = data = data.asImmutableBytes;
   factory NameRegistryAccount.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data, layout: NameRegistryAccountUtils.layout);
+      bytes: data,
+      layout: NameRegistryAccountUtils.layout,
+    );
     return NameRegistryAccount(
-        parentName: decode['parentName'],
-        owner: decode['owner'],
-        classAccount: decode['classAccount'],
-        data: data.sublist(NameRegistryAccountUtils.hiddenDataOffset));
+      parentName: decode['parentName'],
+      owner: decode['owner'],
+      classAccount: decode['classAccount'],
+      data: data.sublist(NameRegistryAccountUtils.hiddenDataOffset),
+    );
   }
 
   @override
@@ -41,7 +44,7 @@ class NameRegistryAccount extends BorshLayoutSerializable {
     return {
       'parentName': parentName,
       'owner': owner,
-      'classAccount': classAccount
+      'classAccount': classAccount,
     };
   }
 

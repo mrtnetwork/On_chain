@@ -14,25 +14,30 @@ class SystemCreateLayout extends SystemProgramLayout {
 
   /// Address of the program to assign as the owner of the created account
   final SolAddress programId;
-  const SystemCreateLayout(
-      {required this.lamports, required this.space, required this.programId});
+  const SystemCreateLayout({
+    required this.lamports,
+    required this.space,
+    required this.programId,
+  });
 
   factory SystemCreateLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.create.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.create.insturction,
+    );
     return SystemCreateLayout(
-        lamports: decode['lamports'],
-        space: decode['space'],
-        programId: decode['programId']);
+      lamports: decode['lamports'],
+      space: decode['space'],
+      programId: decode['programId'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports'),
-        LayoutConst.ns64(property: 'space'),
-        SolanaLayoutUtils.publicKey('programId'),
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'space'),
+    SolanaLayoutUtils.publicKey('programId'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

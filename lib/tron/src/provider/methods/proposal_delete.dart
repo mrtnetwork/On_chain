@@ -6,11 +6,12 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/proposaldelete).
 class TronRequestProposalDelete
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestProposalDelete(
-      {required this.ownerAddress,
-      required this.proposalId,
-      this.permissionId,
-      this.visible = true});
+  TronRequestProposalDelete({
+    required this.ownerAddress,
+    required this.proposalId,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Address of proposal owner.
   final TronAddress ownerAddress;
@@ -33,7 +34,7 @@ class TronRequestProposalDelete
       'owner_address': ownerAddress.toAddress(visible),
       'proposal_id': proposalId,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

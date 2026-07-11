@@ -19,9 +19,10 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
   /// Constructs the layout from raw bytes.
   factory ComputeBudgetRequestUnitsLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: ComputeBudgetProgramInstruction.requestUnits.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: ComputeBudgetProgramInstruction.requestUnits.insturction,
+    );
     return ComputeBudgetRequestUnitsLayout(
       units: decode['units'],
       additionalFee: decode['additionalFee'],
@@ -29,10 +30,10 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
   }
   // StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'units'),
-        LayoutConst.u32(property: 'additionalFee'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'units'),
+    LayoutConst.u32(property: 'additionalFee'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

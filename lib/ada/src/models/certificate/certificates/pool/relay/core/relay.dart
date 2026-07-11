@@ -16,7 +16,7 @@ abstract class Relay with InternalCborSerialization {
 
   /// Deserialize a Relay instance from CBOR data.
   factory Relay.deserialize(CborListValue cbor) {
-    final type = RelayType.deserialize(cbor.elementAt<CborIntValue>(0));
+    final type = RelayType.deserialize(cbor.objectAt<CborIntValue>(0));
     switch (type) {
       case RelayType.multiHostName:
         return MultiHostName.deserialize(cbor);
@@ -31,7 +31,7 @@ abstract class Relay with InternalCborSerialization {
     try {
       type = RelayType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException('Invalid Relay json.', details: {'json': json});
+      throw ADAPluginException('Invalid Relay json.');
     }
     switch (type) {
       case RelayType.multiHostName:

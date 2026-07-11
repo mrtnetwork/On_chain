@@ -7,9 +7,10 @@ class MetaplexTokenEntanglerSwapLayout
 
   factory MetaplexTokenEntanglerSwapLayout.fromBuffer(List<int> data) {
     MetaplexTokenEntanglerProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenEntanglerProgramInstruction.swap.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenEntanglerProgramInstruction.swap.insturction,
+    );
     return const MetaplexTokenEntanglerSwapLayout();
   }
 

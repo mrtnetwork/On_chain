@@ -8,12 +8,18 @@ class SystemProgramInstruction implements ProgramLayoutInstruction {
   @override
   final String name;
   const SystemProgramInstruction(this.insturction, this.name);
-  static const SystemProgramInstruction create =
-      SystemProgramInstruction(0, 'Create');
-  static const SystemProgramInstruction assign =
-      SystemProgramInstruction(1, 'Assign');
-  static const SystemProgramInstruction transfer =
-      SystemProgramInstruction(2, 'Transfer');
+  static const SystemProgramInstruction create = SystemProgramInstruction(
+    0,
+    'Create',
+  );
+  static const SystemProgramInstruction assign = SystemProgramInstruction(
+    1,
+    'Assign',
+  );
+  static const SystemProgramInstruction transfer = SystemProgramInstruction(
+    2,
+    'Transfer',
+  );
 
   static const SystemProgramInstruction createWithSeed =
       SystemProgramInstruction(3, 'CreateWithSeed');
@@ -26,8 +32,10 @@ class SystemProgramInstruction implements ProgramLayoutInstruction {
       SystemProgramInstruction(6, 'InitializeNonceAccount');
   static const SystemProgramInstruction authorizeNonceAccount =
       SystemProgramInstruction(7, 'AuthorizeNonceAccount');
-  static const SystemProgramInstruction allocate =
-      SystemProgramInstruction(8, 'Allocate');
+  static const SystemProgramInstruction allocate = SystemProgramInstruction(
+    8,
+    'Allocate',
+  );
   static const SystemProgramInstruction allocateWithSeed =
       SystemProgramInstruction(9, 'AllocateWithSeed');
   static const SystemProgramInstruction assignWithSeed =
@@ -50,7 +58,7 @@ class SystemProgramInstruction implements ProgramLayoutInstruction {
     allocateWithSeed,
     assignWithSeed,
     transferWithSeed,
-    upgradeNonceAccount
+    upgradeNonceAccount,
   ];
   static SystemProgramInstruction? getInstruction(dynamic value) {
     try {

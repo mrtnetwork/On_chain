@@ -68,7 +68,7 @@ class LogEntry {
       "removed": removed,
       "topics": topics,
       "transactionHash": transactionHash,
-      "transactionIndex": "0x${transactionIndex.toRadixString(16)}"
+      "transactionIndex": "0x${transactionIndex.toRadixString(16)}",
     };
   }
 }

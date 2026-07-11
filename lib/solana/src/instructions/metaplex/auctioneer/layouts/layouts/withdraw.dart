@@ -6,30 +6,33 @@ class MetaplexAuctioneerWithdrawLayout extends MetaplexAuctioneerProgramLayout {
   final int escrowPaymentBump;
   final int auctioneerAuthorityBump;
   final BigInt amount;
-  const MetaplexAuctioneerWithdrawLayout(
-      {required this.escrowPaymentBump,
-      required this.auctioneerAuthorityBump,
-      required this.amount});
+  const MetaplexAuctioneerWithdrawLayout({
+    required this.escrowPaymentBump,
+    required this.auctioneerAuthorityBump,
+    required this.amount,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctioneerWithdrawLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctioneerProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctioneerProgramInstruction.withdraw.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexAuctioneerProgramInstruction.withdraw.insturction,
+    );
     return MetaplexAuctioneerWithdrawLayout(
-        escrowPaymentBump: decode['escrowPaymentBump'],
-        auctioneerAuthorityBump: decode['auctioneerAuthorityBump'],
-        amount: decode['amount']);
+      escrowPaymentBump: decode['escrowPaymentBump'],
+      auctioneerAuthorityBump: decode['auctioneerAuthorityBump'],
+      amount: decode['amount'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'escrowPaymentBump'),
-        LayoutConst.u8(property: 'auctioneerAuthorityBump'),
-        LayoutConst.u64(property: 'amount'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u8(property: 'auctioneerAuthorityBump'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -43,7 +46,7 @@ class MetaplexAuctioneerWithdrawLayout extends MetaplexAuctioneerProgramLayout {
     return {
       'escrowPaymentBump': escrowPaymentBump,
       'auctioneerAuthorityBump': auctioneerAuthorityBump,
-      'amount': amount
+      'amount': amount,
     };
   }
 }

@@ -9,18 +9,19 @@ class MetaplexAuctionHouseWithdrawFromFeeLayout
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseWithdrawFromFeeLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexAuctionHouseProgramInstruction.withdrawFromFee.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.withdrawFromFee.insturction,
+    );
     return MetaplexAuctionHouseWithdrawFromFeeLayout(amount: decode['amount']);
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u64(property: 'amount'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

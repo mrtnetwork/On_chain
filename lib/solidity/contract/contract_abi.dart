@@ -1,5 +1,4 @@
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
-import 'package:on_chain/serialization/cbor/extension.dart';
 import 'package:on_chain/solidity/abi/abi.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
@@ -12,34 +11,38 @@ import 'fragments.dart';
 /// functions, events, fallbacks, constructors, and errors.
 class ContractABI with InternalCborSerialization {
   ContractABI._(List<AbiBaseFragment> fragments)
-      : fragments = fragments.immutable,
-        functions = fragments.whereType<AbiFunctionFragment>().toImutableList,
-        events = fragments.whereType<AbiEventFragment>().toImutableList,
-        fallBacks = fragments.whereType<AbiFallbackFragment>().toImutableList,
-        constractors =
-            fragments.whereType<AbiConstructorFragment>().toImutableList,
-        errors = fragments.whereType<AbiErrorFragment>().toImutableList;
+    : fragments = fragments.immutable,
+      functions = fragments.whereType<AbiFunctionFragment>().toImutableList,
+      events = fragments.whereType<AbiEventFragment>().toImutableList,
+      fallBacks = fragments.whereType<AbiFallbackFragment>().toImutableList,
+      constractors =
+          fragments.whereType<AbiConstructorFragment>().toImutableList,
+      errors = fragments.whereType<AbiErrorFragment>().toImutableList;
 
   /// Factory method to create a ContractABI instance from JSON.
   factory ContractABI.fromJson(List<Map<String, dynamic>> abi) {
     try {
-      final fragments = abi.map((e) {
-        return AbiBaseFragment.fromJson(e);
-      }).toList();
+      final fragments =
+          abi.map((e) {
+            return AbiBaseFragment.fromJson(e);
+          }).toList();
       return ContractABI._(fragments);
     } catch (e) {
-      throw SolidityAbiException('invalid contract abi',
-          details: {'error': e.toString()});
+      throw SolidityAbiException(
+        'invalid contract abi',
+        details: {'error': e.toString()},
+      );
     }
   }
   factory ContractABI.deserialize({List<int>? cborBytes, CborObject? cbor}) {
-    final values = QuickCborObject.cborTagValue(
-        cborBytes: cborBytes,
-        object: cbor,
-        tags: InternalCborSerializationConst.defaultTag);
+    final values = CborSerializable.decodeTaggedValue<CborListValue>(
+      cborBytes: cborBytes,
+      cborObject: cbor,
+      tagIds: InternalCborSerializationConst.defaultTag,
+    );
     return ContractABI._(
       values
-          .elementAsListOf<CborTagValue>(0)
+          .listAt<CborTagValue>(0)
           .map((e) => AbiBaseFragment.deserialize(cbor: e))
           .toList(),
     );
@@ -64,7 +67,8 @@ class ContractABI with InternalCborSerialization {
 
   AbiReceiveFragment? get receiveFragment {
     return fragments.firstWhereNullable(
-            (element) => element.type == FragmentTypes.receive)
+          (element) => element.type == FragmentTypes.receive,
+        )
         as AbiReceiveFragment?;
   }
 
@@ -85,7 +89,8 @@ class ContractABI with InternalCborSerialization {
   AbiFunctionFragment functionFromSelector(List<int> selectorBytes) {
     final selector = selectorBytes.sublist(0, ABIConst.selectorLength);
     return functions.singleWhere(
-        (element) => BytesUtils.bytesEqual(selector, element.selector));
+      (element) => BytesUtils.bytesEqual(selector, element.selector),
+    );
   }
 
   /// Retrieves a function fragment from the contract ABI based from selector.
@@ -97,7 +102,8 @@ class ContractABI with InternalCborSerialization {
     try {
       final selector = selectorBytes.sublist(0, ABIConst.selectorLength);
       return functions.singleWhere(
-          (element) => BytesUtils.bytesEqual(selector, element.selector));
+        (element) => BytesUtils.bytesEqual(selector, element.selector),
+      );
     } on StateError {
       return null;
     }
@@ -105,10 +111,12 @@ class ContractABI with InternalCborSerialization {
 
   /// Retrieves an error fragment from the contract ABI from selector.
   AbiErrorFragment errorFromSelector(String selectorHex) {
-    final selector = BytesUtils.fromHexString(selectorHex)
-        .sublist(0, ABIConst.selectorLength);
+    final selector = BytesUtils.fromHexString(
+      selectorHex,
+    ).sublist(0, ABIConst.selectorLength);
     return errors.singleWhere(
-        (element) => BytesUtils.bytesEqual(selector, element.selector));
+      (element) => BytesUtils.bytesEqual(selector, element.selector),
+    );
   }
 
   /// Retrieves a event fragment from the contract ABI based from selector.
@@ -128,14 +136,16 @@ class ContractABI with InternalCborSerialization {
   /// Retrieves a event fragment from the contract ABI based from selector.
   AbiEventFragment eventFromSignature(String singature) {
     return events.singleWhere(
-        (element) => StringUtils.hexEqual(singature, element.signatureHex));
+      (element) => StringUtils.hexEqual(singature, element.signatureHex),
+    );
   }
 
   /// Retrieves a event fragment from the contract ABI based from selector.
   AbiEventFragment? tryEventFromSignature(String singature) {
     try {
       return events.singleWhere(
-          (element) => StringUtils.hexEqual(singature, element.signatureHex));
+        (element) => StringUtils.hexEqual(singature, element.signatureHex),
+      );
     } on StateError {
       return null;
     }
@@ -143,8 +153,9 @@ class ContractABI with InternalCborSerialization {
 
   /// solidity revert Error fragment
   static AbiErrorFragment get revert => AbiErrorFragment(
-      name: 'Error',
-      inputs: [const AbiParameter(name: 'message', type: 'string')]);
+    name: 'Error',
+    inputs: [const AbiParameter(name: 'message', type: 'string')],
+  );
 
   /// Decodes the error data based on the error fragment in the contract ABI.
   List<dynamic>? decodeError(dynamic error) {
@@ -155,8 +166,9 @@ class ContractABI with InternalCborSerialization {
         if (BytesUtils.bytesEqual(errorSelector, revert.selector)) {
           return revert.decodeError(inBytes);
         }
-        final errorFragment = errors.singleWhere((element) =>
-            BytesUtils.bytesEqual(element.selector, errorSelector));
+        final errorFragment = errors.singleWhere(
+          (element) => BytesUtils.bytesEqual(element.selector, errorSelector),
+        );
 
         return errorFragment.decodeError(inBytes);
       }
@@ -174,9 +186,12 @@ class ContractABI with InternalCborSerialization {
   @override
   CborTagValue<CborListValue> toCbor() {
     return CborTagValue(
-        CborListValue.definite([
-          CborListValue.definite(fragments.map((e) => e.toCbor()).toList())
-        ].cast()),
-        InternalCborSerializationConst.defaultTag);
+      CborListValue.definite(
+        [
+          CborListValue.definite(fragments.map((e) => e.toCbor()).toList()),
+        ].cast(),
+      ),
+      InternalCborSerializationConst.defaultTag,
+    );
   }
 }

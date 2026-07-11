@@ -37,7 +37,7 @@ class EthereumRequestCreateAccessList
       (result['accessList'] as List)
           .map((e) => AccessEntry.fromJson(e))
           .toList(),
-      EthereumRequest.onBigintResponse(result['gasUsed'])
+      EthereumRequest.onBigintResponse(result['gasUsed']),
     );
   }
 }

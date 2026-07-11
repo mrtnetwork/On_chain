@@ -31,8 +31,8 @@ class SolanaRequestProgramSubscribe extends SolanaRequest<int, int> {
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         {'filters': filters?.map((e) => e.toJson()).toList()},
-        encoding?.toJson()
-      ])
+        encoding?.toJson(),
+      ]),
     ];
   }
 }

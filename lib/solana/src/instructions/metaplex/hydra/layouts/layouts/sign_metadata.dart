@@ -6,10 +6,11 @@ class MetaplexHydraSignMetadataLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraSignMetadataLayout.fromBuffer(List<int> data) {
     MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexHydraProgramInstruction.processSignMetadata.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexHydraProgramInstruction.processSignMetadata.insturction,
+    );
     return const MetaplexHydraSignMetadataLayout();
   }
 

@@ -20,8 +20,11 @@ class CollectionToggle extends BorshLayoutSerializable {
         return CollectionToggle.set(collection: Collection.fromJson(value[0]));
     }
   }
-  static const CollectionToggle none =
-      CollectionToggle._('NoneLayout', 0, null);
+  static const CollectionToggle none = CollectionToggle._(
+    'NoneLayout',
+    0,
+    null,
+  );
   static const CollectionToggle clear = CollectionToggle._('Clear', 1, null);
   factory CollectionToggle.set({required Collection collection}) {
     return CollectionToggle._('Set', 2, [collection]);
@@ -32,7 +35,7 @@ class CollectionToggle extends BorshLayoutSerializable {
       LayoutConst.none(property: 'NoneLayout'),
       LayoutConst.none(property: 'Clear'),
       LayoutConst.tuple([Collection.staticLayout], property: 'Set'),
-    ], property: 'collectionToggle')
+    ], property: 'collectionToggle'),
   ]);
 
   @override
@@ -41,7 +44,7 @@ class CollectionToggle extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'collectionToggle': {name: fileds?.map((e) => e.serialize()).toList()}
+      'collectionToggle': {name: fileds?.map((e) => e.serialize()).toList()},
     };
   }
 }

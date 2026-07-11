@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout
   const MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout();
 
   factory MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .updatePrimarySaleHappenedViaToken.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .updatePrimarySaleHappenedViaToken
+              .insturction,
+    );
     return const MetaplexTokenMetaDataUpdatePrimarySaleHappenedViaTokenLayout();
   }
 

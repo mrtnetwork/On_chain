@@ -12,59 +12,64 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     required super.programId,
     required ProgramLayout layout,
   }) : super(data: layout.toBytes());
-  factory MetaplexCandyMachineCoreProgram.addConfigLines(
-      {required SolAddress candyMachine,
-      required SolAddress authority,
-      required MetaplexCandyMachineAddConfigLinesLayout layout,
-      SolAddress programId =
-          MetaplexCandyMachineCoreProgramConst.candyMachineV3programId}) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyMachine.toWritable(),
-      authority.toSigner(),
-    ], programId: programId, layout: layout);
-  }
-  factory MetaplexCandyMachineCoreProgram.createCandyGuard(
-      {required SolAddress candyGuard,
-      required SolAddress base,
-      required SolAddress authority,
-      required SolAddress payer,
-      required MetaplexCandyMachineCreateCandyGuardLayout layout,
-      SolAddress systemProgram = SystemProgramConst.programId,
-      SolAddress programId =
-          MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toWritable(),
-      base.toSigner(),
-      authority.toReadOnly(),
-      payer.toSignerAndWritable(),
-      systemProgram.toReadOnly(),
-    ], programId: programId, layout: layout);
-  }
-  factory MetaplexCandyMachineCoreProgram.deleteCandyGuard(
-      {required SolAddress candyGuard,
-      required SolAddress authority,
-      SolAddress programId =
-          MetaplexCandyMachineCoreProgramConst.candyGuardProgramId}) {
+  factory MetaplexCandyMachineCoreProgram.addConfigLines({
+    required SolAddress candyMachine,
+    required SolAddress authority,
+    required MetaplexCandyMachineAddConfigLinesLayout layout,
+    SolAddress programId =
+        MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
+  }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [
-          candyGuard.toWritable(),
-          authority.toSignerAndWritable(),
-        ],
-        programId: programId,
-        layout: const MetaplexCandyMachineDeleteCandyGuardLayout());
+      keys: [candyMachine.toWritable(), authority.toSigner()],
+      programId: programId,
+      layout: layout,
+    );
   }
-  factory MetaplexCandyMachineCoreProgram.deleteCandyMachine(
-      {required SolAddress candyMachine,
-      required SolAddress authority,
-      SolAddress programId =
-          MetaplexCandyMachineCoreProgramConst.candyMachineV3programId}) {
+  factory MetaplexCandyMachineCoreProgram.createCandyGuard({
+    required SolAddress candyGuard,
+    required SolAddress base,
+    required SolAddress authority,
+    required SolAddress payer,
+    required MetaplexCandyMachineCreateCandyGuardLayout layout,
+    SolAddress systemProgram = SystemProgramConst.programId,
+    SolAddress programId =
+        MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
+  }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [
-          candyMachine.toWritable(),
-          authority.toSignerAndWritable(),
-        ],
-        programId: programId,
-        layout: const MetaplexCandyMachineDeleteCandyMachineLayout());
+      keys: [
+        candyGuard.toWritable(),
+        base.toSigner(),
+        authority.toReadOnly(),
+        payer.toSignerAndWritable(),
+        systemProgram.toReadOnly(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
+  }
+  factory MetaplexCandyMachineCoreProgram.deleteCandyGuard({
+    required SolAddress candyGuard,
+    required SolAddress authority,
+    SolAddress programId =
+        MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
+  }) {
+    return MetaplexCandyMachineCoreProgram(
+      keys: [candyGuard.toWritable(), authority.toSignerAndWritable()],
+      programId: programId,
+      layout: const MetaplexCandyMachineDeleteCandyGuardLayout(),
+    );
+  }
+  factory MetaplexCandyMachineCoreProgram.deleteCandyMachine({
+    required SolAddress candyMachine,
+    required SolAddress authority,
+    SolAddress programId =
+        MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
+  }) {
+    return MetaplexCandyMachineCoreProgram(
+      keys: [candyMachine.toWritable(), authority.toSignerAndWritable()],
+      programId: programId,
+      layout: const MetaplexCandyMachineDeleteCandyMachineLayout(),
+    );
   }
   factory MetaplexCandyMachineCoreProgram.initializeCandyMachine({
     required SolAddress candyMachine,
@@ -82,19 +87,23 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyMachine.toWritable(),
-      authorityPda.toWritable(),
-      authority.toReadOnly(),
-      payer.toSigner(),
-      collectionMetadata.toReadOnly(),
-      collectionMint.toReadOnly(),
-      collectionMasterEdition.toReadOnly(),
-      collectionUpdateAuthority.toSignerAndWritable(),
-      collectionAuthorityRecord.toWritable(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyMachine.toWritable(),
+        authorityPda.toWritable(),
+        authority.toReadOnly(),
+        payer.toSigner(),
+        collectionMetadata.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMasterEdition.toReadOnly(),
+        collectionUpdateAuthority.toSignerAndWritable(),
+        collectionAuthorityRecord.toWritable(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.initializeCandyMachineV2({
     required SolAddress candyMachine,
@@ -116,23 +125,27 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyMachine.toWritable(),
-      authorityPda.toWritable(),
-      authority.toReadOnly(),
-      payer.toSignerAndWritable(),
-      ruleSet?.toReadOnly() ?? programId.toReadOnly(),
-      collectionMetadata.toWritable(),
-      collectionMint.toReadOnly(),
-      collectionMasterEdition.toReadOnly(),
-      collectionUpdateAuthority.toSignerAndWritable(),
-      collectionDelegateRecord.toWritable(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ?? programId.toReadOnly()
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyMachine.toWritable(),
+        authorityPda.toWritable(),
+        authority.toReadOnly(),
+        payer.toSignerAndWritable(),
+        ruleSet?.toReadOnly() ?? programId.toReadOnly(),
+        collectionMetadata.toWritable(),
+        collectionMint.toReadOnly(),
+        collectionMasterEdition.toReadOnly(),
+        collectionUpdateAuthority.toSignerAndWritable(),
+        collectionDelegateRecord.toWritable(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ?? programId.toReadOnly(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.mintFromCandyMachine({
     required SolAddress candyMachine,
@@ -156,27 +169,28 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [
-          candyMachine.toWritable(),
-          authorityPda.toWritable(),
-          mintAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          nftMint.toWritable(),
-          nftMintAuthority.toSigner(),
-          nftMetadata.toWritable(),
-          nftMasterEdition.toWritable(),
-          collectionAuthorityRecord.toReadOnly(),
-          collectionMint.toReadOnly(),
-          collectionMetadata.toWritable(),
-          collectionMasterEdition.toReadOnly(),
-          collectionUpdateAuthority.toReadOnly(),
-          tokenMetadataProgram.toReadOnly(),
-          tokenProgram.toReadOnly(),
-          systemProgram.toReadOnly(),
-          recentSlothashes.toReadOnly()
-        ],
-        programId: programId,
-        layout: const MetaplexCandyMachineMintFromCandyMachineLayout());
+      keys: [
+        candyMachine.toWritable(),
+        authorityPda.toWritable(),
+        mintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        nftMint.toWritable(),
+        nftMintAuthority.toSigner(),
+        nftMetadata.toWritable(),
+        nftMasterEdition.toWritable(),
+        collectionAuthorityRecord.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        collectionMasterEdition.toReadOnly(),
+        collectionUpdateAuthority.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        recentSlothashes.toReadOnly(),
+      ],
+      programId: programId,
+      layout: const MetaplexCandyMachineMintFromCandyMachineLayout(),
+    );
   }
   factory MetaplexCandyMachineCoreProgram.mintFromCandyMachineV2({
     required SolAddress candyMachine,
@@ -207,34 +221,35 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress? authorizationRules,
   }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [
-          candyMachine.toWritable(),
-          authorityPda.toWritable(),
-          mintAuthority.toSigner(),
-          payer.toSignerAndWritable(),
-          nftOwner.toReadOnly(),
-          nftMint.toWritable(),
-          nftMintAuthority.toSigner(),
-          nftMetadata.toWritable(),
-          nftMasterEdition.toWritable(),
-          token?.toWritable() ?? programId.toReadOnly(),
-          tokenRecord?.toWritable() ?? programId.toReadOnly(),
-          collectionDelegateRecord.toReadOnly(),
-          collectionMint.toReadOnly(),
-          collectionMetadata.toWritable(),
-          collectionMasterEdition.toReadOnly(),
-          collectionUpdateAuthority.toReadOnly(),
-          tokenMetadataProgram.toReadOnly(),
-          splTokenProgram.toReadOnly(),
-          splAtaProgram?.toReadOnly() ?? programId.toReadOnly(),
-          systemProgram.toReadOnly(),
-          sysvarInstructions.toReadOnly(),
-          recentSlothashes.toReadOnly(),
-          authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
-          authorizationRules?.toReadOnly() ?? programId.toReadOnly()
-        ],
-        programId: programId,
-        layout: const MetaplexCandyMachineMintFromCandyMachineV2Layout());
+      keys: [
+        candyMachine.toWritable(),
+        authorityPda.toWritable(),
+        mintAuthority.toSigner(),
+        payer.toSignerAndWritable(),
+        nftOwner.toReadOnly(),
+        nftMint.toWritable(),
+        nftMintAuthority.toSigner(),
+        nftMetadata.toWritable(),
+        nftMasterEdition.toWritable(),
+        token?.toWritable() ?? programId.toReadOnly(),
+        tokenRecord?.toWritable() ?? programId.toReadOnly(),
+        collectionDelegateRecord.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        collectionMasterEdition.toReadOnly(),
+        collectionUpdateAuthority.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        splTokenProgram.toReadOnly(),
+        splAtaProgram?.toReadOnly() ?? programId.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        recentSlothashes.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ?? programId.toReadOnly(),
+      ],
+      programId: programId,
+      layout: const MetaplexCandyMachineMintFromCandyMachineV2Layout(),
+    );
   }
   factory MetaplexCandyMachineCoreProgram.mint({
     required SolAddress candyGuard,
@@ -260,27 +275,31 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
         MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
     SolAddress tokenProgram = SPLTokenProgramConst.tokenProgramId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toReadOnly(),
-      candyMachineProgram.toReadOnly(),
-      candyMachine.toWritable(),
-      candyMachineAuthorityPda.toWritable(),
-      payer.toSignerAndWritable(),
-      nftMetadata.toWritable(),
-      nftMint.toWritable(),
-      nftMintAuthority.toSigner(),
-      nftMasterEdition.toWritable(),
-      collectionAuthorityRecord.toReadOnly(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toWritable(),
-      collectionMasterEdition.toReadOnly(),
-      collectionUpdateAuthority.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      tokenProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      recentSlothashes.toReadOnly(),
-      instructionSysvarAccount.toReadOnly()
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyGuard.toReadOnly(),
+        candyMachineProgram.toReadOnly(),
+        candyMachine.toWritable(),
+        candyMachineAuthorityPda.toWritable(),
+        payer.toSignerAndWritable(),
+        nftMetadata.toWritable(),
+        nftMint.toWritable(),
+        nftMintAuthority.toSigner(),
+        nftMasterEdition.toWritable(),
+        collectionAuthorityRecord.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        collectionMasterEdition.toReadOnly(),
+        collectionUpdateAuthority.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        tokenProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        recentSlothashes.toReadOnly(),
+        instructionSysvarAccount.toReadOnly(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.mintV2({
     required SolAddress candyGuard,
@@ -313,33 +332,37 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress? authorizationRules,
     SolAddress? splAtaProgram,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toReadOnly(),
-      candyMachineProgram.toReadOnly(),
-      candyMachine.toWritable(),
-      candyMachineAuthorityPda.toWritable(),
-      payer.toSignerAndWritable(),
-      minter.toSignerAndWritable(),
-      nftMint.toWritable(),
-      nftMintAuthority.toSigner(),
-      nftMetadata.toWritable(),
-      nftMasterEdition.toWritable(),
-      token?.toWritable() ?? programId.toReadOnly(),
-      tokenRecord?.toWritable() ?? programId.toReadOnly(),
-      collectionDelegateRecord.toReadOnly(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toWritable(),
-      collectionMasterEdition.toReadOnly(),
-      collectionUpdateAuthority.toReadOnly(),
-      tokenMetadataProgram.toReadOnly(),
-      splTokenProgram.toReadOnly(),
-      splAtaProgram?.toReadOnly() ?? programId.toReadOnly(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      recentSlothashes.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ?? programId.toReadOnly()
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyGuard.toReadOnly(),
+        candyMachineProgram.toReadOnly(),
+        candyMachine.toWritable(),
+        candyMachineAuthorityPda.toWritable(),
+        payer.toSignerAndWritable(),
+        minter.toSignerAndWritable(),
+        nftMint.toWritable(),
+        nftMintAuthority.toSigner(),
+        nftMetadata.toWritable(),
+        nftMasterEdition.toWritable(),
+        token?.toWritable() ?? programId.toReadOnly(),
+        tokenRecord?.toWritable() ?? programId.toReadOnly(),
+        collectionDelegateRecord.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        collectionMasterEdition.toReadOnly(),
+        collectionUpdateAuthority.toReadOnly(),
+        tokenMetadataProgram.toReadOnly(),
+        splTokenProgram.toReadOnly(),
+        splAtaProgram?.toReadOnly() ?? programId.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        recentSlothashes.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ?? programId.toReadOnly(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.route({
     required SolAddress candyGuard,
@@ -349,11 +372,15 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toReadOnly(),
-      candyMachine.toWritable(),
-      payer.toSignerAndWritable()
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyGuard.toReadOnly(),
+        candyMachine.toWritable(),
+        payer.toSignerAndWritable(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.setCandyGuardAuthority({
     required SolAddress candyGuard,
@@ -362,10 +389,11 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toWritable(),
-      authority.toSigner(),
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [candyGuard.toWritable(), authority.toSigner()],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.setCandyMachineAuthority({
     required SolAddress candyMachine,
@@ -374,10 +402,11 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyMachine.toWritable(),
-      authority.toSigner(),
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [candyMachine.toWritable(), authority.toSigner()],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.setCollection({
     required SolAddress candyMachine,
@@ -398,24 +427,25 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
         MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
   }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [
-          candyMachine.toWritable(),
-          authority.toSigner(),
-          authorityPda.toWritable(),
-          payer.toSigner(),
-          collectionMint.toReadOnly(),
-          collectionMetadata.toReadOnly(),
-          collectionAuthorityRecord.toWritable(),
-          newCollectionUpdateAuthority.toSignerAndWritable(),
-          newCollectionMetadata.toReadOnly(),
-          newCollectionMint.toReadOnly(),
-          newCollectionMasterEdition.toReadOnly(),
-          newCollectionAuthorityRecord.toWritable(),
-          tokenMetadataProgram.toReadOnly(),
-          systemProgram.toReadOnly(),
-        ],
-        programId: programId,
-        layout: const MetaplexCandyMachineSetCollectionLayout());
+      keys: [
+        candyMachine.toWritable(),
+        authority.toSigner(),
+        authorityPda.toWritable(),
+        payer.toSigner(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toReadOnly(),
+        collectionAuthorityRecord.toWritable(),
+        newCollectionUpdateAuthority.toSignerAndWritable(),
+        newCollectionMetadata.toReadOnly(),
+        newCollectionMint.toReadOnly(),
+        newCollectionMasterEdition.toReadOnly(),
+        newCollectionAuthorityRecord.toWritable(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+      ],
+      programId: programId,
+      layout: const MetaplexCandyMachineSetCollectionLayout(),
+    );
   }
   factory MetaplexCandyMachineCoreProgram.setCollectionV2({
     required SolAddress candyMachine,
@@ -440,28 +470,29 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress? authorizationRules,
   }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [
-          candyMachine.toWritable(),
-          authority.toSigner(),
-          authorityPda.toWritable(),
-          payer.toSignerAndWritable(),
-          collectionUpdateAuthority.toReadOnly(),
-          collectionMint.toReadOnly(),
-          collectionMetadata.toWritable(),
-          collectionDelegateRecord.toWritable(),
-          newCollectionUpdateAuthority.toSigner(),
-          newCollectionMint.toReadOnly(),
-          newCollectionMetadata.toWritable(),
-          newCollectionMasterEdition.toReadOnly(),
-          newCollectionDelegateRecord.toWritable(),
-          tokenMetadataProgram.toReadOnly(),
-          systemProgram.toReadOnly(),
-          sysvarInstructions.toReadOnly(),
-          authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
-          authorizationRules?.toReadOnly() ?? programId.toReadOnly()
-        ],
-        programId: programId,
-        layout: const MetaplexCandyMachineSetCollectionV2Layout());
+      keys: [
+        candyMachine.toWritable(),
+        authority.toSigner(),
+        authorityPda.toWritable(),
+        payer.toSignerAndWritable(),
+        collectionUpdateAuthority.toReadOnly(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        collectionDelegateRecord.toWritable(),
+        newCollectionUpdateAuthority.toSigner(),
+        newCollectionMint.toReadOnly(),
+        newCollectionMetadata.toWritable(),
+        newCollectionMasterEdition.toReadOnly(),
+        newCollectionDelegateRecord.toWritable(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ?? programId.toReadOnly(),
+      ],
+      programId: programId,
+      layout: const MetaplexCandyMachineSetCollectionV2Layout(),
+    );
   }
   factory MetaplexCandyMachineCoreProgram.setMintAuthority({
     required SolAddress candyMachine,
@@ -471,13 +502,14 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
         MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
   }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [
-          candyMachine.toWritable(),
-          authority.toSigner(),
-          mintAuthority.toSigner()
-        ],
-        programId: programId,
-        layout: const MetaplexCandyMachineSetMintAuthorityLayout());
+      keys: [
+        candyMachine.toWritable(),
+        authority.toSigner(),
+        mintAuthority.toSigner(),
+      ],
+      programId: programId,
+      layout: const MetaplexCandyMachineSetMintAuthorityLayout(),
+    );
   }
   factory MetaplexCandyMachineCoreProgram.setTokenStandard({
     required SolAddress candyMachine,
@@ -499,23 +531,27 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress? authorizationRulesProgram,
     SolAddress? authorizationRules,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyMachine.toWritable(),
-      authority.toSigner(),
-      authorityPda.toWritable(),
-      payer.toSignerAndWritable(),
-      ruleSet?.toReadOnly() ?? programId.toReadOnly(),
-      collectionDelegateRecord.toWritable(),
-      collectionMint.toReadOnly(),
-      collectionMetadata.toWritable(),
-      collectionAuthorityRecord?.toWritable() ?? programId.toReadOnly(),
-      collectionUpdateAuthority.toSigner(),
-      tokenMetadataProgram.toReadOnly(),
-      systemProgram.toReadOnly(),
-      sysvarInstructions.toReadOnly(),
-      authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
-      authorizationRules?.toReadOnly() ?? programId.toReadOnly()
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyMachine.toWritable(),
+        authority.toSigner(),
+        authorityPda.toWritable(),
+        payer.toSignerAndWritable(),
+        ruleSet?.toReadOnly() ?? programId.toReadOnly(),
+        collectionDelegateRecord.toWritable(),
+        collectionMint.toReadOnly(),
+        collectionMetadata.toWritable(),
+        collectionAuthorityRecord?.toWritable() ?? programId.toReadOnly(),
+        collectionUpdateAuthority.toSigner(),
+        tokenMetadataProgram.toReadOnly(),
+        systemProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        authorizationRulesProgram?.toReadOnly() ?? programId.toReadOnly(),
+        authorizationRules?.toReadOnly() ?? programId.toReadOnly(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.unwrap({
     required SolAddress candyGuard,
@@ -526,13 +562,17 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toReadOnly(),
-      authority.toSigner(),
-      candyMachine.toWritable(),
-      candyMachineAuthority.toSigner(),
-      candyMachineProgram.toReadOnly(),
-    ], programId: programId, layout: const MetaplexCandyMachineUnwrapLayout());
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyGuard.toReadOnly(),
+        authority.toSigner(),
+        candyMachine.toWritable(),
+        candyMachineAuthority.toSigner(),
+        candyMachineProgram.toReadOnly(),
+      ],
+      programId: programId,
+      layout: const MetaplexCandyMachineUnwrapLayout(),
+    );
   }
   factory MetaplexCandyMachineCoreProgram.updateCandyGuard({
     required SolAddress candyGuard,
@@ -543,12 +583,16 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toWritable(),
-      authority.toSigner(),
-      payer.toSigner(),
-      systemProgram.toReadOnly()
-    ], programId: programId, layout: layout);
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyGuard.toWritable(),
+        authority.toSigner(),
+        payer.toSigner(),
+        systemProgram.toReadOnly(),
+      ],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.updateCandyMachine({
     required SolAddress candyMachine,
@@ -558,9 +602,10 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
         MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
   }) {
     return MetaplexCandyMachineCoreProgram(
-        keys: [candyMachine.toWritable(), authority.toSigner()],
-        programId: programId,
-        layout: layout);
+      keys: [candyMachine.toWritable(), authority.toSigner()],
+      programId: programId,
+      layout: layout,
+    );
   }
   factory MetaplexCandyMachineCoreProgram.wrap({
     required SolAddress candyGuard,
@@ -571,12 +616,16 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
     SolAddress programId =
         MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
   }) {
-    return MetaplexCandyMachineCoreProgram(keys: [
-      candyGuard.toReadOnly(),
-      authority.toSigner(),
-      candyMachine.toWritable(),
-      candyMachineProgram.toReadOnly(),
-      candyMachineAuthority.toSigner(),
-    ], programId: programId, layout: const MetaplexCandyMachineWrapLayout());
+    return MetaplexCandyMachineCoreProgram(
+      keys: [
+        candyGuard.toReadOnly(),
+        authority.toSigner(),
+        candyMachine.toWritable(),
+        candyMachineProgram.toReadOnly(),
+        candyMachineAuthority.toSigner(),
+      ],
+      programId: programId,
+      layout: const MetaplexCandyMachineWrapLayout(),
+    );
   }
 }

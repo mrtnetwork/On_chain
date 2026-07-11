@@ -4,19 +4,20 @@ import 'package:on_chain/solana/src/rpc/models/models/encoding.dart';
 /// Class representing a compiled instruction.
 class CompiledInstruction {
   /// Constructor to create a CompiledInstruction instance.
-  CompiledInstruction(
-      {required this.programIdIndex,
-      required List<int> accounts,
-      required List<int>
-          data}) // Ensure data and accounts lists are unmodifiable.
-      : data = List<int>.unmodifiable(data),
-        accounts = List<int>.unmodifiable(accounts);
+  CompiledInstruction({
+    required this.programIdIndex,
+    required List<int> accounts,
+    required List<int> data,
+  }) // Ensure data and accounts lists are unmodifiable.
+  : data = List<int>.unmodifiable(data),
+       accounts = List<int>.unmodifiable(accounts);
 
   factory CompiledInstruction.fromJson(Map<String, dynamic> json) {
     return CompiledInstruction(
-        programIdIndex: json['programIdIndex'],
-        accounts: (json['accounts'] as List).cast(),
-        data: SolanaRequestEncoding.decode(json['data']));
+      programIdIndex: json['programIdIndex'],
+      accounts: (json['accounts'] as List).cast(),
+      data: SolanaRequestEncoding.decode(json['data']),
+    );
   }
 
   /// Index into the transaction keys array indicating the program account that executes this instruction.
@@ -32,7 +33,7 @@ class CompiledInstruction {
     return {
       'programIdIndex': programIdIndex,
       'accounts': accounts,
-      'data': Base58Encoder.encode(data)
+      'data': Base58Encoder.encode(data),
     };
   }
 

@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/bip/address/ada/ada_shelley_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/byron/byron.dart';
 import 'package:on_chain/ada/src/address/era/shelly/shelly.dart';
@@ -7,11 +6,14 @@ import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents an abstract class for ADA addresses with serialization capabilities.
-abstract class ADAAddress with InternalCborSerialization {
+abstract class ADAAddress
+    with InternalCborSerialization, Equality
+    implements IAddress {
   /// Abstract property representing the ADA network.
   abstract final ADANetwork network;
 
   /// Abstract property representing the address string.
+  @override
   abstract final String address;
 
   /// Abstract property representing the type of ADA address.
@@ -26,9 +28,25 @@ abstract class ADAAddress with InternalCborSerialization {
   /// Default constructor for ADAAddress.
   const ADAAddress.init();
 
+  factory ADAAddress.deserializeIAddress({
+    List<int>? bytes,
+    CborObject? object,
+  }) {
+    final decode = CborTagSerializable.decodeTaggedValue(
+      cborBytes: bytes,
+      cborObject: object,
+      identifier: BlockchainNetwork.cardano.identifier,
+    );
+    return deserialize(decode.objectAt(0));
+  }
+
+  /// deserializeIAddress
+
   /// Factory method to create an ADAAddress instance from a given address string.
-  static T fromAddress<T extends ADAAddress>(String address,
-      {ADANetwork? network}) {
+  static T fromAddress<T extends ADAAddress>(
+    String address, {
+    ADANetwork? network,
+  }) {
     final type = AdaAddressUtils.findAddrType(address);
     final ADAAddress addr;
     switch (type) {
@@ -49,54 +67,74 @@ abstract class ADAAddress with InternalCborSerialization {
         break;
     }
     if (addr is! T) {
-      throw ADAPluginException('Invalid address type.', details: {
-        'expected': '$T',
-        'Type': addr.runtimeType,
-        'address': addr.address
-      });
+      throw ADAPluginException(
+        'Invalid address type.',
+        details: {
+          'expected': '$T',
+          'Type': addr.runtimeType.toString(),
+          'address': addr.address,
+        },
+      );
     }
     return addr;
   }
 
   /// Factory method to create an ADAAddress instance from bytes.
-  static T fromRawBytes<T extends ADAAddress>(List<int> bytes,
-      {ADANetwork? network}) {
+  static T fromRawBytes<T extends ADAAddress>(
+    List<int> bytes, {
+    ADANetwork? network,
+  }) {
     return _deserialize<T>(bytes, network: network);
   }
 
   /// Factory method to create an ADAAddress instance from cbor bytes.
-  static T fromBytes<T extends ADAAddress>(List<int> bytes,
-      {ADANetwork? network}) {
+  static T fromBytes<T extends ADAAddress>(
+    List<int> bytes, {
+    ADANetwork? network,
+  }) {
     return deserialize<T>(
-        CborObject.fromCbor(bytes).as<CborBytesValue>('ADAAddress'),
-        network: network);
+      CborObject.fromCbor(bytes).as<CborBytesValue>(operation: 'ADAAddress'),
+      network: network,
+    );
   }
 
   /// Deserializes a CBOR object into an ADAAddress instance.
-  static T deserialize<T extends ADAAddress>(CborBytesValue cbor,
-      {ADANetwork? network}) {
+  static T deserialize<T extends ADAAddress>(
+    CborBytesValue cbor, {
+    ADANetwork? network,
+  }) {
     return _deserialize(cbor.value, network: network);
   }
 
   //  /// Deserializes a CBOR object into an ADAAddress instance.
-  static T _deserialize<T extends ADAAddress>(List<int> bytes,
-      {ADANetwork? network}) {
+  static T _deserialize<T extends ADAAddress>(
+    List<int> bytes, {
+    ADANetwork? network,
+  }) {
     ADAAddress address;
     try {
       address = ADAByronAddress.fromRawBytes(bytes);
     } catch (e) {
-      address = ADAAddress.fromAddress(AdaShelleyAddrUtils.encodeBytes(bytes));
+      address = ADAAddress.fromAddress(
+        AdaShelleyAddrUtils.encodeBytes(bytes),
+        network: network,
+      );
     }
     if (address is! T) {
-      throw ADAPluginException('Invalid ADA address type.', details: {
-        'expected': '$T',
-        'Type': address.addressType,
-        'address': address.address
-      });
+      throw ADAPluginException(
+        'Invalid ADA address type.',
+        details: {
+          'expected': '$T',
+          'Type': address.addressType.toString(),
+          'address': address.address,
+        },
+      );
     }
     if (network != null && address.network != network) {
-      throw ADAPluginException('Invalid network.',
-          details: {'expected': network.name, 'network': address.network.name});
+      throw ADAPluginException(
+        'Invalid network.',
+        details: {'expected': network.name, 'network': address.network.name},
+      );
     }
     return address;
   }
@@ -117,21 +155,24 @@ abstract class ADAAddress with InternalCborSerialization {
 
   T cast<T extends ADAAddress>() {
     if (this is! T) {
-      throw ADAPluginException('ADAAddress casting failed.',
-          details: {'expected': '$T', 'type': addressType.name});
+      throw CastFailedException<T>(value: this);
     }
     return this as T;
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is ADAAddress &&
-            other.runtimeType == runtimeType &&
-            address == other.address);
+  List<dynamic> get variables => [address];
+
+  @override
+  List<int> encodeAsIAddress() {
+    return CborTagValue(CborListValue.definite([toCbor()]), [
+      BlockchainNetwork.cardano.identifier.id,
+    ]).encode();
   }
 
   @override
-  int get hashCode =>
-      address.hashCode ^ addressType.hashCode ^ network.hashCode;
+  BlockchainNetwork get blockchainNetwork => BlockchainNetwork.cardano;
+
+  @override
+  String get viewType => addressType.name;
 }

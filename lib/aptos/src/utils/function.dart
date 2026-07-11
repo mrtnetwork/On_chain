@@ -14,22 +14,26 @@ class AptosFunctionEntryArgumentUtils {
   /// - [genericTypeArgs]: Optional list of generic type arguments (type tags) to handle generic Move functions.
   ///
   /// Returns a list of [AptosEntryFunctionArguments] ready for transaction execution.
-  static List<AptosEntryFunctionArguments> parseArguments(
-      {required AptosApiMoveFunction function,
-      required List<Object?> values,
-      List<AptosTypeTag> genericTypeArgs = const []}) {
-    int signerIndex =
-        function.params.indexWhere((e) => e != "&signer" && e != "signer");
+  static List<AptosEntryFunctionArguments> parseArguments({
+    required AptosApiMoveFunction function,
+    required List<Object?> values,
+    List<AptosTypeTag> genericTypeArgs = const [],
+  }) {
+    int signerIndex = function.params.indexWhere(
+      (e) => e != "&signer" && e != "signer",
+    );
     List<String> paramsString = function.params;
     if (signerIndex >= 0) {
       paramsString = paramsString.sublist(signerIndex);
     }
-    final tags = paramsString
-        .map((e) => AptosFunctionEntryArgumentUtils.parseTag(e))
-        .toList();
+    final tags =
+        paramsString
+            .map((e) => AptosFunctionEntryArgumentUtils.parseTag(e))
+            .toList();
     if (tags.length != values.length) {
       throw DartAptosPluginException(
-          "Mismatch between parameters and values: expected ${tags.length} parameters, but got ${values.length} values.");
+        "Mismatch between parameters and values: expected ${tags.length} parameters, but got ${values.length} values.",
+      );
     }
 
     return List.generate(tags.length, (index) {
@@ -37,11 +41,18 @@ class AptosFunctionEntryArgumentUtils {
       final value = values[index];
       try {
         return type.toEntryFunctionArguments(
-            value: value, genericTypeArgs: genericTypeArgs);
+          value: value,
+          genericTypeArgs: genericTypeArgs,
+        );
       } catch (e) {
         throw DartAptosPluginException(
-            "Parsing argument failed at index $index.",
-            details: {"message": e.toString(), "type": type, "value": value});
+          "Parsing argument failed at index $index.",
+          details: {
+            "message": e.toString(),
+            "type": type.toString(),
+            "value": value.toString(),
+          },
+        );
       }
     });
   }
@@ -79,16 +90,19 @@ class AptosFunctionEntryArgumentUtils {
           final functionName = _toIdentifier(data[2]);
           if (moduleName == null) {
             throw DartAptosPluginException(
-                "Unable to parse struct tag: Invalid module name: '${data[1]}'");
+              "Unable to parse struct tag: Invalid module name: '${data[1]}'",
+            );
           }
           if (functionName == null) {
             throw DartAptosPluginException(
-                "Unable to parse struct tag: Invalid function name: '${data[2]}'");
+              "Unable to parse struct tag: Invalid function name: '${data[2]}'",
+            );
           }
           List<AptosTypeTag> typeArgs = [];
           if (name.length != typeName.length) {
-            final rawParts =
-                _extractFirstGeneric(name.substring(typeName.length));
+            final rawParts = _extractFirstGeneric(
+              name.substring(typeName.length),
+            );
             List<String> genericParts = [];
             if (rawParts != null) {
               int bracketCount = 0;
@@ -105,22 +119,27 @@ class AptosFunctionEntryArgumentUtils {
             }
             if (genericParts.isEmpty) {
               throw DartAptosPluginException(
-                  "Invalid type arguments generic parts.",
-                  details: {"parts": name.substring(typeName.length)});
+                "Invalid type arguments generic parts.",
+                details: {"parts": name.substring(typeName.length)},
+              );
             }
             try {
               typeArgs = genericParts.map((e) => parseTag(e)).toList();
             } catch (e) {
               throw DartAptosPluginException(
-                  "Failed to parse type arguments from parts: $genericParts. "
-                  "Error: ${e.toString()}");
+                "Failed to parse type arguments from parts: $genericParts. "
+                "Error: ${e.toString()}",
+              );
             }
           }
-          return AptosTypeTagStruct(AptosStructTag(
+          return AptosTypeTagStruct(
+            AptosStructTag(
               address: address,
               moduleName: moduleName,
               name: functionName,
-              typeArgs: typeArgs));
+              typeArgs: typeArgs,
+            ),
+          );
         }
         if (_isGeneric(name)) {
           return AptosTypeTagGeneric(int.parse(name.substring(1)));
@@ -130,7 +149,8 @@ class AptosFunctionEntryArgumentUtils {
           return AptosTypeTagVector(parseTag(c!));
         }
         throw DartAptosPluginException(
-            "Unknown type tag. Failed to parse the provided input: '$name'.");
+          "Unknown type tag. Failed to parse the provided input: '$name'.",
+        );
     }
   }
 

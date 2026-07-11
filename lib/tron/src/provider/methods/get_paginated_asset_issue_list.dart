@@ -5,8 +5,10 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getpaginatedassetissuelist).
 class TronRequestGetPaginatedAssetIssueList
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetPaginatedAssetIssueList(
-      {required this.offset, required this.limit});
+  TronRequestGetPaginatedAssetIssueList({
+    required this.offset,
+    required this.limit,
+  });
 
   /// The index of the start token
   final int offset;

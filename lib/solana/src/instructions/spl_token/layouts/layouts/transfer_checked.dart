@@ -12,17 +12,14 @@ class SPLTokenTransferCheckedLayout extends SPLTokenProgramLayout {
   final int decimals;
 
   /// Constructs an SPLTokenTransferCheckedLayout instance.
-  SPLTokenTransferCheckedLayout({
-    required this.amount,
-    required this.decimals,
-  });
+  SPLTokenTransferCheckedLayout({required this.amount, required this.decimals});
 
   /// StructLayout structure for transferring checked tokens in SPL.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.u8(property: 'decimals'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u8(property: 'decimals'),
+  ]);
 
   /// Constructs an SPLTokenTransferCheckedLayout instance from buffer.
   factory SPLTokenTransferCheckedLayout.fromBuffer(List<int> bytes) {

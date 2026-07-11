@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/plutus/utils/utils.dart';
 import 'plutus_data_type.dart';
 import 'config.dart';
@@ -17,15 +16,16 @@ class PlutusBytes extends PlutusData {
   /// Deserializes a [PlutusBytes] instance from CBOR.
   factory PlutusBytes.deserialize(CborObject cbor) {
     if (cbor.hasType<CborDynamicBytesValue>()) {
-      final dynamic = cbor.as<CborDynamicBytesValue>('PlutusBytes');
+      final dynamic = cbor.as<CborDynamicBytesValue>(operation: 'PlutusBytes');
       return PlutusBytes(value: dynamic.value.expand((e) => e).toList());
     }
-    final bytes = cbor.as<CborBytesValue>('PlutusBytes');
+    final bytes = cbor.as<CborBytesValue>(operation: 'PlutusBytes');
     return PlutusBytes(value: bytes.value);
   }
   factory PlutusBytes.fromJson(Map<String, dynamic> json) {
     return PlutusBytes(
-        value: BytesUtils.fromHexString(json[PlutusDataType.bytes.name]));
+      value: BytesUtils.fromHexString(json[PlutusDataType.bytes.name]),
+    );
   }
 
   @override
@@ -33,11 +33,14 @@ class PlutusBytes extends PlutusData {
     if (value.length > PlutusDataUtils.chunkSize) {
       final List<List<int>> chunks = [];
       for (var i = 0; i < value.length; i += PlutusDataUtils.chunkSize) {
-        chunks.add(value.sublist(
+        chunks.add(
+          value.sublist(
             i,
             i + PlutusDataUtils.chunkSize > value.length
                 ? value.length
-                : i + PlutusDataUtils.chunkSize));
+                : i + PlutusDataUtils.chunkSize,
+          ),
+        );
       }
       return CborDynamicBytesValue(chunks);
     }
@@ -63,9 +66,11 @@ class PlutusBytes extends PlutusData {
   }
 
   @override
-  Object toJsonSchema(
-      {PlutusSchemaConfig config = const PlutusSchemaConfig(
-          jsonSchema: PlutusJsonSchema.basicConversions)}) {
+  Object toJsonSchema({
+    PlutusSchemaConfig config = const PlutusSchemaConfig(
+      jsonSchema: PlutusJsonSchema.basicConversions,
+    ),
+  }) {
     if (config.jsonSchema == PlutusJsonSchema.basicConversions) {
       try {
         return StringUtils.decode(value);

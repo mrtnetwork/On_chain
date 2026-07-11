@@ -16,29 +16,40 @@ void _initializeAccount() {
   test('initializeAccount', () {
     final owner = SolAddress('HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf');
     final layout = VoteProgramInitializeAccountLayout(
-        authorizedVoter:
-            SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ'),
-        authorizedWithdrawer:
-            SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ'),
-        commission: 1,
-        nodePubkey: owner);
-    expect(layout.toHex(),
-        '00000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd763d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d3d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d01');
+      authorizedVoter: SolAddress(
+        '57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ',
+      ),
+      authorizedWithdrawer: SolAddress(
+        '57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ',
+      ),
+      commission: 1,
+      nodePubkey: owner,
+    );
+    expect(
+      layout.toHex(),
+      '00000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd763d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d3d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d01',
+    );
 
-    final decode =
-        VoteProgramInitializeAccountLayout.fromBuffer(layout.toBytes());
+    final decode = VoteProgramInitializeAccountLayout.fromBuffer(
+      layout.toBytes(),
+    );
     expect(decode.toBytes(), layout.toBytes());
   });
 }
 
 void _authorize() {
   test('authorize', () {
-    final newAuthorized =
-        SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
+    final newAuthorized = SolAddress(
+      '57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ',
+    );
     final layout = VoteProgramAuthorizeLayout(
-        newAuthorized: newAuthorized, voteAuthorizationType: 1);
-    expect(layout.toHex(),
-        '010000003d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d01000000');
+      newAuthorized: newAuthorized,
+      voteAuthorizationType: 1,
+    );
+    expect(
+      layout.toHex(),
+      '010000003d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d01000000',
+    );
     final decode = VoteProgramAuthorizeLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });
@@ -49,14 +60,18 @@ void _authorizeWithSeed() {
     final account = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
     final owner = SolAddress('HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf');
     final layout = VoteProgramAuthorizeWithSeedLayout(
-        newAuthorized: account,
-        voteAuthorizationType: 1,
-        currentAuthorityDerivedKeySeed: 'account1',
-        currentAuthorityDerivedKeyOwnerPubkey: owner);
-    expect(layout.toHex(),
-        '0a00000001000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd7608000000000000006163636f756e74313d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d');
-    final decode =
-        VoteProgramAuthorizeWithSeedLayout.fromBuffer(layout.toBytes());
+      newAuthorized: account,
+      voteAuthorizationType: 1,
+      currentAuthorityDerivedKeySeed: 'account1',
+      currentAuthorityDerivedKeyOwnerPubkey: owner,
+    );
+    expect(
+      layout.toHex(),
+      '0a00000001000000f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd7608000000000000006163636f756e74313d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d',
+    );
+    final decode = VoteProgramAuthorizeWithSeedLayout.fromBuffer(
+      layout.toBytes(),
+    );
     expect(decode.toBytes(), layout.toBytes());
   });
 }

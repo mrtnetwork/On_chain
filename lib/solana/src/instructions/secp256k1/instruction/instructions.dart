@@ -11,9 +11,7 @@ class Secp256k1ProgramInstruction implements ProgramLayoutInstruction {
   static const Secp256k1ProgramInstruction secp256k1 =
       Secp256k1ProgramInstruction(null, 'Secp256k1');
 
-  static const List<Secp256k1ProgramInstruction> values = [
-    secp256k1,
-  ];
+  static const List<Secp256k1ProgramInstruction> values = [secp256k1];
 
   @override
   String get programName => 'Secp256k1';

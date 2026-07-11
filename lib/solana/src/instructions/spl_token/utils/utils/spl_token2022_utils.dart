@@ -14,30 +14,40 @@ class SPLToken2022Utils {
 
     while (extensionTypeIndex < tlvData.length) {
       final int entryType = IntUtils.fromBytes(
-          tlvData.sublist(extensionTypeIndex, extensionTypeIndex + typeSize),
-          byteOrder: Endian.little);
+        tlvData.sublist(extensionTypeIndex, extensionTypeIndex + typeSize),
+        byteOrder: Endian.little,
+      );
       extensionTypes.add(entryType);
       final int entryLength = IntUtils.fromBytes(
-          tlvData.sublist(extensionTypeIndex + typeSize,
-              extensionTypeIndex + typeSize + lengthSize),
-          byteOrder: Endian.little);
+        tlvData.sublist(
+          extensionTypeIndex + typeSize,
+          extensionTypeIndex + typeSize + lengthSize,
+        ),
+        byteOrder: Endian.little,
+      );
       extensionTypeIndex += entryLength + typeSize + lengthSize;
     }
 
     return extensionTypes.map((e) => ExtensionType.fromValue(e)).toList();
   }
 
-  static List<int>? getExtensionData(
-      {required ExtensionType extension, required List<int> tlvData}) {
+  static List<int>? getExtensionData({
+    required ExtensionType extension,
+    required List<int> tlvData,
+  }) {
     int extensionTypeIndex = 0;
     while (extensionTypeIndex + typeSize + lengthSize <= tlvData.length) {
       final int entryType = IntUtils.fromBytes(
-          tlvData.sublist(extensionTypeIndex, extensionTypeIndex + typeSize),
-          byteOrder: Endian.little);
+        tlvData.sublist(extensionTypeIndex, extensionTypeIndex + typeSize),
+        byteOrder: Endian.little,
+      );
       final int entryLength = IntUtils.fromBytes(
-          tlvData.sublist(extensionTypeIndex + typeSize,
-              extensionTypeIndex + typeSize + lengthSize),
-          byteOrder: Endian.little);
+        tlvData.sublist(
+          extensionTypeIndex + typeSize,
+          extensionTypeIndex + typeSize + lengthSize,
+        ),
+        byteOrder: Endian.little,
+      );
       final int typeIndex = extensionTypeIndex + typeSize + lengthSize;
       if (entryType == extension.value) {
         return tlvData.sublist(typeIndex, typeIndex + entryLength);
@@ -48,32 +58,40 @@ class SPLToken2022Utils {
     return null;
   }
 
-  static List<int> readExtionsionBytesFromAccountData(
-      {required ExtensionType extensionType,
-      required List<int> accountBytes,
-      SolanaTokenAccountType? type}) {
+  static List<int> readExtionsionBytesFromAccountData({
+    required ExtensionType extensionType,
+    required List<int> accountBytes,
+    SolanaTokenAccountType? type,
+  }) {
     try {
-      final extensionBytesOffset = SolanaTokenAccountUtils.accountSize +
+      final extensionBytesOffset =
+          SolanaTokenAccountUtils.accountSize +
           SolanaTokenAccountUtils.accountTypeSize;
       final tlvData = accountBytes.sublist(extensionBytesOffset);
       if (tlvData.length < (extensionType.layoutSize ?? 0)) {
         throw SolanaPluginException(
-            'Account extension data length is insufficient.',
-            details: {
-              'Expected': extensionType.layoutSize,
-              'length': tlvData.length
-            });
+          'Account extension data length is insufficient.',
+          details: {
+            'Expected': extensionType.layoutSize.toString(),
+            'length': tlvData.length.toString(),
+          },
+        );
       }
       if (type != null) {
         final accountType = SolanaTokenAccountType.fromValue(
-            accountBytes[SolanaTokenAccountUtils.accountSize]);
+          accountBytes[SolanaTokenAccountUtils.accountSize],
+        );
         if (accountType != type) {
-          throw SolanaPluginException('invalid account type',
-              details: {'expected': type.name, 'Type': accountType.name});
+          throw SolanaPluginException(
+            'invalid account type',
+            details: {'expected': type.name, 'Type': accountType.name},
+          );
         }
       }
       final extensionBytes = SPLToken2022Utils.getExtensionData(
-          extension: extensionType, tlvData: tlvData);
+        extension: extensionType,
+        tlvData: tlvData,
+      );
 
       return extensionBytes!;
     } catch (e) {

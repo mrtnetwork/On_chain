@@ -7,42 +7,55 @@ import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 
 /// Aptos account implementation for multi-signature Ed25519 accounts.
-class AptosMultiEd25519Account extends AptosAccount<
-    AptosMultiEd25519AccountPublicKey,
-    AptosAccountAuthenticatorMultiEd25519,
-    AptosMultiEd25519Signature> {
+class AptosMultiEd25519Account
+    extends
+        AptosAccount<
+          AptosMultiEd25519AccountPublicKey,
+          AptosAccountAuthenticatorMultiEd25519,
+          AptosMultiEd25519Signature
+        > {
   /// List of private keys for signing transactions.
   final List<AptosED25519PrivateKey> privateKeys;
 
   /// Constructor to initialize the multi-signature Ed25519 account with a list of private keys.
-  AptosMultiEd25519Account(
-      {required List<AptosED25519PrivateKey> privateKeys,
-      required super.publicKey})
-      : privateKeys = privateKeys.immutable,
-        super(scheme: AptosSigningScheme.multiEd25519);
+  AptosMultiEd25519Account({
+    required List<AptosED25519PrivateKey> privateKeys,
+    required super.publicKey,
+  }) : privateKeys = privateKeys.immutable,
+       super(scheme: AptosSigningScheme.multiEd25519);
 
   /// Sign the digest using multiple private keys and create the authenticator.
   /// [signers] can be provided to select specific private keys.
   @override
-  AptosAccountAuthenticatorMultiEd25519 signWithAuth(List<int> digest,
-      {List<AptosED25519PrivateKey>? signers}) {
+  AptosAccountAuthenticatorMultiEd25519 signWithAuth(
+    List<int> digest, {
+    List<AptosED25519PrivateKey>? signers,
+  }) {
     final signature = sign(digest, signers: signers, forAuth: true);
     return AptosAccountAuthenticatorMultiEd25519(
-        publicKey: publicKey, signature: signature);
+      publicKey: publicKey,
+      signature: signature,
+    );
   }
 
   /// Sign the digest using the appropriate private keys, considering the threshold and bitmap.
   /// [signers] can be provided to select specific private keys. If [forAuth] is true, the function will
   /// break early when the required number of signatures for authentication is reached.
   @override
-  AptosMultiEd25519Signature sign(List<int> digest,
-      {List<AptosED25519PrivateKey>? signers, bool forAuth = false}) {
-    signers = (signers ?? privateKeys)
-        .where((e) => publicKey.publicKeys.contains(e.publicKey))
-        .toList();
-    signers.sort((a, b) => publicKey.publicKeys
-        .indexOf(a.publicKey)
-        .compareTo(publicKey.publicKeys.indexOf(b.publicKey)));
+  AptosMultiEd25519Signature sign(
+    List<int> digest, {
+    List<AptosED25519PrivateKey>? signers,
+    bool forAuth = false,
+  }) {
+    signers =
+        (signers ?? privateKeys)
+            .where((e) => publicKey.publicKeys.contains(e.publicKey))
+            .toList();
+    signers.sort(
+      (a, b) => publicKey.publicKeys
+          .indexOf(a.publicKey)
+          .compareTo(publicKey.publicKeys.indexOf(b.publicKey)),
+    );
 
     int bit = 128;
     List<int> bitmap = [0, 0, 0, 0];
@@ -64,8 +77,8 @@ class AptosMultiEd25519Account extends AptosAccount<
       throw DartAptosPluginException(
         "Insufficient signatures. Expected ${publicKey.threshold} but ${signatures.length} generated.",
         details: {
-          "expected": publicKey.threshold,
-          "received": signatures.length
+          "expected": publicKey.threshold.toString(),
+          "received": signatures.length.toString(),
         },
       );
     }

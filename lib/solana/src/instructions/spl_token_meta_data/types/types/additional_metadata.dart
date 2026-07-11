@@ -12,17 +12,18 @@ class AdditionalMetadata extends BorshLayoutSerializable {
     final List<String> values = (json['values'] as List).cast();
     if (values.length != 2) {
       throw const SolanaPluginException(
-          'invalid AdditionalMetadata data length');
+        'invalid AdditionalMetadata data length',
+      );
     }
     return AdditionalMetadata(key: values[0], value: values[1]);
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.tuple([
-          LayoutConst.string(property: 'key'),
-          LayoutConst.string(property: 'value'),
-        ], property: 'values')
-      ], property: 'additionalMetadata');
+    LayoutConst.tuple([
+      LayoutConst.string(property: 'key'),
+      LayoutConst.string(property: 'value'),
+    ], property: 'values'),
+  ], property: 'additionalMetadata');
 
   @override
   StructLayout get layout => staticLayout;
@@ -30,7 +31,7 @@ class AdditionalMetadata extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'values': <String>[key, value]
+      'values': <String>[key, value],
     };
   }
 }

@@ -5,12 +5,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the registrations and deregistrations of a specific account.
 /// https://blockfrost.dev/api/account-registration-history
-class BlockfrostRequestAccountRegistrationHistory extends BlockFrostRequest<
-    List<ADAStakeAccountRegistrationHistoryResponse>,
-    List<Map<String, dynamic>>> {
-  BlockfrostRequestAccountRegistrationHistory(this.stakeAddress,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestAccountRegistrationHistory
+    extends
+        BlockFrostRequest<
+          List<ADAStakeAccountRegistrationHistoryResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAccountRegistrationHistory(
+    this.stakeAddress, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   final ADARewardAddress stakeAddress;
 
@@ -23,7 +27,8 @@ class BlockfrostRequestAccountRegistrationHistory extends BlockFrostRequest<
 
   @override
   List<ADAStakeAccountRegistrationHistoryResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADAStakeAccountRegistrationHistoryResponse.fromJson(e))
         .toList();

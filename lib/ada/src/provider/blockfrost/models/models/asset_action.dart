@@ -23,10 +23,10 @@ class ADAAssetActionResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'tx_hash': txHash,
-        'action': action,
-        'amount': amount,
-      };
+    'tx_hash': txHash,
+    'action': action,
+    'amount': amount,
+  };
   @override
   String toString() {
     return 'ADAAssetActionResponse${toJson()}';

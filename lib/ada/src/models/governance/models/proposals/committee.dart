@@ -6,26 +6,31 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 class Committee with InternalCborSerialization {
   final Map<Credential, int> members;
   final UnitInterval quorumQhreshold;
-  Committee(
-      {required Map<Credential, int> members, required this.quorumQhreshold})
-      : members = members.immutable;
+  Committee({
+    required Map<Credential, int> members,
+    required this.quorumQhreshold,
+  }) : members = members.immutable;
   factory Committee.deserialize(CborListValue cbor) {
     return Committee(
-        members: {
-          for (final i in cbor
-              .elementAt<CborMapValue>(0)
-              .valueAsMap<CborListValue, CborIntValue>()
-              .entries)
-            Credential.deserialize(i.key): i.value.toInt()
-        },
-        quorumQhreshold:
-            UnitInterval.deserialize(cbor.elementAt<CborTagValue>(1)));
+      members: {
+        for (final i
+            in cbor
+                .objectAt<CborMapValue>(0)
+                .asMap<CborListValue, CborIntValue>()
+                .entries)
+          Credential.deserialize(i.key): i.value.toInt(),
+      },
+      quorumQhreshold: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(1)),
+    );
   }
   factory Committee.fromJson(Map<String, dynamic> json) {
-    return Committee(members: {
-      for (final i in (json["members"] as Map).entries)
-        Credential.fromJson(i.key): IntUtils.parse(i.value)
-    }, quorumQhreshold: UnitInterval.fromJson(json["quorum_threshold"]));
+    return Committee(
+      members: {
+        for (final i in (json["members"] as Map).entries)
+          Credential.fromJson(i.key): IntUtils.parse(i.value),
+      },
+      quorumQhreshold: UnitInterval.fromJson(json["quorum_threshold"]),
+    );
   }
 
   @override
@@ -35,7 +40,7 @@ class Committee with InternalCborSerialization {
         for (final i in members.entries)
           i.key.toCbor(): CborUnsignedValue.u32(i.value),
       }),
-      quorumQhreshold.toCbor()
+      quorumQhreshold.toCbor(),
     ]);
   }
 
@@ -43,7 +48,7 @@ class Committee with InternalCborSerialization {
   Map<dynamic, dynamic> toJson() {
     return {
       "members": {for (final i in members.entries) i.key.toJson(): i.value},
-      "quorum_threshold": quorumQhreshold.toJson()
+      "quorum_threshold": quorumQhreshold.toJson(),
     };
   }
 }

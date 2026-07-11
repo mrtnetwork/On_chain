@@ -64,15 +64,15 @@ class TokenSwapFees extends BorshLayoutSerializable {
 
   /// The layout structure for creating a token swap.
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'tradeFeeNumerator'),
-        LayoutConst.u64(property: 'tradeFeeDenominator'),
-        LayoutConst.u64(property: 'ownerTradeFeeNumerator'),
-        LayoutConst.u64(property: 'ownerTradeFeeDenominator'),
-        LayoutConst.u64(property: 'ownerWithdrawFeeNumerator'),
-        LayoutConst.u64(property: 'ownerWithdrawFeeDenominator'),
-        LayoutConst.u64(property: 'hostFeeNumerator'),
-        LayoutConst.u64(property: 'hostFeeDenominator'),
-      ], property: 'fees');
+    LayoutConst.u64(property: 'tradeFeeNumerator'),
+    LayoutConst.u64(property: 'tradeFeeDenominator'),
+    LayoutConst.u64(property: 'ownerTradeFeeNumerator'),
+    LayoutConst.u64(property: 'ownerTradeFeeDenominator'),
+    LayoutConst.u64(property: 'ownerWithdrawFeeNumerator'),
+    LayoutConst.u64(property: 'ownerWithdrawFeeDenominator'),
+    LayoutConst.u64(property: 'hostFeeNumerator'),
+    LayoutConst.u64(property: 'hostFeeDenominator'),
+  ], property: 'fees');
   @override
   StructLayout get layout => staticLayout;
 
@@ -86,7 +86,7 @@ class TokenSwapFees extends BorshLayoutSerializable {
       'ownerWithdrawFeeNumerator': ownerWithdrawFeeNumerator,
       'ownerWithdrawFeeDenominator': ownerWithdrawFeeDenominator,
       'hostFeeNumerator': hostFeeNumerator,
-      'hostFeeDenominator': hostFeeDenominator
+      'hostFeeDenominator': hostFeeDenominator,
     };
   }
 

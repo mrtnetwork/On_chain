@@ -8,15 +8,17 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 class TronRequestAccountPermissionUpdate
     extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestAccountPermissionUpdate.fromContract(
-      AccountPermissionUpdateContract contract,
-      {int? permissionId}) {
+    AccountPermissionUpdateContract contract, {
+    int? permissionId,
+  }) {
     return TronRequestAccountPermissionUpdate(
-        ownerAddress: contract.ownerAddress,
-        actives: contract.actives.map((e) => e.toJson()).toList(),
-        owner: contract.owner.toJson(),
-        witness: contract.witness?.toJson(),
-        permissionId: permissionId,
-        visible: true);
+      ownerAddress: contract.ownerAddress,
+      actives: contract.actives.map((e) => e.toJson()).toList(),
+      owner: contract.owner.toJson(),
+      witness: contract.witness?.toJson(),
+      permissionId: permissionId,
+      visible: true,
+    );
   }
   TronRequestAccountPermissionUpdate({
     required this.ownerAddress,

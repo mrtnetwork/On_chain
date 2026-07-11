@@ -5,9 +5,10 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 /// Returns the balance of the account of given address.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getbalance)
 class EthereumRequestGetBalance extends EthereumRequest<BigInt, Object> {
-  EthereumRequestGetBalance(
-      {required this.address, BlockTagOrNumber? tag = BlockTagOrNumber.latest})
-      : super(blockNumber: tag);
+  EthereumRequestGetBalance({
+    required this.address,
+    BlockTagOrNumber? tag = BlockTagOrNumber.latest,
+  }) : super(blockNumber: tag);
 
   /// eth_getBalance
   @override

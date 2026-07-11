@@ -1,8 +1,6 @@
-import 'package:blockchain_utils/bip/address/ada/ada.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents an ADA Byron address, a subtype of ADAAddres
 class ADAByronAddress extends ADAAddress {
@@ -23,66 +21,84 @@ class ADAByronAddress extends ADAAddress {
 
   /// Constructor for ADAByronAddress.
   const ADAByronAddress._(this.address, this.extendedAddress, this.network)
-      : super.init();
+    : super.init();
 
   /// Factory constructor to create an ADAByronAddress instance from a given address string.
   factory ADAByronAddress(String address, {ADANetwork? network}) {
-    final decode = AdaAddressUtils.decodeAddres(address,
-        addrType: ADAAddressType.byron, network: network);
-    return ADAByronAddress._(decode.byronAddrPayload!.encode(),
-        decode.byronAddrPayload!, decode.network);
+    final decode = AdaAddressUtils.decodeAddres(
+      address,
+      addrType: ADAAddressType.byron,
+      network: network,
+    );
+    return ADAByronAddress._(
+      decode.byronAddrPayload!.encode(),
+      decode.byronAddrPayload!,
+      decode.network,
+    );
   }
 
   /// Factory constructor to create an ADAByronAddress instance from a public key and chaincode.
-  factory ADAByronAddress.fromPublicKey(
-      {required List<int> publicKey,
-      required List<int> chaincode,
-      List<int>? hdPathKey,
-      String? hdPath,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADAByronAddress.fromPublicKey({
+    required List<int> publicKey,
+    required List<int> chaincode,
+    List<int>? hdPathKey,
+    String? hdPath,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     if (hdPath != null && hdPathKey != null) {
       return ADAByronAddress.legacy(
-          publicKey: publicKey,
-          chaincode: chaincode,
-          hdPathKey: hdPathKey,
-          hdPath: hdPath,
-          network: network);
+        publicKey: publicKey,
+        chaincode: chaincode,
+        hdPathKey: hdPathKey,
+        hdPath: hdPath,
+        network: network,
+      );
     }
-    final encode = AdaByronIcarusAddrEncoder()
-        .encodeKeyWithInfo(publicKey, network: network, chainCode: chaincode);
+    final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
+      publicKey,
+      network: network,
+      chainCode: chaincode,
+    );
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
   /// Factory constructor to create an ADAByronAddress instance from a Bip32 structure.
-  factory ADAByronAddress.fromBip32(
-      {required CardanoByronLegacyBip32 bip32,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADAByronAddress.fromBip32({
+    required CardanoByronLegacyBip32 bip32,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
-        bip32.publicKey.compressed,
-        network: network,
-        chainCode: bip32.chainCode.toBytes());
+      bip32.publicKey.compressed,
+      network: network,
+      chainCode: bip32.chainCode.toBytes(),
+    );
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
   /// Factory constructor to create an ADAByronAddress instance from an Icarus structure.
-  factory ADAByronAddress.fromIcarus(
-      {required CardanoIcarusBip32 bip32,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADAByronAddress.fromIcarus({
+    required CardanoIcarusBip32 bip32,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
-        bip32.publicKey.compressed,
-        network: network,
-        chainCode: bip32.chainCode.toBytes());
+      bip32.publicKey.compressed,
+      network: network,
+      chainCode: bip32.chainCode.toBytes(),
+    );
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
   /// Factory constructor to create a legacy ADAByronAddress instance from a Bip32 structure.
-  factory ADAByronAddress.legacyFromBip32(
-      {required CardanoByronLegacy bip32,
-      required Bip32KeyIndex firstIndex,
-      required Bip32KeyIndex secondIndex,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final publicKey =
-        bip32.getPublicKey(firstIndex: firstIndex, secondIndex: secondIndex);
+  factory ADAByronAddress.legacyFromBip32({
+    required CardanoByronLegacy bip32,
+    required Bip32KeyIndex firstIndex,
+    required Bip32KeyIndex secondIndex,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final publicKey = bip32.getPublicKey(
+      firstIndex: firstIndex,
+      secondIndex: secondIndex,
+    );
     final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(
       publicKey.pubKey.compressed,
       network: network,
@@ -94,17 +110,20 @@ class ADAByronAddress extends ADAAddress {
   }
 
   /// Factory constructor to create a legacy ADAByronAddress instance.
-  factory ADAByronAddress.legacy(
-      {required List<int> publicKey,
-      required List<int> chaincode,
-      required List<int> hdPathKey,
-      required String hdPath,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(publicKey,
-        network: network,
-        chainCode: chaincode,
-        hdPathKey: hdPathKey,
-        path: hdPath);
+  factory ADAByronAddress.legacy({
+    required List<int> publicKey,
+    required List<int> chaincode,
+    required List<int> hdPathKey,
+    required String hdPath,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(
+      publicKey,
+      network: network,
+      chainCode: chaincode,
+      hdPathKey: hdPathKey,
+      path: hdPath,
+    );
     return ADAByronAddress._(encode.encode(), encode, network);
   }
 
@@ -116,18 +135,23 @@ class ADAByronAddress extends ADAAddress {
   /// Factory method to create an ADAByronAddress instance from cbor bytes.
   factory ADAByronAddress.fromBytes(List<int> bytes) {
     return ADAByronAddress.deserialize(
-        CborObject.fromCbor(bytes).as<CborBytesValue>("ADAByronAddress"));
+      CborObject.fromCbor(
+        bytes,
+      ).as<CborBytesValue>(operation: "ADAByronAddress"),
+    );
   }
 
   /// Deserializes a CBOR object into an ADAByronAddress instance.
-  factory ADAByronAddress.deserialize(CborBytesValue cbor,
-      {ADANetwork? network}) {
+  factory ADAByronAddress.deserialize(
+    CborBytesValue cbor, {
+    ADANetwork? network,
+  }) {
     return _deserialize(cbor.value);
   }
 
   /// Deserializes a CBOR object into an ADAByronAddress instance.
   static ADAByronAddress _deserialize(List<int> cbor, {ADANetwork? network}) {
-    CborObject.fromCbor(cbor).as<CborListValue>("ADAByronAddress");
+    CborObject.fromCbor(cbor).as<CborListValue>(operation: "ADAByronAddress");
     final addr = ADAByronAddr.deserialize(cbor);
     return ADAByronAddress(addr.encode(), network: network);
   }

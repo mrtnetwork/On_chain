@@ -5,27 +5,30 @@ class MetaplexAuctionHouseDepositLayout
     extends MetaplexAuctionHouseProgramLayout {
   final int escrowPaymentBump;
   final BigInt amount;
-  const MetaplexAuctionHouseDepositLayout(
-      {required this.escrowPaymentBump, required this.amount});
+  const MetaplexAuctionHouseDepositLayout({
+    required this.escrowPaymentBump,
+    required this.amount,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseDepositLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexAuctionHouseProgramInstruction.deposit.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexAuctionHouseProgramInstruction.deposit.insturction,
+    );
     return MetaplexAuctionHouseDepositLayout(
-        amount: decode['amount'],
-        escrowPaymentBump: decode['escrowPaymentBump']);
+      amount: decode['amount'],
+      escrowPaymentBump: decode['escrowPaymentBump'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'escrowPaymentBump'),
-        LayoutConst.u64(property: 'amount'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

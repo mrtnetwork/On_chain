@@ -10,21 +10,28 @@ class ADATransactionBuilderUtils {
       List<int>.unmodifiable(List.filled(QuickCrypto.blake2b256DigestSize, 12));
   static BootstrapWitness fakeBootStrapWitness(ADAByronAddress byronAddr) {
     final fakeVk =
-        List<int>.filled(AdaTransactionConstant.blake2b256DigestSize, 0)
-            .immutable;
+        List<int>.filled(
+          AdaTransactionConstant.blake2b256DigestSize,
+          0,
+        ).immutable;
     return BootstrapWitness(
-        vkey: Vkey(fakeVk),
-        signature: Ed25519Signature(
-            List<int>.filled(AdaTransactionConstant.signatureLength, 0)),
-        chainCode: fakeVk,
-        attributes: byronAddr.attributeSerialize());
+      vkey: Vkey(fakeVk),
+      signature: Ed25519Signature(
+        List<int>.filled(AdaTransactionConstant.signatureLength, 0),
+      ),
+      chainCode: fakeVk,
+      attributes: byronAddr.attributeSerialize(),
+    );
   }
 
   static Vkeywitness fakeVkeyWitnessWitness() {
     return Vkeywitness(
-        vKey: Vkey(
-            List<int>.filled(AdaTransactionConstant.blake2b256DigestSize, 0)),
-        signature: Ed25519Signature(
-            List<int>.filled(AdaTransactionConstant.signatureLength, 0)));
+      vKey: Vkey(
+        List<int>.filled(AdaTransactionConstant.blake2b256DigestSize, 0),
+      ),
+      signature: Ed25519Signature(
+        List<int>.filled(AdaTransactionConstant.signatureLength, 0),
+      ),
+    );
   }
 }

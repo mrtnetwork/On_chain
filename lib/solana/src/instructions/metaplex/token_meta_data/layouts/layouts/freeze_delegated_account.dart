@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataFreezeDelegatedAccountLayout
   const MetaplexTokenMetaDataFreezeDelegatedAccountLayout();
 
   factory MetaplexTokenMetaDataFreezeDelegatedAccountLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .freezeDelegatedAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .freezeDelegatedAccount
+              .insturction,
+    );
     return const MetaplexTokenMetaDataFreezeDelegatedAccountLayout();
   }
 

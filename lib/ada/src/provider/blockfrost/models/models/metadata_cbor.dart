@@ -23,10 +23,10 @@ class ADAMetadataCBORResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'tx_hash': txHash,
-        'cbor_metadata': cborMetadata,
-        'metadata': metadata,
-      };
+    'tx_hash': txHash,
+    'cbor_metadata': cborMetadata,
+    'metadata': metadata,
+  };
 
   @override
   String toString() {

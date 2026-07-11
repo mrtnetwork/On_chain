@@ -2,10 +2,7 @@ class ADANetworkInfoResponse {
   final ADANetworkSupply supply;
   final ADANetworkStake stake;
 
-  ADANetworkInfoResponse({
-    required this.supply,
-    required this.stake,
-  });
+  ADANetworkInfoResponse({required this.supply, required this.stake});
 
   factory ADANetworkInfoResponse.fromJson(Map<String, dynamic> json) {
     return ADANetworkInfoResponse(
@@ -15,9 +12,9 @@ class ADANetworkInfoResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'supply': supply.toJson(),
-        'stake': stake.toJson(),
-      };
+    'supply': supply.toJson(),
+    'stake': stake.toJson(),
+  };
   @override
   String toString() {
     return 'ADANetworkInfoResponse${toJson()}';
@@ -53,33 +50,24 @@ class ADANetworkSupply {
   }
 
   Map<String, dynamic> toJson() => {
-        'max': max,
-        'total': total,
-        'circulating': circulating,
-        'locked': locked,
-        'treasury': treasury,
-        'reserves': reserves,
-      };
+    'max': max,
+    'total': total,
+    'circulating': circulating,
+    'locked': locked,
+    'treasury': treasury,
+    'reserves': reserves,
+  };
 }
 
 class ADANetworkStake {
   final String live;
   final String active;
 
-  ADANetworkStake({
-    required this.live,
-    required this.active,
-  });
+  ADANetworkStake({required this.live, required this.active});
 
   factory ADANetworkStake.fromJson(Map<String, dynamic> json) {
-    return ADANetworkStake(
-      live: json['live'],
-      active: json['active'],
-    );
+    return ADANetworkStake(live: json['live'], active: json['active']);
   }
 
-  Map<String, dynamic> toJson() => {
-        'live': live,
-        'active': active,
-      };
+  Map<String, dynamic> toJson() => {'live': live, 'active': active};
 }

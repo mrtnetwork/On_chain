@@ -6,11 +6,12 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/updatewitness).
 class TronRequestUpdateWitness
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestUpdateWitness(
-      {required this.ownerAddress,
-      this.updateUrl,
-      this.permissionId,
-      this.visible = true});
+  TronRequestUpdateWitness({
+    required this.ownerAddress,
+    this.updateUrl,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -33,7 +34,7 @@ class TronRequestUpdateWitness
       'owner_address': ownerAddress.toAddress(visible),
       'update_url': updateUrl,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

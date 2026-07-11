@@ -23,8 +23,9 @@ class AptosRequestGetBlocksByVersion
   @override
   List<String> get pathParameters => [version.toString()];
   @override
-  Map<String, String?> get queryParameters =>
-      {"with_transactions": withTransaction?.toString()};
+  Map<String, String?> get queryParameters => {
+    "with_transactions": withTransaction?.toString(),
+  };
 
   @override
   AptosApiBlock onResonse(Map<String, dynamic> result) {

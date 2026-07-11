@@ -8,26 +8,29 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenReallocateLayout instance.
   SPLTokenReallocateLayout({required List<ExtensionType> extensionTypes})
-      : extensionTypes = List<ExtensionType>.unmodifiable(extensionTypes);
+    : extensionTypes = List<ExtensionType>.unmodifiable(extensionTypes);
 
   /// StructLayout structure for reallocating SPL token extensions.
   static StructLayout _layout({required int length}) => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.array(LayoutConst.u16(), length, property: 'extensionTypes')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.array(LayoutConst.u16(), length, property: 'extensionTypes'),
+  ]);
 
   /// Constructs an SPLTokenReallocateLayout instance from buffer.
   factory SPLTokenReallocateLayout.fromBuffer(List<int> bytes) {
     final length = (bytes.length - 1) ~/ 2;
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout(length: length),
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.reallocate.insturction);
+      layout: _layout(length: length),
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.reallocate.insturction,
+    );
 
     return SPLTokenReallocateLayout(
-        extensionTypes: (decode['extensionTypes'] as List)
-            .map((e) => ExtensionType.fromValue(e))
-            .toList());
+      extensionTypes:
+          (decode['extensionTypes'] as List)
+              .map((e) => ExtensionType.fromValue(e))
+              .toList(),
+    );
   }
 
   /// Returns the layout structure.

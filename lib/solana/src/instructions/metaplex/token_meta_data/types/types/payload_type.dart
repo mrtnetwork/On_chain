@@ -17,10 +17,12 @@ class PayloadType extends BorshLayoutSerializable {
         return PayloadType.pubKey(pubkey: value[0]);
       case 'Seeds':
         return PayloadType.seeds(
-            seeds: (value[0] as List).map((e) => List<int>.from(e)).toList());
+          seeds: (value[0] as List).map((e) => List<int>.from(e)).toList(),
+        );
       case 'MerkleProof':
         return PayloadType.merkleProof(
-            proof: (value[0] as List).map((e) => List<int>.from(e)).toList());
+          proof: (value[0] as List).map((e) => List<int>.from(e)).toList(),
+        );
 
       default:
         return PayloadType.number(number: value[0]);
@@ -41,12 +43,14 @@ class PayloadType extends BorshLayoutSerializable {
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum([
       LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: 'Pubkey'),
-      LayoutConst.tuple([LayoutConst.vec(LayoutConst.vecU8())],
-          property: 'Seeds'),
-      LayoutConst.tuple([LayoutConst.vec(LayoutConst.blob(32))],
-          property: 'MerkleProof'),
-      LayoutConst.tuple([LayoutConst.u64()], property: 'Number')
-    ], property: 'payloadType')
+      LayoutConst.tuple([
+        LayoutConst.vec(LayoutConst.vecU8()),
+      ], property: 'Seeds'),
+      LayoutConst.tuple([
+        LayoutConst.vec(LayoutConst.blob(32)),
+      ], property: 'MerkleProof'),
+      LayoutConst.tuple([LayoutConst.u64()], property: 'Number'),
+    ], property: 'payloadType'),
   ]);
 
   @override
@@ -55,7 +59,7 @@ class PayloadType extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'payloadType': {name: fileds}
+      'payloadType': {name: fileds},
     };
   }
 }

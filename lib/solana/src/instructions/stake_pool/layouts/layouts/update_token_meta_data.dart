@@ -29,27 +29,32 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
     if (nameBytesLength > StakePoolProgramConst.metadataMaxNameLength ||
         uriBytesLength > StakePoolProgramConst.metadataMaxUriLength ||
         symbolBytesLength > StakePoolProgramConst.metadataMaxSymbolLength) {
-      throw const SolanaPluginException(
-          'Some fields exceed the maximum data limit.',
-          details: {
-            'metadataMaxNameLength':
-                StakePoolProgramConst.metadataMaxNameLength,
-            'metadataMaxUriLength': StakePoolProgramConst.metadataMaxUriLength,
-            'metadataMaxSymbolLength':
-                StakePoolProgramConst.metadataMaxSymbolLength
-          });
+      throw SolanaPluginException(
+        'Some fields exceed the maximum data limit.',
+        details: {
+          'metadataMaxNameLength':
+              StakePoolProgramConst.metadataMaxNameLength.toString(),
+          'metadataMaxUriLength':
+              StakePoolProgramConst.metadataMaxUriLength.toString(),
+          'metadataMaxSymbolLength':
+              StakePoolProgramConst.metadataMaxSymbolLength.toString(),
+        },
+      );
     }
     return StakePoolUpdateTokenMetaDataLayout._(name, uri, symbol);
   }
   factory StakePoolUpdateTokenMetaDataLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: StakePoolCreateTokenMetaDataLayout.staticLayout,
-        bytes: data,
-        instruction:
-            StakePoolProgramInstruction.updateTokenMetaData.insturction);
+      layout: StakePoolCreateTokenMetaDataLayout.staticLayout,
+      bytes: data,
+      instruction: StakePoolProgramInstruction.updateTokenMetaData.insturction,
+    );
 
     return StakePoolUpdateTokenMetaDataLayout(
-        name: decode['name'], uri: decode['uri'], symbol: decode['symbol']);
+      name: decode['name'],
+      uri: decode['uri'],
+      symbol: decode['symbol'],
+    );
   }
   @override
   StructLayout get layout => StakePoolCreateTokenMetaDataLayout.staticLayout;

@@ -22,8 +22,10 @@ class ETHPrivateKey with Equality implements EthereumSigner {
       final Secp256k1PrivateKey key = Secp256k1PrivateKey.fromBytes(keyBytes);
       return ETHPrivateKey._(key);
     } catch (e) {
-      throw ETHPluginException('invalid ethereum private key',
-          details: {'input': BytesUtils.toHexString(keyBytes)});
+      throw ETHPluginException(
+        'invalid ethereum private key',
+        details: {'input': BytesUtils.toHexString(keyBytes)},
+      );
     }
   }
 
@@ -56,8 +58,10 @@ class ETHPrivateKey with Equality implements EthereumSigner {
   /// Optionally, [payloadLength] can be set to specify the payload length for the message.
   List<int> signPersonalMessage(List<int> message, {int? payloadLength}) {
     final ethsigner = ETHSigner.fromKeyBytes(toBytes());
-    final sign = ethsigner.signProsonalMessageConst(message,
-        payloadLength: payloadLength);
+    final sign = ethsigner.signProsonalMessageConst(
+      message,
+      payloadLength: payloadLength,
+    );
     return sign;
   }
 
@@ -65,8 +69,10 @@ class ETHPrivateKey with Equality implements EthereumSigner {
   ///
   /// Optionally, [hashMessage] can be set to false to skip hashing the message before signing.
   @override
-  Future<ETHSignature> signAsync(List<int> message,
-      {bool hashMessage = true}) async {
+  Future<ETHSignature> signAsync(
+    List<int> message, {
+    bool hashMessage = true,
+  }) async {
     return sign(message, hashMessage: hashMessage);
   }
 
@@ -74,8 +80,10 @@ class ETHPrivateKey with Equality implements EthereumSigner {
   ///
   /// Optionally, [payloadLength] can be set to specify the payload length for the message.
   @override
-  Future<List<int>> signPersonalMessageAsync(List<int> message,
-      {int? payloadLength}) async {
+  Future<List<int>> signPersonalMessageAsync(
+    List<int> message, {
+    int? payloadLength,
+  }) async {
     return signPersonalMessage(message, payloadLength: payloadLength);
   }
 

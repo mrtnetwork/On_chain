@@ -6,9 +6,10 @@ class MetaplexBubblegumCompressLayout extends MetaplexBubblegumProgramLayout {
 
   factory MetaplexBubblegumCompressLayout.fromBuffer(List<int> data) {
     MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexBubblegumProgramInstruction.compress.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexBubblegumProgramInstruction.compress.insturction,
+    );
     return const MetaplexBubblegumCompressLayout();
   }
 

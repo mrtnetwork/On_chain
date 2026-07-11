@@ -32,12 +32,8 @@ abstract class TronProtocolBufferImpl {
   List<int> toBuffer() {
     if (values.length != fieldIds.length) {
       throw TronPluginException(
-          'The values and field IDs must have the same length.',
-          details: {
-            'values': values,
-            'fieldIds': fieldIds,
-            'class': runtimeType.toString()
-          });
+        'The values and field IDs must have the same length.',
+      );
     }
     final bytes = DynamicByteTracker();
     for (int i = 0; i < values.length; i++) {
@@ -69,9 +65,10 @@ abstract class TronProtocolBufferImpl {
 /// contracts
 abstract class TronBaseContract extends TronProtocolBufferImpl {
   TronBaseContract();
-  factory TronBaseContract.deserialize(
-      {required TransactionContractType contractType,
-      required List<int> contractBytes}) {
+  factory TronBaseContract.deserialize({
+    required TransactionContractType contractType,
+    required List<int> contractBytes,
+  }) {
     switch (contractType) {
       case TransactionContractType.transferContract:
         return TransferContract.deserialize(contractBytes);
@@ -191,13 +188,16 @@ abstract class TronBaseContract extends TronProtocolBufferImpl {
         return WitnessCreateContract.deserialize(contractBytes);
 
       default:
-        throw TronPluginException('Unsupported contract',
-            details: {'contract': contractType.name});
+        throw TronPluginException(
+          'Unsupported contract',
+          details: {'contract': contractType.name},
+        );
     }
   }
-  factory TronBaseContract.fromJson(
-      {required TransactionContractType contractType,
-      required Map<String, dynamic> json}) {
+  factory TronBaseContract.fromJson({
+    required TransactionContractType contractType,
+    required Map<String, dynamic> json,
+  }) {
     switch (contractType) {
       case TransactionContractType.transferContract:
         return TransferContract.fromJson(json);
@@ -317,8 +317,10 @@ abstract class TronBaseContract extends TronProtocolBufferImpl {
         return WitnessCreateContract.fromJson(json);
 
       default:
-        throw TronPluginException('Unsupported contract',
-            details: {'contract': contractType.name});
+        throw TronPluginException(
+          'Unsupported contract',
+          details: {'contract': contractType.name},
+        );
     }
   }
 

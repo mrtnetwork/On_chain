@@ -12,21 +12,26 @@ class SPLToken2022InitializeDefaultAccountStateLayout
   SPLToken2022InitializeDefaultAccountStateLayout({required this.accountState});
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.wrap(DefaultAccountStateInstruction.staticLayout,
-            property: 'defaultAccountState'),
-        LayoutConst.wrap(AccountState.staticLayout, property: 'accountState'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.wrap(
+      DefaultAccountStateInstruction.staticLayout,
+      property: 'defaultAccountState',
+    ),
+    LayoutConst.wrap(AccountState.staticLayout, property: 'accountState'),
+  ]);
 
   factory SPLToken2022InitializeDefaultAccountStateLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction
-            .defaultAccountStateExtension.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          SPLTokenProgramInstruction.defaultAccountStateExtension.insturction,
+    );
     return SPLToken2022InitializeDefaultAccountStateLayout(
-        accountState: AccountState.fromJson(decode['accountState']));
+      accountState: AccountState.fromJson(decode['accountState']),
+    );
   }
 
   @override
@@ -41,7 +46,7 @@ class SPLToken2022InitializeDefaultAccountStateLayout
     return {
       'defaultAccountState':
           DefaultAccountStateInstruction.initialize.serialize(),
-      'accountState': accountState.serialize()
+      'accountState': accountState.serialize(),
     };
   }
 }

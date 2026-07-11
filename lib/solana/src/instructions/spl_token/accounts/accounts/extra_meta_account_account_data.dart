@@ -21,12 +21,16 @@ class ExtraAccountMetaAccountData extends BorshLayoutSerializable {
   final ExtraAccountMetaList extraAccountMetaList;
   factory ExtraAccountMetaAccountData.fromBuffer(List<int> accountBytes) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: accountBytes, layout: _Utils.layout);
+      bytes: accountBytes,
+      layout: _Utils.layout,
+    );
     return ExtraAccountMetaAccountData(
-        instructionDiscriminator: decode['instructionDiscriminator'],
-        length: decode['length'],
-        extraAccountMetaList:
-            ExtraAccountMetaList.fromJson(decode['extraAccountMetaList']));
+      instructionDiscriminator: decode['instructionDiscriminator'],
+      length: decode['length'],
+      extraAccountMetaList: ExtraAccountMetaList.fromJson(
+        decode['extraAccountMetaList'],
+      ),
+    );
   }
 
   @override
@@ -47,7 +51,9 @@ class ExtraAccountMetaAccountData extends BorshLayoutSerializable {
   }
 
   List<ExtraAccountMeta> get extraAccountMetas {
-    return extraAccountMetaList.extraAccounts
-        .sublist(0, extraAccountMetaList.count);
+    return extraAccountMetaList.extraAccounts.sublist(
+      0,
+      extraAccountMetaList.count,
+    );
   }
 }

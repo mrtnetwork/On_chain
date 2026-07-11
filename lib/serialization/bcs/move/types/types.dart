@@ -3,7 +3,6 @@ import 'package:on_chain/aptos/src/helper/helper.dart';
 import 'package:on_chain/serialization/bcs/exeption/exeption.dart';
 import 'package:on_chain/serialization/bcs/move/utils/utils.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 /// Enum representing different Move argument types with associated values.
 enum MoveArgumentType {
@@ -43,12 +42,15 @@ enum MoveArgumentType {
 
   /// Converts a string name to the corresponding [MoveArgumentType].
   static MoveArgumentType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw BcsSerializationException(
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw BcsSerializationException(
                 "cannot find correct transaction argument from the given name.",
-                details: {
-                  "name": name
-                })); // Throws an exception if no match is found
+                details: {"name": name},
+              ),
+    ); // Throws an exception if no match is found
   }
 }
 
@@ -97,45 +99,55 @@ abstract class MoveArgument<T> extends BcsVariantSerialization
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: MoveU8.layout,
-          property: MoveArgumentType.u8.name,
-          index: MoveArgumentType.u8.value),
+        layout: MoveU8.layout,
+        property: MoveArgumentType.u8.name,
+        index: MoveArgumentType.u8.value,
+      ),
       LazyVariantModel(
-          layout: MoveU16.layout,
-          property: MoveArgumentType.u16.name,
-          index: MoveArgumentType.u16.value),
+        layout: MoveU16.layout,
+        property: MoveArgumentType.u16.name,
+        index: MoveArgumentType.u16.value,
+      ),
       LazyVariantModel(
-          layout: MoveU32.layout,
-          property: MoveArgumentType.u32.name,
-          index: MoveArgumentType.u32.value),
+        layout: MoveU32.layout,
+        property: MoveArgumentType.u32.name,
+        index: MoveArgumentType.u32.value,
+      ),
       LazyVariantModel(
-          layout: MoveU64.layout,
-          property: MoveArgumentType.u64.name,
-          index: MoveArgumentType.u64.value),
+        layout: MoveU64.layout,
+        property: MoveArgumentType.u64.name,
+        index: MoveArgumentType.u64.value,
+      ),
       LazyVariantModel(
-          layout: MoveU128.layout,
-          property: MoveArgumentType.u128.name,
-          index: MoveArgumentType.u128.value),
+        layout: MoveU128.layout,
+        property: MoveArgumentType.u128.name,
+        index: MoveArgumentType.u128.value,
+      ),
       LazyVariantModel(
-          layout: MoveU256.layout,
-          property: MoveArgumentType.u256.name,
-          index: MoveArgumentType.u256.value),
+        layout: MoveU256.layout,
+        property: MoveArgumentType.u256.name,
+        index: MoveArgumentType.u256.value,
+      ),
       LazyVariantModel(
-          layout: MoveBool.layout,
-          property: MoveArgumentType.boolean.name,
-          index: MoveArgumentType.boolean.value),
+        layout: MoveBool.layout,
+        property: MoveArgumentType.boolean.name,
+        index: MoveArgumentType.boolean.value,
+      ),
       LazyVariantModel(
-          layout: MoveAddress.layout,
-          property: MoveArgumentType.address.name,
-          index: MoveArgumentType.address.value),
+        layout: MoveAddress.layout,
+        property: MoveArgumentType.address.name,
+        index: MoveArgumentType.address.value,
+      ),
       LazyVariantModel(
-          layout: MoveU8Vector.layout,
-          property: MoveArgumentType.u8Vector.name,
-          index: MoveArgumentType.u8Vector.value),
+        layout: MoveU8Vector.layout,
+        property: MoveArgumentType.u8Vector.name,
+        index: MoveArgumentType.u8Vector.value,
+      ),
       LazyVariantModel(
-          layout: MoveSerialized.layout,
-          property: MoveArgumentType.serialized.name,
-          index: MoveArgumentType.serialized.value),
+        layout: MoveSerialized.layout,
+        property: MoveArgumentType.serialized.name,
+        index: MoveArgumentType.serialized.value,
+      ),
     ], property: property);
   }
 
@@ -156,7 +168,8 @@ abstract class MoveArgument<T> extends BcsVariantSerialization
     };
     if (arg is! MoveArgument<T>) {
       throw BcsSerializationException(
-          "Invalid argument. expected: $T, got: ${arg.runtimeType}");
+        "Invalid argument. expected: $T, got: ${arg.runtimeType}",
+      );
     }
     return arg;
   }
@@ -180,8 +193,8 @@ class MoveU8 extends MoveArgument<int> {
   @override
   final int value;
   MoveU8(int value)
-      : value = MoveUtils.parseU8(value: value),
-        super(argumentType: MoveArgumentType.u8);
+    : value = MoveUtils.parseU8(value: value),
+      super(argumentType: MoveArgumentType.u8);
 
   /// Parses an object to MoveU8, supporting int, BigInt, Int as String, and hexDecimal integer formats.
   factory MoveU8.parse(Object? object) {
@@ -189,11 +202,12 @@ class MoveU8 extends MoveArgument<int> {
     return MoveU8(MoveUtils.parseU8(value: object));
   }
   factory MoveU8.fromStruct(Map<String, dynamic> json) {
-    return MoveU8(json.as("value"));
+    return MoveU8(json.valueAs("value"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u8(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u8(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -223,20 +237,21 @@ class MoveU16 extends MoveArgument<int> {
   @override
   final int value;
   MoveU16(int value)
-      : value = MoveUtils.parseU16(value: value),
-        super(argumentType: MoveArgumentType.u16);
+    : value = MoveUtils.parseU16(value: value),
+      super(argumentType: MoveArgumentType.u16);
 
   /// Parses an object to MoveU16, supporting int, BigInt, Int as String, and hexDecimal integer formats.
   factory MoveU16.fromStruct(Map<String, dynamic> json) {
-    return MoveU16(json.as("value"));
+    return MoveU16(json.valueAs("value"));
   }
   factory MoveU16.parse(Object? object) {
     if (object is MoveU16) return object;
     return MoveU16(MoveUtils.parseU16(value: object));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u16(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u16(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -266,10 +281,10 @@ class MoveU32 extends MoveArgument<int> {
   @override
   final int value;
   MoveU32(int value)
-      : value = MoveUtils.parseU32(value: value),
-        super(argumentType: MoveArgumentType.u32);
+    : value = MoveUtils.parseU32(value: value),
+      super(argumentType: MoveArgumentType.u32);
   factory MoveU32.fromStruct(Map<String, dynamic> json) {
-    return MoveU32(json.as("value"));
+    return MoveU32(json.valueAs("value"));
   }
 
   /// Parses an object to MoveU32, supporting int, BigInt, Int as String, and hexDecimal integer formats.
@@ -279,8 +294,9 @@ class MoveU32 extends MoveArgument<int> {
     return MoveU32(MoveUtils.parseU32(value: object));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u32(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u32(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -310,10 +326,10 @@ class MoveU64 extends MoveArgument<BigInt> {
   @override
   final BigInt value;
   MoveU64(BigInt value)
-      : value = MoveUtils.parseU64(value: value),
-        super(argumentType: MoveArgumentType.u64);
+    : value = MoveUtils.parseU64(value: value),
+      super(argumentType: MoveArgumentType.u64);
   factory MoveU64.fromStruct(Map<String, dynamic> json) {
-    return MoveU64(json.as("value"));
+    return MoveU64(json.valueAs("value"));
   }
 
   /// Parses an object to MoveU64, supporting int, BigInt, Int as String, and hexDecimal integer formats.
@@ -322,8 +338,9 @@ class MoveU64 extends MoveArgument<BigInt> {
     return MoveU64(MoveUtils.parseU64(value: object));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u64(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u64(property: "value"),
+    ], property: property);
   }
 
   factory MoveU64.aptos(String amount) {
@@ -357,10 +374,10 @@ class MoveU128 extends MoveArgument {
   @override
   final BigInt value;
   MoveU128(BigInt value)
-      : value = MoveUtils.parseU128(value: value),
-        super(argumentType: MoveArgumentType.u128);
+    : value = MoveUtils.parseU128(value: value),
+      super(argumentType: MoveArgumentType.u128);
   factory MoveU128.fromStruct(Map<String, dynamic> json) {
-    return MoveU128(json.as("value"));
+    return MoveU128(json.valueAs("value"));
   }
 
   /// Parses an object to MoveU128, supporting int, BigInt, Int as String, and hexDecimal integer formats.
@@ -370,8 +387,9 @@ class MoveU128 extends MoveArgument {
     return MoveU128(MoveUtils.parseU128(value: object));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u128(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u128(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -401,10 +419,10 @@ class MoveU256 extends MoveArgument {
   @override
   final BigInt value;
   MoveU256(BigInt value)
-      : value = MoveUtils.parseU256(value: value),
-        super(argumentType: MoveArgumentType.u256);
+    : value = MoveUtils.parseU256(value: value),
+      super(argumentType: MoveArgumentType.u256);
   factory MoveU256.fromStruct(Map<String, dynamic> json) {
-    return MoveU256(json.as("value"));
+    return MoveU256(json.valueAs("value"));
   }
 
   /// Parses an object to MoveU256, supporting int, BigInt, Int as String, and hexDecimal integer formats.
@@ -413,8 +431,9 @@ class MoveU256 extends MoveArgument {
     return MoveU256(MoveUtils.parseU256(value: object));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u256(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u256(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -444,7 +463,7 @@ class MoveBool extends MoveArgument {
   final bool value;
   MoveBool(this.value) : super(argumentType: MoveArgumentType.boolean);
   factory MoveBool.fromStruct(Map<String, dynamic> json) {
-    return MoveBool(json.as("value"));
+    return MoveBool(json.valueAs("value"));
   }
 
   /// Parses a value into a boolean, supporting bool, 0/1, and 'true'/'false' strings.
@@ -453,8 +472,9 @@ class MoveBool extends MoveArgument {
     return MoveBool(MoveUtils.parseBoolean(value: object));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.boolean(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.boolean(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -484,18 +504,19 @@ class MoveAddress extends MoveArgument<List<int>> {
   @override
   final List<int> value;
   MoveAddress(List<int> value)
-      : value = MoveUtils.parseAddressBytes(value: value).asImmutableBytes,
-        super(argumentType: MoveArgumentType.address);
+    : value = MoveUtils.parseAddressBytes(value: value).asImmutableBytes,
+      super(argumentType: MoveArgumentType.address);
   factory MoveAddress.fromStruct(Map<String, dynamic> json) {
-    return MoveAddress(json.asBytes("value"));
+    return MoveAddress(json.valueAsBytes("value"));
   }
   factory MoveAddress.parse(Object? object) {
     if (object is MoveAddress) return object;
     return MoveAddress(MoveUtils.parseAddressBytes(value: object));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.fixedBlob32(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.fixedBlob32(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -525,20 +546,21 @@ class MoveU8Vector extends MoveArgument<List<int>> {
   @override
   final List<int> value;
   MoveU8Vector(List<int> value)
-      : value = value.asImmutableBytes,
-        super(argumentType: MoveArgumentType.u8Vector);
+    : value = value.asImmutableBytes,
+      super(argumentType: MoveArgumentType.u8Vector);
   factory MoveU8Vector.parse(Object? object) {
     return MoveU8Vector(MoveUtils.parseBytes(value: object));
   }
   factory MoveU8Vector.fromStruct(Map<String, dynamic> json) {
-    return MoveU8Vector(json.asBytes("value"));
+    return MoveU8Vector(json.valueAsBytes("value"));
   }
   factory MoveU8Vector.fromHex(String hexBytes) {
     return MoveU8Vector(BytesUtils.fromHexString(hexBytes));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsBytes(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsBytes(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -568,8 +590,8 @@ class MoveSerialized extends MoveArgument<List<int>> {
   @override
   final List<int> value;
   MoveSerialized(List<int> value)
-      : value = value.asImmutableBytes,
-        super(argumentType: MoveArgumentType.serialized);
+    : value = value.asImmutableBytes,
+      super(argumentType: MoveArgumentType.serialized);
   factory MoveSerialized.fromHex(String hexBytes) {
     return MoveSerialized(BytesUtils.fromHexString(hexBytes));
   }
@@ -579,11 +601,12 @@ class MoveSerialized extends MoveArgument<List<int>> {
   }
 
   factory MoveSerialized.fromStruct(Map<String, dynamic> json) {
-    return MoveSerialized(json.asBytes("value"));
+    return MoveSerialized(json.valueAsBytes("value"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsBytes(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsBytes(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -617,8 +640,9 @@ class MoveString extends AptosEntryFunctionArguments<String>
     return MoveString(MoveUtils.parseString(value: value));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsString(property: "value")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsString(property: "value"),
+    ], property: property);
   }
 
   @override
@@ -648,11 +672,15 @@ class MoveOption<CODEC extends MoveType>
     implements SuiCallArguments<CODEC?> {
   const MoveOption(super.value);
 
-  static Layout<Map<String, dynamic>> layout(MoveType? codec,
-      {String? property}) {
+  static Layout<Map<String, dynamic>> layout(
+    MoveType? codec, {
+    String? property,
+  }) {
     return LayoutConst.struct([
-      LayoutConst.optional(codec?.createLayout() ?? LayoutConst.noArgs(),
-          property: "value")
+      LayoutConst.optional(
+        codec?.createLayout() ?? LayoutConst.noArgs(),
+        property: "value",
+      ),
     ], property: property);
   }
 
@@ -692,8 +720,9 @@ class MoveVector<MOVE extends MoveType>
   factory MoveVector(List<MOVE> value) {
     if (value.isNotEmpty) {
       final firstType = value.first.runtimeType;
-      final hasDifferentType =
-          value.any((item) => item.runtimeType != firstType);
+      final hasDifferentType = value.any(
+        (item) => item.runtimeType != firstType,
+      );
       if (hasDifferentType) {
         throw BcsSerializationException(
           "Type mismatch: All elements must be of the same type. Found both $firstType and other differing types.",
@@ -705,9 +734,9 @@ class MoveVector<MOVE extends MoveType>
 
   /// Creates a `MoveVector` of `MoveU8` from a parsed byte array.
   static MoveVector<MoveU8> u8(Object? value) {
-    return MoveVector<MoveU8>(MoveUtils.parseBytes(value: value)
-        .map((e) => MoveU8.parse(e))
-        .toList());
+    return MoveVector<MoveU8>(
+      MoveUtils.parseBytes(value: value).map((e) => MoveU8.parse(e)).toList(),
+    );
   }
 
   /// Creates a `MoveVector` of `MoveU16` from a list of objects.
@@ -738,7 +767,8 @@ class MoveVector<MOVE extends MoveType>
   /// Creates a `MoveVector` of `MoveString` from a list of objects.
   static MoveVector<MoveString> string(List<Object> value) {
     return MoveVector<MoveString>(
-        value.map((e) => MoveString.parse(e)).toList());
+      value.map((e) => MoveString.parse(e)).toList(),
+    );
   }
 
   /// Creates a `MoveVector` of `MoveBool` from a list of objects.
@@ -746,11 +776,15 @@ class MoveVector<MOVE extends MoveType>
     return MoveVector<MoveBool>(value.map((e) => MoveBool.parse(e)).toList());
   }
 
-  static Layout<Map<String, dynamic>> layout(MoveType? codec,
-      {String? property}) {
+  static Layout<Map<String, dynamic>> layout(
+    MoveType? codec, {
+    String? property,
+  }) {
     return LayoutConst.struct([
-      LayoutConst.bcsVector(codec?.createLayout() ?? LayoutConst.noArgs(),
-          property: "value"),
+      LayoutConst.bcsVector(
+        codec?.createLayout() ?? LayoutConst.noArgs(),
+        property: "value",
+      ),
     ], property: property);
   }
 
@@ -767,9 +801,10 @@ class MoveVector<MOVE extends MoveType>
   @override
   MoveArgument asMoveArgument() {
     return switch (MOVE) {
-      const (MoveU8) =>
-        MoveU8Vector(value.map((e) => e.value).toList().cast<int>()),
-      _ => MoveSerialized(toBcs())
+      const (MoveU8) => MoveU8Vector(
+        value.map((e) => e.value).toList().cast<int>(),
+      ),
+      _ => MoveSerialized(toBcs()),
     };
   }
 

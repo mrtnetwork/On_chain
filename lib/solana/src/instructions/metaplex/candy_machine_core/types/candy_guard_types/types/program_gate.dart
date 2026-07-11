@@ -11,9 +11,9 @@ class ProgramGate extends BorshLayoutSerializable {
     return ProgramGate(additional: (json['additional'] as List).cast());
   }
 
-  static StructLayout get staticLayout => LayoutConst.struct(
-      [LayoutConst.vec(SolanaLayoutUtils.publicKey(), property: 'additional')],
-      property: 'programGate');
+  static StructLayout get staticLayout => LayoutConst.struct([
+    LayoutConst.vec(SolanaLayoutUtils.publicKey(), property: 'additional'),
+  ], property: 'programGate');
 
   @override
   StructLayout get layout => staticLayout;

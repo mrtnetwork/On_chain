@@ -5,11 +5,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the history of a specific account.
 /// https://blockfrost.dev/api/specific-account-address
-class BlockfrostRequestAccountHistory extends BlockFrostRequest<
-    List<ADAStakeAccountHistoryResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestAccountHistory(this.stakeAddress,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestAccountHistory
+    extends
+        BlockFrostRequest<
+          List<ADAStakeAccountHistoryResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAccountHistory(
+    this.stakeAddress, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// stake address.
   final ADARewardAddress stakeAddress;
@@ -23,7 +28,8 @@ class BlockfrostRequestAccountHistory extends BlockFrostRequest<
 
   @override
   List<ADAStakeAccountHistoryResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADAStakeAccountHistoryResponse.fromJson(e))
         .toList();

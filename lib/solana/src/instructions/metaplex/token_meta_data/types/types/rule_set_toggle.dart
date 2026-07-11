@@ -31,7 +31,7 @@ class RuleSetToggle extends BorshLayoutSerializable {
       LayoutConst.none(property: 'NoneLayout'),
       LayoutConst.none(property: 'Clear'),
       LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: 'Set'),
-    ], property: 'ruleSetToggle')
+    ], property: 'ruleSetToggle'),
   ]);
 
   @override
@@ -40,7 +40,7 @@ class RuleSetToggle extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'ruleSetToggle': {name: fileds}
+      'ruleSetToggle': {name: fileds},
     };
   }
 }

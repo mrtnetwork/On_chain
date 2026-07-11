@@ -12,8 +12,8 @@ class AddressGate extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('address'),
-      ], property: 'addressGate');
+    SolanaLayoutUtils.publicKey('address'),
+  ], property: 'addressGate');
 
   @override
   StructLayout get layout => staticLayout;

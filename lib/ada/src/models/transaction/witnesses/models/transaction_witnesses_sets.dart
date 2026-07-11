@@ -6,19 +6,23 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 class TransactionWitnessSets with InternalCborSerialization {
   final List<TransactionWitnessSet> transactions;
   TransactionWitnessSets({List<TransactionWitnessSet> transactions = const []})
-      : transactions = transactions.immutable;
+    : transactions = transactions.immutable;
   factory TransactionWitnessSets.deserialize(CborListValue cbor) {
     return TransactionWitnessSets(
-        transactions: cbor
-            .valueAsListOf<CborMapValue>()
-            .map((e) => TransactionWitnessSet.deserialize(e))
-            .toList());
+      transactions:
+          cbor
+              .allObjectsAs<CborMapValue>()
+              .map((e) => TransactionWitnessSet.deserialize(e))
+              .toList(),
+    );
   }
   factory TransactionWitnessSets.fromJson(Map<String, dynamic> json) {
     return TransactionWitnessSets(
-        transactions: (json["witnesses"] as List)
-            .map((e) => TransactionWitnessSet.fromJson(e))
-            .toList());
+      transactions:
+          (json["witnesses"] as List)
+              .map((e) => TransactionWitnessSet.fromJson(e))
+              .toList(),
+    );
   }
 
   @override

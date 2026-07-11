@@ -10,9 +10,9 @@ class BlockTimestamp extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'slot'),
-        LayoutConst.i64(property: 'timestamp'),
-      ], property: 'blockTimestamp');
+    LayoutConst.u64(property: 'slot'),
+    LayoutConst.i64(property: 'timestamp'),
+  ], property: 'blockTimestamp');
   @override
   StructLayout get layout => staticLayout;
 

@@ -10,7 +10,7 @@ abstract class BlockFrostRequest<RESULT, RESPONSE>
   final BlockFrostRequestFilter? filter;
 
   @override
-  RequestServiceType get requestType => RequestServiceType.post;
+  RequestMethod get requestMethod => RequestMethod.post;
 
   /// method for the request.
   abstract final String method;
@@ -23,22 +23,30 @@ abstract class BlockFrostRequest<RESULT, RESPONSE>
   BlockFrostRequestDetails buildRequest(int v) {
     final pathParams = BlockFrostProviderUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw ADAPluginException('Invalid Path Parameters.', details: {
-        'pathParams': pathParameters,
-        'expectedPathParametersLength': pathParams.length
-      });
+      throw ADAPluginException(
+        'Invalid Path Parameters.',
+        details: {
+          'pathParams': pathParameters.length.toString(),
+          'expectedPathParametersLength': pathParams.length.toString(),
+        },
+      );
     }
     String params = method;
     for (int i = 0; i < pathParams.length; i++) {
       params = params.replaceFirst(pathParams[i], pathParameters[i]);
     }
     if (filter != null) {
-      params = Uri.parse(params)
-          .replace(queryParameters: filter!.toJson())
-          .normalizePath()
-          .toString();
+      params =
+          Uri.parse(params)
+              .replace(queryParameters: filter!.toJson())
+              .normalizePath()
+              .toString();
     }
-    return BlockFrostRequestDetails(requestID: v, pathParams: params);
+    return BlockFrostRequestDetails(
+      requestID: v,
+      path: params,
+      responseEncoding: ServiceReponseEncoding.fromType<RESPONSE>(),
+    );
   }
 }
 
@@ -50,57 +58,92 @@ abstract class BlockFrostPostRequest<RESULT, RESPONSE>
   Map<String, String>? get headers => null;
 
   @override
-  RequestServiceType get requestType => RequestServiceType.post;
+  RequestMethod get requestMethod => RequestMethod.post;
 
   @override
   BlockFrostRequestDetails buildRequest(int v) {
     final request = super.buildRequest(v);
     return request.copyWith(
-        params: body,
-        headers: headers ?? ServiceConst.defaultPostHeaders,
-        type: requestType);
+      bodyBytes: body,
+      headers: headers ?? ServiceConst.defaultPostHeaders,
+      requestMethod: requestMethod,
+    );
   }
 }
 
 /// Represents the details of a blockfrost request.
 class BlockFrostRequestDetails extends BaseServiceRequestParams {
   /// Constructs a new [BlockFrostRequestDetails] instance with the specified parameters.
-  const BlockFrostRequestDetails(
-      {required super.requestID,
-      required this.pathParams,
-      super.headers = const {},
-      super.errorStatusCodes = const [400, 403, 404, 418, 425, 429, 500],
-      RequestServiceType requestType = RequestServiceType.get,
-      this.params})
-      : super(type: requestType);
-
-  BlockFrostRequestDetails copyWith(
-      {int? requestID,
-      String? pathParams,
-      RequestServiceType? type,
-      Map<String, String>? headers,
-      List<int>? params}) {
+  const BlockFrostRequestDetails({
+    required super.requestID,
+    required super.path,
+    required super.responseEncoding,
+    super.headers = const {},
+    super.successStatusCodes,
+    super.errorStatusCodes = const [400, 402, 403, 404, 418, 425, 429, 500],
+    super.requestMethod = RequestMethod.get,
+    super.bodyBytes,
+    super.bodyString,
+  }) : super(network: BlockchainNetwork.cardano);
+  factory BlockFrostRequestDetails.deserialize({
+    List<int>? bytes,
+    CborObject? obj,
+  }) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: BlockchainNetwork.cardano.identifier,
+      cborBytes: bytes,
+      cborObject: obj,
+    );
+    return BlockFrostRequestDetails(
+      headers: values
+          .mapAt<CborStringValue, CborStringValue>(0)
+          .map((k, v) => MapEntry(k.value, v.value)),
+      requestMethod: RequestMethod.fromValue(values.rawValueAt(1)),
+      responseEncoding: ServiceReponseEncoding.fromValue(values.rawValueAt(2)),
+      successStatusCodes:
+          values
+              .listAt<CborIntValue>(3)
+              .map((e) => e.value)
+              .toList()
+              .emptyAsNull,
+      errorStatusCodes:
+          values
+              .listAt<CborIntValue>(4)
+              .map((e) => e.value)
+              .toList()
+              .emptyAsNull,
+      bodyBytes: values.rawValueAt(5),
+      bodyString: values.rawValueAt(6),
+      path: values.rawValueAt(7),
+      requestID: values.rawValueAt(8),
+    );
+  }
+  BlockFrostRequestDetails copyWith({
+    int? requestID,
+    String? path,
+    RequestMethod? requestMethod,
+    Map<String, String>? headers,
+    List<int>? bodyBytes,
+    String? bodyString,
+    ServiceReponseEncoding? responseEncoding,
+    List<int>? errorStatusCodes,
+    List<int>? successStatusCodes,
+  }) {
     return BlockFrostRequestDetails(
       requestID: requestID ?? this.requestID,
-      pathParams: pathParams ?? this.pathParams,
-      requestType: type ?? this.type,
       headers: headers ?? this.headers,
-      params: params ?? this.params,
+      path: path ?? this.path,
+      responseEncoding: responseEncoding ?? this.responseEncoding,
+      requestMethod: requestMethod ?? this.requestMethod,
+      bodyString: bodyString ?? this.bodyString,
+      errorStatusCodes: errorStatusCodes ?? this.errorStatusCodes,
+      bodyBytes: bodyBytes ?? this.bodyBytes,
+      successStatusCodes: successStatusCodes ?? this.successStatusCodes,
     );
   }
 
-  /// URL path parameters
-  final String pathParams;
-
-  final List<int>? params;
-
   @override
-  List<int>? body() {
-    return params;
-  }
-
-  @override
-  Uri toUri(String uri, {String version = 'v0'}) {
+  Uri encodeUrl(String uri, {String version = 'v0'}) {
     String url = uri;
     if (!url.contains(version)) {
       if (url.endsWith('/')) {
@@ -113,14 +156,34 @@ class BlockFrostRequestDetails extends BaseServiceRequestParams {
       url = url.substring(0, url.length - 1);
     }
 
-    return Uri.parse('$url$pathParams');
+    return Uri.parse('$url${path ?? ''}');
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'pathParameters': pathParams,
-      'body': BytesUtils.tryToHexString(params)
-    };
+    return {'path': path};
   }
+
+  @override
+  SerializationIdentifier get serializationIdentifier =>
+      BlockchainNetwork.cardano.identifier;
+
+  @override
+  List<CborObject?> get serializationItems => [
+    CborMapValue.definite(
+      headers.map((k, v) => MapEntry(CborStringValue(k), CborStringValue(v))),
+    ),
+    requestMethod.value.toCbor(),
+    responseEncoding.value.toCbor(),
+    CborTagSerializable.listFromDynamic(
+      successStatusCodes?.map((e) => CborIntValue(e)).toList() ?? [],
+    ),
+    CborTagSerializable.listFromDynamic(
+      errorStatusCodes?.map((e) => CborIntValue(e)).toList() ?? [],
+    ),
+    bodyBytes?.toCborBytes(),
+    bodyString?.toCbor(),
+    path?.toCbor(),
+    requestID.toCbor(),
+  ];
 }

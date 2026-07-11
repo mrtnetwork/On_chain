@@ -5,24 +5,30 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout
     extends MetaplexTokenMetaDataProgramLayout {
   final BigInt edition;
-  const MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout(
-      {required this.edition});
+  const MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout({
+    required this.edition,
+  });
 
   factory MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .mintNewEditionFromMasterEditionViaVaultProxy.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .mintNewEditionFromMasterEditionViaVaultProxy
+              .insturction,
+    );
     return MetaplexTokenMetaDataMintNewEditionFromMasterEditionViaVaultProxyLayout(
-        edition: decode['edition']);
+      edition: decode['edition'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'edition')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'edition'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

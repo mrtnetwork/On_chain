@@ -4,10 +4,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// List of a specific asset transactions.
 /// https://blockfrost.dev/api/asset-transactions
-class BlockfrostRequestAssetTransactions extends BlockFrostRequest<
-    List<ADATransactionSummaryInfoResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestAssetTransactions(this.asset,
-      {BlockFrostRequestFilterParams? filter});
+class BlockfrostRequestAssetTransactions
+    extends
+        BlockFrostRequest<
+          List<ADATransactionSummaryInfoResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAssetTransactions(
+    this.asset, {
+    BlockFrostRequestFilterParams? filter,
+  });
 
   /// Concatenation of the policy_id and hex-encoded asset_name
   final String asset;
@@ -21,7 +27,8 @@ class BlockfrostRequestAssetTransactions extends BlockFrostRequest<
 
   @override
   List<ADATransactionSummaryInfoResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADATransactionSummaryInfoResponse.fromJson(e))
         .toList();

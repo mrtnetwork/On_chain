@@ -14,8 +14,10 @@ class ADAStakeDistributionResponse {
     required this.amount,
   });
 
-  factory ADAStakeDistributionResponse.fromJson(Map<String, dynamic> json,
-      {String? poolId}) {
+  factory ADAStakeDistributionResponse.fromJson(
+    Map<String, dynamic> json, {
+    String? poolId,
+  }) {
     return ADAStakeDistributionResponse(
       stakeAddress: json['stake_address'],
       poolId: poolId ?? json['pool_id'],
@@ -24,10 +26,10 @@ class ADAStakeDistributionResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'stake_address': stakeAddress,
-        'pool_id': poolId,
-        'amount': amount,
-      };
+    'stake_address': stakeAddress,
+    'pool_id': poolId,
+    'amount': amount,
+  };
 
   @override
   String toString() {

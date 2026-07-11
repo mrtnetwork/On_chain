@@ -7,14 +7,12 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('transferFeeConfigAuthority'),
-        SolanaLayoutUtils.publicKey('withdrawWithheldAuthority'),
-        LayoutConst.u64(property: 'withheldAmount'),
-        LayoutConst.wrap(TransferFee.staticLayout,
-            property: 'olderTransferFee'),
-        LayoutConst.wrap(TransferFee.staticLayout,
-            property: 'newerTransferFee'),
-      ]);
+    SolanaLayoutUtils.publicKey('transferFeeConfigAuthority'),
+    SolanaLayoutUtils.publicKey('withdrawWithheldAuthority'),
+    LayoutConst.u64(property: 'withheldAmount'),
+    LayoutConst.wrap(TransferFee.staticLayout, property: 'olderTransferFee'),
+    LayoutConst.wrap(TransferFee.staticLayout, property: 'newerTransferFee'),
+  ]);
 
   static int get accountSize => layout.span;
   static BigInt get oneInBasisPoint => BigInt.from(10000);
@@ -22,11 +20,18 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -36,10 +41,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.transferFeeConfig);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.transferFeeConfig,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -65,30 +73,33 @@ class TransferFeeConfig extends BorshLayoutSerializable {
 
   /// Newer transfer fee, used if the current epoch >= newerTransferFee.epoch
   final TransferFee newerTransferFee;
-  const TransferFeeConfig(
-      {required this.transferFeeConfigAuthority,
-      required this.withdrawWithheldAuthority,
-      required this.withheldAmount,
-      required this.olderTransferFee,
-      required this.newerTransferFee});
+  const TransferFeeConfig({
+    required this.transferFeeConfigAuthority,
+    required this.withdrawWithheldAuthority,
+    required this.withheldAmount,
+    required this.olderTransferFee,
+    required this.newerTransferFee,
+  });
 
   factory TransferFeeConfig.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return TransferFeeConfig(
-        transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
-        withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
-        withheldAmount: decode['withheldAmount'],
-        olderTransferFee: TransferFee.fromJson(decode['olderTransferFee']),
-        newerTransferFee: TransferFee.fromJson(decode['newerTransferFee']));
+      transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
+      withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
+      withheldAmount: decode['withheldAmount'],
+      olderTransferFee: TransferFee.fromJson(decode['olderTransferFee']),
+      newerTransferFee: TransferFee.fromJson(decode['newerTransferFee']),
+    );
   }
   factory TransferFeeConfig.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return TransferFeeConfig(
-        transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
-        withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
-        withheldAmount: decode['withheldAmount'],
-        olderTransferFee: TransferFee.fromJson(decode['olderTransferFee']),
-        newerTransferFee: TransferFee.fromJson(decode['newerTransferFee']));
+      transferFeeConfigAuthority: decode['transferFeeConfigAuthority'],
+      withdrawWithheldAuthority: decode['withdrawWithheldAuthority'],
+      withheldAmount: decode['withheldAmount'],
+      olderTransferFee: TransferFee.fromJson(decode['olderTransferFee']),
+      newerTransferFee: TransferFee.fromJson(decode['newerTransferFee']),
+    );
   }
 
   @override
@@ -100,7 +111,7 @@ class TransferFeeConfig extends BorshLayoutSerializable {
       'withdrawWithheldAuthority': withdrawWithheldAuthority,
       'withheldAmount': withheldAmount,
       'olderTransferFee': olderTransferFee.serialize(),
-      'newerTransferFee': newerTransferFee.serialize()
+      'newerTransferFee': newerTransferFee.serialize(),
     };
   }
 
@@ -116,14 +127,17 @@ class TransferFeeConfig extends BorshLayoutSerializable {
     return olderTransferFee;
   }
 
-  BigInt calculateEpochFee(
-      {required BigInt preFeeAmount, required BigInt epoch}) {
+  BigInt calculateEpochFee({
+    required BigInt preFeeAmount,
+    required BigInt epoch,
+  }) {
     final fee = getEpochFee(epoch);
     if (preFeeAmount == BigInt.zero || fee.transferFeeBasisPoints == 0) {
       return BigInt.zero;
     }
     final numerator = preFeeAmount * BigInt.from(fee.transferFeeBasisPoints);
-    final rawFee = (numerator * _Utils.oneInBasisPoint - BigInt.one) ~/
+    final rawFee =
+        (numerator * _Utils.oneInBasisPoint - BigInt.one) ~/
         _Utils.oneInBasisPoint;
     return rawFee > fee.maximumFee ? fee.maximumFee : rawFee;
   }

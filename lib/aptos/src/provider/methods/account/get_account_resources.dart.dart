@@ -8,10 +8,15 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// The Aptos nodes prune account state history, via a configurable time window.
 /// If the requested ledger version has been pruned, the server responds with a 410.
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
-class AptosRequestGetAccountResources extends AptosRequest<
-    List<AptosApiMoveResource>, List<Map<String, dynamic>>> {
-  AptosRequestGetAccountResources(
-      {required this.address, this.ledgetVersion, this.start, this.limit});
+class AptosRequestGetAccountResources
+    extends
+        AptosRequest<List<AptosApiMoveResource>, List<Map<String, dynamic>>> {
+  AptosRequestGetAccountResources({
+    required this.address,
+    this.ledgetVersion,
+    this.start,
+    this.limit,
+  });
 
   /// Address of account with or without a `0x` prefix
   final AptosAddress address;
@@ -34,10 +39,10 @@ class AptosRequestGetAccountResources extends AptosRequest<
   List<String> get pathParameters => [address.address];
   @override
   Map<String, String?> get queryParameters => {
-        "ledger_version": ledgetVersion?.toString(),
-        "start": start,
-        "limit": limit?.toString()
-      };
+    "ledger_version": ledgetVersion?.toString(),
+    "start": start,
+    "limit": limit?.toString(),
+  };
 
   @override
   List<AptosApiMoveResource> onResonse(List<Map<String, dynamic>> result) {

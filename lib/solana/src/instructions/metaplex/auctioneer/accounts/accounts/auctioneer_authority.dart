@@ -4,9 +4,9 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class _Utils {
   static const List<int> discriminator = [228, 74, 255, 245, 96, 83, 197, 12];
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        LayoutConst.u8(property: 'bump')
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.u8(property: 'bump'),
+  ]);
 }
 
 class AuctioneerAuthority extends BorshLayoutSerializable {
@@ -15,9 +15,10 @@ class AuctioneerAuthority extends BorshLayoutSerializable {
   const AuctioneerAuthority({required this.bump});
   factory AuctioneerAuthority.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
 
     return AuctioneerAuthority(bump: decode['bump']);
   }
@@ -27,10 +28,7 @@ class AuctioneerAuthority extends BorshLayoutSerializable {
 
   @override
   Map<String, dynamic> serialize() {
-    return {
-      'discriminator': _Utils.discriminator,
-      'bump': bump,
-    };
+    return {'discriminator': _Utils.discriminator, 'bump': bump};
   }
 
   @override

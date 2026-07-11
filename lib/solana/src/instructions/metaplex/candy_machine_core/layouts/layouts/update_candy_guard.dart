@@ -6,22 +6,25 @@ class MetaplexCandyMachineUpdateCandyGuardLayout
     extends MetaplexCandyMachineProgramLayout {
   final List<int> data;
   MetaplexCandyMachineUpdateCandyGuardLayout({required List<int> data})
-      : data = data.asImmutableBytes;
+    : data = data.asImmutableBytes;
 
   factory MetaplexCandyMachineUpdateCandyGuardLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .updateCandyGuard.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction.updateCandyGuard.insturction,
+    );
     return MetaplexCandyMachineUpdateCandyGuardLayout(
-        data: (decode['data'] as List).cast());
+      data: (decode['data'] as List).cast(),
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.vecU8(property: 'data')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.vecU8(property: 'data'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

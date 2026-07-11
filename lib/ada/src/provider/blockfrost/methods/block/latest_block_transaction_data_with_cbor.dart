@@ -5,8 +5,11 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/models/latest_block_
 /// Return content of the requested transaction.
 /// https://blockfrost.dev/api/specific-transaction
 class BlockfrostRequestLatestBlockTransactionWithCborData
-    extends BlockFrostRequest<List<LatestBlockTransactionWithCborDataResponse>,
-        List<Map<String, dynamic>>> {
+    extends
+        BlockFrostRequest<
+          List<LatestBlockTransactionWithCborDataResponse>,
+          List<Map<String, dynamic>>
+        > {
   BlockfrostRequestLatestBlockTransactionWithCborData({super.filter});
 
   /// Specific transaction
@@ -19,7 +22,8 @@ class BlockfrostRequestLatestBlockTransactionWithCborData
 
   @override
   List<LatestBlockTransactionWithCborDataResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => LatestBlockTransactionWithCborDataResponse.fromJson(e))
         .toList();

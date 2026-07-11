@@ -7,8 +7,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getleaderschedule
 class SolanaRequestGetLeaderSchedule
     extends SolanaRequest<LeaderSchedule, Map<String, dynamic>> {
-  const SolanaRequestGetLeaderSchedule(
-      {this.slot, this.identity, super.commitment});
+  const SolanaRequestGetLeaderSchedule({
+    this.slot,
+    this.identity,
+    super.commitment,
+  });
 
   /// getLeaderSchedule
   @override
@@ -27,7 +30,7 @@ class SolanaRequestGetLeaderSchedule
       slot,
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {'identity': identity}
+        {'identity': identity},
       ]),
     ];
   }

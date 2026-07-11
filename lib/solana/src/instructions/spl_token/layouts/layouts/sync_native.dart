@@ -15,9 +15,10 @@ class SPLTokenSyncNativeLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenSyncNativeLayout instance from buffer.
   factory SPLTokenSyncNativeLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.syncNative.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.syncNative.insturction,
+    );
     return SPLTokenSyncNativeLayout();
   }
 

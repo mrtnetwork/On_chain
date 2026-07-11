@@ -7,24 +7,30 @@ class TokenLendingDepositObligationCollateralLayout
     extends TokenLendingProgramLayout {
   /// Amount of collateral tokens to deposit
   final BigInt collateralAmount;
-  const TokenLendingDepositObligationCollateralLayout(
-      {required this.collateralAmount});
+  const TokenLendingDepositObligationCollateralLayout({
+    required this.collateralAmount,
+  });
 
   factory TokenLendingDepositObligationCollateralLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: TokenLendingProgramInstruction
-            .depositObligationCollateral.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          TokenLendingProgramInstruction
+              .depositObligationCollateral
+              .insturction,
+    );
     return TokenLendingDepositObligationCollateralLayout(
-        collateralAmount: decode['collateralAmount']);
+      collateralAmount: decode['collateralAmount'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'collateralAmount'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'collateralAmount'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

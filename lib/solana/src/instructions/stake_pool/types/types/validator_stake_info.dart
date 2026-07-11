@@ -26,34 +26,36 @@ class ValidatorStakeInfo extends BorshLayoutSerializable {
 
   /// Validator vote account address
   final SolAddress voteAccountAddress;
-  const ValidatorStakeInfo(
-      {required this.activeStakeLamports,
-      required this.transientStakeLamports,
-      required this.lastUpdateEpoch,
-      required this.transientSeedSuffixStart,
-      required this.transientSeedSuffixEnd,
-      required this.status,
-      required this.voteAccountAddress});
+  const ValidatorStakeInfo({
+    required this.activeStakeLamports,
+    required this.transientStakeLamports,
+    required this.lastUpdateEpoch,
+    required this.transientSeedSuffixStart,
+    required this.transientSeedSuffixEnd,
+    required this.status,
+    required this.voteAccountAddress,
+  });
   factory ValidatorStakeInfo.fromJson(Map<String, dynamic> json) {
     return ValidatorStakeInfo(
-        activeStakeLamports: json['activeStakeLamports'],
-        transientStakeLamports: json['transientStakeLamports'],
-        lastUpdateEpoch: json['lastUpdateEpoch'],
-        transientSeedSuffixStart: json['transientSeedSuffixStart'],
-        transientSeedSuffixEnd: json['transientSeedSuffixEnd'],
-        status: ValidatorStakeInfoStatus.fromValue(json['status']),
-        voteAccountAddress: json['voteAccountAddress']);
+      activeStakeLamports: json['activeStakeLamports'],
+      transientStakeLamports: json['transientStakeLamports'],
+      lastUpdateEpoch: json['lastUpdateEpoch'],
+      transientSeedSuffixStart: json['transientSeedSuffixStart'],
+      transientSeedSuffixEnd: json['transientSeedSuffixEnd'],
+      status: ValidatorStakeInfoStatus.fromValue(json['status']),
+      voteAccountAddress: json['voteAccountAddress'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'activeStakeLamports'),
-        LayoutConst.u64(property: 'transientStakeLamports'),
-        LayoutConst.u64(property: 'lastUpdateEpoch'),
-        LayoutConst.u64(property: 'transientSeedSuffixStart'),
-        LayoutConst.u64(property: 'transientSeedSuffixEnd'),
-        LayoutConst.u8(property: 'status'),
-        SolanaLayoutUtils.publicKey('voteAccountAddress'),
-      ], property: 'validatorStakeInfo');
+    LayoutConst.u64(property: 'activeStakeLamports'),
+    LayoutConst.u64(property: 'transientStakeLamports'),
+    LayoutConst.u64(property: 'lastUpdateEpoch'),
+    LayoutConst.u64(property: 'transientSeedSuffixStart'),
+    LayoutConst.u64(property: 'transientSeedSuffixEnd'),
+    LayoutConst.u8(property: 'status'),
+    SolanaLayoutUtils.publicKey('voteAccountAddress'),
+  ], property: 'validatorStakeInfo');
 
   @override
   StructLayout get layout => staticLayout;
@@ -67,7 +69,7 @@ class ValidatorStakeInfo extends BorshLayoutSerializable {
       'transientSeedSuffixStart': transientSeedSuffixStart,
       'transientSeedSuffixEnd': transientSeedSuffixEnd,
       'status': status.value,
-      'voteAccountAddress': voteAccountAddress
+      'voteAccountAddress': voteAccountAddress,
     };
   }
 

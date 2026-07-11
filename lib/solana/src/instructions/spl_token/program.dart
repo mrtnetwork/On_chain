@@ -21,48 +21,56 @@ class SPLTokenProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.tokenProgramId,
   }) {
     return SPLTokenProgram(
-        layout: SPLTokenProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: SPLTokenProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Convert an Amount of tokens to a UiAmount `string`, using the given
   /// mint. In this version of the program, the mint can only specify the
   /// number of decimals.
-  factory SPLTokenProgram.amountToUiAmount(
-      {required SPLTokenAmountToUiAmountLayout layout,
+  factory SPLTokenProgram.amountToUiAmount({
+    required SPLTokenAmountToUiAmountLayout layout,
 
-      /// The mint to calculate for
-      required SolAddress mint,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+    /// The mint to calculate for
+    required SolAddress mint,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: layout, keys: [mint.toReadOnly()], programId: programId);
+      layout: layout,
+      keys: [mint.toReadOnly()],
+      programId: programId,
+    );
   }
 
   /// Approves a delegate.  A delegate is given the authority over tokens on
   /// behalf of the source account's owner.
-  factory SPLTokenProgram.approve(
-      {required SPLTokenApproveLayout layout,
+  factory SPLTokenProgram.approve({
+    required SPLTokenApproveLayout layout,
 
-      /// The source account.
-      required SolAddress account,
+    /// The source account.
+    required SolAddress account,
 
-      /// The delegate.
-      required SolAddress delegate,
+    /// The delegate.
+    required SolAddress delegate,
 
-      /// The source account owner.
-      required SolAddress owner,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+    /// The source account owner.
+    required SolAddress owner,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
 
-      /// Multisignature owner
-      List<SolAddress> multiSigners = const []}) {
+    /// Multisignature owner
+    List<SolAddress> multiSigners = const [],
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(
-            keys: [account.toWritable(), delegate.toReadOnly()],
-            owner: owner,
-            multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable(), delegate.toReadOnly()],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Approves a delegate.  A delegate is given the authority over tokens on
@@ -70,58 +78,63 @@ class SPLTokenProgram extends TransactionInstruction {
   ///
   /// This instruction differs from Approve in that the token mint and
   /// decimals value is checked by the caller.
-  factory SPLTokenProgram.approveChecked(
-      {required SPLTokenApproveCheckedLayout layout,
+  factory SPLTokenProgram.approveChecked({
+    required SPLTokenApproveCheckedLayout layout,
 
-      /// The source account.
-      required SolAddress account,
+    /// The source account.
+    required SolAddress account,
 
-      /// The token mint.
-      required SolAddress mint,
+    /// The token mint.
+    required SolAddress mint,
 
-      /// The delegate.
-      required SolAddress delegate,
+    /// The delegate.
+    required SolAddress delegate,
 
-      /// The source account owner.
-      required SolAddress owner,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+    /// The source account owner.
+    required SolAddress owner,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
 
-      /// The source account's multisignature owner.
-      List<SolAddress> multiSigners = const []}) {
+    /// The source account's multisignature owner.
+    List<SolAddress> multiSigners = const [],
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-          mint.toReadOnly(),
-          delegate.toReadOnly()
-        ], owner: owner, multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable(), mint.toReadOnly(), delegate.toReadOnly()],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Burns tokens by removing them from an account. [SPLTokenProgram.burn] does not support
   /// accounts associated with the native mint, use [SPLTokenProgram.closeAccount] instead.
-  factory SPLTokenProgram.burn(
-      {required SPLTokenBurnLayout layout,
+  factory SPLTokenProgram.burn({
+    required SPLTokenBurnLayout layout,
 
-      ///  The account to burn from.
-      required SolAddress account,
+    ///  The account to burn from.
+    required SolAddress account,
 
-      /// The token mint.
-      required SolAddress mint,
+    /// The token mint.
+    required SolAddress mint,
 
-      /// The account's owner/delegate.
-      required SolAddress owner,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+    /// The account's owner/delegate.
+    required SolAddress owner,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
 
-      /// Multisignature owner/delegate
-      List<SolAddress> multiSigners = const []}) {
+    /// Multisignature owner/delegate
+    List<SolAddress> multiSigners = const [],
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-          mint.toWritable(),
-        ], owner: owner, multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable(), mint.toWritable()],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Burns tokens by removing them from an account.  [SPLTokenProgram.burnChecked] does not
@@ -147,60 +160,66 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-          mint.toWritable(),
-        ], owner: owner, multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable(), mint.toWritable()],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Close an account by transferring all its SOL to the destination account.
   /// Non-native accounts may only be closed if its token amount is zero.
-  factory SPLTokenProgram.closeAccount(
-      {
-      /// The account to close.
-      required SolAddress account,
+  factory SPLTokenProgram.closeAccount({
+    /// The account to close.
+    required SolAddress account,
 
-      /// The destination account.
-      required SolAddress destination,
+    /// The destination account.
+    required SolAddress destination,
 
-      /// The account's owner.
-      required SolAddress authority,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+    /// The account's owner.
+    required SolAddress authority,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
 
-      /// Multisignature owner
-      List<SolAddress> multiSigners = const []}) {
+    /// Multisignature owner
+    List<SolAddress> multiSigners = const [],
+  }) {
     return SPLTokenProgram(
-        layout: SPLTokenCloseAccountLayout(),
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-          destination.toWritable(),
-        ], owner: authority, multiSigners: multiSigners),
-        programId: programId);
+      layout: SPLTokenCloseAccountLayout(),
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable(), destination.toWritable()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Creates the native mint.
-  factory SPLTokenProgram.createNativeMint(
-      {
-      /// Funding account (must be a system account)
-      required SolAddress payer,
+  factory SPLTokenProgram.createNativeMint({
+    /// Funding account (must be a system account)
+    required SolAddress payer,
 
-      /// The native mint address
-      SolAddress nativeMintId = SPLTokenProgramConst.nativeMint2022,
-      SolAddress programId = SPLTokenProgramConst.token2022ProgramId}) {
+    /// The native mint address
+    SolAddress nativeMintId = SPLTokenProgramConst.nativeMint2022,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+  }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          'Token program id does not support extensions');
+        'Token program id does not support extensions',
+      );
     }
     return SPLTokenProgram(
-        layout: SPLTokenCreateNativeMintLayout(),
-        keys: [
-          payer.toSignerAndWritable(),
-          nativeMintId.toWritable(),
-          SystemProgramConst.programId.toReadOnly()
-        ],
-        programId: programId);
+      layout: SPLTokenCreateNativeMintLayout(),
+      keys: [
+        payer.toSignerAndWritable(),
+        nativeMintId.toWritable(),
+        SystemProgramConst.programId.toReadOnly(),
+      ],
+      programId: programId,
+    );
   }
 
   /// Freeze an Initialized account.
@@ -219,12 +238,14 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: SPLTokenFreezAccountLayout(),
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-          mint.toReadOnly(),
-        ], owner: authority, multiSigners: multiSigners),
-        programId: programId);
+      layout: SPLTokenFreezAccountLayout(),
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable(), mint.toReadOnly()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Initializes a new account to hold tokens.  If this account is associated
@@ -233,26 +254,27 @@ class SPLTokenProgram extends TransactionInstruction {
   /// associated with another mint, that mint must be initialized before this
   /// command can succeed.
   ///
-  factory SPLTokenProgram.initializeAccount(
-      {
-      /// The account to initialize.
-      required SolAddress account,
+  factory SPLTokenProgram.initializeAccount({
+    /// The account to initialize.
+    required SolAddress account,
 
-      /// The mint this account will be associated with.
-      required SolAddress mint,
+    /// The mint this account will be associated with.
+    required SolAddress mint,
 
-      /// The new account's owner/multisignature.
-      required SolAddress owner,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+    /// The new account's owner/multisignature.
+    required SolAddress owner,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: SPLTokenInitializeAccountLayout(),
-        keys: [
-          account.toWritable(),
-          mint.toReadOnly(),
-          owner.toReadOnly(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-        ],
-        programId: programId);
+      layout: SPLTokenInitializeAccountLayout(),
+      keys: [
+        account.toWritable(),
+        mint.toReadOnly(),
+        owner.toReadOnly(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+      ],
+      programId: programId,
+    );
   }
 
   /// Like InitializeAccount, but the owner pubkey is passed via instruction
@@ -260,100 +282,113 @@ class SPLTokenProgram extends TransactionInstruction {
   /// when using Cross Program Invocation from an instruction that does
   /// not need the owner's AccountInfo otherwise.
   ///
-  factory SPLTokenProgram.initializeAccount2(
-      {required SPLTokenInitializeAccount2Layout layout,
+  factory SPLTokenProgram.initializeAccount2({
+    required SPLTokenInitializeAccount2Layout layout,
 
-      /// The account to initialize.
-      required SolAddress account,
+    /// The account to initialize.
+    required SolAddress account,
 
-      /// The mint this account will be associated with.
-      required SolAddress mint,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+    /// The mint this account will be associated with.
+    required SolAddress mint,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: [
-          account.toWritable(),
-          mint.toReadOnly(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [
+        account.toWritable(),
+        mint.toReadOnly(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+      ],
+      programId: programId,
+    );
   }
 
   /// Like InitializeAccount2, but does not require the Rent sysvar to be
   /// provided
   ///
-  factory SPLTokenProgram.initializeAccount3(
-      {required SPLTokenInitializeAccount3Layout layout,
+  factory SPLTokenProgram.initializeAccount3({
+    required SPLTokenInitializeAccount3Layout layout,
 
-      /// The account to initialize.
-      required SolAddress account,
+    /// The account to initialize.
+    required SolAddress account,
 
-      /// The mint this account will be associated with.
-      required SolAddress mint,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+    /// The mint this account will be associated with.
+    required SolAddress mint,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: [
-          account.toWritable(),
-          mint.toReadOnly(),
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [account.toWritable(), mint.toReadOnly()],
+      programId: programId,
+    );
   }
 
   /// Initialize the Immutable Owner extension for the given token account
-  factory SPLTokenProgram.initializeImmutableOwner(
-      {
-      /// The account to initialize.
-      required SolAddress account,
-      required SolAddress programId}) {
+  factory SPLTokenProgram.initializeImmutableOwner({
+    /// The account to initialize.
+    required SolAddress account,
+    required SolAddress programId,
+  }) {
     return SPLTokenProgram(
-        layout: SPLTokenInitializeImmutableOwnerLayout(),
-        keys: [account.toWritable()],
-        programId: programId);
+      layout: SPLTokenInitializeImmutableOwnerLayout(),
+      keys: [account.toWritable()],
+      programId: programId,
+    );
   }
 
   /// Initializes a new mint and optionally deposits all the newly minted
   /// tokens in an account.
-  factory SPLTokenProgram.initializeMint(
-      {required SPLTokenInitializeMintLayout layout,
+  factory SPLTokenProgram.initializeMint({
+    required SPLTokenInitializeMintLayout layout,
 
-      /// The mint to initialize.
-      required SolAddress mint,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+    /// The mint to initialize.
+    required SolAddress mint,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: [
-          mint.toWritable(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly()
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [
+        mint.toWritable(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+      ],
+      programId: programId,
+    );
   }
 
   /// Like [SPLTokenProgram.initializeMint], but does not require the Rent sysvar to be
   /// provided
-  factory SPLTokenProgram.initializeMint2(
-      {required SPLTokenInitializeMint2Layout layout,
+  factory SPLTokenProgram.initializeMint2({
+    required SPLTokenInitializeMint2Layout layout,
 
-      /// The mint to initialize.
-      required SolAddress mint,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+    /// The mint to initialize.
+    required SolAddress mint,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: layout, keys: [mint.toWritable()], programId: programId);
+      layout: layout,
+      keys: [mint.toWritable()],
+      programId: programId,
+    );
   }
 
   /// Initialize the close account authority on a new mint.
-  factory SPLTokenProgram.initializeMintCloseAuthority(
-      {required SPLTokenInitializeMintCloseAuthorityLayout layout,
+  factory SPLTokenProgram.initializeMintCloseAuthority({
+    required SPLTokenInitializeMintCloseAuthorityLayout layout,
 
-      /// The mint to initialize.
-      required SolAddress mint,
-      required SolAddress programId}) {
+    /// The mint to initialize.
+    required SolAddress mint,
+    required SolAddress programId,
+  }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          'Token program does not support extensions');
+        'Token program does not support extensions',
+      );
     }
     return SPLTokenProgram(
-        layout: layout, keys: [mint.toWritable()], programId: programId);
+      layout: layout,
+      keys: [mint.toWritable()],
+      programId: programId,
+    );
   }
 
   /// Initializes a multisignature account with N provided signers.
@@ -362,76 +397,88 @@ class SPLTokenProgram extends TransactionInstruction {
   /// accounts in any token instruction that require an owner/delegate to be
   /// present.  The variant field represents the number of signers (M)
   /// required to validate this multisignature account.
-  factory SPLTokenProgram.initializeMultisig(
-      {required SPLTokenInitializeMultisigLayout layout,
+  factory SPLTokenProgram.initializeMultisig({
+    required SPLTokenInitializeMultisigLayout layout,
 
-      /// The multisignature account to initialize.
-      required SolAddress account,
+    /// The multisignature account to initialize.
+    required SolAddress account,
 
-      /// The signer accounts
-      required List<SolAddress> signers,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+    /// The signer accounts
+    required List<SolAddress> signers,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: [
-          account.toWritable(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-          ...signers.map((e) => e.toReadOnly())
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [
+        account.toWritable(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+        ...signers.map((e) => e.toReadOnly()),
+      ],
+      programId: programId,
+    );
   }
 
   /// Initialize the non transferable extension for the given mint account
-  factory SPLTokenProgram.initializeNonTransferableMint(
-      {
-      /// The mint account to initialize.
-      required SolAddress mint,
-      required SolAddress programId}) {
+  factory SPLTokenProgram.initializeNonTransferableMint({
+    /// The mint account to initialize.
+    required SolAddress mint,
+    required SolAddress programId,
+  }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          'Token program does not support extensions');
+        'Token program does not support extensions',
+      );
     }
     return SPLTokenProgram(
-        layout: SPLTokenInitializeNonTransferableMintLayout(),
-        keys: [mint.toWritable()],
-        programId: programId);
+      layout: SPLTokenInitializeNonTransferableMintLayout(),
+      keys: [mint.toWritable()],
+      programId: programId,
+    );
   }
 
   /// Initialize the permanent delegate on a new mint.
-  factory SPLTokenProgram.initializePermanentDelegate(
-      {required SPLTokenInitializePermanentDelegateLayout layout,
-      required SolAddress mint,
-      required SolAddress programId}) {
+  factory SPLTokenProgram.initializePermanentDelegate({
+    required SPLTokenInitializePermanentDelegateLayout layout,
+    required SolAddress mint,
+    required SolAddress programId,
+  }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          'Token program does not support extensions');
+        'Token program does not support extensions',
+      );
     }
     return SPLTokenProgram(
-        layout: layout, keys: [mint.toWritable()], programId: programId);
+      layout: layout,
+      keys: [mint.toWritable()],
+      programId: programId,
+    );
   }
 
   /// Mints new tokens to an account.  The native mint does not support
   /// minting.
-  factory SPLTokenProgram.mintTo(
-      {required SPLTokenMintToLayout layout,
+  factory SPLTokenProgram.mintTo({
+    required SPLTokenMintToLayout layout,
 
-      /// The mint.
-      required SolAddress mint,
+    /// The mint.
+    required SolAddress mint,
 
-      /// The account to mint tokens to.
-      required SolAddress destination,
+    /// The account to mint tokens to.
+    required SolAddress destination,
 
-      /// The mint's minting authority.
-      required SolAddress authority,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId,
-      List<SolAddress> multiSigners = const []}) {
+    /// The mint's minting authority.
+    required SolAddress authority,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+    List<SolAddress> multiSigners = const [],
+  }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
-          mint.toWritable(),
-          destination.toWritable(),
-        ], owner: authority, multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [mint.toWritable(), destination.toWritable()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Mints new tokens to an account.  The native mint does not support
@@ -456,12 +503,14 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
-          mint.toWritable(),
-          destination.toWritable(),
-        ], owner: authority, multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [mint.toWritable(), destination.toWritable()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Check to see if a token account is large enough for a list of
@@ -485,16 +534,22 @@ class SPLTokenProgram extends TransactionInstruction {
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
       throw const SolanaPluginException(
-          'Token program does not support extensions');
+        'Token program does not support extensions',
+      );
     }
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [
           account.toWritable(),
           payer.toSignerAndWritable(),
           SystemProgramConst.programId.toReadOnly(),
-        ], owner: owner, multiSigners: multiSigners),
-        programId: programId);
+        ],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Revokes the delegate's authority.
@@ -510,11 +565,14 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: SPLTokenRevokeLayout(),
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-        ], owner: owner, multiSigners: multiSigners),
-        programId: programId);
+      layout: SPLTokenRevokeLayout(),
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable()],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Sets a new authority of a mint or account.
@@ -532,25 +590,29 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-        ], owner: currentAuthority, multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable()],
+        owner: currentAuthority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Given a wrapped / native token account (a token account containing SOL)
   /// updates its amount field based on the account's underlying `lamports`.
-  factory SPLTokenProgram.syncNative(
-      {
-      /// The native token account to sync with its underlying
-      /// lamports.
-      required SolAddress account,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+  factory SPLTokenProgram.syncNative({
+    /// The native token account to sync with its underlying
+    /// lamports.
+    required SolAddress account,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: SPLTokenSyncNativeLayout(),
-        keys: [account.toWritable()],
-        programId: programId);
+      layout: SPLTokenSyncNativeLayout(),
+      keys: [account.toWritable()],
+      programId: programId,
+    );
   }
 
   /// Thaw a Frozen account.
@@ -569,12 +631,14 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: SPLTokenThawAccountLayout(),
-        keys: SPLTokenUtils.buildKeys(keys: [
-          account.toWritable(),
-          mint.toReadOnly(),
-        ], owner: authority, multiSigners: multiSigners),
-        programId: programId);
+      layout: SPLTokenThawAccountLayout(),
+      keys: SPLTokenUtils.buildKeys(
+        keys: [account.toWritable(), mint.toReadOnly()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Transfers tokens from one account to another either directly or via a
@@ -598,12 +662,14 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
-          source.toWritable(),
-          destination.toWritable(),
-        ], owner: owner, multiSigners: multiSigners),
-        programId: programId);
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [source.toWritable(), destination.toWritable()],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Transfers tokens from one account to another either directly or via a
@@ -633,23 +699,32 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     return SPLTokenProgram(
-        layout: layout,
-        keys: SPLTokenUtils.buildKeys(keys: [
+      layout: layout,
+      keys: SPLTokenUtils.buildKeys(
+        keys: [
           source.toWritable(),
           mint.toReadOnly(),
           destination.toWritable(),
-        ], owner: owner, multiSigners: multiSigners),
-        programId: programId);
+        ],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+    );
   }
 
   /// Convert a UiAmount of tokens to a little-endian `u64` raw Amount, using
   /// the given mint. In this version of the program, the mint can only
   /// specify the number of decimals.
-  factory SPLTokenProgram.uiAmountToAmount(
-      {required SPLTokenUiAmountToAmountLayout layout,
-      required SolAddress mint,
-      SolAddress programId = SPLTokenProgramConst.tokenProgramId}) {
+  factory SPLTokenProgram.uiAmountToAmount({
+    required SPLTokenUiAmountToAmountLayout layout,
+    required SolAddress mint,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
     return SPLTokenProgram(
-        layout: layout, keys: [mint.toReadOnly()], programId: programId);
+      layout: layout,
+      keys: [mint.toReadOnly()],
+      programId: programId,
+    );
   }
 }

@@ -14,19 +14,19 @@ class PlutusMap extends PlutusData {
 
   /// Creates a [PlutusMap] instance.
   PlutusMap(Map<PlutusData, PlutusData> value)
-      : value = Map<PlutusData, PlutusData>.unmodifiable(value);
+    : value = Map<PlutusData, PlutusData>.unmodifiable(value);
 
   /// Deserializes a [PlutusMap] instance from CBOR.
   factory PlutusMap.deserialize(CborMapValue cbor) {
     return PlutusMap({
       for (final i in cbor.value.entries)
-        PlutusData.deserialize(i.key): PlutusData.deserialize(i.value)
+        PlutusData.deserialize(i.key): PlutusData.deserialize(i.value),
     });
   }
   factory PlutusMap.fromJson(Map<String, dynamic> json) {
     return PlutusMap({
       for (final i in (json[PlutusDataType.map.name] as Map).entries)
-        PlutusData.fromJson(i.key): PlutusData.fromJson(i.value)
+        PlutusData.fromJson(i.key): PlutusData.fromJson(i.value),
     });
   }
 
@@ -34,11 +34,13 @@ class PlutusMap extends PlutusData {
   CborObject toCbor({bool sort = false}) {
     if (sort) {
       final keys = value.keys.toList()..sort((a, b) => a.compareTo(b));
-      return CborMapValue.definite(
-          {for (final i in keys) i.toCbor(): value[i]!.toCbor()});
+      return CborMapValue.definite({
+        for (final i in keys) i.toCbor(): value[i]!.toCbor(),
+      });
     }
-    return CborMapValue.definite(
-        {for (final i in value.entries) i.key.toCbor(): i.value.toCbor()});
+    return CborMapValue.definite({
+      for (final i in value.entries) i.key.toCbor(): i.value.toCbor(),
+    });
   }
 
   @override
@@ -48,21 +50,22 @@ class PlutusMap extends PlutusData {
   Map<String, Map> toJson() {
     return {
       type.name: {
-        for (final i in value.entries) i.key.toJson(): i.value.toJson()
-      }
+        for (final i in value.entries) i.key.toJson(): i.value.toJson(),
+      },
     };
   }
 
   @override
-  Map<String, dynamic> toJsonSchema(
-      {PlutusSchemaConfig config = const PlutusSchemaConfig(
-          jsonSchema: PlutusJsonSchema.basicConversions)}) {
+  Map<String, dynamic> toJsonSchema({
+    PlutusSchemaConfig config = const PlutusSchemaConfig(
+      jsonSchema: PlutusJsonSchema.basicConversions,
+    ),
+  }) {
     if (config.jsonSchema == PlutusJsonSchema.basicConversions) {
       final Map<String, dynamic> json = {};
       for (final i in value.entries) {
         if (i.key is! PlutusInteger && i.key is! PlutusBytes) {
-          throw ADAPluginException('plutus object are not allowed as key.',
-              details: {'Key': i.key, 'Type': i.key.runtimeType});
+          throw ADAPluginException('plutus object are not allowed as key.');
         }
         final key = i.key.toJsonSchema(config: config).toString();
         final value = i.value.toJsonSchema(config: config);
@@ -71,11 +74,12 @@ class PlutusMap extends PlutusData {
       return json;
     } else {
       return {
-        'map': value.entries.map((entry) {
-          final k = entry.key.toJsonSchema(config: config);
-          final v = entry.value.toJsonSchema(config: config);
-          return {'k': k, 'v': v};
-        }).toList()
+        'map':
+            value.entries.map((entry) {
+              final k = entry.key.toJsonSchema(config: config);
+              final v = entry.value.toJsonSchema(config: config);
+              return {'k': k, 'v': v};
+            }).toList(),
       };
     }
   }

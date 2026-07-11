@@ -8,12 +8,13 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getaccountinfo
 class SolanaRequestGetAccountInfo
     extends SolanaRequest<SolanaAccountInfo?, Map<String, dynamic>?> {
-  const SolanaRequestGetAccountInfo(
-      {required this.account,
-      this.dataSlice,
-      super.commitment,
-      super.minContextSlot,
-      super.encoding = SolanaRequestEncoding.base64});
+  const SolanaRequestGetAccountInfo({
+    required this.account,
+    this.dataSlice,
+    super.commitment,
+    super.minContextSlot,
+    super.encoding = SolanaRequestEncoding.base64,
+  });
 
   /// getAccountInfo
   @override
@@ -33,8 +34,8 @@ class SolanaRequestGetAccountInfo
         commitment?.toJson(),
         encoding?.toJson(),
         dataSlice?.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 

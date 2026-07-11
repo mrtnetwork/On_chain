@@ -1,41 +1,38 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/smart_contract/smart_contract.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Deploys a contract
 class CreateSmartContract extends TronBaseContract {
   /// Create a new [CreateSmartContract] instance by parsing a JSON map.
   factory CreateSmartContract.fromJson(Map<String, dynamic> json) {
     return CreateSmartContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      newContract: SmartContract.fromJson(OnChainUtils.parseMap(
-          value: json['new_contract'],
-          name: 'new_contract',
-          throwOnNull: true)!),
-      callTokenValue: OnChainUtils.parseBigInt(
-          value: json['call_token_value'], name: 'call_token_value'),
-      tokenId:
-          OnChainUtils.parseBigInt(value: json['token_id'], name: 'token_id'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      newContract: SmartContract.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("new_contract"),
+      ),
+      callTokenValue: json.valueAsBigInt("call_token_value"),
+      tokenId: json.valueAsBigInt("token_id"),
     );
   }
 
   /// Create a new [CreateSmartContract] instance with specified parameters.
-  CreateSmartContract(
-      {required this.ownerAddress,
-      required this.newContract,
-      BigInt? callTokenValue,
-      this.tokenId})
-      : callTokenValue = callTokenValue == BigInt.zero ? null : callTokenValue;
+  CreateSmartContract({
+    required this.ownerAddress,
+    required this.newContract,
+    BigInt? callTokenValue,
+    this.tokenId,
+  }) : callTokenValue = callTokenValue == BigInt.zero ? null : callTokenValue;
   factory CreateSmartContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return CreateSmartContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        newContract: SmartContract.deserialize(decode.getField(2)),
-        callTokenValue: decode.getField(3),
-        tokenId: decode.getField(4));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      newContract: SmartContract.deserialize(decode.getField(2)),
+      callTokenValue: decode.getField(3),
+      tokenId: decode.getField(4),
+    );
   }
 
   /// Account address
@@ -58,7 +55,7 @@ class CreateSmartContract extends TronBaseContract {
       'owner_address': ownerAddress.toAddress(visible),
       'new_contract': newContract.toJson(visible: visible),
       'call_token_value': callTokenValue?.toString(),
-      'token_id': tokenId?.toString()
+      'token_id': tokenId?.toString(),
     }..removeWhere((key, value) => value == null);
   }
 

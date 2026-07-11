@@ -54,7 +54,7 @@ class MetaplexNFTPacksProgramInstruction implements ProgramLayoutInstruction {
     editPack,
     initPack,
     requestCardForRedeem,
-    transferPackAuthority
+    transferPackAuthority,
   ];
   static MetaplexNFTPacksProgramInstruction? getInstruction(dynamic value) {
     try {

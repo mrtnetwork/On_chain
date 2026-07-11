@@ -11,16 +11,16 @@ class SystemInitializeNonceAccountLayout extends SystemProgramLayout {
   const SystemInitializeNonceAccountLayout({required this.authorized});
   factory SystemInitializeNonceAccountLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            SystemProgramInstruction.initializeNonceAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.initializeNonceAccount.insturction,
+    );
     return SystemInitializeNonceAccountLayout(authorized: decode['authorized']);
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('authorized')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('authorized'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

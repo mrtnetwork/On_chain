@@ -8,22 +8,26 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class VoteProgramAuthorizeLayout extends VoteProgramLayout {
   final SolAddress newAuthorized;
   final int voteAuthorizationType;
-  const VoteProgramAuthorizeLayout(
-      {required this.newAuthorized, required this.voteAuthorizationType});
+  const VoteProgramAuthorizeLayout({
+    required this.newAuthorized,
+    required this.voteAuthorizationType,
+  });
   factory VoteProgramAuthorizeLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: VoteProgramInstruction.authorize.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: VoteProgramInstruction.authorize.insturction,
+    );
     return VoteProgramAuthorizeLayout(
-        newAuthorized: decode['newAuthorized'],
-        voteAuthorizationType: decode['voteAuthorizationType']);
+      newAuthorized: decode['newAuthorized'],
+      voteAuthorizationType: decode['voteAuthorizationType'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('newAuthorized'),
-        LayoutConst.u32(property: 'voteAuthorizationType')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newAuthorized'),
+    LayoutConst.u32(property: 'voteAuthorizationType'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -35,7 +39,7 @@ class VoteProgramAuthorizeLayout extends VoteProgramLayout {
   Map<String, dynamic> serialize() {
     return {
       'newAuthorized': newAuthorized,
-      'voteAuthorizationType': voteAuthorizationType
+      'voteAuthorizationType': voteAuthorizationType,
     };
   }
 }

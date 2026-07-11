@@ -11,7 +11,8 @@ class SPLToken2022UpdateGroupMemberPointerLayout extends SPLTokenProgramLayout {
   SPLToken2022UpdateGroupMemberPointerLayout({this.memberAddress});
 
   factory SPLToken2022UpdateGroupMemberPointerLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
@@ -19,16 +20,20 @@ class SPLToken2022UpdateGroupMemberPointerLayout extends SPLTokenProgramLayout {
           SPLTokenProgramInstruction.groupMemberPointerExtension.insturction,
     );
     return SPLToken2022UpdateGroupMemberPointerLayout(
-        memberAddress: decode['memberAddress'] == SolAddress.defaultPubKey
-            ? null
-            : decode['memberAddress']);
+      memberAddress:
+          decode['memberAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['memberAddress'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.wrap(GroupMemberPointerInstruction.staticLayout,
-            property: 'groupMemberPointer'),
-        SolanaLayoutUtils.publicKey('memberAddress'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.wrap(
+      GroupMemberPointerInstruction.staticLayout,
+      property: 'groupMemberPointer',
+    ),
+    SolanaLayoutUtils.publicKey('memberAddress'),
+  ]);
 
   /// Returns the layout structure.
   @override
@@ -44,7 +49,7 @@ class SPLToken2022UpdateGroupMemberPointerLayout extends SPLTokenProgramLayout {
   Map<String, dynamic> serialize() {
     return {
       'groupMemberPointer': GroupMemberPointerInstruction.update.serialize(),
-      'memberAddress': memberAddress ?? SolAddress.defaultPubKey
+      'memberAddress': memberAddress ?? SolAddress.defaultPubKey,
     };
   }
 }

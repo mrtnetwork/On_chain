@@ -17,9 +17,11 @@ class TransactionBodySerializationConfig {
   final List<int>? keyOrder;
   const TransactionBodySerializationConfig({this.keyOrder});
   factory TransactionBodySerializationConfig.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TransactionBodySerializationConfig(
-        keyOrder: (json["key_order"] as List?)?.cast());
+      keyOrder: (json["key_order"] as List?)?.cast(),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"key_order": keyOrder};
@@ -51,73 +53,124 @@ class TransactionBody with InternalCborSerialization {
   final BigInt? currentTreasuryValue;
   final BigInt? donation;
   final TransactionBodySerializationConfig serializationConfig;
-  TransactionBody(
-      {required this.inputs,
-      required this.outputs,
-      required this.fee,
-      this.ttl,
-      this.certificates,
-      this.withdrawals,
-      this.update,
-      this.auxiliaryDataHash,
-      this.validityStartInterval,
-      this.mint,
-      this.scriptDataHash,
-      this.collateral,
-      this.requiredSigners,
-      this.network,
-      this.collateralReturn,
-      this.totalCollateral,
-      this.referenceInputs,
-      this.votingProcedures,
-      this.votingProposals,
-      this.currentTreasuryValue,
-      this.donation,
-      this.serializationConfig = const TransactionBodySerializationConfig()});
+  TransactionBody({
+    required this.inputs,
+    required this.outputs,
+    required this.fee,
+    this.ttl,
+    this.certificates,
+    this.withdrawals,
+    this.update,
+    this.auxiliaryDataHash,
+    this.validityStartInterval,
+    this.mint,
+    this.scriptDataHash,
+    this.collateral,
+    this.requiredSigners,
+    this.network,
+    this.collateralReturn,
+    this.totalCollateral,
+    this.referenceInputs,
+    this.votingProcedures,
+    this.votingProposals,
+    this.currentTreasuryValue,
+    this.donation,
+    this.serializationConfig = const TransactionBodySerializationConfig(),
+  });
   factory TransactionBody.fromCborBytes(List<int> bytes) {
     final CborMapValue decode = InternalCborSerialization.desrialize(bytes);
-    return TransactionBody.deserialize(
-        decode.asMap<CborIntValue, CborObject>());
+    return TransactionBody.deserialize(decode);
   }
-  factory TransactionBody.deserialize(
-      CborMapValue<CborIntValue, CborObject> cbor) {
+  factory TransactionBody.deserialize(CborMapValue cbor) {
+    final map = CborMapValue<CborIntValue, CborObject>.definite(
+      cbor.asMap<CborIntValue, CborObject>(),
+    );
     return TransactionBody(
-        inputs: cbor
-            .getIntValueAs<CborObject?>(0)
-            ?.convertTo<TransactionInputs, CborObject>(
-                (e) => TransactionInputs.deserialize(e)),
-        outputs: cbor
-            .getIntValueAs<CborObject?>(1)
-            ?.convertTo<TransactionOutputs, CborObject>(
-                (e) => TransactionOutputs.deserialize(e)),
-        fee: cbor.getIntValueAs<CborNumeric>(2).toBigInt(),
-        ttl: cbor.getIntValueAs<CborNumeric?>(3)?.toBigInt(),
-        withdrawals: cbor
-            .getIntValueAs<CborObject?>(5)
-            ?.convertTo<Withdrawals, CborMapValue>(
-                (e) => Withdrawals.deserialize(e)),
-        auxiliaryDataHash: cbor
-            .getIntValueAs<CborBytesValue?>(7)
-            ?.convertTo<AuxiliaryDataHash, CborBytesValue>(
-                (CborBytesValue e) => AuxiliaryDataHash.deserialize(e)),
-        certificates: cbor
-            .getIntValueAs<CborObject?>(4)
-            ?.convertTo<Certificates, CborObject>((e) => Certificates.deserialize(e)),
-        update: cbor.getIntValueAs<CborListValue?>(6)?.convertTo<Update, CborListValue>((e) => Update.deserialize(e)),
-        validityStartInterval: cbor.getIntValueAs<CborNumeric?>(8)?.toBigInt(),
-        mint: cbor.getIntValueAs<CborMapValue?>(9)?.convertTo<Mint, CborMapValue>((e) => Mint.deserialize(e.as("Mint"))),
-        scriptDataHash: cbor.getIntValueAs<CborBytesValue?>(11)?.convertTo<ScriptDataHash, CborBytesValue>((e) => ScriptDataHash.deserialize(e)),
-        collateral: cbor.getIntValueAs<CborObject?>(13)?.convertTo<TransactionInputs, CborObject>((e) => TransactionInputs.deserialize(e)),
-        requiredSigners: cbor.getIntValueAs<CborObject?>(14)?.convertTo<RequiredSigners, CborObject>((e) => RequiredSigners.deserialize(e)),
-        network: cbor.getIntValueAs<CborIntValue?>(15)?.convertTo<ADANetwork, CborIntValue>((e) => ADANetwork.fromTag(e.value)),
-        collateralReturn: cbor.getIntValueAs<CborObject?>(16)?.convertTo<TransactionOutput, CborObject>((e) => TransactionOutput.deserialize(e)),
-        totalCollateral: cbor.getIntValueAs<CborNumeric?>(17)?.toBigInt(),
-        referenceInputs: cbor.getIntValueAs<CborObject?>(18)?.convertTo<TransactionInputs, CborObject>((e) => TransactionInputs.deserialize(e)),
-        votingProcedures: cbor.getIntValueAs<CborMapValue?>(19)?.convertTo<VotingProcedures, CborMapValue>((e) => VotingProcedures.deserialize(e.as<CborMapValue>("VotingProcedures"))),
-        votingProposals: cbor.getIntValueAs<CborObject?>(20)?.convertTo<VotingProposals, CborObject>((e) => VotingProposals.deserialize(e)),
-        currentTreasuryValue: cbor.getIntValueAs<CborNumeric?>(21)?.toBigInt(),
-        donation: cbor.getIntValueAs<CborNumeric?>(22)?.toBigInt(),
-        serializationConfig: TransactionBodySerializationConfig(keyOrder: cbor.value.keys.map((e) => e.value).toList()));
+      inputs: map
+          .getIntKeyAs<CborObject?>(0)
+          ?.objectTo<TransactionInputs, CborObject>(
+            (e) => TransactionInputs.deserialize(e),
+          ),
+      outputs: map
+          .getIntKeyAs<CborObject?>(1)
+          ?.objectTo<TransactionOutputs, CborObject>(
+            (e) => TransactionOutputs.deserialize(e),
+          ),
+      fee: map.getIntKeyAs<CborNumeric>(2).toBigInt(),
+      ttl: map.getIntKeyAs<CborNumeric?>(3)?.toBigInt(),
+      withdrawals: map
+          .getIntKeyAs<CborObject?>(5)
+          ?.objectTo<Withdrawals, CborMapValue>(
+            (e) => Withdrawals.deserialize(e),
+          ),
+      auxiliaryDataHash: map
+          .getIntKeyAs<CborBytesValue?>(7)
+          ?.objectTo<AuxiliaryDataHash, CborBytesValue>(
+            (CborBytesValue e) => AuxiliaryDataHash.deserialize(e),
+          ),
+      certificates: map
+          .getIntKeyAs<CborObject?>(4)
+          ?.objectTo<Certificates, CborObject>(
+            (e) => Certificates.deserialize(e),
+          ),
+      update: map
+          .getIntKeyAs<CborListValue?>(6)
+          ?.objectTo<Update, CborListValue>((e) => Update.deserialize(e)),
+      validityStartInterval: map.getIntKeyAs<CborNumeric?>(8)?.toBigInt(),
+      mint: map
+          .getIntKeyAs<CborMapValue?>(9)
+          ?.objectTo<Mint, CborMapValue>(
+            (e) => Mint.deserialize(e.as(operation: "Mint")),
+          ),
+      scriptDataHash: map
+          .getIntKeyAs<CborBytesValue?>(11)
+          ?.objectTo<ScriptDataHash, CborBytesValue>(
+            (e) => ScriptDataHash.deserialize(e),
+          ),
+      collateral: map
+          .getIntKeyAs<CborObject?>(13)
+          ?.objectTo<TransactionInputs, CborObject>(
+            (e) => TransactionInputs.deserialize(e),
+          ),
+      requiredSigners: map
+          .getIntKeyAs<CborObject?>(14)
+          ?.objectTo<RequiredSigners, CborObject>(
+            (e) => RequiredSigners.deserialize(e),
+          ),
+      network: map
+          .getIntKeyAs<CborIntValue?>(15)
+          ?.objectTo<ADANetwork, CborIntValue>(
+            (e) => ADANetwork.fromTag(e.value),
+          ),
+      collateralReturn: map
+          .getIntKeyAs<CborObject?>(16)
+          ?.objectTo<TransactionOutput, CborObject>(
+            (e) => TransactionOutput.deserialize(e),
+          ),
+      totalCollateral: map.getIntKeyAs<CborNumeric?>(17)?.toBigInt(),
+      referenceInputs: map
+          .getIntKeyAs<CborObject?>(18)
+          ?.objectTo<TransactionInputs, CborObject>(
+            (e) => TransactionInputs.deserialize(e),
+          ),
+      votingProcedures: map
+          .getIntKeyAs<CborMapValue?>(19)
+          ?.objectTo<VotingProcedures, CborMapValue>(
+            (e) => VotingProcedures.deserialize(
+              e.as<CborMapValue>(operation: "VotingProcedures"),
+            ),
+          ),
+      votingProposals: map
+          .getIntKeyAs<CborObject?>(20)
+          ?.objectTo<VotingProposals, CborObject>(
+            (e) => VotingProposals.deserialize(e),
+          ),
+      currentTreasuryValue: map.getIntKeyAs<CborNumeric?>(21)?.toBigInt(),
+      donation: map.getIntKeyAs<CborNumeric?>(22)?.toBigInt(),
+      serializationConfig: TransactionBodySerializationConfig(
+        keyOrder: map.value.keys.map((e) => e.value).toList(),
+      ),
+    );
   }
   TransactionBody copyWith({
     TransactionInputs? inputs,
@@ -168,21 +221,21 @@ class TransactionBody with InternalCborSerialization {
       CborIntValue(2): CborUnsignedValue.u64(fee),
       if (ttl != null) ...{const CborIntValue(3): CborUnsignedValue.u64(ttl!)},
       if (certificates != null) ...{
-        const CborIntValue(4): certificates!.toCbor()
+        const CborIntValue(4): certificates!.toCbor(),
       },
       if (withdrawals != null) ...{
         const CborIntValue(5): withdrawals!.toCbor(),
       },
       if (update != null) ...{const CborIntValue(6): update!.toCbor()},
       if (auxiliaryDataHash != null) ...{
-        CborIntValue(7): auxiliaryDataHash!.toCbor()
+        CborIntValue(7): auxiliaryDataHash!.toCbor(),
       },
       if (validityStartInterval != null) ...{
-        const CborIntValue(8): CborUnsignedValue.u64(validityStartInterval!)
+        const CborIntValue(8): CborUnsignedValue.u64(validityStartInterval!),
       },
       if (mint != null) ...{const CborIntValue(9): mint!.toCbor()},
       if (scriptDataHash != null) ...{
-        const CborIntValue(11): scriptDataHash!.toCbor()
+        const CborIntValue(11): scriptDataHash!.toCbor(),
       },
       if (collateral != null) const CborIntValue(13): collateral!.toCbor(),
       if (requiredSigners != null)
@@ -191,7 +244,7 @@ class TransactionBody with InternalCborSerialization {
         const CborIntValue(15): CborIntValue(network!.value),
       },
       if (collateralReturn != null) ...{
-        const CborIntValue(16): collateralReturn!.toCbor()
+        const CborIntValue(16): collateralReturn!.toCbor(),
       },
       if (totalCollateral != null) ...{
         const CborIntValue(17): CborUnsignedValue.u64(totalCollateral!),
@@ -199,10 +252,10 @@ class TransactionBody with InternalCborSerialization {
       if (referenceInputs != null)
         const CborIntValue(18): referenceInputs!.toCbor(),
       if (votingProcedures != null) ...{
-        const CborIntValue(19): votingProcedures!.toCbor()
+        const CborIntValue(19): votingProcedures!.toCbor(),
       },
       if (votingProposals != null) ...{
-        const CborIntValue(20): votingProposals!.toCbor()
+        const CborIntValue(20): votingProposals!.toCbor(),
       },
       if (currentTreasuryValue != null) ...{
         const CborIntValue(21): CborUnsignedValue.u64(currentTreasuryValue!),
@@ -233,57 +286,74 @@ class TransactionBody with InternalCborSerialization {
 
   factory TransactionBody.fromJson(Map<String, dynamic> json) {
     return TransactionBody(
-        inputs: json["inputs"] == null
-            ? null
-            : TransactionInputs.fromJson(json["inputs"]),
-        outputs: json["outputs"] != null
-            ? TransactionOutputs.fromJson(json["outputs"])
-            : null,
-        fee: BigintUtils.parse(json['fee']),
-        ttl: BigintUtils.tryParse(json['ttl']),
-        certificates: json["certificates"] == null
-            ? null
-            : Certificates.fromJson(json["certificates"]),
-        withdrawals: json['withdrawals'] == null
-            ? null
-            : Withdrawals.fromJson(json['withdrawals']),
-        update: json['update'] == null ? null : Update.fromJson(json['update']),
-        auxiliaryDataHash: json['auxiliary_data_hash'] == null
-            ? null
-            : AuxiliaryDataHash.fromHex(json['auxiliary_data_hash']),
-        validityStartInterval:
-            BigintUtils.tryParse(json['validity_start_interval']),
-        mint: json['mint'] == null ? null : Mint.fromJson(json['mint']),
-        scriptDataHash: json['script_data_hash'] == null
-            ? null
-            : ScriptDataHash.fromHex(json['script_data_hash']),
-        collateral: json["collateral"] == null
-            ? null
-            : TransactionInputs.fromJson(json["collateral"]),
-        requiredSigners: json["required_signers"] == null
-            ? null
-            : RequiredSigners.fromJson(json["required_signers"]),
-        network: json['network_id'] == null
-            ? null
-            : ADANetwork.fromTag(json['network_id']),
-        collateralReturn: json['collateral_return'] == null
-            ? null
-            : TransactionOutput.fromJson(json['collateral_return']),
-        referenceInputs: json['reference_inputs'] == null
-            ? null
-            : TransactionInputs.fromJson(json['reference_inputs']),
-        totalCollateral: BigintUtils.tryParse(json['total_collateral']),
-        votingProcedures: json["voting_procedures"] == null
-            ? null
-            : VotingProcedures.fromJson(json["voting_procedures"]),
-        votingProposals: json["voting_proposals"] == null
-            ? null
-            : VotingProposals.fromJson(json["voting_proposals"]),
-        currentTreasuryValue:
-            BigintUtils.tryParse(json["current_treasury_value"]),
-        donation: BigintUtils.tryParse(json["donation"]),
-        serializationConfig: TransactionBodySerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      inputs:
+          json["inputs"] == null
+              ? null
+              : TransactionInputs.fromJson(json["inputs"]),
+      outputs:
+          json["outputs"] != null
+              ? TransactionOutputs.fromJson(json["outputs"])
+              : null,
+      fee: BigintUtils.parse(json['fee']),
+      ttl: BigintUtils.tryParse(json['ttl']),
+      certificates:
+          json["certificates"] == null
+              ? null
+              : Certificates.fromJson(json["certificates"]),
+      withdrawals:
+          json['withdrawals'] == null
+              ? null
+              : Withdrawals.fromJson(json['withdrawals']),
+      update: json['update'] == null ? null : Update.fromJson(json['update']),
+      auxiliaryDataHash:
+          json['auxiliary_data_hash'] == null
+              ? null
+              : AuxiliaryDataHash.fromHex(json['auxiliary_data_hash']),
+      validityStartInterval: BigintUtils.tryParse(
+        json['validity_start_interval'],
+      ),
+      mint: json['mint'] == null ? null : Mint.fromJson(json['mint']),
+      scriptDataHash:
+          json['script_data_hash'] == null
+              ? null
+              : ScriptDataHash.fromHex(json['script_data_hash']),
+      collateral:
+          json["collateral"] == null
+              ? null
+              : TransactionInputs.fromJson(json["collateral"]),
+      requiredSigners:
+          json["required_signers"] == null
+              ? null
+              : RequiredSigners.fromJson(json["required_signers"]),
+      network:
+          json['network_id'] == null
+              ? null
+              : ADANetwork.fromTag(json['network_id']),
+      collateralReturn:
+          json['collateral_return'] == null
+              ? null
+              : TransactionOutput.fromJson(json['collateral_return']),
+      referenceInputs:
+          json['reference_inputs'] == null
+              ? null
+              : TransactionInputs.fromJson(json['reference_inputs']),
+      totalCollateral: BigintUtils.tryParse(json['total_collateral']),
+      votingProcedures:
+          json["voting_procedures"] == null
+              ? null
+              : VotingProcedures.fromJson(json["voting_procedures"]),
+      votingProposals:
+          json["voting_proposals"] == null
+              ? null
+              : VotingProposals.fromJson(json["voting_proposals"]),
+      currentTreasuryValue: BigintUtils.tryParse(
+        json["current_treasury_value"],
+      ),
+      donation: BigintUtils.tryParse(json["donation"]),
+      serializationConfig: TransactionBodySerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -309,7 +379,7 @@ class TransactionBody with InternalCborSerialization {
       'voting_proposals': votingProposals?.toJson(),
       'current_treasury_value': currentTreasuryValue?.toString(),
       'donation': donation?.toString(),
-      'serialization_config': serializationConfig.toJson()
+      'serialization_config': serializationConfig.toJson(),
     };
   }
 }

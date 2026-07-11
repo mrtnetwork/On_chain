@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'config.dart';
 import 'plutus_data.dart';
 import 'plutus_data_type.dart';
@@ -8,16 +7,21 @@ import 'plutus_json_schame.dart';
 class PlutusIntegerSerializationConfig {
   final CborLengthEncoding encoding;
   final CborPlutusIntegerEncoding? type;
-  const PlutusIntegerSerializationConfig(
-      {this.encoding = CborLengthEncoding.canonical, this.type});
+  const PlutusIntegerSerializationConfig({
+    this.encoding = CborLengthEncoding.canonical,
+    this.type,
+  });
   factory PlutusIntegerSerializationConfig.fromJson(Map<String, dynamic> json) {
     return PlutusIntegerSerializationConfig(
-        type: json["type"] == null
-            ? null
-            : CborPlutusIntegerEncoding.fromName(json["type"]),
-        encoding: json["encoding"] == null
-            ? CborLengthEncoding.canonical
-            : CborLengthEncoding.fromName(json["encoding"]));
+      type:
+          json["type"] == null
+              ? null
+              : CborPlutusIntegerEncoding.fromName(json["type"]),
+      encoding:
+          json["encoding"] == null
+              ? CborLengthEncoding.canonical
+              : CborLengthEncoding.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name, "type": type?.name};
@@ -29,9 +33,11 @@ enum CborPlutusIntegerEncoding {
   bigInt;
 
   static CborPlutusIntegerEncoding fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () =>
-            throw const CborException("Invalid plutus integer encoding type."));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () => throw ItemNotFoundException(name: "CborPlutusIntegerEncoding"),
+    );
   }
 }
 
@@ -43,26 +49,33 @@ class PlutusInteger extends PlutusData {
   final PlutusIntegerSerializationConfig serializationConfig;
 
   /// Creates a [PlutusInteger] instance.
-  const PlutusInteger(this.value,
-      {this.serializationConfig = const PlutusIntegerSerializationConfig()});
+  const PlutusInteger(
+    this.value, {
+    this.serializationConfig = const PlutusIntegerSerializationConfig(),
+  });
 
   /// Deserializes a [PlutusInteger] instance from CBOR.
   factory PlutusInteger.deserialize(CborObject cbor) {
-    final cborNumber = cbor.as<CborNumeric>('PlutusInteger');
+    final cborNumber = cbor.as<CborNumeric>(operation: 'PlutusInteger');
     if (cborNumber.hasType<CborBigIntValue>()) {
       final big = cborNumber.cast<CborBigIntValue>();
       return PlutusInteger(
         big.toBigInt(),
         serializationConfig: PlutusIntegerSerializationConfig(
-            type: CborPlutusIntegerEncoding.bigInt, encoding: big.encoding),
+          type: CborPlutusIntegerEncoding.bigInt,
+          encoding: big.encoding,
+        ),
       );
     }
     return PlutusInteger(cborNumber.toBigInt());
   }
   factory PlutusInteger.fromJson(Map<String, dynamic> json) {
-    return PlutusInteger(BigintUtils.parse(json[PlutusDataType.integer.name]),
-        serializationConfig: PlutusIntegerSerializationConfig.fromJson(
-            json['serialization_config'] ?? {}));
+    return PlutusInteger(
+      BigintUtils.parse(json[PlutusDataType.integer.name]),
+      serializationConfig: PlutusIntegerSerializationConfig.fromJson(
+        json['serialization_config'] ?? {},
+      ),
+    );
   }
 
   @override
@@ -87,7 +100,7 @@ class PlutusInteger extends PlutusData {
   Map<String, dynamic> toJson() {
     return {
       type.name: value.toString(),
-      'serialization_config': serializationConfig.toJson()
+      'serialization_config': serializationConfig.toJson(),
     };
   }
 
@@ -98,9 +111,11 @@ class PlutusInteger extends PlutusData {
   }
 
   @override
-  Object toJsonSchema(
-      {PlutusSchemaConfig config = const PlutusSchemaConfig(
-          jsonSchema: PlutusJsonSchema.basicConversions)}) {
+  Object toJsonSchema({
+    PlutusSchemaConfig config = const PlutusSchemaConfig(
+      jsonSchema: PlutusJsonSchema.basicConversions,
+    ),
+  }) {
     if (config.jsonSchema == PlutusJsonSchema.detailedSchema) {
       return {'int': config.useIntInsteadBigInt ? value.toInt() : value};
     }

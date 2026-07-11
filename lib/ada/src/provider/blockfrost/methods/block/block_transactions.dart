@@ -6,9 +6,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/block-transactions
 class BlockfrostRequestBlockTransactions
     extends BlockFrostRequest<List<String>, List<dynamic>> {
-  BlockfrostRequestBlockTransactions(this.hashOrNumber,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+  BlockfrostRequestBlockTransactions(
+    this.hashOrNumber, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// 64-character case-sensitive hexadecimal string or block number.
   final dynamic hashOrNumber;

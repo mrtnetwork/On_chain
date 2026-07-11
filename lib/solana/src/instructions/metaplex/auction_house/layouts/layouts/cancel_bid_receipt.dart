@@ -7,12 +7,14 @@ class MetaplexAuctionHouseCancelBidReceiptLayout
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseCancelBidReceiptLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .cancelBidReceipt.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.cancelBidReceipt.insturction,
+    );
     return const MetaplexAuctionHouseCancelBidReceiptLayout();
   }
 

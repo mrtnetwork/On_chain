@@ -15,10 +15,7 @@ class ADAPoolDelegatorInfoResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'address': address,
-      'live_stake': liveStake,
-    };
+    return {'address': address, 'live_stake': liveStake};
   }
 
   @override

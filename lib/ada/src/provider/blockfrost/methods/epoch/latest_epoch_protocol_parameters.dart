@@ -4,8 +4,9 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the protocol parameters for the latest epoch..
 /// https://blockfrost.dev/api/latest-epoch-protocol-parameters
-class BlockfrostRequestLatestEpochProtocolParameters extends BlockFrostRequest<
-    ADAEpochParametersResponse, Map<String, dynamic>> {
+class BlockfrostRequestLatestEpochProtocolParameters
+    extends
+        BlockFrostRequest<ADAEpochParametersResponse, Map<String, dynamic>> {
   BlockfrostRequestLatestEpochProtocolParameters();
 
   /// Latest epoch protocol parameters

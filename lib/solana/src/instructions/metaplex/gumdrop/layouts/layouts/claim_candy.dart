@@ -10,40 +10,43 @@ class MetaplexGumdropClaimCandyLayout extends MetaplexGumdropProgramLayout {
   final BigInt amount;
   final SolAddress claimantSecret;
   final List<List<int>> proof;
-  MetaplexGumdropClaimCandyLayout(
-      {required this.walletBump,
-      required this.claimBump,
-      required this.index,
-      required this.amount,
-      required this.claimantSecret,
-      required List<List<int>> proof})
-      : proof =
-            List<List<int>>.unmodifiable(proof.map((e) => e.asImmutableBytes));
+  MetaplexGumdropClaimCandyLayout({
+    required this.walletBump,
+    required this.claimBump,
+    required this.index,
+    required this.amount,
+    required this.claimantSecret,
+    required List<List<int>> proof,
+  }) : proof = List<List<int>>.unmodifiable(
+         proof.map((e) => e.asImmutableBytes),
+       );
 
   factory MetaplexGumdropClaimCandyLayout.fromBuffer(List<int> data) {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexGumdropProgramInstruction.claimCandy.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexGumdropProgramInstruction.claimCandy.insturction,
+    );
     return MetaplexGumdropClaimCandyLayout(
-        walletBump: decode['walletBump'],
-        claimBump: decode['claimBump'],
-        index: decode['index'],
-        amount: decode['amount'],
-        claimantSecret: decode['claimantSecret'],
-        proof: (decode['proof'] as List).cast());
+      walletBump: decode['walletBump'],
+      claimBump: decode['claimBump'],
+      index: decode['index'],
+      amount: decode['amount'],
+      claimantSecret: decode['claimantSecret'],
+      proof: (decode['proof'] as List).cast(),
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'walletBump'),
-        LayoutConst.u8(property: 'claimBump'),
-        LayoutConst.u64(property: 'index'),
-        LayoutConst.u64(property: 'amount'),
-        SolanaLayoutUtils.publicKey('claimantSecret'),
-        LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'walletBump'),
+    LayoutConst.u8(property: 'claimBump'),
+    LayoutConst.u64(property: 'index'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('claimantSecret'),
+    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -60,7 +63,7 @@ class MetaplexGumdropClaimCandyLayout extends MetaplexGumdropProgramLayout {
       'index': index,
       'amount': amount,
       'claimantSecret': claimantSecret,
-      'proof': proof
+      'proof': proof,
     };
   }
 }

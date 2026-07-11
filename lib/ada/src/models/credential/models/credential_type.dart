@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-
-import 'package:on_chain/ada/src/exception/exception.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents the type of a credential.
@@ -18,8 +17,10 @@ class CredentialType with InternalCborSerialization {
   static const CredentialType key = CredentialType._(name: 'Key', value: 0);
 
   /// Represents a script credential type.
-  static const CredentialType script =
-      CredentialType._(name: 'Script', value: 1);
+  static const CredentialType script = CredentialType._(
+    name: 'Script',
+    value: 1,
+  );
 
   bool get isScript => this == script;
   bool get isKey => this == key;
@@ -36,9 +37,7 @@ class CredentialType with InternalCborSerialization {
   static CredentialType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No CredentialType found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "CredentialType"),
     );
   }
 
@@ -46,9 +45,7 @@ class CredentialType with InternalCborSerialization {
   static CredentialType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No CredentialType found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "CredentialType"),
     );
   }
 

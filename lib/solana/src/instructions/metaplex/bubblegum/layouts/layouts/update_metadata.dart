@@ -11,36 +11,38 @@ class MetaplexBubblegumUpdateMetadataLayout
   final int index;
   final MetaData currentMetaData;
   final UpdateMetaData updateMetadata;
-  MetaplexBubblegumUpdateMetadataLayout(
-      {required List<int> root,
-      required this.nonce,
-      required this.index,
-      required this.currentMetaData,
-      required this.updateMetadata})
-      : root = root.asImmutableBytes;
+  MetaplexBubblegumUpdateMetadataLayout({
+    required List<int> root,
+    required this.nonce,
+    required this.index,
+    required this.currentMetaData,
+    required this.updateMetadata,
+  }) : root = root.asImmutableBytes;
 
   factory MetaplexBubblegumUpdateMetadataLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexBubblegumProgramInstruction.updateMetadata.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexBubblegumProgramInstruction.updateMetadata.insturction,
+    );
     return MetaplexBubblegumUpdateMetadataLayout(
-        root: decode['root'],
-        nonce: decode['nonce'],
-        index: decode['index'],
-        currentMetaData: MetaData.fromJson(decode['metaData']),
-        updateMetadata: UpdateMetaData.fromJson(decode['updateMetaData']));
+      root: decode['root'],
+      nonce: decode['nonce'],
+      index: decode['index'],
+      currentMetaData: MetaData.fromJson(decode['metaData']),
+      updateMetadata: UpdateMetaData.fromJson(decode['updateMetaData']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.blob(32, property: 'root'),
-        LayoutConst.u64(property: 'nonce'),
-        LayoutConst.u32(property: 'index'),
-        MetaData.staticLayout,
-        UpdateMetaData.staticLayout
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.u64(property: 'nonce'),
+    LayoutConst.u32(property: 'index'),
+    MetaData.staticLayout,
+    UpdateMetaData.staticLayout,
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -56,7 +58,7 @@ class MetaplexBubblegumUpdateMetadataLayout
       'nonce': nonce,
       'index': index,
       'metaData': currentMetaData.serialize(),
-      'updateMetaData': updateMetadata.serialize()
+      'updateMetaData': updateMetadata.serialize(),
     };
   }
 }

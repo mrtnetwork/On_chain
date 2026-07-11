@@ -8,13 +8,15 @@ class BotTax extends BorshLayoutSerializable {
   const BotTax({required this.lamports, required this.lastInstruction});
   factory BotTax.fromJson(Map<String, dynamic> json) {
     return BotTax(
-        lamports: json['lamports'], lastInstruction: json['lastInstruction']);
+      lamports: json['lamports'],
+      lastInstruction: json['lastInstruction'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'lamports'),
-        LayoutConst.boolean(property: 'lastInstruction')
-      ], property: 'botTax');
+    LayoutConst.u64(property: 'lamports'),
+    LayoutConst.boolean(property: 'lastInstruction'),
+  ], property: 'botTax');
 
   @override
   StructLayout get layout => staticLayout;

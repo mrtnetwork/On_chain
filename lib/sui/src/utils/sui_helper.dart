@@ -14,9 +14,11 @@ class SuiHelper {
   }
 
   static String generateTransactionDigest(List<int> transactionData) {
-    return Base58Encoder.encode(QuickCrypto.blake2b256Hash([
-      ...StringUtils.encode(SuiTransactionConst.transactionDataDomain),
-      ...transactionData
-    ]));
+    return Base58Encoder.encode(
+      QuickCrypto.blake2b256Hash([
+        ...StringUtils.encode(SuiTransactionConst.transactionDataDomain),
+        ...transactionData,
+      ]),
+    );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
 /// Represents a vote type.
@@ -34,9 +34,7 @@ class VoteType with InternalCborSerialization {
   static VoteType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No VoteType found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "VoteType"),
     );
   }
 
@@ -44,9 +42,7 @@ class VoteType with InternalCborSerialization {
   static VoteType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No VoteType found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "VoteType"),
     );
   }
 

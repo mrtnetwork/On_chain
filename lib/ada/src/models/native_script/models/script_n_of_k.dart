@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/compare/compare.dart';
 import 'package:blockchain_utils/utils/compare/hash_code.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script_type.dart';
 import 'package:on_chain/ada/src/models/native_script/utils/native_script_utils.dart';
@@ -23,28 +22,35 @@ class NativeScriptScriptNOfK extends NativeScript {
   /// Deserializes a [NativeScriptScriptNOfK] from CBOR.
   factory NativeScriptScriptNOfK.deserialize(CborListValue cbor) {
     NativeScriptUtils.validateCborTypeObject(
-        cbor.elementAt<CborObject>(0), NativeScriptType.scriptNOfK);
+      cbor.objectAt<CborObject>(0),
+      NativeScriptType.scriptNOfK,
+    );
     return NativeScriptScriptNOfK(
-      n: cbor.elementAt<CborIntValue>(1).value,
-      nativeScripts: cbor
-          .elementAt<CborListValue>(2)
-          .valueAsListOf<CborListValue>()
-          .map((e) => NativeScript.deserialize(e))
-          .toList(),
+      n: cbor.objectAt<CborIntValue>(1).value,
+      nativeScripts:
+          cbor
+              .objectAt<CborListValue>(2)
+              .allObjectsAs<CborListValue>()
+              .map((e) => NativeScript.deserialize(e))
+              .toList(),
     );
   }
   NativeScriptScriptNOfK copyWith({int? n, List<NativeScript>? nativeScripts}) {
     return NativeScriptScriptNOfK(
-        n: n ?? this.n, nativeScripts: nativeScripts ?? this.nativeScripts);
+      n: n ?? this.n,
+      nativeScripts: nativeScripts ?? this.nativeScripts,
+    );
   }
 
   factory NativeScriptScriptNOfK.fromJson(Map<String, dynamic> json) {
     final correctJson = json[NativeScriptType.scriptNOfK.name] ?? json;
     return NativeScriptScriptNOfK(
-        nativeScripts: (correctJson['native_scripts'] as List)
-            .map((e) => NativeScript.fromJson(e))
-            .toList(),
-        n: correctJson['n']);
+      nativeScripts:
+          (correctJson['native_scripts'] as List)
+              .map((e) => NativeScript.fromJson(e))
+              .toList(),
+      n: correctJson['n'],
+    );
   }
 
   @override
@@ -52,7 +58,7 @@ class NativeScriptScriptNOfK extends NativeScript {
     return CborListValue.definite([
       type.toCbor(),
       CborIntValue(n),
-      CborListValue.definite(nativeScripts.map((e) => e.toCbor()).toList())
+      CborListValue.definite(nativeScripts.map((e) => e.toCbor()).toList()),
     ]);
   }
 
@@ -65,7 +71,7 @@ class NativeScriptScriptNOfK extends NativeScript {
       type.name: {
         'n': n,
         'native_scripts': nativeScripts.map((e) => e.toJson()).toList(),
-      }
+      },
     };
   }
 

@@ -13,18 +13,23 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
 
   /// seed used to create ephemeral account.
   final BigInt ephemeralStakeSeed;
-  const StakePoolDecreaseAdditionalValidatorStakeLayout(
-      {required this.lamports,
-      required this.ephemeralStakeSeed,
-      required this.transientStakeSeed});
+  const StakePoolDecreaseAdditionalValidatorStakeLayout({
+    required this.lamports,
+    required this.ephemeralStakeSeed,
+    required this.transientStakeSeed,
+  });
 
   factory StakePoolDecreaseAdditionalValidatorStakeLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: StakePoolProgramInstruction
-            .decreaseAdditionalValidatorStake.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          StakePoolProgramInstruction
+              .decreaseAdditionalValidatorStake
+              .insturction,
+    );
     return StakePoolDecreaseAdditionalValidatorStakeLayout(
       ephemeralStakeSeed: decode['ephemeralStakeSeed'],
       lamports: decode['lamports'],
@@ -32,11 +37,11 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
     );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports'),
-        LayoutConst.ns64(property: 'transientStakeSeed'),
-        LayoutConst.ns64(property: 'ephemeralStakeSeed')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'transientStakeSeed'),
+    LayoutConst.ns64(property: 'ephemeralStakeSeed'),
+  ]);
 
   @override
   StakePoolProgramInstruction get instruction =>
@@ -50,7 +55,7 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
     return {
       'lamports': lamports,
       'ephemeralStakeSeed': ephemeralStakeSeed,
-      'transientStakeSeed': transientStakeSeed
+      'transientStakeSeed': transientStakeSeed,
     };
   }
 }

@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
@@ -18,8 +19,10 @@ class DRepType with InternalCborSerialization {
 
   static const DRepType alwaysAbstain = DRepType._('always_abstain', 2);
 
-  static const DRepType alwaysNoConfidence =
-      DRepType._('always_no_confidence', 3);
+  static const DRepType alwaysNoConfidence = DRepType._(
+    'always_no_confidence',
+    3,
+  );
 
   /// List of all drep types.
   static const List<DRepType> values = [
@@ -32,8 +35,10 @@ class DRepType with InternalCborSerialization {
   factory DRepType.deserialize(CborIntValue cbor, {DRepType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw ADAPluginException('Invalid DRep type.',
-          details: {'expected': validate, 'Type': type});
+      throw ADAPluginException(
+        'Invalid DRep type.',
+        details: {'expected': validate.toString(), 'Type': type.toString()},
+      );
     }
     return type;
   }
@@ -41,8 +46,10 @@ class DRepType with InternalCborSerialization {
   factory DRepType.fromJson(Map<String, dynamic> json, {DRepType? validate}) {
     final type = fromName(json.keys.firstOrNull);
     if (validate != null && type != validate) {
-      throw ADAPluginException('Invalid DRep type.',
-          details: {'expected': validate, 'Type': type});
+      throw ADAPluginException(
+        'Invalid DRep type.',
+        details: {'expected': validate.toString(), 'Type': type.toString()},
+      );
     }
     return type;
   }
@@ -56,9 +63,7 @@ class DRepType with InternalCborSerialization {
   static DRepType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No DRepType found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "DRepType"),
     );
   }
 
@@ -66,9 +71,7 @@ class DRepType with InternalCborSerialization {
   static DRepType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No DRepType found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "DRepType"),
     );
   }
 

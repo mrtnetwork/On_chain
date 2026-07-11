@@ -11,14 +11,16 @@ class Bid extends BorshLayoutSerializable {
   const Bid({required this.amount, required this.buyerTradeState});
   factory Bid.fromJson(Map<String, dynamic> json) {
     return Bid(
-        amount: json['amount'], buyerTradeState: json['buyerTradeState']);
+      amount: json['amount'],
+      buyerTradeState: json['buyerTradeState'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u8(property: 'version'),
-        LayoutConst.u64(property: 'amount'),
-        SolanaLayoutUtils.publicKey('buyerTradeState')
-      ], property: 'highestBid');
+    LayoutConst.u8(property: 'version'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('buyerTradeState'),
+  ], property: 'highestBid');
   @override
   StructLayout get layout => staticLayout;
   @override

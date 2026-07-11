@@ -7,20 +7,27 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('authority'),
-        SolanaLayoutUtils.publicKey('groupAddress'),
-      ]);
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('groupAddress'),
+  ]);
 
   static int get accountSize => layout.span;
 
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -30,10 +37,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.groupPointer);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.groupPointer,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -49,23 +59,27 @@ class GroupPointer extends BorshLayoutSerializable {
   factory GroupPointer.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return GroupPointer(
-      authority: decode['authority'] == SolAddress.defaultPubKey
-          ? null
-          : decode['authority'],
-      groupAddress: decode['groupAddress'] == SolAddress.defaultPubKey
-          ? null
-          : decode['groupAddress'],
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      groupAddress:
+          decode['groupAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['groupAddress'],
     );
   }
   factory GroupPointer.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return GroupPointer(
-      authority: decode['authority'] == SolAddress.defaultPubKey
-          ? null
-          : decode['authority'],
-      groupAddress: decode['groupAddress'] == SolAddress.defaultPubKey
-          ? null
-          : decode['groupAddress'],
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      groupAddress:
+          decode['groupAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['groupAddress'],
     );
   }
 
@@ -75,7 +89,7 @@ class GroupPointer extends BorshLayoutSerializable {
   Map<String, dynamic> serialize() {
     return {
       'authority': authority ?? SolAddress.defaultPubKey,
-      'groupAddress': groupAddress ?? SolAddress.defaultPubKey
+      'groupAddress': groupAddress ?? SolAddress.defaultPubKey,
     };
   }
 

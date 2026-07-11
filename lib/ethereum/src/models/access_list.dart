@@ -12,19 +12,22 @@ class AccessEntry {
   /// Creates an [AccessEntry] from a JSON map.
   factory AccessEntry.fromJson(Map<String, dynamic> json) {
     return AccessEntry(
-        address: ETHAddress(json.valueAs("address")),
-        storageKeys: json.valueEnsureAsList<String>("storageKeys"));
+      address: ETHAddress(json.valueAs("address")),
+      storageKeys: json.valueEnsureAsList<String>("storageKeys"),
+    );
   }
 
   /// Creates an [AccessEntry] from a serialized list of dynamic objects.
   factory AccessEntry.deserialize(List<dynamic> serialized) {
     try {
-      final storageKeys = (serialized[1] as List)
-          .map((e) => BytesUtils.toHexString(e, prefix: '0x'))
-          .toList();
+      final storageKeys =
+          (serialized[1] as List)
+              .map((e) => BytesUtils.toHexString(e, prefix: '0x'))
+              .toList();
       return AccessEntry(
-          address: ETHAddress.fromBytes(serialized[0]),
-          storageKeys: storageKeys);
+        address: ETHAddress.fromBytes(serialized[0]),
+        storageKeys: storageKeys,
+      );
     } catch (e) {
       throw const ETHPluginException('invalid AccessEntry serialized');
     }
@@ -34,7 +37,7 @@ class AccessEntry {
   List<List<dynamic>> serialize() {
     return [
       address.toBytes(),
-      storageKeys.map<List<int>>((e) => BytesUtils.fromHexString(e)).toList()
+      storageKeys.map<List<int>>((e) => BytesUtils.fromHexString(e)).toList(),
     ];
   }
 

@@ -8,8 +8,11 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_trygetpastobject)
 class SuiRequestTryGetPastObject
     extends SuiRequest<SuiApiObjectRead, Map<String, dynamic>> {
-  const SuiRequestTryGetPastObject(
-      {required this.objectId, required this.version, this.options});
+  const SuiRequestTryGetPastObject({
+    required this.objectId,
+    required this.version,
+    this.options,
+  });
 
   /// The ID of the queried object
   final String objectId;

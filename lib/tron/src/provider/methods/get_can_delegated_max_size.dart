@@ -6,8 +6,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getcandelegatedmaxsize).
 class TronRequestGetCanDelegatedMaxSize
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetCanDelegatedMaxSize(
-      {required this.ownerAddress, required this.type, this.visible = true});
+  TronRequestGetCanDelegatedMaxSize({
+    required this.ownerAddress,
+    required this.type,
+    this.visible = true,
+  });
   final TronAddress ownerAddress;
 
   /// resource type, 0 is bandwidth, 1 is energy
@@ -24,7 +27,7 @@ class TronRequestGetCanDelegatedMaxSize
     return {
       'owner_address': ownerAddress.toAddress(visible),
       'type': type,
-      'visible': visible
+      'visible': visible,
     };
   }
 

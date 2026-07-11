@@ -9,23 +9,28 @@ class Header with InternalCborSerialization {
   const Header({required this.headerBody, required this.signature});
   factory Header.fromCborBytes(List<int> cborBytes) {
     return Header.deserialize(
-        CborObject.fromCbor(cborBytes).as<CborListValue>("Header"));
+      CborObject.fromCbor(cborBytes).as<CborListValue>(operation: "Header"),
+    );
   }
   factory Header.fromJson(Map<String, dynamic> json) {
     return Header(
-        headerBody: HeaderBody.fromJson(json["header_body"]),
-        signature: KESSignature.fromHex(json["signature"]));
+      headerBody: HeaderBody.fromJson(json["header_body"]),
+      signature: KESSignature.fromHex(json["signature"]),
+    );
   }
   factory Header.deserialize(CborListValue cbor) {
     if (cbor.value.length == 1) {
       return Header(
-          headerBody: HeaderBody.deserialize(cbor.elementAt<CborListValue>(0)),
-          signature: KESSignature.deserialize(
-              cbor.elementAt<CborListValue>(0).elementAt<CborBytesValue>(14)));
+        headerBody: HeaderBody.deserialize(cbor.objectAt<CborListValue>(0)),
+        signature: KESSignature.deserialize(
+          cbor.objectAt<CborListValue>(0).objectAt<CborBytesValue>(14),
+        ),
+      );
     }
     return Header(
-        headerBody: HeaderBody.deserialize(cbor.elementAt<CborListValue>(0)),
-        signature: KESSignature.deserialize(cbor.elementAt<CborBytesValue>(1)));
+      headerBody: HeaderBody.deserialize(cbor.objectAt<CborListValue>(0)),
+      signature: KESSignature.deserialize(cbor.objectAt<CborBytesValue>(1)),
+    );
   }
 
   @override
@@ -37,7 +42,7 @@ class Header with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       'header_body': headerBody.toJson(),
-      'signature': signature.toJson()
+      'signature': signature.toJson(),
     };
   }
 }

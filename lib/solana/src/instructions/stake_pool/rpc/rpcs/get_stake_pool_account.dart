@@ -22,8 +22,8 @@ class SolanaRPCGetStakePoolAccount
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         SolanaRequestEncoding.base64.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 
@@ -32,6 +32,8 @@ class SolanaRPCGetStakePoolAccount
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return StakePoolAccount.fromBuffer(
-        data: accountInfo.toBytesData(), address: address);
+      data: accountInfo.toBytesData(),
+      address: address,
+    );
   }
 }

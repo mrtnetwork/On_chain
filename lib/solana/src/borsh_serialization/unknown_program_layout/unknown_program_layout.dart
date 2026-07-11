@@ -30,8 +30,6 @@ class UnknownProgramLayout extends ProgramLayout {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'data': BytesUtils.toHexString(data, prefix: '0x'),
-    };
+    return {'data': BytesUtils.toHexString(data, prefix: '0x')};
   }
 }

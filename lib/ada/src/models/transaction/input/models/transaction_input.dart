@@ -12,22 +12,27 @@ class TransactionInput with InternalCborSerialization {
   const TransactionInput._(this.transactionId, this.index, this.txIdHex);
 
   /// Constructs a TransactionInput object.
-  factory TransactionInput(
-      {required TransactionHash transactionId, required int index}) {
+  factory TransactionInput({
+    required TransactionHash transactionId,
+    required int index,
+  }) {
     return TransactionInput._(transactionId, index, transactionId.toHex());
   }
   factory TransactionInput.fromJson(Map<String, dynamic> json) {
     return TransactionInput(
-        transactionId: TransactionHash.fromHex(json['transaction_id']),
-        index: json['index']);
+      transactionId: TransactionHash.fromHex(json['transaction_id']),
+      index: json['index'],
+    );
   }
 
   /// Deserialize a TransactionInput object from a CBOR list.
   factory TransactionInput.deserialize(CborListValue cbor) {
     return TransactionInput(
-        transactionId:
-            TransactionHash.deserialize(cbor.elementAt<CborBytesValue>(0)),
-        index: cbor.elementAt<CborIntValue>(1).value);
+      transactionId: TransactionHash.deserialize(
+        cbor.objectAt<CborBytesValue>(0),
+      ),
+      index: cbor.objectAt<CborIntValue>(1).value,
+    );
   }
 
   @override

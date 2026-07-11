@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
-import 'package:blockchain_utils/utils/string/string.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/exception/exception.dart';
 import 'package:on_chain/tron/src/models/contract/account/account.dart';
 import 'package:on_chain/tron/src/models/contract/assets_issue_contract/asset.dart';
@@ -15,7 +14,6 @@ import 'package:on_chain/tron/src/models/contract/storage_contract/update_broker
 import 'package:on_chain/tron/src/models/contract/vote/vote.dart';
 import 'package:on_chain/tron/src/models/contract/witness/witness.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 class Any extends TronProtocolBufferImpl {
   /// Create a new [Any] instance with specified parameters.
@@ -150,8 +148,10 @@ class Any extends TronProtocolBufferImpl {
         contract = WitnessCreateContract.deserialize(contractBytes);
         break;
       default:
-        throw TronPluginException('Unsupported contract',
-            details: {'contract': contractType.name});
+        throw TronPluginException(
+          'Unsupported contract',
+          details: {'contract': contractType.name},
+        );
     }
 
     return Any(typeUrl: typeUrl, value: contract);
@@ -159,8 +159,7 @@ class Any extends TronProtocolBufferImpl {
 
   /// Create a new [Any] instance by parsing a JSON map.
   factory Any.fromJson(Map<String, dynamic> json) {
-    final String typeUrl =
-        OnChainUtils.parseString(value: json['type_url'], name: 'type_url');
+    final String typeUrl = json.valueAs("type_url");
     final parts = typeUrl.split('type.googleapis.com/protocol.');
     if (parts.length != 2) {
       throw const TronPluginException('Invalid contract typeUrl');
@@ -170,15 +169,20 @@ class Any extends TronProtocolBufferImpl {
       final contractBytes = BytesUtils.tryFromHexString(json['value']);
       if (contractBytes != null) {
         return Any(
-            typeUrl: typeUrl,
-            value: TronBaseContract.deserialize(
-                contractType: contractType, contractBytes: contractBytes));
+          typeUrl: typeUrl,
+          value: TronBaseContract.deserialize(
+            contractType: contractType,
+            contractBytes: contractBytes,
+          ),
+        );
       }
     }
-    final Map<String, dynamic> contractDetails = OnChainUtils.parseMap(
-        value: json['value'], name: 'value', throwOnNull: true)!;
+    final Map<String, dynamic> contractDetails = json
+        .valueEnsureAsMap<String, dynamic>("value");
     TronBaseContract contract = TronBaseContract.fromJson(
-        contractType: contractType, json: contractDetails);
+      contractType: contractType,
+      json: contractDetails,
+    );
     return Any(typeUrl: typeUrl, value: contract);
   }
   final String typeUrl;

@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout
   const MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout();
 
   factory MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .convertMasterEditionV1ToV2.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .convertMasterEditionV1ToV2
+              .insturction,
+    );
     return const MetaplexTokenMetaDataConvertMasterEditionV1ToV2Layout();
   }
 

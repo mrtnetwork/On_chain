@@ -8,18 +8,21 @@ class MemoTransferInstruction extends BorshLayoutSerializable {
 
   /// Require memos for transfers into this Account. Adds the MemoTransfer
   /// extension to the Account, if it doesn't already exist.
-  static const MemoTransferInstruction enable =
-      MemoTransferInstruction._('Enable');
+  static const MemoTransferInstruction enable = MemoTransferInstruction._(
+    'Enable',
+  );
 
   /// Stop requiring memos for transfers into this Account.
-  static const MemoTransferInstruction disable =
-      MemoTransferInstruction._('Disable');
+  static const MemoTransferInstruction disable = MemoTransferInstruction._(
+    'Disable',
+  );
   static const List<MemoTransferInstruction> values = [enable, disable];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'memoTransfer')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'memoTransfer',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -27,7 +30,7 @@ class MemoTransferInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'memoTransfer': {name: null}
+      'memoTransfer': {name: null},
     };
   }
 
@@ -37,9 +40,12 @@ class MemoTransferInstruction extends BorshLayoutSerializable {
   static MemoTransferInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No MemoTransferInstruction found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MemoTransferInstruction found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 }

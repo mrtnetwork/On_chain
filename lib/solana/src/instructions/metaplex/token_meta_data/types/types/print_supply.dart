@@ -13,7 +13,8 @@ class PrintSupply extends BorshLayoutSerializable {
   factory PrintSupply.limited({required List<BigInt> fields}) {
     if (fields.length != 1) {
       throw const SolanaPluginException(
-          'The fields list must contain exactly one element for a limited print supply.');
+        'The fields list must contain exactly one element for a limited print supply.',
+      );
     }
     return PrintSupply._(fields, 'Limited', 1);
   }
@@ -26,7 +27,8 @@ class PrintSupply extends BorshLayoutSerializable {
         return unlimited;
       default:
         return PrintSupply.limited(
-            fields: (json['print_supply']['value'] as List).cast());
+          fields: (json['print_supply']['value'] as List).cast(),
+        );
     }
   }
 
@@ -36,12 +38,12 @@ class PrintSupply extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.rustEnum([
-          LayoutConst.none(property: 'Zero'),
-          LayoutConst.tuple([LayoutConst.u64()], property: 'Limited'),
-          LayoutConst.none(property: 'Unlimited'),
-        ], property: 'print_supply')
-      ]);
+    LayoutConst.rustEnum([
+      LayoutConst.none(property: 'Zero'),
+      LayoutConst.tuple([LayoutConst.u64()], property: 'Limited'),
+      LayoutConst.none(property: 'Unlimited'),
+    ], property: 'print_supply'),
+  ]);
 
   @override
   StructLayout get layout => staticLayout;
@@ -49,7 +51,7 @@ class PrintSupply extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'print_supply': {name: fields}
+      'print_supply': {name: fields},
     };
   }
 }

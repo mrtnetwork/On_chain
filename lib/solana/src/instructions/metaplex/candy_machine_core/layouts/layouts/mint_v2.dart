@@ -5,23 +5,27 @@ class MetaplexCandyMachineMintV2Layout
     extends MetaplexCandyMachineProgramLayout {
   final List<int> mintArgs;
   final String? group;
-  MetaplexCandyMachineMintV2Layout(
-      {required List<int> mintArgs, required this.group})
-      : mintArgs = mintArgs.asImmutableBytes;
+  MetaplexCandyMachineMintV2Layout({
+    required List<int> mintArgs,
+    required this.group,
+  }) : mintArgs = mintArgs.asImmutableBytes;
 
   factory MetaplexCandyMachineMintV2Layout.fromBuffer(List<int> data) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction.mintV2.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexCandyMachineProgramInstruction.mintV2.insturction,
+    );
     return MetaplexCandyMachineMintV2Layout(
-        mintArgs: (decode['mintArgs'] as List).cast(), group: decode['group']);
+      mintArgs: (decode['mintArgs'] as List).cast(),
+      group: decode['group'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.vecU8(property: 'mintArgs'),
-        LayoutConst.optional(LayoutConst.string(), property: 'group')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.vecU8(property: 'mintArgs'),
+    LayoutConst.optional(LayoutConst.string(), property: 'group'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

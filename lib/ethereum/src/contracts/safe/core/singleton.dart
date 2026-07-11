@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/rpc/rpc.dart';
@@ -11,14 +12,17 @@ abstract class ISafeSingletonContract with BaseSafeContract {
   final ContractABI contract;
   @override
   final SafeContractVersion version;
-  const ISafeSingletonContract(
-      {required this.contract,
-      required this.contractAddress,
-      required this.version});
+  const ISafeSingletonContract({
+    required this.contract,
+    required this.contractAddress,
+    required this.version,
+  });
 
   /// "stateMutability": "view",
   /// Returns a descriptive version of the Safe contract.
-  Future<String> getVersion(EthereumProvider provider);
+  Future<String> getVersion(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "nonpayable",
   /// Adds the owner `owner` to the Safe and updates the threshold to `threshold`.
@@ -34,7 +38,7 @@ abstract class ISafeSingletonContract with BaseSafeContract {
   /// "stateMutability": "view",
   /// Returns a non-zero value if the `messageHash` is approved by the `owner`
   Future<bool> approvedHashes({
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
     required ETHAddress address,
     required List<int> messageHash,
   });
@@ -51,7 +55,7 @@ abstract class ISafeSingletonContract with BaseSafeContract {
     required List<int> data,
     required List<int> signatures,
     required BigInt requiredSignatures,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   });
 
   /// "stateMutability": "view",
@@ -62,7 +66,7 @@ abstract class ISafeSingletonContract with BaseSafeContract {
     required List<int> dataHash,
     required List<int> signatures,
     required BigInt requiredSignatures,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   });
 
   /// "stateMutability": "view",
@@ -71,7 +75,7 @@ abstract class ISafeSingletonContract with BaseSafeContract {
     required List<int> dataHash,
     required List<int> data,
     required List<int> signatures,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   });
 
   /// "stateMutability": "view",
@@ -80,7 +84,7 @@ abstract class ISafeSingletonContract with BaseSafeContract {
     required List<int> dataHash,
     required ETHAddress executor,
     required List<int> signatures,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   });
 
   /// "stateMutability": "nonpayable",
@@ -92,7 +96,9 @@ abstract class ISafeSingletonContract with BaseSafeContract {
 
   /// "stateMutability": "view",
   /// Returns the domain separator for this contract, as defined in the EIP-712 standard.
-  Future<List<int>> domainSeparator(EthereumProvider provider);
+  Future<List<int>> domainSeparator(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "nonpayable",
   /// Enables the module [module] for the Safe.
@@ -156,19 +162,23 @@ abstract class ISafeSingletonContract with BaseSafeContract {
 
   /// "stateMutability": "view",
   /// Returns a list of Safe owners.
-  Future<List<ETHAddress>> getOwners(EthereumProvider provider);
+  Future<List<ETHAddress>> getOwners(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// [length] bytes of storage in the current contract
   Future<List<int>> getStorageAt({
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
     required int offset,
     required int length,
   });
 
   /// "stateMutability": "view",
   ///  Returns the number of required confirmations for a Safe transaction aka the threshold.
-  Future<BigInt> getThreshold(EthereumProvider provider);
+  Future<BigInt> getThreshold(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// Returns the transaction hash that must be signed by the Safe owners.
@@ -197,26 +207,28 @@ abstract class ISafeSingletonContract with BaseSafeContract {
     required ETHAddress gasToken,
     required ETHAddress refundReceiver,
     required BigInt nonce,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   });
 
   /// "stateMutability": "view",
   /// Returns whether or not a module is enabled.
   Future<bool> isModuleEnabled({
     required ETHAddress address,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   });
 
   /// "stateMutability": "view",
   /// if [owner] is an owner of the Safe.
   Future<bool> isOwner({
     required ETHAddress owner,
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
   });
 
   /// "stateMutability": "view",
   /// Returns the nonce of the Safe contract.
-  Future<BigInt> nonce(EthereumProvider provider);
+  Future<BigInt> nonce(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "nonpayable",
   /// Removes the specified [owner] from the Safe and updates the signature threshold.
@@ -322,7 +334,7 @@ abstract class ISafeSingletonContract with BaseSafeContract {
   /// "stateMutability": "view",
   /// Returns a non-zero value if the [messageHash] is signed for the Safe.
   Future<bool> signedMessages({
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
     required List<int> messageHash,
   });
 
@@ -377,44 +389,61 @@ abstract class ISafeSingletonContract with BaseSafeContract {
 
   /// "stateMutability": "view",
   /// The precomputed EIP-712 domain separator hash for Safe typed data hashing and signing.
-  Future<List<int>> domainSeparatorTypeHash(EthereumProvider provider);
+  Future<List<int>> domainSeparatorTypeHash(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// The precomputed EIP-712 type hash for the Safe message type.
-  Future<List<int>> safeMsgTypeHash(EthereumProvider provider);
+  Future<List<int>> safeMsgTypeHash(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// The precomputed EIP-712 type hash for the Safe transaction type.
-  Future<List<int>> safeTxTypeHash(EthereumProvider provider);
+  Future<List<int>> safeTxTypeHash(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// The sentinel module value in the {ModuleManager.modules} linked list.
-  Future<ETHAddress> sentinelModules(EthereumProvider provider);
+  Future<ETHAddress> sentinelModules(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// The sentinel owner value in the {owners} linked list.
-  Future<ETHAddress> sentinelOwners(EthereumProvider provider);
+  Future<ETHAddress> sentinelOwners(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// Returns a descriptive version of the Safe contract.
-  Future<String> name(EthereumProvider provider);
+  Future<String> name(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   Future<SafeContractEncodedCall> changeMasterCopy(ETHAddress masterCopy);
 
   /// "stateMutability": "view",
   /// Returns the hash of a message to be signed by owners.
-  Future<List<int>> getMessageHash(
-      {required EthereumProvider provider, required List<int> message});
+  Future<List<int>> getMessageHash({
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+    required List<int> message,
+  });
 
-  Future<SafeContractEncodedCall> requiredTxGas(
-      {required ETHAddress to,
-      required BigInt value,
-      required List<int> data,
-      required SafeContractExecutionOpration operation});
+  Future<SafeContractEncodedCall> requiredTxGas({
+    required ETHAddress to,
+    required BigInt value,
+    required List<int> data,
+    required SafeContractExecutionOpration operation,
+  });
 
   /// "stateMutability": "view",
   /// Returns array of first 10 modules.
-  Future<List<ETHAddress>> getModules(EthereumProvider provider);
+  Future<List<ETHAddress>> getModules(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 
   /// "stateMutability": "view",
   /// Returns the pre-image of the Safe transaction hash.
@@ -432,22 +461,25 @@ abstract class ISafeSingletonContract with BaseSafeContract {
   /// - [refundReceiver]: Address to receive gas payment refund
   ///   (`0x0` means `tx.origin`).
   /// - [nonce]: Nonce of the Safe transaction.
-  Future<List<int>> encodeTransactionData(
-      {required ETHAddress to,
-      required BigInt value,
-      required List<int> data,
-      required SafeContractExecutionOpration operation,
-      required BigInt safeTxGas,
-      required BigInt baseGas,
-      required BigInt gasPrice,
-      required ETHAddress gasToken,
-      required ETHAddress refundReceiver,
-      required BigInt nonce,
-      required EthereumProvider provider});
+  Future<List<int>> encodeTransactionData({
+    required ETHAddress to,
+    required BigInt value,
+    required List<int> data,
+    required SafeContractExecutionOpration operation,
+    required BigInt safeTxGas,
+    required BigInt baseGas,
+    required BigInt gasPrice,
+    required ETHAddress gasToken,
+    required ETHAddress refundReceiver,
+    required BigInt nonce,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  });
 
   /// "stateMutability": "nonpayable",
-  Future<SafeContractEncodedCall> isValidSignature(
-      {required List<int> data, required List<int> signature});
+  Future<SafeContractEncodedCall> isValidSignature({
+    required List<int> data,
+    required List<int> signature,
+  });
 
   /// "stateMutability": "nonpayable",
   /// Can be verified using EIP-1271 validation method by passing the pre-image of the message hash and empty bytes as the signature.
@@ -462,11 +494,13 @@ abstract class ISafeSingletonContract with BaseSafeContract {
   /// - [start]: Start of the page. Must be a module or the start pointer (`address(0x1)`).
   /// - [pageSize]: Maximum number of modules that should be returned. Must be greater than 0.
   Future<(List<ETHAddress>, ETHAddress)> getModulesPaginated({
-    required EthereumProvider provider,
+    required IProvider<IServiceProvider, EthereumRequestDetails> provider,
     ETHAddress? start,
     required int pageSize,
   });
 
   /// Returns the ID of the chain the contract is currently deployed on.
-  Future<BigInt> getChainId(EthereumProvider provider);
+  Future<BigInt> getChainId(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  );
 }

@@ -7,23 +7,30 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('rateAuthority'),
-        LayoutConst.ns64(property: 'initializationTimestamp'),
-        LayoutConst.s16(property: 'preUpdateAverageRate'),
-        LayoutConst.ns64(property: 'lastUpdateTimestamp'),
-        LayoutConst.s16(property: 'currentRate'),
-      ]);
+    SolanaLayoutUtils.publicKey('rateAuthority'),
+    LayoutConst.ns64(property: 'initializationTimestamp'),
+    LayoutConst.s16(property: 'preUpdateAverageRate'),
+    LayoutConst.ns64(property: 'lastUpdateTimestamp'),
+    LayoutConst.s16(property: 'currentRate'),
+  ]);
 
   static int get accountSize => layout.span;
 
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -33,10 +40,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.interestBearingConfig);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.interestBearingConfig,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -62,31 +72,35 @@ class InterestBearingMintConfigState extends BorshLayoutSerializable {
   /// Current rate, since the last update
   final int currentRate;
 
-  const InterestBearingMintConfigState(
-      {required this.rateAuthority,
-      required this.initializationTimestamp,
-      required this.preUpdateAverageRate,
-      required this.lastUpdateTimestamp,
-      required this.currentRate});
+  const InterestBearingMintConfigState({
+    required this.rateAuthority,
+    required this.initializationTimestamp,
+    required this.preUpdateAverageRate,
+    required this.lastUpdateTimestamp,
+    required this.currentRate,
+  });
 
   factory InterestBearingMintConfigState.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return InterestBearingMintConfigState(
-        rateAuthority: decode['rateAuthority'],
-        initializationTimestamp: decode['initializationTimestamp'],
-        preUpdateAverageRate: decode['preUpdateAverageRate'],
-        lastUpdateTimestamp: decode['lastUpdateTimestamp'],
-        currentRate: decode['currentRate']);
+      rateAuthority: decode['rateAuthority'],
+      initializationTimestamp: decode['initializationTimestamp'],
+      preUpdateAverageRate: decode['preUpdateAverageRate'],
+      lastUpdateTimestamp: decode['lastUpdateTimestamp'],
+      currentRate: decode['currentRate'],
+    );
   }
   factory InterestBearingMintConfigState.fromAccountBytes(
-      List<int> accountBytes) {
+    List<int> accountBytes,
+  ) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return InterestBearingMintConfigState(
-        rateAuthority: decode['rateAuthority'],
-        initializationTimestamp: decode['initializationTimestamp'],
-        preUpdateAverageRate: decode['preUpdateAverageRate'],
-        lastUpdateTimestamp: decode['lastUpdateTimestamp'],
-        currentRate: decode['currentRate']);
+      rateAuthority: decode['rateAuthority'],
+      initializationTimestamp: decode['initializationTimestamp'],
+      preUpdateAverageRate: decode['preUpdateAverageRate'],
+      lastUpdateTimestamp: decode['lastUpdateTimestamp'],
+      currentRate: decode['currentRate'],
+    );
   }
 
   @override
@@ -98,7 +112,7 @@ class InterestBearingMintConfigState extends BorshLayoutSerializable {
       'initializationTimestamp': initializationTimestamp,
       'preUpdateAverageRate': preUpdateAverageRate,
       'lastUpdateTimestamp': lastUpdateTimestamp,
-      'currentRate': currentRate
+      'currentRate': currentRate,
     };
   }
 

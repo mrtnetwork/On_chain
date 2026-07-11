@@ -50,8 +50,8 @@ class SolanaRequestSimulateTransaction
         minContextSlot?.toJson(),
         encoding?.toJson(),
         {'innerInstructions': innerInstructions},
-        accounts?.toJson()
-      ])
+        accounts?.toJson(),
+      ]),
     ];
   }
 

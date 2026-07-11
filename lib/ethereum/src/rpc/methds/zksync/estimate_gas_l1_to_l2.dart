@@ -6,23 +6,23 @@ import 'package:on_chain/ethereum/src/transaction/zksync.dart';
 /// Estimates the gas required for an L1 to L2 transaction.
 /// [zksync.io](https://docs.zksync.io/zksync-protocol/api/zks-rpc#zks_estimategasl1tol2)
 class ZKSRequestEstimateGasL1toL2 extends EthereumRequest<BigInt, String> {
-  ZKSRequestEstimateGasL1toL2(
-      {this.from,
-      this.to,
-      this.gas,
-      this.gasPrice,
-      this.maxFeePerGas,
-      this.maxPriorityFeePerGas,
-      this.value,
-      this.data,
-      this.nonce,
-      this.transactionType,
-      this.accessList,
-      this.gasPerPubdata,
-      this.customSignature,
-      this.paymaster,
-      this.factoryDeps})
-      : super();
+  ZKSRequestEstimateGasL1toL2({
+    this.from,
+    this.to,
+    this.gas,
+    this.gasPrice,
+    this.maxFeePerGas,
+    this.maxPriorityFeePerGas,
+    this.value,
+    this.data,
+    this.nonce,
+    this.transactionType,
+    this.accessList,
+    this.gasPerPubdata,
+    this.customSignature,
+    this.paymaster,
+    this.factoryDeps,
+  }) : super();
 
   /// Sender address. Arbitrary if not provided.
   final String? from;
@@ -83,8 +83,8 @@ class ZKSRequestEstimateGasL1toL2 extends EthereumRequest<BigInt, String> {
         "paymasterParams": paymaster?.toJson(),
         "customSignature": customSignature,
         "gasPerPubdata": gasPerPubdata?.toString(),
-        "factoryDeps": factoryDeps
-      }.notNullValue
+        "factoryDeps": factoryDeps,
+      }.notNullValue,
     ];
   }
 

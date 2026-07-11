@@ -11,9 +11,9 @@ class Allocation extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u8(property: 'id'),
-        LayoutConst.u32(property: 'limit'),
-      ], property: 'allocation');
+    LayoutConst.u8(property: 'id'),
+    LayoutConst.u32(property: 'limit'),
+  ], property: 'allocation');
 
   @override
   StructLayout get layout => staticLayout;

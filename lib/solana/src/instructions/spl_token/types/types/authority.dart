@@ -15,8 +15,10 @@ class AuthorityType {
   static const AuthorityType mintTokens = AuthorityType._(0, 'MintTokens');
 
   /// Authority type for freezing an account.
-  static const AuthorityType freezeAccount =
-      AuthorityType._(1, 'FreezeAccount');
+  static const AuthorityType freezeAccount = AuthorityType._(
+    1,
+    'FreezeAccount',
+  );
 
   /// Authority type for account owner.
   static const AuthorityType accountOwner = AuthorityType._(2, 'AccountOwner');
@@ -25,12 +27,16 @@ class AuthorityType {
   static const AuthorityType closeAccount = AuthorityType._(3, 'CloseAccount');
 
   /// Authority type for transfer fee configuration.
-  static const AuthorityType transferFeeConfig =
-      AuthorityType._(4, 'TransferFeeConfig');
+  static const AuthorityType transferFeeConfig = AuthorityType._(
+    4,
+    'TransferFeeConfig',
+  );
 
   /// Authority type for withheld withdrawal.
-  static const AuthorityType withheldWithdraw =
-      AuthorityType._(5, 'WithheldWithdraw');
+  static const AuthorityType withheldWithdraw = AuthorityType._(
+    5,
+    'WithheldWithdraw',
+  );
 
   /// Authority type for closing a mint.
   static const AuthorityType closeMint = AuthorityType._(6, 'CloseMint');
@@ -39,24 +45,34 @@ class AuthorityType {
   static const AuthorityType interestRate = AuthorityType._(7, 'InterestRate');
 
   /// Authority type for permanent delegate.
-  static const AuthorityType permanentDelegate =
-      AuthorityType._(8, 'PermanentDelegate');
+  static const AuthorityType permanentDelegate = AuthorityType._(
+    8,
+    'PermanentDelegate',
+  );
 
   /// Authority type for confidential transfer mint.
-  static const AuthorityType confidentialTransferMint =
-      AuthorityType._(9, 'ConfidentialTransferMint');
+  static const AuthorityType confidentialTransferMint = AuthorityType._(
+    9,
+    'ConfidentialTransferMint',
+  );
 
   /// Authority type for transfer hook program ID.
-  static const AuthorityType transferHookProgramId =
-      AuthorityType._(10, 'TransferHookProgramId');
+  static const AuthorityType transferHookProgramId = AuthorityType._(
+    10,
+    'TransferHookProgramId',
+  );
 
   /// Authority type for confidential transfer fee configuration.
-  static const AuthorityType confidentialTransferFeeConfig =
-      AuthorityType._(11, 'ConfidentialTransferFeeConfig');
+  static const AuthorityType confidentialTransferFeeConfig = AuthorityType._(
+    11,
+    'ConfidentialTransferFeeConfig',
+  );
 
   /// Authority type for metadata pointer.
-  static const AuthorityType metadataPointer =
-      AuthorityType._(12, 'MetadataPointer');
+  static const AuthorityType metadataPointer = AuthorityType._(
+    12,
+    'MetadataPointer',
+  );
 
   /// List of all AuthorityType values.
   static const List<AuthorityType> values = [
@@ -79,11 +95,14 @@ class AuthorityType {
   ///
   /// Throws a [SolanaPluginException] if no AuthorityType is found for the given value.
   static AuthorityType fromValue(int? value) {
-    try {
-      return values.firstWhere((element) => element.value == value);
-    } on StateError {
-      throw SolanaPluginException('No AuthorityType found for the given value.',
-          details: {'value': value});
-    }
+    return values.firstWhere(
+      (element) => element.value == value,
+      orElse: () {
+        throw SolanaPluginException(
+          'No AuthorityType found for the given value.',
+          details: {'value': value?.toString()},
+        );
+      },
+    );
   }
 }

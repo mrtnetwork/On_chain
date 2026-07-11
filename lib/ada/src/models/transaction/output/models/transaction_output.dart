@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/transaction/assets/models/multi_assets.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option.dart';
@@ -13,21 +12,31 @@ enum TransactionOutputCborEncoding {
   alonzoEra;
 
   static TransactionOutputCborEncoding fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw const ADAPluginException("Invalid encoding type."));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw ItemNotFoundException(
+                name: "TransactionOutputCborEncoding",
+              ),
+    );
   }
 }
 
 class TransactionOutputSerializationConfig {
   final TransactionOutputCborEncoding encoding;
-  const TransactionOutputSerializationConfig(
-      {this.encoding = TransactionOutputCborEncoding.alonzoEra});
+  const TransactionOutputSerializationConfig({
+    this.encoding = TransactionOutputCborEncoding.alonzoEra,
+  });
   factory TransactionOutputSerializationConfig.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TransactionOutputSerializationConfig(
-        encoding: json["encoding"] == null
-            ? TransactionOutputCborEncoding.alonzoEra
-            : TransactionOutputCborEncoding.fromName(json["encoding"]));
+      encoding:
+          json["encoding"] == null
+              ? TransactionOutputCborEncoding.alonzoEra
+              : TransactionOutputCborEncoding.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name};
@@ -52,75 +61,86 @@ class TransactionOutput with InternalCborSerialization {
   final ScriptRef? scriptRef;
 
   /// Constructs a [TransactionOutput] instance.
-  const TransactionOutput(
-      {required this.address,
-      required this.amount,
-      this.plutusData,
-      this.scriptRef,
-      this.serializationConfig = const TransactionOutputSerializationConfig()});
+  const TransactionOutput({
+    required this.address,
+    required this.amount,
+    this.plutusData,
+    this.scriptRef,
+    this.serializationConfig = const TransactionOutputSerializationConfig(),
+  });
   factory TransactionOutput.fromJson(Map<String, dynamic> json) {
     return TransactionOutput(
-        address: ADAAddress.fromAddress(json['address']),
-        amount: Value.fromJson(json['amount']),
-        serializationConfig: TransactionOutputSerializationConfig.fromJson(
-            json["serialization_config"] ?? {}),
-        plutusData: json['plutus_data'] == null
-            ? null
-            : DataOption.fromJson(json['plutus_data']),
-        scriptRef: json['script_ref'] == null
-            ? null
-            : ScriptRef.fromJson(json['script_ref']));
+      address: ADAAddress.fromAddress(json['address']),
+      amount: Value.fromJson(json['amount']),
+      serializationConfig: TransactionOutputSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+      plutusData:
+          json['plutus_data'] == null
+              ? null
+              : DataOption.fromJson(json['plutus_data']),
+      scriptRef:
+          json['script_ref'] == null
+              ? null
+              : ScriptRef.fromJson(json['script_ref']),
+    );
   }
 
   /// Deserializes a [TransactionOutput] instance from a CBOR object.
   factory TransactionOutput.deserialize(CborObject cbor) {
     if (cbor.hasType<CborListValue>()) {
-      final list = cbor.as<CborListValue>("TransactionOutput");
-      final address =
-          AdaAddressUtils.encodeBytes(list.elementAt<CborBytesValue>(0).value);
+      final list = cbor.as<CborListValue>(operation: "TransactionOutput");
+      final address = AdaAddressUtils.encodeBytes(
+        list.objectAt<CborBytesValue>(0).value,
+      );
       return TransactionOutput(
-          address: address,
-          amount: Value.deserialize(list.elementAt<CborObject>(1)),
-          plutusData: list
-              .elementAt<CborObject?>(2)
-              ?.convertTo<DataOption, CborObject>(
-                  (e) => DataOption.deserialize(e)),
-          scriptRef: list
-              .elementAt<CborObject?>(3)
-              ?.convertTo<ScriptRef, CborListValue>(
-                  (e) => ScriptRef.deserialize(e)),
-          serializationConfig: TransactionOutputSerializationConfig(
-              encoding: TransactionOutputCborEncoding.shellyEra));
+        address: address,
+        amount: Value.deserialize(list.objectAt<CborObject>(1)),
+        plutusData: list.maybeObjectAt<DataOption, CborObject>(
+          2,
+          (e) => DataOption.deserialize(e),
+        ),
+        scriptRef: list.maybeObjectAt<ScriptRef, CborListValue>(
+          3,
+          (e) => ScriptRef.deserialize(e),
+        ),
+        serializationConfig: TransactionOutputSerializationConfig(
+          encoding: TransactionOutputCborEncoding.shellyEra,
+        ),
+      );
     }
 
-    final CborMapValue<CborObject, CborObject> cborMap =
-        cbor.as("TransactionOutput");
+    final CborMapValue<CborObject, CborObject> cborMap = cbor.as(
+      operation: "TransactionOutput",
+    );
     final address = AdaAddressUtils.encodeBytes(
-        cborMap.getIntValueAs<CborBytesValue>(0).value);
+      cborMap.getIntKeyAs<CborBytesValue>(0).value,
+    );
     return TransactionOutput(
-        address: address,
-        amount: Value.deserialize(cborMap.getIntValueAs<CborObject>(1)),
-        plutusData: cborMap
-            .getIntValueAs<CborObject?>(2)
-            ?.convertTo<DataOption, CborObject>(
-                (e) => DataOption.deserialize(e)),
-        scriptRef: cborMap
-            .getIntValueAs<CborTagValue?>(3)
-            ?.convertTo<ScriptRef, CborTagValue>(
-                (e) => ScriptRef.deserialize(e)));
+      address: address,
+      amount: Value.deserialize(cborMap.getIntKeyAs<CborObject>(1)),
+      plutusData: cborMap
+          .getIntKeyAs<CborObject?>(2)
+          ?.objectTo<DataOption, CborObject>((e) => DataOption.deserialize(e)),
+      scriptRef: cborMap
+          .getIntKeyAs<CborTagValue?>(3)
+          ?.objectTo<ScriptRef, CborTagValue>((e) => ScriptRef.deserialize(e)),
+    );
   }
-  TransactionOutput copyWith(
-      {ADAAddress? address,
-      Value? amount,
-      DataOption? plutusData,
-      ScriptRef? scriptRef,
-      TransactionOutputSerializationConfig? serializationConfig}) {
+  TransactionOutput copyWith({
+    ADAAddress? address,
+    Value? amount,
+    DataOption? plutusData,
+    ScriptRef? scriptRef,
+    TransactionOutputSerializationConfig? serializationConfig,
+  }) {
     return TransactionOutput(
-        address: address ?? this.address,
-        amount: amount ?? this.amount,
-        plutusData: plutusData ?? this.plutusData,
-        scriptRef: scriptRef ?? this.scriptRef,
-        serializationConfig: serializationConfig ?? this.serializationConfig);
+      address: address ?? this.address,
+      amount: amount ?? this.amount,
+      plutusData: plutusData ?? this.plutusData,
+      scriptRef: scriptRef ?? this.scriptRef,
+      serializationConfig: serializationConfig ?? this.serializationConfig,
+    );
   }
 
   @override
@@ -133,13 +153,13 @@ class TransactionOutput with InternalCborSerialization {
           if (plutusData != null)
             const CborIntValue(2): plutusData!.toCbor(false),
           if (scriptRef != null)
-            const CborIntValue(3): scriptRef!.toScriptRefCbor()
+            const CborIntValue(3): scriptRef!.toScriptRefCbor(),
         });
       case TransactionOutputCborEncoding.shellyEra:
         return CborListValue.definite([
           address.toCbor(),
           amount.toCbor(),
-          if (plutusData != null) plutusData!.toCbor(true)
+          if (plutusData != null) plutusData!.toCbor(true),
         ]);
     }
   }
@@ -151,7 +171,7 @@ class TransactionOutput with InternalCborSerialization {
       'amount': amount.toJson(),
       'plutus_data': plutusData?.toJson(),
       'script_ref': scriptRef?.toJson(),
-      'serialization_config': serializationConfig.toJson()
+      'serialization_config': serializationConfig.toJson(),
     };
   }
 
@@ -163,16 +183,19 @@ class TransactionOutput with InternalCborSerialization {
   }
 }
 
-extension QuickTransactionOutput on List<TransactionOutput> {
+extension ExtQuickTransactionOutput on List<TransactionOutput> {
   BigInt get sumOflovelace {
-    return fold<BigInt>(BigInt.zero,
-        (previousValue, element) => previousValue + element.amount.coin);
+    return fold<BigInt>(
+      BigInt.zero,
+      (previousValue, element) => previousValue + element.amount.coin,
+    );
   }
 
   MultiAsset get multiAsset {
     return fold(
-        MultiAsset({}),
-        (previousValue, element) =>
-            previousValue + (element.amount.multiAsset ?? MultiAsset.empty));
+      MultiAsset({}),
+      (previousValue, element) =>
+          previousValue + (element.amount.multiAsset ?? MultiAsset.empty),
+    );
   }
 }

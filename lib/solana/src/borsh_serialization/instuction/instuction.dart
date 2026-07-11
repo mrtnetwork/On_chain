@@ -13,8 +13,10 @@ class UnknownProgramInstruction implements ProgramLayoutInstruction {
   @override
   final String name;
   const UnknownProgramInstruction(this.insturction, this.name);
-  static const UnknownProgramInstruction unknown =
-      UnknownProgramInstruction(null, 'Unknown');
+  static const UnknownProgramInstruction unknown = UnknownProgramInstruction(
+    null,
+    'Unknown',
+  );
 
   static const List<UnknownProgramInstruction> values = [unknown];
 

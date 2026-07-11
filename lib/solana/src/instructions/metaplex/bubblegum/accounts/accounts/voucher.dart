@@ -7,30 +7,33 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [191, 204, 149, 234, 213, 165, 13, 65];
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        LeafSchemaV1.staticLayout,
-        LayoutConst.u32(property: 'index'),
-        SolanaLayoutUtils.publicKey('merkleTree'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    LeafSchemaV1.staticLayout,
+    LayoutConst.u32(property: 'index'),
+    SolanaLayoutUtils.publicKey('merkleTree'),
+  ]);
 }
 
 class Voucher extends BorshLayoutSerializable {
   final LeafSchemaV1 leafSchema;
   final int index;
   final SolAddress merkleTree;
-  const Voucher(
-      {required this.leafSchema,
-      required this.index,
-      required this.merkleTree});
+  const Voucher({
+    required this.leafSchema,
+    required this.index,
+    required this.merkleTree,
+  });
   factory Voucher.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return Voucher(
-        leafSchema: LeafSchemaV1.fromJson(decode['leafschema']),
-        index: decode['index'],
-        merkleTree: decode['merkleTree']);
+      leafSchema: LeafSchemaV1.fromJson(decode['leafschema']),
+      index: decode['index'],
+      merkleTree: decode['merkleTree'],
+    );
   }
 
   @override
@@ -42,7 +45,7 @@ class Voucher extends BorshLayoutSerializable {
       'discriminator': _Utils.discriminator,
       'leafschema': leafSchema.serialize(),
       'merkleTree': merkleTree,
-      'index': index
+      'index': index,
     };
   }
 

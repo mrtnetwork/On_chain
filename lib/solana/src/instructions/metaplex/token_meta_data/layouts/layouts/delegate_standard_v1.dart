@@ -9,22 +9,27 @@ class MetaplexTokenMetaDataDelegateStandardV1Layout
   const MetaplexTokenMetaDataDelegateStandardV1Layout({required this.amount});
 
   factory MetaplexTokenMetaDataDelegateStandardV1Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .delegateStandardV1.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .delegateStandardV1
+              .insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataDelegateStandardV1Layout(
-        amount: decode['amount']);
+      amount: decode['amount'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.u64(property: 'amount'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

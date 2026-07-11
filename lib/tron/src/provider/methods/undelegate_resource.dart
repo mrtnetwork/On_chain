@@ -9,22 +9,25 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 class TronRequestUndelegateResource
     extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestUndelegateResource.fromContract(
-      UnDelegateResourceContract contract,
-      {int? permissionId}) {
+    UnDelegateResourceContract contract, {
+    int? permissionId,
+  }) {
     return TronRequestUndelegateResource(
-        ownerAddress: contract.ownerAddress,
-        receiverAddress: contract.receiverAddress,
-        balance: contract.balance,
-        resource: contract.resource?.name,
-        permissionId: permissionId);
+      ownerAddress: contract.ownerAddress,
+      receiverAddress: contract.receiverAddress,
+      balance: contract.balance,
+      resource: contract.resource?.name,
+      permissionId: permissionId,
+    );
   }
-  TronRequestUndelegateResource(
-      {required this.ownerAddress,
-      required this.receiverAddress,
-      required this.balance,
-      this.resource,
-      this.permissionId,
-      this.visible = true});
+  TronRequestUndelegateResource({
+    required this.ownerAddress,
+    required this.receiverAddress,
+    required this.balance,
+    this.resource,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -55,7 +58,7 @@ class TronRequestUndelegateResource
       'balance': balance,
       'resource': resource,
       'visible': visible,
-      'Permission_id': permissionId
+      'Permission_id': permissionId,
     };
   }
 

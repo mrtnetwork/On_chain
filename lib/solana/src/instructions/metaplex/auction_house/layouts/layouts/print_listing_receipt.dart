@@ -5,26 +5,32 @@ class MetaplexAuctionHousePrintListingReceiptLayout
     extends MetaplexAuctionHouseProgramLayout {
   final int receiptBump;
 
-  const MetaplexAuctionHousePrintListingReceiptLayout(
-      {required this.receiptBump});
+  const MetaplexAuctionHousePrintListingReceiptLayout({
+    required this.receiptBump,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHousePrintListingReceiptLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .printListingReceipt.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction
+              .printListingReceipt
+              .insturction,
+    );
     return MetaplexAuctionHousePrintListingReceiptLayout(
-        receiptBump: decode['receiptBump']);
+      receiptBump: decode['receiptBump'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'receiptBump'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'receiptBump'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

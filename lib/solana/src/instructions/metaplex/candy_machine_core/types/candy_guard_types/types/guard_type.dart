@@ -23,8 +23,10 @@ class GuardType {
   static const GuardType nftBurn = GuardType._('NftBurn', 14);
   static const GuardType tokenBurn = GuardType._('TokenBurn', 15);
   static const GuardType freezeSolPayment = GuardType._('FreezeSolPayment', 16);
-  static const GuardType freezeTokenPayment =
-      GuardType._('FreezeTokenPayment', 17);
+  static const GuardType freezeTokenPayment = GuardType._(
+    'FreezeTokenPayment',
+    17,
+  );
   static const GuardType programGate = GuardType._('ProgramGate', 18);
   static const GuardType allocation = GuardType._('Allocation', 19);
   static const GuardType token2022Payment = GuardType._('Token2022Payment', 20);
@@ -56,9 +58,12 @@ class GuardType {
   static GuardType fromValue(int value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No GuardType found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No GuardType found matching the specified value',
+                details: {'value': value.toString()},
+              ),
     );
   }
 }

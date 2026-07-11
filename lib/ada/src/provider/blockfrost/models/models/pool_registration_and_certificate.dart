@@ -46,7 +46,8 @@ class ADAPoolRegistrationCertificateResponse {
   });
 
   factory ADAPoolRegistrationCertificateResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADAPoolRegistrationCertificateResponse(
       certIndex: json['cert_index'],
       poolId: json['pool_id'],
@@ -56,12 +57,17 @@ class ADAPoolRegistrationCertificateResponse {
       fixedCost: json['fixed_cost'],
       rewardAccount: json['reward_account'],
       activeEpoch: json['active_epoch'],
-      relays: (json['relays'] as List<dynamic>)
-          .map((relayJson) => ADAStakePoolRelayInfoResponse.fromJson(relayJson))
-          .toList(),
-      metadata: json['metadata'] != null
-          ? ADAPoolMetadataResponse.fromJson(json['metadata'])
-          : null,
+      relays:
+          (json['relays'] as List<dynamic>)
+              .map(
+                (relayJson) =>
+                    ADAStakePoolRelayInfoResponse.fromJson(relayJson),
+              )
+              .toList(),
+      metadata:
+          json['metadata'] != null
+              ? ADAPoolMetadataResponse.fromJson(json['metadata'])
+              : null,
     );
   }
 

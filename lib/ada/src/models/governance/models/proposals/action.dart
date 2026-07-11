@@ -13,23 +13,25 @@ abstract class GovernanceAction with InternalCborSerialization {
   final GovernanceActionType type;
   const GovernanceAction({required this.type});
   factory GovernanceAction.deserialize(CborListValue cbor) {
-    final type =
-        GovernanceActionType.deserialize(cbor.elementAt<CborIntValue>(0));
+    final type = GovernanceActionType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+    );
     return switch (type) {
       GovernanceActionType.hardForkInitiationAction =>
         HardForkInitiationAction.deserialize(cbor),
       GovernanceActionType.infoAction => InfoAction.deserialize(cbor),
       GovernanceActionType.newConstitutionAction =>
         NewConstitutionAction.deserialize(cbor),
-      GovernanceActionType.noConfidenceAction =>
-        NoConfidenceAction.deserialize(cbor),
+      GovernanceActionType.noConfidenceAction => NoConfidenceAction.deserialize(
+        cbor,
+      ),
       GovernanceActionType.parameterChangeAction =>
         ParameterChangeAction.deserialize(cbor),
       GovernanceActionType.treasuryWithdrawalsAction =>
         TreasuryWithdrawalsAction.deserialize(cbor),
       GovernanceActionType.updateCommitteeAction =>
         UpdateCommitteeAction.deserialize(cbor),
-      _ => throw UnimplementedError("Unknown Governance Action Type.")
+      _ => throw UnimplementedError("Unknown Governance Action Type."),
     };
   }
 
@@ -41,15 +43,16 @@ abstract class GovernanceAction with InternalCborSerialization {
       GovernanceActionType.infoAction => InfoAction.fromJson(json),
       GovernanceActionType.newConstitutionAction =>
         NewConstitutionAction.fromJson(json),
-      GovernanceActionType.noConfidenceAction =>
-        NoConfidenceAction.fromJson(json),
+      GovernanceActionType.noConfidenceAction => NoConfidenceAction.fromJson(
+        json,
+      ),
       GovernanceActionType.parameterChangeAction =>
         ParameterChangeAction.fromJson(json),
       GovernanceActionType.treasuryWithdrawalsAction =>
         TreasuryWithdrawalsAction.fromJson(json),
       GovernanceActionType.updateCommitteeAction =>
         UpdateCommitteeAction.fromJson(json),
-      _ => throw UnimplementedError("Unknown Governance Action Type.")
+      _ => throw UnimplementedError("Unknown Governance Action Type."),
     };
   }
 }

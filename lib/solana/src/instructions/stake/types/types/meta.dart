@@ -7,22 +7,24 @@ class StakeMeta extends BorshLayoutSerializable {
   final StakeLockup lockup;
   final StakeAuthorized authorized;
   final BigInt rentExemptReserve;
-  const StakeMeta(
-      {required this.lockup,
-      required this.authorized,
-      required this.rentExemptReserve});
+  const StakeMeta({
+    required this.lockup,
+    required this.authorized,
+    required this.rentExemptReserve,
+  });
   factory StakeMeta.fromJson(Map<String, dynamic> json) {
     return StakeMeta(
-        lockup: StakeLockup.fromJson(json['lockup']),
-        authorized: StakeAuthorized.fromJson(json['authorized']),
-        rentExemptReserve: json['rentExemptReserve']);
+      lockup: StakeLockup.fromJson(json['lockup']),
+      authorized: StakeAuthorized.fromJson(json['authorized']),
+      rentExemptReserve: json['rentExemptReserve'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'rentExemptReserve'),
-        StakeAuthorized.staticLayout,
-        StakeLockup.staticLayout,
-      ], property: 'meta');
+    LayoutConst.u64(property: 'rentExemptReserve'),
+    StakeAuthorized.staticLayout,
+    StakeLockup.staticLayout,
+  ], property: 'meta');
 
   @override
   StructLayout get layout => staticLayout;
@@ -32,7 +34,7 @@ class StakeMeta extends BorshLayoutSerializable {
     return {
       'rentExemptReserve': rentExemptReserve,
       'authorized': authorized.serialize(),
-      'lockup': lockup.serialize()
+      'lockup': lockup.serialize(),
     };
   }
 

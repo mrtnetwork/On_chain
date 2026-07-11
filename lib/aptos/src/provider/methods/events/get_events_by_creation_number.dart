@@ -8,11 +8,12 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetEventsByCreationNumber
     extends AptosRequest<List<AptosApiEvent>, List<Map<String, dynamic>>> {
-  AptosRequestGetEventsByCreationNumber(
-      {required this.address,
-      required this.creationNumber,
-      this.start,
-      this.limit});
+  AptosRequestGetEventsByCreationNumber({
+    required this.address,
+    required this.creationNumber,
+    this.start,
+    this.limit,
+  });
 
   /// Hex-encoded 32 byte Aptos account, with or without a `0x` prefix,
   /// for which events are queried. This refers to the account that events wereemitted to,
@@ -32,11 +33,15 @@ class AptosRequestGetEventsByCreationNumber
   String get method => AptosApiMethod.getEventsByCreationNumber.url;
 
   @override
-  List<String> get pathParameters =>
-      [address.address, creationNumber.toString()];
+  List<String> get pathParameters => [
+    address.address,
+    creationNumber.toString(),
+  ];
   @override
-  Map<String, String?> get queryParameters =>
-      {"start": start?.toString(), "limit": limit?.toString()};
+  Map<String, String?> get queryParameters => {
+    "start": start?.toString(),
+    "limit": limit?.toString(),
+  };
 
   @override
   List<AptosApiEvent> onResonse(List<Map<String, dynamic>> result) {

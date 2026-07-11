@@ -17,50 +17,52 @@ class SPLTokenSwapProgram extends TransactionInstruction {
     required SolAddress programId,
   }) {
     return SPLTokenSwapProgram(
-        layout: SPLTokenSwapProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: SPLTokenSwapProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Initializes a new swap
-  factory SPLTokenSwapProgram.create(
-      {
-      /// New Token-swap to create.
-      required SolAddress tokenSwapAccount,
+  factory SPLTokenSwapProgram.create({
+    /// New Token-swap to create.
+    required SolAddress tokenSwapAccount,
 
-      /// swap authority derived from
-      required SolAddress authority,
+    /// swap authority derived from
+    required SolAddress authority,
 
-      /// token_a Account. Must be non zero, owned by swap authority.
-      required SolAddress tokenAccountA,
+    /// token_a Account. Must be non zero, owned by swap authority.
+    required SolAddress tokenAccountA,
 
-      /// token_b Account. Must be non zero, owned by swap authority.
-      required SolAddress tokenAccountB,
+    /// token_b Account. Must be non zero, owned by swap authority.
+    required SolAddress tokenAccountB,
 
-      /// Pool Token Account to deposit trading and withdraw fees.
-      required SolAddress tokenPool,
-      required SolAddress feeAccount,
+    /// Pool Token Account to deposit trading and withdraw fees.
+    required SolAddress tokenPool,
+    required SolAddress feeAccount,
 
-      /// Pool Token Account to deposit the initial pool token
-      required SolAddress tokenAccountPool,
+    /// Pool Token Account to deposit the initial pool token
+    required SolAddress tokenAccountPool,
 
-      /// Pool Token program id
-      required SolAddress poolTokenProgramId,
-      required SolAddress swapProgramId,
-      required SPLTokenSwapInitSwapLayout layout}) {
+    /// Pool Token program id
+    required SolAddress poolTokenProgramId,
+    required SolAddress swapProgramId,
+    required SPLTokenSwapInitSwapLayout layout,
+  }) {
     return SPLTokenSwapProgram(
-        layout: layout,
-        keys: [
-          tokenSwapAccount.toWritable(),
-          authority.toReadOnly(),
-          tokenAccountA.toReadOnly(),
-          tokenAccountB.toReadOnly(),
-          tokenPool.toWritable(),
-          feeAccount.toReadOnly(),
-          tokenAccountPool.toWritable(),
-          poolTokenProgramId.toReadOnly(),
-        ],
-        programId: swapProgramId);
+      layout: layout,
+      keys: [
+        tokenSwapAccount.toWritable(),
+        authority.toReadOnly(),
+        tokenAccountA.toReadOnly(),
+        tokenAccountB.toReadOnly(),
+        tokenPool.toWritable(),
+        feeAccount.toReadOnly(),
+        tokenAccountPool.toWritable(),
+        poolTokenProgramId.toReadOnly(),
+      ],
+      programId: swapProgramId,
+    );
   }
 
   /// Swap the tokens in the pool.
@@ -118,93 +120,95 @@ class SPLTokenSwapProgram extends TransactionInstruction {
     SolAddress? hostFeeAccount,
   }) {
     return SPLTokenSwapProgram(
-        layout: layout,
-        keys: [
-          tokenSwap.toReadOnly(),
-          authority.toReadOnly(),
-          userTransferAuthority.toSigner(),
-          userSource.toWritable(),
-          poolSource.toWritable(),
-          poolDestination.toWritable(),
-          userDestination.toWritable(),
-          poolMint.toWritable(),
-          feeAccount.toWritable(),
-          sourceMint.toReadOnly(),
-          destinationMint.toReadOnly(),
-          sourceTokenProgramId.toReadOnly(),
-          destinationTokenProgramId.toReadOnly(),
-          poolTokenProgramId.toReadOnly(),
-          if (hostFeeAccount != null) hostFeeAccount.toWritable()
-        ],
-        programId: swapProgramId);
+      layout: layout,
+      keys: [
+        tokenSwap.toReadOnly(),
+        authority.toReadOnly(),
+        userTransferAuthority.toSigner(),
+        userSource.toWritable(),
+        poolSource.toWritable(),
+        poolDestination.toWritable(),
+        userDestination.toWritable(),
+        poolMint.toWritable(),
+        feeAccount.toWritable(),
+        sourceMint.toReadOnly(),
+        destinationMint.toReadOnly(),
+        sourceTokenProgramId.toReadOnly(),
+        destinationTokenProgramId.toReadOnly(),
+        poolTokenProgramId.toReadOnly(),
+        if (hostFeeAccount != null) hostFeeAccount.toWritable(),
+      ],
+      programId: swapProgramId,
+    );
   }
 
   ///  Deposit both types of tokens into the pool.  The output is a "pool"
   ///  token representing ownership in the pool. Inputs are converted to
   ///  the current ratio.
-  factory SPLTokenSwapProgram.deposit(
-      {
-      /// Token-swap
-      required SolAddress tokenSwap,
+  factory SPLTokenSwapProgram.deposit({
+    /// Token-swap
+    required SolAddress tokenSwap,
 
-      /// swap authority
-      required SolAddress authority,
+    /// swap authority
+    required SolAddress authority,
 
-      /// user transfer authority
-      required SolAddress userTransferAuthority,
-      // token_a user transfer authority can transfer amount
-      required SolAddress sourceA,
+    /// user transfer authority
+    required SolAddress userTransferAuthority,
+    // token_a user transfer authority can transfer amount
+    required SolAddress sourceA,
 
-      /// token_b user transfer authority can transfer amount
-      required SolAddress sourceB,
+    /// token_b user transfer authority can transfer amount
+    required SolAddress sourceB,
 
-      /// token_a Base Account to deposit into.
-      required SolAddress intoA,
+    /// token_a Base Account to deposit into.
+    required SolAddress intoA,
 
-      /// token_b Base Account to deposit into.
-      required SolAddress intoB,
+    /// token_b Base Account to deposit into.
+    required SolAddress intoB,
 
-      /// Pool MINT account, swap authority is the owner.
-      required SolAddress poolToken,
+    /// Pool MINT account, swap authority is the owner.
+    required SolAddress poolToken,
 
-      /// Pool Account to deposit the generated tokens
-      required SolAddress poolAccount,
+    /// Pool Account to deposit the generated tokens
+    required SolAddress poolAccount,
 
-      /// Token A mint
-      required SolAddress mintA,
+    /// Token A mint
+    required SolAddress mintA,
 
-      /// Token B mint
-      required SolAddress mintB,
-      required SolAddress swapProgramId,
+    /// Token B mint
+    required SolAddress mintB,
+    required SolAddress swapProgramId,
 
-      /// Token A program id
-      required SolAddress tokenProgramIdA,
+    /// Token A program id
+    required SolAddress tokenProgramIdA,
 
-      /// Token B program id
-      required SolAddress tokenProgramIdB,
+    /// Token B program id
+    required SolAddress tokenProgramIdB,
 
-      /// Pool Token program id
-      required SolAddress poolTokenProgramId,
-      required SPLTokenSwapDepositLayout layout}) {
+    /// Pool Token program id
+    required SolAddress poolTokenProgramId,
+    required SPLTokenSwapDepositLayout layout,
+  }) {
     return SPLTokenSwapProgram(
-        layout: layout,
-        keys: [
-          tokenSwap.toReadOnly(),
-          authority.toReadOnly(),
-          userTransferAuthority.toSigner(),
-          sourceA.toWritable(),
-          sourceB.toWritable(),
-          intoA.toWritable(),
-          intoB.toWritable(),
-          poolToken.toWritable(),
-          poolAccount.toWritable(),
-          mintA.toReadOnly(),
-          mintB.toReadOnly(),
-          tokenProgramIdA.toReadOnly(),
-          tokenProgramIdB.toReadOnly(),
-          poolTokenProgramId.toReadOnly(),
-        ],
-        programId: swapProgramId);
+      layout: layout,
+      keys: [
+        tokenSwap.toReadOnly(),
+        authority.toReadOnly(),
+        userTransferAuthority.toSigner(),
+        sourceA.toWritable(),
+        sourceB.toWritable(),
+        intoA.toWritable(),
+        intoB.toWritable(),
+        poolToken.toWritable(),
+        poolAccount.toWritable(),
+        mintA.toReadOnly(),
+        mintB.toReadOnly(),
+        tokenProgramIdA.toReadOnly(),
+        tokenProgramIdB.toReadOnly(),
+        poolTokenProgramId.toReadOnly(),
+      ],
+      programId: swapProgramId,
+    );
   }
 
   /// Deposit one type of tokens into the pool. The output is a "pool"
@@ -249,21 +253,22 @@ class SPLTokenSwapProgram extends TransactionInstruction {
     required SolAddress swapProgramId,
   }) {
     return SPLTokenSwapProgram(
-        layout: layout,
-        keys: [
-          tokenSwap.toReadOnly(),
-          authority.toReadOnly(),
-          userTransferAuthority.toSigner(),
-          source.toWritable(),
-          intoA.toWritable(),
-          intoB.toWritable(),
-          poolToken.toWritable(),
-          poolAccount.toWritable(),
-          sourceMint.toReadOnly(),
-          sourceTokenProgramId.toReadOnly(),
-          poolTokenProgramId.toReadOnly(),
-        ],
-        programId: swapProgramId);
+      layout: layout,
+      keys: [
+        tokenSwap.toReadOnly(),
+        authority.toReadOnly(),
+        userTransferAuthority.toSigner(),
+        source.toWritable(),
+        intoA.toWritable(),
+        intoB.toWritable(),
+        poolToken.toWritable(),
+        poolAccount.toWritable(),
+        sourceMint.toReadOnly(),
+        sourceTokenProgramId.toReadOnly(),
+        poolTokenProgramId.toReadOnly(),
+      ],
+      programId: swapProgramId,
+    );
   }
 
   /// Withdraw both types of tokens from the pool at the current ratio,
@@ -319,25 +324,26 @@ class SPLTokenSwapProgram extends TransactionInstruction {
     required SolAddress swapProgramId,
   }) {
     return SPLTokenSwapProgram(
-        layout: layout,
-        keys: [
-          tokenSwap.toReadOnly(),
-          authority.toReadOnly(),
-          userTransferAuthority.toSigner(),
-          poolMint.toWritable(),
-          sourcePoolAccount.toWritable(),
-          fromA.toWritable(),
-          fromB.toWritable(),
-          userAccountA.toWritable(),
-          userAccountB.toWritable(),
-          feeAccount.toWritable(),
-          mintA.toReadOnly(),
-          mintB.toReadOnly(),
-          poolTokenProgramId.toReadOnly(),
-          tokenProgramIdA.toReadOnly(),
-          tokenProgramIdB.toReadOnly(),
-        ],
-        programId: swapProgramId);
+      layout: layout,
+      keys: [
+        tokenSwap.toReadOnly(),
+        authority.toReadOnly(),
+        userTransferAuthority.toSigner(),
+        poolMint.toWritable(),
+        sourcePoolAccount.toWritable(),
+        fromA.toWritable(),
+        fromB.toWritable(),
+        userAccountA.toWritable(),
+        userAccountB.toWritable(),
+        feeAccount.toWritable(),
+        mintA.toReadOnly(),
+        mintB.toReadOnly(),
+        poolTokenProgramId.toReadOnly(),
+        tokenProgramIdA.toReadOnly(),
+        tokenProgramIdB.toReadOnly(),
+      ],
+      programId: swapProgramId,
+    );
   }
 
   /// Withdraw one token type from the pool at the current ratio given the
@@ -383,21 +389,22 @@ class SPLTokenSwapProgram extends TransactionInstruction {
     required SolAddress swapProgramId,
   }) {
     return SPLTokenSwapProgram(
-        layout: layout,
-        keys: [
-          tokenSwap.toReadOnly(),
-          authority.toReadOnly(),
-          userTransferAuthority.toSigner(),
-          poolMint.toWritable(),
-          sourcePoolAccount.toWritable(),
-          fromA.toWritable(),
-          fromB.toWritable(),
-          destinationAccount.toWritable(),
-          feeAccount.toWritable(),
-          destinationMint.toReadOnly(),
-          poolTokenProgramId.toReadOnly(),
-          destinationTokenProgramId.toReadOnly()
-        ],
-        programId: swapProgramId);
+      layout: layout,
+      keys: [
+        tokenSwap.toReadOnly(),
+        authority.toReadOnly(),
+        userTransferAuthority.toSigner(),
+        poolMint.toWritable(),
+        sourcePoolAccount.toWritable(),
+        fromA.toWritable(),
+        fromB.toWritable(),
+        destinationAccount.toWritable(),
+        feeAccount.toWritable(),
+        destinationMint.toReadOnly(),
+        poolTokenProgramId.toReadOnly(),
+        destinationTokenProgramId.toReadOnly(),
+      ],
+      programId: swapProgramId,
+    );
   }
 }

@@ -8,17 +8,20 @@ class MetaplexHydraSetTokenMemberStakeLayout
 
   factory MetaplexHydraSetTokenMemberStakeLayout.fromBuffer(List<int> data) {
     final decode = MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexHydraProgramInstruction
-            .processSetTokenMemberStake.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexHydraProgramInstruction
+              .processSetTokenMemberStake
+              .insturction,
+    );
     return MetaplexHydraSetTokenMemberStakeLayout(shares: decode['shares']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u64(property: 'shares')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'shares'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

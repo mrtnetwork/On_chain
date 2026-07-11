@@ -62,39 +62,43 @@ class ADAMempoolTransactionResponse {
       assetMintOrBurnCount: json['asset_mint_or_burn_count'],
       redeemerCount: json['redeemer_count'],
       validContract: json['valid_contract'],
-      inputs:
-          List<ADAInput>.from(json['inputs'].map((x) => ADAInput.fromJson(x))),
+      inputs: List<ADAInput>.from(
+        json['inputs'].map((x) => ADAInput.fromJson(x)),
+      ),
       outputs: List<ADAOutput>.from(
-          json['outputs'].map((x) => ADAOutput.fromJson(x))),
-      redeemers: json['redeemers'] != null
-          ? List<ADARedeemer>.from(
-              json['redeemers'].map((x) => ADARedeemer.fromJson(x)))
-          : null,
+        json['outputs'].map((x) => ADAOutput.fromJson(x)),
+      ),
+      redeemers:
+          json['redeemers'] != null
+              ? List<ADARedeemer>.from(
+                json['redeemers'].map((x) => ADARedeemer.fromJson(x)),
+              )
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'hash': hash,
-        'output_amount': outputAmount,
-        'fees': fees,
-        'deposit': deposit,
-        'size': size,
-        'invalid_before': invalidBefore,
-        'invalid_hereafter': invalidHereafter,
-        'utxo_count': utxoCount,
-        'withdrawal_count': withdrawalCount,
-        'mir_cert_count': mirCertCount,
-        'delegation_count': delegationCount,
-        'stake_cert_count': stakeCertCount,
-        'pool_update_count': poolUpdateCount,
-        'pool_retire_count': poolRetireCount,
-        'asset_mint_or_burn_count': assetMintOrBurnCount,
-        'redeemer_count': redeemerCount,
-        'valid_contract': validContract,
-        'inputs': inputs,
-        'outputs': outputs,
-        'redeemers': redeemers,
-      };
+    'hash': hash,
+    'output_amount': outputAmount,
+    'fees': fees,
+    'deposit': deposit,
+    'size': size,
+    'invalid_before': invalidBefore,
+    'invalid_hereafter': invalidHereafter,
+    'utxo_count': utxoCount,
+    'withdrawal_count': withdrawalCount,
+    'mir_cert_count': mirCertCount,
+    'delegation_count': delegationCount,
+    'stake_cert_count': stakeCertCount,
+    'pool_update_count': poolUpdateCount,
+    'pool_retire_count': poolRetireCount,
+    'asset_mint_or_burn_count': assetMintOrBurnCount,
+    'redeemer_count': redeemerCount,
+    'valid_contract': validContract,
+    'inputs': inputs,
+    'outputs': outputs,
+    'redeemers': redeemers,
+  };
 }
 
 class ADAInput {
@@ -123,12 +127,12 @@ class ADAInput {
   }
 
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'tx_hash': txHash,
-        'output_index': outputIndex,
-        'collateral': collateral,
-        'reference': reference,
-      };
+    'address': address,
+    'tx_hash': txHash,
+    'output_index': outputIndex,
+    'collateral': collateral,
+    'reference': reference,
+  };
 }
 
 class ADAOutput {
@@ -163,14 +167,14 @@ class ADAOutput {
   }
 
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'amount': amount,
-        'output_index': outputIndex,
-        'data_hash': dataHash,
-        'inline_datum': inlineDatum,
-        'collateral': collateral,
-        'reference_script_hash': referenceScriptHash,
-      };
+    'address': address,
+    'amount': amount,
+    'output_index': outputIndex,
+    'data_hash': dataHash,
+    'inline_datum': inlineDatum,
+    'collateral': collateral,
+    'reference_script_hash': referenceScriptHash,
+  };
 }
 
 class ADARedeemer {
@@ -196,9 +200,9 @@ class ADARedeemer {
   }
 
   Map<String, dynamic> toJson() => {
-        'tx_index': txIndex,
-        'purpose': purpose,
-        'unit_mem': unitMem,
-        'unit_steps': unitSteps,
-      };
+    'tx_index': txIndex,
+    'purpose': purpose,
+    'unit_mem': unitMem,
+    'unit_steps': unitSteps,
+  };
 }

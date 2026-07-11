@@ -10,42 +10,51 @@ class UpdateMetaData extends BorshLayoutSerializable {
   final bool? primarySaleHappened;
   final bool? isMutable;
   final List<Creator>? creators;
-  const UpdateMetaData(
-      {required this.name,
-      required this.symbol,
-      required this.uri,
-      required this.sellerFeeBasisPoints,
-      required this.primarySaleHappened,
-      required this.isMutable,
-      required this.creators});
+  const UpdateMetaData({
+    required this.name,
+    required this.symbol,
+    required this.uri,
+    required this.sellerFeeBasisPoints,
+    required this.primarySaleHappened,
+    required this.isMutable,
+    required this.creators,
+  });
   factory UpdateMetaData.fromJson(Map<String, dynamic> json) {
     return UpdateMetaData(
-        name: json['name'],
-        symbol: json['symbol'],
-        uri: json['uri'],
-        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
-        primarySaleHappened: json['primarySaleHappened'],
-        isMutable: json['isMutable'],
-        creators: json['creators'] == null
-            ? null
-            : (json['creators'] as List)
-                .map((e) => Creator.fromJson(e))
-                .toList());
+      name: json['name'],
+      symbol: json['symbol'],
+      uri: json['uri'],
+      sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
+      primarySaleHappened: json['primarySaleHappened'],
+      isMutable: json['isMutable'],
+      creators:
+          json['creators'] == null
+              ? null
+              : (json['creators'] as List)
+                  .map((e) => Creator.fromJson(e))
+                  .toList(),
+    );
   }
   factory UpdateMetaData.fromBuffer(List<int> bytes) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: bytes, layout: staticLayout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: bytes,
+      layout: staticLayout,
+    );
     return UpdateMetaData.fromJson(decode);
   }
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.optional(LayoutConst.string(), property: 'name'),
     LayoutConst.optional(LayoutConst.string(), property: 'symbol'),
     LayoutConst.optional(LayoutConst.string(), property: 'uri'),
-    LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-        property: 'creators'),
+    LayoutConst.optional(
+      LayoutConst.vec(Creator.creatorLayout),
+      property: 'creators',
+    ),
     LayoutConst.optional(LayoutConst.u16(), property: 'sellerFeeBasisPoints'),
-    LayoutConst.optional(LayoutConst.boolean(),
-        property: 'primarySaleHappened'),
+    LayoutConst.optional(
+      LayoutConst.boolean(),
+      property: 'primarySaleHappened',
+    ),
     LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
   ], property: 'updateMetaData');
 
@@ -60,7 +69,7 @@ class UpdateMetaData extends BorshLayoutSerializable {
       'sellerFeeBasisPoints': sellerFeeBasisPoints,
       'primarySaleHappened': primarySaleHappened,
       'isMutable': isMutable,
-      'creators': creators?.map((e) => e.serialize()).toList()
+      'creators': creators?.map((e) => e.serialize()).toList(),
     };
   }
 

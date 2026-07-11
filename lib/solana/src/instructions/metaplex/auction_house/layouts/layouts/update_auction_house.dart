@@ -6,35 +6,36 @@ class MetaplexAuctionHouseUpdateAuctionHouseLayout
   final int? sellerFeeBasisPoints;
   final bool? requiresSignOff;
   final bool? canChangeSalePrice;
-  const MetaplexAuctionHouseUpdateAuctionHouseLayout(
-      {this.sellerFeeBasisPoints,
-      this.requiresSignOff,
-      this.canChangeSalePrice});
+  const MetaplexAuctionHouseUpdateAuctionHouseLayout({
+    this.sellerFeeBasisPoints,
+    this.requiresSignOff,
+    this.canChangeSalePrice,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseUpdateAuctionHouseLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .updateAuctionHouse.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.updateAuctionHouse.insturction,
+    );
     return MetaplexAuctionHouseUpdateAuctionHouseLayout(
-        canChangeSalePrice: decode['canChangeSalePrice'],
-        requiresSignOff: decode['requiresSignOff'],
-        sellerFeeBasisPoints: decode['sellerFeeBasisPoints']);
+      canChangeSalePrice: decode['canChangeSalePrice'],
+      requiresSignOff: decode['requiresSignOff'],
+      sellerFeeBasisPoints: decode['sellerFeeBasisPoints'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.optional(LayoutConst.u16(),
-            property: 'sellerFeeBasisPoints'),
-        LayoutConst.optional(LayoutConst.boolean(),
-            property: 'requiresSignOff'),
-        LayoutConst.optional(LayoutConst.boolean(),
-            property: 'canChangeSalePrice'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.optional(LayoutConst.u16(), property: 'sellerFeeBasisPoints'),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'requiresSignOff'),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'canChangeSalePrice'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -48,7 +49,7 @@ class MetaplexAuctionHouseUpdateAuctionHouseLayout
     return {
       'sellerFeeBasisPoints': sellerFeeBasisPoints,
       'requiresSignOff': requiresSignOff,
-      'canChangeSalePrice': canChangeSalePrice
+      'canChangeSalePrice': canChangeSalePrice,
     };
   }
 }

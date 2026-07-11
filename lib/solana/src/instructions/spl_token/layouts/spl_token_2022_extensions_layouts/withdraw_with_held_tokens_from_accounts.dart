@@ -7,25 +7,28 @@ class SPLToken2022WithdrawWithheldTokensFromAccountsLayout
     extends SPLTokenProgramLayout {
   /// Number of token accounts harvested
   final int numTokenAccounts;
-  SPLToken2022WithdrawWithheldTokensFromAccountsLayout(
-      {required this.numTokenAccounts});
+  SPLToken2022WithdrawWithheldTokensFromAccountsLayout({
+    required this.numTokenAccounts,
+  });
 
   factory SPLToken2022WithdrawWithheldTokensFromAccountsLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
       instruction: SPLTokenProgramInstruction.transferFeeExtension.insturction,
     );
     return SPLToken2022WithdrawWithheldTokensFromAccountsLayout(
-        numTokenAccounts: decode['numTokenAccounts']);
+      numTokenAccounts: decode['numTokenAccounts'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'transferFee'),
-        LayoutConst.u8(property: 'numTokenAccounts'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'transferFee'),
+    LayoutConst.u8(property: 'numTokenAccounts'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -37,9 +40,11 @@ class SPLToken2022WithdrawWithheldTokensFromAccountsLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      'transferFee': TransferFeeInstructionInstruction
-          .withdrawWithheldTokensFromAccounts.value,
-      'numTokenAccounts': numTokenAccounts
+      'transferFee':
+          TransferFeeInstructionInstruction
+              .withdrawWithheldTokensFromAccounts
+              .value,
+      'numTokenAccounts': numTokenAccounts,
     };
   }
 }

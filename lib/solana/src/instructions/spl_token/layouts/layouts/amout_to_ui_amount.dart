@@ -13,16 +13,17 @@ class SPLTokenAmountToUiAmountLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for SPLTokenAmountToUiAmountLayout.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   /// Constructs an SPLTokenAmountToUiAmountLayout instance from buffer.
   factory SPLTokenAmountToUiAmountLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.amountToUiAmount.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.amountToUiAmount.insturction,
+    );
     return SPLTokenAmountToUiAmountLayout(amount: decode['amount']);
   }
 

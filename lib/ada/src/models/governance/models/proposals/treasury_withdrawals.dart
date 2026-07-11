@@ -5,17 +5,17 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 class TreasuryWithdrawals with InternalCborSerialization {
   final Map<ADARewardAddress, BigInt> withdrawals;
   TreasuryWithdrawals(Map<ADARewardAddress, BigInt> withdrawals)
-      : withdrawals = withdrawals.immutable;
+    : withdrawals = withdrawals.immutable;
   factory TreasuryWithdrawals.deserialize(CborMapValue cbor) {
     return TreasuryWithdrawals({
-      for (final i in cbor.valueAsMap<CborBytesValue, CborObject>().entries)
-        ADAAddress.deserialize(i.key): i.value.as<CborNumeric>().toBigInt()
+      for (final i in cbor.asMap<CborBytesValue, CborObject>().entries)
+        ADAAddress.deserialize(i.key): i.value.as<CborNumeric>().toBigInt(),
     });
   }
   factory TreasuryWithdrawals.fromJson(Map<String, dynamic> json) {
     return TreasuryWithdrawals({
       for (final i in json.entries)
-        ADARewardAddress(i.key): BigintUtils.parse(i.value)
+        ADARewardAddress(i.key): BigintUtils.parse(i.value),
     });
   }
 
@@ -23,14 +23,14 @@ class TreasuryWithdrawals with InternalCborSerialization {
   CborObject toCbor() {
     return CborMapValue.definite({
       for (final i in withdrawals.entries)
-        i.key.toCbor(): CborSafeIntValue(i.value)
+        i.key.toCbor(): CborSafeIntValue(i.value),
     });
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      for (final i in withdrawals.entries) i.key.address: i.value.toString()
+      for (final i in withdrawals.entries) i.key.address: i.value.toString(),
     };
   }
 }

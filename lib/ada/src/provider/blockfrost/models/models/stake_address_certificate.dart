@@ -15,7 +15,8 @@ class ADATransactionStakeAddressCertificateResponse {
   });
 
   factory ADATransactionStakeAddressCertificateResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADATransactionStakeAddressCertificateResponse(
       certIndex: json['cert_index'],
       address: json['address'],

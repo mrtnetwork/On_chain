@@ -1,12 +1,18 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 class AptosGraphQLRequestGetDelegatedStakingActivities
-    extends AptosGraphQLRequest<List<AptosGraphQLDelegatedStakingActivity>,
-        Map<String, dynamic>> {
-  AptosGraphQLRequestGetDelegatedStakingActivities(
-      {required this.delegatorAddress, this.poolAddress, this.headers});
+    extends
+        AptosGraphQLRequest<
+          List<AptosGraphQLDelegatedStakingActivity>,
+          Map<String, dynamic>
+        > {
+  AptosGraphQLRequestGetDelegatedStakingActivities({
+    required this.delegatorAddress,
+    this.poolAddress,
+    this.headers,
+  });
   @override
   final Map<String, String>? headers;
   final String? delegatorAddress;
@@ -15,14 +21,17 @@ class AptosGraphQLRequestGetDelegatedStakingActivities
   @override
   String get method => AptosGraphqlQueriesConst.getDelegatedStakingActivities;
   @override
-  Map<String, dynamic> get queryVariables =>
-      {"delegatorAddress": delegatorAddress, "poolAddress": poolAddress};
+  Map<String, dynamic> get queryVariables => {
+    "delegatorAddress": delegatorAddress,
+    "poolAddress": poolAddress,
+  };
 
   @override
   List<AptosGraphQLDelegatedStakingActivity> onResonse(
-      Map<String, dynamic> result) {
+    Map<String, dynamic> result,
+  ) {
     return result
-        .asListOfMap("delegated_staking_activities")!
+        .valueEnsureAsList<Map<String, dynamic>>("delegated_staking_activities")
         .map((e) => AptosGraphQLDelegatedStakingActivity.fromJson(e))
         .toList();
   }

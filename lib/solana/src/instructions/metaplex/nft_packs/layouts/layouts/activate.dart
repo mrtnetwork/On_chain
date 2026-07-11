@@ -7,9 +7,10 @@ class MetaplexNFTPacksActivateLayout extends MetaplexNFTPacksProgramLayout {
 
   factory MetaplexNFTPacksActivateLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexNFTPacksProgramInstruction.activate.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexNFTPacksProgramInstruction.activate.insturction,
+    );
     return const MetaplexNFTPacksActivateLayout();
   }
 

@@ -11,17 +11,21 @@ abstract class AssociatedTokenAccountProgramLayout extends ProgramLayout {
       if (data.isEmpty) {
         return AssociatedTokenAccountProgramInitializeLayout.fromBuffer(data);
       }
-      final decode =
-          ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+      final decode = ProgramLayout.decodeAndValidateStruct(
+        layout: _layout,
+        bytes: data,
+      );
       final instruction =
           AssociatedTokenAccountProgramInstruction.getInstruction(
-              decode['instruction']);
+            decode['instruction'],
+          );
       switch (instruction) {
         case AssociatedTokenAccountProgramInstruction.idempotent:
           return AssociatedTokenAccountProgramIdempotentLayout.fromBuffer(data);
         case AssociatedTokenAccountProgramInstruction.recoverNested:
           return AssociatedTokenAccountProgramRecoverNestedLayout.fromBuffer(
-              data);
+            data,
+          );
         case AssociatedTokenAccountProgramInstruction.initialize:
           return AssociatedTokenAccountProgramInitializeLayout.fromBuffer(data);
         default:

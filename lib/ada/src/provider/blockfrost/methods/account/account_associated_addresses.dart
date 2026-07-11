@@ -7,9 +7,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/specific-account-address
 class BlockfrostRequestAccountAssociatedAddresses
     extends BlockFrostRequest<List<String>, List<Map<String, dynamic>>> {
-  BlockfrostRequestAccountAssociatedAddresses(this.stakeAddress,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+  BlockfrostRequestAccountAssociatedAddresses(
+    this.stakeAddress, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// stake address.
   final ADARewardAddress stakeAddress;

@@ -19,25 +19,26 @@ class AptosRequestEncodeSubmission
   final String expirationTimestampSecs;
   final Object payload;
   final List<String>? secondarySigners;
-  AptosRequestEncodeSubmission(
-      {required this.sender,
-      required this.sequenceNumber,
-      required this.maxGasAmount,
-      required this.gasUnitPrice,
-      required this.expirationTimestampSecs,
-      required this.payload,
-      this.secondarySigners});
+  AptosRequestEncodeSubmission({
+    required this.sender,
+    required this.sequenceNumber,
+    required this.maxGasAmount,
+    required this.gasUnitPrice,
+    required this.expirationTimestampSecs,
+    required this.payload,
+    this.secondarySigners,
+  });
   @override
   String get method => AptosApiMethod.encodeSubmission.url;
 
   @override
   Map<String, dynamic> get body => {
-        "sender": sender.address,
-        "sequence_number": sequenceNumber,
-        "max_gas_amount": maxGasAmount,
-        "gas_unit_price": gasUnitPrice,
-        "expiration_timestamp_secs": expirationTimestampSecs,
-        "payload": payload,
-        "secondary_signers": secondarySigners
-      }..removeWhere((k, v) => v == null);
+    "sender": sender.address,
+    "sequence_number": sequenceNumber,
+    "max_gas_amount": maxGasAmount,
+    "gas_unit_price": gasUnitPrice,
+    "expiration_timestamp_secs": expirationTimestampSecs,
+    "payload": payload,
+    "secondary_signers": secondarySigners,
+  }..removeWhere((k, v) => v == null);
 }

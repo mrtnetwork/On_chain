@@ -7,9 +7,10 @@ class MetaplexNFTPacksCleanUpLayout extends MetaplexNFTPacksProgramLayout {
 
   factory MetaplexNFTPacksCleanUpLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexNFTPacksProgramInstruction.cleanUp.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexNFTPacksProgramInstruction.cleanUp.insturction,
+    );
     return const MetaplexNFTPacksCleanUpLayout();
   }
 

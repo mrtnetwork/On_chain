@@ -16,32 +16,40 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
   /// (`*b"USD\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
   /// `) or SPL token mint pubkey
   final List<int> quoteCurrency;
-  TokenLendingInitLendingMarketLayout._(
-      {required this.owner, required List<int> quoteCurrency})
-      : quoteCurrency = quoteCurrency.asImmutableBytes;
-  factory TokenLendingInitLendingMarketLayout(
-      {required SolAddress owner, required List<int> quoteCurrency}) {
+  TokenLendingInitLendingMarketLayout._({
+    required this.owner,
+    required List<int> quoteCurrency,
+  }) : quoteCurrency = quoteCurrency.asImmutableBytes;
+  factory TokenLendingInitLendingMarketLayout({
+    required SolAddress owner,
+    required List<int> quoteCurrency,
+  }) {
     if (quoteCurrency.length != 32) {
       throw const SolanaPluginException(
-          'quoteCurrency must not exceed 32 bytes.');
+        'quoteCurrency must not exceed 32 bytes.',
+      );
     }
     return TokenLendingInitLendingMarketLayout._(
-        owner: owner, quoteCurrency: quoteCurrency);
+      owner: owner,
+      quoteCurrency: quoteCurrency,
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('owner'),
-        LayoutConst.blob(32, property: 'quoteCurrency'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('owner'),
+    LayoutConst.blob(32, property: 'quoteCurrency'),
+  ]);
 
   factory TokenLendingInitLendingMarketLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            TokenLendingProgramInstruction.initLendingMarket.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: TokenLendingProgramInstruction.initLendingMarket.insturction,
+    );
     return TokenLendingInitLendingMarketLayout(
-        quoteCurrency: decode['quoteCurrency'], owner: decode['owner']);
+      quoteCurrency: decode['quoteCurrency'],
+      owner: decode['owner'],
+    );
   }
 
   @override

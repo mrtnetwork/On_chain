@@ -18,9 +18,10 @@ class SystemProgram extends TransactionInstruction {
     SolAddress programId = SystemProgramConst.programId,
   }) {
     return SystemProgram(
-        layout: SystemProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: SystemProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Transfer system transaction
@@ -34,12 +35,13 @@ class SystemProgram extends TransactionInstruction {
     required SolAddress to,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          AccountMeta(publicKey: from, isSigner: true, isWritable: true),
-          AccountMeta(publicKey: to, isSigner: false, isWritable: true)
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        AccountMeta(publicKey: from, isSigner: true, isWritable: true),
+        AccountMeta(publicKey: to, isSigner: false, isWritable: true),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Create account system transaction
@@ -52,12 +54,13 @@ class SystemProgram extends TransactionInstruction {
     required SystemCreateLayout layout,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          from.toSignerAndWritable(),
-          newAccountPubKey.toSignerAndWritable()
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        from.toSignerAndWritable(),
+        newAccountPubKey.toSignerAndWritable(),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Transfer with seed system transaction
@@ -73,14 +76,14 @@ class SystemProgram extends TransactionInstruction {
     required SystemTransferWithSeedLayout layout,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          AccountMeta(publicKey: from, isSigner: false, isWritable: true),
-          AccountMeta(
-              publicKey: baseAccount, isSigner: true, isWritable: false),
-          AccountMeta(publicKey: to, isSigner: false, isWritable: true)
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        AccountMeta(publicKey: from, isSigner: false, isWritable: true),
+        AccountMeta(publicKey: baseAccount, isSigner: true, isWritable: false),
+        AccountMeta(publicKey: to, isSigner: false, isWritable: true),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Create account with seed system transaction
@@ -96,12 +99,13 @@ class SystemProgram extends TransactionInstruction {
     required SystemCreateWithSeedLayout layout,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          AccountMeta(publicKey: from, isSigner: true, isWritable: true),
-          AccountMeta(publicKey: newAccount, isSigner: false, isWritable: true)
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        AccountMeta(publicKey: from, isSigner: true, isWritable: true),
+        AccountMeta(publicKey: newAccount, isSigner: false, isWritable: true),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Assign system transaction
@@ -111,11 +115,10 @@ class SystemProgram extends TransactionInstruction {
     required SystemAssignLayout layout,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          AccountMeta(publicKey: account, isSigner: true, isWritable: true)
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [AccountMeta(publicKey: account, isSigner: true, isWritable: true)],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Assign account with seed system transaction
@@ -125,28 +128,30 @@ class SystemProgram extends TransactionInstruction {
     required SystemAssignWithSeedLayout layout,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          AccountMeta(publicKey: account, isSigner: false, isWritable: true),
-          AccountMeta(publicKey: layout.base, isSigner: true, isWritable: true)
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        AccountMeta(publicKey: account, isSigner: false, isWritable: true),
+        AccountMeta(publicKey: layout.base, isSigner: true, isWritable: true),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Initialize nonce account system
-  factory SystemProgram.nonceInitialize(
-      {
-      /// Nonce account which will be initialized
-      required SolAddress noncePubKey,
-      required SystemInitializeNonceAccountLayout layout}) {
+  factory SystemProgram.nonceInitialize({
+    /// Nonce account which will be initialized
+    required SolAddress noncePubKey,
+    required SystemInitializeNonceAccountLayout layout,
+  }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          noncePubKey.toWritable(),
-          SystemProgramConst.sysvarRecentBlockhashesPubkey.toReadOnly(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        noncePubKey.toWritable(),
+        SystemProgramConst.sysvarRecentBlockhashesPubkey.toReadOnly(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Advance nonce account system
@@ -158,13 +163,14 @@ class SystemProgram extends TransactionInstruction {
     required SolAddress noncePubKey,
   }) {
     return SystemProgram(
-        layout: const SystemAdvanceNonceLayout(),
-        keys: [
-          noncePubKey.toWritable(),
-          SystemProgramConst.sysvarRecentBlockhashesPubkey.toReadOnly(),
-          authorizedPubkey.toSigner()
-        ],
-        programId: SystemProgramConst.programId);
+      layout: const SystemAdvanceNonceLayout(),
+      keys: [
+        noncePubKey.toWritable(),
+        SystemProgramConst.sysvarRecentBlockhashesPubkey.toReadOnly(),
+        authorizedPubkey.toSigner(),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Withdraw nonce account system transaction
@@ -180,35 +186,39 @@ class SystemProgram extends TransactionInstruction {
     required SystemWithdrawNonceLayout layout,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          noncePubKey.toWritable(),
-          toPubKey.toWritable(),
-          SystemProgramConst.sysvarRecentBlockhashesPubkey.toReadOnly(),
-          SystemProgramConst.sysvarRentPubkey.toReadOnly(),
-          authorizedPubkey.toSigner(),
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        noncePubKey.toWritable(),
+        toPubKey.toWritable(),
+        SystemProgramConst.sysvarRecentBlockhashesPubkey.toReadOnly(),
+        SystemProgramConst.sysvarRentPubkey.toReadOnly(),
+        authorizedPubkey.toSigner(),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Authorize nonce account system transaction
-  factory SystemProgram.nonceAuthorize(
-      {
-      /// address of the current nonce authority
-      required SolAddress authorizedPubkey,
+  factory SystemProgram.nonceAuthorize({
+    /// address of the current nonce authority
+    required SolAddress authorizedPubkey,
 
-      /// Nonce account
-      required SolAddress noncePubKey,
-      required SystemAuthorizeNonceAccountLayout layout}) {
+    /// Nonce account
+    required SolAddress noncePubKey,
+    required SystemAuthorizeNonceAccountLayout layout,
+  }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          AccountMeta(
-              publicKey: noncePubKey, isSigner: false, isWritable: true),
-          AccountMeta(
-              publicKey: authorizedPubkey, isSigner: true, isWritable: false)
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        AccountMeta(publicKey: noncePubKey, isSigner: false, isWritable: true),
+        AccountMeta(
+          publicKey: authorizedPubkey,
+          isSigner: true,
+          isWritable: false,
+        ),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Allocate account system transaction
@@ -218,24 +228,29 @@ class SystemProgram extends TransactionInstruction {
     required SystemAllocateLayout layout,
   }) {
     return SystemProgram(
-        layout: layout,
-        keys: [accountPubkey.toSignerAndWritable()],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [accountPubkey.toSignerAndWritable()],
+      programId: SystemProgramConst.programId,
+    );
   }
 
   /// Allocate account with seed system transaction
-  factory SystemProgram.allocateWithcSeed(
-      {
-      /// Account to allocate
-      required SolAddress accountPubkey,
-      required SystemAllocateWithSeedLayout layout}) {
+  factory SystemProgram.allocateWithcSeed({
+    /// Account to allocate
+    required SolAddress accountPubkey,
+    required SystemAllocateWithSeedLayout layout,
+  }) {
     return SystemProgram(
-        layout: layout,
-        keys: [
-          AccountMeta(
-              publicKey: accountPubkey, isSigner: false, isWritable: true),
-          layout.base.toSigner(),
-        ],
-        programId: SystemProgramConst.programId);
+      layout: layout,
+      keys: [
+        AccountMeta(
+          publicKey: accountPubkey,
+          isSigner: false,
+          isWritable: true,
+        ),
+        layout.base.toSigner(),
+      ],
+      programId: SystemProgramConst.programId,
+    );
   }
 }

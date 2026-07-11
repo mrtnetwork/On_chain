@@ -2,38 +2,35 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Withdraws the transaction pair.
 class ExchangeWithdrawContract extends TronBaseContract {
   /// Create a new [ExchangeWithdrawContract] instance by parsing a JSON map.
   factory ExchangeWithdrawContract.fromJson(Map<String, dynamic> json) {
     return ExchangeWithdrawContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      exchangeId: OnChainUtils.parseBigInt(
-          value: json['exchange_id'], name: 'exchange_id'),
-      tokenId:
-          OnChainUtils.parseBytes(value: json['token_id'], name: 'token_id'),
-      quant: OnChainUtils.parseBigInt(value: json['quant'], name: 'quant'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      exchangeId: json.valueAsBigInt("exchange_id"),
+      tokenId: json.valueAsBytes("token_id", encoding: StringEncoding.utf8),
+      quant: json.valueAsBigInt("quant"),
     );
   }
   factory ExchangeWithdrawContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return ExchangeWithdrawContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        exchangeId: decode.getField(2),
-        tokenId: decode.getField(3),
-        quant: decode.getField(4));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      exchangeId: decode.getField(2),
+      tokenId: decode.getField(3),
+      quant: decode.getField(4),
+    );
   }
 
   /// Create a new [ExchangeWithdrawContract] instance with specified parameters.
-  ExchangeWithdrawContract(
-      {required this.ownerAddress,
-      this.exchangeId,
-      List<int>? tokenId,
-      this.quant})
-      : tokenId = BytesUtils.tryToBytes(tokenId);
+  ExchangeWithdrawContract({
+    required this.ownerAddress,
+    this.exchangeId,
+    List<int>? tokenId,
+    this.quant,
+  }) : tokenId = BytesUtils.tryToBytes(tokenId);
 
   /// Account address
   @override

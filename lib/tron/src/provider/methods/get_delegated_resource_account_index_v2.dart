@@ -8,8 +8,10 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getdelegatedresourceaccountindexv2-1).
 class TronRequestGetDelegatedResourceAccountIndexV2
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetDelegatedResourceAccountIndexV2(
-      {required this.value, this.visible = true});
+  TronRequestGetDelegatedResourceAccountIndexV2({
+    required this.value,
+    this.visible = true,
+  });
 
   /// account address
   final TronAddress value;

@@ -19,10 +19,11 @@ class TronRequestGetChainParameters
 
   @override
   TronChainParameters onResonse(result) {
-    final List<Map<String, dynamic>> chainParams =
-        List.from(result['chainParameter']);
+    final List<Map<String, dynamic>> chainParams = List.from(
+      result['chainParameter'],
+    );
     final Map<String, dynamic> params = {
-      for (final i in chainParams) i['key']: i['value']
+      for (final i in chainParams) i['key']: i['value'],
     };
     return TronChainParameters.fromJson(params);
   }

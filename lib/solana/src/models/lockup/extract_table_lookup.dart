@@ -8,9 +8,9 @@ class ExtractTableLookup {
     required List<SolAddress> readable,
     required List<SolAddress> writable,
     required this.lookup,
-  })   // Ensure readable and writable lists are unmodifiable.
+  }) // Ensure readable and writable lists are unmodifiable.
   : readable = List<SolAddress>.unmodifiable(readable),
-        writable = List<SolAddress>.unmodifiable(writable);
+       writable = List<SolAddress>.unmodifiable(writable);
 
   /// List of readable addresses associated with the lookup.
   final List<SolAddress> readable;

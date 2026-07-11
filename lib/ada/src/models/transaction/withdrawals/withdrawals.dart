@@ -8,18 +8,20 @@ class Withdrawals with InternalCborSerialization {
   final Map<ADARewardAddress, BigInt> withdrawals;
 
   Withdrawals(Map<ADARewardAddress, BigInt> withdrawals)
-      : withdrawals = Map<ADARewardAddress, BigInt>.unmodifiable(withdrawals);
+    : withdrawals = Map<ADARewardAddress, BigInt>.unmodifiable(withdrawals);
   factory Withdrawals.deserialize(CborMapValue cbor) {
     return Withdrawals({
-      for (final i in cbor.valueAsMap<CborObject, CborObject>().entries)
-        ADAAddress.deserialize<ADARewardAddress>(i.key.as("Withdrawals")):
-            i.value.as<CborNumeric>("Withdrawals").toBigInt()
+      for (final i in cbor.asMap<CborObject, CborObject>().entries)
+        ADAAddress.deserialize<ADARewardAddress>(
+              i.key.as(operation: "Withdrawals"),
+            ):
+            i.value.as<CborNumeric>(operation: "Withdrawals").toBigInt(),
     });
   }
   factory Withdrawals.fromJson(Map<String, dynamic> json) {
     return Withdrawals({
       for (final i in (json["withdrawals"] as Map).entries)
-        ADAAddress.fromAddress(i.key): BigintUtils.parse(i.value)
+        ADAAddress.fromAddress(i.key): BigintUtils.parse(i.value),
     });
   }
   Withdrawals copyWith({Map<ADARewardAddress, BigInt>? withdrawals}) {
@@ -30,7 +32,7 @@ class Withdrawals with InternalCborSerialization {
   CborObject toCbor() {
     return CborMapValue.definite({
       for (final i in withdrawals.entries)
-        i.key.toCbor(): CborUnsignedValue.u64(i.value)
+        i.key.toCbor(): CborUnsignedValue.u64(i.value),
     });
   }
 
@@ -38,8 +40,8 @@ class Withdrawals with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "withdrawals": {
-        for (final i in withdrawals.entries) i.key.toJson(): i.value.toString()
-      }
+        for (final i in withdrawals.entries) i.key.toJson(): i.value.toString(),
+      },
     };
   }
 }

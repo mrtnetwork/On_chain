@@ -8,13 +8,13 @@ class ExUnits with InternalCborSerialization {
   const ExUnits({required this.mem, required this.steps});
 
   factory ExUnits.deserialize(CborListValue cbor) {
-    return ExUnits(
-        mem: cbor.elementAsInteger(0), steps: cbor.elementAsInteger(1));
+    return ExUnits(mem: cbor.rawValueAt(0), steps: cbor.rawValueAt(1));
   }
   factory ExUnits.fromJson(Map<String, dynamic> json) {
     return ExUnits(
-        mem: BigintUtils.parse(json['mem']),
-        steps: BigintUtils.parse(json['steps']));
+      mem: BigintUtils.parse(json['mem']),
+      steps: BigintUtils.parse(json['steps']),
+    );
   }
   ExUnits copyWith({BigInt? mem, BigInt? steps}) {
     return ExUnits(mem: mem ?? this.mem, steps: steps ?? this.steps);
@@ -22,8 +22,10 @@ class ExUnits with InternalCborSerialization {
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite(
-        [CborUnsignedValue.u64(mem), CborUnsignedValue.u64(steps)]);
+    return CborListValue.definite([
+      CborUnsignedValue.u64(mem),
+      CborUnsignedValue.u64(steps),
+    ]);
   }
 
   @override

@@ -19,8 +19,11 @@ class AptosRequestGetRawTableItem extends AptosPostRequest<dynamic, dynamic> {
   /// All bytes (Vec) data is represented as hex-encoded string prefixed with 0x
   /// and fulfilled with two hex digits per byte. Unlike the Address type, HexEncodedBytes will not trim any zeros.
   final String key;
-  AptosRequestGetRawTableItem(
-      {required this.tableHandle, required this.key, this.ledgerVersion});
+  AptosRequestGetRawTableItem({
+    required this.tableHandle,
+    required this.key,
+    this.ledgerVersion,
+  });
 
   @override
   String get method => AptosApiMethod.getRawTableItem.url;
@@ -29,8 +32,9 @@ class AptosRequestGetRawTableItem extends AptosPostRequest<dynamic, dynamic> {
   List<String> get pathParameters => [tableHandle.address];
 
   @override
-  Map<String, String?> get queryParameters =>
-      {"ledger_version": ledgerVersion?.toString()};
+  Map<String, String?> get queryParameters => {
+    "ledger_version": ledgerVersion?.toString(),
+  };
 
   @override
   Map<String, dynamic> get body => {"key": key};

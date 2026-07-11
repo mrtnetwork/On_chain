@@ -1,6 +1,6 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 class AptosGraphQLRequestGetEvents
     extends AptosGraphQLRequest<List<AptosGraphQLEvent>, Map<String, dynamic>> {
@@ -17,7 +17,7 @@ class AptosGraphQLRequestGetEvents
   @override
   List<AptosGraphQLEvent> onResonse(Map<String, dynamic> result) {
     return result
-        .asListOfMap("events")!
+        .valueEnsureAsList<Map<String, dynamic>>("events")
         .map((e) => AptosGraphQLEvent.fromJson(e))
         .toList();
   }

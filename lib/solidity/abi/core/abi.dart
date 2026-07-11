@@ -41,8 +41,10 @@ abstract class ABICoder<INPUT extends Object, OUTPUT extends Object> {
     correctType ??= type;
     final t = _types[correctType];
     if (t == null) {
-      throw SolidityAbiException('Unsuported ABI type. codec not found',
-          details: {'type': type});
+      throw SolidityAbiException(
+        'Unsuported ABI type. codec not found',
+        details: {'type': type},
+      );
     }
     // Return the corresponding ABICoder instance
     return t as ABICoder<INPUT, OUTPUT>;
@@ -100,7 +102,8 @@ class AbiParameter with InternalCborSerialization {
       name: name ?? this.name,
       type: type ?? this.type,
       indexed: indexed ?? this.indexed,
-      components: components ??
+      components:
+          components ??
           List<AbiParameter>.unmodifiable(components ?? this.components),
       internalType: internalType ?? this.internalType,
     );
@@ -116,24 +119,27 @@ class AbiParameter with InternalCborSerialization {
       internalType: json.valueAs("internalType"),
       indexed: json.valueAs<bool?>("indexed") ?? false,
       components: List<AbiParameter>.unmodifiable(
-          inputs.map((e) => AbiParameter.fromJson(e)).toList()),
+        inputs.map((e) => AbiParameter.fromJson(e)).toList(),
+      ),
     );
   }
 
   factory AbiParameter.deserialize({List<int>? cborBytes, CborObject? cbor}) {
-    final values = QuickCborObject.cborTagValue(
-        cborBytes: cborBytes,
-        object: cbor,
-        tags: InternalCborSerializationConst.defaultTag);
+    final values = CborSerializable.decodeTaggedValue<CborListValue>(
+      cborBytes: cborBytes,
+      cborObject: cbor,
+      tagIds: InternalCborSerializationConst.defaultTag,
+    );
     return AbiParameter(
-      name: values.elementAtString<String?>(0),
-      type: values.elementAtString<String>(1),
-      indexed: values.elementAt<CborBoleanValue>(2).value,
-      internalType: values.elementAtString<String?>(3),
-      components: values
-          .elementAsListOf<CborTagValue>(4)
-          .map((e) => AbiParameter.deserialize(cbor: e))
-          .toList(),
+      name: values.rawValueAt<String?>(0),
+      type: values.rawValueAt<String>(1),
+      indexed: values.rawValueAt<bool>(2),
+      internalType: values.rawValueAt<String?>(3),
+      components:
+          values
+              .listAt<CborTagValue>(4)
+              .map((e) => AbiParameter.deserialize(cbor: e))
+              .toList(),
     );
   }
 
@@ -192,20 +198,23 @@ class AbiParameter with InternalCborSerialization {
   @override
   CborTagValue<CborListValue> toCbor() {
     return CborTagValue(
-        CborListValue.definite([
+      CborListValue.definite(
+        [
           switch (name) {
             final String name => CborStringValue(name),
-            _ => CborNullValue()
+            _ => CborNullValue(),
           },
           CborStringValue(type),
           CborBoleanValue(indexed),
           switch (internalType) {
             final String internalType => CborStringValue(internalType),
-            _ => CborNullValue()
+            _ => CborNullValue(),
           },
-          CborListValue.definite(components.map((e) => e.toCbor()).toList())
-        ].cast()),
-        InternalCborSerializationConst.defaultTag);
+          CborListValue.definite(components.map((e) => e.toCbor()).toList()),
+        ].cast(),
+      ),
+      InternalCborSerializationConst.defaultTag,
+    );
   }
 
   @override
@@ -215,7 +224,7 @@ class AbiParameter with InternalCborSerialization {
       "name": name,
       "type": type,
       "internalType": internalType,
-      if (isEvent) "indexed": indexed
+      if (isEvent) "indexed": indexed,
     }.notNullValue;
   }
 }
@@ -231,8 +240,11 @@ class EncoderResult {
   final String? name;
 
   /// Constructor for EncoderResult.
-  const EncoderResult(
-      {required this.isDynamic, required this.encoded, required this.name});
+  const EncoderResult({
+    required this.isDynamic,
+    required this.encoded,
+    required this.name,
+  });
 }
 
 /// Represents the result of decoding data using ABI decoding.
@@ -246,8 +258,11 @@ class DecoderResult<T> {
   final String? name;
 
   /// Constructor for DecoderResult.
-  const DecoderResult(
-      {required this.result, required this.consumed, required this.name});
+  const DecoderResult({
+    required this.result,
+    required this.consumed,
+    required this.name,
+  });
 
   /// Overrides the default toString method to provide a readable representation of DecoderResult.
   @override

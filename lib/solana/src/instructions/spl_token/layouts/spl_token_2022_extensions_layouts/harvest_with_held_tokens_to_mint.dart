@@ -8,7 +8,8 @@ class SPLToken2022HarvestWithheldTokensToMintLayout
   SPLToken2022HarvestWithheldTokensToMintLayout();
 
   factory SPLToken2022HarvestWithheldTokensToMintLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
@@ -18,9 +19,9 @@ class SPLToken2022HarvestWithheldTokensToMintLayout
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'transferFee'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'transferFee'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

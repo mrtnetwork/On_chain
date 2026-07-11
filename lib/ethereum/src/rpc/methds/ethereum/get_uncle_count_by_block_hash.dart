@@ -5,9 +5,7 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_getUncleCountByBlockHash)
 class EthereumRequestGetGetUncleCountByBlockHash
     extends EthereumRequest<int, Object> {
-  EthereumRequestGetGetUncleCountByBlockHash({
-    required this.blockHash,
-  });
+  EthereumRequestGetGetUncleCountByBlockHash({required this.blockHash});
 
   /// eth_getUncleCountByBlockHash
   @override

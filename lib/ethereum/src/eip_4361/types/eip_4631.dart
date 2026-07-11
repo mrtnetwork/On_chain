@@ -29,40 +29,45 @@ class EIP4631 {
   bool get hasVersion => version != null;
   bool get hasRequestId => version != null;
 
-  factory EIP4631(
-      {required String domain,
-      required String address,
-      String? statement,
-      String? uri,
-      String? version,
-      String? chainId,
-      String? nonce,
-      String? issuedAt,
-      String? expirationTime,
-      String? notBefore,
-      List<String>? resources,
-      String? requestId}) {
+  factory EIP4631({
+    required String domain,
+    required String address,
+    String? statement,
+    String? uri,
+    String? version,
+    String? chainId,
+    String? nonce,
+    String? issuedAt,
+    String? expirationTime,
+    String? notBefore,
+    List<String>? resources,
+    String? requestId,
+  }) {
     if (version != null && version != '1') {
       throw EIP4631Exception(
-          'Invalid version. The "version" field must be exactly "1".');
+        'Invalid version. The "version" field must be exactly "1".',
+      );
     }
     final parse = Uri.tryParse(domain);
     if (parse == null) {
       throw EIP4631Exception(
-          'Invalid Domain. The "Domain" must follow the format specified by RFC 3986.');
+        'Invalid Domain. The "Domain" must follow the format specified by RFC 3986.',
+      );
     }
     if (uri != null) {
       final parse = Uri.tryParse(uri);
       if (parse == null || !parse.isAbsolute) {
         throw EIP4631Exception(
-            'Invalid URI. The "uri" must follow the format specified by RFC 3986.');
+          'Invalid URI. The "uri" must follow the format specified by RFC 3986.',
+        );
       }
     }
     if (expirationTime != null) {
       final parse = DateTime.tryParse(expirationTime);
       if (parse == null) {
         throw EIP4631Exception(
-            'Invalid expirationTime: "$expirationTime". Unable to parse the date.');
+          'Invalid expirationTime: "$expirationTime". Unable to parse the date.',
+        );
       }
     }
 
@@ -70,7 +75,8 @@ class EIP4631 {
       final parse = DateTime.tryParse(notBefore);
       if (parse == null) {
         throw EIP4631Exception(
-            'Invalid notBefore: "$notBefore". Unable to parse the date.');
+          'Invalid notBefore: "$notBefore". Unable to parse the date.',
+        );
       }
     }
 
@@ -78,7 +84,8 @@ class EIP4631 {
       final parse = DateTime.tryParse(issuedAt);
       if (parse == null) {
         throw EIP4631Exception(
-            'Invalid issuedAt: "$issuedAt". Unable to parse the date.');
+          'Invalid issuedAt: "$issuedAt". Unable to parse the date.',
+        );
       }
     }
     if (resources != null) {
@@ -86,24 +93,26 @@ class EIP4631 {
         final parse = Uri.tryParse(resource);
         if (parse == null || !parse.isAbsolute) {
           throw EIP4631Exception(
-              'Invalid resource. The "resource" must follow the format specified by RFC 3986.');
+            'Invalid resource. The "resource" must follow the format specified by RFC 3986.',
+          );
         }
       }
     }
 
     return EIP4631._(
-        domain: domain,
-        address: address,
-        statement: statement,
-        uri: uri,
-        version: version,
-        chainId: chainId,
-        nonce: nonce,
-        issuedAt: issuedAt,
-        expirationTime: expirationTime,
-        notBefore: notBefore,
-        requestId: requestId,
-        resources: resources);
+      domain: domain,
+      address: address,
+      statement: statement,
+      uri: uri,
+      version: version,
+      chainId: chainId,
+      nonce: nonce,
+      issuedAt: issuedAt,
+      expirationTime: expirationTime,
+      notBefore: notBefore,
+      requestId: requestId,
+      resources: resources,
+    );
   }
   factory EIP4631.fromJson(Map<String, dynamic> json) {
     return EIP4631(
@@ -118,9 +127,10 @@ class EIP4631 {
       expirationTime: json['expirationTime'],
       notBefore: json['notBefore'],
       requestId: json['requestId'],
-      resources: json['resources'] != null
-          ? List<String>.from(json['resources'])
-          : null,
+      resources:
+          json['resources'] != null
+              ? List<String>.from(json['resources'])
+              : null,
     );
   }
   Map<String, dynamic> toJson() {

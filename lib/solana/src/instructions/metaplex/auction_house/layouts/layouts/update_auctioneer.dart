@@ -9,23 +9,27 @@ class MetaplexAuctionHouseUpdateAuctioneerLayout
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseUpdateAuctioneerLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .updateAuctioneer.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.updateAuctioneer.insturction,
+    );
     return MetaplexAuctionHouseUpdateAuctioneerLayout(
-        scopes: (decode['scopes'] as List)
-            .map((e) => AuthorityScope.fromValue(e))
-            .toList());
+      scopes:
+          (decode['scopes'] as List)
+              .map((e) => AuthorityScope.fromValue(e))
+              .toList(),
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.vec(LayoutConst.u8(), property: 'scopes'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.vec(LayoutConst.u8(), property: 'scopes'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

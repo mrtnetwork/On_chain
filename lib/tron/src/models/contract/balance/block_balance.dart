@@ -7,16 +7,20 @@ class BlockBalanceTrace extends TronProtocolBufferImpl {
   /// Create a new [BlockBalanceTrace] instance by parsing a JSON map.
   factory BlockBalanceTrace.fromJson(Map<String, dynamic> json) {
     return BlockBalanceTrace(
-      blockIdentifier: json['block_identifier'] == null
-          ? null
-          : BlockBalanceTraceBlockIdentifier.fromJson(json['block_identifier']),
+      blockIdentifier:
+          json['block_identifier'] == null
+              ? null
+              : BlockBalanceTraceBlockIdentifier.fromJson(
+                json['block_identifier'],
+              ),
       timestamp:
           json['timestamp'] == null ? null : BigInt.parse(json['timestamp']),
-      transactionBalanceTrace: json['transaction_balance_trace'] == null
-          ? null
-          : (json['transaction_balance_trace'] as List<dynamic>)
-              .map((trace) => TransactionBalanceTrace.fromJson(trace))
-              .toList(),
+      transactionBalanceTrace:
+          json['transaction_balance_trace'] == null
+              ? null
+              : (json['transaction_balance_trace'] as List<dynamic>)
+                  .map((trace) => TransactionBalanceTrace.fromJson(trace))
+                  .toList(),
     );
   }
   factory BlockBalanceTrace.deserialize(List<int> bytes) {
@@ -25,20 +29,23 @@ class BlockBalanceTrace extends TronProtocolBufferImpl {
       blockIdentifier: decode
           .getResult(1)
           ?.castTo<BlockBalanceTraceBlockIdentifier, List<int>>(
-              (e) => BlockBalanceTraceBlockIdentifier.deserialize(e)),
+            (e) => BlockBalanceTraceBlockIdentifier.deserialize(e),
+          ),
       timestamp: decode.getField(2),
     );
   }
 
   /// Create a new [BlockBalanceTrace] instance with specified parameters.
-  BlockBalanceTrace(
-      {this.blockIdentifier,
-      this.timestamp,
-      List<TransactionBalanceTrace>? transactionBalanceTrace})
-      : transactionBalanceTrace = transactionBalanceTrace == null
-            ? null
-            : List<TransactionBalanceTrace>.unmodifiable(
-                transactionBalanceTrace);
+  BlockBalanceTrace({
+    this.blockIdentifier,
+    this.timestamp,
+    List<TransactionBalanceTrace>? transactionBalanceTrace,
+  }) : transactionBalanceTrace =
+           transactionBalanceTrace == null
+               ? null
+               : List<TransactionBalanceTrace>.unmodifiable(
+                 transactionBalanceTrace,
+               );
   final BlockBalanceTraceBlockIdentifier? blockIdentifier;
 
   /// timestamp

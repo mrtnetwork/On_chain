@@ -16,8 +16,10 @@ class NativeScriptTimelockStart extends NativeScript {
   /// Deserializes a [NativeScriptTimelockStart] from CBOR.
   factory NativeScriptTimelockStart.deserialize(CborListValue cbor) {
     NativeScriptUtils.validateCborTypeObject(
-        cbor.elementAt<CborObject>(0), NativeScriptType.timelockStart);
-    return NativeScriptTimelockStart(cbor.elementAsInteger(1));
+      cbor.objectAt<CborObject>(0),
+      NativeScriptType.timelockStart,
+    );
+    return NativeScriptTimelockStart(cbor.rawValueAt(1));
   }
   factory NativeScriptTimelockStart.fromJson(Map<String, dynamic> json) {
     final correctJson = json[NativeScriptType.timelockStart.name] ?? json;
@@ -29,10 +31,7 @@ class NativeScriptTimelockStart extends NativeScript {
 
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      type.toCbor(),
-      CborUnsignedValue.u64(slot),
-    ]);
+    return CborListValue.definite([type.toCbor(), CborUnsignedValue.u64(slot)]);
   }
 
   @override

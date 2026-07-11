@@ -5,8 +5,10 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Returns the current Transaction count from the ledger
 /// https://solana.com/docs/rpc/http/gettransactioncount
 class SolanaRequestGetTransactionCount extends SolanaRequest<int, int> {
-  const SolanaRequestGetTransactionCount(
-      {super.commitment, super.minContextSlot});
+  const SolanaRequestGetTransactionCount({
+    super.commitment,
+    super.minContextSlot,
+  });
 
   /// getTransactionCount
   @override
@@ -15,8 +17,10 @@ class SolanaRequestGetTransactionCount extends SolanaRequest<int, int> {
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRequestUtils.createConfig(
-          [commitment?.toJson(), minContextSlot?.toJson()])
+      SolanaRequestUtils.createConfig([
+        commitment?.toJson(),
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 }

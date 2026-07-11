@@ -7,34 +7,37 @@ class MetaplexAuctionHouseSellLayout extends MetaplexAuctionHouseProgramLayout {
   final int programAsSignerBump;
   final BigInt buyerPrice;
   final BigInt tokenSize;
-  const MetaplexAuctionHouseSellLayout(
-      {required this.tradeStateBump,
-      required this.freeTradeStateBump,
-      required this.programAsSignerBump,
-      required this.buyerPrice,
-      required this.tokenSize});
+  const MetaplexAuctionHouseSellLayout({
+    required this.tradeStateBump,
+    required this.freeTradeStateBump,
+    required this.programAsSignerBump,
+    required this.buyerPrice,
+    required this.tokenSize,
+  });
 
   factory MetaplexAuctionHouseSellLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction.sell.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexAuctionHouseProgramInstruction.sell.insturction,
+    );
     return MetaplexAuctionHouseSellLayout(
-        tradeStateBump: decode['tradeStateBump'],
-        freeTradeStateBump: decode['freeTradeStateBump'],
-        programAsSignerBump: decode['programAsSignerBump'],
-        buyerPrice: decode['buyerPrice'],
-        tokenSize: decode['tokenSize']);
+      tradeStateBump: decode['tradeStateBump'],
+      freeTradeStateBump: decode['freeTradeStateBump'],
+      programAsSignerBump: decode['programAsSignerBump'],
+      buyerPrice: decode['buyerPrice'],
+      tokenSize: decode['tokenSize'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'tradeStateBump'),
-        LayoutConst.u8(property: 'freeTradeStateBump'),
-        LayoutConst.u8(property: 'programAsSignerBump'),
-        LayoutConst.u64(property: 'buyerPrice'),
-        LayoutConst.u64(property: 'tokenSize'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.u8(property: 'freeTradeStateBump'),
+    LayoutConst.u8(property: 'programAsSignerBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -50,7 +53,7 @@ class MetaplexAuctionHouseSellLayout extends MetaplexAuctionHouseProgramLayout {
       'freeTradeStateBump': freeTradeStateBump,
       'programAsSignerBump': programAsSignerBump,
       'buyerPrice': buyerPrice,
-      'tokenSize': tokenSize
+      'tokenSize': tokenSize,
     };
   }
 }

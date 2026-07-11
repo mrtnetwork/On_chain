@@ -8,19 +8,21 @@ class MetaplexTokenMetaDataSetCollectionSizeLayout
   const MetaplexTokenMetaDataSetCollectionSizeLayout({required this.size});
 
   factory MetaplexTokenMetaDataSetCollectionSizeLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .setCollectionSize.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction.setCollectionSize.insturction,
+    );
     return MetaplexTokenMetaDataSetCollectionSizeLayout(size: decode['size']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'size')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'size'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

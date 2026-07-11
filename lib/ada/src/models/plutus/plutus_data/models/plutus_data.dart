@@ -70,11 +70,16 @@ abstract class PlutusData
     if (data == null) {
       throw ADAPluginException(
         'Invalid cbor object.',
-        details: {'Value': cbor, 'Type': cbor.runtimeType},
+        details: {
+          'Value': cbor.toString(),
+          'Type': cbor.runtimeType.toString(),
+        },
       );
     }
-    assert(data.serializeHex() == cbor.toCborHex(),
-        "not equal ${data.serializeHex()} ${cbor.toCborHex()} ${cbor.runtimeType}");
+    assert(
+      data.serializeHex() == cbor.toCborHex(),
+      "not equal ${data.serializeHex()} ${cbor.toCborHex()} ${cbor.runtimeType}",
+    );
     return data;
   }
 
@@ -88,9 +93,7 @@ abstract class PlutusData
     return ConstrPlutusData(
       alternative:
           credential.type == CredentialType.key ? BigInt.zero : BigInt.one,
-      data: PlutusList([
-        PlutusBytes(value: credential.data),
-      ]),
+      data: PlutusList([PlutusBytes(value: credential.data)]),
     );
   }
 
@@ -101,7 +104,7 @@ abstract class PlutusData
       data: PlutusList([
         PlutusInteger(pointer.slot),
         PlutusInteger(pointer.txIndex),
-        PlutusInteger(pointer.certIndex)
+        PlutusInteger(pointer.certIndex),
       ]),
     );
   }
@@ -114,7 +117,8 @@ abstract class PlutusData
         alternative: BigInt.zero,
         data: PlutusList([
           PlutusData.fromStakeCredential(
-              (address as ADABaseAddress).stakeCredential),
+            (address as ADABaseAddress).stakeCredential,
+          ),
         ]),
       );
     }
@@ -122,8 +126,9 @@ abstract class PlutusData
     if (address is ADAPointerAddress) {
       pointerData = PlutusData.fromPointer(address.pointer);
     }
-    final PlutusData paymentData =
-        PlutusData.fromStakeCredential(address.paymentCredential);
+    final PlutusData paymentData = PlutusData.fromStakeCredential(
+      address.paymentCredential,
+    );
 
     final PlutusList data = PlutusList([
       paymentData,
@@ -147,8 +152,9 @@ abstract class PlutusData
   CborObject toCbor({bool sort = false});
 
   dynamic toJsonSchema({
-    PlutusSchemaConfig config =
-        const PlutusSchemaConfig(jsonSchema: PlutusJsonSchema.basicConversions),
+    PlutusSchemaConfig config = const PlutusSchemaConfig(
+      jsonSchema: PlutusJsonSchema.basicConversions,
+    ),
   });
 
   /// Converts the Plutus data to its hash representation.

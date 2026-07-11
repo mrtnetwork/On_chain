@@ -2,17 +2,18 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Modify account name
 class AccountUpdateContract extends TronBaseContract {
   /// Create a new [AccountUpdateContract] instance by parsing a JSON map.
   factory AccountUpdateContract.fromJson(Map<String, dynamic> json) {
     return AccountUpdateContract(
-        ownerAddress: OnChainUtils.parseTronAddress(
-            value: json['owner_address'], name: 'owner_address'),
-        accountName: OnChainUtils.parseBytes(
-            value: json['account_name'], name: 'account_name'));
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      accountName: json.valueAsBytes(
+        "account_name",
+        encoding: StringEncoding.utf8,
+      ),
+    );
   }
 
   /// Factory method to create a new [AccountUpdateContract] instance with specified parameters.
@@ -24,8 +25,9 @@ class AccountUpdateContract extends TronBaseContract {
   factory AccountUpdateContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return AccountUpdateContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        accountName: decode.getField(2));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      accountName: decode.getField(2),
+    );
   }
 
   /// Owner_address is the account address to be modified
@@ -46,7 +48,7 @@ class AccountUpdateContract extends TronBaseContract {
   Map<String, dynamic> toJson({bool visible = true}) {
     return {
       'owner_address': ownerAddress.toAddress(visible),
-      'account_name': StringUtils.tryDecode(accountName)
+      'account_name': StringUtils.tryDecode(accountName),
     };
   }
 

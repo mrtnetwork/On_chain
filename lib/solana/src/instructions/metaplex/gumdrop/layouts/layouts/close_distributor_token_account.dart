@@ -7,21 +7,26 @@ class MetaplexGumdropCloseDistributorTokenAccountLayout
   const MetaplexGumdropCloseDistributorTokenAccountLayout({required this.bump});
 
   factory MetaplexGumdropCloseDistributorTokenAccountLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexGumdropProgramInstruction
-            .closeDistributorTokenAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexGumdropProgramInstruction
+              .closeDistributorTokenAccount
+              .insturction,
+    );
     return MetaplexGumdropCloseDistributorTokenAccountLayout(
-        bump: decode['bump']);
+      bump: decode['bump'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'bump'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bump'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

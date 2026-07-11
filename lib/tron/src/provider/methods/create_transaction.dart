@@ -8,21 +8,26 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/createtransaction).
 class TronRequestCreateTransaction
     extends TronRequest<Transaction, Map<String, dynamic>> {
-  TronRequestCreateTransaction(
-      {required this.ownerAddress,
-      required this.toAddress,
-      required this.amount,
-      this.permissionId,
-      this.extraData,
-      this.visible = true});
-  factory TronRequestCreateTransaction.fromContract(TransferContract contract,
-      {int? permissionId, bool visible = false}) {
+  TronRequestCreateTransaction({
+    required this.ownerAddress,
+    required this.toAddress,
+    required this.amount,
+    this.permissionId,
+    this.extraData,
+    this.visible = true,
+  });
+  factory TronRequestCreateTransaction.fromContract(
+    TransferContract contract, {
+    int? permissionId,
+    bool visible = false,
+  }) {
     return TronRequestCreateTransaction(
-        ownerAddress: contract.ownerAddress,
-        toAddress: contract.toAddress,
-        amount: contract.amount,
-        permissionId: permissionId,
-        visible: visible);
+      ownerAddress: contract.ownerAddress,
+      toAddress: contract.toAddress,
+      amount: contract.amount,
+      permissionId: permissionId,
+      visible: visible,
+    );
   }
 
   /// Transaction initiator address

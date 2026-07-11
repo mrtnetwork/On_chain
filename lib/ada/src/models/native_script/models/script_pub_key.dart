@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script_type.dart';
@@ -21,9 +20,11 @@ class NativeScriptScriptPubkey extends NativeScript {
   /// Deserializes a [NativeScriptScriptPubkey] from CBOR.
   factory NativeScriptScriptPubkey.deserialize(CborListValue cbor) {
     NativeScriptUtils.validateCborTypeObject(
-        cbor.elementAt<CborObject>(0), NativeScriptType.scriptPubkey);
+      cbor.objectAt<CborObject>(0),
+      NativeScriptType.scriptPubkey,
+    );
     return NativeScriptScriptPubkey(
-      Ed25519KeyHash.deserialize(cbor.elementAt<CborBytesValue>(1)),
+      Ed25519KeyHash.deserialize(cbor.objectAt<CborBytesValue>(1)),
     );
   }
   NativeScriptScriptPubkey copyWith({Ed25519KeyHash? addressKeyHash}) {
@@ -33,14 +34,12 @@ class NativeScriptScriptPubkey extends NativeScript {
   factory NativeScriptScriptPubkey.fromJson(Map<String, dynamic> json) {
     final correctJson = json[NativeScriptType.scriptPubkey.name] ?? json;
     return NativeScriptScriptPubkey(
-        Ed25519KeyHash.fromHex(correctJson['addr_keyhash']));
+      Ed25519KeyHash.fromHex(correctJson['addr_keyhash']),
+    );
   }
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      type.toCbor(),
-      addressKeyHash.toCbor(),
-    ]);
+    return CborListValue.definite([type.toCbor(), addressKeyHash.toCbor()]);
   }
 
   @override
@@ -49,7 +48,7 @@ class NativeScriptScriptPubkey extends NativeScript {
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'addr_keyhash': addressKeyHash.toJson()}
+      type.name: {'addr_keyhash': addressKeyHash.toJson()},
     };
   }
 

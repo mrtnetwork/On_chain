@@ -6,13 +6,13 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        SolanaLayoutUtils.publicKey('masterEdition'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'supplySnapshot'),
-        LayoutConst.vec(ReservationV1.staticLayout, property: 'reservations'),
-        LayoutConst.u64(property: 'totalReservationSpots'),
-        LayoutConst.u64(property: 'currentReservationSpots')
-      ]);
+    LayoutConst.u8(property: 'key'),
+    SolanaLayoutUtils.publicKey('masterEdition'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'supplySnapshot'),
+    LayoutConst.vec(ReservationV1.staticLayout, property: 'reservations'),
+    LayoutConst.u64(property: 'totalReservationSpots'),
+    LayoutConst.u64(property: 'currentReservationSpots'),
+  ]);
 }
 
 class ReservationListV2 extends BorshLayoutSerializable {
@@ -23,25 +23,30 @@ class ReservationListV2 extends BorshLayoutSerializable {
   final BigInt totalReservationSpots;
   final BigInt currentReservationSpots;
 
-  const ReservationListV2(
-      {required this.key,
-      required this.masterEdition,
-      required this.supplySnapshot,
-      required this.reservations,
-      required this.currentReservationSpots,
-      required this.totalReservationSpots});
+  const ReservationListV2({
+    required this.key,
+    required this.masterEdition,
+    required this.supplySnapshot,
+    required this.reservations,
+    required this.currentReservationSpots,
+    required this.totalReservationSpots,
+  });
   factory ReservationListV2.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return ReservationListV2(
-        key: MetaDataKey.fromValue(decode['key']),
-        masterEdition: decode['masterEdition'],
-        supplySnapshot: decode['supplySnapshot'],
-        reservations: (decode['reservations'] as List)
-            .map((e) => ReservationV1.fromJson(e))
-            .toList(),
-        currentReservationSpots: decode['currentReservationSpots'],
-        totalReservationSpots: decode['totalReservationSpots']);
+      key: MetaDataKey.fromValue(decode['key']),
+      masterEdition: decode['masterEdition'],
+      supplySnapshot: decode['supplySnapshot'],
+      reservations:
+          (decode['reservations'] as List)
+              .map((e) => ReservationV1.fromJson(e))
+              .toList(),
+      currentReservationSpots: decode['currentReservationSpots'],
+      totalReservationSpots: decode['totalReservationSpots'],
+    );
   }
 
   @override
@@ -54,7 +59,7 @@ class ReservationListV2 extends BorshLayoutSerializable {
       'supplySnapshot': supplySnapshot,
       'reservations': reservations.map((e) => e.serialize()).toList(),
       'totalReservationSpots': totalReservationSpots,
-      'currentReservationSpots': currentReservationSpots
+      'currentReservationSpots': currentReservationSpots,
     };
   }
 }

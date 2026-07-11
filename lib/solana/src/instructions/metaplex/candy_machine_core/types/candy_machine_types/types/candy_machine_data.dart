@@ -13,44 +13,52 @@ class CandyMachineData extends BorshLayoutSerializable {
   final List<Creator> creators;
   final ConfigLineSettings? configLineSettings;
   final CandyMachineHiddenSettings? hiddenSettings;
-  CandyMachineData(
-      {required this.itemsAvailable,
-      required this.symbol,
-      required this.sellerFeeBasisPoints,
-      required this.maxSupply,
-      required this.isMutable,
-      required this.creators,
-      this.configLineSettings,
-      this.hiddenSettings});
+  CandyMachineData({
+    required this.itemsAvailable,
+    required this.symbol,
+    required this.sellerFeeBasisPoints,
+    required this.maxSupply,
+    required this.isMutable,
+    required this.creators,
+    this.configLineSettings,
+    this.hiddenSettings,
+  });
   factory CandyMachineData.fromJson(Map<String, dynamic> json) {
     return CandyMachineData(
-        itemsAvailable: json['itemsAvailable'],
-        symbol: json['symbol'],
-        sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
-        maxSupply: json['maxSupply'],
-        isMutable: json['isMutable'],
-        creators:
-            (json['creators'] as List).map((e) => Creator.fromJson(e)).toList(),
-        configLineSettings: json['configLineSettings'] == null
-            ? null
-            : ConfigLineSettings.fromJson(json['configLineSettings']),
-        hiddenSettings: json['hiddenSettings'] == null
-            ? null
-            : CandyMachineHiddenSettings.fromJson(json['hiddenSettings']));
+      itemsAvailable: json['itemsAvailable'],
+      symbol: json['symbol'],
+      sellerFeeBasisPoints: json['sellerFeeBasisPoints'],
+      maxSupply: json['maxSupply'],
+      isMutable: json['isMutable'],
+      creators:
+          (json['creators'] as List).map((e) => Creator.fromJson(e)).toList(),
+      configLineSettings:
+          json['configLineSettings'] == null
+              ? null
+              : ConfigLineSettings.fromJson(json['configLineSettings']),
+      hiddenSettings:
+          json['hiddenSettings'] == null
+              ? null
+              : CandyMachineHiddenSettings.fromJson(json['hiddenSettings']),
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'itemsAvailable'),
-        LayoutConst.string(property: 'symbol'),
-        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-        LayoutConst.u64(property: 'maxSupply'),
-        LayoutConst.boolean(property: 'isMutable'),
-        LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
-        LayoutConst.optional(ConfigLineSettings.staticLayout,
-            property: 'configLineSettings'),
-        LayoutConst.optional(CandyMachineHiddenSettings.staticLayout,
-            property: 'hiddenSettings')
-      ], property: 'candyMachineData');
+    LayoutConst.u64(property: 'itemsAvailable'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+    LayoutConst.u64(property: 'maxSupply'),
+    LayoutConst.boolean(property: 'isMutable'),
+    LayoutConst.vec(Creator.creatorLayout, property: 'creators'),
+    LayoutConst.optional(
+      ConfigLineSettings.staticLayout,
+      property: 'configLineSettings',
+    ),
+    LayoutConst.optional(
+      CandyMachineHiddenSettings.staticLayout,
+      property: 'hiddenSettings',
+    ),
+  ], property: 'candyMachineData');
 
   @override
   Map<String, dynamic> serialize() {
@@ -62,7 +70,7 @@ class CandyMachineData extends BorshLayoutSerializable {
       'isMutable': isMutable,
       'creators': creators.map((e) => e.serialize()).toList(),
       'configLineSettings': configLineSettings?.serialize(),
-      'hiddenSettings': hiddenSettings?.serialize()
+      'hiddenSettings': hiddenSettings?.serialize(),
     };
   }
 

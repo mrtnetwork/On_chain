@@ -7,9 +7,7 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getstakeminimumdelegation
 class SolanaRequestGetStakeMinimumDelegation
     extends SolanaRequest<BigInt, Object> {
-  const SolanaRequestGetStakeMinimumDelegation({
-    super.commitment,
-  });
+  const SolanaRequestGetStakeMinimumDelegation({super.commitment});
 
   /// getStakeMinimumDelegation
   @override
@@ -18,7 +16,7 @@ class SolanaRequestGetStakeMinimumDelegation
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRequestUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 

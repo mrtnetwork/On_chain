@@ -23,15 +23,17 @@ class TupleCoder implements ABICoder<List<dynamic>, List<dynamic>> {
     }
     if (isDynamic) {
       return EncoderResult(
-          isDynamic: true,
-          encoded: ABIUtils._encodeDynamicParams(encoded),
-          name: params.name);
+        isDynamic: true,
+        encoded: ABIUtils._encodeDynamicParams(encoded),
+        name: params.name,
+      );
     }
     final re = encoded.map((e) => e.encoded).toList();
     return EncoderResult(
-        isDynamic: false,
-        encoded: [for (final i in re) ...i],
-        name: params.name);
+      isDynamic: false,
+      encoded: [for (final i in re) ...i],
+      name: params.name,
+    );
   }
 
   /// Decodes a tuple of dynamic values from the given ABI-encoded bytes.
@@ -49,8 +51,10 @@ class TupleCoder implements ABICoder<List<dynamic>, List<dynamic>> {
       DecoderResult<dynamic> decodedResult;
 
       if (childParam.isDynamic) {
-        final DecoderResult<BigInt> offsetResult = const NumbersCoder()
-            .decode(AbiParameter.uint32, bytes.sublist(consumed));
+        final DecoderResult<BigInt> offsetResult = const NumbersCoder().decode(
+          AbiParameter.uint32,
+          bytes.sublist(consumed),
+        );
 
         decodedResult = ABIUtils._decodeParamFromAbiParameter(
           childParam,
@@ -61,16 +65,19 @@ class TupleCoder implements ABICoder<List<dynamic>, List<dynamic>> {
         dynamicConsumed += decodedResult.consumed;
       } else {
         decodedResult = ABIUtils._decodeParamFromAbiParameter(
-            childParam, bytes.sublist(consumed));
+          childParam,
+          bytes.sublist(consumed),
+        );
         consumed += decodedResult.consumed;
       }
 
       result.add(decodedResult.result);
     }
     return DecoderResult(
-        result: result,
-        consumed: consumed + dynamicConsumed,
-        name: params.name);
+      result: result,
+      consumed: consumed + dynamicConsumed,
+      name: params.name,
+    );
   }
 
   /// Legacy EIP-712 encoding for tuple values.
@@ -87,8 +94,9 @@ class TupleCoder implements ABICoder<List<dynamic>, List<dynamic>> {
       encoded.add(result);
     }
     return EncoderResult(
-        isDynamic: false,
-        encoded: encoded.expand((e) => e.encoded).toList(),
-        name: params.name);
+      isDynamic: false,
+      encoded: encoded.expand((e) => e.encoded).toList(),
+      name: params.name,
+    );
   }
 }

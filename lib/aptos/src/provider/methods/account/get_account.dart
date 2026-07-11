@@ -21,8 +21,9 @@ class AptosRequestGetAccount
   @override
   List<String> get pathParameters => [address.address];
   @override
-  Map<String, String?> get queryParameters =>
-      {"ledger_version": ledgerVersion?.toString()};
+  Map<String, String?> get queryParameters => {
+    "ledger_version": ledgerVersion?.toString(),
+  };
 
   @override
   AptosApiAccountData onResonse(Map<String, dynamic> result) {

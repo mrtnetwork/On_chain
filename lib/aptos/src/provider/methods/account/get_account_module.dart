@@ -10,8 +10,11 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetAccountModule
     extends AptosRequest<AptosApiMoveModuleByteCode, Map<String, dynamic>> {
-  AptosRequestGetAccountModule(
-      {required this.address, required this.moduleName, this.ledgetVersion});
+  AptosRequestGetAccountModule({
+    required this.address,
+    required this.moduleName,
+    this.ledgetVersion,
+  });
 
   /// Address of account with or without a `0x` prefix
   final AptosAddress address;
@@ -28,8 +31,9 @@ class AptosRequestGetAccountModule
   @override
   List<String> get pathParameters => [address.address, moduleName];
   @override
-  Map<String, String?> get queryParameters =>
-      {"ledger_version": ledgetVersion?.toString()};
+  Map<String, String?> get queryParameters => {
+    "ledger_version": ledgetVersion?.toString(),
+  };
 
   @override
   AptosApiMoveModuleByteCode onResonse(Map<String, dynamic> result) {

@@ -7,14 +7,14 @@ class _Utils {
   static const List<int> discriminator = [50, 164, 42, 108, 90, 201, 250, 216];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('mint'),
-        SolanaLayoutUtils.publicKey('fanout'),
-        SolanaLayoutUtils.publicKey('tokenAccount'),
-        LayoutConst.u64(property: 'totalInflow'),
-        LayoutConst.u64(property: 'lastSnapshotAmount'),
-        LayoutConst.u8(property: 'bumpSeed'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('mint'),
+    SolanaLayoutUtils.publicKey('fanout'),
+    SolanaLayoutUtils.publicKey('tokenAccount'),
+    LayoutConst.u64(property: 'totalInflow'),
+    LayoutConst.u64(property: 'lastSnapshotAmount'),
+    LayoutConst.u8(property: 'bumpSeed'),
+  ]);
 }
 
 class FanoutMint extends BorshLayoutSerializable {
@@ -25,25 +25,28 @@ class FanoutMint extends BorshLayoutSerializable {
   final BigInt lastSnapshotAmount;
   final int bumpSeed;
 
-  const FanoutMint(
-      {required this.mint,
-      required this.fanout,
-      required this.tokenAccount,
-      required this.totalInflow,
-      required this.lastSnapshotAmount,
-      required this.bumpSeed});
+  const FanoutMint({
+    required this.mint,
+    required this.fanout,
+    required this.tokenAccount,
+    required this.totalInflow,
+    required this.lastSnapshotAmount,
+    required this.bumpSeed,
+  });
   factory FanoutMint.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return FanoutMint(
-        mint: decode['mint'],
-        fanout: decode['fanout'],
-        tokenAccount: decode['tokenAccount'],
-        totalInflow: decode['totalInflow'],
-        lastSnapshotAmount: decode['lastSnapshotAmount'],
-        bumpSeed: decode['bumpSeed']);
+      mint: decode['mint'],
+      fanout: decode['fanout'],
+      tokenAccount: decode['tokenAccount'],
+      totalInflow: decode['totalInflow'],
+      lastSnapshotAmount: decode['lastSnapshotAmount'],
+      bumpSeed: decode['bumpSeed'],
+    );
   }
 
   @override
@@ -57,7 +60,7 @@ class FanoutMint extends BorshLayoutSerializable {
       'tokenAccount': tokenAccount,
       'totalInflow': totalInflow,
       'lastSnapshotAmount': lastSnapshotAmount,
-      'bumpSeed': bumpSeed
+      'bumpSeed': bumpSeed,
     };
   }
 

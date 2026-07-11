@@ -27,8 +27,10 @@ class TransactionType {
         return v0;
       }
     }
-    throw SolanaPluginException('Invalid Versioned transaction type',
-        details: {'value': v});
+    throw SolanaPluginException(
+      'Invalid Versioned transaction type',
+      details: {'value': v?.toString()},
+    );
   }
 
   @override
@@ -39,12 +41,13 @@ class TransactionType {
 
 /// Abstract class representing a versioned message.
 abstract class VersionedMessage {
-  VersionedMessage copyWith(
-      {MessageHeader? header,
-      List<SolAddress>? accountKeys,
-      SolAddress? recentBlockhash,
-      List<CompiledInstruction>? compiledInstructions,
-      List<AddressTableLookup>? addressTableLookups});
+  VersionedMessage copyWith({
+    MessageHeader? header,
+    List<SolAddress>? accountKeys,
+    SolAddress? recentBlockhash,
+    List<CompiledInstruction>? compiledInstructions,
+    List<AddressTableLookup>? addressTableLookups,
+  });
 
   /// The message header, identifying signed and read-only [accountKeys].
   abstract final MessageHeader header;
@@ -70,9 +73,10 @@ abstract class VersionedMessage {
   }
 
   /// Gets the accounts associated with the message.
-  MessageAccountKeys getAccounts(
-      {List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
-      AccountLookupKeys? lookupKeys});
+  MessageAccountKeys getAccounts({
+    List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
+    AccountLookupKeys? lookupKeys,
+  });
 
   /// Gets the version of the message.
   TransactionType get version;
@@ -87,79 +91,98 @@ abstract class VersionedMessage {
   bool isAccountWritable(int index);
 
   /// Constructs a legacy versioned message.
-  factory VersionedMessage.toLegacy(
-      {required SolAddress payerKey,
-      required SolAddress recentBlockhash,
-      required List<TransactionInstruction> instructions}) {
+  factory VersionedMessage.toLegacy({
+    required SolAddress payerKey,
+    required SolAddress recentBlockhash,
+    required List<TransactionInstruction> instructions,
+  }) {
     return Message.compile(
-        transactionInstructions: instructions,
-        payer: payerKey,
-        recentBlockhash: recentBlockhash);
+      transactionInstructions: instructions,
+      payer: payerKey,
+      recentBlockhash: recentBlockhash,
+    );
   }
 
   /// Constructs a version 0 versioned message.
-  factory VersionedMessage.toV0(
-      {required SolAddress payerKey,
-      required SolAddress recentBlockhash,
-      required List<TransactionInstruction> instructions,
-      List<AddressLookupTableAccount> addressLookupTableAccounts = const []}) {
+  factory VersionedMessage.toV0({
+    required SolAddress payerKey,
+    required SolAddress recentBlockhash,
+    required List<TransactionInstruction> instructions,
+    List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
+  }) {
     return MessageV0.compile(
-        transactionInstructions: instructions,
-        payer: payerKey,
-        recentBlockhash: recentBlockhash,
-        lookupTableAccounts: addressLookupTableAccounts);
+      transactionInstructions: instructions,
+      payer: payerKey,
+      recentBlockhash: recentBlockhash,
+      lookupTableAccounts: addressLookupTableAccounts,
+    );
   }
 
   /// Constructs a version 0 versioned message.
-  factory VersionedMessage.fromJson(Map<String, dynamic> json,
-      {TransactionType? type}) {
+  factory VersionedMessage.fromJson(
+    Map<String, dynamic> json, {
+    TransactionType? type,
+  }) {
     final List<AddressTableLookup> addressTableLookups =
         (json['addressTableLookups'] as List?)
-                ?.map((e) => AddressTableLookup.fromJson(e))
-                .toList() ??
-            [];
-    final List<SolAddress> writable = addressTableLookups
-        .map(
-            (e) => List.generate(e.writableIndexes.length, (i) => e.accountKey))
-        .expand((element) => element)
-        .toList();
-    final List<SolAddress> readonly = addressTableLookups
-        .map(
-            (e) => List.generate(e.readonlyIndexes.length, (i) => e.accountKey))
-        .expand((element) => element)
-        .toList();
-    final AccountLookupKeys? accountLookupKeys = (addressTableLookups.isEmpty)
-        ? null
-        : AccountLookupKeys(readonly: readonly, writable: writable);
-    final List<SolAddress> staticAccounts = (json['accountKeys'] as List)
-        .map((e) => SolAddress.uncheckCurve(e))
-        .toList();
+            ?.map((e) => AddressTableLookup.fromJson(e))
+            .toList() ??
+        [];
+    final List<SolAddress> writable =
+        addressTableLookups
+            .map(
+              (e) =>
+                  List.generate(e.writableIndexes.length, (i) => e.accountKey),
+            )
+            .expand((element) => element)
+            .toList();
+    final List<SolAddress> readonly =
+        addressTableLookups
+            .map(
+              (e) =>
+                  List.generate(e.readonlyIndexes.length, (i) => e.accountKey),
+            )
+            .expand((element) => element)
+            .toList();
+    final AccountLookupKeys? accountLookupKeys =
+        (addressTableLookups.isEmpty)
+            ? null
+            : AccountLookupKeys(readonly: readonly, writable: writable);
+    final List<SolAddress> staticAccounts =
+        (json['accountKeys'] as List)
+            .map((e) => SolAddress.uncheckCurve(e))
+            .toList();
     final msg = MessageAccountKeys(staticAccounts, accountLookupKeys);
     final messageHeader = MessageHeader.fromJson(json['header']);
     final instructions = (json['instructions'] as List).map((e) {
       final List<int> accountMetaKeys = (e['accounts'] as List).cast();
       final instruction = TransactionInstruction(
-          programId: msg.byIndex(e['programIdIndex'])!,
-          keys: accountMetaKeys.map((i) {
-            return AccountMeta(
+        programId: msg.byIndex(e['programIdIndex'])!,
+        keys:
+            accountMetaKeys.map((i) {
+              return AccountMeta(
                 publicKey: msg.byIndex(i)!,
                 isSigner: messageHeader.isAccountSigner(i),
                 isWritable: messageHeader.isAccountWritable(
-                    index: i,
-                    numStaticAccountKeys: staticAccounts.length,
-                    addressTableLookups: addressTableLookups));
-          }).toList(),
-          data: SolanaRequestEncoding.decode(e['data']));
+                  index: i,
+                  numStaticAccountKeys: staticAccounts.length,
+                  addressTableLookups: addressTableLookups,
+                ),
+              );
+            }).toList(),
+        data: SolanaRequestEncoding.decode(e['data']),
+      );
       return instruction;
     });
     if (type == TransactionType.v0 ||
         (type == null && addressTableLookups.isNotEmpty)) {
       return MessageV0(
-          header: messageHeader,
-          accountKeys: staticAccounts,
-          recentBlockhash: SolAddress.uncheckCurve(json['recentBlockhash']),
-          compiledInstructions: msg.compileInstructions(instructions.toList()),
-          addressTableLookups: addressTableLookups);
+        header: messageHeader,
+        accountKeys: staticAccounts,
+        recentBlockhash: SolAddress.uncheckCurve(json['recentBlockhash']),
+        compiledInstructions: msg.compileInstructions(instructions.toList()),
+        addressTableLookups: addressTableLookups,
+      );
     }
     return Message(
       accountKeys: staticAccounts,

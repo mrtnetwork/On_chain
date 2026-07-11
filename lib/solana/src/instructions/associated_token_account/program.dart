@@ -16,9 +16,10 @@ class AssociatedTokenAccountProgram extends TransactionInstruction {
         AssociatedTokenAccountProgramConst.associatedTokenProgramId,
   }) {
     return AssociatedTokenAccountProgram(
-        layout: AssociatedTokenAccountProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: AssociatedTokenAccountProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Factory method for creating an associated token account
@@ -33,16 +34,17 @@ class AssociatedTokenAccountProgram extends TransactionInstruction {
     SolAddress tokenProgramId = SPLTokenProgramConst.tokenProgramId,
   }) {
     return AssociatedTokenAccountProgram(
-        layout: layout,
-        keys: [
-          payer.toSignerAndWritable(),
-          associatedToken.toWritable(),
-          owner.toReadOnly(),
-          mint.toReadOnly(),
-          SystemProgramConst.programId.toReadOnly(),
-          tokenProgramId.toReadOnly(),
-        ],
-        programId: programId);
+      layout: layout,
+      keys: [
+        payer.toSignerAndWritable(),
+        associatedToken.toWritable(),
+        owner.toReadOnly(),
+        mint.toReadOnly(),
+        SystemProgramConst.programId.toReadOnly(),
+        tokenProgramId.toReadOnly(),
+      ],
+      programId: programId,
+    );
   }
 
   /// Factory method for creating an associated token account
@@ -67,13 +69,14 @@ class AssociatedTokenAccountProgram extends TransactionInstruction {
         AssociatedTokenAccountProgramConst.associatedTokenProgramId,
   }) {
     return _associatedTokenAccount(
-        payer: payer,
-        associatedToken: associatedToken,
-        owner: owner,
-        mint: mint,
-        tokenProgramId: tokenProgramId,
-        programId: associatedTokenProgramId,
-        layout: const AssociatedTokenAccountProgramInitializeLayout());
+      payer: payer,
+      associatedToken: associatedToken,
+      owner: owner,
+      mint: mint,
+      tokenProgramId: tokenProgramId,
+      programId: associatedTokenProgramId,
+      layout: const AssociatedTokenAccountProgramInitializeLayout(),
+    );
   }
 
   /// Factory method for creating an associated token account idempotent
@@ -98,13 +101,14 @@ class AssociatedTokenAccountProgram extends TransactionInstruction {
         AssociatedTokenAccountProgramConst.associatedTokenProgramId,
   }) {
     return _associatedTokenAccount(
-        payer: payer,
-        associatedToken: associatedToken,
-        owner: owner,
-        mint: mint,
-        tokenProgramId: tokenProgramId,
-        programId: associatedTokenProgramId,
-        layout: const AssociatedTokenAccountProgramIdempotentLayout());
+      payer: payer,
+      associatedToken: associatedToken,
+      owner: owner,
+      mint: mint,
+      tokenProgramId: tokenProgramId,
+      programId: associatedTokenProgramId,
+      layout: const AssociatedTokenAccountProgramIdempotentLayout(),
+    );
   }
 
   /// Factory method for recovering a nested associated token account
@@ -135,16 +139,17 @@ class AssociatedTokenAccountProgram extends TransactionInstruction {
         AssociatedTokenAccountProgramConst.associatedTokenProgramId,
   }) {
     return AssociatedTokenAccountProgram(
-        keys: [
-          nestedAssociatedToken.toWritable(),
-          nestedMint.toReadOnly(),
-          destinationAssociatedToken.toWritable(),
-          ownerAssociatedToken.toWritable(),
-          ownerMint.toReadOnly(),
-          owner.toSignerAndWritable(),
-          tokenProgramId.toReadOnly(),
-        ],
-        programId: associatedTokenProgramId,
-        layout: const AssociatedTokenAccountProgramRecoverNestedLayout());
+      keys: [
+        nestedAssociatedToken.toWritable(),
+        nestedMint.toReadOnly(),
+        destinationAssociatedToken.toWritable(),
+        ownerAssociatedToken.toWritable(),
+        ownerMint.toReadOnly(),
+        owner.toSignerAndWritable(),
+        tokenProgramId.toReadOnly(),
+      ],
+      programId: associatedTokenProgramId,
+      layout: const AssociatedTokenAccountProgramRecoverNestedLayout(),
+    );
   }
 }

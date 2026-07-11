@@ -34,12 +34,14 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
       );
     }
 
-    final entryFunction = isActive
-        ? AptosHelper.createCoinTransferEntry(transferParams)
-        : AptosHelper.createAccountTransferEntry(transferParams);
+    final entryFunction =
+        isActive
+            ? AptosHelper.createCoinTransferEntry(transferParams)
+            : AptosHelper.createAccountTransferEntry(transferParams);
 
-    final transactionPayload =
-        AptosTransactionPayloadEntryFunction(entryFunction: entryFunction);
+    final transactionPayload = AptosTransactionPayloadEntryFunction(
+      entryFunction: entryFunction,
+    );
 
     return buildTransaction(
       sender: sender,
@@ -58,11 +60,14 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
     required AptosTransactionPayload transactionPayload,
     AptosApiBuildTransactionParams? params,
   }) async {
-    final BigInt expire = params?.transactionExpireTime ??
-        BigInt.from(DateTime.now()
-                .add(const Duration(minutes: 2))
-                .millisecondsSinceEpoch ~/
-            1000);
+    final BigInt expire =
+        params?.transactionExpireTime ??
+        BigInt.from(
+          DateTime.now()
+                  .add(const Duration(minutes: 2))
+                  .millisecondsSinceEpoch ~/
+              1000,
+        );
 
     return AptosRawTransaction(
       sender: sender,
@@ -103,10 +108,14 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
     }
 
     final transactionPayload = AptosTransactionPayloadEntryFunction(
-        entryFunction: AptosHelper.createBatchTransferTransferEntry(transfers));
+      entryFunction: AptosHelper.createBatchTransferTransferEntry(transfers),
+    );
 
     return buildTransaction(
-        sender: sender, transactionPayload: transactionPayload, params: params);
+      sender: sender,
+      transactionPayload: transactionPayload,
+      params: params,
+    );
   }
 
   /// Creates a transaction to publish a new module to the Aptos blockchain.
@@ -128,13 +137,17 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
         args: [
           MoveU8Vector(metadataBytes),
           MoveVector<MoveVector<MoveU8>>(
-              moduleBytes.map((e) => MoveVector.u8(e)).toList())
+            moduleBytes.map((e) => MoveVector.u8(e)).toList(),
+          ),
         ],
       ),
     );
 
     return buildTransaction(
-        sender: sender, transactionPayload: transactionPayload, params: params);
+      sender: sender,
+      transactionPayload: transactionPayload,
+      params: params,
+    );
   }
 
   /// Creates a simple transaction that calls a function from a specific Aptos module.
@@ -145,22 +158,27 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
   /// - [arguments]: The arguments to pass to the function.
   /// - [typeArgs] (optional): Type arguments for generic functions.
   /// - [params] (optional): Additional transaction settings.
-  Future<AptosRawTransaction> createSimpleTransaction(
-      {required AptosAddress sender,
-      required AptosModuleId moduleId,
-      required String functionName,
-      required List<AptosEntryFunctionArguments<dynamic>> arguments,
-      List<AptosTypeTag> typeArgs = const [],
-      AptosApiBuildTransactionParams? params}) {
+  Future<AptosRawTransaction> createSimpleTransaction({
+    required AptosAddress sender,
+    required AptosModuleId moduleId,
+    required String functionName,
+    required List<AptosEntryFunctionArguments<dynamic>> arguments,
+    List<AptosTypeTag> typeArgs = const [],
+    AptosApiBuildTransactionParams? params,
+  }) {
     final transactionPayload = AptosTransactionPayloadEntryFunction(
       entryFunction: AptosTransactionEntryFunction(
-          moduleId: moduleId,
-          functionName: functionName,
-          args: arguments,
-          typeArgs: typeArgs),
+        moduleId: moduleId,
+        functionName: functionName,
+        args: arguments,
+        typeArgs: typeArgs,
+      ),
     );
     return buildTransaction(
-        sender: sender, transactionPayload: transactionPayload, params: params);
+      sender: sender,
+      transactionPayload: transactionPayload,
+      params: params,
+    );
   }
 
   /// Creates a script transaction to execute custom bytecode on the Aptos blockchain.
@@ -178,10 +196,17 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
     AptosApiBuildTransactionParams? params,
   }) {
     final transactionPayload = AptosTransactionPayloadScript(
-        script: AptosScript(
-            arguments: arguments, typeArgs: typeArgs, byteCode: byteCode));
+      script: AptosScript(
+        arguments: arguments,
+        typeArgs: typeArgs,
+        byteCode: byteCode,
+      ),
+    );
 
     return buildTransaction(
-        sender: sender, transactionPayload: transactionPayload, params: params);
+      sender: sender,
+      transactionPayload: transactionPayload,
+      params: params,
+    );
   }
 }

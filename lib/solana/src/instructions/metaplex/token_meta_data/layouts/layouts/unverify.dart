@@ -10,18 +10,22 @@ class MetaplexTokenMetaDataUnverifyLayout
 
   factory MetaplexTokenMetaDataUnverifyLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .unverifyCollectionV1.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .unverifyCollectionV1
+              .insturction,
+    );
     return MetaplexTokenMetaDataUnverifyLayout(
-        verification: Verification.fromValue(decode['discriminator']));
+      verification: Verification.fromValue(decode['discriminator']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

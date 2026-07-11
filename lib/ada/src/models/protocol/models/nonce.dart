@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/cbor/serialization/cbor/cbor.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/cbor/core/cbor.dart';
 import 'package:blockchain_utils/cbor/types/types.dart';
@@ -11,17 +12,19 @@ import 'package:on_chain/ada/src/models/utils/utils.dart';
 class Nonce with InternalCborSerialization {
   final List<int>? hash;
   Nonce([List<int>? nonce])
-      : hash = nonce == null
-            ? null
-            : AdaTransactionUtils.validateFixedLengthBytes(
+    : hash =
+          nonce == null
+              ? null
+              : AdaTransactionUtils.validateFixedLengthBytes(
                 bytes: nonce,
-                length: AdaTransactionConstant.blake2b256DigestSize);
+                length: AdaTransactionConstant.blake2b256DigestSize,
+              );
   factory Nonce.deserialize(CborListValue cbor) {
-    final int hasHash = cbor.elementAt<CborNumeric>(0).toInt();
+    final int hasHash = cbor.objectAt<CborNumeric>(0).toInt();
     if (hasHash != 0 && hasHash != 1) {
       throw const ADAPluginException('Invalid Nonce cbor bytes.');
     }
-    return Nonce(hasHash == 0 ? null : cbor.elementAtBytes(1));
+    return Nonce(hasHash == 0 ? null : cbor.rawValueAt(1));
   }
   factory Nonce.fromJson(Map<String, dynamic> json) {
     return Nonce(BytesUtils.tryFromHexString(json['hash']));
@@ -34,7 +37,7 @@ class Nonce with InternalCborSerialization {
   CborObject toCbor() {
     return CborListValue<CborObject>.definite([
       CborIntValue(hash == null ? 0 : 1),
-      if (hash != null) CborBytesValue(hash!)
+      if (hash != null) CborBytesValue(hash!),
     ]);
   }
 

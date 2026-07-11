@@ -1,19 +1,21 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 
 class TokenAccountBalancePair {
-  const TokenAccountBalancePair(
-      {required this.amount,
-      required this.decimals,
-      required this.address,
-      this.uiAmount,
-      this.uiAmountString});
+  const TokenAccountBalancePair({
+    required this.amount,
+    required this.decimals,
+    required this.address,
+    this.uiAmount,
+    this.uiAmountString,
+  });
   factory TokenAccountBalancePair.fromJson(Map<String, dynamic> json) {
     return TokenAccountBalancePair(
-        amount: json['amount'],
-        address: SolAddress.uncheckCurve(json['address']),
-        decimals: json['decimals'],
-        uiAmount: json['uiAmount'],
-        uiAmountString: json['uiAmountString']);
+      amount: json['amount'],
+      address: SolAddress.uncheckCurve(json['address']),
+      decimals: json['decimals'],
+      uiAmount: json['uiAmount'],
+      uiAmountString: json['uiAmountString'],
+    );
   }
 
   /// Address of the token account

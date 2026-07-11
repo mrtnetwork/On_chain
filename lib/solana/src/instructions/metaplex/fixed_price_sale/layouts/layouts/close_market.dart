@@ -7,10 +7,11 @@ class MetaplexFixedPriceSaleCloseMarketLayout
 
   factory MetaplexFixedPriceSaleCloseMarketLayout.fromBuffer(List<int> data) {
     MetaplexFixedPriceSaleProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexFixedPriceSaleProgramInstruction.closeMarket.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexFixedPriceSaleProgramInstruction.closeMarket.insturction,
+    );
     return MetaplexFixedPriceSaleCloseMarketLayout();
   }
 

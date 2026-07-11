@@ -9,31 +9,38 @@ class MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout
   final RuleSetToggle ruleSet;
   final Payload? authorizationData;
   static int discriminator = 5;
-  const MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout(
-      {required this.ruleSet, this.authorizationData});
+  const MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout({
+    required this.ruleSet,
+    this.authorizationData,
+  });
 
   factory MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .updateAsProgrammableConfigDelegateV2.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .updateAsProgrammableConfigDelegateV2
+              .insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout(
-        ruleSet: RuleSetToggle.fromJson(decode['ruleSet']),
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']));
+      ruleSet: RuleSetToggle.fromJson(decode['ruleSet']),
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -48,7 +55,7 @@ class MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout
     return {
       'authorizationData': authorizationData?.serialize(),
       'ruleSet': ruleSet.serialize(),
-      'discriminator': discriminator
+      'discriminator': discriminator,
     };
   }
 }

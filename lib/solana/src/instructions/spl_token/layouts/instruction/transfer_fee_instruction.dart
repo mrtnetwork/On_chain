@@ -9,11 +9,15 @@ class TransferFeeInstructionInstruction {
   static const TransferFeeInstructionInstruction transferCheckedWithFee =
       TransferFeeInstructionInstruction._('TransferCheckedWithFee', 1);
   static const TransferFeeInstructionInstruction
-      withdrawWithheldTokensFromMint =
-      TransferFeeInstructionInstruction._('WithdrawWithheldTokensFromMint', 2);
+  withdrawWithheldTokensFromMint = TransferFeeInstructionInstruction._(
+    'WithdrawWithheldTokensFromMint',
+    2,
+  );
   static const TransferFeeInstructionInstruction
-      withdrawWithheldTokensFromAccounts = TransferFeeInstructionInstruction._(
-          'WithdrawWithheldTokensFromAccounts', 3);
+  withdrawWithheldTokensFromAccounts = TransferFeeInstructionInstruction._(
+    'WithdrawWithheldTokensFromAccounts',
+    3,
+  );
   static const TransferFeeInstructionInstruction harvestWithheldTokensToMint =
       TransferFeeInstructionInstruction._('HarvestWithheldTokensToMint', 4);
   static const TransferFeeInstructionInstruction setTransferFee =
@@ -24,15 +28,18 @@ class TransferFeeInstructionInstruction {
     withdrawWithheldTokensFromMint,
     withdrawWithheldTokensFromAccounts,
     harvestWithheldTokensToMint,
-    setTransferFee
+    setTransferFee,
   ];
 
   static TransferFeeInstructionInstruction fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No TransferFeeInstructionInstruction found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No TransferFeeInstructionInstruction found matching the specified value',
+                details: {'value': value.toString()},
+              ),
     );
   }
 }

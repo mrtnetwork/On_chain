@@ -8,10 +8,10 @@ class MetaplexTokenMetaDataMigrateLayout
 
   factory MetaplexTokenMetaDataMigrateLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.migrate.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.migrate.insturction,
+    );
     return const MetaplexTokenMetaDataMigrateLayout();
   }
 

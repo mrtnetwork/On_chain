@@ -9,29 +9,34 @@ class MetaplexNFTPacksEditPackLayout extends MetaplexNFTPacksProgramLayout {
   final String? desciption;
   final String? uri;
   final bool? mutable;
-  MetaplexNFTPacksEditPackLayout(
-      {List<int>? name, this.desciption, this.uri, this.mutable})
-      : name = BytesUtils.tryToBytes(name, unmodifiable: true);
+  MetaplexNFTPacksEditPackLayout({
+    List<int>? name,
+    this.desciption,
+    this.uri,
+    this.mutable,
+  }) : name = BytesUtils.tryToBytes(name, unmodifiable: true);
 
   factory MetaplexNFTPacksEditPackLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexNFTPacksProgramInstruction.editPack.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexNFTPacksProgramInstruction.editPack.insturction,
+    );
     return MetaplexNFTPacksEditPackLayout(
-        name: decode['name'],
-        desciption: decode['desciption'],
-        uri: decode['uri'],
-        mutable: decode['mutable']);
+      name: decode['name'],
+      desciption: decode['desciption'],
+      uri: decode['uri'],
+      mutable: decode['mutable'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.optional(LayoutConst.blob(32), property: 'name'),
-        LayoutConst.optional(LayoutConst.string(), property: 'desciption'),
-        LayoutConst.optional(LayoutConst.string(), property: 'uri'),
-        LayoutConst.optional(LayoutConst.boolean(), property: 'mutable'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.optional(LayoutConst.blob(32), property: 'name'),
+    LayoutConst.optional(LayoutConst.string(), property: 'desciption'),
+    LayoutConst.optional(LayoutConst.string(), property: 'uri'),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'mutable'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -46,7 +51,7 @@ class MetaplexNFTPacksEditPackLayout extends MetaplexNFTPacksProgramLayout {
       'name': name,
       'desciption': desciption,
       'uri': uri,
-      'mutable': mutable
+      'mutable': mutable,
     };
   }
 }

@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataCreateEscrowAccountLayout
   const MetaplexTokenMetaDataCreateEscrowAccountLayout();
 
   factory MetaplexTokenMetaDataCreateEscrowAccountLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .createEscrowAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .createEscrowAccount
+              .insturction,
+    );
     return const MetaplexTokenMetaDataCreateEscrowAccountLayout();
   }
 

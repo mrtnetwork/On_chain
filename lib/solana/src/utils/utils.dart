@@ -16,8 +16,10 @@ class SolanaUtils {
   }
 
   /// Converts a Solana value to lamports.
-  static (SolAddress, int) findProgramAddress(
-      {required List<List<int>> seeds, required SolAddress programId}) {
+  static (SolAddress, int) findProgramAddress({
+    required List<List<int>> seeds,
+    required SolAddress programId,
+  }) {
     int nonce = 255;
     List<int> seedBytes = [];
     for (final i in seeds) {
@@ -30,7 +32,9 @@ class SolanaUtils {
       try {
         final List<int> seedsWithNonce = [...seedBytes, nonce];
         final addr = createProgramAddress(
-            seedBytes: seedsWithNonce, programId: programId);
+          seedBytes: seedsWithNonce,
+          programId: programId,
+        );
         return (addr, nonce);
       } catch (e) {
         nonce--;
@@ -38,22 +42,26 @@ class SolanaUtils {
       }
     }
     throw const SolanaPluginException(
-        'Unable to find a viable program address nonce');
+      'Unable to find a viable program address nonce',
+    );
   }
 
   /// Finds a program address for the given seeds and program ID.
-  static SolAddress createProgramAddress(
-      {required List<int> seedBytes, required SolAddress programId}) {
+  static SolAddress createProgramAddress({
+    required List<int> seedBytes,
+    required SolAddress programId,
+  }) {
     seedBytes = [
       ...seedBytes,
       ...programId.toBytes(),
-      ...programDerivedAddressSeed.codeUnits
+      ...programDerivedAddressSeed.codeUnits,
     ];
 
     seedBytes = QuickCrypto.sha256Hash(seedBytes);
     if (Ed25519PublicKey.isValidBytes(seedBytes)) {
       throw const SolanaPluginException(
-          'Invalid seeds, address must fall off the curve');
+        'Invalid seeds, address must fall off the curve',
+      );
     }
     return SolAddress.uncheckBytes(seedBytes);
   }

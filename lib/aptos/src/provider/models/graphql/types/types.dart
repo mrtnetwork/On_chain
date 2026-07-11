@@ -18,18 +18,19 @@ class AptosGraphQlWhereCondition {
   final List<AptosGraphQlWhereCondition>? or;
 
   // Constructor
-  AptosGraphQlWhereCondition(
-      {required this.key,
-      this.isEq,
-      this.isIn,
-      this.isNin,
-      this.isLt,
-      this.isLte,
-      this.isGt,
-      this.isGte,
-      this.isNeq,
-      this.and,
-      this.or});
+  AptosGraphQlWhereCondition({
+    required this.key,
+    this.isEq,
+    this.isIn,
+    this.isNin,
+    this.isLt,
+    this.isLte,
+    this.isGt,
+    this.isGte,
+    this.isNeq,
+    this.and,
+    this.or,
+  });
 
   // Converts the object to a JSON representation
   Map<String, dynamic> toJson() {
@@ -48,7 +49,7 @@ class AptosGraphQlWhereCondition {
       '_gte': isGte,
       '_neq': isNeq,
       '_and': andConditions.isEmpty ? null : andConditions,
-      '_or': orConditions.isEmpty ? null : orConditions
+      '_or': orConditions.isEmpty ? null : orConditions,
     }..removeWhere((k, v) => v == null);
     if (data.isEmpty) return {};
     return data.map((k, v) => MapEntry(key, <String, dynamic>{k: v}));

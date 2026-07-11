@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/crypto/quick_crypto.dart';
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:blockchain_utils/utils/binary/binary_operation.dart';
 import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
@@ -6,36 +7,47 @@ import 'package:on_chain/ethereum/src/contracts/safe/core/factory.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/types.dart';
 import 'package:on_chain/ethereum/src/exception/exception.dart';
-import 'package:on_chain/ethereum/src/rpc/provider/provider.dart';
+import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 
 class SafeFactoryContract extends ISafeFactoryContract {
   @override
   final SafeContractVersion version;
-  SafeFactoryContract(
-      {required super.contract,
-      required super.contractAddress,
-      required this.version});
+  SafeFactoryContract({
+    required super.contract,
+    required super.contractAddress,
+    required this.version,
+  });
 
   /// Retrieve the {SafeProxy} creation code.
   @override
-  Future<List<int>> proxyCreationCode(EthereumProvider provider) async {
+  Future<List<int>> proxyCreationCode(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<int>>(
-        functionName: SafeContractFunction.proxyCreationCode,
-        provider: provider);
+      functionName: SafeContractFunction.proxyCreationCode,
+      provider: provider,
+    );
   }
 
   @override
-  Future<List<int>> proxyRuntimeCode(EthereumProvider provider) async {
+  Future<List<int>> proxyRuntimeCode(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<List<int>>(
-        functionName: SafeContractFunction.proxyRuntimeCode,
-        provider: provider);
+      functionName: SafeContractFunction.proxyRuntimeCode,
+      provider: provider,
+    );
   }
 
   /// Returns the ID of the chain the contract is currently deployed on.
   @override
-  Future<BigInt> getChainId(EthereumProvider provider) async {
+  Future<BigInt> getChainId(
+    IProvider<IServiceProvider, EthereumRequestDetails> provider,
+  ) async {
     return queryContract<BigInt>(
-        functionName: SafeContractFunction.getChainId, provider: provider);
+      functionName: SafeContractFunction.getChainId,
+      provider: provider,
+    );
   }
 
   /// Allows creating a new proxy contract and executing a message call to the new proxy within one transaction.
@@ -43,63 +55,75 @@ class SafeFactoryContract extends ISafeFactoryContract {
   /// [ masterCopy ] Address of the master copy.
   /// [ data ] Payload for the message call sent to the new proxy contract.
   @override
-  Future<SafeContractEncodedCall> createProxy(
-      {required ETHAddress masterCopy, required List<int> data}) async {
+  Future<SafeContractEncodedCall> createProxy({
+    required ETHAddress masterCopy,
+    required List<int> data,
+  }) async {
     final params = [masterCopy, data];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.createProxy, params: params);
+      functionName: SafeContractFunction.createProxy,
+      params: params,
+    );
   }
 
   /// Deploys a new chain-specific proxy with [singleton] singleton and [saltNonce] salt.
   /// Optionally executes an [initializer] call to a new proxy.
   @override
-  Future<SafeContractEncodedCall> createChainSpecificProxyWithNonce(
-      {required ETHAddress singleton,
-      required List<int> initializer,
-      required BigInt saltNonce}) async {
+  Future<SafeContractEncodedCall> createChainSpecificProxyWithNonce({
+    required ETHAddress singleton,
+    required List<int> initializer,
+    required BigInt saltNonce,
+  }) async {
     final params = [singleton, initializer, saltNonce];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.createChainSpecificProxyWithNonce,
-        params: params);
+      functionName: SafeContractFunction.createChainSpecificProxyWithNonce,
+      params: params,
+    );
   }
 
   /// Deploys a new chain-specific proxy with [singleton] singleton and [saltNonce] salt.
   /// Optionally executes an [initializer] call to a new proxy.
   @override
-  Future<SafeContractEncodedCall> createChainSpecificProxyWithNonceL2(
-      {required ETHAddress singleton,
-      required List<int> initializer,
-      required BigInt saltNonce}) async {
+  Future<SafeContractEncodedCall> createChainSpecificProxyWithNonceL2({
+    required ETHAddress singleton,
+    required List<int> initializer,
+    required BigInt saltNonce,
+  }) async {
     final params = [singleton, initializer, saltNonce];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.createChainSpecificProxyWithNonceL2,
-        params: params);
+      functionName: SafeContractFunction.createChainSpecificProxyWithNonceL2,
+      params: params,
+    );
   }
 
   /// Deploys a new proxy with [singleton] singleton and [saltNonce] salt.
   /// Optionally executes an [initializer] call to a new proxy.
   @override
-  Future<SafeContractEncodedCall> createProxyWithNonce(
-      {required ETHAddress singleton,
-      required List<int> initializer,
-      required BigInt saltNonce}) async {
+  Future<SafeContractEncodedCall> createProxyWithNonce({
+    required ETHAddress singleton,
+    required List<int> initializer,
+    required BigInt saltNonce,
+  }) async {
     final params = [singleton, initializer, saltNonce];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.createProxyWithNonce,
-        params: params);
+      functionName: SafeContractFunction.createProxyWithNonce,
+      params: params,
+    );
   }
 
   /// Deploys a new proxy with [singleton] singleton and [saltNonce] salt.
   /// Optionally executes an [initializer] call to a new proxy.
   @override
-  Future<SafeContractEncodedCall> createProxyWithNonceL2(
-      {required ETHAddress singleton,
-      required List<int> initializer,
-      required BigInt saltNonce}) async {
+  Future<SafeContractEncodedCall> createProxyWithNonceL2({
+    required ETHAddress singleton,
+    required List<int> initializer,
+    required BigInt saltNonce,
+  }) async {
     final params = [singleton, initializer, saltNonce];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.createProxyWithNonceL2,
-        params: params);
+      functionName: SafeContractFunction.createProxyWithNonceL2,
+      params: params,
+    );
   }
 
   /// Allows to create a new proxy contract, execute a message call to the new proxy,
@@ -112,15 +136,17 @@ class SafeFactoryContract extends ISafeFactoryContract {
   /// [callback] Callback that will be invoked after the new proxy contract has been
   ///        successfully deployed and initialized.
   @override
-  Future<SafeContractEncodedCall> createProxyWithCallback(
-      {required ETHAddress singleton,
-      required List<int> initializer,
-      required BigInt saltNonce,
-      required ETHAddress callback}) async {
+  Future<SafeContractEncodedCall> createProxyWithCallback({
+    required ETHAddress singleton,
+    required List<int> initializer,
+    required BigInt saltNonce,
+    required ETHAddress callback,
+  }) async {
     final params = [singleton, initializer, saltNonce, callback];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.createProxyWithCallback,
-        params: params);
+      functionName: SafeContractFunction.createProxyWithCallback,
+      params: params,
+    );
   }
 
   /// Allows getting the address for a new proxy contract created via `createProxyWithNonce`.
@@ -131,14 +157,16 @@ class SafeFactoryContract extends ISafeFactoryContract {
   /// [ initializer ] Payload for the message call sent to the new proxy contract.
   /// [ saltNonce ] Nonce that will be used to generate the salt to calculate the address of the new proxy contract.
   @override
-  Future<SafeContractEncodedCall> calculateCreateProxyWithNonceAddress(
-      {required ETHAddress singleton,
-      required List<int> initializer,
-      required BigInt saltNonce}) async {
+  Future<SafeContractEncodedCall> calculateCreateProxyWithNonceAddress({
+    required ETHAddress singleton,
+    required List<int> initializer,
+    required BigInt saltNonce,
+  }) async {
     final params = [singleton, initializer, saltNonce];
     return encodeTransactionCall(
-        functionName: SafeContractFunction.calculateCreateProxyWithNonceAddress,
-        params: params);
+      functionName: SafeContractFunction.calculateCreateProxyWithNonceAddress,
+      params: params,
+    );
   }
 
   @override
@@ -154,12 +182,13 @@ class SafeFactoryContract extends ISafeFactoryContract {
     SafeContractFunction? method;
     if (version < SafeContractVersion.v1_4_1 && layer == SafeContractLayer.l2) {
       throw ETHPluginException(
-          "This Safe contract version (${version.version}) does not support L2 with explicit layer selection.",
-          details: {
-            "layer": layer.name,
-            "mode": mode.name,
-            "disableNonceForCreateProxy": disableNonceForCreateProxy
-          });
+        "This Safe contract version (${version.version}) does not support L2 with explicit layer selection.",
+        details: {
+          "layer": layer.name,
+          "mode": mode.name,
+          "disableNonceForCreateProxy": disableNonceForCreateProxy.toString(),
+        },
+      );
     }
     bool isL2 = layer == SafeContractLayer.l2;
     switch (mode) {
@@ -168,8 +197,9 @@ class SafeFactoryContract extends ISafeFactoryContract {
         if (isL2 &&
             methods.contains(SafeContractFunction.createProxyWithNonceL2)) {
           method = SafeContractFunction.createProxyWithNonceL2;
-        } else if (methods
-                .contains(SafeContractFunction.createProxyWithNonce) &&
+        } else if (methods.contains(
+              SafeContractFunction.createProxyWithNonce,
+            ) &&
             !disableNonceForCreateProxy) {
           method = SafeContractFunction.createProxyWithNonce;
         } else if (methods.contains(SafeContractFunction.createProxy)) {
@@ -179,31 +209,36 @@ class SafeFactoryContract extends ISafeFactoryContract {
         if (disableNonceForCreateProxy) break;
         if (isL2 &&
             methods.contains(
-                SafeContractFunction.createChainSpecificProxyWithNonceL2)) {
+              SafeContractFunction.createChainSpecificProxyWithNonceL2,
+            )) {
           method = SafeContractFunction.createChainSpecificProxyWithNonceL2;
-        } else if (methods
-            .contains(SafeContractFunction.createChainSpecificProxyWithNonce)) {
+        } else if (methods.contains(
+          SafeContractFunction.createChainSpecificProxyWithNonce,
+        )) {
           method = SafeContractFunction.createChainSpecificProxyWithNonce;
         }
     }
 
     if (method == null) {
       throw ETHPluginException(
-          "Failed to find a valid contract creation method for the provided configuration",
-          details: {
-            "layer": layer.name,
-            "mode": mode.name,
-            "disableNonceForCreateProxy": disableNonceForCreateProxy
-          });
+        "Failed to find a valid contract creation method for the provided configuration",
+        details: {
+          "layer": layer.name,
+          "mode": mode.name,
+          "disableNonceForCreateProxy": disableNonceForCreateProxy.toString(),
+        },
+      );
     }
     if (method != SafeContractFunction.createProxy) {
-      saltNonce ??= BigintUtils.fromBytes(QuickCrypto.generateRandom()) &
+      saltNonce ??=
+          BigintUtils.fromBytes(QuickCrypto.generateRandom()) &
           BinaryOps.maxU256;
     } else {
       saltNonce = null;
     }
     return encodeTransactionCall(
-        functionName: method,
-        params: [singleton, initializer, if (saltNonce != null) saltNonce]);
+      functionName: method,
+      params: [singleton, initializer, if (saltNonce != null) saltNonce],
+    );
   }
 }

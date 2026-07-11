@@ -19,7 +19,8 @@ class ADAStakeAccountDelegationHistoryResponse {
   });
 
   factory ADAStakeAccountDelegationHistoryResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADAStakeAccountDelegationHistoryResponse(
       activeEpoch: json['active_epoch'],
       txHash: json['tx_hash'],
@@ -29,11 +30,11 @@ class ADAStakeAccountDelegationHistoryResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'active_epoch': activeEpoch,
-        'tx_hash': txHash,
-        'amount': amount,
-        'pool_id': poolId,
-      };
+    'active_epoch': activeEpoch,
+    'tx_hash': txHash,
+    'amount': amount,
+    'pool_id': poolId,
+  };
 
   @override
   String toString() {

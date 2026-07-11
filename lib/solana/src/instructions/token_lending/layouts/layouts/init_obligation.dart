@@ -7,9 +7,10 @@ class TokenLendingInitObligationLayout extends TokenLendingProgramLayout {
 
   factory TokenLendingInitObligationLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: TokenLendingProgramInstruction.initObligation.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: TokenLendingProgramInstruction.initObligation.insturction,
+    );
     return const TokenLendingInitObligationLayout();
   }
   static StructLayout get _layout =>

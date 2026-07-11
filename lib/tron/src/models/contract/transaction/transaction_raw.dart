@@ -5,90 +5,91 @@ import 'package:on_chain/tron/src/models/contract/account/authority.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/transaction/transaction_contract.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 class TransactionRaw extends TronProtocolBufferImpl {
   /// Create a new [TransactionRaw] instance by parsing a JSON map.
   factory TransactionRaw.fromJson(Map<String, dynamic> json) {
-    final contractList = OnChainUtils.parseList(
-            value: json['contract'], name: 'contract', throwOnNull: true)!
-        .map((e) => TransactionContract.fromJson(OnChainUtils.parseMap(
-            value: e, name: 'contract', throwOnNull: true)!))
-        .toList();
+    final contractList =
+        json
+            .valueEnsureAsList<Map<String, dynamic>>("contract")
+            .map((e) => TransactionContract.fromJson(e))
+            .toList();
     if (contractList.length != 1) {
       throw const TronPluginException(
-          'Transaction must contain exactly one contract.');
+        'Transaction must contain exactly one contract.',
+      );
     }
 
     return TransactionRaw(
       contract: contractList,
-      refBlockBytes: OnChainUtils.parseHex(
-          value: json['ref_block_bytes'], name: 'ref_block_bytes'),
-      refBlockHash: OnChainUtils.parseHex(
-          value: json['ref_block_hash'], name: 'ref_block_hash'),
-      expiration: OnChainUtils.parseBigInt(
-          value: json['expiration'], name: 'expiration'),
-      timestamp:
-          OnChainUtils.parseBigInt(value: json['timestamp'], name: 'timestamp'),
-      data: OnChainUtils.parseBytes(value: json['data'], name: 'data'),
-      feeLimit:
-          OnChainUtils.parseBigInt(value: json['fee_limit'], name: 'fee_limit'),
-      refBlockNum: OnChainUtils.parseBigInt(
-          value: json['ref_block_num'], name: 'ref_block_num'),
-      scripts: OnChainUtils.parseHex(value: json['scripts'], name: 'scripts'),
-      auths: OnChainUtils.parseList(value: json['auths'], name: 'auths')
-          ?.map((e) => Authority.fromJson(OnChainUtils.parseMap(
-              value: e, name: 'auths', throwOnNull: true)!))
-          .toList(),
+      refBlockBytes: json.valueAsBytes("ref_block_bytes"),
+      refBlockHash: json.valueAsBytes("ref_block_hash"),
+      expiration: json.valueAsBigInt("expiration"),
+      timestamp: json.valueAsBigInt("timestamp"),
+      data: json.valueAsBytes("data", encoding: StringEncoding.utf8),
+      feeLimit: json.valueAsBigInt("fee_limit"),
+      refBlockNum: json.valueAsBigInt("ref_block_num"),
+      scripts: json.valueAsBytes("scripts"),
+      auths:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("auths")
+              ?.map((e) => Authority.fromJson(e))
+              .toList(),
     );
   }
   factory TransactionRaw.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
-    final contracts = decode
-        .getFields<List<int>>(11)
-        .map((e) => TransactionContract.deserialize(e))
-        .toList();
+    final contracts =
+        decode
+            .getFields<List<int>>(11)
+            .map((e) => TransactionContract.deserialize(e))
+            .toList();
     if (contracts.length != 1) {
       throw const TronPluginException(
-          'Transaction must contain exactly one contract.');
+        'Transaction must contain exactly one contract.',
+      );
     }
     return TransactionRaw(
-        refBlockBytes: decode.getField(1),
-        refBlockNum: decode.getField(3),
-        refBlockHash: decode.getField(4),
-        expiration: decode.getField(8),
-        auths: decode
-            .getFields<List<int>>(9)
-            .map((e) => Authority.deserialize(e))
-            .toList(),
-        data: decode.getField(10),
-        contract: contracts,
-        scripts: decode.getField(12),
-        timestamp: decode.getField(14),
-        feeLimit: decode.getField(18));
+      refBlockBytes: decode.getField(1),
+      refBlockNum: decode.getField(3),
+      refBlockHash: decode.getField(4),
+      expiration: decode.getField(8),
+      auths:
+          decode
+              .getFields<List<int>>(9)
+              .map((e) => Authority.deserialize(e))
+              .toList(),
+      data: decode.getField(10),
+      contract: contracts,
+      scripts: decode.getField(12),
+      timestamp: decode.getField(14),
+      feeLimit: decode.getField(18),
+    );
   }
 
   /// Create a new [TransactionRaw] instance with specified parameters.
-  TransactionRaw(
-      {required List<int> refBlockBytes,
-      this.refBlockNum,
-      required List<int> refBlockHash,
-      required this.expiration,
-      List<Authority>? auths,
-      List<int>? data,
-      required List<TransactionContract> contract,
-      List<int>? scripts,
-      required this.timestamp,
-      this.feeLimit})
-      : assert(feeLimit == null || feeLimit > BigInt.zero,
-            'fee limit must not be zero.'),
-        assert(contract.isNotEmpty, 'at least one contract required'),
-        refBlockBytes = refBlockBytes.asImmutableBytes,
-        refBlockHash = refBlockHash.asImmutableBytes,
-        data = data?.emptyAsNull?.asImmutableBytes,
-        scripts = scripts?.emptyAsNull?.asImmutableBytes,
-        auths = auths?.emptyAsNull?.immutable,
-        contract = contract.immutable;
+  TransactionRaw({
+    required List<int> refBlockBytes,
+    this.refBlockNum,
+    required List<int> refBlockHash,
+    required this.expiration,
+    List<Authority>? auths,
+    List<int>? data,
+    required List<TransactionContract> contract,
+    List<int>? scripts,
+    required this.timestamp,
+    this.feeLimit,
+  }) : assert(
+         feeLimit == null || feeLimit > BigInt.zero,
+         'fee limit must not be zero.',
+       ),
+       assert(contract.isNotEmpty, 'at least one contract required'),
+       refBlockBytes = refBlockBytes.asImmutableBytes,
+       refBlockHash = refBlockHash.asImmutableBytes,
+       data = data?.emptyAsNull?.asImmutableBytes,
+       scripts = scripts?.emptyAsNull?.asImmutableBytes,
+       auths = auths?.emptyAsNull?.immutable,
+       contract = contract.immutable;
 
   /// The reference block bytes of the transaction.
   final List<int> refBlockBytes;
@@ -168,21 +169,22 @@ class TransactionRaw extends TronProtocolBufferImpl {
 
   @override
   List get values => [
-        refBlockBytes,
-        refBlockNum,
-        refBlockHash,
-        expiration,
-        auths,
-        data,
-        contract,
-        scripts,
-        timestamp,
-        feeLimit
-      ];
+    refBlockBytes,
+    refBlockNum,
+    refBlockHash,
+    expiration,
+    auths,
+    data,
+    contract,
+    scripts,
+    timestamp,
+    feeLimit,
+  ];
 
   /// transaction ID
-  late final String txID =
-      BytesUtils.toHexString(QuickCrypto.sha256Hash(toBuffer()));
+  late final String txID = BytesUtils.toHexString(
+    QuickCrypto.sha256Hash(toBuffer()),
+  );
 
   /// bytes length of encoded transaction
   late final int length = toBuffer().length;

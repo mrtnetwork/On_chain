@@ -9,15 +9,16 @@ class SystemWithdrawNonceLayout extends SystemProgramLayout {
   const SystemWithdrawNonceLayout({required this.lamports});
   factory SystemWithdrawNonceLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.withdrawNonceAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.withdrawNonceAccount.insturction,
+    );
     return SystemWithdrawNonceLayout(lamports: decode['lamports']);
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

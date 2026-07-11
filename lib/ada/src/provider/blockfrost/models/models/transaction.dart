@@ -100,9 +100,10 @@ class ADATransactionInfoResponse {
       blockTime: json['block_time'],
       slot: json['slot'],
       index: json['index'],
-      outputAmount: (json['output_amount'] as List)
-          .map((e) => ADAAmountResponse.fromJson(e))
-          .toList(),
+      outputAmount:
+          (json['output_amount'] as List)
+              .map((e) => ADAAmountResponse.fromJson(e))
+              .toList(),
       fees: json['fees'],
       deposit: json['deposit'],
       size: json['size'],

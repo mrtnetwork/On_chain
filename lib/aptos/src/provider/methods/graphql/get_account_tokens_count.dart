@@ -1,10 +1,13 @@
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
 
-class AptosGraphQLRequestGetAccountTokensCount extends AptosGraphQLRequest<
-    AptosGraphQLApiAggregate, Map<String, dynamic>> {
-  AptosGraphQLRequestGetAccountTokensCount(
-      {required this.variables, this.headers});
+class AptosGraphQLRequestGetAccountTokensCount
+    extends
+        AptosGraphQLRequest<AptosGraphQLApiAggregate, Map<String, dynamic>> {
+  AptosGraphQLRequestGetAccountTokensCount({
+    required this.variables,
+    this.headers,
+  });
   final AptosGraphQLPaginatedVariablesParams variables;
   @override
   final Map<String, String>? headers;
@@ -16,6 +19,7 @@ class AptosGraphQLRequestGetAccountTokensCount extends AptosGraphQLRequest<
   @override
   AptosGraphQLApiAggregate onResonse(Map<String, dynamic> result) {
     return AptosGraphQLApiAggregate.fromJson(
-        result["current_token_ownerships_v2_aggregate"]["aggregate"]);
+      result["current_token_ownerships_v2_aggregate"]["aggregate"],
+    );
   }
 }

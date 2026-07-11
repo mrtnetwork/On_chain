@@ -13,16 +13,17 @@ class TokenLendingSetLendingMarketOwnerLayout
 
   factory TokenLendingSetLendingMarketOwnerLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            TokenLendingProgramInstruction.setLendingMarketOwner.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          TokenLendingProgramInstruction.setLendingMarketOwner.insturction,
+    );
     return TokenLendingSetLendingMarketOwnerLayout(newOwner: decode['owner']);
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('newOwner')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newOwner'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

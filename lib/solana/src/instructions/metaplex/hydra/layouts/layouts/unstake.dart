@@ -6,10 +6,10 @@ class MetaplexHydraUnstakeLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraUnstakeLayout.fromBuffer(List<int> data) {
     MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexHydraProgramInstruction.processUnstake.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexHydraProgramInstruction.processUnstake.insturction,
+    );
     return const MetaplexHydraUnstakeLayout();
   }
 

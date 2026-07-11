@@ -1,50 +1,54 @@
+import 'package:blockchain_utils/utils/json/json.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/account/permission.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Update the account's permission.
 class AccountPermissionUpdateContract extends TronBaseContract {
   /// Create a new [AccountPermissionUpdateContract] instance by parsing a JSON map.
   factory AccountPermissionUpdateContract.fromJson(Map<String, dynamic> json) {
     return AccountPermissionUpdateContract(
-        ownerAddress: OnChainUtils.parseTronAddress(
-            value: json['owner_address'], name: 'owner_address'),
-        owner: Permission.fromJson(OnChainUtils.parseMap(
-            value: json['owner'], name: 'owner', throwOnNull: true)!),
-        witness:
-            OnChainUtils.parseMap(value: json['witness'], name: 'witness') ==
-                    null
-                ? null
-                : Permission.fromJson(json['witness']),
-        actives: OnChainUtils.parseList(value: json['actives'], name: 'actives')
-                ?.map((e) => Permission.fromJson(e))
-                .toList() ??
-            <Permission>[]);
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      owner: Permission.fromJson(
+        json.valueEnsureAsMap<String, dynamic>("owner"),
+      ),
+      witness: json.valueTo<Permission?, Map<String, dynamic>>(
+        key: "witness",
+        parse: (e) => Permission.fromJson(e),
+      ),
+      actives:
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("actives")
+              ?.map((e) => Permission.fromJson(e))
+              .toList() ??
+          <Permission>[],
+    );
   }
 
   factory AccountPermissionUpdateContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return AccountPermissionUpdateContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        owner: Permission.deserialize(decode.getField(2)),
-        witness: decode
-            .getResult(3)
-            ?.castTo<Permission, List<int>>((e) => Permission.deserialize(e)),
-        actives: decode
-            .getFields<List<int>>(4)
-            .map((e) => Permission.deserialize(e))
-            .toList());
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      owner: Permission.deserialize(decode.getField(2)),
+      witness: decode
+          .getResult(3)
+          ?.castTo<Permission, List<int>>((e) => Permission.deserialize(e)),
+      actives:
+          decode
+              .getFields<List<int>>(4)
+              .map((e) => Permission.deserialize(e))
+              .toList(),
+    );
   }
 
   /// Create a new [AccountPermissionUpdateContract] instance with specified parameters.
-  AccountPermissionUpdateContract(
-      {required this.ownerAddress,
-      required this.owner,
-      this.witness,
-      required List<Permission> actives})
-      : actives = List<Permission>.unmodifiable(actives);
+  AccountPermissionUpdateContract({
+    required this.ownerAddress,
+    required this.owner,
+    this.witness,
+    required List<Permission> actives,
+  }) : actives = List<Permission>.unmodifiable(actives);
 
   /// account address
   @override
@@ -76,7 +80,6 @@ class AccountPermissionUpdateContract extends TronBaseContract {
   }
 
   @override
-
   /// Convert the [AccountPermissionUpdateContract] object to a JSON representation.
   Map<String, dynamic> toJson({bool visible = true}) {
     return {

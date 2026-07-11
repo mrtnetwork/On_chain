@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataRemoveCreatorVerificationLayout
   const MetaplexTokenMetaDataRemoveCreatorVerificationLayout();
 
   factory MetaplexTokenMetaDataRemoveCreatorVerificationLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .removeCreatorVerification.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .removeCreatorVerification
+              .insturction,
+    );
     return const MetaplexTokenMetaDataRemoveCreatorVerificationLayout();
   }
 

@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
@@ -12,18 +13,24 @@ class VoterType with InternalCborSerialization {
 
   const VoterType._(this.name, this.value);
 
-  static const VoterType constitutionalCommitteeHotKeyHash =
-      VoterType._('constitutional_committee_hot_key_hash', 0);
+  static const VoterType constitutionalCommitteeHotKeyHash = VoterType._(
+    'constitutional_committee_hot_key_hash',
+    0,
+  );
 
-  static const VoterType constitutionalCommitteeHotScriptHash =
-      VoterType._('constitutional_committee_hot_script_hash', 1);
+  static const VoterType constitutionalCommitteeHotScriptHash = VoterType._(
+    'constitutional_committee_hot_script_hash',
+    1,
+  );
 
   static const VoterType drepKeyHash = VoterType._('drep_key_hash', 2);
 
   static const VoterType drepScriptHash = VoterType._('drep_script_hash', 3);
 
-  static const VoterType stakingPoolKeyHash =
-      VoterType._('staking_pool_key_hash', 4);
+  static const VoterType stakingPoolKeyHash = VoterType._(
+    'staking_pool_key_hash',
+    4,
+  );
 
   /// List of all voter types.
   static const List<VoterType> values = [
@@ -31,7 +38,7 @@ class VoterType with InternalCborSerialization {
     constitutionalCommitteeHotScriptHash,
     drepKeyHash,
     drepScriptHash,
-    stakingPoolKeyHash
+    stakingPoolKeyHash,
   ];
 
   @override
@@ -42,8 +49,10 @@ class VoterType with InternalCborSerialization {
   static VoterType fromJson(String? value, {VoterType? validate}) {
     final type = fromName(value);
     if (validate != null && type != validate) {
-      throw ADAPluginException('Invalid VoterType.',
-          details: {'expected': validate, 'Type': type});
+      throw ADAPluginException(
+        'Invalid VoterType.',
+        details: {'expected': validate.toString(), 'Type': type.toString()},
+      );
     }
     return type;
   }
@@ -51,8 +60,10 @@ class VoterType with InternalCborSerialization {
   static VoterType deserialize(int? value, {VoterType? validate}) {
     final type = fromValue(value);
     if (validate != null && type != validate) {
-      throw ADAPluginException('Invalid VoterType.',
-          details: {'expected': validate, 'Type': type});
+      throw ADAPluginException(
+        'Invalid VoterType.',
+        details: {'expected': validate.toString(), 'Type': type.toString()},
+      );
     }
     return type;
   }
@@ -61,9 +72,7 @@ class VoterType with InternalCborSerialization {
   static VoterType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No VoterType found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "VoterType"),
     );
   }
 
@@ -71,9 +80,7 @@ class VoterType with InternalCborSerialization {
   static VoterType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No VoterType found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "VoterType"),
     );
   }
 

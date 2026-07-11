@@ -12,13 +12,14 @@ class GroupMemberPointerInstruction extends BorshLayoutSerializable {
 
   static const List<GroupMemberPointerInstruction> values = [
     initialize,
-    update
+    update,
   ];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'groupMemberPointer')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'groupMemberPointer',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -26,7 +27,7 @@ class GroupMemberPointerInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'groupMemberPointer': {name: null}
+      'groupMemberPointer': {name: null},
     };
   }
 
@@ -36,9 +37,12 @@ class GroupMemberPointerInstruction extends BorshLayoutSerializable {
   static GroupMemberPointerInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No GroupMemberPointerInstruction found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No GroupMemberPointerInstruction found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

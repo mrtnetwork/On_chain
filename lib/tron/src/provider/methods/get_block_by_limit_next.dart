@@ -5,8 +5,10 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getblockbylimitnext).
 class TronRequestGetBlockByLimitNext
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetBlockByLimitNext(
-      {required this.startNum, required this.endNum});
+  TronRequestGetBlockByLimitNext({
+    required this.startNum,
+    required this.endNum,
+  });
 
   /// Starting block height, including this block.
   final int startNum;

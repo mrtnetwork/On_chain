@@ -12,9 +12,10 @@ abstract class MIR with InternalCborSerialization {
   factory MIR.deserialize(CborObject cbor) {
     if (cbor.hasType<CborMapValue>()) {
       return MIRToStakeCredentials.deserialize(
-          cbor.as("MIRToStakeCredentials"));
+        cbor.as(operation: "MIRToStakeCredentials"),
+      );
     }
-    return ToOtherPot.deserialize(cbor.as("ToOtherPot"));
+    return ToOtherPot.deserialize(cbor.as(operation: "ToOtherPot"));
   }
 
   /// Constructs a MIR object from its CBOR byte representation.
@@ -23,8 +24,10 @@ abstract class MIR with InternalCborSerialization {
   }
   factory MIR.fromJson(dynamic json) {
     if (json is! Map && json is! String) {
-      throw ADAPluginException('Invalid MIR json. value must be string or map',
-          details: {'json': json});
+      throw ADAPluginException(
+        'Invalid MIR json. value must be string or map',
+        details: {'json': json.toString()},
+      );
     }
     if (json is String) {
       return ToOtherPot(BigintUtils.parse(json));

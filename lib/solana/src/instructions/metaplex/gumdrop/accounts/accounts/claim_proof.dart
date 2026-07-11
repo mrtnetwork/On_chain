@@ -7,13 +7,13 @@ class _Utils {
   static const List<int> discriminator = [48, 173, 176, 137, 53, 116, 40, 112];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.u64(property: 'count'),
-        SolanaLayoutUtils.publicKey('claimant'),
-        SolanaLayoutUtils.publicKey('resource'),
-        LayoutConst.vecU8(property: 'resourceNonce')
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u64(property: 'count'),
+    SolanaLayoutUtils.publicKey('claimant'),
+    SolanaLayoutUtils.publicKey('resource'),
+    LayoutConst.vecU8(property: 'resourceNonce'),
+  ]);
 }
 
 class ClaimProof extends BorshLayoutSerializable {
@@ -22,24 +22,26 @@ class ClaimProof extends BorshLayoutSerializable {
   final SolAddress claimant;
   final SolAddress resource;
   final List<int> resourceNonce;
-  ClaimProof(
-      {required this.amount,
-      required this.count,
-      required this.claimant,
-      required this.resource,
-      required List<int> resourceNonce})
-      : resourceNonce = resourceNonce.asImmutableBytes;
+  ClaimProof({
+    required this.amount,
+    required this.count,
+    required this.claimant,
+    required this.resource,
+    required List<int> resourceNonce,
+  }) : resourceNonce = resourceNonce.asImmutableBytes;
   factory ClaimProof.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return ClaimProof(
-        amount: decode['amount'],
-        count: decode['count'],
-        claimant: decode['claimant'],
-        resource: decode['resource'],
-        resourceNonce: (decode['resourceNonce'] as List).cast());
+      amount: decode['amount'],
+      count: decode['count'],
+      claimant: decode['claimant'],
+      resource: decode['resource'],
+      resourceNonce: (decode['resourceNonce'] as List).cast(),
+    );
   }
 
   @override
@@ -53,7 +55,7 @@ class ClaimProof extends BorshLayoutSerializable {
       'count': count,
       'claimant': claimant,
       'resource': resource,
-      'resourceNonce': resourceNonce
+      'resourceNonce': resourceNonce,
     };
   }
 

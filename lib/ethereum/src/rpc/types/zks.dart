@@ -5,14 +5,17 @@ class Getl2tol1logproof {
   final List<String> proof;
   final int id;
   final String root;
-  Getl2tol1logproof(
-      {required List<String> proof, required this.id, required this.root})
-      : proof = proof.immutable;
+  Getl2tol1logproof({
+    required List<String> proof,
+    required this.id,
+    required this.root,
+  }) : proof = proof.immutable;
   factory Getl2tol1logproof.fromJson(Map<String, dynamic> json) {
     return Getl2tol1logproof(
-        proof: json.valueEnsureAsList<String>("proof"),
-        id: json.valueAs("id"),
-        root: json.valueAs("root"));
+      proof: json.valueEnsureAsList<String>("proof"),
+      id: json.valueAs("id"),
+      root: json.valueAs("root"),
+    );
   }
 }
 
@@ -32,10 +35,11 @@ class JKSGenesis {
   // Factory constructor to create an instance from JSON
   factory JKSGenesis.fromJson(Map<String, dynamic> json) {
     return JKSGenesis(
-      initialContracts: json
-          .valueEnsureAsList<List>("initial_contracts")
-          .map((e) => JsonParser.valueEnsureAsList<String>(e))
-          .toList(),
+      initialContracts:
+          json
+              .valueEnsureAsList<List>("initial_contracts")
+              .map((e) => JsonParser.valueEnsureAsList<String>(e))
+              .toList(),
       additionalStorage: json.valueAs("additional_storage"),
       executionVersion: json.valueAs("execution_version"),
       genesisRoot: json.valueAs("genesis_root"),
@@ -113,8 +117,9 @@ class ZkSyncBlockDetails {
       executedAt: json['executedAt'],
       l1GasPrice: json['l1GasPrice'],
       l2FairGasPrice: json['l2FairGasPrice'],
-      baseSystemContractsHashes:
-          Map<String, dynamic>.from(json['baseSystemContractsHashes']),
+      baseSystemContractsHashes: Map<String, dynamic>.from(
+        json['baseSystemContractsHashes'],
+      ),
       operatorAddress: json['operatorAddress'],
       protocolVersion: json['protocolVersion'],
     );
@@ -192,15 +197,18 @@ class ZkSyncSendRawTransactionWithDetailedOutput {
 
   // Factory constructor to create an instance from JSON
   factory ZkSyncSendRawTransactionWithDetailedOutput.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ZkSyncSendRawTransactionWithDetailedOutput(
       transactionHash: json['transactionHash'],
-      storageLogs: (json['storageLogs'] as List)
-          .map((item) => ZkSyncStorageLog.fromJson(item))
-          .toList(),
-      events: (json['events'] as List)
-          .map((item) => ZkSyncEvent.fromJson(item))
-          .toList(),
+      storageLogs:
+          (json['storageLogs'] as List)
+              .map((item) => ZkSyncStorageLog.fromJson(item))
+              .toList(),
+      events:
+          (json['events'] as List)
+              .map((item) => ZkSyncEvent.fromJson(item))
+              .toList(),
     );
   }
 
@@ -236,11 +244,7 @@ class ZkSyncStorageLog {
 
   // Method to convert an instance to JSON (optional)
   Map<String, dynamic> toJson() {
-    return {
-      'address': address,
-      'key': key,
-      'writtenValue': writtenValue,
-    };
+    return {'address': address, 'key': key, 'writtenValue': writtenValue};
   }
 }
 
@@ -274,9 +278,10 @@ class ZkSyncEvent {
       topics: List<String>.from(json['topics']),
       data: json['data'],
       blockHash: json['blockHash'],
-      blockNumber: json['blockNumber'] != null
-          ? int.parse(json['blockNumber'], radix: 16)
-          : null,
+      blockNumber:
+          json['blockNumber'] != null
+              ? int.parse(json['blockNumber'], radix: 16)
+              : null,
       l1BatchNumber: json['l1BatchNumber'],
       transactionHash: json['transactionHash'],
       transactionIndex: json['transactionIndex'],
@@ -358,10 +363,7 @@ class ZkSyncProof {
   final String address;
   final List<StorageProof> storageProof;
 
-  ZkSyncProof({
-    required this.address,
-    required this.storageProof,
-  });
+  ZkSyncProof({required this.address, required this.storageProof});
 
   // Factory constructor to create an instance from JSON
   factory ZkSyncProof.fromJson(Map<String, dynamic> json) {
@@ -412,11 +414,6 @@ class StorageProof {
 
   // Optionally, you can add a `toJson` method if you want to serialize back to JSON
   Map<String, dynamic> toJson() {
-    return {
-      'key': key,
-      'proof': proof,
-      'value': value,
-      'index': index,
-    };
+    return {'key': key, 'proof': proof, 'value': value, 'index': index};
   }
 }

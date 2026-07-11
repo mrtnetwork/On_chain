@@ -11,11 +11,23 @@ class RPCHttpService with EthereumServiceProvider {
   final Client client;
   final Duration defaultTimeOut;
   @override
-  Future<BaseServiceResponse<T>> doRequest<T>(EthereumRequestDetails params,
+  Future<BaseServiceResponse> doRequest(EthereumRequestDetails params,
       {Duration? timeout}) async {
     final response = await client
-        .post(params.toUri(url), headers: params.headers, body: params.body())
+        .post(params.encodeUrl(url),
+            headers: params.headers, body: params.encodeBody())
         .timeout(timeout ?? defaultTimeOut);
-    return params.parseResponse(response.bodyBytes, response.statusCode);
+    return params.toResponse(response.bodyBytes,
+        statusCode: response.statusCode);
+  }
+
+  @override
+  Future<BaseServiceSubscribtionResponse> doSubscribtionRequest(
+      {required EthereumRequestDetails params,
+      required BaseServiceSubscribtionRequest<dynamic, dynamic,
+              BaseSubscribtionEvent<dynamic>, EthereumRequestDetails>
+          request,
+      Duration? timeout}) {
+    throw UnimplementedError("Http request not supported.");
   }
 }

@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        LayoutConst.u64(property: 'allowedUses'),
-        LayoutConst.u8(property: 'bump')
-      ]);
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u64(property: 'allowedUses'),
+    LayoutConst.u8(property: 'bump'),
+  ]);
 }
 
 class UseAuthorityRecord extends BorshLayoutSerializable {
@@ -15,15 +15,21 @@ class UseAuthorityRecord extends BorshLayoutSerializable {
   final BigInt allowedUses;
   final int bump;
 
-  const UseAuthorityRecord(
-      {required this.key, required this.bump, required this.allowedUses});
+  const UseAuthorityRecord({
+    required this.key,
+    required this.bump,
+    required this.allowedUses,
+  });
   factory UseAuthorityRecord.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return UseAuthorityRecord(
-        key: MetaDataKey.fromValue(decode['key']),
-        bump: decode['bump'],
-        allowedUses: decode['allowedUses']);
+      key: MetaDataKey.fromValue(decode['key']),
+      bump: decode['bump'],
+      allowedUses: decode['allowedUses'],
+    );
   }
 
   @override

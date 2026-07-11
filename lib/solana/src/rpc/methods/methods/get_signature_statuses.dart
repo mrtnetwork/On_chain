@@ -31,8 +31,8 @@ class SolanaRequestGetSignatureStatuses
     return [
       signatures,
       SolanaRequestUtils.createConfig([
-        {'searchTransactionHistory': searchTransactionHistory}
-      ])
+        {'searchTransactionHistory': searchTransactionHistory},
+      ]),
     ];
   }
 

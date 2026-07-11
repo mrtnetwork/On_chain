@@ -8,14 +8,18 @@ import 'transaction_metadata_types.dart';
 
 class TransactionMetadataIntSerializationConfig {
   final CborLengthEncoding encoding;
-  const TransactionMetadataIntSerializationConfig(
-      {this.encoding = CborLengthEncoding.canonical});
+  const TransactionMetadataIntSerializationConfig({
+    this.encoding = CborLengthEncoding.canonical,
+  });
   factory TransactionMetadataIntSerializationConfig.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TransactionMetadataIntSerializationConfig(
-        encoding: json["encoding"] == null
-            ? CborLengthEncoding.canonical
-            : CborLengthEncoding.fromName(json["encoding"]));
+      encoding:
+          json["encoding"] == null
+              ? CborLengthEncoding.canonical
+              : CborLengthEncoding.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name};
@@ -29,10 +33,11 @@ class TransactionMetadataInt extends TransactionMetadata<BigInt> {
   final BigInt value;
 
   /// Constructs a TransactionMetadataInt object.
-  const TransactionMetadataInt(
-      {required this.value,
-      this.serializationConfig =
-          const TransactionMetadataIntSerializationConfig()});
+  const TransactionMetadataInt({
+    required this.value,
+    this.serializationConfig =
+        const TransactionMetadataIntSerializationConfig(),
+  });
 
   final TransactionMetadataIntSerializationConfig serializationConfig;
 
@@ -42,18 +47,21 @@ class TransactionMetadataInt extends TransactionMetadata<BigInt> {
       final big = cbor.as<CborBigIntValue>();
 
       return TransactionMetadataInt(
-          value: big.toBigInt(),
-          serializationConfig: TransactionMetadataIntSerializationConfig(
-              encoding: big.encoding));
+        value: big.toBigInt(),
+        serializationConfig: TransactionMetadataIntSerializationConfig(
+          encoding: big.encoding,
+        ),
+      );
     }
     return TransactionMetadataInt(value: cbor.as<CborNumeric>().toBigInt());
   }
   factory TransactionMetadataInt.fromJson(Map<String, dynamic> json) {
     return TransactionMetadataInt(
-        value:
-            BigintUtils.parse(json[TransactionMetadataType.metadataInt.name]),
-        serializationConfig: TransactionMetadataIntSerializationConfig.fromJson(
-            json['serialization_config']));
+      value: BigintUtils.parse(json[TransactionMetadataType.metadataInt.name]),
+      serializationConfig: TransactionMetadataIntSerializationConfig.fromJson(
+        json['serialization_config'],
+      ),
+    );
   }
   TransactionMetadataInt copyWith({BigInt? value}) {
     return TransactionMetadataInt(value: value ?? this.value);
@@ -68,14 +76,16 @@ class TransactionMetadataInt extends TransactionMetadata<BigInt> {
   Map<String, dynamic> toJson() {
     return {
       type.name: value.toString(),
-      'serialization_config': serializationConfig.toJson()
+      'serialization_config': serializationConfig.toJson(),
     };
   }
 
   @override
-  Object toJsonSchema(
-      {MetadataSchemaConfig config = const MetadataSchemaConfig(
-          jsonSchema: MetadataJsonSchema.noConversions)}) {
+  Object toJsonSchema({
+    MetadataSchemaConfig config = const MetadataSchemaConfig(
+      jsonSchema: MetadataJsonSchema.noConversions,
+    ),
+  }) {
     if (config.jsonSchema == MetadataJsonSchema.detailedSchema) {
       return {'int': config.useIntInsteadBigInt ? value.toInt() : value};
     }

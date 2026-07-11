@@ -13,22 +13,27 @@ import 'package:on_chain/ada/src/models/plutus/plutus_script/models/language.dar
 import 'package:on_chain/ada/src/models/plutus/redeemer/models/redeemer.dart';
 
 class PlutusDataUtils {
-  static ScriptDataHash scriptDatahash(
-      {required List<Redeemer> redeemers,
-      required Costmdls costmdls,
-      PlutusList? datums}) {
+  static ScriptDataHash scriptDatahash({
+    required List<Redeemer> redeemers,
+    required Costmdls costmdls,
+    PlutusList? datums,
+  }) {
     if (redeemers.isEmpty && datums != null) {
       return ScriptDataHash(
-          QuickCrypto.blake2b256Hash([0x80, ...datums.serialize(), 0xA0]));
+        QuickCrypto.blake2b256Hash([0x80, ...datums.serialize(), 0xA0]),
+      );
     }
     final List<int> redeemersBytes =
-        CborListValue.definite(redeemers.map((e) => e.toCbor()).toList())
-            .encode();
-    return ScriptDataHash(QuickCrypto.blake2b256Hash([
-      ...redeemersBytes,
-      ...datums?.serialize() ?? <int>[],
-      ...costmdls.languageViewEncoding().encode()
-    ]));
+        CborListValue.definite(
+          redeemers.map((e) => e.toCbor()).toList(),
+        ).encode();
+    return ScriptDataHash(
+      QuickCrypto.blake2b256Hash([
+        ...redeemersBytes,
+        ...datums?.serialize() ?? <int>[],
+        ...costmdls.languageViewEncoding().encode(),
+      ]),
+    );
   }
 
   static int costModelKeyLength(Language language) {
@@ -80,13 +85,16 @@ class PlutusDataUtils {
     return PlutusInteger(value);
   }
 
-  static PlutusData _encodeString(
-      {required PlutusJsonSchema schame,
-      required dynamic value,
-      required bool isKey}) {
+  static PlutusData _encodeString({
+    required PlutusJsonSchema schame,
+    required dynamic value,
+    required bool isKey,
+  }) {
     if (value is! String) {
-      throw ADAPluginException('Invalid string format.',
-          details: {'Value': '$value', 'Type': '${value.runtimeType}'});
+      throw ADAPluginException(
+        'Invalid string format.',
+        details: {'Value': '$value', 'Type': '${value.runtimeType}'},
+      );
     }
     switch (schame) {
       case PlutusJsonSchema.basicConversions:
@@ -103,8 +111,9 @@ class PlutusDataUtils {
       default:
         if (value.startsWith('0x')) {
           throw ADAPluginException(
-              'Hex byte strings in detailed schema should NOT start with 0x',
-              details: {'Value': value});
+            'Hex byte strings in detailed schema should NOT start with 0x',
+            details: {'Value': value},
+          );
         }
         return PlutusBytes(value: BytesUtils.fromHexString(value));
     }
@@ -112,7 +121,10 @@ class PlutusDataUtils {
 
   static PlutusData _encodeArray(dynamic value, PlutusJsonSchema jsonSchema) {
     if (value is! List) {
-      throw ADAPluginException('Invalid list type.', details: {'value': value});
+      throw ADAPluginException(
+        'Invalid list type.',
+        details: {'value': value?.toString()},
+      );
     }
     return PlutusList(value.map((e) => parsePlutus(e, jsonSchema)).toList());
   }
@@ -128,8 +140,10 @@ class PlutusDataUtils {
       }
     }
     if (val != null) {
-      throw ADAPluginException('Invalid plutus format. type not allowed.',
-          details: {'Value': val, 'Type': '${val.runtimeType}'});
+      throw ADAPluginException(
+        'Invalid plutus format. type not allowed.',
+        details: {'Value': val, 'Type': '${val.runtimeType}'},
+      );
     }
     throw const ADAPluginException('null not allowed in plutus data');
   }
@@ -137,8 +151,11 @@ class PlutusDataUtils {
   static PlutusData _encodeMap(Map value, PlutusJsonSchema jsonSchema) {
     final Map<PlutusData, PlutusData> values = {};
     for (final i in value.entries) {
-      final PlutusData key =
-          _encodeString(schame: jsonSchema, value: i.key, isKey: true);
+      final PlutusData key = _encodeString(
+        schame: jsonSchema,
+        value: i.key,
+        isKey: true,
+      );
       values.addAll({key: parsePlutus(i.value, jsonSchema)});
     }
     return PlutusMap(values);
@@ -147,7 +164,8 @@ class PlutusDataUtils {
   static PlutusData _parseDetailed(dynamic value, PlutusJsonSchema schame) {
     if (value is! Map<String, dynamic>) {
       throw const ADAPluginException(
-          'DetailedSchema requires types to be tagged objects');
+        'DetailedSchema requires types to be tagged objects',
+      );
     }
     if (value.length == 1) {
       final entry = value.entries.first;
@@ -178,8 +196,9 @@ class PlutusDataUtils {
                 r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
               );
             }
-            values.addAll(
-                {parsePlutus(i['k'], schame): parsePlutus(i['v'], schame)});
+            values.addAll({
+              parsePlutus(i['k'], schame): parsePlutus(i['v'], schame),
+            });
           }
           return PlutusMap(values);
         default:
@@ -188,26 +207,30 @@ class PlutusDataUtils {
     } else {
       if (value.length != 2) {
         throw const ADAPluginException(
-            'detailed schemas must either have only one of the following keys: "int", "bytes", "list" or "map", or both of these 2 keys: "constructor" + "fields"');
+          'detailed schemas must either have only one of the following keys: "int", "bytes", "list" or "map", or both of these 2 keys: "constructor" + "fields"',
+        );
       }
       final constructor = value['constructor'];
       if (constructor is! int && constructor is! BigInt) {
         throw const ADAPluginException(
-            'tagged constructors must contain an unsigned integer called "constructor"');
+          'tagged constructors must contain an unsigned integer called "constructor"',
+        );
       }
       final fileds = value['fields'];
       if (fileds is! List) {
         throw const ADAPluginException(
-            'tagged constructors must contian a list called "fields"');
+          'tagged constructors must contian a list called "fields"',
+        );
       }
       final List<PlutusData> plutusList = [];
       for (final i in fileds) {
         plutusList.add(parsePlutus(i, schame));
       }
       return ConstrPlutusData(
-          alternative:
-              constructor is int ? BigInt.from(constructor) : constructor,
-          data: PlutusList(plutusList));
+        alternative:
+            constructor is int ? BigInt.from(constructor) : constructor,
+        data: PlutusList(plutusList),
+      );
     }
   }
 }

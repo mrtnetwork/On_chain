@@ -9,20 +9,23 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 class TronRequestUnfreezeBalanceV2
     extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestUnfreezeBalanceV2.fromContract(
-      UnfreezeBalanceV2Contract contract,
-      {int? permissionId}) {
+    UnfreezeBalanceV2Contract contract, {
+    int? permissionId,
+  }) {
     return TronRequestUnfreezeBalanceV2(
-        ownerAddress: contract.ownerAddress,
-        unfreezeBalance: contract.unfreezeBalance,
-        resource: contract.resource?.name,
-        permissionId: permissionId);
+      ownerAddress: contract.ownerAddress,
+      unfreezeBalance: contract.unfreezeBalance,
+      resource: contract.resource?.name,
+      permissionId: permissionId,
+    );
   }
-  TronRequestUnfreezeBalanceV2(
-      {required this.ownerAddress,
-      required this.unfreezeBalance,
-      required this.resource,
-      this.permissionId,
-      this.visible = true});
+  TronRequestUnfreezeBalanceV2({
+    required this.ownerAddress,
+    required this.unfreezeBalance,
+    required this.resource,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address,
   final TronAddress ownerAddress;
@@ -49,7 +52,7 @@ class TronRequestUnfreezeBalanceV2
       'unfreeze_balance': unfreezeBalance,
       'resource': resource,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

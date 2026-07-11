@@ -34,40 +34,48 @@ class ConfirmedTransactionMeta {
 
   /// The compute units consumed after processing the transaction
   final int? computeUnitsConsumed;
-  const ConfirmedTransactionMeta(
-      {required this.fee,
-      required this.innerInstructions,
-      required this.preBalances,
-      required this.postBalances,
-      required this.logMessages,
-      required this.preTokenBalances,
-      required this.postTokenBalances,
-      required this.err,
-      required this.loadedAddresses,
-      required this.computeUnitsConsumed});
+  const ConfirmedTransactionMeta({
+    required this.fee,
+    required this.innerInstructions,
+    required this.preBalances,
+    required this.postBalances,
+    required this.logMessages,
+    required this.preTokenBalances,
+    required this.postTokenBalances,
+    required this.err,
+    required this.loadedAddresses,
+    required this.computeUnitsConsumed,
+  });
   factory ConfirmedTransactionMeta.fromJson(Map<String, dynamic> json) {
     return ConfirmedTransactionMeta(
-        fee: json['fee'],
-        innerInstructions: (json['innerInstructions'] as List?)
-            ?.map((e) => CompiledInnerInstruction.fromJson(e))
-            .toList(),
-        preBalances: (json['preBalances'] as List)
-            .map((e) => BigintUtils.parse(e))
-            .toList(),
-        postBalances: (json['postBalances'] as List)
-            .map((e) => BigintUtils.parse(e))
-            .toList(),
-        logMessages: (json['logMessages'] as List?)?.cast(),
-        preTokenBalances: (json['preTokenBalances'] as List?)
-            ?.map((e) => TokenBalance.fromJson(e))
-            .toList(),
-        postTokenBalances: (json['postTokenBalances'] as List?)
-            ?.map((e) => TokenBalance.fromJson(e))
-            .toList(),
-        err: json['err'],
-        loadedAddresses: json['loadedAddresses'] == null
-            ? null
-            : AccountLookupKeys.fromJson(json['loadedAddresses']),
-        computeUnitsConsumed: json['computeUnitsConsumed']);
+      fee: json['fee'],
+      innerInstructions:
+          (json['innerInstructions'] as List?)
+              ?.map((e) => CompiledInnerInstruction.fromJson(e))
+              .toList(),
+      preBalances:
+          (json['preBalances'] as List)
+              .map((e) => BigintUtils.parse(e))
+              .toList(),
+      postBalances:
+          (json['postBalances'] as List)
+              .map((e) => BigintUtils.parse(e))
+              .toList(),
+      logMessages: (json['logMessages'] as List?)?.cast(),
+      preTokenBalances:
+          (json['preTokenBalances'] as List?)
+              ?.map((e) => TokenBalance.fromJson(e))
+              .toList(),
+      postTokenBalances:
+          (json['postTokenBalances'] as List?)
+              ?.map((e) => TokenBalance.fromJson(e))
+              .toList(),
+      err: json['err'],
+      loadedAddresses:
+          json['loadedAddresses'] == null
+              ? null
+              : AccountLookupKeys.fromJson(json['loadedAddresses']),
+      computeUnitsConsumed: json['computeUnitsConsumed'],
+    );
   }
 }

@@ -4,8 +4,12 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain the transaction metadata in CBOR.
 /// https://blockfrost.dev/api/transaction-metadata-in-cbor
-class BlockfrostRequestTransactionMetadataInCBOR extends BlockFrostRequest<
-    List<ADATransactionMetadataCBORResponse>, List<Map<String, dynamic>>> {
+class BlockfrostRequestTransactionMetadataInCBOR
+    extends
+        BlockFrostRequest<
+          List<ADATransactionMetadataCBORResponse>,
+          List<Map<String, dynamic>>
+        > {
   BlockfrostRequestTransactionMetadataInCBOR(this.hash);
 
   /// Hash of the requested transaction
@@ -20,7 +24,8 @@ class BlockfrostRequestTransactionMetadataInCBOR extends BlockFrostRequest<
 
   @override
   List<ADATransactionMetadataCBORResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADATransactionMetadataCBORResponse.fromJson(e))
         .toList();

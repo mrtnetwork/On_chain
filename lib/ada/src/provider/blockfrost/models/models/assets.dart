@@ -5,10 +5,7 @@ class ADAAssetsResponse {
   /// Current asset quantity
   final String quantity;
 
-  ADAAssetsResponse({
-    required this.assetId,
-    required this.quantity,
-  });
+  ADAAssetsResponse({required this.assetId, required this.quantity});
 
   factory ADAAssetsResponse.fromJson(Map<String, dynamic> json) {
     return ADAAssetsResponse(
@@ -17,10 +14,7 @@ class ADAAssetsResponse {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'asset': assetId,
-        'quantity': quantity,
-      };
+  Map<String, dynamic> toJson() => {'asset': assetId, 'quantity': quantity};
   @override
   String toString() {
     return 'ADAAssetResponse${toJson()}';

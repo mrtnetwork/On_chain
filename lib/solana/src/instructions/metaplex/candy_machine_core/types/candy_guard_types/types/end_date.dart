@@ -9,9 +9,9 @@ class EndDate extends BorshLayoutSerializable {
     return EndDate(date: json['date']);
   }
 
-  static StructLayout get staticLayout =>
-      LayoutConst.struct([LayoutConst.i64(property: 'date')],
-          property: 'endDate');
+  static StructLayout get staticLayout => LayoutConst.struct([
+    LayoutConst.i64(property: 'date'),
+  ], property: 'endDate');
 
   @override
   StructLayout get layout => staticLayout;

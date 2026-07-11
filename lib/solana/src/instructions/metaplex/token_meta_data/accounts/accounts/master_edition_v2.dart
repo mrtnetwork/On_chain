@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        LayoutConst.u64(property: 'supply'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply')
-      ]);
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u64(property: 'supply'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
+  ]);
 }
 
 class MasterEditionV2 extends BorshLayoutSerializable {
@@ -17,12 +17,15 @@ class MasterEditionV2 extends BorshLayoutSerializable {
 
   MasterEditionV2({required this.key, required this.supply, this.maxSupply});
   factory MasterEditionV2.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return MasterEditionV2(
-        key: MetaDataKey.fromValue(decode['key']),
-        supply: decode['supply'],
-        maxSupply: decode['maxSupply']);
+      key: MetaDataKey.fromValue(decode['key']),
+      supply: decode['supply'],
+      maxSupply: decode['maxSupply'],
+    );
   }
 
   @override

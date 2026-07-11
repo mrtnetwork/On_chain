@@ -10,24 +10,29 @@ class UnfreezeBalanceContract extends TronBaseContract {
     return UnfreezeBalanceContract(
       ownerAddress: TronAddress(json['owner_address']),
       resource: ResourceCode.fromName(json['resource']),
-      receiverAddress: json['receiver_address'] == null
-          ? null
-          : TronAddress(json['receiver_address']),
+      receiverAddress:
+          json['receiver_address'] == null
+              ? null
+              : TronAddress(json['receiver_address']),
     );
   }
   factory UnfreezeBalanceContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return UnfreezeBalanceContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        resource: decode
-            .getResult(10)
-            ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
-        receiverAddress: TronAddress.fromBytes(decode.getField(15)));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      resource: decode
+          .getResult(10)
+          ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
+      receiverAddress: TronAddress.fromBytes(decode.getField(15)),
+    );
   }
 
   /// Create a new [UnfreezeBalanceContract] instance with specified parameters.
-  UnfreezeBalanceContract(
-      {required this.ownerAddress, this.resource, this.receiverAddress});
+  UnfreezeBalanceContract({
+    required this.ownerAddress,
+    this.resource,
+    this.receiverAddress,
+  });
 
   /// Transaction initiator address
   @override
@@ -43,8 +48,11 @@ class UnfreezeBalanceContract extends TronBaseContract {
   List<int> get fieldIds => [1, 10, 15];
 
   @override
-  List get values =>
-      [ownerAddress, resource?.value == 0 ? null : resource, receiverAddress];
+  List get values => [
+    ownerAddress,
+    resource?.value == 0 ? null : resource,
+    receiverAddress,
+  ];
 
   /// Convert the [UnfreezeBalanceContract] object to a JSON representation.
   @override

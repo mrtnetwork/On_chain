@@ -14,45 +14,50 @@ class MetaplexBubblegumSetAndVerifyCollectionLayout
   final int index;
   final MetaData message;
   final SolAddress collection;
-  MetaplexBubblegumSetAndVerifyCollectionLayout(
-      {required List<int> root,
-      required List<int> dataHash,
-      required List<int> creatorHash,
-      required this.nonce,
-      required this.index,
-      required this.message,
-      required this.collection})
-      : root = root.asImmutableBytes,
-        dataHash = dataHash.asImmutableBytes,
-        creatorHash = creatorHash.asImmutableBytes;
+  MetaplexBubblegumSetAndVerifyCollectionLayout({
+    required List<int> root,
+    required List<int> dataHash,
+    required List<int> creatorHash,
+    required this.nonce,
+    required this.index,
+    required this.message,
+    required this.collection,
+  }) : root = root.asImmutableBytes,
+       dataHash = dataHash.asImmutableBytes,
+       creatorHash = creatorHash.asImmutableBytes;
 
   factory MetaplexBubblegumSetAndVerifyCollectionLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexBubblegumProgramInstruction
-            .setAndVerifyCollection.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexBubblegumProgramInstruction
+              .setAndVerifyCollection
+              .insturction,
+    );
     return MetaplexBubblegumSetAndVerifyCollectionLayout(
-        root: decode['root'],
-        dataHash: decode['dataHash'],
-        creatorHash: decode['creatorHash'],
-        nonce: decode['nonce'],
-        index: decode['index'],
-        message: MetaData.fromJson(decode['metaData']),
-        collection: decode['collection']);
+      root: decode['root'],
+      dataHash: decode['dataHash'],
+      creatorHash: decode['creatorHash'],
+      nonce: decode['nonce'],
+      index: decode['index'],
+      message: MetaData.fromJson(decode['metaData']),
+      collection: decode['collection'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.blob(32, property: 'root'),
-        LayoutConst.blob(32, property: 'dataHash'),
-        LayoutConst.blob(32, property: 'creatorHash'),
-        LayoutConst.u64(property: 'nonce'),
-        LayoutConst.u32(property: 'index'),
-        MetaData.staticLayout,
-        SolanaLayoutUtils.publicKey('collection')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.blob(32, property: 'dataHash'),
+    LayoutConst.blob(32, property: 'creatorHash'),
+    LayoutConst.u64(property: 'nonce'),
+    LayoutConst.u32(property: 'index'),
+    MetaData.staticLayout,
+    SolanaLayoutUtils.publicKey('collection'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -70,7 +75,7 @@ class MetaplexBubblegumSetAndVerifyCollectionLayout
       'nonce': nonce,
       'index': index,
       'metaData': message.serialize(),
-      'collection': collection
+      'collection': collection,
     };
   }
 }

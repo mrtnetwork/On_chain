@@ -7,23 +7,29 @@ class MetaplexCandyMachineSetCandyMachineAuthorityLayout
     extends MetaplexCandyMachineProgramLayout {
   final SolAddress newAuthority;
 
-  const MetaplexCandyMachineSetCandyMachineAuthorityLayout(
-      {required this.newAuthority});
+  const MetaplexCandyMachineSetCandyMachineAuthorityLayout({
+    required this.newAuthority,
+  });
 
   factory MetaplexCandyMachineSetCandyMachineAuthorityLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .setCandyMachineAuthority.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction
+              .setCandyMachineAuthority
+              .insturction,
+    );
     return MetaplexCandyMachineSetCandyMachineAuthorityLayout(
-        newAuthority: decode['newAuthority']);
+      newAuthority: decode['newAuthority'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        SolanaLayoutUtils.publicKey('newAuthority')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    SolanaLayoutUtils.publicKey('newAuthority'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

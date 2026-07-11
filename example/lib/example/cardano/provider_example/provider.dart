@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 import 'package:on_chain/ada/src/provider/service/service.dart';
 
-class BlockFrostHTTPProvider implements BlockFrostServiceProvider {
+class BlockFrostHTTPProvider with BlockFrostServiceProvider {
   BlockFrostHTTPProvider(
       {required this.url,
       this.version = "v0",
@@ -19,28 +19,30 @@ class BlockFrostHTTPProvider implements BlockFrostServiceProvider {
   final Duration defaultRequestTimeout;
 
   @override
-  Future<BaseServiceResponse<T>> doRequest<T>(BlockFrostRequestDetails params,
+  Future<BaseServiceResponse> doRequest(BlockFrostRequestDetails params,
       {Duration? timeout}) async {
-    if (params.type == RequestServiceType.get) {
+    if (params.requestMethod.isGet) {
       final response =
-          await client.get(params.toUri(url, version: version), headers: {
+          await client.get(params.encodeUrl(url, version: version), headers: {
         'Content-Type': 'application/json',
         "Accept": "application/json",
         ...params.headers,
         if (projectId != null) ...{"project_id": projectId!},
       }).timeout(timeout ?? defaultRequestTimeout);
-      return params.parseResponse(response.bodyBytes, response.statusCode);
+      return params.toResponse(response.bodyBytes,
+          statusCode: response.statusCode);
     }
     final response = await client
-        .post(params.toUri(url, version: version),
+        .post(params.encodeUrl(url, version: version),
             headers: {
               'Content-Type': 'application/json',
               "Accept": "application/json",
               ...params.headers,
               if (projectId != null) ...{"project_id": projectId!},
             },
-            body: params.body())
+            body: params.encodeBody())
         .timeout(timeout ?? defaultRequestTimeout);
-    return params.parseResponse(response.bodyBytes, response.statusCode);
+    return params.toResponse(response.bodyBytes,
+        statusCode: response.statusCode);
   }
 }

@@ -5,3 +5,4 @@ export 'src/models/models.dart';
 export 'src/rpc/rpc.dart';
 export 'src/transaction/transaction.dart';
 export 'src/utils/utils.dart';
+export 'src/exception/exception.dart';

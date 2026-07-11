@@ -12,8 +12,8 @@ class NftBurn extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('requiredCollection'),
-      ], property: 'nftBurn');
+    SolanaLayoutUtils.publicKey('requiredCollection'),
+  ], property: 'nftBurn');
 
   @override
   StructLayout get layout => staticLayout;

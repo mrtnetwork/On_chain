@@ -12,9 +12,10 @@ class FreezeBalanceContract extends TronBaseContract {
       frozenBalance: BigintUtils.tryParse(json['frozen_balance']),
       frozenDuration: BigintUtils.tryParse(json['frozen_balance']),
       resource: ResourceCode.fromName(json['resource']),
-      receiverAddress: json['receiver_address'] == null
-          ? null
-          : TronAddress(json['receiver_address']),
+      receiverAddress:
+          json['receiver_address'] == null
+              ? null
+              : TronAddress(json['receiver_address']),
     );
   }
   factory FreezeBalanceContract.deserialize(List<int> bytes) {
@@ -23,8 +24,10 @@ class FreezeBalanceContract extends TronBaseContract {
       ownerAddress: TronAddress.fromBytes(decode.getField(1)),
       frozenBalance: decode.getField(2),
       frozenDuration: decode.getField(3),
-      resource: ResourceCode.fromValue(decode.getField(10),
-          orElse: ResourceCode.bandWidth),
+      resource: ResourceCode.fromValue(
+        decode.getField(10),
+        orElse: ResourceCode.bandWidth,
+      ),
       receiverAddress: decode
           .getResult(15)
           ?.castTo<TronAddress, List<int>>((e) => TronAddress.fromBytes(e)),
@@ -32,12 +35,13 @@ class FreezeBalanceContract extends TronBaseContract {
   }
 
   /// Create a new [FreezeBalanceContract] instance with specified parameters.
-  FreezeBalanceContract(
-      {required this.ownerAddress,
-      this.frozenBalance,
-      this.frozenDuration,
-      this.resource,
-      this.receiverAddress});
+  FreezeBalanceContract({
+    required this.ownerAddress,
+    this.frozenBalance,
+    this.frozenDuration,
+    this.resource,
+    this.receiverAddress,
+  });
 
   /// Owner address
   @override
@@ -62,8 +66,13 @@ class FreezeBalanceContract extends TronBaseContract {
   List<int> get fieldIds => [1, 2, 3, 10, 15];
 
   @override
-  List get values =>
-      [ownerAddress, frozenBalance, frozenDuration, resource, receiverAddress];
+  List get values => [
+    ownerAddress,
+    frozenBalance,
+    frozenDuration,
+    resource,
+    receiverAddress,
+  ];
 
   /// Convert the [FreezeBalanceContract] object to a JSON representation.
   @override

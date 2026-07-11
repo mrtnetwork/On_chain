@@ -5,7 +5,7 @@ import 'package:on_chain/tron/src/protbuf/decoder.dart';
 class BlockBalanceTraceBlockIdentifier extends TronProtocolBufferImpl {
   /// Create a new [BlockBalanceTraceBlockIdentifier] instance with specified parameters.
   BlockBalanceTraceBlockIdentifier({List<int>? hash, this.number})
-      : hash = BytesUtils.tryToBytes(hash, unmodifiable: true);
+    : hash = BytesUtils.tryToBytes(hash, unmodifiable: true);
 
   /// Create a new [BlockBalanceTraceBlockIdentifier] instance by parsing a JSON map.
   factory BlockBalanceTraceBlockIdentifier.fromJson(Map<String, dynamic> json) {
@@ -17,7 +17,9 @@ class BlockBalanceTraceBlockIdentifier extends TronProtocolBufferImpl {
   factory BlockBalanceTraceBlockIdentifier.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return BlockBalanceTraceBlockIdentifier(
-        hash: decode.getField(1), number: decode.getField(2));
+      hash: decode.getField(1),
+      number: decode.getField(2),
+    );
   }
 
   /// block hash

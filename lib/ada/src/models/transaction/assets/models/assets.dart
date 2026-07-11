@@ -6,13 +6,16 @@ import 'package:on_chain/ada/src/models/transaction/assets/models/asset_name.dar
 
 class AssetsSerializationConfig {
   final CborMapEncodingType encoding;
-  const AssetsSerializationConfig(
-      {this.encoding = CborMapEncodingType.definite});
+  const AssetsSerializationConfig({
+    this.encoding = CborMapEncodingType.definite,
+  });
   factory AssetsSerializationConfig.fromJson(Map<String, dynamic> json) {
     return AssetsSerializationConfig(
-        encoding: json["encoding"] == null
-            ? CborMapEncodingType.definite
-            : CborMapEncodingType.fromName(json["encoding"]));
+      encoding:
+          json["encoding"] == null
+              ? CborMapEncodingType.definite
+              : CborMapEncodingType.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name};
@@ -26,18 +29,22 @@ class Assets with InternalCborSerialization {
   final AssetsSerializationConfig serializationConfig;
 
   /// Constructs an instance of Assets.
-  Assets._(Map<AssetName, BigInt> assets,
-      {this.serializationConfig = const AssetsSerializationConfig()})
-      : assets = Map<AssetName, BigInt>.unmodifiable(assets);
+  Assets._(
+    Map<AssetName, BigInt> assets, {
+    this.serializationConfig = const AssetsSerializationConfig(),
+  }) : assets = Map<AssetName, BigInt>.unmodifiable(assets);
 
   bool get hasAsset => assets.isNotEmpty;
 
-  factory Assets(Map<AssetName, BigInt> assets,
-      {AssetsSerializationConfig serializationConfig =
-          const AssetsSerializationConfig()}) {
+  factory Assets(
+    Map<AssetName, BigInt> assets, {
+    AssetsSerializationConfig serializationConfig =
+        const AssetsSerializationConfig(),
+  }) {
     final keys = assets.keys.toList()..sort();
-    return Assets._({for (final i in keys) i: assets[i]!},
-        serializationConfig: serializationConfig);
+    return Assets._({
+      for (final i in keys) i: assets[i]!,
+    }, serializationConfig: serializationConfig);
   }
 
   Assets updateAssetName(AssetName asset, BigInt amount) {
@@ -57,29 +64,34 @@ class Assets with InternalCborSerialization {
 
   /// Constructs an instance of Assets from a CBOR object.
   factory Assets.deserialize(CborMapValue cbor) {
-    final map = cbor.valueAsMap<CborBytesValue, CborNumeric>();
+    final map = cbor.asMap<CborBytesValue, CborNumeric>();
     final assets = {
       for (final entry in map.entries)
-        AssetName.deserialize(entry.key): entry.value.toBigInt()
+        AssetName.deserialize(entry.key): entry.value.toBigInt(),
     };
-    return Assets._(assets,
-        serializationConfig: AssetsSerializationConfig(
-            encoding: cbor.definite
+    return Assets._(
+      assets,
+      serializationConfig: AssetsSerializationConfig(
+        encoding:
+            cbor.definite
                 ? CborMapEncodingType.definite
-                : CborMapEncodingType.inDefinite));
+                : CborMapEncodingType.inDefinite,
+      ),
+    );
   }
   factory Assets.fromJson(Map<String, dynamic> json) {
-    return Assets._({
-      for (final i in (json["assets"] as Map).entries)
-        AssetName.fromHex(i.key): BigintUtils.parse(i.value)
-    },
-        serializationConfig: AssetsSerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+    return Assets._(
+      {
+        for (final i in (json["assets"] as Map).entries)
+          AssetName.fromHex(i.key): BigintUtils.parse(i.value),
+      },
+      serializationConfig: AssetsSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
 
-  Assets copyWith({
-    Map<AssetName, BigInt>? assets,
-  }) {
+  Assets copyWith({Map<AssetName, BigInt>? assets}) {
     return Assets(assets ?? this.assets);
   }
 
@@ -89,12 +101,12 @@ class Assets with InternalCborSerialization {
       case CborMapEncodingType.definite:
         return CborMapValue.definite({
           for (final i in assets.entries)
-            i.key.toCbor(): CborUnsignedValue.u64(i.value)
+            i.key.toCbor(): CborUnsignedValue.u64(i.value),
         });
       case CborMapEncodingType.inDefinite:
         return CborMapValue.inDefinite({
           for (final i in assets.entries)
-            i.key.toCbor(): CborUnsignedValue.u64(i.value)
+            i.key.toCbor(): CborUnsignedValue.u64(i.value),
         });
     }
   }
@@ -103,9 +115,9 @@ class Assets with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "assets": {
-        for (final i in assets.entries) i.key.toJson(): i.value.toString()
+        for (final i in assets.entries) i.key.toJson(): i.value.toString(),
       },
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 
@@ -148,7 +160,8 @@ class Assets with InternalCborSerialization {
 
   @override
   int get hashCode => assets.entries.fold(
-      BinaryOps.mask32,
-      (previousValue, element) =>
-          previousValue ^ (element.key.hashCode ^ element.value.hashCode));
+    BinaryOps.mask32,
+    (previousValue, element) =>
+        previousValue ^ (element.key.hashCode ^ element.value.hashCode),
+  );
 }

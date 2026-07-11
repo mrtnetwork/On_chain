@@ -7,9 +7,10 @@ class MetaplexCandyMachineUnwrapLayout
 
   factory MetaplexCandyMachineUnwrapLayout.fromBuffer(List<int> data) {
     MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction.unwrap.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexCandyMachineProgramInstruction.unwrap.insturction,
+    );
     return const MetaplexCandyMachineUnwrapLayout();
   }
   static StructLayout get _layout =>

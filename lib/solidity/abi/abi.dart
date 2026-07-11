@@ -27,16 +27,15 @@
 library;
 
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
+import 'package:on_chain/solidity/abi/exception/abi_exception.dart';
 import 'package:on_chain/solidity/address/core.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
+export 'exception/abi_exception.dart';
 part 'core/abi.dart';
 part 'eip712/eip712.dart';
 part 'eip712/utils.dart';
-part 'exception/abi_exception.dart';
 part 'types/address.dart';
 part 'types/array.dart';
 part 'types/boolean.dart';

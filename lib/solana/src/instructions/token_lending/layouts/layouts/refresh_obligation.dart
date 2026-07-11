@@ -8,10 +8,10 @@ class TokenLendingRefreshObligationLayout extends TokenLendingProgramLayout {
 
   factory TokenLendingRefreshObligationLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            TokenLendingProgramInstruction.refreshObligation.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: TokenLendingProgramInstruction.refreshObligation.insturction,
+    );
     return const TokenLendingRefreshObligationLayout();
   }
   static StructLayout get _layout =>

@@ -4,7 +4,7 @@ import 'package:on_chain/sui/src/address/address/address.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/intent/intent.dart';
 import 'package:on_chain/sui/src/utils/sui_helper.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
+
 import 'package:on_chain/sui/src/transaction/const/constant.dart';
 
 class SuiObjectDigest extends BcsSerialization {
@@ -12,10 +12,13 @@ class SuiObjectDigest extends BcsSerialization {
   SuiObjectDigest._(List<int> digest) : digest = digest.asImmutableBytes;
   factory SuiObjectDigest(List<int> digest) {
     if (digest.length != SuiTransactionConst.digestLength) {
-      throw DartSuiPluginException("Invalid digest length.", details: {
-        "expected": SuiTransactionConst.digestLength,
-        "length": digest.length
-      });
+      throw DartSuiPluginException(
+        "Invalid digest length.",
+        details: {
+          "expected": SuiTransactionConst.digestLength.toString(),
+          "length": digest.length.toString(),
+        },
+      );
     }
     return SuiObjectDigest._(digest);
   }
@@ -26,7 +29,7 @@ class SuiObjectDigest extends BcsSerialization {
     return SuiObjectDigest(Base58Decoder.decode(digestHex));
   }
   factory SuiObjectDigest.fromStruct(Map<String, dynamic> json) {
-    return SuiObjectDigest(json.asBytes("digest"));
+    return SuiObjectDigest(json.valueAsBytes("digest"));
   }
 
   static StructLayout layout({String? property}) {
@@ -50,21 +53,28 @@ class SuiObjectRef extends BcsSerialization {
   final SuiAddress address;
   final BigInt version;
   final SuiObjectDigest digest;
-  SuiObjectRef(
-      {required this.address, required BigInt version, required this.digest})
-      : version = version.asU64;
+  SuiObjectRef({
+    required this.address,
+    required BigInt version,
+    required this.digest,
+  }) : version = version.asU64;
   factory SuiObjectRef.fromStruct(Map<String, dynamic> json) {
     return SuiObjectRef(
-        address: SuiAddress.fromStruct(json.asMap("address")),
-        version: json.as("version"),
-        digest: SuiObjectDigest.fromStruct(json.asMap("digest")));
+      address: SuiAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("address"),
+      ),
+      version: json.valueAs("version"),
+      digest: SuiObjectDigest.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("digest"),
+      ),
+    );
   }
 
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
       SuiAddress.layout(property: "address"),
       LayoutConst.u64(property: "version"),
-      SuiObjectDigest.layout(property: "digest")
+      SuiObjectDigest.layout(property: "digest"),
     ], property: property);
   }
 
@@ -78,7 +88,7 @@ class SuiObjectRef extends BcsSerialization {
     return {
       "address": address.toLayoutStruct(),
       "version": version,
-      "digest": digest.toLayoutStruct()
+      "digest": digest.toLayoutStruct(),
     };
   }
 }
@@ -88,22 +98,26 @@ class SuiStructInput extends BcsSerialization {
   final String module;
   final String name;
   final List<SuiTypeInput> typeParams;
-  SuiStructInput(
-      {required this.address,
-      required this.module,
-      required this.name,
-      required List<SuiTypeInput> typeParams})
-      : typeParams = typeParams.immutable;
+  SuiStructInput({
+    required this.address,
+    required this.module,
+    required this.name,
+    required List<SuiTypeInput> typeParams,
+  }) : typeParams = typeParams.immutable;
 
   factory SuiStructInput.fromStruct(Map<String, dynamic> json) {
     return SuiStructInput(
-        address: SuiAddress.fromStruct(json.asMap("address")),
-        module: json.as("module"),
-        name: json.as("name"),
-        typeParams: json
-            .asListOfMap("type_params")!
-            .map((e) => SuiTypeInput.fromStruct(e))
-            .toList());
+      address: SuiAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("address"),
+      ),
+      module: json.valueAs("module"),
+      name: json.valueAs("name"),
+      typeParams:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("type_params")
+              .map((e) => SuiTypeInput.fromStruct(e))
+              .toList(),
+    );
   }
 
   static StructLayout layout({String? property}) {
@@ -111,7 +125,7 @@ class SuiStructInput extends BcsSerialization {
       SuiAddress.layout(property: "address"),
       LayoutConst.bcsString(property: 'module'),
       LayoutConst.bcsString(property: 'name'),
-      LayoutConst.bcsVector(SuiTypeInput.layout(), property: 'type_params')
+      LayoutConst.bcsVector(SuiTypeInput.layout(), property: 'type_params'),
     ], property: property);
   }
 
@@ -126,7 +140,7 @@ class SuiStructInput extends BcsSerialization {
       "type_params": typeParams.map((e) => e.toVariantLayoutStruct()).toList(),
       "name": name,
       "module": module,
-      "address": address.toLayoutStruct()
+      "address": address.toLayoutStruct(),
     };
   }
 }
@@ -151,9 +165,8 @@ enum SuiTypeInputs {
       SuiTypeInputs.signer ||
       SuiTypeInputs.address ||
       SuiTypeInputs.vector ||
-      SuiTypeInputs.struct =>
-        false,
-      _ => true
+      SuiTypeInputs.struct => false,
+      _ => true,
     };
   }
 
@@ -161,15 +174,21 @@ enum SuiTypeInputs {
     if (name == 'bool') {
       return SuiTypeInputs.boolean;
     }
-    return values
-        .firstWhereNullable((e) => e.name.toLowerCase() == name?.toLowerCase());
+    return values.firstWhereNullable(
+      (e) => e.name.toLowerCase() == name?.toLowerCase(),
+    );
   }
 
   static SuiTypeInputs fromName(String name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct typeInputs from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct typeInputs from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -186,60 +205,70 @@ abstract class SuiTypeInput extends BcsVariantSerialization {
       SuiTypeInputs.u64 ||
       SuiTypeInputs.u128 ||
       SuiTypeInputs.u16 ||
-      SuiTypeInputs.u256 =>
-        SuiTypeInputPrimitive(type),
+      SuiTypeInputs.u256 => SuiTypeInputPrimitive(type),
       SuiTypeInputs.signer => SuiTypeInputSigner(),
       SuiTypeInputs.address => SuiTypeInputAddress(),
       SuiTypeInputs.vector => SuiTypeInputVector.fromStruct(decode.value),
-      SuiTypeInputs.struct => SuiTypeInputStruct.fromStruct(decode.value)
+      SuiTypeInputs.struct => SuiTypeInputStruct.fromStruct(decode.value),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiTypeInputPrimitive.layout,
-          property: SuiTypeInputs.boolean.name,
-          index: SuiTypeInputs.boolean.value),
+        layout: SuiTypeInputPrimitive.layout,
+        property: SuiTypeInputs.boolean.name,
+        index: SuiTypeInputs.boolean.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputPrimitive.layout,
-          property: SuiTypeInputs.u8.name,
-          index: SuiTypeInputs.u8.value),
+        layout: SuiTypeInputPrimitive.layout,
+        property: SuiTypeInputs.u8.name,
+        index: SuiTypeInputs.u8.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputPrimitive.layout,
-          property: SuiTypeInputs.u64.name,
-          index: SuiTypeInputs.u64.value),
+        layout: SuiTypeInputPrimitive.layout,
+        property: SuiTypeInputs.u64.name,
+        index: SuiTypeInputs.u64.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputPrimitive.layout,
-          property: SuiTypeInputs.u128.name,
-          index: SuiTypeInputs.u128.value),
+        layout: SuiTypeInputPrimitive.layout,
+        property: SuiTypeInputs.u128.name,
+        index: SuiTypeInputs.u128.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputPrimitive.layout,
-          property: SuiTypeInputs.u16.name,
-          index: SuiTypeInputs.u16.value),
+        layout: SuiTypeInputPrimitive.layout,
+        property: SuiTypeInputs.u16.name,
+        index: SuiTypeInputs.u16.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputPrimitive.layout,
-          property: SuiTypeInputs.u32.name,
-          index: SuiTypeInputs.u32.value),
+        layout: SuiTypeInputPrimitive.layout,
+        property: SuiTypeInputs.u32.name,
+        index: SuiTypeInputs.u32.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputPrimitive.layout,
-          property: SuiTypeInputs.u256.name,
-          index: SuiTypeInputs.u256.value),
+        layout: SuiTypeInputPrimitive.layout,
+        property: SuiTypeInputs.u256.name,
+        index: SuiTypeInputs.u256.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputAddress.layout,
-          property: SuiTypeInputs.address.name,
-          index: SuiTypeInputs.address.value),
+        layout: SuiTypeInputAddress.layout,
+        property: SuiTypeInputs.address.name,
+        index: SuiTypeInputs.address.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputSigner.layout,
-          property: SuiTypeInputs.signer.name,
-          index: SuiTypeInputs.signer.value),
+        layout: SuiTypeInputSigner.layout,
+        property: SuiTypeInputs.signer.name,
+        index: SuiTypeInputs.signer.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputVector.layout,
-          property: SuiTypeInputs.vector.name,
-          index: SuiTypeInputs.vector.value),
+        layout: SuiTypeInputVector.layout,
+        property: SuiTypeInputs.vector.name,
+        index: SuiTypeInputs.vector.value,
+      ),
       LazyVariantModel(
-          layout: SuiTypeInputStruct.layout,
-          property: SuiTypeInputs.struct.name,
-          index: SuiTypeInputs.struct.value),
+        layout: SuiTypeInputStruct.layout,
+        property: SuiTypeInputs.struct.name,
+        index: SuiTypeInputs.struct.value,
+      ),
     ], property: property);
   }
 
@@ -256,8 +285,10 @@ class SuiTypeInputPrimitive extends SuiTypeInput {
   const SuiTypeInputPrimitive._(SuiTypeInputs type) : super(type: type);
   factory SuiTypeInputPrimitive(SuiTypeInputs type) {
     if (!type.isPrimitive) {
-      throw DartSuiPluginException("Invalid primitive type.",
-          details: {"type": type.name});
+      throw DartSuiPluginException(
+        "Invalid primitive type.",
+        details: {"type": type.name},
+      );
     }
     return SuiTypeInputPrimitive._(type);
   }
@@ -317,12 +348,17 @@ class SuiTypeInputVector extends SuiTypeInput {
   final SuiTypeInput inputType;
   const SuiTypeInputVector(this.inputType) : super(type: SuiTypeInputs.vector);
   factory SuiTypeInputVector.fromStruct(Map<String, dynamic> json) {
-    return SuiTypeInputVector(SuiTypeInput.fromStruct(json.asMap("inputType")));
+    return SuiTypeInputVector(
+      SuiTypeInput.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("inputType"),
+      ),
+    );
   }
 
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct([SuiTypeInput.layout(property: "inputType")],
-        property: property);
+    return LayoutConst.struct([
+      SuiTypeInput.layout(property: "inputType"),
+    ], property: property);
   }
 
   @override
@@ -341,12 +377,16 @@ class SuiTypeInputStruct extends SuiTypeInput {
   const SuiTypeInputStruct(this.inputType) : super(type: SuiTypeInputs.struct);
   factory SuiTypeInputStruct.fromStruct(Map<String, dynamic> json) {
     return SuiTypeInputStruct(
-        SuiStructInput.fromStruct(json.asMap("inputType")));
+      SuiStructInput.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("inputType"),
+      ),
+    );
   }
 
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct([SuiStructInput.layout(property: "inputType")],
-        property: property);
+    return LayoutConst.struct([
+      SuiStructInput.layout(property: "inputType"),
+    ], property: property);
   }
 
   @override
@@ -381,10 +421,15 @@ enum SuiArguments {
   const SuiArguments({required this.value});
 
   static SuiArguments fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct Arguments from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct Arguments from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -393,7 +438,9 @@ abstract class SuiArgument extends BcsVariantSerialization {
   const SuiArgument({required this.type});
   factory SuiArgument.deserialize(List<int> bytes, {String? property}) {
     final decode = BcsSerialization.deserialize(
-        bytes: bytes, layout: layout(property: property));
+      bytes: bytes,
+      layout: layout(property: property),
+    );
     return SuiArgument.fromStruct(decode);
   }
   factory SuiArgument.fromStruct(Map<String, dynamic> json) {
@@ -403,29 +450,34 @@ abstract class SuiArgument extends BcsVariantSerialization {
       SuiArguments.gasCoin => SuiArgumentGasCoin.fromStruct(decode.value),
       SuiArguments.input => SuiArgumentInput.fromStruct(decode.value),
       SuiArguments.result => SuiArgumentResult.fromStruct(decode.value),
-      SuiArguments.nestedResult =>
-        SuiArgumentNestedResult.fromStruct(decode.value),
+      SuiArguments.nestedResult => SuiArgumentNestedResult.fromStruct(
+        decode.value,
+      ),
     };
   }
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiArgumentGasCoin.layout,
-          property: SuiArguments.gasCoin.name,
-          index: SuiArguments.gasCoin.value),
+        layout: SuiArgumentGasCoin.layout,
+        property: SuiArguments.gasCoin.name,
+        index: SuiArguments.gasCoin.value,
+      ),
       LazyVariantModel(
-          layout: SuiArgumentInput.layout,
-          property: SuiArguments.input.name,
-          index: SuiArguments.input.value),
+        layout: SuiArgumentInput.layout,
+        property: SuiArguments.input.name,
+        index: SuiArguments.input.value,
+      ),
       LazyVariantModel(
-          layout: SuiArgumentResult.layout,
-          property: SuiArguments.result.name,
-          index: SuiArguments.result.value),
+        layout: SuiArgumentResult.layout,
+        property: SuiArguments.result.name,
+        index: SuiArguments.result.value,
+      ),
       LazyVariantModel(
-          layout: SuiArgumentNestedResult.layout,
-          property: SuiArguments.nestedResult.name,
-          index: SuiArguments.nestedResult.value),
+        layout: SuiArgumentNestedResult.layout,
+        property: SuiArguments.nestedResult.name,
+        index: SuiArguments.nestedResult.value,
+      ),
     ], property: property);
   }
 
@@ -462,15 +514,16 @@ class SuiArgumentGasCoin extends SuiArgument {
 class SuiArgumentInput extends SuiArgument {
   final int input;
   SuiArgumentInput(int input)
-      : input = input.asU16,
-        super(type: SuiArguments.input);
+    : input = input.asU16,
+      super(type: SuiArguments.input);
   factory SuiArgumentInput.fromStruct(Map<String, dynamic> json) {
-    return SuiArgumentInput(json.as("input"));
+    return SuiArgumentInput(json.valueAs("input"));
   }
 
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u16(property: "input")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u16(property: "input"),
+    ], property: property);
   }
 
   @override
@@ -487,16 +540,17 @@ class SuiArgumentInput extends SuiArgument {
 class SuiArgumentResult extends SuiArgument {
   final int result;
   SuiArgumentResult(int result)
-      : result = result.asU16,
-        super(type: SuiArguments.result);
+    : result = result.asU16,
+      super(type: SuiArguments.result);
 
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u16(property: "result")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u16(property: "result"),
+    ], property: property);
   }
 
   factory SuiArgumentResult.fromStruct(Map<String, dynamic> json) {
-    return SuiArgumentResult(json.as("result"));
+    return SuiArgumentResult(json.valueAs("result"));
   }
 
   @override
@@ -514,14 +568,15 @@ class SuiArgumentNestedResult extends SuiArgument {
   final int commandIndex;
   final int resultIndex;
   SuiArgumentNestedResult({required int commandIndex, required int resultIndex})
-      : commandIndex = commandIndex.asU16,
-        resultIndex = resultIndex.asU16,
-        super(type: SuiArguments.nestedResult);
+    : commandIndex = commandIndex.asU16,
+      resultIndex = resultIndex.asU16,
+      super(type: SuiArguments.nestedResult);
 
   factory SuiArgumentNestedResult.fromStruct(Map<String, dynamic> json) {
     return SuiArgumentNestedResult(
-        commandIndex: json.as("commandIndex"),
-        resultIndex: json.as("resultIndex"));
+      commandIndex: json.valueAs("commandIndex"),
+      resultIndex: json.valueAs("resultIndex"),
+    );
   }
 
   static StructLayout layout({String? property}) {
@@ -547,11 +602,12 @@ class SuiGasData extends BcsSerialization {
   final SuiAddress owner;
   final BigInt price;
   final BigInt budget;
-  SuiGasData copyWith(
-      {List<SuiObjectRef>? payment,
-      SuiAddress? owner,
-      BigInt? price,
-      BigInt? budget}) {
+  SuiGasData copyWith({
+    List<SuiObjectRef>? payment,
+    SuiAddress? owner,
+    BigInt? price,
+    BigInt? budget,
+  }) {
     return SuiGasData(
       payment: payment ?? this.payment,
       owner: owner ?? this.owner,
@@ -560,23 +616,27 @@ class SuiGasData extends BcsSerialization {
     );
   }
 
-  SuiGasData(
-      {required List<SuiObjectRef> payment,
-      required this.owner,
-      required BigInt price,
-      required BigInt budget})
-      : payment = payment.immutable,
-        price = price.asU64,
-        budget = budget.asU64;
+  SuiGasData({
+    required List<SuiObjectRef> payment,
+    required this.owner,
+    required BigInt price,
+    required BigInt budget,
+  }) : payment = payment.immutable,
+       price = price.asU64,
+       budget = budget.asU64;
   factory SuiGasData.fromStruct(Map<String, dynamic> json) {
     return SuiGasData(
-        payment: json
-            .asListOfMap("payment")!
-            .map((e) => SuiObjectRef.fromStruct(e))
-            .toList(),
-        owner: SuiAddress.fromStruct(json.asMap("owner")),
-        price: json.as("price"),
-        budget: json.as("budget"));
+      payment:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("payment")
+              .map((e) => SuiObjectRef.fromStruct(e))
+              .toList(),
+      owner: SuiAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("owner"),
+      ),
+      price: json.valueAs("price"),
+      budget: json.valueAs("budget"),
+    );
   }
 
   static StructLayout layout({String? property}) {
@@ -599,7 +659,7 @@ class SuiGasData extends BcsSerialization {
       "payment": payment.map((e) => e.toLayoutStruct()).toList(),
       "owner": owner.toLayoutStruct(),
       "price": price,
-      "budget": budget
+      "budget": budget,
     };
   }
 }
@@ -621,27 +681,32 @@ class SuiProgrammableMoveCall extends BcsSerialization {
 
   /// The arguments to the function.
   final List<SuiArgument> arguments;
-  SuiProgrammableMoveCall(
-      {required this.package,
-      required this.module,
-      required this.function,
-      List<SuiTypeInput> typeArguments = const [],
-      required List<SuiArgument> arguments})
-      : typeArguments = typeArguments.immutable,
-        arguments = arguments.immutable;
+  SuiProgrammableMoveCall({
+    required this.package,
+    required this.module,
+    required this.function,
+    List<SuiTypeInput> typeArguments = const [],
+    required List<SuiArgument> arguments,
+  }) : typeArguments = typeArguments.immutable,
+       arguments = arguments.immutable;
   factory SuiProgrammableMoveCall.fromStruct(Map<String, dynamic> json) {
     return SuiProgrammableMoveCall(
-        package: SuiAddress.fromStruct(json.asMap("package")),
-        module: json.as("module"),
-        function: json.as("function"),
-        typeArguments: json
-            .asListOfMap("type_arguments")!
-            .map((e) => SuiTypeInput.fromStruct(e))
-            .toList(),
-        arguments: json
-            .asListOfMap("arguments")!
-            .map((e) => SuiArgument.fromStruct(e))
-            .toList());
+      package: SuiAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("package"),
+      ),
+      module: json.valueAs("module"),
+      function: json.valueAs("function"),
+      typeArguments:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("type_arguments")
+              .map((e) => SuiTypeInput.fromStruct(e))
+              .toList(),
+      arguments:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("arguments")
+              .map((e) => SuiArgument.fromStruct(e))
+              .toList(),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -666,7 +731,7 @@ class SuiProgrammableMoveCall extends BcsSerialization {
       "function": function,
       "type_arguments":
           typeArguments.map((e) => e.toVariantLayoutStruct()).toList(),
-      "arguments": arguments.map((e) => e.toVariantLayoutStruct()).toList()
+      "arguments": arguments.map((e) => e.toVariantLayoutStruct()).toList(),
     };
   }
 }
@@ -706,10 +771,15 @@ enum SuiCommands {
   final int value;
   const SuiCommands({required this.value});
   static SuiCommands fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct Commands from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct Commands from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -721,33 +791,40 @@ abstract class SuiCommand extends BcsVariantSerialization {
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiCommandMoveCall.layout,
-          property: SuiCommands.moveCall.name,
-          index: SuiCommands.moveCall.value),
+        layout: SuiCommandMoveCall.layout,
+        property: SuiCommands.moveCall.name,
+        index: SuiCommands.moveCall.value,
+      ),
       LazyVariantModel(
-          layout: SuiCommandTransferObjects.layout,
-          property: SuiCommands.transferObject.name,
-          index: SuiCommands.transferObject.value),
+        layout: SuiCommandTransferObjects.layout,
+        property: SuiCommands.transferObject.name,
+        index: SuiCommands.transferObject.value,
+      ),
       LazyVariantModel(
-          layout: SuiCommandSplitCoins.layout,
-          property: SuiCommands.splitCoins.name,
-          index: SuiCommands.splitCoins.value),
+        layout: SuiCommandSplitCoins.layout,
+        property: SuiCommands.splitCoins.name,
+        index: SuiCommands.splitCoins.value,
+      ),
       LazyVariantModel(
-          layout: SuiCommandMergeCoins.layout,
-          property: SuiCommands.mergeCoins.name,
-          index: SuiCommands.mergeCoins.value),
+        layout: SuiCommandMergeCoins.layout,
+        property: SuiCommands.mergeCoins.name,
+        index: SuiCommands.mergeCoins.value,
+      ),
       LazyVariantModel(
-          layout: SuiCommandPublish.layout,
-          property: SuiCommands.publish.name,
-          index: SuiCommands.publish.value),
+        layout: SuiCommandPublish.layout,
+        property: SuiCommands.publish.name,
+        index: SuiCommands.publish.value,
+      ),
       LazyVariantModel(
-          layout: SuiCommandMakeMoveVec.layout,
-          property: SuiCommands.makeMoveVec.name,
-          index: SuiCommands.makeMoveVec.value),
+        layout: SuiCommandMakeMoveVec.layout,
+        property: SuiCommands.makeMoveVec.name,
+        index: SuiCommands.makeMoveVec.value,
+      ),
       LazyVariantModel(
-          layout: SuiCommandUpgrade.layout,
-          property: SuiCommands.upgrade.name,
-          index: SuiCommands.upgrade.value),
+        layout: SuiCommandUpgrade.layout,
+        property: SuiCommands.upgrade.name,
+        index: SuiCommands.upgrade.value,
+      ),
     ], property: property);
   }
 
@@ -756,8 +833,9 @@ abstract class SuiCommand extends BcsVariantSerialization {
     final type = SuiCommands.fromName(decode.variantName);
     return switch (type) {
       SuiCommands.moveCall => SuiCommandMoveCall.fromStruct(decode.value),
-      SuiCommands.transferObject =>
-        SuiCommandTransferObjects.fromStruct(decode.value),
+      SuiCommands.transferObject => SuiCommandTransferObjects.fromStruct(
+        decode.value,
+      ),
       SuiCommands.splitCoins => SuiCommandSplitCoins.fromStruct(decode.value),
       SuiCommands.mergeCoins => SuiCommandMergeCoins.fromStruct(decode.value),
       SuiCommands.publish => SuiCommandPublish.fromStruct(decode.value),
@@ -778,7 +856,10 @@ class SuiCommandMoveCall extends SuiCommand {
   const SuiCommandMoveCall(this.moveCall) : super(type: SuiCommands.moveCall);
   factory SuiCommandMoveCall.fromStruct(Map<String, dynamic> json) {
     return SuiCommandMoveCall(
-        SuiProgrammableMoveCall.fromStruct(json.asMap("moveCall")));
+      SuiProgrammableMoveCall.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("moveCall"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -803,22 +884,27 @@ class SuiCommandMoveCall extends SuiCommand {
 class SuiCommandTransferObjects extends SuiCommand {
   final List<SuiArgument> objects;
   final SuiArgument address;
-  SuiCommandTransferObjects(
-      {required List<SuiArgument> objects, required this.address})
-      : objects = objects.immutable,
-        super(type: SuiCommands.transferObject);
+  SuiCommandTransferObjects({
+    required List<SuiArgument> objects,
+    required this.address,
+  }) : objects = objects.immutable,
+       super(type: SuiCommands.transferObject);
   factory SuiCommandTransferObjects.fromStruct(Map<String, dynamic> json) {
     return SuiCommandTransferObjects(
-        objects: json
-            .asListOfMap("objects")!
-            .map((e) => SuiArgument.fromStruct(e))
-            .toList(),
-        address: SuiArgument.fromStruct(json.asMap("address")));
+      objects:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("objects")
+              .map((e) => SuiArgument.fromStruct(e))
+              .toList(),
+      address: SuiArgument.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("address"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
       LayoutConst.bcsVector(SuiArgument.layout(), property: "objects"),
-      SuiArgument.layout(property: "address")
+      SuiArgument.layout(property: "address"),
     ], property: property);
   }
 
@@ -831,7 +917,7 @@ class SuiCommandTransferObjects extends SuiCommand {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "objects": objects.map((e) => e.toVariantLayoutStruct()).toList(),
-      "address": address.toVariantLayoutStruct()
+      "address": address.toVariantLayoutStruct(),
     };
   }
 }
@@ -842,15 +928,19 @@ class SuiCommandSplitCoins extends SuiCommand {
   final List<SuiArgument> amounts;
 
   SuiCommandSplitCoins({required List<SuiArgument> amounts, required this.coin})
-      : amounts = amounts.immutable,
-        super(type: SuiCommands.splitCoins);
+    : amounts = amounts.immutable,
+      super(type: SuiCommands.splitCoins);
   factory SuiCommandSplitCoins.fromStruct(Map<String, dynamic> json) {
     return SuiCommandSplitCoins(
-        amounts: json
-            .asListOfMap("amounts")!
-            .map((e) => SuiArgument.fromStruct(e))
-            .toList(),
-        coin: SuiArgument.fromStruct(json.asMap("coin")));
+      amounts:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("amounts")
+              .map((e) => SuiArgument.fromStruct(e))
+              .toList(),
+      coin: SuiArgument.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("coin"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -868,7 +958,7 @@ class SuiCommandSplitCoins extends SuiCommand {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "amounts": amounts.map((e) => e.toVariantLayoutStruct()).toList(),
-      "coin": coin.toVariantLayoutStruct()
+      "coin": coin.toVariantLayoutStruct(),
     };
   }
 }
@@ -878,17 +968,22 @@ class SuiCommandMergeCoins extends SuiCommand {
   final SuiArgument destination;
   final List<SuiArgument> sources;
 
-  SuiCommandMergeCoins(
-      {required List<SuiArgument> sources, required this.destination})
-      : sources = sources.immutable,
-        super(type: SuiCommands.mergeCoins);
+  SuiCommandMergeCoins({
+    required List<SuiArgument> sources,
+    required this.destination,
+  }) : sources = sources.immutable,
+       super(type: SuiCommands.mergeCoins);
   factory SuiCommandMergeCoins.fromStruct(Map<String, dynamic> json) {
     return SuiCommandMergeCoins(
-        sources: json
-            .asListOfMap("sources")!
-            .map((e) => SuiArgument.fromStruct(e))
-            .toList(),
-        destination: SuiArgument.fromStruct(json.asMap("destination")));
+      sources:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("sources")
+              .map((e) => SuiArgument.fromStruct(e))
+              .toList(),
+      destination: SuiArgument.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("destination"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -906,7 +1001,7 @@ class SuiCommandMergeCoins extends SuiCommand {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "sources": sources.map((e) => e.toVariantLayoutStruct()).toList(),
-      "destination": destination.toVariantLayoutStruct()
+      "destination": destination.toVariantLayoutStruct(),
     };
   }
 }
@@ -917,19 +1012,21 @@ class SuiCommandPublish extends SuiCommand {
   final List<List<int>> modules;
   final List<SuiAddress> dependencies;
 
-  SuiCommandPublish(
-      {required List<List<int>> modules,
-      required List<SuiAddress> dependencies})
-      : modules = modules.map((e) => e.asImmutableBytes).toImutableList,
-        dependencies = dependencies.immutable,
-        super(type: SuiCommands.publish);
+  SuiCommandPublish({
+    required List<List<int>> modules,
+    required List<SuiAddress> dependencies,
+  }) : modules = modules.map((e) => e.asImmutableBytes).toImutableList,
+       dependencies = dependencies.immutable,
+       super(type: SuiCommands.publish);
   factory SuiCommandPublish.fromStruct(Map<String, dynamic> json) {
     return SuiCommandPublish(
-        modules: json.asListOfBytes("modules")!,
-        dependencies: json
-            .asListOfMap("dependencies")!
-            .map((e) => SuiAddress.fromStruct(e))
-            .toList());
+      modules: json.valueEnsureAsList<List<int>>("modules"),
+      dependencies:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("dependencies")
+              .map((e) => SuiAddress.fromStruct(e))
+              .toList(),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -947,7 +1044,7 @@ class SuiCommandPublish extends SuiCommand {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "dependencies": dependencies.map((e) => e.toLayoutStruct()).toList(),
-      "modules": modules
+      "modules": modules,
     };
   }
 }
@@ -958,20 +1055,23 @@ class SuiCommandMakeMoveVec extends SuiCommand {
   final SuiTypeInput? typeInput;
   final List<SuiArgument> elements;
 
-  SuiCommandMakeMoveVec(
-      {required this.typeInput, required List<SuiArgument> elements})
-      : elements = elements.immutable,
-        super(type: SuiCommands.makeMoveVec);
+  SuiCommandMakeMoveVec({
+    required this.typeInput,
+    required List<SuiArgument> elements,
+  }) : elements = elements.immutable,
+       super(type: SuiCommands.makeMoveVec);
   factory SuiCommandMakeMoveVec.fromStruct(Map<String, dynamic> json) {
     return SuiCommandMakeMoveVec(
-        typeInput: json.mybeAs<SuiTypeInput, Map<String, dynamic>>(
-          key: "typeInput",
-          onValue: (e) => SuiTypeInput.fromStruct(e),
-        ),
-        elements: json
-            .asListOfMap("elements")!
-            .map((e) => SuiArgument.fromStruct(e))
-            .toList());
+      typeInput: json.valueTo<SuiTypeInput?, Map<String, dynamic>>(
+        key: "typeInput",
+        parse: (e) => SuiTypeInput.fromStruct(e),
+      ),
+      elements:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("elements")
+              .map((e) => SuiArgument.fromStruct(e))
+              .toList(),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -989,7 +1089,7 @@ class SuiCommandMakeMoveVec extends SuiCommand {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "elements": elements.map((e) => e.toVariantLayoutStruct()).toList(),
-      "typeInput": typeInput?.toVariantLayoutStruct()
+      "typeInput": typeInput?.toVariantLayoutStruct(),
     };
   }
 }
@@ -1008,23 +1108,29 @@ class SuiCommandUpgrade extends SuiCommand {
   /// An argument holding the `UpgradeTicket` that must have been produced from an earlier command in the same
   /// programmable transaction.
   final SuiArgument ticket;
-  SuiCommandUpgrade(
-      {required List<List<int>> modules,
-      required List<SuiAddress> dependencies,
-      required this.package,
-      required this.ticket})
-      : modules = modules.map((e) => e.asImmutableBytes).toImutableList,
-        dependencies = dependencies.immutable,
-        super(type: SuiCommands.upgrade);
+  SuiCommandUpgrade({
+    required List<List<int>> modules,
+    required List<SuiAddress> dependencies,
+    required this.package,
+    required this.ticket,
+  }) : modules = modules.map((e) => e.asImmutableBytes).toImutableList,
+       dependencies = dependencies.immutable,
+       super(type: SuiCommands.upgrade);
   factory SuiCommandUpgrade.fromStruct(Map<String, dynamic> json) {
     return SuiCommandUpgrade(
-        modules: json.asListOfBytes("modules")!,
-        dependencies: json
-            .asListOfMap("dependencies")!
-            .map((e) => SuiAddress.fromStruct(e))
-            .toList(),
-        package: SuiAddress.fromStruct(json.asMap("package")),
-        ticket: SuiArgument.fromStruct(json.asMap("ticket")));
+      modules: json.valueEnsureAsList<List<int>>("modules"),
+      dependencies:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("dependencies")
+              .map((e) => SuiAddress.fromStruct(e))
+              .toList(),
+      package: SuiAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("package"),
+      ),
+      ticket: SuiArgument.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("ticket"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -1046,7 +1152,7 @@ class SuiCommandUpgrade extends SuiCommand {
       "modules": modules,
       "dependencies": dependencies.map((e) => e.toLayoutStruct()).toList(),
       "package": package.toLayoutStruct(),
-      "ticket": ticket.toVariantLayoutStruct()
+      "ticket": ticket.toVariantLayoutStruct(),
     };
   }
 }
@@ -1065,10 +1171,15 @@ enum SuiObjectArgs {
   const SuiObjectArgs({required this.value});
   final int value;
   static SuiObjectArgs fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct ObjectArgs from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct ObjectArgs from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1079,27 +1190,32 @@ abstract class SuiObjectArg extends BcsVariantSerialization {
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
     final type = SuiObjectArgs.fromName(decode.variantName);
     return switch (type) {
-      SuiObjectArgs.immOrOwnedObject =>
-        SuiObjectArgImmOrOwnedObject.fromStruct(decode.value),
-      SuiObjectArgs.sharedObject =>
-        SuiObjectArgSharedObject.fromStruct(decode.value),
-      SuiObjectArgs.receiving => SuiObjectArgReceiving.fromStruct(decode.value)
+      SuiObjectArgs.immOrOwnedObject => SuiObjectArgImmOrOwnedObject.fromStruct(
+        decode.value,
+      ),
+      SuiObjectArgs.sharedObject => SuiObjectArgSharedObject.fromStruct(
+        decode.value,
+      ),
+      SuiObjectArgs.receiving => SuiObjectArgReceiving.fromStruct(decode.value),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiObjectArgImmOrOwnedObject.layout,
-          property: SuiObjectArgs.immOrOwnedObject.name,
-          index: SuiObjectArgs.immOrOwnedObject.value),
+        layout: SuiObjectArgImmOrOwnedObject.layout,
+        property: SuiObjectArgs.immOrOwnedObject.name,
+        index: SuiObjectArgs.immOrOwnedObject.value,
+      ),
       LazyVariantModel(
-          layout: SuiObjectArgSharedObject.layout,
-          property: SuiObjectArgs.sharedObject.name,
-          index: SuiObjectArgs.sharedObject.value),
+        layout: SuiObjectArgSharedObject.layout,
+        property: SuiObjectArgs.sharedObject.name,
+        index: SuiObjectArgs.sharedObject.value,
+      ),
       LazyVariantModel(
-          layout: SuiObjectArgReceiving.layout,
-          property: SuiObjectArgs.receiving.name,
-          index: SuiObjectArgs.receiving.value),
+        layout: SuiObjectArgReceiving.layout,
+        property: SuiObjectArgs.receiving.name,
+        index: SuiObjectArgs.receiving.value,
+      ),
     ], property: property);
   }
 
@@ -1112,8 +1228,10 @@ abstract class SuiObjectArg extends BcsVariantSerialization {
   String get variantName => type.name;
   T cast<T extends SuiObjectArg>() {
     if (this is! T) {
-      throw DartSuiPluginException("Object arg casting failed.",
-          details: {"expected": "$T", "arg": type.name});
+      throw DartSuiPluginException(
+        "Object arg casting failed.",
+        details: {"expected": "$T", "arg": type.name},
+      );
     }
     return this as T;
   }
@@ -1124,15 +1242,18 @@ class SuiObjectArgImmOrOwnedObject extends SuiObjectArg {
   final SuiObjectRef immOrOwnedObject;
 
   SuiObjectArgImmOrOwnedObject(this.immOrOwnedObject)
-      : super(type: SuiObjectArgs.immOrOwnedObject);
+    : super(type: SuiObjectArgs.immOrOwnedObject);
   factory SuiObjectArgImmOrOwnedObject.fromStruct(Map<String, dynamic> json) {
     return SuiObjectArgImmOrOwnedObject(
-        SuiObjectRef.fromStruct(json.asMap("immOrOwnedObject")));
+      SuiObjectRef.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("immOrOwnedObject"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct(
-        [SuiObjectRef.layout(property: "immOrOwnedObject")],
-        property: property);
+    return LayoutConst.struct([
+      SuiObjectRef.layout(property: "immOrOwnedObject"),
+    ], property: property);
   }
 
   @override
@@ -1153,17 +1274,18 @@ class SuiObjectArgSharedObject extends SuiObjectArg {
   final BigInt initialSharedVersion;
   final bool mutable;
 
-  SuiObjectArgSharedObject(
-      {required this.id,
-      required BigInt initialSharedVersion,
-      required this.mutable})
-      : initialSharedVersion = initialSharedVersion.asU64,
-        super(type: SuiObjectArgs.sharedObject);
+  SuiObjectArgSharedObject({
+    required this.id,
+    required BigInt initialSharedVersion,
+    required this.mutable,
+  }) : initialSharedVersion = initialSharedVersion.asU64,
+       super(type: SuiObjectArgs.sharedObject);
   factory SuiObjectArgSharedObject.fromStruct(Map<String, dynamic> json) {
     return SuiObjectArgSharedObject(
-        id: SuiAddress.fromStruct(json.asMap("id")),
-        initialSharedVersion: json.as("initialSharedVersion"),
-        mutable: json.as("mutable"));
+      id: SuiAddress.fromStruct(json.valueEnsureAsMap<String, dynamic>("id")),
+      initialSharedVersion: json.valueAs("initialSharedVersion"),
+      mutable: json.valueAs("mutable"),
+    );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
@@ -1183,7 +1305,7 @@ class SuiObjectArgSharedObject extends SuiObjectArg {
     return {
       "id": id.toLayoutStruct(),
       "initialSharedVersion": initialSharedVersion,
-      "mutable": mutable
+      "mutable": mutable,
     };
   }
 }
@@ -1195,11 +1317,15 @@ class SuiObjectArgReceiving extends SuiObjectArg {
   SuiObjectArgReceiving(this.receiving) : super(type: SuiObjectArgs.receiving);
   factory SuiObjectArgReceiving.fromStruct(Map<String, dynamic> json) {
     return SuiObjectArgReceiving(
-        SuiObjectRef.fromStruct(json.asMap("receiving")));
+      SuiObjectRef.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("receiving"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct([SuiObjectRef.layout(property: "receiving")],
-        property: property);
+    return LayoutConst.struct([
+      SuiObjectRef.layout(property: "receiving"),
+    ], property: property);
   }
 
   @override
@@ -1223,10 +1349,15 @@ enum SuiCallArgs {
   const SuiCallArgs({required this.value});
   final int value;
   static SuiCallArgs fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct CallArgs from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct CallArgs from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1239,24 +1370,28 @@ abstract class SuiCallArg<T> extends BcsVariantSerialization
     final type = SuiCallArgs.fromName(decode.variantName);
     final arg = switch (type) {
       SuiCallArgs.pure => SuiCallArgPure.fromStruct(decode.value),
-      SuiCallArgs.object => SuiCallArgObject.fromStruct(decode.value)
+      SuiCallArgs.object => SuiCallArgObject.fromStruct(decode.value),
     };
     if (arg is! SuiCallArg<T>) {
-      throw DartSuiPluginException("Invalid argument.",
-          details: {"excpected": "$T", "arg": arg.runtimeType});
+      throw DartSuiPluginException(
+        "Invalid argument.",
+        details: {"excpected": "$T", "arg": arg.runtimeType.toString()},
+      );
     }
     return arg;
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiCallArgPure.layout,
-          property: SuiCallArgs.pure.name,
-          index: SuiCallArgs.pure.value),
+        layout: SuiCallArgPure.layout,
+        property: SuiCallArgs.pure.name,
+        index: SuiCallArgs.pure.value,
+      ),
       LazyVariantModel(
-          layout: SuiCallArgObject.layout,
-          property: SuiCallArgs.object.name,
-          index: SuiCallArgs.object.value),
+        layout: SuiCallArgObject.layout,
+        property: SuiCallArgs.object.name,
+        index: SuiCallArgs.object.value,
+      ),
     ], property: property);
   }
 
@@ -1269,8 +1404,10 @@ abstract class SuiCallArg<T> extends BcsVariantSerialization
   String get variantName => type.name;
   E cast<E extends SuiCallArg>() {
     if (this is! T) {
-      throw DartSuiPluginException("CallArg casting failed.",
-          details: {"expected": "$T", "arg": type.name});
+      throw DartSuiPluginException(
+        "CallArg casting failed.",
+        details: {"expected": "$T", "arg": type.name},
+      );
     }
     return this as E;
   }
@@ -1280,10 +1417,10 @@ class SuiCallArgPure extends SuiCallArg<List<int>> {
   final List<int> bytes;
 
   SuiCallArgPure(List<int> bytes)
-      : bytes = bytes.asImmutableBytes,
-        super(type: SuiCallArgs.pure);
+    : bytes = bytes.asImmutableBytes,
+      super(type: SuiCallArgs.pure);
   factory SuiCallArgPure.fromStruct(Map<String, dynamic> json) {
-    return SuiCallArgPure(json.asBytes("bytes"));
+    return SuiCallArgPure(json.valueAsBytes("bytes"));
   }
   factory SuiCallArgPure.string(String value) {
     return SuiCallArgPure(LayoutConst.bcsString().serialize(value));
@@ -1316,8 +1453,9 @@ class SuiCallArgPure extends SuiCallArg<List<int>> {
     return SuiCallArgPure.u64(SuiHelper.toMist(suiAmount));
   }
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsBytes(property: "bytes")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsBytes(property: "bytes"),
+    ], property: property);
   }
 
   @override
@@ -1339,11 +1477,14 @@ class SuiCallArgObject extends SuiCallArg<SuiObjectArg> {
 
   SuiCallArgObject(this.object) : super(type: SuiCallArgs.object);
   factory SuiCallArgObject.fromStruct(Map<String, dynamic> json) {
-    return SuiCallArgObject(SuiObjectArg.fromStruct(json.asMap("object")));
+    return SuiCallArgObject(
+      SuiObjectArg.fromStruct(json.valueEnsureAsMap<String, dynamic>("object")),
+    );
   }
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct([SuiObjectArg.layout(property: "object")],
-        property: property);
+    return LayoutConst.struct([
+      SuiObjectArg.layout(property: "object"),
+    ], property: property);
   }
 
   @override
@@ -1369,21 +1510,23 @@ class SuiProgrammableTransaction extends BcsSerialization {
   /// The commands to be executed sequentially. A failure in any command will
   /// result in the failure of the entire transaction.
   final List<SuiCommand> commands;
-  SuiProgrammableTransaction(
-      {required List<SuiCallArguments> inputs,
-      required List<SuiCommand> commands})
-      : inputs = inputs.immutable,
-        commands = commands.immutable;
+  SuiProgrammableTransaction({
+    required List<SuiCallArguments> inputs,
+    required List<SuiCommand> commands,
+  }) : inputs = inputs.immutable,
+       commands = commands.immutable;
   factory SuiProgrammableTransaction.fromStruct(Map<String, dynamic> json) {
     return SuiProgrammableTransaction(
-      inputs: json
-          .asListOfMap("inputs")!
-          .map((e) => SuiCallArg.fromStruct(e))
-          .toList(),
-      commands: json
-          .asListOfMap("commands")!
-          .map((e) => SuiCommand.fromStruct(e))
-          .toList(),
+      inputs:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("inputs")
+              .map((e) => SuiCallArg.fromStruct(e))
+              .toList(),
+      commands:
+          json
+              .valueEnsureAsList<Map<String, dynamic>>("commands")
+              .map((e) => SuiCommand.fromStruct(e))
+              .toList(),
     );
   }
   static StructLayout layout({String? property}) {
@@ -1401,11 +1544,12 @@ class SuiProgrammableTransaction extends BcsSerialization {
   @override
   Map<String, dynamic> toLayoutStruct() {
     return {
-      "inputs": inputs
-          .map((e) => e is SuiCallArg ? e : SuiCallArgPure(e.toBcs()))
-          .map((e) => e.toVariantLayoutStruct())
-          .toList(),
-      "commands": commands.map((e) => e.toVariantLayoutStruct()).toList()
+      "inputs":
+          inputs
+              .map((e) => e is SuiCallArg ? e : SuiCallArgPure(e.toBcs()))
+              .map((e) => e.toVariantLayoutStruct())
+              .toList(),
+      "commands": commands.map((e) => e.toVariantLayoutStruct()).toList(),
     };
   }
 }
@@ -1442,10 +1586,15 @@ enum SuiTransactionKinds {
   const SuiTransactionKinds({required this.value});
   final int value;
   static SuiTransactionKinds fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct TransactionKid from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct TransactionKid from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1458,15 +1607,16 @@ abstract class SuiTransactionKind extends BcsVariantSerialization {
     return switch (type) {
       SuiTransactionKinds.programmableTransaction =>
         SuiTransactionKindProgrammableTransaction.fromStruct(decode.value),
-      _ => throw UnimplementedError()
+      _ => throw UnimplementedError(),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiTransactionKindProgrammableTransaction.layout,
-          property: SuiTransactionKinds.programmableTransaction.name,
-          index: SuiTransactionKinds.programmableTransaction.value)
+        layout: SuiTransactionKindProgrammableTransaction.layout,
+        property: SuiTransactionKinds.programmableTransaction.name,
+        index: SuiTransactionKinds.programmableTransaction.value,
+      ),
     ], property: property);
   }
 
@@ -1480,8 +1630,10 @@ abstract class SuiTransactionKind extends BcsVariantSerialization {
 
   T cast<T extends SuiTransactionKind>() {
     if (this is! T) {
-      throw DartSuiPluginException("Transaction kind casting failed.",
-          details: {"expected": "$T", "kind": type.name});
+      throw DartSuiPluginException(
+        "Transaction kind casting failed.",
+        details: {"expected": "$T", "kind": type.name},
+      );
     }
     return this as T;
   }
@@ -1491,16 +1643,20 @@ class SuiTransactionKindProgrammableTransaction extends SuiTransactionKind {
   final SuiProgrammableTransaction transaction;
 
   SuiTransactionKindProgrammableTransaction(this.transaction)
-      : super(type: SuiTransactionKinds.programmableTransaction);
+    : super(type: SuiTransactionKinds.programmableTransaction);
   factory SuiTransactionKindProgrammableTransaction.fromStruct(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return SuiTransactionKindProgrammableTransaction(
-        SuiProgrammableTransaction.fromStruct(json.asMap("transaction")));
+      SuiProgrammableTransaction.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("transaction"),
+      ),
+    );
   }
   static StructLayout layout({String? property}) {
-    return LayoutConst.struct(
-        [SuiProgrammableTransaction.layout(property: "transaction")],
-        property: property);
+    return LayoutConst.struct([
+      SuiProgrammableTransaction.layout(property: "transaction"),
+    ], property: property);
   }
 
   @override
@@ -1525,10 +1681,15 @@ enum SuiTransactionV2TransactionExpirations {
   const SuiTransactionV2TransactionExpirations({required this.value});
   final int value;
   static SuiTransactionV2TransactionExpirations fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct TransactionExpiration from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct TransactionExpiration from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1537,8 +1698,9 @@ abstract class SuiTransactionExpiration extends BcsVariantSerialization {
   const SuiTransactionExpiration({required this.type});
   factory SuiTransactionExpiration.fromStruct(Map<String, dynamic> json) {
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
-    final type =
-        SuiTransactionV2TransactionExpirations.fromName(decode.variantName);
+    final type = SuiTransactionV2TransactionExpirations.fromName(
+      decode.variantName,
+    );
     return switch (type) {
       SuiTransactionV2TransactionExpirations.none =>
         SuiTransactionExpirationNone(),
@@ -1552,13 +1714,15 @@ abstract class SuiTransactionExpiration extends BcsVariantSerialization {
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiTransactionExpirationNone.layout,
-          property: SuiTransactionV2TransactionExpirations.none.name,
-          index: SuiTransactionV2TransactionExpirations.none.value),
+        layout: SuiTransactionExpirationNone.layout,
+        property: SuiTransactionV2TransactionExpirations.none.name,
+        index: SuiTransactionV2TransactionExpirations.none.value,
+      ),
       LazyVariantModel(
-          layout: SuiTransactionExpirationEpoch.layout,
-          property: SuiTransactionV2TransactionExpirations.epoch.name,
-          index: SuiTransactionV2TransactionExpirations.epoch.value)
+        layout: SuiTransactionExpirationEpoch.layout,
+        property: SuiTransactionV2TransactionExpirations.epoch.name,
+        index: SuiTransactionV2TransactionExpirations.epoch.value,
+      ),
     ], property: property);
   }
 
@@ -1570,7 +1734,7 @@ abstract class SuiTransactionExpiration extends BcsVariantSerialization {
 
 class SuiTransactionExpirationNone extends SuiTransactionExpiration {
   const SuiTransactionExpirationNone()
-      : super(type: SuiTransactionV2TransactionExpirations.none);
+    : super(type: SuiTransactionV2TransactionExpirations.none);
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.noArgs(property: property);
   }
@@ -1589,14 +1753,15 @@ class SuiTransactionExpirationNone extends SuiTransactionExpiration {
 class SuiTransactionExpirationEpoch extends SuiTransactionExpiration {
   final BigInt epochId;
   SuiTransactionExpirationEpoch({required BigInt epochId})
-      : epochId = epochId.asU64,
-        super(type: SuiTransactionV2TransactionExpirations.epoch);
+    : epochId = epochId.asU64,
+      super(type: SuiTransactionV2TransactionExpirations.epoch);
   factory SuiTransactionExpirationEpoch.fromStruct(Map<String, dynamic> json) {
-    return SuiTransactionExpirationEpoch(epochId: json.as("epochId"));
+    return SuiTransactionExpirationEpoch(epochId: json.valueAs("epochId"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.u64(property: 'epochId')],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.u64(property: 'epochId'),
+    ], property: property);
   }
 
   @override
@@ -1617,10 +1782,15 @@ enum SuiTransactionDataVersion {
   const SuiTransactionDataVersion({required this.value});
 
   static SuiTransactionDataVersion fromName(String name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct transaction version from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct transaction version from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -1629,7 +1799,9 @@ abstract class SuiTransactionData extends BcsVariantSerialization {
   const SuiTransactionData({required this.version});
   factory SuiTransactionData.deserialize(List<int> bytes, {String? property}) {
     final decode = BcsVariantSerialization.deserialize(
-        bytes: bytes, layout: layout(property: property));
+      bytes: bytes,
+      layout: layout(property: property),
+    );
 
     return SuiTransactionData.fromStruct(decode);
   }
@@ -1637,16 +1809,18 @@ abstract class SuiTransactionData extends BcsVariantSerialization {
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
     final version = SuiTransactionDataVersion.fromName(decode.variantName);
     return switch (version) {
-      SuiTransactionDataVersion.v1 =>
-        SuiTransactionDataV1.fromStruct(decode.value),
+      SuiTransactionDataVersion.v1 => SuiTransactionDataV1.fromStruct(
+        decode.value,
+      ),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum([
       LazyVariantModel(
-          layout: SuiTransactionDataV1.layout,
-          property: SuiTransactionDataVersion.v1.name,
-          index: SuiTransactionDataVersion.v1.value)
+        layout: SuiTransactionDataV1.layout,
+        property: SuiTransactionDataVersion.v1.name,
+        index: SuiTransactionDataVersion.v1.value,
+      ),
     ], property: property);
   }
 
@@ -1676,36 +1850,50 @@ class SuiTransactionDataV1 extends SuiTransactionData {
   final SuiAddress sender;
   final SuiGasData gasData;
   final SuiTransactionExpiration expiration;
-  SuiTransactionDataV1 copyWith(
-      {SuiTransactionKind? kind,
-      SuiAddress? sender,
-      SuiGasData? gasData,
-      SuiTransactionExpiration? expiration}) {
+  SuiTransactionDataV1 copyWith({
+    SuiTransactionKind? kind,
+    SuiAddress? sender,
+    SuiGasData? gasData,
+    SuiTransactionExpiration? expiration,
+  }) {
     return SuiTransactionDataV1(
-        expiration: expiration ?? this.expiration,
-        sender: sender ?? this.sender,
-        gasData: gasData ?? this.gasData,
-        kind: kind ?? this.kind);
+      expiration: expiration ?? this.expiration,
+      sender: sender ?? this.sender,
+      gasData: gasData ?? this.gasData,
+      kind: kind ?? this.kind,
+    );
   }
 
-  const SuiTransactionDataV1(
-      {required this.expiration,
-      required this.sender,
-      required this.gasData,
-      required this.kind})
-      : super(version: SuiTransactionDataVersion.v1);
-  factory SuiTransactionDataV1.deserialize(List<int> bytes,
-      {String? property}) {
+  const SuiTransactionDataV1({
+    required this.expiration,
+    required this.sender,
+    required this.gasData,
+    required this.kind,
+  }) : super(version: SuiTransactionDataVersion.v1);
+  factory SuiTransactionDataV1.deserialize(
+    List<int> bytes, {
+    String? property,
+  }) {
     final decode = BcsSerialization.deserialize(
-        bytes: bytes, layout: layout(property: property));
+      bytes: bytes,
+      layout: layout(property: property),
+    );
     return SuiTransactionDataV1.fromStruct(decode);
   }
   factory SuiTransactionDataV1.fromStruct(Map<String, dynamic> json) {
     return SuiTransactionDataV1(
-      kind: SuiTransactionKind.fromStruct(json.asMap("kind")),
-      sender: SuiAddress.fromStruct(json.asMap("sender")),
-      gasData: SuiGasData.fromStruct(json.asMap("gas_data")),
-      expiration: SuiTransactionExpiration.fromStruct(json.asMap("expiration")),
+      kind: SuiTransactionKind.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("kind"),
+      ),
+      sender: SuiAddress.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("sender"),
+      ),
+      gasData: SuiGasData.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("gas_data"),
+      ),
+      expiration: SuiTransactionExpiration.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("expiration"),
+      ),
     );
   }
 
@@ -1714,7 +1902,7 @@ class SuiTransactionDataV1 extends SuiTransactionData {
       SuiTransactionKind.layout(property: "kind"),
       SuiAddress.layout(property: "sender"),
       SuiGasData.layout(property: "gas_data"),
-      SuiTransactionExpiration.layout(property: "expiration")
+      SuiTransactionExpiration.layout(property: "expiration"),
     ], property: property);
   }
 
@@ -1729,7 +1917,7 @@ class SuiTransactionDataV1 extends SuiTransactionData {
       "kind": kind.toVariantLayoutStruct(),
       "sender": sender.toLayoutStruct(),
       "gas_data": gasData.toLayoutStruct(),
-      "expiration": expiration.toVariantLayoutStruct()
+      "expiration": expiration.toVariantLayoutStruct(),
     };
   }
 }
@@ -1737,25 +1925,28 @@ class SuiTransactionDataV1 extends SuiTransactionData {
 class SuiSenderSignedTransaction extends BcsSerialization {
   final SuiIntentMessage intentMessage;
   final List<List<int>> signatures;
-  SuiSenderSignedTransaction(
-      {required this.intentMessage, required List<List<int>> signatures})
-      : signatures = signatures.map((e) => e.asImmutableBytes).toImutableList;
+  SuiSenderSignedTransaction({
+    required this.intentMessage,
+    required List<List<int>> signatures,
+  }) : signatures = signatures.map((e) => e.asImmutableBytes).toImutableList;
   factory SuiSenderSignedTransaction.deserialize(List<int> bytes) {
     final intentMessage = SuiIntentMessage.deserializeWithConsumedLength(bytes);
-    final signatures = LayoutConst.bcsVector(LayoutConst.bcsBytes())
-        .deserialize(bytes.sublist(intentMessage.$2));
+    final signatures = LayoutConst.bcsVector(
+      LayoutConst.bcsBytes(),
+    ).deserialize(bytes.sublist(intentMessage.$2));
     return SuiSenderSignedTransaction(
-        intentMessage: intentMessage.$1, signatures: signatures.value);
+      intentMessage: intentMessage.$1,
+      signatures: signatures.value,
+    );
   }
 
-  static Layout<Map<String, dynamic>> layout(
-      {String? property, required SuiIntentMessage message}) {
+  static Layout<Map<String, dynamic>> layout({
+    String? property,
+    required SuiIntentMessage message,
+  }) {
     return LayoutConst.struct([
       message.createLayout(property: "intent_message"),
-      LayoutConst.bcsVector(
-        LayoutConst.bcsBytes(),
-        property: 'signatures',
-      ),
+      LayoutConst.bcsVector(LayoutConst.bcsBytes(), property: 'signatures'),
     ]);
   }
 
@@ -1768,7 +1959,7 @@ class SuiSenderSignedTransaction extends BcsSerialization {
   Map<String, dynamic> toLayoutStruct() {
     return {
       "signatures": signatures,
-      "intent_message": intentMessage.toLayoutStruct()
+      "intent_message": intentMessage.toLayoutStruct(),
     };
   }
 }

@@ -31,11 +31,14 @@ abstract class MetaplexBubblegumProgramLayout extends ProgramLayout {
   abstract final MetaplexBubblegumProgramInstruction instruction;
 
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexBubblegumProgramInstruction? instruction =
         MetaplexBubblegumProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
     switch (instruction) {
       case MetaplexBubblegumProgramInstruction.burn:
         return MetaplexBubblegumBurnLayout.fromBuffer(data);
@@ -86,10 +89,13 @@ abstract class MetaplexBubblegumProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException('invalid instruction bytes', details: {
-        'expected': BytesUtils.toHexString(instruction),
-        'instruction': BytesUtils.toBinary(instcutionData)
-      });
+      throw SolanaPluginException(
+        'invalid instruction bytes',
+        details: {
+          'expected': BytesUtils.toHexString(instruction),
+          'instruction': BytesUtils.toBinary(instcutionData),
+        },
+      );
     }
 
     return decode;

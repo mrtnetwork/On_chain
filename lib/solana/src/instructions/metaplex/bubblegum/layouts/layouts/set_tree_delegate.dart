@@ -7,16 +7,16 @@ class MetaplexBubblegumSetTreeDelegateLayout
 
   factory MetaplexBubblegumSetTreeDelegateLayout.fromBuffer(List<int> data) {
     MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexBubblegumProgramInstruction.setTreeDelegate.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexBubblegumProgramInstruction.setTreeDelegate.insturction,
+    );
     return const MetaplexBubblegumSetTreeDelegateLayout();
   }
 
-  static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-      ]);
+  static StructLayout get _layout =>
+      LayoutConst.struct([LayoutConst.blob(8, property: 'instruction')]);
 
   @override
   StructLayout get layout => _layout;

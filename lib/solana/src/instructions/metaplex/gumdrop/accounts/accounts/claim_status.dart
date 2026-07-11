@@ -7,12 +7,12 @@ class _Utils {
   static const List<int> discriminator = [22, 183, 249, 157, 247, 95, 150, 96];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        LayoutConst.boolean(property: 'isClaimed'),
-        SolanaLayoutUtils.publicKey('claimant'),
-        LayoutConst.i64(property: 'claimedAt'),
-        LayoutConst.u64(property: 'amount'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    LayoutConst.boolean(property: 'isClaimed'),
+    SolanaLayoutUtils.publicKey('claimant'),
+    LayoutConst.i64(property: 'claimedAt'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 }
 
 class ClaimStatus extends BorshLayoutSerializable {
@@ -21,21 +21,24 @@ class ClaimStatus extends BorshLayoutSerializable {
   final SolAddress claimant;
   final BigInt claimedAt;
   final BigInt amount;
-  ClaimStatus(
-      {required this.isClaimed,
-      required this.claimant,
-      required this.claimedAt,
-      required this.amount});
+  ClaimStatus({
+    required this.isClaimed,
+    required this.claimant,
+    required this.claimedAt,
+    required this.amount,
+  });
   factory ClaimStatus.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return ClaimStatus(
-        isClaimed: decode['isClaimed'],
-        claimant: decode['claimant'],
-        claimedAt: decode['claimedAt'],
-        amount: decode['amount']);
+      isClaimed: decode['isClaimed'],
+      claimant: decode['claimant'],
+      claimedAt: decode['claimedAt'],
+      amount: decode['amount'],
+    );
   }
 
   @override
@@ -48,7 +51,7 @@ class ClaimStatus extends BorshLayoutSerializable {
       'isClaimed': isClaimed,
       'claimant': claimant,
       'claimedAt': claimedAt,
-      'amount': amount
+      'amount': amount,
     };
   }
 

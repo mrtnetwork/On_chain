@@ -8,8 +8,10 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_trymultigetpastobjects)
 class SuiRequestTryMultiGetPastObjects
     extends SuiRequest<List<SuiApiObjectRead>, List<Map<String, dynamic>>> {
-  const SuiRequestTryMultiGetPastObjects(
-      {required this.pastObjects, this.options});
+  const SuiRequestTryMultiGetPastObjects({
+    required this.pastObjects,
+    this.options,
+  });
 
   /// A vector of object and versions to be queried
   final List<SuiApiGetPastObjectRequest> pastObjects;

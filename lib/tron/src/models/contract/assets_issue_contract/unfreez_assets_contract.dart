@@ -1,7 +1,7 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 /// Unstake a token that has passed the minimum freeze duration.
 class UnfreezeAssetContract extends TronBaseContract {
@@ -11,13 +11,14 @@ class UnfreezeAssetContract extends TronBaseContract {
   /// Create a new [UnfreezeAssetContract] instance by parsing a JSON map.
   factory UnfreezeAssetContract.fromJson(Map<String, dynamic> json) {
     return UnfreezeAssetContract(
-        ownerAddress: OnChainUtils.parseTronAddress(
-            value: json['owner_address'], name: 'owner_address'));
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+    );
   }
   factory UnfreezeAssetContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return UnfreezeAssetContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+    );
   }
 
   /// owner Address

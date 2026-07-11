@@ -18,10 +18,7 @@ class ADATransactionWithdrawalResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'address': address,
-      'amount': amount,
-    };
+    return {'address': address, 'amount': amount};
   }
 
   @override

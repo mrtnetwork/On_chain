@@ -8,10 +8,11 @@ class UnDelegateResourceContract extends TronBaseContract {
   /// Create a new [UnDelegateResourceContract] instance by parsing a JSON map.
   factory UnDelegateResourceContract.fromJson(Map<String, dynamic> json) {
     return UnDelegateResourceContract(
-        ownerAddress: TronAddress(json['owner_address']),
-        balance: BigintUtils.parse(json['balance']),
-        receiverAddress: TronAddress(json['receiver_address']),
-        resource: ResourceCode.fromName(json['resource']));
+      ownerAddress: TronAddress(json['owner_address']),
+      balance: BigintUtils.parse(json['balance']),
+      receiverAddress: TronAddress(json['receiver_address']),
+      resource: ResourceCode.fromName(json['resource']),
+    );
   }
 
   /// Create a new [UnDelegateResourceContract] instance with specified parameters.
@@ -25,12 +26,13 @@ class UnDelegateResourceContract extends TronBaseContract {
   factory UnDelegateResourceContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return UnDelegateResourceContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        balance: decode.getField(3),
-        resource: decode
-            .getResult(2)
-            ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
-        receiverAddress: TronAddress.fromBytes(decode.getField(4)));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      balance: decode.getField(3),
+      resource: decode
+          .getResult(2)
+          ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
+      receiverAddress: TronAddress.fromBytes(decode.getField(4)),
+    );
   }
 
   /// Account address
@@ -51,11 +53,11 @@ class UnDelegateResourceContract extends TronBaseContract {
 
   @override
   List get values => [
-        ownerAddress,
-        resource == ResourceCode.bandWidth ? null : resource,
-        balance,
-        receiverAddress
-      ];
+    ownerAddress,
+    resource == ResourceCode.bandWidth ? null : resource,
+    balance,
+    receiverAddress,
+  ];
 
   /// Convert the [UnDelegateResourceContract] object to a JSON representation.
   @override
@@ -64,7 +66,7 @@ class UnDelegateResourceContract extends TronBaseContract {
       'owner_address': ownerAddress.toAddress(visible),
       'receiver_address': receiverAddress.toAddress(visible),
       'balance': balance.toString(),
-      'resource': resource?.name
+      'resource': resource?.name,
     }..removeWhere((key, value) => value == null);
   }
 

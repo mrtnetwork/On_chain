@@ -19,29 +19,31 @@ class BootstrapWitness
     required this.signature,
     required List<int> chainCode,
     required List<int> attributes,
-  })  : chainCode = chainCode.asImmutableBytes,
-        attributes = attributes.asImmutableBytes;
+  }) : chainCode = chainCode.asImmutableBytes,
+       attributes = attributes.asImmutableBytes;
   factory BootstrapWitness.deserialize(CborListValue cbor) {
     return BootstrapWitness(
-        vkey: Vkey.deserialize(cbor.elementAt<CborBytesValue>(0)),
-        signature:
-            Ed25519Signature.deserialize(cbor.elementAt<CborBytesValue>(1)),
-        chainCode: cbor.elementAtBytes(2),
-        attributes: cbor.elementAtBytes(3));
+      vkey: Vkey.deserialize(cbor.objectAt<CborBytesValue>(0)),
+      signature: Ed25519Signature.deserialize(cbor.objectAt<CborBytesValue>(1)),
+      chainCode: cbor.rawValueAt(2),
+      attributes: cbor.rawValueAt(3),
+    );
   }
   factory BootstrapWitness.fromJson(Map<String, dynamic> json) {
     return BootstrapWitness(
-        vkey: Vkey.fromHex(json['vkey']),
-        signature: Ed25519Signature.fromHex(json['signature']),
-        chainCode: BytesUtils.fromHexString(json['chain_code']),
-        attributes: BytesUtils.fromHexString(json['attributes']));
+      vkey: Vkey.fromHex(json['vkey']),
+      signature: Ed25519Signature.fromHex(json['signature']),
+      chainCode: BytesUtils.fromHexString(json['chain_code']),
+      attributes: BytesUtils.fromHexString(json['attributes']),
+    );
   }
 
-  BootstrapWitness copyWith(
-      {Vkey? vkey,
-      Ed25519Signature? signature,
-      List<int>? chainCode,
-      List<int>? attributes}) {
+  BootstrapWitness copyWith({
+    Vkey? vkey,
+    Ed25519Signature? signature,
+    List<int>? chainCode,
+    List<int>? attributes,
+  }) {
     return BootstrapWitness(
       vkey: vkey ?? this.vkey,
       signature: signature ?? this.signature,
@@ -56,7 +58,7 @@ class BootstrapWitness
       vkey.toCbor(),
       signature.toCbor(),
       CborBytesValue(chainCode),
-      CborBytesValue(attributes)
+      CborBytesValue(attributes),
     ]);
   }
 
@@ -66,7 +68,7 @@ class BootstrapWitness
       'vkey': vkey.toJson(),
       'signature': signature.toJson(),
       'chain_code': BytesUtils.toHexString(chainCode),
-      'attributes': BytesUtils.toHexString(attributes)
+      'attributes': BytesUtils.toHexString(attributes),
     };
   }
 
@@ -81,8 +83,12 @@ class BootstrapWitness
   }
 
   @override
-  int get hashCode => HashCodeGenerator.generateHashCode(
-      [vkey, signature, chainCode, attributes]);
+  int get hashCode => HashCodeGenerator.generateHashCode([
+    vkey,
+    signature,
+    chainCode,
+    attributes,
+  ]);
 
   @override
   bool get isByron => true;

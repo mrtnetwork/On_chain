@@ -4,8 +4,10 @@ import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class _Utils {
-  static StructLayout get layout => LayoutConst.struct(
-      [LayoutConst.u8(property: 'key'), LayoutConst.vecU8(property: 'ledger')]);
+  static StructLayout get layout => LayoutConst.struct([
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.vecU8(property: 'ledger'),
+  ]);
 }
 
 class EditionMarkerV2 extends BorshLayoutSerializable {
@@ -13,13 +15,16 @@ class EditionMarkerV2 extends BorshLayoutSerializable {
   final List<int> ledger;
 
   EditionMarkerV2({required this.key, required List<int> ledger})
-      : ledger = ledger.asImmutableBytes;
+    : ledger = ledger.asImmutableBytes;
   factory EditionMarkerV2.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return EditionMarkerV2(
-        key: MetaDataKey.fromValue(decode['key']),
-        ledger: (decode['ledger'] as List).cast());
+      key: MetaDataKey.fromValue(decode['key']),
+      ledger: (decode['ledger'] as List).cast(),
+    );
   }
 
   @override

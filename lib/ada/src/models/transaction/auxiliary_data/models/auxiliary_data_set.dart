@@ -6,34 +6,39 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 class AuxiliaryDataSet with InternalCborSerialization {
   final Map<int, AuxiliaryData> auxiliaryDataSet;
   AuxiliaryDataSet({Map<int, AuxiliaryData> auxiliaryDataSet = const {}})
-      : auxiliaryDataSet = auxiliaryDataSet.immutable;
+    : auxiliaryDataSet = auxiliaryDataSet.immutable;
   factory AuxiliaryDataSet.deserialize(CborMapValue cbor) {
-    final map = cbor.valueAsMap<CborIntValue, CborObject>();
-    return AuxiliaryDataSet(auxiliaryDataSet: {
-      for (final i in map.entries)
-        i.key.value: AuxiliaryData.deserialize(i.value)
-    });
+    final map = cbor.asMap<CborIntValue, CborObject>();
+    return AuxiliaryDataSet(
+      auxiliaryDataSet: {
+        for (final i in map.entries)
+          i.key.value: AuxiliaryData.deserialize(i.value),
+      },
+    );
   }
   factory AuxiliaryDataSet.fromJson(Map<String, dynamic> json) {
-    return AuxiliaryDataSet(auxiliaryDataSet: {
-      for (final i in (json["auxiliary_data_set"] as Map).entries)
-        i.key: AuxiliaryData.fromJson(i.value)
-    });
+    return AuxiliaryDataSet(
+      auxiliaryDataSet: {
+        for (final i in (json["auxiliary_data_set"] as Map).entries)
+          i.key: AuxiliaryData.fromJson(i.value),
+      },
+    );
   }
 
   @override
   CborObject toCbor() {
     return CborMapValue.definite({
       for (final i in auxiliaryDataSet.entries)
-        CborUnsignedValue.u32(i.key): i.value.toCbor()
+        CborUnsignedValue.u32(i.key): i.value.toCbor(),
     });
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "auxiliary_data_set":
-          auxiliaryDataSet.map((k, v) => MapEntry(k, v.toJson()))
+      "auxiliary_data_set": auxiliaryDataSet.map(
+        (k, v) => MapEntry(k, v.toJson()),
+      ),
     };
   }
 }

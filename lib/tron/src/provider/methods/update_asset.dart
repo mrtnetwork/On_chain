@@ -24,14 +24,15 @@ class TronRequestUpdateAsset
       visible: visible,
     );
   }
-  TronRequestUpdateAsset(
-      {required this.ownerAddress,
-      this.description,
-      this.url,
-      this.newLimit,
-      this.newPublicLimit,
-      this.permissionId,
-      this.visible = true});
+  TronRequestUpdateAsset({
+    required this.ownerAddress,
+    this.description,
+    this.url,
+    this.newLimit,
+    this.newPublicLimit,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// The issuers address of the token
   final TronAddress ownerAddress;
@@ -66,7 +67,7 @@ class TronRequestUpdateAsset
       'newimit': newLimit,
       'new_publicimit': newPublicLimit,
       'permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

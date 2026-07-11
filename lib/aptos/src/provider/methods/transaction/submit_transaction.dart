@@ -19,14 +19,15 @@ class AptosRequestSubmitTransaction
   final List<int> signedTransactionData;
 
   AptosRequestSubmitTransaction({required List<int> signedTransactionData})
-      : signedTransactionData = signedTransactionData.asImmutableBytes;
+    : signedTransactionData = signedTransactionData.asImmutableBytes;
 
   @override
   String get method => AptosApiMethod.submitTransaction.url;
 
   @override
-  Map<String, String>? get headers =>
-      {"content-Type": "application/x.aptos.signed_transaction+bcs"};
+  Map<String, String>? get headers => {
+    "content-Type": "application/x.aptos.signed_transaction+bcs",
+  };
 
   @override
   List<int> get body => signedTransactionData;

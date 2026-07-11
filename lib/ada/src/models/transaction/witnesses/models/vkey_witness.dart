@@ -17,20 +17,22 @@ class Vkeywitness
   /// Deserialize a Vkeywitness from a CBOR list value.
   factory Vkeywitness.deserialize(CborListValue cbor) {
     return Vkeywitness(
-      vKey: Vkey.deserialize(cbor.elementAt<CborBytesValue>(0)),
-      signature:
-          Ed25519Signature.deserialize(cbor.elementAt<CborBytesValue>(1)),
+      vKey: Vkey.deserialize(cbor.objectAt<CborBytesValue>(0)),
+      signature: Ed25519Signature.deserialize(cbor.objectAt<CborBytesValue>(1)),
     );
   }
   factory Vkeywitness.fromJson(Map<String, dynamic> json) {
     return Vkeywitness(
-        vKey: Vkey.fromHex(json['vkey']),
-        signature: Ed25519Signature.fromHex(json['signature']));
+      vKey: Vkey.fromHex(json['vkey']),
+      signature: Ed25519Signature.fromHex(json['signature']),
+    );
   }
 
   Vkeywitness copyWith({Vkey? vKey, Ed25519Signature? signature}) {
     return Vkeywitness(
-        vKey: vKey ?? this.vKey, signature: signature ?? this.signature);
+      vKey: vKey ?? this.vKey,
+      signature: signature ?? this.signature,
+    );
   }
 
   @override

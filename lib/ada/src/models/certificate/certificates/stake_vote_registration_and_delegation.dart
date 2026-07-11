@@ -11,44 +11,52 @@ class StakeVoteRegistrationAndDelegation extends Certificate {
   final Ed25519PoolKeyHash poolKeyHash;
   final DRep drep;
   final BigInt coin;
-  const StakeVoteRegistrationAndDelegation(
-      {required this.stakeCredential,
-      required this.poolKeyHash,
-      required this.drep,
-      required this.coin});
+  const StakeVoteRegistrationAndDelegation({
+    required this.stakeCredential,
+    required this.poolKeyHash,
+    required this.drep,
+    required this.coin,
+  });
 
   factory StakeVoteRegistrationAndDelegation.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: CertificateType.stakeVoteRegistrationAndDelegation);
+    CertificateType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: CertificateType.stakeVoteRegistrationAndDelegation,
+    );
     return StakeVoteRegistrationAndDelegation(
-        stakeCredential:
-            Credential.deserialize(cbor.elementAt<CborListValue>(1)),
-        poolKeyHash:
-            Ed25519PoolKeyHash.deserialize(cbor.elementAt<CborBytesValue>(2)),
-        drep: DRep.deserialize(cbor.elementAt<CborListValue>(3)),
-        coin: cbor.elementAsInteger(4));
+      stakeCredential: Credential.deserialize(cbor.objectAt<CborListValue>(1)),
+      poolKeyHash: Ed25519PoolKeyHash.deserialize(
+        cbor.objectAt<CborBytesValue>(2),
+      ),
+      drep: DRep.deserialize(cbor.objectAt<CborListValue>(3)),
+      coin: cbor.rawValueAt(4),
+    );
   }
   factory StakeVoteRegistrationAndDelegation.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final Map<String, dynamic> correctJson =
         json[CertificateType.stakeVoteRegistrationAndDelegation.name] ?? json;
     return StakeVoteRegistrationAndDelegation(
-        stakeCredential: Credential.fromJson(correctJson['stake_credential']),
-        poolKeyHash: Ed25519PoolKeyHash.fromHex(correctJson['pool_keyhash']),
-        drep: DRep.fromJson(correctJson["drep"]),
-        coin: BigintUtils.parse(correctJson['coin']));
+      stakeCredential: Credential.fromJson(correctJson['stake_credential']),
+      poolKeyHash: Ed25519PoolKeyHash.fromHex(correctJson['pool_keyhash']),
+      drep: DRep.fromJson(correctJson["drep"]),
+      coin: BigintUtils.parse(correctJson['coin']),
+    );
   }
 
-  StakeVoteRegistrationAndDelegation copyWith(
-      {Credential? stakeCredential,
-      Ed25519PoolKeyHash? poolKeyHash,
-      DRep? drep,
-      BigInt? coin}) {
+  StakeVoteRegistrationAndDelegation copyWith({
+    Credential? stakeCredential,
+    Ed25519PoolKeyHash? poolKeyHash,
+    DRep? drep,
+    BigInt? coin,
+  }) {
     return StakeVoteRegistrationAndDelegation(
-        stakeCredential: stakeCredential ?? this.stakeCredential,
-        poolKeyHash: poolKeyHash ?? this.poolKeyHash,
-        drep: drep ?? this.drep,
-        coin: coin ?? this.coin);
+      stakeCredential: stakeCredential ?? this.stakeCredential,
+      poolKeyHash: poolKeyHash ?? this.poolKeyHash,
+      drep: drep ?? this.drep,
+      coin: coin ?? this.coin,
+    );
   }
 
   @override
@@ -58,7 +66,7 @@ class StakeVoteRegistrationAndDelegation extends Certificate {
       stakeCredential.toCbor(),
       poolKeyHash.toCbor(),
       drep.toCbor(),
-      CborUnsignedValue.u64(coin)
+      CborUnsignedValue.u64(coin),
     ]);
   }
 
@@ -73,8 +81,8 @@ class StakeVoteRegistrationAndDelegation extends Certificate {
         'stake_credential': stakeCredential.toJson(),
         'pool_keyhash': poolKeyHash.toJson(),
         'drep': drep.toJson(),
-        'coin': coin.toString()
-      }
+        'coin': coin.toString(),
+      },
     };
   }
 

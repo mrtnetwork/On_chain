@@ -21,7 +21,7 @@ void main() async {
   final publishCommands = SuiCommandPublish(
       dependencies: [SuiAddress("0x1"), SuiAddress("0x2")],
       modules: modules
-          .map((e) => StringUtils.encode(e, type: StringEncoding.base64))
+          .map((e) => StringUtils.encode(e, encoding: StringEncoding.base64))
           .toList());
   final owner = SuiAddress(
       "0x9bc93515356b1f763a04359c54b9dea70fbbe5e1fd3a39051da5dd8d7beffe8f");

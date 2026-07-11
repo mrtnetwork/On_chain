@@ -4,8 +4,12 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain the transaction redeemers.
 /// qhttps://blockfrost.dev/api/transaction-redeemers
-class BlockfrostRequestTransactionRedeemers extends BlockFrostRequest<
-    List<ADATransactionRedeemerResponse>, List<Map<String, dynamic>>> {
+class BlockfrostRequestTransactionRedeemers
+    extends
+        BlockFrostRequest<
+          List<ADATransactionRedeemerResponse>,
+          List<Map<String, dynamic>>
+        > {
   BlockfrostRequestTransactionRedeemers(this.hash);
 
   /// Hash of the requested transaction
@@ -20,7 +24,8 @@ class BlockfrostRequestTransactionRedeemers extends BlockFrostRequest<
 
   @override
   List<ADATransactionRedeemerResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADATransactionRedeemerResponse.fromJson(e))
         .toList();

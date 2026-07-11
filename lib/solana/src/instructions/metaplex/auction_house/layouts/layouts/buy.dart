@@ -6,33 +6,36 @@ class MetaplexAuctionHouseBuyLayout extends MetaplexAuctionHouseProgramLayout {
   final int escrowPaymentBump;
   final BigInt buyerPrice;
   final BigInt tokenSize;
-  const MetaplexAuctionHouseBuyLayout(
-      {required this.tradeStateBump,
-      required this.escrowPaymentBump,
-      required this.buyerPrice,
-      required this.tokenSize});
+  const MetaplexAuctionHouseBuyLayout({
+    required this.tradeStateBump,
+    required this.escrowPaymentBump,
+    required this.buyerPrice,
+    required this.tokenSize,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseBuyLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction.buy.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexAuctionHouseProgramInstruction.buy.insturction,
+    );
     return MetaplexAuctionHouseBuyLayout(
-        tradeStateBump: decode['tradeStateBump'],
-        escrowPaymentBump: decode['escrowPaymentBump'],
-        buyerPrice: decode['buyerPrice'],
-        tokenSize: decode['tokenSize']);
+      tradeStateBump: decode['tradeStateBump'],
+      escrowPaymentBump: decode['escrowPaymentBump'],
+      buyerPrice: decode['buyerPrice'],
+      tokenSize: decode['tokenSize'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'tradeStateBump'),
-        LayoutConst.u8(property: 'escrowPaymentBump'),
-        LayoutConst.u64(property: 'buyerPrice'),
-        LayoutConst.u64(property: 'tokenSize'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -47,7 +50,7 @@ class MetaplexAuctionHouseBuyLayout extends MetaplexAuctionHouseProgramLayout {
       'tradeStateBump': tradeStateBump,
       'escrowPaymentBump': escrowPaymentBump,
       'buyerPrice': buyerPrice,
-      'tokenSize': tokenSize
+      'tokenSize': tokenSize,
     };
   }
 }

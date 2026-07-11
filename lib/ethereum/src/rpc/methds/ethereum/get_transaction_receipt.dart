@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 import 'package:on_chain/ethereum/src/models/transaction_receipt.dart';
@@ -18,7 +19,7 @@ class EthereumRequestGetTransactionReceipt
 
   @override
   List<dynamic> toJson() {
-    return [transactionHash];
+    return [StringUtils.add0x(StringUtils.normalizeHex(transactionHash))];
   }
 
   @override

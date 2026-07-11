@@ -5,13 +5,14 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/scanshieldedtrc20notesbyivk).
 class TronRequestScanShieldedTrc20NotesByIvk
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestScanShieldedTrc20NotesByIvk(
-      {required this.startBlockIndex,
-      required this.endBlockIndex,
-      required this.shieldedTRC20ContractAddress,
-      required this.ivk,
-      required this.ak,
-      required this.nk});
+  TronRequestScanShieldedTrc20NotesByIvk({
+    required this.startBlockIndex,
+    required this.endBlockIndex,
+    required this.shieldedTRC20ContractAddress,
+    required this.ivk,
+    required this.ak,
+    required this.nk,
+  });
   final int startBlockIndex;
   final int endBlockIndex;
   final String shieldedTRC20ContractAddress;
@@ -32,7 +33,7 @@ class TronRequestScanShieldedTrc20NotesByIvk
       'ivk': ivk,
       'ak': ak,
       'nk': nk,
-      'visible': visible
+      'visible': visible,
     };
   }
 

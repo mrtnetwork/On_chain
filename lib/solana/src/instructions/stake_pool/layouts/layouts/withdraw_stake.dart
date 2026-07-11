@@ -10,9 +10,10 @@ class StakePoolWithdrawStakeLayout extends StakePoolProgramLayout {
 
   factory StakePoolWithdrawStakeLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: StakePoolProgramInstruction.withdrawStake.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: StakePoolProgramInstruction.withdrawStake.insturction,
+    );
     return StakePoolWithdrawStakeLayout(poolTokens: decode['poolTokens']);
   }
 
@@ -20,9 +21,9 @@ class StakePoolWithdrawStakeLayout extends StakePoolProgramLayout {
   StakePoolProgramInstruction get instruction =>
       StakePoolProgramInstruction.withdrawStake;
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.ns64(property: 'poolTokens')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'poolTokens'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

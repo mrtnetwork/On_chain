@@ -8,10 +8,11 @@ class MetaplexTokenMetaDataPuffMetadataLayout
 
   factory MetaplexTokenMetaDataPuffMetadataLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.puffMetadata.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction.puffMetadata.insturction,
+    );
     return const MetaplexTokenMetaDataPuffMetadataLayout();
   }
 

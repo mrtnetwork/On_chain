@@ -7,19 +7,24 @@ class MetaplexAuctionHouseAuctioneerPublicBuyLayout
   final int escrowPaymentBump;
   final BigInt buyerPrice;
   final BigInt tokenSize;
-  const MetaplexAuctionHouseAuctioneerPublicBuyLayout(
-      {required this.tradeStateBump,
-      required this.escrowPaymentBump,
-      required this.buyerPrice,
-      required this.tokenSize});
+  const MetaplexAuctionHouseAuctioneerPublicBuyLayout({
+    required this.tradeStateBump,
+    required this.escrowPaymentBump,
+    required this.buyerPrice,
+    required this.tokenSize,
+  });
 
   factory MetaplexAuctionHouseAuctioneerPublicBuyLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .auctioneerPublicBuy.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction
+              .auctioneerPublicBuy
+              .insturction,
+    );
     return MetaplexAuctionHouseAuctioneerPublicBuyLayout(
       tradeStateBump: decode['tradeStateBump'],
       escrowPaymentBump: decode['escrowPaymentBump'],
@@ -29,12 +34,12 @@ class MetaplexAuctionHouseAuctioneerPublicBuyLayout
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'tradeStateBump'),
-        LayoutConst.u8(property: 'escrowPaymentBump'),
-        LayoutConst.u64(property: 'buyerPrice'),
-        LayoutConst.u64(property: 'tokenSize'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.u8(property: 'escrowPaymentBump'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

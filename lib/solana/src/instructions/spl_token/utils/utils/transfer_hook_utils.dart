@@ -17,8 +17,10 @@ class TransferHookUtils {
     return (seeds.sublist(1, length + 1), 2 + length);
   }
 
-  static (List<int>, int) unpackSeedInstructionArg(
-      {required List<int> seeds, required List<int> instructionData}) {
+  static (List<int>, int) unpackSeedInstructionArg({
+    required List<int> seeds,
+    required List<int> instructionData,
+  }) {
     if (seeds.length < 2) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
@@ -30,8 +32,10 @@ class TransferHookUtils {
     return (instructionData.sublist(index, index + length), 3);
   }
 
-  static (List<int>, int) unpackSeedAccountKey(
-      {required List<int> seeds, required List<AccountMeta> previousMetas}) {
+  static (List<int>, int) unpackSeedAccountKey({
+    required List<int> seeds,
+    required List<AccountMeta> previousMetas,
+  }) {
     if (seeds.isEmpty) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
@@ -42,10 +46,11 @@ class TransferHookUtils {
     return (previousMetas[index].publicKey.toBytes(), 2);
   }
 
-  static Future<(List<int>, int)> unpackSeedAccountData(
-      {required List<int> seeds,
-      required List<AccountMeta> previousMetas,
-      required SolanaProvider connection}) async {
+  static Future<(List<int>, int)> unpackSeedAccountData({
+    required List<int> seeds,
+    required List<AccountMeta> previousMetas,
+    required SolanaProvider connection,
+  }) async {
     if (seeds.length < 3) {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
@@ -56,8 +61,10 @@ class TransferHookUtils {
       throw const SolanaPluginException('Transfer hook invalid seeds');
     }
     final SolanaAccountInfo? accountInfo = await connection.request(
-        SolanaRequestGetAccountInfo(
-            account: previousMetas[accountIndex].publicKey));
+      SolanaRequestGetAccountInfo(
+        account: previousMetas[accountIndex].publicKey,
+      ),
+    );
     if (accountInfo == null) {
       throw const SolanaPluginException('Account not found');
     }
@@ -68,11 +75,12 @@ class TransferHookUtils {
     return (accountBytes.sublist(dataIndex, dataIndex + length), 4);
   }
 
-  Future<(List<int>, int)?> unpackFirstSeed(
-      {required List<int> seeds,
-      required List<AccountMeta> previousMetas,
-      required List<int> instructionData,
-      required SolanaProvider connection}) async {
+  Future<(List<int>, int)?> unpackFirstSeed({
+    required List<int> seeds,
+    required List<AccountMeta> previousMetas,
+    required List<int> instructionData,
+    required SolanaProvider connection,
+  }) async {
     final int discriminator = seeds[0];
     final List<int> remaining = seeds.sublist(1);
     switch (discriminator) {
@@ -82,33 +90,40 @@ class TransferHookUtils {
         return unpackSeedLiteral(remaining);
       case 2:
         return unpackSeedInstructionArg(
-            seeds: remaining, instructionData: instructionData);
+          seeds: remaining,
+          instructionData: instructionData,
+        );
       case 3:
         return unpackSeedAccountKey(
-            seeds: remaining, previousMetas: previousMetas);
+          seeds: remaining,
+          previousMetas: previousMetas,
+        );
       case 4:
         return unpackSeedAccountData(
-            seeds: remaining,
-            previousMetas: previousMetas,
-            connection: connection);
+          seeds: remaining,
+          previousMetas: previousMetas,
+          connection: connection,
+        );
       default:
         throw const SolanaPluginException('Transfer hook invalid seeds');
     }
   }
 
-  Future<List<List<int>>> unpackSeeds(
-      {required List<int> seeds,
-      required List<AccountMeta> previousMetas,
-      required List<int> instructionData,
-      required SolanaProvider connection}) async {
+  Future<List<List<int>>> unpackSeeds({
+    required List<int> seeds,
+    required List<AccountMeta> previousMetas,
+    required List<int> instructionData,
+    required SolanaProvider connection,
+  }) async {
     final List<List<int>> unpackedSeeds = [];
     int i = 0;
     while (i < 32) {
       final seed = await unpackFirstSeed(
-          seeds: seeds.sublist(i),
-          previousMetas: previousMetas,
-          instructionData: instructionData,
-          connection: connection);
+        seeds: seeds.sublist(i),
+        previousMetas: previousMetas,
+        instructionData: instructionData,
+        connection: connection,
+      );
       if (seed == null) {
         break;
       }
@@ -144,17 +159,21 @@ class TransferHookUtils {
     }
 
     final List<List<int>> seeds = await unpackSeeds(
-        seeds: extraMeta.addressConfig,
-        previousMetas: previousMetas,
-        instructionData: instructionData,
-        connection: connection);
+      seeds: extraMeta.addressConfig,
+      previousMetas: previousMetas,
+      instructionData: instructionData,
+      connection: connection,
+    );
     final SolAddress pubkey =
-        ProgramDerivedAddress.find(seedBytes: seeds, programId: programId)
-            .address;
+        ProgramDerivedAddress.find(
+          seedBytes: seeds,
+          programId: programId,
+        ).address;
 
     return AccountMeta(
-        publicKey: pubkey,
-        isSigner: extraMeta.isSigner,
-        isWritable: extraMeta.isWritable);
+      publicKey: pubkey,
+      isSigner: extraMeta.isSigner,
+      isWritable: extraMeta.isWritable,
+    );
   }
 }

@@ -9,31 +9,38 @@ import 'package:on_chain/solidity/contract/fragments.dart';
 ///   coded into a contract or even to test what the effect of a transaction would be without running it live.
 /// [geth.ethereum.org](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-eth#eth-call)
 class EthereumRequestCall extends EthereumRequest<Object?, String?> {
-  EthereumRequestCall._(this.contractAddress, this.raw, this.from,
-      this._function, BlockTagOrNumber? blockNumber)
-      : super(blockNumber: blockNumber);
-  factory EthereumRequestCall.fromRaw(
-      {required String contractAddress,
-      required String raw,
-      String? from,
-      BlockTagOrNumber? blockNumber = BlockTagOrNumber.latest}) {
+  EthereumRequestCall._(
+    this.contractAddress,
+    this.raw,
+    this.from,
+    this._function,
+    BlockTagOrNumber? blockNumber,
+  ) : super(blockNumber: blockNumber);
+  factory EthereumRequestCall.fromRaw({
+    required String contractAddress,
+    required String raw,
+    String? from,
+    BlockTagOrNumber? blockNumber = BlockTagOrNumber.latest,
+  }) {
     return EthereumRequestCall._(contractAddress, raw, from, null, blockNumber);
   }
   @Deprecated("Use EthereumRequestFunctionCall instead.")
-  factory EthereumRequestCall.fromMethod(
-      {required String contractAddress,
-      required AbiFunctionFragment function,
-      required List<dynamic> params,
-      String? from,
-      BlockTagOrNumber? blockNumber = BlockTagOrNumber.latest}) {
+  factory EthereumRequestCall.fromMethod({
+    required String contractAddress,
+    required AbiFunctionFragment function,
+    required List<dynamic> params,
+    String? from,
+    BlockTagOrNumber? blockNumber = BlockTagOrNumber.latest,
+  }) {
     final rawBytes = function.encode(params);
 
     return EthereumRequestCall._(
-        contractAddress,
-        BytesUtils.toHexString(rawBytes, prefix: '0x'),
-        from,
-        function,
-        blockNumber);
+      contractAddress,
+      BytesUtils.toHexString(rawBytes, prefix: '0x'),
+      from,
+      function,
+      blockNumber,
+    );
   }
   // EthereumRequestCall.fromM
   @override
@@ -56,26 +63,24 @@ class EthereumRequestCall extends EthereumRequest<Object?, String?> {
   @override
   List<dynamic> toJson() {
     return [
-      {
-        'to': contractAddress,
-        'data': raw,
-        if (from != null) 'from': from,
-      },
-      blockNumber
+      {'to': contractAddress, 'data': raw, if (from != null) 'from': from},
+      blockNumber,
     ];
   }
 }
 
 class EthereumRequestFunctionCall
     extends EthereumRequest<List<dynamic>, String?> {
-  EthereumRequestFunctionCall(
-      {required this.contractAddress,
-      required this.function,
-      List<dynamic>? params,
-      this.from,
-      super.blockNumber = BlockTagOrNumber.latest})
-      : raw =
-            BytesUtils.toHexString(function.encode(params ?? []), prefix: "0x");
+  EthereumRequestFunctionCall({
+    required this.contractAddress,
+    required this.function,
+    List<dynamic>? params,
+    this.from,
+    super.blockNumber = BlockTagOrNumber.latest,
+  }) : raw = BytesUtils.toHexString(
+         function.encode(params ?? []),
+         prefix: "0x",
+       );
   @override
   String get method => EthereumMethods.call.value;
 
@@ -93,7 +98,7 @@ class EthereumRequestFunctionCall
   List<dynamic> toJson() {
     return [
       {'to': contractAddress, 'data': raw, if (from != null) 'from': from},
-      blockNumber
+      blockNumber,
     ];
   }
 }

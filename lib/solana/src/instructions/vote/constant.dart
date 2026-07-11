@@ -1,7 +1,8 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 
 class VoteProgramConst {
-  static const SolAddress programId =
-      SolAddress.unchecked('Vote111111111111111111111111111111111111111');
+  static const SolAddress programId = SolAddress.unchecked(
+    'Vote111111111111111111111111111111111111111',
+  );
   static BigInt get space => BigInt.from(3731);
 }

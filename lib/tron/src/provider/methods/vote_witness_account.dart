@@ -6,11 +6,12 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/votewitnessaccount).
 class TronRequestVoteWitnessAccount
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestVoteWitnessAccount(
-      {required this.ownerAddress,
-      this.permissionId,
-      required this.votes,
-      this.visible = true});
+  TronRequestVoteWitnessAccount({
+    required this.ownerAddress,
+    this.permissionId,
+    required this.votes,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -31,12 +32,16 @@ class TronRequestVoteWitnessAccount
   Map<String, dynamic> toJson() {
     return {
       'owner_address': ownerAddress.toAddress(visible),
-      'votes': votes
-          .map((e) =>
-              e.map((key, value) => MapEntry(key.toAddress(visible), value)))
-          .toList(),
+      'votes':
+          votes
+              .map(
+                (e) => e.map(
+                  (key, value) => MapEntry(key.toAddress(visible), value),
+                ),
+              )
+              .toList(),
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

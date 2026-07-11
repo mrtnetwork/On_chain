@@ -7,14 +7,15 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/account-resources-freezebalance).
 class TronRequestFreezeBalance
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestFreezeBalance(
-      {required this.ownerAddress,
-      required this.frozenBalance,
-      required this.frozenDuration,
-      required this.resource,
-      this.receiverAddress,
-      this.permissionId,
-      this.visible = true});
+  TronRequestFreezeBalance({
+    required this.ownerAddress,
+    required this.frozenBalance,
+    required this.frozenDuration,
+    required this.resource,
+    this.receiverAddress,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -50,7 +51,7 @@ class TronRequestFreezeBalance
       'resource': resource,
       'receiver_address': receiverAddress?.toAddress(visible),
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

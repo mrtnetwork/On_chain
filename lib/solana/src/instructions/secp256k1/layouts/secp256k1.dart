@@ -59,87 +59,98 @@ class Secp256k1Layout extends ProgramLayout {
     required List<int> signature,
     required List<int> message,
     required this.recoveryId,
-  })  : signature = signature.asImmutableBytes,
-        message = message.asImmutableBytes;
+  }) : signature = signature.asImmutableBytes,
+       message = message.asImmutableBytes;
 
   /// Create an secp256k1 layout with an Ethereum address.
-  factory Secp256k1Layout.fromEthAddress(
-      {required ETHAddress address,
-      required List<int> message,
-      required List<int> signature,
-      required int recoveryId,
-      int instructionIndex = 0}) {
+  factory Secp256k1Layout.fromEthAddress({
+    required ETHAddress address,
+    required List<int> message,
+    required List<int> signature,
+    required int recoveryId,
+    int instructionIndex = 0,
+  }) {
     const int ethAddressOffset = 12;
     const int signatureOffset = ethAddressOffset + ETHAddress.lengthInBytes;
     return Secp256k1Layout(
-        ethAddress: address,
-        numSignatures: 1,
-        signatureOffset: signatureOffset,
-        signatureInstructionIndex: instructionIndex,
-        ethAddressOffset: ethAddressOffset,
-        ethAddressInstructionIndex: instructionIndex,
-        messageDataOffset: signatureOffset + signature.length + 1,
-        messageDataSize: message.length,
-        messageInstructionIndex: instructionIndex,
-        message: message,
-        signature: signature,
-        recoveryId: recoveryId);
+      ethAddress: address,
+      numSignatures: 1,
+      signatureOffset: signatureOffset,
+      signatureInstructionIndex: instructionIndex,
+      ethAddressOffset: ethAddressOffset,
+      ethAddressInstructionIndex: instructionIndex,
+      messageDataOffset: signatureOffset + signature.length + 1,
+      messageDataSize: message.length,
+      messageInstructionIndex: instructionIndex,
+      message: message,
+      signature: signature,
+      recoveryId: recoveryId,
+    );
   }
 
   /// Create an secp256k1 layout with a private key.
-  factory Secp256k1Layout.fromPrivateKey(
-      {required ETHPrivateKey privateKey,
-      required List<int> message,
-      required int instructionIndex}) {
+  factory Secp256k1Layout.fromPrivateKey({
+    required ETHPrivateKey privateKey,
+    required List<int> message,
+    required int instructionIndex,
+  }) {
     final address = privateKey.publicKey().toAddress();
     final signature = privateKey.sign(message, hashMessage: true);
     final sigBytes = signature.toBytes(false);
     return Secp256k1Layout.fromEthAddress(
-        address: address,
-        message: message,
-        signature: sigBytes.sublist(0, CryptoSignerConst.ecdsaSignatureLength),
-        recoveryId: sigBytes[CryptoSignerConst.ecdsaSignatureLength],
-        instructionIndex: instructionIndex);
+      address: address,
+      message: message,
+      signature: sigBytes.sublist(0, CryptoSignerConst.ecdsaSignatureLength),
+      recoveryId: sigBytes[CryptoSignerConst.ecdsaSignatureLength],
+      instructionIndex: instructionIndex,
+    );
   }
 
   /// Constructs a Secp256k1Layout instance from a buffer.
   factory Secp256k1Layout.fromBuffer(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final int messageDataOffset = decode['messageDataOffset'];
     final int messageDataSize = decode['messageDataSize'];
-    final List<int> message =
-        data.sublist(messageDataOffset, messageDataOffset + messageDataSize);
+    final List<int> message = data.sublist(
+      messageDataOffset,
+      messageDataOffset + messageDataSize,
+    );
     return Secp256k1Layout(
-        ethAddress: ETHAddress.fromBytes(decode['ethAddress']),
-        numSignatures: decode['numSignatures'],
-        signatureOffset: decode['signatureOffset'],
-        signatureInstructionIndex: decode['signatureInstructionIndex'],
-        ethAddressOffset: decode['ethAddressOffset'],
-        ethAddressInstructionIndex: decode['ethAddressInstructionIndex'],
-        messageDataOffset: messageDataOffset,
-        messageDataSize: messageDataSize,
-        messageInstructionIndex: decode['messageInstructionIndex'],
-        signature: decode['signature'],
-        message: message,
-        recoveryId: decode['recoveryId']);
+      ethAddress: ETHAddress.fromBytes(decode['ethAddress']),
+      numSignatures: decode['numSignatures'],
+      signatureOffset: decode['signatureOffset'],
+      signatureInstructionIndex: decode['signatureInstructionIndex'],
+      ethAddressOffset: decode['ethAddressOffset'],
+      ethAddressInstructionIndex: decode['ethAddressInstructionIndex'],
+      messageDataOffset: messageDataOffset,
+      messageDataSize: messageDataSize,
+      messageInstructionIndex: decode['messageInstructionIndex'],
+      signature: decode['signature'],
+      message: message,
+      recoveryId: decode['recoveryId'],
+    );
   }
 
   /// StructLayout structure for Secp256k1Layout.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'numSignatures'),
-        LayoutConst.u16(property: 'signatureOffset'),
-        LayoutConst.u8(property: 'signatureInstructionIndex'),
-        LayoutConst.u16(property: 'ethAddressOffset'),
-        LayoutConst.u8(property: 'ethAddressInstructionIndex'),
-        LayoutConst.u16(property: 'messageDataOffset'),
-        LayoutConst.u16(property: 'messageDataSize'),
-        LayoutConst.u8(property: 'messageInstructionIndex'),
-        LayoutConst.blob(ETHAddress.lengthInBytes, property: 'ethAddress'),
-        LayoutConst.blob(CryptoSignerConst.ecdsaSignatureLength,
-            property: 'signature'),
-        LayoutConst.u8(property: 'recoveryId')
-      ]);
+    LayoutConst.u8(property: 'numSignatures'),
+    LayoutConst.u16(property: 'signatureOffset'),
+    LayoutConst.u8(property: 'signatureInstructionIndex'),
+    LayoutConst.u16(property: 'ethAddressOffset'),
+    LayoutConst.u8(property: 'ethAddressInstructionIndex'),
+    LayoutConst.u16(property: 'messageDataOffset'),
+    LayoutConst.u16(property: 'messageDataSize'),
+    LayoutConst.u8(property: 'messageInstructionIndex'),
+    LayoutConst.blob(ETHAddress.lengthInBytes, property: 'ethAddress'),
+    LayoutConst.blob(
+      CryptoSignerConst.ecdsaSignatureLength,
+      property: 'signature',
+    ),
+    LayoutConst.u8(property: 'recoveryId'),
+  ]);
 
   /// Gets the layout structure.
   @override
@@ -166,7 +177,7 @@ class Secp256k1Layout extends ProgramLayout {
       'messageInstructionIndex': messageInstructionIndex,
       'ethAddress': ethAddress.toBytes(),
       'signature': signature,
-      'recoveryId': recoveryId
+      'recoveryId': recoveryId,
     };
   }
 

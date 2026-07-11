@@ -6,13 +6,14 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/exchangewithdraw).
 class TronRequestExchangeWithdraw
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestExchangeWithdraw(
-      {required this.ownerAddress,
-      required this.exchangeId,
-      required this.tokenId,
-      required this.quant,
-      this.permissionId,
-      this.visible = true});
+  TronRequestExchangeWithdraw({
+    required this.ownerAddress,
+    required this.exchangeId,
+    required this.tokenId,
+    required this.quant,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Address of the transaction to the creator
   final TronAddress ownerAddress;
@@ -42,7 +43,7 @@ class TronRequestExchangeWithdraw
       'token_id': tokenId,
       'quant': quant,
       'permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

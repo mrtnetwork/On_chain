@@ -96,20 +96,25 @@ class BlockDetails {
     required this.withdrawalsRoot,
   });
 
-  factory BlockDetails.fromJson(Map<String, dynamic> json,
-      {bool hydrated = true}) {
-    final List<Withdrawal> withdrawals = (json['withdrawals'] as List<dynamic>?)
+  factory BlockDetails.fromJson(
+    Map<String, dynamic> json, {
+    bool hydrated = true,
+  }) {
+    final List<Withdrawal> withdrawals =
+        (json['withdrawals'] as List<dynamic>?)
             ?.map((withdrawal) => Withdrawal.fromJson(withdrawal))
             .toList() ??
         <Withdrawal>[];
     final List<dynamic> transactions = json['transactions'];
 
-    final transactionsInfo = hydrated
-        ? transactions.map((e) => TransactionInfo.fromJson(e)).toList()
-        : <TransactionInfo>[];
-    final List<String> ids = hydrated
-        ? transactionsInfo.map((e) => e.hash).toList()
-        : transactions.cast();
+    final transactionsInfo =
+        hydrated
+            ? transactions.map((e) => TransactionInfo.fromJson(e)).toList()
+            : <TransactionInfo>[];
+    final List<String> ids =
+        hydrated
+            ? transactionsInfo.map((e) => e.hash).toList()
+            : transactions.cast();
 
     return BlockDetails(
       transactionIds: ids,
@@ -144,9 +149,10 @@ class BlockDetails {
     return {
       'transactions': transactions.map((tx) => tx.toJson()).toList(),
       'transactionIds': transactionIds,
-      'baseFeePerGas': baseFeePerGas != null
-          ? '0x${baseFeePerGas!.toRadixString(16)}'
-          : null,
+      'baseFeePerGas':
+          baseFeePerGas != null
+              ? '0x${baseFeePerGas!.toRadixString(16)}'
+              : null,
       'difficulty': '0x${difficulty.toRadixString(16)}',
       'extraData': extraData,
       'gasLimit': '0x${gasLimit.toRadixString(16)}',

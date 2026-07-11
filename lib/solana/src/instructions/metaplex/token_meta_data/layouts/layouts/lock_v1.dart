@@ -10,22 +10,24 @@ class MetaplexTokenMetaDataLockV1Layout
 
   factory MetaplexTokenMetaDataLockV1Layout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction.lockV1.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.lockV1.insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataLockV1Layout(
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']));
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
   static const int discriminator = 0;
 
   @override
@@ -39,7 +41,7 @@ class MetaplexTokenMetaDataLockV1Layout
   Map<String, dynamic> serialize() {
     return {
       'authorizationData': authorizationData?.serialize(),
-      'discriminator': discriminator
+      'discriminator': discriminator,
     };
   }
 }

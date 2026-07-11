@@ -9,7 +9,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 class BlockfrostRequestMempool
     extends BlockFrostRequest<List<String>, List<Map<String, dynamic>>> {
   BlockfrostRequestMempool({BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+    : super(filter: filter);
 
   /// Mempool
   @override

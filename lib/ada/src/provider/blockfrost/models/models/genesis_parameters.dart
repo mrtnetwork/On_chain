@@ -58,17 +58,17 @@ class ADAGenesisParametersResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'active_slots_coefficient': activeSlotsCoefficient,
-        'update_quorum': updateQuorum,
-        'max_lovelace_supply': maxLovelaceSupply,
-        'network_magic': networkMagic,
-        'epoch_length': epochLength,
-        'system_start': systemStart,
-        'slots_per_kes_period': slotsPerKesPeriod,
-        'slot_length': slotLength,
-        'max_kes_evolutions': maxKesEvolutions,
-        'security_param': securityParam,
-      };
+    'active_slots_coefficient': activeSlotsCoefficient,
+    'update_quorum': updateQuorum,
+    'max_lovelace_supply': maxLovelaceSupply,
+    'network_magic': networkMagic,
+    'epoch_length': epochLength,
+    'system_start': systemStart,
+    'slots_per_kes_period': slotsPerKesPeriod,
+    'slot_length': slotLength,
+    'max_kes_evolutions': maxKesEvolutions,
+    'security_param': securityParam,
+  };
 
   @override
   String toString() {

@@ -12,35 +12,42 @@ class MetaplexTokenMetaDataUpdateMetadataAccountV2Layout
   final bool? isMutable;
   final bool? primarySaleHappened;
 
-  const MetaplexTokenMetaDataUpdateMetadataAccountV2Layout(
-      {required this.isMutable,
-      required this.primarySaleHappened,
-      required this.newUpdateAuthority,
-      required this.data});
+  const MetaplexTokenMetaDataUpdateMetadataAccountV2Layout({
+    required this.isMutable,
+    required this.primarySaleHappened,
+    required this.newUpdateAuthority,
+    required this.data,
+  });
 
   factory MetaplexTokenMetaDataUpdateMetadataAccountV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .updateMetadataAccountV2.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .updateMetadataAccountV2
+              .insturction,
+    );
     return MetaplexTokenMetaDataUpdateMetadataAccountV2Layout(
-        data:
-            decode['data'] == null ? null : MetaDataV2.fromJson(decode['data']),
-        isMutable: decode['isMutable'],
-        primarySaleHappened: decode['primarySaleHappened'],
-        newUpdateAuthority: decode['newUpdateAuthority']);
+      data: decode['data'] == null ? null : MetaDataV2.fromJson(decode['data']),
+      isMutable: decode['isMutable'],
+      primarySaleHappened: decode['primarySaleHappened'],
+      newUpdateAuthority: decode['newUpdateAuthority'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.optional(MetaDataV2.staticLayout, property: 'data'),
-        SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
-        LayoutConst.optional(LayoutConst.boolean(),
-            property: 'primarySaleHappened'),
-        LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.optional(MetaDataV2.staticLayout, property: 'data'),
+    SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
+    LayoutConst.optional(
+      LayoutConst.boolean(),
+      property: 'primarySaleHappened',
+    ),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -55,7 +62,7 @@ class MetaplexTokenMetaDataUpdateMetadataAccountV2Layout
       'newUpdateAuthority': newUpdateAuthority,
       'primarySaleHappened': primarySaleHappened,
       'isMutable': isMutable,
-      'data': data?.serialize()
+      'data': data?.serialize(),
     };
   }
 }

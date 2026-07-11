@@ -11,7 +11,8 @@ class ADABlockAddressTransactionsResponse {
   });
 
   factory ADABlockAddressTransactionsResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final transactionsList = json['transactions'] as List;
     final List<String> transactions =
         transactionsList.map((item) => item['tx_hash'] as String).toList();
@@ -23,10 +24,9 @@ class ADABlockAddressTransactionsResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'transactions':
-            transactions.map((txHash) => {'tx_hash': txHash}).toList(),
-      };
+    'address': address,
+    'transactions': transactions.map((txHash) => {'tx_hash': txHash}).toList(),
+  };
   @override
   String toString() {
     return 'ADABlockAddressTransactionsResponse${toJson()}';

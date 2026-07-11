@@ -11,7 +11,7 @@ class ZKSRequestGetL2ToL1LogProof
   /// index of the log. Optional for EraVM chains.
   final int? logIndex;
   ZKSRequestGetL2ToL1LogProof({required this.transactionHash, this.logIndex})
-      : super();
+    : super();
 
   @override
   String get method => "zks_getl2tol1logproof";

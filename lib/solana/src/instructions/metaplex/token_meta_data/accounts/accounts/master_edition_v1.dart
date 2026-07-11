@@ -6,12 +6,12 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        LayoutConst.u64(property: 'supply'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
-        SolanaLayoutUtils.publicKey('printingMint'),
-        SolanaLayoutUtils.publicKey('oneTimePrintingAuthorizationMint'),
-      ]);
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u64(property: 'supply'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
+    SolanaLayoutUtils.publicKey('printingMint'),
+    SolanaLayoutUtils.publicKey('oneTimePrintingAuthorizationMint'),
+  ]);
 }
 
 class MasterEditionV1 extends BorshLayoutSerializable {
@@ -21,22 +21,26 @@ class MasterEditionV1 extends BorshLayoutSerializable {
   final SolAddress printingMint;
   final SolAddress oneTimePrintingAuthorizationMint;
 
-  MasterEditionV1(
-      {required this.key,
-      required this.supply,
-      this.maxSupply,
-      required this.printingMint,
-      required this.oneTimePrintingAuthorizationMint});
+  MasterEditionV1({
+    required this.key,
+    required this.supply,
+    this.maxSupply,
+    required this.printingMint,
+    required this.oneTimePrintingAuthorizationMint,
+  });
   factory MasterEditionV1.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return MasterEditionV1(
-        key: MetaDataKey.fromValue(decode['key']),
-        supply: decode['supply'],
-        maxSupply: decode['maxSupply'],
-        printingMint: decode['printingMint'],
-        oneTimePrintingAuthorizationMint:
-            decode['oneTimePrintingAuthorizationMint']);
+      key: MetaDataKey.fromValue(decode['key']),
+      supply: decode['supply'],
+      maxSupply: decode['maxSupply'],
+      printingMint: decode['printingMint'],
+      oneTimePrintingAuthorizationMint:
+          decode['oneTimePrintingAuthorizationMint'],
+    );
   }
 
   @override
@@ -48,7 +52,7 @@ class MasterEditionV1 extends BorshLayoutSerializable {
       'supply': supply,
       'maxSupply': maxSupply,
       'printingMint': printingMint,
-      'oneTimePrintingAuthorizationMint': oneTimePrintingAuthorizationMint
+      'oneTimePrintingAuthorizationMint': oneTimePrintingAuthorizationMint,
     };
   }
 }

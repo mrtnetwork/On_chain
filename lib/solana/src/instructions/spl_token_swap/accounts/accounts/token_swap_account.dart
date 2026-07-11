@@ -78,7 +78,9 @@ class SPLTokenSwapAccount extends BorshLayoutSerializable {
   }) : curveParameters = curveParameters.asImmutableBytes;
   factory SPLTokenSwapAccount.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data, layout: SPLTokenSwapAccountUtils.layout);
+      bytes: data,
+      layout: SPLTokenSwapAccountUtils.layout,
+    );
     return SPLTokenSwapAccount.fromJson(decode);
   }
   factory SPLTokenSwapAccount.fromJson(Map<String, dynamic> json) {

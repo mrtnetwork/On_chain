@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataApproveCollectionAuthorityLayout
   const MetaplexTokenMetaDataApproveCollectionAuthorityLayout();
 
   factory MetaplexTokenMetaDataApproveCollectionAuthorityLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .approveCollectionAuthority.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .approveCollectionAuthority
+              .insturction,
+    );
     return const MetaplexTokenMetaDataApproveCollectionAuthorityLayout();
   }
 

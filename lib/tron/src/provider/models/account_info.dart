@@ -57,39 +57,49 @@ class TronAccountModel {
       balance: BigintUtils.parse(json['balance'] ?? BigInt.zero),
       createTime: BigintUtils.parse(json['create_time']),
       latestOperationTime: BigintUtils.tryParse(json['latest_opration_time']),
-      frozenSupply: (json['frozen_supply'] as List?)
+      frozenSupply:
+          (json['frozen_supply'] as List?)
               ?.map((supply) => FrozenSupplyModel.fromJson(supply))
               .toList() ??
           <FrozenSupplyModel>[],
       assetIssuedName: json['asset_issued_name'],
       freeNetUsage: json['free_net_usage'],
-      latestConsumeFreeTime:
-          BigintUtils.tryParse(json['latest_consume_free_time']),
+      latestConsumeFreeTime: BigintUtils.tryParse(
+        json['latest_consume_free_time'],
+      ),
       netWindowSize: json['net_window_size'],
       netWindowOptimized: json['net_window_optimized'],
-      accountResource:
-          TronAccountResourceModel.fromJson(json['account_resource']),
-      ownerPermission:
-          AccountPermissionModel.fromJson(json['owner_permission']),
-      activePermissions: (json['active_permission'] as List<dynamic>)
-          .map((permission) => AccountPermissionModel.fromJson(permission))
-          .toList(),
-      witnessPermission: json['witness_permission'] == null
-          ? null
-          : AccountPermissionModel.fromJson(json['witness_permission']),
-      frozenV2: (json['frozenV2'] as List<dynamic>)
-          .map((frozen) => FrozenV2Model.fromJson(frozen))
-          .toList(),
-      unfrozenV2: (json['unfrozenV2'] as List?)
+      accountResource: TronAccountResourceModel.fromJson(
+        json['account_resource'],
+      ),
+      ownerPermission: AccountPermissionModel.fromJson(
+        json['owner_permission'],
+      ),
+      activePermissions:
+          (json['active_permission'] as List<dynamic>)
+              .map((permission) => AccountPermissionModel.fromJson(permission))
+              .toList(),
+      witnessPermission:
+          json['witness_permission'] == null
+              ? null
+              : AccountPermissionModel.fromJson(json['witness_permission']),
+      frozenV2:
+          (json['frozenV2'] as List<dynamic>)
+              .map((frozen) => FrozenV2Model.fromJson(frozen))
+              .toList(),
+      unfrozenV2:
+          (json['unfrozenV2'] as List?)
               ?.map((unfrozen) => UnfrozenV2Model.fromJson(unfrozen))
               .toList() ??
           <UnfrozenV2Model>[],
-      assetV2: (json['assetV2'] as List?)
+      assetV2:
+          (json['assetV2'] as List?)
               ?.map((asset) => AssetV2Model.fromJson(asset))
               .toList() ??
           <AssetV2Model>[],
       assetIssuedID: json['asset_issued_ID'],
-      freeAssetNetUsageV2: (json['free_asset_net_usageV2'] as List?)
+      freeAssetNetUsageV2:
+          (json['free_asset_net_usageV2'] as List?)
               ?.map((usage) => FreeAssetNetUsageV2Model.fromJson(usage))
               .toList() ??
           <FreeAssetNetUsageV2Model>[],
@@ -150,7 +160,8 @@ class AccountPermissionModel {
       permissionName: json['permission_name'],
       threshold: BigintUtils.parse(json['threshold']),
       operations: json['operations'],
-      keys: (json['keys'] as List?)
+      keys:
+          (json['keys'] as List?)
               ?.map((e) => PermissionKeysModel.fromJson(e))
               .toList() ??
           <PermissionKeysModel>[],
@@ -176,7 +187,9 @@ class PermissionKeysModel {
   PermissionKeysModel._({required this.address, required this.weight});
   factory PermissionKeysModel.fromJson(Map<String, dynamic> json) {
     return PermissionKeysModel._(
-        address: json['address'], weight: BigintUtils.parse(json['weight']));
+      address: json['address'],
+      weight: BigintUtils.parse(json['weight']),
+    );
   }
   final String address;
   final BigInt weight;
@@ -191,10 +204,7 @@ class FrozenSupplyModel {
   final BigInt frozenBalance;
   final BigInt expireTime;
 
-  FrozenSupplyModel._({
-    required this.frozenBalance,
-    required this.expireTime,
-  });
+  FrozenSupplyModel._({required this.frozenBalance, required this.expireTime});
 
   factory FrozenSupplyModel.fromJson(Map<String, dynamic> json) {
     return FrozenSupplyModel._(
@@ -218,10 +228,7 @@ class FrozenV2Model {
   final BigInt amount;
   final String type;
 
-  FrozenV2Model._({
-    required this.amount,
-    required this.type,
-  });
+  FrozenV2Model._({required this.amount, required this.type});
 
   factory FrozenV2Model.fromJson(Map<String, dynamic> json) {
     return FrozenV2Model._(
@@ -276,10 +283,7 @@ class AssetV2Model {
   final String key;
   final BigInt value;
 
-  AssetV2Model._({
-    required this.key,
-    required this.value,
-  });
+  AssetV2Model._({required this.key, required this.value});
 
   factory AssetV2Model.fromJson(Map<String, dynamic> json) {
     return AssetV2Model._(
@@ -303,10 +307,7 @@ class FreeAssetNetUsageV2Model {
   final String key;
   final BigInt value;
 
-  FreeAssetNetUsageV2Model._({
-    required this.key,
-    required this.value,
-  });
+  FreeAssetNetUsageV2Model._({required this.key, required this.value});
 
   factory FreeAssetNetUsageV2Model.fromJson(Map<String, dynamic> json) {
     return FreeAssetNetUsageV2Model._(
@@ -340,8 +341,9 @@ class TronAccountResourceModel {
   factory TronAccountResourceModel.fromJson(Map<String, dynamic> json) {
     return TronAccountResourceModel._(
       energyWindowSize: json['energy_window_size'],
-      delegatedFrozenV2BalanceForEnergy:
-          BigintUtils.tryParse(json['delegated_frozenV2_balance_for_energy']),
+      delegatedFrozenV2BalanceForEnergy: BigintUtils.tryParse(
+        json['delegated_frozenV2_balance_for_energy'],
+      ),
       energyWindowOptimized: json['energy_window_optimized'],
     );
   }

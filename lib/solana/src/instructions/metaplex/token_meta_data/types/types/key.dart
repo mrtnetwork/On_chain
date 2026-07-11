@@ -7,27 +7,45 @@ class MetaDataKey {
   static const MetaDataKey uninitialized = MetaDataKey._('Uninitialized', 0);
 
   static const MetaDataKey editionV1 = MetaDataKey._('EditionV1', 1);
-  static const MetaDataKey masterEditionV1 =
-      MetaDataKey._('MasterEditionV1', 2);
-  static const MetaDataKey reservationListV1 =
-      MetaDataKey._('ReservationListV1', 3);
+  static const MetaDataKey masterEditionV1 = MetaDataKey._(
+    'MasterEditionV1',
+    2,
+  );
+  static const MetaDataKey reservationListV1 = MetaDataKey._(
+    'ReservationListV1',
+    3,
+  );
   static const MetaDataKey metadataV1 = MetaDataKey._('MetadataV1', 4);
-  static const MetaDataKey reservationListV2 =
-      MetaDataKey._('ReservationListV2', 5);
-  static const MetaDataKey masterEditionV2 =
-      MetaDataKey._('MasterEditionV2', 6);
+  static const MetaDataKey reservationListV2 = MetaDataKey._(
+    'ReservationListV2',
+    5,
+  );
+  static const MetaDataKey masterEditionV2 = MetaDataKey._(
+    'MasterEditionV2',
+    6,
+  );
   static const MetaDataKey editionMarker = MetaDataKey._('EditionMarker', 7);
-  static const MetaDataKey useAuthorityRecord =
-      MetaDataKey._('UseAuthorityRecord', 8);
-  static const MetaDataKey collectionAuthorityRecord =
-      MetaDataKey._('CollectionAuthorityRecord', 9);
-  static const MetaDataKey tokenOwnedEscrow =
-      MetaDataKey._('TokenOwnedEscrow', 10);
+  static const MetaDataKey useAuthorityRecord = MetaDataKey._(
+    'UseAuthorityRecord',
+    8,
+  );
+  static const MetaDataKey collectionAuthorityRecord = MetaDataKey._(
+    'CollectionAuthorityRecord',
+    9,
+  );
+  static const MetaDataKey tokenOwnedEscrow = MetaDataKey._(
+    'TokenOwnedEscrow',
+    10,
+  );
   static const MetaDataKey tokenRecord = MetaDataKey._('TokenRecord', 11);
-  static const MetaDataKey metadataDelegate =
-      MetaDataKey._('MetadataDelegate', 12);
-  static const MetaDataKey editionMarkerV2 =
-      MetaDataKey._('EditionMarkerV2', 13);
+  static const MetaDataKey metadataDelegate = MetaDataKey._(
+    'MetadataDelegate',
+    12,
+  );
+  static const MetaDataKey editionMarkerV2 = MetaDataKey._(
+    'EditionMarkerV2',
+    13,
+  );
 
   static const List<MetaDataKey> values = [
     uninitialized,
@@ -43,24 +61,30 @@ class MetaDataKey {
     tokenOwnedEscrow,
     tokenRecord,
     metadataDelegate,
-    editionMarkerV2
+    editionMarkerV2,
   ];
 
   static MetaDataKey fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No MetaDataKey found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MetaDataKey found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static MetaDataKey fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No MetaDataKey found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MetaDataKey found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

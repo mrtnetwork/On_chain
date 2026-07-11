@@ -48,32 +48,34 @@ class PoolParams with InternalCborSerialization {
     required List<Ed25519KeyHash> poolOwners,
     required List<Relay> relays,
     this.poolMetadata,
-  })  : poolOwners = List<Ed25519KeyHash>.unmodifiable(poolOwners),
-        relays = List<Relay>.unmodifiable(relays);
+  }) : poolOwners = List<Ed25519KeyHash>.unmodifiable(poolOwners),
+       relays = List<Relay>.unmodifiable(relays);
 
   /// Deserializes a PoolParams object from its CBOR representation.
   factory PoolParams.deserialize(CborListValue cbor) {
     return PoolParams(
-      operator: Ed25519KeyHash.deserialize(cbor.elementAt<CborBytesValue>(0)),
-      vrfKeyHash: VRFKeyHash.deserialize(cbor.elementAt<CborBytesValue>(1)),
-      pledge: cbor.elementAsInteger(2),
-      cost: cbor.elementAsInteger(3),
-      margin: UnitInterval.deserialize(cbor.elementAt<CborTagValue>(4)),
-      rewardAccount: ADAAddress.deserialize(cbor.elementAt<CborBytesValue>(5)),
-      poolOwners: cbor
-          .elementAt<CborListValue>(6)
-          .valueAsListOf<CborBytesValue>()
-          .map((e) => Ed25519KeyHash.deserialize(e))
-          .toList(),
-      relays: cbor
-          .elementAt<CborListValue>(7)
-          .valueAsListOf<CborListValue>()
-          .map((e) => Relay.deserialize(e))
-          .toList(),
-      poolMetadata: cbor
-          .elementAt<CborListValue?>(8)
-          ?.convertTo<PoolMetadata, CborListValue>(
-              (e) => PoolMetadata.deserialize(e)),
+      operator: Ed25519KeyHash.deserialize(cbor.objectAt<CborBytesValue>(0)),
+      vrfKeyHash: VRFKeyHash.deserialize(cbor.objectAt<CborBytesValue>(1)),
+      pledge: cbor.rawValueAt(2),
+      cost: cbor.rawValueAt(3),
+      margin: UnitInterval.deserialize(cbor.objectAt<CborTagValue>(4)),
+      rewardAccount: ADAAddress.deserialize(cbor.objectAt<CborBytesValue>(5)),
+      poolOwners:
+          cbor
+              .objectAt<CborListValue>(6)
+              .allObjectsAs<CborBytesValue>()
+              .map((e) => Ed25519KeyHash.deserialize(e))
+              .toList(),
+      relays:
+          cbor
+              .objectAt<CborListValue>(7)
+              .allObjectsAs<CborListValue>()
+              .map((e) => Relay.deserialize(e))
+              .toList(),
+      poolMetadata: cbor.maybeObjectAt<PoolMetadata, CborListValue>(
+        8,
+        (e) => PoolMetadata.deserialize(e),
+      ),
     );
   }
   PoolParams copyWith({
@@ -111,25 +113,28 @@ class PoolParams with InternalCborSerialization {
       rewardAccount.toCbor(),
       CborListValue.definite(poolOwners.map((e) => e.toCbor()).toList()),
       CborListValue.definite(relays.map((e) => e.toCbor()).toList()),
-      poolMetadata?.toCbor() ?? const CborNullValue()
+      poolMetadata?.toCbor() ?? const CborNullValue(),
     ]);
   }
 
   factory PoolParams.fromJson(Map<String, dynamic> json) {
     return PoolParams(
-        operator: Ed25519KeyHash.fromHex(json['operator']),
-        vrfKeyHash: VRFKeyHash.fromHex(json['vrf_keyhash']),
-        pledge: BigintUtils.parse(json['pledge']),
-        cost: BigintUtils.parse(json['cost']),
-        margin: UnitInterval.fromJson(json['margin']),
-        rewardAccount: ADARewardAddress(json['reward_account']),
-        poolOwners: (json['pool_owners'] as List)
-            .map((e) => Ed25519KeyHash.fromHex(e))
-            .toList(),
-        relays: (json['relays'] as List).map((e) => Relay.fromJson(e)).toList(),
-        poolMetadata: json['pool_metadata'] == null
-            ? null
-            : PoolMetadata.fromJson(json['pool_metadata']));
+      operator: Ed25519KeyHash.fromHex(json['operator']),
+      vrfKeyHash: VRFKeyHash.fromHex(json['vrf_keyhash']),
+      pledge: BigintUtils.parse(json['pledge']),
+      cost: BigintUtils.parse(json['cost']),
+      margin: UnitInterval.fromJson(json['margin']),
+      rewardAccount: ADARewardAddress(json['reward_account']),
+      poolOwners:
+          (json['pool_owners'] as List)
+              .map((e) => Ed25519KeyHash.fromHex(e))
+              .toList(),
+      relays: (json['relays'] as List).map((e) => Relay.fromJson(e)).toList(),
+      poolMetadata:
+          json['pool_metadata'] == null
+              ? null
+              : PoolMetadata.fromJson(json['pool_metadata']),
+    );
   }
 
   @override
@@ -143,7 +148,7 @@ class PoolParams with InternalCborSerialization {
       'reward_account': rewardAccount.toJson(),
       'pool_owners': poolOwners.map((e) => e.toJson()).toList(),
       'relays': relays.map((e) => e.toJson()).toList(),
-      'pool_metadata': poolMetadata?.toJson()
+      'pool_metadata': poolMetadata?.toJson(),
     };
   }
 }

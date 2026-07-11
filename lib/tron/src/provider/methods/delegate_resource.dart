@@ -9,27 +9,30 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 class TronRequestDelegateResource
     extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestDelegateResource.fromContract(
-      DelegateResourceContract contract,
-      {int? permissionId}) {
+    DelegateResourceContract contract, {
+    int? permissionId,
+  }) {
     return TronRequestDelegateResource(
-        ownerAddress: contract.ownerAddress,
-        receiverAddress: contract.receiverAddress,
-        balance: contract.balance,
-        resource: contract.resource?.name,
-        visible: true,
-        lock: contract.lock,
-        lockPeriod: contract.lockPeriod,
-        permissionId: permissionId);
+      ownerAddress: contract.ownerAddress,
+      receiverAddress: contract.receiverAddress,
+      balance: contract.balance,
+      resource: contract.resource?.name,
+      visible: true,
+      lock: contract.lock,
+      lockPeriod: contract.lockPeriod,
+      permissionId: permissionId,
+    );
   }
-  TronRequestDelegateResource(
-      {required this.ownerAddress,
-      required this.receiverAddress,
-      required this.balance,
-      required this.resource,
-      this.lock = false,
-      this.lockPeriod,
-      this.permissionId,
-      this.visible = true});
+  TronRequestDelegateResource({
+    required this.ownerAddress,
+    required this.receiverAddress,
+    required this.balance,
+    required this.resource,
+    this.lock = false,
+    this.lockPeriod,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Account address
   final TronAddress ownerAddress;
@@ -72,7 +75,7 @@ class TronRequestDelegateResource
       'lock': lock,
       'lock_period': lockPeriod,
       'visible': visible,
-      'Permission_id': permissionId
+      'Permission_id': permissionId,
     };
   }
 

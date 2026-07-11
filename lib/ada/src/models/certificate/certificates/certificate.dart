@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/certificate/certs.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
@@ -13,7 +14,7 @@ abstract class Certificate with InternalCborSerialization {
 
   /// Constructs a certificate instance from its serialized form.
   factory Certificate.deserialize(CborListValue cbor) {
-    final type = CertificateType.deserialize(cbor.elementAt<CborIntValue>(0));
+    final type = CertificateType.deserialize(cbor.objectAt<CborIntValue>(0));
     switch (type) {
       case CertificateType.genesisKeyDelegation:
         return GenesisKeyDelegation.deserialize(cbor);
@@ -57,14 +58,15 @@ abstract class Certificate with InternalCborSerialization {
         return DRepUpdate.deserialize(cbor);
 
       default:
-        throw UnimplementedError("Invalid certificate type.");
+        throw ADAPluginException("Invalid certificate type.");
     }
   }
 
   /// Constructs a certificate instance from its json form.
   factory Certificate.fromJson(Map<String, dynamic> json) {
-    final CertificateType type =
-        CertificateType.fromName(json.keys.firstOrNull);
+    final CertificateType type = CertificateType.fromName(
+      json.keys.firstOrNull,
+    );
     switch (type) {
       case CertificateType.genesisKeyDelegation:
         return GenesisKeyDelegation.fromJson(json);
@@ -106,7 +108,7 @@ abstract class Certificate with InternalCborSerialization {
         return DRepUpdate.fromJson(json);
 
       default:
-        throw UnimplementedError("Invalid certificate type.");
+        throw ADAPluginException("Invalid certificate type.");
     }
   }
 

@@ -12,11 +12,18 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -26,10 +33,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.defaultAccountState);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.defaultAccountState,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -47,12 +57,14 @@ class DefaultAccountState extends BorshLayoutSerializable {
   factory DefaultAccountState.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return DefaultAccountState(
-        accountState: AccountState.fromValue(decode['state']));
+      accountState: AccountState.fromValue(decode['state']),
+    );
   }
   factory DefaultAccountState.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return DefaultAccountState(
-        accountState: AccountState.fromValue(decode['state']));
+      accountState: AccountState.fromValue(decode['state']),
+    );
   }
 
   @override

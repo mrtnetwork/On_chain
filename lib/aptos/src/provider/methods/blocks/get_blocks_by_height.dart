@@ -9,8 +9,10 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetBlocksByHeight
     extends AptosRequest<AptosApiBlock, Map<String, dynamic>> {
-  AptosRequestGetBlocksByHeight(
-      {required this.blockHeight, this.withTransaction});
+  AptosRequestGetBlocksByHeight({
+    required this.blockHeight,
+    this.withTransaction,
+  });
 
   /// Block height to lookup.  Starts at 0
   final BigInt blockHeight;
@@ -23,8 +25,9 @@ class AptosRequestGetBlocksByHeight
   @override
   List<String> get pathParameters => [blockHeight.toString()];
   @override
-  Map<String, String?> get queryParameters =>
-      {"with_transactions": withTransaction?.toString()};
+  Map<String, String?> get queryParameters => {
+    "with_transactions": withTransaction?.toString(),
+  };
 
   @override
   AptosApiBlock onResonse(Map<String, dynamic> result) {

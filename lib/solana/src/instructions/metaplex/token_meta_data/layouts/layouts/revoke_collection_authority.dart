@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataRevokeCollectionAuthorityLayout
   const MetaplexTokenMetaDataRevokeCollectionAuthorityLayout();
 
   factory MetaplexTokenMetaDataRevokeCollectionAuthorityLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .revokeCollectionAuthority.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .revokeCollectionAuthority
+              .insturction,
+    );
     return const MetaplexTokenMetaDataRevokeCollectionAuthorityLayout();
   }
 

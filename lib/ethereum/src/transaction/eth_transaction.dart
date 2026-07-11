@@ -59,11 +59,7 @@ class ETHTransactionUtils {
   /// canonical empty byte string (0x80) rather than a non-canonical 0x00.
   static List<int> bigintToBytes(BigInt value) {
     if (value == BigInt.zero) return [];
-    final toBytes = BigintUtils.toBytes(
-      value,
-      length: BigintUtils.bitlengthInBytes(value),
-    );
-    assert(toBytes.length <= 32, 'value too large');
+    final toBytes = value.toBeBytes();
     return toBytes;
   }
 
@@ -71,11 +67,7 @@ class ETHTransactionUtils {
   /// Returns an empty list if the value is 0.
   static List<int> intToBytes(int value) {
     if (value == 0) return [];
-    final toBytes = IntUtils.toBytes(
-      value,
-      length: IntUtils.bitlengthInBytes(value),
-    );
-    assert(toBytes.length <= 32, 'value too large');
+    final toBytes = value.toBeBytes();
     return toBytes;
   }
 
@@ -465,8 +457,8 @@ class ETHTransactionUtils {
       throw ETHPluginException(
         'both maxFeePerGas and maxPriorityFeePerGas required for ${ETHTransactionType.eip1559.name} transaction.',
         details: {
-          'maxFeePerGas': maxFeePerGas,
-          'maxPriorityFeePerGas': maxPriorityFeePerGas,
+          'maxFeePerGas': maxFeePerGas?.toString(),
+          'maxPriorityFeePerGas': maxPriorityFeePerGas?.toString(),
         },
       );
     }
@@ -478,7 +470,7 @@ class ETHTransactionUtils {
     if (isEIP1559 && gasPrice != null) {
       throw ETHPluginException(
         'Gas price must be null for Non-legacy transaction.',
-        details: {'gasPrice': gasPrice},
+        details: {'gasPrice': gasPrice.toString()},
       );
     }
     if (isEIP712 &&
@@ -505,13 +497,6 @@ class ETHTransactionUtils {
         1) {
       throw ETHPluginException(
         'both maxFeePerBlobGas and blobVersionedHashes required for ${ETHTransactionType.eip4844.name} transaction.',
-        details: {
-          'maxFeePerBlobGas': maxFeePerBlobGas,
-          'blobVersionedHashes':
-              blobVersionedHashes
-                  ?.map((e) => BytesUtils.toHexString(e))
-                  .toList(),
-        },
       );
     }
     if (isEIP4844 && isEIP7702) {
@@ -828,12 +813,7 @@ class ETHTransaction {
     if (sig == null) {
       // We have an EIP-155 transaction (chainId was specified and non-zero)
       if (chainId != BigInt.zero) {
-        fields.add(
-          BigintUtils.toBytes(
-            chainId,
-            length: BigintUtils.bitlengthInBytes(chainId),
-          ),
-        );
+        fields.add(chainId.toBeBytes());
         fields.add(<int>[]);
         fields.add(<int>[]);
       }
@@ -845,7 +825,7 @@ class ETHTransaction {
     } else if (BigInt.from(sig.v) != v) {
       throw const ETHPluginException('Mismatch chainID/Signature.V');
     }
-    fields.add(BigintUtils.toBytes(v, length: BigintUtils.bitlengthInBytes(v)));
+    fields.add(v.toBeBytes());
     fields.add(ETHTransactionUtils.trimLeadingZero(sig.rBytes));
     fields.add(ETHTransactionUtils.trimLeadingZero(sig.sBytes));
     return RLPEncoder.encode(fields);
@@ -958,15 +938,14 @@ class ETHTransaction {
           throw ETHPluginException(
             'maxFeePerGas and maxPriorityFeePerGas must be null for legacy transactions.',
             details: {
-              'maxFeePerGas': maxFeePerGas,
-              'maxPriorityFeePerGas': maxPriorityFeePerGas,
+              'maxFeePerGas': maxFeePerGas?.toString(),
+              'maxPriorityFeePerGas': maxPriorityFeePerGas?.toString(),
             },
           );
         }
         if (transactionType.isLegacy && hasAccessList) {
           throw ETHPluginException(
             'accsesslist must be null or empty for legacy transactions',
-            details: {'accessList': accessList},
           );
         }
         if (hasBlob || hasAutorizationList || zkSyncParameters != null) {
@@ -978,7 +957,7 @@ class ETHTransaction {
         if (gasPrice != null) {
           throw ETHPluginException(
             'Gas price must be null for ${transactionType.name} transactions.',
-            details: {'gasPrice': gasPrice},
+            details: {'gasPrice': gasPrice?.toString()},
           );
         }
         if (maxFeePerGas == null || maxPriorityFeePerGas == null) {
@@ -990,8 +969,8 @@ class ETHTransaction {
           throw ETHPluginException(
             'priorityFee cannot be more than maxFee',
             details: {
-              'priorityFee': maxFeePerGas,
-              'maxFee': maxPriorityFeePerGas,
+              'priorityFee': maxFeePerGas?.toString(),
+              'maxFee': maxPriorityFeePerGas?.toString(),
             },
           );
         }

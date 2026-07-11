@@ -7,10 +7,13 @@ abstract class ComputeBudgetProgramLayout extends ProgramLayout {
   static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    final instruction =
-        ComputeBudgetProgramInstruction.getInstruction(decode['instruction']);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
+    final instruction = ComputeBudgetProgramInstruction.getInstruction(
+      decode['instruction'],
+    );
     switch (instruction) {
       case ComputeBudgetProgramInstruction.requestHeapFrame:
         return ComputeBudgetRequestHeapFrameLayout.fromBuffer(data);

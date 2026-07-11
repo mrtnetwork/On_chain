@@ -14,18 +14,23 @@ class NumbersCoder implements ABICoder<Object, BigInt> {
     final big = BigintUtils.fromBytes(nBytes, sign: sign);
     _ABIValidator.isValidNumber(params.type, big);
     return DecoderResult(
-        result: big, consumed: ABIConst.uintBytesLength, name: params.name);
+      result: big,
+      consumed: ABIConst.uintBytesLength,
+      name: params.name,
+    );
   }
 
   /// Encodes a numeric value (BigInt) to ABI-encoded bytes.
   @override
   EncoderResult abiEncode(AbiParameter params, Object input) {
+    final sign = _ABIValidator.isSignNumber(params.type);
     final number = BigintUtils.parse(input, allowHex: false);
     _ABIValidator.isValidNumber(params.type, number);
     return EncoderResult(
-        isDynamic: false,
-        encoded: BigintUtils.toBytes(number, length: 32),
-        name: params.name);
+      isDynamic: false,
+      encoded: number.toBeBytes(length: 32, sign: sign),
+      name: params.name,
+    );
   }
 
   /// Legacy EIP-712 encoding for numeric values (BigInt).
@@ -34,10 +39,12 @@ class NumbersCoder implements ABICoder<Object, BigInt> {
   EncoderResult encodePacked(AbiParameter params, Object input) {
     final number = BigintUtils.parse(input, allowHex: false);
     _ABIValidator.isValidNumber(params.type, number);
+    final sign = _ABIValidator.isSignNumber(params.type);
     final size = ABIUtils._numericSize(params.type) ?? 32;
     return EncoderResult(
-        isDynamic: false,
-        encoded: BigintUtils.toBytes(number.toUnsigned(size * 8), length: size),
-        name: params.name);
+      isDynamic: false,
+      encoded: number.toUnsigned(size * 8).toBeBytes(length: size, sign: sign),
+      name: params.name,
+    );
   }
 }

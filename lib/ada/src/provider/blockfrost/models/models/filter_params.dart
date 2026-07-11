@@ -31,13 +31,13 @@ class BlockFrostRequestFilterParams extends BlockFrostRequestFilter {
 }
 
 class BlockFrostRequestTransactionFilterParams extends BlockFrostRequestFilter {
-  const BlockFrostRequestTransactionFilterParams(
-      {int? count,
-      int? page,
-      BlockFrostRequestOrderingResponse? ordering,
-      this.from,
-      this.to})
-      : super(count, page, ordering);
+  const BlockFrostRequestTransactionFilterParams({
+    int? count,
+    int? page,
+    BlockFrostRequestOrderingResponse? ordering,
+    this.from,
+    this.to,
+  }) : super(count, page, ordering);
 
   /// The block number and optionally also index from which
   /// (inclusive) to start search for results, concatenated
@@ -50,10 +50,9 @@ class BlockFrostRequestTransactionFilterParams extends BlockFrostRequestFilter {
 
   @override
   Map<String, String> toJson() {
-    return super.toJson()
-      ..addAll({
-        if (from != null) ...{'from': from!},
-        if (to != null) ...{'to': to!}
-      });
+    return super.toJson()..addAll({
+      if (from != null) ...{'from': from!},
+      if (to != null) ...{'to': to!},
+    });
   }
 }

@@ -18,25 +18,27 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraInitLayout.fromBuffer(List<int> data) {
     final decode = MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexHydraProgramInstruction.processInit.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexHydraProgramInstruction.processInit.insturction,
+    );
     return MetaplexHydraInitLayout(
-        bumpSeed: decode['bumpSeed'],
-        name: decode['name'],
-        nativeAccountBumpSeed: decode['nativeAccountBumpSeed'],
-        totalShares: decode['totalShares'],
-        membershipModel: MembershipModel.fromValue(decode['membershipModel']));
+      bumpSeed: decode['bumpSeed'],
+      name: decode['name'],
+      nativeAccountBumpSeed: decode['nativeAccountBumpSeed'],
+      totalShares: decode['totalShares'],
+      membershipModel: MembershipModel.fromValue(decode['membershipModel']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'bumpSeed'),
-        LayoutConst.u8(property: 'nativeAccountBumpSeed'),
-        LayoutConst.string(property: 'name'),
-        LayoutConst.u64(property: 'totalShares'),
-        LayoutConst.u8(property: 'membershipModel')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bumpSeed'),
+    LayoutConst.u8(property: 'nativeAccountBumpSeed'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.u64(property: 'totalShares'),
+    LayoutConst.u8(property: 'membershipModel'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -52,7 +54,7 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
       'bumpSeed': bumpSeed,
       'nativeAccountBumpSeed': nativeAccountBumpSeed,
       'name': name,
-      'totalShares': totalShares
+      'totalShares': totalShares,
     };
   }
 }

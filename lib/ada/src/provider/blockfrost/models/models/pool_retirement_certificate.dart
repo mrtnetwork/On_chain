@@ -15,7 +15,8 @@ class ADATransactionPoolRetirementCertificateResponse {
   });
 
   factory ADATransactionPoolRetirementCertificateResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADATransactionPoolRetirementCertificateResponse(
       certIndex: json['cert_index'],
       poolId: json['pool_id'],

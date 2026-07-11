@@ -6,11 +6,12 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// Obtain information about assets associated with addresses of a specific account.
 /// https://blockfrost.dev/api/assets-associated-with-the-account-addresses
 class BlockfrostRequestAssetsAssociatedWithTheAccountAddresses
-    extends BlockFrostRequest<List<ADAAmountResponse>,
-        List<Map<String, dynamic>>> {
-  BlockfrostRequestAssetsAssociatedWithTheAccountAddresses(this.stakeAddress,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+    extends
+        BlockFrostRequest<List<ADAAmountResponse>, List<Map<String, dynamic>>> {
+  BlockfrostRequestAssetsAssociatedWithTheAccountAddresses(
+    this.stakeAddress, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// stake address.
   final ADARewardAddress stakeAddress;

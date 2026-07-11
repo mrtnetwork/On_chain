@@ -26,11 +26,14 @@ abstract class MetaplexNFTPacksProgramLayout extends ProgramLayout {
   @override
   abstract final MetaplexNFTPacksProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexNFTPacksProgramInstruction? instruction =
         MetaplexNFTPacksProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
 
     switch (instruction) {
       case MetaplexNFTPacksProgramInstruction.activate:

@@ -11,16 +11,18 @@ class InflationRate {
   /// epoch for which these values are valid
   final int epoch;
 
-  const InflationRate(
-      {required this.total,
-      required this.validator,
-      required this.foundation,
-      required this.epoch});
+  const InflationRate({
+    required this.total,
+    required this.validator,
+    required this.foundation,
+    required this.epoch,
+  });
   factory InflationRate.fromJson(Map<String, dynamic> json) {
     return InflationRate(
-        total: json['total'],
-        validator: json['validator'],
-        foundation: json['foundation'],
-        epoch: json['epoch']);
+      total: json['total'],
+      validator: json['validator'],
+      foundation: json['foundation'],
+      epoch: json['epoch'],
+    );
   }
 }

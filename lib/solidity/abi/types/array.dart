@@ -18,21 +18,27 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
     if (isDynamic || dynamicItems) {
       final encode = ABIUtils._encodeDynamicParams(encodedParams);
       if (isDynamic) {
-        final length = const NumbersCoder()
-            .abiEncode(AbiParameter.uint256, BigInt.from(encodedParams.length))
-            .encoded;
+        final length =
+            const NumbersCoder()
+                .abiEncode(
+                  AbiParameter.uint256,
+                  BigInt.from(encodedParams.length),
+                )
+                .encoded;
         return EncoderResult(
-            isDynamic: true,
-            encoded: encodedParams.isEmpty ? length : [...length, ...encode],
-            name: params.name);
+          isDynamic: true,
+          encoded: encodedParams.isEmpty ? length : [...length, ...encode],
+          name: params.name,
+        );
       }
       return EncoderResult(isDynamic: true, encoded: encode, name: params.name);
     }
     final resultBytes = encodedParams.map((e) => e.encoded);
     return EncoderResult(
-        isDynamic: false,
-        encoded: [for (final i in resultBytes) ...i],
-        name: params.name);
+      isDynamic: false,
+      encoded: [for (final i in resultBytes) ...i],
+      name: params.name,
+    );
   }
 
   /// Decodes an ABI-encoded array of arbitrary types.
@@ -51,20 +57,29 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
     }
     if (extract.$1.isDynamic) {
       for (int i = 0; i < size; i += 1) {
-        final decodeOffset = const NumbersCoder().decode(AbiParameter.uint32,
-            remainingBytes.sublist(i * ABIConst.uintBytesLength));
+        final decodeOffset = const NumbersCoder().decode(
+          AbiParameter.uint32,
+          remainingBytes.sublist(i * ABIConst.uintBytesLength),
+        );
         consumed += decodeOffset.consumed;
         final decodeChild = ABIUtils._decodeParamFromAbiParameter(
-            extract.$1, remainingBytes.sublist(decodeOffset.result.toInt()));
+          extract.$1,
+          remainingBytes.sublist(decodeOffset.result.toInt()),
+        );
         consumed += decodeChild.consumed;
         result.add(decodeChild.result);
       }
       return DecoderResult(
-          result: result, consumed: consumed, name: params.name);
+        result: result,
+        consumed: consumed,
+        name: params.name,
+      );
     }
     for (int i = 0; i < size; i++) {
       final decodeChild = ABIUtils._decodeParamFromAbiParameter(
-          extract.$1, bytes.sublist(consumed));
+        extract.$1,
+        bytes.sublist(consumed),
+      );
       consumed += decodeChild.consumed;
       result.add(decodeChild.result);
     }
@@ -76,12 +91,16 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
   @override
   EncoderResult encodePacked(AbiParameter params, List<dynamic> input) {
     final param = ABIUtils._toArrayType(params);
-    final encodedParams = input.map((e) {
-      if (param.$1.isDynamic) return param.$1.encodePacked(e);
-      return param.$1.abiEncode(e);
-    }).toList();
+    final encodedParams =
+        input.map((e) {
+          if (param.$1.isDynamic) return param.$1.encodePacked(e);
+          return param.$1.abiEncode(e);
+        }).toList();
     final resultBytes = encodedParams.expand((e) => e.encoded).toList();
     return EncoderResult(
-        isDynamic: false, encoded: resultBytes, name: params.name);
+      isDynamic: false,
+      encoded: resultBytes,
+      name: params.name,
+    );
   }
 }

@@ -6,8 +6,10 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getassetissuebyaccount).
 class TronRequestGetAssetIssueByAccount
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetAssetIssueByAccount(
-      {required this.address, this.visible = true});
+  TronRequestGetAssetIssueByAccount({
+    required this.address,
+    this.visible = true,
+  });
 
   /// Address is the Token Issuer account address
   final TronAddress address;

@@ -5,24 +5,30 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout
     extends MetaplexTokenMetaDataProgramLayout {
   final BigInt size;
-  const MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout(
-      {required this.size});
+  const MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout({
+    required this.size,
+  });
 
   factory MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .bubblegumSetCollectionSize.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .bubblegumSetCollectionSize
+              .insturction,
+    );
     return MetaplexTokenMetaDataBubblegumSetCollectionSizeLayout(
-        size: decode['size']);
+      size: decode['size'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'size')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'size'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

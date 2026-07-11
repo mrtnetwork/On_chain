@@ -14,11 +14,12 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_executetransactionblock)
 class SuiRequestExecuteTransactionBlock
     extends SuiRequest<SuiApiTransactionBlockResponse, Map<String, dynamic>> {
-  const SuiRequestExecuteTransactionBlock(
-      {required this.txBytes,
-      required this.signatures,
-      this.options,
-      this.type});
+  const SuiRequestExecuteTransactionBlock({
+    required this.txBytes,
+    required this.signatures,
+    this.options,
+    this.type,
+  });
 
   /// A list of signatures (flag || signature || pubkey bytes, as base-64 encoded string).
   /// Signature is committed to the intent message of the transaction data, as base-64 encoded string.

@@ -2,24 +2,43 @@ import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/solidity/address/core.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-extension ToEthereumAddress on SolidityAddress {
+extension ExtToEthereumAddress on SolidityAddress {
   ETHAddress toEthereumAddress() {
     if (this is ETHAddress) return this as ETHAddress;
-    return ETHAddress(toHex());
+    return ETHAddress.fromBytes(toSolidtyBytes());
   }
 }
 
 /// Class representing an Ethereum address, implementing the [SolidityAddress] interface.
-class ETHAddress extends SolidityAddress {
+class ETHAddress extends SolidityAddress
+    with CborTagSerializable, Equality
+    implements IAddress {
+  @override
   final String address;
 
   /// Private constructor for creating an instance of [ETHAddress] with a given Ethereum address
   const ETHAddress._(this.address) : super.unsafe(address);
 
-  static const ETHAddress zero =
-      ETHAddress._("0x0000000000000000000000000000000000000000");
-  static const ETHAddress one =
-      ETHAddress._("0x0000000000000000000000000000000000000001");
+  factory ETHAddress.deserializeIAddress({
+    List<int>? bytes,
+    CborObject? object,
+  }) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: BlockchainNetwork.ethereum.identifier,
+      cborBytes: bytes,
+      cborObject: object,
+    );
+    return ETHAddress.fromBytes(values.rawValueAt(0));
+  }
+
+  /// deserializeIAddress
+
+  static const ETHAddress zero = ETHAddress._(
+    "0x0000000000000000000000000000000000000000",
+  );
+  static const ETHAddress one = ETHAddress._(
+    "0x0000000000000000000000000000000000000001",
+  );
 
   /// Creates an [ETHAddress] instance from a public key represented as a bytes.
   factory ETHAddress.fromPublicKey(List<int> keyBytes) {
@@ -27,8 +46,10 @@ class ETHAddress extends SolidityAddress {
       final toAddress = EthAddrEncoder().encodeKey(keyBytes);
       return ETHAddress._(toAddress);
     } catch (e) {
-      throw ETHPluginException('invalid ethreum public key',
-          details: {'input': BytesUtils.toHexString(keyBytes)});
+      throw ETHPluginException(
+        'invalid ethreum public key',
+        details: {'input': BytesUtils.toHexString(keyBytes)},
+      );
     }
   }
 
@@ -40,8 +61,10 @@ class ETHAddress extends SolidityAddress {
       EthAddrDecoder().decodeAddr(address, skipChecksum: skipChecksum);
       return ETHAddress._(EthAddrUtils.toChecksumAddress(address));
     } catch (e) {
-      throw ETHPluginException('invalid ethereum address',
-          details: {'input': address});
+      throw ETHPluginException(
+        'invalid ethereum address',
+        details: {'input': address},
+      );
     }
   }
 
@@ -53,6 +76,12 @@ class ETHAddress extends SolidityAddress {
   /// Constant representing the length of the ETH address in bytes
   static const int lengthInBytes = 20;
 
+  List<int> toBytes() {
+    return toSolidtyBytes();
+  }
+
+  String toHex() => address;
+
   BigInt toBigInt() {
     return BigintUtils.fromBytes(toBytes());
   }
@@ -63,11 +92,20 @@ class ETHAddress extends SolidityAddress {
   }
 
   @override
-  bool operator ==(other) {
-    if (other is! ETHAddress) return false;
-    return address == other.address;
-  }
+  BlockchainNetwork get blockchainNetwork => BlockchainNetwork.ethereum;
 
   @override
-  int get hashCode => address.hashCode;
+  SerializationIdentifier get serializationIdentifier =>
+      blockchainNetwork.identifier;
+
+  @override
+  List<CborObject?> get serializationItems => [CborBytesValue(toBytes())];
+
+  @override
+  List<dynamic> get variables => [address];
+
+  @override
+  List<int> encodeAsIAddress() {
+    return toCbor().encode();
+  }
 }

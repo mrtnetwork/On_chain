@@ -6,8 +6,10 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/specific-block-in-a-slot-in-an-epoch
 class BlockfrostRequestSpecificBlockInASlotInAnEpoch
     extends BlockFrostRequest<ADABlockResponse, Map<String, dynamic>> {
-  BlockfrostRequestSpecificBlockInASlotInAnEpoch(
-      {required this.epochNumber, required this.slotNumber});
+  BlockfrostRequestSpecificBlockInASlotInAnEpoch({
+    required this.epochNumber,
+    required this.slotNumber,
+  });
 
   /// Epoch for specific epoch slot.
   final int epochNumber;
@@ -20,8 +22,10 @@ class BlockfrostRequestSpecificBlockInASlotInAnEpoch
   String get method => BlockfrostMethods.specificBlockInASlotInAnEpoch.url;
 
   @override
-  List<String> get pathParameters =>
-      [epochNumber.toString(), slotNumber.toString()];
+  List<String> get pathParameters => [
+    epochNumber.toString(),
+    slotNumber.toString(),
+  ];
 
   @override
   ADABlockResponse onResonse(Map<String, dynamic> result) {

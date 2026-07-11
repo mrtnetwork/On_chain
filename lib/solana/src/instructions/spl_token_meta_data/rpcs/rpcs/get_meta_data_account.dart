@@ -23,8 +23,8 @@ class SolanaRPCGetSPLTokenMetaDataAccount
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         SolanaRequestEncoding.base64.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 
@@ -33,6 +33,7 @@ class SolanaRPCGetSPLTokenMetaDataAccount
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return SPLTokenMetaDataAccount.fromAccountDataBytes(
-        accountInfo.toBytesData());
+      accountInfo.toBytesData(),
+    );
   }
 }

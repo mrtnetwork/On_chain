@@ -28,11 +28,11 @@ class ADAPoolInfoResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'pool_id': poolId,
-        'hex': hex,
-        'active_stake': activeStake,
-        'live_stake': liveStake,
-      };
+    'pool_id': poolId,
+    'hex': hex,
+    'active_stake': activeStake,
+    'live_stake': liveStake,
+  };
 
   @override
   String toString() {

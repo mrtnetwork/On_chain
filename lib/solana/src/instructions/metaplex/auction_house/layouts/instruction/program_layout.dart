@@ -42,11 +42,14 @@ abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
   abstract final MetaplexAuctionHouseProgramInstruction instruction;
 
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexAuctionHouseProgramInstruction? instruction =
         MetaplexAuctionHouseProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
 
     switch (instruction) {
       case MetaplexAuctionHouseProgramInstruction.auctioneerBuy:
@@ -57,8 +60,9 @@ abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
       case MetaplexAuctionHouseProgramInstruction.auctioneerDeposit:
         return MetaplexAuctionHouseAuctioneerDepositLayout.fromBuffer(data);
       case MetaplexAuctionHouseProgramInstruction.auctioneerExecutePartialSale:
-        return MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout
-            .fromBuffer(data);
+        return MetaplexAuctionHouseAuctioneerExecutePartialSaleLayout.fromBuffer(
+          data,
+        );
       case MetaplexAuctionHouseProgramInstruction.auctioneerExecuteSale:
         return MetaplexAuctionHouseAuctioneerExecuteSaleLayout.fromBuffer(data);
       case MetaplexAuctionHouseProgramInstruction.auctioneerPublicBuy:
@@ -77,7 +81,8 @@ abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
         return MetaplexAuctionHouseCancelListingReceiptLayout.fromBuffer(data);
       case MetaplexAuctionHouseProgramInstruction.cancelRemainingAccounts:
         return MetaplexAuctionHouseCancelRemainingAccountsLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexAuctionHouseProgramInstruction.closeEscrowAccount:
         return MetaplexAuctionHouseCloseEscrowAccountLayout.fromBuffer(data);
       case MetaplexAuctionHouseProgramInstruction.createAuctionHouse:
@@ -91,8 +96,9 @@ abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
       case MetaplexAuctionHouseProgramInstruction.executeSale:
         return MetaplexAuctionHouseExecuteSaleLayout.fromBuffer(data);
       case MetaplexAuctionHouseProgramInstruction.executeSaleRemainingAccounts:
-        return MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout
-            .fromBuffer(data);
+        return MetaplexAuctionHouseExecuteSaleRemainingAccountsLayout.fromBuffer(
+          data,
+        );
       case MetaplexAuctionHouseProgramInstruction.printBidReceipt:
         return MetaplexAuctionHousePrintBidReceiptLayout.fromBuffer(data);
       case MetaplexAuctionHouseProgramInstruction.printListingReceipt:
@@ -128,6 +134,9 @@ abstract class MetaplexAuctionHouseProgramLayout extends ProgramLayout {
     required List<int> instruction,
   }) {
     return BorshLayoutSerializable.decode(
-        bytes: bytes, layout: layout, validator: {'instruction': instruction});
+      bytes: bytes,
+      layout: layout,
+      validator: {'instruction': instruction},
+    );
   }
 }

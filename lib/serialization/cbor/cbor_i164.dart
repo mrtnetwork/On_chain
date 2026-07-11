@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/cbor/core/cbor.dart';
+import 'package:blockchain_utils/cbor/exception/exception.dart';
 import 'package:blockchain_utils/cbor/types/types.dart';
 import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
 
 /// A class representing a CBOR (Concise Binary Object Representation) int (64-byte) value.
 class CborSignedValue extends CborNumeric {
@@ -11,21 +11,32 @@ class CborSignedValue extends CborNumeric {
 
   factory CborSignedValue.i64(dynamic value) {
     if (value is! int && value is! BigInt) {
-      throw ADAPluginException(
-          'Invalid unsgined int. value must be int or bigint.',
-          details: {'valye': value});
+      throw CborException(
+        'Invalid unsgined int. value must be int or bigint.',
+        details: {'value': value.runtimeType.toString()},
+      );
     }
 
     if (value is BigInt && value.bitLength > 64) {
-      throw ADAPluginException('Invalid signed 64-bit Integer.',
-          details: {'Value': value, 'bitLength': value.bitLength});
+      throw CborException(
+        'Invalid signed 64-bit Integer.',
+        details: {
+          'Value': value.toString(),
+          'bitLength': value.bitLength.toString(),
+        },
+      );
     }
     return CborSignedValue._(value);
   }
   factory CborSignedValue.i32(int value) {
     if (value.bitLength > 32) {
-      throw ADAPluginException('Invalid signed 32-bit Integer.',
-          details: {'Value': value, 'bitLength': value.bitLength});
+      throw CborException(
+        'Invalid signed 32-bit Integer.',
+        details: {
+          'Value': value.toString(),
+          'bitLength': value.bitLength.toString(),
+        },
+      );
     }
     return CborSignedValue._(value);
   }

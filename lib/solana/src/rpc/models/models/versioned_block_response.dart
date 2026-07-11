@@ -11,24 +11,28 @@ class VersionedBlockResponse {
   final List<VersionedTransactionResponse> transactions;
   final List<RewardResponse>? rewards;
   final BigInt? blockTime;
-  const VersionedBlockResponse(
-      {required this.blockhash,
-      required this.previousBlockhash,
-      required this.parentSlot,
-      required this.transactions,
-      required this.rewards,
-      required this.blockTime});
+  const VersionedBlockResponse({
+    required this.blockhash,
+    required this.previousBlockhash,
+    required this.parentSlot,
+    required this.transactions,
+    required this.rewards,
+    required this.blockTime,
+  });
   factory VersionedBlockResponse.fromJson(Map<String, dynamic> json) {
     return VersionedBlockResponse(
-        blockhash: SolAddress.uncheckCurve(json['blockhash']),
-        previousBlockhash: SolAddress.uncheckCurve(json['previousBlockhash']),
-        parentSlot: json['parentSlot'],
-        transactions: (json['transactions'] as List).map((e) {
-          return VersionedTransactionResponse.fromJson(e);
-        }).toList(),
-        rewards: (json['rewards'] as List?)
-            ?.map((e) => RewardResponse.fromJson(e))
-            .toList(),
-        blockTime: BigintUtils.tryParse(json['blockTime']));
+      blockhash: SolAddress.uncheckCurve(json['blockhash']),
+      previousBlockhash: SolAddress.uncheckCurve(json['previousBlockhash']),
+      parentSlot: json['parentSlot'],
+      transactions:
+          (json['transactions'] as List).map((e) {
+            return VersionedTransactionResponse.fromJson(e);
+          }).toList(),
+      rewards:
+          (json['rewards'] as List?)
+              ?.map((e) => RewardResponse.fromJson(e))
+              .toList(),
+      blockTime: BigintUtils.tryParse(json['blockTime']),
+    );
   }
 }

@@ -7,10 +7,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getdelegatedresource).
 class TronRequestGetDelegatedResource
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetDelegatedResource(
-      {required this.fromAddress,
-      required this.toAddress,
-      this.visible = true});
+  TronRequestGetDelegatedResource({
+    required this.fromAddress,
+    required this.toAddress,
+    this.visible = true,
+  });
 
   /// Energy from address
   final TronAddress fromAddress;
@@ -29,7 +30,7 @@ class TronRequestGetDelegatedResource
     return {
       'fromAddress': fromAddress.toAddress(visible),
       'toAddress': toAddress.toAddress(visible),
-      'visible': visible
+      'visible': visible,
     };
   }
 

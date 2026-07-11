@@ -1,10 +1,16 @@
+## 8.1.0
+- Updated dependencies.
+- Updated all blockchain address implementations (ADA, Ethereum, Solana, and others) to inherit from IAddress provided by blockchain_utils.
+- Fixed Ethereum RLP BigInt encoding issues.
+- Changed MemoLayout to use raw bytes instead of String for memo data handling.
+
 ## 8.0.0
-    - Update dependencies.
-    - Minimum required Dart SDK version updated to 3.7.
-    - Reduce static final variables.
-    - Added support for ethereum EIP-4844
-    - Added support for ethereum EIP-712 (ZKSync)
-    - Added support for ethereum EIP-7702
+- Update dependencies.
+- Minimum required Dart SDK version updated to 3.7.
+- Reduce static final variables.
+- Added support for ethereum EIP-4844
+- Added support for ethereum EIP-712 (ZKSync)
+- Added support for ethereum EIP-7702
 
 ## 7.1.0
     - Update dependencies.

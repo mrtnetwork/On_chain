@@ -9,16 +9,19 @@ class MetaplexBubblegumDecompressV1Layout
 
   factory MetaplexBubblegumDecompressV1Layout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexBubblegumProgramInstruction.decompressV1.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexBubblegumProgramInstruction.decompressV1.insturction,
+    );
     return MetaplexBubblegumDecompressV1Layout(
-        metaData: MetaData.fromJson(decode['metaData']));
+      metaData: MetaData.fromJson(decode['metaData']),
+    );
   }
 
-  static StructLayout get _layout => LayoutConst.struct(
-      [LayoutConst.blob(8, property: 'instruction'), MetaData.staticLayout]);
+  static StructLayout get _layout => LayoutConst.struct([
+    LayoutConst.blob(8, property: 'instruction'),
+    MetaData.staticLayout,
+  ]);
 
   @override
   StructLayout get layout => _layout;

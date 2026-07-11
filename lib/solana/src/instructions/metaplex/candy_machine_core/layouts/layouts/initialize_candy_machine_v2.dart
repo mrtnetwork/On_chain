@@ -7,26 +7,35 @@ class MetaplexCandyMachineInitializeCandyMachineV2Layout
     extends MetaplexCandyMachineProgramLayout {
   final CandyMachineData data;
   final MetaDataTokenStandard tokenStandard;
-  const MetaplexCandyMachineInitializeCandyMachineV2Layout(
-      {required this.data, required this.tokenStandard});
+  const MetaplexCandyMachineInitializeCandyMachineV2Layout({
+    required this.data,
+    required this.tokenStandard,
+  });
 
   factory MetaplexCandyMachineInitializeCandyMachineV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .initializeCandyMachineV2.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction
+              .initializeCandyMachineV2
+              .insturction,
+    );
     return MetaplexCandyMachineInitializeCandyMachineV2Layout(
-        data: CandyMachineData.fromJson(decode['candyMachineData']),
-        tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']));
+      data: CandyMachineData.fromJson(decode['candyMachineData']),
+      tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        CandyMachineData.staticLayout,
-        LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-            property: 'tokenStandard')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    CandyMachineData.staticLayout,
+    LayoutConst.wrap(
+      MetaDataTokenStandard.staticLayout,
+      property: 'tokenStandard',
+    ),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -39,7 +48,7 @@ class MetaplexCandyMachineInitializeCandyMachineV2Layout
   Map<String, dynamic> serialize() {
     return {
       'candyMachineData': data.serialize(),
-      'tokenStandard': tokenStandard.serialize()
+      'tokenStandard': tokenStandard.serialize(),
     };
   }
 }

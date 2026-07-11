@@ -20,15 +20,16 @@ class AddressTableLookup {
     required this.accountKey,
     required List<int> writableIndexes,
     required List<int> readonlyIndexes,
-  })   // Ensure writableIndexes and readonlyIndexes are unmodifiable.
+  }) // Ensure writableIndexes and readonlyIndexes are unmodifiable.
   : writableIndexes = List<int>.unmodifiable(writableIndexes),
-        readonlyIndexes = List<int>.unmodifiable(readonlyIndexes);
+       readonlyIndexes = List<int>.unmodifiable(readonlyIndexes);
 
   factory AddressTableLookup.fromJson(Map<String, dynamic> json) {
     return AddressTableLookup(
-        accountKey: SolAddress.uncheckCurve(json['accountKey']),
-        writableIndexes: (json['writableIndexes'] as List).cast(),
-        readonlyIndexes: (json['readonlyIndexes'] as List).cast());
+      accountKey: SolAddress.uncheckCurve(json['accountKey']),
+      writableIndexes: (json['writableIndexes'] as List).cast(),
+      readonlyIndexes: (json['readonlyIndexes'] as List).cast(),
+    );
   }
 
   /// Override the toString method to provide a string representation of the object.

@@ -10,8 +10,8 @@ class MintCounter extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u16(property: 'count'),
-      ], property: 'mintCounter');
+    LayoutConst.u16(property: 'count'),
+  ], property: 'mintCounter');
 
   @override
   StructLayout get layout => staticLayout;

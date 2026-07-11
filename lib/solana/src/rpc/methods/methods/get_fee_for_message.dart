@@ -6,8 +6,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Get the fee the network will charge for a particular Message
 /// https://solana.com/docs/rpc/http/getfeeformessage
 class SolanaRequestGetFeeForMessage extends SolanaRequest<BigInt?, dynamic> {
-  const SolanaRequestGetFeeForMessage(
-      {required this.encodedMessage, super.commitment, super.minContextSlot});
+  const SolanaRequestGetFeeForMessage({
+    required this.encodedMessage,
+    super.commitment,
+    super.minContextSlot,
+  });
 
   /// getFeeForMessage
   @override

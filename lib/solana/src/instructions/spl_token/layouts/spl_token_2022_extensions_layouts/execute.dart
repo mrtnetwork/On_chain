@@ -17,9 +17,9 @@ class SPLToken2022ExecuteLayout extends SPLTokenProgramLayout {
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u64(property: 'amount')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

@@ -9,12 +9,13 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetEventsByEventHandle
     extends AptosRequest<List<AptosApiEvent>, List<Map<String, dynamic>>> {
-  AptosRequestGetEventsByEventHandle(
-      {required this.address,
-      required this.eventHandle,
-      required this.fieldName,
-      this.start,
-      this.limit});
+  AptosRequestGetEventsByEventHandle({
+    required this.address,
+    required this.eventHandle,
+    required this.fieldName,
+    this.start,
+    this.limit,
+  });
 
   /// Hex-encoded 32 byte Aptos account, with or without a `0x` prefix,
   /// for which events are queried. This refers to the account that events wereemitted to,
@@ -39,8 +40,10 @@ class AptosRequestGetEventsByEventHandle
   @override
   List<String> get pathParameters => [address.address, eventHandle, fieldName];
   @override
-  Map<String, String?> get queryParameters =>
-      {"start": start?.toString(), "limit": limit?.toString()};
+  Map<String, String?> get queryParameters => {
+    "start": start?.toString(),
+    "limit": limit?.toString(),
+  };
 
   @override
   List<AptosApiEvent> onResonse(List<Map<String, dynamic>> result) {

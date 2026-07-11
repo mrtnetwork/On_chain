@@ -14,14 +14,17 @@ class PackSetState {
     notActivated,
     activated,
     deactivated,
-    ended
+    ended,
   ];
   static PackSetState fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No PackSetState found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No PackSetState found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

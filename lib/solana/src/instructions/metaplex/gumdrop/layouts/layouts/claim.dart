@@ -10,37 +10,40 @@ class MetaplexGumdropClaimLayout extends MetaplexGumdropProgramLayout {
   final BigInt amount;
   final SolAddress claimantSecret;
   final List<List<int>> proof;
-  MetaplexGumdropClaimLayout(
-      {required this.bump,
-      required this.index,
-      required this.amount,
-      required this.claimantSecret,
-      required List<List<int>> proof})
-      : proof =
-            List<List<int>>.unmodifiable(proof.map((e) => e.asImmutableBytes));
+  MetaplexGumdropClaimLayout({
+    required this.bump,
+    required this.index,
+    required this.amount,
+    required this.claimantSecret,
+    required List<List<int>> proof,
+  }) : proof = List<List<int>>.unmodifiable(
+         proof.map((e) => e.asImmutableBytes),
+       );
 
   factory MetaplexGumdropClaimLayout.fromBuffer(List<int> data) {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexGumdropProgramInstruction.claim.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexGumdropProgramInstruction.claim.insturction,
+    );
     return MetaplexGumdropClaimLayout(
-        bump: decode['bump'],
-        index: decode['index'],
-        amount: decode['amount'],
-        claimantSecret: decode['claimantSecret'],
-        proof: (decode['proof'] as List).cast());
+      bump: decode['bump'],
+      index: decode['index'],
+      amount: decode['amount'],
+      claimantSecret: decode['claimantSecret'],
+      proof: (decode['proof'] as List).cast(),
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'bump'),
-        LayoutConst.u64(property: 'index'),
-        LayoutConst.u64(property: 'amount'),
-        SolanaLayoutUtils.publicKey('claimantSecret'),
-        LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.u64(property: 'index'),
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('claimantSecret'),
+    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -56,7 +59,7 @@ class MetaplexGumdropClaimLayout extends MetaplexGumdropProgramLayout {
       'index': index,
       'amount': amount,
       'claimantSecret': claimantSecret,
-      'proof': proof
+      'proof': proof,
     };
   }
 }

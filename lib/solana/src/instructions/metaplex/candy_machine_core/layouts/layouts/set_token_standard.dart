@@ -5,24 +5,30 @@ import 'package:blockchain_utils/layout/layout.dart';
 class MetaplexCandyMachineSetTokenStandardLayout
     extends MetaplexCandyMachineProgramLayout {
   final MetaDataTokenStandard tokenStandard;
-  const MetaplexCandyMachineSetTokenStandardLayout(
-      {required this.tokenStandard});
+  const MetaplexCandyMachineSetTokenStandardLayout({
+    required this.tokenStandard,
+  });
 
   factory MetaplexCandyMachineSetTokenStandardLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .setTokenStandard.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction.setTokenStandard.insturction,
+    );
     return MetaplexCandyMachineSetTokenStandardLayout(
-        tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']));
+      tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-            property: 'tokenStandard')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.wrap(
+      MetaDataTokenStandard.staticLayout,
+      property: 'tokenStandard',
+    ),
+  ]);
 
   @override
   StructLayout get layout => _layout;

@@ -10,29 +10,35 @@ class ConcurrentMerkleTreeHeader extends BorshLayoutSerializable {
   final ConcurrentMerkleTreeHeaderDataV1 field;
   factory ConcurrentMerkleTreeHeader.fromJson(Map<String, dynamic> json) {
     final key = json['concurrentMerkleTreeHeader']['key'];
-    final Map<String, dynamic> value =
-        Map<String, dynamic>.from(json['concurrentMerkleTreeHeader']['value']);
+    final Map<String, dynamic> value = Map<String, dynamic>.from(
+      json['concurrentMerkleTreeHeader']['value'],
+    );
     switch (key) {
       case 'V1':
         return ConcurrentMerkleTreeHeader.v1(
-            header: ConcurrentMerkleTreeHeaderDataV1.fromJson(value));
+          header: ConcurrentMerkleTreeHeaderDataV1.fromJson(value),
+        );
       default:
         throw SolanaPluginException(
-            'Invalid ConcurrentMerkleTreeHeader version.',
-            details: {'version': key});
+          'Invalid ConcurrentMerkleTreeHeader version.',
+          details: {'version': key.toString()},
+        );
     }
   }
 
-  factory ConcurrentMerkleTreeHeader.v1(
-      {required ConcurrentMerkleTreeHeaderDataV1 header}) {
+  factory ConcurrentMerkleTreeHeader.v1({
+    required ConcurrentMerkleTreeHeaderDataV1 header,
+  }) {
     return ConcurrentMerkleTreeHeader._('V1', 0, header);
   }
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum([
-      LayoutConst.wrap(ConcurrentMerkleTreeHeaderDataV1.staticLayout,
-          property: 'V1')
-    ], property: 'concurrentMerkleTreeHeader')
+      LayoutConst.wrap(
+        ConcurrentMerkleTreeHeaderDataV1.staticLayout,
+        property: 'V1',
+      ),
+    ], property: 'concurrentMerkleTreeHeader'),
   ]);
 
   @override
@@ -41,7 +47,7 @@ class ConcurrentMerkleTreeHeader extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'concurrentMerkleTreeHeader': {name: field.serialize()}
+      'concurrentMerkleTreeHeader': {name: field.serialize()},
     };
   }
 

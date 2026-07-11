@@ -7,8 +7,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getblockproduction
 class SolanaRequestGetBlockProduction
     extends SolanaRequest<BlockProduction, Map<String, dynamic>> {
-  const SolanaRequestGetBlockProduction(
-      {this.identity, this.range, super.commitment});
+  const SolanaRequestGetBlockProduction({
+    this.identity,
+    this.range,
+    super.commitment,
+  });
 
   /// getBlockProduction
   @override
@@ -28,7 +31,7 @@ class SolanaRequestGetBlockProduction
         commitment?.toJson(),
         {'identity': identity},
         range?.toJson(),
-      ])
+      ]),
     ];
   }
 

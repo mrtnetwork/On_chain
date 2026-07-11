@@ -6,11 +6,11 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 /// https://blockfrost.dev/api/block-distribution-by-pool
 class BlockfrostRequestBlockDistributionByPool
     extends BlockFrostRequest<List<String>, List<dynamic>> {
-  BlockfrostRequestBlockDistributionByPool(
-      {required this.epoch,
-      required this.poolId,
-      BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+  BlockfrostRequestBlockDistributionByPool({
+    required this.epoch,
+    required this.poolId,
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// Number of the epoch
   final int epoch;

@@ -28,16 +28,19 @@ class SuiTypeTagUtils {
           final functionName = _toIdentifier(data[2]);
           if (moduleName == null) {
             throw DartSuiPluginException(
-                "Unable to parse struct tag: Invalid module name: '${data[1]}'");
+              "Unable to parse struct tag: Invalid module name: '${data[1]}'",
+            );
           }
           if (functionName == null) {
             throw DartSuiPluginException(
-                "Unable to parse struct tag: Invalid function name: '${data[2]}'");
+              "Unable to parse struct tag: Invalid function name: '${data[2]}'",
+            );
           }
           List<SuiTypeInput> typeArgs = [];
           if (name.length != typeName.length) {
-            final rawParts =
-                _extractFirstGeneric(name.substring(typeName.length));
+            final rawParts = _extractFirstGeneric(
+              name.substring(typeName.length),
+            );
             List<String> genericParts = [];
             if (rawParts != null) {
               int bracketCount = 0;
@@ -54,30 +57,36 @@ class SuiTypeTagUtils {
             }
             if (genericParts.isEmpty) {
               throw DartSuiPluginException(
-                  "Invalid type arguments generic parts.",
-                  details: {"parts": name.substring(typeName.length)});
+                "Invalid type arguments generic parts.",
+                details: {"parts": name.substring(typeName.length)},
+              );
             }
             try {
               typeArgs = genericParts.map((e) => parseTag(e)).toList();
             } catch (e) {
               throw DartSuiPluginException(
-                  "Failed to parse type arguments from parts: $genericParts. "
-                  "Error: ${e.toString()}");
+                "Failed to parse type arguments from parts: $genericParts. "
+                "Error: ${e.toString()}",
+              );
             }
           }
 
-          return SuiTypeInputStruct(SuiStructInput(
+          return SuiTypeInputStruct(
+            SuiStructInput(
               address: address,
               module: moduleName,
               name: functionName,
-              typeParams: typeArgs));
+              typeParams: typeArgs,
+            ),
+          );
         }
         if (_isVector(name)) {
           final c = _extractFirstGeneric(name);
           return SuiTypeInputVector(parseTag(c!));
         }
         throw DartSuiPluginException(
-            "Unknown type tag. Failed to parse the provided input: '$name'.");
+          "Unknown type tag. Failed to parse the provided input: '$name'.",
+        );
     }
   }
 

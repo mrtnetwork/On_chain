@@ -7,12 +7,16 @@ class MetaplexAuctionHouseCancelRemainingAccountsLayout
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseCancelRemainingAccountsLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction
-            .cancelRemainingAccounts.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction
+              .cancelRemainingAccounts
+              .insturction,
+    );
     return const MetaplexAuctionHouseCancelRemainingAccountsLayout();
   }
 

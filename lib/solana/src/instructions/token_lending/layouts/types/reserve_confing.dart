@@ -29,25 +29,27 @@ class ReserveConfig {
 
   /// Program owner fees assessed, separate from gains due to interest accrual
   final ReserveFeesConfig feesConfig;
-  const ReserveConfig(
-      {required this.optimalUtilizationRate,
-      required this.loanToValueRatio,
-      required this.liquidationBonus,
-      required this.liquidationThreshold,
-      required this.minBorrowRate,
-      required this.optimalBorrowRate,
-      required this.maxBorrowRate,
-      required this.feesConfig});
+  const ReserveConfig({
+    required this.optimalUtilizationRate,
+    required this.loanToValueRatio,
+    required this.liquidationBonus,
+    required this.liquidationThreshold,
+    required this.minBorrowRate,
+    required this.optimalBorrowRate,
+    required this.maxBorrowRate,
+    required this.feesConfig,
+  });
   factory ReserveConfig.fromJson(Map<String, dynamic> json) {
     return ReserveConfig(
-        optimalUtilizationRate: json['optimalUtilizationRate'],
-        loanToValueRatio: json['loanToValueRatio'],
-        liquidationBonus: json['liquidationBonus'],
-        liquidationThreshold: json['liquidationThreshold'],
-        minBorrowRate: json['minBorrowRate'],
-        optimalBorrowRate: json['optimalBorrowRate'],
-        maxBorrowRate: json['maxBorrowRate'],
-        feesConfig: ReserveFeesConfig.fromJson(json['fees']));
+      optimalUtilizationRate: json['optimalUtilizationRate'],
+      loanToValueRatio: json['loanToValueRatio'],
+      liquidationBonus: json['liquidationBonus'],
+      liquidationThreshold: json['liquidationThreshold'],
+      minBorrowRate: json['minBorrowRate'],
+      optimalBorrowRate: json['optimalBorrowRate'],
+      maxBorrowRate: json['maxBorrowRate'],
+      feesConfig: ReserveFeesConfig.fromJson(json['fees']),
+    );
   }
   static StructLayout layout = LayoutConst.struct([
     LayoutConst.u8(property: 'optimalUtilizationRate'),
@@ -57,7 +59,7 @@ class ReserveConfig {
     LayoutConst.u8(property: 'minBorrowRate'),
     LayoutConst.u8(property: 'optimalBorrowRate'),
     LayoutConst.u8(property: 'maxBorrowRate'),
-    ReserveFeesConfig.layout
+    ReserveFeesConfig.layout,
   ], property: 'config');
 
   Map<String, dynamic> serialize() {
@@ -69,7 +71,7 @@ class ReserveConfig {
       'minBorrowRate': minBorrowRate,
       'optimalBorrowRate': optimalBorrowRate,
       'maxBorrowRate': maxBorrowRate,
-      'fees': feesConfig.serialize()
+      'fees': feesConfig.serialize(),
     };
   }
 

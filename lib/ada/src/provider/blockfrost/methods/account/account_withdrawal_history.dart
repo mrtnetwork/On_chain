@@ -5,12 +5,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the withdrawals of a specific account.
 /// https://blockfrost.dev/api/account-withdrawal-history
-class BlockfrostRequestAccountWithdrawalHistory extends BlockFrostRequest<
-    List<ADAStakeAccountWithdrawalHistoryResponse>,
-    List<Map<String, dynamic>>> {
-  BlockfrostRequestAccountWithdrawalHistory(this.stakeAddress,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestAccountWithdrawalHistory
+    extends
+        BlockFrostRequest<
+          List<ADAStakeAccountWithdrawalHistoryResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAccountWithdrawalHistory(
+    this.stakeAddress, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// stake address.
   final ADARewardAddress stakeAddress;
@@ -24,7 +28,8 @@ class BlockfrostRequestAccountWithdrawalHistory extends BlockFrostRequest<
 
   @override
   List<ADAStakeAccountWithdrawalHistoryResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADAStakeAccountWithdrawalHistoryResponse.fromJson(e))
         .toList();

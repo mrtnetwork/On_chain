@@ -12,9 +12,10 @@ abstract class BcsSerialization {
   ///
   /// [bytes] - The raw bytes to deserialize.
   /// [layout] - Defines the structure for deserialization.
-  static Map<String, dynamic> deserialize(
-      {required List<int> bytes,
-      required Layout<Map<String, dynamic>> layout}) {
+  static Map<String, dynamic> deserialize({
+    required List<int> bytes,
+    required Layout<Map<String, dynamic>> layout,
+  }) {
     final decode = layout.deserialize(bytes);
     return decode.value;
   }
@@ -41,15 +42,16 @@ abstract class BcsSerialization {
 
   /// Converts the BCS-encoded bytes to a Base64 string.
   String toBcsBase64() {
-    return StringUtils.decode(toBcs(), type: StringEncoding.base64);
+    return StringUtils.decode(toBcs(), encoding: StringEncoding.base64);
   }
 
   /// Recursively converts complex objects into a human-readable format.
   /// Handles Maps, Lists, BigInt, byte arrays, etc.
   static Object? toReadableObject(Object? val) {
     if (val is Map) {
-      final newMap =
-          val.map((key, value) => MapEntry(key, toReadableObject(value)));
+      final newMap = val.map(
+        (key, value) => MapEntry(key, toReadableObject(value)),
+      );
       return newMap..removeWhere((e, k) => k == null);
     }
     if (val is String || val is int) {
@@ -86,7 +88,7 @@ class BcsVariantDecodeResult {
 
   /// Constructor to create an immutable result.
   BcsVariantDecodeResult(Map<String, dynamic> result)
-      : result = result.immutable;
+    : result = result.immutable;
 
   @override
   String toString() {
@@ -101,24 +103,28 @@ abstract class BcsVariantSerialization extends BcsSerialization {
   /// Converts JSON data into a BCS variant decode result.
   /// Ensures the JSON structure has both `key` and `value`.
   static BcsVariantDecodeResult toVariantDecodeResult(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     if (json['key'] is! String || !json.containsKey('value')) {
       throw const BcsSerializationException(
-          'Invalid variant layout. only use enum layout to deserialize with `BcsVariantSerialization.deserialize` method.');
+        'Invalid variant layout. only use enum layout to deserialize with `BcsVariantSerialization.deserialize` method.',
+      );
     }
     return BcsVariantDecodeResult(json);
   }
 
   /// Deserializes bytes into a BCS variant structure.
   /// Validates the presence of `key` and `value` in the deserialized data.
-  static Map<String, dynamic> deserialize(
-      {required List<int> bytes,
-      required Layout<Map<String, dynamic>> layout}) {
+  static Map<String, dynamic> deserialize({
+    required List<int> bytes,
+    required Layout<Map<String, dynamic>> layout,
+  }) {
     final decode = layout.deserialize(bytes);
     final json = decode.value;
     if (json['key'] is! String || !json.containsKey('value')) {
       throw const BcsSerializationException(
-          'Invalid variant layout. only use enum layout to deserialize with `BcsVariantSerialization.deserialize` method.');
+        'Invalid variant layout. only use enum layout to deserialize with `BcsVariantSerialization.deserialize` method.',
+      );
     }
     return json;
   }
@@ -147,14 +153,15 @@ abstract class BcsVariantSerialization extends BcsSerialization {
 
   /// Converts the serialized variant into a Base64 string.
   String toVariantBcsBase64() {
-    return StringUtils.decode(toVariantBcs(), type: StringEncoding.base64);
+    return StringUtils.decode(toVariantBcs(), encoding: StringEncoding.base64);
   }
 
   /// Converts the variant structure to a JSON-compatible Map.
   @override
   Map<String, dynamic> toJson() {
-    final toReadable =
-        BcsSerialization.toReadableObject(toVariantLayoutStruct());
+    final toReadable = BcsSerialization.toReadableObject(
+      toVariantLayoutStruct(),
+    );
     return (toReadable as Map).cast();
   }
 

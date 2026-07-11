@@ -2,8 +2,9 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/accounts/accounts/interest_bearing_mint.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
 
-class SolanaRPCGetInterestBearingMintConfigState extends SolanaRequest<
-    InterestBearingMintConfigState?, Map<String, dynamic>?> {
+class SolanaRPCGetInterestBearingMintConfigState
+    extends
+        SolanaRequest<InterestBearingMintConfigState?, Map<String, dynamic>?> {
   const SolanaRPCGetInterestBearingMintConfigState({
     required this.account,
     super.commitment,
@@ -21,8 +22,8 @@ class SolanaRPCGetInterestBearingMintConfigState extends SolanaRequest<
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         SolanaRequestEncoding.base64.toJson(),
-        minContextSlot?.toJson()
-      ])
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 
@@ -31,6 +32,7 @@ class SolanaRPCGetInterestBearingMintConfigState extends SolanaRequest<
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return InterestBearingMintConfigState.fromAccountBytes(
-        accountInfo.toBytesData());
+      accountInfo.toBytesData(),
+    );
   }
 }

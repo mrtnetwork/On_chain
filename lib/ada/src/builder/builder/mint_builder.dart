@@ -5,10 +5,11 @@ class ADAMinsBuilder {
   final Assets mintingAssets;
   final ADAAddress owner;
   final NativeScriptScriptPubkey minterScript;
-  ADAMinsBuilder(
-      {required this.minterScript,
-      required this.mintingAssets,
-      required this.owner});
+  ADAMinsBuilder({
+    required this.minterScript,
+    required this.mintingAssets,
+    required this.owner,
+  });
   PolicyID toPolicyId() {
     return PolicyID(minterScript.toHash().data);
   }

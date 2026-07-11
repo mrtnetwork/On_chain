@@ -13,9 +13,9 @@ class TokenGate extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'amount'),
-        SolanaLayoutUtils.publicKey('mint')
-      ], property: 'tokenGate');
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('mint'),
+  ], property: 'tokenGate');
 
   @override
   StructLayout get layout => staticLayout;

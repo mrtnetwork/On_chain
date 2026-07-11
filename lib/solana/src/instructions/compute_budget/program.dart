@@ -19,9 +19,10 @@ class ComputeBudgetProgram extends TransactionInstruction {
     SolAddress programId = ComputeBudgetConst.programId,
   }) {
     return ComputeBudgetProgram(
-        layout: ComputeBudgetProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: ComputeBudgetProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Creates an instruction to request units.

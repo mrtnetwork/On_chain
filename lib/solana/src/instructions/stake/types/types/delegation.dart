@@ -10,28 +10,30 @@ class SolanaStakeDelegation extends BorshLayoutSerializable {
   final BigInt deactivationEpoch;
   final double warmupCooldownRate;
 
-  const SolanaStakeDelegation(
-      {required this.voterPubkey,
-      required this.stake,
-      required this.activationEpoch,
-      required this.deactivationEpoch,
-      required this.warmupCooldownRate});
+  const SolanaStakeDelegation({
+    required this.voterPubkey,
+    required this.stake,
+    required this.activationEpoch,
+    required this.deactivationEpoch,
+    required this.warmupCooldownRate,
+  });
   factory SolanaStakeDelegation.fromJson(Map<String, dynamic> json) {
     return SolanaStakeDelegation(
-        voterPubkey: json['voterPubkey'],
-        stake: json['stake'],
-        activationEpoch: json['activationEpoch'],
-        deactivationEpoch: json['deactivationEpoch'],
-        warmupCooldownRate: json['warmupCooldownRate']);
+      voterPubkey: json['voterPubkey'],
+      stake: json['stake'],
+      activationEpoch: json['activationEpoch'],
+      deactivationEpoch: json['deactivationEpoch'],
+      warmupCooldownRate: json['warmupCooldownRate'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('voterPubkey'),
-        LayoutConst.u64(property: 'stake'),
-        LayoutConst.u64(property: 'activationEpoch'),
-        LayoutConst.u64(property: 'deactivationEpoch'),
-        LayoutConst.f64(property: 'warmupCooldownRate')
-      ], property: 'delegation');
+    SolanaLayoutUtils.publicKey('voterPubkey'),
+    LayoutConst.u64(property: 'stake'),
+    LayoutConst.u64(property: 'activationEpoch'),
+    LayoutConst.u64(property: 'deactivationEpoch'),
+    LayoutConst.f64(property: 'warmupCooldownRate'),
+  ], property: 'delegation');
 
   @override
   StructLayout get layout => staticLayout;
@@ -43,7 +45,7 @@ class SolanaStakeDelegation extends BorshLayoutSerializable {
       'stake': stake,
       'activationEpoch': activationEpoch,
       'deactivationEpoch': deactivationEpoch,
-      'warmupCooldownRate': warmupCooldownRate
+      'warmupCooldownRate': warmupCooldownRate,
     };
   }
 

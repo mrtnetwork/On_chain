@@ -12,69 +12,102 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
 
   @override
   ADAAddressType get addressType => ADAAddressType.enterprise;
-  const ADAEnterpriseAddress._(
-      {required this.paymentCredential,
-      required this.address,
-      required this.network})
-      : super.init();
+  const ADAEnterpriseAddress._({
+    required this.paymentCredential,
+    required this.address,
+    required this.network,
+  }) : super.init();
 
   factory ADAEnterpriseAddress(String address, {ADANetwork? network}) {
-    final decode = AdaAddressUtils.decodeAddres(address,
-        addrType: ADAAddressType.enterprise, network: network);
+    final decode = AdaAddressUtils.decodeAddres(
+      address,
+      addrType: ADAAddressType.enterprise,
+      network: network,
+    );
     return ADAEnterpriseAddress._(
-        paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
-        address: address,
-        network: decode.network);
+      paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
+      address: address,
+      network: network ?? decode.network,
+    );
   }
-  factory ADAEnterpriseAddress.fromCredential(
-      {required Credential credential,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADAEnterpriseAddress.fromCredential({
+    required Credential credential,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADAEnterpriseAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
-  factory ADAEnterpriseAddress.fromPublicKey(
-      {required List<int> pubkeyBytes,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADAEnterpriseAddress.fromPublicKey({
+    required List<int> pubkeyBytes,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final credential = AdaAddressUtils.publicKeyToCredential(pubkeyBytes);
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADAEnterpriseAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
-  factory ADAEnterpriseAddress.fromBip32(
-      {required CardanoByronLegacyBip32 bip32,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
+  factory ADAEnterpriseAddress.fromBip32({
+    required CardanoByronLegacyBip32 bip32,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      bip32.publicKey.compressed,
+    );
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADAEnterpriseAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
-  factory ADAEnterpriseAddress.fromIcarus(
-      {required CardanoIcarusBip32 bip32,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
+  factory ADAEnterpriseAddress.fromIcarus({
+    required CardanoIcarusBip32 bip32,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      bip32.publicKey.compressed,
+    );
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADAEnterpriseAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
-  factory ADAEnterpriseAddress.fromCip1852(
-      {required Cip1852 cip1852, ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(cip1852.publicKey.compressed);
+  factory ADAEnterpriseAddress.fromCip1852({
+    required Cip1852 cip1852,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      cip1852.publicKey.compressed,
+    );
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      network: network,
+    );
     return ADAEnterpriseAddress._(
-        paymentCredential: credential, address: encode, network: network);
+      paymentCredential: credential,
+      address: encode,
+      network: network,
+    );
   }
 }

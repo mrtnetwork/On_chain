@@ -7,8 +7,9 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// If the version has been pruned, then a 410 will be returned.
 /// To retrieve a pending transaction, use /transactions/by_hash.
 /// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
-class AptosRequestGetTransactions extends AptosRequest<
-    List<AptosApiTransaction>, List<Map<String, dynamic>>> {
+class AptosRequestGetTransactions
+    extends
+        AptosRequest<List<AptosApiTransaction>, List<Map<String, dynamic>>> {
   AptosRequestGetTransactions({this.start, this.limit});
 
   /// Ledger version to start list of transactions
@@ -21,8 +22,10 @@ class AptosRequestGetTransactions extends AptosRequest<
   String get method => AptosApiMethod.getTransactions.url;
 
   @override
-  Map<String, String?> get queryParameters =>
-      {"start": start?.toString(), "limit": limit?.toString()};
+  Map<String, String?> get queryParameters => {
+    "start": start?.toString(),
+    "limit": limit?.toString(),
+  };
 
   @override
   List<AptosApiTransaction> onResonse(List<Map<String, dynamic>> result) {

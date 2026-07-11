@@ -18,8 +18,11 @@ class AptosRequestGetTableItem extends AptosPostRequest<dynamic, dynamic> {
   final BigInt? ledgerVersion;
 
   final TableItemRequestParams data;
-  AptosRequestGetTableItem(
-      {required this.tableHandle, required this.data, this.ledgerVersion});
+  AptosRequestGetTableItem({
+    required this.tableHandle,
+    required this.data,
+    this.ledgerVersion,
+  });
 
   @override
   String get method => AptosApiMethod.getTableItem.url;
@@ -28,8 +31,9 @@ class AptosRequestGetTableItem extends AptosPostRequest<dynamic, dynamic> {
   List<String> get pathParameters => [tableHandle.address];
 
   @override
-  Map<String, String?> get queryParameters =>
-      {"ledger_version": ledgerVersion?.toString()};
+  Map<String, String?> get queryParameters => {
+    "ledger_version": ledgerVersion?.toString(),
+  };
 
   @override
   Map<String, dynamic> get body => data.toJson();

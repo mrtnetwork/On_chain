@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/credential/models/key.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/types.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/pool_params.dart';
@@ -16,10 +15,13 @@ class PoolRegistration extends Certificate {
 
   /// Deserializes a PoolRegistration object from its CBOR representation.
   factory PoolRegistration.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: CertificateType.poolRegistration);
+    CertificateType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: CertificateType.poolRegistration,
+    );
     return PoolRegistration(
-        PoolParams.deserialize(cbor.sublist<CborObject>(1)));
+      PoolParams.deserialize(cbor.sublist<CborObject>(1)),
+    );
   }
   factory PoolRegistration.fromJson(Map<String, dynamic> json) {
     final currentJson = json[CertificateType.poolRegistration.name] ?? json;
@@ -43,7 +45,7 @@ class PoolRegistration extends Certificate {
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'pool_params': poolParams.toJson()}
+      type.name: {'pool_params': poolParams.toJson()},
     };
   }
 

@@ -56,7 +56,7 @@ class ADATransactionRedeemerResponse {
       'unit_mem': unitMem,
       'unit_steps': unitSteps,
       'fee': fee,
-      'datum_hash': datumHash
+      'datum_hash': datumHash,
     };
   }
 

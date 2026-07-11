@@ -13,31 +13,39 @@ class TransactionMetadataMap
   final Map<TransactionMetadata, TransactionMetadata> value;
 
   /// Constructs a TransactionMetadataMap object.
-  TransactionMetadataMap(
-      {required Map<TransactionMetadata, TransactionMetadata> value})
-      : value =
-            Map<TransactionMetadata, TransactionMetadata>.unmodifiable(value);
+  TransactionMetadataMap({
+    required Map<TransactionMetadata, TransactionMetadata> value,
+  }) : value = Map<TransactionMetadata, TransactionMetadata>.unmodifiable(
+         value,
+       );
 
   /// Deserializes a TransactionMetadataMap object from CBOR.
   factory TransactionMetadataMap.deserialize(CborMapValue cbor) {
-    return TransactionMetadataMap(value: {
-      for (final i in cbor.value.entries)
-        TransactionMetadata.deserialize(i.key):
-            TransactionMetadata.deserialize(i.value)
-    });
+    return TransactionMetadataMap(
+      value: {
+        for (final i in cbor.value.entries)
+          TransactionMetadata.deserialize(
+            i.key,
+          ): TransactionMetadata.deserialize(i.value),
+      },
+    );
   }
   factory TransactionMetadataMap.fromJson(Map<String, dynamic> json) {
     final Map<dynamic, dynamic> values =
         json[TransactionMetadataType.metadataMap.name];
-    return TransactionMetadataMap(value: {
-      for (final i in values.entries)
-        TransactionMetadata.fromJson(i.key):
-            TransactionMetadata.fromJson(i.value)
-    });
+    return TransactionMetadataMap(
+      value: {
+        for (final i in values.entries)
+          TransactionMetadata.fromJson(i.key): TransactionMetadata.fromJson(
+            i.value,
+          ),
+      },
+    );
   }
 
-  TransactionMetadataMap copyWith(
-      {Map<TransactionMetadata, TransactionMetadata>? value}) {
+  TransactionMetadataMap copyWith({
+    Map<TransactionMetadata, TransactionMetadata>? value,
+  }) {
     return TransactionMetadataMap(value: value ?? this.value);
   }
 
@@ -50,8 +58,8 @@ class TransactionMetadataMap
   Map<String, dynamic> toJson() {
     return {
       type.name: {
-        for (final i in value.entries) i.key.toJson(): i.value.toJson()
-      }
+        for (final i in value.entries) i.key.toJson(): i.value.toJson(),
+      },
     };
   }
 
@@ -60,18 +68,22 @@ class TransactionMetadataMap
   CborObject toCbor({bool sort = false}) {
     if (sort) {
       final keys = value.keys.toList()..sort((a, b) => a.compareTo(b));
-      return CborMapValue.definite(
-          {for (final i in keys) i.toCbor(): value[i]!.toCbor()});
+      return CborMapValue.definite({
+        for (final i in keys) i.toCbor(): value[i]!.toCbor(),
+      });
     }
-    return CborMapValue.definite(
-        {for (final i in value.entries) i.key.toCbor(): i.value.toCbor()});
+    return CborMapValue.definite({
+      for (final i in value.entries) i.key.toCbor(): i.value.toCbor(),
+    });
   }
 
   /// Compares this metadata map with another metadata map.
   @override
   int compareTo(TransactionMetadata other) {
-    if (other is! TransactionMetadata<
-        Map<TransactionMetadata, TransactionMetadata>>) {
+    if (other
+        is! TransactionMetadata<
+          Map<TransactionMetadata, TransactionMetadata>
+        >) {
       return super.compareTo(other);
     }
     final lenComparison = value.length.compareTo(other.value.length);
@@ -89,24 +101,28 @@ class TransactionMetadataMap
   }
 
   @override
-  Map toJsonSchema(
-      {MetadataSchemaConfig config = const MetadataSchemaConfig(
-          jsonSchema: MetadataJsonSchema.noConversions)}) {
+  Map toJsonSchema({
+    MetadataSchemaConfig config = const MetadataSchemaConfig(
+      jsonSchema: MetadataJsonSchema.noConversions,
+    ),
+  }) {
     switch (config.jsonSchema) {
       case MetadataJsonSchema.noConversions:
       case MetadataJsonSchema.basicConversions:
         return {
           for (final i in value.entries)
-            TransactionMetadataUtils.encodeKey(key: i.key, config: config):
-                i.value.toJsonSchema(config: config)
+            TransactionMetadataUtils.encodeKey(key: i.key, config: config): i
+                .value
+                .toJsonSchema(config: config),
         };
       default:
         return {
-          'map': value.entries.map((entry) {
-            final k = entry.key.toJsonSchema(config: config);
-            final v = entry.value.toJsonSchema(config: config);
-            return {'k': k, 'v': v};
-          }).toList()
+          'map':
+              value.entries.map((entry) {
+                final k = entry.key.toJsonSchema(config: config);
+                final v = entry.value.toJsonSchema(config: config);
+                return {'k': k, 'v': v};
+              }).toList(),
         };
     }
   }

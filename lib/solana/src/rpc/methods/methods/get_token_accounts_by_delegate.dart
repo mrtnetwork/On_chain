@@ -8,14 +8,15 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/gettokenaccountsbydelegate
 class SolanaRequestGetTokenAccountsByDelegate
     extends SolanaRequest<List<TokenAccountResponse>, List> {
-  const SolanaRequestGetTokenAccountsByDelegate(
-      {required this.account,
-      this.mint,
-      this.programId,
-      this.dataSlice,
-      super.commitment,
-      super.minContextSlot,
-      super.encoding});
+  const SolanaRequestGetTokenAccountsByDelegate({
+    required this.account,
+    this.mint,
+    this.programId,
+    this.dataSlice,
+    super.commitment,
+    super.minContextSlot,
+    super.encoding,
+  });
 
   /// getTokenAccountsByDelegate
   @override
@@ -39,14 +40,14 @@ class SolanaRequestGetTokenAccountsByDelegate
       account.address,
       SolanaRequestUtils.createConfig([
         {'mint': mint?.address},
-        {'programId': programId?.address}
+        {'programId': programId?.address},
       ]),
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         minContextSlot?.toJson(),
         dataSlice?.toJson(),
-        encoding?.toJson()
-      ])
+        encoding?.toJson(),
+      ]),
     ];
   }
 

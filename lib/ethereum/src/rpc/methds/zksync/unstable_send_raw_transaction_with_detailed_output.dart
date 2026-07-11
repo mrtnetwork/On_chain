@@ -6,8 +6,11 @@ import 'package:on_chain/ethereum/src/rpc/types/zks.dart';
 /// The API has a similar behaviour to eth_sendRawTransaction but with some extra data returned from it.
 /// [zksync.io](https://docs.zksync.io/zksync-protocol/api/zks-rpc#unstable_sendrawtransactionwithdetailedoutput)
 class ZKSRequestUnstableSendRawTransactionWithDetailedOutput
-    extends EthereumRequest<ZkSyncSendRawTransactionWithDetailedOutput,
-        Map<String, dynamic>> {
+    extends
+        EthereumRequest<
+          ZkSyncSendRawTransactionWithDetailedOutput,
+          Map<String, dynamic>
+        > {
   final String signedTx;
   const ZKSRequestUnstableSendRawTransactionWithDetailedOutput(this.signedTx);
   @override
@@ -19,7 +22,8 @@ class ZKSRequestUnstableSendRawTransactionWithDetailedOutput
 
   @override
   ZkSyncSendRawTransactionWithDetailedOutput onResonse(
-      Map<String, dynamic> result) {
+    Map<String, dynamic> result,
+  ) {
     return ZkSyncSendRawTransactionWithDetailedOutput.fromJson(result);
   }
 }

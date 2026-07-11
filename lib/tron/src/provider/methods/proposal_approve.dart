@@ -6,12 +6,13 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/proposalapprove).
 class TronRequestProposalApprove
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestProposalApprove(
-      {required this.ownerAddress,
-      required this.proposalId,
-      required this.isAddApproval,
-      this.permissionId,
-      required this.visible});
+  TronRequestProposalApprove({
+    required this.ownerAddress,
+    required this.proposalId,
+    required this.isAddApproval,
+    this.permissionId,
+    required this.visible,
+  });
 
   /// Approver address
   final TronAddress ownerAddress;
@@ -38,7 +39,7 @@ class TronRequestProposalApprove
       'proposal_id': proposalId,
       'is_add_approval': isAddApproval,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

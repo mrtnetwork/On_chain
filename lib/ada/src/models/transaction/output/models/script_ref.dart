@@ -19,14 +19,17 @@ abstract class ScriptRef with InternalCborSerialization {
     if (cbor.hasType<CborTagValue>()) {
       final cborTag = cbor.as<CborTagValue>();
       if (!BytesUtils.bytesEqual(cborTag.tags, _tag)) {
-        throw ADAPluginException('Invalid ScriptRef cbor tag.',
-            details: {'expected': _tag, 'Tag': cborTag.tags});
+        throw ADAPluginException(
+          'Invalid ScriptRef cbor tag.',
+          details: {'expected': _tag.join(","), 'Tag': cborTag.tags.join(",")},
+        );
       }
       cbor = CborObject.fromCbor(
-          cborTag.valueAs<CborBytesValue>("ScriptRef").value);
+        cborTag.asValue<CborBytesValue>(operation: "ScriptRef").value,
+      );
     }
-    final CborListValue cborList = cbor.as("ScriptRef");
-    final type = ScriptRefType.deserialize(cborList.elementAt<CborIntValue>(0));
+    final CborListValue cborList = cbor.as(operation: "ScriptRef");
+    final type = ScriptRefType.deserialize(cborList.objectAt<CborIntValue>(0));
     switch (type) {
       case ScriptRefType.nativeScript:
         return ScriptRefNativeScript.deserialize(cborList);

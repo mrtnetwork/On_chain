@@ -5,10 +5,7 @@ class ADAPoolRetirementResponse {
   /// Retirement epoch number
   final int epoch;
 
-  ADAPoolRetirementResponse({
-    required this.poolId,
-    required this.epoch,
-  });
+  ADAPoolRetirementResponse({required this.poolId, required this.epoch});
 
   factory ADAPoolRetirementResponse.fromJson(Map<String, dynamic> json) {
     return ADAPoolRetirementResponse(
@@ -17,10 +14,7 @@ class ADAPoolRetirementResponse {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'pool_id': poolId,
-        'epoch': epoch,
-      };
+  Map<String, dynamic> toJson() => {'pool_id': poolId, 'epoch': epoch};
   @override
   String toString() {
     return 'ADAPoolRetirementResponse${toJson()}';

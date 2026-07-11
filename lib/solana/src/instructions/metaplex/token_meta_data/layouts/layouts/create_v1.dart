@@ -25,77 +25,88 @@ class MetaplexTokenMetaDataCreateV1Layout
   final SolAddress? ruleSet;
   final int? decimals;
   final PrintSupply? printSupply;
-  MetaplexTokenMetaDataCreateV1Layout(
-      {required this.name,
-      required this.symbol,
-      required this.uri,
-      required this.sellerFeeBasisPoints,
-      List<Creator>? creators,
-      required this.primarySaleHappened,
-      required this.isMutable,
-      required this.tokenStandard,
-      this.collection,
-      this.uses,
-      this.collectionDetails,
-      this.ruleSet,
-      this.decimals,
-      this.printSupply})
-      : creators = creators == null ? null : List.unmodifiable(creators);
+  MetaplexTokenMetaDataCreateV1Layout({
+    required this.name,
+    required this.symbol,
+    required this.uri,
+    required this.sellerFeeBasisPoints,
+    List<Creator>? creators,
+    required this.primarySaleHappened,
+    required this.isMutable,
+    required this.tokenStandard,
+    this.collection,
+    this.uses,
+    this.collectionDetails,
+    this.ruleSet,
+    this.decimals,
+    this.printSupply,
+  }) : creators = creators == null ? null : List.unmodifiable(creators);
 
   factory MetaplexTokenMetaDataCreateV1Layout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.createV1.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.createV1.insturction,
+    );
     return MetaplexTokenMetaDataCreateV1Layout(
-        name: decode['name'],
-        symbol: decode['symbol'],
-        uri: decode['uri'],
-        creators: decode['creators'] == null
-            ? null
-            : (decode['creators'] as List)
-                .map((e) => Creator.fromJson(e))
-                .toList(),
-        primarySaleHappened: decode['primarySaleHappened'],
-        isMutable: decode['isMutable'],
-        tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']),
-        collection: decode['collection'] == null
-            ? null
-            : Collection.fromJson(decode['collection']),
-        uses: decode['uses'] == null ? null : Uses.fromJson(decode['uses']),
-        collectionDetails: decode['collectionDetails'] == null
-            ? null
-            : CollectionDetailsV1.fromJson(decode['collectionDetails']),
-        ruleSet: decode['ruleSet'],
-        decimals: decode['decimals'],
-        printSupply: decode['printSupply'] == null
-            ? null
-            : PrintSupply.fromJson(json: decode['printSupply']),
-        sellerFeeBasisPoints: decode['sellerFeeBasisPoints']);
+      name: decode['name'],
+      symbol: decode['symbol'],
+      uri: decode['uri'],
+      creators:
+          decode['creators'] == null
+              ? null
+              : (decode['creators'] as List)
+                  .map((e) => Creator.fromJson(e))
+                  .toList(),
+      primarySaleHappened: decode['primarySaleHappened'],
+      isMutable: decode['isMutable'],
+      tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+      collection:
+          decode['collection'] == null
+              ? null
+              : Collection.fromJson(decode['collection']),
+      uses: decode['uses'] == null ? null : Uses.fromJson(decode['uses']),
+      collectionDetails:
+          decode['collectionDetails'] == null
+              ? null
+              : CollectionDetailsV1.fromJson(decode['collectionDetails']),
+      ruleSet: decode['ruleSet'],
+      decimals: decode['decimals'],
+      printSupply:
+          decode['printSupply'] == null
+              ? null
+              : PrintSupply.fromJson(json: decode['printSupply']),
+      sellerFeeBasisPoints: decode['sellerFeeBasisPoints'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.string(property: 'name'),
-        LayoutConst.string(property: 'symbol'),
-        LayoutConst.string(property: 'uri'),
-        LayoutConst.u16(property: 'sellerFeeBasisPoints'),
-        LayoutConst.optional(LayoutConst.vec(Creator.creatorLayout),
-            property: 'creators'),
-        LayoutConst.boolean(property: 'primarySaleHappened'),
-        LayoutConst.boolean(property: 'isMutable'),
-        LayoutConst.wrap(MetaDataTokenStandard.staticLayout,
-            property: 'tokenStandard'),
-        LayoutConst.optional(Collection.staticLayout, property: 'collection'),
-        LayoutConst.optional(Uses.staticLayout, property: 'uses'),
-        LayoutConst.optional(CollectionDetailsV1.staticLayout,
-            property: 'collectionDetails'),
-        SolanaLayoutUtils.optionPubkey(property: 'ruleSet'),
-        LayoutConst.optional(LayoutConst.u8(), property: 'decimals'),
-        LayoutConst.optional(PrintSupply.staticLayout, property: 'printSupply')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.u16(property: 'sellerFeeBasisPoints'),
+    LayoutConst.optional(
+      LayoutConst.vec(Creator.creatorLayout),
+      property: 'creators',
+    ),
+    LayoutConst.boolean(property: 'primarySaleHappened'),
+    LayoutConst.boolean(property: 'isMutable'),
+    LayoutConst.wrap(
+      MetaDataTokenStandard.staticLayout,
+      property: 'tokenStandard',
+    ),
+    LayoutConst.optional(Collection.staticLayout, property: 'collection'),
+    LayoutConst.optional(Uses.staticLayout, property: 'uses'),
+    LayoutConst.optional(
+      CollectionDetailsV1.staticLayout,
+      property: 'collectionDetails',
+    ),
+    SolanaLayoutUtils.optionPubkey(property: 'ruleSet'),
+    LayoutConst.optional(LayoutConst.u8(), property: 'decimals'),
+    LayoutConst.optional(PrintSupply.staticLayout, property: 'printSupply'),
+  ]);
 
   static const int discriminator = 0;
 

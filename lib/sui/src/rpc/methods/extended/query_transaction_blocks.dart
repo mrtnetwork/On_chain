@@ -3,10 +3,15 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 
 /// Return list of transactions for a specified query criteria.
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_querytransactionblocks)
-class SuiRequestQueryTransactionBlocks extends SuiRequest<
-    SuiApiPaginatedTransactionResponse, Map<String, dynamic>> {
-  const SuiRequestQueryTransactionBlocks(
-      {required this.query, this.cursor, this.limit, this.descendingOrder});
+class SuiRequestQueryTransactionBlocks
+    extends
+        SuiRequest<SuiApiPaginatedTransactionResponse, Map<String, dynamic>> {
+  const SuiRequestQueryTransactionBlocks({
+    required this.query,
+    this.cursor,
+    this.limit,
+    this.descendingOrder,
+  });
 
   /// The event query criteria.
   final SuiApiTransactionBlockResponseQuery query;

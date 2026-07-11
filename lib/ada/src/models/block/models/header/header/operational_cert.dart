@@ -16,17 +16,19 @@ class OperationalCert with InternalCborSerialization {
     );
   }
 
-  const OperationalCert(
-      {required this.hotVkey,
-      required this.sequenceNumber,
-      required this.kesPeriod,
-      required this.sigma});
+  const OperationalCert({
+    required this.hotVkey,
+    required this.sequenceNumber,
+    required this.kesPeriod,
+    required this.sigma,
+  });
   factory OperationalCert.deserialize(CborListValue cbor) {
     return OperationalCert(
-        hotVkey: KESVKey.deserialize(cbor.elementAt<CborBytesValue>(0)),
-        sequenceNumber: cbor.elementAt<CborIntValue>(1).value,
-        kesPeriod: cbor.elementAt<CborIntValue>(2).value,
-        sigma: Ed25519Signature.deserialize(cbor.elementAt<CborBytesValue>(3)));
+      hotVkey: KESVKey.deserialize(cbor.objectAt<CborBytesValue>(0)),
+      sequenceNumber: cbor.objectAt<CborIntValue>(1).value,
+      kesPeriod: cbor.objectAt<CborIntValue>(2).value,
+      sigma: Ed25519Signature.deserialize(cbor.objectAt<CborBytesValue>(3)),
+    );
   }
 
   @override
@@ -39,7 +41,7 @@ class OperationalCert with InternalCborSerialization {
       hotVkey.toCbor(),
       CborUnsignedValue.u32(sequenceNumber),
       CborUnsignedValue.u32(kesPeriod),
-      sigma.toCbor()
+      sigma.toCbor(),
     ];
   }
 

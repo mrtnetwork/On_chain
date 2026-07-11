@@ -15,21 +15,25 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
   factory SPLTokenMetaDataUpdateLayout.fromBuffer(List<int> bytes) {
     final Map<String, dynamic> decode =
         SPLTokenMetaDataProgramLayout.decodeAndValidateStruct(
-            layout: _layout,
-            bytes: bytes,
-            instructionBytes:
-                SPLTokenMetaDataProgramSplDiscriminate.update.insturction);
+          layout: _layout,
+          bytes: bytes,
+          instructionBytes:
+              SPLTokenMetaDataProgramSplDiscriminate.update.insturction,
+        );
 
     return SPLTokenMetaDataUpdateLayout(
-        field: SPLTokenMetaDataField.fromJson(decode['metaDataField']));
+      field: SPLTokenMetaDataField.fromJson(decode['metaDataField']),
+    );
   }
 
   /// Creates a static layout based on the provided value length and key length.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.wrap(SPLTokenMetaDataField.staticLayout,
-            property: 'metaDataField')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.wrap(
+      SPLTokenMetaDataField.staticLayout,
+      property: 'metaDataField',
+    ),
+  ]);
 
   /// The layout structure of this update instruction.
   @override

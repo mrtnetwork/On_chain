@@ -15,9 +15,10 @@ class SPLTokenCloseAccountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenCloseAccountLayout instance from buffer.
   factory SPLTokenCloseAccountLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.closeAccount.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.closeAccount.insturction,
+    );
     return SPLTokenCloseAccountLayout();
   }
 

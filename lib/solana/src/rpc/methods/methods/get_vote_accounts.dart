@@ -7,11 +7,12 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getvoteaccounts
 class SolanaRequestGetVoteAccounts
     extends SolanaRequest<VoteAccountStatus, Map<String, dynamic>> {
-  const SolanaRequestGetVoteAccounts(
-      {this.votePubkey,
-      this.keepUnstakedDelinquents,
-      this.delinquentSlotDistance,
-      super.commitment});
+  const SolanaRequestGetVoteAccounts({
+    this.votePubkey,
+    this.keepUnstakedDelinquents,
+    this.delinquentSlotDistance,
+    super.commitment,
+  });
 
   /// getVoteAccounts
   @override
@@ -35,7 +36,7 @@ class SolanaRequestGetVoteAccounts
         commitment?.toJson(),
         {'votePubkey': votePubkey?.address},
         {'keepUnstakedDelinquents': keepUnstakedDelinquents},
-        {'delinquentSlotDistance': delinquentSlotDistance}
+        {'delinquentSlotDistance': delinquentSlotDistance},
       ]),
     ];
   }

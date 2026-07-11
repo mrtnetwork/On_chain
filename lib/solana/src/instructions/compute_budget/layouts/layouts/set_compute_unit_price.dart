@@ -14,18 +14,20 @@ class ComputeBudgetSetComputeUnitPriceLayout
   /// Constructs the layout from raw bytes.
   factory ComputeBudgetSetComputeUnitPriceLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            ComputeBudgetProgramInstruction.setComputeUnitPrice.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          ComputeBudgetProgramInstruction.setComputeUnitPrice.insturction,
+    );
     return ComputeBudgetSetComputeUnitPriceLayout(
-        microLamports: decode['microLamports']);
+      microLamports: decode['microLamports'],
+    );
   }
   // StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'microLamports'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'microLamports'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

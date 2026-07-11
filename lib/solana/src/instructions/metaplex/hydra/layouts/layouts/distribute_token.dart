@@ -7,18 +7,20 @@ class MetaplexHydraDistributeTokenLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraDistributeTokenLayout.fromBuffer(List<int> data) {
     final decode = MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexHydraProgramInstruction.processDistributeToken.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexHydraProgramInstruction.processDistributeToken.insturction,
+    );
     return MetaplexHydraDistributeTokenLayout(
-        distributeForMint: decode['distributeForMint']);
+      distributeForMint: decode['distributeForMint'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.boolean(property: 'distributeForMint'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.boolean(property: 'distributeForMint'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

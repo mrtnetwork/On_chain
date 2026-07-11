@@ -5,11 +5,7 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 /// Represents a field in SPL token metadata.
 class SPLTokenMetaDataField extends BorshLayoutSerializable {
   /// Constructs a new instance of `SPLTokenMetaDataField` with the provided instruction and value.
-  const SPLTokenMetaDataField._(
-    this.instruction,
-    this.key,
-    this.value,
-  );
+  const SPLTokenMetaDataField._(this.instruction, this.key, this.value);
 
   /// The instruction associated with the field.
   final int instruction;
@@ -35,8 +31,10 @@ class SPLTokenMetaDataField extends BorshLayoutSerializable {
   }
 
   /// Represents the 'custom' field in SPL token metadata.
-  factory SPLTokenMetaDataField.customField(
-      {required String keyName, required String value}) {
+  factory SPLTokenMetaDataField.customField({
+    required String keyName,
+    required String value,
+  }) {
     return SPLTokenMetaDataField._(3, keyName, value);
   }
   factory SPLTokenMetaDataField.fromJson(Map<String, dynamic> json) {
@@ -51,10 +49,11 @@ class SPLTokenMetaDataField extends BorshLayoutSerializable {
         return SPLTokenMetaDataField.uri(uri: value);
       case 'Field':
         return SPLTokenMetaDataField.customField(
-            keyName: value['key'], value: value['value']);
+          keyName: value['key'],
+          value: value['value'],
+        );
       default:
-        throw SolanaPluginException('invalid SPLTokenMetaDataField',
-            details: {'data': json});
+        throw SolanaPluginException('invalid SPLTokenMetaDataField');
     }
   }
 
@@ -66,8 +65,8 @@ class SPLTokenMetaDataField extends BorshLayoutSerializable {
       LayoutConst.struct([
         LayoutConst.string(property: 'key'),
         LayoutConst.string(property: 'value'),
-      ], property: 'Field')
-    ], property: 'tokenMetaDataField')
+      ], property: 'Field'),
+    ], property: 'tokenMetaDataField'),
   ]);
 
   @override
@@ -76,11 +75,12 @@ class SPLTokenMetaDataField extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'tokenMetaDataField': instruction == 3
-          ? {
-              'Field': {'key': key, 'value': value}
-            }
-          : {key: value}
+      'tokenMetaDataField':
+          instruction == 3
+              ? {
+                'Field': {'key': key, 'value': value},
+              }
+              : {key: value},
     };
   }
 }

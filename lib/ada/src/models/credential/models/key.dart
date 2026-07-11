@@ -11,7 +11,7 @@ class CredentialKey extends Credential {
   /// Constructs a [CredentialKey] from a public key [pubKeyBytes].
   /// It derives the credential from the public key bytes using hashing.
   CredentialKey.fromPublicKey(List<int> pubKeyBytes)
-      : super(AdaAddressUtils.publicKeyToHash(pubKeyBytes));
+    : super(AdaAddressUtils.publicKeyToHash(pubKeyBytes));
 
   /// Deserializes a [CredentialKey] from CBOR bytes [cbor].
   factory CredentialKey.deserialize(CborBytesValue cbor) {

@@ -11,9 +11,9 @@ class ThirdPartySigner extends BorshLayoutSerializable {
     return ThirdPartySigner(signerKey: json['signerKey']);
   }
 
-  static StructLayout get staticLayout =>
-      LayoutConst.struct([SolanaLayoutUtils.publicKey('signerKey')],
-          property: 'thirdPartySigner');
+  static StructLayout get staticLayout => LayoutConst.struct([
+    SolanaLayoutUtils.publicKey('signerKey'),
+  ], property: 'thirdPartySigner');
 
   @override
   StructLayout get layout => staticLayout;

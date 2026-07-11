@@ -18,9 +18,10 @@ class MemoProgram extends TransactionInstruction {
     SolAddress programId = MemoProgramConst.latestMemoProgram,
   }) {
     return MemoProgram._(
-        layout: MemoLayout.fromBuffer(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: MemoLayout.fromBuffer(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Constructs a MemoProgram instruction.
@@ -30,8 +31,9 @@ class MemoProgram extends TransactionInstruction {
     SolAddress programId = MemoProgramConst.latestMemoProgram,
   }) {
     return MemoProgram._(
-        layout: layout,
-        keys: pubKeys.map((e) => e.toSigner()).toList(),
-        programId: programId);
+      layout: layout,
+      keys: pubKeys.map((e) => e.toSigner()).toList(),
+      programId: programId,
+    );
   }
 }

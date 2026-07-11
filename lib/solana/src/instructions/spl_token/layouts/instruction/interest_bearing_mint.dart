@@ -12,13 +12,14 @@ class InterestBearingMintInstruction extends BorshLayoutSerializable {
 
   static const List<InterestBearingMintInstruction> values = [
     initialize,
-    updateRate
+    updateRate,
   ];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'interestBearingMint')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'interestBearingMint',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -26,7 +27,7 @@ class InterestBearingMintInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'interestBearingMint': {name: null}
+      'interestBearingMint': {name: null},
     };
   }
 
@@ -36,9 +37,12 @@ class InterestBearingMintInstruction extends BorshLayoutSerializable {
   static InterestBearingMintInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No InterestBearingMint found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No InterestBearingMint found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

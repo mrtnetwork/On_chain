@@ -44,11 +44,11 @@ class NameServiceCreateLayout extends NameServiceProgramLayout {
 
   /// Generates the layout structure.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.vecU8(property: 'hashedName'),
-        LayoutConst.u64(property: 'lamports'),
-        LayoutConst.u32(property: 'space'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.vecU8(property: 'hashedName'),
+    LayoutConst.u64(property: 'lamports'),
+    LayoutConst.u32(property: 'space'),
+  ]);
 
   /// The layout structure.
   @override
@@ -62,10 +62,6 @@ class NameServiceCreateLayout extends NameServiceProgramLayout {
   /// Serializes the layout data.
   @override
   Map<String, dynamic> serialize() {
-    return {
-      'hashedName': hashedName,
-      'lamports': lamports,
-      'space': space,
-    };
+    return {'hashedName': hashedName, 'lamports': lamports, 'space': space};
   }
 }

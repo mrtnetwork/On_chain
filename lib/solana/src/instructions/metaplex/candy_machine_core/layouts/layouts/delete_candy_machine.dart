@@ -7,12 +7,14 @@ class MetaplexCandyMachineDeleteCandyMachineLayout
   const MetaplexCandyMachineDeleteCandyMachineLayout();
 
   factory MetaplexCandyMachineDeleteCandyMachineLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .deleteCandyMachine.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction.deleteCandyMachine.insturction,
+    );
     return const MetaplexCandyMachineDeleteCandyMachineLayout();
   }
 

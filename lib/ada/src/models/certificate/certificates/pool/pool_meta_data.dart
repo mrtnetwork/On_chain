@@ -16,21 +16,25 @@ class PoolMetadata with InternalCborSerialization {
   /// Deserializes a PoolMetadata object from its CBOR representation.
   factory PoolMetadata.deserialize(CborListValue cbor) {
     return PoolMetadata(
-        url: cbor.elementAtString(0),
-        poolMetadataHash:
-            PoolMetadataHash.deserialize(cbor.elementAt<CborBytesValue>(1)));
+      url: cbor.rawValueAt(0),
+      poolMetadataHash: PoolMetadataHash.deserialize(
+        cbor.objectAt<CborBytesValue>(1),
+      ),
+    );
   }
 
   factory PoolMetadata.fromJson(Map<String, dynamic> json) {
     return PoolMetadata(
-        url: json['url'],
-        poolMetadataHash: PoolMetadataHash.fromHex(json['pool_metadata_hash']));
+      url: json['url'],
+      poolMetadataHash: PoolMetadataHash.fromHex(json['pool_metadata_hash']),
+    );
   }
 
   PoolMetadata copyWith({String? url, PoolMetadataHash? poolMetadataHash}) {
     return PoolMetadata(
-        url: url ?? this.url,
-        poolMetadataHash: poolMetadataHash ?? this.poolMetadataHash);
+      url: url ?? this.url,
+      poolMetadataHash: poolMetadataHash ?? this.poolMetadataHash,
+    );
   }
 
   @override

@@ -6,12 +6,14 @@ class MetaplexCandyMachineSetMintAuthorityLayout
   const MetaplexCandyMachineSetMintAuthorityLayout();
 
   factory MetaplexCandyMachineSetMintAuthorityLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .setMintAuthority.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction.setMintAuthority.insturction,
+    );
     return const MetaplexCandyMachineSetMintAuthorityLayout();
   }
   static StructLayout get _layout =>

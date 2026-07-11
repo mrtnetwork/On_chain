@@ -6,21 +6,21 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [186, 150, 141, 135, 59, 122, 39, 99];
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('tradeState'),
-        SolanaLayoutUtils.publicKey('bookkeeper'),
-        SolanaLayoutUtils.publicKey('auctionHouse'),
-        SolanaLayoutUtils.publicKey('buyer'),
-        SolanaLayoutUtils.publicKey('metadata'),
-        SolanaLayoutUtils.optionPubkey(property: 'tokenAccount'),
-        SolanaLayoutUtils.optionPubkey(property: 'purchaseReceipt'),
-        LayoutConst.u64(property: 'price'),
-        LayoutConst.u64(property: 'tokenSize'),
-        LayoutConst.u8(property: 'bump'),
-        LayoutConst.u8(property: 'tradeStateBump'),
-        LayoutConst.i64(property: 'createdAt'),
-        LayoutConst.optional(LayoutConst.i64(), property: 'canceledAt')
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('tradeState'),
+    SolanaLayoutUtils.publicKey('bookkeeper'),
+    SolanaLayoutUtils.publicKey('auctionHouse'),
+    SolanaLayoutUtils.publicKey('buyer'),
+    SolanaLayoutUtils.publicKey('metadata'),
+    SolanaLayoutUtils.optionPubkey(property: 'tokenAccount'),
+    SolanaLayoutUtils.optionPubkey(property: 'purchaseReceipt'),
+    LayoutConst.u64(property: 'price'),
+    LayoutConst.u64(property: 'tokenSize'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.i64(property: 'createdAt'),
+    LayoutConst.optional(LayoutConst.i64(), property: 'canceledAt'),
+  ]);
 }
 
 class BidReceipt extends BorshLayoutSerializable {
@@ -39,42 +39,45 @@ class BidReceipt extends BorshLayoutSerializable {
   final BigInt createdAt;
   final BigInt? canceledAt;
 
-  const BidReceipt(
-      {required this.tradeState,
-      required this.bookkeeper,
-      required this.auctionHouse,
-      required this.buyer,
-      required this.metadata,
-      this.authority,
-      this.purchaseReceipt,
-      required this.price,
-      this.tokenAccount,
-      required this.tokenSize,
-      required this.bump,
-      required this.tradeStateBump,
-      required this.createdAt,
-      this.canceledAt});
+  const BidReceipt({
+    required this.tradeState,
+    required this.bookkeeper,
+    required this.auctionHouse,
+    required this.buyer,
+    required this.metadata,
+    this.authority,
+    this.purchaseReceipt,
+    required this.price,
+    this.tokenAccount,
+    required this.tokenSize,
+    required this.bump,
+    required this.tradeStateBump,
+    required this.createdAt,
+    this.canceledAt,
+  });
   factory BidReceipt.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
 
     return BidReceipt(
-        tradeState: decode['tradeState'],
-        bookkeeper: decode['bookkeeper'],
-        auctionHouse: decode['auctionHouse'],
-        buyer: decode['buyer'],
-        metadata: decode['metadata'],
-        authority: decode['authority'],
-        purchaseReceipt: decode['purchaseReceipt'],
-        price: decode['price'],
-        tokenSize: decode['tokenSize'],
-        tokenAccount: decode['tokenAccount'],
-        bump: decode['bump'],
-        tradeStateBump: decode['tradeStateBump'],
-        createdAt: decode['createdAt'],
-        canceledAt: decode['canceledAt']);
+      tradeState: decode['tradeState'],
+      bookkeeper: decode['bookkeeper'],
+      auctionHouse: decode['auctionHouse'],
+      buyer: decode['buyer'],
+      metadata: decode['metadata'],
+      authority: decode['authority'],
+      purchaseReceipt: decode['purchaseReceipt'],
+      price: decode['price'],
+      tokenSize: decode['tokenSize'],
+      tokenAccount: decode['tokenAccount'],
+      bump: decode['bump'],
+      tradeStateBump: decode['tradeStateBump'],
+      createdAt: decode['createdAt'],
+      canceledAt: decode['canceledAt'],
+    );
   }
 
   @override

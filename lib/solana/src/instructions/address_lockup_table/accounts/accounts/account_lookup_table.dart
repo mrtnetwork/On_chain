@@ -17,17 +17,21 @@ class _Utils {
     LayoutConst.u64(property: 'lastExtendedSlot'),
     LayoutConst.u8(property: 'lastExtendedStartIndex'),
     LayoutConst.padding(LayoutConst.u8(), propery: 'padding'),
-    LayoutConst.seq(SolanaLayoutUtils.publicKey('publicKey'),
-        LayoutConst.offset(LayoutConst.padding(LayoutConst.u8()), -1),
-        property: 'authority')
+    LayoutConst.seq(
+      SolanaLayoutUtils.publicKey('publicKey'),
+      LayoutConst.offset(LayoutConst.padding(LayoutConst.u8()), -1),
+      property: 'authority',
+    ),
   ]);
 
   /// Create a layout for the addresses based on the number of serialized addresses.
   static Layout addressesLayout(int numSerializedAddresses) {
     return LayoutConst.struct([
       LayoutConst.array(
-          SolanaLayoutUtils.publicKey('publicKey'), numSerializedAddresses,
-          property: 'addresses')
+        SolanaLayoutUtils.publicKey('publicKey'),
+        numSerializedAddresses,
+        property: 'addresses',
+      ),
     ]);
   }
 
@@ -45,10 +49,14 @@ class _Utils {
     final numSerializedAddresses =
         serializedAddressesLen ~/ SolanaTransactionConstant.publicKeyLength;
     final addressLayout = addressesLayout(numSerializedAddresses);
-    final decodeAddresses = addressLayout
-        .deserialize(accountData
-            .sublist(AddressLookupTableProgramConst.lockupTableMetaSize))
-        .value;
+    final decodeAddresses =
+        addressLayout
+            .deserialize(
+              accountData.sublist(
+                AddressLookupTableProgramConst.lockupTableMetaSize,
+              ),
+            )
+            .value;
     final List<SolAddress> authority = (meta['authority'] as List).cast();
     return {
       'deactivationSlot': meta['deactivationSlot'],

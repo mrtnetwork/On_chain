@@ -8,18 +8,22 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('updateAuthority'),
-        SolanaLayoutUtils.publicKey('mint'),
-        LayoutConst.string(property: 'name'),
-        LayoutConst.string(property: 'symbol'),
-        LayoutConst.string(property: 'uri'),
-        LayoutConst.vec(AdditionalMetadata.staticLayout,
-            property: 'additionalMetadatas')
-      ]);
+    SolanaLayoutUtils.publicKey('updateAuthority'),
+    SolanaLayoutUtils.publicKey('mint'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
+    LayoutConst.vec(
+      AdditionalMetadata.staticLayout,
+      property: 'additionalMetadatas',
+    ),
+  ]);
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -29,11 +33,14 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountDataBytes,
-              extensionType: ExtensionType.tokenMetadata,
-              type: SolanaTokenAccountType.mint);
+            accountBytes: accountDataBytes,
+            extensionType: ExtensionType.tokenMetadata,
+            type: SolanaTokenAccountType.mint,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -65,40 +72,47 @@ class SPLTokenMetaDataAccount extends BorshLayoutSerializable {
   /// must avoid storing the same key twice.
   final List<AdditionalMetadata> additionalMetadata;
 
-  const SPLTokenMetaDataAccount(
-      {required this.updateAuthority,
-      required this.mint,
-      required this.name,
-      required this.symbol,
-      required this.uri,
-      required this.additionalMetadata});
+  const SPLTokenMetaDataAccount({
+    required this.updateAuthority,
+    required this.mint,
+    required this.name,
+    required this.symbol,
+    required this.uri,
+    required this.additionalMetadata,
+  });
   factory SPLTokenMetaDataAccount.fromBuffer(List<int> data) {
     final decode = _Utils.decode(data);
     return SPLTokenMetaDataAccount(
-        updateAuthority: decode['updateAuthority'] == SolAddress.defaultPubKey
-            ? null
-            : decode['updateAuthority'],
-        mint: decode['mint'],
-        name: decode['name'],
-        symbol: decode['symbol'],
-        uri: decode['uri'],
-        additionalMetadata: (decode['additionalMetadatas'] as List)
-            .map((e) => AdditionalMetadata.fromJson(e))
-            .toList());
+      updateAuthority:
+          decode['updateAuthority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['updateAuthority'],
+      mint: decode['mint'],
+      name: decode['name'],
+      symbol: decode['symbol'],
+      uri: decode['uri'],
+      additionalMetadata:
+          (decode['additionalMetadatas'] as List)
+              .map((e) => AdditionalMetadata.fromJson(e))
+              .toList(),
+    );
   }
   factory SPLTokenMetaDataAccount.fromAccountDataBytes(List<int> data) {
     final decode = _Utils.decodeFromAccount(data);
     return SPLTokenMetaDataAccount(
-        updateAuthority: decode['updateAuthority'] == SolAddress.defaultPubKey
-            ? null
-            : decode['updateAuthority'],
-        mint: decode['mint'],
-        name: decode['name'],
-        symbol: decode['symbol'],
-        uri: decode['uri'],
-        additionalMetadata: (decode['additionalMetadatas'] as List)
-            .map((e) => AdditionalMetadata.fromJson(e))
-            .toList());
+      updateAuthority:
+          decode['updateAuthority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['updateAuthority'],
+      mint: decode['mint'],
+      name: decode['name'],
+      symbol: decode['symbol'],
+      uri: decode['uri'],
+      additionalMetadata:
+          (decode['additionalMetadatas'] as List)
+              .map((e) => AdditionalMetadata.fromJson(e))
+              .toList(),
+    );
   }
 
   @override
@@ -112,7 +126,7 @@ class SPLTokenMetaDataAccount extends BorshLayoutSerializable {
       'symbol': symbol,
       'uri': uri,
       'additionalMetadatas':
-          additionalMetadata.map((e) => e.serialize()).toList()
+          additionalMetadata.map((e) => e.serialize()).toList(),
     };
   }
 

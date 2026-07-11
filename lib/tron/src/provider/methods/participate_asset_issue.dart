@@ -10,21 +10,24 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 class TronRequestParticipateAssetIssue
     extends TronRequest<Transaction, Map<String, dynamic>> {
   factory TronRequestParticipateAssetIssue.fromContract(
-      ParticipateAssetIssueContract contract,
-      {bool visible = true}) {
+    ParticipateAssetIssueContract contract, {
+    bool visible = true,
+  }) {
     return TronRequestParticipateAssetIssue(
-        toAddress: contract.toAddress,
-        ownerAddress: contract.ownerAddress,
-        amount: contract.amount,
-        assetName: StringUtils.decode(contract.assetName),
-        visible: visible);
+      toAddress: contract.toAddress,
+      ownerAddress: contract.ownerAddress,
+      amount: contract.amount,
+      assetName: StringUtils.decode(contract.assetName),
+      visible: visible,
+    );
   }
-  TronRequestParticipateAssetIssue(
-      {required this.toAddress,
-      required this.ownerAddress,
-      required this.amount,
-      required this.assetName,
-      this.visible = true});
+  TronRequestParticipateAssetIssue({
+    required this.toAddress,
+    required this.ownerAddress,
+    required this.amount,
+    required this.assetName,
+    this.visible = true,
+  });
 
   final TronAddress toAddress;
 
@@ -51,7 +54,7 @@ class TronRequestParticipateAssetIssue
       'owner_address': ownerAddress.toAddress(visible),
       'amount': amount,
       'asset_name': assetName,
-      'visible': visible
+      'visible': visible,
     };
   }
 

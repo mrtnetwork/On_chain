@@ -7,8 +7,12 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getinflationreward
 class SolanaRequestGetInflationReward
     extends SolanaRequest<List<InflationReward?>, List> {
-  const SolanaRequestGetInflationReward(
-      {this.addresses, this.epoch, super.commitment, super.minContextSlot});
+  const SolanaRequestGetInflationReward({
+    this.addresses,
+    this.epoch,
+    super.commitment,
+    super.minContextSlot,
+  });
 
   /// getInflationReward
   @override

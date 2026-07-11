@@ -7,7 +7,8 @@ class SPLToken2022WithdrawWithheldTokensFromMintLayout
   SPLToken2022WithdrawWithheldTokensFromMintLayout();
 
   factory SPLToken2022WithdrawWithheldTokensFromMintLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
@@ -17,9 +18,9 @@ class SPLToken2022WithdrawWithheldTokensFromMintLayout
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'transferFee'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'transferFee'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -31,8 +32,10 @@ class SPLToken2022WithdrawWithheldTokensFromMintLayout
   @override
   Map<String, dynamic> serialize() {
     return {
-      'transferFee': TransferFeeInstructionInstruction
-          .withdrawWithheldTokensFromMint.value,
+      'transferFee':
+          TransferFeeInstructionInstruction
+              .withdrawWithheldTokensFromMint
+              .value,
     };
   }
 }

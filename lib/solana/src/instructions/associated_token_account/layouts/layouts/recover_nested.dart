@@ -8,12 +8,14 @@ class AssociatedTokenAccountProgramRecoverNestedLayout
   const AssociatedTokenAccountProgramRecoverNestedLayout();
 
   factory AssociatedTokenAccountProgramRecoverNestedLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            AssociatedTokenAccountProgramInstruction.recoverNested.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AssociatedTokenAccountProgramInstruction.recoverNested.insturction,
+    );
     return const AssociatedTokenAccountProgramRecoverNestedLayout();
   }
   static StructLayout get _layout =>

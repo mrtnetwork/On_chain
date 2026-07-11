@@ -16,20 +16,26 @@ class FeeHistory {
 
   /// Constructs a [FeeHistory] object from JSON.
   factory FeeHistory.fromJson(Map<String, dynamic> json) {
-    final baseFeePerGas = (json['baseFeePerGas'] as List?)
+    final baseFeePerGas =
+        (json['baseFeePerGas'] as List?)
             ?.map(
-                (fee) => JsonParser.valueAsBigInt<BigInt>(fee, allowHex: true))
+              (fee) => JsonParser.valueAsBigInt<BigInt>(fee, allowHex: true),
+            )
             .toList() ??
         <BigInt>[];
-    final gasUsedRatio = (json['gasUsedRatio'] as List<dynamic>)
-        .map<double>((e) => JsonParser.valueAsDouble<double>(e))
-        .toList();
-    final reward = (json['reward'] as List).map((r) {
-      return (r as List)
-          .map((value) =>
-              JsonParser.valueAsBigInt<BigInt>(value, allowHex: true))
-          .toList();
-    }).toList();
+    final gasUsedRatio =
+        (json['gasUsedRatio'] as List<dynamic>)
+            .map<double>((e) => JsonParser.valueAsDouble<double>(e))
+            .toList();
+    final reward =
+        (json['reward'] as List).map((r) {
+          return (r as List)
+              .map(
+                (value) =>
+                    JsonParser.valueAsBigInt<BigInt>(value, allowHex: true),
+              )
+              .toList();
+        }).toList();
 
     return FeeHistory(
       baseFeePerGas: baseFeePerGas,
@@ -59,34 +65,47 @@ class FeeHistory {
         return sum ~/ BigInt.from(arr.length);
       }
 
-      final slow = avg(priorities.map((b) {
-        return b.priorityFeePerGas[0];
-      }).toList());
-      final average =
-          avg(priorities.map((b) => b.priorityFeePerGas[1]).toList());
+      final slow = avg(
+        priorities.map((b) {
+          return b.priorityFeePerGas[0];
+        }).toList(),
+      );
+      final average = avg(
+        priorities.map((b) => b.priorityFeePerGas[1]).toList(),
+      );
       final fast = avg(priorities.map((b) => b.priorityFeePerGas[2]).toList());
       return FeeHistorical(
-          slow: slow, high: fast, normal: average, baseFee: baseFee);
+        slow: slow,
+        high: fast,
+        normal: average,
+        baseFee: baseFee,
+      );
     }
 
-    final minLength = [gasUsedRatio.length, baseFeePerGas.length, reward.length]
-        .reduce((min, current) => current < min ? current : min);
+    final minLength = [
+      gasUsedRatio.length,
+      baseFeePerGas.length,
+      reward.length,
+    ].reduce((min, current) => current < min ? current : min);
     final historical = List<_FeeHistorical>.generate(
-        minLength,
-        (index) => _FeeHistorical(
-            baseFeePerGas: baseFeePerGas[index],
-            gasUsedRatio: gasUsedRatio[index],
-            priorityFeePerGas: reward[index]));
+      minLength,
+      (index) => _FeeHistorical(
+        baseFeePerGas: baseFeePerGas[index],
+        gasUsedRatio: gasUsedRatio[index],
+        priorityFeePerGas: reward[index],
+      ),
+    );
     return toPriority(historical, baseFeePerGas.last);
   }
 }
 
 /// Represents historical fee details for a specific block in Ethereum.
 class _FeeHistorical {
-  const _FeeHistorical(
-      {required this.baseFeePerGas,
-      required this.gasUsedRatio,
-      required this.priorityFeePerGas});
+  const _FeeHistorical({
+    required this.baseFeePerGas,
+    required this.gasUsedRatio,
+    required this.priorityFeePerGas,
+  });
 
   final BigInt baseFeePerGas;
   final double gasUsedRatio;
@@ -95,11 +114,12 @@ class _FeeHistorical {
 
 /// Represents the historical fee levels with slow, normal, high, and base fee details.
 class FeeHistorical {
-  const FeeHistorical(
-      {required this.slow,
-      required this.normal,
-      required this.high,
-      required this.baseFee});
+  const FeeHistorical({
+    required this.slow,
+    required this.normal,
+    required this.high,
+    required this.baseFee,
+  });
   final BigInt slow;
   final BigInt normal;
   final BigInt high;

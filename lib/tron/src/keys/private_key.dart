@@ -25,8 +25,10 @@ class TronPrivateKey {
       return TronPrivateKey._(key);
     } catch (e) {
       // Throw a MessageException with details if an error occurs during the creation
-      throw TronPluginException('invalid tron private key',
-          details: {'input': BytesUtils.toHexString(keyBytes)});
+      throw TronPluginException(
+        'invalid tron private key',
+        details: {'input': BytesUtils.toHexString(keyBytes)},
+      );
     }
   }
 
@@ -54,11 +56,17 @@ class TronPrivateKey {
   /// Signs a personal message using the private key and returns the signature as a hexadecimal string.
   ///
   /// Optionally, [payloadLength] can be set to specify the payload length for the message.
-  String signPersonalMessage(List<int> message,
-      {int? payloadLength, bool useEthereumPrefix = false}) {
+  String signPersonalMessage(
+    List<int> message, {
+    int? payloadLength,
+    bool useEthereumPrefix = false,
+  }) {
     final ethsigner = TronSigner.fromKeyBytes(toBytes());
-    final sign = ethsigner.signProsonalMessageConst(message,
-        payloadLength: payloadLength, useEthPrefix: useEthereumPrefix);
+    final sign = ethsigner.signProsonalMessageConst(
+      message,
+      payloadLength: payloadLength,
+      useEthPrefix: useEthereumPrefix,
+    );
     return BytesUtils.toHexString(sign);
   }
 

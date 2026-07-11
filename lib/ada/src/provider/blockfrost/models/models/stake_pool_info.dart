@@ -103,26 +103,26 @@ class ADAStakePoolInfoResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'pool_id': poolId,
-        'hex': hex,
-        'vrf_key': vrfKey,
-        'blocks_minted': blocksMinted,
-        'blocks_epoch': blocksEpoch,
-        'live_stake': liveStake,
-        'live_size': liveSize,
-        'live_saturation': liveSaturation,
-        'live_delegators': liveDelegators,
-        'active_stake': activeStake,
-        'active_size': activeSize,
-        'declared_pledge': declaredPledge,
-        'live_pledge': livePledge,
-        'margin_cost': marginCost,
-        'fixed_cost': fixedCost,
-        'reward_account': rewardAccount,
-        'owners': owners,
-        'registration': registration,
-        'retirement': retirement,
-      };
+    'pool_id': poolId,
+    'hex': hex,
+    'vrf_key': vrfKey,
+    'blocks_minted': blocksMinted,
+    'blocks_epoch': blocksEpoch,
+    'live_stake': liveStake,
+    'live_size': liveSize,
+    'live_saturation': liveSaturation,
+    'live_delegators': liveDelegators,
+    'active_stake': activeStake,
+    'active_size': activeSize,
+    'declared_pledge': declaredPledge,
+    'live_pledge': livePledge,
+    'margin_cost': marginCost,
+    'fixed_cost': fixedCost,
+    'reward_account': rewardAccount,
+    'owners': owners,
+    'registration': registration,
+    'retirement': retirement,
+  };
 
   @override
   String toString() {

@@ -24,8 +24,11 @@ class SolanaRequestGetSupply
     return [
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
-        {'excludeNonCirculatingAccountsList': excludeNonCirculatingAccountsList}
-      ])
+        {
+          'excludeNonCirculatingAccountsList':
+              excludeNonCirculatingAccountsList,
+        },
+      ]),
     ];
   }
 

@@ -5,24 +5,29 @@ class MetaplexFixedPriceSaleCreateStoreLayout
     extends MetaplexFixedPriceSaleProgramLayout {
   final String name;
   final String description;
-  MetaplexFixedPriceSaleCreateStoreLayout(
-      {required this.name, required this.description});
+  MetaplexFixedPriceSaleCreateStoreLayout({
+    required this.name,
+    required this.description,
+  });
 
   factory MetaplexFixedPriceSaleCreateStoreLayout.fromBuffer(List<int> data) {
     final decode = MetaplexFixedPriceSaleProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexFixedPriceSaleProgramInstruction.createStore.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexFixedPriceSaleProgramInstruction.createStore.insturction,
+    );
     return MetaplexFixedPriceSaleCreateStoreLayout(
-        name: decode['name'], description: decode['description']);
+      name: decode['name'],
+      description: decode['description'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.string(property: 'name'),
-        LayoutConst.string(property: 'description'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'description'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

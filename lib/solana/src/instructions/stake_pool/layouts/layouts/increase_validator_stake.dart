@@ -9,15 +9,18 @@ class StakePoolIncreaseValidatorStakeLayout extends StakePoolProgramLayout {
 
   /// seed used to create transient stake account
   final BigInt transientStakeSeed;
-  StakePoolIncreaseValidatorStakeLayout(
-      {required this.lamports, required this.transientStakeSeed});
+  StakePoolIncreaseValidatorStakeLayout({
+    required this.lamports,
+    required this.transientStakeSeed,
+  });
 
   factory StakePoolIncreaseValidatorStakeLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            StakePoolProgramInstruction.increaseValidatorStake.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          StakePoolProgramInstruction.increaseValidatorStake.insturction,
+    );
     return StakePoolIncreaseValidatorStakeLayout(
       lamports: decode['lamports'],
       transientStakeSeed: decode['transientStakeSeed'],
@@ -25,10 +28,10 @@ class StakePoolIncreaseValidatorStakeLayout extends StakePoolProgramLayout {
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports'),
-        LayoutConst.ns64(property: 'transientStakeSeed')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'transientStakeSeed'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

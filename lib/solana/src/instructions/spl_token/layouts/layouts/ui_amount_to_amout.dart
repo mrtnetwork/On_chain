@@ -10,23 +10,25 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
 
   /// Constructs an SPLTokenUiAmountToAmountLayout instance.
   SPLTokenUiAmountToAmountLayout({required String amount})
-      : amount = StringUtils.encode(amount);
+    : amount = StringUtils.encode(amount);
 
   /// StructLayout structure for converting UI amount to amount in SPL.
   static StructLayout _layout(int length) => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.blob(length, property: 'amount'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.blob(length, property: 'amount'),
+  ]);
 
   /// Constructs an SPLTokenUiAmountToAmountLayout instance from buffer.
   factory SPLTokenUiAmountToAmountLayout.fromBuffer(List<int> bytes) {
     final length = bytes.length - 1;
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout(length),
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.uiAmountToAmount.insturction);
+      layout: _layout(length),
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.uiAmountToAmount.insturction,
+    );
     return SPLTokenUiAmountToAmountLayout(
-        amount: StringUtils.decode(decode['amount']));
+      amount: StringUtils.decode(decode['amount']),
+    );
   }
 
   /// Returns the layout structure.

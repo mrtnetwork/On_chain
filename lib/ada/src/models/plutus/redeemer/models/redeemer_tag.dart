@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class RedeemerTag with InternalCborSerialization {
@@ -18,7 +17,7 @@ class RedeemerTag with InternalCborSerialization {
     cert,
     reward,
     vote,
-    votingProposal
+    votingProposal,
   ];
   factory RedeemerTag.deserialize(CborIntValue cbor) {
     return fromValue(cbor.value);
@@ -27,18 +26,14 @@ class RedeemerTag with InternalCborSerialization {
   static RedeemerTag fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ADAPluginException(
-          'No RedeemerTag found matching the specified value',
-          details: {'value': value}),
+      orElse: () => throw ItemNotFoundException(name: "RedeemerTag"),
     );
   }
 
   static RedeemerTag fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ADAPluginException(
-          'No RedeemerTag found matching the specified name',
-          details: {'name': name}),
+      orElse: () => throw ItemNotFoundException(name: "RedeemerTag"),
     );
   }
 

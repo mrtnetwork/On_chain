@@ -17,38 +17,47 @@ class Value with InternalCborSerialization {
   /// Deserializes a [Value] instance from a CBOR object.
   factory Value.deserialize(CborObject cbor) {
     if (cbor.hasType<CborListValue>()) {
-      final list = cbor.as<CborListValue>("Value");
+      final list = cbor.as<CborListValue>(operation: "Value");
       return Value(
-          coin: list.elementAsInteger(0),
-          multiAsset: MultiAsset.deserialize(list.elementAt<CborMapValue>(1)));
+        coin: list.rawValueAt(0),
+        multiAsset: MultiAsset.deserialize(list.objectAt<CborMapValue>(1)),
+      );
     }
-    return Value(coin: cbor.as<CborNumeric>("Value").toBigInt());
+    return Value(coin: cbor.as<CborNumeric>(operation: "Value").toBigInt());
   }
   factory Value.fromJson(Map<String, dynamic> json) {
     return Value(
-        coin: BigintUtils.parse(json['coin']),
-        multiAsset: json['multiasset'] == null
-            ? null
-            : MultiAsset.fromJson(json['multiasset']));
+      coin: BigintUtils.parse(json['coin']),
+      multiAsset:
+          json['multiasset'] == null
+              ? null
+              : MultiAsset.fromJson(json['multiasset']),
+    );
   }
 
   Value copyWith({BigInt? coin, MultiAsset? multiAsset}) {
     return Value(
-        coin: coin ?? this.coin, multiAsset: multiAsset ?? this.multiAsset);
+      coin: coin ?? this.coin,
+      multiAsset: multiAsset ?? this.multiAsset,
+    );
   }
 
   @override
   CborObject toCbor() {
     if (multiAsset == null) return CborUnsignedValue.u64(coin);
-    return CborListValue.definite(
-        [CborUnsignedValue.u64(coin), multiAsset!.toCbor()]);
+    return CborListValue.definite([
+      CborUnsignedValue.u64(coin),
+      multiAsset!.toCbor(),
+    ]);
   }
 
   Value operator +(Value other) {
     return Value(
-        coin: coin + other.coin,
-        multiAsset: (multiAsset ?? MultiAsset.empty) +
-            (other.multiAsset ?? MultiAsset.empty));
+      coin: coin + other.coin,
+      multiAsset:
+          (multiAsset ?? MultiAsset.empty) +
+          (other.multiAsset ?? MultiAsset.empty),
+    );
   }
 
   @override

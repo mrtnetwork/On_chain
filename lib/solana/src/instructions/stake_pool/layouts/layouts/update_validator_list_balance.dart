@@ -11,25 +11,31 @@ class StakePoolUpdateValidatorListBalanceLayout extends StakePoolProgramLayout {
   /// particular stake account is in a bad state, but we still
   /// want to update
   final bool noMerge;
-  const StakePoolUpdateValidatorListBalanceLayout(
-      {required this.startIndex, required this.noMerge});
+  const StakePoolUpdateValidatorListBalanceLayout({
+    required this.startIndex,
+    required this.noMerge,
+  });
 
   factory StakePoolUpdateValidatorListBalanceLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            StakePoolProgramInstruction.updateValidatorListBalance.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          StakePoolProgramInstruction.updateValidatorListBalance.insturction,
+    );
     return StakePoolUpdateValidatorListBalanceLayout(
-        noMerge: decode['noMerge'], startIndex: decode['startIndex']);
+      noMerge: decode['noMerge'],
+      startIndex: decode['startIndex'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'startIndex'),
-        LayoutConst.boolean(property: 'noMerge')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'startIndex'),
+    LayoutConst.boolean(property: 'noMerge'),
+  ]);
   @override
   StructLayout get layout => _layout;
   @override

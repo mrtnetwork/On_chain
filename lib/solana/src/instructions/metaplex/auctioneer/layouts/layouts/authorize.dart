@@ -9,10 +9,10 @@ class MetaplexAuctioneerAuthorizeLayout
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctioneerAuthorizeLayout.fromBuffer(List<int> data) {
     MetaplexAuctioneerProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexAuctioneerProgramInstruction.authorize.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexAuctioneerProgramInstruction.authorize.insturction,
+    );
     return const MetaplexAuctioneerAuthorizeLayout();
   }
 

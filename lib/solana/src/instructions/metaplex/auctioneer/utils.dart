@@ -12,23 +12,26 @@ class MetaplexAuctioneerProgramUtils {
     required SolAddress tokenMint,
     required BigInt tokenSize,
   }) {
-    return ProgramDerivedAddress.find(seedBytes: [
-      'listing_config'.codeUnits,
-      wallet.toBytes(),
-      auctionHouse.toBytes(),
-      tokenAccount.toBytes(),
-      treasuryMint.toBytes(),
-      tokenMint.toBytes(),
-      LayoutConst.u64().serialize(tokenSize)
-    ], programId: MetaplexAuctioneerProgramConst.programId);
+    return ProgramDerivedAddress.find(
+      seedBytes: [
+        'listing_config'.codeUnits,
+        wallet.toBytes(),
+        auctionHouse.toBytes(),
+        tokenAccount.toBytes(),
+        treasuryMint.toBytes(),
+        tokenMint.toBytes(),
+        LayoutConst.u64().serialize(tokenSize),
+      ],
+      programId: MetaplexAuctioneerProgramConst.programId,
+    );
   }
 
   static ProgramDerivedAddress findAuctioneerAuthoriSeeds({
     required SolAddress auctionHouse,
   }) {
-    return ProgramDerivedAddress.find(seedBytes: [
-      'auctioneer'.codeUnits,
-      auctionHouse.toBytes(),
-    ], programId: MetaplexAuctioneerProgramConst.programId);
+    return ProgramDerivedAddress.find(
+      seedBytes: ['auctioneer'.codeUnits, auctionHouse.toBytes()],
+      programId: MetaplexAuctioneerProgramConst.programId,
+    );
   }
 }

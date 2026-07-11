@@ -12,41 +12,43 @@ class MetaplexGumdropClaimEditionLayout extends MetaplexGumdropProgramLayout {
   final SolAddress claimantSecret;
   final List<List<int>> proof;
 
-  MetaplexGumdropClaimEditionLayout(
-      {required this.claimBump,
-      required this.index,
-      required this.amount,
-      required this.edition,
-      required this.claimantSecret,
-      required List<List<int>> proof})
-      : proof =
-            List<List<int>>.unmodifiable(proof.map((e) => e.asImmutableBytes));
+  MetaplexGumdropClaimEditionLayout({
+    required this.claimBump,
+    required this.index,
+    required this.amount,
+    required this.edition,
+    required this.claimantSecret,
+    required List<List<int>> proof,
+  }) : proof = List<List<int>>.unmodifiable(
+         proof.map((e) => e.asImmutableBytes),
+       );
 
   factory MetaplexGumdropClaimEditionLayout.fromBuffer(List<int> data) {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexGumdropProgramInstruction.claimEdition.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexGumdropProgramInstruction.claimEdition.insturction,
+    );
     return MetaplexGumdropClaimEditionLayout(
-        claimBump: decode['claimBump'],
-        index: decode['index'],
-        amount: decode['amount'],
-        edition: decode['edition'],
-        claimantSecret: decode['claimantSecret'],
-        proof: (decode['proof'] as List).cast());
+      claimBump: decode['claimBump'],
+      index: decode['index'],
+      amount: decode['amount'],
+      edition: decode['edition'],
+      claimantSecret: decode['claimantSecret'],
+      proof: (decode['proof'] as List).cast(),
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'claimBump'),
-        LayoutConst.u64(property: 'index'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.u64(property: 'edition'),
-        SolanaLayoutUtils.publicKey('claimantSecret'),
-        LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'claimBump'),
+    LayoutConst.u64(property: 'index'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u64(property: 'edition'),
+    SolanaLayoutUtils.publicKey('claimantSecret'),
+    LayoutConst.vec(LayoutConst.blob(32), property: 'proof'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -63,7 +65,7 @@ class MetaplexGumdropClaimEditionLayout extends MetaplexGumdropProgramLayout {
       'amount': amount,
       'edition': edition,
       'claimantSecret': claimantSecret,
-      'proof': proof
+      'proof': proof,
     };
   }
 }

@@ -17,34 +17,37 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
   /// already transient stake, this must match the current seed, otherwise
   /// it can be anything
   final BigInt destinationTransientStakeSeed;
-  StakePoolReDelegateLayout(
-      {required this.lamports,
-      required this.sourceTransientStakeSeed,
-      required this.ephemeralStakeSeed,
-      required this.destinationTransientStakeSeed});
+  StakePoolReDelegateLayout({
+    required this.lamports,
+    required this.sourceTransientStakeSeed,
+    required this.ephemeralStakeSeed,
+    required this.destinationTransientStakeSeed,
+  });
 
   factory StakePoolReDelegateLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: StakePoolProgramInstruction.redelegate.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: StakePoolProgramInstruction.redelegate.insturction,
+    );
     return StakePoolReDelegateLayout(
-        lamports: decode['lamports'],
-        sourceTransientStakeSeed: decode['sourceTransientStakeSeed'],
-        ephemeralStakeSeed: decode['ephemeralStakeSeed'],
-        destinationTransientStakeSeed: decode['destinationTransientStakeSeed']);
+      lamports: decode['lamports'],
+      sourceTransientStakeSeed: decode['sourceTransientStakeSeed'],
+      ephemeralStakeSeed: decode['ephemeralStakeSeed'],
+      destinationTransientStakeSeed: decode['destinationTransientStakeSeed'],
+    );
   }
 
   @override
   StakePoolProgramInstruction get instruction =>
       StakePoolProgramInstruction.redelegate;
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports'),
-        LayoutConst.ns64(property: 'sourceTransientStakeSeed'),
-        LayoutConst.ns64(property: 'ephemeralStakeSeed'),
-        LayoutConst.ns64(property: 'destinationTransientStakeSeed')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'sourceTransientStakeSeed'),
+    LayoutConst.ns64(property: 'ephemeralStakeSeed'),
+    LayoutConst.ns64(property: 'destinationTransientStakeSeed'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -55,7 +58,7 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
       'lamports': lamports,
       'sourceTransientStakeSeed': sourceTransientStakeSeed,
       'ephemeralStakeSeed': ephemeralStakeSeed,
-      'destinationTransientStakeSeed': destinationTransientStakeSeed
+      'destinationTransientStakeSeed': destinationTransientStakeSeed,
     };
   }
 }

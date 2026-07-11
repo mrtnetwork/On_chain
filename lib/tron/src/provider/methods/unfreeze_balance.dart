@@ -6,12 +6,13 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/account-resources-unfreezebalance).
 class TronRequestUnfreezeBalance
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestUnfreezeBalance(
-      {required this.ownerAddress,
-      required this.resource,
-      this.receiverAddress,
-      this.permissionId,
-      this.visible = true});
+  TronRequestUnfreezeBalance({
+    required this.ownerAddress,
+    required this.resource,
+    this.receiverAddress,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -39,7 +40,7 @@ class TronRequestUnfreezeBalance
       'resource': resource,
       'receiver_address': receiverAddress,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

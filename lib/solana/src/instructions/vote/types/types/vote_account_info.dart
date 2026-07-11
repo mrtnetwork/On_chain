@@ -2,25 +2,28 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 
 /// Information describing a vote account
 class VoteAccountInfo {
-  const VoteAccountInfo(
-      {required this.votePubkey,
-      required this.nodePubkey,
-      required this.activatedStake,
-      required this.epochVoteAccount,
-      required this.epochCredits,
-      required this.commission,
-      required this.lastVote});
+  const VoteAccountInfo({
+    required this.votePubkey,
+    required this.nodePubkey,
+    required this.activatedStake,
+    required this.epochVoteAccount,
+    required this.epochCredits,
+    required this.commission,
+    required this.lastVote,
+  });
   factory VoteAccountInfo.fromJson(Map<String, dynamic> json) {
     return VoteAccountInfo(
-        votePubkey: SolAddress.uncheckCurve(json['votePubkey']),
-        nodePubkey: SolAddress.uncheckCurve(json['nodePubkey']),
-        activatedStake: json['activatedStake'],
-        epochVoteAccount: json['epochVoteAccount'],
-        epochCredits: (json['epochCredits'] as List)
-            .map<List<int>>((e) => (e as List).cast())
-            .toList(),
-        commission: json['commission'],
-        lastVote: json['lastVote']);
+      votePubkey: SolAddress.uncheckCurve(json['votePubkey']),
+      nodePubkey: SolAddress.uncheckCurve(json['nodePubkey']),
+      activatedStake: json['activatedStake'],
+      epochVoteAccount: json['epochVoteAccount'],
+      epochCredits:
+          (json['epochCredits'] as List)
+              .map<List<int>>((e) => (e as List).cast())
+              .toList(),
+      commission: json['commission'],
+      lastVote: json['lastVote'],
+    );
   }
 
   /// Public key of the vote account

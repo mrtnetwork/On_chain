@@ -5,11 +5,11 @@ import 'package:on_chain/ethereum/src/models/fee_history.dart';
 
 class EthereumRequestGetFeeHistory
     extends EthereumRequest<FeeHistory?, Map<String, dynamic>?> {
-  EthereumRequestGetFeeHistory(
-      {required this.blockCount,
-      required BlockTagOrNumber newestBlock,
-      required this.rewardPercentiles})
-      : super(blockNumber: newestBlock);
+  EthereumRequestGetFeeHistory({
+    required this.blockCount,
+    required BlockTagOrNumber newestBlock,
+    required this.rewardPercentiles,
+  }) : super(blockNumber: newestBlock);
 
   /// eth_feeHistory
   @override
@@ -21,7 +21,7 @@ class EthereumRequestGetFeeHistory
     return [
       '0x${blockCount.toRadixString(16)}',
       blockNumber,
-      rewardPercentiles
+      rewardPercentiles,
     ];
   }
 

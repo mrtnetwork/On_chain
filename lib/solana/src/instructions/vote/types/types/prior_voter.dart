@@ -7,22 +7,24 @@ class PriorVoter extends BorshLayoutSerializable {
   final SolAddress authorizedPubkey;
   final BigInt epochOfLastAuthorizedSwitch;
   final BigInt targetEpoch;
-  const PriorVoter(
-      {required this.authorizedPubkey,
-      required this.epochOfLastAuthorizedSwitch,
-      required this.targetEpoch});
+  const PriorVoter({
+    required this.authorizedPubkey,
+    required this.epochOfLastAuthorizedSwitch,
+    required this.targetEpoch,
+  });
   factory PriorVoter.fromJson(Map<String, dynamic> json) {
     return PriorVoter(
-        authorizedPubkey: json['authorizedPubkey'],
-        epochOfLastAuthorizedSwitch: json['epochOfLastAuthorizedSwitch'],
-        targetEpoch: json['targetEpoch']);
+      authorizedPubkey: json['authorizedPubkey'],
+      epochOfLastAuthorizedSwitch: json['epochOfLastAuthorizedSwitch'],
+      targetEpoch: json['targetEpoch'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('authorizedPubkey'),
-        LayoutConst.u64(property: 'epochOfLastAuthorizedSwitch'),
-        LayoutConst.u64(property: 'targetEpoch'),
-      ], property: 'priorVoter');
+    SolanaLayoutUtils.publicKey('authorizedPubkey'),
+    LayoutConst.u64(property: 'epochOfLastAuthorizedSwitch'),
+    LayoutConst.u64(property: 'targetEpoch'),
+  ], property: 'priorVoter');
   @override
   StructLayout get layout => staticLayout;
 
@@ -31,7 +33,7 @@ class PriorVoter extends BorshLayoutSerializable {
     return {
       'authorizedPubkey': authorizedPubkey,
       'epochOfLastAuthorizedSwitch': epochOfLastAuthorizedSwitch,
-      'targetEpoch': targetEpoch
+      'targetEpoch': targetEpoch,
     };
   }
 

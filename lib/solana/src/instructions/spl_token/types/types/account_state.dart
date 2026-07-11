@@ -24,8 +24,9 @@ class AccountState extends BorshLayoutSerializable {
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'accountState')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'accountState',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -33,7 +34,7 @@ class AccountState extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'accountState': {name: null}
+      'accountState': {name: null},
     };
   }
 
@@ -43,18 +44,24 @@ class AccountState extends BorshLayoutSerializable {
   static AccountState fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No AccountState found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No AccountState found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static AccountState fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No AccountState found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No AccountState found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

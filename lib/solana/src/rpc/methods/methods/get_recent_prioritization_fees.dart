@@ -9,9 +9,7 @@ import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 /// https://solana.com/docs/rpc/http/getrecentprioritizationfees
 class SolanaRequestGetRecentPrioritizationFees
     extends SolanaRequest<List<RecentPrioritizationFees>, List> {
-  const SolanaRequestGetRecentPrioritizationFees({
-    this.addresses,
-  });
+  const SolanaRequestGetRecentPrioritizationFees({this.addresses});
 
   /// getRecentPrioritizationFees
   @override

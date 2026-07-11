@@ -8,18 +8,20 @@ class MetaplexFixedPriceSaleClaimResourceLayout
 
   factory MetaplexFixedPriceSaleClaimResourceLayout.fromBuffer(List<int> data) {
     final decode = MetaplexFixedPriceSaleProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexFixedPriceSaleProgramInstruction.claimResource.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexFixedPriceSaleProgramInstruction.claimResource.insturction,
+    );
     return MetaplexFixedPriceSaleClaimResourceLayout(
-        vaultOwnerBump: decode['vaultOwnerBump']);
+      vaultOwnerBump: decode['vaultOwnerBump'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'vaultOwnerBump'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'vaultOwnerBump'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

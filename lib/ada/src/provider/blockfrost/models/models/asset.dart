@@ -47,26 +47,28 @@ class ADAAssetResponse {
       quantity: json['quantity'],
       initialMintTxHash: json['initial_mint_tx_hash'],
       mintOrBurnCount: json['mint_or_burn_count'],
-      onchainMetadata: json['onchain_metadata'] != null
-          ? ADAOnchainMetadata.fromJson(json['onchain_metadata'])
-          : null,
-      metadata: json['metadata'] == null
-          ? null
-          : ADAOffchainMetadata.fromJson(json['metadata']),
+      onchainMetadata:
+          json['onchain_metadata'] != null
+              ? ADAOnchainMetadata.fromJson(json['onchain_metadata'])
+              : null,
+      metadata:
+          json['metadata'] == null
+              ? null
+              : ADAOffchainMetadata.fromJson(json['metadata']),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'asset': asset,
-        'policy_id': policyId,
-        'asset_name': assetName,
-        'fingerprint': fingerprint,
-        'quantity': quantity,
-        'initial_mint_tx_hash': initialMintTxHash,
-        'mint_or_burn_count': mintOrBurnCount,
-        'onchain_metadata': onchainMetadata?.toJson(),
-        'metadata': metadata?.toJson(),
-      };
+    'asset': asset,
+    'policy_id': policyId,
+    'asset_name': assetName,
+    'fingerprint': fingerprint,
+    'quantity': quantity,
+    'initial_mint_tx_hash': initialMintTxHash,
+    'mint_or_burn_count': mintOrBurnCount,
+    'onchain_metadata': onchainMetadata?.toJson(),
+    'metadata': metadata?.toJson(),
+  };
   @override
   String toString() {
     return 'ADAAssetResponse${toJson()}';
@@ -93,10 +95,10 @@ class ADAOnchainMetadata {
   }
 
   Map<String, dynamic> toJson() => {
-        'property_name': propertyName,
-        'onchain_metadata_standard': onchainMetadataStandard,
-        'onchain_metadata_extra': onchainMetadataExtra,
-      };
+    'property_name': propertyName,
+    'onchain_metadata_standard': onchainMetadataStandard,
+    'onchain_metadata_extra': onchainMetadataExtra,
+  };
   @override
   String toString() {
     return 'ADAOnchainMetadata${toJson()}';
@@ -143,13 +145,13 @@ class ADAOffchainMetadata {
   }
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'description': description,
-        'ticker': ticker,
-        'url': url,
-        'logo': logo,
-        'decimals': decimals,
-      };
+    'name': name,
+    'description': description,
+    'ticker': ticker,
+    'url': url,
+    'logo': logo,
+    'decimals': decimals,
+  };
 
   @override
   String toString() {

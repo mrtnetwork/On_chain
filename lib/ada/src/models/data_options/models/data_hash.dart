@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option_type.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
@@ -21,17 +20,22 @@ class DataOptionDataHash extends DataOption {
   factory DataOptionDataHash.deserialize(CborObject cbor) {
     if (cbor.hasType<CborBytesValue>()) {
       return DataOptionDataHash(
-          DataHash(cbor.as<CborBytesValue>("DataHash").value));
+        DataHash(cbor.as<CborBytesValue>(operation: "DataHash").value),
+      );
     }
-    final cborList = cbor.as<CborListValue>("DataOption");
-    TransactionDataOptionType.deserialize(cborList.elementAt<CborIntValue>(0),
-        validate: TransactionDataOptionType.dataHash);
-    return DataOptionDataHash(DataHash(
-        cborList.elementAt<CborBytesValue>(1, name: "DataHash").value));
+    final cborList = cbor.as<CborListValue>(operation: "DataOption");
+    TransactionDataOptionType.deserialize(
+      cborList.objectAt<CborIntValue>(0),
+      validate: TransactionDataOptionType.dataHash,
+    );
+    return DataOptionDataHash(
+      DataHash(cborList.objectAt<CborBytesValue>(1).value),
+    );
   }
   factory DataOptionDataHash.fromJson(Map<String, dynamic> json) {
     return DataOptionDataHash(
-        DataHash.fromHex(json[TransactionDataOptionType.dataHash.name]));
+      DataHash.fromHex(json[TransactionDataOptionType.dataHash.name]),
+    );
   }
 
   @override

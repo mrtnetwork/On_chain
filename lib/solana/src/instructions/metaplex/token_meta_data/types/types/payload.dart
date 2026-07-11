@@ -7,21 +7,26 @@ class Payload extends BorshLayoutSerializable {
   const Payload({required this.map});
   factory Payload.fromJson(Map<String, dynamic> json) {
     final payload = json['payload'] as Map;
-    return Payload(map: {
-      for (final i in payload.entries) i.key: PayloadType.fromJson(i.value)
-    });
+    return Payload(
+      map: {
+        for (final i in payload.entries) i.key: PayloadType.fromJson(i.value),
+      },
+    );
   }
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.map(LayoutConst.string(), PayloadType.staticLayout,
-            property: 'payload'),
-      ]);
+    LayoutConst.map(
+      LayoutConst.string(),
+      PayloadType.staticLayout,
+      property: 'payload',
+    ),
+  ]);
   @override
   StructLayout get layout => staticLayout;
 
   @override
   Map<String, dynamic> serialize() {
     return {
-      'payload': {for (final i in map.entries) i.key: i.value.serialize()}
+      'payload': {for (final i in map.entries) i.key: i.value.serialize()},
     };
   }
 }

@@ -9,8 +9,10 @@ class _Utils {
 class MintCounterAccount extends BorshLayoutSerializable {
   const MintCounterAccount({required this.count});
   factory MintCounterAccount.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return MintCounterAccount(count: decode['count']);
   }
   final int count;

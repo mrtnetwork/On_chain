@@ -8,14 +8,15 @@ class Anchor with InternalCborSerialization {
   const Anchor({required this.url, required this.dataHash});
   factory Anchor.deserialize(CborListValue cbor) {
     return Anchor(
-        url: cbor.elementAtString(0),
-        dataHash:
-            AnchorDataHash.deserialize(cbor.elementAt<CborBytesValue>(1)));
+      url: cbor.rawValueAt(0),
+      dataHash: AnchorDataHash.deserialize(cbor.objectAt<CborBytesValue>(1)),
+    );
   }
   factory Anchor.fromJson(Map<String, dynamic> json) {
     return Anchor(
-        url: json["anchor_url"],
-        dataHash: AnchorDataHash.fromHex(json["anchor_data_hash"]));
+      url: json["anchor_url"],
+      dataHash: AnchorDataHash.fromHex(json["anchor_data_hash"]),
+    );
   }
 
   @override

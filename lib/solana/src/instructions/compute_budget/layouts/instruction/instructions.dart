@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/compute_budget/constant.dart';
@@ -22,14 +23,10 @@ class ComputeBudgetProgramInstruction implements ProgramLayoutInstruction {
     requestUnits,
     requestHeapFrame,
     setComputeUnitLimit,
-    setComputeUnitPrice
+    setComputeUnitPrice,
   ];
   static ComputeBudgetProgramInstruction? getInstruction(dynamic value) {
-    try {
-      return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
-      return null;
-    }
+    return values.firstWhereNullable((element) => element.insturction == value);
   }
 
   @override

@@ -58,17 +58,17 @@ class ADAEpochInfoResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'epoch': epoch,
-        'start_time': startTime,
-        'end_time': endTime,
-        'first_block_time': firstBlockTime,
-        'last_block_time': lastBlockTime,
-        'block_count': blockCount,
-        'tx_count': txCount,
-        'output': output,
-        'fees': fees,
-        'active_stake': activeStake,
-      };
+    'epoch': epoch,
+    'start_time': startTime,
+    'end_time': endTime,
+    'first_block_time': firstBlockTime,
+    'last_block_time': lastBlockTime,
+    'block_count': blockCount,
+    'tx_count': txCount,
+    'output': output,
+    'fees': fees,
+    'active_stake': activeStake,
+  };
 
   @override
   String toString() {

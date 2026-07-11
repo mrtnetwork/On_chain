@@ -8,20 +8,25 @@ class MetaplexTokenMetaDataCreateMasterEditionV3Layout
   const MetaplexTokenMetaDataCreateMasterEditionV3Layout({this.maxSupply});
 
   factory MetaplexTokenMetaDataCreateMasterEditionV3Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .createMasterEditionV3.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .createMasterEditionV3
+              .insturction,
+    );
     return MetaplexTokenMetaDataCreateMasterEditionV3Layout(
-        maxSupply: decode['maxSupply']);
+      maxSupply: decode['maxSupply'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'maxSupply'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

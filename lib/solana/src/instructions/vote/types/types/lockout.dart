@@ -5,14 +5,16 @@ class Lockout extends BorshLayoutSerializable {
   const Lockout({required this.slot, required this.confirmationCount});
   factory Lockout.fromJson(Map<String, dynamic> json) {
     return Lockout(
-        slot: json['slot'], confirmationCount: json['confirmationCount']);
+      slot: json['slot'],
+      confirmationCount: json['confirmationCount'],
+    );
   }
   final BigInt slot;
   final int confirmationCount;
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'slot'),
-        LayoutConst.u32(property: 'confirmationCount')
-      ], property: 'lockout');
+    LayoutConst.u64(property: 'slot'),
+    LayoutConst.u32(property: 'confirmationCount'),
+  ], property: 'lockout');
   @override
   StructLayout get layout => staticLayout;
 

@@ -15,7 +15,7 @@ class RPCAccountConfig {
       'accounts': {
         'addresses': addresses.map((e) => e.address).toList(),
         ...encoding.toJson(),
-      }
+      },
     };
   }
 }

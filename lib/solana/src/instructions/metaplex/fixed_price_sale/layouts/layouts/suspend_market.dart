@@ -7,10 +7,11 @@ class MetaplexFixedPriceSaleSuspendMarketLayout
 
   factory MetaplexFixedPriceSaleSuspendMarketLayout.fromBuffer(List<int> data) {
     MetaplexFixedPriceSaleProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexFixedPriceSaleProgramInstruction.suspendMarket.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexFixedPriceSaleProgramInstruction.suspendMarket.insturction,
+    );
     return MetaplexFixedPriceSaleSuspendMarketLayout();
   }
 

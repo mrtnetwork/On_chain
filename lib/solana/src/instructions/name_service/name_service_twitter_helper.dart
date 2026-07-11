@@ -14,13 +14,14 @@ class NameServiceProgramTwitterHelper {
     required int space,
     required SolAddress payerKey,
   }) async {
-    final hashedTwitterHandle =
-        NameServiceProgramUtils.getHashedName(twitterHandle);
+    final hashedTwitterHandle = NameServiceProgramUtils.getHashedName(
+      twitterHandle,
+    );
     final twitterHandleRegistryKey =
         NameServiceProgramUtils.getNameAccountProgram(
-      hashedName: hashedTwitterHandle,
-      nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
-    );
+          hashedName: hashedTwitterHandle,
+          nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
+        );
 
     final List<TransactionInstruction> instructions = [
       NameServiceProgram.create(
@@ -28,22 +29,26 @@ class NameServiceProgramTwitterHelper {
         nameOwnerKey: verifiedPubkey,
         payerKey: payerKey,
         layout: NameServiceCreateLayout(
-            lamports: await rpc.request(
-                SolanaRequestGetMinimumBalanceForRentExemption(size: space)),
-            hashedName: hashedTwitterHandle,
-            space: space),
+          lamports: await rpc.request(
+            SolanaRequestGetMinimumBalanceForRentExemption(size: space),
+          ),
+          hashedName: hashedTwitterHandle,
+          space: space,
+        ),
         nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
         nameParentOwner: NameServiceProgramConst.twitterVerificationAuthority,
       ),
     ];
 
-    instructions.addAll(await createReverseTwitterRegistry(
-      rpc: rpc,
-      twitterHandle: twitterHandle,
-      twitterRegistryKey: twitterHandleRegistryKey,
-      verifiedPubkey: verifiedPubkey,
-      payerKey: payerKey,
-    ));
+    instructions.addAll(
+      await createReverseTwitterRegistry(
+        rpc: rpc,
+        twitterHandle: twitterHandle,
+        twitterRegistryKey: twitterHandleRegistryKey,
+        verifiedPubkey: verifiedPubkey,
+        payerKey: payerKey,
+      ),
+    );
 
     return instructions;
   }
@@ -55,13 +60,14 @@ class NameServiceProgramTwitterHelper {
     required int offset,
     required List<int> inputData,
   }) {
-    final hashedTwitterHandle =
-        NameServiceProgramUtils.getHashedName(twitterHandle);
+    final hashedTwitterHandle = NameServiceProgramUtils.getHashedName(
+      twitterHandle,
+    );
     final twitterHandleRegistryKey =
         NameServiceProgramUtils.getNameAccountProgram(
-      hashedName: hashedTwitterHandle,
-      nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
-    );
+          hashedName: hashedTwitterHandle,
+          nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
+        );
 
     return NameServiceProgram.update(
       nameAccountKey: twitterHandleRegistryKey,
@@ -78,13 +84,14 @@ class NameServiceProgramTwitterHelper {
     required SolAddress newVerifiedPubkey,
     required SolAddress payerKey,
   }) async {
-    final hashedTwitterHandle =
-        NameServiceProgramUtils.getHashedName(twitterHandle);
+    final hashedTwitterHandle = NameServiceProgramUtils.getHashedName(
+      twitterHandle,
+    );
     final twitterHandleRegistryKey =
         NameServiceProgramUtils.getNameAccountProgram(
-      hashedName: hashedTwitterHandle,
-      nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
-    );
+          hashedName: hashedTwitterHandle,
+          nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
+        );
 
     final List<TransactionInstruction> instructions = [
       NameServiceProgram.transfer(
@@ -105,7 +112,7 @@ class NameServiceProgramTwitterHelper {
         twitterRegistryKey: twitterHandleRegistryKey,
         verifiedPubkey: newVerifiedPubkey,
         payerKey: payerKey,
-      )
+      ),
     ];
 
     return instructions;
@@ -116,16 +123,18 @@ class NameServiceProgramTwitterHelper {
     required String twitterHandle,
     required SolAddress verifiedPubkey,
   }) {
-    final hashedTwitterHandle =
-        NameServiceProgramUtils.getHashedName(twitterHandle);
+    final hashedTwitterHandle = NameServiceProgramUtils.getHashedName(
+      twitterHandle,
+    );
     final twitterHandleRegistryKey =
         NameServiceProgramUtils.getNameAccountProgram(
-      hashedName: hashedTwitterHandle,
-      nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
-    );
+          hashedName: hashedTwitterHandle,
+          nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
+        );
 
-    final hashedVerifiedPubkey =
-        NameServiceProgramUtils.getHashedName(verifiedPubkey.address);
+    final hashedVerifiedPubkey = NameServiceProgramUtils.getHashedName(
+      verifiedPubkey.address,
+    );
     final reverseRegistryKey = NameServiceProgramUtils.getNameAccountProgram(
       hashedName: hashedVerifiedPubkey,
       nameClass: NameServiceProgramConst.twitterVerificationAuthority,
@@ -142,7 +151,7 @@ class NameServiceProgramTwitterHelper {
         nameAccountKey: reverseRegistryKey,
         refundTargetKey: verifiedPubkey,
         nameOwnerKey: verifiedPubkey,
-      )
+      ),
     ];
   }
 
@@ -150,15 +159,17 @@ class NameServiceProgramTwitterHelper {
     required SolanaProvider rpc,
     required String twitterHandle,
   }) async {
-    final hashedTwitterHandle =
-        NameServiceProgramUtils.getHashedName(twitterHandle);
+    final hashedTwitterHandle = NameServiceProgramUtils.getHashedName(
+      twitterHandle,
+    );
     final twitterHandleRegistryKey =
         NameServiceProgramUtils.getNameAccountProgram(
-      hashedName: hashedTwitterHandle,
-      nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
-    );
+          hashedName: hashedTwitterHandle,
+          nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
+        );
     final registry = await rpc.request(
-        SolanaRPCNameRegistryAccount(account: twitterHandleRegistryKey));
+      SolanaRPCNameRegistryAccount(account: twitterHandleRegistryKey),
+    );
     if (registry == null) {
       throw const SolanaPluginException('Account not found.');
     }
@@ -170,8 +181,9 @@ class NameServiceProgramTwitterHelper {
     required SolanaProvider rpc,
     required SolAddress verifiedPubkey,
   }) async {
-    final hashedVerifiedPubkey =
-        NameServiceProgramUtils.getHashedName(verifiedPubkey.address);
+    final hashedVerifiedPubkey = NameServiceProgramUtils.getHashedName(
+      verifiedPubkey.address,
+    );
     final reverseRegistryKey = NameServiceProgramUtils.getNameAccountProgram(
       hashedName: hashedVerifiedPubkey,
       nameClass: NameServiceProgramConst.twitterVerificationAuthority,
@@ -179,7 +191,8 @@ class NameServiceProgramTwitterHelper {
     );
 
     final reverseRegistryState = await rpc.request(
-        SolanaRPCReverseTwitterRegistryAccount(account: reverseRegistryKey));
+      SolanaRPCReverseTwitterRegistryAccount(account: reverseRegistryKey),
+    );
     if (reverseRegistryState == null) {
       throw const SolanaPluginException('Account not found.');
     }
@@ -188,23 +201,26 @@ class NameServiceProgramTwitterHelper {
 
   /// Uses the RPC node filtering feature, execution speed may vary
   static Future<ReverseTwitterRegistryAccount>
-      getTwitterHandleandRegistryKeyViaFilters({
+  getTwitterHandleandRegistryKeyViaFilters({
     required SolanaProvider rpc,
     required SolAddress verifiedPubkey,
   }) async {
-    final filteredAccounts = await rpc.request(SolanaRequestGetProgramAccounts(
+    final filteredAccounts = await rpc.request(
+      SolanaRequestGetProgramAccounts(
         account: NameServiceProgramConst.programId,
         filters: [
           RPCMemcmpFilterConfig(
-              offset: 0,
-              bytes:
-                  NameServiceProgramConst.twitterRootPrentRegisteryKey.address),
+            offset: 0,
+            bytes: NameServiceProgramConst.twitterRootPrentRegisteryKey.address,
+          ),
           RPCMemcmpFilterConfig(offset: 32, bytes: verifiedPubkey.address),
           RPCMemcmpFilterConfig(
-              offset: 64,
-              bytes:
-                  NameServiceProgramConst.twitterVerificationAuthority.address),
-        ]));
+            offset: 64,
+            bytes: NameServiceProgramConst.twitterVerificationAuthority.address,
+          ),
+        ],
+      ),
+    );
 
     for (final account in filteredAccounts) {
       final accountBytes = account.toBytesData();
@@ -222,25 +238,31 @@ class NameServiceProgramTwitterHelper {
     required SolanaProvider rpc,
     required SolAddress verifiedPubkey,
   }) async {
-    final filteredAccounts = await rpc.request(SolanaRequestGetProgramAccounts(
+    final filteredAccounts = await rpc.request(
+      SolanaRequestGetProgramAccounts(
         account: NameServiceProgramConst.programId,
         filters: [
           RPCMemcmpFilterConfig(
-              offset: 0,
-              bytes:
-                  NameServiceProgramConst.twitterRootPrentRegisteryKey.address),
+            offset: 0,
+            bytes: NameServiceProgramConst.twitterRootPrentRegisteryKey.address,
+          ),
           RPCMemcmpFilterConfig(offset: 32, bytes: verifiedPubkey.address),
           RPCMemcmpFilterConfig(
-              offset: 64, bytes: SolAddress.defaultPubKey.address),
-        ]));
+            offset: 64,
+            bytes: SolAddress.defaultPubKey.address,
+          ),
+        ],
+      ),
+    );
     if (filteredAccounts.length != 1) {
       throw const SolanaPluginException(
-          'Account not found or more than one registry found.');
+        'Account not found or more than one registry found.',
+      );
     }
     final account = filteredAccounts[0];
-    return account
-        .toBytesData()
-        .sublist(NameRegistryAccountUtils.hiddenDataOffset);
+    return account.toBytesData().sublist(
+      NameRegistryAccountUtils.hiddenDataOffset,
+    );
   }
 
   static Future<List<TransactionInstruction>> createReverseTwitterRegistry({
@@ -250,38 +272,45 @@ class NameServiceProgramTwitterHelper {
     required SolAddress verifiedPubkey,
     required SolAddress payerKey,
   }) async {
-    final hashedVerifiedPubkey =
-        NameServiceProgramUtils.getHashedName(verifiedPubkey.address);
+    final hashedVerifiedPubkey = NameServiceProgramUtils.getHashedName(
+      verifiedPubkey.address,
+    );
     final reverseRegistryKey = NameServiceProgramUtils.getNameAccountProgram(
       hashedName: hashedVerifiedPubkey,
       nameClass: NameServiceProgramConst.twitterVerificationAuthority,
       nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
     );
-    final reverseTwitterRegistryStateBuff = ReverseTwitterRegistryAccount(
-            twitterRegistryKey: twitterRegistryKey,
-            twitterHandle: twitterHandle)
-        .toBytes();
+    final reverseTwitterRegistryStateBuff =
+        ReverseTwitterRegistryAccount(
+          twitterRegistryKey: twitterRegistryKey,
+          twitterHandle: twitterHandle,
+        ).toBytes();
     return [
       NameServiceProgram.create(
         nameKey: reverseRegistryKey,
         nameOwnerKey: verifiedPubkey,
         payerKey: payerKey,
         layout: NameServiceCreateLayout(
-            lamports: await rpc.request(
-                SolanaRequestGetMinimumBalanceForRentExemption(
-                    size: reverseTwitterRegistryStateBuff.length)),
-            hashedName: hashedVerifiedPubkey,
-            space: reverseTwitterRegistryStateBuff.length),
+          lamports: await rpc.request(
+            SolanaRequestGetMinimumBalanceForRentExemption(
+              size: reverseTwitterRegistryStateBuff.length,
+            ),
+          ),
+          hashedName: hashedVerifiedPubkey,
+          space: reverseTwitterRegistryStateBuff.length,
+        ),
         nameClassKey: NameServiceProgramConst.twitterVerificationAuthority,
         nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,
         nameParentOwner: NameServiceProgramConst.twitterVerificationAuthority,
       ),
       NameServiceProgram.update(
-          nameAccountKey: reverseRegistryKey,
-          layout: NameServiceUpdateLayout(
-              inputData: reverseTwitterRegistryStateBuff, offset: 0),
-          nameUpdateSigner:
-              NameServiceProgramConst.twitterVerificationAuthority),
+        nameAccountKey: reverseRegistryKey,
+        layout: NameServiceUpdateLayout(
+          inputData: reverseTwitterRegistryStateBuff,
+          offset: 0,
+        ),
+        nameUpdateSigner: NameServiceProgramConst.twitterVerificationAuthority,
+      ),
     ];
   }
 }

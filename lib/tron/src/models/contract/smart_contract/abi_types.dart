@@ -31,36 +31,46 @@ class SmartContractAbiEntryType implements TronEnumerate {
       SmartContractAbiEntryType._(1, 'Constructor');
 
   /// Represents a function entry type.
-  static const SmartContractAbiEntryType function =
-      SmartContractAbiEntryType._(2, 'Function');
+  static const SmartContractAbiEntryType function = SmartContractAbiEntryType._(
+    2,
+    'Function',
+  );
 
   /// Represents an event entry type.
-  static const SmartContractAbiEntryType event =
-      SmartContractAbiEntryType._(3, 'Event');
+  static const SmartContractAbiEntryType event = SmartContractAbiEntryType._(
+    3,
+    'Event',
+  );
 
   /// Represents a fallback entry type.
-  static const SmartContractAbiEntryType fallback =
-      SmartContractAbiEntryType._(4, 'Fallback');
+  static const SmartContractAbiEntryType fallback = SmartContractAbiEntryType._(
+    4,
+    'Fallback',
+  );
 
   /// Represents a receive entry type.
-  static const SmartContractAbiEntryType receive =
-      SmartContractAbiEntryType._(5, 'Receive');
+  static const SmartContractAbiEntryType receive = SmartContractAbiEntryType._(
+    5,
+    'Receive',
+  );
 
   /// Represents an error entry type.
-  static const SmartContractAbiEntryType error =
-      SmartContractAbiEntryType._(6, 'Error');
+  static const SmartContractAbiEntryType error = SmartContractAbiEntryType._(
+    6,
+    'Error',
+  );
 
   /// List of all available ABI entry types.
   static const List<SmartContractAbiEntryType> values =
       <SmartContractAbiEntryType>[
-    unknownEntryType,
-    constructor,
-    function,
-    event,
-    fallback,
-    receive,
-    error,
-  ];
+        unknownEntryType,
+        constructor,
+        function,
+        event,
+        fallback,
+        receive,
+        error,
+      ];
 
   /// Returns the [SmartContractAbiEntryType] associated with the given [name].
   ///
@@ -68,18 +78,27 @@ class SmartContractAbiEntryType implements TronEnumerate {
   static SmartContractAbiEntryType fromName(String name) {
     return values.firstWhere(
       (element) => element.name.toLowerCase() == name.toLowerCase(),
-      orElse: () => throw const TronPluginException(
-          'SmartContractAbiEntryType was not found.'),
+      orElse:
+          () =>
+              throw const TronPluginException(
+                'SmartContractAbiEntryType was not found.',
+              ),
     );
   }
 
-  static SmartContractAbiEntryType fromValue(int? value,
-      {SmartContractAbiEntryType? orElese}) {
-    return values.firstWhere((element) => element.value == value, orElse: () {
-      if (orElese != null) return orElese;
-      throw const TronPluginException(
-          'SmartContractAbiEntryType was not found.');
-    });
+  static SmartContractAbiEntryType fromValue(
+    int? value, {
+    SmartContractAbiEntryType? orElese,
+  }) {
+    return values.firstWhere(
+      (element) => element.value == value,
+      orElse: () {
+        if (orElese != null) return orElese;
+        throw const TronPluginException(
+          'SmartContractAbiEntryType was not found.',
+        );
+      },
+    );
   }
 
   @override
@@ -130,32 +149,40 @@ class SmartContractAbiStateMutabilityType implements TronEnumerate {
   /// List of all available state mutability types.
   static const List<SmartContractAbiStateMutabilityType> values =
       <SmartContractAbiStateMutabilityType>[
-    unknownMutabilityType,
-    pure,
-    view,
-    nonpayable,
-    payable,
-  ];
+        unknownMutabilityType,
+        pure,
+        view,
+        nonpayable,
+        payable,
+      ];
 
   /// Returns the [SmartContractAbiStateMutabilityType] associated with the given [name].
   ///
   /// Case-insensitive matching is performed.
   static SmartContractAbiStateMutabilityType fromName(String name) {
     return values.firstWhere(
-        (element) => element.name.toLowerCase() == name.toLowerCase(),
-        orElse: () {
-      throw const TronPluginException(
-          'SmartContractAbiStateMutabilityType was not found.');
-    });
+      (element) => element.name.toLowerCase() == name.toLowerCase(),
+      orElse: () {
+        throw const TronPluginException(
+          'SmartContractAbiStateMutabilityType was not found.',
+        );
+      },
+    );
   }
 
-  static SmartContractAbiStateMutabilityType fromValue(int? value,
-      {SmartContractAbiStateMutabilityType? orElese}) {
-    return values.firstWhere((element) => element.value == value, orElse: () {
-      if (orElese != null) return orElese;
-      throw const TronPluginException(
-          'SmartContractAbiStateMutabilityType was not found.');
-    });
+  static SmartContractAbiStateMutabilityType fromValue(
+    int? value, {
+    SmartContractAbiStateMutabilityType? orElese,
+  }) {
+    return values.firstWhere(
+      (element) => element.value == value,
+      orElse: () {
+        if (orElese != null) return orElese;
+        throw const TronPluginException(
+          'SmartContractAbiStateMutabilityType was not found.',
+        );
+      },
+    );
   }
 
   @override

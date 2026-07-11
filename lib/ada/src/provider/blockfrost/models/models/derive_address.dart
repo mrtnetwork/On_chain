@@ -28,12 +28,7 @@ class ADADeriveAddressResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'xpub': xpub,
-      'role': role,
-      'index': index,
-      'address': address,
-    };
+    return {'xpub': xpub, 'role': role, 'index': index, 'address': address};
   }
 
   @override

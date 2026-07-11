@@ -10,10 +10,11 @@ class AddressLookupFreezeLookupTableLayout
   /// Constructs the layout from raw bytes.
   factory AddressLookupFreezeLookupTableLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            AddressLookupTableProgramInstruction.freezeLookupTable.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          AddressLookupTableProgramInstruction.freezeLookupTable.insturction,
+    );
     return const AddressLookupFreezeLookupTableLayout();
   }
 

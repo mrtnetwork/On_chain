@@ -11,20 +11,21 @@ import 'package:on_chain/tron/src/provider/models/transaction.dart';
 class TronRequestTriggerSmartContract
     extends TronRequest<TronTransactionExtention, Map<String, dynamic>> {
   factory TronRequestTriggerSmartContract.fromContract(
-      TriggerSmartContract contract,
-      {int? permissionId,
-      BigInt? feeLimit}) {
+    TriggerSmartContract contract, {
+    int? permissionId,
+    BigInt? feeLimit,
+  }) {
     return TronRequestTriggerSmartContract._(
-        ownerAddress: contract.ownerAddress,
-        contractAddress: contract.contractAddress,
-        data: contract.data == null
-            ? null
-            : BytesUtils.toHexString(contract.data!),
-        callTokenValue: contract.callTokenValue,
-        callValue: contract.callValue,
-        tokenId: contract.tokenId,
-        permissionId: permissionId,
-        feeLimit: feeLimit);
+      ownerAddress: contract.ownerAddress,
+      contractAddress: contract.contractAddress,
+      data:
+          contract.data == null ? null : BytesUtils.toHexString(contract.data!),
+      callTokenValue: contract.callTokenValue,
+      callValue: contract.callValue,
+      tokenId: contract.tokenId,
+      permissionId: permissionId,
+      feeLimit: feeLimit,
+    );
   }
   factory TronRequestTriggerSmartContract.fromMethod({
     required TronAddress ownerAddress,
@@ -42,16 +43,17 @@ class TronRequestTriggerSmartContract
     final rawBytes = function.encode(params, true);
 
     return TronRequestTriggerSmartContract._(
-        ownerAddress: ownerAddress,
-        contractAddress: contractAddress,
-        callTokenValue: callTokenValue,
-        callValue: callValue,
-        data: rawBytes.isEmpty ? null : BytesUtils.toHexString(rawBytes),
-        fragment: function,
-        tokenId: tokenId,
-        visible: visible,
-        permissionId: permissionId,
-        feeLimit: feeLimit);
+      ownerAddress: ownerAddress,
+      contractAddress: contractAddress,
+      callTokenValue: callTokenValue,
+      callValue: callValue,
+      data: rawBytes.isEmpty ? null : BytesUtils.toHexString(rawBytes),
+      fragment: function,
+      tokenId: tokenId,
+      visible: visible,
+      permissionId: permissionId,
+      feeLimit: feeLimit,
+    );
   }
   factory TronRequestTriggerSmartContract({
     required TronAddress ownerAddress,
@@ -68,30 +70,32 @@ class TronRequestTriggerSmartContract
     bool visible = true,
   }) {
     return TronRequestTriggerSmartContract._(
-        ownerAddress: ownerAddress,
-        contractAddress: contractAddress,
-        functionSelector: functionSelector,
-        parameter: parameter,
-        callTokenValue: callTokenValue,
-        callValue: callValue,
-        data: data,
-        fragment: fragment,
-        tokenId: tokenId,
-        visible: visible);
+      ownerAddress: ownerAddress,
+      contractAddress: contractAddress,
+      functionSelector: functionSelector,
+      parameter: parameter,
+      callTokenValue: callTokenValue,
+      callValue: callValue,
+      data: data,
+      fragment: fragment,
+      tokenId: tokenId,
+      visible: visible,
+    );
   }
-  TronRequestTriggerSmartContract._(
-      {required this.ownerAddress,
-      required this.contractAddress,
-      this.feeLimit,
-      this.permissionId,
-      this.functionSelector,
-      this.parameter,
-      this.fragment,
-      this.data,
-      this.callValue,
-      this.callTokenValue,
-      this.tokenId,
-      this.visible = true});
+  TronRequestTriggerSmartContract._({
+    required this.ownerAddress,
+    required this.contractAddress,
+    this.feeLimit,
+    this.permissionId,
+    this.functionSelector,
+    this.parameter,
+    this.fragment,
+    this.data,
+    this.callValue,
+    this.callTokenValue,
+    this.tokenId,
+    this.visible = true,
+  });
 
   /// Address that triggers the contract
   final TronAddress ownerAddress;
@@ -149,7 +153,7 @@ class TronRequestTriggerSmartContract
       'token_id': tokenId,
       'visible': visible,
       'fee_limit': feeLimit,
-      'Permission_id': permissionId
+      'Permission_id': permissionId,
     };
   }
 

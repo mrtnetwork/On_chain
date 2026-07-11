@@ -20,9 +20,10 @@ class AddressLookupTableProgram extends TransactionInstruction {
     required List<int> instructionBytes,
   }) {
     return AddressLookupTableProgram(
-        layout: AddressLookupTableProgramLayout.fromBytes(instructionBytes),
-        keys: keys,
-        programId: programId);
+      layout: AddressLookupTableProgramLayout.fromBytes(instructionBytes),
+      keys: keys,
+      programId: programId,
+    );
   }
 
   /// Creates an instruction to create a lookup table.
@@ -59,10 +60,7 @@ class AddressLookupTableProgram extends TransactionInstruction {
   }) {
     return AddressLookupTableProgram(
       layout: const AddressLookupFreezeLookupTableLayout(),
-      keys: [
-        lookupTable.toWritable(),
-        authority.toSigner(),
-      ],
+      keys: [lookupTable.toWritable(), authority.toSigner()],
       programId: AddressLookupTableProgramConst.programId,
     );
   }
@@ -80,10 +78,7 @@ class AddressLookupTableProgram extends TransactionInstruction {
     /// Not required if the reallocation has already been funded.
     SolAddress? payer,
   }) {
-    final keys = [
-      lookupTable.toWritable(),
-      authority.toSigner(),
-    ];
+    final keys = [lookupTable.toWritable(), authority.toSigner()];
     if (payer != null) {
       keys.addAll([
         payer.toSignerAndWritable(),
@@ -107,10 +102,7 @@ class AddressLookupTableProgram extends TransactionInstruction {
   }) {
     return AddressLookupTableProgram(
       layout: const AddressLookupDeactiveLookupTableLayout(),
-      keys: [
-        lookupTable.toWritable(),
-        authority.toSigner(),
-      ],
+      keys: [lookupTable.toWritable(), authority.toSigner()],
       programId: AddressLookupTableProgramConst.programId,
     );
   }

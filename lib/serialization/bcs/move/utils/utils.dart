@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/bip/address/aptos_addr.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/aptos.dart';
 import 'package:on_chain/serialization/bcs/exeption/exeption.dart';
@@ -23,8 +22,9 @@ class MoveUtils {
       }
     }
     throw BcsSerializationException(
-        "Invalid value for move type 'Bool': Expected a boolean (true/false), a number (0/1), or a string ('true'/'false').",
-        details: {"value": "$value"});
+      "Invalid value for move type 'Bool': Expected a boolean (true/false), a number (0/1), or a string ('true'/'false').",
+      details: {"value": "$value"},
+    );
   }
 
   /// Parses a value into an unsigned 8-bit integer (0–255).
@@ -34,8 +34,9 @@ class MoveUtils {
       return toint.asU8;
     } catch (e) {
       throw BcsSerializationException(
-          "Invalid value for move type 'U8': Expected an unsigned 8-bit integer (0–255).",
-          details: {"value": "$value"});
+        "Invalid value for move type 'U8': Expected an unsigned 8-bit integer (0–255).",
+        details: {"value": "$value"},
+      );
     }
   }
 
@@ -46,8 +47,9 @@ class MoveUtils {
       return toint.asU16;
     } catch (e) {
       throw BcsSerializationException(
-          "Invalid value for move type 'U16': Expected an unsigned 16-bit integer (0–65,535).",
-          details: {"value": "$value"});
+        "Invalid value for move type 'U16': Expected an unsigned 16-bit integer (0–65,535).",
+        details: {"value": "$value"},
+      );
     }
   }
 
@@ -58,8 +60,9 @@ class MoveUtils {
       return toint.asU32;
     } catch (e) {
       throw BcsSerializationException(
-          "Invalid value for move type 'U32': Expected an unsigned 32-bit integer (0–4,294,967,295).",
-          details: {"value": "$value"});
+        "Invalid value for move type 'U32': Expected an unsigned 32-bit integer (0–4,294,967,295).",
+        details: {"value": "$value"},
+      );
     }
   }
 
@@ -70,8 +73,9 @@ class MoveUtils {
       return toint.asU64;
     } catch (e) {
       throw BcsSerializationException(
-          "Invalid value for move type 'U64': Expected an unsigned 64-bit integer (0–2^64−1).",
-          details: {"value": "$value"});
+        "Invalid value for move type 'U64': Expected an unsigned 64-bit integer (0–2^64−1).",
+        details: {"value": "$value"},
+      );
     }
   }
 
@@ -82,8 +86,9 @@ class MoveUtils {
       return toint.asU128;
     } catch (e) {
       throw BcsSerializationException(
-          "Invalid value for move type 'U128': Expected an unsigned 128-bit integer (0–2^128−1).",
-          details: {"value": "$value"});
+        "Invalid value for move type 'U128': Expected an unsigned 128-bit integer (0–2^128−1).",
+        details: {"value": "$value"},
+      );
     }
   }
 
@@ -94,8 +99,9 @@ class MoveUtils {
       return toint.asU256;
     } catch (e) {
       throw BcsSerializationException(
-          "Invalid value for move type 'U256': Expected an unsigned 256-bit integer (0–2^256−1).",
-          details: {"value": "$value"});
+        "Invalid value for move type 'U256': Expected an unsigned 256-bit integer (0–2^256−1).",
+        details: {"value": "$value"},
+      );
     }
   }
 
@@ -104,8 +110,10 @@ class MoveUtils {
     if (value is String) {
       return value;
     }
-    throw BcsSerializationException("Invalid value for move type 'String'.",
-        details: {"value": "$value"});
+    throw BcsSerializationException(
+      "Invalid value for move type 'String'.",
+      details: {"value": "$value"},
+    );
   }
 
   /// Parses a value into a byte list from a hex string or List<`int`>.
@@ -119,8 +127,9 @@ class MoveUtils {
       }
     } catch (_) {}
     throw BcsSerializationException(
-        "Invalid value for move type 'Bytes': Expected a List<int> or a hexadecimal string.",
-        details: {"value": "$value"});
+      "Invalid value for move type 'Bytes': Expected a List<int> or a hexadecimal string.",
+      details: {"value": "$value"},
+    );
   }
 
   /// Parses a value into address bytes from a hex string or List<`int`>.
@@ -133,7 +142,8 @@ class MoveUtils {
       }
     } catch (_) {}
     throw BcsSerializationException(
-        "Invalid value for move type 'Address': Expected a List<int> or a hexadecimal string.",
-        details: {"value": "$value"});
+      "Invalid value for move type 'Address': Expected a List<int> or a hexadecimal string.",
+      details: {"value": "$value"},
+    );
   }
 }

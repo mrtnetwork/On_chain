@@ -6,11 +6,11 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [46, 101, 92, 150, 138, 30, 245, 120];
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('auctioneerAuthority'),
-        SolanaLayoutUtils.publicKey('auctionHouse'),
-        LayoutConst.u8(property: 'bump'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('auctioneerAuthority'),
+    SolanaLayoutUtils.publicKey('auctionHouse'),
+    LayoutConst.u8(property: 'bump'),
+  ]);
 }
 
 /// Auctioneer account
@@ -19,19 +19,22 @@ class Auctioneer extends BorshLayoutSerializable {
   final SolAddress auctioneerAuthority;
   final SolAddress auctionHouse;
   final int bump;
-  const Auctioneer(
-      {required this.auctioneerAuthority,
-      required this.auctionHouse,
-      required this.bump});
+  const Auctioneer({
+    required this.auctioneerAuthority,
+    required this.auctionHouse,
+    required this.bump,
+  });
   factory Auctioneer.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return Auctioneer(
-        auctioneerAuthority: decode['auctioneerAuthority'],
-        auctionHouse: decode['auctionHouse'],
-        bump: decode['bump']);
+      auctioneerAuthority: decode['auctioneerAuthority'],
+      auctionHouse: decode['auctionHouse'],
+      bump: decode['bump'],
+    );
   }
   @override
   StructLayout get layout => _Utils.layout;

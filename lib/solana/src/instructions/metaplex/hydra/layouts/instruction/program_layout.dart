@@ -27,8 +27,10 @@ abstract class MetaplexHydraProgramLayout extends ProgramLayout {
   abstract final MetaplexHydraProgramInstruction instruction;
 
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexHydraProgramInstruction? instruction =
         MetaplexHydraProgramInstruction.getInstruction(decode['instruction']);
     switch (instruction) {
@@ -71,10 +73,13 @@ abstract class MetaplexHydraProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException('invalid instruction bytes', details: {
-        'expected': BytesUtils.toHexString(instruction),
-        'instruction': BytesUtils.toBinary(instcutionData)
-      });
+      throw SolanaPluginException(
+        'invalid instruction bytes',
+        details: {
+          'expected': BytesUtils.toHexString(instruction),
+          'instruction': BytesUtils.toBinary(instcutionData),
+        },
+      );
     }
 
     return decode;

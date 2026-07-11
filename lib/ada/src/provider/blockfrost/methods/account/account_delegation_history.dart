@@ -5,12 +5,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the delegation of a specific account.
 /// https://blockfrost.dev/api/account-delegation-history
-class BlockfrostRequestAccountDelegationHistory extends BlockFrostRequest<
-    List<ADAStakeAccountDelegationHistoryResponse>,
-    List<Map<String, dynamic>>> {
-  BlockfrostRequestAccountDelegationHistory(this.stakeAddress,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestAccountDelegationHistory
+    extends
+        BlockFrostRequest<
+          List<ADAStakeAccountDelegationHistoryResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAccountDelegationHistory(
+    this.stakeAddress, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// stake address.
   final ADARewardAddress stakeAddress;
@@ -24,7 +28,8 @@ class BlockfrostRequestAccountDelegationHistory extends BlockFrostRequest<
 
   @override
   List<ADAStakeAccountDelegationHistoryResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADAStakeAccountDelegationHistoryResponse.fromJson(e))
         .toList();

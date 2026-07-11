@@ -11,17 +11,15 @@ class ADAStakeAccountMIRHistoryResponse {
   });
 
   factory ADAStakeAccountMIRHistoryResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADAStakeAccountMIRHistoryResponse(
       txHash: json['tx_hash'],
       amount: json['amount'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'tx_hash': txHash,
-        'amount': amount,
-      };
+  Map<String, dynamic> toJson() => {'tx_hash': txHash, 'amount': amount};
   @override
   String toString() {
     return 'ADAStakeAccountMIRHistoryResponse${toJson()}';

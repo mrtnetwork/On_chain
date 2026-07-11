@@ -7,10 +7,11 @@ class MetaplexCandyMachineSetCollectionV2Layout
 
   factory MetaplexCandyMachineSetCollectionV2Layout.fromBuffer(List<int> data) {
     MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexCandyMachineProgramInstruction.setCollectionV2.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction.setCollectionV2.insturction,
+    );
     return const MetaplexCandyMachineSetCollectionV2Layout();
   }
   static StructLayout get _layout =>

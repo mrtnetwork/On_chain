@@ -52,7 +52,7 @@ class TokenLendingProgramInstruction implements ProgramLayoutInstruction {
     borrowObligationLiquidity,
     repayObligationLiquidity,
     liquidateObligation,
-    flashLoan
+    flashLoan,
   ];
   static TokenLendingProgramInstruction? getInstruction(dynamic value) {
     try {

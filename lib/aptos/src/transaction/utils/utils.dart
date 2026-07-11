@@ -8,19 +8,28 @@ import 'package:on_chain/aptos/src/transaction/constants/const.dart';
 class AptosTransactionUtils {
   // Generates a signing digest based on the transaction body and an optional flag to include additional data.
   // If 'withData' is true, the digest is appended with a data salt; otherwise, a standard salt is used.
-  static List<int> generateSigningDigest(List<int> txBody,
-      {bool withData = false}) {
+  static List<int> generateSigningDigest(
+    List<int> txBody, {
+    bool withData = false,
+  }) {
     if (withData) {
-      return [...AptosConstants.rawTransactionWithDataSalt, ...txBody]
-          .asImmutableBytes;
+      return [
+        ...AptosConstants.rawTransactionWithDataSalt,
+        ...txBody,
+      ].asImmutableBytes;
     }
     return [...AptosConstants.rawTransactionSalt, ...txBody].asImmutableBytes;
   }
 
   /// generate transaction hash from signed tx.
   static String generateTransactionHash(List<int> txBody) {
-    return BytesUtils.toHexString(QuickCrypto.sha3256Hash(
-        [...AptosConstants.transactionHashDomain, 0, ...txBody]));
+    return BytesUtils.toHexString(
+      QuickCrypto.sha3256Hash([
+        ...AptosConstants.transactionHashDomain,
+        0,
+        ...txBody,
+      ]),
+    );
   }
 
   // Validates whether the input string is a valid Aptos identifier.
@@ -29,8 +38,9 @@ class AptosTransactionUtils {
     RegExp regExp = RegExp(r'^[a-zA-Z_][a-zA-Z0-9_]*$');
     if (regExp.hasMatch(input)) return input;
     throw DartAptosPluginException(
-        "Invalid Aptos identifier: An Aptos identifier must start with a letter or underscore and can only contain letters, numbers, and underscores.",
-        details: {"identifier": input});
+      "Invalid Aptos identifier: An Aptos identifier must start with a letter or underscore and can only contain letters, numbers, and underscores.",
+      details: {"identifier": input},
+    );
   }
 
   // Splits the input into module address and module name, validating their formats.
@@ -46,7 +56,8 @@ class AptosTransactionUtils {
       }
     } catch (_) {}
     throw DartAptosPluginException(
-        "Invalid module ID format. The input must be in the format '0x1::module_name'");
+      "Invalid module ID format. The input must be in the format '0x1::module_name'",
+    );
   }
 
   static String validateFunction(String input) {
@@ -60,6 +71,7 @@ class AptosTransactionUtils {
       } catch (_) {}
     }
     throw DartAptosPluginException(
-        "Invalid Function string. The input must be in the format '0x1::module_name::function_name'");
+      "Invalid Function string. The input must be in the format '0x1::module_name::function_name'",
+    );
   }
 }

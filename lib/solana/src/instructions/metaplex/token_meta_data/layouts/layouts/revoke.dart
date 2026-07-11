@@ -10,18 +10,19 @@ class MetaplexTokenMetaDataRevokeLayout
 
   factory MetaplexTokenMetaDataRevokeLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.revoke.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.revoke.insturction,
+    );
     return MetaplexTokenMetaDataRevokeLayout(
-        revoke: Revoke.fromValue(decode['discriminator']));
+      revoke: Revoke.fromValue(decode['discriminator']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

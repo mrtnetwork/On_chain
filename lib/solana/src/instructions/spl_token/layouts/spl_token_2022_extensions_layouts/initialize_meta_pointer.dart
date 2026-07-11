@@ -12,31 +12,40 @@ class SPLToken2022InitializeMetadataPointerLayout
 
   /// The account address that holds the metadata
   final SolAddress? metadataAddress;
-  SPLToken2022InitializeMetadataPointerLayout(
-      {this.authority, this.metadataAddress});
+  SPLToken2022InitializeMetadataPointerLayout({
+    this.authority,
+    this.metadataAddress,
+  });
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
-            property: 'metadataPointer'),
-        SolanaLayoutUtils.publicKey('authority'),
-        SolanaLayoutUtils.publicKey('metadataAddress'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.wrap(
+      MetadataPointerInstruction.staticLayout,
+      property: 'metadataPointer',
+    ),
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('metadataAddress'),
+  ]);
 
   factory SPLToken2022InitializeMetadataPointerLayout.fromBuffer(
-      List<int> bytes) {
+    List<int> bytes,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            SPLTokenProgramInstruction.metadataPointerExtension.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          SPLTokenProgramInstruction.metadataPointerExtension.insturction,
+    );
     return SPLToken2022InitializeMetadataPointerLayout(
-        authority: decode['authority'] == SolAddress.defaultPubKey
-            ? null
-            : decode['authority'],
-        metadataAddress: decode['metadataAddress'] == SolAddress.defaultPubKey
-            ? null
-            : decode['metadataAddress']);
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      metadataAddress:
+          decode['metadataAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['metadataAddress'],
+    );
   }
 
   @override
@@ -51,7 +60,7 @@ class SPLToken2022InitializeMetadataPointerLayout
     return {
       'metadataPointer': MetadataPointerInstruction.initialize.serialize(),
       'authority': authority ?? SolAddress.defaultPubKey,
-      'metadataAddress': metadataAddress ?? SolAddress.defaultPubKey
+      'metadataAddress': metadataAddress ?? SolAddress.defaultPubKey,
     };
   }
 }

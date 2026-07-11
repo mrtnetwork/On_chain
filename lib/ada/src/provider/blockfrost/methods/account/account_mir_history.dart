@@ -5,11 +5,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Obtain information about the MIRs of a specific account.
 /// https://blockfrost.dev/api/account-mir-history
-class BlockfrostRequestAccountMIRHistory extends BlockFrostRequest<
-    List<ADAStakeAccountMIRHistoryResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestAccountMIRHistory(this.stakeAddress,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestAccountMIRHistory
+    extends
+        BlockFrostRequest<
+          List<ADAStakeAccountMIRHistoryResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestAccountMIRHistory(
+    this.stakeAddress, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// stake address.
   final ADARewardAddress stakeAddress;
@@ -23,7 +28,8 @@ class BlockfrostRequestAccountMIRHistory extends BlockFrostRequest<
 
   @override
   List<ADAStakeAccountMIRHistoryResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADAStakeAccountMIRHistoryResponse.fromJson(e))
         .toList();

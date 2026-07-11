@@ -6,22 +6,25 @@ class PriorVoters extends BorshLayoutSerializable {
   final List<PriorVoter> voters;
   final BigInt id;
   final bool isEmpty;
-  const PriorVoters(
-      {required this.voters, required this.id, required this.isEmpty});
+  const PriorVoters({
+    required this.voters,
+    required this.id,
+    required this.isEmpty,
+  });
   factory PriorVoters.fromJson(Map<String, dynamic> json) {
     return PriorVoters(
-        id: json['id'],
-        isEmpty: json['isEmpty'],
-        voters: (json['voters'] as List)
-            .map((e) => PriorVoter.fromJson(e))
-            .toList());
+      id: json['id'],
+      isEmpty: json['isEmpty'],
+      voters:
+          (json['voters'] as List).map((e) => PriorVoter.fromJson(e)).toList(),
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.array(PriorVoter.staticLayout, 32, property: 'voters'),
-        LayoutConst.u64(property: 'id'),
-        LayoutConst.boolean(property: 'isEmpty'),
-      ], property: 'priorVoters');
+    LayoutConst.array(PriorVoter.staticLayout, 32, property: 'voters'),
+    LayoutConst.u64(property: 'id'),
+    LayoutConst.boolean(property: 'isEmpty'),
+  ], property: 'priorVoters');
   @override
   StructLayout get layout => staticLayout;
 
@@ -30,7 +33,7 @@ class PriorVoters extends BorshLayoutSerializable {
     return {
       'id': id,
       'isEmpty': isEmpty,
-      'voters': voters.map((e) => e.serialize()).toList()
+      'voters': voters.map((e) => e.serialize()).toList(),
     };
   }
 }

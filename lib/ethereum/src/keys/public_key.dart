@@ -16,8 +16,10 @@ class ETHPublicKey {
       final pubKey = Secp256k1PublicKey.fromBytes(keyBytes);
       return ETHPublicKey._(pubKey);
     } catch (e) {
-      throw ETHPluginException('invalid public key',
-          details: {'input': BytesUtils.toHexString(keyBytes)});
+      throw ETHPluginException(
+        'invalid public key',
+        details: {'input': BytesUtils.toHexString(keyBytes)},
+      );
     }
   }
 
@@ -53,18 +55,33 @@ class ETHPublicKey {
   ///
   /// Optionally, [hashMessage] can be set to false to skip hashing the message before verification.
   /// Optionally, [payloadLength] can be set to specify the payload length for the message.
-  bool verifyPersonalMessage(List<int> messageDigest, List<int> signature,
-      {bool hashMessage = true, int? payloadLength}) {
+  bool verifyPersonalMessage(
+    List<int> messageDigest,
+    List<int> signature, {
+    bool hashMessage = true,
+    int? payloadLength,
+  }) {
     final verifier = ETHVerifier.fromKeyBytes(toBytes());
-    return verifier.verifyPersonalMessage(messageDigest, signature,
-        hashMessage: hashMessage, payloadLength: payloadLength);
+    return verifier.verifyPersonalMessage(
+      messageDigest,
+      signature,
+      hashMessage: hashMessage,
+      payloadLength: payloadLength,
+    );
   }
 
   static ETHPublicKey? getPublicKey(
-      List<int> messageDigest, List<int> signature,
-      {bool hashMessage = true, int? payloadLength}) {
-    final verifier = ETHVerifier.getPublicKey(messageDigest, signature,
-        hashMessage: hashMessage, payloadLength: payloadLength);
+    List<int> messageDigest,
+    List<int> signature, {
+    bool hashMessage = true,
+    int? payloadLength,
+  }) {
+    final verifier = ETHVerifier.getPublicKey(
+      messageDigest,
+      signature,
+      hashMessage: hashMessage,
+      payloadLength: payloadLength,
+    );
     if (verifier == null) return null;
     final pubKey = Secp256k1PublicKey.fromBytes(verifier.point.toBytes());
     return ETHPublicKey._(pubKey);

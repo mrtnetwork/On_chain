@@ -26,22 +26,21 @@ abstract class BorshLayoutSerializable {
   /// - [bytes] : The bytes to decode.
   /// - [layout] : The layout representing the structure of the object.
   /// - [validator] (optional): A map used for validation.
-  static Map<String, dynamic> decode(
-      {required List<int> bytes,
-      required StructLayout layout,
-      Map<String, dynamic> validator = const {}}) {
+  static Map<String, dynamic> decode({
+    required List<int> bytes,
+    required StructLayout layout,
+    Map<String, dynamic> validator = const {},
+  }) {
     try {
       final decode = layout.deserialize(bytes);
       for (final i in validator.entries) {
         if (i.value is List) {
           if (!CompareUtils.iterableIsEqual(i.value, decode.value[i.key])) {
-            throw SolanaPluginException('cannot validate borsh bytes',
-                details: {'expected': validator, 'instruction': decode});
+            throw SolanaPluginException('cannot validate borsh bytes');
           }
         } else {
           if (i.value != decode.value[i.key]) {
-            throw SolanaPluginException('cannot validate borsh bytes',
-                details: {'expected': validator, 'instruction': decode});
+            throw SolanaPluginException('cannot validate borsh bytes');
           }
         }
       }

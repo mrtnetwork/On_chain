@@ -8,7 +8,8 @@ class CollectionDetailsV1 extends BorshLayoutSerializable {
   factory CollectionDetailsV1.fromJson(Map<String, dynamic> json) {
     if (json['kind'] != 0) {
       throw const SolanaPluginException(
-          'invalid or unknown CollectionDetailsV1');
+        'invalid or unknown CollectionDetailsV1',
+      );
     }
     return CollectionDetailsV1(size: json['size']);
   }

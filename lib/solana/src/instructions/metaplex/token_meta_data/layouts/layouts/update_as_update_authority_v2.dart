@@ -18,64 +18,77 @@ class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
   final MetaDataTokenStandard? tokenStandard;
   final Payload? authorizationData;
 
-  const MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout(
-      {this.newUpdateAuthority,
-      this.data,
-      this.primarySaleHappened,
-      this.isMutable,
-      required this.collection,
-      required this.collectionDetails,
-      required this.uses,
-      required this.ruleSet,
-      this.tokenStandard,
-      this.authorizationData});
+  const MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout({
+    this.newUpdateAuthority,
+    this.data,
+    this.primarySaleHappened,
+    this.isMutable,
+    required this.collection,
+    required this.collectionDetails,
+    required this.uses,
+    required this.ruleSet,
+    this.tokenStandard,
+    this.authorizationData,
+  });
 
   factory MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .updateAsUpdateAuthorityV2.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .updateAsUpdateAuthorityV2
+              .insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout(
-        collection: CollectionToggle.fromJson(decode['collection']),
-        collectionDetails:
-            CollectionDetailsToggle.fromJson(decode['collectionDetails']),
-        uses: UsesToggle.fromJson(decode['uses']),
-        ruleSet: RuleSetToggle.fromJson(decode['ruleSet']),
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']),
-        data: decode['data'] == null
-            ? null
-            : MetaDataData.fromJson(decode['data']),
-        isMutable: decode['isMutable'],
-        newUpdateAuthority: decode['newUpdateAuthority'],
-        primarySaleHappened: decode['primarySaleHappened'],
-        tokenStandard: decode['tokenStandard'] == null
-            ? null
-            : MetaDataTokenStandard.fromJson(decode['tokenStandard']));
+      collection: CollectionToggle.fromJson(decode['collection']),
+      collectionDetails: CollectionDetailsToggle.fromJson(
+        decode['collectionDetails'],
+      ),
+      uses: UsesToggle.fromJson(decode['uses']),
+      ruleSet: RuleSetToggle.fromJson(decode['ruleSet']),
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+      data:
+          decode['data'] == null ? null : MetaDataData.fromJson(decode['data']),
+      isMutable: decode['isMutable'],
+      newUpdateAuthority: decode['newUpdateAuthority'],
+      primarySaleHappened: decode['primarySaleHappened'],
+      tokenStandard:
+          decode['tokenStandard'] == null
+              ? null
+              : MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
-        LayoutConst.optional(MetaDataData.staticLayout, property: 'data'),
-        LayoutConst.optional(LayoutConst.boolean(),
-            property: 'primarySaleHappened'),
-        LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
-        LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
-        LayoutConst.wrap(CollectionDetailsToggle.staticLayout,
-            property: 'collectionDetails'),
-        LayoutConst.wrap(UsesToggle.staticLayout, property: 'uses'),
-        LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
-        LayoutConst.optional(MetaDataTokenStandard.staticLayout,
-            property: 'tokenStandard'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    SolanaLayoutUtils.optionPubkey(property: 'newUpdateAuthority'),
+    LayoutConst.optional(MetaDataData.staticLayout, property: 'data'),
+    LayoutConst.optional(
+      LayoutConst.boolean(),
+      property: 'primarySaleHappened',
+    ),
+    LayoutConst.optional(LayoutConst.boolean(), property: 'isMutable'),
+    LayoutConst.wrap(CollectionToggle.staticLayout, property: 'collection'),
+    LayoutConst.wrap(
+      CollectionDetailsToggle.staticLayout,
+      property: 'collectionDetails',
+    ),
+    LayoutConst.wrap(UsesToggle.staticLayout, property: 'uses'),
+    LayoutConst.wrap(RuleSetToggle.staticLayout, property: 'ruleSet'),
+    LayoutConst.optional(
+      MetaDataTokenStandard.staticLayout,
+      property: 'tokenStandard',
+    ),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -99,7 +112,7 @@ class MetaplexTokenMetaDataUpdateAsUpdateAuthorityV2Layout
       'uses': uses.serialize(),
       'ruleSet': ruleSet.serialize(),
       'tokenStandard': tokenStandard?.serialize(),
-      'authorizationData': authorizationData?.serialize()
+      'authorizationData': authorizationData?.serialize(),
     };
   }
 }

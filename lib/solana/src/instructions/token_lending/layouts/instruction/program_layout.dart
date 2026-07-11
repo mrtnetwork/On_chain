@@ -9,10 +9,13 @@ abstract class TokenLendingProgramLayout extends ProgramLayout {
   static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    final instruction =
-        TokenLendingProgramInstruction.getInstruction(decode['instruction']);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
+    final instruction = TokenLendingProgramInstruction.getInstruction(
+      decode['instruction'],
+    );
     switch (instruction) {
       case TokenLendingProgramInstruction.borrowObligationLiquidity:
         return TokenLendingBorrowObligationLiquidityLayout.fromBuffer(data);

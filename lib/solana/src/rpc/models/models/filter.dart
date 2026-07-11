@@ -20,7 +20,7 @@ class RPCMemcmpFilterConfig implements RPCFilterConfig {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'memcmp': {'offset': offset, 'bytes': bytes}
+      'memcmp': {'offset': offset, 'bytes': bytes},
     };
   }
 }

@@ -37,6 +37,9 @@ void main() async {
       EthereumRequestCall.fromRaw(contractAddress: ".....", raw: "raw"));
 // Make a contract call using the RPC service, specifying the contract address and raw data.
 
+  final r = await rpc.requestSubscribtion(EthereumRequestETHSubscribeSyncing());
+  r.stream.listen((e) => e.event);
+
   /// Methods Reference
   /// Explore all available methods in the ethereum/rpc/methods/ directory.
   /// These methods encapsulate various Ethereum RPC calls for convenient usage.

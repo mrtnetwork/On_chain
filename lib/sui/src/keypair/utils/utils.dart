@@ -7,14 +7,17 @@ import 'package:on_chain/sui/src/keypair/core/core.dart';
 class SuiCryptoUtils {
   /// generate sui personal message
   static List<int> generatePersonalMessageDigest(List<int> message) {
-    final intent =
-        SuiIntentMessage.personalMessage(SuiPersonalMessage(message: message));
+    final intent = SuiIntentMessage.personalMessage(
+      SuiPersonalMessage(message: message),
+    );
     return QuickCrypto.blake2b256Hash(intent.toBcs());
   }
 
   /// generate sui transaction digest for signing.
-  static List<int> generateTransactionDigest(
-      {required List<int> txBytes, required bool hashDigest}) {
+  static List<int> generateTransactionDigest({
+    required List<int> txBytes,
+    required bool hashDigest,
+  }) {
     if (!hashDigest) return txBytes.asImmutableBytes;
     return QuickCrypto.blake2b256Hash(txBytes).asImmutableBytes;
   }
@@ -39,15 +42,19 @@ class SuiCryptoUtils {
   /// Decodes a Sui Bech32 secret key into its corresponding private key.
   static (SuiKeyAlgorithm, List<int>) decodeSuiSecretKey(String secretKey) {
     try {
-      final decode =
-          Bech32Decoder.decode(SuiKeypairConst.suiPrivateKeyPrefix, secretKey);
+      final decode = Bech32Decoder.decode(
+        SuiKeypairConst.suiPrivateKeyPrefix,
+        secretKey,
+      );
       final algorithm = SuiKeyAlgorithm.fromFlag(decode[0]);
       return (algorithm, decode.sublist(1).asImmutableBytes);
     } on DartSuiPluginException {
       rethrow;
     } catch (e) {
-      throw DartSuiPluginException("Invalid sui bech32 secret key.",
-          details: {"error": e.toString()});
+      throw DartSuiPluginException(
+        "Invalid sui bech32 secret key.",
+        details: {"error": e.toString()},
+      );
     }
   }
 
@@ -55,15 +62,21 @@ class SuiCryptoUtils {
   ///
   /// The encoded format includes the `suiprivkey` HRP,
   /// the key scheme flag, and the secret key bytes.
-  static String encodeSuiSecretKey(List<int> secretKey,
-      {EllipticCurveTypes? type, SuiKeyAlgorithm? keyScheme}) {
+  static String encodeSuiSecretKey(
+    List<int> secretKey, {
+    EllipticCurveTypes? type,
+    SuiKeyAlgorithm? keyScheme,
+  }) {
     if (keyScheme == null && type == null) {
       throw DartSuiPluginException(
-          "Key scheme or Elliptic curve type required for generate sui Bech32 secret key.");
+        "Key scheme or Elliptic curve type required for generate sui Bech32 secret key.",
+      );
     }
     keyScheme ??= SuiKeyAlgorithm.fromEllipticCurveType(type!);
     final key = IPrivateKey.fromBytes(secretKey, keyScheme.curveType);
-    return Bech32Encoder.encode(
-        SuiKeypairConst.suiPrivateKeyPrefix, [keyScheme.flag, ...key.raw]);
+    return Bech32Encoder.encode(SuiKeypairConst.suiPrivateKeyPrefix, [
+      keyScheme.flag,
+      ...key.raw,
+    ]);
   }
 }

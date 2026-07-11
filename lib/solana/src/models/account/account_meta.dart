@@ -38,7 +38,7 @@ class AccountMeta {
 }
 
 /// Extension providing quick methods to create AccountMeta instances with predefined configurations.
-extension QuickAccountMeta on SolAddress {
+extension ExtQuickAccountMeta on SolAddress {
   /// Create an AccountMeta instance indicating the account is writable but not a signer.
   AccountMeta toWritable() {
     return AccountMeta(publicKey: this, isSigner: false, isWritable: true);

@@ -7,20 +7,20 @@ class _Utils {
   static const List<int> discriminator = [240, 71, 225, 94, 200, 75, 84, 231];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('tradeState'),
-        SolanaLayoutUtils.publicKey('bookkeeper'),
-        SolanaLayoutUtils.publicKey('auctionHouse'),
-        SolanaLayoutUtils.publicKey('seller'),
-        SolanaLayoutUtils.publicKey('metadata'),
-        SolanaLayoutUtils.optionPubkey(property: 'purchaseReceipt'),
-        LayoutConst.u64(property: 'price'),
-        LayoutConst.u64(property: 'tokenSize'),
-        LayoutConst.u8(property: 'bump'),
-        LayoutConst.u8(property: 'tradeStateBump'),
-        LayoutConst.i64(property: 'createdAt'),
-        LayoutConst.optional(LayoutConst.i64(), property: 'canceledAt')
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('tradeState'),
+    SolanaLayoutUtils.publicKey('bookkeeper'),
+    SolanaLayoutUtils.publicKey('auctionHouse'),
+    SolanaLayoutUtils.publicKey('seller'),
+    SolanaLayoutUtils.publicKey('metadata'),
+    SolanaLayoutUtils.optionPubkey(property: 'purchaseReceipt'),
+    LayoutConst.u64(property: 'price'),
+    LayoutConst.u64(property: 'tokenSize'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.u8(property: 'tradeStateBump'),
+    LayoutConst.i64(property: 'createdAt'),
+    LayoutConst.optional(LayoutConst.i64(), property: 'canceledAt'),
+  ]);
 }
 
 class ListingReceipt extends BorshLayoutSerializable {
@@ -37,37 +37,40 @@ class ListingReceipt extends BorshLayoutSerializable {
   final BigInt createdAt;
   final BigInt? canceledAt;
 
-  const ListingReceipt(
-      {required this.tradeState,
-      required this.bookkeeper,
-      required this.auctionHouse,
-      required this.seller,
-      required this.metadata,
-      required this.purchaseReceipt,
-      required this.price,
-      required this.tokenSize,
-      required this.bump,
-      required this.tradeStateBump,
-      required this.createdAt,
-      required this.canceledAt});
+  const ListingReceipt({
+    required this.tradeState,
+    required this.bookkeeper,
+    required this.auctionHouse,
+    required this.seller,
+    required this.metadata,
+    required this.purchaseReceipt,
+    required this.price,
+    required this.tokenSize,
+    required this.bump,
+    required this.tradeStateBump,
+    required this.createdAt,
+    required this.canceledAt,
+  });
   factory ListingReceipt.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return ListingReceipt(
-        tradeState: decode['tradeState'],
-        bookkeeper: decode['bookkeeper'],
-        auctionHouse: decode['auctionHouse'],
-        seller: decode['seller'],
-        metadata: decode['metadata'],
-        purchaseReceipt: decode['purchaseReceipt'],
-        price: decode['price'],
-        tokenSize: decode['tokenSize'],
-        bump: decode['bump'],
-        tradeStateBump: decode['tradeStateBump'],
-        createdAt: decode['createdAt'],
-        canceledAt: decode['canceledAt']);
+      tradeState: decode['tradeState'],
+      bookkeeper: decode['bookkeeper'],
+      auctionHouse: decode['auctionHouse'],
+      seller: decode['seller'],
+      metadata: decode['metadata'],
+      purchaseReceipt: decode['purchaseReceipt'],
+      price: decode['price'],
+      tokenSize: decode['tokenSize'],
+      bump: decode['bump'],
+      tradeStateBump: decode['tradeStateBump'],
+      createdAt: decode['createdAt'],
+      canceledAt: decode['canceledAt'],
+    );
   }
 
   @override

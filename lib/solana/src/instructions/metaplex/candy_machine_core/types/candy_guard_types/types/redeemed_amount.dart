@@ -9,9 +9,9 @@ class RedeemedAmount extends BorshLayoutSerializable {
     return RedeemedAmount(maximum: json['maximum']);
   }
 
-  static StructLayout get staticLayout =>
-      LayoutConst.struct([LayoutConst.u64(property: 'maximum')],
-          property: 'redeemedAmount');
+  static StructLayout get staticLayout => LayoutConst.struct([
+    LayoutConst.u64(property: 'maximum'),
+  ], property: 'redeemedAmount');
 
   @override
   StructLayout get layout => staticLayout;

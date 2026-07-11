@@ -39,7 +39,7 @@ class RPCWebSocketService with SolanaServiceProvider {
     if (_isDiscounnect) {
       throw StateError("socket has beed discounected");
     }
-    _socket?.sink.add(params.body());
+    _socket?.sink.add(params.encodeBody());
   }
 
   void _onClose(Object? error) {
@@ -92,7 +92,7 @@ class RPCWebSocketService with SolanaServiceProvider {
   }
 
   @override
-  Future<BaseServiceResponse<T>> doRequest<T>(SolanaRequestDetails params,
+  Future<BaseServiceResponse> doRequest(SolanaRequestDetails params,
       {Duration? timeout}) async {
     final WebsockerRequestCompeleter compeleter =
         WebsockerRequestCompeleter(params);
@@ -101,7 +101,7 @@ class RPCWebSocketService with SolanaServiceProvider {
       add(params);
       final result = await compeleter.completer.future
           .timeout(timeout ?? defaultRequestTimeOut);
-      return params.toResponse(result);
+      return ServiceSuccessRespose(response: result, statusCode: 200);
     } finally {
       requests.remove(params.requestID);
     }

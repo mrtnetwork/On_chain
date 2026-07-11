@@ -8,10 +8,10 @@ class _Utils {
   static const List<int> discriminator = [155, 12, 170, 224, 30, 250, 204, 130];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('authority'),
-        GumdropConfigData.staticLayout
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('authority'),
+    GumdropConfigData.staticLayout,
+  ]);
 }
 
 class GumdropConfig extends BorshLayoutSerializable {
@@ -21,12 +21,14 @@ class GumdropConfig extends BorshLayoutSerializable {
   GumdropConfig({required this.authority, required this.data});
   factory GumdropConfig.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return GumdropConfig(
-        authority: decode['authority'],
-        data: GumdropConfigData.fromJson(decode['configData']));
+      authority: decode['authority'],
+      data: GumdropConfigData.fromJson(decode['configData']),
+    );
   }
 
   @override
@@ -37,7 +39,7 @@ class GumdropConfig extends BorshLayoutSerializable {
     return {
       'discriminator': _Utils.discriminator,
       'authority': authority,
-      'configData': data.serialize()
+      'configData': data.serialize(),
     };
   }
 

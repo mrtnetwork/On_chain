@@ -6,21 +6,21 @@ class MetaplexBubblegumCancelRedeemLayout
     extends MetaplexBubblegumProgramLayout {
   final List<int> root;
   MetaplexBubblegumCancelRedeemLayout({required List<int> root})
-      : root = root.asImmutableBytes;
+    : root = root.asImmutableBytes;
 
   factory MetaplexBubblegumCancelRedeemLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexBubblegumProgramInstruction.cancelRedeem.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexBubblegumProgramInstruction.cancelRedeem.insturction,
+    );
     return MetaplexBubblegumCancelRedeemLayout(root: decode['root']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.blob(32, property: 'root'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

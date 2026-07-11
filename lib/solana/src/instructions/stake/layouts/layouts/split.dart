@@ -12,15 +12,16 @@ class StakeSplitLayout extends StakeProgramLayout {
   }
   factory StakeSplitLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: StakeProgramInstruction.split.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: StakeProgramInstruction.split.insturction,
+    );
     return StakeSplitLayout(lamports: decode['lamports']);
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+  ]);
   @override
   StructLayout get layout => _layout;
 

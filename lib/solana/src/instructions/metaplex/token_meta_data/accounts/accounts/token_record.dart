@@ -6,15 +6,17 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        LayoutConst.u8(property: 'bump'),
-        LayoutConst.wrap(TokenState.staticLayout, property: 'state'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'ruleSetRevision'),
-        SolanaLayoutUtils.optionPubkey(property: 'delegate'),
-        LayoutConst.optional(TokenDelegateRole.staticLayout,
-            property: 'delegateRole'),
-        SolanaLayoutUtils.optionPubkey(property: 'lockedTransfer'),
-      ]);
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u8(property: 'bump'),
+    LayoutConst.wrap(TokenState.staticLayout, property: 'state'),
+    LayoutConst.optional(LayoutConst.u64(), property: 'ruleSetRevision'),
+    SolanaLayoutUtils.optionPubkey(property: 'delegate'),
+    LayoutConst.optional(
+      TokenDelegateRole.staticLayout,
+      property: 'delegateRole',
+    ),
+    SolanaLayoutUtils.optionPubkey(property: 'lockedTransfer'),
+  ]);
 }
 
 class TokenRecord extends BorshLayoutSerializable {
@@ -26,25 +28,29 @@ class TokenRecord extends BorshLayoutSerializable {
   final TokenDelegateRole? delegateRole;
   final SolAddress? lockedTransfer;
 
-  const TokenRecord(
-      {required this.key,
-      required this.bump,
-      required this.state,
-      required this.ruleSetRevision,
-      required this.delegate,
-      required this.delegateRole,
-      required this.lockedTransfer});
+  const TokenRecord({
+    required this.key,
+    required this.bump,
+    required this.state,
+    required this.ruleSetRevision,
+    required this.delegate,
+    required this.delegateRole,
+    required this.lockedTransfer,
+  });
   factory TokenRecord.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return TokenRecord(
-        key: MetaDataKey.fromValue(decode['key']),
-        bump: decode['bump'],
-        state: TokenState.fromJson(decode['state']),
-        ruleSetRevision: decode['ruleSetRevision'],
-        delegate: decode['delegate'],
-        delegateRole: TokenDelegateRole.fromJson(decode['delegateRole']),
-        lockedTransfer: decode['lockedTransfer']);
+      key: MetaDataKey.fromValue(decode['key']),
+      bump: decode['bump'],
+      state: TokenState.fromJson(decode['state']),
+      ruleSetRevision: decode['ruleSetRevision'],
+      delegate: decode['delegate'],
+      delegateRole: TokenDelegateRole.fromJson(decode['delegateRole']),
+      lockedTransfer: decode['lockedTransfer'],
+    );
   }
 
   @override
@@ -58,7 +64,7 @@ class TokenRecord extends BorshLayoutSerializable {
       'ruleSetRevision': ruleSetRevision,
       'delegate': delegate,
       'delegateRole': delegateRole?.serialize(),
-      'lockedTransfer': lockedTransfer
+      'lockedTransfer': lockedTransfer,
     };
   }
 }

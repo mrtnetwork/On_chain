@@ -23,10 +23,10 @@ class ADABlockchainEraResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'start': start.toJson(),
-        'end': end.toJson(),
-        'parameters': parameters.toJson(),
-      };
+    'start': start.toJson(),
+    'end': end.toJson(),
+    'parameters': parameters.toJson(),
+  };
   @override
   String toString() {
     return 'ADABlockchainEraResponse${toJson()}';
@@ -43,25 +43,13 @@ class ADAEra {
   /// Epoch number
   final int epoch;
 
-  ADAEra({
-    required this.time,
-    required this.slot,
-    required this.epoch,
-  });
+  ADAEra({required this.time, required this.slot, required this.epoch});
 
   factory ADAEra.fromJson(Map<String, dynamic> json) {
-    return ADAEra(
-      time: json['time'],
-      slot: json['slot'],
-      epoch: json['epoch'],
-    );
+    return ADAEra(time: json['time'], slot: json['slot'], epoch: json['epoch']);
   }
 
-  Map<String, dynamic> toJson() => {
-        'time': time,
-        'slot': slot,
-        'epoch': epoch,
-      };
+  Map<String, dynamic> toJson() => {'time': time, 'slot': slot, 'epoch': epoch};
 }
 
 class EraParameters {
@@ -89,8 +77,8 @@ class EraParameters {
   }
 
   Map<String, dynamic> toJson() => {
-        'epoch_length': epochLength,
-        'slot_length': slotLength,
-        'safe_zone': safeZone,
-      };
+    'epoch_length': epochLength,
+    'slot_length': slotLength,
+    'safe_zone': safeZone,
+  };
 }

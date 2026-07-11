@@ -61,10 +61,13 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
     try {
-      final decode =
-          ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-      final instruction =
-          SPLTokenProgramInstruction.getInstruction(decode['instruction']);
+      final decode = ProgramLayout.decodeAndValidateStruct(
+        layout: _layout,
+        bytes: data,
+      );
+      final instruction = SPLTokenProgramInstruction.getInstruction(
+        decode['instruction'],
+      );
       switch (instruction) {
         case SPLTokenProgramInstruction.amountToUiAmount:
           return SPLTokenAmountToUiAmountLayout.fromBuffer(data);
@@ -127,29 +130,40 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
         case SPLTokenProgramInstruction.groupMemberPointerExtension:
           final StructLayout layout = LayoutConst.struct([
             LayoutConst.u8(property: 'instruction'),
-            LayoutConst.wrap(GroupMemberPointerInstruction.staticLayout,
-                property: 'groupMemberPointer')
+            LayoutConst.wrap(
+              GroupMemberPointerInstruction.staticLayout,
+              property: 'groupMemberPointer',
+            ),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
-              layout: layout, bytes: data);
+            layout: layout,
+            bytes: data,
+          );
           final type = GroupMemberPointerInstruction.fromJson(
-              decode['groupMemberPointer']);
+            decode['groupMemberPointer'],
+          );
           switch (type) {
             case GroupMemberPointerInstruction.initialize:
               return SPLToken2022InitializeGroupMemberPointerLayout.fromBuffer(
-                  data);
+                data,
+              );
             default:
               return SPLToken2022UpdateGroupMemberPointerLayout.fromBuffer(
-                  data);
+                data,
+              );
           }
         case SPLTokenProgramInstruction.groupPointerExtension:
           final StructLayout layout = LayoutConst.struct([
             LayoutConst.u8(property: 'instruction'),
-            LayoutConst.wrap(GroupPointerInstruction.staticLayout,
-                property: 'groupPointer')
+            LayoutConst.wrap(
+              GroupPointerInstruction.staticLayout,
+              property: 'groupPointer',
+            ),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
-              layout: layout, bytes: data);
+            layout: layout,
+            bytes: data,
+          );
           final type = GroupPointerInstruction.fromJson(decode['groupPointer']);
           switch (type) {
             case GroupPointerInstruction.initialize:
@@ -160,28 +174,38 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
         case SPLTokenProgramInstruction.metadataPointerExtension:
           final StructLayout layout = LayoutConst.struct([
             LayoutConst.u8(property: 'instruction'),
-            LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
-                property: 'metadataPointer'),
+            LayoutConst.wrap(
+              MetadataPointerInstruction.staticLayout,
+              property: 'metadataPointer',
+            ),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
-              layout: layout, bytes: data);
-          final type =
-              MetadataPointerInstruction.fromJson(decode['metadataPointer']);
+            layout: layout,
+            bytes: data,
+          );
+          final type = MetadataPointerInstruction.fromJson(
+            decode['metadataPointer'],
+          );
           switch (type) {
             case MetadataPointerInstruction.initialize:
               return SPLToken2022InitializeMetadataPointerLayout.fromBuffer(
-                  data);
+                data,
+              );
             default:
               return SPLToken2022UpdateMetadataPointerLayout.fromBuffer(data);
           }
         case SPLTokenProgramInstruction.transferHookExtension:
           final StructLayout layout = LayoutConst.struct([
             LayoutConst.u8(property: 'instruction'),
-            LayoutConst.wrap(TransferHookInstruction.staticLayout,
-                property: 'transferHook'),
+            LayoutConst.wrap(
+              TransferHookInstruction.staticLayout,
+              property: 'transferHook',
+            ),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
-              layout: layout, bytes: data);
+            layout: layout,
+            bytes: data,
+          );
           final type = TransferHookInstruction.fromJson(decode['transferHook']);
           switch (type) {
             case TransferHookInstruction.initialize:
@@ -194,20 +218,27 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
         case SPLTokenProgramInstruction.interestBearingMintExtension:
           final StructLayout layout = LayoutConst.struct([
             LayoutConst.u8(property: 'instruction'),
-            LayoutConst.wrap(InterestBearingMintInstruction.staticLayout,
-                property: 'interestBearingMint'),
+            LayoutConst.wrap(
+              InterestBearingMintInstruction.staticLayout,
+              property: 'interestBearingMint',
+            ),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
-              layout: layout, bytes: data);
+            layout: layout,
+            bytes: data,
+          );
           final type = InterestBearingMintInstruction.fromJson(
-              decode['interestBearingMint']);
+            decode['interestBearingMint'],
+          );
           switch (type) {
             case InterestBearingMintInstruction.initialize:
               return SPLToken2022InterestBearingMintInitializeLayout.fromBuffer(
-                  data);
+                data,
+              );
             default:
               return SPLToken2022InterestBearingMintUpdateRateLayout.fromBuffer(
-                  data);
+                data,
+              );
           }
         case SPLTokenProgramInstruction.transferFeeExtension:
           final StructLayout layout = LayoutConst.struct([
@@ -215,26 +246,33 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
             LayoutConst.u8(property: 'transferFee'),
           ]);
           final decode = ProgramLayout.decodeAndValidateStruct(
-              layout: layout, bytes: data);
+            layout: layout,
+            bytes: data,
+          );
           final type = TransferFeeInstructionInstruction.fromValue(
-              decode['transferFee']);
+            decode['transferFee'],
+          );
           switch (type) {
             case TransferFeeInstructionInstruction.harvestWithheldTokensToMint:
               return SPLToken2022HarvestWithheldTokensToMintLayout.fromBuffer(
-                  data);
+                data,
+              );
             case TransferFeeInstructionInstruction.initializeTransferFeeConfig:
               return SPLToken2022InitializeTransferFeeConfigLayout.fromBuffer(
-                  data);
+                data,
+              );
             case TransferFeeInstructionInstruction.transferCheckedWithFee:
               return SPLToken2022TransferCheckedWithFeeLayout.fromBuffer(data);
             case TransferFeeInstructionInstruction
-                  .withdrawWithheldTokensFromAccounts:
-              return SPLToken2022WithdrawWithheldTokensFromAccountsLayout
-                  .fromBuffer(data);
+                .withdrawWithheldTokensFromAccounts:
+              return SPLToken2022WithdrawWithheldTokensFromAccountsLayout.fromBuffer(
+                data,
+              );
             case TransferFeeInstructionInstruction
-                  .withdrawWithheldTokensFromMint:
-              return SPLToken2022WithdrawWithheldTokensFromMintLayout
-                  .fromBuffer(data);
+                .withdrawWithheldTokensFromMint:
+              return SPLToken2022WithdrawWithheldTokensFromMintLayout.fromBuffer(
+                data,
+              );
             default:
               return UnknownProgramLayout(data);
           }

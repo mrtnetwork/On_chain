@@ -9,13 +9,15 @@ class AuthorizedVoter extends BorshLayoutSerializable {
   const AuthorizedVoter({required this.epoch, required this.authorizedVoter});
   factory AuthorizedVoter.fromJson(Map<String, dynamic> json) {
     return AuthorizedVoter(
-        epoch: json['epoch'], authorizedVoter: json['authorizedVoter']);
+      epoch: json['epoch'],
+      authorizedVoter: json['authorizedVoter'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'epoch'),
-        SolanaLayoutUtils.publicKey('authorizedVoter')
-      ], property: 'authorizedVoter');
+    LayoutConst.u64(property: 'epoch'),
+    SolanaLayoutUtils.publicKey('authorizedVoter'),
+  ], property: 'authorizedVoter');
   @override
   StructLayout get layout => staticLayout;
 

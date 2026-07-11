@@ -12,26 +12,26 @@ class SPLTokenApproveCheckedLayout extends SPLTokenProgramLayout {
   final int decimals;
 
   /// Constructs an SPLTokenApproveCheckedLayout instance.
-  SPLTokenApproveCheckedLayout({
-    required this.amount,
-    required this.decimals,
-  });
+  SPLTokenApproveCheckedLayout({required this.amount, required this.decimals});
 
   /// StructLayout structure for SPLTokenApproveCheckedLayout.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.u8(property: 'decimals')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u8(property: 'decimals'),
+  ]);
 
   /// Constructs an SPLTokenApproveCheckedLayout instance from buffer.
   factory SPLTokenApproveCheckedLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.approveChecked.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.approveChecked.insturction,
+    );
     return SPLTokenApproveCheckedLayout(
-        amount: decode['amount'], decimals: decode['decimals']);
+      amount: decode['amount'],
+      decimals: decode['decimals'],
+    );
   }
 
   /// Gets the layout structure.

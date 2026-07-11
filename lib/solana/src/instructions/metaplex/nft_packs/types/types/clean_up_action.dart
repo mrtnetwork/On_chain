@@ -14,15 +14,19 @@ class CleanUpAction {
     } else if (kind == 2) {
       return CleanUpAction.none();
     }
-    throw SolanaPluginException('Invalid or unknown cleanUpAction',
-        details: {'kind': kind});
+    throw SolanaPluginException(
+      'Invalid or unknown cleanUpAction',
+      details: {'kind': kind.toString()},
+    );
   }
   factory CleanUpAction.sort() => const CleanUpAction._(1, 'Sort', null);
   factory CleanUpAction.none() => const CleanUpAction._(2, 'NoneLayout', null);
   factory CleanUpAction.change(List<int> fields) {
     if (fields.length != 2) {
-      throw SolanaPluginException('Expected exactly 2 fields',
-          details: {'fields': fields});
+      throw SolanaPluginException(
+        'Expected exactly 2 fields',
+        details: {'fields': fields.join(",")},
+      );
     }
     return CleanUpAction._(0, 'NoneLayout', fields);
   }

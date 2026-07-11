@@ -9,16 +9,17 @@ class StakePoolDepositSolLayout extends StakePoolProgramLayout {
 
   factory StakePoolDepositSolLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: StakePoolProgramInstruction.depositSol.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: StakePoolProgramInstruction.depositSol.insturction,
+    );
     return StakePoolDepositSolLayout(lamports: decode['lamports']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.ns64(property: 'lamports')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.ns64(property: 'lamports'),
+  ]);
   @override
   StructLayout get layout => _layout;
   @override

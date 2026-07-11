@@ -6,12 +6,13 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/wallet-updateenergylimit).
 class TronRequestUpdateEnergyLimit
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestUpdateEnergyLimit(
-      {required this.ownerAddress,
-      required this.contractAddress,
-      required this.originEnergyLimit,
-      this.permissionId,
-      this.visible = true});
+  TronRequestUpdateEnergyLimit({
+    required this.ownerAddress,
+    required this.contractAddress,
+    required this.originEnergyLimit,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Transaction creator address
   final TronAddress ownerAddress;
@@ -38,7 +39,7 @@ class TronRequestUpdateEnergyLimit
       'contract_address': contractAddress.toAddress(visible),
       'origin_energy_limit': originEnergyLimit,
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

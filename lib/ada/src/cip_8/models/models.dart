@@ -5,14 +5,17 @@ import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class COSESerializationConfig {
   final CborIterableEncodingType encoding;
-  const COSESerializationConfig(
-      {this.encoding = CborIterableEncodingType.definite});
+  const COSESerializationConfig({
+    this.encoding = CborIterableEncodingType.definite,
+  });
 
   factory COSESerializationConfig.fromJson(Map<String, dynamic> json) {
     return COSESerializationConfig(
-        encoding: json["encoding"] == null
-            ? CborIterableEncodingType.set
-            : CborIterableEncodingType.fromName(json["encoding"]));
+      encoding:
+          json["encoding"] == null
+              ? CborIterableEncodingType.set
+              : CborIterableEncodingType.fromName(json["encoding"]),
+    );
   }
   Map<String, dynamic> toJson() {
     return {"encoding": encoding.name};
@@ -35,9 +38,10 @@ enum COSELabelType {
   string;
 
   static COSELabelType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () =>
-            throw ADAPluginException('Invalid COSELabelType "$name". '));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse: () => throw ItemNotFoundException(name: "COSELabelType"),
+    );
   }
 }
 
@@ -54,7 +58,7 @@ abstract class COSELabel with InternalCborSerialization {
     final type = COSELabelType.fromName(json.keys.firstOrNull);
     return switch (type) {
       COSELabelType.int => COSELabelInt.fromJson(json),
-      COSELabelType.string => COSELabelString.fromJson(json)
+      COSELabelType.string => COSELabelString.fromJson(json),
     };
   }
 }
@@ -120,24 +124,28 @@ class COSELabelString extends COSELabel {
 class COSELabels with InternalCborSerialization {
   final List<COSELabel> labels;
   final COSESerializationConfig serializationConfig;
-  COSELabels(
-      {required List<COSELabel> labels,
-      this.serializationConfig = const COSESerializationConfig()})
-      : labels = labels.immutable;
+  COSELabels({
+    required List<COSELabel> labels,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : labels = labels.immutable;
   factory COSELabels.deserialize(CborIterableObject value) {
     return COSELabels(
-        labels: value
-            .valueAsListOf<CborObject>()
-            .map((e) => COSELabel.deserialize(e))
-            .toList(),
-        serializationConfig: COSESerializationConfig(encoding: value.encoding));
+      labels:
+          value
+              .allObjectsAs<CborObject>()
+              .map((e) => COSELabel.deserialize(e))
+              .toList(),
+      serializationConfig: COSESerializationConfig(encoding: value.encoding),
+    );
   }
   factory COSELabels.fromJson(Map<String, dynamic> json) {
     return COSELabels(
-        labels:
-            (json["labels"] as List).map((e) => COSELabel.fromJson(e)).toList(),
-        serializationConfig:
-            COSESerializationConfig.fromJson(json["serialization_config"]));
+      labels:
+          (json["labels"] as List).map((e) => COSELabel.fromJson(e)).toList(),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"],
+      ),
+    );
   }
 
   @override
@@ -149,7 +157,7 @@ class COSELabels with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "labels": labels.map((e) => e.toJson()).toList(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
@@ -157,7 +165,7 @@ class COSELabels with InternalCborSerialization {
 class COSEProtectedHeaderMap with InternalCborSerialization {
   final List<int> data;
   COSEProtectedHeaderMap([List<int> data = const []])
-      : data = data.asImmutableBytes;
+    : data = data.asImmutableBytes;
   factory COSEProtectedHeaderMap.deserialize(CborBytesValue cbor) {
     return COSEProtectedHeaderMap(cbor.value);
   }
@@ -175,9 +183,7 @@ class COSEProtectedHeaderMap with InternalCborSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      "data": BytesUtils.toHexString(data),
-    };
+    return {"data": BytesUtils.toHexString(data)};
   }
 }
 
@@ -187,28 +193,28 @@ class COSEHeaders with InternalCborSerialization {
   const COSEHeaders({required this.protected, required this.unprotected});
   factory COSEHeaders.deserialize(CborListValue cbor) {
     return COSEHeaders(
-        protected: COSEProtectedHeaderMap.deserialize(
-            cbor.elementAt<CborBytesValue>(0)),
-        unprotected: COSEHeaderMap.deserialize(cbor.elementAt(1)));
+      protected: COSEProtectedHeaderMap.deserialize(
+        cbor.objectAt<CborBytesValue>(0),
+      ),
+      unprotected: COSEHeaderMap.deserialize(cbor.objectAt(1)),
+    );
   }
   factory COSEHeaders.fromJson(Map<String, dynamic> json) {
     return COSEHeaders(
-        protected: COSEProtectedHeaderMap.fromJson(json["protected"]),
-        unprotected: COSEHeaderMap.fomJson(json["unprotected"]));
+      protected: COSEProtectedHeaderMap.fromJson(json["protected"]),
+      unprotected: COSEHeaderMap.fomJson(json["unprotected"]),
+    );
   }
   @override
   CborObject toCbor() {
-    return CborListValue.definite([
-      protected.toCbor(),
-      unprotected.toCbor(),
-    ]);
+    return CborListValue.definite([protected.toCbor(), unprotected.toCbor()]);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "protected": protected.toJson(),
-      "unprotected": unprotected.toJson()
+      "unprotected": unprotected.toJson(),
     };
   }
 }
@@ -217,27 +223,31 @@ class COSESignature with InternalCborSerialization {
   final COSEHeaders headers;
   final List<int> signature;
   final COSESerializationConfig serializationConfig;
-  COSESignature(
-      {required this.headers,
-      required List<int> signatures,
-      this.serializationConfig = const COSESerializationConfig()})
-      : signature = signatures.immutable;
+  COSESignature({
+    required this.headers,
+    required List<int> signatures,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : signature = signatures.immutable;
   factory COSESignature.deserialize(CborIterableObject cbor) {
     return COSESignature(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                cbor.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(cbor.elementAt<CborMapValue>(1))),
-        signatures: cbor.elementAt<CborBytesValue>(2).value,
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          cbor.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(cbor.objectAt<CborMapValue>(1)),
+      ),
+      signatures: cbor.objectAt<CborBytesValue>(2).value,
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
   factory COSESignature.fromJson(Map<String, dynamic> json) {
     return COSESignature(
-        headers: COSEHeaders.fromJson(json["headers"]),
-        signatures: BytesUtils.fromHexString(json["signature"]),
-        serializationConfig: COSESerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      headers: COSEHeaders.fromJson(json["headers"]),
+      signatures: BytesUtils.fromHexString(json["signature"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
 
   @override
@@ -245,7 +255,7 @@ class COSESignature with InternalCborSerialization {
     return serializationConfig.toCbor([
       headers.protected.toCbor(),
       headers.unprotected.toCbor(),
-      CborBytesValue(signature)
+      CborBytesValue(signature),
     ]);
   }
 
@@ -254,7 +264,7 @@ class COSESignature with InternalCborSerialization {
     return {
       "headers": headers.toJson(),
       "signature": BytesUtils.toHexString(signature),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
@@ -264,36 +274,42 @@ class COSESignatures with InternalCborSerialization {
   final COSESerializationConfig serializationConfig;
   factory COSESignatures.deserialize(CborIterableObject cbor) {
     return COSESignatures(
-        signatures: cbor
-            .valueAsListOf<CborListValue>()
-            .map((e) => COSESignature.deserialize(e))
-            .toList(),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      signatures:
+          cbor
+              .allObjectsAs<CborListValue>()
+              .map((e) => COSESignature.deserialize(e))
+              .toList(),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
   factory COSESignatures.fromJson(Map<String, dynamic> json) {
     return COSESignatures(
-        signatures: (json["signatures"] as List)
-            .map((e) => COSESignature.fromJson(e))
-            .toList(),
-        serializationConfig:
-            COSESerializationConfig.fromJson(json["serialization_config"]));
+      signatures:
+          (json["signatures"] as List)
+              .map((e) => COSESignature.fromJson(e))
+              .toList(),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"],
+      ),
+    );
   }
-  COSESignatures(
-      {required List<COSESignature> signatures,
-      this.serializationConfig = const COSESerializationConfig()})
-      : signatures = signatures.immutable;
+  COSESignatures({
+    required List<COSESignature> signatures,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : signatures = signatures.immutable;
 
   @override
   CborObject toCbor() {
-    return serializationConfig
-        .toCbor(signatures.map((e) => e.toCbor()).toList());
+    return serializationConfig.toCbor(
+      signatures.map((e) => e.toCbor()).toList(),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "signatures": signatures.map((e) => e.toJson()).toList(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
@@ -301,40 +317,47 @@ class COSESignatures with InternalCborSerialization {
 class COSECounterSignature with InternalCborSerialization {
   final List<COSESignature> signatures;
   final COSESerializationConfig? serializationConfig;
-  COSECounterSignature(
-      {required List<COSESignature> signatures, this.serializationConfig})
-      : signatures = signatures.immutable;
+  COSECounterSignature({
+    required List<COSESignature> signatures,
+    this.serializationConfig,
+  }) : signatures = signatures.immutable;
   factory COSECounterSignature.deserialize(CborIterableObject cbor) {
-    if (cbor.isEmpty) {
+    if (cbor.value.isEmpty) {
       return COSECounterSignature(signatures: []);
     }
-    if (cbor.valueIsListOf<CborIterableObject>()) {
+    final isListOfList = cbor.value.every((e) => e is CborIterableObject);
+    if (isListOfList) {
       return COSECounterSignature(
-          signatures: cbor
-              .valueAsListOf<CborIterableObject>()
-              .map((e) => COSESignature.deserialize(e))
-              .toList(),
-          serializationConfig:
-              COSESerializationConfig(encoding: cbor.encoding));
+        signatures:
+            cbor
+                .allObjectsAs<CborIterableObject>()
+                .map((e) => COSESignature.deserialize(e))
+                .toList(),
+        serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+      );
     }
     return COSECounterSignature(signatures: [COSESignature.deserialize(cbor)]);
   }
 
   factory COSECounterSignature.fromJson(Map<String, dynamic> json) {
     return COSECounterSignature(
-        signatures: (json["signatures"] as List)
-            .map((e) => COSESignature.fromJson(e))
-            .toList(),
-        serializationConfig: json["serialization_config"] == null
-            ? null
-            : COSESerializationConfig.fromJson(json["serialization_config"]));
+      signatures:
+          (json["signatures"] as List)
+              .map((e) => COSESignature.fromJson(e))
+              .toList(),
+      serializationConfig:
+          json["serialization_config"] == null
+              ? null
+              : COSESerializationConfig.fromJson(json["serialization_config"]),
+    );
   }
 
   @override
   CborObject toCbor() {
     if (serializationConfig != null) {
-      return serializationConfig!
-          .toCbor(signatures.map((e) => e.toCbor()).toList());
+      return serializationConfig!.toCbor(
+        signatures.map((e) => e.toCbor()).toList(),
+      );
     }
     if (signatures.length == 1) {
       return signatures.first.toCbor();
@@ -346,7 +369,7 @@ class COSECounterSignature with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "signatures": signatures.map((e) => e.toJson()).toList(),
-      "serialization_config": serializationConfig?.toJson()
+      "serialization_config": serializationConfig?.toJson(),
     };
   }
 }
@@ -361,74 +384,84 @@ class COSEHeaderMap with InternalCborSerialization {
   final COSECounterSignature? counterSignature;
   final Map<COSELabel, CborObject>? otherHeaders;
 
-  COSEHeaderMap(
-      {this.algorithmId,
-      this.criticality,
-      this.contentType,
-      List<int>? keyId,
-      List<int>? initVector,
-      List<int>? partialInitVector,
-      this.counterSignature,
-      Map<COSELabel, CborObject>? otherHeaders})
-      : keyId = keyId?.immutable,
-        initVector = initVector?.immutable,
-        partialInitVector = partialInitVector?.immutable,
-        otherHeaders = otherHeaders?.immutable;
+  COSEHeaderMap({
+    this.algorithmId,
+    this.criticality,
+    this.contentType,
+    List<int>? keyId,
+    List<int>? initVector,
+    List<int>? partialInitVector,
+    this.counterSignature,
+    Map<COSELabel, CborObject>? otherHeaders,
+  }) : keyId = keyId?.immutable,
+       initVector = initVector?.immutable,
+       partialInitVector = partialInitVector?.immutable,
+       otherHeaders = otherHeaders?.immutable;
 
   factory COSEHeaderMap.deserialize(CborMapValue cbor) {
-    final data = cbor.value.clone()
-      ..removeWhere((k, v) {
-        return k is CborIntValue && k.value > 0 && k.value < 8;
-      });
-    return COSEHeaderMap(
-        algorithmId: cbor
-            .getIntValueAs<CborObject?>(1)
-            ?.convertTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
-        criticality: cbor
-            .getIntValueAs<CborObject?>(2)
-            ?.convertTo<COSELabels, CborIterableObject>(
-                (e) => COSELabels.deserialize(e)),
-        contentType: cbor
-            .getIntValueAs<CborObject?>(3)
-            ?.convertTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
-        keyId: cbor
-            .getIntValueAs<CborBytesValue?>(4)
-            ?.convertTo<List<int>, CborBytesValue>((e) => e.value),
-        initVector: cbor
-            .getIntValueAs<CborBytesValue?>(5)
-            ?.convertTo<List<int>, CborBytesValue>((e) => e.value),
-        partialInitVector: cbor
-            .getIntValueAs<CborBytesValue?>(6)
-            ?.convertTo<List<int>, CborBytesValue>((e) => e.value),
-        counterSignature: cbor
-            .getIntValueAs<CborListValue?>(7)
-            ?.convertTo<COSECounterSignature, CborListValue>(
-                (e) => COSECounterSignature.deserialize(e)),
-        otherHeaders: {
-          for (final i in data.entries) COSELabel.deserialize(i.key): i.value
+    final data =
+        cbor.value.clone()..removeWhere((k, v) {
+          return k is CborIntValue && k.value > 0 && k.value < 8;
         });
+    return COSEHeaderMap(
+      algorithmId: cbor
+          .getIntKeyAs<CborObject?>(1)
+          ?.objectTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
+      criticality: cbor
+          .getIntKeyAs<CborObject?>(2)
+          ?.objectTo<COSELabels, CborIterableObject>(
+            (e) => COSELabels.deserialize(e),
+          ),
+      contentType: cbor
+          .getIntKeyAs<CborObject?>(3)
+          ?.objectTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
+      keyId: cbor
+          .getIntKeyAs<CborBytesValue?>(4)
+          ?.objectTo<List<int>, CborBytesValue>((e) => e.value),
+      initVector: cbor
+          .getIntKeyAs<CborBytesValue?>(5)
+          ?.objectTo<List<int>, CborBytesValue>((e) => e.value),
+      partialInitVector: cbor
+          .getIntKeyAs<CborBytesValue?>(6)
+          ?.objectTo<List<int>, CborBytesValue>((e) => e.value),
+      counterSignature: cbor
+          .getIntKeyAs<CborListValue?>(7)
+          ?.objectTo<COSECounterSignature, CborListValue>(
+            (e) => COSECounterSignature.deserialize(e),
+          ),
+      otherHeaders: {
+        for (final i in data.entries) COSELabel.deserialize(i.key): i.value,
+      },
+    );
   }
 
   factory COSEHeaderMap.fomJson(Map<String, dynamic> json) {
     return COSEHeaderMap(
-        algorithmId: json["algorithm_id"] == null
-            ? null
-            : COSELabel.fromJson(json["algorithm_id"]),
-        criticality: json["criticality"] == null
-            ? null
-            : COSELabels.fromJson(json["criticality"]),
-        contentType: json["content_type"] == null
-            ? null
-            : COSELabel.fromJson(json["content_type"]),
-        keyId: BytesUtils.tryFromHexString(json["key_id"]),
-        initVector: BytesUtils.tryFromHexString(json["init_vector"]),
-        partialInitVector:
-            BytesUtils.tryFromHexString(json["partial_init_vector"]),
-        counterSignature: json["counter_signature"] == null
-            ? null
-            : COSECounterSignature.fromJson(json["counter_signature"]),
-        otherHeaders: (json["other_headers"] as Map?)?.map((k, v) =>
-            MapEntry(COSELabel.fromJson(k), CborObject.fromCborHex(v))));
+      algorithmId:
+          json["algorithm_id"] == null
+              ? null
+              : COSELabel.fromJson(json["algorithm_id"]),
+      criticality:
+          json["criticality"] == null
+              ? null
+              : COSELabels.fromJson(json["criticality"]),
+      contentType:
+          json["content_type"] == null
+              ? null
+              : COSELabel.fromJson(json["content_type"]),
+      keyId: BytesUtils.tryFromHexString(json["key_id"]),
+      initVector: BytesUtils.tryFromHexString(json["init_vector"]),
+      partialInitVector: BytesUtils.tryFromHexString(
+        json["partial_init_vector"],
+      ),
+      counterSignature:
+          json["counter_signature"] == null
+              ? null
+              : COSECounterSignature.fromJson(json["counter_signature"]),
+      otherHeaders: (json["other_headers"] as Map?)?.map(
+        (k, v) => MapEntry(COSELabel.fromJson(k), CborObject.fromCborHex(v)),
+      ),
+    );
   }
 
   COSEHeaderMap copyWith({
@@ -442,14 +475,15 @@ class COSEHeaderMap with InternalCborSerialization {
     Map<COSELabel, CborObject<dynamic>>? otherHeaders,
   }) {
     return COSEHeaderMap(
-        algorithmId: algorithmId ?? this.algorithmId,
-        criticality: criticality ?? this.criticality,
-        contentType: contentType ?? this.contentType,
-        keyId: keyId ?? this.keyId,
-        initVector: initVector ?? this.initVector,
-        partialInitVector: partialInitVector ?? this.partialInitVector,
-        counterSignature: counterSignature ?? this.counterSignature,
-        otherHeaders: otherHeaders ?? this.otherHeaders);
+      algorithmId: algorithmId ?? this.algorithmId,
+      criticality: criticality ?? this.criticality,
+      contentType: contentType ?? this.contentType,
+      keyId: keyId ?? this.keyId,
+      initVector: initVector ?? this.initVector,
+      partialInitVector: partialInitVector ?? this.partialInitVector,
+      counterSignature: counterSignature ?? this.counterSignature,
+      otherHeaders: otherHeaders ?? this.otherHeaders,
+    );
   }
 
   @override
@@ -464,7 +498,7 @@ class COSEHeaderMap with InternalCborSerialization {
         CborIntValue(6): CborBytesValue(partialInitVector!),
       if (counterSignature != null) CborIntValue(7): counterSignature!.toCbor(),
       if (otherHeaders != null)
-        for (final i in otherHeaders!.entries) i.key.toCbor(): i.value
+        for (final i in otherHeaders!.entries) i.key.toCbor(): i.value,
     });
   }
 
@@ -478,8 +512,9 @@ class COSEHeaderMap with InternalCborSerialization {
       "init_vector": BytesUtils.tryToHexString(initVector),
       "partial_init_vector": BytesUtils.tryToHexString(partialInitVector),
       "counter_signature": counterSignature?.toJson(),
-      "other_headers":
-          otherHeaders?.map((k, v) => MapEntry(k.toJson(), v.toCborHex()))
+      "other_headers": otherHeaders?.map(
+        (k, v) => MapEntry(k.toJson(), v.toCborHex()),
+      ),
     };
   }
 }
@@ -489,9 +524,10 @@ enum COSESignedMessageType {
   coseSign;
 
   static COSESignedMessageType fromName(String? name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw ADAPluginException(
-            'Invalid COSESignedMessageType "$name". '));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse: () => throw ItemNotFoundException(name: "COSESignedMessageType"),
+    );
   }
 }
 
@@ -502,28 +538,34 @@ abstract class COSESignedMessage with InternalCborSerialization {
     final type = COSESignedMessageType.fromName(json.keys.firstOrNull);
     return switch (type) {
       COSESignedMessageType.coseSign => COSESign.fromJson(json),
-      COSESignedMessageType.coseSign1 => COSESign1.fromJson(json)
+      COSESignedMessageType.coseSign1 => COSESign1.fromJson(json),
     };
   }
   factory COSESignedMessage.fromCborBytes(List<int> bytes) {
     return COSESignedMessage.deserialize(
-        CborObject.fromCbor(bytes).as<CborListValue>());
+      CborObject.fromCbor(bytes).as<CborListValue>(),
+    );
   }
   factory COSESignedMessage.deserialize(CborListValue cbor) {
     if (cbor.value.length < 3) {
       throw ADAPluginException('Invalid COSESignedMessage CBOR');
     }
-    if (cbor.elementAt<CborObject>(3).hasType<CborListValue>()) {
+    if (cbor.objectAt<CborObject>(3).hasType<CborListValue>()) {
       return COSESign.deserialize(cbor);
     }
     return COSESign1.deserialize(cbor);
   }
   factory COSESignedMessage.fromUserFacingEncoding(String signedMessage) {
     if (!signedMessage.startsWith("cms_")) {
-      throw ADAPluginException('Invalid signed message prefix.', details: {
-        "expected": "cms_",
-        "prefix": signedMessage.substring(IntUtils.min(4, signedMessage.length))
-      });
+      throw ADAPluginException(
+        'Invalid signed message prefix.',
+        details: {
+          "expected": "cms_",
+          "prefix": signedMessage.substring(
+            IntUtils.min(4, signedMessage.length),
+          ),
+        },
+      );
     }
     String payload = signedMessage.substring(4);
     if (payload.length < 8) {
@@ -532,10 +574,14 @@ abstract class COSESignedMessage with InternalCborSerialization {
     payload = payload.replaceAll(RegExp(r'=+$'), '');
     final bodyB64 = payload.substring(0, payload.length - 6);
     final checksumB64 = signedMessage.substring(4 + bodyB64.length);
-    final body =
-        StringUtils.encode(bodyB64, type: StringEncoding.base64UrlSafe);
-    final checksum =
-        StringUtils.encode(checksumB64, type: StringEncoding.base64UrlSafe);
+    final body = StringUtils.encode(
+      bodyB64,
+      encoding: StringEncoding.base64UrlSafe,
+    );
+    final checksum = StringUtils.encode(
+      checksumB64,
+      encoding: StringEncoding.base64UrlSafe,
+    );
     final checksumBytes = COSEUtils.fnv32aBytes(body);
     if (!BytesUtils.bytesEqual(checksum, checksumBytes)) {
       throw ADAPluginException('Invalid signed message checksum');
@@ -545,9 +591,11 @@ abstract class COSESignedMessage with InternalCborSerialization {
 
   String toUserFacingEncoding() {
     final toBytes = toCbor().encode();
-    final checksumData = StringUtils.decode(COSEUtils.fnv32aBytes(toBytes),
-        type: StringEncoding.base64UrlSafe);
-    return "cms_${StringUtils.decode(toBytes, type: StringEncoding.base64UrlSafe)}$checksumData";
+    final checksumData = StringUtils.decode(
+      COSEUtils.fnv32aBytes(toBytes),
+      encoding: StringEncoding.base64UrlSafe,
+    );
+    return "cms_${StringUtils.decode(toBytes, encoding: StringEncoding.base64UrlSafe)}$checksumData";
   }
 
   @override
@@ -559,33 +607,37 @@ class COSESign1 extends COSESignedMessage {
   final List<int>? payload;
   final List<int> signature;
   final COSESerializationConfig serializationConfig;
-  COSESign1(
-      {required this.headers,
-      List<int>? payload,
-      required List<int> signature,
-      this.serializationConfig = const COSESerializationConfig()})
-      : payload = payload?.asImmutableBytes,
-        signature = signature.asImmutableBytes,
-        super(type: COSESignedMessageType.coseSign1);
+  COSESign1({
+    required this.headers,
+    List<int>? payload,
+    required List<int> signature,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : payload = payload?.asImmutableBytes,
+       signature = signature.asImmutableBytes,
+       super(type: COSESignedMessageType.coseSign1);
   factory COSESign1.deserialize(CborIterableObject cbor) {
     return COSESign1(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                cbor.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(cbor.elementAt<CborMapValue>(1))),
-        payload: cbor.elementAtBytes<List<int>?>(2),
-        signature: cbor.elementAtBytes<List<int>>(3),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          cbor.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(cbor.objectAt<CborMapValue>(1)),
+      ),
+      payload: cbor.rawValueAt<List<int>?>(2),
+      signature: cbor.rawValueAt<List<int>>(3),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
   factory COSESign1.fromJson(Map<String, dynamic> json) {
     json = json[COSESignedMessageType.coseSign1.name] ?? json;
     return COSESign1(
-        headers: COSEHeaders.fromJson(json["headers"]),
-        payload: BytesUtils.tryFromHexString(json["payload"]),
-        signature: BytesUtils.fromHexString(json["signature"]),
-        serializationConfig: COSESerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      headers: COSEHeaders.fromJson(json["headers"]),
+      payload: BytesUtils.tryFromHexString(json["payload"]),
+      signature: BytesUtils.fromHexString(json["signature"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
 
   @override
@@ -594,7 +646,7 @@ class COSESign1 extends COSESignedMessage {
       headers.protected.toCbor(),
       headers.unprotected.toCbor(),
       if (payload == null) const CborNullValue() else CborBytesValue(payload!),
-      CborBytesValue(signature)
+      CborBytesValue(signature),
     ]);
   }
 
@@ -605,8 +657,8 @@ class COSESign1 extends COSESignedMessage {
         "headers": headers.toJson(),
         "payload": BytesUtils.tryToHexString(payload),
         "signature": BytesUtils.toHexString(signature),
-        "serialization_config": serializationConfig.toJson()
-      }
+        "serialization_config": serializationConfig.toJson(),
+      },
     };
   }
 }
@@ -616,33 +668,36 @@ class COSESign extends COSESignedMessage {
   final List<int>? payload;
   final COSESignatures signatures;
   final COSESerializationConfig serializationConfig;
-  COSESign(
-      {required this.headers,
-      List<int>? payload,
-      required this.signatures,
-      this.serializationConfig = const COSESerializationConfig()})
-      : payload = payload?.asImmutableBytes,
-        super(type: COSESignedMessageType.coseSign);
+  COSESign({
+    required this.headers,
+    List<int>? payload,
+    required this.signatures,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : payload = payload?.asImmutableBytes,
+       super(type: COSESignedMessageType.coseSign);
   factory COSESign.fromJson(Map<String, dynamic> json) {
     json = json[COSESignedMessageType.coseSign.name] ?? json;
     return COSESign(
-        headers: COSEHeaders.fromJson(json["headers"]),
-        signatures: COSESignatures.fromJson(json["signatures"]),
-        payload: BytesUtils.tryFromHexString(json["payload"]),
-        serializationConfig: COSESerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      headers: COSEHeaders.fromJson(json["headers"]),
+      signatures: COSESignatures.fromJson(json["signatures"]),
+      payload: BytesUtils.tryFromHexString(json["payload"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
   factory COSESign.deserialize(CborIterableObject cbor) {
     return COSESign(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                cbor.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(cbor.elementAt<CborMapValue>(1))),
-        payload: cbor.elementAtBytes<List<int>?>(2),
-        signatures:
-            COSESignatures.deserialize(cbor.elementAt<CborListValue>(3)),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          cbor.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(cbor.objectAt<CborMapValue>(1)),
+      ),
+      payload: cbor.rawValueAt<List<int>?>(2),
+      signatures: COSESignatures.deserialize(cbor.objectAt<CborListValue>(3)),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
 
   @override
@@ -662,8 +717,8 @@ class COSESign extends COSESignedMessage {
         "headers": headers.toJson(),
         "signatures": signatures.toJson(),
         "payload": BytesUtils.tryToHexString(payload),
-        "serialization_config": serializationConfig.toJson()
-      }
+        "serialization_config": serializationConfig.toJson(),
+      },
     };
   }
 }
@@ -676,9 +731,10 @@ enum COSESigContext {
   final String value;
   const COSESigContext(this.value);
   static COSESigContext fromValue(String? name) {
-    return values.firstWhere((e) => e.value == name,
-        orElse: () =>
-            throw ADAPluginException('Invalid COSESigContext "$name". '));
+    return values.firstWhere(
+      (e) => e.value == name,
+      orElse: () => throw ItemNotFoundException(name: "COSESigContext"),
+    );
   }
 }
 
@@ -689,38 +745,46 @@ class COSESigStructure with InternalCborSerialization {
   final List<int> externalAAD;
   final List<int> payload;
   final COSESerializationConfig serializationConfig;
-  const COSESigStructure(
-      {required this.context,
-      required this.bodyProtected,
-      this.signProtected,
-      required this.externalAAD,
-      required this.payload,
-      this.serializationConfig = const COSESerializationConfig()});
+  const COSESigStructure({
+    required this.context,
+    required this.bodyProtected,
+    this.signProtected,
+    required this.externalAAD,
+    required this.payload,
+    this.serializationConfig = const COSESerializationConfig(),
+  });
   factory COSESigStructure.deserialize(CborIterableObject cbor) {
     int index = 0;
     return COSESigStructure(
-        context: COSESigContext.fromValue(cbor.elementAtString(index++)),
-        bodyProtected: COSEProtectedHeaderMap.deserialize(
-            cbor.elementAt<CborBytesValue>(index++)),
-        signProtected: cbor.value.length == 4
-            ? null
-            : COSEProtectedHeaderMap.deserialize(
-                cbor.elementAt<CborBytesValue>(index++)),
-        externalAAD: cbor.elementAtBytes(index++),
-        payload: cbor.elementAtBytes(index++),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      context: COSESigContext.fromValue(cbor.rawValueAt(index++)),
+      bodyProtected: COSEProtectedHeaderMap.deserialize(
+        cbor.objectAt<CborBytesValue>(index++),
+      ),
+      signProtected:
+          cbor.value.length == 4
+              ? null
+              : COSEProtectedHeaderMap.deserialize(
+                cbor.objectAt<CborBytesValue>(index++),
+              ),
+      externalAAD: cbor.rawValueAt(index++),
+      payload: cbor.rawValueAt(index++),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
   factory COSESigStructure.fromJson(Map<String, dynamic> json) {
     return COSESigStructure(
-        context: COSESigContext.fromValue(json["context"]),
-        bodyProtected: COSEProtectedHeaderMap.fromJson(json["body_protected"]),
-        signProtected: json["sign_protected"] == null
-            ? null
-            : COSEProtectedHeaderMap.fromJson(json["sign_protected"]),
-        externalAAD: BytesUtils.fromHexString(json["external_aad"]),
-        payload: BytesUtils.fromHexString(json["payload"]),
-        serializationConfig: COSESerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      context: COSESigContext.fromValue(json["context"]),
+      bodyProtected: COSEProtectedHeaderMap.fromJson(json["body_protected"]),
+      signProtected:
+          json["sign_protected"] == null
+              ? null
+              : COSEProtectedHeaderMap.fromJson(json["sign_protected"]),
+      externalAAD: BytesUtils.fromHexString(json["external_aad"]),
+      payload: BytesUtils.fromHexString(json["payload"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
 
   @override
@@ -730,7 +794,7 @@ class COSESigStructure with InternalCborSerialization {
       bodyProtected.toCbor(),
       if (signProtected != null) signProtected!.toCbor(),
       CborBytesValue(externalAAD),
-      CborBytesValue(payload)
+      CborBytesValue(payload),
     ]);
   }
 
@@ -742,7 +806,7 @@ class COSESigStructure with InternalCborSerialization {
       "sign_protected": signProtected?.toJson(),
       "external_aad": BytesUtils.toHexString(externalAAD),
       "payload": BytesUtils.toHexString(payload),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
@@ -751,26 +815,30 @@ class COSEEncrypt0 with InternalCborSerialization {
   final COSEHeaders headers;
   final List<int>? ciphertext;
   final COSESerializationConfig serializationConfig;
-  COSEEncrypt0(
-      {required this.headers,
-      List<int>? ciphertext,
-      this.serializationConfig = const COSESerializationConfig()})
-      : ciphertext = ciphertext?.asImmutableBytes;
+  COSEEncrypt0({
+    required this.headers,
+    List<int>? ciphertext,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : ciphertext = ciphertext?.asImmutableBytes;
   factory COSEEncrypt0.deserialize(CborIterableObject cbor) {
     return COSEEncrypt0(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                cbor.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(cbor.elementAt<CborMapValue>(1))),
-        ciphertext: cbor.elementAtBytes<List<int>?>(2),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          cbor.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(cbor.objectAt<CborMapValue>(1)),
+      ),
+      ciphertext: cbor.rawValueAt<List<int>?>(2),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
   factory COSEEncrypt0.fromJson(Map<String, dynamic> json) {
     return COSEEncrypt0(
-        headers: COSEHeaders.fromJson(json["headers"]),
-        serializationConfig:
-            COSESerializationConfig.fromJson(json["serialization_config"]));
+      headers: COSEHeaders.fromJson(json["headers"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"],
+      ),
+    );
   }
 
   @override
@@ -789,36 +857,48 @@ class COSEEncrypt0 with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "headers": headers.toJson(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
 
 class COSEPasswordEncryption extends COSEEncrypt0 {
   static const List<int> tags = [16];
-  COSEPasswordEncryption(
-      {required super.headers, super.ciphertext, super.serializationConfig});
+  COSEPasswordEncryption({
+    required super.headers,
+    super.ciphertext,
+    super.serializationConfig,
+  });
   factory COSEPasswordEncryption.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(tags, cbor.tags)) {
-      throw ADAPluginException("Invalid COSEPasswordEncryption CBOR tag.",
-          details: {"expected": tags, "tags": cbor.tags});
+      throw ADAPluginException(
+        "Invalid COSEPasswordEncryption CBOR tag.",
+        details: {"expected": tags.join(","), "tags": cbor.tags.join(",")},
+      );
     }
-    final values = cbor.valueAs<CborIterableObject>('COSEPasswordEncryption');
+    final values = cbor.asValue<CborIterableObject>(
+      operation: 'COSEPasswordEncryption',
+    );
     return COSEPasswordEncryption(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                values.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(values.elementAt<CborMapValue>(1))),
-        ciphertext: values.elementAtBytes<List<int>?>(2),
-        serializationConfig:
-            COSESerializationConfig(encoding: values.encoding));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          values.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(
+          values.objectAt<CborMapValue>(1),
+        ),
+      ),
+      ciphertext: values.rawValueAt<List<int>?>(2),
+      serializationConfig: COSESerializationConfig(encoding: values.encoding),
+    );
   }
   factory COSEPasswordEncryption.fromJson(Map<String, dynamic> json) {
     return COSEPasswordEncryption(
-        headers: COSEHeaders.fromJson(json["headers"]),
-        serializationConfig:
-            COSESerializationConfig.fromJson(json["serialization_config"]));
+      headers: COSEHeaders.fromJson(json["headers"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"],
+      ),
+    );
   }
 
   @override
@@ -830,7 +910,7 @@ class COSEPasswordEncryption extends COSEEncrypt0 {
   Map<String, dynamic> toJson() {
     return {
       "headers": headers.toJson(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
@@ -839,27 +919,31 @@ class COSERecipient with InternalCborSerialization {
   final COSEHeaders headers;
   final List<int>? ciphertext;
   final COSESerializationConfig serializationConfig;
-  COSERecipient(
-      {required this.headers,
-      List<int>? ciphertext,
-      this.serializationConfig = const COSESerializationConfig()})
-      : ciphertext = ciphertext?.asImmutableBytes;
+  COSERecipient({
+    required this.headers,
+    List<int>? ciphertext,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : ciphertext = ciphertext?.asImmutableBytes;
   factory COSERecipient.fromJson(Map<String, dynamic> json) {
     return COSERecipient(
-        headers: COSEHeaders.fromJson(json["headers"]),
-        ciphertext: BytesUtils.tryFromHexString(json["ciphertext"]),
-        serializationConfig: COSESerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      headers: COSEHeaders.fromJson(json["headers"]),
+      ciphertext: BytesUtils.tryFromHexString(json["ciphertext"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
   factory COSERecipient.deserialize(CborIterableObject cbor) {
     return COSERecipient(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                cbor.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(cbor.elementAt<CborMapValue>(1))),
-        ciphertext: cbor.elementAtBytes<List<int>?>(2),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          cbor.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(cbor.objectAt<CborMapValue>(1)),
+      ),
+      ciphertext: cbor.rawValueAt<List<int>?>(2),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
 
   @override
@@ -880,7 +964,7 @@ class COSERecipient with InternalCborSerialization {
     return {
       "headers": headers.toJson(),
       "ciphertext": BytesUtils.tryToHexString(ciphertext),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
@@ -888,37 +972,44 @@ class COSERecipient with InternalCborSerialization {
 class COSERecipients with InternalCborSerialization {
   final List<COSERecipient> recipients;
   final COSESerializationConfig serializationConfig;
-  COSERecipients(
-      {required this.recipients,
-      this.serializationConfig = const COSESerializationConfig()});
+  COSERecipients({
+    required this.recipients,
+    this.serializationConfig = const COSESerializationConfig(),
+  });
   factory COSERecipients.deserialize(CborIterableObject cbor) {
     return COSERecipients(
-        recipients: cbor
-            .valueAsListOf<CborListValue>()
-            .map((e) => COSERecipient.deserialize(e))
-            .toList(),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      recipients:
+          cbor
+              .allObjectsAs<CborListValue>()
+              .map((e) => COSERecipient.deserialize(e))
+              .toList(),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
   factory COSERecipients.fromJson(Map<String, dynamic> json) {
     return COSERecipients(
-        recipients: (json["recipients"] as List)
-            .map((e) => COSERecipient.fromJson(e))
-            .toList(),
-        serializationConfig: COSESerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      recipients:
+          (json["recipients"] as List)
+              .map((e) => COSERecipient.fromJson(e))
+              .toList(),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
 
   @override
   CborObject toCbor() {
-    return serializationConfig
-        .toCbor(recipients.map((e) => e.toCbor()).toList());
+    return serializationConfig.toCbor(
+      recipients.map((e) => e.toCbor()).toList(),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "serialization_config": serializationConfig.toJson(),
-      "recipients": recipients.map((e) => e.toJson()).toList()
+      "recipients": recipients.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -928,32 +1019,35 @@ class COSEEncrypt with InternalCborSerialization {
   final List<int>? ciphertext;
   final COSERecipients recipients;
   final COSESerializationConfig serializationConfig;
-  COSEEncrypt(
-      {required this.headers,
-      List<int>? ciphertext,
-      required this.recipients,
-      this.serializationConfig = const COSESerializationConfig()})
-      : ciphertext = ciphertext?.asImmutableBytes;
+  COSEEncrypt({
+    required this.headers,
+    List<int>? ciphertext,
+    required this.recipients,
+    this.serializationConfig = const COSESerializationConfig(),
+  }) : ciphertext = ciphertext?.asImmutableBytes;
   factory COSEEncrypt.deserialize(CborIterableObject cbor) {
     return COSEEncrypt(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                cbor.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(cbor.elementAt<CborMapValue>(1))),
-        ciphertext: cbor.elementAtBytes<List<int>?>(2),
-        recipients:
-            COSERecipients.deserialize(cbor.elementAt<CborListValue>(3)),
-        serializationConfig: COSESerializationConfig(encoding: cbor.encoding));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          cbor.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(cbor.objectAt<CborMapValue>(1)),
+      ),
+      ciphertext: cbor.rawValueAt<List<int>?>(2),
+      recipients: COSERecipients.deserialize(cbor.objectAt<CborListValue>(3)),
+      serializationConfig: COSESerializationConfig(encoding: cbor.encoding),
+    );
   }
 
   factory COSEEncrypt.fromJson(Map<String, dynamic> json) {
     return COSEEncrypt(
-        headers: COSEHeaders.fromJson(json["headers"]),
-        ciphertext: BytesUtils.tryFromHexString(json["ciphertext"]),
-        recipients: COSERecipients.fromJson(json["recipients"]),
-        serializationConfig: COSESerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+      headers: COSEHeaders.fromJson(json["headers"]),
+      ciphertext: BytesUtils.tryFromHexString(json["ciphertext"]),
+      recipients: COSERecipients.fromJson(json["recipients"]),
+      serializationConfig: COSESerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
   @override
   CborObject toCbor() {
@@ -974,30 +1068,41 @@ class COSEEncrypt with InternalCborSerialization {
       "headers": headers.toJson(),
       "ciphertext": BytesUtils.tryToHexString(ciphertext),
       "recipients": recipients.toJson(),
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }
 
 class COSEPubKeyEncryption extends COSEEncrypt {
   static const List<int> tags = [96];
-  COSEPubKeyEncryption(
-      {required super.headers, super.ciphertext, required super.recipients});
+  COSEPubKeyEncryption({
+    required super.headers,
+    super.ciphertext,
+    required super.recipients,
+  });
 
   factory COSEPubKeyEncryption.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(tags, cbor.tags)) {
-      throw ADAPluginException("Invalid COSEPubKeyEncryption CBOR tag.",
-          details: {"expected": tags, "tags": cbor.tags});
+      throw ADAPluginException(
+        "Invalid COSEPubKeyEncryption CBOR tag.",
+        details: {"expected": tags.join(","), "tags": cbor.tags.join(",")},
+      );
     }
-    final values = cbor.valueAs<CborListValue>('COSEPubKeyEncryption');
+    final values = cbor.asValue<CborListValue>(
+      operation: 'COSEPubKeyEncryption',
+    );
     return COSEPubKeyEncryption(
-        headers: COSEHeaders(
-            protected: COSEProtectedHeaderMap.deserialize(
-                values.elementAt<CborBytesValue>(0)),
-            unprotected:
-                COSEHeaderMap.deserialize(values.elementAt<CborMapValue>(1))),
-        ciphertext: values.elementAtBytes<List<int>?>(2),
-        recipients: COSERecipients.deserialize(values.elementAt(3)));
+      headers: COSEHeaders(
+        protected: COSEProtectedHeaderMap.deserialize(
+          values.objectAt<CborBytesValue>(0),
+        ),
+        unprotected: COSEHeaderMap.deserialize(
+          values.objectAt<CborMapValue>(1),
+        ),
+      ),
+      ciphertext: values.rawValueAt<List<int>?>(2),
+      recipients: COSERecipients.deserialize(values.objectAt(3)),
+    );
   }
 
   @override
@@ -1014,77 +1119,88 @@ class COSEKey with InternalCborSerialization {
   final List<int>? baseInitVector;
   final Map<COSELabel, CborObject>? otherHeaders;
 
-  COSEKey(
-      {this.keyType,
-      this.keyOps,
-      List<int>? keyId,
-      this.algorithmId,
-      List<int>? baseInitVector,
-      Map<COSELabel, CborObject>? otherHeaders})
-      : keyId = keyId?.immutable,
-        baseInitVector = baseInitVector?.immutable,
-        otherHeaders = otherHeaders?.immutable;
+  COSEKey({
+    this.keyType,
+    this.keyOps,
+    List<int>? keyId,
+    this.algorithmId,
+    List<int>? baseInitVector,
+    Map<COSELabel, CborObject>? otherHeaders,
+  }) : keyId = keyId?.immutable,
+       baseInitVector = baseInitVector?.immutable,
+       otherHeaders = otherHeaders?.immutable;
 
   factory COSEKey.deserialize(CborMapValue cbor) {
-    final data = cbor.value.clone()
-      ..removeWhere((k, v) {
-        return k is CborIntValue && k.value > 0 && k.value < 6;
-      });
-    return COSEKey(
-        keyType: cbor
-            .getIntValueAs<CborObject?>(1)
-            ?.convertTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
-        keyId: cbor
-            .getIntValueAs<CborBytesValue?>(2)
-            ?.convertTo<List<int>, CborBytesValue>((e) => e.value),
-        algorithmId: cbor
-            .getIntValueAs<CborObject?>(3)
-            ?.convertTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
-        keyOps: cbor
-            .getIntValueAs<CborObject?>(4)
-            ?.convertTo<COSELabels, CborIterableObject>(
-                (e) => COSELabels.deserialize(e)),
-        baseInitVector: cbor
-            .getIntValueAs<CborBytesValue?>(5)
-            ?.convertTo<List<int>, CborBytesValue>((e) => e.value),
-        otherHeaders: {
-          for (final i in data.entries) COSELabel.deserialize(i.key): i.value
+    final data =
+        cbor.value.clone()..removeWhere((k, v) {
+          return k is CborIntValue && k.value > 0 && k.value < 6;
         });
+    return COSEKey(
+      keyType: cbor
+          .getIntKeyAs<CborObject?>(1)
+          ?.objectTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
+      keyId: cbor
+          .getIntKeyAs<CborBytesValue?>(2)
+          ?.objectTo<List<int>, CborBytesValue>((e) => e.value),
+      algorithmId: cbor
+          .getIntKeyAs<CborObject?>(3)
+          ?.objectTo<COSELabel, CborObject>((e) => COSELabel.deserialize(e)),
+      keyOps: cbor
+          .getIntKeyAs<CborObject?>(4)
+          ?.objectTo<COSELabels, CborIterableObject>(
+            (e) => COSELabels.deserialize(e),
+          ),
+      baseInitVector: cbor
+          .getIntKeyAs<CborBytesValue?>(5)
+          ?.objectTo<List<int>, CborBytesValue>((e) => e.value),
+      otherHeaders: {
+        for (final i in data.entries) COSELabel.deserialize(i.key): i.value,
+      },
+    );
   }
   factory COSEKey.fromJson(Map<String, dynamic> json) {
     return COSEKey(
-        algorithmId: json["algorithm_id"] == null
-            ? null
-            : COSELabel.fromJson(json["algorithm_id"]),
-        baseInitVector: BytesUtils.tryFromHexString(json["base_init_vector"]),
-        keyId: BytesUtils.tryFromHexString(json["key_id"]),
-        keyOps: json["key_ops"] == null
-            ? null
-            : COSELabels.fromJson(json["key_ops"]),
-        keyType: json["key_type"] == null
-            ? null
-            : COSELabel.fromJson(json["key_type"]),
-        otherHeaders: (json["other_headers"] as Map?)?.map((k, v) =>
-            MapEntry(COSELabel.fromJson(k), CborObject.fromCborHex(v))));
+      algorithmId:
+          json["algorithm_id"] == null
+              ? null
+              : COSELabel.fromJson(json["algorithm_id"]),
+      baseInitVector: BytesUtils.tryFromHexString(json["base_init_vector"]),
+      keyId: BytesUtils.tryFromHexString(json["key_id"]),
+      keyOps:
+          json["key_ops"] == null ? null : COSELabels.fromJson(json["key_ops"]),
+      keyType:
+          json["key_type"] == null
+              ? null
+              : COSELabel.fromJson(json["key_type"]),
+      otherHeaders: (json["other_headers"] as Map?)?.map(
+        (k, v) => MapEntry(COSELabel.fromJson(k), CborObject.fromCborHex(v)),
+      ),
+    );
   }
-  factory COSEKey.fromEd25519Keypair(
-      {List<int>? publicKey,
-      List<int>? privateKey,
-      bool forSigning = false,
-      bool forVerifying = false}) {
+  factory COSEKey.fromEd25519Keypair({
+    List<int>? publicKey,
+    List<int>? privateKey,
+    bool forSigning = false,
+    bool forVerifying = false,
+  }) {
     return COSEKey(
       keyType: COSELabelInt.fromInt(COSEKeyType.okp.value),
       algorithmId: COSELabelInt.fromInt(COSEAlgorithmId.eddsa.value),
-      keyOps: forSigning || forVerifying
-          ? COSELabels(labels: [
-              if (forSigning) COSELabelInt.fromInt(COSEKeyOperation.sign.value),
-              if (forVerifying)
-                COSELabelInt.fromInt(COSEKeyOperation.verify.value)
-            ])
-          : null,
+      keyOps:
+          forSigning || forVerifying
+              ? COSELabels(
+                labels: [
+                  if (forSigning)
+                    COSELabelInt.fromInt(COSEKeyOperation.sign.value),
+                  if (forVerifying)
+                    COSELabelInt.fromInt(COSEKeyOperation.verify.value),
+                ],
+              )
+              : null,
       otherHeaders: {
-        COSELabelInt.fromInt(COSEECKey.crv.value):
-            CborIntValue(COSECurveType.ed25519.value),
+        COSELabelInt.fromInt(COSEECKey.crv.value): CborIntValue(
+          COSECurveType.ed25519.value,
+        ),
         if (publicKey != null)
           COSELabelInt.fromInt(COSEECKey.x.value): CborBytesValue(publicKey),
         if (privateKey != null)
@@ -1093,7 +1209,9 @@ class COSEKey with InternalCborSerialization {
     );
   }
   factory COSEKey.fromCborBytes(List<int> bytes) {
-    return COSEKey.deserialize(CborObject.fromCbor(bytes).as("COSEKey"));
+    return COSEKey.deserialize(
+      CborObject.fromCbor(bytes).as(operation: "COSEKey"),
+    );
   }
   @override
   CborObject toCbor() {
@@ -1105,7 +1223,7 @@ class COSEKey with InternalCborSerialization {
       if (baseInitVector != null)
         CborIntValue(5): CborBytesValue(baseInitVector!),
       if (otherHeaders != null)
-        for (final i in otherHeaders!.entries) i.key.toCbor(): i.value
+        for (final i in otherHeaders!.entries) i.key.toCbor(): i.value,
     });
   }
 
@@ -1117,8 +1235,9 @@ class COSEKey with InternalCborSerialization {
       "algorithm_id": algorithmId?.toJson(),
       "key_ops": keyOps?.toJson(),
       "base_init_vector": BytesUtils.tryToHexString(baseInitVector),
-      "other_headers":
-          otherHeaders?.map((k, v) => MapEntry(k.toJson(), v.toCborHex()))
+      "other_headers": otherHeaders?.map(
+        (k, v) => MapEntry(k.toJson(), v.toCborHex()),
+      ),
     };
   }
 }
@@ -1181,35 +1300,41 @@ class COSESign1Builder {
   final COSEHeaders headers;
   final List<int> payload;
   final List<int>? externalAad;
-  COSESign1Builder._(
-      {required this.headers,
-      required List<int> payload,
-      required List<int>? externalAad})
-      : payload = payload.asImmutableBytes,
-        externalAad = externalAad?.asImmutableBytes;
-  factory COSESign1Builder(
-      {required COSEHeaders headers,
-      required List<int> payload,
-      List<int>? externalAad,
-      bool hashPayload = false}) {
+  COSESign1Builder._({
+    required this.headers,
+    required List<int> payload,
+    required List<int>? externalAad,
+  }) : payload = payload.asImmutableBytes,
+       externalAad = externalAad?.asImmutableBytes;
+  factory COSESign1Builder({
+    required COSEHeaders headers,
+    required List<int> payload,
+    List<int>? externalAad,
+    bool hashPayload = false,
+  }) {
     final newHeaders = COSEHeaders(
-        protected: headers.protected,
-        unprotected: headers.unprotected.copyWith(otherHeaders: {
+      protected: headers.protected,
+      unprotected: headers.unprotected.copyWith(
+        otherHeaders: {
           ...headers.unprotected.otherHeaders ?? {},
-          COSELabelString("hashed"): CborBoleanValue(hashPayload)
-        }));
+          COSELabelString("hashed"): CborBoleanValue(hashPayload),
+        },
+      ),
+    );
     return COSESign1Builder._(
-        headers: newHeaders,
-        payload: hashPayload ? QuickCrypto.blake2b224Hash(payload) : payload,
-        externalAad: externalAad);
+      headers: newHeaders,
+      payload: hashPayload ? QuickCrypto.blake2b224Hash(payload) : payload,
+      externalAad: externalAad,
+    );
   }
 
   COSESigStructure toSigStruct() {
     return COSESigStructure(
-        context: COSESigContext.signature1,
-        bodyProtected: headers.protected,
-        externalAAD: externalAad ?? [],
-        payload: payload);
+      context: COSESigContext.signature1,
+      bodyProtected: headers.protected,
+      externalAAD: externalAad ?? [],
+      payload: payload,
+    );
   }
 
   List<int> toSignMessageBytes() {
@@ -1218,21 +1343,24 @@ class COSESign1Builder {
 
   COSESign1 toSign(List<int> signature, {bool payloadExternal = false}) {
     return COSESign1(
-        headers: headers,
-        signature: signature,
-        payload: payloadExternal ? null : payload);
+      headers: headers,
+      signature: signature,
+      payload: payloadExternal ? null : payload,
+    );
   }
 
   List<int> toSignBytes(List<int> signature, {bool payloadExternal = false}) {
-    return toSign(signature, payloadExternal: payloadExternal)
-        .toCbor()
-        .encode();
+    return toSign(
+      signature,
+      payloadExternal: payloadExternal,
+    ).toCbor().encode();
   }
 
   String toSignHex(List<int> signature, {bool payloadExternal = false}) {
-    return toSign(signature, payloadExternal: payloadExternal)
-        .toCbor()
-        .toCborHex();
+    return toSign(
+      signature,
+      payloadExternal: payloadExternal,
+    ).toCbor().toCborHex();
   }
 }
 
@@ -1240,29 +1368,32 @@ class COSESignBuilder {
   final COSEHeaders headers;
   final List<int> payload;
   final List<int>? externalAad;
-  COSESignBuilder._(
-      {required this.headers,
-      required List<int> payload,
-      required List<int>? externalAad})
-      : payload = payload.asImmutableBytes,
-        externalAad = externalAad?.asImmutableBytes;
-  factory COSESignBuilder(
-      {required COSEHeaders headers,
-      required List<int> payload,
-      required List<int>? externalAad,
-      bool hashPayload = false}) {
+  COSESignBuilder._({
+    required this.headers,
+    required List<int> payload,
+    required List<int>? externalAad,
+  }) : payload = payload.asImmutableBytes,
+       externalAad = externalAad?.asImmutableBytes;
+  factory COSESignBuilder({
+    required COSEHeaders headers,
+    required List<int> payload,
+    required List<int>? externalAad,
+    bool hashPayload = false,
+  }) {
     return COSESignBuilder._(
-        headers: headers,
-        payload: hashPayload ? QuickCrypto.blake2b224Hash(payload) : payload,
-        externalAad: externalAad);
+      headers: headers,
+      payload: hashPayload ? QuickCrypto.blake2b224Hash(payload) : payload,
+      externalAad: externalAad,
+    );
   }
 
   COSESigStructure toSigStruct() {
     return COSESigStructure(
-        context: COSESigContext.signature,
-        bodyProtected: headers.protected,
-        externalAAD: externalAad ?? [],
-        payload: payload);
+      context: COSESigContext.signature,
+      bodyProtected: headers.protected,
+      externalAAD: externalAad ?? [],
+      payload: payload,
+    );
   }
 
   List<int> toSignMessageBytes() {
@@ -1271,20 +1402,23 @@ class COSESignBuilder {
 
   COSESign1 toSign(List<int> signature, {bool payloadExternal = false}) {
     return COSESign1(
-        headers: headers,
-        signature: signature,
-        payload: payloadExternal ? null : payload);
+      headers: headers,
+      signature: signature,
+      payload: payloadExternal ? null : payload,
+    );
   }
 
   List<int> toSignBytes(List<int> signature, {bool payloadExternal = false}) {
-    return toSign(signature, payloadExternal: payloadExternal)
-        .toCbor()
-        .encode();
+    return toSign(
+      signature,
+      payloadExternal: payloadExternal,
+    ).toCbor().encode();
   }
 
   String toSignHex(List<int> signature, {bool payloadExternal = false}) {
-    return toSign(signature, payloadExternal: payloadExternal)
-        .toCbor()
-        .toCborHex();
+    return toSign(
+      signature,
+      payloadExternal: payloadExternal,
+    ).toCbor().toCborHex();
   }
 }

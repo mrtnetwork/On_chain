@@ -12,9 +12,9 @@ class Group extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.string(property: 'label'),
-        GuardSet.staticLayout,
-      ], property: 'group');
+    LayoutConst.string(property: 'label'),
+    GuardSet.staticLayout,
+  ], property: 'group');
 
   @override
   StructLayout get layout => staticLayout;

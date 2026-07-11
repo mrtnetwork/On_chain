@@ -4,47 +4,58 @@ import 'package:on_chain/solana/src/rpc/rpc.dart';
 
 /// Represents an interface to interact with Solana nodes
 /// using JSON-RPC requests.
-class SolanaProvider extends BaseProvider<SolanaRequestDetails> {
+class SolanaProvider<SERVICE extends IServiceProvider>
+    extends IProvider<SERVICE, SolanaRequestDetails> {
   /// The JSON-RPC service used for communication with the solana node.
-  final SolanaServiceProvider rpc;
+  @override
+  final SERVICE service;
 
   /// Creates a new instance of the [SolanaProvider] class with the specified [rpc].
-  SolanaProvider(this.rpc);
+  SolanaProvider(this.service);
 
   /// Finds the result in the JSON-RPC response data or throws an [RPCError]
   /// if an error is encountered.
-  Object? _findError<SERVICERESPONSE>(
-      {required BaseServiceResponse<Map<String, dynamic>> response,
-      required SolanaRequestDetails params}) {
-    final data = response.getResult(params);
+  dynamic _findError({
+    required BaseServiceResponse response,
+    required SolanaRequestDetails params,
+  }) {
+    final data = params.toEncodingResponse<Map<String, dynamic>>(response);
     final error = data['error'];
     if (error != null) {
       final errorJson = StringUtils.tryToJson<Map<String, dynamic>>(error);
       final code = IntUtils.tryParse(errorJson?['code']);
       final message = error['message']?.toString();
       throw RPCError(
-          errorCode: code,
-          message: message ?? error.toString(),
-          request: params.toJson(),
-          details: errorJson);
+        errorCode: code,
+        message:
+            message ?? (error is String ? error : ServiceConst.defaultError),
+        request: params.toJson(),
+        jsonRpcErrpr: data,
+        relatedNetwork: BlockchainNetwork.solana,
+        statusCode: response.statusCode,
+      );
     }
     return data['result'];
   }
 
-  SERVICERESPONSE _fetchRequest<RESULT, SERVICERESPONSE>(
-      {required BaseServiceRequest<RESULT, SERVICERESPONSE,
-              SolanaRequestDetails>
-          request,
-      required BaseServiceRequestParams params,
-      required Object? response}) {
+  SERVICERESPONSE _fetchRequest<RESULT, SERVICERESPONSE>({
+    required IServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails>
+    request,
+    required BaseServiceRequestParams params,
+    required Object? response,
+  }) {
     if (response is Map &&
         response.containsKey('context') &&
         response.containsKey('value')) {
-      return ServiceProviderUtils.parseResponse<SERVICERESPONSE>(
-          object: response['value'], params: params);
+      return ServiceProviderUtils.toResponse<SERVICERESPONSE>(
+        object: response['value'],
+        params: params,
+      );
     }
-    return ServiceProviderUtils.parseResponse<SERVICERESPONSE>(
-        object: response, params: params);
+    return ServiceProviderUtils.toResponse<SERVICERESPONSE>(
+      object: response,
+      params: params,
+    );
   }
 
   Context? _fetchContext(Object? response) {
@@ -63,17 +74,23 @@ class SolanaProvider extends BaseProvider<SolanaRequestDetails> {
   /// [timeout]: The maximum duration for waiting for the response.
   /// return value with context if response contains context
   Future<ResultWithContext<RESULT>> requestWithContext<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request,
-      [Duration? timeout]) async {
+    BaseServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request, [
+    Duration? timeout,
+  ]) async {
     final id = ++_id;
     final params = request.buildRequest(id);
-    final response =
-        await rpc.doRequest<Map<String, dynamic>>(params, timeout: timeout);
-    final result = _findError<Object?>(response: response, params: params);
+    final response = await service.doRequest(params, timeout: timeout);
+    final result = _findError(response: response, params: params);
     return ResultWithContext(
-        result: request.onResonse(_fetchRequest<RESULT, SERVICERESPONSE>(
-            request: request, params: params, response: result)),
-        context: _fetchContext(result));
+      result: request.onResonse(
+        _fetchRequest<RESULT, SERVICERESPONSE>(
+          request: request,
+          params: params,
+          response: result,
+        ),
+      ),
+      context: _fetchContext(result),
+    );
   }
 
   /// Sends a JSON-RPC request to the solana node and returns the result after
@@ -82,19 +99,23 @@ class SolanaProvider extends BaseProvider<SolanaRequestDetails> {
   /// [request]: The JSON-RPC request to be sent.
   /// [timeout]: The maximum duration for waiting for the response.
   /// return value with context if response contains context
-  Future<ResultWithContext<SERVICERESPONSE>> requestDynamicWithContext<RESULT,
-          SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request,
-      [Duration? timeout]) async {
+  Future<ResultWithContext<SERVICERESPONSE>>
+  requestDynamicWithContext<RESULT, SERVICERESPONSE>(
+    BaseServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request, [
+    Duration? timeout,
+  ]) async {
     final id = ++_id;
     final params = request.buildRequest(id);
-    final response =
-        await rpc.doRequest<Map<String, dynamic>>(params, timeout: timeout);
-    final result = _findError<Object?>(response: response, params: params);
+    final response = await service.doRequest(params, timeout: timeout);
+    final result = _findError(response: response, params: params);
     return ResultWithContext(
-        result: _fetchRequest<RESULT, SERVICERESPONSE>(
-            request: request, params: params, response: result),
-        context: _fetchContext(result));
+      result: _fetchRequest<RESULT, SERVICERESPONSE>(
+        request: request,
+        params: params,
+        response: result,
+      ),
+      context: _fetchContext(result),
+    );
   }
 
   /// The unique identifier for each JSON-RPC request.
@@ -108,14 +129,20 @@ class SolanaProvider extends BaseProvider<SolanaRequestDetails> {
   /// changed value to request class template
   @override
   Future<RESULT> request<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request,
-      {Duration? timeout}) async {
+    IServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request, {
+    Duration? timeout,
+  }) async {
     final params = request.buildRequest(_id++);
     final response = await _requestDynamic<RESULT, SERVICERESPONSE>(
-        request, params,
-        timeout: timeout);
+      request,
+      params,
+      timeout: timeout,
+    );
     final r = _fetchRequest<RESULT, SERVICERESPONSE>(
-        request: request, params: params, response: response);
+      request: request,
+      params: params,
+      response: response,
+    );
     return request.onResonse(r);
   }
 
@@ -125,23 +152,30 @@ class SolanaProvider extends BaseProvider<SolanaRequestDetails> {
   /// [request]: The JSON-RPC request to be sent.
   /// [timeout]: The maximum duration for waiting for the response.
   Future<Object?> _requestDynamic<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request,
-      SolanaRequestDetails params,
-      {Duration? timeout}) async {
-    final response =
-        await rpc.doRequest<Map<String, dynamic>>(params, timeout: timeout);
+    IServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request,
+    SolanaRequestDetails params, {
+    Duration? timeout,
+  }) async {
+    final response = await service.doRequest(params, timeout: timeout);
     final result = _findError(params: params, response: response);
     return result;
   }
 
   @override
   Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request,
-      {Duration? timeout}) async {
+    IServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request, {
+    Duration? timeout,
+  }) async {
     final params = request.buildRequest(_id++);
     final response = await _requestDynamic<RESULT, SERVICERESPONSE>(
-        request, params,
-        timeout: timeout);
-    return _fetchRequest(request: request, params: params, response: response);
+      request,
+      params,
+      timeout: timeout,
+    );
+    return _fetchRequest<RESULT, SERVICERESPONSE>(
+      request: request,
+      params: params,
+      response: response,
+    );
   }
 }

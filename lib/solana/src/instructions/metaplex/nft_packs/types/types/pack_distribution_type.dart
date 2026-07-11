@@ -11,14 +11,17 @@ class PackDistributionType {
   static const List<PackDistributionType> values = [
     maxSupply,
     fixed,
-    unlimited
+    unlimited,
   ];
   static PackDistributionType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw SolanaPluginException(
-          'No PackDistributionType found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No PackDistributionType found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

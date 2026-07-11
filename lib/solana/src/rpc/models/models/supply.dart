@@ -1,21 +1,24 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 
 class SupplyResponse {
-  SupplyResponse(
-      {required this.total,
-      required this.circulating,
-      required this.nonCirculating,
-      required List<SolAddress> nonCirculatingAccounts})
-      : nonCirculatingAccounts =
-            List<SolAddress>.unmodifiable(nonCirculatingAccounts);
+  SupplyResponse({
+    required this.total,
+    required this.circulating,
+    required this.nonCirculating,
+    required List<SolAddress> nonCirculatingAccounts,
+  }) : nonCirculatingAccounts = List<SolAddress>.unmodifiable(
+         nonCirculatingAccounts,
+       );
   factory SupplyResponse.fromJson(Map<String, dynamic> json) {
     return SupplyResponse(
-        total: json['total'],
-        circulating: json['circulating'],
-        nonCirculating: json['nonCirculating'],
-        nonCirculatingAccounts: (json['nonCirculatingAccounts'] as List)
-            .map((e) => SolAddress.uncheckCurve(e))
-            .toList());
+      total: json['total'],
+      circulating: json['circulating'],
+      nonCirculating: json['nonCirculating'],
+      nonCirculatingAccounts:
+          (json['nonCirculatingAccounts'] as List)
+              .map((e) => SolAddress.uncheckCurve(e))
+              .toList(),
+    );
   }
 
   /// Total supply in lamports

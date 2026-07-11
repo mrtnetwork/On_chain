@@ -30,8 +30,8 @@ class AptosRequestGetAccountAssetResources
   List<String> get pathParameters => [address.address, assetType];
   @override
   Map<String, String?> get queryParameters => {
-        "ledger_version": ledgetVersion?.toString(),
-      };
+    "ledger_version": ledgetVersion?.toString(),
+  };
 
   @override
   BigInt onResonse(result) {

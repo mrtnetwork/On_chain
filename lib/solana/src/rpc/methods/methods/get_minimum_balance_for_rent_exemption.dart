@@ -7,8 +7,10 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Returns minimum balance required to make account rent exempt.
 class SolanaRequestGetMinimumBalanceForRentExemption
     extends SolanaRequest<BigInt, Object> {
-  const SolanaRequestGetMinimumBalanceForRentExemption(
-      {required this.size, super.commitment = Commitment.finalized});
+  const SolanaRequestGetMinimumBalanceForRentExemption({
+    required this.size,
+    super.commitment = Commitment.finalized,
+  });
 
   /// getMinimumBalanceForRentExemption
   @override
@@ -21,7 +23,7 @@ class SolanaRequestGetMinimumBalanceForRentExemption
   List<dynamic> toJson() {
     return [
       size,
-      SolanaRequestUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 

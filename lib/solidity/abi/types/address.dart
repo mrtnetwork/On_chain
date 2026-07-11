@@ -13,17 +13,20 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
   @override
   DecoderResult<SolidityAddress> decode(AbiParameter params, List<int> bytes) {
     final addrBytes = bytes.sublist(
-        ABIConst.uintBytesLength - addrLength, ABIConst.uintBytesLength);
+      ABIConst.uintBytesLength - addrLength,
+      ABIConst.uintBytesLength,
+    );
     return DecoderResult(
-        result: SolidityAddress.fromBytes(addrBytes),
-        consumed: ABIConst.uintBytesLength,
-        name: params.name);
+      result: SolidityAddress.fromBytes(addrBytes),
+      consumed: ABIConst.uintBytesLength,
+      name: params.name,
+    );
   }
 
   List<int> _addressToBytes(Object object) {
     try {
       if (object is SolidityAddress) {
-        return object.toBytes();
+        return object.toSolidtyBytes();
       } else if (object is List<int>) {
         return object.asImmutableBytes;
       } else if (object is String) {
@@ -31,9 +34,10 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
       }
     } catch (_) {}
     throw SolidityAbiException(
-        'Invalid address format: Expected a SolidityAddress, '
-        'List<int>, or a hexadecimal String. ',
-        details: {"address": object});
+      'Invalid address format: Expected a SolidityAddress, '
+      'List<int>, or a hexadecimal String. ',
+      details: {"address": object.toString()},
+    );
   }
 
   /// Encodes a BaseHexAddress to ABI-encoded bytes.
@@ -58,6 +62,9 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
     List<int> addrBytes = asBytes;
     addrBytes = addrBytes.sublist(addrBytes.length - addrLength);
     return EncoderResult(
-        isDynamic: false, encoded: addrBytes, name: params.name);
+      isDynamic: false,
+      encoded: addrBytes,
+      name: params.name,
+    );
   }
 }

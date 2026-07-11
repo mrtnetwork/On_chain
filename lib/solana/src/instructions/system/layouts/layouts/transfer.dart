@@ -9,15 +9,16 @@ class SystemTransferLayout extends SystemProgramLayout {
   const SystemTransferLayout({required this.lamports});
   factory SystemTransferLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.transfer.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.transfer.insturction,
+    );
     return SystemTransferLayout(lamports: decode['lamports']);
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        LayoutConst.u64(property: 'lamports')
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    LayoutConst.u64(property: 'lamports'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

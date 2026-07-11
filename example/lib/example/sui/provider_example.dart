@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 import 'package:on_chain/on_chain.dart';
 
-class SuiHttpService implements SuiServiceProvider {
+class SuiHttpService with SuiServiceProvider {
   SuiHttpService(this.url,
       {Client? client, this.defaultTimeOut = const Duration(seconds: 30)})
       : client = client ?? Client();
@@ -9,11 +9,13 @@ class SuiHttpService implements SuiServiceProvider {
   final Client client;
   final Duration defaultTimeOut;
   @override
-  Future<SuiServiceResponse<T>> doRequest<T>(SuiRequestDetails params,
+  Future<SuiServiceResponse> doRequest(SuiRequestDetails params,
       {Duration? timeout}) async {
     final response = await client
-        .post(params.toUri(url), headers: params.headers, body: params.body())
+        .post(params.encodeUrl(url),
+            headers: params.headers, body: params.encodeBody())
         .timeout(timeout ?? defaultTimeOut);
-    return params.parseResponse(response.bodyBytes, response.statusCode);
+    return params.toResponse(response.bodyBytes,
+        statusCode: response.statusCode);
   }
 }

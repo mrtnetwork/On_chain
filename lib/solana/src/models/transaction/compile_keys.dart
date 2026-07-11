@@ -10,33 +10,41 @@ import 'package:on_chain/solana/src/exception/exception.dart';
 class CompiledKeys {
   final SolAddress payer;
   Map<String, _KeyMeta> _keyMetaMap;
-  CompiledKeys._(
-      {required this.payer, required Map<String, _KeyMeta> keyMetaMap})
-      : _keyMetaMap = Map<String, _KeyMeta>.unmodifiable(keyMetaMap);
+  CompiledKeys._({
+    required this.payer,
+    required Map<String, _KeyMeta> keyMetaMap,
+  }) : _keyMetaMap = Map<String, _KeyMeta>.unmodifiable(keyMetaMap);
 
   factory CompiledKeys.compile(
-      List<TransactionInstruction> instructions, SolAddress payer) {
+    List<TransactionInstruction> instructions,
+    SolAddress payer,
+  ) {
     final keyMetaMap = <String, _KeyMeta>{};
     keyMetaMap[payer.address] ??= _KeyMeta.defaultKey();
-    keyMetaMap[payer.address] =
-        keyMetaMap[payer.address]!.copyWith(isSigner: true, isWritable: true);
+    keyMetaMap[payer.address] = keyMetaMap[payer.address]!.copyWith(
+      isSigner: true,
+      isWritable: true,
+    );
     for (final ix in instructions) {
       final String programIdAddress = ix.programId.address;
       keyMetaMap[programIdAddress] ??= _KeyMeta.defaultKey();
-      keyMetaMap[programIdAddress] =
-          keyMetaMap[programIdAddress]!.copyWith(isInvoked: true);
+      keyMetaMap[programIdAddress] = keyMetaMap[programIdAddress]!.copyWith(
+        isInvoked: true,
+      );
       for (final accountMeta in ix.keys) {
         final addr = accountMeta.publicKey.address;
         keyMetaMap[addr] ??= _KeyMeta.defaultKey();
         final bool isSigner = keyMetaMap[addr]!.isSigner;
         final bool isWritable = keyMetaMap[addr]!.isWritable;
         if (!isSigner) {
-          keyMetaMap[addr] =
-              keyMetaMap[addr]!.copyWith(isSigner: accountMeta.isSigner);
+          keyMetaMap[addr] = keyMetaMap[addr]!.copyWith(
+            isSigner: accountMeta.isSigner,
+          );
         }
         if (!isWritable) {
-          keyMetaMap[addr] =
-              keyMetaMap[addr]!.copyWith(isWritable: accountMeta.isWritable);
+          keyMetaMap[addr] = keyMetaMap[addr]!.copyWith(
+            isWritable: accountMeta.isWritable,
+          );
         }
       }
     }
@@ -47,33 +55,41 @@ class CompiledKeys {
     final mapEntries = _keyMetaMap.entries.toList();
     if (mapEntries.length > SolanaTransactionConstant.maximumAccountKeys) {
       throw const SolanaPluginException(
-          'Max static account keys length exceeded');
+        'Max static account keys length exceeded',
+      );
     }
-    final writableSigners = mapEntries
-        .where((entry) => entry.value.isSigner && entry.value.isWritable)
-        .toList();
-    final readonlySigners = mapEntries
-        .where((entry) => entry.value.isSigner && !entry.value.isWritable)
-        .toList();
-    final writableNonSigners = mapEntries
-        .where((entry) => !entry.value.isSigner && entry.value.isWritable)
-        .toList();
-    final readonlyNonSigners = mapEntries
-        .where((entry) => !entry.value.isSigner && !entry.value.isWritable)
-        .toList();
+    final writableSigners =
+        mapEntries
+            .where((entry) => entry.value.isSigner && entry.value.isWritable)
+            .toList();
+    final readonlySigners =
+        mapEntries
+            .where((entry) => entry.value.isSigner && !entry.value.isWritable)
+            .toList();
+    final writableNonSigners =
+        mapEntries
+            .where((entry) => !entry.value.isSigner && entry.value.isWritable)
+            .toList();
+    final readonlyNonSigners =
+        mapEntries
+            .where((entry) => !entry.value.isSigner && !entry.value.isWritable)
+            .toList();
 
     final MessageHeader header = MessageHeader(
-        numRequiredSignatures: writableSigners.length + readonlySigners.length,
-        numReadonlySignedAccounts: readonlySigners.length,
-        numReadonlyUnsignedAccounts: readonlyNonSigners.length);
+      numRequiredSignatures: writableSigners.length + readonlySigners.length,
+      numReadonlySignedAccounts: readonlySigners.length,
+      numReadonlyUnsignedAccounts: readonlyNonSigners.length,
+    );
     if (writableSigners.isEmpty) {
       throw const SolanaPluginException(
-          'Expected at least one writable signer key');
+        'Expected at least one writable signer key',
+      );
     }
     final payerAddress = writableSigners[0].key;
     if (payerAddress != payer.address) {
       throw const SolanaPluginException(
-          'Expected first writable signer key to be the fee payer');
+        'Expected first writable signer key to be the fee payer',
+      );
     }
     final List<SolAddress> staticAccountKeys = List<SolAddress>.unmodifiable([
       ...writableSigners.map((entry) => SolAddress(entry.key)),
@@ -86,7 +102,8 @@ class CompiledKeys {
   }
 
   ExtractTableLookup? extractTableLookup(
-      AddressLookupTableAccount lookupTable) {
+    AddressLookupTableAccount lookupTable,
+  ) {
     final writableIndexesAndKeys = _drainKeysFoundInLookupTable(
       lookupTable.addresses,
       (keyMeta) =>
@@ -102,22 +119,27 @@ class CompiledKeys {
       return null;
     }
     return ExtractTableLookup(
-        lookup: AddressTableLookup(
-            accountKey: lookupTable.key,
-            writableIndexes: writableIndexesAndKeys.$1,
-            readonlyIndexes: readonlyIndexesAndKeys.$1),
-        readable: readonlyIndexesAndKeys.$2,
-        writable: writableIndexesAndKeys.$2);
+      lookup: AddressTableLookup(
+        accountKey: lookupTable.key,
+        writableIndexes: writableIndexesAndKeys.$1,
+        readonlyIndexes: readonlyIndexesAndKeys.$1,
+      ),
+      readable: readonlyIndexesAndKeys.$2,
+      writable: writableIndexesAndKeys.$2,
+    );
   }
 
   (List<int>, List<SolAddress>) _drainKeysFoundInLookupTable(
-      List<SolAddress> addresses, bool Function(_KeyMeta) predicate) {
+    List<SolAddress> addresses,
+    bool Function(_KeyMeta) predicate,
+  ) {
     final indexes = <int>[];
     final drainedKeys = <SolAddress>[];
     for (final i in _keyMetaMap.entries) {
       if (predicate(i.value)) {
-        final lookupTableIndex =
-            addresses.indexWhere((element) => element.address == i.key);
+        final lookupTableIndex = addresses.indexWhere(
+          (element) => element.address == i.key,
+        );
         if (lookupTableIndex >= 0) {
           indexes.add(lookupTableIndex);
           drainedKeys.add(SolAddress(i.key));
@@ -132,10 +154,11 @@ class CompiledKeys {
 }
 
 class _KeyMeta {
-  const _KeyMeta(
-      {required this.isInvoked,
-      required this.isSigner,
-      required this.isWritable});
+  const _KeyMeta({
+    required this.isInvoked,
+    required this.isSigner,
+    required this.isWritable,
+  });
   final bool isSigner;
   final bool isWritable;
   final bool isInvoked;
@@ -145,11 +168,7 @@ class _KeyMeta {
     return '_KeyMeta{isSigner: $isSigner, isWritable: $isWritable, isInvoked: $isInvoked}';
   }
 
-  _KeyMeta copyWith({
-    bool? isSigner,
-    bool? isWritable,
-    bool? isInvoked,
-  }) {
+  _KeyMeta copyWith({bool? isSigner, bool? isWritable, bool? isInvoked}) {
     return _KeyMeta(
       isSigner: isSigner ?? this.isSigner,
       isWritable: isWritable ?? this.isWritable,

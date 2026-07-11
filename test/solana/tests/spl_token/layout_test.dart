@@ -52,8 +52,10 @@ void _approve() {
 
 void _approveChecked() {
   test('approveChecked', () {
-    final layoyt =
-        SPLTokenApproveCheckedLayout(amount: BigInt.from(350000), decimals: 8);
+    final layoyt = SPLTokenApproveCheckedLayout(
+      amount: BigInt.from(350000),
+      decimals: 8,
+    );
     expect(layoyt.toHex(), '0d305705000000000008');
     final decode = SPLTokenApproveCheckedLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
@@ -71,8 +73,10 @@ void _burn() {
 
 void _burnChecked() {
   test('burnchecked', () {
-    final layoyt =
-        SPLTokenBurnCheckedLayout(amount: BigInt.from(350000), decimals: 8);
+    final layoyt = SPLTokenBurnCheckedLayout(
+      amount: BigInt.from(350000),
+      decimals: 8,
+    );
     expect(layoyt.toHex(), '0f305705000000000008');
     final decode = SPLTokenBurnCheckedLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
@@ -110,10 +114,13 @@ void _initializeAccount2() {
   test('initializeAccount2', () {
     final account = SolAddress('6jwLNd4w4RfZsj5WCszKB4wKHmU2gX24JLq2DH42No5s');
     final layoyt = SPLTokenInitializeAccount2Layout(owner: account);
-    expect(layoyt.toHex(),
-        '10554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca');
-    final decode =
-        SPLTokenInitializeAccount2Layout.fromBuffer(layoyt.toBytes());
+    expect(
+      layoyt.toHex(),
+      '10554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca',
+    );
+    final decode = SPLTokenInitializeAccount2Layout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
 }
@@ -122,10 +129,13 @@ void _initializeAccount3() {
   test('initializeAccount3', () {
     final account = SolAddress('6jwLNd4w4RfZsj5WCszKB4wKHmU2gX24JLq2DH42No5s');
     final layoyt = SPLTokenInitializeAccount3Layout(owner: account);
-    expect(layoyt.toHex(),
-        '12554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca');
-    final decode =
-        SPLTokenInitializeAccount3Layout.fromBuffer(layoyt.toBytes());
+    expect(
+      layoyt.toHex(),
+      '12554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca',
+    );
+    final decode = SPLTokenInitializeAccount3Layout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
 }
@@ -135,8 +145,9 @@ void _initializeImmutableOwner() {
   test('initializeImmutableOwner', () {
     final layoyt = SPLTokenInitializeImmutableOwnerLayout();
     expect(layoyt.toHex(), '16');
-    final decode =
-        SPLTokenInitializeImmutableOwnerLayout.fromBuffer(layoyt.toBytes());
+    final decode = SPLTokenInitializeImmutableOwnerLayout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
 }
@@ -147,20 +158,31 @@ void _initializeMint() {
   test('initializeMint', () {
     final account = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
     final layoyt = SPLTokenInitializeMintLayout(
-        decimals: 8, mintAuthority: account, freezeAuthority: null);
-    expect(layoyt.toHex(),
-        '00083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d000000000000000000000000000000000000000000000000000000000000000000');
+      decimals: 8,
+      mintAuthority: account,
+      freezeAuthority: null,
+    );
+    expect(
+      layoyt.toHex(),
+      '00083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d000000000000000000000000000000000000000000000000000000000000000000',
+    );
     final decode = SPLTokenInitializeMintLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
   });
   test('initializeMint_1', () {
     final account = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
-    final freezeAuthority =
-        SolAddress('6TawjkZGjtaDwvRRRakPKTAHDT5xvyVdoY4sr1FrZ9W4');
+    final freezeAuthority = SolAddress(
+      '6TawjkZGjtaDwvRRRakPKTAHDT5xvyVdoY4sr1FrZ9W4',
+    );
     final layoyt = SPLTokenInitializeMintLayout(
-        decimals: 8, mintAuthority: account, freezeAuthority: freezeAuthority);
-    expect(layoyt.toHex(),
-        '00083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d015119ea7dac547c8a6eaa56be1d5ecb4c6e70d653a2f41fdf495af32936429205');
+      decimals: 8,
+      mintAuthority: account,
+      freezeAuthority: freezeAuthority,
+    );
+    expect(
+      layoyt.toHex(),
+      '00083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d015119ea7dac547c8a6eaa56be1d5ecb4c6e70d653a2f41fdf495af32936429205',
+    );
     final decode = SPLTokenInitializeMintLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
   });
@@ -170,20 +192,31 @@ void _initializeMint2() {
   test('initializeMint2', () {
     final account = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
     final layoyt = SPLTokenInitializeMint2Layout(
-        decimals: 8, mintAuthority: account, freezeAuthority: null);
-    expect(layoyt.toHex(),
-        '14083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d000000000000000000000000000000000000000000000000000000000000000000');
+      decimals: 8,
+      mintAuthority: account,
+      freezeAuthority: null,
+    );
+    expect(
+      layoyt.toHex(),
+      '14083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d000000000000000000000000000000000000000000000000000000000000000000',
+    );
     final decode = SPLTokenInitializeMint2Layout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
   });
   test('initializeMint2_1', () {
     final account = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
-    final freezeAuthority =
-        SolAddress('6TawjkZGjtaDwvRRRakPKTAHDT5xvyVdoY4sr1FrZ9W4');
+    final freezeAuthority = SolAddress(
+      '6TawjkZGjtaDwvRRRakPKTAHDT5xvyVdoY4sr1FrZ9W4',
+    );
     final layoyt = SPLTokenInitializeMint2Layout(
-        decimals: 8, mintAuthority: account, freezeAuthority: freezeAuthority);
-    expect(layoyt.toHex(),
-        '14083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d015119ea7dac547c8a6eaa56be1d5ecb4c6e70d653a2f41fdf495af32936429205');
+      decimals: 8,
+      mintAuthority: account,
+      freezeAuthority: freezeAuthority,
+    );
+    expect(
+      layoyt.toHex(),
+      '14083d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d015119ea7dac547c8a6eaa56be1d5ecb4c6e70d653a2f41fdf495af32936429205',
+    );
     final decode = SPLTokenInitializeMint2Layout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
   });
@@ -193,32 +226,41 @@ void _initializeMint2() {
 void _closeAuthority() {
   test('closeAuthority', () {
     final layoyt = SPLTokenInitializeMintCloseAuthorityLayout();
-    expect(layoyt.toHex(),
-        '19000000000000000000000000000000000000000000000000000000000000000000');
-    final decode =
-        SPLTokenInitializeMintCloseAuthorityLayout.fromBuffer(layoyt.toBytes());
+    expect(
+      layoyt.toHex(),
+      '19000000000000000000000000000000000000000000000000000000000000000000',
+    );
+    final decode = SPLTokenInitializeMintCloseAuthorityLayout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
   test('closeAuthority_1', () {
     final account = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
 
-    final layoyt =
-        SPLTokenInitializeMintCloseAuthorityLayout(closeAuthority: account);
-    expect(layoyt.toHex(),
-        '19013d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d');
-    final decode =
-        SPLTokenInitializeMintCloseAuthorityLayout.fromBuffer(layoyt.toBytes());
+    final layoyt = SPLTokenInitializeMintCloseAuthorityLayout(
+      closeAuthority: account,
+    );
+    expect(
+      layoyt.toHex(),
+      '19013d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d',
+    );
+    final decode = SPLTokenInitializeMintCloseAuthorityLayout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
 }
 
 void _initializeMultisig() {
   test('initializeMultisig', () {
-    final layoyt =
-        SPLTokenInitializeMultisigLayout(numberOfRequiredSignatures: 2);
+    final layoyt = SPLTokenInitializeMultisigLayout(
+      numberOfRequiredSignatures: 2,
+    );
     expect(layoyt.toHex(), '0202');
-    final decode =
-        SPLTokenInitializeMultisigLayout.fromBuffer(layoyt.toBytes());
+    final decode = SPLTokenInitializeMultisigLayout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
 }
@@ -229,7 +271,8 @@ void _initializeNonTransferableMint() {
     final layoyt = SPLTokenInitializeNonTransferableMintLayout();
     expect(layoyt.toHex(), '20');
     final decode = SPLTokenInitializeNonTransferableMintLayout.fromBuffer(
-        layoyt.toBytes());
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
 }
@@ -241,18 +284,24 @@ void _initializePermanentDelegate() {
 
     /// SPLTokenInitializeNonTransferableMintLayout
     final layoyt = SPLTokenInitializePermanentDelegateLayout(delegate: account);
-    expect(layoyt.toHex(),
-        '233d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d');
-    final decode =
-        SPLTokenInitializePermanentDelegateLayout.fromBuffer(layoyt.toBytes());
+    expect(
+      layoyt.toHex(),
+      '233d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d',
+    );
+    final decode = SPLTokenInitializePermanentDelegateLayout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
   test('initializePermanentDelegate_1', () {
     final layoyt = SPLTokenInitializePermanentDelegateLayout(delegate: null);
-    expect(layoyt.toHex(),
-        '230000000000000000000000000000000000000000000000000000000000000000');
-    final decode =
-        SPLTokenInitializePermanentDelegateLayout.fromBuffer(layoyt.toBytes());
+    expect(
+      layoyt.toHex(),
+      '230000000000000000000000000000000000000000000000000000000000000000',
+    );
+    final decode = SPLTokenInitializePermanentDelegateLayout.fromBuffer(
+      layoyt.toBytes(),
+    );
     expect(layoyt.toBytes(), decode.toBytes());
   });
 }
@@ -268,15 +317,19 @@ void _mintTo() {
 
 void _mintToChecked() {
   test('mintToChecked', () {
-    final layoyt =
-        SPLTokenMintToCheckedLayout(amount: BigInt.from(25000), decimals: 6);
+    final layoyt = SPLTokenMintToCheckedLayout(
+      amount: BigInt.from(25000),
+      decimals: 6,
+    );
     expect(layoyt.toHex(), '0ea86100000000000006');
     final decode = SPLTokenMintToCheckedLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
   });
   test('mintToChecked_1', () {
-    final layoyt =
-        SPLTokenMintToCheckedLayout(amount: BigInt.from(25000), decimals: 0);
+    final layoyt = SPLTokenMintToCheckedLayout(
+      amount: BigInt.from(25000),
+      decimals: 0,
+    );
     expect(layoyt.toHex(), '0ea86100000000000000');
     final decode = SPLTokenMintToCheckedLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
@@ -285,11 +338,13 @@ void _mintToChecked() {
 
 void _realloc() {
   test('realloc', () {
-    final layoyt = SPLTokenReallocateLayout(extensionTypes: [
-      ExtensionType.confidentialTransferAccount,
-      ExtensionType.cpiGuard,
-      ExtensionType.immutableOwner
-    ]);
+    final layoyt = SPLTokenReallocateLayout(
+      extensionTypes: [
+        ExtensionType.confidentialTransferAccount,
+        ExtensionType.cpiGuard,
+        ExtensionType.immutableOwner,
+      ],
+    );
     expect(layoyt.toHex(), '1d05000b000700');
     final decode = SPLTokenReallocateLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
@@ -305,18 +360,26 @@ void _realloc() {
 void _setAuthority() {
   test('setAuthority', () {
     final layoyt = SPLTokenSetAuthorityLayout(
-        authorityType: AuthorityType.freezeAccount, newAuthority: null);
-    expect(layoyt.toHex(),
-        '0601000000000000000000000000000000000000000000000000000000000000000000');
+      authorityType: AuthorityType.freezeAccount,
+      newAuthority: null,
+    );
+    expect(
+      layoyt.toHex(),
+      '0601000000000000000000000000000000000000000000000000000000000000000000',
+    );
     final decode = SPLTokenSetAuthorityLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
   });
   test('setAuthority_1', () {
     final account = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
     final layoyt = SPLTokenSetAuthorityLayout(
-        authorityType: AuthorityType.freezeAccount, newAuthority: account);
-    expect(layoyt.toHex(),
-        '0601013d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d');
+      authorityType: AuthorityType.freezeAccount,
+      newAuthority: account,
+    );
+    expect(
+      layoyt.toHex(),
+      '0601013d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d',
+    );
     final decode = SPLTokenSetAuthorityLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());
   });
@@ -351,8 +414,10 @@ void _transfer() {
 
 void _transferChecked() {
   test('transferChecked', () {
-    final layoyt =
-        SPLTokenTransferCheckedLayout(amount: BigInt.from(35000), decimals: 8);
+    final layoyt = SPLTokenTransferCheckedLayout(
+      amount: BigInt.from(35000),
+      decimals: 8,
+    );
     expect(layoyt.toHex(), '0cb88800000000000008');
     final decode = SPLTokenTransferCheckedLayout.fromBuffer(layoyt.toBytes());
     expect(layoyt.toBytes(), decode.toBytes());

@@ -6,8 +6,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/withdrawexpireunfreeze).
 class TronRequestWithdrawExpireUnfreeze
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestWithdrawExpireUnfreeze(
-      {required this.ownerAddress, this.permissionId, this.visible = true});
+  TronRequestWithdrawExpireUnfreeze({
+    required this.ownerAddress,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner address
   final TronAddress ownerAddress;
@@ -26,7 +29,7 @@ class TronRequestWithdrawExpireUnfreeze
     return {
       'owner_address': ownerAddress.toAddress(visible),
       'visible': visible,
-      'Permission_id': permissionId
+      'Permission_id': permissionId,
     };
   }
 

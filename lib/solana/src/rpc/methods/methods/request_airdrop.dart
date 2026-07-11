@@ -8,8 +8,11 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Requests an airdrop of lamports to a Pubkey
 /// https://solana.com/docs/rpc/http/requestairdrop
 class SolanaRequestRequestAirdrop extends SolanaRequest<String, String> {
-  const SolanaRequestRequestAirdrop(
-      {required this.account, required this.lamports, Commitment? commitment});
+  const SolanaRequestRequestAirdrop({
+    required this.account,
+    required this.lamports,
+    Commitment? commitment,
+  });
 
   /// requestAirdrop
   @override
@@ -26,7 +29,7 @@ class SolanaRequestRequestAirdrop extends SolanaRequest<String, String> {
     return [
       account.address,
       lamports,
-      SolanaRequestUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 }

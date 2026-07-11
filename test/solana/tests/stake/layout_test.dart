@@ -21,9 +21,12 @@ void _initialize() {
     final account1 = SolAddress('57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ');
     final account3 = SolAddress('6jwLNd4w4RfZsj5WCszKB4wKHmU2gX24JLq2DH42No5s');
     final layout = StakeInitializeLayout(
-        authorized: StakeAuthorized(staker: account1, withdrawer: account3));
-    expect(layout.toHex(),
-        '000000003d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000');
+      authorized: StakeAuthorized(staker: account1, withdrawer: account3),
+    );
+    expect(
+      layout.toHex(),
+      '000000003d0427568db5811754651851ae1b5823d52b700fc835078241871ab2b0ca505d554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    );
 
     final decode = StakeInitializeLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
@@ -42,10 +45,14 @@ void _delegate() {
 void _authorize() {
   test('authorize', () {
     final account = SolAddress('6jwLNd4w4RfZsj5WCszKB4wKHmU2gX24JLq2DH42No5s');
-    final layout =
-        StakeAuthorizeLayout(newAuthorized: account, stakeAuthorizationType: 1);
-    expect(layout.toHex(),
-        '01000000554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca01000000');
+    final layout = StakeAuthorizeLayout(
+      newAuthorized: account,
+      stakeAuthorizationType: 1,
+    );
+    expect(
+      layout.toHex(),
+      '01000000554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca01000000',
+    );
     final decode = StakeAuthorizeLayout.fromBuffer(layout.toBytes());
     expect(layout.toBytes(), decode.toBytes());
   });
@@ -56,12 +63,15 @@ void _authorizeWithSeed() {
     final account = SolAddress('HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf');
     final account3 = SolAddress('6jwLNd4w4RfZsj5WCszKB4wKHmU2gX24JLq2DH42No5s');
     final layout = StakeAuthorizeWithSeedLayout(
-        newAuthorized: account3,
-        stakeAuthorizationType: 1,
-        authoritySeed: 'account1',
-        authorityOwner: account);
-    expect(layout.toHex(),
-        '08000000554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca0100000008000000000000006163636f756e7431f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76');
+      newAuthorized: account3,
+      stakeAuthorizationType: 1,
+      authoritySeed: 'account1',
+      authorityOwner: account,
+    );
+    expect(
+      layout.toHex(),
+      '08000000554a43a7b8e1a60dac1b800be310f94e55f8fb7415780b78177c3ede1aa0b7ca0100000008000000000000006163636f756e7431f6c1dacc8b174b10dac187bb1ee7fed819b77e84591dc1827dc38943a5dbbd76',
+    );
     final decode = StakeAuthorizeWithSeedLayout.fromBuffer(layout.toBytes());
     expect(decode.toBytes(), layout.toBytes());
   });

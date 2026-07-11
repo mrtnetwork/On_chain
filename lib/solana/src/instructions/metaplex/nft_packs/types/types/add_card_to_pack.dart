@@ -12,25 +12,22 @@ class AddCardToPack extends BorshLayoutSerializable {
   });
   factory AddCardToPack.fromJson(Map<String, dynamic> json) {
     return AddCardToPack(
-        maxSupply: json['maxSupply'],
-        weight: json['weight'],
-        index: json['index']);
+      maxSupply: json['maxSupply'],
+      weight: json['weight'],
+      index: json['index'],
+    );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u32(property: 'maxSupply'),
-        LayoutConst.u16(property: 'weight'),
-        LayoutConst.u32(property: 'index'),
-      ], property: 'addCardToPack');
+    LayoutConst.u32(property: 'maxSupply'),
+    LayoutConst.u16(property: 'weight'),
+    LayoutConst.u32(property: 'index'),
+  ], property: 'addCardToPack');
   @override
   StructLayout get layout => staticLayout;
   @override
   Map<String, dynamic> serialize() {
-    return {
-      'maxSupply': maxSupply,
-      'weight': weight,
-      'index': index,
-    };
+    return {'maxSupply': maxSupply, 'weight': weight, 'index': index};
   }
 
   @override

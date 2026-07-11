@@ -17,29 +17,32 @@ class SystemAllocateWithSeedLayout extends SystemProgramLayout {
 
   /// address of the program to assign as the owner of the allocated account
   final SolAddress programId;
-  const SystemAllocateWithSeedLayout(
-      {required this.base,
-      required this.seed,
-      required this.space,
-      required this.programId});
+  const SystemAllocateWithSeedLayout({
+    required this.base,
+    required this.seed,
+    required this.space,
+    required this.programId,
+  });
   factory SystemAllocateWithSeedLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.allocateWithSeed.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.allocateWithSeed.insturction,
+    );
     return SystemAllocateWithSeedLayout(
-        base: decode['base'],
-        seed: decode['seed'],
-        space: decode['space'],
-        programId: decode['programId']);
+      base: decode['base'],
+      seed: decode['seed'],
+      space: decode['space'],
+      programId: decode['programId'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('base'),
-        LayoutConst.rustString(property: 'seed'),
-        LayoutConst.ns64(property: 'space'),
-        SolanaLayoutUtils.publicKey('programId'),
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('base'),
+    LayoutConst.rustString(property: 'seed'),
+    LayoutConst.ns64(property: 'space'),
+    SolanaLayoutUtils.publicKey('programId'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

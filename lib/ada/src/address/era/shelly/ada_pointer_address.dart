@@ -32,99 +32,121 @@ class ADAPointerAddress extends ADAShellyAddress {
 
   /// Factory method to create an ADAPointerAddress instance from a given address string.
   factory ADAPointerAddress(String address, {ADANetwork? network}) {
-    final decode = AdaAddressUtils.decodeAddres(address,
-        network: network, addrType: ADAAddressType.pointer);
+    final decode = AdaAddressUtils.decodeAddres(
+      address,
+      network: network,
+      addrType: ADAAddressType.pointer,
+    );
     return ADAPointerAddress._(
-        paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
-        pointer: decode.pointer!,
-        address: address,
-        network: decode.network);
+      paymentCredential: AdaAddressUtils.toCerdential(decode.baseHashBytes!),
+      pointer: decode.pointer!,
+      address: address,
+      network: network ?? decode.network,
+    );
   }
 
   /// Factory constructor to create an ADAPointerAddress instance from a payment credential and a pointer.
-  factory ADAPointerAddress.fromCredential(
-      {required Credential paymentCredential,
-      required Pointer pointer,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADAPointerAddress.fromCredential({
+    required Credential paymentCredential,
+    required Pointer pointer,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final encode = AdaPointerAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(paymentCredential),
-        pointer: pointer,
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(paymentCredential),
+      pointer: pointer,
+      network: network,
+    );
     return ADAPointerAddress._(
-        paymentCredential: paymentCredential,
-        pointer: pointer,
-        address: encode,
-        network: network);
+      paymentCredential: paymentCredential,
+      pointer: pointer,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory constructor to create an ADAPointerAddress instance from a public key and a pointer.
-  factory ADAPointerAddress.fromPublicKey(
-      {required List<int> pubkeyBytes,
-      required Pointer pointer,
-      ADANetwork network = ADANetwork.mainnet}) {
+  factory ADAPointerAddress.fromPublicKey({
+    required List<int> pubkeyBytes,
+    required Pointer pointer,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
     final credential = AdaAddressUtils.publicKeyToCredential(pubkeyBytes);
     final encode = AdaPointerAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        pointer: pointer,
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      pointer: pointer,
+      network: network,
+    );
     return ADAPointerAddress._(
-        paymentCredential: credential,
-        pointer: pointer,
-        address: encode,
-        network: network);
+      paymentCredential: credential,
+      pointer: pointer,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory constructor to create an ADAPointerAddress instance from a Bip32 structure and a pointer.
-  factory ADAPointerAddress.fromBip32(
-      {required CardanoByronLegacyBip32 bip32,
-      required Pointer pointer,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
+  factory ADAPointerAddress.fromBip32({
+    required CardanoByronLegacyBip32 bip32,
+    required Pointer pointer,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      bip32.publicKey.compressed,
+    );
     final encode = AdaPointerAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        pointer: pointer,
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      pointer: pointer,
+      network: network,
+    );
     return ADAPointerAddress._(
-        paymentCredential: credential,
-        pointer: pointer,
-        address: encode,
-        network: network);
+      paymentCredential: credential,
+      pointer: pointer,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory constructor to create an ADAPointerAddress instance from an Icarus structure and a pointer.
-  factory ADAPointerAddress.fromIcarus(
-      {required CardanoIcarusBip32 bip32,
-      required Pointer pointer,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(bip32.publicKey.compressed);
+  factory ADAPointerAddress.fromIcarus({
+    required CardanoIcarusBip32 bip32,
+    required Pointer pointer,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      bip32.publicKey.compressed,
+    );
     final encode = AdaPointerAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        pointer: pointer,
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      pointer: pointer,
+      network: network,
+    );
     return ADAPointerAddress._(
-        paymentCredential: credential,
-        pointer: pointer,
-        address: encode,
-        network: network);
+      paymentCredential: credential,
+      pointer: pointer,
+      address: encode,
+      network: network,
+    );
   }
 
   /// Factory constructor to create an ADAPointerAddress instance from a CIP1852 structure and a pointer.
-  factory ADAPointerAddress.fromCip1852(
-      {required Cip1852 cip1585,
-      required Pointer pointer,
-      ADANetwork network = ADANetwork.mainnet}) {
-    final credential =
-        AdaAddressUtils.publicKeyToCredential(cip1585.publicKey.compressed);
+  factory ADAPointerAddress.fromCip1852({
+    required Cip1852 cip1585,
+    required Pointer pointer,
+    ADANetwork network = ADANetwork.mainnet,
+  }) {
+    final credential = AdaAddressUtils.publicKeyToCredential(
+      cip1585.publicKey.compressed,
+    );
     final encode = AdaPointerAddrEncoder().encodeCredential(
-        AdaAddressUtils.toAdaStakeCredential(credential),
-        pointer: pointer,
-        network: network);
+      AdaAddressUtils.toAdaStakeCredential(credential),
+      pointer: pointer,
+      network: network,
+    );
     return ADAPointerAddress._(
-        paymentCredential: credential,
-        pointer: pointer,
-        address: encode,
-        network: network);
+      paymentCredential: credential,
+      pointer: pointer,
+      address: encode,
+      network: network,
+    );
   }
 }

@@ -8,31 +8,36 @@ class MetaplexTokenMetaDataDelegateUtilityV1Layout
   final Payload? authorizationData;
   final BigInt amount;
   static const int discriminator = 4;
-  const MetaplexTokenMetaDataDelegateUtilityV1Layout(
-      {this.authorizationData, required this.amount});
+  const MetaplexTokenMetaDataDelegateUtilityV1Layout({
+    this.authorizationData,
+    required this.amount,
+  });
 
   factory MetaplexTokenMetaDataDelegateUtilityV1Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .delegateUtilityV1.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction.delegateUtilityV1.insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataDelegateUtilityV1Layout(
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']),
-        amount: decode['amount']);
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+      amount: decode['amount'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -46,7 +51,7 @@ class MetaplexTokenMetaDataDelegateUtilityV1Layout
     return {
       'authorizationData': authorizationData?.serialize(),
       'discriminator': discriminator,
-      'amount': amount
+      'amount': amount,
     };
   }
 }

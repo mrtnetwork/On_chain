@@ -5,25 +5,30 @@ class MetaplexAuctionHouseCancelLayout
     extends MetaplexAuctionHouseProgramLayout {
   final BigInt buyerPrice;
   final BigInt tokenSize;
-  const MetaplexAuctionHouseCancelLayout(
-      {required this.buyerPrice, required this.tokenSize});
+  const MetaplexAuctionHouseCancelLayout({
+    required this.buyerPrice,
+    required this.tokenSize,
+  });
 
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHouseCancelLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexAuctionHouseProgramInstruction.cancel.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexAuctionHouseProgramInstruction.cancel.insturction,
+    );
     return MetaplexAuctionHouseCancelLayout(
-        buyerPrice: decode['buyerPrice'], tokenSize: decode['tokenSize']);
+      buyerPrice: decode['buyerPrice'],
+      tokenSize: decode['tokenSize'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u64(property: 'buyerPrice'),
-        LayoutConst.u64(property: 'tokenSize'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'buyerPrice'),
+    LayoutConst.u64(property: 'tokenSize'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

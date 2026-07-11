@@ -5,24 +5,30 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class CandyMachineAccountVersion extends BorshLayoutSerializable {
   final String name;
   const CandyMachineAccountVersion._(this.name);
-  static const CandyMachineAccountVersion v1 =
-      CandyMachineAccountVersion._('V1');
-  static const CandyMachineAccountVersion v2 =
-      CandyMachineAccountVersion._('V2');
+  static const CandyMachineAccountVersion v1 = CandyMachineAccountVersion._(
+    'V1',
+  );
+  static const CandyMachineAccountVersion v2 = CandyMachineAccountVersion._(
+    'V2',
+  );
 
   static const List<CandyMachineAccountVersion> values = [v1, v2];
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'candyMachineAccountVersion')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'candyMachineAccountVersion',
+    ),
   ]);
 
   static CandyMachineAccountVersion fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No CandyMachineAccountVersion found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No CandyMachineAccountVersion found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
@@ -36,7 +42,7 @@ class CandyMachineAccountVersion extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'candyMachineAccountVersion': {name: null}
+      'candyMachineAccountVersion': {name: null},
     };
   }
 

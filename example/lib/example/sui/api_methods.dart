@@ -59,8 +59,8 @@ Future<SuiApiTransactionBlockResponse> excuteTx(
 
 Future<SuiTransactionDataV1> dryRunTx(SuiTransactionDataV1 tx) async {
   final r = await suiProvider.request(SuiRequestDryRunTransactionBlock(
-      txBytes:
-          StringUtils.decode(tx.toVariantBcs(), type: StringEncoding.base64)));
+      txBytes: StringUtils.decode(tx.toVariantBcs(),
+          encoding: StringEncoding.base64)));
   assert(r.effects.status.status == SuiApiExecutionStatusType.success,
       r.effects.status.error);
   final safeOverHead = gasSafeOverHead * tx.gasData.price;

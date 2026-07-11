@@ -1,11 +1,29 @@
+import 'package:blockchain_utils/cbor/cbor.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 import 'package:on_chain/ethereum/src/rpc/methds/subscribes/const/constant.dart';
+import 'package:on_chain/serialization/identifiers/identifiers.dart';
 
 /// https://geth.ethereum.org/docs/interacting-with-geth/rpc/pubsub
-class EthereumRequestETHSubscribeNewHeads
-    extends EthereumRequest<String, String> {
+class EthereumRequestETHSubscribeNewHeads extends EthereumSubscribionRequest {
   EthereumRequestETHSubscribeNewHeads();
+  factory EthereumRequestETHSubscribeNewHeads.deserialize({
+    List<int>? bytes,
+    CborObject? object,
+  }) {
+    CborTagSerializable.decodeTaggedValue(
+      identifier:
+          OnChainSerializationIdentifiers.ethereumRpcHeadSubscribtionParams,
+      cborBytes: bytes,
+      cborObject: object,
+    );
+
+    return EthereumRequestETHSubscribeNewHeads();
+  }
+
+  @override
+  SerializationIdentifier get serializationIdentifier =>
+      OnChainSerializationIdentifiers.ethereumRpcHeadSubscribtionParams;
 
   @override
   String get method => EthereumMethods.ethSubscribe.value;

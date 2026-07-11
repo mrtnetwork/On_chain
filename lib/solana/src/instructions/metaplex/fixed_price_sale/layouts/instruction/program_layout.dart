@@ -25,11 +25,14 @@ abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
   @override
   abstract final MetaplexFixedPriceSaleProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexFixedPriceSaleProgramInstruction? instruction =
         MetaplexFixedPriceSaleProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
 
     switch (instruction) {
       case MetaplexFixedPriceSaleProgramInstruction.buy:
@@ -51,8 +54,9 @@ abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
       case MetaplexFixedPriceSaleProgramInstruction.resumeMarket:
         return MetaplexFixedPriceSaleResumeMarketLayout.fromBuffer(data);
       case MetaplexFixedPriceSaleProgramInstruction.savePrimaryMetadataCreators:
-        return MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout
-            .fromBuffer(data);
+        return MetaplexFixedPriceSaleSavePrimaryMetadataCreatorsLayout.fromBuffer(
+          data,
+        );
       case MetaplexFixedPriceSaleProgramInstruction.suspendMarket:
         return MetaplexFixedPriceSaleSuspendMarketLayout.fromBuffer(data);
       case MetaplexFixedPriceSaleProgramInstruction.withdraw:
@@ -70,10 +74,13 @@ abstract class MetaplexFixedPriceSaleProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException('invalid instruction bytes', details: {
-        'expected': BytesUtils.toHexString(instruction),
-        'instruction': BytesUtils.toBinary(instcutionData)
-      });
+      throw SolanaPluginException(
+        'invalid instruction bytes',
+        details: {
+          'expected': BytesUtils.toHexString(instruction),
+          'instruction': BytesUtils.toBinary(instcutionData),
+        },
+      );
     }
 
     return decode;

@@ -10,10 +10,11 @@ class Ipv4 with InternalCborSerialization {
 
   /// Constructs an IPv4 instance.
   Ipv4(List<int> ipv4)
-      : ipv4 = AdaTransactionUtils.validateFixedLengthBytes(
-            bytes: ipv4,
-            length: AdaTransactionConstant.ipv4Length,
-            objectName: 'IPv4');
+    : ipv4 = AdaTransactionUtils.validateFixedLengthBytes(
+        bytes: ipv4,
+        length: AdaTransactionConstant.ipv4Length,
+        objectName: 'IPv4',
+      );
 
   /// Deserialize an IPv4 instance from CBOR data.
   factory Ipv4.deserialize(CborBytesValue cbor) {
@@ -22,12 +23,8 @@ class Ipv4 with InternalCborSerialization {
   factory Ipv4.fromJson(String value) {
     return Ipv4(value.split('.').map<int>((e) => int.parse(e)).toList());
   }
-  Ipv4 copyWith({
-    List<int>? ipv4,
-  }) {
-    return Ipv4(
-      ipv4 ?? this.ipv4,
-    );
+  Ipv4 copyWith({List<int>? ipv4}) {
+    return Ipv4(ipv4 ?? this.ipv4);
   }
 
   @override

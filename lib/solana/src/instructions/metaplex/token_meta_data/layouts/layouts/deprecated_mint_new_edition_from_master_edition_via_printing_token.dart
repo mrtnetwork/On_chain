@@ -7,13 +7,16 @@ class MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingT
   const MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout();
 
   factory MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .deprecatedMintNewEditionFromMasterEditionViaPrintingToken
-            .insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .deprecatedMintNewEditionFromMasterEditionViaPrintingToken
+              .insturction,
+    );
     return const MetaplexTokenMetaDataDeprecatedMintNewEditionFromMasterEditionViaPrintingTokenLayout();
   }
 

@@ -7,20 +7,27 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('authority'),
-        SolanaLayoutUtils.publicKey('programId')
-      ]);
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('programId'),
+  ]);
 
   static int get accountSize => layout.span;
 
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -30,10 +37,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.transferHook);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.transferHook,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -49,12 +59,16 @@ class TransferHook extends BorshLayoutSerializable {
   factory TransferHook.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return TransferHook(
-        authority: decode['authority'], programId: decode['programId']);
+      authority: decode['authority'],
+      programId: decode['programId'],
+    );
   }
   factory TransferHook.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return TransferHook(
-        authority: decode['authority'], programId: decode['programId']);
+      authority: decode['authority'],
+      programId: decode['programId'],
+    );
   }
 
   @override

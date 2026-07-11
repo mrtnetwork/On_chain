@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -13,18 +14,28 @@ class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
       SPLTokenProgramInstruction(1, 'InitializeAccount');
   static const SPLTokenProgramInstruction initializeMultisig =
       SPLTokenProgramInstruction(2, 'InitializeMultisig');
-  static const SPLTokenProgramInstruction transfer =
-      SPLTokenProgramInstruction(3, 'Transfer');
-  static const SPLTokenProgramInstruction approve =
-      SPLTokenProgramInstruction(4, 'Approve');
-  static const SPLTokenProgramInstruction revoke =
-      SPLTokenProgramInstruction(5, 'Revoke');
+  static const SPLTokenProgramInstruction transfer = SPLTokenProgramInstruction(
+    3,
+    'Transfer',
+  );
+  static const SPLTokenProgramInstruction approve = SPLTokenProgramInstruction(
+    4,
+    'Approve',
+  );
+  static const SPLTokenProgramInstruction revoke = SPLTokenProgramInstruction(
+    5,
+    'Revoke',
+  );
   static const SPLTokenProgramInstruction setAuthority =
       SPLTokenProgramInstruction(6, 'SetAuthority');
-  static const SPLTokenProgramInstruction mintTo =
-      SPLTokenProgramInstruction(7, 'MintTo');
-  static const SPLTokenProgramInstruction burn =
-      SPLTokenProgramInstruction(8, 'Burn');
+  static const SPLTokenProgramInstruction mintTo = SPLTokenProgramInstruction(
+    7,
+    'MintTo',
+  );
+  static const SPLTokenProgramInstruction burn = SPLTokenProgramInstruction(
+    8,
+    'Burn',
+  );
   static const SPLTokenProgramInstruction closeAccount =
       SPLTokenProgramInstruction(9, 'CloseAccount');
   static const SPLTokenProgramInstruction freezeAccount =
@@ -91,8 +102,16 @@ class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
   static const SPLTokenProgramInstruction groupMemberPointerExtension =
       SPLTokenProgramInstruction(41, 'GroupMemberPointerExtension');
 
-  static const SPLTokenProgramInstruction execute = SPLTokenProgramInstruction(
-      [105, 37, 101, 197, 75, 251, 102, 26], 'Execute');
+  static const SPLTokenProgramInstruction execute = SPLTokenProgramInstruction([
+    105,
+    37,
+    101,
+    197,
+    75,
+    251,
+    102,
+    26,
+  ], 'Execute');
 
   static const List<SPLTokenProgramInstruction> values = [
     initializeMint,
@@ -133,14 +152,10 @@ class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
     initializePermanentDelegate,
     transferHookExtension,
     metadataPointerExtension,
-    execute
+    execute,
   ];
   static SPLTokenProgramInstruction? getInstruction(dynamic value) {
-    try {
-      return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
-      return null;
-    }
+    return values.firstWhereNullable((element) => element.insturction == value);
   }
 
   @override

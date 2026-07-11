@@ -12,7 +12,7 @@ class Costmdls with InternalCborSerialization {
 
   /// Constructs a [Costmdls] instance.
   Costmdls(Map<Language, CostModel> value)
-      : value = Map<Language, CostModel>.unmodifiable(value);
+    : value = Map<Language, CostModel>.unmodifiable(value);
 
   /// Constructs a [Costmdls] instance from CBOR bytes.
   factory Costmdls.fromCborBytes(List<int> cborBytes) {
@@ -21,28 +21,32 @@ class Costmdls with InternalCborSerialization {
 
   /// Deserializes a [Costmdls] instance from CBOR map value.
   factory Costmdls.deserialize(CborMapValue cbor) {
-    final map = cbor.valueAsMap<CborObject, CborObject>();
+    final map = cbor.asMap<CborObject, CborObject>();
     return Costmdls({
       for (final entry in map.entries)
-        Language.deserialize(entry.key): CostModel.deserialize(entry.value)
+        Language.deserialize(entry.key): CostModel.deserialize(entry.value),
     });
   }
   factory Costmdls.fromViewCborBytes(List<int> cborBytes) {
     final cbor = CborObject.fromCbor(cborBytes).as<CborMapValue>();
-    final map = cbor.valueAsMap<CborObject, CborObject>();
+    final map = cbor.asMap<CborObject, CborObject>();
     return Costmdls({
       for (final entry in map.entries)
         Language.deserialize(
-            CborObject.fromCbor(entry.key.as<CborBytesValue>().value)
-                .cast<CborNumeric>()): CostModel.deserialize(
-            CborObject.fromCbor(entry.value.as<CborBytesValue>().value)
-                .cast<CborListValue>())
+          CborObject.fromCbor(
+            entry.key.as<CborBytesValue>().value,
+          ).cast<CborNumeric>(),
+        ): CostModel.deserialize(
+          CborObject.fromCbor(
+            entry.value.as<CborBytesValue>().value,
+          ).cast<CborListValue>(),
+        ),
     });
   }
   factory Costmdls.fromJson(Map<String, dynamic> json) {
     return Costmdls({
       for (final entry in json.entries)
-        Language.fromName(entry.key): CostModel.fromJson(entry.value)
+        Language.fromName(entry.key): CostModel.fromJson(entry.value),
     });
   }
 
@@ -50,14 +54,13 @@ class Costmdls with InternalCborSerialization {
   CborObject toCbor({bool sort = false}) {
     final Map<CborObject, CborObject> cborValues = {};
     if (sort) {
-      final sortedKeys = value.keys.toList()
-        ..sort(
-          (a, b) {
-            final lenOrder = PlutusDataUtils.costModelKeyLength(a)
-                .compareTo(PlutusDataUtils.costModelKeyLength(b));
+      final sortedKeys =
+          value.keys.toList()..sort((a, b) {
+            final lenOrder = PlutusDataUtils.costModelKeyLength(
+              a,
+            ).compareTo(PlutusDataUtils.costModelKeyLength(b));
             return lenOrder == 0 ? a.value.compareTo(b.value) : lenOrder;
-          },
-        );
+          });
 
       for (final entry in sortedKeys) {
         cborValues.addAll({entry.toCbor(): value[entry]!.toCbor()});
@@ -73,30 +76,32 @@ class Costmdls with InternalCborSerialization {
 
   /// Encodes the language view into a CBOR map value.
   CborObject languageViewEncoding() {
-    final sortedKeys = value.keys.toList()
-      ..sort(
-        (a, b) {
-          final lenOrder = PlutusDataUtils.costModelKeyLength(a)
-              .compareTo(PlutusDataUtils.costModelKeyLength(b));
+    final sortedKeys =
+        value.keys.toList()..sort((a, b) {
+          final lenOrder = PlutusDataUtils.costModelKeyLength(
+            a,
+          ).compareTo(PlutusDataUtils.costModelKeyLength(b));
           return lenOrder == 0 ? a.value.compareTo(b.value) : lenOrder;
-        },
-      );
+        });
     final Map<CborObject, CborObject> cborValues = {};
     // bool isV1 = key == Language.plutusV1;
     for (final key in sortedKeys) {
       bool isV1 = key == Language.plutusV1;
-      final config = isV1
-          ? CostModelSerializationConfig(
-              listEncoding: CborIterableEncodingType.inDefinite)
-          : CostModelSerializationConfig(
-              listEncoding: CborIterableEncodingType.definite);
+      final config =
+          isV1
+              ? CostModelSerializationConfig(
+                listEncoding: CborIterableEncodingType.inDefinite,
+              )
+              : CostModelSerializationConfig(
+                listEncoding: CborIterableEncodingType.definite,
+              );
 
       final modelEncoding = value[key]!.toCbor(config: config);
       final keyEncoding = key.toCbor();
 
       cborValues.addAll({
         isV1 ? CborBytesValue(keyEncoding.encode()) : keyEncoding:
-            isV1 ? CborBytesValue(modelEncoding.encode()) : modelEncoding
+            isV1 ? CborBytesValue(modelEncoding.encode()) : modelEncoding,
       });
     }
     return CborMapValue.definite(cborValues);
@@ -106,7 +111,7 @@ class Costmdls with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       for (final entry in value.entries)
-        entry.key.toJson(): entry.value.toJson()
+        entry.key.toJson(): entry.value.toJson(),
     };
   }
 

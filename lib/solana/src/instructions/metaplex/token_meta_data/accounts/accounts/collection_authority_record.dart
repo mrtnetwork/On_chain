@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        LayoutConst.u8(property: 'bump'),
-        SolanaLayoutUtils.optionPubkey(property: 'updateAuthority')
-      ]);
+    LayoutConst.u8(property: 'key'),
+    LayoutConst.u8(property: 'bump'),
+    SolanaLayoutUtils.optionPubkey(property: 'updateAuthority'),
+  ]);
 }
 
 class CollectionAuthorityRecord extends BorshLayoutSerializable {
@@ -17,15 +17,21 @@ class CollectionAuthorityRecord extends BorshLayoutSerializable {
   final int bump;
   final SolAddress? updateAuthority;
 
-  const CollectionAuthorityRecord(
-      {required this.key, required this.bump, this.updateAuthority});
+  const CollectionAuthorityRecord({
+    required this.key,
+    required this.bump,
+    this.updateAuthority,
+  });
   factory CollectionAuthorityRecord.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return CollectionAuthorityRecord(
-        key: MetaDataKey.fromValue(decode['key']),
-        bump: decode['bump'],
-        updateAuthority: decode['updateAuthority']);
+      key: MetaDataKey.fromValue(decode['key']),
+      bump: decode['bump'],
+      updateAuthority: decode['updateAuthority'],
+    );
   }
 
   @override

@@ -15,9 +15,10 @@ class SPLTokenFreezAccountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenFreezAccountLayout instance from buffer.
   factory SPLTokenFreezAccountLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.freezeAccount.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.freezeAccount.insturction,
+    );
     return SPLTokenFreezAccountLayout();
   }
 

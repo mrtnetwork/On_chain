@@ -6,28 +6,33 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 class _Utils {
   static const List<int> discriminator = [44, 207, 199, 184, 112, 103, 34, 181];
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('base'),
-        LayoutConst.u8(property: 'bump'),
-        SolanaLayoutUtils.publicKey('authority'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('base'),
+    LayoutConst.u8(property: 'bump'),
+    SolanaLayoutUtils.publicKey('authority'),
+  ]);
 }
 
 class CandyGaurdAccount extends BorshLayoutSerializable {
   final SolAddress base;
   final int bump;
   final SolAddress authority;
-  const CandyGaurdAccount(
-      {required this.base, required this.bump, required this.authority});
+  const CandyGaurdAccount({
+    required this.base,
+    required this.bump,
+    required this.authority,
+  });
   factory CandyGaurdAccount.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return CandyGaurdAccount(
-        base: decode['base'],
-        bump: decode['bump'],
-        authority: decode['authority']);
+      base: decode['base'],
+      bump: decode['bump'],
+      authority: decode['authority'],
+    );
   }
 
   @override

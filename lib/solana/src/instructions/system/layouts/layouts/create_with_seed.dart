@@ -20,33 +20,36 @@ class SystemCreateWithSeedLayout extends SystemProgramLayout {
 
   /// address of the program to assign as the owner of the created account
   final SolAddress programId;
-  const SystemCreateWithSeedLayout(
-      {required this.base,
-      required this.seed,
-      required this.lamports,
-      required this.space,
-      required this.programId});
+  const SystemCreateWithSeedLayout({
+    required this.base,
+    required this.seed,
+    required this.lamports,
+    required this.space,
+    required this.programId,
+  });
   factory SystemCreateWithSeedLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: SystemProgramInstruction.createWithSeed.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: SystemProgramInstruction.createWithSeed.insturction,
+    );
     return SystemCreateWithSeedLayout(
-        base: decode['base'],
-        seed: decode['seed'],
-        lamports: decode['lamports'],
-        space: decode['space'],
-        programId: decode['programId']);
+      base: decode['base'],
+      seed: decode['seed'],
+      lamports: decode['lamports'],
+      space: decode['space'],
+      programId: decode['programId'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        SolanaLayoutUtils.publicKey('base'),
-        LayoutConst.rustString(property: 'seed'),
-        LayoutConst.ns64(property: 'lamports'),
-        LayoutConst.ns64(property: 'space'),
-        SolanaLayoutUtils.publicKey('programId'),
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    SolanaLayoutUtils.publicKey('base'),
+    LayoutConst.rustString(property: 'seed'),
+    LayoutConst.ns64(property: 'lamports'),
+    LayoutConst.ns64(property: 'space'),
+    SolanaLayoutUtils.publicKey('programId'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -60,7 +63,7 @@ class SystemCreateWithSeedLayout extends SystemProgramLayout {
       'seed': seed,
       'lamports': lamports,
       'space': space,
-      'programId': programId
+      'programId': programId,
     };
   }
 }

@@ -15,9 +15,10 @@ class SPLTokenThawAccountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenThawAccountLayout instance from buffer.
   factory SPLTokenThawAccountLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.thawAccount.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.thawAccount.insturction,
+    );
     return SPLTokenThawAccountLayout();
   }
 

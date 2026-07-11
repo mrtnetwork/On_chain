@@ -11,22 +11,24 @@ class MetaplexTokenMetaDataUseV1Layout
 
   factory MetaplexTokenMetaDataUseV1Layout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction.useV1.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.useV1.insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataUseV1Layout(
-        authorizationData: decode['authorizationData'] == null
-            ? null
-            : Payload.fromJson(decode['authorizationData']));
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
@@ -39,7 +41,7 @@ class MetaplexTokenMetaDataUseV1Layout
   Map<String, dynamic> serialize() {
     return {
       'authorizationData': authorizationData?.serialize(),
-      'discriminator': discriminator
+      'discriminator': discriminator,
     };
   }
 }

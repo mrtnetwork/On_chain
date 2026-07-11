@@ -15,34 +15,39 @@ class CardanoBlock with InternalCborSerialization {
     return CardanoBlock(
       header: Header.fromJson(json['header']),
       transactionBodies: TransactionBodies.fromJson(json['transaction_bodies']),
-      transactionWitnessSets:
-          TransactionWitnessSets.fromJson(json['transaction_witness_sets']),
+      transactionWitnessSets: TransactionWitnessSets.fromJson(
+        json['transaction_witness_sets'],
+      ),
       auxiliaryDataSet: AuxiliaryDataSet.fromJson(json['auxiliary_data_set']),
       invalidTransactions: List<int>.from(json["invalid_transactions"]),
     );
   }
 
-  CardanoBlock(
-      {required this.header,
-      required this.transactionBodies,
-      required this.transactionWitnessSets,
-      required this.auxiliaryDataSet,
-      required List<int> invalidTransactions})
-      : invalidTransactions = invalidTransactions.immutable;
+  CardanoBlock({
+    required this.header,
+    required this.transactionBodies,
+    required this.transactionWitnessSets,
+    required this.auxiliaryDataSet,
+    required List<int> invalidTransactions,
+  }) : invalidTransactions = invalidTransactions.immutable;
   factory CardanoBlock.deserialize(CborListValue cbor) {
     return CardanoBlock(
-      header: Header.deserialize(cbor.elementAt<CborListValue>(0)),
-      transactionBodies:
-          TransactionBodies.deserialize(cbor.elementAt<CborListValue>(1)),
-      transactionWitnessSets:
-          TransactionWitnessSets.deserialize(cbor.elementAt<CborListValue>(2)),
-      auxiliaryDataSet:
-          AuxiliaryDataSet.deserialize(cbor.elementAt<CborMapValue>(3)),
-      invalidTransactions: cbor
-          .elementAt<CborListValue>(4)
-          .valueAsListOf<CborIntValue>()
-          .map((e) => e.value)
-          .toList(),
+      header: Header.deserialize(cbor.objectAt<CborListValue>(0)),
+      transactionBodies: TransactionBodies.deserialize(
+        cbor.objectAt<CborListValue>(1),
+      ),
+      transactionWitnessSets: TransactionWitnessSets.deserialize(
+        cbor.objectAt<CborListValue>(2),
+      ),
+      auxiliaryDataSet: AuxiliaryDataSet.deserialize(
+        cbor.objectAt<CborMapValue>(3),
+      ),
+      invalidTransactions:
+          cbor
+              .objectAt<CborListValue>(4)
+              .allObjectsAs<CborIntValue>()
+              .map((e) => e.value)
+              .toList(),
     );
   }
 
@@ -58,7 +63,8 @@ class CardanoBlock with InternalCborSerialization {
       transactionWitnessSets.toCbor(),
       auxiliaryDataSet.toCbor(),
       CborListValue.definite(
-          invalidTransactions.map((e) => CborIntValue(e)).toList())
+        invalidTransactions.map((e) => CborIntValue(e)).toList(),
+      ),
     ];
   }
 

@@ -10,35 +10,39 @@ class ADATransaction with InternalCborSerialization {
   final bool isValid;
   final AuxiliaryData? data;
 
-  const ADATransaction(
-      {required this.body,
-      required this.witnessSet,
-      this.isValid = true,
-      this.data});
+  const ADATransaction({
+    required this.body,
+    required this.witnessSet,
+    this.isValid = true,
+    this.data,
+  });
   factory ADATransaction.fromCborBytes(List<int> bytes) {
     final CborListValue decode = InternalCborSerialization.desrialize(bytes);
     return ADATransaction.deserialize(decode);
   }
   factory ADATransaction.deserialize(CborListValue cbor) {
     return ADATransaction(
-        body: TransactionBody.deserialize(
-            cbor.elementAt<CborMapValue>(0).asMap()),
-        witnessSet:
-            TransactionWitnessSet.deserialize(cbor.elementAt<CborMapValue>(1)),
-        isValid: cbor.elementAt<CborBoleanValue>(2).value,
-        data: cbor
-            .elementAt<CborObject?>(3)
-            ?.convertTo<AuxiliaryData, CborObject>(
-                (e) => AuxiliaryData.deserialize(e)));
+      body: TransactionBody.deserialize(cbor.objectAt<CborMapValue>(0)),
+      witnessSet: TransactionWitnessSet.deserialize(
+        cbor.objectAt<CborMapValue>(1),
+      ),
+      isValid: cbor.objectAt<CborBoleanValue>(2).value,
+      data: cbor.maybeObjectAt<AuxiliaryData, CborObject>(
+        3,
+        (e) => AuxiliaryData.deserialize(e),
+      ),
+    );
   }
   factory ADATransaction.fromJson(Map<String, dynamic> json) {
     return ADATransaction(
-        body: TransactionBody.fromJson(json['body']),
-        witnessSet: TransactionWitnessSet.fromJson(json['witness_set']),
-        data: json['auxiliary_data'] == null
-            ? null
-            : AuxiliaryData.fromJson(json['auxiliary_data']),
-        isValid: json['is_valid']);
+      body: TransactionBody.fromJson(json['body']),
+      witnessSet: TransactionWitnessSet.fromJson(json['witness_set']),
+      data:
+          json['auxiliary_data'] == null
+              ? null
+              : AuxiliaryData.fromJson(json['auxiliary_data']),
+      isValid: json['is_valid'],
+    );
   }
 
   ADATransaction copyWith({
@@ -71,7 +75,7 @@ class ADATransaction with InternalCborSerialization {
       'body': body.toJson(),
       'witness_set': witnessSet.toJson(),
       'is_valid': isValid,
-      'auxiliary_data': data?.toJson()
+      'auxiliary_data': data?.toJson(),
     };
   }
 

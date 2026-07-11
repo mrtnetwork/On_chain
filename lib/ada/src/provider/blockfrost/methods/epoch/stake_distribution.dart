@@ -4,11 +4,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the active stake distribution for the specified epoch.
 /// https://blockfrost.dev/api/stake-distribution
-class BlockfrostRequestStakeDistribution extends BlockFrostRequest<
-    List<ADAStakeDistributionResponse>, List<Map<String, dynamic>>> {
-  BlockfrostRequestStakeDistribution(this.epoch,
-      {BlockFrostRequestFilterParams? filter})
-      : super(filter: filter);
+class BlockfrostRequestStakeDistribution
+    extends
+        BlockFrostRequest<
+          List<ADAStakeDistributionResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestStakeDistribution(
+    this.epoch, {
+    BlockFrostRequestFilterParams? filter,
+  }) : super(filter: filter);
 
   /// Number of the epoch
   final int epoch;
@@ -22,7 +27,8 @@ class BlockfrostRequestStakeDistribution extends BlockFrostRequest<
 
   @override
   List<ADAStakeDistributionResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result.map((e) => ADAStakeDistributionResponse.fromJson(e)).toList();
   }
 }

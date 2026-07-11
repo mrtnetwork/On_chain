@@ -7,22 +7,28 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'key'),
-        SolanaLayoutUtils.publicKey('updateAuthority'),
-        SolanaLayoutUtils.publicKey('mint'),
-        MetaDataData.staticLayout,
-        LayoutConst.boolean(property: 'primarySaleHappened'),
-        LayoutConst.boolean(property: 'isMutable'),
-        LayoutConst.optional(LayoutConst.u8(), property: 'editionNonce'),
-        LayoutConst.optional(MetaDataTokenStandard.staticLayout,
-            property: 'tokenStandard'),
-        LayoutConst.optional(Collection.staticLayout, property: 'collection'),
-        LayoutConst.optional(Uses.staticLayout, property: 'uses'),
-        LayoutConst.optional(CollectionDetailsV1.staticLayout,
-            property: 'collectionDetails'),
-        LayoutConst.optional(ProgrammableConfigRecord.staticLayout,
-            property: 'programmableConfigRecord'),
-      ]);
+    LayoutConst.u8(property: 'key'),
+    SolanaLayoutUtils.publicKey('updateAuthority'),
+    SolanaLayoutUtils.publicKey('mint'),
+    MetaDataData.staticLayout,
+    LayoutConst.boolean(property: 'primarySaleHappened'),
+    LayoutConst.boolean(property: 'isMutable'),
+    LayoutConst.optional(LayoutConst.u8(), property: 'editionNonce'),
+    LayoutConst.optional(
+      MetaDataTokenStandard.staticLayout,
+      property: 'tokenStandard',
+    ),
+    LayoutConst.optional(Collection.staticLayout, property: 'collection'),
+    LayoutConst.optional(Uses.staticLayout, property: 'uses'),
+    LayoutConst.optional(
+      CollectionDetailsV1.staticLayout,
+      property: 'collectionDetails',
+    ),
+    LayoutConst.optional(
+      ProgrammableConfigRecord.staticLayout,
+      property: 'programmableConfigRecord',
+    ),
+  ]);
 }
 
 class Metadata extends BorshLayoutSerializable {
@@ -39,44 +45,53 @@ class Metadata extends BorshLayoutSerializable {
   final CollectionDetailsV1? collectionDetails;
   final ProgrammableConfigRecord? programmableConfigRecord;
 
-  Metadata(
-      {required this.key,
-      required this.updateAuthority,
-      required this.mint,
-      required this.data,
-      required this.primarySaleHappened,
-      required this.isMutable,
-      required this.editionNonce,
-      required this.tokenStandard,
-      required this.collection,
-      required this.uses,
-      required this.collectionDetails,
-      required this.programmableConfigRecord});
+  Metadata({
+    required this.key,
+    required this.updateAuthority,
+    required this.mint,
+    required this.data,
+    required this.primarySaleHappened,
+    required this.isMutable,
+    required this.editionNonce,
+    required this.tokenStandard,
+    required this.collection,
+    required this.uses,
+    required this.collectionDetails,
+    required this.programmableConfigRecord,
+  });
   factory Metadata.fromBuffer(List<int> data) {
-    final decode =
-        BorshLayoutSerializable.decode(bytes: data, layout: _Utils.layout);
+    final decode = BorshLayoutSerializable.decode(
+      bytes: data,
+      layout: _Utils.layout,
+    );
     return Metadata(
-        key: MetaDataKey.fromValue(decode['key']),
-        updateAuthority: decode['updateAuthority'],
-        mint: decode['mint'],
-        data: MetaDataData.fromJson(decode['metaDataData']),
-        primarySaleHappened: decode['primarySaleHappened'],
-        isMutable: decode['isMutable'],
-        editionNonce: decode['editionNonce'],
-        tokenStandard: decode['tokenStandard'] == null
-            ? null
-            : MetaDataTokenStandard.fromJson(decode['tokenStandard']),
-        collection: decode['collection'] == null
-            ? null
-            : Collection.fromJson(decode['collection']),
-        uses: decode['uses'] == null ? null : Uses.fromJson(decode['uses']),
-        collectionDetails: decode['collectionDetails'] == null
-            ? null
-            : CollectionDetailsV1.fromJson(decode['collectionDetails']),
-        programmableConfigRecord: decode['programmableConfigRecord'] == null
-            ? null
-            : ProgrammableConfigRecord.fromJson(
-                decode['programmableConfigRecord']));
+      key: MetaDataKey.fromValue(decode['key']),
+      updateAuthority: decode['updateAuthority'],
+      mint: decode['mint'],
+      data: MetaDataData.fromJson(decode['metaDataData']),
+      primarySaleHappened: decode['primarySaleHappened'],
+      isMutable: decode['isMutable'],
+      editionNonce: decode['editionNonce'],
+      tokenStandard:
+          decode['tokenStandard'] == null
+              ? null
+              : MetaDataTokenStandard.fromJson(decode['tokenStandard']),
+      collection:
+          decode['collection'] == null
+              ? null
+              : Collection.fromJson(decode['collection']),
+      uses: decode['uses'] == null ? null : Uses.fromJson(decode['uses']),
+      collectionDetails:
+          decode['collectionDetails'] == null
+              ? null
+              : CollectionDetailsV1.fromJson(decode['collectionDetails']),
+      programmableConfigRecord:
+          decode['programmableConfigRecord'] == null
+              ? null
+              : ProgrammableConfigRecord.fromJson(
+                decode['programmableConfigRecord'],
+              ),
+    );
   }
 
   @override
@@ -95,7 +110,7 @@ class Metadata extends BorshLayoutSerializable {
       'collection': collection?.serialize(),
       'uses': uses?.serialize(),
       'collectionDetails': collectionDetails?.serialize(),
-      'programmableConfigRecord': programmableConfigRecord?.serialize()
+      'programmableConfigRecord': programmableConfigRecord?.serialize(),
     };
   }
 }

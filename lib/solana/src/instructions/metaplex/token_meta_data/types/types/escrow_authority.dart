@@ -8,8 +8,10 @@ class EscrowAuthority extends BorshLayoutSerializable {
   final String name;
   final dynamic fields;
   const EscrowAuthority._(this.name, this.fields);
-  static const EscrowAuthority tokenOwner =
-      EscrowAuthority._('TokenOwner', null);
+  static const EscrowAuthority tokenOwner = EscrowAuthority._(
+    'TokenOwner',
+    null,
+  );
   factory EscrowAuthority.creator({required SolAddress creator}) {
     return EscrowAuthority._('Creator', [creator]);
   }
@@ -29,8 +31,8 @@ class EscrowAuthority extends BorshLayoutSerializable {
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum([
       LayoutConst.none(property: 'TokenOwner'),
-      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: 'Creator')
-    ], property: 'escrowAuthority')
+      LayoutConst.tuple([SolanaLayoutUtils.publicKey()], property: 'Creator'),
+    ], property: 'escrowAuthority'),
   ]);
 
   @override
@@ -38,7 +40,7 @@ class EscrowAuthority extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'escrowAuthority': {name: fields}
+      'escrowAuthority': {name: fields},
     };
   }
 }

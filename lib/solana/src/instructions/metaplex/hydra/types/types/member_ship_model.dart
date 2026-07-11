@@ -11,13 +11,15 @@ class MembershipModel {
   static const List<MembershipModel> values = [wallet, token, nft];
 
   static MembershipModel fromValue(int? value) {
-    try {
-      return values.firstWhere((element) => element.value == value);
-    } on StateError {
-      throw SolanaPluginException(
-          'No MembershipModel found matching the specified value',
-          details: {'value': value});
-    }
+    return values.firstWhere(
+      (element) => element.value == value,
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No MembershipModel found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
+    );
   }
 
   @override

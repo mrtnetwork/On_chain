@@ -32,11 +32,14 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
   @override
   abstract final MetaplexCandyMachineProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexCandyMachineProgramInstruction? instruction =
         MetaplexCandyMachineProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
 
     switch (instruction) {
       case MetaplexCandyMachineProgramInstruction.addConfigLines:
@@ -49,25 +52,30 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
         return MetaplexCandyMachineDeleteCandyMachineLayout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.initializeCandyMachine:
         return MetaplexCandyMachineInitializeCandyMachineLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexCandyMachineProgramInstruction.initializeCandyMachineV2:
         return MetaplexCandyMachineInitializeCandyMachineV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexCandyMachineProgramInstruction.mint:
         return MetaplexCandyMachineMintLayout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.mintFromCandyMachine:
         return MetaplexCandyMachineMintFromCandyMachineLayout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.mintFromCandyMachineV2:
         return MetaplexCandyMachineMintFromCandyMachineV2Layout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexCandyMachineProgramInstruction.route:
         return MetaplexCandyMachineRouteLayout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.setCandyGuardAuthority:
         return MetaplexCandyMachineSetCandyGuardAuthorityLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexCandyMachineProgramInstruction.setCandyMachineAuthority:
         return MetaplexCandyMachineSetCandyMachineAuthorityLayout.fromBuffer(
-            data);
+          data,
+        );
       case MetaplexCandyMachineProgramInstruction.setCollection:
         return MetaplexCandyMachineSetCollectionLayout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.setCollectionV2:
@@ -97,10 +105,13 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException('invalid instruction bytes', details: {
-        'expected': BytesUtils.toHexString(instruction),
-        'instruction': BytesUtils.toBinary(instcutionData)
-      });
+      throw SolanaPluginException(
+        'invalid instruction bytes',
+        details: {
+          'expected': BytesUtils.toHexString(instruction),
+          'instruction': BytesUtils.toBinary(instcutionData),
+        },
+      );
     }
 
     return decode;

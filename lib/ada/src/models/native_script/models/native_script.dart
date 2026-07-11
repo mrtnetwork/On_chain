@@ -21,7 +21,7 @@ abstract class NativeScript with InternalCborSerialization {
 
   /// Deserializes a [NativeScript] from CBOR.
   factory NativeScript.deserialize(CborListValue cbor) {
-    final type = NativeScriptType.deserialize(cbor.elementAt<CborIntValue>(0));
+    final type = NativeScriptType.deserialize(cbor.objectAt<CborIntValue>(0));
     switch (type) {
       case NativeScriptType.scriptAll:
         return NativeScriptScriptAll.deserialize(cbor);
@@ -43,8 +43,7 @@ abstract class NativeScript with InternalCborSerialization {
     try {
       type = NativeScriptType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException('Invalid NativeScript json.',
-          details: {'json': json});
+      throw ADAPluginException('Invalid NativeScript json.');
     }
     switch (type) {
       case NativeScriptType.scriptAll:

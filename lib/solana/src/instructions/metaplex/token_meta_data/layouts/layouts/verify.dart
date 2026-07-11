@@ -6,24 +6,30 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class MetaplexTokenMetaDataVerifyCollectionV1Layout
     extends MetaplexTokenMetaDataProgramLayout {
   final Verification verification;
-  const MetaplexTokenMetaDataVerifyCollectionV1Layout(
-      {required this.verification});
+  const MetaplexTokenMetaDataVerifyCollectionV1Layout({
+    required this.verification,
+  });
 
   factory MetaplexTokenMetaDataVerifyCollectionV1Layout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .verifyCollectionV1.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .verifyCollectionV1
+              .insturction,
+    );
     return MetaplexTokenMetaDataVerifyCollectionV1Layout(
-        verification: Verification.fromValue(decode['discriminator']));
+      verification: Verification.fromValue(decode['discriminator']),
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

@@ -5,10 +5,13 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns the latest blockhash
 /// https://solana.com/docs/rpc/http/getlatestblockhash
-class SolanaRequestGetLatestBlockhash extends SolanaRequest<
-    BlockhashWithExpiryBlockHeight, Map<String, dynamic>> {
-  const SolanaRequestGetLatestBlockhash(
-      {super.commitment = Commitment.finalized, super.minContextSlot});
+class SolanaRequestGetLatestBlockhash
+    extends
+        SolanaRequest<BlockhashWithExpiryBlockHeight, Map<String, dynamic>> {
+  const SolanaRequestGetLatestBlockhash({
+    super.commitment = Commitment.finalized,
+    super.minContextSlot,
+  });
 
   /// getLatestBlockhash
   @override
@@ -17,8 +20,10 @@ class SolanaRequestGetLatestBlockhash extends SolanaRequest<
   @override
   List<dynamic> toJson() {
     return [
-      SolanaRequestUtils.createConfig(
-          [commitment?.toJson(), minContextSlot?.toJson()])
+      SolanaRequestUtils.createConfig([
+        commitment?.toJson(),
+        minContextSlot?.toJson(),
+      ]),
     ];
   }
 

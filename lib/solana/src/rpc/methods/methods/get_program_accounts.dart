@@ -8,14 +8,15 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// https://solana.com/docs/rpc/http/getprogramaccounts
 class SolanaRequestGetProgramAccounts
     extends SolanaRequest<List<SolanaAccountInfo>, List> {
-  const SolanaRequestGetProgramAccounts(
-      {required this.account,
-      this.withContext,
-      this.dataSlice,
-      this.filters,
-      super.commitment,
-      super.minContextSlot,
-      super.encoding = SolanaRequestEncoding.base64});
+  const SolanaRequestGetProgramAccounts({
+    required this.account,
+    this.withContext,
+    this.dataSlice,
+    this.filters,
+    super.commitment,
+    super.minContextSlot,
+    super.encoding = SolanaRequestEncoding.base64,
+  });
 
   /// getProgramAccounts
   @override
@@ -44,8 +45,8 @@ class SolanaRequestGetProgramAccounts
         {'withContext': withContext},
         encoding?.toJson(),
         dataSlice?.toJson(),
-        {'filters': filters?.map((e) => e.toJson()).toList()}
-      ])
+        {'filters': filters?.map((e) => e.toJson()).toList()},
+      ]),
     ];
   }
 

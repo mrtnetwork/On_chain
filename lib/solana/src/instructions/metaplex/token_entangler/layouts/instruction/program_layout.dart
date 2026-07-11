@@ -16,11 +16,14 @@ abstract class MetaplexTokenEntanglerProgramLayout extends ProgramLayout {
   @override
   abstract final MetaplexTokenEntanglerProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
     final MetaplexTokenEntanglerProgramInstruction? instruction =
         MetaplexTokenEntanglerProgramInstruction.getInstruction(
-            decode['instruction']);
+          decode['instruction'],
+        );
     switch (instruction) {
       case MetaplexTokenEntanglerProgramInstruction.createEntangledPair:
         return MetaplexTokenEntanglerCreateEntangledPairLayout.fromBuffer(data);
@@ -41,10 +44,13 @@ abstract class MetaplexTokenEntanglerProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException('invalid instruction bytes', details: {
-        'expected': BytesUtils.toHexString(instruction),
-        'instruction': BytesUtils.toBinary(instcutionData)
-      });
+      throw SolanaPluginException(
+        'invalid instruction bytes',
+        details: {
+          'expected': BytesUtils.toHexString(instruction),
+          'instruction': BytesUtils.toBinary(instcutionData),
+        },
+      );
     }
 
     return decode;

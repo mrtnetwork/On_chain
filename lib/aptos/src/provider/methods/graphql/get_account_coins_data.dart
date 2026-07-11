@@ -1,9 +1,13 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
-class AptosGraphQLRequestGetAccountCoinsData extends AptosGraphQLRequest<
-    List<AptosGraphQLFungibleAssetBalance>, Map<String, dynamic>> {
+class AptosGraphQLRequestGetAccountCoinsData
+    extends
+        AptosGraphQLRequest<
+          List<AptosGraphQLFungibleAssetBalance>,
+          Map<String, dynamic>
+        > {
   AptosGraphQLRequestGetAccountCoinsData({
     required this.variables,
     this.headers,
@@ -18,9 +22,12 @@ class AptosGraphQLRequestGetAccountCoinsData extends AptosGraphQLRequest<
   Map<String, dynamic> get queryVariables => variables.toJson();
   @override
   List<AptosGraphQLFungibleAssetBalance> onResonse(
-      Map<String, dynamic> result) {
+    Map<String, dynamic> result,
+  ) {
     return result
-        .asListOfMap("current_fungible_asset_balances")!
+        .valueEnsureAsList<Map<String, dynamic>>(
+          "current_fungible_asset_balances",
+        )
         .map((e) => AptosGraphQLFungibleAssetBalance.fromJson(e))
         .toList();
   }

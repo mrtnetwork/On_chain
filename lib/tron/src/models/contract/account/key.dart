@@ -1,23 +1,24 @@
+import 'package:blockchain_utils/utils/json/json.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 class TronKey extends TronProtocolBufferImpl {
   /// Create a new [TronKey] instance by parsing a JSON map.
   factory TronKey.fromJson(Map<String, dynamic> json) {
     return TronKey(
-        address: OnChainUtils.parseTronAddress(
-            value: json['address'], name: 'address'),
-        weight:
-            OnChainUtils.parseBigInt(value: json['weight'], name: 'weight'));
+      address: TronAddress(json.valueAs("address")),
+
+      weight: json.valueAsBigInt("weight"),
+    );
   }
   factory TronKey.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
 
     return TronKey(
-        address: TronAddress.fromBytes(decode.getField(1)),
-        weight: decode.getField(2));
+      address: TronAddress.fromBytes(decode.getField(1)),
+      weight: decode.getField(2),
+    );
   }
 
   /// Create a new [TronKey] instance with specified parameters.
@@ -31,10 +32,7 @@ class TronKey extends TronProtocolBufferImpl {
 
   /// Create a new [TronKey] instance by copying the existing one
   /// and replacing specified fields with new values.
-  TronKey copyWith({
-    TronAddress? address,
-    BigInt? weight,
-  }) {
+  TronKey copyWith({TronAddress? address, BigInt? weight}) {
     return TronKey(
       address: address ?? this.address,
       weight: weight ?? this.weight,

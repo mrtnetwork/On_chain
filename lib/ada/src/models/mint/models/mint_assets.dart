@@ -11,22 +11,29 @@ class MintAssets with InternalCborSerialization {
   final Map<AssetName, BigInt> assets;
 
   /// Constructs a [MintAssets] instance.
-  MintAssets(Map<AssetName, BigInt> assets,
-      {this.serializationConfig = const AssetsSerializationConfig()})
-      : assets = Map<AssetName, BigInt>.unmodifiable(assets);
+  MintAssets(
+    Map<AssetName, BigInt> assets, {
+    this.serializationConfig = const AssetsSerializationConfig(),
+  }) : assets = Map<AssetName, BigInt>.unmodifiable(assets);
 
   /// Deserializes a [MintAssets] instance from a CBOR map value.
   factory MintAssets.deserialize(CborMapValue<CborObject, CborObject> cbor) {
     final Map<AssetName, BigInt> assets = {};
     for (final i in cbor.value.entries) {
-      assets[AssetName.deserialize(i.key.as<CborBytesValue>("AssetName"))] =
-          i.value.as<CborNumeric>("Value").toBigInt();
+      assets[AssetName.deserialize(
+            i.key.as<CborBytesValue>(operation: "AssetName"),
+          )] =
+          i.value.as<CborNumeric>(operation: "Value").toBigInt();
     }
-    return MintAssets(assets,
-        serializationConfig: AssetsSerializationConfig(
-            encoding: cbor.definite
+    return MintAssets(
+      assets,
+      serializationConfig: AssetsSerializationConfig(
+        encoding:
+            cbor.definite
                 ? CborMapEncodingType.definite
-                : CborMapEncodingType.inDefinite));
+                : CborMapEncodingType.inDefinite,
+      ),
+    );
   }
   factory MintAssets.fromJson(Map<String, dynamic> json) {
     final Map<AssetName, BigInt> assets = {};
@@ -34,15 +41,21 @@ class MintAssets with InternalCborSerialization {
     for (final i in (json["assets"] as Map).entries) {
       assets[AssetName.fromHex(i.key)] = BigintUtils.parse(i.value);
     }
-    return MintAssets(assets,
-        serializationConfig: AssetsSerializationConfig.fromJson(
-            json["serialization_config"] ?? {}));
+    return MintAssets(
+      assets,
+      serializationConfig: AssetsSerializationConfig.fromJson(
+        json["serialization_config"] ?? {},
+      ),
+    );
   }
-  MintAssets copyWith(
-      {Map<AssetName, BigInt>? assets,
-      AssetsSerializationConfig? serializationConfig}) {
-    return MintAssets(assets ?? this.assets,
-        serializationConfig: serializationConfig ?? this.serializationConfig);
+  MintAssets copyWith({
+    Map<AssetName, BigInt>? assets,
+    AssetsSerializationConfig? serializationConfig,
+  }) {
+    return MintAssets(
+      assets ?? this.assets,
+      serializationConfig: serializationConfig ?? this.serializationConfig,
+    );
   }
 
   @override
@@ -51,12 +64,12 @@ class MintAssets with InternalCborSerialization {
       case CborMapEncodingType.definite:
         return CborMapValue.definite({
           for (final i in assets.entries)
-            i.key.toCbor(): CborSignedValue.i64(i.value)
+            i.key.toCbor(): CborSignedValue.i64(i.value),
         });
       case CborMapEncodingType.inDefinite:
         return CborMapValue.inDefinite({
           for (final i in assets.entries)
-            i.key.toCbor(): CborSignedValue.i64(i.value)
+            i.key.toCbor(): CborSignedValue.i64(i.value),
         });
     }
   }
@@ -65,9 +78,9 @@ class MintAssets with InternalCborSerialization {
   Map<String, dynamic> toJson() {
     return {
       "assets": {
-        for (final i in assets.entries) i.key.toJson(): i.value.toString()
+        for (final i in assets.entries) i.key.toJson(): i.value.toString(),
       },
-      "serialization_config": serializationConfig.toJson()
+      "serialization_config": serializationConfig.toJson(),
     };
   }
 }

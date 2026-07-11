@@ -3,11 +3,16 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/models/models/latest_block_transaction_with_cbor_data.dart';
 
 /// Return the transactions within the block, including CBOR representations.
-class BlockfrostRequestBlockTransactionWithCborData extends BlockFrostRequest<
-    List<LatestBlockTransactionWithCborDataResponse>,
-    List<Map<String, dynamic>>> {
-  BlockfrostRequestBlockTransactionWithCborData(this.hashOrNumber,
-      {super.filter});
+class BlockfrostRequestBlockTransactionWithCborData
+    extends
+        BlockFrostRequest<
+          List<LatestBlockTransactionWithCborDataResponse>,
+          List<Map<String, dynamic>>
+        > {
+  BlockfrostRequestBlockTransactionWithCborData(
+    this.hashOrNumber, {
+    super.filter,
+  });
 
   /// 64-character case-sensitive hexadecimal string or block number
   final String hashOrNumber;
@@ -21,7 +26,8 @@ class BlockfrostRequestBlockTransactionWithCborData extends BlockFrostRequest<
 
   @override
   List<LatestBlockTransactionWithCborDataResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => LatestBlockTransactionWithCborDataResponse.fromJson(e))
         .toList();

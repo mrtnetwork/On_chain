@@ -6,12 +6,16 @@ class MetaplexCandyMachineMintFromCandyMachineLayout
   const MetaplexCandyMachineMintFromCandyMachineLayout();
 
   factory MetaplexCandyMachineMintFromCandyMachineLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction
-            .mintFromCandyMachine.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexCandyMachineProgramInstruction
+              .mintFromCandyMachine
+              .insturction,
+    );
     return const MetaplexCandyMachineMintFromCandyMachineLayout();
   }
   static StructLayout get _layout =>

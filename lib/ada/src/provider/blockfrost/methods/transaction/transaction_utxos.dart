@@ -4,8 +4,9 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Return the inputs and UTXOs of the specific transaction.
 /// https://blockfrost.dev/api/transaction-utx-os
-class BlockfrostRequestTransactionUTXOs extends BlockFrostRequest<
-    ADATransactionUTXOSResponse, Map<String, dynamic>> {
+class BlockfrostRequestTransactionUTXOs
+    extends
+        BlockFrostRequest<ADATransactionUTXOSResponse, Map<String, dynamic>> {
   BlockfrostRequestTransactionUTXOs(this.hash);
 
   /// Hash of the requested transaction2

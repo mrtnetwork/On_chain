@@ -9,16 +9,18 @@ class RouteArgs extends BorshLayoutSerializable {
   final List<int> data;
 
   RouteArgs({required this.guard, required List<int> data})
-      : data = data = data.asImmutableBytes;
+    : data = data = data.asImmutableBytes;
   factory RouteArgs.fromJson(Map<String, dynamic> json) {
     return RouteArgs(
-        guard: GuardType.fromValue(json['guard']),
-        data: (json['data'] as List).cast());
+      guard: GuardType.fromValue(json['guard']),
+      data: (json['data'] as List).cast(),
+    );
   }
 
-  static StructLayout get staticLayout => LayoutConst.struct(
-      [LayoutConst.u8(property: 'guard'), LayoutConst.vecU8(property: 'data')],
-      property: 'routeArgs');
+  static StructLayout get staticLayout => LayoutConst.struct([
+    LayoutConst.u8(property: 'guard'),
+    LayoutConst.vecU8(property: 'data'),
+  ], property: 'routeArgs');
 
   @override
   StructLayout get layout => staticLayout;

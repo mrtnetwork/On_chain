@@ -19,19 +19,22 @@ class StakeValidatorListAccount extends BorshLayoutSerializable {
 
   /// List of stake info for each validator in the pool
   final List<ValidatorStakeInfo> validators;
-  const StakeValidatorListAccount(
-      {required this.accountType,
-      required this.validators,
-      required this.maxValidators});
+  const StakeValidatorListAccount({
+    required this.accountType,
+    required this.validators,
+    required this.maxValidators,
+  });
 
   factory StakeValidatorListAccount.fromBuffer(List<int> data) {
     final decode = _Utils.layout.deserialize(data).value;
     return StakeValidatorListAccount(
-        accountType: StakePoolAccountType.fromValue(decode['accountType']),
-        validators: (decode['validators'] as List)
-            .map((e) => ValidatorStakeInfo.fromJson(e))
-            .toList(),
-        maxValidators: decode['maxValidators']);
+      accountType: StakePoolAccountType.fromValue(decode['accountType']),
+      validators:
+          (decode['validators'] as List)
+              .map((e) => ValidatorStakeInfo.fromJson(e))
+              .toList(),
+      maxValidators: decode['maxValidators'],
+    );
   }
 
   @override
@@ -42,7 +45,7 @@ class StakeValidatorListAccount extends BorshLayoutSerializable {
     return {
       'accountType': accountType.value,
       'maxValidators': maxValidators,
-      'validators': validators.map((e) => e.serialize()).toList()
+      'validators': validators.map((e) => e.serialize()).toList(),
     };
   }
 

@@ -2,30 +2,33 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/transaction/types/types.dart';
-import 'package:on_chain/utils/utils/map_utils.dart';
 
 class SuiIntentMessage extends BcsSerialization {
   final SuiIntent intent;
   final BcsSerialization message;
   const SuiIntentMessage({required this.intent, required this.message});
-  static (SuiIntentMessage, int) deserializeWithConsumedLength(List<int> bytes,
-      {String? property}) {
+  static (SuiIntentMessage, int) deserializeWithConsumedLength(
+    List<int> bytes, {
+    String? property,
+  }) {
     final intent = SuiIntent.deserialize(bytes);
     switch (intent.scope) {
       case SuiIntentScope.transactionData:
         final layout = LayoutConst.struct([
           SuiIntent.layout(property: "intent"),
-          SuiTransactionData.layout(property: "message")
+          SuiTransactionData.layout(property: "message"),
         ], property: property);
         final decode = layout.deserialize(bytes);
         return (SuiIntentMessage.fromStruct(decode.value), decode.consumed);
       default:
-        throw DartSuiPluginException("Intent message does not supported.",
-            details: {
-              "scope": intent.scope.name,
-              "version": intent.version.name,
-              "application_id": intent.applicationId.name
-            });
+        throw DartSuiPluginException(
+          "Intent message does not supported.",
+          details: {
+            "scope": intent.scope.name,
+            "version": intent.version.name,
+            "application_id": intent.applicationId.name,
+          },
+        );
     }
   }
 
@@ -33,37 +36,52 @@ class SuiIntentMessage extends BcsSerialization {
     return deserializeWithConsumedLength(bytes).$1;
   }
   factory SuiIntentMessage.fromStruct(Map<String, dynamic> json) {
-    final intent = SuiIntent.fromStruct(json.asMap("intent"));
+    final intent = SuiIntent.fromStruct(
+      json.valueEnsureAsMap<String, dynamic>("intent"),
+    );
     return switch (intent.scope) {
       SuiIntentScope.transactionData => SuiIntentMessage(
-          intent: intent,
-          message: SuiTransactionData.fromStruct(json.asMap("message"))),
-      _ => throw DartSuiPluginException("Intent message does not supported.",
-            details: {
-              "scope": intent.scope.name,
-              "version": intent.version.name,
-              "application_id": intent.applicationId.name
-            })
+        intent: intent,
+        message: SuiTransactionData.fromStruct(
+          json.valueEnsureAsMap<String, dynamic>("message"),
+        ),
+      ),
+      _ =>
+        throw DartSuiPluginException(
+          "Intent message does not supported.",
+          details: {
+            "scope": intent.scope.name,
+            "version": intent.version.name,
+            "application_id": intent.applicationId.name,
+          },
+        ),
     };
   }
 
-  factory SuiIntentMessage.transactionData(
-      {required SuiTransactionData transaction, SuiIntent? intent}) {
+  factory SuiIntentMessage.transactionData({
+    required SuiTransactionData transaction,
+    SuiIntent? intent,
+  }) {
     return SuiIntentMessage(
-        intent: intent ??
-            SuiIntent(
-                scope: SuiIntentScope.transactionData,
-                version: SuiIntentVersion.v0,
-                applicationId: SuiIntentApplicationId.sui),
-        message: transaction);
+      intent:
+          intent ??
+          SuiIntent(
+            scope: SuiIntentScope.transactionData,
+            version: SuiIntentVersion.v0,
+            applicationId: SuiIntentApplicationId.sui,
+          ),
+      message: transaction,
+    );
   }
   factory SuiIntentMessage.personalMessage(SuiPersonalMessage message) {
     return SuiIntentMessage(
-        intent: SuiIntent(
-            scope: SuiIntentScope.personalMessage,
-            version: SuiIntentVersion.v0,
-            applicationId: SuiIntentApplicationId.sui),
-        message: message);
+      intent: SuiIntent(
+        scope: SuiIntentScope.personalMessage,
+        version: SuiIntentVersion.v0,
+        applicationId: SuiIntentApplicationId.sui,
+      ),
+      message: message,
+    );
   }
 
   @override
@@ -71,8 +89,9 @@ class SuiIntentMessage extends BcsSerialization {
     return LayoutConst.struct([
       intent.createLayout(property: "intent"),
       if (message.serializableType == BcsSerializableType.variant)
-        (message as BcsVariantSerialization)
-            .createVariantLayout(property: "message")
+        (message as BcsVariantSerialization).createVariantLayout(
+          property: "message",
+        )
       else
         message.createLayout(property: "message"),
     ], property: property);
@@ -94,17 +113,18 @@ class SuiIntentMessage extends BcsSerialization {
 class SuiPersonalMessage extends BcsSerialization {
   final List<int> message;
   SuiPersonalMessage({required List<int> message})
-      : message = message.asImmutableBytes;
+    : message = message.asImmutableBytes;
   factory SuiPersonalMessage.deserialize(List<int> bytes) {
     final decode = BcsSerialization.deserialize(bytes: bytes, layout: layout());
     return SuiPersonalMessage.fromStruct(decode);
   }
   factory SuiPersonalMessage.fromStruct(Map<String, dynamic> json) {
-    return SuiPersonalMessage(message: json.asBytes("message"));
+    return SuiPersonalMessage(message: json.valueAsBytes("message"));
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
-    return LayoutConst.struct([LayoutConst.bcsBytes(property: "message")],
-        property: property);
+    return LayoutConst.struct([
+      LayoutConst.bcsBytes(property: "message"),
+    ], property: property);
   }
 
   @override
@@ -128,44 +148,64 @@ class SuiIntentScope extends BcsVariantSerialization {
   }
 
   /// Used for a user signature on a transaction data.
-  static const SuiIntentScope transactionData =
-      SuiIntentScope._(name: "TransactionData", value: 0);
+  static const SuiIntentScope transactionData = SuiIntentScope._(
+    name: "TransactionData",
+    value: 0,
+  );
 
   /// Used for an authority signature on transaction effects.
-  static const SuiIntentScope transactionEffects =
-      SuiIntentScope._(name: "TransactionEffects", value: 1);
+  static const SuiIntentScope transactionEffects = SuiIntentScope._(
+    name: "TransactionEffects",
+    value: 1,
+  );
 
   /// Used for an authority signature on a checkpoint summary.
-  static const SuiIntentScope checkpointSummary =
-      SuiIntentScope._(name: "CheckpointSummary", value: 2);
+  static const SuiIntentScope checkpointSummary = SuiIntentScope._(
+    name: "CheckpointSummary",
+    value: 2,
+  );
 
   /// Used for a user signature on a personal message.
-  static const SuiIntentScope personalMessage =
-      SuiIntentScope._(name: "PersonalMessage", value: 3);
+  static const SuiIntentScope personalMessage = SuiIntentScope._(
+    name: "PersonalMessage",
+    value: 3,
+  );
 
   /// Used for an authority signature on a user signed transaction.
-  static const SuiIntentScope senderSignedTransaction =
-      SuiIntentScope._(name: "SuiSenderSignedTransaction", value: 4);
+  static const SuiIntentScope senderSignedTransaction = SuiIntentScope._(
+    name: "SuiSenderSignedTransaction",
+    value: 4,
+  );
 
   /// Used as a signature representing an authority's proof of possession of its authority protocol key.
-  static const SuiIntentScope proofOfPossession =
-      SuiIntentScope._(name: "ProofOfPossession", value: 5);
+  static const SuiIntentScope proofOfPossession = SuiIntentScope._(
+    name: "ProofOfPossession",
+    value: 5,
+  );
 
   /// Used for narwhal authority signature on header digest.
-  static const SuiIntentScope headerDigest =
-      SuiIntentScope._(name: "HeaderDigest", value: 6);
+  static const SuiIntentScope headerDigest = SuiIntentScope._(
+    name: "HeaderDigest",
+    value: 6,
+  );
 
   /// for bridge purposes but it's currently not included in messages.
-  static const SuiIntentScope bridgeEventUnused =
-      SuiIntentScope._(name: "BridgeEventUnused", value: 7);
+  static const SuiIntentScope bridgeEventUnused = SuiIntentScope._(
+    name: "BridgeEventUnused",
+    value: 7,
+  );
 
   /// Used for consensus authority signature on block's digest.
-  static const SuiIntentScope consensusBlock =
-      SuiIntentScope._(name: "ConsensusBlock", value: 8);
+  static const SuiIntentScope consensusBlock = SuiIntentScope._(
+    name: "ConsensusBlock",
+    value: 8,
+  );
 
   /// Used for reporting peer addresses in discovery.
-  static const SuiIntentScope discoveryPeers =
-      SuiIntentScope._(name: "DiscoveryPeers", value: 9);
+  static const SuiIntentScope discoveryPeers = SuiIntentScope._(
+    name: "DiscoveryPeers",
+    value: 9,
+  );
 
   static const List<SuiIntentScope> values = [
     transactionData,
@@ -177,7 +217,7 @@ class SuiIntentScope extends BcsVariantSerialization {
     headerDigest,
     bridgeEventUnused,
     consensusBlock,
-    discoveryPeers
+    discoveryPeers,
   ];
 
   @override
@@ -187,11 +227,17 @@ class SuiIntentScope extends BcsVariantSerialization {
 
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum(
-        values
-            .map((e) => LazyVariantModel(
-                layout: LayoutConst.noArgs, property: e.name, index: e.value))
-            .toList(),
-        property: property);
+      values
+          .map(
+            (e) => LazyVariantModel(
+              layout: LayoutConst.noArgs,
+              property: e.name,
+              index: e.value,
+            ),
+          )
+          .toList(),
+      property: property,
+    );
   }
 
   @override
@@ -207,10 +253,15 @@ class SuiIntentScope extends BcsVariantSerialization {
   @override
   String get variantName => name;
   static SuiIntentScope fromName(String name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct scope from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct scope from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -226,11 +277,17 @@ class SuiIntentVersion extends BcsVariantSerialization {
   static const List<SuiIntentVersion> values = [v0];
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum(
-        values
-            .map((e) => LazyVariantModel(
-                layout: LayoutConst.noArgs, property: e.name, index: e.value))
-            .toList(),
-        property: property);
+      values
+          .map(
+            (e) => LazyVariantModel(
+              layout: LayoutConst.noArgs,
+              property: e.name,
+              index: e.value,
+            ),
+          )
+          .toList(),
+      property: property,
+    );
   }
 
   @override
@@ -251,10 +308,15 @@ class SuiIntentVersion extends BcsVariantSerialization {
   @override
   String get variantName => name;
   static SuiIntentVersion fromName(String name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct intent version from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct intent version from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -262,8 +324,10 @@ class SuiIntentApplicationId extends BcsVariantSerialization {
   final String name;
   final int value;
   const SuiIntentApplicationId._({required this.name, required this.value});
-  static const SuiIntentApplicationId sui =
-      SuiIntentApplicationId._(name: "Sui", value: 0);
+  static const SuiIntentApplicationId sui = SuiIntentApplicationId._(
+    name: "Sui",
+    value: 0,
+  );
   static const List<SuiIntentApplicationId> values = [sui];
   factory SuiIntentApplicationId.fromStruct(Map<String, dynamic> json) {
     final decode = BcsVariantSerialization.toVariantDecodeResult(json);
@@ -271,11 +335,17 @@ class SuiIntentApplicationId extends BcsVariantSerialization {
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.bcsLazyEnum(
-        values
-            .map((e) => LazyVariantModel(
-                layout: LayoutConst.noArgs, property: e.name, index: e.value))
-            .toList(),
-        property: property);
+      values
+          .map(
+            (e) => LazyVariantModel(
+              layout: LayoutConst.noArgs,
+              property: e.name,
+              index: e.value,
+            ),
+          )
+          .toList(),
+      property: property,
+    );
   }
 
   @override
@@ -296,10 +366,15 @@ class SuiIntentApplicationId extends BcsVariantSerialization {
   @override
   String get variantName => name;
   static SuiIntentApplicationId fromName(String name) {
-    return values.firstWhere((e) => e.name == name,
-        orElse: () => throw DartSuiPluginException(
-            "cannot find correct application ID from the given name.",
-            details: {"name": name}));
+    return values.firstWhere(
+      (e) => e.name == name,
+      orElse:
+          () =>
+              throw DartSuiPluginException(
+                "cannot find correct application ID from the given name.",
+                details: {"name": name},
+              ),
+    );
   }
 }
 
@@ -307,29 +382,38 @@ class SuiIntent extends BcsSerialization {
   final SuiIntentScope scope;
   final SuiIntentVersion version;
   final SuiIntentApplicationId applicationId;
-  const SuiIntent(
-      {required this.scope,
-      required this.version,
-      required this.applicationId});
+  const SuiIntent({
+    required this.scope,
+    required this.version,
+    required this.applicationId,
+  });
   static Layout<Map<String, dynamic>> layout({String? property}) {
     return LayoutConst.struct([
       SuiIntentScope.layout(property: "scope"),
       SuiIntentVersion.layout(property: "version"),
-      SuiIntentApplicationId.layout(property: 'applicationId')
+      SuiIntentApplicationId.layout(property: 'applicationId'),
     ], property: property);
   }
 
   factory SuiIntent.deserialize(List<int> bytes, {String? property}) {
     final decode = BcsSerialization.deserialize(
-        bytes: bytes, layout: layout(property: property));
+      bytes: bytes,
+      layout: layout(property: property),
+    );
     return SuiIntent.fromStruct(decode);
   }
   factory SuiIntent.fromStruct(Map<String, dynamic> json) {
     return SuiIntent(
-        scope: SuiIntentScope.fromStruct(json.asMap("scope")),
-        version: SuiIntentVersion.fromStruct(json.asMap("version")),
-        applicationId:
-            SuiIntentApplicationId.fromStruct(json.asMap("applicationId")));
+      scope: SuiIntentScope.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("scope"),
+      ),
+      version: SuiIntentVersion.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("version"),
+      ),
+      applicationId: SuiIntentApplicationId.fromStruct(
+        json.valueEnsureAsMap<String, dynamic>("applicationId"),
+      ),
+    );
   }
   @override
   Layout<Map<String, dynamic>> createLayout({String? property}) {
@@ -341,7 +425,7 @@ class SuiIntent extends BcsSerialization {
     return {
       "scope": scope.toVariantLayoutStruct(),
       "version": version.toVariantLayoutStruct(),
-      "applicationId": applicationId.toVariantLayoutStruct()
+      "applicationId": applicationId.toVariantLayoutStruct(),
     };
   }
 }

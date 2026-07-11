@@ -7,14 +7,14 @@ class _Utils {
   static const List<int> discriminator = [185, 62, 74, 60, 105, 158, 178, 125];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('fanout'),
-        LayoutConst.u64(property: 'totalInflow'),
-        LayoutConst.u64(property: 'lastInflow'),
-        LayoutConst.u8(property: 'bumpSeed'),
-        SolanaLayoutUtils.publicKey('membershipKey'),
-        LayoutConst.u64(property: 'shares'),
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('fanout'),
+    LayoutConst.u64(property: 'totalInflow'),
+    LayoutConst.u64(property: 'lastInflow'),
+    LayoutConst.u8(property: 'bumpSeed'),
+    SolanaLayoutUtils.publicKey('membershipKey'),
+    LayoutConst.u64(property: 'shares'),
+  ]);
 }
 
 class FanoutMembershipVoucher extends BorshLayoutSerializable {
@@ -25,25 +25,28 @@ class FanoutMembershipVoucher extends BorshLayoutSerializable {
   final SolAddress membershipKey;
   final BigInt shares;
 
-  const FanoutMembershipVoucher(
-      {required this.fanout,
-      required this.bumpSeed,
-      required this.lastInflow,
-      required this.membershipKey,
-      required this.shares,
-      required this.totalInflow});
+  const FanoutMembershipVoucher({
+    required this.fanout,
+    required this.bumpSeed,
+    required this.lastInflow,
+    required this.membershipKey,
+    required this.shares,
+    required this.totalInflow,
+  });
   factory FanoutMembershipVoucher.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return FanoutMembershipVoucher(
-        fanout: decode['fanout'],
-        bumpSeed: decode['bumpSeed'],
-        lastInflow: decode['lastInflow'],
-        membershipKey: decode['membershipKey'],
-        shares: decode['shares'],
-        totalInflow: decode['totalInflow']);
+      fanout: decode['fanout'],
+      bumpSeed: decode['bumpSeed'],
+      lastInflow: decode['lastInflow'],
+      membershipKey: decode['membershipKey'],
+      shares: decode['shares'],
+      totalInflow: decode['totalInflow'],
+    );
   }
 
   @override

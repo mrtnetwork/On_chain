@@ -19,7 +19,8 @@ class ADATransactionSummaryInfoResponse {
   });
 
   factory ADATransactionSummaryInfoResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADATransactionSummaryInfoResponse(
       txHash: json['tx_hash'],
       txIndex: json['tx_index'],
@@ -29,11 +30,11 @@ class ADATransactionSummaryInfoResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'tx_hash': txHash,
-        'tx_index': txIndex,
-        'block_height': blockHeight,
-        'block_time': blockTime,
-      };
+    'tx_hash': txHash,
+    'tx_index': txIndex,
+    'block_height': blockHeight,
+    'block_time': blockTime,
+  };
   @override
   String toString() {
     return 'ADAAddressTransaction${toJson()}';

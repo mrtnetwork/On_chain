@@ -5,8 +5,10 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#sui_gettransactionblock)
 class SuiRequestGetTransactionBlock
     extends SuiRequest<SuiApiTransactionBlockResponse, Map<String, dynamic>> {
-  const SuiRequestGetTransactionBlock(
-      {required this.transactionDigest, this.options});
+  const SuiRequestGetTransactionBlock({
+    required this.transactionDigest,
+    this.options,
+  });
 
   /// The digest of the queried transaction
   final String transactionDigest;

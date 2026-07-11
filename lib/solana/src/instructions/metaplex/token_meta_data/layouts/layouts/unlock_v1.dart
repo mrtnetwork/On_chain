@@ -8,30 +8,28 @@ class MetaplexTokenMetaDataUnlockV1Layout
   final Payload? authorizationData;
   static const int discriminator = 0;
 
-  const MetaplexTokenMetaDataUnlockV1Layout({
-    this.authorizationData,
-  });
+  const MetaplexTokenMetaDataUnlockV1Layout({this.authorizationData});
 
   factory MetaplexTokenMetaDataUnlockV1Layout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexTokenMetaDataProgramInstruction.unlockV1.insturction,
-        discriminator: discriminator);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexTokenMetaDataProgramInstruction.unlockV1.insturction,
+      discriminator: discriminator,
+    );
     return MetaplexTokenMetaDataUnlockV1Layout(
-      authorizationData: decode['authorizationData'] == null
-          ? null
-          : Payload.fromJson(decode['authorizationData']),
+      authorizationData:
+          decode['authorizationData'] == null
+              ? null
+              : Payload.fromJson(decode['authorizationData']),
     );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'discriminator'),
-        LayoutConst.optional(Payload.staticLayout,
-            property: 'authorizationData'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'discriminator'),
+    LayoutConst.optional(Payload.staticLayout, property: 'authorizationData'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

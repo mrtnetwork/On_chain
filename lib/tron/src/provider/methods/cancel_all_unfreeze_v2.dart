@@ -8,8 +8,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/cancelallunfreezev2).
 class TronRequestCancelAllUnfreezeV2
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestCancelAllUnfreezeV2(
-      {required this.ownerAddress, this.permissionId, this.visible = true});
+  TronRequestCancelAllUnfreezeV2({
+    required this.ownerAddress,
+    this.permissionId,
+    this.visible = true,
+  });
 
   /// Owner addres
   final TronAddress ownerAddress;
@@ -28,7 +31,7 @@ class TronRequestCancelAllUnfreezeV2
     return {
       'owner_address': ownerAddress.toAddress(visible),
       'Permission_id': permissionId,
-      'visible': visible
+      'visible': visible,
     };
   }
 

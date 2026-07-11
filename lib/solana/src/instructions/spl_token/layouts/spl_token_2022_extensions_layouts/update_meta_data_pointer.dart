@@ -11,22 +11,27 @@ class SPLToken2022UpdateMetadataPointerLayout extends SPLTokenProgramLayout {
   SPLToken2022UpdateMetadataPointerLayout({required this.metadataAddress});
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.wrap(MetadataPointerInstruction.staticLayout,
-            property: 'metadataPointer'),
-        SolanaLayoutUtils.publicKey('metadataAddress'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.wrap(
+      MetadataPointerInstruction.staticLayout,
+      property: 'metadataPointer',
+    ),
+    SolanaLayoutUtils.publicKey('metadataAddress'),
+  ]);
 
   factory SPLToken2022UpdateMetadataPointerLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction:
-            SPLTokenProgramInstruction.metadataPointerExtension.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction:
+          SPLTokenProgramInstruction.metadataPointerExtension.insturction,
+    );
     return SPLToken2022UpdateMetadataPointerLayout(
-        metadataAddress: decode['metadataAddress'] == SolAddress.defaultPubKey
-            ? null
-            : decode['metadataAddress']);
+      metadataAddress:
+          decode['metadataAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['metadataAddress'],
+    );
   }
 
   @override
@@ -40,7 +45,7 @@ class SPLToken2022UpdateMetadataPointerLayout extends SPLTokenProgramLayout {
   Map<String, dynamic> serialize() {
     return {
       'metadataPointer': MetadataPointerInstruction.update.serialize(),
-      'metadataAddress': metadataAddress ?? SolAddress.defaultPubKey
+      'metadataAddress': metadataAddress ?? SolAddress.defaultPubKey,
     };
   }
 }

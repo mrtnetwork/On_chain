@@ -7,17 +7,18 @@ class MetaplexHydraTransferSharesLayout extends MetaplexHydraProgramLayout {
 
   factory MetaplexHydraTransferSharesLayout.fromBuffer(List<int> data) {
     final decode = MetaplexHydraProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexHydraProgramInstruction.processTransferShares.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexHydraProgramInstruction.processTransferShares.insturction,
+    );
     return MetaplexHydraTransferSharesLayout(shares: decode['shares']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u64(property: 'shares')
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u64(property: 'shares'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

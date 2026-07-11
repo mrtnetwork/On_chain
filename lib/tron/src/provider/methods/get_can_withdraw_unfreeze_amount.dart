@@ -6,10 +6,11 @@ import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 /// [developers.tron.network](https://developers.tron.network/reference/getcanwithdrawunfreezeamount-1).
 class TronRequestGetCanWithdrawUnfreezeAmount
     extends TronRequest<Map<String, dynamic>, Map<String, dynamic>> {
-  TronRequestGetCanWithdrawUnfreezeAmount(
-      {required this.ownerAddress,
-      required this.timestamp,
-      this.visible = true});
+  TronRequestGetCanWithdrawUnfreezeAmount({
+    required this.ownerAddress,
+    required this.timestamp,
+    this.visible = true,
+  });
   final TronAddress ownerAddress;
 
   /// query cutoff timestamp, in milliseconds.
@@ -26,7 +27,7 @@ class TronRequestGetCanWithdrawUnfreezeAmount
     return {
       'owner_address': ownerAddress.toAddress(visible),
       'timestamp': timestamp,
-      'visible': visible
+      'visible': visible,
     };
   }
 

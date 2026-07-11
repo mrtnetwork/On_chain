@@ -4,8 +4,12 @@ import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart'
 
 /// Relays of a stake pool.
 /// https://blockfrost.dev/api/stake-pool-relays
-class BlockfrostRequestStakePoolRelays extends BlockFrostRequest<
-    List<ADAStakePoolRelayInfoResponse>, List<Map<String, dynamic>>> {
+class BlockfrostRequestStakePoolRelays
+    extends
+        BlockFrostRequest<
+          List<ADAStakePoolRelayInfoResponse>,
+          List<Map<String, dynamic>>
+        > {
   BlockfrostRequestStakePoolRelays(this.poolId);
 
   /// Bech32 or hexadecimal pool ID.
@@ -20,7 +24,8 @@ class BlockfrostRequestStakePoolRelays extends BlockFrostRequest<
 
   @override
   List<ADAStakePoolRelayInfoResponse> onResonse(
-      List<Map<String, dynamic>> result) {
+    List<Map<String, dynamic>> result,
+  ) {
     return result
         .map((e) => ADAStakePoolRelayInfoResponse.fromJson(e))
         .toList();

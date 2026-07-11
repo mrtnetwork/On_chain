@@ -18,17 +18,21 @@ class TokenState extends BorshLayoutSerializable {
   factory TokenState.fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No TokenState found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No TokenState found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.rustEnum(
-            values.map((e) => LayoutConst.none(property: e.name)).toList(),
-            property: 'tokenState')
-      ]);
+    LayoutConst.rustEnum(
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'tokenState',
+    ),
+  ]);
   @override
   String toString() {
     return 'TokenState.$name';
@@ -40,7 +44,7 @@ class TokenState extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'tokenState': {name: null}
+      'tokenState': {name: null},
     };
   }
 }

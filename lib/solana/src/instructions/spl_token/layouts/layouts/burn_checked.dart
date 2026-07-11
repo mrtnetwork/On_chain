@@ -12,26 +12,26 @@ class SPLTokenBurnCheckedLayout extends SPLTokenProgramLayout {
   final int decimals;
 
   /// Constructs an SPLTokenBurnCheckedLayout instance.
-  SPLTokenBurnCheckedLayout({
-    required this.amount,
-    required this.decimals,
-  });
+  SPLTokenBurnCheckedLayout({required this.amount, required this.decimals});
 
   /// StructLayout structure for SPLTokenBurnCheckedLayout.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount'),
-        LayoutConst.u8(property: 'decimals')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+    LayoutConst.u8(property: 'decimals'),
+  ]);
 
   /// Constructs an SPLTokenBurnCheckedLayout instance from buffer.
   factory SPLTokenBurnCheckedLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.burnChecked.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.burnChecked.insturction,
+    );
     return SPLTokenBurnCheckedLayout(
-        amount: decode['amount'], decimals: decode['decimals']);
+      amount: decode['amount'],
+      decimals: decode['decimals'],
+    );
   }
 
   /// Gets the layout structure.

@@ -1,7 +1,7 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Unstake some TRX staked in Stake2.0,
 /// release the corresponding amount of bandwidth or energy,
@@ -10,29 +10,31 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
   /// Create a new [UnfreezeBalanceV2Contract] instance by parsing a JSON map.
   factory UnfreezeBalanceV2Contract.fromJson(Map<String, dynamic> json) {
     return UnfreezeBalanceV2Contract(
-        ownerAddress: OnChainUtils.parseTronAddress(
-            value: json['owner_address'], name: 'owner_address'),
-        unfreezeBalance: OnChainUtils.parseBigInt(
-            value: json['unfreeze_balance'], name: 'unfreeze_balance'),
-        resource: ResourceCode.fromName(
-            OnChainUtils.parseString(value: json['resource'], name: 'resource'),
-            orElse: ResourceCode.bandWidth));
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+      unfreezeBalance: json.valueAsBigInt("unfreeze_balance"),
+      resource: ResourceCode.fromName(
+        json.valueAs("resource"),
+        orElse: ResourceCode.bandWidth,
+      ),
+    );
   }
   factory UnfreezeBalanceV2Contract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return UnfreezeBalanceV2Contract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        resource: decode
-            .getResult(3)
-            ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
-        unfreezeBalance: decode.getField(2));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      resource: decode
+          .getResult(3)
+          ?.castTo<ResourceCode, int>((e) => ResourceCode.fromValue(e)),
+      unfreezeBalance: decode.getField(2),
+    );
   }
 
   /// Create a new [UnfreezeBalanceV2Contract] instance with specified parameters.
-  UnfreezeBalanceV2Contract(
-      {required this.ownerAddress,
-      required this.unfreezeBalance,
-      this.resource});
+  UnfreezeBalanceV2Contract({
+    required this.ownerAddress,
+    required this.unfreezeBalance,
+    this.resource,
+  });
 
   /// Account address
   @override
@@ -49,10 +51,10 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
 
   @override
   List get values => [
-        ownerAddress,
-        unfreezeBalance,
-        resource == ResourceCode.bandWidth ? null : resource,
-      ];
+    ownerAddress,
+    unfreezeBalance,
+    resource == ResourceCode.bandWidth ? null : resource,
+  ];
 
   /// Convert the [UnfreezeBalanceV2Contract] object to a JSON representation.
   @override
@@ -60,7 +62,7 @@ class UnfreezeBalanceV2Contract extends TronBaseContract {
     return {
       'owner_address': ownerAddress.toAddress(visible),
       'unfreeze_balance': unfreezeBalance.toString(),
-      'resource': resource?.name
+      'resource': resource?.name,
     }..removeWhere((key, value) => value == null);
   }
 

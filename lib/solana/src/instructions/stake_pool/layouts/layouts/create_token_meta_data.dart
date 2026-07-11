@@ -29,34 +29,39 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
     if (nameBytesLength > StakePoolProgramConst.metadataMaxNameLength ||
         uriBytesLength > StakePoolProgramConst.metadataMaxUriLength ||
         symbolBytesLength > StakePoolProgramConst.metadataMaxSymbolLength) {
-      throw const SolanaPluginException(
-          'Some fields exceed the maximum data limit.',
-          details: {
-            'metadataMaxNameLength':
-                StakePoolProgramConst.metadataMaxNameLength,
-            'metadataMaxUriLength': StakePoolProgramConst.metadataMaxUriLength,
-            'metadataMaxSymbolLength':
-                StakePoolProgramConst.metadataMaxSymbolLength
-          });
+      throw SolanaPluginException(
+        'Some fields exceed the maximum data limit.',
+        details: {
+          'metadataMaxNameLength':
+              StakePoolProgramConst.metadataMaxNameLength.toString(),
+          'metadataMaxUriLength':
+              StakePoolProgramConst.metadataMaxUriLength.toString(),
+          'metadataMaxSymbolLength':
+              StakePoolProgramConst.metadataMaxSymbolLength.toString(),
+        },
+      );
     }
 
     return StakePoolCreateTokenMetaDataLayout._(name, uri, symbol);
   }
   factory StakePoolCreateTokenMetaDataLayout.fromBuffer(List<int> data) {
     final Map<String, dynamic> decode = ProgramLayout.decodeAndValidateStruct(
-        layout: staticLayout,
-        bytes: data,
-        instruction:
-            StakePoolProgramInstruction.createTokenMetaData.insturction);
+      layout: staticLayout,
+      bytes: data,
+      instruction: StakePoolProgramInstruction.createTokenMetaData.insturction,
+    );
     return StakePoolCreateTokenMetaDataLayout(
-        name: decode['name'], uri: decode['uri'], symbol: decode['symbol']);
+      name: decode['name'],
+      uri: decode['uri'],
+      symbol: decode['symbol'],
+    );
   }
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.string(property: 'name'),
-        LayoutConst.string(property: 'symbol'),
-        LayoutConst.string(property: 'uri'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.string(property: 'name'),
+    LayoutConst.string(property: 'symbol'),
+    LayoutConst.string(property: 'uri'),
+  ]);
 
   @override
   StructLayout get layout => staticLayout;
@@ -67,10 +72,6 @@ class StakePoolCreateTokenMetaDataLayout extends StakePoolProgramLayout {
 
   @override
   Map<String, dynamic> serialize() {
-    return {
-      'name': name,
-      'symbol': symbol,
-      'uri': uri,
-    };
+    return {'name': name, 'symbol': symbol, 'uri': uri};
   }
 }

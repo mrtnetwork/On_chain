@@ -8,19 +8,21 @@ class MetaplexNFTPacksRequestCardForRedeemLayout
   const MetaplexNFTPacksRequestCardForRedeemLayout({required this.index});
 
   factory MetaplexNFTPacksRequestCardForRedeemLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexNFTPacksProgramInstruction
-            .requestCardForRedeem.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexNFTPacksProgramInstruction.requestCardForRedeem.insturction,
+    );
     return MetaplexNFTPacksRequestCardForRedeemLayout(index: decode['index']);
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'index')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'index'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

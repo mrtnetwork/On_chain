@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/helper/helper.dart';
+import 'package:blockchain_utils/service/models/params.dart';
 import 'package:blockchain_utils/signer/const/constants.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/controller/controller.dart';
@@ -8,7 +9,8 @@ import 'package:on_chain/ethereum/src/contracts/safe/utils/utils.dart';
 import 'package:on_chain/ethereum/src/models/transaction_receipt.dart';
 import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 
-typedef ONREQUESTETHPROVIDER = Future<EthereumProvider> Function();
+typedef CbGetProvider =
+    Future<IProvider<IServiceProvider, EthereumRequestDetails>> Function();
 
 enum SafeCreationMode { standard, chainSpecific }
 
@@ -16,18 +18,20 @@ class SafeContractDeployResult {
   final SafeContractController controller;
   final BaseSafeContractEventProxyCreation creationEvent;
   final List<SafeContractEvent> events;
-  const SafeContractDeployResult(
-      {required this.controller,
-      required this.events,
-      required this.creationEvent});
+  const SafeContractDeployResult({
+    required this.controller,
+    required this.events,
+    required this.creationEvent,
+  });
 }
 
 class SafeContractExecutionResult {
   final TransactionReceipt receipt;
   final List<SafeContractEvent> events;
-  SafeContractExecutionResult(
-      {required this.receipt, required List<SafeContractEvent> events})
-      : events = events.immutable;
+  SafeContractExecutionResult({
+    required this.receipt,
+    required List<SafeContractEvent> events,
+  }) : events = events.immutable;
 }
 
 class SafeTransactionGasParams {
@@ -36,27 +40,29 @@ class SafeTransactionGasParams {
   final BigInt gasPrice;
   final ETHAddress gasToken;
   final ETHAddress refundReceiver;
-  SafeTransactionGasParams._(
-      {required BigInt safeTxGas,
-      required BigInt baseGas,
-      required BigInt gasPrice,
-      required this.gasToken,
-      required this.refundReceiver})
-      : safeTxGas = safeTxGas.asU256,
-        baseGas = baseGas.asU256,
-        gasPrice = gasPrice.asU256;
-  factory SafeTransactionGasParams(
-      {BigInt? safeTxGas,
-      BigInt? baseGas,
-      BigInt? gasPrice,
-      ETHAddress? gasToken,
-      ETHAddress? refundReceiver}) {
+  SafeTransactionGasParams._({
+    required BigInt safeTxGas,
+    required BigInt baseGas,
+    required BigInt gasPrice,
+    required this.gasToken,
+    required this.refundReceiver,
+  }) : safeTxGas = safeTxGas.asU256,
+       baseGas = baseGas.asU256,
+       gasPrice = gasPrice.asU256;
+  factory SafeTransactionGasParams({
+    BigInt? safeTxGas,
+    BigInt? baseGas,
+    BigInt? gasPrice,
+    ETHAddress? gasToken,
+    ETHAddress? refundReceiver,
+  }) {
     return SafeTransactionGasParams._(
-        safeTxGas: safeTxGas ?? BigInt.zero,
-        baseGas: baseGas ?? BigInt.zero,
-        gasPrice: gasPrice ?? BigInt.zero,
-        gasToken: gasToken ?? ETHAddress.zero,
-        refundReceiver: refundReceiver ?? ETHAddress.zero);
+      safeTxGas: safeTxGas ?? BigInt.zero,
+      baseGas: baseGas ?? BigInt.zero,
+      gasPrice: gasPrice ?? BigInt.zero,
+      gasToken: gasToken ?? ETHAddress.zero,
+      refundReceiver: refundReceiver ?? ETHAddress.zero,
+    );
   }
   Map<String, dynamic> toJson() {
     return {
@@ -64,7 +70,7 @@ class SafeTransactionGasParams {
       "baseGas": baseGas,
       "gasPrice": gasPrice,
       "gasToken": gasToken,
-      "refundReceiver": refundReceiver
+      "refundReceiver": refundReceiver,
     };
   }
 }
@@ -83,35 +89,37 @@ class SafeTransaction {
       "data": data,
       "operation": operation.value,
       "nonce": nonce,
-      ...gasParams.toJson()
+      ...gasParams.toJson(),
     };
   }
 
-  SafeTransaction._(
-      {required this.to,
-      required BigInt value,
-      required List<int> data,
-      required this.operation,
-      required BigInt nonce,
-      required this.gasParams})
-      : value = value.asU256,
-        data = data.asImmutableBytes,
-        nonce = nonce.asU256;
-  factory SafeTransaction(
-      {required ETHAddress to,
-      required BigInt nonce,
-      BigInt? value,
-      List<int>? data,
-      SafeContractExecutionOpration operation =
-          SafeContractExecutionOpration.call,
-      SafeTransactionGasParams? gasParams}) {
+  SafeTransaction._({
+    required this.to,
+    required BigInt value,
+    required List<int> data,
+    required this.operation,
+    required BigInt nonce,
+    required this.gasParams,
+  }) : value = value.asU256,
+       data = data.asImmutableBytes,
+       nonce = nonce.asU256;
+  factory SafeTransaction({
+    required ETHAddress to,
+    required BigInt nonce,
+    BigInt? value,
+    List<int>? data,
+    SafeContractExecutionOpration operation =
+        SafeContractExecutionOpration.call,
+    SafeTransactionGasParams? gasParams,
+  }) {
     return SafeTransaction._(
-        to: to,
-        value: value ?? BigInt.zero,
-        data: data ?? <int>[],
-        operation: operation,
-        nonce: nonce,
-        gasParams: gasParams ?? SafeTransactionGasParams());
+      to: to,
+      value: value ?? BigInt.zero,
+      data: data ?? <int>[],
+      operation: operation,
+      nonce: nonce,
+      gasParams: gasParams ?? SafeTransactionGasParams(),
+    );
   }
 
   List<int> calculateSafeTransactionHash({
@@ -120,10 +128,11 @@ class SafeTransaction {
     required SafeContractVersion version,
   }) {
     return SafeContractUtils.calculateSafeTransactionHash(
-        chainId: chainId,
-        safeAddress: safeAddress,
-        safeTransaction: this,
-        version: version);
+      chainId: chainId,
+      safeAddress: safeAddress,
+      safeTransaction: this,
+      version: version,
+    );
   }
 }
 
@@ -131,13 +140,16 @@ class SafeSignature {
   final ETHAddress address;
   final List<int> signature;
   SafeSignature({required this.address, required List<int> signature})
-      : signature = signature
-            .exc(
-                length: CryptoSignerConst.ecdsaSignatureLength +
+    : signature =
+          signature
+              .exc(
+                length:
+                    CryptoSignerConst.ecdsaSignatureLength +
                     CryptoSignerConst.ecdsaRecoveryIdLength,
                 operation: "SafeSignature",
-                reason: "Invalid signature bytes length.")
-            .asImmutableBytes;
+                reason: "Invalid signature bytes length.",
+              )
+              .asImmutableBytes;
 }
 
 enum SafeTransactionSigningMode { ethSign, signMessage, approveHash }

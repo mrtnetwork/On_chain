@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/script_ref.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/script_ref_type.dart';
@@ -14,10 +13,13 @@ class ScriptRefNativeScript extends ScriptRef {
 
   /// Deserializes a [ScriptRefNativeScript] instance from CBOR.
   factory ScriptRefNativeScript.deserialize(CborListValue cbor) {
-    ScriptRefType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: ScriptRefType.nativeScript);
+    ScriptRefType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: ScriptRefType.nativeScript,
+    );
     return ScriptRefNativeScript(
-        NativeScript.deserialize(cbor.elementAt<CborListValue>(1)));
+      NativeScript.deserialize(cbor.objectAt<CborListValue>(1)),
+    );
   }
   factory ScriptRefNativeScript.fromJson(Map<String, dynamic> json) {
     return ScriptRefNativeScript(NativeScript.fromJson(json['script']));
@@ -34,7 +36,7 @@ class ScriptRefNativeScript extends ScriptRef {
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'script': script.toJson()}
+      type.name: {'script': script.toJson()},
     };
   }
 }

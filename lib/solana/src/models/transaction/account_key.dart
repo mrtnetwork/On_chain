@@ -17,15 +17,15 @@ class MessageAccountKeys {
 
   /// Constructor to create a MessageAccountKeys instance.
   MessageAccountKeys(List<SolAddress> accounts, this.accountKeysFromLookups)
-      : _accounts = List.unmodifiable(accounts);
+    : _accounts = List.unmodifiable(accounts);
 
   /// Segments of keys, including the accounts and lookup keys.
   late final List<List<SolAddress>> _keySegments = List.unmodifiable([
     _accounts,
     if (accountKeysFromLookups != null) ...[
       accountKeysFromLookups!.writable,
-      accountKeysFromLookups!.readonly
-    ]
+      accountKeysFromLookups!.readonly,
+    ],
   ]);
 
   /// Total length of all key segments combined.
@@ -45,10 +45,12 @@ class MessageAccountKeys {
 
   /// Compile transaction instructions into compiled instructions.
   List<CompiledInstruction> compileInstructions(
-      List<TransactionInstruction> instructions) {
+    List<TransactionInstruction> instructions,
+  ) {
     if (length > SolanaTransactionConstant.maximumAccountKeys) {
       throw const SolanaPluginException(
-          'Account index overflow encountered during compilation');
+        'Account index overflow encountered during compilation',
+      );
     }
     final Map<String, int> keyIndexMap = {};
     for (final keySegment in _keySegments.expand((segment) => segment)) {
@@ -58,7 +60,8 @@ class MessageAccountKeys {
       final keyIndex = keyIndexMap[key];
       if (keyIndex == null) {
         throw const SolanaPluginException(
-            'Encountered an unknown instruction account key during compilation');
+          'Encountered an unknown instruction account key during compilation',
+        );
       }
       return keyIndex;
     }
@@ -67,9 +70,10 @@ class MessageAccountKeys {
       return instructions.map((instruction) {
         return CompiledInstruction(
           programIdIndex: findKeyIndex(instruction.programId.address),
-          accounts: instruction.keys
-              .map((meta) => findKeyIndex(meta.publicKey.address))
-              .toList(),
+          accounts:
+              instruction.keys
+                  .map((meta) => findKeyIndex(meta.publicKey.address))
+                  .toList(),
           data: instruction.data,
         );
       }).toList();

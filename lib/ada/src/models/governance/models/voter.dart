@@ -20,11 +20,11 @@ abstract class Voter with InternalCborSerialization {
       VoterType.drepKeyHash => VoterDRepKeyHash.fromJson(json),
       VoterType.drepScriptHash => VoterDRepScriptHash.fromJson(json),
       VoterType.stakingPoolKeyHash => VoterStakingPoolKeyHash.fromJson(json),
-      _ => throw UnimplementedError("Invalid voter type.")
+      _ => throw UnimplementedError("Invalid voter type."),
     };
   }
   factory Voter.deserialize(CborListValue cbor) {
-    final type = VoterType.deserialize(cbor.elementAt<CborIntValue>(0).value);
+    final type = VoterType.deserialize(cbor.objectAt<CborIntValue>(0).value);
     return switch (type) {
       VoterType.constitutionalCommitteeHotKeyHash =>
         VoterConstitutionalCommitteeHotKeyHash.deserialize(cbor),
@@ -33,7 +33,7 @@ abstract class Voter with InternalCborSerialization {
       VoterType.drepKeyHash => VoterDRepKeyHash.deserialize(cbor),
       VoterType.drepScriptHash => VoterDRepScriptHash.deserialize(cbor),
       VoterType.stakingPoolKeyHash => VoterStakingPoolKeyHash.deserialize(cbor),
-      _ => throw UnimplementedError("Invalid voter type.")
+      _ => throw UnimplementedError("Invalid voter type."),
     };
   }
 
@@ -43,21 +43,30 @@ abstract class Voter with InternalCborSerialization {
 class VoterConstitutionalCommitteeHotKeyHash extends Voter {
   final CredentialKey key;
   const VoterConstitutionalCommitteeHotKeyHash(this.key)
-      : super(type: VoterType.constitutionalCommitteeHotKeyHash);
+    : super(type: VoterType.constitutionalCommitteeHotKeyHash);
   factory VoterConstitutionalCommitteeHotKeyHash.deserialize(
-      CborListValue cbor) {
-    VoterType.deserialize(cbor.elementAt<CborIntValue>(0).value,
-        validate: VoterType.constitutionalCommitteeHotKeyHash);
+    CborListValue cbor,
+  ) {
+    VoterType.deserialize(
+      cbor.objectAt<CborIntValue>(0).value,
+      validate: VoterType.constitutionalCommitteeHotKeyHash,
+    );
     return VoterConstitutionalCommitteeHotKeyHash(
-        CredentialKey(cbor.elementAt<CborBytesValue>(1).value));
+      CredentialKey(cbor.objectAt<CborBytesValue>(1).value),
+    );
   }
   factory VoterConstitutionalCommitteeHotKeyHash.fromJson(
-      Map<String, dynamic> json) {
-    VoterType.fromJson(json.keys.firstOrNull,
-        validate: VoterType.constitutionalCommitteeHotKeyHash);
-    return VoterConstitutionalCommitteeHotKeyHash(CredentialKey(
-        BytesUtils.fromHexString(
-            json["constitutional_committee_hot_key_hash"])));
+    Map<String, dynamic> json,
+  ) {
+    VoterType.fromJson(
+      json.keys.firstOrNull,
+      validate: VoterType.constitutionalCommitteeHotKeyHash,
+    );
+    return VoterConstitutionalCommitteeHotKeyHash(
+      CredentialKey(
+        BytesUtils.fromHexString(json["constitutional_committee_hot_key_hash"]),
+      ),
+    );
   }
 
   @override
@@ -77,21 +86,32 @@ class VoterConstitutionalCommitteeHotKeyHash extends Voter {
 class VoterConstitutionalCommitteeHotScriptHash extends Voter {
   final CredentialScript script;
   const VoterConstitutionalCommitteeHotScriptHash(this.script)
-      : super(type: VoterType.constitutionalCommitteeHotScriptHash);
+    : super(type: VoterType.constitutionalCommitteeHotScriptHash);
   factory VoterConstitutionalCommitteeHotScriptHash.deserialize(
-      CborListValue cbor) {
-    VoterType.deserialize(cbor.elementAt<CborIntValue>(0).value,
-        validate: VoterType.constitutionalCommitteeHotScriptHash);
+    CborListValue cbor,
+  ) {
+    VoterType.deserialize(
+      cbor.objectAt<CborIntValue>(0).value,
+      validate: VoterType.constitutionalCommitteeHotScriptHash,
+    );
     return VoterConstitutionalCommitteeHotScriptHash(
-        CredentialScript(cbor.elementAt<CborBytesValue>(1).value));
+      CredentialScript(cbor.objectAt<CborBytesValue>(1).value),
+    );
   }
   factory VoterConstitutionalCommitteeHotScriptHash.fromJson(
-      Map<String, dynamic> json) {
-    VoterType.fromJson(json.keys.firstOrNull,
-        validate: VoterType.constitutionalCommitteeHotScriptHash);
-    return VoterConstitutionalCommitteeHotScriptHash(CredentialScript(
+    Map<String, dynamic> json,
+  ) {
+    VoterType.fromJson(
+      json.keys.firstOrNull,
+      validate: VoterType.constitutionalCommitteeHotScriptHash,
+    );
+    return VoterConstitutionalCommitteeHotScriptHash(
+      CredentialScript(
         BytesUtils.fromHexString(
-            json["constitutional_committee_hot_script_hash"])));
+          json["constitutional_committee_hot_script_hash"],
+        ),
+      ),
+    );
   }
 
   @override
@@ -113,15 +133,19 @@ class VoterDRepKeyHash extends Voter {
 
   const VoterDRepKeyHash(this.key) : super(type: VoterType.drepKeyHash);
   factory VoterDRepKeyHash.deserialize(CborListValue cbor) {
-    VoterType.deserialize(cbor.elementAt<CborIntValue>(0).value,
-        validate: VoterType.drepKeyHash);
+    VoterType.deserialize(
+      cbor.objectAt<CborIntValue>(0).value,
+      validate: VoterType.drepKeyHash,
+    );
     return VoterDRepKeyHash(
-        CredentialKey(cbor.elementAt<CborBytesValue>(1).value));
+      CredentialKey(cbor.objectAt<CborBytesValue>(1).value),
+    );
   }
   factory VoterDRepKeyHash.fromJson(Map<String, dynamic> json) {
     VoterType.fromJson(json.keys.firstOrNull, validate: VoterType.drepKeyHash);
     return VoterDRepKeyHash(
-        CredentialKey(BytesUtils.fromHexString(json["drep_key_hash"])));
+      CredentialKey(BytesUtils.fromHexString(json["drep_key_hash"])),
+    );
   }
 
   @override
@@ -142,18 +166,24 @@ class VoterDRepScriptHash extends Voter {
   final CredentialScript script;
 
   const VoterDRepScriptHash(this.script)
-      : super(type: VoterType.drepScriptHash);
+    : super(type: VoterType.drepScriptHash);
   factory VoterDRepScriptHash.deserialize(CborListValue cbor) {
-    VoterType.deserialize(cbor.elementAt<CborIntValue>(0).value,
-        validate: VoterType.drepScriptHash);
+    VoterType.deserialize(
+      cbor.objectAt<CborIntValue>(0).value,
+      validate: VoterType.drepScriptHash,
+    );
     return VoterDRepScriptHash(
-        CredentialScript(cbor.elementAt<CborBytesValue>(1).value));
+      CredentialScript(cbor.objectAt<CborBytesValue>(1).value),
+    );
   }
   factory VoterDRepScriptHash.fromJson(Map<String, dynamic> json) {
-    VoterType.fromJson(json.keys.firstOrNull,
-        validate: VoterType.drepScriptHash);
+    VoterType.fromJson(
+      json.keys.firstOrNull,
+      validate: VoterType.drepScriptHash,
+    );
     return VoterDRepScriptHash(
-        CredentialScript(BytesUtils.fromHexString(json["drep_script_hash"])));
+      CredentialScript(BytesUtils.fromHexString(json["drep_script_hash"])),
+    );
   }
 
   @override
@@ -174,18 +204,24 @@ class VoterStakingPoolKeyHash extends Voter {
   final Ed25519KeyHash key;
 
   const VoterStakingPoolKeyHash(this.key)
-      : super(type: VoterType.stakingPoolKeyHash);
+    : super(type: VoterType.stakingPoolKeyHash);
   factory VoterStakingPoolKeyHash.deserialize(CborListValue cbor) {
-    VoterType.deserialize(cbor.elementAt<CborIntValue>(0).value,
-        validate: VoterType.stakingPoolKeyHash);
+    VoterType.deserialize(
+      cbor.objectAt<CborIntValue>(0).value,
+      validate: VoterType.stakingPoolKeyHash,
+    );
     return VoterStakingPoolKeyHash(
-        Ed25519KeyHash(cbor.elementAt<CborBytesValue>(1).value));
+      Ed25519KeyHash(cbor.objectAt<CborBytesValue>(1).value),
+    );
   }
   factory VoterStakingPoolKeyHash.fromJson(Map<String, dynamic> json) {
-    VoterType.fromJson(json.keys.firstOrNull,
-        validate: VoterType.stakingPoolKeyHash);
+    VoterType.fromJson(
+      json.keys.firstOrNull,
+      validate: VoterType.stakingPoolKeyHash,
+    );
     return VoterStakingPoolKeyHash(
-        Ed25519KeyHash.fromHex(json["staking_pool_key_hash"]));
+      Ed25519KeyHash.fromHex(json["staking_pool_key_hash"]),
+    );
   }
 
   @override

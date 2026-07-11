@@ -24,9 +24,9 @@ class NameServiceReallocLayout extends NameServiceProgramLayout {
 
   /// The layout structure.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u32(property: 'space'),
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u32(property: 'space'),
+  ]);
 
   /// The layout structure.
   @override

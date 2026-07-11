@@ -11,17 +11,15 @@ class ADAStakeAccountWithdrawalHistoryResponse {
   });
 
   factory ADAStakeAccountWithdrawalHistoryResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADAStakeAccountWithdrawalHistoryResponse(
       txHash: json['tx_hash'],
       amount: json['amount'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'tx_hash': txHash,
-        'amount': amount,
-      };
+  Map<String, dynamic> toJson() => {'tx_hash': txHash, 'amount': amount};
   @override
   String toString() {
     return 'ADAStakeAccountWithdrawalHistoryResponse${toJson()}';

@@ -24,11 +24,7 @@ class ADAStakePoolUpdateResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'tx_hash': txHash,
-      'cert_index': certIndex,
-      'action': action,
-    };
+    return {'tx_hash': txHash, 'cert_index': certIndex, 'action': action};
   }
 
   @override

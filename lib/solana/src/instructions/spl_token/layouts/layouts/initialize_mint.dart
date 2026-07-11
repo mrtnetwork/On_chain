@@ -25,19 +25,19 @@ class SPLTokenInitializeMintLayout extends SPLTokenProgramLayout {
 
   /// StructLayout structure for SPLTokenInitializeMintLayout.
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u8(property: 'decimals'),
-        SolanaLayoutUtils.publicKey('mintAuthority'),
-        SolanaLayoutUtils.optionPubkey(
-            property: 'freezeAuthority', keepSize: true)
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u8(property: 'decimals'),
+    SolanaLayoutUtils.publicKey('mintAuthority'),
+    SolanaLayoutUtils.optionPubkey(property: 'freezeAuthority', keepSize: true),
+  ]);
 
   /// Constructs an SPLTokenInitializeMintLayout instance from buffer.
   factory SPLTokenInitializeMintLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: staticLayout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.initializeMint.insturction);
+      layout: staticLayout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.initializeMint.insturction,
+    );
     return SPLTokenInitializeMintLayout(
       freezeAuthority: decode['freezeAuthority'],
       decimals: decode['decimals'],

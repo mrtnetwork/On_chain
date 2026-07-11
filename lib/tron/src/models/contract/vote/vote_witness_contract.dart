@@ -1,44 +1,44 @@
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 
 import 'package:on_chain/tron/src/models/contract/vote/vote_witness_contract_vote.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 class VoteWitnessContract extends TronBaseContract {
   /// Create a new [VoteWitnessContract] instance by parsing a JSON map.
   factory VoteWitnessContract.fromJson(Map<String, dynamic> json) {
     return VoteWitnessContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
       votes:
-          OnChainUtils.parseList<dynamic>(value: json['votes'], name: 'votes')
-              ?.map((vote) => VoteWitnessContractVote.fromJson(
-                  OnChainUtils.parseMap(
-                      value: vote, name: 'vote', throwOnNull: true)!))
+          json
+              .valueAsList<List<Map<String, dynamic>>?>("votes")
+              ?.map((vote) => VoteWitnessContractVote.fromJson(vote))
               .toList(),
-      support:
-          OnChainUtils.parseBoolean(value: json['support'], name: 'support'),
+      support: json.valueAs("support"),
     );
   }
 
   /// Create a new [VoteWitnessContract] instance with specified parameters.
-  VoteWitnessContract(
-      {required this.ownerAddress,
-      List<VoteWitnessContractVote>? votes,
-      this.support})
-      : votes = votes == null
-            ? null
-            : List<VoteWitnessContractVote>.unmodifiable(votes);
+  VoteWitnessContract({
+    required this.ownerAddress,
+    List<VoteWitnessContractVote>? votes,
+    this.support,
+  }) : votes =
+           votes == null
+               ? null
+               : List<VoteWitnessContractVote>.unmodifiable(votes);
   factory VoteWitnessContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return VoteWitnessContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        votes: decode
-            .getFields(2)
-            .map((e) => VoteWitnessContractVote.deserialize(e))
-            .toList(),
-        support: decode.getField(3));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      votes:
+          decode
+              .getFields(2)
+              .map((e) => VoteWitnessContractVote.deserialize(e))
+              .toList(),
+      support: decode.getField(3),
+    );
   }
   @override
   final TronAddress ownerAddress;

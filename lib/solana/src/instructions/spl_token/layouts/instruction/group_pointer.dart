@@ -5,17 +5,20 @@ import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 class GroupPointerInstruction extends BorshLayoutSerializable {
   const GroupPointerInstruction._(this.name);
   final String name;
-  static const GroupPointerInstruction initialize =
-      GroupPointerInstruction._('Initialize');
-  static const GroupPointerInstruction update =
-      GroupPointerInstruction._('Update');
+  static const GroupPointerInstruction initialize = GroupPointerInstruction._(
+    'Initialize',
+  );
+  static const GroupPointerInstruction update = GroupPointerInstruction._(
+    'Update',
+  );
 
   static const List<GroupPointerInstruction> values = [initialize, update];
 
   static StructLayout staticLayout = LayoutConst.struct([
     LayoutConst.rustEnum(
-        values.map((e) => LayoutConst.none(property: e.name)).toList(),
-        property: 'groupPointer')
+      values.map((e) => LayoutConst.none(property: e.name)).toList(),
+      property: 'groupPointer',
+    ),
   ]);
   @override
   StructLayout get layout => staticLayout;
@@ -23,7 +26,7 @@ class GroupPointerInstruction extends BorshLayoutSerializable {
   @override
   Map<String, dynamic> serialize() {
     return {
-      'groupPointer': {name: null}
+      'groupPointer': {name: null},
     };
   }
 
@@ -33,9 +36,12 @@ class GroupPointerInstruction extends BorshLayoutSerializable {
   static GroupPointerInstruction fromName(String? value) {
     return values.firstWhere(
       (element) => element.name == value,
-      orElse: () => throw SolanaPluginException(
-          'No GroupPointerInstruction found matching the specified value',
-          details: {'value': value}),
+      orElse:
+          () =>
+              throw SolanaPluginException(
+                'No GroupPointerInstruction found matching the specified value',
+                details: {'value': value?.toString()},
+              ),
     );
   }
 

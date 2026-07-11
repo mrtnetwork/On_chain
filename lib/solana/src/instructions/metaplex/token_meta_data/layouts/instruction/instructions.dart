@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/constant.dart';
@@ -9,17 +10,24 @@ class MetaplexTokenMetaDataProgramInstruction
   @override
   final String name;
   final int? discriminator;
-  const MetaplexTokenMetaDataProgramInstruction._(this.insturction, this.name,
-      {this.discriminator});
+  const MetaplexTokenMetaDataProgramInstruction._(
+    this.insturction,
+    this.name, {
+    this.discriminator,
+  });
 
   static const MetaplexTokenMetaDataProgramInstruction
-      approveCollectionAuthority = MetaplexTokenMetaDataProgramInstruction._(
-          23, 'ApproveCollectionAuthority');
+  approveCollectionAuthority = MetaplexTokenMetaDataProgramInstruction._(
+    23,
+    'ApproveCollectionAuthority',
+  );
   static const MetaplexTokenMetaDataProgramInstruction approveUseAuthority =
       MetaplexTokenMetaDataProgramInstruction._(20, 'ApproveUseAuthority');
   static const MetaplexTokenMetaDataProgramInstruction
-      bubblegumSetCollectionSize = MetaplexTokenMetaDataProgramInstruction._(
-          36, 'BubblegumSetCollectionSize');
+  bubblegumSetCollectionSize = MetaplexTokenMetaDataProgramInstruction._(
+    36,
+    'BubblegumSetCollectionSize',
+  );
   static const MetaplexTokenMetaDataProgramInstruction burnEditionNft =
       MetaplexTokenMetaDataProgramInstruction._(37, 'BurnEditionNft');
   static const MetaplexTokenMetaDataProgramInstruction burnNft =
@@ -32,8 +40,10 @@ class MetaplexTokenMetaDataProgramInstruction
   static const MetaplexTokenMetaDataProgramInstruction collect =
       MetaplexTokenMetaDataProgramInstruction._(54, 'Collect');
   static const MetaplexTokenMetaDataProgramInstruction
-      convertMasterEditionV1ToV2 = MetaplexTokenMetaDataProgramInstruction._(
-          12, 'ConvertMasterEditionV1ToV2');
+  convertMasterEditionV1ToV2 = MetaplexTokenMetaDataProgramInstruction._(
+    12,
+    'ConvertMasterEditionV1ToV2',
+  );
   static const MetaplexTokenMetaDataProgramInstruction createEscrowAccount =
       MetaplexTokenMetaDataProgramInstruction._(38, 'CreateEscrowAccount');
   static const MetaplexTokenMetaDataProgramInstruction createMasterEdition =
@@ -51,57 +61,96 @@ class MetaplexTokenMetaDataProgramInstruction
       MetaplexTokenMetaDataProgramInstruction._(42, 'CreateV1');
 
   static const MetaplexTokenMetaDataProgramInstruction delegateAuthorityItemV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateAuthorityItemV1',
-          discriminator: 9);
-  static const MetaplexTokenMetaDataProgramInstruction
-      delegateCollectionItemV1 = MetaplexTokenMetaDataProgramInstruction._(
-          44, 'DelegateCollectionItemV1',
-          discriminator: 11);
-  static const MetaplexTokenMetaDataProgramInstruction delegateCollectionV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateCollectionV1',
-          discriminator: 0);
-  static const MetaplexTokenMetaDataProgramInstruction delegateDataItemV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateDataItemV1',
-          discriminator: 10);
-  static const MetaplexTokenMetaDataProgramInstruction delegateDataV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateDataV1',
-          discriminator: 3);
-  static const MetaplexTokenMetaDataProgramInstruction
-      delegateLockedTransferV1 = MetaplexTokenMetaDataProgramInstruction._(
-          44, 'DelegateLockedTransferV1',
-          discriminator: 7);
-  static const MetaplexTokenMetaDataProgramInstruction delegatePrintDelegateV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegatePrintDelegateV1',
-          discriminator: 13);
-  static const MetaplexTokenMetaDataProgramInstruction
-      delegateProgrammableConfigItemV1 =
       MetaplexTokenMetaDataProgramInstruction._(
-          44, 'DelegateProgrammableConfigItemV1',
-          discriminator: 12);
+        44,
+        'DelegateAuthorityItemV1',
+        discriminator: 9,
+      );
   static const MetaplexTokenMetaDataProgramInstruction
-      delegateProgrammableConfigV1 = MetaplexTokenMetaDataProgramInstruction._(
-          44, 'DelegateProgrammableConfigV1',
-          discriminator: 8);
+  delegateCollectionItemV1 = MetaplexTokenMetaDataProgramInstruction._(
+    44,
+    'DelegateCollectionItemV1',
+    discriminator: 11,
+  );
+  static const MetaplexTokenMetaDataProgramInstruction delegateCollectionV1 =
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateCollectionV1',
+        discriminator: 0,
+      );
+  static const MetaplexTokenMetaDataProgramInstruction delegateDataItemV1 =
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateDataItemV1',
+        discriminator: 10,
+      );
+  static const MetaplexTokenMetaDataProgramInstruction delegateDataV1 =
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateDataV1',
+        discriminator: 3,
+      );
+  static const MetaplexTokenMetaDataProgramInstruction
+  delegateLockedTransferV1 = MetaplexTokenMetaDataProgramInstruction._(
+    44,
+    'DelegateLockedTransferV1',
+    discriminator: 7,
+  );
+  static const MetaplexTokenMetaDataProgramInstruction delegatePrintDelegateV1 =
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegatePrintDelegateV1',
+        discriminator: 13,
+      );
+  static const MetaplexTokenMetaDataProgramInstruction
+  delegateProgrammableConfigItemV1 = MetaplexTokenMetaDataProgramInstruction._(
+    44,
+    'DelegateProgrammableConfigItemV1',
+    discriminator: 12,
+  );
+  static const MetaplexTokenMetaDataProgramInstruction
+  delegateProgrammableConfigV1 = MetaplexTokenMetaDataProgramInstruction._(
+    44,
+    'DelegateProgrammableConfigV1',
+    discriminator: 8,
+  );
   static const MetaplexTokenMetaDataProgramInstruction delegateSaleV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateSaleV1',
-          discriminator: 1);
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateSaleV1',
+        discriminator: 1,
+      );
   static const MetaplexTokenMetaDataProgramInstruction delegateStakingV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateStakingV1',
-          discriminator: 5);
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateStakingV1',
+        discriminator: 5,
+      );
   static const MetaplexTokenMetaDataProgramInstruction delegateStandardV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateStandardV1',
-          discriminator: 6);
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateStandardV1',
+        discriminator: 6,
+      );
   static const MetaplexTokenMetaDataProgramInstruction delegateTransferV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateTransferV1',
-          discriminator: 2);
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateTransferV1',
+        discriminator: 2,
+      );
   static const MetaplexTokenMetaDataProgramInstruction delegateUtilityV1 =
-      MetaplexTokenMetaDataProgramInstruction._(44, 'DelegateUtilityV1',
-          discriminator: 4);
+      MetaplexTokenMetaDataProgramInstruction._(
+        44,
+        'DelegateUtilityV1',
+        discriminator: 4,
+      );
 
   static const MetaplexTokenMetaDataProgramInstruction
-      deprecatedMintNewEditionFromMasterEditionViaPrintingToken =
+  deprecatedMintNewEditionFromMasterEditionViaPrintingToken =
       MetaplexTokenMetaDataProgramInstruction._(
-          3, 'DeprecatedMintNewEditionFromMasterEditionViaPrintingToken');
+        3,
+        'DeprecatedMintNewEditionFromMasterEditionViaPrintingToken',
+      );
 
   static const MetaplexTokenMetaDataProgramInstruction freezeDelegatedAccount =
       MetaplexTokenMetaDataProgramInstruction._(26, 'FreezeDelegatedAccount');
@@ -113,34 +162,48 @@ class MetaplexTokenMetaDataProgramInstruction
       MetaplexTokenMetaDataProgramInstruction._(48, 'Migrate');
 
   static const MetaplexTokenMetaDataProgramInstruction
-      mintNewEditionFromMasterEditionViaToken =
+  mintNewEditionFromMasterEditionViaToken =
       MetaplexTokenMetaDataProgramInstruction._(
-          11, 'MintNewEditionFromMasterEditionViaToken');
+        11,
+        'MintNewEditionFromMasterEditionViaToken',
+      );
 
   static const MetaplexTokenMetaDataProgramInstruction
-      mintNewEditionFromMasterEditionViaVaultProxy =
+  mintNewEditionFromMasterEditionViaVaultProxy =
       MetaplexTokenMetaDataProgramInstruction._(
-          13, 'MintNewEditionFromMasterEditionViaVaultProxy');
+        13,
+        'MintNewEditionFromMasterEditionViaVaultProxy',
+      );
 
   static const MetaplexTokenMetaDataProgramInstruction mintV1 =
       MetaplexTokenMetaDataProgramInstruction._(43, 'MintV1');
 
   static const MetaplexTokenMetaDataProgramInstruction printV1 =
-      MetaplexTokenMetaDataProgramInstruction._(55, 'PrintV1',
-          discriminator: 0);
+      MetaplexTokenMetaDataProgramInstruction._(
+        55,
+        'PrintV1',
+        discriminator: 0,
+      );
   static const MetaplexTokenMetaDataProgramInstruction printV2 =
-      MetaplexTokenMetaDataProgramInstruction._(55, 'PrintV2',
-          discriminator: 1);
+      MetaplexTokenMetaDataProgramInstruction._(
+        55,
+        'PrintV2',
+        discriminator: 1,
+      );
 
   static const MetaplexTokenMetaDataProgramInstruction puffMetadata =
       MetaplexTokenMetaDataProgramInstruction._(14, 'PuffMetadata');
 
   static const MetaplexTokenMetaDataProgramInstruction
-      removeCreatorVerification = MetaplexTokenMetaDataProgramInstruction._(
-          28, 'RemoveCreatorVerification');
+  removeCreatorVerification = MetaplexTokenMetaDataProgramInstruction._(
+    28,
+    'RemoveCreatorVerification',
+  );
   static const MetaplexTokenMetaDataProgramInstruction
-      revokeCollectionAuthority = MetaplexTokenMetaDataProgramInstruction._(
-          24, 'RevokeCollectionAuthority');
+  revokeCollectionAuthority = MetaplexTokenMetaDataProgramInstruction._(
+    24,
+    'RevokeCollectionAuthority',
+  );
   static const MetaplexTokenMetaDataProgramInstruction revokeUseAuthority =
       MetaplexTokenMetaDataProgramInstruction._(21, 'RevokeUseAuthority');
   static const MetaplexTokenMetaDataProgramInstruction revoke =
@@ -148,9 +211,10 @@ class MetaplexTokenMetaDataProgramInstruction
   static const MetaplexTokenMetaDataProgramInstruction setAndVerifyCollection =
       MetaplexTokenMetaDataProgramInstruction._(25, 'SetAndVerifyCollection');
   static const MetaplexTokenMetaDataProgramInstruction
-      setAndVerifySizedCollectionItem =
-      MetaplexTokenMetaDataProgramInstruction._(
-          32, 'SetAndVerifySizedCollectionItem');
+  setAndVerifySizedCollectionItem = MetaplexTokenMetaDataProgramInstruction._(
+    32,
+    'SetAndVerifySizedCollectionItem',
+  );
   static const MetaplexTokenMetaDataProgramInstruction setCollectionSize =
       MetaplexTokenMetaDataProgramInstruction._(34, 'SetCollectionSize');
   static const MetaplexTokenMetaDataProgramInstruction setTokenStandard =
@@ -171,54 +235,75 @@ class MetaplexTokenMetaDataProgramInstruction
       MetaplexTokenMetaDataProgramInstruction._(53, 'UnverifyCollectionV1');
 
   static const MetaplexTokenMetaDataProgramInstruction
-      unverifySizedCollectionItem = MetaplexTokenMetaDataProgramInstruction._(
-          31, 'UnverifySizedCollectionItem');
+  unverifySizedCollectionItem = MetaplexTokenMetaDataProgramInstruction._(
+    31,
+    'UnverifySizedCollectionItem',
+  );
 
   static const MetaplexTokenMetaDataProgramInstruction
-      updateAsAuthorityItemDelegateV2 =
-      MetaplexTokenMetaDataProgramInstruction._(
-          50, 'UpdateAsAuthorityItemDelegateV2',
-          discriminator: 2);
+  updateAsAuthorityItemDelegateV2 = MetaplexTokenMetaDataProgramInstruction._(
+    50,
+    'UpdateAsAuthorityItemDelegateV2',
+    discriminator: 2,
+  );
   static const MetaplexTokenMetaDataProgramInstruction
-      updateAsCollectionDelegateV2 = MetaplexTokenMetaDataProgramInstruction._(
-          50, 'UpdateAsCollectionDelegateV2',
-          discriminator: 3);
+  updateAsCollectionDelegateV2 = MetaplexTokenMetaDataProgramInstruction._(
+    50,
+    'UpdateAsCollectionDelegateV2',
+    discriminator: 3,
+  );
   static const MetaplexTokenMetaDataProgramInstruction
-      updateAsCollectionItemDelegateV2 =
-      MetaplexTokenMetaDataProgramInstruction._(
-          50, 'UpdateAsCollectionItemDelegateV2',
-          discriminator: 7);
+  updateAsCollectionItemDelegateV2 = MetaplexTokenMetaDataProgramInstruction._(
+    50,
+    'UpdateAsCollectionItemDelegateV2',
+    discriminator: 7,
+  );
   static const MetaplexTokenMetaDataProgramInstruction updateAsDataDelegateV2 =
-      MetaplexTokenMetaDataProgramInstruction._(50, 'UpdateAsDataDelegateV2',
-          discriminator: 4);
-  static const MetaplexTokenMetaDataProgramInstruction
-      updateAsDataItemDelegateV2 = MetaplexTokenMetaDataProgramInstruction._(
-          50, 'UpdateAsDataItemDelegateV2',
-          discriminator: 6);
-  static const MetaplexTokenMetaDataProgramInstruction
-      updateAsProgrammableConfigDelegateV2 =
       MetaplexTokenMetaDataProgramInstruction._(
-          50, 'UpdateAsProgrammableConfigDelegateV2',
-          discriminator: 5);
+        50,
+        'UpdateAsDataDelegateV2',
+        discriminator: 4,
+      );
   static const MetaplexTokenMetaDataProgramInstruction
-      updateAsProgrammableConfigItemDelegateV2 =
+  updateAsDataItemDelegateV2 = MetaplexTokenMetaDataProgramInstruction._(
+    50,
+    'UpdateAsDataItemDelegateV2',
+    discriminator: 6,
+  );
+  static const MetaplexTokenMetaDataProgramInstruction
+  updateAsProgrammableConfigDelegateV2 =
       MetaplexTokenMetaDataProgramInstruction._(
-          50, 'UpdateAsProgrammableConfigItemDelegateV2',
-          discriminator: 8);
+        50,
+        'UpdateAsProgrammableConfigDelegateV2',
+        discriminator: 5,
+      );
   static const MetaplexTokenMetaDataProgramInstruction
-      updateAsUpdateAuthorityV2 = MetaplexTokenMetaDataProgramInstruction._(
-          50, 'UpdateAsUpdateAuthorityV2',
-          discriminator: 1);
+  updateAsProgrammableConfigItemDelegateV2 =
+      MetaplexTokenMetaDataProgramInstruction._(
+        50,
+        'UpdateAsProgrammableConfigItemDelegateV2',
+        discriminator: 8,
+      );
+  static const MetaplexTokenMetaDataProgramInstruction
+  updateAsUpdateAuthorityV2 = MetaplexTokenMetaDataProgramInstruction._(
+    50,
+    'UpdateAsUpdateAuthorityV2',
+    discriminator: 1,
+  );
   static const MetaplexTokenMetaDataProgramInstruction updateV1 =
-      MetaplexTokenMetaDataProgramInstruction._(50, 'UpdateV1',
-          discriminator: 0);
+      MetaplexTokenMetaDataProgramInstruction._(
+        50,
+        'UpdateV1',
+        discriminator: 0,
+      );
 
   static const MetaplexTokenMetaDataProgramInstruction updateMetadataAccountV2 =
       MetaplexTokenMetaDataProgramInstruction._(15, 'UpdateMetadataAccountV2');
   static const MetaplexTokenMetaDataProgramInstruction
-      updatePrimarySaleHappenedViaToken =
-      MetaplexTokenMetaDataProgramInstruction._(
-          4, 'UpdatePrimarySaleHappenedViaToken');
+  updatePrimarySaleHappenedViaToken = MetaplexTokenMetaDataProgramInstruction._(
+    4,
+    'UpdatePrimarySaleHappenedViaToken',
+  );
 
   static const MetaplexTokenMetaDataProgramInstruction useV1 =
       MetaplexTokenMetaDataProgramInstruction._(51, 'UseV1');
@@ -230,8 +315,10 @@ class MetaplexTokenMetaDataProgramInstruction
       MetaplexTokenMetaDataProgramInstruction._(52, 'VerifyCollectionV1');
 
   static const MetaplexTokenMetaDataProgramInstruction
-      verifySizedCollectionItem = MetaplexTokenMetaDataProgramInstruction._(
-          30, 'VerifySizedCollectionItem');
+  verifySizedCollectionItem = MetaplexTokenMetaDataProgramInstruction._(
+    30,
+    'VerifySizedCollectionItem',
+  );
 
   static const List<MetaplexTokenMetaDataProgramInstruction> values = [
     approveCollectionAuthority,
@@ -307,20 +394,18 @@ class MetaplexTokenMetaDataProgramInstruction
     return values.where((e) => e.insturction == insturction).length > 1;
   }
 
-  static MetaplexTokenMetaDataProgramInstruction? getInstruction(dynamic value,
-      {int? discriminator}) {
-    try {
-      if (discriminator != null) {
-        return values.firstWhere(
-          (element) =>
-              element.insturction == value &&
-              element.discriminator == discriminator,
-        );
-      }
-      return values.firstWhere((element) => element.insturction == value);
-    } on StateError {
-      return null;
+  static MetaplexTokenMetaDataProgramInstruction? getInstruction(
+    dynamic value, {
+    int? discriminator,
+  }) {
+    if (discriminator != null) {
+      return values.firstWhereNullable(
+        (element) =>
+            element.insturction == value &&
+            element.discriminator == discriminator,
+      );
     }
+    return values.firstWhereNullable((element) => element.insturction == value);
   }
 
   @override

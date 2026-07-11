@@ -9,10 +9,13 @@ abstract class SPLTokenSwapProgramLayout extends ProgramLayout {
   static StructLayout get _layout =>
       LayoutConst.struct([LayoutConst.u8(property: 'instruction')]);
   static ProgramLayout fromBytes(List<int> data) {
-    final decode =
-        ProgramLayout.decodeAndValidateStruct(layout: _layout, bytes: data);
-    final instruction =
-        SPLTokenSwapProgramInstruction.getInstruction(decode['instruction']);
+    final decode = ProgramLayout.decodeAndValidateStruct(
+      layout: _layout,
+      bytes: data,
+    );
+    final instruction = SPLTokenSwapProgramInstruction.getInstruction(
+      decode['instruction'],
+    );
     switch (instruction) {
       case SPLTokenSwapProgramInstruction.initSwap:
         return SPLTokenSwapInitSwapLayout.fromBuffer(data);

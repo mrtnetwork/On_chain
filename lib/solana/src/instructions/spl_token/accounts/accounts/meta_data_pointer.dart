@@ -7,20 +7,27 @@ import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class _Utils {
   static StructLayout get layout => LayoutConst.struct([
-        SolanaLayoutUtils.publicKey('authority'),
-        SolanaLayoutUtils.publicKey('metadataAddress'),
-      ]);
+    SolanaLayoutUtils.publicKey('authority'),
+    SolanaLayoutUtils.publicKey('metadataAddress'),
+  ]);
 
   static int get accountSize => layout.span;
 
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException('Account data length is insufficient.',
-            details: {'Expected': accountSize, 'length': extensionData.length});
+        throw SolanaPluginException(
+          'Account data length is insufficient.',
+          details: {
+            'Expected': accountSize.toString(),
+            'length': extensionData.length.toString(),
+          },
+        );
       }
       return BorshLayoutSerializable.decode(
-          bytes: extensionData, layout: layout);
+        bytes: extensionData,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -30,10 +37,13 @@ class _Utils {
     try {
       final extensionBytes =
           SPLToken2022Utils.readExtionsionBytesFromAccountData(
-              accountBytes: accountBytes,
-              extensionType: ExtensionType.metadataPointer);
+            accountBytes: accountBytes,
+            extensionType: ExtensionType.metadataPointer,
+          );
       return BorshLayoutSerializable.decode(
-          bytes: extensionBytes, layout: layout);
+        bytes: extensionBytes,
+        layout: layout,
+      );
     } catch (e) {
       throw const SolanaPluginException('Invalid extionsion bytes');
     }
@@ -54,22 +64,28 @@ class MetadataPointer extends BorshLayoutSerializable {
   factory MetadataPointer.fromBuffer(List<int> extensionData) {
     final decode = _Utils.decode(extensionData);
     return MetadataPointer(
-        authority: decode['authority'] == SolAddress.defaultPubKey
-            ? null
-            : decode['authority'],
-        metadataAddress: decode['metadataAddress'] == SolAddress.defaultPubKey
-            ? null
-            : decode['metadataAddress']);
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      metadataAddress:
+          decode['metadataAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['metadataAddress'],
+    );
   }
   factory MetadataPointer.fromAccountBytes(List<int> accountBytes) {
     final decode = _Utils.decodeFromAccount(accountBytes);
     return MetadataPointer(
-        authority: decode['authority'] == SolAddress.defaultPubKey
-            ? null
-            : decode['authority'],
-        metadataAddress: decode['metadataAddress'] == SolAddress.defaultPubKey
-            ? null
-            : decode['metadataAddress']);
+      authority:
+          decode['authority'] == SolAddress.defaultPubKey
+              ? null
+              : decode['authority'],
+      metadataAddress:
+          decode['metadataAddress'] == SolAddress.defaultPubKey
+              ? null
+              : decode['metadataAddress'],
+    );
   }
 
   @override
@@ -78,7 +94,7 @@ class MetadataPointer extends BorshLayoutSerializable {
   Map<String, dynamic> serialize() {
     return {
       'authority': authority ?? SolAddress.defaultPubKey,
-      'metadataAddress': metadataAddress ?? SolAddress.defaultPubKey
+      'metadataAddress': metadataAddress ?? SolAddress.defaultPubKey,
     };
   }
 

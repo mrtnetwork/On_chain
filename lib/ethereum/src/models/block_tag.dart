@@ -32,23 +32,27 @@ class BlockTagOrNumber {
   final BlockTag? _tag;
 
   /// for the earliest/genesis block.
-  static const BlockTagOrNumber earliest =
-      BlockTagOrNumber.fromTag(BlockTag.earliest);
+  static const BlockTagOrNumber earliest = BlockTagOrNumber.fromTag(
+    BlockTag.earliest,
+  );
 
   /// for the latest mined block.
-  static const BlockTagOrNumber latest =
-      BlockTagOrNumber.fromTag(BlockTag.latest);
+  static const BlockTagOrNumber latest = BlockTagOrNumber.fromTag(
+    BlockTag.latest,
+  );
 
   /// Represents the 'pending' block number or tag.
-  static const BlockTagOrNumber pending =
-      BlockTagOrNumber.fromTag(BlockTag.pending);
+  static const BlockTagOrNumber pending = BlockTagOrNumber.fromTag(
+    BlockTag.pending,
+  );
 
   /// for the latest safe head block.
   static const BlockTagOrNumber safe = BlockTagOrNumber.fromTag(BlockTag.safe);
 
   /// for the latest finalized block.
-  static const BlockTagOrNumber finalized =
-      BlockTagOrNumber.fromTag(BlockTag.finalized);
+  static const BlockTagOrNumber finalized = BlockTagOrNumber.fromTag(
+    BlockTag.finalized,
+  );
 
   String? get _toRadix16Number {
     if (_blockNumber != null) return '0x${_blockNumber.toRadixString(16)}';

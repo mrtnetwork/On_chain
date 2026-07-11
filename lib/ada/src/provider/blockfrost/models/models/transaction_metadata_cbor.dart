@@ -11,7 +11,8 @@ class ADATransactionMetadataCBORResponse {
   });
 
   factory ADATransactionMetadataCBORResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADATransactionMetadataCBORResponse(
       label: json['label'],
       metadata: json['metadata'],
@@ -19,10 +20,7 @@ class ADATransactionMetadataCBORResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'label': label,
-      'metadata': metadata,
-    };
+    return {'label': label, 'metadata': metadata};
   }
 
   @override

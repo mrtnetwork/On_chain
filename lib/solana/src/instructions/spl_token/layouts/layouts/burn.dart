@@ -9,22 +9,21 @@ class SPLTokenBurnLayout extends SPLTokenProgramLayout {
   final BigInt amount;
 
   /// Constructs an SPLTokenBurnLayout instance.
-  SPLTokenBurnLayout({
-    required this.amount,
-  });
+  SPLTokenBurnLayout({required this.amount});
 
   /// StructLayout structure for SPLTokenBurnLayout.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u8(property: 'instruction'),
-        LayoutConst.u64(property: 'amount')
-      ]);
+    LayoutConst.u8(property: 'instruction'),
+    LayoutConst.u64(property: 'amount'),
+  ]);
 
   /// Constructs an SPLTokenBurnLayout instance from buffer.
   factory SPLTokenBurnLayout.fromBuffer(List<int> bytes) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.burn.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.burn.insturction,
+    );
     return SPLTokenBurnLayout(amount: decode['amount']);
   }
 

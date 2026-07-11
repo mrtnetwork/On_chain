@@ -13,9 +13,9 @@ class TokenBurn extends BorshLayoutSerializable {
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u64(property: 'amount'),
-        SolanaLayoutUtils.publicKey('mint')
-      ], property: 'tokenBurn');
+    LayoutConst.u64(property: 'amount'),
+    SolanaLayoutUtils.publicKey('mint'),
+  ], property: 'tokenBurn');
 
   @override
   StructLayout get layout => staticLayout;

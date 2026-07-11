@@ -5,8 +5,12 @@ import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 /// [sui documation](https://docs.sui.io/sui-api-ref#suix_queryevents)
 class SuiRequestQueryEvents
     extends SuiRequest<SuiApiQueryEventsRepose, Map<String, dynamic>> {
-  const SuiRequestQueryEvents(
-      {required this.query, this.cursor, this.limit, this.descendingOrder});
+  const SuiRequestQueryEvents({
+    required this.query,
+    this.cursor,
+    this.limit,
+    this.descendingOrder,
+  });
 
   /// The event query criteria.
   final SuiApiEventFilter query;

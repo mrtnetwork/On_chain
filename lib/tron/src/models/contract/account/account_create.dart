@@ -1,8 +1,8 @@
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:on_chain/tron/src/models/contract/account/account_type.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils/utils.dart';
 
 /// Activate an account. Uses an already activated account to activate a new account.
 /// or just simply transfer TRX to it.
@@ -10,17 +10,13 @@ class AccountCreateContract extends TronBaseContract {
   factory AccountCreateContract.fromJson(Map<String, dynamic> json) {
     return AccountCreateContract(
       /// Transaction initiator address
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
 
       /// Account address to be activated
-      accountAddress: OnChainUtils.parseTronAddress(
-          value: json['account_address'], name: 'account_address'),
+      accountAddress: TronAddress(json.valueAs("account_address")),
 
       /// Account type. The external account type is Normal, and this field will not be displayed in the return value
-      type: AccountType.fromName(
-              OnChainUtils.parseString(value: json['type'], name: 'type')) ??
-          AccountType.normal,
+      type: AccountType.fromName(json.valueAs("type")) ?? AccountType.normal,
     );
   }
   factory AccountCreateContract.deserialize(List<int> bytes) {
@@ -33,14 +29,18 @@ class AccountCreateContract extends TronBaseContract {
       accountAddress: TronAddress.fromBytes(decode.getField(2)),
 
       /// Account type. The external account type is Normal, and this field will not be displayed in the return value
-      type: decode
+      type:
+          decode
               .getResult(3)
               ?.castTo<AccountType, int>((e) => AccountType.fromValue(e)) ??
           AccountType.normal,
     );
   }
-  AccountCreateContract(
-      {required this.ownerAddress, required this.accountAddress, this.type});
+  AccountCreateContract({
+    required this.ownerAddress,
+    required this.accountAddress,
+    this.type,
+  });
 
   /// Transaction initiator address
   @override

@@ -21,7 +21,7 @@ class SolanaRequestGetTokenSupply
   List<dynamic> toJson() {
     return [
       account.address,
-      SolanaRequestUtils.createConfig([commitment?.toJson()])
+      SolanaRequestUtils.createConfig([commitment?.toJson()]),
     ];
   }
 

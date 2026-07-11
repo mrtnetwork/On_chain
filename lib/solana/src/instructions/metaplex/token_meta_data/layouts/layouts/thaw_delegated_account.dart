@@ -7,12 +7,16 @@ class MetaplexTokenMetaDataThawDelegatedAccountLayout
   const MetaplexTokenMetaDataThawDelegatedAccountLayout();
 
   factory MetaplexTokenMetaDataThawDelegatedAccountLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .thawDelegatedAccount.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction
+              .thawDelegatedAccount
+              .insturction,
+    );
     return const MetaplexTokenMetaDataThawDelegatedAccountLayout();
   }
 

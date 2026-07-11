@@ -13,26 +13,30 @@ class StakeLockup extends BorshLayoutSerializable {
 
   /// Lockup custodian authority
   final SolAddress custodian;
-  const StakeLockup(
-      {required this.timestamp, required this.epoch, required this.custodian});
+  const StakeLockup({
+    required this.timestamp,
+    required this.epoch,
+    required this.custodian,
+  });
   factory StakeLockup.fromJson(Map<String, dynamic> json) {
     return StakeLockup(
-        timestamp: json['timestamp'],
-        epoch: json['epoch'],
-        custodian: json['custodian']);
+      timestamp: json['timestamp'],
+      epoch: json['epoch'],
+      custodian: json['custodian'],
+    );
   }
 
   static StakeLockup get defaultLockup => StakeLockup(
-        custodian: SolAddress.defaultPubKey,
-        epoch: BigInt.zero,
-        timestamp: BigInt.zero,
-      );
+    custodian: SolAddress.defaultPubKey,
+    epoch: BigInt.zero,
+    timestamp: BigInt.zero,
+  );
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.i64(property: 'timestamp'),
-        LayoutConst.u64(property: 'epoch'),
-        SolanaLayoutUtils.publicKey('custodian')
-      ], property: 'lockup');
+    LayoutConst.i64(property: 'timestamp'),
+    LayoutConst.u64(property: 'epoch'),
+    SolanaLayoutUtils.publicKey('custodian'),
+  ], property: 'lockup');
 
   @override
   StructLayout get layout => staticLayout;

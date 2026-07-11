@@ -8,22 +8,24 @@ class _Utils {
   static const List<int> discriminator = [164, 101, 210, 92, 222, 14, 75, 156];
 
   static StructLayout get layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'discriminator'),
-        SolanaLayoutUtils.publicKey('authority'),
-        LayoutConst.string(property: 'name'),
-        SolanaLayoutUtils.publicKey('accountKey'),
-        LayoutConst.u64(property: 'totalShares'),
-        LayoutConst.u64(property: 'totalMembers'),
-        LayoutConst.u64(property: 'totalInflow'),
-        LayoutConst.u64(property: 'lastSnapshotAmount'),
-        LayoutConst.u8(property: 'bumpSeed'),
-        LayoutConst.u8(property: 'accountOwnerBumpSeed'),
-        LayoutConst.u64(property: 'totalAvailableShares'),
-        LayoutConst.u8(property: 'membershipModel'),
-        LayoutConst.optional(SolanaLayoutUtils.publicKey(),
-            property: 'membershipMint'),
-        LayoutConst.optional(LayoutConst.u64(), property: 'totalStakedShares')
-      ]);
+    LayoutConst.blob(8, property: 'discriminator'),
+    SolanaLayoutUtils.publicKey('authority'),
+    LayoutConst.string(property: 'name'),
+    SolanaLayoutUtils.publicKey('accountKey'),
+    LayoutConst.u64(property: 'totalShares'),
+    LayoutConst.u64(property: 'totalMembers'),
+    LayoutConst.u64(property: 'totalInflow'),
+    LayoutConst.u64(property: 'lastSnapshotAmount'),
+    LayoutConst.u8(property: 'bumpSeed'),
+    LayoutConst.u8(property: 'accountOwnerBumpSeed'),
+    LayoutConst.u64(property: 'totalAvailableShares'),
+    LayoutConst.u8(property: 'membershipModel'),
+    LayoutConst.optional(
+      SolanaLayoutUtils.publicKey(),
+      property: 'membershipMint',
+    ),
+    LayoutConst.optional(LayoutConst.u64(), property: 'totalStakedShares'),
+  ]);
 }
 
 class Fanout extends BorshLayoutSerializable {
@@ -41,39 +43,42 @@ class Fanout extends BorshLayoutSerializable {
   final SolAddress? membershipMint;
   final BigInt? totalStakedShares;
 
-  const Fanout(
-      {required this.authority,
-      required this.name,
-      required this.accountKey,
-      required this.totalShares,
-      required this.totalMembers,
-      required this.totalInflow,
-      required this.lastSnapshotAmount,
-      required this.bumpSeed,
-      required this.accountOwnerBumpSeed,
-      required this.totalAvailableShares,
-      required this.membershipModel,
-      this.membershipMint,
-      this.totalStakedShares});
+  const Fanout({
+    required this.authority,
+    required this.name,
+    required this.accountKey,
+    required this.totalShares,
+    required this.totalMembers,
+    required this.totalInflow,
+    required this.lastSnapshotAmount,
+    required this.bumpSeed,
+    required this.accountOwnerBumpSeed,
+    required this.totalAvailableShares,
+    required this.membershipModel,
+    this.membershipMint,
+    this.totalStakedShares,
+  });
   factory Fanout.fromBuffer(List<int> data) {
     final decode = BorshLayoutSerializable.decode(
-        bytes: data,
-        layout: _Utils.layout,
-        validator: {'discriminator': _Utils.discriminator});
+      bytes: data,
+      layout: _Utils.layout,
+      validator: {'discriminator': _Utils.discriminator},
+    );
     return Fanout(
-        authority: decode['authority'],
-        name: decode['name'],
-        accountKey: decode['accountKey'],
-        totalShares: decode['totalShares'],
-        totalMembers: decode['totalMembers'],
-        totalInflow: decode['totalInflow'],
-        lastSnapshotAmount: decode['lastSnapshotAmount'],
-        bumpSeed: decode['bumpSeed'],
-        accountOwnerBumpSeed: decode['accountOwnerBumpSeed'],
-        totalAvailableShares: decode['totalAvailableShares'],
-        membershipModel: MembershipModel.fromValue(decode['membershipModel']),
-        membershipMint: decode['membershipMint'],
-        totalStakedShares: decode['totalStakedShares']);
+      authority: decode['authority'],
+      name: decode['name'],
+      accountKey: decode['accountKey'],
+      totalShares: decode['totalShares'],
+      totalMembers: decode['totalMembers'],
+      totalInflow: decode['totalInflow'],
+      lastSnapshotAmount: decode['lastSnapshotAmount'],
+      bumpSeed: decode['bumpSeed'],
+      accountOwnerBumpSeed: decode['accountOwnerBumpSeed'],
+      totalAvailableShares: decode['totalAvailableShares'],
+      membershipModel: MembershipModel.fromValue(decode['membershipModel']),
+      membershipMint: decode['membershipMint'],
+      totalStakedShares: decode['totalStakedShares'],
+    );
   }
 
   @override
@@ -94,7 +99,7 @@ class Fanout extends BorshLayoutSerializable {
       'totalAvailableShares': totalAvailableShares,
       'membershipModel': membershipModel.value,
       'membershipMint': membershipMint,
-      'totalStakedShares': totalStakedShares
+      'totalStakedShares': totalStakedShares,
     };
   }
 

@@ -24,7 +24,7 @@ class HeaderLeaderCertVrfResult extends HeaderLeaderCert {
   @override
   Map<String, dynamic> toJson() {
     return {
-      type.name: {'vrf_cert': vrfCert.toJson()}
+      type.name: {'vrf_cert': vrfCert.toJson()},
     };
   }
 }

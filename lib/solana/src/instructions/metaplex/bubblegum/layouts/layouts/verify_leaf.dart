@@ -11,26 +11,29 @@ class MetaplexBubblegumVerifyLeafLayout extends MetaplexBubblegumProgramLayout {
     required List<int> root,
     required List<int> leaf,
     required this.index,
-  })  : root = root.asImmutableBytes,
-        leaf = leaf.asImmutableBytes;
+  }) : root = root.asImmutableBytes,
+       leaf = leaf.asImmutableBytes;
 
   factory MetaplexBubblegumVerifyLeafLayout.fromBuffer(List<int> data) {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexBubblegumProgramInstruction.verifyLeaf.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexBubblegumProgramInstruction.verifyLeaf.insturction,
+    );
     return MetaplexBubblegumVerifyLeafLayout(
-        root: decode['root'], leaf: decode['leaf'], index: decode['index']);
+      root: decode['root'],
+      leaf: decode['leaf'],
+      index: decode['index'],
+    );
   }
 
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.blob(32, property: 'root'),
-        LayoutConst.blob(32, property: 'leaf'),
-        LayoutConst.u32(property: 'index'),
-        MetaData.staticLayout
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.blob(32, property: 'root'),
+    LayoutConst.blob(32, property: 'leaf'),
+    LayoutConst.u32(property: 'index'),
+    MetaData.staticLayout,
+  ]);
 
   @override
   StructLayout get layout => _layout;

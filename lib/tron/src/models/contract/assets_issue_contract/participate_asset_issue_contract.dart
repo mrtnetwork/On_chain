@@ -2,37 +2,35 @@ import 'package:on_chain/tron/src/address/tron_address.dart';
 import 'package:on_chain/tron/src/models/contract/base_contract/base.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/protbuf/decoder.dart';
-import 'package:on_chain/utils/utils.dart';
 
 /// Participate in an asset issue.
 class ParticipateAssetIssueContract extends TronBaseContract {
   /// Create a new [ParticipateAssetIssueContract] instance by parsing a JSON map.
   factory ParticipateAssetIssueContract.fromJson(Map<String, dynamic> json) {
     return ParticipateAssetIssueContract(
-      ownerAddress: OnChainUtils.parseTronAddress(
-          value: json['owner_address'], name: 'owner_address'),
-      toAddress: OnChainUtils.parseTronAddress(
-          value: json['to_address'], name: 'to_address'),
-      assetName: OnChainUtils.parseBytes(
-          value: json['asset_name'], name: 'asset_name'),
-      amount: OnChainUtils.parseBigInt(value: json['amount'], name: 'amount'),
+      ownerAddress: TronAddress(json.valueAs("owner_address")),
+
+      toAddress: TronAddress(json.valueAs("to_address")),
+      assetName: json.valueAsBytes("asset_name", encoding: StringEncoding.utf8),
+      amount: json.valueAsBigInt("amount"),
     );
   }
 
   /// Create a new [ParticipateAssetIssueContract] instance with specified parameters.
-  ParticipateAssetIssueContract(
-      {required this.ownerAddress,
-      required this.toAddress,
-      required List<int> assetName,
-      required this.amount})
-      : assetName = assetName.asImmutableBytes;
+  ParticipateAssetIssueContract({
+    required this.ownerAddress,
+    required this.toAddress,
+    required List<int> assetName,
+    required this.amount,
+  }) : assetName = assetName.asImmutableBytes;
   factory ParticipateAssetIssueContract.deserialize(List<int> bytes) {
     final decode = TronProtocolBufferImpl.decode(bytes);
     return ParticipateAssetIssueContract(
-        ownerAddress: TronAddress.fromBytes(decode.getField(1)),
-        toAddress: TronAddress.fromBytes(decode.getField(2)),
-        assetName: decode.getField(3),
-        amount: decode.getField(4));
+      ownerAddress: TronAddress.fromBytes(decode.getField(1)),
+      toAddress: TronAddress.fromBytes(decode.getField(2)),
+      assetName: decode.getField(3),
+      amount: decode.getField(4),
+    );
   }
 
   /// Account address
@@ -61,7 +59,7 @@ class ParticipateAssetIssueContract extends TronBaseContract {
       'to_address': toAddress.toAddress(visible),
       'owner_address': ownerAddress.toAddress(visible),
       'amount': amount.toString(),
-      'asset_name': StringUtils.decode(assetName)
+      'asset_name': StringUtils.decode(assetName),
     };
   }
 

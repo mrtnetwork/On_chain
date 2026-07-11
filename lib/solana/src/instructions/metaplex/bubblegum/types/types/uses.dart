@@ -6,19 +6,23 @@ class Uses extends BorshLayoutSerializable {
   final UseMethod useMethod;
   final BigInt remaining;
   final BigInt total;
-  const Uses(
-      {required this.useMethod, required this.remaining, required this.total});
+  const Uses({
+    required this.useMethod,
+    required this.remaining,
+    required this.total,
+  });
   factory Uses.fromJson(Map<String, dynamic> json) {
     return Uses(
-        useMethod: UseMethod.fromValue(json['useMethod']),
-        remaining: json['remaining'],
-        total: json['total']);
+      useMethod: UseMethod.fromValue(json['useMethod']),
+      remaining: json['remaining'],
+      total: json['total'],
+    );
   }
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.u8(property: 'useMethod'),
-        LayoutConst.u64(property: 'remaining'),
-        LayoutConst.u64(property: 'total')
-      ], property: 'uses');
+    LayoutConst.u8(property: 'useMethod'),
+    LayoutConst.u64(property: 'remaining'),
+    LayoutConst.u64(property: 'total'),
+  ], property: 'uses');
   @override
   StructLayout get layout => staticLayout;
   @override
@@ -26,7 +30,7 @@ class Uses extends BorshLayoutSerializable {
     return {
       'useMethod': useMethod.value,
       'remaining': remaining,
-      'total': total
+      'total': total,
     };
   }
 

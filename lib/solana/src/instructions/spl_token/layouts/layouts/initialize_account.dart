@@ -15,9 +15,10 @@ class SPLTokenInitializeAccountLayout extends SPLTokenProgramLayout {
   /// Constructs an SPLTokenInitializeAccountLayout instance from buffer.
   factory SPLTokenInitializeAccountLayout.fromBuffer(List<int> bytes) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: bytes,
-        instruction: SPLTokenProgramInstruction.initializeAccount.insturction);
+      layout: _layout,
+      bytes: bytes,
+      instruction: SPLTokenProgramInstruction.initializeAccount.insturction,
+    );
     return SPLTokenInitializeAccountLayout();
   }
 

@@ -28,8 +28,9 @@ class NameServiceProgramUtils {
   }
 
   static SolAddress getTwitterRegistryKey({required String twitterHandle}) {
-    final hashedTwitterHandle =
-        NameServiceProgramUtils.getHashedName(twitterHandle);
+    final hashedTwitterHandle = NameServiceProgramUtils.getHashedName(
+      twitterHandle,
+    );
     return NameServiceProgramUtils.getNameAccountProgram(
       hashedName: hashedTwitterHandle,
       nameParent: NameServiceProgramConst.twitterRootPrentRegisteryKey,

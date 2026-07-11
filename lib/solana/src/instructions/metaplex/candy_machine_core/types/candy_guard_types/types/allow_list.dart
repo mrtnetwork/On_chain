@@ -6,14 +6,14 @@ class AllowList extends BorshLayoutSerializable {
   final List<int> merkleRoot;
 
   AllowList({required List<int> merkleRoot})
-      : merkleRoot = merkleRoot.asImmutableBytes;
+    : merkleRoot = merkleRoot.asImmutableBytes;
   factory AllowList.fromJson(Map<String, dynamic> json) {
     return AllowList(merkleRoot: (json['merkleRoot'] as List).cast());
   }
 
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.blob(32, property: 'merkleRoot'),
-      ], property: 'allowList');
+    LayoutConst.blob(32, property: 'merkleRoot'),
+  ], property: 'allowList');
 
   @override
   StructLayout get layout => staticLayout;

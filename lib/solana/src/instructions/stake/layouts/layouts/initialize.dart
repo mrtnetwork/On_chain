@@ -12,24 +12,30 @@ class StakeInitializeLayout extends StakeProgramLayout {
 
   const StakeInitializeLayout._(this.authorized, this.lockup);
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.u32(property: 'instruction'),
-        StakeAuthorized.staticLayout,
-        StakeLockup.staticLayout,
-      ]);
+    LayoutConst.u32(property: 'instruction'),
+    StakeAuthorized.staticLayout,
+    StakeLockup.staticLayout,
+  ]);
 
-  factory StakeInitializeLayout(
-      {required StakeAuthorized authorized, StakeLockup? lockup}) {
+  factory StakeInitializeLayout({
+    required StakeAuthorized authorized,
+    StakeLockup? lockup,
+  }) {
     return StakeInitializeLayout._(
-        authorized, lockup ?? StakeLockup.defaultLockup);
+      authorized,
+      lockup ?? StakeLockup.defaultLockup,
+    );
   }
   factory StakeInitializeLayout.fromBuffer(List<int> data) {
     final decode = ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: StakeProgramInstruction.initialize.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: StakeProgramInstruction.initialize.insturction,
+    );
     return StakeInitializeLayout(
-        authorized: StakeAuthorized.fromJson(decode['authorized']),
-        lockup: StakeLockup.fromJson(decode['lockup']));
+      authorized: StakeAuthorized.fromJson(decode['authorized']),
+      lockup: StakeLockup.fromJson(decode['lockup']),
+    );
   }
 
   @override

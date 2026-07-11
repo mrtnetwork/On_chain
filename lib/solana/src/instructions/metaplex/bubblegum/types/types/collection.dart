@@ -11,9 +11,9 @@ class Collection extends BorshLayoutSerializable {
     return Collection(verified: json['verified'], key: json['key']);
   }
   static StructLayout get staticLayout => LayoutConst.struct([
-        LayoutConst.boolean(property: 'verified'),
-        SolanaLayoutUtils.publicKey('key')
-      ], property: 'collection');
+    LayoutConst.boolean(property: 'verified'),
+    SolanaLayoutUtils.publicKey('key'),
+  ], property: 'collection');
 
   @override
   StructLayout get layout => staticLayout;

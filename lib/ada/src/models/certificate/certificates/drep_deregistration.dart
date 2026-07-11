@@ -8,23 +8,28 @@ class DRepDeregistration extends Certificate {
   final Credential votingCredential;
   final BigInt coin;
 
-  const DRepDeregistration(
-      {required this.votingCredential, required this.coin});
+  const DRepDeregistration({
+    required this.votingCredential,
+    required this.coin,
+  });
 
   factory DRepDeregistration.deserialize(CborListValue cbor) {
-    CertificateType.deserialize(cbor.elementAt<CborIntValue>(0),
-        validate: CertificateType.dRepDeregistration);
+    CertificateType.deserialize(
+      cbor.objectAt<CborIntValue>(0),
+      validate: CertificateType.dRepDeregistration,
+    );
     return DRepDeregistration(
-        votingCredential:
-            Credential.deserialize(cbor.elementAt<CborListValue>(1)),
-        coin: cbor.elementAsInteger(2));
+      votingCredential: Credential.deserialize(cbor.objectAt<CborListValue>(1)),
+      coin: cbor.rawValueAt(2),
+    );
   }
   factory DRepDeregistration.fromJson(Map<String, dynamic> json) {
     final currentJson = json[CertificateType.dRepDeregistration.name] ?? json;
     final coin = currentJson['coin'];
     return DRepDeregistration(
-        votingCredential: Credential.fromJson(currentJson['voting_credential']),
-        coin: BigintUtils.parse(coin));
+      votingCredential: Credential.fromJson(currentJson['voting_credential']),
+      coin: BigintUtils.parse(coin),
+    );
   }
 
   @override
@@ -32,7 +37,7 @@ class DRepDeregistration extends Certificate {
     return CborListValue.definite([
       type.toCbor(),
       votingCredential.toCbor(),
-      CborUnsignedValue.u64(coin)
+      CborUnsignedValue.u64(coin),
     ]);
   }
 
@@ -44,8 +49,8 @@ class DRepDeregistration extends Certificate {
     return {
       type.name: {
         'voting_credential': votingCredential.toJson(),
-        'coin': coin.toString()
-      }
+        'coin': coin.toString(),
+      },
     };
   }
 

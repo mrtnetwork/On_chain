@@ -7,12 +7,14 @@ class MetaplexTokenMetaDataSetTokenStandardLayout
   const MetaplexTokenMetaDataSetTokenStandardLayout();
 
   factory MetaplexTokenMetaDataSetTokenStandardLayout.fromBuffer(
-      List<int> data) {
+    List<int> data,
+  ) {
     ProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexTokenMetaDataProgramInstruction
-            .setTokenStandard.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexTokenMetaDataProgramInstruction.setTokenStandard.insturction,
+    );
     return const MetaplexTokenMetaDataSetTokenStandardLayout();
   }
 

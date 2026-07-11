@@ -9,19 +9,21 @@ class MetaplexAuctionHousePrintBidReceiptLayout
   /// Constructs the layout from raw bytes.
   factory MetaplexAuctionHousePrintBidReceiptLayout.fromBuffer(List<int> data) {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction:
-            MetaplexAuctionHouseProgramInstruction.printBidReceipt.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction:
+          MetaplexAuctionHouseProgramInstruction.printBidReceipt.insturction,
+    );
     return MetaplexAuctionHousePrintBidReceiptLayout(
-        receiptBump: decode['receiptBump']);
+      receiptBump: decode['receiptBump'],
+    );
   }
 
   /// StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'receiptBump'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'receiptBump'),
+  ]);
 
   @override
   StructLayout get layout => _layout;

@@ -11,17 +11,15 @@ class ADAStakeAccountRegistrationHistoryResponse {
   });
 
   factory ADAStakeAccountRegistrationHistoryResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ADAStakeAccountRegistrationHistoryResponse(
       txHash: json['tx_hash'],
       action: json['action'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'tx_hash': txHash,
-        'action': action,
-      };
+  Map<String, dynamic> toJson() => {'tx_hash': txHash, 'action': action};
 
   @override
   String toString() {

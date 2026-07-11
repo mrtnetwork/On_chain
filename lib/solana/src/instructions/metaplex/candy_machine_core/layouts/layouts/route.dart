@@ -8,26 +8,30 @@ class MetaplexCandyMachineRouteLayout
   final GuardType guard;
   final List<int> data;
   final String? group;
-  MetaplexCandyMachineRouteLayout(
-      {required this.guard, required List<int> data, this.group})
-      : data = data.asImmutableBytes;
+  MetaplexCandyMachineRouteLayout({
+    required this.guard,
+    required List<int> data,
+    this.group,
+  }) : data = data.asImmutableBytes;
 
   factory MetaplexCandyMachineRouteLayout.fromBuffer(List<int> data) {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
-        layout: _layout,
-        bytes: data,
-        instruction: MetaplexCandyMachineProgramInstruction.route.insturction);
+      layout: _layout,
+      bytes: data,
+      instruction: MetaplexCandyMachineProgramInstruction.route.insturction,
+    );
     return MetaplexCandyMachineRouteLayout(
-        data: (decode['data'] as List).cast(),
-        guard: GuardType.fromValue(decode['guard']),
-        group: decode['group']);
+      data: (decode['data'] as List).cast(),
+      guard: GuardType.fromValue(decode['guard']),
+      group: decode['group'],
+    );
   }
   static StructLayout get _layout => LayoutConst.struct([
-        LayoutConst.blob(8, property: 'instruction'),
-        LayoutConst.u8(property: 'guard'),
-        LayoutConst.vecU8(property: 'data'),
-        LayoutConst.optional(LayoutConst.string(), property: 'group'),
-      ]);
+    LayoutConst.blob(8, property: 'instruction'),
+    LayoutConst.u8(property: 'guard'),
+    LayoutConst.vecU8(property: 'data'),
+    LayoutConst.optional(LayoutConst.string(), property: 'group'),
+  ]);
 
   @override
   StructLayout get layout => _layout;
