@@ -17,8 +17,9 @@ environment:
 
 
 dependencies:
-  blockchain_utils: ^7.0.0
-
+  blockchain_utils: ^7.1.0
+  # blockchain_utils:
+  #   path: ../blockchain_utils
 
 dev_dependencies:
   lints: ^6.0.0
