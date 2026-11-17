@@ -3095,8 +3095,9 @@ sealed class NearRpcBlockId {
   const NearRpcBlockId();
 
   factory NearRpcBlockId.fromJson(dynamic json) {
-    if (json is num)
+    if (json is num) {
       return NearRpcBlockIdBlockHeight(BigInt.from(json.toInt()));
+    }
     if (json is String) return NearRpcBlockIdCryptoHash(json);
     throw OnChainErrors.nearPlugin(
       'NearRpcBlockId',

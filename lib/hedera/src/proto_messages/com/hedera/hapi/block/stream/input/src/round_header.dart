@@ -30,14 +30,12 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * A header for a single round.&lt;br/&gt;
 ///  * This message delivers information about a consensus round.
 class HederaRoundHeader extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A round number.&lt;br/&gt;
   ///      * This is the number assigned to the round for consensus.
   final BigInt? roundNumber;
 
-  const HederaRoundHeader({
-    this.roundNumber,
-  });
+  const HederaRoundHeader({this.roundNumber});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -46,53 +44,45 @@ class HederaRoundHeader extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-      ],
+      fields: [ProtoFieldConfig.uint64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        roundNumber,
-      ];
+  List<Object?> get protoValues => [roundNumber];
 
-
-HederaRoundHeader copyWith(
-{BigInt? roundNumber,
-
-}) {
-    return HederaRoundHeader(
-roundNumber: roundNumber ?? this.roundNumber,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'round_number': config.encodeBigint(roundNumber),
-    };
+  HederaRoundHeader copyWith({BigInt? roundNumber}) {
+    return HederaRoundHeader(roundNumber: roundNumber ?? this.roundNumber);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaRoundHeader.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'round_number': config.encodeBigint(roundNumber)};
+  }
+
+  factory HederaRoundHeader.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRoundHeader(
-      roundNumber: json.valueAsBigInt<BigInt?>('round_number', normalizeKeyLookup: config.normalizeKeys),
+      roundNumber: json.valueAsBigInt<BigInt?>(
+        'round_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaRoundHeader.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaRoundHeader(
-      roundNumber: decode.getBigInt<BigInt?>(1),
-    );
+    return HederaRoundHeader(roundNumber: decode.getBigInt<BigInt?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamInputRoundHeader;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamInputRoundHeader;
 }
-
-

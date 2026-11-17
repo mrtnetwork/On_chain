@@ -2,6 +2,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 void addressTest() {
   group('Sui/Address', () {
     _ed25519();
@@ -13,7 +14,6 @@ void addressTest() {
 void main() {
   OnChainUtilsTestApi.runTest(addressTest, "Address");
 }
-
 
 void _ed25519() {
   test("address ed25519", () {

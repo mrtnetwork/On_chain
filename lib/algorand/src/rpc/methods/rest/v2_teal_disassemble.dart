@@ -12,7 +12,8 @@ class AlgoRestRequestTealDisassemble
         > {
   final BuBytes source;
 
-  AlgoRestRequestTealDisassemble({required List<int> source}) : source = source.asImmutableBytes;
+  AlgoRestRequestTealDisassemble({required List<int> source})
+    : source = source.asImmutableBytes;
 
   @override
   String get path => '/v2/teal/disassemble';

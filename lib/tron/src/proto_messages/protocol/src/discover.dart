@@ -13,12 +13,7 @@ class TronEndpoint extends TronProtoMessage {
 
   final List<int>? addressIpv6;
 
-  const TronEndpoint({
-    this.address,
-    this.port,
-    this.nodeId,
-    this.addressIpv6,
-  });
+  const TronEndpoint({this.address, this.port, this.nodeId, this.addressIpv6});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -37,16 +32,12 @@ class TronEndpoint extends TronProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        address,
-        port,
-        nodeId,
-        addressIpv6,
-      ];
-
+  List<Object?> get protoValues => [address, port, nodeId, addressIpv6];
 
   @override
-  Map<String, dynamic> toJson({TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  Map<String, dynamic> toJson({
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return {
       'address': config.encodeBinary(address),
       'port': port,
@@ -55,13 +46,24 @@ class TronEndpoint extends TronProtoMessage {
     }.notNullValue;
   }
 
-
-  factory TronEndpoint.fromJson(Map<String, dynamic> json, {TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  factory TronEndpoint.fromJson(
+    Map<String, dynamic> json, {
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return TronEndpoint(
-      address: config.decodeBinary<List<int>?>(json.valueAs('address', normalizeKeyLookup: config.normalizeKeys)),
-      port: json.valueAsInt<int?>('port', normalizeKeyLookup: config.normalizeKeys),
-      nodeId: config.decodeBinary<List<int>?>(json.valueAs('nodeId', normalizeKeyLookup: config.normalizeKeys)),
-      addressIpv6: config.decodeBinary<List<int>?>(json.valueAs('addressIpv6', normalizeKeyLookup: config.normalizeKeys)),
+      address: config.decodeBinary<List<int>?>(
+        json.valueAs('address', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      port: json.valueAsInt<int?>(
+        'port',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nodeId: config.decodeBinary<List<int>?>(
+        json.valueAs('nodeId', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      addressIpv6: config.decodeBinary<List<int>?>(
+        json.valueAs('addressIpv6', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -76,10 +78,9 @@ class TronEndpoint extends TronProtoMessage {
   }
 
   @override
-DefaultTronProtoTypeUrl get declarationId => DefaultTronProtoTypeUrl.protocolEndpoint;
-
+  DefaultTronProtoTypeUrl get declarationId =>
+      DefaultTronProtoTypeUrl.protocolEndpoint;
 }
-
 
 class TronPingMessage extends TronProtoMessage {
   final TronEndpoint? from;
@@ -90,12 +91,7 @@ class TronPingMessage extends TronProtoMessage {
 
   final BigInt? timestamp;
 
-  const TronPingMessage({
-    this.from,
-    this.to,
-    this.version,
-    this.timestamp,
-  });
+  const TronPingMessage({this.from, this.to, this.version, this.timestamp});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -114,16 +110,12 @@ class TronPingMessage extends TronProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        from,
-        to,
-        version,
-        timestamp,
-      ];
-
+  List<Object?> get protoValues => [from, to, version, timestamp];
 
   @override
-  Map<String, dynamic> toJson({TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  Map<String, dynamic> toJson({
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return {
       'from': config.encodeMessage(from),
       'to': config.encodeMessage(to),
@@ -132,37 +124,54 @@ class TronPingMessage extends TronProtoMessage {
     }.notNullValue;
   }
 
-
-  factory TronPingMessage.fromJson(Map<String, dynamic> json, {TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  factory TronPingMessage.fromJson(
+    Map<String, dynamic> json, {
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return TronPingMessage(
       from: json.valueTo<TronEndpoint?, Object>(
         key: 'from',
-        parse: (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       to: json.valueTo<TronEndpoint?, Object>(
         key: 'to',
-        parse: (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      version: json.valueAsInt<int?>('version', normalizeKeyLookup: config.normalizeKeys),
-      timestamp: json.valueAsBigInt<BigInt?>('timestamp', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      version: json.valueAsInt<int?>(
+        'version',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      timestamp: json.valueAsBigInt<BigInt?>(
+        'timestamp',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory TronPingMessage.deserialize(List<int> bytes) {
     final decode = TronProtoMessage.decode(bytes, protoConfigStatic());
     return TronPingMessage(
-      from: decode.messageTo<TronEndpoint?>(1, (b) => TronEndpoint.deserialize(b)),
-      to: decode.messageTo<TronEndpoint?>(2, (b) => TronEndpoint.deserialize(b)),
+      from: decode.messageTo<TronEndpoint?>(
+        1,
+        (b) => TronEndpoint.deserialize(b),
+      ),
+      to: decode.messageTo<TronEndpoint?>(
+        2,
+        (b) => TronEndpoint.deserialize(b),
+      ),
       version: decode.getInt<int?>(3),
       timestamp: decode.getBigInt<BigInt?>(4),
     );
   }
 
   @override
-DefaultTronProtoTypeUrl get declarationId => DefaultTronProtoTypeUrl.protocolPingMessage;
-
+  DefaultTronProtoTypeUrl get declarationId =>
+      DefaultTronProtoTypeUrl.protocolPingMessage;
 }
-
 
 class TronPongMessage extends TronProtoMessage {
   final TronEndpoint? from;
@@ -171,11 +180,7 @@ class TronPongMessage extends TronProtoMessage {
 
   final BigInt? timestamp;
 
-  const TronPongMessage({
-    this.from,
-    this.echo,
-    this.timestamp,
-  });
+  const TronPongMessage({this.from, this.echo, this.timestamp});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -193,15 +198,12 @@ class TronPongMessage extends TronProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        from,
-        echo,
-        timestamp,
-      ];
-
+  List<Object?> get protoValues => [from, echo, timestamp];
 
   @override
-  Map<String, dynamic> toJson({TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  Map<String, dynamic> toJson({
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return {
       'from': config.encodeMessage(from),
       'echo': echo,
@@ -209,32 +211,44 @@ class TronPongMessage extends TronProtoMessage {
     }.notNullValue;
   }
 
-
-  factory TronPongMessage.fromJson(Map<String, dynamic> json, {TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  factory TronPongMessage.fromJson(
+    Map<String, dynamic> json, {
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return TronPongMessage(
       from: json.valueTo<TronEndpoint?, Object>(
         key: 'from',
-        parse: (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      echo: json.valueAsInt<int?>('echo', normalizeKeyLookup: config.normalizeKeys),
-      timestamp: json.valueAsBigInt<BigInt?>('timestamp', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      echo: json.valueAsInt<int?>(
+        'echo',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      timestamp: json.valueAsBigInt<BigInt?>(
+        'timestamp',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory TronPongMessage.deserialize(List<int> bytes) {
     final decode = TronProtoMessage.decode(bytes, protoConfigStatic());
     return TronPongMessage(
-      from: decode.messageTo<TronEndpoint?>(1, (b) => TronEndpoint.deserialize(b)),
+      from: decode.messageTo<TronEndpoint?>(
+        1,
+        (b) => TronEndpoint.deserialize(b),
+      ),
       echo: decode.getInt<int?>(2),
       timestamp: decode.getBigInt<BigInt?>(3),
     );
   }
 
   @override
-DefaultTronProtoTypeUrl get declarationId => DefaultTronProtoTypeUrl.protocolPongMessage;
-
+  DefaultTronProtoTypeUrl get declarationId =>
+      DefaultTronProtoTypeUrl.protocolPongMessage;
 }
-
 
 class TronFindNeighbours extends TronProtoMessage {
   final TronEndpoint? from;
@@ -243,11 +257,7 @@ class TronFindNeighbours extends TronProtoMessage {
 
   final BigInt? timestamp;
 
-  const TronFindNeighbours({
-    this.from,
-    this.targetId,
-    this.timestamp,
-  });
+  const TronFindNeighbours({this.from, this.targetId, this.timestamp});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -265,15 +275,12 @@ class TronFindNeighbours extends TronProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        from,
-        targetId,
-        timestamp,
-      ];
-
+  List<Object?> get protoValues => [from, targetId, timestamp];
 
   @override
-  Map<String, dynamic> toJson({TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  Map<String, dynamic> toJson({
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return {
       'from': config.encodeMessage(from),
       'targetId': config.encodeBinary(targetId),
@@ -281,32 +288,43 @@ class TronFindNeighbours extends TronProtoMessage {
     }.notNullValue;
   }
 
-
-  factory TronFindNeighbours.fromJson(Map<String, dynamic> json, {TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  factory TronFindNeighbours.fromJson(
+    Map<String, dynamic> json, {
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return TronFindNeighbours(
       from: json.valueTo<TronEndpoint?, Object>(
         key: 'from',
-        parse: (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      targetId: config.decodeBinary<List<int>?>(json.valueAs('targetId', normalizeKeyLookup: config.normalizeKeys)),
-      timestamp: json.valueAsBigInt<BigInt?>('timestamp', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      targetId: config.decodeBinary<List<int>?>(
+        json.valueAs('targetId', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      timestamp: json.valueAsBigInt<BigInt?>(
+        'timestamp',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory TronFindNeighbours.deserialize(List<int> bytes) {
     final decode = TronProtoMessage.decode(bytes, protoConfigStatic());
     return TronFindNeighbours(
-      from: decode.messageTo<TronEndpoint?>(1, (b) => TronEndpoint.deserialize(b)),
+      from: decode.messageTo<TronEndpoint?>(
+        1,
+        (b) => TronEndpoint.deserialize(b),
+      ),
       targetId: decode.getBytes<List<int>?>(2),
       timestamp: decode.getBigInt<BigInt?>(3),
     );
   }
 
   @override
-DefaultTronProtoTypeUrl get declarationId => DefaultTronProtoTypeUrl.protocolFindNeighbours;
-
+  DefaultTronProtoTypeUrl get declarationId =>
+      DefaultTronProtoTypeUrl.protocolFindNeighbours;
 }
-
 
 class TronNeighbours extends TronProtoMessage {
   final TronEndpoint? from;
@@ -315,11 +333,7 @@ class TronNeighbours extends TronProtoMessage {
 
   final BigInt? timestamp;
 
-  const TronNeighbours({
-    this.from,
-    this.neighbours = const [],
-    this.timestamp,
-  });
+  const TronNeighbours({this.from, this.neighbours = const [], this.timestamp});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -340,15 +354,12 @@ class TronNeighbours extends TronProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        from,
-        neighbours,
-        timestamp,
-      ];
-
+  List<Object?> get protoValues => [from, neighbours, timestamp];
 
   @override
-  Map<String, dynamic> toJson({TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  Map<String, dynamic> toJson({
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return {
       'from': config.encodeMessage(from),
       'neighbours': neighbours.map((e) => config.encodeMessage(e)).toList(),
@@ -356,45 +367,68 @@ class TronNeighbours extends TronProtoMessage {
     }.notNullValue;
   }
 
-
-  factory TronNeighbours.fromJson(Map<String, dynamic> json, {TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  factory TronNeighbours.fromJson(
+    Map<String, dynamic> json, {
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return TronNeighbours(
       from: json.valueTo<TronEndpoint?, Object>(
         key: 'from',
-        parse: (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      neighbours: (json.valueEnsureAsList<dynamic>('neighbours', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<TronEndpoint, Object>(
-          value: e,
-          parse: (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      timestamp: json.valueAsBigInt<BigInt?>('timestamp', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => TronEndpoint.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      neighbours:
+          (json.valueEnsureAsList<dynamic>(
+                'neighbours',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<TronEndpoint, Object>(
+                  value: e,
+                  parse:
+                      (v) => TronEndpoint.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      timestamp: json.valueAsBigInt<BigInt?>(
+        'timestamp',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory TronNeighbours.deserialize(List<int> bytes) {
     final decode = TronProtoMessage.decode(bytes, protoConfigStatic());
     return TronNeighbours(
-      from: decode.messageTo<TronEndpoint?>(1, (b) => TronEndpoint.deserialize(b)),
-      neighbours: decode.getListOfBytes(2).map((b) => TronEndpoint.deserialize(b)).toList(),
+      from: decode.messageTo<TronEndpoint?>(
+        1,
+        (b) => TronEndpoint.deserialize(b),
+      ),
+      neighbours:
+          decode
+              .getListOfBytes(2)
+              .map((b) => TronEndpoint.deserialize(b))
+              .toList(),
       timestamp: decode.getBigInt<BigInt?>(3),
     );
   }
 
   @override
-DefaultTronProtoTypeUrl get declarationId => DefaultTronProtoTypeUrl.protocolNeighbours;
-
+  DefaultTronProtoTypeUrl get declarationId =>
+      DefaultTronProtoTypeUrl.protocolNeighbours;
 }
-
 
 class TronBackupMessage extends TronProtoMessage {
   final bool? flag;
 
   final int? priority;
 
-  const TronBackupMessage({
-    this.flag,
-    this.priority,
-  });
+  const TronBackupMessage({this.flag, this.priority});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -403,33 +437,33 @@ class TronBackupMessage extends TronProtoMessage {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bool(1),
-        ProtoFieldConfig.int32(2),
-      ],
+      fields: [ProtoFieldConfig.bool(1), ProtoFieldConfig.int32(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        flag,
-        priority,
-      ];
-
+  List<Object?> get protoValues => [flag, priority];
 
   @override
-  Map<String, dynamic> toJson({TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
-    return {
-      'flag': flag,
-      'priority': priority,
-    }.notNullValue;
+  Map<String, dynamic> toJson({
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
+    return {'flag': flag, 'priority': priority}.notNullValue;
   }
 
-
-  factory TronBackupMessage.fromJson(Map<String, dynamic> json, {TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  factory TronBackupMessage.fromJson(
+    Map<String, dynamic> json, {
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return TronBackupMessage(
-      flag: json.valueAsBool<bool?>('flag', normalizeKeyLookup: config.normalizeKeys),
-      priority: json.valueAsInt<int?>('priority', normalizeKeyLookup: config.normalizeKeys),
+      flag: json.valueAsBool<bool?>(
+        'flag',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      priority: json.valueAsInt<int?>(
+        'priority',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -442,8 +476,6 @@ class TronBackupMessage extends TronProtoMessage {
   }
 
   @override
-DefaultTronProtoTypeUrl get declarationId => DefaultTronProtoTypeUrl.protocolBackupMessage;
-
+  DefaultTronProtoTypeUrl get declarationId =>
+      DefaultTronProtoTypeUrl.protocolBackupMessage;
 }
-
-

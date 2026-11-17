@@ -2,80 +2,80 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void protocolParamUpdateTest() {
   group('ADA/Protocol Parameter Update', () {
-  test('protocol param update', () {
-    final protocol = ProtocolParamUpdate(
-      minfeeA: BigInt.from(1),
-      minFeeB: BigInt.from(2),
-      maxBlockBodySize: 5678,
-      maxTxSize: 1234,
-      maxBlockHeaderSize: 91011,
-      keyDeposit: BigInt.from(3),
-      poolDeposit: BigInt.from(4),
-      maxEpoch: 5,
-      nOpt: 6,
-      poolPledgeInfluence: UnitInterval(
-        numerator: BigInt.from(7),
-        denominator: BigInt.from(77),
-      ),
-      expansionRate: UnitInterval(
-        numerator: BigInt.from(8),
-        denominator: BigInt.from(9),
-      ),
-      treasuryGrowthRate: UnitInterval(
-        numerator: BigInt.from(10),
-        denominator: BigInt.from(11),
-      ),
-      d: null,
-      extraEntropy: null,
-      protocolVersion: const ProtocolVersion(major: 12, minor: 13),
-      minPoolCost: BigInt.from(14),
-      adaPerUtxoByte: BigInt.from(15),
-      costModel: Costmdls({
-        Language.plutusV1: costModel,
-        Language.plutusV2: costModelv2,
-      }),
-      executionCosts: ExUnitPrices(
-        memPrice: UnitInterval(
-          numerator: BigInt.from(16),
-          denominator: BigInt.from(17),
+    test('protocol param update', () {
+      final protocol = ProtocolParamUpdate(
+        minfeeA: BigInt.from(1),
+        minFeeB: BigInt.from(2),
+        maxBlockBodySize: 5678,
+        maxTxSize: 1234,
+        maxBlockHeaderSize: 91011,
+        keyDeposit: BigInt.from(3),
+        poolDeposit: BigInt.from(4),
+        maxEpoch: 5,
+        nOpt: 6,
+        poolPledgeInfluence: UnitInterval(
+          numerator: BigInt.from(7),
+          denominator: BigInt.from(77),
         ),
-        stepPrice: UnitInterval(
-          numerator: BigInt.from(18),
-          denominator: BigInt.from(19),
+        expansionRate: UnitInterval(
+          numerator: BigInt.from(8),
+          denominator: BigInt.from(9),
         ),
-      ),
-      maxTxExUnits: ExUnits(mem: BigInt.from(20), steps: BigInt.from(21)),
-      maxBlockExUnits: ExUnits(mem: BigInt.from(22), steps: BigInt.from(23)),
-      maxValueSize: 24,
-      collateralPercentage: 25,
-      maxCollateralInputs: 25,
-    );
+        treasuryGrowthRate: UnitInterval(
+          numerator: BigInt.from(10),
+          denominator: BigInt.from(11),
+        ),
+        d: null,
+        extraEntropy: null,
+        protocolVersion: const ProtocolVersion(major: 12, minor: 13),
+        minPoolCost: BigInt.from(14),
+        adaPerUtxoByte: BigInt.from(15),
+        costModel: Costmdls({
+          Language.plutusV1: costModel,
+          Language.plutusV2: costModelv2,
+        }),
+        executionCosts: ExUnitPrices(
+          memPrice: UnitInterval(
+            numerator: BigInt.from(16),
+            denominator: BigInt.from(17),
+          ),
+          stepPrice: UnitInterval(
+            numerator: BigInt.from(18),
+            denominator: BigInt.from(19),
+          ),
+        ),
+        maxTxExUnits: ExUnits(mem: BigInt.from(20), steps: BigInt.from(21)),
+        maxBlockExUnits: ExUnits(mem: BigInt.from(22), steps: BigInt.from(23)),
+        maxValueSize: 24,
+        collateralPercentage: 25,
+        maxCollateralInputs: 25,
+      );
 
-    expect(
-      protocol.serializeHex(),
-      'b6000101020219162e031904d2041a00016383050306040705080609d81e8207184d0ad81e8208090bd81e820a0b0e820c0d100e110f12a20098a61a0003236119032c01011903e819023b00011903e8195e7104011903e818201a0001ca761928eb041959d818641959d818641959d818641959d818641959d818641959d81864186418641959d81864194c5118201a0002acfa182019b551041a000363151901ff00011a00015c3518201a000797751936f404021a0002ff941a0006ea7818dc0001011903e8196ff604021a0003bd081a00034ec5183e011a00102e0f19312a011a00032e801901a5011a0002da781903e819cf06011a00013a34182019a8f118201903e818201a00013aac0119e143041903e80a1a00030219189c011a00030219189c011a0003207c1901d9011a000330001901ff0119ccf3182019fd40182019ffd5182019581e18201940b318201a00012adf18201a0002ff941a0006ea7818dc0001011a00010f92192da7000119eabb18201a0002ff941a0006ea7818dc0001011a0002ff941a0006ea7818dc0001011a000c504e197712041a001d6af61a0001425b041a00040c660004001a00014fab18201a0003236119032c010119a0de18201a00033d7618201979f41820197fb8182019a95d1820197df718201995aa18201a0374f693194a1f0a0198af1a0003236119032c01011903e819023b00011903e8195e7104011903e818201a0001ca761928eb041959d818641959d818641959d818641959d818641959d818641959d81864186418641959d81864194c5118201a0002acfa182019b551041a000363151901ff00011a00015c3518201a000797751936f404021a0002ff941a0006ea7818dc0001011903e8196ff604021a0003bd081a00034ec5183e011a00102e0f19312a011a00032e801901a5011a0002da781903e819cf06011a00013a34182019a8f118201903e818201a00013aac0119e143041903e80a1a00030219189c011a00030219189c011a0003207c1901d9011a000330001901ff0119ccf3182019fd40182019ffd5182019581e18201940b318201a00012adf18201a0002ff941a0006ea7818dc0001011a00010f92192da7000119eabb18201a0002ff941a0006ea7818dc0001011a0002ff941a0006ea7818dc0001011a0011b22c1a0005fdde00021a000c504e197712041a001d6af61a0001425b041a00040c660004001a00014fab18201a0003236119032c010119a0de18201a00033d7618201979f41820197fb8182019a95d1820197df718201995aa18201a0223accc0a1a0374f693194a1f0a1a02515e841980b30a1382d81e821011d81e821213148214151582161716181817181918181819',
-    );
-    final decode = ProtocolParamUpdate.fromCborBytes(protocol.serialize());
-    expect(decode.serialize(), protocol.serialize());
+      expect(
+        protocol.serializeHex(),
+        'b6000101020219162e031904d2041a00016383050306040705080609d81e8207184d0ad81e8208090bd81e820a0b0e820c0d100e110f12a20098a61a0003236119032c01011903e819023b00011903e8195e7104011903e818201a0001ca761928eb041959d818641959d818641959d818641959d818641959d818641959d81864186418641959d81864194c5118201a0002acfa182019b551041a000363151901ff00011a00015c3518201a000797751936f404021a0002ff941a0006ea7818dc0001011903e8196ff604021a0003bd081a00034ec5183e011a00102e0f19312a011a00032e801901a5011a0002da781903e819cf06011a00013a34182019a8f118201903e818201a00013aac0119e143041903e80a1a00030219189c011a00030219189c011a0003207c1901d9011a000330001901ff0119ccf3182019fd40182019ffd5182019581e18201940b318201a00012adf18201a0002ff941a0006ea7818dc0001011a00010f92192da7000119eabb18201a0002ff941a0006ea7818dc0001011a0002ff941a0006ea7818dc0001011a000c504e197712041a001d6af61a0001425b041a00040c660004001a00014fab18201a0003236119032c010119a0de18201a00033d7618201979f41820197fb8182019a95d1820197df718201995aa18201a0374f693194a1f0a0198af1a0003236119032c01011903e819023b00011903e8195e7104011903e818201a0001ca761928eb041959d818641959d818641959d818641959d818641959d818641959d81864186418641959d81864194c5118201a0002acfa182019b551041a000363151901ff00011a00015c3518201a000797751936f404021a0002ff941a0006ea7818dc0001011903e8196ff604021a0003bd081a00034ec5183e011a00102e0f19312a011a00032e801901a5011a0002da781903e819cf06011a00013a34182019a8f118201903e818201a00013aac0119e143041903e80a1a00030219189c011a00030219189c011a0003207c1901d9011a000330001901ff0119ccf3182019fd40182019ffd5182019581e18201940b318201a00012adf18201a0002ff941a0006ea7818dc0001011a00010f92192da7000119eabb18201a0002ff941a0006ea7818dc0001011a0002ff941a0006ea7818dc0001011a0011b22c1a0005fdde00021a000c504e197712041a001d6af61a0001425b041a00040c660004001a00014fab18201a0003236119032c010119a0de18201a00033d7618201979f41820197fb8182019a95d1820197df718201995aa18201a0223accc0a1a0374f693194a1f0a1a02515e841980b30a1382d81e821011d81e821213148214151582161716181817181918181819',
+      );
+      final decode = ProtocolParamUpdate.fromCborBytes(protocol.serialize());
+      expect(decode.serialize(), protocol.serialize());
 
-    final update = Update(
-      proposedProtocolParameterUpdates: ProposedProtocolParameterUpdates({
-        GenesisHash(List<int>.filled(28, 200)): protocol,
-      }),
-      epoch: 1,
-    );
-    final decodeUpdate = Update.fromCborBytes(update.serialize());
-    expect(update.serialize(), decodeUpdate.serialize());
-  });
+      final update = Update(
+        proposedProtocolParameterUpdates: ProposedProtocolParameterUpdates({
+          GenesisHash(List<int>.filled(28, 200)): protocol,
+        }),
+        epoch: 1,
+      );
+      final decodeUpdate = Update.fromCborBytes(update.serialize());
+      expect(update.serialize(), decodeUpdate.serialize());
+    });
   });
 }
 
 void main() {
   OnChainUtilsTestApi.runTest(protocolParamUpdateTest, "Protocol Param Update");
 }
-
 
 final costModel = CostModel(
   [

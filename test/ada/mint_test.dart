@@ -3,6 +3,7 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void mintTest() {
   group('ADA/Mint', _mint);
 }
@@ -10,7 +11,6 @@ void mintTest() {
 void main() {
   OnChainUtilsTestApi.runTest(mintTest, "Mint");
 }
-
 
 void _mint() {
   test('transaction body with mint', () {

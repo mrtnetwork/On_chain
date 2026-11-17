@@ -12,8 +12,11 @@ import 'package:on_chain/solidity/helper/helper.dart';
 /// the response maps it straight to [ETHAddress].
 class EthereumRequestERC721OwnerOf
     extends EthereumRequest<ETHAddress?, String?> {
-  EthereumRequestERC721OwnerOf(this.contractAddress, this.tokenId,
-      {super.blockNumber});
+  EthereumRequestERC721OwnerOf(
+    this.contractAddress,
+    this.tokenId, {
+    super.blockNumber,
+  });
 
   @override
   String get method => EthereumMethods.call.value;
@@ -36,7 +39,7 @@ class EthereumRequestERC721OwnerOf
         "to": contractAddress.toSolidityHex(),
         "data": BytesUtils.toHexString(_encoder.encode(tokenId), prefix: "0x"),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

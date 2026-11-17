@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Grant KYC
@@ -38,8 +39,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaTokenGrantKycTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenGrantKycTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * The identified token SHALL grant "KYC" for the account
@@ -48,7 +50,7 @@ class HederaTokenGrantKycTransactionBody extends HederaProtoMessage with Equalit
   ///      * by the `account` field.
   final proto_basic_types.HederaTokenID? token;
 
-    /// *
+  /// *
   ///      * An account identifier.
   ///      * &lt;p&gt;
   ///      * The token identified by the `token` field SHALL grant "KYC" for the
@@ -57,10 +59,7 @@ class HederaTokenGrantKycTransactionBody extends HederaProtoMessage with Equalit
   ///      * by the `token` field.
   final proto_basic_types.HederaAccountID? account;
 
-  const HederaTokenGrantKycTransactionBody({
-    this.token,
-    this.account,
-  });
+  const HederaTokenGrantKycTransactionBody({this.token, this.account});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -69,67 +68,78 @@ class HederaTokenGrantKycTransactionBody extends HederaProtoMessage with Equalit
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        token,
-        account,
-      ];
+  List<Object?> get protoValues => [token, account];
 
+  HederaTokenGrantKycTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? token,
 
-HederaTokenGrantKycTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? token,
-
-proto_basic_types.HederaAccountID? account,
-
-}) {
+    proto_basic_types.HederaAccountID? account,
+  }) {
     return HederaTokenGrantKycTransactionBody(
-token: token ?? this.token,
-account: account ?? this.account,
+      token: token ?? this.token,
+      account: account ?? this.account,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token': config.encodeMessage(token),
       'account': config.encodeMessage(account),
     };
   }
 
-
-  factory HederaTokenGrantKycTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenGrantKycTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenGrantKycTransactionBody(
       token: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       account: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'account',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTokenGrantKycTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenGrantKycTransactionBody(
-      token: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      account: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      token: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      account: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenGrantKycTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenGrantKycTransactionBody;
 }
-
-

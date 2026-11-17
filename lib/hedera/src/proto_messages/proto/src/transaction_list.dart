@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/transaction.dart" as proto_transaction;
+import "package:on_chain/hedera/src/proto_messages/proto/src/transaction.dart"
+    as proto_transaction;
 
 /// *
 ///  * A simple protobuf wrapper to store a list of transactions. This is used by
@@ -12,9 +13,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/transaction.dart" a
 class HederaTransactionList extends HederaProtoMessage with Equality {
   final List<proto_transaction.HederaTransaction> transactionList;
 
-  const HederaTransactionList({
-    this.transactionList = const [],
-  });
+  const HederaTransactionList({this.transactionList = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -33,49 +32,69 @@ class HederaTransactionList extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        transactionList,
-      ];
+  List<Object?> get protoValues => [transactionList];
 
-
-HederaTransactionList copyWith(
-{List<proto_transaction.HederaTransaction>? transactionList,
-
-}) {
+  HederaTransactionList copyWith({
+    List<proto_transaction.HederaTransaction>? transactionList,
+  }) {
     return HederaTransactionList(
-transactionList: transactionList ?? this.transactionList,
+      transactionList: transactionList ?? this.transactionList,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'transaction_list': transactionList.map((e) => config.encodeMessage(e)).toList(),
+      'transaction_list':
+          transactionList.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTransactionList.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTransactionList.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTransactionList(
-      transactionList: (json.valueEnsureAsList<dynamic>('transaction_list', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_transaction.HederaTransaction, Object>(
-          value: e,
-          parse: (v) => proto_transaction.HederaTransaction.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      transactionList:
+          (json.valueEnsureAsList<dynamic>(
+                'transaction_list',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_transaction.HederaTransaction,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_transaction.HederaTransaction.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTransactionList.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTransactionList(
-      transactionList: decode.getListOfBytes(1).map((b) => proto_transaction.HederaTransaction.deserialize(b)).toList(),
+      transactionList:
+          decode
+              .getListOfBytes(1)
+              .map((b) => proto_transaction.HederaTransaction.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTransactionList;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTransactionList;
 }
-
-

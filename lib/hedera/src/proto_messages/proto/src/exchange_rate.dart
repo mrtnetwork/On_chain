@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
 
 /// *
 ///  * # Exchange Rates
@@ -36,15 +37,15 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as 
 ///  *   amountInTinybar = (amountInTinycent * hbarEquiv) / centEquiv
 ///  * ```
 class HederaExchangeRate extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Denominator for a ratio of USD cents per HBAR.
   final int? hbarEquiv;
 
-    /// *
+  /// *
   ///      * Numerator for a ratio of USD cents per HBAR.
   final int? centEquiv;
 
-    /// *
+  /// *
   ///      * Expiration time stamp for this exchange rate.
   final proto_timestamp.HederaTimestampSeconds? expirationTime;
 
@@ -70,32 +71,29 @@ class HederaExchangeRate extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        hbarEquiv,
-        centEquiv,
-        expirationTime,
-      ];
+  List<Object?> get protoValues => [hbarEquiv, centEquiv, expirationTime];
 
+  HederaExchangeRate copyWith({
+    int? hbarEquiv,
 
-HederaExchangeRate copyWith(
-{int? hbarEquiv,
+    int? centEquiv,
 
-int? centEquiv,
-
-proto_timestamp.HederaTimestampSeconds? expirationTime,
-
-}) {
+    proto_timestamp.HederaTimestampSeconds? expirationTime,
+  }) {
     return HederaExchangeRate(
-hbarEquiv: hbarEquiv ?? this.hbarEquiv,
-centEquiv: centEquiv ?? this.centEquiv,
-expirationTime: expirationTime ?? this.expirationTime,
+      hbarEquiv: hbarEquiv ?? this.hbarEquiv,
+      centEquiv: centEquiv ?? this.centEquiv,
+      expirationTime: expirationTime ?? this.expirationTime,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'hbarEquiv': hbarEquiv,
       'centEquiv': centEquiv,
@@ -103,15 +101,29 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaExchangeRate.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaExchangeRate.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaExchangeRate(
-      hbarEquiv: json.valueAsInt<int?>('hbarEquiv', normalizeKeyLookup: config.normalizeKeys),
-      centEquiv: json.valueAsInt<int?>('centEquiv', normalizeKeyLookup: config.normalizeKeys),
-      expirationTime: json.valueTo<proto_timestamp.HederaTimestampSeconds?, Object>(
-        key: 'expirationTime',
-        parse: (v) => proto_timestamp.HederaTimestampSeconds.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      hbarEquiv: json.valueAsInt<int?>(
+        'hbarEquiv',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      centEquiv: json.valueAsInt<int?>(
+        'centEquiv',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      expirationTime: json
+          .valueTo<proto_timestamp.HederaTimestampSeconds?, Object>(
+            key: 'expirationTime',
+            parse:
+                (v) => proto_timestamp.HederaTimestampSeconds.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
@@ -120,15 +132,17 @@ List<dynamic> get variables => protoValues;
     return HederaExchangeRate(
       hbarEquiv: decode.getInt<int?>(1),
       centEquiv: decode.getInt<int?>(2),
-      expirationTime: decode.messageTo<proto_timestamp.HederaTimestampSeconds?>(3, (b) => proto_timestamp.HederaTimestampSeconds.deserialize(b)),
+      expirationTime: decode.messageTo<proto_timestamp.HederaTimestampSeconds?>(
+        3,
+        (b) => proto_timestamp.HederaTimestampSeconds.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoExchangeRate;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoExchangeRate;
 }
-
 
 /// *
 ///  * A set of two exchange rates.&lt;br/&gt;
@@ -142,24 +156,21 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoEx
 ///  * the configured maximum percentage change. This limit SHALL be a
 ///  * network configuration value.
 class HederaExchangeRateSet extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A current exchange rate.
   ///      * &lt;p&gt;
   ///      * When present in a receipt, this SHALL be the exchange rate used to
   ///      * compute the fees for that transaction.
   final HederaExchangeRate? currentRate;
 
-    /// *
+  /// *
   ///      * A future exchange rate.
   ///      * &lt;p&gt;
   ///      * This exchange rate SHALL be applied after the current exchange
   ///      * rate expires.
   final HederaExchangeRate? nextRate;
 
-  const HederaExchangeRateSet({
-    this.currentRate,
-    this.nextRate,
-  });
+  const HederaExchangeRateSet({this.currentRate, this.nextRate});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -168,67 +179,78 @@ class HederaExchangeRateSet extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        currentRate,
-        nextRate,
-      ];
+  List<Object?> get protoValues => [currentRate, nextRate];
 
+  HederaExchangeRateSet copyWith({
+    HederaExchangeRate? currentRate,
 
-HederaExchangeRateSet copyWith(
-{HederaExchangeRate? currentRate,
-
-HederaExchangeRate? nextRate,
-
-}) {
+    HederaExchangeRate? nextRate,
+  }) {
     return HederaExchangeRateSet(
-currentRate: currentRate ?? this.currentRate,
-nextRate: nextRate ?? this.nextRate,
+      currentRate: currentRate ?? this.currentRate,
+      nextRate: nextRate ?? this.nextRate,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'currentRate': config.encodeMessage(currentRate),
       'nextRate': config.encodeMessage(nextRate),
     };
   }
 
-
-  factory HederaExchangeRateSet.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaExchangeRateSet.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaExchangeRateSet(
       currentRate: json.valueTo<HederaExchangeRate?, Object>(
         key: 'currentRate',
-        parse: (v) => HederaExchangeRate.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaExchangeRate.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       nextRate: json.valueTo<HederaExchangeRate?, Object>(
         key: 'nextRate',
-        parse: (v) => HederaExchangeRate.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaExchangeRate.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaExchangeRateSet.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaExchangeRateSet(
-      currentRate: decode.messageTo<HederaExchangeRate?>(1, (b) => HederaExchangeRate.deserialize(b)),
-      nextRate: decode.messageTo<HederaExchangeRate?>(2, (b) => HederaExchangeRate.deserialize(b)),
+      currentRate: decode.messageTo<HederaExchangeRate?>(
+        1,
+        (b) => HederaExchangeRate.deserialize(b),
+      ),
+      nextRate: decode.messageTo<HederaExchangeRate?>(
+        2,
+        (b) => HederaExchangeRate.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoExchangeRateSet;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoExchangeRateSet;
 }
-
-

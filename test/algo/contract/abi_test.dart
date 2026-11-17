@@ -5,6 +5,7 @@ import 'package:on_chain/algorand/src/abi/src/contract.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 void contractAbiTest() {
   group('Algorand/ABIType From Parsing', () {
     test('scalar and alias types', () {
@@ -213,10 +214,7 @@ void contractAbiTest() {
           true,
         );
         expect(
-          ABITypeUtils.abiCheckTransactionType(
-            ABITransactionType.pay,
-            'axfer',
-          ),
+          ABITypeUtils.abiCheckTransactionType(ABITransactionType.pay, 'axfer'),
           false,
         );
         expect(
@@ -499,4 +497,3 @@ void contractAbiTest() {
 void main() {
   OnChainUtilsTestApi.runTest(contractAbiTest, "Abi");
 }
-

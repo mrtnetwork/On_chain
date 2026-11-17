@@ -32,8 +32,7 @@ class ExampleAccount {
   final TezosSecretKey key;
 
   TezosAddress get address => key.toPublicKey().toAddress();
-  TezosOperationSource get source =>
-      DefaultTezosOperationSource.fromPublicKey(
+  TezosOperationSource get source => DefaultTezosOperationSource.fromPublicKey(
         publicKey: key.toPublicKey(),
         signer: (_) async => key,
       );

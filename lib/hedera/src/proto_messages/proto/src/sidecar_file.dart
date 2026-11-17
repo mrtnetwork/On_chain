@@ -1,10 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/proto/src/contract_state_change.dart" as proto_contract_state_change;
-import "package:on_chain/hedera/src/proto_messages/proto/src/contract_action.dart" as proto_contract_action;
-import "package:on_chain/hedera/src/proto_messages/proto/src/contract_bytecode.dart" as proto_contract_bytecode;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/contract_state_change.dart"
+    as proto_contract_state_change;
+import "package:on_chain/hedera/src/proto_messages/proto/src/contract_action.dart"
+    as proto_contract_action;
+import "package:on_chain/hedera/src/proto_messages/proto/src/contract_bytecode.dart"
+    as proto_contract_bytecode;
 
 /// -
 ///  * ‌
@@ -29,13 +33,11 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/contract_bytecode.d
 ///  * A SidecarFile contains a list of TransactionSidecarRecords that are all created
 ///  * in the same period and related to the same RecordStreamFile.
 class HederaSidecarFile extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * List of sidecar records
   final List<HederaTransactionSidecarRecord> sidecarRecords;
 
-  const HederaSidecarFile({
-    this.sidecarRecords = const [],
-  });
+  const HederaSidecarFile({this.sidecarRecords = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -54,67 +56,86 @@ class HederaSidecarFile extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        sidecarRecords,
-      ];
+  List<Object?> get protoValues => [sidecarRecords];
 
-
-HederaSidecarFile copyWith(
-{List<HederaTransactionSidecarRecord>? sidecarRecords,
-
-}) {
+  HederaSidecarFile copyWith({
+    List<HederaTransactionSidecarRecord>? sidecarRecords,
+  }) {
     return HederaSidecarFile(
-sidecarRecords: sidecarRecords ?? this.sidecarRecords,
+      sidecarRecords: sidecarRecords ?? this.sidecarRecords,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'sidecar_records': sidecarRecords.map((e) => config.encodeMessage(e)).toList(),
+      'sidecar_records':
+          sidecarRecords.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaSidecarFile.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSidecarFile.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSidecarFile(
-      sidecarRecords: (json.valueEnsureAsList<dynamic>('sidecar_records', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaTransactionSidecarRecord, Object>(
-          value: e,
-          parse: (v) => HederaTransactionSidecarRecord.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      sidecarRecords:
+          (json.valueEnsureAsList<dynamic>(
+                'sidecar_records',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) =>
+                    JsonParser.valueTo<HederaTransactionSidecarRecord, Object>(
+                      value: e,
+                      parse:
+                          (v) => HederaTransactionSidecarRecord.fromJson(
+                            JsonParser.valueAs(v),
+                            config: config,
+                          ),
+                    ),
+              )
+              .toList(),
     );
   }
 
   factory HederaSidecarFile.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSidecarFile(
-      sidecarRecords: decode.getListOfBytes(1).map((b) => HederaTransactionSidecarRecord.deserialize(b)).toList(),
+      sidecarRecords:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaTransactionSidecarRecord.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSidecarFile;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSidecarFile;
 }
-
 
 /// *
 ///  * TransactionSidecarRecord is used to create sidecar records complementing
 ///  * TransactionRecord and storing additional information about a transaction's execution.
 class HederaTransactionSidecarRecord extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * Consensus timestamp will be the same as the consensus timestamp of the
   ///    * transaction the side car is related to. This offers a convenient
   ///    * way to match record to sidecar.
   final proto_timestamp.HederaTimestamp? consensusTimestamp;
 
-    /// *
+  /// *
   ///   * Whether sidecar is from migration.
   final bool? migration;
 
-    /// * List of sidecar types.
+  /// * List of sidecar types.
   ///   * In future there will be other categories.
   final proto_contract_state_change.HederaContractStateChanges? stateChanges;
 
@@ -149,39 +170,40 @@ class HederaTransactionSidecarRecord extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        consensusTimestamp,
-        migration,
-        stateChanges,
-        actions,
-        bytecode,
-      ];
+    consensusTimestamp,
+    migration,
+    stateChanges,
+    actions,
+    bytecode,
+  ];
 
+  HederaTransactionSidecarRecord copyWith({
+    proto_timestamp.HederaTimestamp? consensusTimestamp,
 
-HederaTransactionSidecarRecord copyWith(
-{proto_timestamp.HederaTimestamp? consensusTimestamp,
+    bool? migration,
 
-bool? migration,
+    proto_contract_state_change.HederaContractStateChanges? stateChanges,
 
-proto_contract_state_change.HederaContractStateChanges? stateChanges,
+    proto_contract_action.HederaContractActions? actions,
 
-proto_contract_action.HederaContractActions? actions,
-
-proto_contract_bytecode.HederaContractBytecode? bytecode,
-
-}) {
+    proto_contract_bytecode.HederaContractBytecode? bytecode,
+  }) {
     return HederaTransactionSidecarRecord(
-consensusTimestamp: consensusTimestamp ?? this.consensusTimestamp,
-migration: migration ?? this.migration,
-stateChanges: stateChanges ?? this.stateChanges,
-actions: actions ?? this.actions,
-bytecode: bytecode ?? this.bytecode,
+      consensusTimestamp: consensusTimestamp ?? this.consensusTimestamp,
+      migration: migration ?? this.migration,
+      stateChanges: stateChanges ?? this.stateChanges,
+      actions: actions ?? this.actions,
+      bytecode: bytecode ?? this.bytecode,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'consensus_timestamp': config.encodeMessage(consensusTimestamp),
       'migration': migration,
@@ -191,43 +213,89 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTransactionSidecarRecord.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTransactionSidecarRecord.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTransactionSidecarRecord(
-      consensusTimestamp: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
-        key: 'consensus_timestamp',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      migration: json.valueAsBool<bool?>('migration', normalizeKeyLookup: config.normalizeKeys),
-      stateChanges: json.valueTo<proto_contract_state_change.HederaContractStateChanges?, Object>(
+      consensusTimestamp: json
+          .valueTo<proto_timestamp.HederaTimestamp?, Object>(
+            key: 'consensus_timestamp',
+            parse:
+                (v) => proto_timestamp.HederaTimestamp.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      migration: json.valueAsBool<bool?>(
+        'migration',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stateChanges: json.valueTo<
+        proto_contract_state_change.HederaContractStateChanges?,
+        Object
+      >(
         key: 'state_changes',
-        parse: (v) => proto_contract_state_change.HederaContractStateChanges.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      actions: json.valueTo<proto_contract_action.HederaContractActions?, Object>(
-        key: 'actions',
-        parse: (v) => proto_contract_action.HederaContractActions.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      bytecode: json.valueTo<proto_contract_bytecode.HederaContractBytecode?, Object>(
-        key: 'bytecode',
-        parse: (v) => proto_contract_bytecode.HederaContractBytecode.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                proto_contract_state_change.HederaContractStateChanges.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      actions: json
+          .valueTo<proto_contract_action.HederaContractActions?, Object>(
+            key: 'actions',
+            parse:
+                (v) => proto_contract_action.HederaContractActions.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      bytecode: json
+          .valueTo<proto_contract_bytecode.HederaContractBytecode?, Object>(
+            key: 'bytecode',
+            parse:
+                (v) => proto_contract_bytecode.HederaContractBytecode.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaTransactionSidecarRecord.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTransactionSidecarRecord(
-      consensusTimestamp: decode.messageTo<proto_timestamp.HederaTimestamp?>(1, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
+      consensusTimestamp: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        1,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
       migration: decode.getBool<bool?>(2),
-      stateChanges: decode.messageTo<proto_contract_state_change.HederaContractStateChanges?>(3, (b) => proto_contract_state_change.HederaContractStateChanges.deserialize(b)),
-      actions: decode.messageTo<proto_contract_action.HederaContractActions?>(4, (b) => proto_contract_action.HederaContractActions.deserialize(b)),
-      bytecode: decode.messageTo<proto_contract_bytecode.HederaContractBytecode?>(5, (b) => proto_contract_bytecode.HederaContractBytecode.deserialize(b)),
+      stateChanges: decode
+          .messageTo<proto_contract_state_change.HederaContractStateChanges?>(
+            3,
+            (b) => proto_contract_state_change
+                .HederaContractStateChanges.deserialize(b),
+          ),
+      actions: decode.messageTo<proto_contract_action.HederaContractActions?>(
+        4,
+        (b) => proto_contract_action.HederaContractActions.deserialize(b),
+      ),
+      bytecode: decode
+          .messageTo<proto_contract_bytecode.HederaContractBytecode?>(
+            5,
+            (b) =>
+                proto_contract_bytecode.HederaContractBytecode.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTransactionSidecarRecord;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTransactionSidecarRecord;
 }
-
-

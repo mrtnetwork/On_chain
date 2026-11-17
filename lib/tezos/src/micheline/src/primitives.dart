@@ -1,4 +1,5 @@
 import 'package:on_chain/exception/onchain_error.dart';
+
 class MichelsonPrimitives {
   MichelsonPrimitives._();
 

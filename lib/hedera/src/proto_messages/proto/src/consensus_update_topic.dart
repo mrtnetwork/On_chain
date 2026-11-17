@@ -1,11 +1,16 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart" as google_protobuf_wrappers;
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart" as proto_duration;
-import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" as proto_custom_fees;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart"
+    as google_protobuf_wrappers;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart"
+    as proto_duration;
+import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart"
+    as proto_custom_fees;
 
 /// *
 ///  * # Update Topic
@@ -28,15 +33,16 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * The topic ID specifying the topic to update.
   ///      * &lt;p&gt;
   ///      * A topic with this ID MUST exist and MUST NOT be deleted.&lt;br/&gt;
   ///      * This value is REQUIRED.
   final proto_basic_types.HederaTopicID? topicID;
 
-    /// *
+  /// *
   ///      * An updated memo to be associated with this topic.
   ///      * &lt;p&gt;
   ///      * If this value is set, the current `adminKey` for the topic MUST sign
@@ -45,7 +51,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * 100 bytes when so encoded.
   final google_protobuf_wrappers.HederaStringValue? memo;
 
-    /// *
+  /// *
   ///      * An updated expiration time for this topic, in seconds since the epoch.
   ///      * &lt;p&gt;
   ///      * For this purpose, `epoch` SHALL be the UNIX epoch
@@ -57,7 +63,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * modify any other field.
   final proto_timestamp.HederaTimestamp? expirationTime;
 
-    /// *
+  /// *
   ///      * Updated access control for modification of the topic.
   ///      * &lt;p&gt;
   ///      * If this field is set, that key and the previously set key MUST both
@@ -67,7 +73,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * completes, except for expiration and renewal.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * Updated access control for message submission to the topic.
   ///      * &lt;p&gt;
   ///      * If this value is set, the current `adminKey` for the topic MUST sign
@@ -78,7 +84,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * without restriction.
   final proto_basic_types.HederaKey? submitKey;
 
-    /// * An updated value for the number of seconds by which the topic expiration
+  /// * An updated value for the number of seconds by which the topic expiration
   ///      * will be automatically extended upon expiration, if it has a valid
   ///      * auto-renew account.
   ///      * &lt;p&gt;
@@ -90,7 +96,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * configured MAX_AUTORENEW_PERIOD.
   final proto_duration.HederaDuration? autoRenewPeriod;
 
-    /// *
+  /// *
   ///      * An updated ID for the account to be charged renewal fees at the topic's
   ///      * `expirationTime` to extend the lifetime of the topic.
   ///      * &lt;p&gt;
@@ -102,7 +108,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * `autoRenewAccount` SHALL be removed from the topic.
   final proto_basic_types.HederaAccountID? autoRenewAccount;
 
-    /// *
+  /// *
   ///      * Access control for update/delete of custom fees.
   ///      * &lt;p&gt;
   ///      * If set, subsequent consensus_update_topic transactions signed with this
@@ -117,7 +123,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * update.&lt;br/&gt;
   final proto_basic_types.HederaKey? feeScheduleKey;
 
-    /// *
+  /// *
   ///      * A set of keys&lt;br/&gt;
   ///      * Keys in this list are permitted to submit messages to this topic without
   ///      * paying custom fees associated with this topic.
@@ -134,7 +140,7 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
   ///      * deleted, or non-existent.
   final proto_custom_fees.HederaFeeExemptKeyList? feeExemptKeyList;
 
-    /// *
+  /// *
   ///      * A set of custom fee definitions.&lt;br/&gt;
   ///      * These are fees to be assessed for each submit to this topic.
   ///      * &lt;p&gt;
@@ -188,59 +194,60 @@ class HederaConsensusUpdateTopicTransactionBody extends HederaProtoMessage with 
 
   @override
   List<Object?> get protoValues => [
-        topicID,
-        memo,
-        expirationTime,
-        adminKey,
-        submitKey,
-        autoRenewPeriod,
-        autoRenewAccount,
-        feeScheduleKey,
-        feeExemptKeyList,
-        customFees,
-      ];
+    topicID,
+    memo,
+    expirationTime,
+    adminKey,
+    submitKey,
+    autoRenewPeriod,
+    autoRenewAccount,
+    feeScheduleKey,
+    feeExemptKeyList,
+    customFees,
+  ];
 
+  HederaConsensusUpdateTopicTransactionBody copyWith({
+    proto_basic_types.HederaTopicID? topicID,
 
-HederaConsensusUpdateTopicTransactionBody copyWith(
-{proto_basic_types.HederaTopicID? topicID,
+    google_protobuf_wrappers.HederaStringValue? memo,
 
-google_protobuf_wrappers.HederaStringValue? memo,
+    proto_timestamp.HederaTimestamp? expirationTime,
 
-proto_timestamp.HederaTimestamp? expirationTime,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    proto_basic_types.HederaKey? submitKey,
 
-proto_basic_types.HederaKey? submitKey,
+    proto_duration.HederaDuration? autoRenewPeriod,
 
-proto_duration.HederaDuration? autoRenewPeriod,
+    proto_basic_types.HederaAccountID? autoRenewAccount,
 
-proto_basic_types.HederaAccountID? autoRenewAccount,
+    proto_basic_types.HederaKey? feeScheduleKey,
 
-proto_basic_types.HederaKey? feeScheduleKey,
+    proto_custom_fees.HederaFeeExemptKeyList? feeExemptKeyList,
 
-proto_custom_fees.HederaFeeExemptKeyList? feeExemptKeyList,
-
-proto_custom_fees.HederaFixedCustomFeeList? customFees,
-
-}) {
+    proto_custom_fees.HederaFixedCustomFeeList? customFees,
+  }) {
     return HederaConsensusUpdateTopicTransactionBody(
-topicID: topicID ?? this.topicID,
-memo: memo ?? this.memo,
-expirationTime: expirationTime ?? this.expirationTime,
-adminKey: adminKey ?? this.adminKey,
-submitKey: submitKey ?? this.submitKey,
-autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
-autoRenewAccount: autoRenewAccount ?? this.autoRenewAccount,
-feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
-feeExemptKeyList: feeExemptKeyList ?? this.feeExemptKeyList,
-customFees: customFees ?? this.customFees,
+      topicID: topicID ?? this.topicID,
+      memo: memo ?? this.memo,
+      expirationTime: expirationTime ?? this.expirationTime,
+      adminKey: adminKey ?? this.adminKey,
+      submitKey: submitKey ?? this.submitKey,
+      autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
+      autoRenewAccount: autoRenewAccount ?? this.autoRenewAccount,
+      feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
+      feeExemptKeyList: feeExemptKeyList ?? this.feeExemptKeyList,
+      customFees: customFees ?? this.customFees,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'topicID': config.encodeMessage(topicID),
       'memo': config.encodeMessage(memo),
@@ -255,71 +262,157 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaConsensusUpdateTopicTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaConsensusUpdateTopicTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaConsensusUpdateTopicTransactionBody(
       topicID: json.valueTo<proto_basic_types.HederaTopicID?, Object>(
         key: 'topicID',
-        parse: (v) => proto_basic_types.HederaTopicID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTopicID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       memo: json.valueTo<google_protobuf_wrappers.HederaStringValue?, Object>(
         key: 'memo',
-        parse: (v) => google_protobuf_wrappers.HederaStringValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => google_protobuf_wrappers.HederaStringValue.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       expirationTime: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'expirationTime',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'adminKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       submitKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'submitKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       autoRenewPeriod: json.valueTo<proto_duration.HederaDuration?, Object>(
         key: 'autoRenewPeriod',
-        parse: (v) => proto_duration.HederaDuration.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      autoRenewAccount: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'autoRenewAccount',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_duration.HederaDuration.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      autoRenewAccount: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'autoRenewAccount',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       feeScheduleKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'fee_schedule_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      feeExemptKeyList: json.valueTo<proto_custom_fees.HederaFeeExemptKeyList?, Object>(
-        key: 'fee_exempt_key_list',
-        parse: (v) => proto_custom_fees.HederaFeeExemptKeyList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      customFees: json.valueTo<proto_custom_fees.HederaFixedCustomFeeList?, Object>(
-        key: 'custom_fees',
-        parse: (v) => proto_custom_fees.HederaFixedCustomFeeList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      feeExemptKeyList: json
+          .valueTo<proto_custom_fees.HederaFeeExemptKeyList?, Object>(
+            key: 'fee_exempt_key_list',
+            parse:
+                (v) => proto_custom_fees.HederaFeeExemptKeyList.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      customFees: json
+          .valueTo<proto_custom_fees.HederaFixedCustomFeeList?, Object>(
+            key: 'custom_fees',
+            parse:
+                (v) => proto_custom_fees.HederaFixedCustomFeeList.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
-  factory HederaConsensusUpdateTopicTransactionBody.deserialize(List<int> bytes) {
+  factory HederaConsensusUpdateTopicTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaConsensusUpdateTopicTransactionBody(
-      topicID: decode.messageTo<proto_basic_types.HederaTopicID?>(1, (b) => proto_basic_types.HederaTopicID.deserialize(b)),
-      memo: decode.messageTo<google_protobuf_wrappers.HederaStringValue?>(2, (b) => google_protobuf_wrappers.HederaStringValue.deserialize(b)),
-      expirationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(4, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(6, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      submitKey: decode.messageTo<proto_basic_types.HederaKey?>(7, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(8, (b) => proto_duration.HederaDuration.deserialize(b)),
-      autoRenewAccount: decode.messageTo<proto_basic_types.HederaAccountID?>(9, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(10, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      feeExemptKeyList: decode.messageTo<proto_custom_fees.HederaFeeExemptKeyList?>(11, (b) => proto_custom_fees.HederaFeeExemptKeyList.deserialize(b)),
-      customFees: decode.messageTo<proto_custom_fees.HederaFixedCustomFeeList?>(12, (b) => proto_custom_fees.HederaFixedCustomFeeList.deserialize(b)),
+      topicID: decode.messageTo<proto_basic_types.HederaTopicID?>(
+        1,
+        (b) => proto_basic_types.HederaTopicID.deserialize(b),
+      ),
+      memo: decode.messageTo<google_protobuf_wrappers.HederaStringValue?>(
+        2,
+        (b) => google_protobuf_wrappers.HederaStringValue.deserialize(b),
+      ),
+      expirationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        4,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        6,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      submitKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        7,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(
+        8,
+        (b) => proto_duration.HederaDuration.deserialize(b),
+      ),
+      autoRenewAccount: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        9,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        10,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      feeExemptKeyList: decode
+          .messageTo<proto_custom_fees.HederaFeeExemptKeyList?>(
+            11,
+            (b) => proto_custom_fees.HederaFeeExemptKeyList.deserialize(b),
+          ),
+      customFees: decode.messageTo<proto_custom_fees.HederaFixedCustomFeeList?>(
+        12,
+        (b) => proto_custom_fees.HederaFixedCustomFeeList.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoConsensusUpdateTopicTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoConsensusUpdateTopicTransactionBody;
 }
-
-

@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart" as google_protobuf_wrappers;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart"
+    as google_protobuf_wrappers;
 
 /// *
 ///  * # Approve Allowance
@@ -48,22 +50,23 @@ import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaCryptoApproveAllowanceTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaCryptoApproveAllowanceTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * List of hbar allowances approved by the account owner.
   ///      * &lt;p&gt;
   ///      * This list MAY be empty, provided at least one other list is
   ///      * not empty.
   final List<HederaCryptoAllowance> cryptoAllowances;
 
-    /// *
+  /// *
   ///      * List of non-fungible token allowances approved by the account owner.
   ///      * &lt;p&gt;
   ///      * This list MAY be empty, provided at least one other list is
   ///      * not empty.
   final List<HederaNftAllowance> nftAllowances;
 
-    /// *
+  /// *
   ///      * List of fungible token allowances approved by the account owner.
   ///      * &lt;p&gt;
   ///      * This list MAY be empty, provided at least one other list is
@@ -102,70 +105,128 @@ class HederaCryptoApproveAllowanceTransactionBody extends HederaProtoMessage wit
 
   @override
   List<Object?> get protoValues => [
-        cryptoAllowances,
-        nftAllowances,
-        tokenAllowances,
-      ];
+    cryptoAllowances,
+    nftAllowances,
+    tokenAllowances,
+  ];
 
+  HederaCryptoApproveAllowanceTransactionBody copyWith({
+    List<HederaCryptoAllowance>? cryptoAllowances,
 
-HederaCryptoApproveAllowanceTransactionBody copyWith(
-{List<HederaCryptoAllowance>? cryptoAllowances,
+    List<HederaNftAllowance>? nftAllowances,
 
-List<HederaNftAllowance>? nftAllowances,
-
-List<HederaTokenAllowance>? tokenAllowances,
-
-}) {
+    List<HederaTokenAllowance>? tokenAllowances,
+  }) {
     return HederaCryptoApproveAllowanceTransactionBody(
-cryptoAllowances: cryptoAllowances ?? this.cryptoAllowances,
-nftAllowances: nftAllowances ?? this.nftAllowances,
-tokenAllowances: tokenAllowances ?? this.tokenAllowances,
+      cryptoAllowances: cryptoAllowances ?? this.cryptoAllowances,
+      nftAllowances: nftAllowances ?? this.nftAllowances,
+      tokenAllowances: tokenAllowances ?? this.tokenAllowances,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'cryptoAllowances': cryptoAllowances.map((e) => config.encodeMessage(e)).toList(),
-      'nftAllowances': nftAllowances.map((e) => config.encodeMessage(e)).toList(),
-      'tokenAllowances': tokenAllowances.map((e) => config.encodeMessage(e)).toList(),
+      'cryptoAllowances':
+          cryptoAllowances.map((e) => config.encodeMessage(e)).toList(),
+      'nftAllowances':
+          nftAllowances.map((e) => config.encodeMessage(e)).toList(),
+      'tokenAllowances':
+          tokenAllowances.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaCryptoApproveAllowanceTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCryptoApproveAllowanceTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCryptoApproveAllowanceTransactionBody(
-      cryptoAllowances: (json.valueEnsureAsList<dynamic>('cryptoAllowances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaCryptoAllowance, Object>(
-          value: e,
-          parse: (v) => HederaCryptoAllowance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      nftAllowances: (json.valueEnsureAsList<dynamic>('nftAllowances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaNftAllowance, Object>(
-          value: e,
-          parse: (v) => HederaNftAllowance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      tokenAllowances: (json.valueEnsureAsList<dynamic>('tokenAllowances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaTokenAllowance, Object>(
-          value: e,
-          parse: (v) => HederaTokenAllowance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      cryptoAllowances:
+          (json.valueEnsureAsList<dynamic>(
+                'cryptoAllowances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaCryptoAllowance, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaCryptoAllowance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      nftAllowances:
+          (json.valueEnsureAsList<dynamic>(
+                'nftAllowances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaNftAllowance, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaNftAllowance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      tokenAllowances:
+          (json.valueEnsureAsList<dynamic>(
+                'tokenAllowances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaTokenAllowance, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaTokenAllowance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
-  factory HederaCryptoApproveAllowanceTransactionBody.deserialize(List<int> bytes) {
+  factory HederaCryptoApproveAllowanceTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCryptoApproveAllowanceTransactionBody(
-      cryptoAllowances: decode.getListOfBytes(1).map((b) => HederaCryptoAllowance.deserialize(b)).toList(),
-      nftAllowances: decode.getListOfBytes(2).map((b) => HederaNftAllowance.deserialize(b)).toList(),
-      tokenAllowances: decode.getListOfBytes(3).map((b) => HederaTokenAllowance.deserialize(b)).toList(),
+      cryptoAllowances:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaCryptoAllowance.deserialize(b))
+              .toList(),
+      nftAllowances:
+          decode
+              .getListOfBytes(2)
+              .map((b) => HederaNftAllowance.deserialize(b))
+              .toList(),
+      tokenAllowances:
+          decode
+              .getListOfBytes(3)
+              .map((b) => HederaTokenAllowance.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCryptoApproveAllowanceTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCryptoApproveAllowanceTransactionBody;
 }
-
 
 /// *
 ///  * An approved allowance of hbar transfers.
@@ -178,19 +239,19 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCr
 ///  * The `amount` MUST be a whole number, and SHOULD be greater than `0` unless
 ///  * this allowance is intended to _remove_ a previously approved allowance.
 class HederaCryptoAllowance extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An owner account identifier.&lt;br/&gt;
   ///      * This is the account identifier of the account granting an allowance
   ///      * for the `spender` to transfer tokens held by this account.
   final proto_basic_types.HederaAccountID? owner;
 
-    /// *
+  /// *
   ///      * A spender account identifier.&lt;br/&gt;
   ///      * This is the account identifier of the account permitted to transfer
   ///      * tokens held by the `owner`.
   final proto_basic_types.HederaAccountID? spender;
 
-    /// *
+  /// *
   ///      * An amount of tinybar (10&lt;sup&gt;-8&lt;/sup&gt; HBAR).&lt;br/&gt;
   ///      * This is the amount of HBAR held by the `owner` that the
   ///      * `spender` is permitted to transfer.
@@ -200,11 +261,7 @@ class HederaCryptoAllowance extends HederaProtoMessage with Equality {
   ///      * This value MAY be exactly `0` to _remove_ an existing allowance.&lt;br/&gt;
   final BigInt? amount;
 
-  const HederaCryptoAllowance({
-    this.owner,
-    this.spender,
-    this.amount,
-  });
+  const HederaCryptoAllowance({this.owner, this.spender, this.amount});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -222,32 +279,29 @@ class HederaCryptoAllowance extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        owner,
-        spender,
-        amount,
-      ];
+  List<Object?> get protoValues => [owner, spender, amount];
 
+  HederaCryptoAllowance copyWith({
+    proto_basic_types.HederaAccountID? owner,
 
-HederaCryptoAllowance copyWith(
-{proto_basic_types.HederaAccountID? owner,
+    proto_basic_types.HederaAccountID? spender,
 
-proto_basic_types.HederaAccountID? spender,
-
-BigInt? amount,
-
-}) {
+    BigInt? amount,
+  }) {
     return HederaCryptoAllowance(
-owner: owner ?? this.owner,
-spender: spender ?? this.spender,
-amount: amount ?? this.amount,
+      owner: owner ?? this.owner,
+      spender: spender ?? this.spender,
+      amount: amount ?? this.amount,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'owner': config.encodeMessage(owner),
       'spender': config.encodeMessage(spender),
@@ -255,35 +309,55 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaCryptoAllowance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCryptoAllowance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCryptoAllowance(
       owner: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'owner',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       spender: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'spender',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaCryptoAllowance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCryptoAllowance(
-      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      spender: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      spender: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCryptoAllowance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCryptoAllowance;
 }
-
 
 /// *
 ///  * An approved allowance of non-fungible tokens.&lt;br/&gt;
@@ -298,7 +372,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCr
 ///  * and SHALL be ignored.
 ///  * If `approve_for_all` is unset, then `serial_numbers` MUST NOT be empty.
 class HederaNftAllowance extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.&lt;br/&gt;
   ///      * This identifies the type of token the `spender` is permitted to
   ///      * transfer from the `owner`.
@@ -306,26 +380,26 @@ class HederaNftAllowance extends HederaProtoMessage with Equality {
   ///      * The identified token type MUST be a non-fungible/unique token.
   final proto_basic_types.HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * An owner account identifier.&lt;br/&gt;
   ///      * This is the account identifier of the account granting an allowance
   ///      * for the `spender` to transfer tokens held by this account.
   final proto_basic_types.HederaAccountID? owner;
 
-    /// *
+  /// *
   ///      * A spender account identifier.&lt;br/&gt;
   ///      * This is the account identifier of the account permitted to transfer
   ///      * tokens held by the `owner`.
   final proto_basic_types.HederaAccountID? spender;
 
-    /// *
+  /// *
   ///      * A list of token serial numbers.&lt;br/&gt;
   ///      * The list of serial numbers that the spender is permitted to transfer.
   ///      * &lt;p&gt;
   ///      * The `owner` MUST currently hold each token identified in this list.
   final List<BigInt> serialNumbers;
 
-    /// *
+  /// *
   ///      * A flag indicating this allowance applies to all tokens of the
   ///      * specified (non-fungible/unique) type.
   ///      * &lt;p&gt;
@@ -336,7 +410,7 @@ class HederaNftAllowance extends HederaProtoMessage with Equality {
   ///      * allowance is `delete`d.
   final google_protobuf_wrappers.HederaBoolValue? approvedForAll;
 
-    /// *
+  /// *
   ///      * A spender-owner account identifier.&lt;br/&gt;
   ///      * This account identifier identifies a `spender` for whom an existing
   ///      * `approved_for_all` allowance was previously created. This enables
@@ -384,97 +458,148 @@ class HederaNftAllowance extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        tokenId,
-        owner,
-        spender,
-        serialNumbers,
-        approvedForAll,
-        delegatingSpender,
-      ];
+    tokenId,
+    owner,
+    spender,
+    serialNumbers,
+    approvedForAll,
+    delegatingSpender,
+  ];
 
+  HederaNftAllowance copyWith({
+    proto_basic_types.HederaTokenID? tokenId,
 
-HederaNftAllowance copyWith(
-{proto_basic_types.HederaTokenID? tokenId,
+    proto_basic_types.HederaAccountID? owner,
 
-proto_basic_types.HederaAccountID? owner,
+    proto_basic_types.HederaAccountID? spender,
 
-proto_basic_types.HederaAccountID? spender,
+    List<BigInt>? serialNumbers,
 
-List<BigInt>? serialNumbers,
+    google_protobuf_wrappers.HederaBoolValue? approvedForAll,
 
-google_protobuf_wrappers.HederaBoolValue? approvedForAll,
-
-proto_basic_types.HederaAccountID? delegatingSpender,
-
-}) {
+    proto_basic_types.HederaAccountID? delegatingSpender,
+  }) {
     return HederaNftAllowance(
-tokenId: tokenId ?? this.tokenId,
-owner: owner ?? this.owner,
-spender: spender ?? this.spender,
-serialNumbers: serialNumbers ?? this.serialNumbers,
-approvedForAll: approvedForAll ?? this.approvedForAll,
-delegatingSpender: delegatingSpender ?? this.delegatingSpender,
+      tokenId: tokenId ?? this.tokenId,
+      owner: owner ?? this.owner,
+      spender: spender ?? this.spender,
+      serialNumbers: serialNumbers ?? this.serialNumbers,
+      approvedForAll: approvedForAll ?? this.approvedForAll,
+      delegatingSpender: delegatingSpender ?? this.delegatingSpender,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'tokenId': config.encodeMessage(tokenId),
       'owner': config.encodeMessage(owner),
       'spender': config.encodeMessage(spender),
-      'serial_numbers': serialNumbers.map((e) => config.encodeBigint(e)).toList(),
+      'serial_numbers':
+          serialNumbers.map((e) => config.encodeBigint(e)).toList(),
       'approved_for_all': config.encodeMessage(approvedForAll),
       'delegating_spender': config.encodeMessage(delegatingSpender),
     };
   }
 
-
-  factory HederaNftAllowance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNftAllowance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNftAllowance(
       tokenId: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'tokenId',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       owner: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'owner',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       spender: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'spender',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      serialNumbers: (json.valueEnsureAsList<dynamic>('serial_numbers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
-      approvedForAll: json.valueTo<google_protobuf_wrappers.HederaBoolValue?, Object>(
-        key: 'approved_for_all',
-        parse: (v) => google_protobuf_wrappers.HederaBoolValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      delegatingSpender: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'delegating_spender',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      serialNumbers:
+          (json.valueEnsureAsList<dynamic>(
+            'serial_numbers',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
+      approvedForAll: json
+          .valueTo<google_protobuf_wrappers.HederaBoolValue?, Object>(
+            key: 'approved_for_all',
+            parse:
+                (v) => google_protobuf_wrappers.HederaBoolValue.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      delegatingSpender: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'delegating_spender',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaNftAllowance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaNftAllowance(
-      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      spender: decode.messageTo<proto_basic_types.HederaAccountID?>(3, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      spender: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        3,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       serialNumbers: decode.getListOrEmpty<BigInt>(4),
-      approvedForAll: decode.messageTo<google_protobuf_wrappers.HederaBoolValue?>(5, (b) => google_protobuf_wrappers.HederaBoolValue.deserialize(b)),
-      delegatingSpender: decode.messageTo<proto_basic_types.HederaAccountID?>(6, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      approvedForAll: decode
+          .messageTo<google_protobuf_wrappers.HederaBoolValue?>(
+            5,
+            (b) => google_protobuf_wrappers.HederaBoolValue.deserialize(b),
+          ),
+      delegatingSpender: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        6,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNftAllowance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNftAllowance;
 }
-
 
 /// *
 ///  * An approved allowance of fungible/common token transfers.
@@ -489,7 +614,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNf
 ///  * The `amount` MUST be a whole number, and SHOULD be greater than `0` unless
 ///  * this allowance is intended to _remove_ a previously approved allowance.
 class HederaTokenAllowance extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.&lt;br/&gt;
   ///      * This identifies the type of token the `spender` is permitted to
   ///      * transfer from the `owner`.
@@ -497,19 +622,19 @@ class HederaTokenAllowance extends HederaProtoMessage with Equality {
   ///      * The identified token type MUST be a fungible/common token.
   final proto_basic_types.HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * An owner account identifier.&lt;br/&gt;
   ///      * This is the account identifier of the account granting an allowance
   ///      * for the `spender` to transfer tokens held by this account.
   final proto_basic_types.HederaAccountID? owner;
 
-    /// *
+  /// *
   ///      * A spender account identifier.&lt;br/&gt;
   ///      * This is the account identifier of the account permitted to transfer
   ///      * tokens held by the `owner`.
   final proto_basic_types.HederaAccountID? spender;
 
-    /// *
+  /// *
   ///      * An amount of fractional tokens (10&lt;sup&gt;-decimals&lt;/sup&gt; tokens).&lt;br/&gt;
   ///      * This is the amount of tokens held by the `owner` that the
   ///      * `spender` is permitted to transfer.
@@ -543,36 +668,32 @@ class HederaTokenAllowance extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        owner,
-        spender,
-        amount,
-      ];
+  List<Object?> get protoValues => [tokenId, owner, spender, amount];
 
+  HederaTokenAllowance copyWith({
+    proto_basic_types.HederaTokenID? tokenId,
 
-HederaTokenAllowance copyWith(
-{proto_basic_types.HederaTokenID? tokenId,
+    proto_basic_types.HederaAccountID? owner,
 
-proto_basic_types.HederaAccountID? owner,
+    proto_basic_types.HederaAccountID? spender,
 
-proto_basic_types.HederaAccountID? spender,
-
-BigInt? amount,
-
-}) {
+    BigInt? amount,
+  }) {
     return HederaTokenAllowance(
-tokenId: tokenId ?? this.tokenId,
-owner: owner ?? this.owner,
-spender: spender ?? this.spender,
-amount: amount ?? this.amount,
+      tokenId: tokenId ?? this.tokenId,
+      owner: owner ?? this.owner,
+      spender: spender ?? this.spender,
+      amount: amount ?? this.amount,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'tokenId': config.encodeMessage(tokenId),
       'owner': config.encodeMessage(owner),
@@ -581,38 +702,65 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenAllowance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenAllowance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenAllowance(
       tokenId: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'tokenId',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       owner: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'owner',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       spender: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'spender',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTokenAllowance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenAllowance(
-      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      spender: decode.messageTo<proto_basic_types.HederaAccountID?>(3, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      spender: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        3,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(4),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenAllowance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenAllowance;
 }
-
-

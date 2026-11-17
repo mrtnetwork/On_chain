@@ -1,9 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/schedulable_transaction_body.dart" as proto_schedulable_transaction_body;
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/schedulable_transaction_body.dart"
+    as proto_schedulable_transaction_body;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
 
 /// *
 ///  * # Schedule Create
@@ -93,30 +96,32 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as 
 ///  * If the scheduled transaction is executed immediately, the transaction
 ///  * record SHALL include a `scheduleRef` with the schedule identifier of the
 ///  * schedule created.
-class HederaScheduleCreateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaScheduleCreateTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A scheduled transaction.
   ///      * &lt;p&gt;
   ///      * This value is REQUIRED.&lt;br/&gt;
   ///      * This transaction body MUST be one of the types enabled in the
   ///      * network configuration value `scheduling.whitelist`.
-  final proto_schedulable_transaction_body.HederaSchedulableTransactionBody? scheduledTransactionBody;
+  final proto_schedulable_transaction_body.HederaSchedulableTransactionBody?
+  scheduledTransactionBody;
 
-    /// *
+  /// *
   ///      * A short description of the schedule.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
   ///      * (default 100) bytes when encoded as UTF-8.
   final String? memo;
 
-    /// *
+  /// *
   ///      * A `Key` required to delete this schedule.
   ///      * &lt;p&gt;
   ///      * If this is not set, or is an empty `KeyList`, this schedule SHALL be
   ///      * immutable and SHALL NOT be deleted.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * An account identifier of a `payer` for the scheduled transaction.
   ///      * &lt;p&gt;
   ///      * This value MAY be unset. If unset, the `payer` for this `scheduleCreate`
@@ -129,7 +134,7 @@ class HederaScheduleCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * SHALL fail with `INSUFFICIENT_PAYER_BALANCE`.&lt;br/&gt;
   final proto_basic_types.HederaAccountID? payerAccountID;
 
-    /// *
+  /// *
   ///      * An expiration time.
   ///      * &lt;p&gt;
   ///      * If not set, the expiration SHALL default to the current consensus time
@@ -139,7 +144,7 @@ class HederaScheduleCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * `ledger.scheduleTxExpiryTimeSecs` otherwise.
   final proto_timestamp.HederaTimestamp? expirationTime;
 
-    /// *
+  /// *
   ///      * A flag to delay execution until expiration.
   ///      * &lt;p&gt;
   ///      * If this flag is set the scheduled transaction SHALL NOT be evaluated for
@@ -181,45 +186,50 @@ class HederaScheduleCreateTransactionBody extends HederaProtoMessage with Equali
 
   @override
   List<Object?> get protoValues => [
-        scheduledTransactionBody,
-        memo,
-        adminKey,
-        payerAccountID,
-        expirationTime,
-        waitForExpiry,
-      ];
+    scheduledTransactionBody,
+    memo,
+    adminKey,
+    payerAccountID,
+    expirationTime,
+    waitForExpiry,
+  ];
 
+  HederaScheduleCreateTransactionBody copyWith({
+    proto_schedulable_transaction_body.HederaSchedulableTransactionBody?
+    scheduledTransactionBody,
 
-HederaScheduleCreateTransactionBody copyWith(
-{proto_schedulable_transaction_body.HederaSchedulableTransactionBody? scheduledTransactionBody,
+    String? memo,
 
-String? memo,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    proto_basic_types.HederaAccountID? payerAccountID,
 
-proto_basic_types.HederaAccountID? payerAccountID,
+    proto_timestamp.HederaTimestamp? expirationTime,
 
-proto_timestamp.HederaTimestamp? expirationTime,
-
-bool? waitForExpiry,
-
-}) {
+    bool? waitForExpiry,
+  }) {
     return HederaScheduleCreateTransactionBody(
-scheduledTransactionBody: scheduledTransactionBody ?? this.scheduledTransactionBody,
-memo: memo ?? this.memo,
-adminKey: adminKey ?? this.adminKey,
-payerAccountID: payerAccountID ?? this.payerAccountID,
-expirationTime: expirationTime ?? this.expirationTime,
-waitForExpiry: waitForExpiry ?? this.waitForExpiry,
+      scheduledTransactionBody:
+          scheduledTransactionBody ?? this.scheduledTransactionBody,
+      memo: memo ?? this.memo,
+      adminKey: adminKey ?? this.adminKey,
+      payerAccountID: payerAccountID ?? this.payerAccountID,
+      expirationTime: expirationTime ?? this.expirationTime,
+      waitForExpiry: waitForExpiry ?? this.waitForExpiry,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'scheduledTransactionBody': config.encodeMessage(scheduledTransactionBody),
+      'scheduledTransactionBody': config.encodeMessage(
+        scheduledTransactionBody,
+      ),
       'memo': memo,
       'adminKey': config.encodeMessage(adminKey),
       'payerAccountID': config.encodeMessage(payerAccountID),
@@ -228,45 +238,90 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaScheduleCreateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaScheduleCreateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaScheduleCreateTransactionBody(
-      scheduledTransactionBody: json.valueTo<proto_schedulable_transaction_body.HederaSchedulableTransactionBody?, Object>(
+      scheduledTransactionBody: json.valueTo<
+        proto_schedulable_transaction_body.HederaSchedulableTransactionBody?,
+        Object
+      >(
         key: 'scheduledTransactionBody',
-        parse: (v) => proto_schedulable_transaction_body.HederaSchedulableTransactionBody.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      memo: json.valueAsString<String?>('memo', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_schedulable_transaction_body
+                .HederaSchedulableTransactionBody.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      memo: json.valueAsString<String?>(
+        'memo',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'adminKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       payerAccountID: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'payerAccountID',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       expirationTime: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'expiration_time',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      waitForExpiry: json.valueAsBool<bool?>('wait_for_expiry', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      waitForExpiry: json.valueAsBool<bool?>(
+        'wait_for_expiry',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaScheduleCreateTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaScheduleCreateTransactionBody(
-      scheduledTransactionBody: decode.messageTo<proto_schedulable_transaction_body.HederaSchedulableTransactionBody?>(1, (b) => proto_schedulable_transaction_body.HederaSchedulableTransactionBody.deserialize(b)),
+      scheduledTransactionBody: decode.messageTo<
+        proto_schedulable_transaction_body.HederaSchedulableTransactionBody?
+      >(
+        1,
+        (b) => proto_schedulable_transaction_body
+            .HederaSchedulableTransactionBody.deserialize(b),
+      ),
       memo: decode.getString<String?>(2),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(3, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      payerAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(4, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      expirationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(5, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        3,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      payerAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        4,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      expirationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        5,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
       waitForExpiry: decode.getBool<bool?>(13),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoScheduleCreateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoScheduleCreateTransactionBody;
 }
-
-

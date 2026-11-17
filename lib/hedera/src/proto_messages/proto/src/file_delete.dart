@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # File Delete
@@ -41,7 +42,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * None
 class HederaFileDeleteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A file identifier.&lt;br/&gt;
   ///      * This identifies the file to delete.
   ///      * &lt;p&gt;
@@ -49,9 +50,7 @@ class HederaFileDeleteTransactionBody extends HederaProtoMessage with Equality {
   ///      * This field is REQUIRED.
   final proto_basic_types.HederaFileID? fileID;
 
-  const HederaFileDeleteTransactionBody({
-    this.fileID,
-  });
+  const HederaFileDeleteTransactionBody({this.fileID});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -60,56 +59,57 @@ class HederaFileDeleteTransactionBody extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        fileID,
-      ];
+  List<Object?> get protoValues => [fileID];
 
-
-HederaFileDeleteTransactionBody copyWith(
-{proto_basic_types.HederaFileID? fileID,
-
-}) {
-    return HederaFileDeleteTransactionBody(
-fileID: fileID ?? this.fileID,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'fileID': config.encodeMessage(fileID),
-    };
+  HederaFileDeleteTransactionBody copyWith({
+    proto_basic_types.HederaFileID? fileID,
+  }) {
+    return HederaFileDeleteTransactionBody(fileID: fileID ?? this.fileID);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaFileDeleteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'fileID': config.encodeMessage(fileID)};
+  }
+
+  factory HederaFileDeleteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFileDeleteTransactionBody(
       fileID: json.valueTo<proto_basic_types.HederaFileID?, Object>(
         key: 'fileID',
-        parse: (v) => proto_basic_types.HederaFileID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaFileID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaFileDeleteTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaFileDeleteTransactionBody(
-      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(2, (b) => proto_basic_types.HederaFileID.deserialize(b)),
+      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(
+        2,
+        (b) => proto_basic_types.HederaFileID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFileDeleteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFileDeleteTransactionBody;
 }
-
-

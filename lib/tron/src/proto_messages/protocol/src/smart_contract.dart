@@ -32,7 +32,14 @@ enum TronSmartContractABIEntryEntryType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronSmartContractABIEntryEntryType found for the given value. $value", details: {"name": "TronSmartContractABIEntryEntryType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronSmartContractABIEntryEntryType found for the given value. $value",
+                details: {
+                  "name": "TronSmartContractABIEntryEntryType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -44,7 +51,14 @@ enum TronSmartContractABIEntryEntryType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronSmartContractABIEntryEntryType found for the given value. $value", details: {"name": "TronSmartContractABIEntryEntryType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronSmartContractABIEntryEntryType found for the given value. $value",
+                details: {
+                  "name": "TronSmartContractABIEntryEntryType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -77,7 +91,14 @@ enum TronSmartContractABIEntryStateMutabilityType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronSmartContractABIEntryStateMutabilityType found for the given value. $value", details: {"name": "TronSmartContractABIEntryStateMutabilityType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronSmartContractABIEntryStateMutabilityType found for the given value. $value",
+                details: {
+                  "name": "TronSmartContractABIEntryStateMutabilityType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -89,7 +110,14 @@ enum TronSmartContractABIEntryStateMutabilityType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronSmartContractABIEntryStateMutabilityType found for the given value. $value", details: {"name": "TronSmartContractABIEntryStateMutabilityType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronSmartContractABIEntryStateMutabilityType found for the given value. $value",
+                details: {
+                  "name": "TronSmartContractABIEntryStateMutabilityType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }

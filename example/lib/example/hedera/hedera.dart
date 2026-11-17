@@ -11,14 +11,12 @@ import 'client.dart';
 /// Use the local node (`hedera start`) instead of testnet.
 const bool _local = bool.fromEnvironment('HEDERA_LOCAL');
 
-const String _rpcUrl = _local
-    ? 'http://127.0.0.1:5551'
-    : 'https://testnet.mirrornode.hedera.com';
+const String _rpcUrl =
+    _local ? 'http://127.0.0.1:5551' : 'https://testnet.mirrornode.hedera.com';
 const String _grpcUrl = _local ? '127.0.0.1' : 'testnet.hedera.com';
 const int _grpcPort = 50211;
-const HederaNetwork _network = _local
-    ? HederaNetwork.localNode
-    : HederaNetwork.testnet;
+const HederaNetwork _network =
+    _local ? HederaNetwork.localNode : HederaNetwork.testnet;
 
 /// 1 HBAR = 100_000_000 tinybars.
 final BigInt _oneHbar = BigInt.from(100000000);

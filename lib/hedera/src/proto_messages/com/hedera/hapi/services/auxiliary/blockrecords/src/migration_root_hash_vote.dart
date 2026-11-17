@@ -15,16 +15,17 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 /// &lt;&lt;&lt;pbj.java_package = "com.hedera.hapi.services.auxiliary.blockrecords"&gt;&gt;&gt; This comment is special code for setting PBJ Compiler java package
 /// *
 ///  * A transaction body to publish a node's vote for wrapped record migration state.
-class HederaMigrationRootHashVoteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaMigrationRootHashVoteTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * The previous wrapped record block root hash from startup migration.
   final List<int>? previousWrappedRecordBlockRootHash;
 
-    /// *
+  /// *
   ///    * Intermediate hashing state for wrapped previous block roots.
   final List<List<int>> wrappedIntermediatePreviousBlockRootHashes;
 
-    /// *
+  /// *
   ///    * Leaf count of the wrapped previous block roots hasher.
   final BigInt? wrappedIntermediateBlockRootsLeafCount;
 
@@ -54,48 +55,79 @@ class HederaMigrationRootHashVoteTransactionBody extends HederaProtoMessage with
 
   @override
   List<Object?> get protoValues => [
-        previousWrappedRecordBlockRootHash,
-        wrappedIntermediatePreviousBlockRootHashes,
-        wrappedIntermediateBlockRootsLeafCount,
-      ];
+    previousWrappedRecordBlockRootHash,
+    wrappedIntermediatePreviousBlockRootHashes,
+    wrappedIntermediateBlockRootsLeafCount,
+  ];
 
+  HederaMigrationRootHashVoteTransactionBody copyWith({
+    List<int>? previousWrappedRecordBlockRootHash,
 
-HederaMigrationRootHashVoteTransactionBody copyWith(
-{List<int>? previousWrappedRecordBlockRootHash,
+    List<List<int>>? wrappedIntermediatePreviousBlockRootHashes,
 
-List<List<int>>? wrappedIntermediatePreviousBlockRootHashes,
-
-BigInt? wrappedIntermediateBlockRootsLeafCount,
-
-}) {
+    BigInt? wrappedIntermediateBlockRootsLeafCount,
+  }) {
     return HederaMigrationRootHashVoteTransactionBody(
-previousWrappedRecordBlockRootHash: previousWrappedRecordBlockRootHash ?? this.previousWrappedRecordBlockRootHash,
-wrappedIntermediatePreviousBlockRootHashes: wrappedIntermediatePreviousBlockRootHashes ?? this.wrappedIntermediatePreviousBlockRootHashes,
-wrappedIntermediateBlockRootsLeafCount: wrappedIntermediateBlockRootsLeafCount ?? this.wrappedIntermediateBlockRootsLeafCount,
+      previousWrappedRecordBlockRootHash:
+          previousWrappedRecordBlockRootHash ??
+          this.previousWrappedRecordBlockRootHash,
+      wrappedIntermediatePreviousBlockRootHashes:
+          wrappedIntermediatePreviousBlockRootHashes ??
+          this.wrappedIntermediatePreviousBlockRootHashes,
+      wrappedIntermediateBlockRootsLeafCount:
+          wrappedIntermediateBlockRootsLeafCount ??
+          this.wrappedIntermediateBlockRootsLeafCount,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'previous_wrapped_record_block_root_hash': config.encodeBinary(previousWrappedRecordBlockRootHash),
-      'wrapped_intermediate_previous_block_root_hashes': wrappedIntermediatePreviousBlockRootHashes.map((e) => config.encodeBinary(e)).toList(),
-      'wrapped_intermediate_block_roots_leaf_count': config.encodeBigint(wrappedIntermediateBlockRootsLeafCount),
+      'previous_wrapped_record_block_root_hash': config.encodeBinary(
+        previousWrappedRecordBlockRootHash,
+      ),
+      'wrapped_intermediate_previous_block_root_hashes':
+          wrappedIntermediatePreviousBlockRootHashes
+              .map((e) => config.encodeBinary(e))
+              .toList(),
+      'wrapped_intermediate_block_roots_leaf_count': config.encodeBigint(
+        wrappedIntermediateBlockRootsLeafCount,
+      ),
     };
   }
 
-
-  factory HederaMigrationRootHashVoteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaMigrationRootHashVoteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaMigrationRootHashVoteTransactionBody(
-      previousWrappedRecordBlockRootHash: config.decodeBinary<List<int>?>(json.valueAs('previous_wrapped_record_block_root_hash', normalizeKeyLookup: config.normalizeKeys)),
-      wrappedIntermediatePreviousBlockRootHashes: (json.valueEnsureAsList<dynamic>('wrapped_intermediate_previous_block_root_hashes', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => config.decodeBinary<List<int>>(e)).toList(),
-      wrappedIntermediateBlockRootsLeafCount: json.valueAsBigInt<BigInt?>('wrapped_intermediate_block_roots_leaf_count', normalizeKeyLookup: config.normalizeKeys),
+      previousWrappedRecordBlockRootHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'previous_wrapped_record_block_root_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      wrappedIntermediatePreviousBlockRootHashes:
+          (json.valueEnsureAsList<dynamic>(
+            'wrapped_intermediate_previous_block_root_hashes',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => config.decodeBinary<List<int>>(e)).toList(),
+      wrappedIntermediateBlockRootsLeafCount: json.valueAsBigInt<BigInt?>(
+        'wrapped_intermediate_block_roots_leaf_count',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
-  factory HederaMigrationRootHashVoteTransactionBody.deserialize(List<int> bytes) {
+  factory HederaMigrationRootHashVoteTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaMigrationRootHashVoteTransactionBody(
       previousWrappedRecordBlockRootHash: decode.getBytes<List<int>?>(1),
@@ -105,8 +137,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiServicesAuxiliaryBlockrecordsMigrationRootHashVoteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiServicesAuxiliaryBlockrecordsMigrationRootHashVoteTransactionBody;
 }
-
-

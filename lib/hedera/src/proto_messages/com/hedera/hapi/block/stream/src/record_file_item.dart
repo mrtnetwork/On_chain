@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/proto/src/sidecar_file.dart" as proto_sidecar_file;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/sidecar_file.dart"
+    as proto_sidecar_file;
 
 /// *
 ///  * # Record File Block
@@ -56,23 +58,23 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/sidecar_file.dart" 
 ///  * - The address book relevant to a particular record file SHALL be available
 ///  *   separately as an `AddressBookProof` item.
 class HederaRecordFileItem extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The consensus time the record file was produced for.&lt;br/&gt;
   ///      * This comes from the record file name.
   final proto_timestamp.HederaTimestamp? creationTime;
 
-    /// *
+  /// *
   ///      * The contents of a record file.&lt;br/&gt;
   ///      * The first 4 bytes are a 32bit int little endian version number.
   ///      * The versions that existed are 2,3,5 and 6.
   final List<int>? recordFileContents;
 
-    /// *
+  /// *
   ///      * The contents of sidecar files for this block.&lt;br/&gt;
   ///      * Each block can have zero or more sidecar files.
   final List<proto_sidecar_file.HederaSidecarFile> sidecarFileContents;
 
-    /// *
+  /// *
   ///      * A collection of RSA signatures from consensus nodes.&lt;br/&gt;
   ///      * These signatures validate the hash of the record_file_contents field.
   final List<HederaRecordFileSignature> recordFileSignatures;
@@ -108,96 +110,147 @@ class HederaRecordFileItem extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        creationTime,
-        recordFileContents,
-        sidecarFileContents,
-        recordFileSignatures,
-      ];
+    creationTime,
+    recordFileContents,
+    sidecarFileContents,
+    recordFileSignatures,
+  ];
 
+  HederaRecordFileItem copyWith({
+    proto_timestamp.HederaTimestamp? creationTime,
 
-HederaRecordFileItem copyWith(
-{proto_timestamp.HederaTimestamp? creationTime,
+    List<int>? recordFileContents,
 
-List<int>? recordFileContents,
+    List<proto_sidecar_file.HederaSidecarFile>? sidecarFileContents,
 
-List<proto_sidecar_file.HederaSidecarFile>? sidecarFileContents,
-
-List<HederaRecordFileSignature>? recordFileSignatures,
-
-}) {
+    List<HederaRecordFileSignature>? recordFileSignatures,
+  }) {
     return HederaRecordFileItem(
-creationTime: creationTime ?? this.creationTime,
-recordFileContents: recordFileContents ?? this.recordFileContents,
-sidecarFileContents: sidecarFileContents ?? this.sidecarFileContents,
-recordFileSignatures: recordFileSignatures ?? this.recordFileSignatures,
+      creationTime: creationTime ?? this.creationTime,
+      recordFileContents: recordFileContents ?? this.recordFileContents,
+      sidecarFileContents: sidecarFileContents ?? this.sidecarFileContents,
+      recordFileSignatures: recordFileSignatures ?? this.recordFileSignatures,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'creation_time': config.encodeMessage(creationTime),
       'record_file_contents': config.encodeBinary(recordFileContents),
-      'sidecar_file_contents': sidecarFileContents.map((e) => config.encodeMessage(e)).toList(),
-      'record_file_signatures': recordFileSignatures.map((e) => config.encodeMessage(e)).toList(),
+      'sidecar_file_contents':
+          sidecarFileContents.map((e) => config.encodeMessage(e)).toList(),
+      'record_file_signatures':
+          recordFileSignatures.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaRecordFileItem.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRecordFileItem.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRecordFileItem(
       creationTime: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'creation_time',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      recordFileContents: config.decodeBinary<List<int>?>(json.valueAs('record_file_contents', normalizeKeyLookup: config.normalizeKeys)),
-      sidecarFileContents: (json.valueEnsureAsList<dynamic>('sidecar_file_contents', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_sidecar_file.HederaSidecarFile, Object>(
-          value: e,
-          parse: (v) => proto_sidecar_file.HederaSidecarFile.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      recordFileSignatures: (json.valueEnsureAsList<dynamic>('record_file_signatures', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaRecordFileSignature, Object>(
-          value: e,
-          parse: (v) => HederaRecordFileSignature.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      recordFileContents: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'record_file_contents',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      sidecarFileContents:
+          (json.valueEnsureAsList<dynamic>(
+                'sidecar_file_contents',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_sidecar_file.HederaSidecarFile,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_sidecar_file.HederaSidecarFile.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      recordFileSignatures:
+          (json.valueEnsureAsList<dynamic>(
+                'record_file_signatures',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaRecordFileSignature, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaRecordFileSignature.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaRecordFileItem.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaRecordFileItem(
-      creationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(1, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
+      creationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        1,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
       recordFileContents: decode.getBytes<List<int>?>(2),
-      sidecarFileContents: decode.getListOfBytes(3).map((b) => proto_sidecar_file.HederaSidecarFile.deserialize(b)).toList(),
-      recordFileSignatures: decode.getListOfBytes(4).map((b) => HederaRecordFileSignature.deserialize(b)).toList(),
+      sidecarFileContents:
+          decode
+              .getListOfBytes(3)
+              .map((b) => proto_sidecar_file.HederaSidecarFile.deserialize(b))
+              .toList(),
+      recordFileSignatures:
+          decode
+              .getListOfBytes(4)
+              .map((b) => HederaRecordFileSignature.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamRecordFileItem;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamRecordFileItem;
 }
-
 
 /// *
 ///  * A signature by a node on the SHA384 hash of the record file.
 class HederaRecordFileSignature extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A single RSA signature.&lt;br/&gt;
   ///      * This is the RSA signature of the node on the SHA384 hash of
   ///      * the record file
   final List<int>? signaturesBytes;
 
-    /// *
+  /// *
   ///      * A unique node identifier.&lt;br/&gt;
   ///      * This is the node id of the consensus node that created this signature.
   final int? nodeId;
 
-  const HederaRecordFileSignature({
-    this.signaturesBytes,
-    this.nodeId,
-  });
+  const HederaRecordFileSignature({this.signaturesBytes, this.nodeId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -206,47 +259,52 @@ class HederaRecordFileSignature extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-        ProtoFieldConfig.int32(2),
-      ],
+      fields: [ProtoFieldConfig.bytes(1), ProtoFieldConfig.int32(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        signaturesBytes,
-        nodeId,
-      ];
+  List<Object?> get protoValues => [signaturesBytes, nodeId];
 
+  HederaRecordFileSignature copyWith({
+    List<int>? signaturesBytes,
 
-HederaRecordFileSignature copyWith(
-{List<int>? signaturesBytes,
-
-int? nodeId,
-
-}) {
+    int? nodeId,
+  }) {
     return HederaRecordFileSignature(
-signaturesBytes: signaturesBytes ?? this.signaturesBytes,
-nodeId: nodeId ?? this.nodeId,
+      signaturesBytes: signaturesBytes ?? this.signaturesBytes,
+      nodeId: nodeId ?? this.nodeId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'signatures_bytes': config.encodeBinary(signaturesBytes),
       'node_id': nodeId,
     };
   }
 
-
-  factory HederaRecordFileSignature.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRecordFileSignature.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRecordFileSignature(
-      signaturesBytes: config.decodeBinary<List<int>?>(json.valueAs('signatures_bytes', normalizeKeyLookup: config.normalizeKeys)),
-      nodeId: json.valueAsInt<int?>('node_id', normalizeKeyLookup: config.normalizeKeys),
+      signaturesBytes: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'signatures_bytes',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      nodeId: json.valueAsInt<int?>(
+        'node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -259,8 +317,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamRecordFileSignature;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamRecordFileSignature;
 }
-
-

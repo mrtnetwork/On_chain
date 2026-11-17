@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void personalSignTest() {
   group('Sui/Personal sign', _personalSign);
 }
@@ -10,7 +11,6 @@ void personalSignTest() {
 void main() {
   OnChainUtilsTestApi.runTest(personalSignTest, "Personal Sign");
 }
-
 
 void _personalSign() {
   test("personal sign Secp256r1", () {

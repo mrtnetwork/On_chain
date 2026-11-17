@@ -34,7 +34,8 @@ SolAddress get bob => bobKey.publicKey().toAddress();
 Future<SolAddress> latestBlockhash() => quick.getBlockHash();
 
 /// Balance of [address] in lamports (0 when the account does not exist).
-Future<BigInt> balanceOf(SolAddress address) => quick.getAccountBalance(address);
+Future<BigInt> balanceOf(SolAddress address) =>
+    quick.getAccountBalance(address);
 
 /// Polls [signature] until it is confirmed/finalized (or [timeout] elapses).
 ///
@@ -261,7 +262,8 @@ Future<void> exampleSplToken() async {
   print('  transfer tx:    $transferSig');
   print('  bob tokens:     '
       '${await quick.getTokenBalance(account: bob, mint: mint)}');
-  print('  explorer: https://explorer.solana.com/tx/$transferSig?cluster=devnet');
+  print(
+      '  explorer: https://explorer.solana.com/tx/$transferSig?cluster=devnet');
 }
 
 /// 3. v1 transfer (SIMD-0385): 0x81 prefix, signatures at the tail, fee +

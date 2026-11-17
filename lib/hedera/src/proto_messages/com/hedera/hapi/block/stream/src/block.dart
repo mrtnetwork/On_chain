@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block_item.dart" as com_hedera_hapi_block_stream_block_item;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block_item.dart"
+    as com_hedera_hapi_block_stream_block_item;
 
 /// *
 ///  * # Block Stream
@@ -47,7 +48,7 @@ import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/
 ///  * This block SHALL be verifiable as correct using only data in the block,
 ///  * including the `BlockProof`, and public keys for the consensus nodes.
 class HederaBlock extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A list of items that, together, make up this block.
   ///      * &lt;p&gt;
   ///      * This list SHALL begin with a `BlockHeader`.&lt;br/&gt;
@@ -59,9 +60,7 @@ class HederaBlock extends HederaProtoMessage with Equality {
   ///      * `FilteredBlockItem` entries.&lt;br/&gt;
   final List<com_hedera_hapi_block_stream_block_item.HederaBlockItem> items;
 
-  const HederaBlock({
-    this.items = const [],
-  });
+  const HederaBlock({this.items = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -80,49 +79,68 @@ class HederaBlock extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        items,
-      ];
+  List<Object?> get protoValues => [items];
 
-
-HederaBlock copyWith(
-{List<com_hedera_hapi_block_stream_block_item.HederaBlockItem>? items,
-
-}) {
-    return HederaBlock(
-items: items ?? this.items,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'items': items.map((e) => config.encodeMessage(e)).toList(),
-    };
+  HederaBlock copyWith({
+    List<com_hedera_hapi_block_stream_block_item.HederaBlockItem>? items,
+  }) {
+    return HederaBlock(items: items ?? this.items);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaBlock.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'items': items.map((e) => config.encodeMessage(e)).toList()};
+  }
+
+  factory HederaBlock.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBlock(
-      items: (json.valueEnsureAsList<dynamic>('items', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<com_hedera_hapi_block_stream_block_item.HederaBlockItem, Object>(
-          value: e,
-          parse: (v) => com_hedera_hapi_block_stream_block_item.HederaBlockItem.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      items:
+          (json.valueEnsureAsList<dynamic>(
+                'items',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  com_hedera_hapi_block_stream_block_item.HederaBlockItem,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => com_hedera_hapi_block_stream_block_item
+                          .HederaBlockItem.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaBlock.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaBlock(
-      items: decode.getListOfBytes(1).map((b) => com_hedera_hapi_block_stream_block_item.HederaBlockItem.deserialize(b)).toList(),
+      items:
+          decode
+              .getListOfBytes(1)
+              .map(
+                (b) => com_hedera_hapi_block_stream_block_item
+                    .HederaBlockItem.deserialize(b),
+              )
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamBlock;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamBlock;
 }
-
-

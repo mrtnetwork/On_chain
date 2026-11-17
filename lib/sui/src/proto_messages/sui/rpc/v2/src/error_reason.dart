@@ -24,7 +24,11 @@ enum SuiErrorReason implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching SuiErrorReason found for the given value. $value", details: {"name": "SuiErrorReason", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiErrorReason found for the given value. $value",
+                details: {"name": "SuiErrorReason", "value": value?.toString()},
+              ),
     );
   }
 
@@ -36,7 +40,11 @@ enum SuiErrorReason implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching SuiErrorReason found for the given value. $value", details: {"name": "SuiErrorReason", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiErrorReason found for the given value. $value",
+                details: {"name": "SuiErrorReason", "value": value?.toString()},
+              ),
     );
   }
 }

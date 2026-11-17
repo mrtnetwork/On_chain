@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Ethereum Call
@@ -33,7 +34,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * An `EthereumOutput` message SHALL be emitted for each transaction.
 class HederaEthereumTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The raw Ethereum transaction data.
   ///      * &lt;p&gt;
   ///      * This transaction MUST be RLP encoded.&lt;br/&gt;
@@ -45,7 +46,7 @@ class HederaEthereumTransactionBody extends HederaProtoMessage with Equality {
   ///      * complete, if necessary.
   final List<int>? ethereumData;
 
-    /// *
+  /// *
   ///      * The `callData` for the Ethereum transaction.
   ///      * &lt;p&gt;
   ///      * If this field is set, the data in the `ethereum_data` field SHALL be
@@ -55,7 +56,7 @@ class HederaEthereumTransactionBody extends HederaProtoMessage with Equality {
   ///      * `callData` before signature validation MAY be performed.
   final proto_basic_types.HederaFileID? callData;
 
-    /// *
+  /// *
   ///      * A maximum amount of "gas" offered to pay the Ethereum transaction costs.
   ///      * &lt;p&gt;
   ///      * This gas offered is in addition to any gas supplied with the Ethereum
@@ -106,32 +107,29 @@ class HederaEthereumTransactionBody extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        ethereumData,
-        callData,
-        maxGasAllowance,
-      ];
+  List<Object?> get protoValues => [ethereumData, callData, maxGasAllowance];
 
+  HederaEthereumTransactionBody copyWith({
+    List<int>? ethereumData,
 
-HederaEthereumTransactionBody copyWith(
-{List<int>? ethereumData,
+    proto_basic_types.HederaFileID? callData,
 
-proto_basic_types.HederaFileID? callData,
-
-BigInt? maxGasAllowance,
-
-}) {
+    BigInt? maxGasAllowance,
+  }) {
     return HederaEthereumTransactionBody(
-ethereumData: ethereumData ?? this.ethereumData,
-callData: callData ?? this.callData,
-maxGasAllowance: maxGasAllowance ?? this.maxGasAllowance,
+      ethereumData: ethereumData ?? this.ethereumData,
+      callData: callData ?? this.callData,
+      maxGasAllowance: maxGasAllowance ?? this.maxGasAllowance,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'ethereum_data': config.encodeBinary(ethereumData),
       'call_data': config.encodeMessage(callData),
@@ -139,15 +137,27 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaEthereumTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEthereumTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEthereumTransactionBody(
-      ethereumData: config.decodeBinary<List<int>?>(json.valueAs('ethereum_data', normalizeKeyLookup: config.normalizeKeys)),
+      ethereumData: config.decodeBinary<List<int>?>(
+        json.valueAs('ethereum_data', normalizeKeyLookup: config.normalizeKeys),
+      ),
       callData: json.valueTo<proto_basic_types.HederaFileID?, Object>(
         key: 'call_data',
-        parse: (v) => proto_basic_types.HederaFileID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      maxGasAllowance: json.valueAsBigInt<BigInt?>('max_gas_allowance', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaFileID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      maxGasAllowance: json.valueAsBigInt<BigInt?>(
+        'max_gas_allowance',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -155,14 +165,15 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaEthereumTransactionBody(
       ethereumData: decode.getBytes<List<int>?>(1),
-      callData: decode.messageTo<proto_basic_types.HederaFileID?>(2, (b) => proto_basic_types.HederaFileID.deserialize(b)),
+      callData: decode.messageTo<proto_basic_types.HederaFileID?>(
+        2,
+        (b) => proto_basic_types.HederaFileID.deserialize(b),
+      ),
       maxGasAllowance: decode.getBigInt<BigInt?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoEthereumTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoEthereumTransactionBody;
 }
-
-

@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../utils.dart';
+
 void tokenSwapLayoutTest() {
   group('Solana/Token Swap Layout', () {
     _crate();
@@ -16,7 +17,6 @@ void tokenSwapLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(tokenSwapLayoutTest, "Layout");
 }
-
 
 void _crate() {
   test('create_1', () {

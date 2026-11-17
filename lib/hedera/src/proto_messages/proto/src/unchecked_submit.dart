@@ -27,7 +27,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * This transaction SHALL require `superuser` privileges
 ///  * (e.g. the `treasury` or `systemAdmin` accounts).
 class HederaUncheckedSubmitBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The serialized bytes of a `Transaction`.
   ///      * &lt;p&gt;
   ///      * This transaction SHALL be deserialized and submitted for consensus
@@ -37,9 +37,7 @@ class HederaUncheckedSubmitBody extends HederaProtoMessage with Equality {
   ///      * valid start time, fee calculations, etc...
   final List<int>? transactionBytes;
 
-  const HederaUncheckedSubmitBody({
-    this.transactionBytes,
-  });
+  const HederaUncheckedSubmitBody({this.transactionBytes});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -48,40 +46,40 @@ class HederaUncheckedSubmitBody extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: [ProtoOptionBool(name: "deprecated", value: true)],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-      ],
+      fields: [ProtoFieldConfig.bytes(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        transactionBytes,
-      ];
+  List<Object?> get protoValues => [transactionBytes];
 
-
-HederaUncheckedSubmitBody copyWith(
-{List<int>? transactionBytes,
-
-}) {
+  HederaUncheckedSubmitBody copyWith({List<int>? transactionBytes}) {
     return HederaUncheckedSubmitBody(
-transactionBytes: transactionBytes ?? this.transactionBytes,
+      transactionBytes: transactionBytes ?? this.transactionBytes,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'transactionBytes': config.encodeBinary(transactionBytes),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'transactionBytes': config.encodeBinary(transactionBytes)};
   }
 
-
-  factory HederaUncheckedSubmitBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaUncheckedSubmitBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaUncheckedSubmitBody(
-      transactionBytes: config.decodeBinary<List<int>?>(json.valueAs('transactionBytes', normalizeKeyLookup: config.normalizeKeys)),
+      transactionBytes: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'transactionBytes',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -93,8 +91,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoUncheckedSubmitBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoUncheckedSubmitBody;
 }
-
-

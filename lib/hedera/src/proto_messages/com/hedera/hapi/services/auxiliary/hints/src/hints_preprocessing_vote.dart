@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/state/hints/src/hints_types.dart" as com_hedera_hapi_node_state_hints_hints_types;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/state/hints/src/hints_types.dart"
+    as com_hedera_hapi_node_state_hints_hints_types;
 
 /// *
 ///  * # hinTS Aggregation Vote Transaction
@@ -19,8 +20,9 @@ import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/state/hi
 ///  * aggregating the hinTS keys for a specified construction id. The
 ///  * node can either give their explicit aggregation results, or
 ///  * delegate their vote to another node's results.
-class HederaHintsPreprocessingVoteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaHintsPreprocessingVoteTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * The id of the hinTS construction this vote is for. Because
   ///    * the network only ever performs one construction a time, this
   ///    * is somewhat redundant, but included to detect any strange
@@ -28,10 +30,11 @@ class HederaHintsPreprocessingVoteTransactionBody extends HederaProtoMessage wit
   ///    * construction.
   final BigInt? constructionId;
 
-    /// *
+  /// *
   ///    * The vote the node is casting for the aggregation of the hints
   ///    * in the given construction (which should be ongoing).
-  final com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote? vote;
+  final com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote?
+  vote;
 
   const HederaHintsPreprocessingVoteTransactionBody({
     this.constructionId,
@@ -45,64 +48,80 @@ class HederaHintsPreprocessingVoteTransactionBody extends HederaProtoMessage wit
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.uint64(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        constructionId,
-        vote,
-      ];
+  List<Object?> get protoValues => [constructionId, vote];
 
+  HederaHintsPreprocessingVoteTransactionBody copyWith({
+    BigInt? constructionId,
 
-HederaHintsPreprocessingVoteTransactionBody copyWith(
-{BigInt? constructionId,
-
-com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote? vote,
-
-}) {
+    com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote? vote,
+  }) {
     return HederaHintsPreprocessingVoteTransactionBody(
-constructionId: constructionId ?? this.constructionId,
-vote: vote ?? this.vote,
+      constructionId: constructionId ?? this.constructionId,
+      vote: vote ?? this.vote,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'construction_id': config.encodeBigint(constructionId),
       'vote': config.encodeMessage(vote),
     };
   }
 
-
-  factory HederaHintsPreprocessingVoteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaHintsPreprocessingVoteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaHintsPreprocessingVoteTransactionBody(
-      constructionId: json.valueAsBigInt<BigInt?>('construction_id', normalizeKeyLookup: config.normalizeKeys),
-      vote: json.valueTo<com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote?, Object>(
+      constructionId: json.valueAsBigInt<BigInt?>(
+        'construction_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      vote: json.valueTo<
+        com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote?,
+        Object
+      >(
         key: 'vote',
-        parse: (v) => com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => com_hedera_hapi_node_state_hints_hints_types
+                .HederaPreprocessingVote.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
-  factory HederaHintsPreprocessingVoteTransactionBody.deserialize(List<int> bytes) {
+  factory HederaHintsPreprocessingVoteTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaHintsPreprocessingVoteTransactionBody(
       constructionId: decode.getBigInt<BigInt?>(1),
-      vote: decode.messageTo<com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote?>(2, (b) => com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote.deserialize(b)),
+      vote: decode.messageTo<
+        com_hedera_hapi_node_state_hints_hints_types.HederaPreprocessingVote?
+      >(
+        2,
+        (b) => com_hedera_hapi_node_state_hints_hints_types
+            .HederaPreprocessingVote.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiServicesAuxiliaryHintsHintsPreprocessingVoteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiServicesAuxiliaryHintsHintsPreprocessingVoteTransactionBody;
 }
-
-

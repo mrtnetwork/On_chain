@@ -2,7 +2,8 @@ import 'package:on_chain/near/src/rpc/core/core.dart';
 import 'package:on_chain/near/src/rpc/models/types/types.dart';
 
 class NearNodeRequestTx
-    extends NearNodeRequest<NearRpcRpcTransactionResponse, Map<String, dynamic>> {
+    extends
+        NearNodeRequest<NearRpcRpcTransactionResponse, Map<String, dynamic>> {
   final NearRpcRpcTransactionStatusRequest args;
   const NearNodeRequestTx(this.args);
   @override

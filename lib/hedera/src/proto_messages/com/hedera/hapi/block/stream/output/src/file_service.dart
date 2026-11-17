@@ -55,46 +55,42 @@ class HederaAppendFileOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaAppendFileOutput copyWith(
-) {
-    return HederaAppendFileOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaAppendFileOutput copyWith() {
+    return HederaAppendFileOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaAppendFileOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaAppendFileOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaAppendFileOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaAppendFileOutput();
   }
 
   factory HederaAppendFileOutput.deserialize(List<int> bytes) {
-    return HederaAppendFileOutput(
-    );
+    return HederaAppendFileOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputAppendFileOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputAppendFileOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `fileCreate` transaction.
@@ -111,46 +107,42 @@ class HederaCreateFileOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaCreateFileOutput copyWith(
-) {
-    return HederaCreateFileOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaCreateFileOutput copyWith() {
+    return HederaCreateFileOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaCreateFileOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaCreateFileOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaCreateFileOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaCreateFileOutput();
   }
 
   factory HederaCreateFileOutput.deserialize(List<int> bytes) {
-    return HederaCreateFileOutput(
-    );
+    return HederaCreateFileOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputCreateFileOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputCreateFileOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `fileDelete` transaction.
@@ -167,46 +159,42 @@ class HederaDeleteFileOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaDeleteFileOutput copyWith(
-) {
-    return HederaDeleteFileOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaDeleteFileOutput copyWith() {
+    return HederaDeleteFileOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaDeleteFileOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaDeleteFileOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaDeleteFileOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaDeleteFileOutput();
   }
 
   factory HederaDeleteFileOutput.deserialize(List<int> bytes) {
-    return HederaDeleteFileOutput(
-    );
+    return HederaDeleteFileOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputDeleteFileOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputDeleteFileOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `fileUpdate` transaction.
@@ -223,46 +211,42 @@ class HederaUpdateFileOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaUpdateFileOutput copyWith(
-) {
-    return HederaUpdateFileOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaUpdateFileOutput copyWith() {
+    return HederaUpdateFileOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaUpdateFileOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaUpdateFileOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaUpdateFileOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaUpdateFileOutput();
   }
 
   factory HederaUpdateFileOutput.deserialize(List<int> bytes) {
-    return HederaUpdateFileOutput(
-    );
+    return HederaUpdateFileOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputUpdateFileOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputUpdateFileOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `systemDelete` transaction.
@@ -279,46 +263,43 @@ class HederaSystemDeleteOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaSystemDeleteOutput copyWith(
-) {
-    return HederaSystemDeleteOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaSystemDeleteOutput copyWith() {
+    return HederaSystemDeleteOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaSystemDeleteOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaSystemDeleteOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaSystemDeleteOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaSystemDeleteOutput();
   }
 
   factory HederaSystemDeleteOutput.deserialize(List<int> bytes) {
-    return HederaSystemDeleteOutput(
-    );
+    return HederaSystemDeleteOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputSystemDeleteOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputSystemDeleteOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `systemUndelete` transaction.
@@ -335,44 +316,40 @@ class HederaSystemUndeleteOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaSystemUndeleteOutput copyWith(
-) {
-    return HederaSystemUndeleteOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaSystemUndeleteOutput copyWith() {
+    return HederaSystemUndeleteOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaSystemUndeleteOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaSystemUndeleteOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaSystemUndeleteOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaSystemUndeleteOutput();
   }
 
   factory HederaSystemUndeleteOutput.deserialize(List<int> bytes) {
-    return HederaSystemUndeleteOutput(
-    );
+    return HederaSystemUndeleteOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputSystemUndeleteOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputSystemUndeleteOutput;
 }
-
-

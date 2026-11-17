@@ -18,11 +18,11 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * the next key (if present) will be switched to the node's current key during
 ///  * the first transaction at the beginning of a staking period.&lt;br/&gt;
 class HederaTssEncryptionKeys extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * If non-empty, a node's current TSS encryption key.
   final List<int>? currentEncryptionKey;
 
-    /// *
+  /// *
   ///    * If non-empty, the same node's next TSS encryption key.
   final List<int>? nextEncryptionKey;
 
@@ -38,47 +38,54 @@ class HederaTssEncryptionKeys extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-        ProtoFieldConfig.bytes(2),
-      ],
+      fields: [ProtoFieldConfig.bytes(1), ProtoFieldConfig.bytes(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        currentEncryptionKey,
-        nextEncryptionKey,
-      ];
+  List<Object?> get protoValues => [currentEncryptionKey, nextEncryptionKey];
 
+  HederaTssEncryptionKeys copyWith({
+    List<int>? currentEncryptionKey,
 
-HederaTssEncryptionKeys copyWith(
-{List<int>? currentEncryptionKey,
-
-List<int>? nextEncryptionKey,
-
-}) {
+    List<int>? nextEncryptionKey,
+  }) {
     return HederaTssEncryptionKeys(
-currentEncryptionKey: currentEncryptionKey ?? this.currentEncryptionKey,
-nextEncryptionKey: nextEncryptionKey ?? this.nextEncryptionKey,
+      currentEncryptionKey: currentEncryptionKey ?? this.currentEncryptionKey,
+      nextEncryptionKey: nextEncryptionKey ?? this.nextEncryptionKey,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'current_encryption_key': config.encodeBinary(currentEncryptionKey),
       'next_encryption_key': config.encodeBinary(nextEncryptionKey),
     };
   }
 
-
-  factory HederaTssEncryptionKeys.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTssEncryptionKeys.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTssEncryptionKeys(
-      currentEncryptionKey: config.decodeBinary<List<int>?>(json.valueAs('current_encryption_key', normalizeKeyLookup: config.normalizeKeys)),
-      nextEncryptionKey: config.decodeBinary<List<int>?>(json.valueAs('next_encryption_key', normalizeKeyLookup: config.normalizeKeys)),
+      currentEncryptionKey: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'current_encryption_key',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      nextEncryptionKey: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'next_encryption_key',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -91,8 +98,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateTssTssEncryptionKeys;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateTssTssEncryptionKeys;
 }
-
-

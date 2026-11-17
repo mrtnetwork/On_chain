@@ -7,15 +7,15 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 /// *
 ///  * Values needed to replay wrapped record hash progression while voting is in progress.
 class HederaMigrationWrappedHashes extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * The block number these wrapped hashes belong to.
   final BigInt? blockNumber;
 
-    /// *
+  /// *
   ///    * The wrapped-record consensus timestamp hash for a block.
   final List<int>? consensusTimestampHash;
 
-    /// *
+  /// *
   ///    * The wrapped-record output items tree root hash for a block.
   final List<int>? outputItemsTreeRootHash;
 
@@ -42,44 +42,64 @@ class HederaMigrationWrappedHashes extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        blockNumber,
-        consensusTimestampHash,
-        outputItemsTreeRootHash,
-      ];
+    blockNumber,
+    consensusTimestampHash,
+    outputItemsTreeRootHash,
+  ];
 
+  HederaMigrationWrappedHashes copyWith({
+    BigInt? blockNumber,
 
-HederaMigrationWrappedHashes copyWith(
-{BigInt? blockNumber,
+    List<int>? consensusTimestampHash,
 
-List<int>? consensusTimestampHash,
-
-List<int>? outputItemsTreeRootHash,
-
-}) {
+    List<int>? outputItemsTreeRootHash,
+  }) {
     return HederaMigrationWrappedHashes(
-blockNumber: blockNumber ?? this.blockNumber,
-consensusTimestampHash: consensusTimestampHash ?? this.consensusTimestampHash,
-outputItemsTreeRootHash: outputItemsTreeRootHash ?? this.outputItemsTreeRootHash,
+      blockNumber: blockNumber ?? this.blockNumber,
+      consensusTimestampHash:
+          consensusTimestampHash ?? this.consensusTimestampHash,
+      outputItemsTreeRootHash:
+          outputItemsTreeRootHash ?? this.outputItemsTreeRootHash,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'block_number': config.encodeBigint(blockNumber),
       'consensus_timestamp_hash': config.encodeBinary(consensusTimestampHash),
-      'output_items_tree_root_hash': config.encodeBinary(outputItemsTreeRootHash),
+      'output_items_tree_root_hash': config.encodeBinary(
+        outputItemsTreeRootHash,
+      ),
     };
   }
 
-
-  factory HederaMigrationWrappedHashes.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaMigrationWrappedHashes.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaMigrationWrappedHashes(
-      blockNumber: json.valueAsBigInt<BigInt?>('block_number', normalizeKeyLookup: config.normalizeKeys),
-      consensusTimestampHash: config.decodeBinary<List<int>?>(json.valueAs('consensus_timestamp_hash', normalizeKeyLookup: config.normalizeKeys)),
-      outputItemsTreeRootHash: config.decodeBinary<List<int>?>(json.valueAs('output_items_tree_root_hash', normalizeKeyLookup: config.normalizeKeys)),
+      blockNumber: json.valueAsBigInt<BigInt?>(
+        'block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      consensusTimestampHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'consensus_timestamp_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      outputItemsTreeRootHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'output_items_tree_root_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -93,8 +113,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateBlockrecordsMigrationWrappedHashes;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeStateBlockrecordsMigrationWrappedHashes;
 }
-
-

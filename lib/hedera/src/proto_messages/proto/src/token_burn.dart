@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Burn
@@ -37,14 +38,14 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * None
 class HederaTokenBurnTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This SHALL identify the token type to "burn".&lt;br/&gt;
   ///      * The identified token MUST exist, and MUST NOT be deleted.
   final proto_basic_types.HederaTokenID? token;
 
-    /// *
+  /// *
   ///      * An amount to burn from the Treasury Account.
   ///      * &lt;p&gt;
   ///      * This is interpreted as an amount in the smallest possible denomination
@@ -56,7 +57,7 @@ class HederaTokenBurnTransactionBody extends HederaProtoMessage with Equality {
   ///      * If this value is non-zero, the token MUST be a fungible/common type.
   final BigInt? amount;
 
-    /// *
+  /// *
   ///      * A list of serial numbers to burn from the Treasury Account.
   ///      * &lt;p&gt;
   ///      * This list MUST NOT contain more entries than the current limit set by
@@ -93,63 +94,77 @@ class HederaTokenBurnTransactionBody extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        token,
-        amount,
-        serialNumbers,
-      ];
+  List<Object?> get protoValues => [token, amount, serialNumbers];
 
+  HederaTokenBurnTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? token,
 
-HederaTokenBurnTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? token,
+    BigInt? amount,
 
-BigInt? amount,
-
-List<BigInt>? serialNumbers,
-
-}) {
+    List<BigInt>? serialNumbers,
+  }) {
     return HederaTokenBurnTransactionBody(
-token: token ?? this.token,
-amount: amount ?? this.amount,
-serialNumbers: serialNumbers ?? this.serialNumbers,
+      token: token ?? this.token,
+      amount: amount ?? this.amount,
+      serialNumbers: serialNumbers ?? this.serialNumbers,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token': config.encodeMessage(token),
       'amount': config.encodeBigint(amount),
-      'serialNumbers': serialNumbers.map((e) => config.encodeBigint(e)).toList(),
+      'serialNumbers':
+          serialNumbers.map((e) => config.encodeBigint(e)).toList(),
     };
   }
 
-
-  factory HederaTokenBurnTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenBurnTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenBurnTransactionBody(
       token: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
-      serialNumbers: (json.valueEnsureAsList<dynamic>('serialNumbers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      serialNumbers:
+          (json.valueEnsureAsList<dynamic>(
+            'serialNumbers',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
     );
   }
 
   factory HederaTokenBurnTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenBurnTransactionBody(
-      token: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
+      token: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(2),
       serialNumbers: decode.getListOrEmpty<BigInt>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenBurnTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenBurnTransactionBody;
 }
-
-

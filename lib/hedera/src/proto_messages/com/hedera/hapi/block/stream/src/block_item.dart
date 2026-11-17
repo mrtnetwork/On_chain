@@ -1,15 +1,24 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/block_header.dart" as com_hedera_hapi_block_stream_output_block_header;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/input/src/event_metadata.dart" as com_hedera_hapi_block_stream_input_event_metadata;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/input/src/round_header.dart" as com_hedera_hapi_block_stream_input_round_header;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/platform/event/src/event_transaction.dart" as com_hedera_hapi_platform_event_event_transaction;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/transaction_result.dart" as com_hedera_hapi_block_stream_output_transaction_result;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/transaction_output.dart" as com_hedera_hapi_block_stream_output_transaction_output;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/state_changes.dart" as com_hedera_hapi_block_stream_output_state_changes;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block_proof.dart" as com_hedera_hapi_block_stream_block_proof;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/record_file_item.dart" as com_hedera_hapi_block_stream_record_file_item;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/block_header.dart"
+    as com_hedera_hapi_block_stream_output_block_header;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/input/src/event_metadata.dart"
+    as com_hedera_hapi_block_stream_input_event_metadata;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/input/src/round_header.dart"
+    as com_hedera_hapi_block_stream_input_round_header;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/platform/event/src/event_transaction.dart"
+    as com_hedera_hapi_platform_event_event_transaction;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/transaction_result.dart"
+    as com_hedera_hapi_block_stream_output_transaction_result;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/transaction_output.dart"
+    as com_hedera_hapi_block_stream_output_transaction_output;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/state_changes.dart"
+    as com_hedera_hapi_block_stream_output_state_changes;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block_proof.dart"
+    as com_hedera_hapi_block_stream_block_proof;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/record_file_item.dart"
+    as com_hedera_hapi_block_stream_record_file_item;
 
 /// *
 ///  * # Block Item
@@ -129,26 +138,29 @@ import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/
 ///  *    - `block_proof`
 ///  *    - `record_file`
 class HederaBlockItem extends HederaProtoMessage with Equality {
-    /// Reserved for future items that are neither "input" nor "output".
+  /// Reserved for future items that are neither "input" nor "output".
   /// *
   ///          * An header for the block, marking the start of a new block.
-  final com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader? blockHeader;
+  final com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader?
+  blockHeader;
 
-    /// *
+  /// *
   ///          * An header emitted at the start of a new network "event".
   ///          * &lt;p&gt;
   ///          * This item SHALL contain the properties relevant to a single
   ///          * gossip event.
-  final com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader? eventHeader;
+  final com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader?
+  eventHeader;
 
-    /// *
+  /// *
   ///          * An header emitted at the start of a new consensus "round".
   ///          * &lt;p&gt;
   ///          * This item SHALL contain the properties relevant to a single
   ///          * consensus round.
-  final com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader? roundHeader;
+  final com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader?
+  roundHeader;
 
-    /// *
+  /// *
   ///          * A single transaction.
   ///          * &lt;p&gt;
   ///          * This item SHALL contain the serialized bytes of a
@@ -157,18 +169,20 @@ class HederaBlockItem extends HederaProtoMessage with Equality {
   ///          * an internal system-generated transaction.&lt;br/&gt;
   ///          * This item MUST NOT contain data for more than one
   ///          * `SignedTransaction` or system-generated transaction.
-  final com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction? eventTransaction;
+  final com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction?
+  eventTransaction;
 
-    /// *
+  /// *
   ///          * The result of running a transaction.
   ///          * &lt;p&gt;
   ///          * This item SHALL be present immediately after an
   ///          * `event_transaction` item.&lt;br/&gt;
   ///          * This item MAY be redacted in some circumstances, and SHALL be
   ///          * replaced with a `filtered_item` if removed.
-  final com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult? transactionResult;
+  final com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult?
+  transactionResult;
 
-    /// *
+  /// *
   ///          * A transaction output.
   ///          * &lt;p&gt;
   ///          * This item MAY not be present if a transaction does not produce
@@ -176,18 +190,20 @@ class HederaBlockItem extends HederaProtoMessage with Equality {
   ///          * If a transaction does produce an output that is not reflected
   ///          * in state changes, then this item MUST be present after the
   ///          * `transaction_result` for that transaction.
-  final com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput? transactionOutput;
+  final com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput?
+  transactionOutput;
 
-    /// *
+  /// *
   ///          * A set of state changes.
   ///          * &lt;p&gt;
   ///          * All changes to values in network state SHALL be described by
   ///          * stream items of this type.&lt;br/&gt;
   ///          * The source of these state changes SHALL be described by the
   ///          * `reason` enumeration.
-  final com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges? stateChanges;
+  final com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges?
+  stateChanges;
 
-    /// *
+  /// *
   ///          * Verification data for an item filtered from the stream.&lt;br/&gt;
   ///          * This is a hash for a merkle tree node where the contents of that
   ///          * part of the merkle tree have been removed from this stream.
@@ -201,7 +217,7 @@ class HederaBlockItem extends HederaProtoMessage with Equality {
   ///          * consensus state.&lt;br/&gt;
   final HederaFilteredItemHash? filteredItemHash;
 
-    /// *
+  /// *
   ///          * A signed block proof.&lt;br/&gt;
   ///          * The signed merkle proof for this block. This will validate
   ///          * a "virtual" merkle tree containing the previous block "virtual"
@@ -212,7 +228,7 @@ class HederaBlockItem extends HederaProtoMessage with Equality {
   ///          * MUST follow after the end of a block.
   final com_hedera_hapi_block_stream_block_proof.HederaBlockProof? blockProof;
 
-    /// *
+  /// *
   ///          * A record file and associated data.
   ///          * &lt;p&gt;
   ///          * This MUST contain a single Record file, associated Sidecar files,
@@ -230,7 +246,8 @@ class HederaBlockItem extends HederaProtoMessage with Equality {
   ///          *       the process used for Record Files prior to the creation
   ///          *       of Block Stream.&lt;/li&gt;
   ///          * &lt;/ul&gt;
-  final com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem? recordFile;
+  final com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem?
+  recordFile;
 
   const HederaBlockItem({
     this.blockHeader,
@@ -269,59 +286,68 @@ class HederaBlockItem extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        blockHeader,
-        eventHeader,
-        roundHeader,
-        eventTransaction,
-        transactionResult,
-        transactionOutput,
-        stateChanges,
-        filteredItemHash,
-        blockProof,
-        recordFile,
-      ];
+    blockHeader,
+    eventHeader,
+    roundHeader,
+    eventTransaction,
+    transactionResult,
+    transactionOutput,
+    stateChanges,
+    filteredItemHash,
+    blockProof,
+    recordFile,
+  ];
 
+  HederaBlockItem copyWith({
+    com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader?
+    blockHeader,
 
-HederaBlockItem copyWith(
-{com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader? blockHeader,
+    com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader?
+    eventHeader,
 
-com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader? eventHeader,
+    com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader?
+    roundHeader,
 
-com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader? roundHeader,
+    com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction?
+    eventTransaction,
 
-com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction? eventTransaction,
+    com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult?
+    transactionResult,
 
-com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult? transactionResult,
+    com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput?
+    transactionOutput,
 
-com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput? transactionOutput,
+    com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges?
+    stateChanges,
 
-com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges? stateChanges,
+    HederaFilteredItemHash? filteredItemHash,
 
-HederaFilteredItemHash? filteredItemHash,
+    com_hedera_hapi_block_stream_block_proof.HederaBlockProof? blockProof,
 
-com_hedera_hapi_block_stream_block_proof.HederaBlockProof? blockProof,
-
-com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem? recordFile,
-
-}) {
+    com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem?
+    recordFile,
+  }) {
     return HederaBlockItem(
-blockHeader: blockHeader ?? this.blockHeader,
-eventHeader: eventHeader ?? this.eventHeader,
-roundHeader: roundHeader ?? this.roundHeader,
-eventTransaction: eventTransaction ?? this.eventTransaction,
-transactionResult: transactionResult ?? this.transactionResult,
-transactionOutput: transactionOutput ?? this.transactionOutput,
-stateChanges: stateChanges ?? this.stateChanges,
-filteredItemHash: filteredItemHash ?? this.filteredItemHash,
-blockProof: blockProof ?? this.blockProof,
-recordFile: recordFile ?? this.recordFile,
+      blockHeader: blockHeader ?? this.blockHeader,
+      eventHeader: eventHeader ?? this.eventHeader,
+      roundHeader: roundHeader ?? this.roundHeader,
+      eventTransaction: eventTransaction ?? this.eventTransaction,
+      transactionResult: transactionResult ?? this.transactionResult,
+      transactionOutput: transactionOutput ?? this.transactionOutput,
+      stateChanges: stateChanges ?? this.stateChanges,
+      filteredItemHash: filteredItemHash ?? this.filteredItemHash,
+      blockProof: blockProof ?? this.blockProof,
+      recordFile: recordFile ?? this.recordFile,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'block_header': config.encodeMessage(blockHeader),
       'event_header': config.encodeMessage(eventHeader),
@@ -336,73 +362,217 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaBlockItem.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaBlockItem.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBlockItem(
-      blockHeader: json.valueTo<com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader?, Object>(
+      blockHeader: json.valueTo<
+        com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader?,
+        Object
+      >(
         key: 'block_header',
-        parse: (v) => com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      eventHeader: json.valueTo<com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_block_header
+                .HederaBlockHeader.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      eventHeader: json.valueTo<
+        com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader?,
+        Object
+      >(
         key: 'event_header',
-        parse: (v) => com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      roundHeader: json.valueTo<com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_input_event_metadata
+                .HederaEventHeader.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      roundHeader: json.valueTo<
+        com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader?,
+        Object
+      >(
         key: 'round_header',
-        parse: (v) => com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      eventTransaction: json.valueTo<com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_input_round_header
+                .HederaRoundHeader.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      eventTransaction: json.valueTo<
+        com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction?,
+        Object
+      >(
         key: 'event_transaction',
-        parse: (v) => com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      transactionResult: json.valueTo<com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult?, Object>(
+        parse:
+            (v) => com_hedera_hapi_platform_event_event_transaction
+                .HederaEventTransaction.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      transactionResult: json.valueTo<
+        com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult?,
+        Object
+      >(
         key: 'transaction_result',
-        parse: (v) => com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      transactionOutput: json.valueTo<com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_transaction_result
+                .HederaTransactionResult.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      transactionOutput: json.valueTo<
+        com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput?,
+        Object
+      >(
         key: 'transaction_output',
-        parse: (v) => com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      stateChanges: json.valueTo<com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_transaction_output
+                .HederaTransactionOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stateChanges: json.valueTo<
+        com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges?,
+        Object
+      >(
         key: 'state_changes',
-        parse: (v) => com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_state_changes
+                .HederaStateChanges.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       filteredItemHash: json.valueTo<HederaFilteredItemHash?, Object>(
         key: 'filtered_item_hash',
-        parse: (v) => HederaFilteredItemHash.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      blockProof: json.valueTo<com_hedera_hapi_block_stream_block_proof.HederaBlockProof?, Object>(
+        parse:
+            (v) => HederaFilteredItemHash.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      blockProof: json.valueTo<
+        com_hedera_hapi_block_stream_block_proof.HederaBlockProof?,
+        Object
+      >(
         key: 'block_proof',
-        parse: (v) => com_hedera_hapi_block_stream_block_proof.HederaBlockProof.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      recordFile: json.valueTo<com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_block_proof
+                .HederaBlockProof.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      recordFile: json.valueTo<
+        com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem?,
+        Object
+      >(
         key: 'record_file',
-        parse: (v) => com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => com_hedera_hapi_block_stream_record_file_item
+                .HederaRecordFileItem.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaBlockItem.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaBlockItem(
-      blockHeader: decode.messageTo<com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader?>(1, (b) => com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader.deserialize(b)),
-      eventHeader: decode.messageTo<com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader?>(2, (b) => com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader.deserialize(b)),
-      roundHeader: decode.messageTo<com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader?>(3, (b) => com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader.deserialize(b)),
-      eventTransaction: decode.messageTo<com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction?>(4, (b) => com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction.deserialize(b)),
-      transactionResult: decode.messageTo<com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult?>(5, (b) => com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult.deserialize(b)),
-      transactionOutput: decode.messageTo<com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput?>(6, (b) => com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput.deserialize(b)),
-      stateChanges: decode.messageTo<com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges?>(7, (b) => com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges.deserialize(b)),
-      filteredItemHash: decode.messageTo<HederaFilteredItemHash?>(8, (b) => HederaFilteredItemHash.deserialize(b)),
-      blockProof: decode.messageTo<com_hedera_hapi_block_stream_block_proof.HederaBlockProof?>(9, (b) => com_hedera_hapi_block_stream_block_proof.HederaBlockProof.deserialize(b)),
-      recordFile: decode.messageTo<com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem?>(10, (b) => com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem.deserialize(b)),
+      blockHeader: decode.messageTo<
+        com_hedera_hapi_block_stream_output_block_header.HederaBlockHeader?
+      >(
+        1,
+        (b) => com_hedera_hapi_block_stream_output_block_header
+            .HederaBlockHeader.deserialize(b),
+      ),
+      eventHeader: decode.messageTo<
+        com_hedera_hapi_block_stream_input_event_metadata.HederaEventHeader?
+      >(
+        2,
+        (b) => com_hedera_hapi_block_stream_input_event_metadata
+            .HederaEventHeader.deserialize(b),
+      ),
+      roundHeader: decode.messageTo<
+        com_hedera_hapi_block_stream_input_round_header.HederaRoundHeader?
+      >(
+        3,
+        (b) => com_hedera_hapi_block_stream_input_round_header
+            .HederaRoundHeader.deserialize(b),
+      ),
+      eventTransaction: decode.messageTo<
+        com_hedera_hapi_platform_event_event_transaction.HederaEventTransaction?
+      >(
+        4,
+        (b) => com_hedera_hapi_platform_event_event_transaction
+            .HederaEventTransaction.deserialize(b),
+      ),
+      transactionResult: decode.messageTo<
+        com_hedera_hapi_block_stream_output_transaction_result.HederaTransactionResult?
+      >(
+        5,
+        (b) => com_hedera_hapi_block_stream_output_transaction_result
+            .HederaTransactionResult.deserialize(b),
+      ),
+      transactionOutput: decode.messageTo<
+        com_hedera_hapi_block_stream_output_transaction_output.HederaTransactionOutput?
+      >(
+        6,
+        (b) => com_hedera_hapi_block_stream_output_transaction_output
+            .HederaTransactionOutput.deserialize(b),
+      ),
+      stateChanges: decode.messageTo<
+        com_hedera_hapi_block_stream_output_state_changes.HederaStateChanges?
+      >(
+        7,
+        (b) => com_hedera_hapi_block_stream_output_state_changes
+            .HederaStateChanges.deserialize(b),
+      ),
+      filteredItemHash: decode.messageTo<HederaFilteredItemHash?>(
+        8,
+        (b) => HederaFilteredItemHash.deserialize(b),
+      ),
+      blockProof: decode.messageTo<
+        com_hedera_hapi_block_stream_block_proof.HederaBlockProof?
+      >(
+        9,
+        (b) => com_hedera_hapi_block_stream_block_proof
+            .HederaBlockProof.deserialize(b),
+      ),
+      recordFile: decode.messageTo<
+        com_hedera_hapi_block_stream_record_file_item.HederaRecordFileItem?
+      >(
+        10,
+        (b) => com_hedera_hapi_block_stream_record_file_item
+            .HederaRecordFileItem.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamBlockItem;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamBlockItem;
 }
-
 
 /// *
 ///  * Verification data for an item filtered from the stream.
@@ -415,7 +585,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * of a block, but MAY preclude verification or reconstruction
 ///  * of consensus state.&lt;br/&gt;
 class HederaFilteredItemHash extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A hash of an item filtered from the stream.
   ///      * &lt;p&gt;
   ///      * The hash algorithm used MUST match the hash algorithm specified in
@@ -423,7 +593,7 @@ class HederaFilteredItemHash extends HederaProtoMessage with Equality {
   ///      * This field is REQUIRED.
   final List<int>? itemHash;
 
-    /// *
+  /// *
   ///      * A record of the merkle path to the item that was filtered
   ///      * from the stream.&lt;br/&gt;
   ///      * This path begins at the root of the block proof merkle tree.
@@ -433,10 +603,7 @@ class HederaFilteredItemHash extends HederaProtoMessage with Equality {
   ///      * item filtered from the stream.
   final BigInt? filteredPath;
 
-  const HederaFilteredItemHash({
-    this.itemHash,
-    this.filteredPath,
-  });
+  const HederaFilteredItemHash({this.itemHash, this.filteredPath});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -445,47 +612,45 @@ class HederaFilteredItemHash extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-        ProtoFieldConfig.uint64(3),
-      ],
+      fields: [ProtoFieldConfig.bytes(1), ProtoFieldConfig.uint64(3)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        itemHash,
-        filteredPath,
-      ];
+  List<Object?> get protoValues => [itemHash, filteredPath];
 
-
-HederaFilteredItemHash copyWith(
-{List<int>? itemHash,
-
-BigInt? filteredPath,
-
-}) {
+  HederaFilteredItemHash copyWith({List<int>? itemHash, BigInt? filteredPath}) {
     return HederaFilteredItemHash(
-itemHash: itemHash ?? this.itemHash,
-filteredPath: filteredPath ?? this.filteredPath,
+      itemHash: itemHash ?? this.itemHash,
+      filteredPath: filteredPath ?? this.filteredPath,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'item_hash': config.encodeBinary(itemHash),
       'filtered_path': config.encodeBigint(filteredPath),
     };
   }
 
-
-  factory HederaFilteredItemHash.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFilteredItemHash.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFilteredItemHash(
-      itemHash: config.decodeBinary<List<int>?>(json.valueAs('item_hash', normalizeKeyLookup: config.normalizeKeys)),
-      filteredPath: json.valueAsBigInt<BigInt?>('filtered_path', normalizeKeyLookup: config.normalizeKeys),
+      itemHash: config.decodeBinary<List<int>?>(
+        json.valueAs('item_hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      filteredPath: json.valueAsBigInt<BigInt?>(
+        'filtered_path',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -498,8 +663,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamFilteredItemHash;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamFilteredItemHash;
 }
-
-

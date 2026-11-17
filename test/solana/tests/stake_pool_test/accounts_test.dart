@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../utils.dart';
+
 void accountsTest() {
   group('Solana/Stake Pool Accounts', () {
     _stakePoolAccount();
@@ -11,7 +12,6 @@ void accountsTest() {
 void main() {
   OnChainUtilsTestApi.runTest(accountsTest, "Accounts");
 }
-
 
 void _stakePoolAccount() {
   test('StakePoolAccount', () {

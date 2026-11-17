@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
 
 /// *
 ///  * # Event Consensus Data
@@ -34,7 +35,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as 
 ///  * Event Consensus Data.&lt;br/&gt;
 ///  * This message records the critical values produced by consensus for an event.
 class HederaEventConsensusData extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A consensus timestamp.&lt;br/&gt;
   ///      * The network's consensus agreement on a timestamp for this event.
   ///      * &lt;p&gt;
@@ -43,7 +44,7 @@ class HederaEventConsensusData extends HederaProtoMessage with Equality {
   ///      * This is a consensus value and MAY NOT match real-world "wall clock" time.
   final proto_timestamp.HederaTimestamp? consensusTimestamp;
 
-    /// *
+  /// *
   ///      * A consensus order sequence number.&lt;br/&gt;
   ///      * A non-negative sequence number that identifies an event's consensus order
   ///      * since genesis.
@@ -65,64 +66,71 @@ class HederaEventConsensusData extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        consensusTimestamp,
-        consensusOrder,
-      ];
+  List<Object?> get protoValues => [consensusTimestamp, consensusOrder];
 
+  HederaEventConsensusData copyWith({
+    proto_timestamp.HederaTimestamp? consensusTimestamp,
 
-HederaEventConsensusData copyWith(
-{proto_timestamp.HederaTimestamp? consensusTimestamp,
-
-BigInt? consensusOrder,
-
-}) {
+    BigInt? consensusOrder,
+  }) {
     return HederaEventConsensusData(
-consensusTimestamp: consensusTimestamp ?? this.consensusTimestamp,
-consensusOrder: consensusOrder ?? this.consensusOrder,
+      consensusTimestamp: consensusTimestamp ?? this.consensusTimestamp,
+      consensusOrder: consensusOrder ?? this.consensusOrder,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'consensus_timestamp': config.encodeMessage(consensusTimestamp),
       'consensus_order': config.encodeBigint(consensusOrder),
     };
   }
 
-
-  factory HederaEventConsensusData.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEventConsensusData.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEventConsensusData(
-      consensusTimestamp: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
-        key: 'consensus_timestamp',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      consensusOrder: json.valueAsBigInt<BigInt?>('consensus_order', normalizeKeyLookup: config.normalizeKeys),
+      consensusTimestamp: json
+          .valueTo<proto_timestamp.HederaTimestamp?, Object>(
+            key: 'consensus_timestamp',
+            parse:
+                (v) => proto_timestamp.HederaTimestamp.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      consensusOrder: json.valueAsBigInt<BigInt?>(
+        'consensus_order',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaEventConsensusData.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaEventConsensusData(
-      consensusTimestamp: decode.messageTo<proto_timestamp.HederaTimestamp?>(1, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
+      consensusTimestamp: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        1,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
       consensusOrder: decode.getBigInt<BigInt?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiPlatformEventEventConsensusData;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiPlatformEventEventConsensusData;
 }
-
-

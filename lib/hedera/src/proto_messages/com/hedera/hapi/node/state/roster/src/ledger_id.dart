@@ -41,7 +41,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * the block containing that change, which SHALL be verified with the _prior_
 ///  * ledger identifier.
 class HederaLedgerId extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * A public key.&lt;br/&gt;
   ///    * This key both identifies the ledger and can be used to verify ledger
   ///    * signatures.
@@ -51,13 +51,13 @@ class HederaLedgerId extends HederaProtoMessage with Equality {
   ///    * This value MUST contain a valid public key.
   final List<int>? ledgerId;
 
-    /// *
+  /// *
   ///    * A round number.&lt;br/&gt;
   ///    * This identifies when this ledger id becomes active.&lt;br/&gt;
   ///    * This value is REQUIRED.
   final BigInt? round;
 
-    /// *
+  /// *
   ///    * A signature from the prior ledger key.&lt;br/&gt;
   ///    * This signature is the _previous_ ledger ID signing _this_ ledger ID.&lt;br/&gt;
   ///    * This value MAY be unset, if there is no prior ledger ID.&lt;br/&gt;
@@ -65,7 +65,7 @@ class HederaLedgerId extends HederaProtoMessage with Equality {
   ///    * to generate the signature.
   final List<int>? ledgerSignature;
 
-    /// *
+  /// *
   ///    * The signatures from nodes in the active roster signing the new
   ///    * ledger id.&lt;br/&gt;
   ///    * These signatures establish a chain of trust from the network to the new
@@ -100,35 +100,36 @@ class HederaLedgerId extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        ledgerId,
-        round,
-        ledgerSignature,
-        rosterSignatures,
-      ];
+    ledgerId,
+    round,
+    ledgerSignature,
+    rosterSignatures,
+  ];
 
+  HederaLedgerId copyWith({
+    List<int>? ledgerId,
 
-HederaLedgerId copyWith(
-{List<int>? ledgerId,
+    BigInt? round,
 
-BigInt? round,
+    List<int>? ledgerSignature,
 
-List<int>? ledgerSignature,
-
-HederaRosterSignatures? rosterSignatures,
-
-}) {
+    HederaRosterSignatures? rosterSignatures,
+  }) {
     return HederaLedgerId(
-ledgerId: ledgerId ?? this.ledgerId,
-round: round ?? this.round,
-ledgerSignature: ledgerSignature ?? this.ledgerSignature,
-rosterSignatures: rosterSignatures ?? this.rosterSignatures,
+      ledgerId: ledgerId ?? this.ledgerId,
+      round: round ?? this.round,
+      ledgerSignature: ledgerSignature ?? this.ledgerSignature,
+      rosterSignatures: rosterSignatures ?? this.rosterSignatures,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'ledger_id': config.encodeBinary(ledgerId),
       'round': config.encodeBigint(round),
@@ -137,16 +138,33 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaLedgerId.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaLedgerId.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaLedgerId(
-      ledgerId: config.decodeBinary<List<int>?>(json.valueAs('ledger_id', normalizeKeyLookup: config.normalizeKeys)),
-      round: json.valueAsBigInt<BigInt?>('round', normalizeKeyLookup: config.normalizeKeys),
-      ledgerSignature: config.decodeBinary<List<int>?>(json.valueAs('ledger_signature', normalizeKeyLookup: config.normalizeKeys)),
+      ledgerId: config.decodeBinary<List<int>?>(
+        json.valueAs('ledger_id', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      round: json.valueAsBigInt<BigInt?>(
+        'round',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      ledgerSignature: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'ledger_signature',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
       rosterSignatures: json.valueTo<HederaRosterSignatures?, Object>(
         key: 'roster_signatures',
-        parse: (v) => HederaRosterSignatures.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaRosterSignatures.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -156,24 +174,26 @@ List<dynamic> get variables => protoValues;
       ledgerId: decode.getBytes<List<int>?>(1),
       round: decode.getBigInt<BigInt?>(2),
       ledgerSignature: decode.getBytes<List<int>?>(3),
-      rosterSignatures: decode.messageTo<HederaRosterSignatures?>(4, (b) => HederaRosterSignatures.deserialize(b)),
+      rosterSignatures: decode.messageTo<HederaRosterSignatures?>(
+        4,
+        (b) => HederaRosterSignatures.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterLedgerId;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterLedgerId;
 }
-
 
 /// *
 ///  * A collection of signatures from nodes in a roster.
 class HederaRosterSignatures extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * A roster hash for the roster that the node signatures are from.
   final List<int>? rosterHash;
 
-    /// *
+  /// *
   ///    * A list of node signatures on the same message where all node ids in the
   ///    * NodeSignature objects are from the roster that the roster_hash represents.
   final List<HederaNodeSignature> nodeSignatures;
@@ -201,42 +221,58 @@ class HederaRosterSignatures extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        rosterHash,
-        nodeSignatures,
-      ];
+  List<Object?> get protoValues => [rosterHash, nodeSignatures];
 
+  HederaRosterSignatures copyWith({
+    List<int>? rosterHash,
 
-HederaRosterSignatures copyWith(
-{List<int>? rosterHash,
-
-List<HederaNodeSignature>? nodeSignatures,
-
-}) {
+    List<HederaNodeSignature>? nodeSignatures,
+  }) {
     return HederaRosterSignatures(
-rosterHash: rosterHash ?? this.rosterHash,
-nodeSignatures: nodeSignatures ?? this.nodeSignatures,
+      rosterHash: rosterHash ?? this.rosterHash,
+      nodeSignatures: nodeSignatures ?? this.nodeSignatures,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'roster_hash': config.encodeBinary(rosterHash),
-      'node_signatures': nodeSignatures.map((e) => config.encodeMessage(e)).toList(),
+      'node_signatures':
+          nodeSignatures.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaRosterSignatures.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRosterSignatures.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRosterSignatures(
-      rosterHash: config.decodeBinary<List<int>?>(json.valueAs('roster_hash', normalizeKeyLookup: config.normalizeKeys)),
-      nodeSignatures: (json.valueEnsureAsList<dynamic>('node_signatures', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaNodeSignature, Object>(
-          value: e,
-          parse: (v) => HederaNodeSignature.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      rosterHash: config.decodeBinary<List<int>?>(
+        json.valueAs('roster_hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      nodeSignatures:
+          (json.valueEnsureAsList<dynamic>(
+                'node_signatures',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaNodeSignature, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaNodeSignature.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -244,38 +280,38 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaRosterSignatures(
       rosterHash: decode.getBytes<List<int>?>(1),
-      nodeSignatures: decode.getListOfBytes(2).map((b) => HederaNodeSignature.deserialize(b)).toList(),
+      nodeSignatures:
+          decode
+              .getListOfBytes(2)
+              .map((b) => HederaNodeSignature.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterRosterSignatures;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterRosterSignatures;
 }
-
 
 /// *
 ///  * A pair of a _RSA_ signature and the node id of the node that created the
 ///  * signature.
 class HederaNodeSignature extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * The node id of the node that created the _RSA_ signature.
   ///    * This value MUST be set.&lt;br/&gt;
   ///    * This value MUST NOT be empty.&lt;br/&gt;
   ///    * This value is REQUIRED.
   final BigInt? nodeId;
 
-    /// *
+  /// *
   ///    * The bytes of an _RSA_ signature.
   ///    * This value MUST be set.&lt;br/&gt;
   ///    * This value MUST NOT be empty.&lt;br/&gt;
   ///    * This value MUST contain a valid signature.
   final List<int>? nodeSignature;
 
-  const HederaNodeSignature({
-    this.nodeId,
-    this.nodeSignature,
-  });
+  const HederaNodeSignature({this.nodeId, this.nodeSignature});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -284,47 +320,48 @@ class HederaNodeSignature extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-        ProtoFieldConfig.bytes(2),
-      ],
+      fields: [ProtoFieldConfig.uint64(1), ProtoFieldConfig.bytes(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        nodeId,
-        nodeSignature,
-      ];
+  List<Object?> get protoValues => [nodeId, nodeSignature];
 
-
-HederaNodeSignature copyWith(
-{BigInt? nodeId,
-
-List<int>? nodeSignature,
-
-}) {
+  HederaNodeSignature copyWith({BigInt? nodeId, List<int>? nodeSignature}) {
     return HederaNodeSignature(
-nodeId: nodeId ?? this.nodeId,
-nodeSignature: nodeSignature ?? this.nodeSignature,
+      nodeId: nodeId ?? this.nodeId,
+      nodeSignature: nodeSignature ?? this.nodeSignature,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'node_id': config.encodeBigint(nodeId),
       'node_signature': config.encodeBinary(nodeSignature),
     };
   }
 
-
-  factory HederaNodeSignature.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNodeSignature.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNodeSignature(
-      nodeId: json.valueAsBigInt<BigInt?>('node_id', normalizeKeyLookup: config.normalizeKeys),
-      nodeSignature: config.decodeBinary<List<int>?>(json.valueAs('node_signature', normalizeKeyLookup: config.normalizeKeys)),
+      nodeId: json.valueAsBigInt<BigInt?>(
+        'node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nodeSignature: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'node_signature',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -337,8 +374,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterNodeSignature;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterNodeSignature;
 }
-
-

@@ -21,7 +21,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * ### Block Stream Effects
 ///  * None.
 class HederaNodeDeleteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A consensus node identifier in the network state.
   ///      * &lt;p&gt;
   ///      * The node identified MUST exist in the network address book.&lt;br/&gt;
@@ -29,9 +29,7 @@ class HederaNodeDeleteTransactionBody extends HederaProtoMessage with Equality {
   ///      * This value is REQUIRED.
   final BigInt? nodeId;
 
-  const HederaNodeDeleteTransactionBody({
-    this.nodeId,
-  });
+  const HederaNodeDeleteTransactionBody({this.nodeId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -40,40 +38,36 @@ class HederaNodeDeleteTransactionBody extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-      ],
+      fields: [ProtoFieldConfig.uint64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        nodeId,
-      ];
+  List<Object?> get protoValues => [nodeId];
 
-
-HederaNodeDeleteTransactionBody copyWith(
-{BigInt? nodeId,
-
-}) {
-    return HederaNodeDeleteTransactionBody(
-nodeId: nodeId ?? this.nodeId,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'node_id': config.encodeBigint(nodeId),
-    };
+  HederaNodeDeleteTransactionBody copyWith({BigInt? nodeId}) {
+    return HederaNodeDeleteTransactionBody(nodeId: nodeId ?? this.nodeId);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaNodeDeleteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'node_id': config.encodeBigint(nodeId)};
+  }
+
+  factory HederaNodeDeleteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNodeDeleteTransactionBody(
-      nodeId: json.valueAsBigInt<BigInt?>('node_id', normalizeKeyLookup: config.normalizeKeys),
+      nodeId: json.valueAsBigInt<BigInt?>(
+        'node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -85,8 +79,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookNodeDeleteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookNodeDeleteTransactionBody;
 }
-
-

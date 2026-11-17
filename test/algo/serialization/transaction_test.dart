@@ -4,6 +4,7 @@ import 'package:on_chain/algorand/src/transaction/src/transaction.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 void serializationTransactionTest() {
   group('Algorand/Transaction Serialization', _test);
 }
@@ -11,7 +12,6 @@ void serializationTransactionTest() {
 void main() {
   OnChainUtilsTestApi.runTest(serializationTransactionTest, "Transaction");
 }
-
 
 void _test() {
   test('pay', () {

@@ -23,7 +23,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * ### Block Stream Effects
 ///  * The result of this transaction is reported in a `UtilPrngOutput` message.
 class HederaUtilPrngTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A range for the requested value.
   ///      * &lt;p&gt;
   ///      * If this is greater than `0`, the service SHALL return a 32-bit
@@ -33,9 +33,7 @@ class HederaUtilPrngTransactionBody extends HederaProtoMessage with Equality {
   ///      * 384-bit unsigned pseudo-random number in the record.
   final int? range;
 
-  const HederaUtilPrngTransactionBody({
-    this.range,
-  });
+  const HederaUtilPrngTransactionBody({this.range});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -44,53 +42,45 @@ class HederaUtilPrngTransactionBody extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int32(1),
-      ],
+      fields: [ProtoFieldConfig.int32(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        range,
-      ];
+  List<Object?> get protoValues => [range];
 
-
-HederaUtilPrngTransactionBody copyWith(
-{int? range,
-
-}) {
-    return HederaUtilPrngTransactionBody(
-range: range ?? this.range,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'range': range,
-    };
+  HederaUtilPrngTransactionBody copyWith({int? range}) {
+    return HederaUtilPrngTransactionBody(range: range ?? this.range);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaUtilPrngTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'range': range};
+  }
+
+  factory HederaUtilPrngTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaUtilPrngTransactionBody(
-      range: json.valueAsInt<int?>('range', normalizeKeyLookup: config.normalizeKeys),
+      range: json.valueAsInt<int?>(
+        'range',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaUtilPrngTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaUtilPrngTransactionBody(
-      range: decode.getInt<int?>(1),
-    );
+    return HederaUtilPrngTransactionBody(range: decode.getInt<int?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoUtilPrngTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoUtilPrngTransactionBody;
 }
-
-

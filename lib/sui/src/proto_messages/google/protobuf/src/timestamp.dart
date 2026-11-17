@@ -120,21 +120,18 @@ import 'package:on_chain/sui/src/serialization/protobuf/proto.dart';
 ///
 ///
 class SuiTimestamp extends SuiProtoMessage {
-    /// Represents seconds of UTC time since Unix epoch
+  /// Represents seconds of UTC time since Unix epoch
   /// `1970-01-01T00:00:00Z`. Must be from `0001-01-01T00:00:00Z` to
   /// `9999-12-31T23:59:59Z` inclusive.
   final BigInt? seconds;
 
-    /// Non-negative fractions of a second at nanosecond resolution. Negative
+  /// Non-negative fractions of a second at nanosecond resolution. Negative
   /// second values with fractions must still have non-negative nano values
   /// that count forward in time. Must be from 0 to 999,999,999
   /// inclusive.
   final int? nanos;
 
-  const SuiTimestamp({
-    this.seconds,
-    this.nanos,
-  });
+  const SuiTimestamp({this.seconds, this.nanos});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -143,33 +140,33 @@ class SuiTimestamp extends SuiProtoMessage {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-        ProtoFieldConfig.int32(2),
-      ],
+      fields: [ProtoFieldConfig.int64(1), ProtoFieldConfig.int32(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        seconds,
-        nanos,
-      ];
-
+  List<Object?> get protoValues => [seconds, nanos];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'seconds': config.encodeBigint(seconds),
-      'nanos': nanos,
-    };
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'seconds': config.encodeBigint(seconds), 'nanos': nanos};
   }
 
-
-  factory SuiTimestamp.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiTimestamp.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiTimestamp(
-      seconds: json.valueAsBigInt<BigInt?>('seconds', normalizeKeyLookup: config.normalizeKeys),
-      nanos: json.valueAsInt<int?>('nanos', normalizeKeyLookup: config.normalizeKeys),
+      seconds: json.valueAsBigInt<BigInt?>(
+        'seconds',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nanos: json.valueAsInt<int?>(
+        'nanos',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -182,8 +179,6 @@ class SuiTimestamp extends SuiProtoMessage {
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobufTimestamp;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.googleProtobufTimestamp;
 }
-
-

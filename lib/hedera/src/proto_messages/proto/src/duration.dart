@@ -20,13 +20,11 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * It is RECOMMENDED that this message be used whenever an amount of time,
 ///  * rather than a specific point in time, is needed.
 class HederaDuration extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The number of seconds for this duration.
   final BigInt? seconds;
 
-  const HederaDuration({
-    this.seconds,
-  });
+  const HederaDuration({this.seconds});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -35,53 +33,45 @@ class HederaDuration extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-      ],
+      fields: [ProtoFieldConfig.int64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        seconds,
-      ];
+  List<Object?> get protoValues => [seconds];
 
-
-HederaDuration copyWith(
-{BigInt? seconds,
-
-}) {
-    return HederaDuration(
-seconds: seconds ?? this.seconds,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'seconds': config.encodeBigint(seconds),
-    };
+  HederaDuration copyWith({BigInt? seconds}) {
+    return HederaDuration(seconds: seconds ?? this.seconds);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaDuration.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'seconds': config.encodeBigint(seconds)};
+  }
+
+  factory HederaDuration.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaDuration(
-      seconds: json.valueAsBigInt<BigInt?>('seconds', normalizeKeyLookup: config.normalizeKeys),
+      seconds: json.valueAsBigInt<BigInt?>(
+        'seconds',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaDuration.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaDuration(
-      seconds: decode.getBigInt<BigInt?>(1),
-    );
+    return HederaDuration(seconds: decode.getBigInt<BigInt?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoDuration;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoDuration;
 }
-
-

@@ -5,28 +5,37 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 /// *
 ///      * An enumeration of well-known block node endpoint APIs, and a
 ///      * catch-all option for otherwise unknown endpoint APIs.
-enum HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi implements ProtoEnumVariant {
-    /// *
+enum HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi
+    implements ProtoEnumVariant {
+  /// *
   ///        * Any other API type associated with a block node.&lt;br/&gt;
   ///        * The caller must consult local documentation to determine the
   ///        * correct call semantics.&lt;br/&gt;
   ///        * It is RECOMMENDED to call the detail status endpoint for further
   ///        * information before using this endpoint.
   other(0, 'OTHER'),
-    /// *
+
+  /// *
   ///        * The Block Node Status API.
   status(1, 'STATUS'),
-    /// *
+
+  /// *
   ///        * The Block Node Publish API.
   publish(2, 'PUBLISH'),
-    /// *
+
+  /// *
   ///        * The Block Node Subscribe Stream API.
   subscribeStream(3, 'SUBSCRIBE_STREAM'),
-    /// *
+
+  /// *
   ///        * The Block Node State Proof API.
   stateProof(4, 'STATE_PROOF');
 
-  const HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi(this.value, this.protoName);
+  const HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi(
+    this.value,
+    this.protoName,
+  );
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -36,26 +45,50 @@ enum HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi implements Pro
   final String protoName;
 
   /// Looks up a value by its proto wire int. Throws if not found.
-  static HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi fromValue(int? value) {
-    value ??=0;
-    return HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi found for the given value. $value", details: {"name": "HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi", "value": value?.toString()})
-    );
+  static HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi fromValue(
+    int? value,
+  ) {
+    value ??= 0;
+    return HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.values
+        .firstWhere(
+          (e) => e.value == value,
+          orElse:
+              () =>
+                  throw BuError(
+                    DefaultErrorType.notFound,
+                    "No matching HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi found for the given value. $value",
+                    details: {
+                      "name":
+                          "HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi",
+                      "value": value?.toString(),
+                    },
+                  ),
+        );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
-  static HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi from(Object? value) {
-    value ??=0;
-    return HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.values.firstWhere(
-      (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi found for the given value. $value", details: {"name": "HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi", "value": value?.toString()})
-    );
+  static HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi from(
+    Object? value,
+  ) {
+    value ??= 0;
+    return HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.values
+        .firstWhere(
+          (e) => e.value == value || e.name == value || e.protoName == value,
+          orElse:
+              () =>
+                  throw BuError(
+                    DefaultErrorType.notFound,
+                    "No matching HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi found for the given value. $value",
+                    details: {
+                      "name":
+                          "HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi",
+                      "value": value?.toString(),
+                    },
+                  ),
+        );
   }
-
 }
-
 
 /// SPDX-License-Identifier: Apache-2.0
 /// &lt;&lt;&lt;pbj.java_package = "com.hedera.hapi.node.addressbook"&gt;&gt;&gt; This comment is special code for setting PBJ Compiler java package
@@ -68,7 +101,7 @@ enum HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi implements Pro
 ///  * This message supports a TCP/UDP port and IP address (V4 or V6),
 ///  * or MAY include a FQDN _instead of_ an IP address.&lt;br/&gt;
 class HederaRegisteredServiceEndpoint extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * An IP address or fully qualified domain name.
   ///    * &lt;p&gt;
   ///    * This oneof is REQUIRED.
@@ -81,7 +114,7 @@ class HederaRegisteredServiceEndpoint extends HederaProtoMessage with Equality {
   ///      * `00`, `00`, `00`, `00`, `00`, `00`, `00`, `00`, `00`, `01`).
   final List<int>? ipAddress;
 
-    /// *
+  /// *
   ///      * A node domain name.
   ///      * &lt;p&gt;
   ///      * This MUST be the fully qualified domain name of the node.&lt;br/&gt;
@@ -89,14 +122,14 @@ class HederaRegisteredServiceEndpoint extends HederaProtoMessage with Equality {
   ///      * This value MUST meet all other DNS name requirements.
   final String? domainName;
 
-    /// *
+  /// *
   ///    * A network port to use.
   ///    * &lt;p&gt;
   ///    * This value MUST be between 0 and 65535, inclusive.&lt;br/&gt;
   ///    * This value is REQUIRED.
   final int? port;
 
-    /// *
+  /// *
   ///    * A flag indicating if this endpoint requires TLS.
   ///    * &lt;p&gt;
   ///    * If this value is set true, then connections to this endpoint MUST
@@ -108,7 +141,7 @@ class HederaRegisteredServiceEndpoint extends HederaProtoMessage with Equality {
   ///    * expected characteristics for transport layer security.
   final bool? requiresTls;
 
-    /// *
+  /// *
   ///    * An endpoint type.&lt;br/&gt;
   ///    * This declares the type of registered node endpoint and includes any
   ///    * type-specific fields.
@@ -120,7 +153,7 @@ class HederaRegisteredServiceEndpoint extends HederaProtoMessage with Equality {
   ///      * and delivers the block stream to other clients.
   final HederaRegisteredServiceEndpointBlockNodeEndpoint? blockNode;
 
-    /// *
+  /// *
   ///      * A Mirror Node.&lt;br/&gt;
   ///      * A Mirror Node is an advanced indexing and query service that provides
   ///      * fast and flexible access to query the block chain and transaction
@@ -128,13 +161,13 @@ class HederaRegisteredServiceEndpoint extends HederaProtoMessage with Equality {
   ///      * and some store the entire history of the network.
   final HederaRegisteredServiceEndpointMirrorNodeEndpoint? mirrorNode;
 
-    /// *
+  /// *
   ///      * A RPC Relay.&lt;br/&gt;
   ///      * A RPC Relay is a proxy and translator between EVM tooling and a
   ///      * Hiero consensus network.
   final HederaRegisteredServiceEndpointRpcRelayEndpoint? rpcRelay;
 
-    /// *
+  /// *
   ///      * A general service.&lt;br/&gt;
   ///      * A general service endpoint represents any network accessible service
   ///      * that is provided by a registered node but that is not a service
@@ -174,51 +207,52 @@ class HederaRegisteredServiceEndpoint extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        ipAddress,
-        domainName,
-        port,
-        requiresTls,
-        blockNode,
-        mirrorNode,
-        rpcRelay,
-        generalService,
-      ];
+    ipAddress,
+    domainName,
+    port,
+    requiresTls,
+    blockNode,
+    mirrorNode,
+    rpcRelay,
+    generalService,
+  ];
 
+  HederaRegisteredServiceEndpoint copyWith({
+    List<int>? ipAddress,
 
-HederaRegisteredServiceEndpoint copyWith(
-{List<int>? ipAddress,
+    String? domainName,
 
-String? domainName,
+    int? port,
 
-int? port,
+    bool? requiresTls,
 
-bool? requiresTls,
+    HederaRegisteredServiceEndpointBlockNodeEndpoint? blockNode,
 
-HederaRegisteredServiceEndpointBlockNodeEndpoint? blockNode,
+    HederaRegisteredServiceEndpointMirrorNodeEndpoint? mirrorNode,
 
-HederaRegisteredServiceEndpointMirrorNodeEndpoint? mirrorNode,
+    HederaRegisteredServiceEndpointRpcRelayEndpoint? rpcRelay,
 
-HederaRegisteredServiceEndpointRpcRelayEndpoint? rpcRelay,
-
-HederaRegisteredServiceEndpointGeneralServiceEndpoint? generalService,
-
-}) {
+    HederaRegisteredServiceEndpointGeneralServiceEndpoint? generalService,
+  }) {
     return HederaRegisteredServiceEndpoint(
-ipAddress: ipAddress ?? this.ipAddress,
-domainName: domainName ?? this.domainName,
-port: port ?? this.port,
-requiresTls: requiresTls ?? this.requiresTls,
-blockNode: blockNode ?? this.blockNode,
-mirrorNode: mirrorNode ?? this.mirrorNode,
-rpcRelay: rpcRelay ?? this.rpcRelay,
-generalService: generalService ?? this.generalService,
+      ipAddress: ipAddress ?? this.ipAddress,
+      domainName: domainName ?? this.domainName,
+      port: port ?? this.port,
+      requiresTls: requiresTls ?? this.requiresTls,
+      blockNode: blockNode ?? this.blockNode,
+      mirrorNode: mirrorNode ?? this.mirrorNode,
+      rpcRelay: rpcRelay ?? this.rpcRelay,
+      generalService: generalService ?? this.generalService,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'ip_address': config.encodeBinary(ipAddress),
       'domain_name': domainName,
@@ -231,29 +265,71 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaRegisteredServiceEndpoint.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRegisteredServiceEndpoint.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRegisteredServiceEndpoint(
-      ipAddress: config.decodeBinary<List<int>?>(json.valueAs('ip_address', normalizeKeyLookup: config.normalizeKeys)),
-      domainName: json.valueAsString<String?>('domain_name', normalizeKeyLookup: config.normalizeKeys),
-      port: json.valueAsInt<int?>('port', normalizeKeyLookup: config.normalizeKeys),
-      requiresTls: json.valueAsBool<bool?>('requires_tls', normalizeKeyLookup: config.normalizeKeys),
-      blockNode: json.valueTo<HederaRegisteredServiceEndpointBlockNodeEndpoint?, Object>(
-        key: 'block_node',
-        parse: (v) => HederaRegisteredServiceEndpointBlockNodeEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      mirrorNode: json.valueTo<HederaRegisteredServiceEndpointMirrorNodeEndpoint?, Object>(
-        key: 'mirror_node',
-        parse: (v) => HederaRegisteredServiceEndpointMirrorNodeEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      rpcRelay: json.valueTo<HederaRegisteredServiceEndpointRpcRelayEndpoint?, Object>(
-        key: 'rpc_relay',
-        parse: (v) => HederaRegisteredServiceEndpointRpcRelayEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      generalService: json.valueTo<HederaRegisteredServiceEndpointGeneralServiceEndpoint?, Object>(
+      ipAddress: config.decodeBinary<List<int>?>(
+        json.valueAs('ip_address', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      domainName: json.valueAsString<String?>(
+        'domain_name',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      port: json.valueAsInt<int?>(
+        'port',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      requiresTls: json.valueAsBool<bool?>(
+        'requires_tls',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      blockNode: json
+          .valueTo<HederaRegisteredServiceEndpointBlockNodeEndpoint?, Object>(
+            key: 'block_node',
+            parse:
+                (v) =>
+                    HederaRegisteredServiceEndpointBlockNodeEndpoint.fromJson(
+                      JsonParser.valueAs(v),
+                      config: config,
+                    ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      mirrorNode: json
+          .valueTo<HederaRegisteredServiceEndpointMirrorNodeEndpoint?, Object>(
+            key: 'mirror_node',
+            parse:
+                (v) =>
+                    HederaRegisteredServiceEndpointMirrorNodeEndpoint.fromJson(
+                      JsonParser.valueAs(v),
+                      config: config,
+                    ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      rpcRelay: json
+          .valueTo<HederaRegisteredServiceEndpointRpcRelayEndpoint?, Object>(
+            key: 'rpc_relay',
+            parse:
+                (v) => HederaRegisteredServiceEndpointRpcRelayEndpoint.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      generalService: json.valueTo<
+        HederaRegisteredServiceEndpointGeneralServiceEndpoint?,
+        Object
+      >(
         key: 'general_service',
-        parse: (v) => HederaRegisteredServiceEndpointGeneralServiceEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaRegisteredServiceEndpointGeneralServiceEndpoint.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -264,30 +340,56 @@ List<dynamic> get variables => protoValues;
       domainName: decode.getString<String?>(2),
       port: decode.getInt<int?>(3),
       requiresTls: decode.getBool<bool?>(4),
-      blockNode: decode.messageTo<HederaRegisteredServiceEndpointBlockNodeEndpoint?>(5, (b) => HederaRegisteredServiceEndpointBlockNodeEndpoint.deserialize(b)),
-      mirrorNode: decode.messageTo<HederaRegisteredServiceEndpointMirrorNodeEndpoint?>(6, (b) => HederaRegisteredServiceEndpointMirrorNodeEndpoint.deserialize(b)),
-      rpcRelay: decode.messageTo<HederaRegisteredServiceEndpointRpcRelayEndpoint?>(7, (b) => HederaRegisteredServiceEndpointRpcRelayEndpoint.deserialize(b)),
-      generalService: decode.messageTo<HederaRegisteredServiceEndpointGeneralServiceEndpoint?>(8, (b) => HederaRegisteredServiceEndpointGeneralServiceEndpoint.deserialize(b)),
+      blockNode: decode
+          .messageTo<HederaRegisteredServiceEndpointBlockNodeEndpoint?>(
+            5,
+            (b) =>
+                HederaRegisteredServiceEndpointBlockNodeEndpoint.deserialize(b),
+          ),
+      mirrorNode: decode.messageTo<
+        HederaRegisteredServiceEndpointMirrorNodeEndpoint?
+      >(
+        6,
+        (b) => HederaRegisteredServiceEndpointMirrorNodeEndpoint.deserialize(b),
+      ),
+      rpcRelay: decode
+          .messageTo<HederaRegisteredServiceEndpointRpcRelayEndpoint?>(
+            7,
+            (b) =>
+                HederaRegisteredServiceEndpointRpcRelayEndpoint.deserialize(b),
+          ),
+      generalService: decode.messageTo<
+        HederaRegisteredServiceEndpointGeneralServiceEndpoint?
+      >(
+        8,
+        (b) =>
+            HederaRegisteredServiceEndpointGeneralServiceEndpoint.deserialize(
+              b,
+            ),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookRegisteredServiceEndpoint;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookRegisteredServiceEndpoint;
 }
-
 
 /// *
 ///    * A message indicating this endpoint is a Block Node endpoint.&lt;br/&gt;
 ///    * Block Node endpoints offer one of several block node APIs, so this
 ///    * endpoint entry also declares which well-known Block Node API is
 ///    * supported by this endpoint, or "OTHER" for less common APIs.
-class HederaRegisteredServiceEndpointBlockNodeEndpoint extends HederaProtoMessage with Equality {
-    /// *
+class HederaRegisteredServiceEndpointBlockNodeEndpoint
+    extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * An indicator of what API this endpoint supports.
   ///      * &lt;p&gt;
   ///      * This field is REQUIRED.
-  final List<HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi> endpointApi;
+  final List<HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi>
+  endpointApi;
 
   const HederaRegisteredServiceEndpointBlockNodeEndpoint({
     this.endpointApi = const [],
@@ -310,55 +412,79 @@ class HederaRegisteredServiceEndpointBlockNodeEndpoint extends HederaProtoMessag
   }
 
   @override
-  List<Object?> get protoValues => [
-        endpointApi,
-      ];
+  List<Object?> get protoValues => [endpointApi];
 
-
-HederaRegisteredServiceEndpointBlockNodeEndpoint copyWith(
-{List<HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi>? endpointApi,
-
-}) {
+  HederaRegisteredServiceEndpointBlockNodeEndpoint copyWith({
+    List<HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi>?
+    endpointApi,
+  }) {
     return HederaRegisteredServiceEndpointBlockNodeEndpoint(
-endpointApi: endpointApi ?? this.endpointApi,
+      endpointApi: endpointApi ?? this.endpointApi,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'endpoint_api': endpointApi.map((e) => config.encodeEnum(e)).toList(),
     };
   }
 
-
-  factory HederaRegisteredServiceEndpointBlockNodeEndpoint.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRegisteredServiceEndpointBlockNodeEndpoint.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRegisteredServiceEndpointBlockNodeEndpoint(
-      endpointApi: (json.valueEnsureAsList<dynamic>('endpoint_api', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi, Object>(
-          value: e,
-          parse: (v) => HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.from(v),
-        )).toList(),
+      endpointApi:
+          (json.valueEnsureAsList<dynamic>(
+                'endpoint_api',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) =>
+                          HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.from(
+                            v,
+                          ),
+                ),
+              )
+              .toList(),
     );
   }
 
-  factory HederaRegisteredServiceEndpointBlockNodeEndpoint.deserialize(List<int> bytes) {
+  factory HederaRegisteredServiceEndpointBlockNodeEndpoint.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaRegisteredServiceEndpointBlockNodeEndpoint(
-      endpointApi: decode.getReapeatedEnum<HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi>(1, HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.values),
+      endpointApi: decode.getReapeatedEnum<
+        HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi
+      >(1, HederaRegisteredServiceEndpointBlockNodeEndpointBlockNodeApi.values),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookRegisteredServiceEndpointBlockNodeEndpoint;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookRegisteredServiceEndpointBlockNodeEndpoint;
 }
-
 
 /// *
 ///    * A message indicating this endpoint is a Mirror Node endpoint.
-class HederaRegisteredServiceEndpointMirrorNodeEndpoint extends HederaProtoMessage with Equality {
+class HederaRegisteredServiceEndpointMirrorNodeEndpoint
+    extends HederaProtoMessage
+    with Equality {
   const HederaRegisteredServiceEndpointMirrorNodeEndpoint();
 
   @override
@@ -368,50 +494,50 @@ class HederaRegisteredServiceEndpointMirrorNodeEndpoint extends HederaProtoMessa
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaRegisteredServiceEndpointMirrorNodeEndpoint copyWith(
-) {
-    return HederaRegisteredServiceEndpointMirrorNodeEndpoint(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
-  }
-
-
-  factory HederaRegisteredServiceEndpointMirrorNodeEndpoint.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaRegisteredServiceEndpointMirrorNodeEndpoint(
-    );
-  }
-
-  factory HederaRegisteredServiceEndpointMirrorNodeEndpoint.deserialize(List<int> bytes) {
-    return HederaRegisteredServiceEndpointMirrorNodeEndpoint(
-    );
+  HederaRegisteredServiceEndpointMirrorNodeEndpoint copyWith() {
+    return HederaRegisteredServiceEndpointMirrorNodeEndpoint();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookRegisteredServiceEndpointMirrorNodeEndpoint;
+  List<dynamic> get variables => protoValues;
 
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaRegisteredServiceEndpointMirrorNodeEndpoint.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaRegisteredServiceEndpointMirrorNodeEndpoint();
+  }
+
+  factory HederaRegisteredServiceEndpointMirrorNodeEndpoint.deserialize(
+    List<int> bytes,
+  ) {
+    return HederaRegisteredServiceEndpointMirrorNodeEndpoint();
+  }
+
+  @override
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookRegisteredServiceEndpointMirrorNodeEndpoint;
 }
-
 
 /// *
 ///    * A message indicating this endpoint is a RPC Relay endpoint.
-class HederaRegisteredServiceEndpointRpcRelayEndpoint extends HederaProtoMessage with Equality {
+class HederaRegisteredServiceEndpointRpcRelayEndpoint extends HederaProtoMessage
+    with Equality {
   const HederaRegisteredServiceEndpointRpcRelayEndpoint();
 
   @override
@@ -421,51 +547,52 @@ class HederaRegisteredServiceEndpointRpcRelayEndpoint extends HederaProtoMessage
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaRegisteredServiceEndpointRpcRelayEndpoint copyWith(
-) {
-    return HederaRegisteredServiceEndpointRpcRelayEndpoint(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
-  }
-
-
-  factory HederaRegisteredServiceEndpointRpcRelayEndpoint.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaRegisteredServiceEndpointRpcRelayEndpoint(
-    );
-  }
-
-  factory HederaRegisteredServiceEndpointRpcRelayEndpoint.deserialize(List<int> bytes) {
-    return HederaRegisteredServiceEndpointRpcRelayEndpoint(
-    );
+  HederaRegisteredServiceEndpointRpcRelayEndpoint copyWith() {
+    return HederaRegisteredServiceEndpointRpcRelayEndpoint();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookRegisteredServiceEndpointRpcRelayEndpoint;
+  List<dynamic> get variables => protoValues;
 
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaRegisteredServiceEndpointRpcRelayEndpoint.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaRegisteredServiceEndpointRpcRelayEndpoint();
+  }
+
+  factory HederaRegisteredServiceEndpointRpcRelayEndpoint.deserialize(
+    List<int> bytes,
+  ) {
+    return HederaRegisteredServiceEndpointRpcRelayEndpoint();
+  }
+
+  @override
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookRegisteredServiceEndpointRpcRelayEndpoint;
 }
-
 
 /// *
 ///    * A message indicating this endpoint is a General Service endpoint.
-class HederaRegisteredServiceEndpointGeneralServiceEndpoint extends HederaProtoMessage with Equality {
-    /// *
+class HederaRegisteredServiceEndpointGeneralServiceEndpoint
+    extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A short description of the service provided.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed 100 bytes when encoded as UTF-8.&lt;br/&gt;
@@ -483,44 +610,46 @@ class HederaRegisteredServiceEndpointGeneralServiceEndpoint extends HederaProtoM
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.string(1),
-      ],
+      fields: [ProtoFieldConfig.string(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        description,
-      ];
+  List<Object?> get protoValues => [description];
 
-
-HederaRegisteredServiceEndpointGeneralServiceEndpoint copyWith(
-{String? description,
-
-}) {
+  HederaRegisteredServiceEndpointGeneralServiceEndpoint copyWith({
+    String? description,
+  }) {
     return HederaRegisteredServiceEndpointGeneralServiceEndpoint(
-description: description ?? this.description,
+      description: description ?? this.description,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'description': description,
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'description': description};
   }
 
-
-  factory HederaRegisteredServiceEndpointGeneralServiceEndpoint.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRegisteredServiceEndpointGeneralServiceEndpoint.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRegisteredServiceEndpointGeneralServiceEndpoint(
-      description: json.valueAsString<String?>('description', normalizeKeyLookup: config.normalizeKeys),
+      description: json.valueAsString<String?>(
+        'description',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
-  factory HederaRegisteredServiceEndpointGeneralServiceEndpoint.deserialize(List<int> bytes) {
+  factory HederaRegisteredServiceEndpointGeneralServiceEndpoint.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaRegisteredServiceEndpointGeneralServiceEndpoint(
       description: decode.getString<String?>(1),
@@ -528,8 +657,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookRegisteredServiceEndpointGeneralServiceEndpoint;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookRegisteredServiceEndpointGeneralServiceEndpoint;
 }
-
-

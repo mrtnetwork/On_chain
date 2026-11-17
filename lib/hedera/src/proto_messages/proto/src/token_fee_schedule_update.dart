@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" as proto_custom_fees;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart"
+    as proto_custom_fees;
 
 /// *
 ///  * # Fee Schedule Update
@@ -32,8 +34,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaTokenFeeScheduleUpdateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenFeeScheduleUpdateTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This SHALL identify the token type to modify with an updated
@@ -41,7 +44,7 @@ class HederaTokenFeeScheduleUpdateTransactionBody extends HederaProtoMessage wit
   ///      * The identified token MUST exist, and MUST NOT be deleted.
   final proto_basic_types.HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * A list of custom fees representing a fee schedule.
   ///      * &lt;p&gt;
   ///      * This list MAY be empty to remove custom fees from a token.&lt;br/&gt;
@@ -75,59 +78,87 @@ class HederaTokenFeeScheduleUpdateTransactionBody extends HederaProtoMessage wit
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        customFees,
-      ];
+  List<Object?> get protoValues => [tokenId, customFees];
 
+  HederaTokenFeeScheduleUpdateTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? tokenId,
 
-HederaTokenFeeScheduleUpdateTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? tokenId,
-
-List<proto_custom_fees.HederaCustomFee>? customFees,
-
-}) {
+    List<proto_custom_fees.HederaCustomFee>? customFees,
+  }) {
     return HederaTokenFeeScheduleUpdateTransactionBody(
-tokenId: tokenId ?? this.tokenId,
-customFees: customFees ?? this.customFees,
+      tokenId: tokenId ?? this.tokenId,
+      customFees: customFees ?? this.customFees,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token_id': config.encodeMessage(tokenId),
       'custom_fees': customFees.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTokenFeeScheduleUpdateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenFeeScheduleUpdateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenFeeScheduleUpdateTransactionBody(
       tokenId: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token_id',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      customFees: (json.valueEnsureAsList<dynamic>('custom_fees', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_custom_fees.HederaCustomFee, Object>(
-          value: e,
-          parse: (v) => proto_custom_fees.HederaCustomFee.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      customFees:
+          (json.valueEnsureAsList<dynamic>(
+                'custom_fees',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_custom_fees.HederaCustomFee,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_custom_fees.HederaCustomFee.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
-  factory HederaTokenFeeScheduleUpdateTransactionBody.deserialize(List<int> bytes) {
+  factory HederaTokenFeeScheduleUpdateTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenFeeScheduleUpdateTransactionBody(
-      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      customFees: decode.getListOfBytes(2).map((b) => proto_custom_fees.HederaCustomFee.deserialize(b)).toList(),
+      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      customFees:
+          decode
+              .getListOfBytes(2)
+              .map((b) => proto_custom_fees.HederaCustomFee.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenFeeScheduleUpdateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenFeeScheduleUpdateTransactionBody;
 }
-
-

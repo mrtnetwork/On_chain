@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Contract Delete
@@ -42,28 +43,29 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaContractDeleteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaContractDeleteTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * The id of the contract to be deleted.
   ///      * &lt;p&gt;
   ///      * This field is REQUIRED.
   final proto_basic_types.HederaContractID? contractID;
 
-    /// *
+  /// *
   ///          * An Account ID recipient.
   ///          * &lt;p&gt;
   ///          * This account SHALL receive all HBAR and other tokens still owned by
   ///          * the contract that is removed.
   final proto_basic_types.HederaAccountID? transferAccountID;
 
-    /// *
+  /// *
   ///          * A contract ID recipient.
   ///          * &lt;p&gt;
   ///          * This contract SHALL receive all HBAR and other tokens still owned by
   ///          * the contract that is removed.
   final proto_basic_types.HederaContractID? transferContractID;
 
-    /// *
+  /// *
   ///      * A flag indicating that this transaction is "synthetic"; initiated by the
   ///      * node software.
   ///      * &lt;p&gt;
@@ -98,35 +100,36 @@ class HederaContractDeleteTransactionBody extends HederaProtoMessage with Equali
 
   @override
   List<Object?> get protoValues => [
-        contractID,
-        transferAccountID,
-        transferContractID,
-        permanentRemoval,
-      ];
+    contractID,
+    transferAccountID,
+    transferContractID,
+    permanentRemoval,
+  ];
 
+  HederaContractDeleteTransactionBody copyWith({
+    proto_basic_types.HederaContractID? contractID,
 
-HederaContractDeleteTransactionBody copyWith(
-{proto_basic_types.HederaContractID? contractID,
+    proto_basic_types.HederaAccountID? transferAccountID,
 
-proto_basic_types.HederaAccountID? transferAccountID,
+    proto_basic_types.HederaContractID? transferContractID,
 
-proto_basic_types.HederaContractID? transferContractID,
-
-bool? permanentRemoval,
-
-}) {
+    bool? permanentRemoval,
+  }) {
     return HederaContractDeleteTransactionBody(
-contractID: contractID ?? this.contractID,
-transferAccountID: transferAccountID ?? this.transferAccountID,
-transferContractID: transferContractID ?? this.transferContractID,
-permanentRemoval: permanentRemoval ?? this.permanentRemoval,
+      contractID: contractID ?? this.contractID,
+      transferAccountID: transferAccountID ?? this.transferAccountID,
+      transferContractID: transferContractID ?? this.transferContractID,
+      permanentRemoval: permanentRemoval ?? this.permanentRemoval,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'contractID': config.encodeMessage(contractID),
       'transferAccountID': config.encodeMessage(transferAccountID),
@@ -135,38 +138,67 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaContractDeleteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaContractDeleteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaContractDeleteTransactionBody(
       contractID: json.valueTo<proto_basic_types.HederaContractID?, Object>(
         key: 'contractID',
-        parse: (v) => proto_basic_types.HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      transferAccountID: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'transferAccountID',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      transferContractID: json.valueTo<proto_basic_types.HederaContractID?, Object>(
-        key: 'transferContractID',
-        parse: (v) => proto_basic_types.HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      permanentRemoval: json.valueAsBool<bool?>('permanent_removal', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      transferAccountID: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'transferAccountID',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      transferContractID: json
+          .valueTo<proto_basic_types.HederaContractID?, Object>(
+            key: 'transferContractID',
+            parse:
+                (v) => proto_basic_types.HederaContractID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      permanentRemoval: json.valueAsBool<bool?>(
+        'permanent_removal',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaContractDeleteTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaContractDeleteTransactionBody(
-      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(1, (b) => proto_basic_types.HederaContractID.deserialize(b)),
-      transferAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      transferContractID: decode.messageTo<proto_basic_types.HederaContractID?>(3, (b) => proto_basic_types.HederaContractID.deserialize(b)),
+      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(
+        1,
+        (b) => proto_basic_types.HederaContractID.deserialize(b),
+      ),
+      transferAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      transferContractID: decode.messageTo<proto_basic_types.HederaContractID?>(
+        3,
+        (b) => proto_basic_types.HederaContractID.deserialize(b),
+      ),
       permanentRemoval: decode.getBool<bool?>(4),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoContractDeleteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoContractDeleteTransactionBody;
 }
-
-

@@ -36,7 +36,8 @@ import 'solana/tests/metaplex/auctioneer/layout_test.dart' as f33;
 import 'solana/tests/metaplex/candy_machine/layout_test.dart' as f34;
 import 'solana/tests/metaplex/gumdrop/layout_test.dart' as f35;
 import 'solana/tests/metaplex/hydra/layout_test.dart' as f36;
-import 'solana/tests/metaplex/fixed_price_sale/fixed_price_sale_test.dart' as f37;
+import 'solana/tests/metaplex/fixed_price_sale/fixed_price_sale_test.dart'
+    as f37;
 import 'solana/tests/metaplex/auction_house/layout_test.dart' as f38;
 import 'solana/tests/associated_token_account/layout_test.dart' as f39;
 import 'solana/tests/vote/compile_legacy_test.dart' as f40;

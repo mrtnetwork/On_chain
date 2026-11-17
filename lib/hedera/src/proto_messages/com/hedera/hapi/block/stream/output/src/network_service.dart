@@ -40,46 +40,43 @@ class HederaUpdateNodeStakeOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaUpdateNodeStakeOutput copyWith(
-) {
-    return HederaUpdateNodeStakeOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaUpdateNodeStakeOutput copyWith() {
+    return HederaUpdateNodeStakeOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaUpdateNodeStakeOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaUpdateNodeStakeOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaUpdateNodeStakeOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaUpdateNodeStakeOutput();
   }
 
   factory HederaUpdateNodeStakeOutput.deserialize(List<int> bytes) {
-    return HederaUpdateNodeStakeOutput(
-    );
+    return HederaUpdateNodeStakeOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputUpdateNodeStakeOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputUpdateNodeStakeOutput;
 }
-
 
 class HederaFreezeOutput extends HederaProtoMessage with Equality {
   const HederaFreezeOutput();
@@ -91,44 +88,39 @@ class HederaFreezeOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaFreezeOutput copyWith(
-) {
-    return HederaFreezeOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaFreezeOutput copyWith() {
+    return HederaFreezeOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaFreezeOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaFreezeOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaFreezeOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaFreezeOutput();
   }
 
   factory HederaFreezeOutput.deserialize(List<int> bytes) {
-    return HederaFreezeOutput(
-    );
+    return HederaFreezeOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputFreezeOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputFreezeOutput;
 }
-
-

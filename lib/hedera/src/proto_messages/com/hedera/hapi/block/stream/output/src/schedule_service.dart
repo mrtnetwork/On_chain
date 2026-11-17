@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Schedule Service
@@ -55,7 +56,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * This message SHALL NOT duplicate information already contained in
 ///  * the original transaction.
 class HederaCreateScheduleOutput extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A schedule identifier.
   ///      * &lt;p&gt;
   ///      * If the status of the transaction is `SUCCESS`, this value SHALL be
@@ -66,7 +67,7 @@ class HederaCreateScheduleOutput extends HederaProtoMessage with Equality {
   ///      * other status, this value SHALL NOT be set.
   final proto_basic_types.HederaScheduleID? scheduleId;
 
-    /// *
+  /// *
   ///      * A scheduled transaction identifier.
   ///      * &lt;p&gt;
   ///      * This value SHALL be the transaction identifier for the _scheduled_
@@ -91,69 +92,85 @@ class HederaCreateScheduleOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        scheduleId,
-        scheduledTransactionId,
-      ];
+  List<Object?> get protoValues => [scheduleId, scheduledTransactionId];
 
+  HederaCreateScheduleOutput copyWith({
+    proto_basic_types.HederaScheduleID? scheduleId,
 
-HederaCreateScheduleOutput copyWith(
-{proto_basic_types.HederaScheduleID? scheduleId,
-
-proto_basic_types.HederaTransactionID? scheduledTransactionId,
-
-}) {
+    proto_basic_types.HederaTransactionID? scheduledTransactionId,
+  }) {
     return HederaCreateScheduleOutput(
-scheduleId: scheduleId ?? this.scheduleId,
-scheduledTransactionId: scheduledTransactionId ?? this.scheduledTransactionId,
+      scheduleId: scheduleId ?? this.scheduleId,
+      scheduledTransactionId:
+          scheduledTransactionId ?? this.scheduledTransactionId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'schedule_id': config.encodeMessage(scheduleId),
       'scheduled_transaction_id': config.encodeMessage(scheduledTransactionId),
     };
   }
 
-
-  factory HederaCreateScheduleOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCreateScheduleOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCreateScheduleOutput(
       scheduleId: json.valueTo<proto_basic_types.HederaScheduleID?, Object>(
         key: 'schedule_id',
-        parse: (v) => proto_basic_types.HederaScheduleID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      scheduledTransactionId: json.valueTo<proto_basic_types.HederaTransactionID?, Object>(
-        key: 'scheduled_transaction_id',
-        parse: (v) => proto_basic_types.HederaTransactionID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaScheduleID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      scheduledTransactionId: json
+          .valueTo<proto_basic_types.HederaTransactionID?, Object>(
+            key: 'scheduled_transaction_id',
+            parse:
+                (v) => proto_basic_types.HederaTransactionID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaCreateScheduleOutput.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCreateScheduleOutput(
-      scheduleId: decode.messageTo<proto_basic_types.HederaScheduleID?>(1, (b) => proto_basic_types.HederaScheduleID.deserialize(b)),
-      scheduledTransactionId: decode.messageTo<proto_basic_types.HederaTransactionID?>(2, (b) => proto_basic_types.HederaTransactionID.deserialize(b)),
+      scheduleId: decode.messageTo<proto_basic_types.HederaScheduleID?>(
+        1,
+        (b) => proto_basic_types.HederaScheduleID.deserialize(b),
+      ),
+      scheduledTransactionId: decode
+          .messageTo<proto_basic_types.HederaTransactionID?>(
+            2,
+            (b) => proto_basic_types.HederaTransactionID.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputCreateScheduleOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputCreateScheduleOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `deleteSchedule` transaction.
@@ -170,46 +187,43 @@ class HederaDeleteScheduleOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaDeleteScheduleOutput copyWith(
-) {
-    return HederaDeleteScheduleOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaDeleteScheduleOutput copyWith() {
+    return HederaDeleteScheduleOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaDeleteScheduleOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaDeleteScheduleOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaDeleteScheduleOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaDeleteScheduleOutput();
   }
 
   factory HederaDeleteScheduleOutput.deserialize(List<int> bytes) {
-    return HederaDeleteScheduleOutput(
-    );
+    return HederaDeleteScheduleOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputDeleteScheduleOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputDeleteScheduleOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `signSchedule` transaction.
@@ -217,7 +231,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * This message SHALL NOT duplicate information already contained in
 ///  * the original transaction.
 class HederaSignScheduleOutput extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A scheduled transaction identifier.
   ///      * &lt;p&gt;
   ///      * This value SHALL be the transaction identifier for the _scheduled_
@@ -230,9 +244,7 @@ class HederaSignScheduleOutput extends HederaProtoMessage with Equality {
   ///      * requirements for the scheduled child transaction.
   final proto_basic_types.HederaTransactionID? scheduledTransactionId;
 
-  const HederaSignScheduleOutput({
-    this.scheduledTransactionId,
-  });
+  const HederaSignScheduleOutput({this.scheduledTransactionId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -241,56 +253,65 @@ class HederaSignScheduleOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        scheduledTransactionId,
-      ];
+  List<Object?> get protoValues => [scheduledTransactionId];
 
-
-HederaSignScheduleOutput copyWith(
-{proto_basic_types.HederaTransactionID? scheduledTransactionId,
-
-}) {
+  HederaSignScheduleOutput copyWith({
+    proto_basic_types.HederaTransactionID? scheduledTransactionId,
+  }) {
     return HederaSignScheduleOutput(
-scheduledTransactionId: scheduledTransactionId ?? this.scheduledTransactionId,
+      scheduledTransactionId:
+          scheduledTransactionId ?? this.scheduledTransactionId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'scheduled_transaction_id': config.encodeMessage(scheduledTransactionId),
     };
   }
 
-
-  factory HederaSignScheduleOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSignScheduleOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSignScheduleOutput(
-      scheduledTransactionId: json.valueTo<proto_basic_types.HederaTransactionID?, Object>(
-        key: 'scheduled_transaction_id',
-        parse: (v) => proto_basic_types.HederaTransactionID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      scheduledTransactionId: json
+          .valueTo<proto_basic_types.HederaTransactionID?, Object>(
+            key: 'scheduled_transaction_id',
+            parse:
+                (v) => proto_basic_types.HederaTransactionID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaSignScheduleOutput.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSignScheduleOutput(
-      scheduledTransactionId: decode.messageTo<proto_basic_types.HederaTransactionID?>(1, (b) => proto_basic_types.HederaTransactionID.deserialize(b)),
+      scheduledTransactionId: decode
+          .messageTo<proto_basic_types.HederaTransactionID?>(
+            1,
+            (b) => proto_basic_types.HederaTransactionID.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputSignScheduleOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputSignScheduleOutput;
 }
-
-

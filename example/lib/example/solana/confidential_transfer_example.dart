@@ -4,7 +4,6 @@ library;
 import 'dart:io';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:blockchain_utils_connector/blockchain_utils_connector.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import 'service_example/service_example.dart';

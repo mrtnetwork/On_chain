@@ -3,14 +3,17 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void transactionSerializationTest() {
   group('ADA/Transaction Serialization', _transactionSerialization);
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(transactionSerializationTest, "Transaction Serialization");
+  OnChainUtilsTestApi.runTest(
+    transactionSerializationTest,
+    "Transaction Serialization",
+  );
 }
-
 
 void _transactionSerialization() {
   test('transaction_1', () {

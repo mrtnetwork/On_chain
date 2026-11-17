@@ -2,7 +2,8 @@ import 'package:on_chain/near/src/rpc/core/core.dart';
 import 'package:on_chain/near/src/rpc/models/types/types.dart';
 
 class NearNodeRequestExperimentalViewAccount
-    extends NearNodeRequest<NearRpcRpcViewAccountResponse, Map<String, dynamic>> {
+    extends
+        NearNodeRequest<NearRpcRpcViewAccountResponse, Map<String, dynamic>> {
   final NearRpcRpcViewAccountRequest args;
   const NearNodeRequestExperimentalViewAccount(this.args);
   @override

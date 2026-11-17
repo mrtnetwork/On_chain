@@ -692,7 +692,9 @@ class AlgoRestTypesAccountParticipation {
     required this.voteKeyDilution,
     required this.voteLastValid,
     required List<int> voteParticipationKey,
-  }) : voteParticipationKey = voteParticipationKey.asImmutableBytes, stateProofKey = stateProofKey?.asImmutableBytes, selectionParticipationKey = selectionParticipationKey.asImmutableBytes;
+  }) : voteParticipationKey = voteParticipationKey.asImmutableBytes,
+       stateProofKey = stateProofKey?.asImmutableBytes,
+       selectionParticipationKey = selectionParticipationKey.asImmutableBytes;
 
   factory AlgoRestTypesAccountParticipation.fromJson(
     Map<String, dynamic> json,
@@ -1380,7 +1382,8 @@ class AlgoRestTypesApplicationParams {
     this.globalStateSchema,
     this.localStateSchema,
     this.version,
-  }) : clearStateProgram = clearStateProgram.asImmutableBytes, approvalProgram = approvalProgram.asImmutableBytes;
+  }) : clearStateProgram = clearStateProgram.asImmutableBytes,
+       approvalProgram = approvalProgram.asImmutableBytes;
 
   factory AlgoRestTypesApplicationParams.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesApplicationParams(
@@ -1939,7 +1942,10 @@ class AlgoRestTypesAssetParams {
     List<int>? unitNameB64,
     this.url,
     List<int>? urlB64,
-  }) : urlB64 = urlB64?.asImmutableBytes, unitNameB64 = unitNameB64?.asImmutableBytes, nameB64 = nameB64?.asImmutableBytes, metadataHash = metadataHash?.asImmutableBytes;
+  }) : urlB64 = urlB64?.asImmutableBytes,
+       unitNameB64 = unitNameB64?.asImmutableBytes,
+       nameB64 = nameB64?.asImmutableBytes,
+       metadataHash = metadataHash?.asImmutableBytes;
 
   factory AlgoRestTypesAssetParams.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesAssetParams(
@@ -2099,7 +2105,8 @@ class AlgoRestTypesAvmKeyValue {
   /// Value represents an AVM value.
   final AlgoRestTypesAvmValue value;
 
-  AlgoRestTypesAvmKeyValue({required List<int> key, required this.value}) : key = key.asImmutableBytes;
+  AlgoRestTypesAvmKeyValue({required List<int> key, required this.value})
+    : key = key.asImmutableBytes;
 
   factory AlgoRestTypesAvmKeyValue.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesAvmKeyValue(
@@ -2133,7 +2140,8 @@ class AlgoRestTypesAvmValue {
   /// Uint uint value.
   final BigInt? uint;
 
-  AlgoRestTypesAvmValue({List<int>? bytes, required this.type, this.uint}) : bytes = bytes?.asImmutableBytes;
+  AlgoRestTypesAvmValue({List<int>? bytes, required this.type, this.uint})
+    : bytes = bytes?.asImmutableBytes;
 
   factory AlgoRestTypesAvmValue.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesAvmValue(
@@ -2235,7 +2243,13 @@ class AlgoRestTypesBlock {
     this.txnCounter,
     this.upgradeState,
     this.upgradeVote,
-  }) : genesisHash = genesisHash.asImmutableBytes, transactionsRootSha512 = transactionsRootSha512?.asImmutableBytes, transactionsRootSha256 = transactionsRootSha256.asImmutableBytes, transactionsRoot = transactionsRoot.asImmutableBytes, seed = seed.asImmutableBytes, previousBlockHash512 = previousBlockHash512?.asImmutableBytes, previousBlockHash = previousBlockHash.asImmutableBytes;
+  }) : genesisHash = genesisHash.asImmutableBytes,
+       transactionsRootSha512 = transactionsRootSha512?.asImmutableBytes,
+       transactionsRootSha256 = transactionsRootSha256.asImmutableBytes,
+       transactionsRoot = transactionsRoot.asImmutableBytes,
+       seed = seed.asImmutableBytes,
+       previousBlockHash512 = previousBlockHash512?.asImmutableBytes,
+       previousBlockHash = previousBlockHash.asImmutableBytes;
 
   factory AlgoRestTypesBlock.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesBlock(
@@ -2453,7 +2467,7 @@ class AlgoRestTypesBlockLogsResponse {
   /// Logs
   final List<AlgoRestTypesAppCallLogs> logs;
 
-  AlgoRestTypesBlockLogsResponse({required this.logs}) ;
+  AlgoRestTypesBlockLogsResponse({required this.logs});
 
   factory AlgoRestTypesBlockLogsResponse.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesBlockLogsResponse(
@@ -2676,7 +2690,8 @@ class AlgoRestTypesBox {
     required List<int> name,
     required this.round,
     required List<int> value,
-  }) : name = name.asImmutableBytes, value = value.asImmutableBytes;
+  }) : name = name.asImmutableBytes,
+       value = value.asImmutableBytes;
 
   factory AlgoRestTypesBox.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesBox(
@@ -2707,7 +2722,9 @@ class AlgoRestTypesBoxDescriptor {
   /// Value base64 encoded box value. Present only when the `values` query parameter is set to true.
   final BuBytes? value;
 
-  AlgoRestTypesBoxDescriptor({required List<int> name, List<int>? value}) : name = name.asImmutableBytes, value = value?.asImmutableBytes;
+  AlgoRestTypesBoxDescriptor({required List<int> name, List<int>? value})
+    : name = name.asImmutableBytes,
+      value = value?.asImmutableBytes;
 
   factory AlgoRestTypesBoxDescriptor.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesBoxDescriptor(
@@ -2733,7 +2750,8 @@ class AlgoRestTypesBoxReference {
   /// Name base64 encoded box name
   final BuBytes name;
 
-  AlgoRestTypesBoxReference({required this.app, required List<int> name}) : name = name.asImmutableBytes;
+  AlgoRestTypesBoxReference({required this.app, required List<int> name})
+    : name = name.asImmutableBytes;
 
   factory AlgoRestTypesBoxReference.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesBoxReference(
@@ -2977,7 +2995,7 @@ class AlgoRestTypesEvalDelta {
   /// Uint (ui) uint value.
   final BigInt? uint;
 
-  AlgoRestTypesEvalDelta({required this.action, this.bytes, this.uint}) ;
+  AlgoRestTypesEvalDelta({required this.action, this.bytes, this.uint});
 
   factory AlgoRestTypesEvalDelta.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesEvalDelta(
@@ -3000,10 +3018,7 @@ class AlgoRestTypesEvalDeltaKeyValue {
   /// Value represents a TEAL value delta.
   final AlgoRestTypesEvalDelta value;
 
-  AlgoRestTypesEvalDeltaKeyValue({
-    required this.key,
-    required this.value,
-  }) ;
+  AlgoRestTypesEvalDeltaKeyValue({required this.key, required this.value});
 
   factory AlgoRestTypesEvalDeltaKeyValue.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesEvalDeltaKeyValue(
@@ -3248,7 +3263,11 @@ class AlgoRestTypesHbProofFields {
     List<int>? hbPk2,
     List<int>? hbPk2sig,
     List<int>? hbSig,
-  }) : hbSig = hbSig?.asImmutableBytes, hbPk2sig = hbPk2sig?.asImmutableBytes, hbPk2 = hbPk2?.asImmutableBytes, hbPk1sig = hbPk1sig?.asImmutableBytes, hbPk = hbPk?.asImmutableBytes;
+  }) : hbSig = hbSig?.asImmutableBytes,
+       hbPk2sig = hbPk2sig?.asImmutableBytes,
+       hbPk2 = hbPk2?.asImmutableBytes,
+       hbPk1sig = hbPk1sig?.asImmutableBytes,
+       hbPk = hbPk?.asImmutableBytes;
 
   factory AlgoRestTypesHbProofFields.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesHbProofFields(
@@ -3386,7 +3405,8 @@ class AlgoRestTypesIndexerStateProofMessage {
     this.latestAttestedRound,
     this.lnProvenWeight,
     List<int>? votersCommitment,
-  }) : votersCommitment = votersCommitment?.asImmutableBytes, blockHeadersCommitment = blockHeadersCommitment?.asImmutableBytes;
+  }) : votersCommitment = votersCommitment?.asImmutableBytes,
+       blockHeadersCommitment = blockHeadersCommitment?.asImmutableBytes;
 
   factory AlgoRestTypesIndexerStateProofMessage.fromJson(
     Map<String, dynamic> json,
@@ -4907,7 +4927,9 @@ class AlgoRestTypesSimulationTransactionExecTrace {
     this.innerTrace,
     List<int>? logicSigHash,
     this.logicSigTrace,
-  }) : logicSigHash = logicSigHash?.asImmutableBytes, clearStateProgramHash = clearStateProgramHash?.asImmutableBytes, approvalProgramHash = approvalProgramHash?.asImmutableBytes;
+  }) : logicSigHash = logicSigHash?.asImmutableBytes,
+       clearStateProgramHash = clearStateProgramHash?.asImmutableBytes,
+       approvalProgramHash = approvalProgramHash?.asImmutableBytes;
 
   factory AlgoRestTypesSimulationTransactionExecTrace.fromJson(
     Map<String, dynamic> json,
@@ -5150,7 +5172,8 @@ class AlgoRestTypesStateProofMessage {
     required this.lastattestedround,
     required this.lnprovenweight,
     required List<int> voterscommitment,
-  }) : voterscommitment = voterscommitment.asImmutableBytes, blockheaderscommitment = blockheaderscommitment.asImmutableBytes;
+  }) : voterscommitment = voterscommitment.asImmutableBytes,
+       blockheaderscommitment = blockheaderscommitment.asImmutableBytes;
 
   factory AlgoRestTypesStateProofMessage.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesStateProofMessage(
@@ -5274,7 +5297,7 @@ class AlgoRestTypesStateProofSigSlot {
   /// Signature
   final AlgoRestTypesStateProofSignature? signature;
 
-  AlgoRestTypesStateProofSigSlot({this.lowerSigWeight, this.signature}) ;
+  AlgoRestTypesStateProofSigSlot({this.lowerSigWeight, this.signature});
 
   factory AlgoRestTypesStateProofSigSlot.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesStateProofSigSlot(
@@ -5316,7 +5339,8 @@ class AlgoRestTypesStateProofSignature {
     this.merkleArrayIndex,
     this.proof,
     List<int>? verifyingKey,
-  }) : verifyingKey = verifyingKey?.asImmutableBytes, falconSignature = falconSignature?.asImmutableBytes;
+  }) : verifyingKey = verifyingKey?.asImmutableBytes,
+       falconSignature = falconSignature?.asImmutableBytes;
 
   factory AlgoRestTypesStateProofSignature.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesStateProofSignature(
@@ -5400,7 +5424,8 @@ class AlgoRestTypesStateProofVerifier {
   /// KeyLifetime (lf) Key lifetime.
   final BigInt? keyLifetime;
 
-  AlgoRestTypesStateProofVerifier({List<int>? commitment, this.keyLifetime}) : commitment = commitment?.asImmutableBytes;
+  AlgoRestTypesStateProofVerifier({List<int>? commitment, this.keyLifetime})
+    : commitment = commitment?.asImmutableBytes;
 
   factory AlgoRestTypesStateProofVerifier.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesStateProofVerifier(
@@ -5505,7 +5530,7 @@ class AlgoRestTypesTealKeyValue {
   /// Value represents a TEAL value.
   final AlgoRestTypesTealValue value;
 
-  AlgoRestTypesTealKeyValue({required this.key, required this.value}) ;
+  AlgoRestTypesTealKeyValue({required this.key, required this.value});
 
   factory AlgoRestTypesTealKeyValue.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesTealKeyValue(
@@ -5543,7 +5568,7 @@ class AlgoRestTypesTealValue {
     required this.bytes,
     required this.type,
     required this.uint,
-  }) ;
+  });
 
   factory AlgoRestTypesTealValue.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesTealValue(
@@ -5705,7 +5730,11 @@ class AlgoRestTypesTransaction {
     this.signature,
     this.stateProofTransaction,
     this.type,
-  }) : genesisHash = genesisHash?.asImmutableBytes, note = note?.asImmutableBytes, logs = logs?.map((e) => e.asImmutableBytes).toImutableList, lease = lease?.asImmutableBytes, group = group?.asImmutableBytes;
+  }) : genesisHash = genesisHash?.asImmutableBytes,
+       note = note?.asImmutableBytes,
+       logs = logs?.map((e) => e.asImmutableBytes).toImutableList,
+       lease = lease?.asImmutableBytes,
+       group = group?.asImmutableBytes;
 
   factory AlgoRestTypesTransaction.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesTransaction(
@@ -5973,7 +6002,10 @@ class AlgoRestTypesTransactionApplication {
     this.localStateSchema,
     this.onCompletion,
     this.rejectVersion,
-  }) : clearStateProgram = clearStateProgram?.asImmutableBytes, approvalProgram = approvalProgram?.asImmutableBytes, applicationArgs = applicationArgs?.map((e) => e.asImmutableBytes).toImutableList;
+  }) : clearStateProgram = clearStateProgram?.asImmutableBytes,
+       approvalProgram = approvalProgram?.asImmutableBytes,
+       applicationArgs =
+           applicationArgs?.map((e) => e.asImmutableBytes).toImutableList;
 
   factory AlgoRestTypesTransactionApplication.fromJson(
     Map<String, dynamic> json,
@@ -6269,7 +6301,8 @@ class AlgoRestTypesTransactionHeartbeat {
     required this.hbProof,
     required List<int> hbSeed,
     required List<int> hbVoteId,
-  }) : hbVoteId = hbVoteId.asImmutableBytes, hbSeed = hbSeed.asImmutableBytes;
+  }) : hbVoteId = hbVoteId.asImmutableBytes,
+       hbSeed = hbSeed.asImmutableBytes;
 
   factory AlgoRestTypesTransactionHeartbeat.fromJson(
     Map<String, dynamic> json,
@@ -6346,7 +6379,9 @@ class AlgoRestTypesTransactionKeyreg {
     this.voteKeyDilution,
     this.voteLastValid,
     List<int>? voteParticipationKey,
-  }) : voteParticipationKey = voteParticipationKey?.asImmutableBytes, stateProofKey = stateProofKey?.asImmutableBytes, selectionParticipationKey = selectionParticipationKey?.asImmutableBytes;
+  }) : voteParticipationKey = voteParticipationKey?.asImmutableBytes,
+       stateProofKey = stateProofKey?.asImmutableBytes,
+       selectionParticipationKey = selectionParticipationKey?.asImmutableBytes;
 
   factory AlgoRestTypesTransactionKeyreg.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesTransactionKeyreg(
@@ -6518,7 +6553,8 @@ class AlgoRestTypesTransactionProof {
     required List<int> proof,
     required List<int> stibhash,
     required this.treedepth,
-  }) : stibhash = stibhash.asImmutableBytes, proof = proof.asImmutableBytes;
+  }) : stibhash = stibhash.asImmutableBytes,
+       proof = proof.asImmutableBytes;
 
   factory AlgoRestTypesTransactionProof.fromJson(Map<String, dynamic> json) {
     return AlgoRestTypesTransactionProof(
@@ -6660,7 +6696,9 @@ class AlgoRestTypesTransactionSignatureLogicsig {
     this.logicMultisigSignature,
     this.multisigSignature,
     List<int>? signature,
-  }) : signature = signature?.asImmutableBytes, logic = logic.asImmutableBytes, args = args?.map((e) => e.asImmutableBytes).toImutableList;
+  }) : signature = signature?.asImmutableBytes,
+       logic = logic.asImmutableBytes,
+       args = args?.map((e) => e.asImmutableBytes).toImutableList;
 
   factory AlgoRestTypesTransactionSignatureLogicsig.fromJson(
     Map<String, dynamic> json,
@@ -6781,7 +6819,8 @@ class AlgoRestTypesTransactionSignatureMultisigSubsignature {
   AlgoRestTypesTransactionSignatureMultisigSubsignature({
     List<int>? publicKey,
     List<int>? signature,
-  }) : signature = signature?.asImmutableBytes, publicKey = publicKey?.asImmutableBytes;
+  }) : signature = signature?.asImmutableBytes,
+       publicKey = publicKey?.asImmutableBytes;
 
   factory AlgoRestTypesTransactionSignatureMultisigSubsignature.fromJson(
     Map<String, dynamic> json,

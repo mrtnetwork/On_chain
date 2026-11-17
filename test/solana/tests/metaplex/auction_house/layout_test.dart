@@ -4,6 +4,7 @@ import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
 import '../../../../utils.dart';
+
 void auctionHouseLayoutTest() {
   group('Solana/Auction House Layout', () {
     _purchaseReceipt();
@@ -50,7 +51,6 @@ void auctionHouseLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(auctionHouseLayoutTest, "Layout");
 }
-
 
 void _auctionHouse() {
   test('create', () {

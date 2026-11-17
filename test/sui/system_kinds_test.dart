@@ -10,6 +10,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 /// Mainnet `ConsensusCommitPrologueV4` (epoch 1269, round 322791,
 /// commit 2026-10-03T06:12:41.137Z). Ground truth cross-checked against the
 /// gRPC-parsed JSON view of the same transaction.
@@ -46,8 +47,7 @@ void systemKindsTest() {
         isA<SuiCancelledTransactionsV2>(),
       );
       expect(
-        (v4.consensusDeterminedVersionAssignments
-                as SuiCancelledTransactionsV2)
+        (v4.consensusDeterminedVersionAssignments as SuiCancelledTransactionsV2)
             .transactions,
         isEmpty,
       );
@@ -89,14 +89,22 @@ void systemKindsTest() {
       final moveCall = (first as SuiCommandMoveCall).moveCall;
       expect(moveCall.module, "accumulator_settlement");
       expect(moveCall.function, "settlement_prologue");
-      expect(BytesUtils.toHexString(data.toVariantBcs()), _programmableSystemTx);
+      expect(
+        BytesUtils.toHexString(data.toVariantBcs()),
+        _programmableSystemTx,
+      );
     });
 
     test('system transactions use zero sender + zero gas coin', () {
       final data =
           SuiTransactionData.deserialize(BytesUtils.fromHexString(_v4Tx))
               as SuiTransactionDataV1;
-      expect(data.sender.address, SuiAddress("0x0000000000000000000000000000000000000000000000000000000000000000").address);
+      expect(
+        data.sender.address,
+        SuiAddress(
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+        ).address,
+      );
       expect(data.gasData.budget, BigInt.zero);
       expect(data.expiration, isA<SuiTransactionExpirationNone>());
     });
@@ -132,7 +140,11 @@ void systemKindsTest() {
             modules: [
               [1, 2, 3],
             ],
-            dependencies: [SuiAddress("0x0000000000000000000000000000000000000000000000000000000000000000")],
+            dependencies: [
+              SuiAddress(
+                "0x0000000000000000000000000000000000000000000000000000000000000000",
+              ),
+            ],
           ),
         ],
       );
@@ -171,7 +183,9 @@ void systemKindsTest() {
               digest: SuiObjectDigest(List.filled(32, 9)),
               assignments: [
                 SuiObjectVersionAssignment(
-                  objectId: SuiAddress("0x0000000000000000000000000000000000000000000000000000000000000000"),
+                  objectId: SuiAddress(
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                  ),
                   version: BigInt.from(3),
                 ),
               ],
@@ -186,12 +200,10 @@ void systemKindsTest() {
       expect(v1.toVariantBcs()[0], 3);
       expect(v2.toVariantBcs()[0], 7);
       expect(v3.toVariantBcs()[0], 8);
-      final v3d =
-          _roundTrip(v3) as SuiTransactionKindConsensusCommitPrologueV3;
+      final v3d = _roundTrip(v3) as SuiTransactionKindConsensusCommitPrologueV3;
       expect(v3d.subDagIndex, BigInt.from(4));
       final cancelled =
-          v3d.consensusDeterminedVersionAssignments
-              as SuiCancelledTransactions;
+          v3d.consensusDeterminedVersionAssignments as SuiCancelledTransactions;
       expect(cancelled.transactions.length, 1);
       expect(cancelled.transactions[0].assignments[0].version, BigInt.from(3));
     });
@@ -226,16 +238,17 @@ void systemKindsTest() {
     });
 
     test('EndOfEpochTransaction with mixed variants', () {
-      SuiTxEndOfEpochKind unit(int i) => const [
-        SuiEndOfEpochAuthenticatorStateCreate(),
-        SuiEndOfEpochRandomnessStateCreate(),
-        SuiEndOfEpochDenyListStateCreate(),
-        SuiEndOfEpochAccumulatorRootCreate(),
-        SuiEndOfEpochCoinRegistryCreate(),
-        SuiEndOfEpochDisplayRegistryCreate(),
-        SuiEndOfEpochAddressAliasStateCreate(),
-        SuiEndOfEpochForwardingAddressRegistryCreate(),
-      ][i];
+      SuiTxEndOfEpochKind unit(int i) =>
+          const [
+            SuiEndOfEpochAuthenticatorStateCreate(),
+            SuiEndOfEpochRandomnessStateCreate(),
+            SuiEndOfEpochDenyListStateCreate(),
+            SuiEndOfEpochAccumulatorRootCreate(),
+            SuiEndOfEpochCoinRegistryCreate(),
+            SuiEndOfEpochDisplayRegistryCreate(),
+            SuiEndOfEpochAddressAliasStateCreate(),
+            SuiEndOfEpochForwardingAddressRegistryCreate(),
+          ][i];
       final kind = SuiTransactionKindEndOfEpochTransaction(
         transactions: [
           SuiEndOfEpochChangeEpoch(
@@ -258,9 +271,7 @@ void systemKindsTest() {
           unit(1),
           unit(2),
           const SuiEndOfEpochBridgeStateCreate("mainnet"),
-          SuiEndOfEpochBridgeCommitteeInit(
-            bridgeSharedVersion: BigInt.from(5),
-          ),
+          SuiEndOfEpochBridgeCommitteeInit(bridgeSharedVersion: BigInt.from(5)),
           SuiEndOfEpochStoreExecutionTimeObservations(
             SuiStoredExecutionTimeObservations(
               observations: [
@@ -268,7 +279,9 @@ void systemKindsTest() {
                   key: const SuiObservationTransferObjects(),
                   estimates: [
                     SuiAuthorityTimeEstimate(
-                      authority: SuiAddress("0x0000000000000000000000000000000000000000000000000000000000000000"),
+                      authority: SuiAddress(
+                        "0x0000000000000000000000000000000000000000000000000000000000000000",
+                      ),
                       secs: BigInt.one,
                       nanos: 2,
                     ),
@@ -318,7 +331,6 @@ void systemKindsTest() {
 void main() {
   OnChainUtilsTestApi.runTest(systemKindsTest, "System Kinds");
 }
-
 
 SuiTransactionKind _roundTrip(SuiTransactionKind kind) {
   final decoded = BcsVariantSerialization.deserialize(

@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/response_code.dart" as proto_response_code;
+import "package:on_chain/hedera/src/proto_messages/proto/src/response_code.dart"
+    as proto_response_code;
 
 /// *
 ///  * # Transaction Response
@@ -32,14 +33,14 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/response_code.dart"
 ///  * detailed transaction record. A client MAY also obtain network consensus
 ///  * results from a mirror node.
 class HederaTransactionResponse extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A pre-consensus response code.
   ///      * &lt;p&gt;
   ///      * This response SHALL represent the response of the individual node, and
   ///      * SHALL NOT represent the consensus of the network.
   final proto_response_code.HederaResponseCodeEnum? nodeTransactionPrecheckCode;
 
-    /// *
+  /// *
   ///      * An approximate transaction fee.
   ///      * &lt;p&gt;
   ///      * This value SHALL be `0` unless the `nodeTransactionPrecheckCode` is
@@ -63,64 +64,70 @@ class HederaTransactionResponse extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.enumType(1),
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.enumType(1), ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        nodeTransactionPrecheckCode,
-        cost,
-      ];
+  List<Object?> get protoValues => [nodeTransactionPrecheckCode, cost];
 
+  HederaTransactionResponse copyWith({
+    proto_response_code.HederaResponseCodeEnum? nodeTransactionPrecheckCode,
 
-HederaTransactionResponse copyWith(
-{proto_response_code.HederaResponseCodeEnum? nodeTransactionPrecheckCode,
-
-BigInt? cost,
-
-}) {
+    BigInt? cost,
+  }) {
     return HederaTransactionResponse(
-nodeTransactionPrecheckCode: nodeTransactionPrecheckCode ?? this.nodeTransactionPrecheckCode,
-cost: cost ?? this.cost,
+      nodeTransactionPrecheckCode:
+          nodeTransactionPrecheckCode ?? this.nodeTransactionPrecheckCode,
+      cost: cost ?? this.cost,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'nodeTransactionPrecheckCode': config.encodeEnum(nodeTransactionPrecheckCode),
+      'nodeTransactionPrecheckCode': config.encodeEnum(
+        nodeTransactionPrecheckCode,
+      ),
       'cost': config.encodeBigint(cost),
     };
   }
 
-
-  factory HederaTransactionResponse.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTransactionResponse.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTransactionResponse(
-      nodeTransactionPrecheckCode: json.valueTo<proto_response_code.HederaResponseCodeEnum?, Object?>(
-        key: 'nodeTransactionPrecheckCode',
-        parse: (v) => proto_response_code.HederaResponseCodeEnum.from(v),
+      nodeTransactionPrecheckCode: json
+          .valueTo<proto_response_code.HederaResponseCodeEnum?, Object?>(
+            key: 'nodeTransactionPrecheckCode',
+            parse: (v) => proto_response_code.HederaResponseCodeEnum.from(v),
+          ),
+      cost: json.valueAsBigInt<BigInt?>(
+        'cost',
+        normalizeKeyLookup: config.normalizeKeys,
       ),
-      cost: json.valueAsBigInt<BigInt?>('cost', normalizeKeyLookup: config.normalizeKeys),
     );
   }
 
   factory HederaTransactionResponse.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTransactionResponse(
-      nodeTransactionPrecheckCode: decode.getEnum<proto_response_code.HederaResponseCodeEnum?>(1, proto_response_code.HederaResponseCodeEnum.values),
+      nodeTransactionPrecheckCode: decode
+          .getEnum<proto_response_code.HederaResponseCodeEnum?>(
+            1,
+            proto_response_code.HederaResponseCodeEnum.values,
+          ),
       cost: decode.getBigInt<BigInt?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTransactionResponse;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTransactionResponse;
 }
-
-

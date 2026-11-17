@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../utils.dart';
+
 void associatedTokenAccountLayoutTest() {
   group('Solana/Associated Token Account Layout', () {
     _associatedToken();
@@ -13,7 +14,6 @@ void associatedTokenAccountLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(associatedTokenAccountLayoutTest, "Layout");
 }
-
 
 void _associatedToken() {
   test('associatedTokenAccount', () {

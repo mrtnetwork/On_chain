@@ -2,6 +2,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void keypairTest() {
   group('Sui/Keypair', _testEd25519SuiSecretKey);
 }
@@ -9,7 +10,6 @@ void keypairTest() {
 void main() {
   OnChainUtilsTestApi.runTest(keypairTest, "Keypair");
 }
-
 
 void _testEd25519SuiSecretKey() {
   test('Ed25519 encode decode sui secret key', () {

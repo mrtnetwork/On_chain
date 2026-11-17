@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../../utils.dart';
+
 void fixedPriceSaleTest() {
   group('Solana/Fixed Price Sale', () {
     _withdraw();
@@ -27,7 +28,6 @@ void fixedPriceSaleTest() {
 void main() {
   OnChainUtilsTestApi.runTest(fixedPriceSaleTest, "Fixed Price Sale");
 }
-
 
 void _buy() {
   test('buy', () {

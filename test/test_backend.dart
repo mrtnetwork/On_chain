@@ -36,7 +36,8 @@ library;
 import 'package:blockchain_utils/api/api/api.dart';
 
 import 'test_backend_env_stub.dart'
-    if (dart.library.io) 'test_backend_env_vm.dart' as test_env;
+    if (dart.library.io) 'test_backend_env_vm.dart'
+    as test_env;
 
 /// Reads a raw env var (VM `Platform.environment`) / define default.
 /// Browser-safe: stub returns the define default (`null` unless passed).
@@ -116,20 +117,20 @@ class BuTestConfig {
     final build = test_env.testEnvVar('BU_BUILD');
     return BuTestConfig(
       backend:
-          backend ??
-          BuTestBackend.parse(test_env.testEnvVar('BU_BACKEND')),
-      ffiLibraryPath:
-          ffiLibraryPath ?? test_env.testEnvVar('BU_LIB_PATH'),
+          backend ?? BuTestBackend.parse(test_env.testEnvVar('BU_BACKEND')),
+      ffiLibraryPath: ffiLibraryPath ?? test_env.testEnvVar('BU_LIB_PATH'),
       ffiProfile:
           ffiProfile ?? test_env.testEnvVar('BU_FFI_PROFILE') ?? 'debug',
       buildMissing:
           buildMissing ??
           (build == '1' ||
-              (build ?? '').split(',').any(
-                (p) => p.trim() == 'ffi' || p.trim() == 'all',
-              )),
+              (build ?? '')
+                  .split(',')
+                  .any((p) => p.trim() == 'ffi' || p.trim() == 'all')),
       ffiFeatures:
-          ffiFeatures ?? test_env.testEnvVar('BU_FFI_FEATURES') ?? 'hw,poseidon-bn254',
+          ffiFeatures ??
+          test_env.testEnvVar('BU_FFI_FEATURES') ??
+          'hw,poseidon-bn254',
       ffiNoDefaultFeatures:
           ffiNoDefaultFeatures ??
           (test_env.testEnvVar('BU_FFI_NO_DEFAULT_FEATURES') == '1'),
@@ -137,8 +138,7 @@ class BuTestConfig {
           wasmGlueUrl ??
           test_env.testEnvVar('BU_WASM_GLUE_URL') ??
           'wasm_assets/bu.js',
-      wasmModuleUrl:
-          wasmModuleUrl ?? test_env.testEnvVar('BU_WASM_MODULE_URL'),
+      wasmModuleUrl: wasmModuleUrl ?? test_env.testEnvVar('BU_WASM_MODULE_URL'),
       vectorTake: vectorTake ?? testEnvInt('BU_TAKE'),
       fuzzIterations: fuzzIterations ?? testEnvInt('BU_FUZZ_ITERS'),
       generatorTotal: generatorTotal ?? testEnvInt('BU_GEN_TOTAL'),
@@ -202,9 +202,7 @@ class BuTestConfig {
       case BuTestBackend.dart:
         apiOwner.setDartApi();
       case BuTestBackend.ffi:
-        apiOwner.setRustApi(
-          libraryPath: resolvedFfiPath ?? ffiLibraryPath,
-        );
+        apiOwner.setRustApi(libraryPath: resolvedFfiPath ?? ffiLibraryPath);
       case BuTestBackend.wasm:
         throw UnsupportedError(
           'wasm backend needs a browser: run '

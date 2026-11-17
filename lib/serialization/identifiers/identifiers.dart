@@ -51,7 +51,10 @@ enum OnChainSerializationIdentifiers implements SerializationIdentifier {
       (e) => e.id == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching OnChainSerializationIdentifiers found for the given value. null"),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching OnChainSerializationIdentifiers found for the given value. null",
+              ),
     );
   }
 

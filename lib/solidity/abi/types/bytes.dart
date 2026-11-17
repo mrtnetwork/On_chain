@@ -78,7 +78,10 @@ class BytesCoder implements ABICoder<Object, List<int>> {
     );
     final size = ABIUtils._bytesSize(params.type);
     if (size != null && inputAsBytes.length != size) {
-      throw const BuError(DefaultErrorType.invalidLength,'Invalid bytes length');
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Invalid bytes length',
+      );
     }
     return EncoderResult(
       isDynamic: false,

@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Transaction Contents
@@ -26,13 +27,13 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * This content is recorded in the record stream exactly as received.
 class HederaSignedTransaction extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A byte array containing a serialized `TransactionBody`.
   ///      * &lt;p&gt;
   ///      * This content is what the signatures in `sigMap` MUST sign.
   final List<int>? bodyBytes;
 
-    /// *
+  /// *
   ///      * A set of cryptographic signatures.
   ///      * &lt;p&gt;
   ///      * This set MUST contain all signatures required to authenticate
@@ -40,7 +41,7 @@ class HederaSignedTransaction extends HederaProtoMessage with Equality {
   ///      * This set MAY contain additional signatures.
   final proto_basic_types.HederaSignatureMap? sigMap;
 
-    /// *
+  /// *
   ///      * If false then the hash of this transaction is the SHA-384 hash of the
   ///      * serialization of this SignedTransaction message as it arrived on the wire.
   ///      * &lt;p&gt;
@@ -72,47 +73,63 @@ class HederaSignedTransaction extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        bodyBytes,
-        sigMap,
-        useSerializedTxMessageHashAlgorithm,
-      ];
+    bodyBytes,
+    sigMap,
+    useSerializedTxMessageHashAlgorithm,
+  ];
 
+  HederaSignedTransaction copyWith({
+    List<int>? bodyBytes,
 
-HederaSignedTransaction copyWith(
-{List<int>? bodyBytes,
+    proto_basic_types.HederaSignatureMap? sigMap,
 
-proto_basic_types.HederaSignatureMap? sigMap,
-
-bool? useSerializedTxMessageHashAlgorithm,
-
-}) {
+    bool? useSerializedTxMessageHashAlgorithm,
+  }) {
     return HederaSignedTransaction(
-bodyBytes: bodyBytes ?? this.bodyBytes,
-sigMap: sigMap ?? this.sigMap,
-useSerializedTxMessageHashAlgorithm: useSerializedTxMessageHashAlgorithm ?? this.useSerializedTxMessageHashAlgorithm,
+      bodyBytes: bodyBytes ?? this.bodyBytes,
+      sigMap: sigMap ?? this.sigMap,
+      useSerializedTxMessageHashAlgorithm:
+          useSerializedTxMessageHashAlgorithm ??
+          this.useSerializedTxMessageHashAlgorithm,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'bodyBytes': config.encodeBinary(bodyBytes),
       'sigMap': config.encodeMessage(sigMap),
-      'use_serialized_tx_message_hash_algorithm': useSerializedTxMessageHashAlgorithm,
+      'use_serialized_tx_message_hash_algorithm':
+          useSerializedTxMessageHashAlgorithm,
     };
   }
 
-
-  factory HederaSignedTransaction.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSignedTransaction.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSignedTransaction(
-      bodyBytes: config.decodeBinary<List<int>?>(json.valueAs('bodyBytes', normalizeKeyLookup: config.normalizeKeys)),
+      bodyBytes: config.decodeBinary<List<int>?>(
+        json.valueAs('bodyBytes', normalizeKeyLookup: config.normalizeKeys),
+      ),
       sigMap: json.valueTo<proto_basic_types.HederaSignatureMap?, Object>(
         key: 'sigMap',
-        parse: (v) => proto_basic_types.HederaSignatureMap.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      useSerializedTxMessageHashAlgorithm: json.valueAsBool<bool?>('use_serialized_tx_message_hash_algorithm', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaSignatureMap.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      useSerializedTxMessageHashAlgorithm: json.valueAsBool<bool?>(
+        'use_serialized_tx_message_hash_algorithm',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -120,14 +137,15 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSignedTransaction(
       bodyBytes: decode.getBytes<List<int>?>(1),
-      sigMap: decode.messageTo<proto_basic_types.HederaSignatureMap?>(2, (b) => proto_basic_types.HederaSignatureMap.deserialize(b)),
+      sigMap: decode.messageTo<proto_basic_types.HederaSignatureMap?>(
+        2,
+        (b) => proto_basic_types.HederaSignatureMap.deserialize(b),
+      ),
       useSerializedTxMessageHashAlgorithm: decode.getBool<bool?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSignedTransaction;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSignedTransaction;
 }
-
-

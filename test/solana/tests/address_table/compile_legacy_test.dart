@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void addressTableCompileLegacyTest() {
   group('Solana/Address Lookup Table Compile Legacy', () {
     _createLookupTable();
@@ -16,7 +17,6 @@ void addressTableCompileLegacyTest() {
 void main() {
   OnChainUtilsTestApi.runTest(addressTableCompileLegacyTest, "Compile Legacy");
 }
-
 
 void _createLookupTable() {
   test('createLookupTable', () {

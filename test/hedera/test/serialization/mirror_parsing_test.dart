@@ -10,6 +10,7 @@
 
 @TestOn('vm')
 library;
+
 import 'dart:io';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
@@ -19,12 +20,8 @@ import 'package:test/test.dart';
 import '../../../utils.dart';
 
 Map<String, dynamic> _fixture(String name) {
-  final file = File(
-    'test/hedera/test/test_vectors/mirror_$name.json',
-  );
-  return StringUtils.toJson<Map<String, dynamic>>(
-    file.readAsStringSync(),
-  );
+  final file = File('test/hedera/test/test_vectors/mirror_$name.json');
+  return StringUtils.toJson<Map<String, dynamic>>(file.readAsStringSync());
 }
 
 /// Parse -> serialize -> every input key must survive the round trip.
@@ -43,93 +40,94 @@ void _roundTrip<T>(
 
 void mirrorParsingTest() {
   group('Hedera/Mirror fixtures (needs dart:io)', () {
-  test('network nodes fixture parses (nullable grpc_proxy_endpoint)', () {
-    final raw = _fixture('nodes');
-    final nodes = HederaMirrorTypesNetworkNodesResponse.fromJson(raw);
-    expect(nodes.nodes, hasLength(2));
-    final first = nodes.nodes.first;
-    expect(first.nodeId, greaterThanOrEqualTo(BigInt.zero));
-    expect(first.serviceEndpoints, isNotEmpty);
-    // Mainnet omits the proxy endpoint: must parse as null, not throw.
-    expect(first.grpcProxyEndpoint, isNull);
-    _roundTrip(
-      'nodes',
-      raw,
-      HederaMirrorTypesNetworkNodesResponse.fromJson,
-      (v) => v.toJson(),
-    );
-  });
+    test('network nodes fixture parses (nullable grpc_proxy_endpoint)', () {
+      final raw = _fixture('nodes');
+      final nodes = HederaMirrorTypesNetworkNodesResponse.fromJson(raw);
+      expect(nodes.nodes, hasLength(2));
+      final first = nodes.nodes.first;
+      expect(first.nodeId, greaterThanOrEqualTo(BigInt.zero));
+      expect(first.serviceEndpoints, isNotEmpty);
+      // Mainnet omits the proxy endpoint: must parse as null, not throw.
+      expect(first.grpcProxyEndpoint, isNull);
+      _roundTrip(
+        'nodes',
+        raw,
+        HederaMirrorTypesNetworkNodesResponse.fromJson,
+        (v) => v.toJson(),
+      );
+    });
 
-  test('blocks fixture parses', () {
-    final raw = _fixture('blocks');
-    final blocks = HederaMirrorTypesBlocksResponse.fromJson(raw);
-    expect(blocks.blocks, hasLength(2));
-    expect(blocks.blocks!.first.number, greaterThan(0));
-    _roundTrip(
-      'blocks',
-      raw,
-      HederaMirrorTypesBlocksResponse.fromJson,
-      (v) => v.toJson(),
-    );
-  });
+    test('blocks fixture parses', () {
+      final raw = _fixture('blocks');
+      final blocks = HederaMirrorTypesBlocksResponse.fromJson(raw);
+      expect(blocks.blocks, hasLength(2));
+      expect(blocks.blocks!.first.number, greaterThan(0));
+      _roundTrip(
+        'blocks',
+        raw,
+        HederaMirrorTypesBlocksResponse.fromJson,
+        (v) => v.toJson(),
+      );
+    });
 
-  test('exchange rate fixture parses', () {
-    final raw = _fixture('exchangerate');
-    final rates =
-        HederaMirrorTypesNetworkExchangeRateSetResponse.fromJson(raw);
-    expect(rates.currentRate?.hbarEquivalent, greaterThan(0));
-    expect(rates.currentRate?.centEquivalent, greaterThan(0));
-    _roundTrip(
-      'exchangerate',
-      raw,
-      HederaMirrorTypesNetworkExchangeRateSetResponse.fromJson,
-      (v) => v.toJson(),
-    );
-  });
+    test('exchange rate fixture parses', () {
+      final raw = _fixture('exchangerate');
+      final rates = HederaMirrorTypesNetworkExchangeRateSetResponse.fromJson(
+        raw,
+      );
+      expect(rates.currentRate?.hbarEquivalent, greaterThan(0));
+      expect(rates.currentRate?.centEquivalent, greaterThan(0));
+      _roundTrip(
+        'exchangerate',
+        raw,
+        HederaMirrorTypesNetworkExchangeRateSetResponse.fromJson,
+        (v) => v.toJson(),
+      );
+    });
 
-  test('account info fixture parses (0.0.2)', () {
-    final raw = _fixture('account_0_0_2');
-    final info = HederaMirrorTypesAccountInfo.fromJson(raw);
-    expect(info.account, equals('0.0.2'));
-    expect(info.balance?.balance, greaterThanOrEqualTo(BigInt.zero));
-    _roundTrip(
-      'account',
-      raw,
-      HederaMirrorTypesAccountInfo.fromJson,
-      (v) => v.toJson(),
-    );
-  });
+    test('account info fixture parses (0.0.2)', () {
+      final raw = _fixture('account_0_0_2');
+      final info = HederaMirrorTypesAccountInfo.fromJson(raw);
+      expect(info.account, equals('0.0.2'));
+      expect(info.balance?.balance, greaterThanOrEqualTo(BigInt.zero));
+      _roundTrip(
+        'account',
+        raw,
+        HederaMirrorTypesAccountInfo.fromJson,
+        (v) => v.toJson(),
+      );
+    });
 
-  test('merged order enum round-trips both values', () {
-    expect(
-      HederaMirrorTypesOrder.fromJson('asc'),
-      HederaMirrorTypesOrder.asc,
-    );
-    expect(
-      HederaMirrorTypesOrder.fromJson('desc'),
-      HederaMirrorTypesOrder.desc,
-    );
-    expect(HederaMirrorTypesOrder.asc.toJson(), 'asc');
-    expect(
-      () => HederaMirrorTypesOrder.fromJson('sideways'),
-      throwsA(isA<BuError>()),
-    );
-  });
+    test('merged order enum round-trips both values', () {
+      expect(
+        HederaMirrorTypesOrder.fromJson('asc'),
+        HederaMirrorTypesOrder.asc,
+      );
+      expect(
+        HederaMirrorTypesOrder.fromJson('desc'),
+        HederaMirrorTypesOrder.desc,
+      );
+      expect(HederaMirrorTypesOrder.asc.toJson(), 'asc');
+      expect(
+        () => HederaMirrorTypesOrder.fromJson('sideways'),
+        throwsA(isA<BuError>()),
+      );
+    });
 
-  test('merged contract-action entity enum round-trips', () {
-    expect(
-      HederaMirrorTypesContractActionCallerType.fromJson('ACCOUNT'),
-      HederaMirrorTypesContractActionCallerType.aCCOUNT,
-    );
-    expect(
-      HederaMirrorTypesContractActionCallerType.fromJson('CONTRACT'),
-      HederaMirrorTypesContractActionCallerType.cONTRACT,
-    );
-    expect(
-      () => HederaMirrorTypesContractActionCallerType.fromJson('EOA'),
-      throwsA(isA<BuError>()),
-    );
-  });
+    test('merged contract-action entity enum round-trips', () {
+      expect(
+        HederaMirrorTypesContractActionCallerType.fromJson('ACCOUNT'),
+        HederaMirrorTypesContractActionCallerType.aCCOUNT,
+      );
+      expect(
+        HederaMirrorTypesContractActionCallerType.fromJson('CONTRACT'),
+        HederaMirrorTypesContractActionCallerType.cONTRACT,
+      );
+      expect(
+        () => HederaMirrorTypesContractActionCallerType.fromJson('EOA'),
+        throwsA(isA<BuError>()),
+      );
+    });
   }, skip: !native ? 'filesystem fixtures unavailable' : null);
 }
 

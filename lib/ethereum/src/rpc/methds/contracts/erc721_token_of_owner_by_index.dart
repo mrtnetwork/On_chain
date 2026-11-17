@@ -9,8 +9,11 @@ import 'package:on_chain/solidity/helper/helper.dart';
 class EthereumRequestERC721TokenOfOwnerByIndex
     extends EthereumRequest<BigInt, String> {
   EthereumRequestERC721TokenOfOwnerByIndex(
-      this.contractAddress, this.owner, this.index,
-      {super.blockNumber});
+    this.contractAddress,
+    this.owner,
+    this.index, {
+    super.blockNumber,
+  });
 
   @override
   String get method => EthereumMethods.call.value;
@@ -33,10 +36,11 @@ class EthereumRequestERC721TokenOfOwnerByIndex
       {
         "to": contractAddress.toSolidityHex(),
         "data": BytesUtils.toHexString(
-            _encoder.encode((owner: owner, index: index)),
-            prefix: "0x"),
+          _encoder.encode((owner: owner, index: index)),
+          prefix: "0x",
+        ),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

@@ -99,13 +99,12 @@ void adaQuickClientTest() {
             _utxo(index: 1, lovelace: 2000),
           ]);
         }
-        return _ok(p, [
-          _utxo(index: 2, lovelace: 3000),
-        ]);
+        return _ok(p, [_utxo(index: 2, lovelace: 3000)]);
       });
-      final pages = await quick
-          .watchAccountUtxos(ADAAddress.fromAddress(_address), count: 2)
-          .toList();
+      final pages =
+          await quick
+              .watchAccountUtxos(ADAAddress.fromAddress(_address), count: 2)
+              .toList();
       expect(pages.length, 2);
       expect(pages.expand((e) => e).length, 3);
     });
@@ -169,16 +168,10 @@ void adaQuickClientTest() {
           'valid_contract': true,
         }),
       );
-      expect(
-        await served.getTransactionStatus(_txHash),
-        AdaTxStatus.block,
-      );
+      expect(await served.getTransactionStatus(_txHash), AdaTxStatus.block);
 
       final missing = _quick(_notFound);
-      expect(
-        await missing.getTransactionStatus(_txHash),
-        AdaTxStatus.unknown,
-      );
+      expect(await missing.getTransactionStatus(_txHash), AdaTxStatus.unknown);
 
       final broken = _quick(_serverError);
       expect(

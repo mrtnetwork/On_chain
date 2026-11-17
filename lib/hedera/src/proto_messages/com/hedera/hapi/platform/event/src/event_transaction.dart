@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/platform/event/src/state_signature_transaction.dart" as com_hedera_hapi_platform_event_state_signature_transaction;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/platform/event/src/state_signature_transaction.dart"
+    as com_hedera_hapi_platform_event_state_signature_transaction;
 
 /// *
 ///  * # Event Transaction
@@ -32,29 +33,36 @@ import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/platform/even
 ///  * of EventTransaction that correspond to a single set of changes to the state
 ///  * Merkle tree.
 enum HederaTransactionGroupRole implements ProtoEnumVariant {
-    /// *
+  /// *
   ///    * The EventTransaction is the only transaction in its group.
   standalone(0, 'STANDALONE'),
-    /// *
+
+  /// *
   ///    * The EventTransaction is a child and first in its group.
   firstChild(1, 'FIRST_CHILD'),
-    /// *
+
+  /// *
   ///    * The EventTransaction is a child in the middle of its group.
   middleChild(2, 'MIDDLE_CHILD'),
-    /// *
+
+  /// *
   ///    * The EventTransaction is a child and last in its group.
   lastChild(3, 'LAST_CHILD'),
-    /// *
+
+  /// *
   ///    * The EventTransaction is a parent and first in its group.
   startingParent(4, 'STARTING_PARENT'),
-    /// *
+
+  /// *
   ///    * The EventTransaction is a parent in the middle of its group.
   parent(5, 'PARENT'),
-    /// *
+
+  /// *
   ///    * The EventTransaction is a parent and last in its group.
   endingParent(6, 'ENDING_PARENT');
 
   const HederaTransactionGroupRole(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -65,25 +73,41 @@ enum HederaTransactionGroupRole implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaTransactionGroupRole fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTransactionGroupRole.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTransactionGroupRole found for the given value. $value", details: {"name": "HederaTransactionGroupRole", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTransactionGroupRole found for the given value. $value",
+                details: {
+                  "name": "HederaTransactionGroupRole",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaTransactionGroupRole from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTransactionGroupRole.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTransactionGroupRole found for the given value. $value", details: {"name": "HederaTransactionGroupRole", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTransactionGroupRole found for the given value. $value",
+                details: {
+                  "name": "HederaTransactionGroupRole",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * An Event Transaction gossiped between nodes as part of events.
@@ -94,7 +118,7 @@ enum HederaTransactionGroupRole implements ProtoEnumVariant {
 ///  * transactions.&lt;br/&gt;
 ///  * The encoded data MUST be a serialized protobuf message.
 class HederaEventTransaction extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///        * An application transaction.
   ///        * &lt;p&gt;
   ///        * The contents of this transaction SHALL be defined by the application
@@ -102,13 +126,14 @@ class HederaEventTransaction extends HederaProtoMessage with Equality {
   ///        * The contents MUST be a serialized protobuf message.
   final List<int>? applicationTransaction;
 
-    /// *
+  /// *
   ///        * A state signature.
   ///        * &lt;p&gt;
   ///        * This transaction SHALL be a valid state signature for a state snapshot.
-  final com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction? stateSignatureTransaction;
+  final com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction?
+  stateSignatureTransaction;
 
-    /// *
+  /// *
   ///    * The role of this transaction in a group of transactions.
   final HederaTransactionGroupRole? transactionGroupRole;
 
@@ -135,46 +160,68 @@ class HederaEventTransaction extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        applicationTransaction,
-        stateSignatureTransaction,
-        transactionGroupRole,
-      ];
+    applicationTransaction,
+    stateSignatureTransaction,
+    transactionGroupRole,
+  ];
 
+  HederaEventTransaction copyWith({
+    List<int>? applicationTransaction,
 
-HederaEventTransaction copyWith(
-{List<int>? applicationTransaction,
+    com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction?
+    stateSignatureTransaction,
 
-com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction? stateSignatureTransaction,
-
-HederaTransactionGroupRole? transactionGroupRole,
-
-}) {
+    HederaTransactionGroupRole? transactionGroupRole,
+  }) {
     return HederaEventTransaction(
-applicationTransaction: applicationTransaction ?? this.applicationTransaction,
-stateSignatureTransaction: stateSignatureTransaction ?? this.stateSignatureTransaction,
-transactionGroupRole: transactionGroupRole ?? this.transactionGroupRole,
+      applicationTransaction:
+          applicationTransaction ?? this.applicationTransaction,
+      stateSignatureTransaction:
+          stateSignatureTransaction ?? this.stateSignatureTransaction,
+      transactionGroupRole: transactionGroupRole ?? this.transactionGroupRole,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'application_transaction': config.encodeBinary(applicationTransaction),
-      'state_signature_transaction': config.encodeMessage(stateSignatureTransaction),
+      'state_signature_transaction': config.encodeMessage(
+        stateSignatureTransaction,
+      ),
       'transaction_group_role': config.encodeEnum(transactionGroupRole),
     };
   }
 
-
-  factory HederaEventTransaction.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEventTransaction.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEventTransaction(
-      applicationTransaction: config.decodeBinary<List<int>?>(json.valueAs('application_transaction', normalizeKeyLookup: config.normalizeKeys)),
-      stateSignatureTransaction: json.valueTo<com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction?, Object>(
+      applicationTransaction: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'application_transaction',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      stateSignatureTransaction: json.valueTo<
+        com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction?,
+        Object
+      >(
         key: 'state_signature_transaction',
-        parse: (v) => com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => com_hedera_hapi_platform_event_state_signature_transaction
+                .HederaStateSignatureTransaction.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       transactionGroupRole: json.valueTo<HederaTransactionGroupRole?, Object?>(
         key: 'transaction_group_role',
         parse: (v) => HederaTransactionGroupRole.from(v),
@@ -186,14 +233,21 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaEventTransaction(
       applicationTransaction: decode.getBytes<List<int>?>(1),
-      stateSignatureTransaction: decode.messageTo<com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction?>(2, (b) => com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction.deserialize(b)),
-      transactionGroupRole: decode.getEnum<HederaTransactionGroupRole?>(3, HederaTransactionGroupRole.values),
+      stateSignatureTransaction: decode.messageTo<
+        com_hedera_hapi_platform_event_state_signature_transaction.HederaStateSignatureTransaction?
+      >(
+        2,
+        (b) => com_hedera_hapi_platform_event_state_signature_transaction
+            .HederaStateSignatureTransaction.deserialize(b),
+      ),
+      transactionGroupRole: decode.getEnum<HederaTransactionGroupRole?>(
+        3,
+        HederaTransactionGroupRole.values,
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiPlatformEventEventTransaction;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiPlatformEventEventTransaction;
 }
-
-

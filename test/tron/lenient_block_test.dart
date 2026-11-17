@@ -2,7 +2,6 @@
 // (e.g. hex-encoded ASCII like the `"0x000..."` owner seen on Nile) aborts
 // strict decoding but is skipped per-tx in lenient mode.
 import 'package:on_chain/on_chain.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/provider/utils/utils.dart';
 import 'package:test/test.dart';
 

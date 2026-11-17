@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../../utils.dart';
+
 final List<int> _root = List<int>.filled(32, 10);
 final List<int> _dataHash = List<int>.filled(32, 20);
 final List<int> _creatorHash = List<int>.filled(32, 30);
@@ -66,7 +67,6 @@ void bubblegumLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(bubblegumLayoutTest, "Layout");
 }
-
 
 void _burn() {
   test('burn', () {

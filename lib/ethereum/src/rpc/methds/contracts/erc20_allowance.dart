@@ -6,8 +6,12 @@ import 'package:on_chain/solidity/helper/helper.dart';
 
 /// `allowance(owner,spender) -> uint256`.
 class EthereumRequestERC20Allowance extends EthereumRequest<BigInt, String> {
-  EthereumRequestERC20Allowance(this.contractAddress, this.owner, this.spender,
-      {super.blockNumber});
+  EthereumRequestERC20Allowance(
+    this.contractAddress,
+    this.owner,
+    this.spender, {
+    super.blockNumber,
+  });
 
   @override
   String get method => EthereumMethods.call.value;
@@ -29,10 +33,11 @@ class EthereumRequestERC20Allowance extends EthereumRequest<BigInt, String> {
       {
         "to": contractAddress.toSolidityHex(),
         "data": BytesUtils.toHexString(
-            _encoder.encode((owner: owner, spender: spender)),
-            prefix: "0x"),
+          _encoder.encode((owner: owner, spender: spender)),
+          prefix: "0x",
+        ),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

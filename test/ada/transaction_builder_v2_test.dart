@@ -67,6 +67,7 @@ void adaTransactionBuilderV2Test() {
             ),
         true,
       );
+
       /// the change is the leftover of the inputs
       expect(
         finalized.outputs.last.amount.coin,
@@ -209,12 +210,16 @@ void adaTransactionBuilderV2Test() {
       /// and native assets is valid).
       final change = finalized.outputs.last;
       expect(change.amount.coin, BigInt.zero);
-      expect(change.amount.multiAsset!.assets[policy]!.assets[name], BigInt.from(10));
+      expect(
+        change.amount.multiAsset!.assets[policy]!.assets[name],
+        BigInt.from(10),
+      );
+
       /// the fee holds the lovelace of the change
       expect(
         finalized.fee! +
-                change.amount.coin +
-                finalized.outputs.first.amount.coin,
+            change.amount.coin +
+            finalized.outputs.first.amount.coin,
         BigInt.from(10000000),
       );
     });
@@ -244,45 +249,48 @@ void adaTransactionBuilderV2Test() {
       );
     });
 
-    test('an exception is thrown when the transaction spends more assets than the inputs hold', () {
-      final policy = PolicyID(List<int>.filled(28, 1));
-      final name = AssetName(List<int>.filled(32, 2));
+    test(
+      'an exception is thrown when the transaction spends more assets than the inputs hold',
+      () {
+        final policy = PolicyID(List<int>.filled(28, 1));
+        final name = AssetName(List<int>.filled(32, 2));
 
-      final builder = ADATransactionBuilderV2(
-        utxos: [_utxo],
-        outputs: [
-          TransactionOutput(
-            address: _address,
-            amount: Value(coin: BigInt.from(3000000)),
-          ),
-          TransactionOutput(
-            address: _address,
-            amount: Value(
-              coin: BigInt.zero,
-              multiAsset: MultiAsset({
-                policy: Assets({name: BigInt.from(10)}),
-              }),
+        final builder = ADATransactionBuilderV2(
+          utxos: [_utxo],
+          outputs: [
+            TransactionOutput(
+              address: _address,
+              amount: Value(coin: BigInt.from(3000000)),
+            ),
+            TransactionOutput(
+              address: _address,
+              amount: Value(
+                coin: BigInt.zero,
+                multiAsset: MultiAsset({
+                  policy: Assets({name: BigInt.from(10)}),
+                }),
+              ),
+            ),
+          ],
+        );
+
+        final finalized = builder.finalize(
+          changeAddress: _address,
+          feeParameters: _feeParameters,
+        );
+
+        expect(
+          () => finalized.sign(_fakeSigner),
+          throwsA(
+            isA<BuError>().having(
+              (e) => e.message,
+              'message',
+              'The transaction spends more assets than the inputs hold.',
             ),
           ),
-        ],
-      );
-
-      final finalized = builder.finalize(
-        changeAddress: _address,
-        feeParameters: _feeParameters,
-      );
-
-      expect(
-        () => finalized.sign(_fakeSigner),
-        throwsA(
-          isA<BuError>().having(
-            (e) => e.message,
-            'message',
-            'The transaction spends more assets than the inputs hold.',
-          ),
-        ),
-      );
-    });
+        );
+      },
+    );
 
     test('an exception is thrown when the fee has not been calculated', () {
       final builder = ADATransactionBuilderV2(
@@ -295,10 +303,7 @@ void adaTransactionBuilderV2Test() {
         ],
       );
 
-      expect(
-        () => builder.sign(_fakeSigner),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => builder.sign(_fakeSigner), throwsA(isA<BuError>()));
     });
   });
 }

@@ -174,7 +174,8 @@ void aptosQuickClientPreviewTest() {
     test('watchAccountTokenBalances throws on indexer failure', () async {
       final quick = _quick(
         (p) => _ok(p, '1'),
-        (_) => throw const BuError(OnChainErrorType.aptosPlugin, 'indexer down'),
+        (_) =>
+            throw const BuError(OnChainErrorType.aptosPlugin, 'indexer down'),
       );
       expect(
         () =>

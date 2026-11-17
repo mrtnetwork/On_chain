@@ -27,7 +27,8 @@ class EIP712Version {
       (e) => e.version == version,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.invalidArgument,
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 'Invalid EIP712Version version.',
                 details: {
                   'version': version?.toString(),
@@ -128,16 +129,25 @@ class Eip712TypedData implements EIP712Base {
         types[i.key] = eip712Types;
       }
       if (!json.hasValue("primaryType")) {
-        throw const BuError(DefaultErrorType.invalidArgument,"missing or invalid primaryType.");
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          "missing or invalid primaryType.",
+        );
       }
       final String primaryType = json.valueAs("primaryType");
       if (!json.hasValue("domain")) {
-        throw const BuError(DefaultErrorType.invalidArgument,"missing or invalid domain data.");
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          "missing or invalid domain data.",
+        );
       }
       final Map<String, dynamic> domain = json
           .valueEnsureAsMap<String, dynamic>("domain");
       if (!json.hasValue("message")) {
-        throw const BuError(DefaultErrorType.invalidArgument,"missing or invalid message data.");
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          "missing or invalid message data.",
+        );
       }
       final Map<String, dynamic> message = json
           .valueEnsureAsMap<String, dynamic>("message");
@@ -161,7 +171,10 @@ class Eip712TypedData implements EIP712Base {
     } on BuError {
       rethrow;
     } catch (e) {
-      throw const BuError(DefaultErrorType.invalidArgument,'invalid EIP712 json struct.');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'invalid EIP712 json struct.',
+      );
     }
   }
 
@@ -180,7 +193,8 @@ class Eip712TypedData implements EIP712Base {
       (e) => e.type == type,
     );
     if (eipType == null) {
-      throw BuError(DefaultErrorType.notFound,
+      throw BuError(
+        DefaultErrorType.notFound,
         'EIP-712 type definition not found for "$type".',
       );
     }

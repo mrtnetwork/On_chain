@@ -32,8 +32,11 @@ class MemoLayout extends ProgramLayout {
   );
 
   @override
-  StructLayout get layout => throw BuError(DefaultErrorType.unsupported, 'layout is not available for this instruction.',
-  );
+  StructLayout get layout =>
+      throw BuError(
+        DefaultErrorType.unsupported,
+        'layout is not available for this instruction.',
+      );
 
   @override
   MemoProgramInstruction get instruction => MemoProgramInstruction.memo;

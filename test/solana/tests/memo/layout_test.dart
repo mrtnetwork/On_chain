@@ -4,6 +4,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void memoLayoutTest() {
   group('Solana/Memo Layout', () {
     _stringRoundTrip();
@@ -20,7 +21,6 @@ void memoLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(memoLayoutTest, "Layout");
 }
-
 
 void _stringRoundTrip() {
   test('string round-trip preserves hex-looking memos', () {

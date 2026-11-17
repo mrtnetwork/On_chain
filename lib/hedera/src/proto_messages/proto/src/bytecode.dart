@@ -19,13 +19,11 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * This is not referred to by any other protocol buffer, but is used internally
 ///  * within the Hedera Node software.
 class HederaBytecode extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The raw bytes (not hex-encoded) of a contract's bytecode.
   final List<int>? code;
 
-  const HederaBytecode({
-    this.code,
-  });
+  const HederaBytecode({this.code});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -34,53 +32,44 @@ class HederaBytecode extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-      ],
+      fields: [ProtoFieldConfig.bytes(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        code,
-      ];
+  List<Object?> get protoValues => [code];
 
-
-HederaBytecode copyWith(
-{List<int>? code,
-
-}) {
-    return HederaBytecode(
-code: code ?? this.code,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'code': config.encodeBinary(code),
-    };
+  HederaBytecode copyWith({List<int>? code}) {
+    return HederaBytecode(code: code ?? this.code);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaBytecode.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'code': config.encodeBinary(code)};
+  }
+
+  factory HederaBytecode.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBytecode(
-      code: config.decodeBinary<List<int>?>(json.valueAs('code', normalizeKeyLookup: config.normalizeKeys)),
+      code: config.decodeBinary<List<int>?>(
+        json.valueAs('code', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
   factory HederaBytecode.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaBytecode(
-      code: decode.getBytes<List<int>?>(1),
-    );
+    return HederaBytecode(code: decode.getBytes<List<int>?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoBytecode;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoBytecode;
 }
-
-

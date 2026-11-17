@@ -563,9 +563,7 @@ class TronParticipateAssetIssueContract extends ITronContract {
     List<int>? assetName,
     this.amount,
   }) : assetName = assetName?.asImmutableBytes,
-       super(
-         TronTransactionContractContractType.participateAssetIssueContract,
-       );
+       super(TronTransactionContractContractType.participateAssetIssueContract);
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();

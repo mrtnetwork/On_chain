@@ -78,7 +78,8 @@ class ABIUtils {
         sizeString.substring(1, sizeString.length - 1),
       );
       if (parseSize == null) {
-        throw const BuError(DefaultErrorType.invalidLength,
+        throw const BuError(
+          DefaultErrorType.invalidLength,
           'Invalid fixed-size arrays. length is invalid.',
         );
       }
@@ -173,17 +174,24 @@ class _ABIValidator {
       if (bytes != null) {
         if (maxLength != null) {
           if (bytes.length > maxLength) {
-            throw const BuError(DefaultErrorType.invalidLength,'Invalid bytes length');
+            throw const BuError(
+              DefaultErrorType.invalidLength,
+              'Invalid bytes length',
+            );
           }
         }
         if (minLength != null) {
           if (bytes.length < minLength) {
-            throw const BuError(DefaultErrorType.invalidLength,'Invalid bytes length');
+            throw const BuError(
+              DefaultErrorType.invalidLength,
+              'Invalid bytes length',
+            );
           }
         }
       }
     } else {
-      throw const BuError(DefaultErrorType.invalidArgument,
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid data provided for bytes codec.',
       );
     }
@@ -195,7 +203,10 @@ class _ABIValidator {
   static bool isSignNumber(String type) {
     if (type.startsWith('int')) return true;
     if (type.startsWith('uint') || type.startsWith("trcToken")) return false;
-    throw const BuError(DefaultErrorType.invalidArgument,'Invalid integer type name.');
+    throw const BuError(
+      DefaultErrorType.invalidArgument,
+      'Invalid integer type name.',
+    );
   }
 
   /// Validates a boolean type.
@@ -205,7 +216,8 @@ class _ABIValidator {
     if (param.type == 'bool' && (val == BigInt.one || val == BigInt.zero)) {
       return;
     }
-    throw const BuError(DefaultErrorType.invalidArgument,
+    throw const BuError(
+      DefaultErrorType.invalidArgument,
       'Invalid data provided for boolean codec.',
     );
   }
@@ -215,7 +227,10 @@ class _ABIValidator {
   /// Throws [BuError] if there are not enough bytes left to decode.
   static void validateBytesLength(List<int> bytes, int length) {
     if (bytes.length < length) {
-      throw const BuError(OnChainErrorType.solidityAbi,'Not enough bytes left to decode');
+      throw const BuError(
+        OnChainErrorType.solidityAbi,
+        'Not enough bytes left to decode',
+      );
     }
   }
 
@@ -243,7 +258,8 @@ class _ABIValidator {
         bitLength = 256;
         sign = false;
       } else {
-        throw BuError(DefaultErrorType.invalidArgument,
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid type name provided for number codec.',
           details: {'type': type, 'value': value.toString()},
         );
@@ -261,7 +277,8 @@ class _ABIValidator {
     } catch (e) {
       if (e is BuError) rethrow;
     }
-    throw BuError(DefaultErrorType.invalidArgument,
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       'Invalid data provided for number codec.',
       details: {'type': type, 'value': value.toString()},
     );

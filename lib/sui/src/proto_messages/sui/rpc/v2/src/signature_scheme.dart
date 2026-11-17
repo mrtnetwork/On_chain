@@ -34,7 +34,14 @@ enum SuiSignatureScheme implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching SuiSignatureScheme found for the given value. $value", details: {"name": "SuiSignatureScheme", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiSignatureScheme found for the given value. $value",
+                details: {
+                  "name": "SuiSignatureScheme",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -46,7 +53,14 @@ enum SuiSignatureScheme implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching SuiSignatureScheme found for the given value. $value", details: {"name": "SuiSignatureScheme", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiSignatureScheme found for the given value. $value",
+                details: {
+                  "name": "SuiSignatureScheme",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }

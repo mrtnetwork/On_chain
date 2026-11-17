@@ -20,19 +20,20 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * derived from the matching private key that a signature
 ///  * aggregator can use to prove well-formedness of an aggregate
 ///  * public key by an efficiently verifiable SNARK.
-class HederaHintsKeyPublicationTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaHintsKeyPublicationTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * The party id for which the hinTS key is being published;
   ///    * must be in the range [0, num_parties).
   ///    * &lt;p&gt;
   ///    * This value MUST be set to a non-negative integer.&lt;br/&gt;
   final int? partyId;
 
-    /// *
+  /// *
   ///    * The number of parties in the hinTS scheme.
   final int? numParties;
 
-    /// *
+  /// *
   ///    * The party's hinTS key.
   final List<int>? hintsKey;
 
@@ -58,32 +59,29 @@ class HederaHintsKeyPublicationTransactionBody extends HederaProtoMessage with E
   }
 
   @override
-  List<Object?> get protoValues => [
-        partyId,
-        numParties,
-        hintsKey,
-      ];
+  List<Object?> get protoValues => [partyId, numParties, hintsKey];
 
+  HederaHintsKeyPublicationTransactionBody copyWith({
+    int? partyId,
 
-HederaHintsKeyPublicationTransactionBody copyWith(
-{int? partyId,
+    int? numParties,
 
-int? numParties,
-
-List<int>? hintsKey,
-
-}) {
+    List<int>? hintsKey,
+  }) {
     return HederaHintsKeyPublicationTransactionBody(
-partyId: partyId ?? this.partyId,
-numParties: numParties ?? this.numParties,
-hintsKey: hintsKey ?? this.hintsKey,
+      partyId: partyId ?? this.partyId,
+      numParties: numParties ?? this.numParties,
+      hintsKey: hintsKey ?? this.hintsKey,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'party_id': partyId,
       'num_parties': numParties,
@@ -91,16 +89,28 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaHintsKeyPublicationTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaHintsKeyPublicationTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaHintsKeyPublicationTransactionBody(
-      partyId: json.valueAsInt<int?>('party_id', normalizeKeyLookup: config.normalizeKeys),
-      numParties: json.valueAsInt<int?>('num_parties', normalizeKeyLookup: config.normalizeKeys),
-      hintsKey: config.decodeBinary<List<int>?>(json.valueAs('hints_key', normalizeKeyLookup: config.normalizeKeys)),
+      partyId: json.valueAsInt<int?>(
+        'party_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numParties: json.valueAsInt<int?>(
+        'num_parties',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      hintsKey: config.decodeBinary<List<int>?>(
+        json.valueAs('hints_key', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
-  factory HederaHintsKeyPublicationTransactionBody.deserialize(List<int> bytes) {
+  factory HederaHintsKeyPublicationTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaHintsKeyPublicationTransactionBody(
       partyId: decode.getInt<int?>(1),
@@ -110,8 +120,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiServicesAuxiliaryHintsHintsKeyPublicationTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiServicesAuxiliaryHintsHintsKeyPublicationTransactionBody;
 }
-
-

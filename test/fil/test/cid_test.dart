@@ -49,14 +49,8 @@ void cidTest() {
     });
 
     test('invalid digest length throws', () {
-      expect(
-        () => Multihash.blake2b256([1, 2, 3]),
-        throwsA(isA<BuError>()),
-      );
-      expect(
-        () => Multihash.sha2256([1, 2, 3]),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => Multihash.blake2b256([1, 2, 3]), throwsA(isA<BuError>()));
+      expect(() => Multihash.sha2256([1, 2, 3]), throwsA(isA<BuError>()));
     });
 
     test('truncated multihash throws', () {
@@ -186,10 +180,7 @@ void cidTest() {
     });
 
     test('parse rejects garbage', () {
-      expect(
-        () => CidBuilder.parse('not-a-cid'),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => CidBuilder.parse('not-a-cid'), throwsA(isA<BuError>()));
       expect(() => CidBuilder.parse(''), throwsA(isA<BuError>()));
     });
 

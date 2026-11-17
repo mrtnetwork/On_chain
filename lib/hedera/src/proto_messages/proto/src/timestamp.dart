@@ -23,7 +23,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * Useful information is present in comments on the
 ///  * [Google version](https://github.com/google/protobuf/blob/master/src/google/protobuf/timestamp.proto).
 class HederaTimestamp extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The number of complete seconds since the start of the epoch.
   ///      * &lt;p&gt;
   ///      * For this purpose, `epoch` SHALL be the UNIX epoch with 0
@@ -32,7 +32,7 @@ class HederaTimestamp extends HederaProtoMessage with Equality {
   ///      * This value SHOULD be strictly greater than `946684800`.
   final BigInt? seconds;
 
-    /// *
+  /// *
   ///      * The number of nanoseconds after the start of the second referenced
   ///      * in `seconds`.
   ///      * &lt;p&gt;
@@ -40,10 +40,7 @@ class HederaTimestamp extends HederaProtoMessage with Equality {
   ///      * This value MUST be strictly less than 1,000,000,000.
   final int? nanos;
 
-  const HederaTimestamp({
-    this.seconds,
-    this.nanos,
-  });
+  const HederaTimestamp({this.seconds, this.nanos});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -52,47 +49,43 @@ class HederaTimestamp extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-        ProtoFieldConfig.int32(2),
-      ],
+      fields: [ProtoFieldConfig.int64(1), ProtoFieldConfig.int32(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        seconds,
-        nanos,
-      ];
+  List<Object?> get protoValues => [seconds, nanos];
 
-
-HederaTimestamp copyWith(
-{BigInt? seconds,
-
-int? nanos,
-
-}) {
+  HederaTimestamp copyWith({BigInt? seconds, int? nanos}) {
     return HederaTimestamp(
-seconds: seconds ?? this.seconds,
-nanos: nanos ?? this.nanos,
+      seconds: seconds ?? this.seconds,
+      nanos: nanos ?? this.nanos,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'seconds': config.encodeBigint(seconds),
-      'nanos': nanos,
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'seconds': config.encodeBigint(seconds), 'nanos': nanos};
   }
 
-
-  factory HederaTimestamp.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTimestamp.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTimestamp(
-      seconds: json.valueAsBigInt<BigInt?>('seconds', normalizeKeyLookup: config.normalizeKeys),
-      nanos: json.valueAsInt<int?>('nanos', normalizeKeyLookup: config.normalizeKeys),
+      seconds: json.valueAsBigInt<BigInt?>(
+        'seconds',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nanos: json.valueAsInt<int?>(
+        'nanos',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -105,15 +98,14 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTimestamp;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTimestamp;
 }
-
 
 /// *
 ///  * An exact date and time, with a resolution of one second.
 class HederaTimestampSeconds extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The number of complete seconds since the start of the epoch.
   ///      * &lt;p&gt;
   ///      * For this purpose, `epoch` SHALL be the UNIX epoch with 0
@@ -122,9 +114,7 @@ class HederaTimestampSeconds extends HederaProtoMessage with Equality {
   ///      * This value SHOULD be strictly greater than `946684800`.
   final BigInt? seconds;
 
-  const HederaTimestampSeconds({
-    this.seconds,
-  });
+  const HederaTimestampSeconds({this.seconds});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -133,53 +123,45 @@ class HederaTimestampSeconds extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-      ],
+      fields: [ProtoFieldConfig.int64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        seconds,
-      ];
+  List<Object?> get protoValues => [seconds];
 
-
-HederaTimestampSeconds copyWith(
-{BigInt? seconds,
-
-}) {
-    return HederaTimestampSeconds(
-seconds: seconds ?? this.seconds,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'seconds': config.encodeBigint(seconds),
-    };
+  HederaTimestampSeconds copyWith({BigInt? seconds}) {
+    return HederaTimestampSeconds(seconds: seconds ?? this.seconds);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaTimestampSeconds.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'seconds': config.encodeBigint(seconds)};
+  }
+
+  factory HederaTimestampSeconds.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTimestampSeconds(
-      seconds: json.valueAsBigInt<BigInt?>('seconds', normalizeKeyLookup: config.normalizeKeys),
+      seconds: json.valueAsBigInt<BigInt?>(
+        'seconds',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTimestampSeconds.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaTimestampSeconds(
-      seconds: decode.getBigInt<BigInt?>(1),
-    );
+    return HederaTimestampSeconds(seconds: decode.getBigInt<BigInt?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTimestampSeconds;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTimestampSeconds;
 }
-
-

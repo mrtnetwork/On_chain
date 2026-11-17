@@ -7,10 +7,11 @@ import 'package:on_chain/sui/src/serialization/protobuf/proto.dart';
 ///
 /// The JSON representation for `NullValue` is JSON `null`.
 enum SuiNullValue implements ProtoEnumVariant {
-    /// Null value.
+  /// Null value.
   nullValue(0, 'NULL_VALUE');
 
   const SuiNullValue(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -21,25 +22,35 @@ enum SuiNullValue implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static SuiNullValue fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return SuiNullValue.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching SuiNullValue found for the given value. $value", details: {"name": "SuiNullValue", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiNullValue found for the given value. $value",
+                details: {"name": "SuiNullValue", "value": value?.toString()},
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static SuiNullValue from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return SuiNullValue.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching SuiNullValue found for the given value. $value", details: {"name": "SuiNullValue", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiNullValue found for the given value. $value",
+                details: {"name": "SuiNullValue", "value": value?.toString()},
+              ),
     );
   }
-
 }
-
 
 /// Protocol Buffers - Google's data interchange format
 /// Copyright 2008 Google Inc.  All rights reserved.
@@ -79,12 +90,10 @@ enum SuiNullValue implements ProtoEnumVariant {
 ///
 /// The JSON representation for `Struct` is JSON object.
 class SuiStruct extends SuiProtoMessage {
-    /// Unordered map of dynamically typed values.
+  /// Unordered map of dynamically typed values.
   final Map<String, SuiValue> fields;
 
-  const SuiStruct({
-    this.fields = const {},
-  });
+  const SuiStruct({this.fields = const {}});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -104,43 +113,55 @@ class SuiStruct extends SuiProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        fields,
-      ];
-
+  List<Object?> get protoValues => [fields];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'fields': config.encodeMap(fields,(k, v) => MapEntry(k, config.encodeMessage(v))),
+      'fields': config.encodeMap(
+        fields,
+        (k, v) => MapEntry(k, config.encodeMessage(v)),
+      ),
     };
   }
 
-
-  factory SuiStruct.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiStruct.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiStruct(
-      fields: config.decodeMap(json.valueAs('fields', normalizeKeyLookup: config.normalizeKeys),(k, v) => MapEntry(JsonParser.valueAsString<String>(k), JsonParser.valueTo<SuiValue, Object>(
-          value: v,
-          parse: (v) => SuiValue.fromJson(JsonParser.valueAs(v), config: config),
-        ))),
+      fields: config.decodeMap(
+        json.valueAs('fields', normalizeKeyLookup: config.normalizeKeys),
+        (k, v) => MapEntry(
+          JsonParser.valueAsString<String>(k),
+          JsonParser.valueTo<SuiValue, Object>(
+            value: v,
+            parse:
+                (v) => SuiValue.fromJson(JsonParser.valueAs(v), config: config),
+          ),
+        ),
+      ),
     );
   }
 
   factory SuiStruct.deserialize(List<int> bytes) {
     final decode = SuiProtoMessage.decode(bytes, protoConfigStatic());
     return SuiStruct(
-      fields: decode.getMapField<String, SuiValue>(        fieldNumber: 1,
+      fields: decode.getMapField<String, SuiValue>(
+        fieldNumber: 1,
         keyMapper: (v) => JsonParser.valueAs<String>(v),
-        valueMapper: (v) => SuiValue.deserialize(JsonParser.valueAsBytes<List<int>>(v)))
-,
+        valueMapper:
+            (v) => SuiValue.deserialize(JsonParser.valueAsBytes<List<int>>(v)),
+      ),
     );
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobufStruct;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.googleProtobufStruct;
 }
-
 
 /// `Value` represents a dynamically typed value which can be either
 /// null, a number, a string, a boolean, a recursive struct value, or a
@@ -149,23 +170,23 @@ DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobu
 ///
 /// The JSON representation for `Value` is JSON value.
 class SuiValue extends SuiProtoMessage {
-    /// The kind of value.
+  /// The kind of value.
   /// Represents a null value.
   final SuiNullValue? nullValue;
 
-    /// Represents a double value.
+  /// Represents a double value.
   final double? numberValue;
 
-    /// Represents a string value.
+  /// Represents a string value.
   final String? stringValue;
 
-    /// Represents a boolean value.
+  /// Represents a boolean value.
   final bool? boolValue;
 
-    /// Represents a structured value.
+  /// Represents a structured value.
   final SuiStruct? structValue;
 
-    /// Represents a repeated `Value`.
+  /// Represents a repeated `Value`.
   final SuiListValue? listValue;
 
   const SuiValue({
@@ -197,17 +218,18 @@ class SuiValue extends SuiProtoMessage {
 
   @override
   List<Object?> get protoValues => [
-        nullValue,
-        numberValue,
-        stringValue,
-        boolValue,
-        structValue,
-        listValue,
-      ];
-
+    nullValue,
+    numberValue,
+    stringValue,
+    boolValue,
+    structValue,
+    listValue,
+  ];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'null_value': config.encodeEnum(nullValue),
       'number_value': numberValue,
@@ -218,24 +240,38 @@ class SuiValue extends SuiProtoMessage {
     };
   }
 
-
-  factory SuiValue.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiValue.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiValue(
       nullValue: json.valueTo<SuiNullValue?, Object?>(
         key: 'null_value',
         parse: (v) => SuiNullValue.from(v),
       ),
-      numberValue: json.valueAsDouble<double?>('number_value', normalizeKeyLookup: config.normalizeKeys),
-      stringValue: json.valueAsString<String?>('string_value', normalizeKeyLookup: config.normalizeKeys),
-      boolValue: json.valueAsBool<bool?>('bool_value', normalizeKeyLookup: config.normalizeKeys),
+      numberValue: json.valueAsDouble<double?>(
+        'number_value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stringValue: json.valueAsString<String?>(
+        'string_value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      boolValue: json.valueAsBool<bool?>(
+        'bool_value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       structValue: json.valueTo<SuiStruct?, Object>(
         key: 'struct_value',
         parse: (v) => SuiStruct.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       listValue: json.valueTo<SuiListValue?, Object>(
         key: 'list_value',
-        parse: (v) => SuiListValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => SuiListValue.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -246,27 +282,30 @@ class SuiValue extends SuiProtoMessage {
       numberValue: decode.getDouble<double?>(2),
       stringValue: decode.getString<String?>(3),
       boolValue: decode.getBool<bool?>(4),
-      structValue: decode.messageTo<SuiStruct?>(5, (b) => SuiStruct.deserialize(b)),
-      listValue: decode.messageTo<SuiListValue?>(6, (b) => SuiListValue.deserialize(b)),
+      structValue: decode.messageTo<SuiStruct?>(
+        5,
+        (b) => SuiStruct.deserialize(b),
+      ),
+      listValue: decode.messageTo<SuiListValue?>(
+        6,
+        (b) => SuiListValue.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobufValue;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.googleProtobufValue;
 }
-
 
 /// `ListValue` is a wrapper around a repeated field of values.
 ///
 /// The JSON representation for `ListValue` is JSON array.
 class SuiListValue extends SuiProtoMessage {
-    /// Repeated field of dynamically typed values.
+  /// Repeated field of dynamically typed values.
   final List<SuiValue> values;
 
-  const SuiListValue({
-    this.values = const [],
-  });
+  const SuiListValue({this.values = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -285,38 +324,49 @@ class SuiListValue extends SuiProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        values,
-      ];
-
+  List<Object?> get protoValues => [values];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'values': values.map((e) => config.encodeMessage(e)).toList(),
-    };
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'values': values.map((e) => config.encodeMessage(e)).toList()};
   }
 
-
-  factory SuiListValue.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiListValue.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiListValue(
-      values: (json.valueEnsureAsList<dynamic>('values', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<SuiValue, Object>(
-          value: e,
-          parse: (v) => SuiValue.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      values:
+          (json.valueEnsureAsList<dynamic>(
+                'values',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<SuiValue, Object>(
+                  value: e,
+                  parse:
+                      (v) => SuiValue.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory SuiListValue.deserialize(List<int> bytes) {
     final decode = SuiProtoMessage.decode(bytes, protoConfigStatic());
     return SuiListValue(
-      values: decode.getListOfBytes(1).map((b) => SuiValue.deserialize(b)).toList(),
+      values:
+          decode.getListOfBytes(1).map((b) => SuiValue.deserialize(b)).toList(),
     );
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobufListValue;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.googleProtobufListValue;
 }
-
-

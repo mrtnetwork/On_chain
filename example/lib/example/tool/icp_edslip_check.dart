@@ -5,7 +5,8 @@ import 'package:on_chain/icp/src/crypto/types/types.dart';
 void main() {
   const mnemonic =
       'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
-  final seed = Bip39SeedGenerator(Bip39Mnemonic.fromString(mnemonic)).generate();
+  final seed =
+      Bip39SeedGenerator(Bip39Mnemonic.fromString(mnemonic)).generate();
   final derived = Bip44.fromSeed(seed, Bip44Coins.internetComputerEd25519Slip)
       .deriveDefaultPath;
   print('KDF ${derived.bip32.runtimeType}');

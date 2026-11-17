@@ -1,9 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/proto/src/freeze_type.dart" as proto_freeze_type;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/freeze_type.dart"
+    as proto_freeze_type;
 
 /// *
 ///  * # Freeze
@@ -47,29 +50,29 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/freeze_type.dart" a
 ///  * ### Block Stream Effects
 ///  * Unknown
 class HederaFreezeTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Rejected if set; replace with `start_time`.&lt;br/&gt;
   ///      * The start hour (in UTC time), a value between 0 and 23
   final int? startHour;
 
-    /// *
+  /// *
   ///      * Rejected if set; replace with `start_time`.&lt;br/&gt;
   ///      * The start minute (in UTC time), a value between 0 and 59
   final int? startMin;
 
-    /// *
+  /// *
   ///      * Rejected if set; end time is neither assigned nor guaranteed and depends
   ///      * on many uncontrolled factors.&lt;br/&gt;
   ///      * The end hour (in UTC time), a value between 0 and 23
   final int? endHour;
 
-    /// *
+  /// *
   ///      * Rejected if set; end time is neither assigned nor guaranteed and depends
   ///      * on many uncontrolled factors.&lt;br/&gt;
   ///      * The end minute (in UTC time), a value between 0 and 59
   final int? endMin;
 
-    /// *
+  /// *
   ///      * An upgrade file.
   ///      * &lt;p&gt;
   ///      * If set, the identifier of a file in network state.&lt;br/&gt;
@@ -82,7 +85,7 @@ class HederaFreezeTransactionBody extends HederaProtoMessage with Equality {
   ///      * if a `FREEZE_UPGRADE` freeze type is subsequently processed.
   final proto_basic_types.HederaFileID? updateFile;
 
-    /// *
+  /// *
   ///      * A SHA384 hash of file content.&lt;br/&gt;
   ///      * This is a hash of the file identified by `update_file`.
   ///      * &lt;p&gt;
@@ -90,7 +93,7 @@ class HederaFreezeTransactionBody extends HederaProtoMessage with Equality {
   ///      * SHA384 hash of the contents of that file.
   final List<int>? fileHash;
 
-    /// *
+  /// *
   ///      * A start time for the freeze.
   ///      * &lt;p&gt;
   ///      * If this field is REQUIRED for the specified `freeze_type`, then
@@ -112,7 +115,7 @@ class HederaFreezeTransactionBody extends HederaProtoMessage with Equality {
   ///      * change in a future release.&lt;/blockquote&gt;
   final proto_timestamp.HederaTimestamp? startTime;
 
-    /// *
+  /// *
   ///      * The type of freeze.
   ///      * &lt;p&gt;
   ///      * This REQUIRED field effectively selects between five quite different
@@ -140,10 +143,22 @@ class HederaFreezeTransactionBody extends HederaProtoMessage with Equality {
       syntax: ProtoSyntax.v3,
       options: const [],
       fields: [
-        ProtoFieldConfig.int32(1, options: [ProtoOptionBool(name: "deprecated", value: true)]),
-        ProtoFieldConfig.int32(2, options: [ProtoOptionBool(name: "deprecated", value: true)]),
-        ProtoFieldConfig.int32(3, options: [ProtoOptionBool(name: "deprecated", value: true)]),
-        ProtoFieldConfig.int32(4, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.int32(
+          1,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
+        ProtoFieldConfig.int32(
+          2,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
+        ProtoFieldConfig.int32(
+          3,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
+        ProtoFieldConfig.int32(
+          4,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
         ProtoFieldConfig.message(5),
         ProtoFieldConfig.bytes(6),
         ProtoFieldConfig.message(7),
@@ -154,51 +169,52 @@ class HederaFreezeTransactionBody extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        startHour,
-        startMin,
-        endHour,
-        endMin,
-        updateFile,
-        fileHash,
-        startTime,
-        freezeType,
-      ];
+    startHour,
+    startMin,
+    endHour,
+    endMin,
+    updateFile,
+    fileHash,
+    startTime,
+    freezeType,
+  ];
 
+  HederaFreezeTransactionBody copyWith({
+    int? startHour,
 
-HederaFreezeTransactionBody copyWith(
-{int? startHour,
+    int? startMin,
 
-int? startMin,
+    int? endHour,
 
-int? endHour,
+    int? endMin,
 
-int? endMin,
+    proto_basic_types.HederaFileID? updateFile,
 
-proto_basic_types.HederaFileID? updateFile,
+    List<int>? fileHash,
 
-List<int>? fileHash,
+    proto_timestamp.HederaTimestamp? startTime,
 
-proto_timestamp.HederaTimestamp? startTime,
-
-proto_freeze_type.HederaFreezeType? freezeType,
-
-}) {
+    proto_freeze_type.HederaFreezeType? freezeType,
+  }) {
     return HederaFreezeTransactionBody(
-startHour: startHour ?? this.startHour,
-startMin: startMin ?? this.startMin,
-endHour: endHour ?? this.endHour,
-endMin: endMin ?? this.endMin,
-updateFile: updateFile ?? this.updateFile,
-fileHash: fileHash ?? this.fileHash,
-startTime: startTime ?? this.startTime,
-freezeType: freezeType ?? this.freezeType,
+      startHour: startHour ?? this.startHour,
+      startMin: startMin ?? this.startMin,
+      endHour: endHour ?? this.endHour,
+      endMin: endMin ?? this.endMin,
+      updateFile: updateFile ?? this.updateFile,
+      fileHash: fileHash ?? this.fileHash,
+      startTime: startTime ?? this.startTime,
+      freezeType: freezeType ?? this.freezeType,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'startHour': startHour,
       'startMin': startMin,
@@ -211,22 +227,48 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaFreezeTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFreezeTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFreezeTransactionBody(
-      startHour: json.valueAsInt<int?>('startHour', normalizeKeyLookup: config.normalizeKeys),
-      startMin: json.valueAsInt<int?>('startMin', normalizeKeyLookup: config.normalizeKeys),
-      endHour: json.valueAsInt<int?>('endHour', normalizeKeyLookup: config.normalizeKeys),
-      endMin: json.valueAsInt<int?>('endMin', normalizeKeyLookup: config.normalizeKeys),
+      startHour: json.valueAsInt<int?>(
+        'startHour',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      startMin: json.valueAsInt<int?>(
+        'startMin',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      endHour: json.valueAsInt<int?>(
+        'endHour',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      endMin: json.valueAsInt<int?>(
+        'endMin',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       updateFile: json.valueTo<proto_basic_types.HederaFileID?, Object>(
         key: 'update_file',
-        parse: (v) => proto_basic_types.HederaFileID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      fileHash: config.decodeBinary<List<int>?>(json.valueAs('file_hash', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaFileID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      fileHash: config.decodeBinary<List<int>?>(
+        json.valueAs('file_hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
       startTime: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'start_time',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       freezeType: json.valueTo<proto_freeze_type.HederaFreezeType?, Object?>(
         key: 'freeze_type',
         parse: (v) => proto_freeze_type.HederaFreezeType.from(v),
@@ -241,16 +283,23 @@ List<dynamic> get variables => protoValues;
       startMin: decode.getInt<int?>(2),
       endHour: decode.getInt<int?>(3),
       endMin: decode.getInt<int?>(4),
-      updateFile: decode.messageTo<proto_basic_types.HederaFileID?>(5, (b) => proto_basic_types.HederaFileID.deserialize(b)),
+      updateFile: decode.messageTo<proto_basic_types.HederaFileID?>(
+        5,
+        (b) => proto_basic_types.HederaFileID.deserialize(b),
+      ),
       fileHash: decode.getBytes<List<int>?>(6),
-      startTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(7, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
-      freezeType: decode.getEnum<proto_freeze_type.HederaFreezeType?>(8, proto_freeze_type.HederaFreezeType.values),
+      startTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        7,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
+      freezeType: decode.getEnum<proto_freeze_type.HederaFreezeType?>(
+        8,
+        proto_freeze_type.HederaFreezeType.values,
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFreezeTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFreezeTransactionBody;
 }
-
-

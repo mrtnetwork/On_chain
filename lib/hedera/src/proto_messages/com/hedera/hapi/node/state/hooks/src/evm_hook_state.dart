@@ -1,18 +1,22 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/hooks/src/hook_types.dart" as com_hedera_hapi_node_hooks_hook_types;
-import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart" as google_protobuf_wrappers;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/hooks/src/hook_types.dart"
+    as com_hedera_hapi_node_hooks_hook_types;
+import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart"
+    as google_protobuf_wrappers;
 
 /// *
 ///  * The type of a hook.
 enum HederaHookType implements ProtoEnumVariant {
-    /// *
+  /// *
   ///    * A general-purpose EVM hook.
   evmHook(0, 'EVM_HOOK');
 
   const HederaHookType(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -23,25 +27,35 @@ enum HederaHookType implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaHookType fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaHookType.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaHookType found for the given value. $value", details: {"name": "HederaHookType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaHookType found for the given value. $value",
+                details: {"name": "HederaHookType", "value": value?.toString()},
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaHookType from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaHookType.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaHookType found for the given value. $value", details: {"name": "HederaHookType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaHookType found for the given value. $value",
+                details: {"name": "HederaHookType", "value": value?.toString()},
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * # EVM Bytecode
@@ -57,28 +71,29 @@ enum HederaHookType implements ProtoEnumVariant {
 /// *
 ///  * The representation of an EVM hook in state, including the previous and next hook ids in its owner's list.
 class HederaEvmHookState extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * For state proofs, the id of this hook.
   final proto_basic_types.HederaHookId? hookId;
 
-    /// *
+  /// *
   ///    * The type of the EVM hook.
   final HederaHookType? type;
 
-    /// *
+  /// *
   ///    * The type of the extension point the hook implements.
-  final com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint? extensionPoint;
+  final com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint?
+  extensionPoint;
 
-    /// *
+  /// *
   ///    * The id of the contract with this hook's bytecode.
   final proto_basic_types.HederaContractID? hookContractId;
 
-    /// *
+  /// *
   ///    * If set, a key that that can be used to remove or replace the hook; or (if
   ///    * applicable, as with an EVM hook) perform transactions that customize the hook.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///    * For an EVM hook, its first storage key. Must be the minimal
   ///    * bytes representation (no leading zeros). An EVM hook with
   ///    * no storage slots and an EVM hook whose last-written storage
@@ -86,17 +101,17 @@ class HederaEvmHookState extends HederaProtoMessage with Equality {
   ///    * the `num_storage_slots` field.
   final List<int>? firstContractStorageKey;
 
-    /// *
+  /// *
   ///    * If set, the id of the hook preceding this one in the owner's
   ///    * doubly-linked list of hooks.
   final google_protobuf_wrappers.HederaInt64Value? previousHookId;
 
-    /// *
+  /// *
   ///    * If set, the id of the hook following this one in the owner's
   ///    * doubly-linked list of hooks.
   final google_protobuf_wrappers.HederaInt64Value? nextHookId;
 
-    /// *
+  /// *
   ///    * The number of storage slots an EVM hook is using.
   final int? numStorageSlots;
 
@@ -135,124 +150,191 @@ class HederaEvmHookState extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        hookId,
-        type,
-        extensionPoint,
-        hookContractId,
-        adminKey,
-        firstContractStorageKey,
-        previousHookId,
-        nextHookId,
-        numStorageSlots,
-      ];
+    hookId,
+    type,
+    extensionPoint,
+    hookContractId,
+    adminKey,
+    firstContractStorageKey,
+    previousHookId,
+    nextHookId,
+    numStorageSlots,
+  ];
 
+  HederaEvmHookState copyWith({
+    proto_basic_types.HederaHookId? hookId,
 
-HederaEvmHookState copyWith(
-{proto_basic_types.HederaHookId? hookId,
+    HederaHookType? type,
 
-HederaHookType? type,
+    com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint?
+    extensionPoint,
 
-com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint? extensionPoint,
+    proto_basic_types.HederaContractID? hookContractId,
 
-proto_basic_types.HederaContractID? hookContractId,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    List<int>? firstContractStorageKey,
 
-List<int>? firstContractStorageKey,
+    google_protobuf_wrappers.HederaInt64Value? previousHookId,
 
-google_protobuf_wrappers.HederaInt64Value? previousHookId,
+    google_protobuf_wrappers.HederaInt64Value? nextHookId,
 
-google_protobuf_wrappers.HederaInt64Value? nextHookId,
-
-int? numStorageSlots,
-
-}) {
+    int? numStorageSlots,
+  }) {
     return HederaEvmHookState(
-hookId: hookId ?? this.hookId,
-type: type ?? this.type,
-extensionPoint: extensionPoint ?? this.extensionPoint,
-hookContractId: hookContractId ?? this.hookContractId,
-adminKey: adminKey ?? this.adminKey,
-firstContractStorageKey: firstContractStorageKey ?? this.firstContractStorageKey,
-previousHookId: previousHookId ?? this.previousHookId,
-nextHookId: nextHookId ?? this.nextHookId,
-numStorageSlots: numStorageSlots ?? this.numStorageSlots,
+      hookId: hookId ?? this.hookId,
+      type: type ?? this.type,
+      extensionPoint: extensionPoint ?? this.extensionPoint,
+      hookContractId: hookContractId ?? this.hookContractId,
+      adminKey: adminKey ?? this.adminKey,
+      firstContractStorageKey:
+          firstContractStorageKey ?? this.firstContractStorageKey,
+      previousHookId: previousHookId ?? this.previousHookId,
+      nextHookId: nextHookId ?? this.nextHookId,
+      numStorageSlots: numStorageSlots ?? this.numStorageSlots,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'hook_id': config.encodeMessage(hookId),
       'type': config.encodeEnum(type),
       'extension_point': config.encodeEnum(extensionPoint),
       'hook_contract_id': config.encodeMessage(hookContractId),
       'admin_key': config.encodeMessage(adminKey),
-      'first_contract_storage_key': config.encodeBinary(firstContractStorageKey),
+      'first_contract_storage_key': config.encodeBinary(
+        firstContractStorageKey,
+      ),
       'previous_hook_id': config.encodeMessage(previousHookId),
       'next_hook_id': config.encodeMessage(nextHookId),
       'num_storage_slots': numStorageSlots,
     };
   }
 
-
-  factory HederaEvmHookState.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEvmHookState.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEvmHookState(
       hookId: json.valueTo<proto_basic_types.HederaHookId?, Object>(
         key: 'hook_id',
-        parse: (v) => proto_basic_types.HederaHookId.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaHookId.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       type: json.valueTo<HederaHookType?, Object?>(
         key: 'type',
         parse: (v) => HederaHookType.from(v),
       ),
-      extensionPoint: json.valueTo<com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint?, Object?>(
+      extensionPoint: json.valueTo<
+        com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint?,
+        Object?
+      >(
         key: 'extension_point',
-        parse: (v) => com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint.from(v),
+        parse:
+            (v) => com_hedera_hapi_node_hooks_hook_types
+                .HederaHookExtensionPoint.from(v),
       ),
       hookContractId: json.valueTo<proto_basic_types.HederaContractID?, Object>(
         key: 'hook_contract_id',
-        parse: (v) => proto_basic_types.HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'admin_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      firstContractStorageKey: config.decodeBinary<List<int>?>(json.valueAs('first_contract_storage_key', normalizeKeyLookup: config.normalizeKeys)),
-      previousHookId: json.valueTo<google_protobuf_wrappers.HederaInt64Value?, Object>(
-        key: 'previous_hook_id',
-        parse: (v) => google_protobuf_wrappers.HederaInt64Value.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      nextHookId: json.valueTo<google_protobuf_wrappers.HederaInt64Value?, Object>(
-        key: 'next_hook_id',
-        parse: (v) => google_protobuf_wrappers.HederaInt64Value.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      numStorageSlots: json.valueAsInt<int?>('num_storage_slots', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      firstContractStorageKey: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'first_contract_storage_key',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      previousHookId: json
+          .valueTo<google_protobuf_wrappers.HederaInt64Value?, Object>(
+            key: 'previous_hook_id',
+            parse:
+                (v) => google_protobuf_wrappers.HederaInt64Value.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      nextHookId: json
+          .valueTo<google_protobuf_wrappers.HederaInt64Value?, Object>(
+            key: 'next_hook_id',
+            parse:
+                (v) => google_protobuf_wrappers.HederaInt64Value.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      numStorageSlots: json.valueAsInt<int?>(
+        'num_storage_slots',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaEvmHookState.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaEvmHookState(
-      hookId: decode.messageTo<proto_basic_types.HederaHookId?>(1, (b) => proto_basic_types.HederaHookId.deserialize(b)),
+      hookId: decode.messageTo<proto_basic_types.HederaHookId?>(
+        1,
+        (b) => proto_basic_types.HederaHookId.deserialize(b),
+      ),
       type: decode.getEnum<HederaHookType?>(2, HederaHookType.values),
-      extensionPoint: decode.getEnum<com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint?>(3, com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint.values),
-      hookContractId: decode.messageTo<proto_basic_types.HederaContractID?>(4, (b) => proto_basic_types.HederaContractID.deserialize(b)),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(5, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      extensionPoint: decode.getEnum<
+        com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint?
+      >(
+        3,
+        com_hedera_hapi_node_hooks_hook_types.HederaHookExtensionPoint.values,
+      ),
+      hookContractId: decode.messageTo<proto_basic_types.HederaContractID?>(
+        4,
+        (b) => proto_basic_types.HederaContractID.deserialize(b),
+      ),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        5,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       firstContractStorageKey: decode.getBytes<List<int>?>(6),
-      previousHookId: decode.messageTo<google_protobuf_wrappers.HederaInt64Value?>(7, (b) => google_protobuf_wrappers.HederaInt64Value.deserialize(b)),
-      nextHookId: decode.messageTo<google_protobuf_wrappers.HederaInt64Value?>(8, (b) => google_protobuf_wrappers.HederaInt64Value.deserialize(b)),
+      previousHookId: decode
+          .messageTo<google_protobuf_wrappers.HederaInt64Value?>(
+            7,
+            (b) => google_protobuf_wrappers.HederaInt64Value.deserialize(b),
+          ),
+      nextHookId: decode.messageTo<google_protobuf_wrappers.HederaInt64Value?>(
+        8,
+        (b) => google_protobuf_wrappers.HederaInt64Value.deserialize(b),
+      ),
       numStorageSlots: decode.getInt<int?>(9),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateHooksEvmHookState;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateHooksEvmHookState;
 }
-
 
 /// *
 ///  * The key of an EVM hook's storage slot.
@@ -260,19 +342,16 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * For each EVM hook, its storage is a mapping of 256-bit keys (or "words")
 ///  * to 256-bit values.
 class HederaEvmHookSlotKey extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * The id of the EVM hook that owns this slot.
   final proto_basic_types.HederaHookId? hookId;
 
-    /// *
+  /// *
   ///    * The EVM key of this slot. Must be the minimal bytes representation
   ///    * (no leading zeros).
   final List<int>? key;
 
-  const HederaEvmHookSlotKey({
-    this.hookId,
-    this.key,
-  });
+  const HederaEvmHookSlotKey({this.hookId, this.key});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -281,64 +360,69 @@ class HederaEvmHookSlotKey extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.bytes(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.bytes(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        hookId,
-        key,
-      ];
+  List<Object?> get protoValues => [hookId, key];
 
+  HederaEvmHookSlotKey copyWith({
+    proto_basic_types.HederaHookId? hookId,
 
-HederaEvmHookSlotKey copyWith(
-{proto_basic_types.HederaHookId? hookId,
-
-List<int>? key,
-
-}) {
+    List<int>? key,
+  }) {
     return HederaEvmHookSlotKey(
-hookId: hookId ?? this.hookId,
-key: key ?? this.key,
+      hookId: hookId ?? this.hookId,
+      key: key ?? this.key,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'hook_id': config.encodeMessage(hookId),
       'key': config.encodeBinary(key),
     };
   }
 
-
-  factory HederaEvmHookSlotKey.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEvmHookSlotKey.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEvmHookSlotKey(
       hookId: json.valueTo<proto_basic_types.HederaHookId?, Object>(
         key: 'hook_id',
-        parse: (v) => proto_basic_types.HederaHookId.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      key: config.decodeBinary<List<int>?>(json.valueAs('key', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaHookId.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      key: config.decodeBinary<List<int>?>(
+        json.valueAs('key', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
   factory HederaEvmHookSlotKey.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaEvmHookSlotKey(
-      hookId: decode.messageTo<proto_basic_types.HederaHookId?>(1, (b) => proto_basic_types.HederaHookId.deserialize(b)),
+      hookId: decode.messageTo<proto_basic_types.HederaHookId?>(
+        1,
+        (b) => proto_basic_types.HederaHookId.deserialize(b),
+      ),
       key: decode.getBytes<List<int>?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateHooksEvmHookSlotKey;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateHooksEvmHookSlotKey;
 }
-
-

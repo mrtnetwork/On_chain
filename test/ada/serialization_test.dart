@@ -3,6 +3,7 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void serializationTest() {
   group('ADA/Serialization', () {
     _input();
@@ -14,7 +15,6 @@ void serializationTest() {
 void main() {
   OnChainUtilsTestApi.runTest(serializationTest, "Serialization");
 }
-
 
 void _input() {
   test('transaction inputs', () {

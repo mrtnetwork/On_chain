@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart" as google_protobuf_wrappers;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart"
+    as google_protobuf_wrappers;
 
 /// SPDX-License-Identifier: Apache-2.0
 /// &lt;&lt;&lt;pbj.java_package = "com.hedera.hapi.node.addressbook"&gt;&gt;&gt; This comment is special code for setting PBJ Compiler java package
@@ -25,7 +27,7 @@ import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.
 ///  * ### Block Stream Effects
 ///  * None.
 class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A consensus node identifier in the network state.
   ///      * &lt;p&gt;
   ///      * The node identified MUST exist in the network address book.&lt;br/&gt;
@@ -33,7 +35,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * This value is REQUIRED.
   final BigInt? nodeId;
 
-    /// *
+  /// *
   ///      * An account identifier.
   ///      * &lt;p&gt;
   ///      * If set, this SHALL replace the node account identifier.&lt;br/&gt;
@@ -49,7 +51,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * Each `account_id` MUST NOT be associated with more than one node.
   final proto_basic_types.HederaAccountID? accountId;
 
-    /// *
+  /// *
   ///      * A short description of the node.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
@@ -57,7 +59,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * If set, this value SHALL replace the previous value.
   final google_protobuf_wrappers.HederaStringValue? description;
 
-    /// *
+  /// *
   ///      * A list of service endpoints for gossip.
   ///      * &lt;p&gt;
   ///      * If set, this list MUST meet the following requirements.
@@ -86,7 +88,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * If set, the new list SHALL replace the existing list.
   final List<proto_basic_types.HederaServiceEndpoint> gossipEndpoint;
 
-    /// *
+  /// *
   ///      * A list of service endpoints for gRPC calls.
   ///      * &lt;p&gt;
   ///      * If set, this list MUST meet the following requirements.
@@ -106,7 +108,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * If set, the new list SHALL replace the existing list.
   final List<proto_basic_types.HederaServiceEndpoint> serviceEndpoint;
 
-    /// *
+  /// *
   ///      * A certificate used to sign gossip events.
   ///      * &lt;p&gt;
   ///      * This value MUST be a certificate of a type permitted for gossip
@@ -116,7 +118,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * If set, the new value SHALL replace the existing bytes value.
   final google_protobuf_wrappers.HederaBytesValue? gossipCaCertificate;
 
-    /// *
+  /// *
   ///      * A hash of the node gRPC TLS certificate.
   ///      * &lt;p&gt;
   ///      * This value MAY be used to verify the certificate presented by the node
@@ -129,7 +131,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * If set, the new value SHALL replace the existing hash value.
   final google_protobuf_wrappers.HederaBytesValue? grpcCertificateHash;
 
-    /// *
+  /// *
   ///      * An administrative key controlled by the node operator.
   ///      * &lt;p&gt;
   ///      * This field is OPTIONAL.&lt;br/&gt;
@@ -140,14 +142,14 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * If set, this field MUST NOT be set to an empty `KeyList`.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * A boolean indicating that this node has chosen to decline node rewards
   ///      * distributed at the end of staking period.
   ///      * &lt;p&gt;
   ///      * This node SHALL NOT receive reward if this value is set, and `true`.
   final google_protobuf_wrappers.HederaBoolValue? declineReward;
 
-    /// *
+  /// *
   ///      * A web proxy for gRPC from non-gRPC clients.
   ///      * &lt;p&gt;
   ///      * This endpoint SHALL be a Fully Qualified Domain Name (FQDN) using the HTTPS
@@ -161,7 +163,7 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
   ///      * web proxy.
   final proto_basic_types.HederaServiceEndpoint? grpcProxyEndpoint;
 
-    /// *
+  /// *
   ///      * A list of registered nodes operated by the same entity as this node.&lt;br/&gt;
   ///      * This value may contain a list of "registered nodes" (as described in
   ///      * HIP-1137) that are operated by the same entity that operates this
@@ -221,122 +223,211 @@ class HederaNodeUpdateTransactionBody extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        nodeId,
-        accountId,
-        description,
-        gossipEndpoint,
-        serviceEndpoint,
-        gossipCaCertificate,
-        grpcCertificateHash,
-        adminKey,
-        declineReward,
-        grpcProxyEndpoint,
-        associatedRegisteredNodeList,
-      ];
+    nodeId,
+    accountId,
+    description,
+    gossipEndpoint,
+    serviceEndpoint,
+    gossipCaCertificate,
+    grpcCertificateHash,
+    adminKey,
+    declineReward,
+    grpcProxyEndpoint,
+    associatedRegisteredNodeList,
+  ];
 
+  HederaNodeUpdateTransactionBody copyWith({
+    BigInt? nodeId,
 
-HederaNodeUpdateTransactionBody copyWith(
-{BigInt? nodeId,
+    proto_basic_types.HederaAccountID? accountId,
 
-proto_basic_types.HederaAccountID? accountId,
+    google_protobuf_wrappers.HederaStringValue? description,
 
-google_protobuf_wrappers.HederaStringValue? description,
+    List<proto_basic_types.HederaServiceEndpoint>? gossipEndpoint,
 
-List<proto_basic_types.HederaServiceEndpoint>? gossipEndpoint,
+    List<proto_basic_types.HederaServiceEndpoint>? serviceEndpoint,
 
-List<proto_basic_types.HederaServiceEndpoint>? serviceEndpoint,
+    google_protobuf_wrappers.HederaBytesValue? gossipCaCertificate,
 
-google_protobuf_wrappers.HederaBytesValue? gossipCaCertificate,
+    google_protobuf_wrappers.HederaBytesValue? grpcCertificateHash,
 
-google_protobuf_wrappers.HederaBytesValue? grpcCertificateHash,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    google_protobuf_wrappers.HederaBoolValue? declineReward,
 
-google_protobuf_wrappers.HederaBoolValue? declineReward,
+    proto_basic_types.HederaServiceEndpoint? grpcProxyEndpoint,
 
-proto_basic_types.HederaServiceEndpoint? grpcProxyEndpoint,
-
-HederaAssociatedRegisteredNodeList? associatedRegisteredNodeList,
-
-}) {
+    HederaAssociatedRegisteredNodeList? associatedRegisteredNodeList,
+  }) {
     return HederaNodeUpdateTransactionBody(
-nodeId: nodeId ?? this.nodeId,
-accountId: accountId ?? this.accountId,
-description: description ?? this.description,
-gossipEndpoint: gossipEndpoint ?? this.gossipEndpoint,
-serviceEndpoint: serviceEndpoint ?? this.serviceEndpoint,
-gossipCaCertificate: gossipCaCertificate ?? this.gossipCaCertificate,
-grpcCertificateHash: grpcCertificateHash ?? this.grpcCertificateHash,
-adminKey: adminKey ?? this.adminKey,
-declineReward: declineReward ?? this.declineReward,
-grpcProxyEndpoint: grpcProxyEndpoint ?? this.grpcProxyEndpoint,
-associatedRegisteredNodeList: associatedRegisteredNodeList ?? this.associatedRegisteredNodeList,
+      nodeId: nodeId ?? this.nodeId,
+      accountId: accountId ?? this.accountId,
+      description: description ?? this.description,
+      gossipEndpoint: gossipEndpoint ?? this.gossipEndpoint,
+      serviceEndpoint: serviceEndpoint ?? this.serviceEndpoint,
+      gossipCaCertificate: gossipCaCertificate ?? this.gossipCaCertificate,
+      grpcCertificateHash: grpcCertificateHash ?? this.grpcCertificateHash,
+      adminKey: adminKey ?? this.adminKey,
+      declineReward: declineReward ?? this.declineReward,
+      grpcProxyEndpoint: grpcProxyEndpoint ?? this.grpcProxyEndpoint,
+      associatedRegisteredNodeList:
+          associatedRegisteredNodeList ?? this.associatedRegisteredNodeList,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'node_id': config.encodeBigint(nodeId),
       'account_id': config.encodeMessage(accountId),
       'description': config.encodeMessage(description),
-      'gossip_endpoint': gossipEndpoint.map((e) => config.encodeMessage(e)).toList(),
-      'service_endpoint': serviceEndpoint.map((e) => config.encodeMessage(e)).toList(),
+      'gossip_endpoint':
+          gossipEndpoint.map((e) => config.encodeMessage(e)).toList(),
+      'service_endpoint':
+          serviceEndpoint.map((e) => config.encodeMessage(e)).toList(),
       'gossip_ca_certificate': config.encodeMessage(gossipCaCertificate),
       'grpc_certificate_hash': config.encodeMessage(grpcCertificateHash),
       'admin_key': config.encodeMessage(adminKey),
       'decline_reward': config.encodeMessage(declineReward),
       'grpc_proxy_endpoint': config.encodeMessage(grpcProxyEndpoint),
-      'associated_registered_node_list': config.encodeMessage(associatedRegisteredNodeList),
+      'associated_registered_node_list': config.encodeMessage(
+        associatedRegisteredNodeList,
+      ),
     };
   }
 
-
-  factory HederaNodeUpdateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNodeUpdateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNodeUpdateTransactionBody(
-      nodeId: json.valueAsBigInt<BigInt?>('node_id', normalizeKeyLookup: config.normalizeKeys),
+      nodeId: json.valueAsBigInt<BigInt?>(
+        'node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       accountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      description: json.valueTo<google_protobuf_wrappers.HederaStringValue?, Object>(
-        key: 'description',
-        parse: (v) => google_protobuf_wrappers.HederaStringValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      gossipEndpoint: (json.valueEnsureAsList<dynamic>('gossip_endpoint', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_basic_types.HederaServiceEndpoint, Object>(
-          value: e,
-          parse: (v) => proto_basic_types.HederaServiceEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      serviceEndpoint: (json.valueEnsureAsList<dynamic>('service_endpoint', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_basic_types.HederaServiceEndpoint, Object>(
-          value: e,
-          parse: (v) => proto_basic_types.HederaServiceEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      gossipCaCertificate: json.valueTo<google_protobuf_wrappers.HederaBytesValue?, Object>(
-        key: 'gossip_ca_certificate',
-        parse: (v) => google_protobuf_wrappers.HederaBytesValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      grpcCertificateHash: json.valueTo<google_protobuf_wrappers.HederaBytesValue?, Object>(
-        key: 'grpc_certificate_hash',
-        parse: (v) => google_protobuf_wrappers.HederaBytesValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      description: json
+          .valueTo<google_protobuf_wrappers.HederaStringValue?, Object>(
+            key: 'description',
+            parse:
+                (v) => google_protobuf_wrappers.HederaStringValue.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      gossipEndpoint:
+          (json.valueEnsureAsList<dynamic>(
+                'gossip_endpoint',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_basic_types.HederaServiceEndpoint,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_basic_types.HederaServiceEndpoint.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      serviceEndpoint:
+          (json.valueEnsureAsList<dynamic>(
+                'service_endpoint',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_basic_types.HederaServiceEndpoint,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_basic_types.HederaServiceEndpoint.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      gossipCaCertificate: json
+          .valueTo<google_protobuf_wrappers.HederaBytesValue?, Object>(
+            key: 'gossip_ca_certificate',
+            parse:
+                (v) => google_protobuf_wrappers.HederaBytesValue.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      grpcCertificateHash: json
+          .valueTo<google_protobuf_wrappers.HederaBytesValue?, Object>(
+            key: 'grpc_certificate_hash',
+            parse:
+                (v) => google_protobuf_wrappers.HederaBytesValue.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'admin_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      declineReward: json.valueTo<google_protobuf_wrappers.HederaBoolValue?, Object>(
-        key: 'decline_reward',
-        parse: (v) => google_protobuf_wrappers.HederaBoolValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      grpcProxyEndpoint: json.valueTo<proto_basic_types.HederaServiceEndpoint?, Object>(
-        key: 'grpc_proxy_endpoint',
-        parse: (v) => proto_basic_types.HederaServiceEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      associatedRegisteredNodeList: json.valueTo<HederaAssociatedRegisteredNodeList?, Object>(
-        key: 'associated_registered_node_list',
-        parse: (v) => HederaAssociatedRegisteredNodeList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      declineReward: json
+          .valueTo<google_protobuf_wrappers.HederaBoolValue?, Object>(
+            key: 'decline_reward',
+            parse:
+                (v) => google_protobuf_wrappers.HederaBoolValue.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      grpcProxyEndpoint: json
+          .valueTo<proto_basic_types.HederaServiceEndpoint?, Object>(
+            key: 'grpc_proxy_endpoint',
+            parse:
+                (v) => proto_basic_types.HederaServiceEndpoint.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      associatedRegisteredNodeList: json
+          .valueTo<HederaAssociatedRegisteredNodeList?, Object>(
+            key: 'associated_registered_node_list',
+            parse:
+                (v) => HederaAssociatedRegisteredNodeList.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
@@ -344,24 +435,66 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaNodeUpdateTransactionBody(
       nodeId: decode.getBigInt<BigInt?>(1),
-      accountId: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      description: decode.messageTo<google_protobuf_wrappers.HederaStringValue?>(3, (b) => google_protobuf_wrappers.HederaStringValue.deserialize(b)),
-      gossipEndpoint: decode.getListOfBytes(4).map((b) => proto_basic_types.HederaServiceEndpoint.deserialize(b)).toList(),
-      serviceEndpoint: decode.getListOfBytes(5).map((b) => proto_basic_types.HederaServiceEndpoint.deserialize(b)).toList(),
-      gossipCaCertificate: decode.messageTo<google_protobuf_wrappers.HederaBytesValue?>(6, (b) => google_protobuf_wrappers.HederaBytesValue.deserialize(b)),
-      grpcCertificateHash: decode.messageTo<google_protobuf_wrappers.HederaBytesValue?>(7, (b) => google_protobuf_wrappers.HederaBytesValue.deserialize(b)),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(8, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      declineReward: decode.messageTo<google_protobuf_wrappers.HederaBoolValue?>(9, (b) => google_protobuf_wrappers.HederaBoolValue.deserialize(b)),
-      grpcProxyEndpoint: decode.messageTo<proto_basic_types.HederaServiceEndpoint?>(10, (b) => proto_basic_types.HederaServiceEndpoint.deserialize(b)),
-      associatedRegisteredNodeList: decode.messageTo<HederaAssociatedRegisteredNodeList?>(11, (b) => HederaAssociatedRegisteredNodeList.deserialize(b)),
+      accountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      description: decode
+          .messageTo<google_protobuf_wrappers.HederaStringValue?>(
+            3,
+            (b) => google_protobuf_wrappers.HederaStringValue.deserialize(b),
+          ),
+      gossipEndpoint:
+          decode
+              .getListOfBytes(4)
+              .map(
+                (b) => proto_basic_types.HederaServiceEndpoint.deserialize(b),
+              )
+              .toList(),
+      serviceEndpoint:
+          decode
+              .getListOfBytes(5)
+              .map(
+                (b) => proto_basic_types.HederaServiceEndpoint.deserialize(b),
+              )
+              .toList(),
+      gossipCaCertificate: decode
+          .messageTo<google_protobuf_wrappers.HederaBytesValue?>(
+            6,
+            (b) => google_protobuf_wrappers.HederaBytesValue.deserialize(b),
+          ),
+      grpcCertificateHash: decode
+          .messageTo<google_protobuf_wrappers.HederaBytesValue?>(
+            7,
+            (b) => google_protobuf_wrappers.HederaBytesValue.deserialize(b),
+          ),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        8,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      declineReward: decode
+          .messageTo<google_protobuf_wrappers.HederaBoolValue?>(
+            9,
+            (b) => google_protobuf_wrappers.HederaBoolValue.deserialize(b),
+          ),
+      grpcProxyEndpoint: decode
+          .messageTo<proto_basic_types.HederaServiceEndpoint?>(
+            10,
+            (b) => proto_basic_types.HederaServiceEndpoint.deserialize(b),
+          ),
+      associatedRegisteredNodeList: decode
+          .messageTo<HederaAssociatedRegisteredNodeList?>(
+            11,
+            (b) => HederaAssociatedRegisteredNodeList.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookNodeUpdateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookNodeUpdateTransactionBody;
 }
-
 
 /// *
 ///  * A wrapper around a list of associated registered node identifiers.&lt;br/&gt;
@@ -371,8 +504,9 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * An _unset_ field of this type SHALL NOT modify existing values.&lt;br/&gt;
 ///  * A _set_ field of this type with an empty list SHALL remove any
 ///  * existing values.
-class HederaAssociatedRegisteredNodeList extends HederaProtoMessage with Equality {
-    /// *
+class HederaAssociatedRegisteredNodeList extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A list of registered node identifiers.
   final List<BigInt> associatedRegisteredNode;
 
@@ -397,33 +531,41 @@ class HederaAssociatedRegisteredNodeList extends HederaProtoMessage with Equalit
   }
 
   @override
-  List<Object?> get protoValues => [
-        associatedRegisteredNode,
-      ];
+  List<Object?> get protoValues => [associatedRegisteredNode];
 
-
-HederaAssociatedRegisteredNodeList copyWith(
-{List<BigInt>? associatedRegisteredNode,
-
-}) {
+  HederaAssociatedRegisteredNodeList copyWith({
+    List<BigInt>? associatedRegisteredNode,
+  }) {
     return HederaAssociatedRegisteredNodeList(
-associatedRegisteredNode: associatedRegisteredNode ?? this.associatedRegisteredNode,
+      associatedRegisteredNode:
+          associatedRegisteredNode ?? this.associatedRegisteredNode,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'associated_registered_node': associatedRegisteredNode.map((e) => config.encodeBigint(e)).toList(),
+      'associated_registered_node':
+          associatedRegisteredNode.map((e) => config.encodeBigint(e)).toList(),
     };
   }
 
-
-  factory HederaAssociatedRegisteredNodeList.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAssociatedRegisteredNodeList.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAssociatedRegisteredNodeList(
-      associatedRegisteredNode: (json.valueEnsureAsList<dynamic>('associated_registered_node', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
+      associatedRegisteredNode:
+          (json.valueEnsureAsList<dynamic>(
+            'associated_registered_node',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
     );
   }
 
@@ -435,8 +577,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookAssociatedRegisteredNodeList;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookAssociatedRegisteredNodeList;
 }
-
-

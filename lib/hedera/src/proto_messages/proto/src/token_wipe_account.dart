@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Wipe Account
@@ -34,8 +35,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * The new total supply for the wiped token type SHALL be recorded.
-class HederaTokenWipeAccountTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenWipeAccountTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This field is REQUIRED.&lt;br/&gt;
@@ -43,7 +45,7 @@ class HederaTokenWipeAccountTransactionBody extends HederaProtoMessage with Equa
   ///      * deleted, and MUST NOT be expired.
   final proto_basic_types.HederaTokenID? token;
 
-    /// *
+  /// *
   ///      * An account identifier.&lt;br/&gt;
   ///      * This identifies the account from which tokens will be wiped.
   ///      * &lt;p&gt;
@@ -55,7 +57,7 @@ class HederaTokenWipeAccountTransactionBody extends HederaProtoMessage with Equa
   ///      * identified token.
   final proto_basic_types.HederaAccountID? account;
 
-    /// *
+  /// *
   ///      * An amount of fungible/common tokens to wipe.
   ///      * &lt;p&gt;
   ///      * If the identified token is a non-fungible/unique token type,
@@ -74,7 +76,7 @@ class HederaTokenWipeAccountTransactionBody extends HederaProtoMessage with Equa
   ///      * &lt;/ul&gt;
   final BigInt? amount;
 
-    /// *
+  /// *
   ///      * A list of serial numbers to wipe.&lt;br/&gt;
   ///      * The non-fungible/unique tokens with these serial numbers will be
   ///      * destroyed and cannot be recovered or reused.
@@ -124,73 +126,94 @@ class HederaTokenWipeAccountTransactionBody extends HederaProtoMessage with Equa
   }
 
   @override
-  List<Object?> get protoValues => [
-        token,
-        account,
-        amount,
-        serialNumbers,
-      ];
+  List<Object?> get protoValues => [token, account, amount, serialNumbers];
 
+  HederaTokenWipeAccountTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? token,
 
-HederaTokenWipeAccountTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? token,
+    proto_basic_types.HederaAccountID? account,
 
-proto_basic_types.HederaAccountID? account,
+    BigInt? amount,
 
-BigInt? amount,
-
-List<BigInt>? serialNumbers,
-
-}) {
+    List<BigInt>? serialNumbers,
+  }) {
     return HederaTokenWipeAccountTransactionBody(
-token: token ?? this.token,
-account: account ?? this.account,
-amount: amount ?? this.amount,
-serialNumbers: serialNumbers ?? this.serialNumbers,
+      token: token ?? this.token,
+      account: account ?? this.account,
+      amount: amount ?? this.amount,
+      serialNumbers: serialNumbers ?? this.serialNumbers,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token': config.encodeMessage(token),
       'account': config.encodeMessage(account),
       'amount': config.encodeBigint(amount),
-      'serialNumbers': serialNumbers.map((e) => config.encodeBigint(e)).toList(),
+      'serialNumbers':
+          serialNumbers.map((e) => config.encodeBigint(e)).toList(),
     };
   }
 
-
-  factory HederaTokenWipeAccountTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenWipeAccountTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenWipeAccountTransactionBody(
       token: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       account: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'account',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
-      serialNumbers: (json.valueEnsureAsList<dynamic>('serialNumbers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      serialNumbers:
+          (json.valueEnsureAsList<dynamic>(
+            'serialNumbers',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
     );
   }
 
   factory HederaTokenWipeAccountTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenWipeAccountTransactionBody(
-      token: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      account: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      token: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      account: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(3),
       serialNumbers: decode.getListOrEmpty<BigInt>(4),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenWipeAccountTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenWipeAccountTransactionBody;
 }
-
-

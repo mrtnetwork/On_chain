@@ -2,6 +2,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void addressTableLayoutTest() {
   group('Solana/Address Lookup Table Layout', () {
     _createLookupTable();
@@ -15,7 +16,6 @@ void addressTableLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(addressTableLayoutTest, "Layout");
 }
-
 
 void _createLookupTable() {
   test('createLookupTable', () {

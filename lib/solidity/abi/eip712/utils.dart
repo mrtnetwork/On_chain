@@ -23,7 +23,8 @@ class EIP712Utils {
     try {
       if (match != null) {
         if (value is! List) {
-          throw BuError(DefaultErrorType.invalidArgument,
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Invalid input provided for array codec.',
             details: {'type': type, 'value': value.toString()},
           );
@@ -45,7 +46,8 @@ class EIP712Utils {
         case 'string':
           return JsonParser.valueAsString<String>(value);
         default:
-          throw BuError(DefaultErrorType.notFound,
+          throw BuError(
+            DefaultErrorType.notFound,
             'Unsuported type. codec not found.',
             details: {'type': type},
           );
@@ -53,7 +55,8 @@ class EIP712Utils {
     } on BuError {
       rethrow;
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid input provided for $type.',
         details: {'type': type, 'value': value.toString()},
       );
@@ -66,7 +69,8 @@ class EIP712Utils {
     final childType = match?.group(1);
     if (match != null) {
       if (value is! List) {
-        throw BuError(DefaultErrorType.invalidArgument,
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid input provided for array codec.',
           details: {'type': type, 'value': value.toString()},
         );
@@ -112,7 +116,8 @@ class EIP712Utils {
         return TronAddress(value);
       }
     } catch (_) {}
-    throw BuError(DefaultErrorType.invalidAddress,
+    throw BuError(
+      DefaultErrorType.invalidAddress,
       'Invalid input provided for address codec.',
       details: {'input': value.toString()},
     );
@@ -124,7 +129,8 @@ class EIP712Utils {
     Map<String, dynamic> data,
   ) {
     if (types[type] == null) {
-      throw BuError(DefaultErrorType.notFound,
+      throw BuError(
+        DefaultErrorType.notFound,
         'EIP-712 type definition not found for "$type".',
       );
     }
@@ -156,14 +162,16 @@ class EIP712Utils {
     final List<String> typesName = [bytes32TypeName];
     final List<dynamic> inputBytes = [getMethodSigature(fields, type)];
     if (fields[type] == null) {
-      throw BuError(DefaultErrorType.notFound,
+      throw BuError(
+        DefaultErrorType.notFound,
         'EIP-712 type definition not found for "$type".',
       );
     }
     for (final Eip712TypeDetails field in fields[type]!) {
       if (data[field.name] == null) {
         if (version == EIP712Version.v3) continue;
-        throw BuError(DefaultErrorType.invalidArgument,
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid Eip712TypedData data. data mising for field ${field.name}',
         );
       }
@@ -239,14 +247,16 @@ class EIP712Utils {
       final isArray = _extractArrayType(type);
       if (isArray != null) {
         if (data is! List) {
-          throw BuError(DefaultErrorType.invalidArgument,
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Invalid input provided for array codec.',
             details: {'input': data.toString()},
           );
         }
 
         if (isArray.$2 > 0 && data.length != isArray.$2) {
-          throw BuError(DefaultErrorType.invalidLength,
+          throw BuError(
+            DefaultErrorType.invalidLength,
             'Invalid array length: expected ${isArray.$2}, but got ${data.length}',
           );
         }
@@ -278,7 +288,8 @@ class EIP712Utils {
       }
       return (type, data);
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Failed to encode value.",
         details: {
           'input': data.toString(),
@@ -296,7 +307,8 @@ class EIP712Utils {
     for (final i in domain.keys) {
       final field = domainFields[i];
       if (field == null) {
-        throw BuError(DefaultErrorType.notFound,
+        throw BuError(
+          DefaultErrorType.notFound,
           "Invalid type-data domain key. type not found.",
           details: {"key": i},
         );

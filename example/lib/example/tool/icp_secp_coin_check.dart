@@ -5,8 +5,10 @@ import 'package:on_chain/icp/src/crypto/types/types.dart';
 void main() {
   const mnemonic =
       'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about';
-  const expected = 'tgzar-4lpln-fq34h-6hxo4-wlm3x-6g3or-6hxvr-d6jbw-ooh2b-lzsw4-aqe';
-  final seed = Bip39SeedGenerator(Bip39Mnemonic.fromString(mnemonic)).generate();
+  const expected =
+      'tgzar-4lpln-fq34h-6hxo4-wlm3x-6g3or-6hxvr-d6jbw-ooh2b-lzsw4-aqe';
+  final seed =
+      Bip39SeedGenerator(Bip39Mnemonic.fromString(mnemonic)).generate();
   final derived = Bip44.fromSeed(seed, Bip44Coins.internetComputerSecp256k1)
       .deriveDefaultPath;
   print('KDF ${derived.bip32.runtimeType}');

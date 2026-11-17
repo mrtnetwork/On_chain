@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void compiledMessageLegacyTest() {
   group('Solana/System Compiled Message Legacy', () {
     _systemCreateAccount();
@@ -21,9 +22,11 @@ void compiledMessageLegacyTest() {
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(compiledMessageLegacyTest, "Compiled Message Legacy");
+  OnChainUtilsTestApi.runTest(
+    compiledMessageLegacyTest,
+    "Compiled Message Legacy",
+  );
 }
-
 
 void _systemCreateAccount() {
   test('create', () {

@@ -16,7 +16,9 @@ class NearNodeRequestExperimentalLightClientBlockProof
   dynamic params() => args.toJson();
 
   @override
-  NearRpcRpcLightClientBlockProofResponse onResponse(Map<String, dynamic> result) {
+  NearRpcRpcLightClientBlockProofResponse onResponse(
+    Map<String, dynamic> result,
+  ) {
     return NearRpcRpcLightClientBlockProofResponse.fromJson(result);
   }
 }

@@ -8,17 +8,13 @@ import 'package:on_chain/sui/src/serialization/protobuf/proto.dart';
 /// [BCS](https://mystenlabs.github.io/sui-rust-sdk/sui_sdk_types/index.html#bcs)
 /// format as well as a name that identifies the type of the serialized value.
 class SuiBcs extends SuiProtoMessage {
-    /// Name that identifies the type of the serialized value.
+  /// Name that identifies the type of the serialized value.
   final String? name;
 
-    /// Bytes of a BCS serialized value.
+  /// Bytes of a BCS serialized value.
   final BuBytes? value;
 
-  SuiBcs({
-    this.name,
-    List<int>? value,
-  }) : 
-    value = value?.asImmutableBytes;
+  SuiBcs({this.name, List<int>? value}) : value = value?.asImmutableBytes;
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -35,25 +31,27 @@ class SuiBcs extends SuiProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        name,
-        value,
-      ];
-
+  List<Object?> get protoValues => [name, value];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'name': name,
-      'value': config.encodeBinary(value),
-    };
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'name': name, 'value': config.encodeBinary(value)};
   }
 
-
-  factory SuiBcs.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiBcs.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiBcs(
-      name: json.valueAsString<String?>('name', normalizeKeyLookup: config.normalizeKeys),
-      value: config.decodeBinary<List<int>?>(json.valueAs('value', normalizeKeyLookup: config.normalizeKeys)),
+      name: json.valueAsString<String?>(
+        'name',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      value: config.decodeBinary<List<int>?>(
+        json.valueAs('value', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -66,8 +64,6 @@ class SuiBcs extends SuiProtoMessage {
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.suiRpcV2Bcs;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.suiRpcV2Bcs;
 }
-
-

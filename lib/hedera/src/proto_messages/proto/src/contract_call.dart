@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Contract Call
@@ -28,12 +29,13 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * A `CallContractOutput` message SHALL be emitted for each transaction.
-class HederaContractCallTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaContractCallTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * The ID of a smart contract to call.
   final proto_basic_types.HederaContractID? contractID;
 
-    /// *
+  /// *
   ///      * A maximum limit to the amount of gas to use for this call.
   ///      * &lt;p&gt;
   ///      * The network SHALL charge the greater of the following, but
@@ -46,13 +48,13 @@ class HederaContractCallTransactionBody extends HederaProtoMessage with Equality
   ///      * some overage to ensure successful execution.
   final BigInt? gas;
 
-    /// *
+  /// *
   ///      * An amount of tinybar sent via this contract call.
   ///      * &lt;p&gt;
   ///      * If this is non-zero, the function MUST be `payable`.
   final BigInt? amount;
 
-    /// *
+  /// *
   ///      * The smart contract function to call.
   ///      * &lt;p&gt;
   ///      * This MUST contain The application binary interface (ABI) encoding of the
@@ -85,35 +87,36 @@ class HederaContractCallTransactionBody extends HederaProtoMessage with Equality
 
   @override
   List<Object?> get protoValues => [
-        contractID,
-        gas,
-        amount,
-        functionParameters,
-      ];
+    contractID,
+    gas,
+    amount,
+    functionParameters,
+  ];
 
+  HederaContractCallTransactionBody copyWith({
+    proto_basic_types.HederaContractID? contractID,
 
-HederaContractCallTransactionBody copyWith(
-{proto_basic_types.HederaContractID? contractID,
+    BigInt? gas,
 
-BigInt? gas,
+    BigInt? amount,
 
-BigInt? amount,
-
-List<int>? functionParameters,
-
-}) {
+    List<int>? functionParameters,
+  }) {
     return HederaContractCallTransactionBody(
-contractID: contractID ?? this.contractID,
-gas: gas ?? this.gas,
-amount: amount ?? this.amount,
-functionParameters: functionParameters ?? this.functionParameters,
+      contractID: contractID ?? this.contractID,
+      gas: gas ?? this.gas,
+      amount: amount ?? this.amount,
+      functionParameters: functionParameters ?? this.functionParameters,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'contractID': config.encodeMessage(contractID),
       'gas': config.encodeBigint(gas),
@@ -122,23 +125,44 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaContractCallTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaContractCallTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaContractCallTransactionBody(
       contractID: json.valueTo<proto_basic_types.HederaContractID?, Object>(
         key: 'contractID',
-        parse: (v) => proto_basic_types.HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      gas: json.valueAsBigInt<BigInt?>('gas', normalizeKeyLookup: config.normalizeKeys),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
-      functionParameters: config.decodeBinary<List<int>?>(json.valueAs('functionParameters', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      gas: json.valueAsBigInt<BigInt?>(
+        'gas',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      functionParameters: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'functionParameters',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
   factory HederaContractCallTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaContractCallTransactionBody(
-      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(1, (b) => proto_basic_types.HederaContractID.deserialize(b)),
+      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(
+        1,
+        (b) => proto_basic_types.HederaContractID.deserialize(b),
+      ),
       gas: decode.getBigInt<BigInt?>(2),
       amount: decode.getBigInt<BigInt?>(3),
       functionParameters: decode.getBytes<List<int>?>(4),
@@ -146,8 +170,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoContractCallTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoContractCallTransactionBody;
 }
-
-

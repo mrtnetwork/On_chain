@@ -27,17 +27,18 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaLedgerIdPublicationTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaLedgerIdPublicationTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * The new ledger id.
   final List<int>? ledgerId;
 
-    /// *
+  /// *
   ///    * The key to use when verifying recursive chain-of-trust proofs that extend
   ///    * from this ledger id.
   final List<int>? historyProofVerificationKey;
 
-    /// *
+  /// *
   ///    * The node-specific contributions made to the new ledger id.
   final List<HederaLedgerIdNodeContribution> nodeContributions;
 
@@ -67,64 +68,98 @@ class HederaLedgerIdPublicationTransactionBody extends HederaProtoMessage with E
 
   @override
   List<Object?> get protoValues => [
-        ledgerId,
-        historyProofVerificationKey,
-        nodeContributions,
-      ];
+    ledgerId,
+    historyProofVerificationKey,
+    nodeContributions,
+  ];
 
+  HederaLedgerIdPublicationTransactionBody copyWith({
+    List<int>? ledgerId,
 
-HederaLedgerIdPublicationTransactionBody copyWith(
-{List<int>? ledgerId,
+    List<int>? historyProofVerificationKey,
 
-List<int>? historyProofVerificationKey,
-
-List<HederaLedgerIdNodeContribution>? nodeContributions,
-
-}) {
+    List<HederaLedgerIdNodeContribution>? nodeContributions,
+  }) {
     return HederaLedgerIdPublicationTransactionBody(
-ledgerId: ledgerId ?? this.ledgerId,
-historyProofVerificationKey: historyProofVerificationKey ?? this.historyProofVerificationKey,
-nodeContributions: nodeContributions ?? this.nodeContributions,
+      ledgerId: ledgerId ?? this.ledgerId,
+      historyProofVerificationKey:
+          historyProofVerificationKey ?? this.historyProofVerificationKey,
+      nodeContributions: nodeContributions ?? this.nodeContributions,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'ledger_id': config.encodeBinary(ledgerId),
-      'history_proof_verification_key': config.encodeBinary(historyProofVerificationKey),
-      'node_contributions': nodeContributions.map((e) => config.encodeMessage(e)).toList(),
+      'history_proof_verification_key': config.encodeBinary(
+        historyProofVerificationKey,
+      ),
+      'node_contributions':
+          nodeContributions.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaLedgerIdPublicationTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaLedgerIdPublicationTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaLedgerIdPublicationTransactionBody(
-      ledgerId: config.decodeBinary<List<int>?>(json.valueAs('ledger_id', normalizeKeyLookup: config.normalizeKeys)),
-      historyProofVerificationKey: config.decodeBinary<List<int>?>(json.valueAs('history_proof_verification_key', normalizeKeyLookup: config.normalizeKeys)),
-      nodeContributions: (json.valueEnsureAsList<dynamic>('node_contributions', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaLedgerIdNodeContribution, Object>(
-          value: e,
-          parse: (v) => HederaLedgerIdNodeContribution.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      ledgerId: config.decodeBinary<List<int>?>(
+        json.valueAs('ledger_id', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      historyProofVerificationKey: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'history_proof_verification_key',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      nodeContributions:
+          (json.valueEnsureAsList<dynamic>(
+                'node_contributions',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) =>
+                    JsonParser.valueTo<HederaLedgerIdNodeContribution, Object>(
+                      value: e,
+                      parse:
+                          (v) => HederaLedgerIdNodeContribution.fromJson(
+                            JsonParser.valueAs(v),
+                            config: config,
+                          ),
+                    ),
+              )
+              .toList(),
     );
   }
 
-  factory HederaLedgerIdPublicationTransactionBody.deserialize(List<int> bytes) {
+  factory HederaLedgerIdPublicationTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaLedgerIdPublicationTransactionBody(
       ledgerId: decode.getBytes<List<int>?>(1),
       historyProofVerificationKey: decode.getBytes<List<int>?>(2),
-      nodeContributions: decode.getListOfBytes(3).map((b) => HederaLedgerIdNodeContribution.deserialize(b)).toList(),
+      nodeContributions:
+          decode
+              .getListOfBytes(3)
+              .map((b) => HederaLedgerIdNodeContribution.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeTssLedgerIdPublicationTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeTssLedgerIdPublicationTransactionBody;
 }
-
 
 /// *
 ///  * A record of the proof key a node had in a particular address
@@ -133,15 +168,15 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * starting from the current address book; no matter how keys
 ///  * have been rotated from the time the address book was created.
 class HederaLedgerIdNodeContribution extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * The node id.
   final BigInt? nodeId;
 
-    /// *
+  /// *
   ///    * The node's consensus weight when the ledger id was published.
   final BigInt? weight;
 
-    /// *
+  /// *
   ///    * The public key the node used to contribute to history proofs when the
   ///    * ledger id was published.
   final List<int>? historyProofKey;
@@ -168,32 +203,29 @@ class HederaLedgerIdNodeContribution extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        nodeId,
-        weight,
-        historyProofKey,
-      ];
+  List<Object?> get protoValues => [nodeId, weight, historyProofKey];
 
+  HederaLedgerIdNodeContribution copyWith({
+    BigInt? nodeId,
 
-HederaLedgerIdNodeContribution copyWith(
-{BigInt? nodeId,
+    BigInt? weight,
 
-BigInt? weight,
-
-List<int>? historyProofKey,
-
-}) {
+    List<int>? historyProofKey,
+  }) {
     return HederaLedgerIdNodeContribution(
-nodeId: nodeId ?? this.nodeId,
-weight: weight ?? this.weight,
-historyProofKey: historyProofKey ?? this.historyProofKey,
+      nodeId: nodeId ?? this.nodeId,
+      weight: weight ?? this.weight,
+      historyProofKey: historyProofKey ?? this.historyProofKey,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'node_id': config.encodeBigint(nodeId),
       'weight': config.encodeBigint(weight),
@@ -201,12 +233,25 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaLedgerIdNodeContribution.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaLedgerIdNodeContribution.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaLedgerIdNodeContribution(
-      nodeId: json.valueAsBigInt<BigInt?>('node_id', normalizeKeyLookup: config.normalizeKeys),
-      weight: json.valueAsBigInt<BigInt?>('weight', normalizeKeyLookup: config.normalizeKeys),
-      historyProofKey: config.decodeBinary<List<int>?>(json.valueAs('history_proof_key', normalizeKeyLookup: config.normalizeKeys)),
+      nodeId: json.valueAsBigInt<BigInt?>(
+        'node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      weight: json.valueAsBigInt<BigInt?>(
+        'weight',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      historyProofKey: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'history_proof_key',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -220,8 +265,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeTssLedgerIdNodeContribution;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeTssLedgerIdNodeContribution;
 }
-
-

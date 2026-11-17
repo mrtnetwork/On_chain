@@ -3,7 +3,10 @@ import 'package:on_chain/near/src/rpc/models/types/types.dart';
 
 class NearNodeRequestExperimentalViewAccessKeyList
     extends
-        NearNodeRequest<NearRpcRpcViewAccessKeyListResponse, Map<String, dynamic>> {
+        NearNodeRequest<
+          NearRpcRpcViewAccessKeyListResponse,
+          Map<String, dynamic>
+        > {
   final NearRpcRpcViewAccessKeyListRequest args;
   const NearNodeRequestExperimentalViewAccessKeyList(this.args);
   @override

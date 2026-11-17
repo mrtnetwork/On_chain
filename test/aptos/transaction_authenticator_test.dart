@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void transactionAuthenticatorTest() {
   group('Aptos/Transaction Authenticator', () {
     _transactionAuthenticatorFeePayer();
@@ -14,9 +15,11 @@ void transactionAuthenticatorTest() {
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(transactionAuthenticatorTest, "Transaction Authenticator");
+  OnChainUtilsTestApi.runTest(
+    transactionAuthenticatorTest,
+    "Transaction Authenticator",
+  );
 }
-
 
 void _transactionAuthenticatorMultiAgent() {
   test("Trnsaction authenticator MultiAgent serialization", () {

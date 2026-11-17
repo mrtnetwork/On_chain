@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Delete Live Hash
@@ -28,12 +29,13 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaCryptoDeleteLiveHashTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaCryptoDeleteLiveHashTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * An account associated to a live hash.
   final proto_basic_types.HederaAccountID? accountOfLiveHash;
 
-    /// *
+  /// *
   ///      * The SHA-384 value of a specific live hash to delete.
   final List<int>? liveHashToDelete;
 
@@ -49,64 +51,75 @@ class HederaCryptoDeleteLiveHashTransactionBody extends HederaProtoMessage with 
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.bytes(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.bytes(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        accountOfLiveHash,
-        liveHashToDelete,
-      ];
+  List<Object?> get protoValues => [accountOfLiveHash, liveHashToDelete];
 
+  HederaCryptoDeleteLiveHashTransactionBody copyWith({
+    proto_basic_types.HederaAccountID? accountOfLiveHash,
 
-HederaCryptoDeleteLiveHashTransactionBody copyWith(
-{proto_basic_types.HederaAccountID? accountOfLiveHash,
-
-List<int>? liveHashToDelete,
-
-}) {
+    List<int>? liveHashToDelete,
+  }) {
     return HederaCryptoDeleteLiveHashTransactionBody(
-accountOfLiveHash: accountOfLiveHash ?? this.accountOfLiveHash,
-liveHashToDelete: liveHashToDelete ?? this.liveHashToDelete,
+      accountOfLiveHash: accountOfLiveHash ?? this.accountOfLiveHash,
+      liveHashToDelete: liveHashToDelete ?? this.liveHashToDelete,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'accountOfLiveHash': config.encodeMessage(accountOfLiveHash),
       'liveHashToDelete': config.encodeBinary(liveHashToDelete),
     };
   }
 
-
-  factory HederaCryptoDeleteLiveHashTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCryptoDeleteLiveHashTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCryptoDeleteLiveHashTransactionBody(
-      accountOfLiveHash: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'accountOfLiveHash',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      liveHashToDelete: config.decodeBinary<List<int>?>(json.valueAs('liveHashToDelete', normalizeKeyLookup: config.normalizeKeys)),
+      accountOfLiveHash: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'accountOfLiveHash',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      liveHashToDelete: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'liveHashToDelete',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
-  factory HederaCryptoDeleteLiveHashTransactionBody.deserialize(List<int> bytes) {
+  factory HederaCryptoDeleteLiveHashTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCryptoDeleteLiveHashTransactionBody(
-      accountOfLiveHash: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      accountOfLiveHash: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       liveHashToDelete: decode.getBytes<List<int>?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCryptoDeleteLiveHashTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCryptoDeleteLiveHashTransactionBody;
 }
-
-

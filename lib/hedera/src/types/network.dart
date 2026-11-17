@@ -1,4 +1,5 @@
 import 'package:on_chain/exception/onchain_error.dart';
+
 enum HederaNetwork {
   mainnet(0, 295, "mainnet"),
   testnet(1, 296, "testnet"),

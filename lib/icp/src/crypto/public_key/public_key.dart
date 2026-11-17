@@ -27,8 +27,7 @@ abstract class ICPPublicKey with Equality implements Comparable<ICPPublicKey> {
       ICPKeyType.ed25519 => ICPEd25519PublicKey.fromBytes(keyBytes),
       ICPKeyType.secp256k1 => ICPSecp256k1PublicKey.fromBytes(keyBytes),
       ICPKeyType.secp256r1 => ICPSecp256r1PublicKey.fromBytes(keyBytes),
-      ICPKeyType.ed25519Kholaw =>
-        ICPEd25519KholawPublicKey.fromBytes(keyBytes),
+      ICPKeyType.ed25519Kholaw => ICPEd25519KholawPublicKey.fromBytes(keyBytes),
     };
   }
 

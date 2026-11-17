@@ -3,51 +3,56 @@ import 'package:on_chain/solidity/contract/fragments.dart';
 import 'function_encoder.dart';
 
 /// Typed inputs for ERC-1155 functions.
-typedef ERC1155SafeTransferFromInput = ({
-  SolidityAddress from,
-  SolidityAddress to,
-  BigInt id,
-  BigInt value,
-  List<int> data
-});
-typedef ERC1155SetApprovalForAllInput = ({
-  SolidityAddress operator,
-  bool approved
-});
+typedef ERC1155SafeTransferFromInput =
+    ({
+      SolidityAddress from,
+      SolidityAddress to,
+      BigInt id,
+      BigInt value,
+      List<int> data,
+    });
+typedef ERC1155SetApprovalForAllInput =
+    ({SolidityAddress operator, bool approved});
 typedef ERC1155BalanceOfInput = ({SolidityAddress account, BigInt id});
 
 /// `safeTransferFrom(address,address,uint256,uint256,bytes)` (no outputs).
-class ERC1155SafeTransferFromEncoder extends SolidityFunctionEncoder<
-    ERC1155SafeTransferFromInput, Null> {
+class ERC1155SafeTransferFromEncoder
+    extends SolidityFunctionEncoder<ERC1155SafeTransferFromInput, Null> {
   const ERC1155SafeTransferFromEncoder();
-  static final AbiFunctionFragment fragmentDef =
-      AbiFunctionFragment.fromJson(const {
-    "inputs": [
-      {"internalType": "address", "name": "from", "type": "address"},
-      {"internalType": "address", "name": "to", "type": "address"},
-      {"internalType": "uint256", "name": "id", "type": "uint256"},
-      {"internalType": "uint256", "name": "value", "type": "uint256"},
-      {"internalType": "bytes", "name": "data", "type": "bytes"}
-    ],
-    "name": "safeTransferFrom",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  });
+  static final AbiFunctionFragment fragmentDef = AbiFunctionFragment.fromJson(
+    const {
+      "inputs": [
+        {"internalType": "address", "name": "from", "type": "address"},
+        {"internalType": "address", "name": "to", "type": "address"},
+        {"internalType": "uint256", "name": "id", "type": "uint256"},
+        {"internalType": "uint256", "name": "value", "type": "uint256"},
+        {"internalType": "bytes", "name": "data", "type": "bytes"},
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+    },
+  );
 
   @override
   AbiFunctionFragment get fragment => fragmentDef;
   @override
-  List<dynamic> toAbiInput(ERC1155SafeTransferFromInput input) =>
-      [input.from, input.to, input.id, input.value, input.data];
+  List<dynamic> toAbiInput(ERC1155SafeTransferFromInput input) => [
+    input.from,
+    input.to,
+    input.id,
+    input.value,
+    input.data,
+  ];
   @override
   ERC1155SafeTransferFromInput fromAbiInput(List<dynamic> values) => (
-        from: SolidityCodec.asAddress(values[0]),
-        to: SolidityCodec.asAddress(values[1]),
-        id: SolidityCodec.asBigInt(values[2]),
-        value: SolidityCodec.asBigInt(values[3]),
-        data: SolidityCodec.asBytes(values[4])
-      );
+    from: SolidityCodec.asAddress(values[0]),
+    to: SolidityCodec.asAddress(values[1]),
+    id: SolidityCodec.asBigInt(values[2]),
+    value: SolidityCodec.asBigInt(values[3]),
+    data: SolidityCodec.asBytes(values[4]),
+  );
   @override
   List<dynamic> toAbiOutput(Null output) => [];
   @override
@@ -55,31 +60,34 @@ class ERC1155SafeTransferFromEncoder extends SolidityFunctionEncoder<
 }
 
 /// `setApprovalForAll(address,bool)` (no outputs).
-class ERC1155SetApprovalForAllEncoder extends SolidityFunctionEncoder<
-    ERC1155SetApprovalForAllInput, Null> {
+class ERC1155SetApprovalForAllEncoder
+    extends SolidityFunctionEncoder<ERC1155SetApprovalForAllInput, Null> {
   const ERC1155SetApprovalForAllEncoder();
-  static final AbiFunctionFragment fragmentDef =
-      AbiFunctionFragment.fromJson(const {
-    "inputs": [
-      {"internalType": "address", "name": "operator", "type": "address"},
-      {"internalType": "bool", "name": "approved", "type": "bool"}
-    ],
-    "name": "setApprovalForAll",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  });
+  static final AbiFunctionFragment fragmentDef = AbiFunctionFragment.fromJson(
+    const {
+      "inputs": [
+        {"internalType": "address", "name": "operator", "type": "address"},
+        {"internalType": "bool", "name": "approved", "type": "bool"},
+      ],
+      "name": "setApprovalForAll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+    },
+  );
 
   @override
   AbiFunctionFragment get fragment => fragmentDef;
   @override
-  List<dynamic> toAbiInput(ERC1155SetApprovalForAllInput input) =>
-      [input.operator, input.approved];
+  List<dynamic> toAbiInput(ERC1155SetApprovalForAllInput input) => [
+    input.operator,
+    input.approved,
+  ];
   @override
   ERC1155SetApprovalForAllInput fromAbiInput(List<dynamic> values) => (
-        operator: SolidityCodec.asAddress(values[0]),
-        approved: SolidityCodec.asBool(values[1])
-      );
+    operator: SolidityCodec.asAddress(values[0]),
+    approved: SolidityCodec.asBool(values[1]),
+  );
   @override
   List<dynamic> toAbiOutput(Null output) => [];
   @override
@@ -90,30 +98,33 @@ class ERC1155SetApprovalForAllEncoder extends SolidityFunctionEncoder<
 class ERC1155BalanceOfEncoder
     extends SolidityFunctionEncoder<ERC1155BalanceOfInput, BigInt> {
   const ERC1155BalanceOfEncoder();
-  static final AbiFunctionFragment fragmentDef =
-      AbiFunctionFragment.fromJson(const {
-    "inputs": [
-      {"internalType": "address", "name": "account", "type": "address"},
-      {"internalType": "uint256", "name": "id", "type": "uint256"}
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {"internalType": "uint256", "name": "", "type": "uint256"}
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  });
+  static final AbiFunctionFragment fragmentDef = AbiFunctionFragment.fromJson(
+    const {
+      "inputs": [
+        {"internalType": "address", "name": "account", "type": "address"},
+        {"internalType": "uint256", "name": "id", "type": "uint256"},
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {"internalType": "uint256", "name": "", "type": "uint256"},
+      ],
+      "stateMutability": "view",
+      "type": "function",
+    },
+  );
 
   @override
   AbiFunctionFragment get fragment => fragmentDef;
   @override
-  List<dynamic> toAbiInput(ERC1155BalanceOfInput input) =>
-      [input.account, input.id];
+  List<dynamic> toAbiInput(ERC1155BalanceOfInput input) => [
+    input.account,
+    input.id,
+  ];
   @override
   ERC1155BalanceOfInput fromAbiInput(List<dynamic> values) => (
-        account: SolidityCodec.asAddress(values[0]),
-        id: SolidityCodec.asBigInt(values[1])
-      );
+    account: SolidityCodec.asAddress(values[0]),
+    id: SolidityCodec.asBigInt(values[1]),
+  );
   @override
   List<dynamic> toAbiOutput(BigInt output) => [output];
   @override
@@ -124,18 +135,19 @@ class ERC1155BalanceOfEncoder
 /// `uri(uint256) -> string`.
 class ERC1155UriEncoder extends SolidityFunctionEncoder<BigInt, String> {
   const ERC1155UriEncoder();
-  static final AbiFunctionFragment fragmentDef =
-      AbiFunctionFragment.fromJson(const {
-    "inputs": [
-      {"internalType": "uint256", "name": "id", "type": "uint256"}
-    ],
-    "name": "uri",
-    "outputs": [
-      {"internalType": "string", "name": "", "type": "string"}
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  });
+  static final AbiFunctionFragment fragmentDef = AbiFunctionFragment.fromJson(
+    const {
+      "inputs": [
+        {"internalType": "uint256", "name": "id", "type": "uint256"},
+      ],
+      "name": "uri",
+      "outputs": [
+        {"internalType": "string", "name": "", "type": "string"},
+      ],
+      "stateMutability": "view",
+      "type": "function",
+    },
+  );
 
   @override
   AbiFunctionFragment get fragment => fragmentDef;
@@ -158,12 +170,13 @@ class ERC1155TransferSingleEvent {
   final SolidityAddress to;
   final BigInt id;
   final BigInt value;
-  const ERC1155TransferSingleEvent(
-      {required this.operator,
-      required this.from,
-      required this.to,
-      required this.id,
-      required this.value});
+  const ERC1155TransferSingleEvent({
+    required this.operator,
+    required this.from,
+    required this.to,
+    required this.id,
+    required this.value,
+  });
 }
 
 /// Decoder for `TransferSingle`.
@@ -177,34 +190,34 @@ class ERC1155TransferSingleDecoder
         "internalType": "address",
         "name": "operator",
         "type": "address",
-        "indexed": true
+        "indexed": true,
       },
       {
         "internalType": "address",
         "name": "from",
         "type": "address",
-        "indexed": true
+        "indexed": true,
       },
       {
         "internalType": "address",
         "name": "to",
         "type": "address",
-        "indexed": true
+        "indexed": true,
       },
       {
         "internalType": "uint256",
         "name": "id",
         "type": "uint256",
-        "indexed": false
+        "indexed": false,
       },
       {
         "internalType": "uint256",
         "name": "value",
         "type": "uint256",
-        "indexed": false
-      }
+        "indexed": false,
+      },
     ],
-    "type": "event"
+    "type": "event",
   });
 
   @override
@@ -228,12 +241,13 @@ class ERC1155TransferBatchEvent {
   final SolidityAddress to;
   final List<BigInt> ids;
   final List<BigInt> values;
-  const ERC1155TransferBatchEvent(
-      {required this.operator,
-      required this.from,
-      required this.to,
-      required this.ids,
-      required this.values});
+  const ERC1155TransferBatchEvent({
+    required this.operator,
+    required this.from,
+    required this.to,
+    required this.ids,
+    required this.values,
+  });
 }
 
 /// Decoder for `TransferBatch`.
@@ -247,34 +261,34 @@ class ERC1155TransferBatchDecoder
         "internalType": "address",
         "name": "operator",
         "type": "address",
-        "indexed": true
+        "indexed": true,
       },
       {
         "internalType": "address",
         "name": "from",
         "type": "address",
-        "indexed": true
+        "indexed": true,
       },
       {
         "internalType": "address",
         "name": "to",
         "type": "address",
-        "indexed": true
+        "indexed": true,
       },
       {
         "internalType": "uint256[]",
         "name": "ids",
         "type": "uint256[]",
-        "indexed": false
+        "indexed": false,
       },
       {
         "internalType": "uint256[]",
         "name": "values",
         "type": "uint256[]",
-        "indexed": false
-      }
+        "indexed": false,
+      },
     ],
-    "type": "event"
+    "type": "event",
   });
 
   @override

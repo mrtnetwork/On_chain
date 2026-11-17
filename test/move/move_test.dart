@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void moveTest() {
   group('Move/Serialization', _test);
 }
@@ -10,7 +11,6 @@ void moveTest() {
 void main() {
   OnChainUtilsTestApi.runTest(moveTest, "Move");
 }
-
 
 void _test() {
   test("MoveVector serialization", () {
@@ -56,10 +56,7 @@ void _test() {
     expect(type.toBcs(), LayoutConst.u8().serialize(1));
     type = MoveU8(50);
     expect(type.toBcs(), LayoutConst.u8().serialize(50));
-    expect(
-      () => MoveU8(256),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveU8(256), throwsA(isA<BuError>()));
     expect(() => MoveU8(-1), throwsA(isA<BuError>()));
   });
   test("MoveU16 serialization", () {
@@ -67,28 +64,16 @@ void _test() {
     expect(type.toBcs(), LayoutConst.u16().serialize(1));
     type = MoveU16(50);
     expect(type.toBcs(), LayoutConst.u16().serialize(50));
-    expect(
-      () => MoveU16(1 << 16),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveU16(-1),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveU16(1 << 16), throwsA(isA<BuError>()));
+    expect(() => MoveU16(-1), throwsA(isA<BuError>()));
   });
   test("MoveU32 serialization", () {
     MoveType type = MoveU32(1);
     expect(type.toBcs(), LayoutConst.u32().serialize(1));
     type = MoveU32(50);
     expect(type.toBcs(), LayoutConst.u32().serialize(50));
-    expect(
-      () => MoveU32((BigInt.one << 32).toInt()),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveU32(-1),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveU32((BigInt.one << 32).toInt()), throwsA(isA<BuError>()));
+    expect(() => MoveU32(-1), throwsA(isA<BuError>()));
   });
   test("MoveU64 serialization", () {
     MoveType type = MoveU64.parse(1);
@@ -98,14 +83,8 @@ void _test() {
       type.toBcs(),
       LayoutConst.u64().serialize((BigInt.one << 64) - BigInt.one),
     );
-    expect(
-      () => MoveU64(BigInt.one << 64),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveU64.parse(-1),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveU64(BigInt.one << 64), throwsA(isA<BuError>()));
+    expect(() => MoveU64.parse(-1), throwsA(isA<BuError>()));
   });
   test("MoveU128 serialization", () {
     MoveType type = MoveU128.parse(1);
@@ -116,14 +95,8 @@ void _test() {
       type.toBcs(),
       LayoutConst.u128().serialize((BigInt.one << 128) - BigInt.one),
     );
-    expect(
-      () => MoveU128(BigInt.one << 128),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveU128.parse(-1),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveU128(BigInt.one << 128), throwsA(isA<BuError>()));
+    expect(() => MoveU128.parse(-1), throwsA(isA<BuError>()));
   });
   test("MoveU256 serialization", () {
     MoveType type = MoveU256.parse(1);
@@ -134,14 +107,8 @@ void _test() {
       type.toBcs(),
       LayoutConst.u256().serialize((BigInt.one << 256) - BigInt.one),
     );
-    expect(
-      () => MoveU256(BigInt.one << 256),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveU256.parse(-1),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveU256(BigInt.one << 256), throwsA(isA<BuError>()));
+    expect(() => MoveU256.parse(-1), throwsA(isA<BuError>()));
   });
   test("MoveBool serialization", () {
     MoveType type = MoveBool.parse(1);
@@ -156,22 +123,10 @@ void _test() {
     expect(type.toBcs(), LayoutConst.boolean().serialize(true));
     type = MoveBool.parse('false');
     expect(type.toBcs(), LayoutConst.boolean().serialize(false));
-    expect(
-      () => MoveBool.parse(2),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveBool.parse(-1),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveBool.parse('Fals'),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveBool.parse('TRU'),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveBool.parse(2), throwsA(isA<BuError>()));
+    expect(() => MoveBool.parse(-1), throwsA(isA<BuError>()));
+    expect(() => MoveBool.parse('Fals'), throwsA(isA<BuError>()));
+    expect(() => MoveBool.parse('TRU'), throwsA(isA<BuError>()));
   });
   test("MoveString serialization", () {
     MoveType type = MoveString('MRTNETWORK');
@@ -181,22 +136,10 @@ void _test() {
     type = MoveString("123123123123123");
     expect(type.toBcs(), LayoutConst.bcsString().serialize("123123123123123"));
 
-    expect(
-      () => MoveString.parse(2),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveString.parse(-1),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveString.parse(false),
-      throwsA(isA<BuError>()),
-    );
-    expect(
-      () => MoveString.parse(true),
-      throwsA(isA<BuError>()),
-    );
+    expect(() => MoveString.parse(2), throwsA(isA<BuError>()));
+    expect(() => MoveString.parse(-1), throwsA(isA<BuError>()));
+    expect(() => MoveString.parse(false), throwsA(isA<BuError>()));
+    expect(() => MoveString.parse(true), throwsA(isA<BuError>()));
   });
 
   test("MoveVecOption serialization", () {

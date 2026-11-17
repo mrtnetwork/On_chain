@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../../utils.dart';
+
 const _owner = SolAddress.unchecked(
   '91KRjTdVaXbdosGDn5AnFczYSApddsFj1SKuShbTUMEB',
 );
@@ -16,7 +17,6 @@ void candyMachineLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(candyMachineLayoutTest, "Layout");
 }
-
 
 void _candyMachine() {
   test('add connfig', () {

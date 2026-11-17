@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Schedule Delete
@@ -28,16 +29,15 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaScheduleDeleteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaScheduleDeleteTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * A schedule identifier.
   ///    * &lt;p&gt;
   ///    * This MUST identify the schedule which SHALL be deleted.
   final proto_basic_types.HederaScheduleID? scheduleID;
 
-  const HederaScheduleDeleteTransactionBody({
-    this.scheduleID,
-  });
+  const HederaScheduleDeleteTransactionBody({this.scheduleID});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -46,56 +46,59 @@ class HederaScheduleDeleteTransactionBody extends HederaProtoMessage with Equali
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        scheduleID,
-      ];
+  List<Object?> get protoValues => [scheduleID];
 
-
-HederaScheduleDeleteTransactionBody copyWith(
-{proto_basic_types.HederaScheduleID? scheduleID,
-
-}) {
+  HederaScheduleDeleteTransactionBody copyWith({
+    proto_basic_types.HederaScheduleID? scheduleID,
+  }) {
     return HederaScheduleDeleteTransactionBody(
-scheduleID: scheduleID ?? this.scheduleID,
+      scheduleID: scheduleID ?? this.scheduleID,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'scheduleID': config.encodeMessage(scheduleID),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'scheduleID': config.encodeMessage(scheduleID)};
   }
 
-
-  factory HederaScheduleDeleteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaScheduleDeleteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaScheduleDeleteTransactionBody(
       scheduleID: json.valueTo<proto_basic_types.HederaScheduleID?, Object>(
         key: 'scheduleID',
-        parse: (v) => proto_basic_types.HederaScheduleID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaScheduleID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaScheduleDeleteTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaScheduleDeleteTransactionBody(
-      scheduleID: decode.messageTo<proto_basic_types.HederaScheduleID?>(1, (b) => proto_basic_types.HederaScheduleID.deserialize(b)),
+      scheduleID: decode.messageTo<proto_basic_types.HederaScheduleID?>(
+        1,
+        (b) => proto_basic_types.HederaScheduleID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoScheduleDeleteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoScheduleDeleteTransactionBody;
 }
-
-

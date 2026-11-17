@@ -45,7 +45,14 @@ enum TronReturnresponseCode implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronReturnresponseCode found for the given value. $value", details: {"name": "TronReturnresponseCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronReturnresponseCode found for the given value. $value",
+                details: {
+                  "name": "TronReturnresponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -57,7 +64,14 @@ enum TronReturnresponseCode implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronReturnresponseCode found for the given value. $value", details: {"name": "TronReturnresponseCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronReturnresponseCode found for the given value. $value",
+                details: {
+                  "name": "TronReturnresponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -91,7 +105,14 @@ enum TronTransactionSignWeightResultresponseCode implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionSignWeightResultresponseCode found for the given value. $value", details: {"name": "TronTransactionSignWeightResultresponseCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionSignWeightResultresponseCode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionSignWeightResultresponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -103,7 +124,14 @@ enum TronTransactionSignWeightResultresponseCode implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionSignWeightResultresponseCode found for the given value. $value", details: {"name": "TronTransactionSignWeightResultresponseCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionSignWeightResultresponseCode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionSignWeightResultresponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -134,7 +162,14 @@ enum TronTransactionApprovedListResultresponseCode implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionApprovedListResultresponseCode found for the given value. $value", details: {"name": "TronTransactionApprovedListResultresponseCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionApprovedListResultresponseCode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionApprovedListResultresponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -146,7 +181,14 @@ enum TronTransactionApprovedListResultresponseCode implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionApprovedListResultresponseCode found for the given value. $value", details: {"name": "TronTransactionApprovedListResultresponseCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionApprovedListResultresponseCode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionApprovedListResultresponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }

@@ -28,7 +28,8 @@ class ContractABI with InternalCborSerialization {
           }).toList();
       return ContractABI._(fragments);
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'invalid contract abi',
         details: {'error': e.toString()},
       );

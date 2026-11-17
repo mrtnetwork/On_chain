@@ -56,7 +56,8 @@ class ICPCertificate {
 
   CborTagValue toCbor() => CborTagValue(toCborMap(), [55799]);
 
-  ICPLookupResult lookup(List<List<int>> path) => ICPHashTreeUtils.lookupPath(path, tree);
+  ICPLookupResult lookup(List<List<int>> path) =>
+      ICPHashTreeUtils.lookupPath(path, tree);
 
   List<int>? tryGetNodePublicKey({
     required IcpPrincipalAddress nodeId,

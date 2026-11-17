@@ -14,67 +14,67 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  *
 ///  * This message is used to store the counts of various entities in the network.
 class HederaEntityCounts extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * The number of accounts in the network.
   final BigInt? numAccounts;
 
-    /// *
+  /// *
   ///    * The number of aliases in the network.
   final BigInt? numAliases;
 
-    /// *
+  /// *
   ///    * The number of tokens in the network.
   final BigInt? numTokens;
 
-    /// *
+  /// *
   ///    * The number of token relationships in the network.
   final BigInt? numTokenRelations;
 
-    /// *
+  /// *
   ///    * The number of NFTs in the network.
   final BigInt? numNfts;
 
-    /// *
+  /// *
   ///    * The number of airdrops in the network.
   final BigInt? numAirdrops;
 
-    /// *
+  /// *
   ///    * The number of staking infos in the network.
   final BigInt? numStakingInfos;
 
-    /// *
+  /// *
   ///    * The number of topics in the network.
   final BigInt? numTopics;
 
-    /// *
+  /// *
   ///    * The number of files in the network.
   final BigInt? numFiles;
 
-    /// *
+  /// *
   ///    * The number of nodes in the network.
   final BigInt? numNodes;
 
-    /// *
+  /// *
   ///    * The number of schedules in the network.
   final BigInt? numSchedules;
 
-    /// *
+  /// *
   ///    * The number of contract storage slots in the network.
   final BigInt? numContractStorageSlots;
 
-    /// *
+  /// *
   ///    * The number of contract bytecodes in the network.
   final BigInt? numContractBytecodes;
 
-    /// *
+  /// *
   ///    * The number of hooks in the network.
   final BigInt? numHooks;
 
-    /// *
+  /// *
   ///    * The number of EVM hook storage slots in the network.
   final BigInt? numEvmHookStorageSlots;
 
-    /// *
+  /// *
   ///    * The number of registered nodes in the network.
   final BigInt? numRegisteredNodes;
 
@@ -127,83 +127,86 @@ class HederaEntityCounts extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        numAccounts,
-        numAliases,
-        numTokens,
-        numTokenRelations,
-        numNfts,
-        numAirdrops,
-        numStakingInfos,
-        numTopics,
-        numFiles,
-        numNodes,
-        numSchedules,
-        numContractStorageSlots,
-        numContractBytecodes,
-        numHooks,
-        numEvmHookStorageSlots,
-        numRegisteredNodes,
-      ];
+    numAccounts,
+    numAliases,
+    numTokens,
+    numTokenRelations,
+    numNfts,
+    numAirdrops,
+    numStakingInfos,
+    numTopics,
+    numFiles,
+    numNodes,
+    numSchedules,
+    numContractStorageSlots,
+    numContractBytecodes,
+    numHooks,
+    numEvmHookStorageSlots,
+    numRegisteredNodes,
+  ];
 
+  HederaEntityCounts copyWith({
+    BigInt? numAccounts,
 
-HederaEntityCounts copyWith(
-{BigInt? numAccounts,
+    BigInt? numAliases,
 
-BigInt? numAliases,
+    BigInt? numTokens,
 
-BigInt? numTokens,
+    BigInt? numTokenRelations,
 
-BigInt? numTokenRelations,
+    BigInt? numNfts,
 
-BigInt? numNfts,
+    BigInt? numAirdrops,
 
-BigInt? numAirdrops,
+    BigInt? numStakingInfos,
 
-BigInt? numStakingInfos,
+    BigInt? numTopics,
 
-BigInt? numTopics,
+    BigInt? numFiles,
 
-BigInt? numFiles,
+    BigInt? numNodes,
 
-BigInt? numNodes,
+    BigInt? numSchedules,
 
-BigInt? numSchedules,
+    BigInt? numContractStorageSlots,
 
-BigInt? numContractStorageSlots,
+    BigInt? numContractBytecodes,
 
-BigInt? numContractBytecodes,
+    BigInt? numHooks,
 
-BigInt? numHooks,
+    BigInt? numEvmHookStorageSlots,
 
-BigInt? numEvmHookStorageSlots,
-
-BigInt? numRegisteredNodes,
-
-}) {
+    BigInt? numRegisteredNodes,
+  }) {
     return HederaEntityCounts(
-numAccounts: numAccounts ?? this.numAccounts,
-numAliases: numAliases ?? this.numAliases,
-numTokens: numTokens ?? this.numTokens,
-numTokenRelations: numTokenRelations ?? this.numTokenRelations,
-numNfts: numNfts ?? this.numNfts,
-numAirdrops: numAirdrops ?? this.numAirdrops,
-numStakingInfos: numStakingInfos ?? this.numStakingInfos,
-numTopics: numTopics ?? this.numTopics,
-numFiles: numFiles ?? this.numFiles,
-numNodes: numNodes ?? this.numNodes,
-numSchedules: numSchedules ?? this.numSchedules,
-numContractStorageSlots: numContractStorageSlots ?? this.numContractStorageSlots,
-numContractBytecodes: numContractBytecodes ?? this.numContractBytecodes,
-numHooks: numHooks ?? this.numHooks,
-numEvmHookStorageSlots: numEvmHookStorageSlots ?? this.numEvmHookStorageSlots,
-numRegisteredNodes: numRegisteredNodes ?? this.numRegisteredNodes,
+      numAccounts: numAccounts ?? this.numAccounts,
+      numAliases: numAliases ?? this.numAliases,
+      numTokens: numTokens ?? this.numTokens,
+      numTokenRelations: numTokenRelations ?? this.numTokenRelations,
+      numNfts: numNfts ?? this.numNfts,
+      numAirdrops: numAirdrops ?? this.numAirdrops,
+      numStakingInfos: numStakingInfos ?? this.numStakingInfos,
+      numTopics: numTopics ?? this.numTopics,
+      numFiles: numFiles ?? this.numFiles,
+      numNodes: numNodes ?? this.numNodes,
+      numSchedules: numSchedules ?? this.numSchedules,
+      numContractStorageSlots:
+          numContractStorageSlots ?? this.numContractStorageSlots,
+      numContractBytecodes: numContractBytecodes ?? this.numContractBytecodes,
+      numHooks: numHooks ?? this.numHooks,
+      numEvmHookStorageSlots:
+          numEvmHookStorageSlots ?? this.numEvmHookStorageSlots,
+      numRegisteredNodes: numRegisteredNodes ?? this.numRegisteredNodes,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'num_accounts': config.encodeBigint(numAccounts),
       'num_aliases': config.encodeBigint(numAliases),
@@ -216,7 +219,9 @@ List<dynamic> get variables => protoValues;
       'num_files': config.encodeBigint(numFiles),
       'num_nodes': config.encodeBigint(numNodes),
       'num_schedules': config.encodeBigint(numSchedules),
-      'num_contract_storage_slots': config.encodeBigint(numContractStorageSlots),
+      'num_contract_storage_slots': config.encodeBigint(
+        numContractStorageSlots,
+      ),
       'num_contract_bytecodes': config.encodeBigint(numContractBytecodes),
       'num_hooks': config.encodeBigint(numHooks),
       'num_evm_hook_storage_slots': config.encodeBigint(numEvmHookStorageSlots),
@@ -224,25 +229,75 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaEntityCounts.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEntityCounts.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEntityCounts(
-      numAccounts: json.valueAsBigInt<BigInt?>('num_accounts', normalizeKeyLookup: config.normalizeKeys),
-      numAliases: json.valueAsBigInt<BigInt?>('num_aliases', normalizeKeyLookup: config.normalizeKeys),
-      numTokens: json.valueAsBigInt<BigInt?>('num_tokens', normalizeKeyLookup: config.normalizeKeys),
-      numTokenRelations: json.valueAsBigInt<BigInt?>('num_token_relations', normalizeKeyLookup: config.normalizeKeys),
-      numNfts: json.valueAsBigInt<BigInt?>('num_nfts', normalizeKeyLookup: config.normalizeKeys),
-      numAirdrops: json.valueAsBigInt<BigInt?>('num_airdrops', normalizeKeyLookup: config.normalizeKeys),
-      numStakingInfos: json.valueAsBigInt<BigInt?>('num_staking_infos', normalizeKeyLookup: config.normalizeKeys),
-      numTopics: json.valueAsBigInt<BigInt?>('num_topics', normalizeKeyLookup: config.normalizeKeys),
-      numFiles: json.valueAsBigInt<BigInt?>('num_files', normalizeKeyLookup: config.normalizeKeys),
-      numNodes: json.valueAsBigInt<BigInt?>('num_nodes', normalizeKeyLookup: config.normalizeKeys),
-      numSchedules: json.valueAsBigInt<BigInt?>('num_schedules', normalizeKeyLookup: config.normalizeKeys),
-      numContractStorageSlots: json.valueAsBigInt<BigInt?>('num_contract_storage_slots', normalizeKeyLookup: config.normalizeKeys),
-      numContractBytecodes: json.valueAsBigInt<BigInt?>('num_contract_bytecodes', normalizeKeyLookup: config.normalizeKeys),
-      numHooks: json.valueAsBigInt<BigInt?>('num_hooks', normalizeKeyLookup: config.normalizeKeys),
-      numEvmHookStorageSlots: json.valueAsBigInt<BigInt?>('num_evm_hook_storage_slots', normalizeKeyLookup: config.normalizeKeys),
-      numRegisteredNodes: json.valueAsBigInt<BigInt?>('num_registered_nodes', normalizeKeyLookup: config.normalizeKeys),
+      numAccounts: json.valueAsBigInt<BigInt?>(
+        'num_accounts',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numAliases: json.valueAsBigInt<BigInt?>(
+        'num_aliases',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numTokens: json.valueAsBigInt<BigInt?>(
+        'num_tokens',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numTokenRelations: json.valueAsBigInt<BigInt?>(
+        'num_token_relations',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numNfts: json.valueAsBigInt<BigInt?>(
+        'num_nfts',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numAirdrops: json.valueAsBigInt<BigInt?>(
+        'num_airdrops',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numStakingInfos: json.valueAsBigInt<BigInt?>(
+        'num_staking_infos',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numTopics: json.valueAsBigInt<BigInt?>(
+        'num_topics',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numFiles: json.valueAsBigInt<BigInt?>(
+        'num_files',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numNodes: json.valueAsBigInt<BigInt?>(
+        'num_nodes',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numSchedules: json.valueAsBigInt<BigInt?>(
+        'num_schedules',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numContractStorageSlots: json.valueAsBigInt<BigInt?>(
+        'num_contract_storage_slots',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numContractBytecodes: json.valueAsBigInt<BigInt?>(
+        'num_contract_bytecodes',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numHooks: json.valueAsBigInt<BigInt?>(
+        'num_hooks',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numEvmHookStorageSlots: json.valueAsBigInt<BigInt?>(
+        'num_evm_hook_storage_slots',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numRegisteredNodes: json.valueAsBigInt<BigInt?>(
+        'num_registered_nodes',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -269,8 +324,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateEntityEntityCounts;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateEntityEntityCounts;
 }
-
-

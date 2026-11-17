@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 SuiCryptoPublicKey getPublicKey(int fill) {
   final key = SuiSecp256r1PrivateKey.fromBytes(List<int>.filled(32, fill));
   return key.publicKey;
@@ -30,7 +31,6 @@ void multisigTest() {
 void main() {
   OnChainUtilsTestApi.runTest(multisigTest, "Multisig");
 }
-
 
 void _createAddress2() {
   test("create Multisig Address", () {

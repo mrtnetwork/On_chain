@@ -1500,9 +1500,7 @@ class AptosGraphQLDelegatorDistinctPool {
   factory AptosGraphQLDelegatorDistinctPool.fromJson(
     Map<String, dynamic> json,
   ) {
-    return AptosGraphQLDelegatorDistinctPool(
-      poolAddress: json['pool_address'],
-    );
+    return AptosGraphQLDelegatorDistinctPool(poolAddress: json['pool_address']);
   }
 
   Map<String, dynamic> toJson() {
@@ -1545,9 +1543,7 @@ class AptosGraphQLDelegatedStakingPool {
 
   AptosGraphQLDelegatedStakingPool({this.poolAddress});
 
-  factory AptosGraphQLDelegatedStakingPool.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory AptosGraphQLDelegatedStakingPool.fromJson(Map<String, dynamic> json) {
     return AptosGraphQLDelegatedStakingPool(
       poolAddress: json['staking_pool_address'],
     );

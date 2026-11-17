@@ -30,10 +30,12 @@ class EthereumRequestERC20Balance extends EthereumRequest<BigInt, String> {
     return [
       {
         "to": contractAddress,
-        "data": BytesUtils.toHexString(_encoder.encode(accountAddress),
-            prefix: "0x"),
+        "data": BytesUtils.toHexString(
+          _encoder.encode(accountAddress),
+          prefix: "0x",
+        ),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

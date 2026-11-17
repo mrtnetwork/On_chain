@@ -97,42 +97,42 @@ void algorandQuickClientTest() {
   final address = AlgoAddress.fromBytes(List<int>.filled(32, 1));
 
   group('Algorand/QuickClientApi Additions (Offline)', () {
-    test('getAccountBalance reads amount, zero on 404, throws otherwise',
-        () async {
-      final quick = _quick(
-        (p) => _ok(p, {'address': address.address, 'amount': 1000}),
-      );
-      expect(await quick.getAccountBalance(address), BigInt.from(1000));
+    test(
+      'getAccountBalance reads amount, zero on 404, throws otherwise',
+      () async {
+        final quick = _quick(
+          (p) => _ok(p, {'address': address.address, 'amount': 1000}),
+        );
+        expect(await quick.getAccountBalance(address), BigInt.from(1000));
 
-      final missing = _quick(
-        (p) => p.toResponse(
-          StringUtils.encodeJson({'message': 'account not found'}),
-          statusCode: 404,
-        ),
-      );
-      expect(await missing.getAccountBalance(address), BigInt.zero);
+        final missing = _quick(
+          (p) => p.toResponse(
+            StringUtils.encodeJson({'message': 'account not found'}),
+            statusCode: 404,
+          ),
+        );
+        expect(await missing.getAccountBalance(address), BigInt.zero);
 
-      final broken = _quick(
-        (p) => p.toResponse(
-          StringUtils.encodeJson({'message': 'internal error'}),
-          statusCode: 500,
-        ),
-      );
-      expect(() => broken.getAccountBalance(address), throwsA(isA<RPCError>()));
-    });
+        final broken = _quick(
+          (p) => p.toResponse(
+            StringUtils.encodeJson({'message': 'internal error'}),
+            statusCode: 500,
+          ),
+        );
+        expect(
+          () => broken.getAccountBalance(address),
+          throwsA(isA<RPCError>()),
+        );
+      },
+    );
 
     test('getTransactionStatus maps pool/confirmed/pending', () async {
       final confirmed = _quick(
         (p) => _mpok(p, _pendingTx(poolError: '', confirmedRound: 5)),
       );
-      expect(
-        await confirmed.getTransactionStatus('txid'),
-        AlgoTxStatus.block,
-      );
+      expect(await confirmed.getTransactionStatus('txid'), AlgoTxStatus.block);
 
-      final failed = _quick(
-        (p) => _mpok(p, _pendingTx(poolError: 'rejected')),
-      );
+      final failed = _quick((p) => _mpok(p, _pendingTx(poolError: 'rejected')));
       expect(await failed.getTransactionStatus('txid'), AlgoTxStatus.failed);
 
       final pending = _quick((p) => _mpok(p, _pendingTx(poolError: '')));
@@ -173,12 +173,7 @@ void algorandQuickClientTest() {
     });
 
     test('getAssetParams hit and miss', () async {
-      final hit = _quick(
-        (p) => _ok(p, {
-          'index': 1,
-          'params': _ftParams(),
-        }),
-      );
+      final hit = _quick((p) => _ok(p, {'index': 1, 'params': _ftParams()}));
       final params = await hit.getAssetParams(BigInt.one);
       expect(params, isNotNull);
       expect(params!.unitName, 'USDC');
@@ -204,8 +199,5 @@ void algorandQuickClientTest() {
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(
-    algorandQuickClientTest,
-    'Algorand Quick Client',
-  );
+  OnChainUtilsTestApi.runTest(algorandQuickClientTest, 'Algorand Quick Client');
 }

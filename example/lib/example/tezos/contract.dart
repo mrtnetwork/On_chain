@@ -22,15 +22,24 @@ final List<Map<String, dynamic>> counterCode = [
       {
         'prim': 'or',
         'args': [
-          {'prim': 'unit', 'annots': ['%increment']},
-          {'prim': 'unit', 'annots': ['%decrement']},
+          {
+            'prim': 'unit',
+            'annots': ['%increment']
+          },
+          {
+            'prim': 'unit',
+            'annots': ['%decrement']
+          },
         ],
       },
     ],
   },
-  {'prim': 'storage', 'args': [
-    {'prim': 'int'},
-  ]},
+  {
+    'prim': 'storage',
+    'args': [
+      {'prim': 'int'},
+    ]
+  },
   {
     'prim': 'code',
     'args': [
@@ -41,26 +50,35 @@ final List<Map<String, dynamic>> counterCode = [
           'args': [
             [
               {'prim': 'DROP'},
-              {'prim': 'PUSH', 'args': [
-                {'prim': 'int'},
-                {'int': '1'},
-              ]},
+              {
+                'prim': 'PUSH',
+                'args': [
+                  {'prim': 'int'},
+                  {'int': '1'},
+                ]
+              },
               {'prim': 'ADD'},
             ],
             [
               {'prim': 'DROP'},
-              {'prim': 'PUSH', 'args': [
-                {'prim': 'int'},
-                {'int': '1'},
-              ]},
+              {
+                'prim': 'PUSH',
+                'args': [
+                  {'prim': 'int'},
+                  {'int': '1'},
+                ]
+              },
               {'prim': 'SWAP'},
               {'prim': 'SUB'},
             ],
           ],
         },
-        {'prim': 'NIL', 'args': [
-          {'prim': 'operation'},
-        ]},
+        {
+          'prim': 'NIL',
+          'args': [
+            {'prim': 'operation'},
+          ]
+        },
         {'prim': 'PAIR'},
       ],
     ],
@@ -109,7 +127,8 @@ Future<void> main() async {
   print('\ndone.');
 }
 
-Future<String> _storage(DefaultTezosClient client, TezosAddress contract) async {
+Future<String> _storage(
+    DefaultTezosClient client, TezosAddress contract) async {
   final expr = await client.getContractStorage(contract);
   return switch (expr) {
     MichelineInt(value: final value) => '$value',

@@ -1,10 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart" as proto_duration;
-import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" as proto_custom_fees;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart"
+    as proto_duration;
+import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart"
+    as proto_custom_fees;
 
 /// *
 ///  * # Token Create
@@ -63,8 +67,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * If the token is created, the Token Identifier SHALL be in the receipt.&lt;br/&gt;
-class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenCreateTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A name for the token.&lt;br/&gt;
   ///      * This is generally the "full name" displayed in wallet software.
   ///      * &lt;p&gt;
@@ -73,7 +78,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This value MUST NOT contain the Unicode NUL codepoint.
   final String? name;
 
-    /// *
+  /// *
   ///      * A symbol to use for the token.
   ///      * &lt;p&gt;
   ///      * This field is REQUIRED.&lt;br/&gt;
@@ -81,7 +86,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This value MUST NOT contain the Unicode NUL codepoint.
   final String? symbol;
 
-    /// *
+  /// *
   ///      * A decimal precision of the token's smallest denomination.&lt;br/&gt;
   ///      * Most values are described in terms of this smallest denomination,
   ///      * so the token initial supply, for instance, must be divided by
@@ -90,7 +95,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This MUST be zero(`0`) for non-fungible/unique tokens.
   final int? decimals;
 
-    /// *
+  /// *
   ///      * An initial supply, in the smallest denomination for the token.
   ///      * &lt;p&gt;
   ///      * This amount SHALL be transferred to the treasury account as part
@@ -100,7 +105,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This MUST be zero(`0`) for a non-fungible/unique token.
   final BigInt? initialSupply;
 
-    /// *
+  /// *
   ///      * A treasury account identifier.
   ///      * &lt;p&gt;
   ///      * This field is REQUIRED.&lt;br/&gt;
@@ -112,7 +117,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * The identified account SHALL be associated to the new token.
   final proto_basic_types.HederaAccountID? treasury;
 
-    /// *
+  /// *
   ///      * An Hedera key for token administration.
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have administrative authority for this token and
@@ -121,7 +126,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * immutable, except for expiration and renewal.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing account KYC.
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have KYC authority for this token and
@@ -132,7 +137,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * and cannot be revoked.
   final proto_basic_types.HederaKey? kycKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing asset "freeze".
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have "freeze" authority for this token and
@@ -144,7 +149,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * SHALL remain frozen and cannot be unfrozen.
   final proto_basic_types.HederaKey? freezeKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for wiping tokens from accounts.
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have "wipe" authority for this token and
@@ -154,7 +159,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * possible to "wipe" this token from an account.
   final proto_basic_types.HederaKey? wipeKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for "minting" and "burning" tokens.
   ///      * &lt;p&gt;
   ///      * This key, if set, MAY authorize transactions to "mint" new tokens to
@@ -165,7 +170,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * transactions SHALL be permitted.
   final proto_basic_types.HederaKey? supplyKey;
 
-    /// *
+  /// *
   ///      * An initial Freeze status for accounts associated to this token.
   ///      * &lt;p&gt;
   ///      * If this value is set, an account MUST be the subject of a
@@ -182,7 +187,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * &lt;/blockquote&gt;&lt;/blockquote&gt;
   final bool? freezeDefault;
 
-    /// *
+  /// *
   ///      * An expiration timestamp.
   ///      * &lt;p&gt;
   ///      * If the `autoRenewAccount` and `autoRenewPeriod` fields are set, this
@@ -196,7 +201,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * extended by the "default" expiration period from network configuration.
   final proto_timestamp.HederaTimestamp? expiry;
 
-    /// *
+  /// *
   ///      * An identifier for the account to be charged renewal fees at the token's
   ///      * expiry to extend the lifetime of the token.
   ///      * &lt;p&gt;
@@ -215,7 +220,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * transaction.
   final proto_basic_types.HederaAccountID? autoRenewAccount;
 
-    /// *
+  /// *
   ///      * A duration between token automatic renewals.&lt;br/&gt;
   ///      * All entities in state may be charged "rent" occasionally (typically
   ///      * every 90 days) to prevent unnecessary growth of the ledger. This value
@@ -227,14 +232,14 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This value MUST be less than the configured MAX_AUTORENEW_PERIOD.
   final proto_duration.HederaDuration? autoRenewPeriod;
 
-    /// *
+  /// *
   ///      * A short description for this token.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
   ///      * (default 100) bytes when encoded as UTF-8.
   final String? memo;
 
-    /// *
+  /// *
   ///      * A type for this token, according to IWA classification.
   ///      * &lt;p&gt;
   ///      * If this value is not set, the token SHALL have the default type of
@@ -242,7 +247,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This field SHALL be immutable.
   final proto_basic_types.HederaTokenType? tokenType;
 
-    /// *
+  /// *
   ///      * A supply type for this token, according to IWA classification.
   ///      * &lt;p&gt;
   ///      * If this value is not set, the token SHALL have the default supply
@@ -251,7 +256,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This field SHALL be immutable.
   final proto_basic_types.HederaTokenSupplyType? supplyType;
 
-    /// *
+  /// *
   ///      * A maximum supply for this token.
   ///      * &lt;p&gt;
   ///      * This SHALL be interpreted in terms of the smallest fractional unit for
@@ -260,7 +265,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This field SHALL be immutable.
   final BigInt? maxSupply;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing the token custom fee schedule.
   ///      * &lt;p&gt;
   ///      * This key, if set, MAY authorize transactions to modify the
@@ -269,7 +274,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * for this token SHALL NOT be modified.
   final proto_basic_types.HederaKey? feeScheduleKey;
 
-    /// *
+  /// *
   ///      * A list of custom fees representing a fee schedule.
   ///      * &lt;p&gt;
   ///      * This list MAY be empty, which SHALL mean that there
@@ -281,7 +286,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * Any token type MAY include entries that declare a `fixed_fee`.
   final List<proto_custom_fees.HederaCustomFee> customFees;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing token "pause".
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have "pause" authority for this token and
@@ -292,7 +297,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * be unpaused and SHALL remain paused.
   final proto_basic_types.HederaKey? pauseKey;
 
-    /// *
+  /// *
   ///      * Token "Metadata".
   ///      * &lt;p&gt;
   ///      * The value, if set, MUST NOT exceed 100 bytes.&lt;br/&gt;
@@ -302,7 +307,7 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
   ///      * &lt;/dl&gt;
   final List<int>? metadata;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing the token `metadata`.
   ///      * &lt;p&gt;
   ///      * This key, if set, MAY authorize transactions to modify the
@@ -377,111 +382,112 @@ class HederaTokenCreateTransactionBody extends HederaProtoMessage with Equality 
 
   @override
   List<Object?> get protoValues => [
-        name,
-        symbol,
-        decimals,
-        initialSupply,
-        treasury,
-        adminKey,
-        kycKey,
-        freezeKey,
-        wipeKey,
-        supplyKey,
-        freezeDefault,
-        expiry,
-        autoRenewAccount,
-        autoRenewPeriod,
-        memo,
-        tokenType,
-        supplyType,
-        maxSupply,
-        feeScheduleKey,
-        customFees,
-        pauseKey,
-        metadata,
-        metadataKey,
-      ];
+    name,
+    symbol,
+    decimals,
+    initialSupply,
+    treasury,
+    adminKey,
+    kycKey,
+    freezeKey,
+    wipeKey,
+    supplyKey,
+    freezeDefault,
+    expiry,
+    autoRenewAccount,
+    autoRenewPeriod,
+    memo,
+    tokenType,
+    supplyType,
+    maxSupply,
+    feeScheduleKey,
+    customFees,
+    pauseKey,
+    metadata,
+    metadataKey,
+  ];
 
+  HederaTokenCreateTransactionBody copyWith({
+    String? name,
 
-HederaTokenCreateTransactionBody copyWith(
-{String? name,
+    String? symbol,
 
-String? symbol,
+    int? decimals,
 
-int? decimals,
+    BigInt? initialSupply,
 
-BigInt? initialSupply,
+    proto_basic_types.HederaAccountID? treasury,
 
-proto_basic_types.HederaAccountID? treasury,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    proto_basic_types.HederaKey? kycKey,
 
-proto_basic_types.HederaKey? kycKey,
+    proto_basic_types.HederaKey? freezeKey,
 
-proto_basic_types.HederaKey? freezeKey,
+    proto_basic_types.HederaKey? wipeKey,
 
-proto_basic_types.HederaKey? wipeKey,
+    proto_basic_types.HederaKey? supplyKey,
 
-proto_basic_types.HederaKey? supplyKey,
+    bool? freezeDefault,
 
-bool? freezeDefault,
+    proto_timestamp.HederaTimestamp? expiry,
 
-proto_timestamp.HederaTimestamp? expiry,
+    proto_basic_types.HederaAccountID? autoRenewAccount,
 
-proto_basic_types.HederaAccountID? autoRenewAccount,
+    proto_duration.HederaDuration? autoRenewPeriod,
 
-proto_duration.HederaDuration? autoRenewPeriod,
+    String? memo,
 
-String? memo,
+    proto_basic_types.HederaTokenType? tokenType,
 
-proto_basic_types.HederaTokenType? tokenType,
+    proto_basic_types.HederaTokenSupplyType? supplyType,
 
-proto_basic_types.HederaTokenSupplyType? supplyType,
+    BigInt? maxSupply,
 
-BigInt? maxSupply,
+    proto_basic_types.HederaKey? feeScheduleKey,
 
-proto_basic_types.HederaKey? feeScheduleKey,
+    List<proto_custom_fees.HederaCustomFee>? customFees,
 
-List<proto_custom_fees.HederaCustomFee>? customFees,
+    proto_basic_types.HederaKey? pauseKey,
 
-proto_basic_types.HederaKey? pauseKey,
+    List<int>? metadata,
 
-List<int>? metadata,
-
-proto_basic_types.HederaKey? metadataKey,
-
-}) {
+    proto_basic_types.HederaKey? metadataKey,
+  }) {
     return HederaTokenCreateTransactionBody(
-name: name ?? this.name,
-symbol: symbol ?? this.symbol,
-decimals: decimals ?? this.decimals,
-initialSupply: initialSupply ?? this.initialSupply,
-treasury: treasury ?? this.treasury,
-adminKey: adminKey ?? this.adminKey,
-kycKey: kycKey ?? this.kycKey,
-freezeKey: freezeKey ?? this.freezeKey,
-wipeKey: wipeKey ?? this.wipeKey,
-supplyKey: supplyKey ?? this.supplyKey,
-freezeDefault: freezeDefault ?? this.freezeDefault,
-expiry: expiry ?? this.expiry,
-autoRenewAccount: autoRenewAccount ?? this.autoRenewAccount,
-autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
-memo: memo ?? this.memo,
-tokenType: tokenType ?? this.tokenType,
-supplyType: supplyType ?? this.supplyType,
-maxSupply: maxSupply ?? this.maxSupply,
-feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
-customFees: customFees ?? this.customFees,
-pauseKey: pauseKey ?? this.pauseKey,
-metadata: metadata ?? this.metadata,
-metadataKey: metadataKey ?? this.metadataKey,
+      name: name ?? this.name,
+      symbol: symbol ?? this.symbol,
+      decimals: decimals ?? this.decimals,
+      initialSupply: initialSupply ?? this.initialSupply,
+      treasury: treasury ?? this.treasury,
+      adminKey: adminKey ?? this.adminKey,
+      kycKey: kycKey ?? this.kycKey,
+      freezeKey: freezeKey ?? this.freezeKey,
+      wipeKey: wipeKey ?? this.wipeKey,
+      supplyKey: supplyKey ?? this.supplyKey,
+      freezeDefault: freezeDefault ?? this.freezeDefault,
+      expiry: expiry ?? this.expiry,
+      autoRenewAccount: autoRenewAccount ?? this.autoRenewAccount,
+      autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
+      memo: memo ?? this.memo,
+      tokenType: tokenType ?? this.tokenType,
+      supplyType: supplyType ?? this.supplyType,
+      maxSupply: maxSupply ?? this.maxSupply,
+      feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
+      customFees: customFees ?? this.customFees,
+      pauseKey: pauseKey ?? this.pauseKey,
+      metadata: metadata ?? this.metadata,
+      metadataKey: metadataKey ?? this.metadataKey,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'name': name,
       'symbol': symbol,
@@ -509,77 +515,180 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenCreateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenCreateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenCreateTransactionBody(
-      name: json.valueAsString<String?>('name', normalizeKeyLookup: config.normalizeKeys),
-      symbol: json.valueAsString<String?>('symbol', normalizeKeyLookup: config.normalizeKeys),
-      decimals: json.valueAsInt<int?>('decimals', normalizeKeyLookup: config.normalizeKeys),
-      initialSupply: json.valueAsBigInt<BigInt?>('initialSupply', normalizeKeyLookup: config.normalizeKeys),
+      name: json.valueAsString<String?>(
+        'name',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      symbol: json.valueAsString<String?>(
+        'symbol',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      decimals: json.valueAsInt<int?>(
+        'decimals',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      initialSupply: json.valueAsBigInt<BigInt?>(
+        'initialSupply',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       treasury: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'treasury',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'adminKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       kycKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'kycKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       freezeKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'freezeKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       wipeKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'wipeKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       supplyKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'supplyKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      freezeDefault: json.valueAsBool<bool?>('freezeDefault', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      freezeDefault: json.valueAsBool<bool?>(
+        'freezeDefault',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       expiry: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'expiry',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      autoRenewAccount: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'autoRenewAccount',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      autoRenewAccount: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'autoRenewAccount',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       autoRenewPeriod: json.valueTo<proto_duration.HederaDuration?, Object>(
         key: 'autoRenewPeriod',
-        parse: (v) => proto_duration.HederaDuration.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      memo: json.valueAsString<String?>('memo', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_duration.HederaDuration.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      memo: json.valueAsString<String?>(
+        'memo',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       tokenType: json.valueTo<proto_basic_types.HederaTokenType?, Object?>(
         key: 'tokenType',
         parse: (v) => proto_basic_types.HederaTokenType.from(v),
       ),
-      supplyType: json.valueTo<proto_basic_types.HederaTokenSupplyType?, Object?>(
-        key: 'supplyType',
-        parse: (v) => proto_basic_types.HederaTokenSupplyType.from(v),
+      supplyType: json
+          .valueTo<proto_basic_types.HederaTokenSupplyType?, Object?>(
+            key: 'supplyType',
+            parse: (v) => proto_basic_types.HederaTokenSupplyType.from(v),
+          ),
+      maxSupply: json.valueAsBigInt<BigInt?>(
+        'maxSupply',
+        normalizeKeyLookup: config.normalizeKeys,
       ),
-      maxSupply: json.valueAsBigInt<BigInt?>('maxSupply', normalizeKeyLookup: config.normalizeKeys),
       feeScheduleKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'fee_schedule_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      customFees: (json.valueEnsureAsList<dynamic>('custom_fees', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_custom_fees.HederaCustomFee, Object>(
-          value: e,
-          parse: (v) => proto_custom_fees.HederaCustomFee.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      customFees:
+          (json.valueEnsureAsList<dynamic>(
+                'custom_fees',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_custom_fees.HederaCustomFee,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_custom_fees.HederaCustomFee.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
       pauseKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'pause_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      metadata: config.decodeBinary<List<int>?>(json.valueAs('metadata', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      metadata: config.decodeBinary<List<int>?>(
+        json.valueAs('metadata', normalizeKeyLookup: config.normalizeKeys),
+      ),
       metadataKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'metadata_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -590,31 +699,75 @@ List<dynamic> get variables => protoValues;
       symbol: decode.getString<String?>(2),
       decimals: decode.getInt<int?>(3),
       initialSupply: decode.getBigInt<BigInt?>(4),
-      treasury: decode.messageTo<proto_basic_types.HederaAccountID?>(5, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(6, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      kycKey: decode.messageTo<proto_basic_types.HederaKey?>(7, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      freezeKey: decode.messageTo<proto_basic_types.HederaKey?>(8, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      wipeKey: decode.messageTo<proto_basic_types.HederaKey?>(9, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      supplyKey: decode.messageTo<proto_basic_types.HederaKey?>(10, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      treasury: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        5,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        6,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      kycKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        7,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      freezeKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        8,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      wipeKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        9,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      supplyKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        10,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       freezeDefault: decode.getBool<bool?>(11),
-      expiry: decode.messageTo<proto_timestamp.HederaTimestamp?>(13, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
-      autoRenewAccount: decode.messageTo<proto_basic_types.HederaAccountID?>(14, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(15, (b) => proto_duration.HederaDuration.deserialize(b)),
+      expiry: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        13,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
+      autoRenewAccount: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        14,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(
+        15,
+        (b) => proto_duration.HederaDuration.deserialize(b),
+      ),
       memo: decode.getString<String?>(16),
-      tokenType: decode.getEnum<proto_basic_types.HederaTokenType?>(17, proto_basic_types.HederaTokenType.values),
-      supplyType: decode.getEnum<proto_basic_types.HederaTokenSupplyType?>(18, proto_basic_types.HederaTokenSupplyType.values),
+      tokenType: decode.getEnum<proto_basic_types.HederaTokenType?>(
+        17,
+        proto_basic_types.HederaTokenType.values,
+      ),
+      supplyType: decode.getEnum<proto_basic_types.HederaTokenSupplyType?>(
+        18,
+        proto_basic_types.HederaTokenSupplyType.values,
+      ),
       maxSupply: decode.getBigInt<BigInt?>(19),
-      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(20, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      customFees: decode.getListOfBytes(21).map((b) => proto_custom_fees.HederaCustomFee.deserialize(b)).toList(),
-      pauseKey: decode.messageTo<proto_basic_types.HederaKey?>(22, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        20,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      customFees:
+          decode
+              .getListOfBytes(21)
+              .map((b) => proto_custom_fees.HederaCustomFee.deserialize(b))
+              .toList(),
+      pauseKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        22,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       metadata: decode.getBytes<List<int>?>(23),
-      metadataKey: decode.messageTo<proto_basic_types.HederaKey?>(24, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      metadataKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        24,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenCreateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenCreateTransactionBody;
 }
-
-

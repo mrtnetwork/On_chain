@@ -7,13 +7,13 @@ import 'package:on_chain/solidity/helper/helper.dart';
 
 /// ERC-165 `supportsInterface(bytes4)`. Takes the raw interface id hex
 /// (e.g. `"0xd9b67a26"`); callers map their own standard enum to ids.
-class EthereumRequestSupportsInterface
-    extends EthereumRequest<bool, String> {
-  EthereumRequestSupportsInterface(
-      {required this.interfaceId,
-      required this.contractAddress,
-      required this.from,
-      super.blockNumber = BlockTagOrNumber.latest});
+class EthereumRequestSupportsInterface extends EthereumRequest<bool, String> {
+  EthereumRequestSupportsInterface({
+    required this.interfaceId,
+    required this.contractAddress,
+    required this.from,
+    super.blockNumber = BlockTagOrNumber.latest,
+  });
 
   @override
   String get method => EthereumMethods.call.value;
@@ -34,15 +34,16 @@ class EthereumRequestSupportsInterface
   @override
   List<dynamic> toJson() {
     final data = BytesUtils.toHexString(
-        _encoder.encode(BytesUtils.fromHexString(interfaceId)),
-        prefix: "0x");
+      _encoder.encode(BytesUtils.fromHexString(interfaceId)),
+      prefix: "0x",
+    );
     return [
       {
         "from": from.toSolidityHex(),
         "to": contractAddress.toSolidityHex(),
         "data": data,
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

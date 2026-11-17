@@ -33,7 +33,8 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
         return BytesUtils.fromHexString(object);
       }
     } catch (_) {}
-    throw BuError(DefaultErrorType.invalidAddress,
+    throw BuError(
+      DefaultErrorType.invalidAddress,
       'Invalid address format: Expected a SolidityAddress, '
       'List<int>, or a hexadecimal String. ',
       details: {"address": object.toString()},

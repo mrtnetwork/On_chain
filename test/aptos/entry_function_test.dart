@@ -2,6 +2,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void entryFunctionTest() {
   group('Aptos/Entry Function', _testEntry);
 }
@@ -9,7 +10,6 @@ void entryFunctionTest() {
 void main() {
   OnChainUtilsTestApi.runTest(entryFunctionTest, "Entry Function");
 }
-
 
 void _testEntry() {
   test("Entry Function serialization", () {

@@ -3,6 +3,7 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void delegationTest() {
   group('ADA/Delegation', () {
     _delegationTransactionTest();
@@ -12,7 +13,6 @@ void delegationTest() {
 void main() {
   OnChainUtilsTestApi.runTest(delegationTest, "Delegation");
 }
-
 
 void _delegationTransactionTest() {
   test('transaction_1', () {

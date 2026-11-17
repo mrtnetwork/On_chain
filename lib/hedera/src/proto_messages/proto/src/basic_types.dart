@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart" as google_protobuf_wrappers;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart"
+    as google_protobuf_wrappers;
 
 /// *
 ///  * A specific hash algorithm.
@@ -16,7 +18,7 @@ import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.
 ///  * in the same `package`, as protobuf follows `C++` scope rules and all enum
 ///  * _names_ are treated as global constants within the `package`.
 enum HederaBlockHashAlgorithm implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * A SHA2 algorithm SHA-384 hash.
   ///      * &lt;p&gt;
   ///      * This is the default value, if a field of this enumerated type is
@@ -25,6 +27,7 @@ enum HederaBlockHashAlgorithm implements ProtoEnumVariant {
   sha2384(0, 'SHA2_384');
 
   const HederaBlockHashAlgorithm(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -35,25 +38,41 @@ enum HederaBlockHashAlgorithm implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaBlockHashAlgorithm fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaBlockHashAlgorithm.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaBlockHashAlgorithm found for the given value. $value", details: {"name": "HederaBlockHashAlgorithm", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaBlockHashAlgorithm found for the given value. $value",
+                details: {
+                  "name": "HederaBlockHashAlgorithm",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaBlockHashAlgorithm from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaBlockHashAlgorithm.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaBlockHashAlgorithm found for the given value. $value", details: {"name": "HederaBlockHashAlgorithm", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaBlockHashAlgorithm found for the given value. $value",
+                details: {
+                  "name": "HederaBlockHashAlgorithm",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * Possible Token Types (IWA Compatibility).
@@ -79,7 +98,7 @@ enum HederaBlockHashAlgorithm implements ProtoEnumVariant {
 ///  *     &lt;dd&gt;Registered property title&lt;/dd&gt;
 ///  * &lt;/dl&gt;
 enum HederaTokenType implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * A fungible/common token.&lt;br/&gt;
   ///      * Tokens of this type are interchangeable with one another, where any
   ///      * quantity of tokens has the same value as another equal quantity, if
@@ -90,7 +109,8 @@ enum HederaTokenType implements ProtoEnumVariant {
   ///      * &lt;p&gt;
   ///      * IWA taxonomy _fungible, fractional, intrinsic, common_
   fungibleCommon(0, 'FUNGIBLE_COMMON'),
-    /// *
+
+  /// *
   ///      * A non-fungible/unique token.&lt;br/&gt;
   ///      * Tokens of this type are unique, and are not interchangeable with other
   ///      * tokens of the same type. Each token carries a serial number which is
@@ -103,6 +123,7 @@ enum HederaTokenType implements ProtoEnumVariant {
   nonFungibleUnique(1, 'NON_FUNGIBLE_UNIQUE');
 
   const HederaTokenType(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -113,25 +134,41 @@ enum HederaTokenType implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaTokenType fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenType.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenType found for the given value. $value", details: {"name": "HederaTokenType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenType found for the given value. $value",
+                details: {
+                  "name": "HederaTokenType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaTokenType from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenType.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenType found for the given value. $value", details: {"name": "HederaTokenType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenType found for the given value. $value",
+                details: {
+                  "name": "HederaTokenType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * A transaction sub type.&lt;br/&gt;
@@ -148,42 +185,57 @@ enum HederaTokenType implements ProtoEnumVariant {
 ///  * `tokenCreate` _with_ a custom fee schedule is different and may yield a
 ///  * _base_ fee of $2 or more.
 enum HederaSubType implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * The resource cost for the transaction type has no additional attributes
   default_(0, 'DEFAULT'),
-    /// *
+
+  /// *
   ///      * The resource cost for the transaction type includes an operation on a
   ///      * fungible/common token
   tokenFungibleCommon(1, 'TOKEN_FUNGIBLE_COMMON'),
-    /// *
+
+  /// *
   ///      * The resource cost for the transaction type includes an operation on
   ///      * a non-fungible/unique token
   tokenNonFungibleUnique(2, 'TOKEN_NON_FUNGIBLE_UNIQUE'),
-    /// *
+
+  /// *
   ///      * The resource cost for the transaction type includes an operation on a
   ///      * fungible/common token with a custom fee schedule
-  tokenFungibleCommonWithCustomFees(3, 'TOKEN_FUNGIBLE_COMMON_WITH_CUSTOM_FEES'),
-    /// *
+  tokenFungibleCommonWithCustomFees(
+    3,
+    'TOKEN_FUNGIBLE_COMMON_WITH_CUSTOM_FEES',
+  ),
+
+  /// *
   ///      * The resource cost for the transaction type includes an operation on a
   ///      * non-fungible/unique token with a custom fee schedule
-  tokenNonFungibleUniqueWithCustomFees(4, 'TOKEN_NON_FUNGIBLE_UNIQUE_WITH_CUSTOM_FEES'),
-    /// *
+  tokenNonFungibleUniqueWithCustomFees(
+    4,
+    'TOKEN_NON_FUNGIBLE_UNIQUE_WITH_CUSTOM_FEES',
+  ),
+
+  /// *
   ///      * The resource cost for the transaction type includes a ScheduleCreate
   ///      * containing a ContractCall.
   scheduleCreateContractCall(5, 'SCHEDULE_CREATE_CONTRACT_CALL'),
-    /// *
+
+  /// *
   ///      * The resource cost for the transaction type includes a TopicCreate
   ///      * with custom fees.
   topicCreateWithCustomFees(6, 'TOPIC_CREATE_WITH_CUSTOM_FEES'),
-    /// *
+
+  /// *
   ///      * The resource cost for the transaction type includes a ConsensusSubmitMessage
   ///      * for a topic with custom fees.
   submitMessageWithCustomFees(7, 'SUBMIT_MESSAGE_WITH_CUSTOM_FEES'),
-    /// *
+
+  /// *
   ///      * The resource cost for the transaction type that includes a CryptoTransfer with hook invocations
   cryptoTransferWithHooks(8, 'CRYPTO_TRANSFER_WITH_HOOKS');
 
   const HederaSubType(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -194,25 +246,35 @@ enum HederaSubType implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaSubType fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaSubType.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaSubType found for the given value. $value", details: {"name": "HederaSubType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaSubType found for the given value. $value",
+                details: {"name": "HederaSubType", "value": value?.toString()},
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaSubType from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaSubType.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaSubType found for the given value. $value", details: {"name": "HederaSubType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaSubType found for the given value. $value",
+                details: {"name": "HederaSubType", "value": value?.toString()},
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * Possible Token Supply Types (IWA Compatibility).
@@ -223,14 +285,15 @@ enum HederaSubType implements ProtoEnumVariant {
 ///  * integer. A "finite" supply is further limited to a value specified when
 ///  * the token is created (or updated, if not immutable).
 enum HederaTokenSupplyType implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * An unlimited supply.&lt;br/&gt;
   ///      * This indicates that tokens of this type have an upper bound of
   ///      * Long.MAX_VALUE.&lt;br/&gt;
   ///      * The supply is accounted in the smallest units of the token
   ///      * (i.e. 10&lt;sup&gt;-`decimals`&lt;/sup&gt; whole tokens)
   infinite(0, 'INFINITE'),
-    /// *
+
+  /// *
   ///      * A limited supply.&lt;br/&gt;
   ///      * This indicates that tokens of this type have an upper bound of
   ///      * `maxSupply`.&lt;br/&gt;
@@ -239,6 +302,7 @@ enum HederaTokenSupplyType implements ProtoEnumVariant {
   finite(1, 'FINITE');
 
   const HederaTokenSupplyType(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -249,38 +313,56 @@ enum HederaTokenSupplyType implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaTokenSupplyType fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenSupplyType.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenSupplyType found for the given value. $value", details: {"name": "HederaTokenSupplyType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenSupplyType found for the given value. $value",
+                details: {
+                  "name": "HederaTokenSupplyType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaTokenSupplyType from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenSupplyType.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenSupplyType found for the given value. $value", details: {"name": "HederaTokenSupplyType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenSupplyType found for the given value. $value",
+                details: {
+                  "name": "HederaTokenSupplyType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * Types of validation strategies for token keys.
 enum HederaTokenKeyValidation implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * Perform all token key validations.&lt;br/&gt;
   ///      * This is the default value and behavior.
   fullValidation(0, 'FULL_VALIDATION'),
-    /// *
+
+  /// *
   ///      * Perform no validations at all for all passed token keys.
   noValidation(1, 'NO_VALIDATION');
 
   const HederaTokenKeyValidation(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -291,25 +373,41 @@ enum HederaTokenKeyValidation implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaTokenKeyValidation fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenKeyValidation.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenKeyValidation found for the given value. $value", details: {"name": "HederaTokenKeyValidation", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenKeyValidation found for the given value. $value",
+                details: {
+                  "name": "HederaTokenKeyValidation",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaTokenKeyValidation from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenKeyValidation.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenKeyValidation found for the given value. $value", details: {"name": "HederaTokenKeyValidation", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenKeyValidation found for the given value. $value",
+                details: {
+                  "name": "HederaTokenKeyValidation",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * Possible token freeze status values.
@@ -317,19 +415,22 @@ enum HederaTokenKeyValidation implements ProtoEnumVariant {
 ///  * This is returned by `TokenGetInfoQuery` or `CryptoGetInfoResponse`
 ///  * in `TokenRelationship`.
 enum HederaTokenFreezeStatus implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * The token does not support freeze or cannot be frozen for the designated
   ///      * account.&lt;br/&gt;
   ///      * Typically this indicates that the token does not have a `freeze_key` set.
   freezeNotApplicable(0, 'FreezeNotApplicable'),
-    /// *
+
+  /// *
   ///      * The token is currently frozen for the designated account.
   frozen(1, 'Frozen'),
-    /// *
+
+  /// *
   ///      * The token is not currently frozen for the designated account.
   unfrozen(2, 'Unfrozen');
 
   const HederaTokenFreezeStatus(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -340,25 +441,41 @@ enum HederaTokenFreezeStatus implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaTokenFreezeStatus fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenFreezeStatus.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenFreezeStatus found for the given value. $value", details: {"name": "HederaTokenFreezeStatus", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenFreezeStatus found for the given value. $value",
+                details: {
+                  "name": "HederaTokenFreezeStatus",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaTokenFreezeStatus from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenFreezeStatus.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenFreezeStatus found for the given value. $value", details: {"name": "HederaTokenFreezeStatus", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenFreezeStatus found for the given value. $value",
+                details: {
+                  "name": "HederaTokenFreezeStatus",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * Possible token "KYC" status values.
@@ -366,21 +483,24 @@ enum HederaTokenFreezeStatus implements ProtoEnumVariant {
 ///  * This is returned by `TokenGetInfoQuery` or `CryptoGetInfoResponse`
 ///  * in `TokenRelationship`.
 enum HederaTokenKycStatus implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * The token does not support KYC or cannot grant KYC for the
   ///      * designated account.&lt;br/&gt;
   ///      * Typically this indicates that the token does not have a `kyc_key` set.
   kycNotApplicable(0, 'KycNotApplicable'),
-    /// *
+
+  /// *
   ///      * The designated account is currently granted KYC status for the
   ///      * designated token.
   granted(1, 'Granted'),
-    /// *
+
+  /// *
   ///      * The designated account is not currently granted KYC status for the
   ///      * designated token.
   revoked(2, 'Revoked');
 
   const HederaTokenKycStatus(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -391,43 +511,62 @@ enum HederaTokenKycStatus implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaTokenKycStatus fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenKycStatus.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenKycStatus found for the given value. $value", details: {"name": "HederaTokenKycStatus", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenKycStatus found for the given value. $value",
+                details: {
+                  "name": "HederaTokenKycStatus",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaTokenKycStatus from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenKycStatus.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenKycStatus found for the given value. $value", details: {"name": "HederaTokenKycStatus", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenKycStatus found for the given value. $value",
+                details: {
+                  "name": "HederaTokenKycStatus",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * Possible Pause status values.
 ///  *
 ///  * This is returned by `TokenGetInfoQuery` in `TokenRelationship`.
 enum HederaTokenPauseStatus implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * The token does not support pause or cannot be paused.&lt;br/&gt;
   ///      * Typically this indicates that the token does not have a `pause_key` set.
   pauseNotApplicable(0, 'PauseNotApplicable'),
-    /// *
+
+  /// *
   ///      * The token is currently paused.
   paused(1, 'Paused'),
-    /// *
+
+  /// *
   ///      * The token is not currently paused.
   unpaused(2, 'Unpaused');
 
   const HederaTokenPauseStatus(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -438,128 +577,173 @@ enum HederaTokenPauseStatus implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaTokenPauseStatus fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenPauseStatus.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenPauseStatus found for the given value. $value", details: {"name": "HederaTokenPauseStatus", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenPauseStatus found for the given value. $value",
+                details: {
+                  "name": "HederaTokenPauseStatus",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaTokenPauseStatus from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaTokenPauseStatus.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaTokenPauseStatus found for the given value. $value", details: {"name": "HederaTokenPauseStatus", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaTokenPauseStatus found for the given value. $value",
+                details: {
+                  "name": "HederaTokenPauseStatus",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * The transactions and queries supported by Hedera Hashgraph.
 enum HederaHederaFunctionality implements ProtoEnumVariant {
-    /// FUTURE - Uncomment when https://github.com/hashgraph/pbj/issues/339 is fixed;
+  /// FUTURE - Uncomment when https://github.com/hashgraph/pbj/issues/339 is fixed;
   /// currently the PBJ-generated unit tests fail when using reserved ordinals
   /// reserved 96, 97, 98, 99;
   /// *
   ///      * Unused - The first value is unused because this default value is
   ///      * ambiguous with an "unset" value and therefore should not be used.
   none(0, 'NONE'),
-    /// *
+
+  /// *
   ///      * Transfer tokens among accounts.
   cryptoTransfer(1, 'CryptoTransfer'),
-    /// *
+
+  /// *
   ///      * Update an account.
   cryptoUpdate(2, 'CryptoUpdate'),
-    /// *
+
+  /// *
   ///      * Delete an account.
   cryptoDelete(3, 'CryptoDelete'),
-    /// *
+
+  /// *
   ///      * Add a livehash to an account
   cryptoAddLiveHash(4, 'CryptoAddLiveHash'),
-    /// *
+
+  /// *
   ///      * Delete a livehash from an account
   cryptoDeleteLiveHash(5, 'CryptoDeleteLiveHash'),
-    /// *
+
+  /// *
   ///      * Execute a smart contract call.
   contractCall(6, 'ContractCall'),
-    /// *
+
+  /// *
   ///      * Create a smart contract.
   contractCreate(7, 'ContractCreate'),
-    /// *
+
+  /// *
   ///      * Update a smart contract.
   contractUpdate(8, 'ContractUpdate'),
-    /// *
+
+  /// *
   ///      * Create a "file" stored in the ledger.
   fileCreate(9, 'FileCreate'),
-    /// *
+
+  /// *
   ///      * Append data to a "file" stored in the ledger.
   fileAppend(10, 'FileAppend'),
-    /// *
+
+  /// *
   ///      * Update a "file" stored in the ledger.
   fileUpdate(11, 'FileUpdate'),
-    /// *
+
+  /// *
   ///      * Delete a "file" stored in the ledger.
   fileDelete(12, 'FileDelete'),
-    /// *
+
+  /// *
   ///      * Get the balance for an account.
   cryptoGetAccountBalance(13, 'CryptoGetAccountBalance'),
-    /// *
+
+  /// *
   ///      * Get a full account record.
   cryptoGetAccountRecords(14, 'CryptoGetAccountRecords'),
-    /// *
+
+  /// *
   ///      * Get information about a token.
   cryptoGetInfo(15, 'CryptoGetInfo'),
-    /// *
+
+  /// *
   ///      * Execute a local smart contract call.&lt;br/&gt;
   ///      * Used by contracts to call other contracts.
   contractCallLocal(16, 'ContractCallLocal'),
-    /// *
+
+  /// *
   ///      * Get information about a smart contract.
   contractGetInfo(17, 'ContractGetInfo'),
-    /// *
+
+  /// *
   ///      * Get the compiled bytecode that implements a smart contract.
   contractGetBytecode(18, 'ContractGetBytecode'),
-    /// *
+
+  /// *
   ///      * Get a smart contract record by reference to the solidity ID.
   getBySolidityID(19, 'GetBySolidityID'),
-    /// *
+
+  /// *
   ///      * Get a smart contract by reference to the contract key.
   getByKey(20, 'GetByKey'),
-    /// *
+
+  /// *
   ///      * Get the live hash for an account
   cryptoGetLiveHash(21, 'CryptoGetLiveHash'),
-    /// *
+
+  /// *
   ///      * Get the accounts proxy staking to a given account.
   cryptoGetStakers(22, 'CryptoGetStakers'),
-    /// *
+
+  /// *
   ///      * Get the contents of a "file" stored in the ledger.
   fileGetContents(23, 'FileGetContents'),
-    /// *
+
+  /// *
   ///      * Get the metadata for a "file" stored in the ledger.
   fileGetInfo(24, 'FileGetInfo'),
-    /// *
+
+  /// *
   ///      * Get transaction record(s) for a specified transaction ID.
   transactionGetRecord(25, 'TransactionGetRecord'),
-    /// *
+
+  /// *
   ///      * Get all transaction records for a specified contract ID in
   ///      * the past 24 hours.&lt;br/&gt;
   ///      * deprecated since version 0.9.0
   contractGetRecords(26, 'ContractGetRecords'),
-    /// *
+
+  /// *
   ///      * Create a new account
   cryptoCreate(27, 'CryptoCreate'),
-    /// *
+
+  /// *
   ///      * Delete a "system" "file" stored in the ledger.&lt;br/&gt;
   ///      * "System" files are files with special purpose and ID values within a
   ///      * specific range.&lt;br/&gt;
   ///      * These files require additional controls and can only be deleted when
   ///      * authorized by accounts with elevated privilege.
   systemDelete(28, 'SystemDelete'),
-    /// *
+
+  /// *
   ///      * Undo the delete of a "system" "file" stored in the ledger.&lt;br/&gt;
   ///      * "System" files are files with special purpose and ID values within a
   ///      * specific range.&lt;br/&gt;
@@ -568,242 +752,312 @@ enum HederaHederaFunctionality implements ProtoEnumVariant {
   ///      * such files to be restored, within a reasonable timeframe, if
   ///      * deleted improperly.
   systemUndelete(29, 'SystemUndelete'),
-    /// *
+
+  /// *
   ///      * Delete a smart contract
   contractDelete(30, 'ContractDelete'),
-    /// *
+
+  /// *
   ///      * Stop all processing and "freeze" the entire network.&lt;br/&gt;
   ///      * This is generally sent immediately prior to upgrading the network.&lt;br/&gt;
   ///      * After processing this transactions all nodes enter a quiescent state.
   freeze(31, 'Freeze'),
-    /// *
+
+  /// *
   ///      * Create a Transaction Record.&lt;br/&gt;
   ///      * This appears to be purely internal and unused.
   createTransactionRecord(32, 'CreateTransactionRecord'),
-    /// *
+
+  /// *
   ///      * Auto-renew an account.&lt;br/&gt;
   ///      * This is used for internal fee calculations.
   cryptoAccountAutoRenew(33, 'CryptoAccountAutoRenew'),
-    /// *
+
+  /// *
   ///      * Auto-renew a smart contract.&lt;br/&gt;
   ///      * This is used for internal fee calculations.
   contractAutoRenew(34, 'ContractAutoRenew'),
-    /// *
+
+  /// *
   ///      * Get version information for the ledger.&lt;br/&gt;
   ///      * This returns a the version of the software currently running the network
   ///      * for both the protocol buffers and the network services (node).
   getVersionInfo(35, 'GetVersionInfo'),
-    /// *
+
+  /// *
   ///      * Get a receipt for a specified transaction ID.
   transactionGetReceipt(36, 'TransactionGetReceipt'),
-    /// *
+
+  /// *
   ///      * Create a topic for the Hedera Consensus Service (HCS).
   consensusCreateTopic(50, 'ConsensusCreateTopic'),
-    /// *
+
+  /// *
   ///      * Update an HCS topic.
   consensusUpdateTopic(51, 'ConsensusUpdateTopic'),
-    /// *
+
+  /// *
   ///      * Delete an HCS topic.
   consensusDeleteTopic(52, 'ConsensusDeleteTopic'),
-    /// *
+
+  /// *
   ///      * Get metadata (information) for an HCS topic.
   consensusGetTopicInfo(53, 'ConsensusGetTopicInfo'),
-    /// *
+
+  /// *
   ///      * Publish a message to an HCS topic.
   consensusSubmitMessage(54, 'ConsensusSubmitMessage'),
-    /// *
+
+  /// *
   ///      * Submit a transaction, bypassing intake checking.
   ///      * Only enabled in local-mode.
   uncheckedSubmit(55, 'UncheckedSubmit'),
-    /// *
+
+  /// *
   ///      * Create a token for the Hedera Token Service (HTS).
   tokenCreate(56, 'TokenCreate'),
-    /// *
+
+  /// *
   ///      * Get metadata (information) for an HTS token.
   tokenGetInfo(58, 'TokenGetInfo'),
-    /// *
+
+  /// *
   ///      * Freeze a specific account with respect to a specific HTS token.
   ///      * &lt;p&gt;
   ///      * Once this transaction completes that account CANNOT send or receive
   ///      * the specified token.
   tokenFreezeAccount(59, 'TokenFreezeAccount'),
-    /// *
+
+  /// *
   ///      * Remove a "freeze" from an account with respect to a specific HTS token.
   tokenUnfreezeAccount(60, 'TokenUnfreezeAccount'),
-    /// *
+
+  /// *
   ///      * Grant KYC status to an account for a specific HTS token.
   tokenGrantKycToAccount(61, 'TokenGrantKycToAccount'),
-    /// *
+
+  /// *
   ///      * Revoke KYC status from an account for a specific HTS token.
   tokenRevokeKycFromAccount(62, 'TokenRevokeKycFromAccount'),
-    /// *
+
+  /// *
   ///      * Delete a specific HTS token.
   tokenDelete(63, 'TokenDelete'),
-    /// *
+
+  /// *
   ///      * Update a specific HTS token.
   tokenUpdate(64, 'TokenUpdate'),
-    /// *
+
+  /// *
   ///      * Mint HTS token amounts to the treasury account for that token.
   tokenMint(65, 'TokenMint'),
-    /// *
+
+  /// *
   ///      * Burn HTS token amounts from the treasury account for that token.
   tokenBurn(66, 'TokenBurn'),
-    /// *
+
+  /// *
   ///      * Wipe all amounts for a specific HTS token from a specified account.
   tokenAccountWipe(67, 'TokenAccountWipe'),
-    /// *
+
+  /// *
   ///      * Associate a specific HTS token to an account.
   tokenAssociateToAccount(68, 'TokenAssociateToAccount'),
-    /// *
+
+  /// *
   ///      * Dissociate a specific HTS token from an account.
   tokenDissociateFromAccount(69, 'TokenDissociateFromAccount'),
-    /// *
+
+  /// *
   ///      * Create a scheduled transaction
   scheduleCreate(70, 'ScheduleCreate'),
-    /// *
+
+  /// *
   ///      * Delete a scheduled transaction
   scheduleDelete(71, 'ScheduleDelete'),
-    /// *
+
+  /// *
   ///      * Sign a scheduled transaction
   scheduleSign(72, 'ScheduleSign'),
-    /// *
+
+  /// *
   ///      * Get metadata (information) for a scheduled transaction
   scheduleGetInfo(73, 'ScheduleGetInfo'),
-    /// *
+
+  /// *
   ///      * Get NFT metadata (information) for a range of NFTs associated to a
   ///      * specific non-fungible/unique HTS token and owned by a specific account.
   tokenGetAccountNftInfos(74, 'TokenGetAccountNftInfos'),
-    /// *
+
+  /// *
   ///      * Get metadata (information) for a specific NFT identified by token and
   ///      * serial number.
   tokenGetNftInfo(75, 'TokenGetNftInfo'),
-    /// *
+
+  /// *
   ///      * Get NFT metadata (information) for a range of NFTs associated to a
   ///      * specific non-fungible/unique HTS token.
   tokenGetNftInfos(76, 'TokenGetNftInfos'),
-    /// *
+
+  /// *
   ///      * Update a token's custom fee schedule.
   ///      * &lt;p&gt;
   ///      * If a transaction of this type is not signed by the token
   ///      * `fee_schedule_key` it SHALL fail with INVALID_SIGNATURE, or
   ///      * TOKEN_HAS_NO_FEE_SCHEDULE_KEY if there is no `fee_schedule_key` set.
   tokenFeeScheduleUpdate(77, 'TokenFeeScheduleUpdate'),
-    /// *
+
+  /// *
   ///      * Get execution time(s) for one or more "recent" TransactionIDs.
   networkGetExecutionTime(78, 'NetworkGetExecutionTime'),
-    /// *
+
+  /// *
   ///      * Pause a specific HTS token
   tokenPause(79, 'TokenPause'),
-    /// *
+
+  /// *
   ///      * Unpause a paused HTS token.
   tokenUnpause(80, 'TokenUnpause'),
-    /// *
+
+  /// *
   ///      * Approve an allowance for a spender relative to the owner account, which
   ///      * MUST sign the transaction.
   cryptoApproveAllowance(81, 'CryptoApproveAllowance'),
-    /// *
+
+  /// *
   ///      * Delete (unapprove) an allowance previously approved
   ///      * for the owner account.
   cryptoDeleteAllowance(82, 'CryptoDeleteAllowance'),
-    /// *
+
+  /// *
   ///      * Get all the information about an account, including balance
   ///      * and allowances.&lt;br/&gt;
   ///      * This does not get a list of account records.
   getAccountDetails(83, 'GetAccountDetails'),
-    /// *
+
+  /// *
   ///      * Perform an Ethereum (EVM) transaction.&lt;br/&gt;
   ///      * CallData may be inline if small, or in a "file" if large.
   ethereumTransaction(84, 'EthereumTransaction'),
-    /// *
+
+  /// *
   ///      * Used to indicate when the network has updated the staking information
   ///      * at the end of a staking period and to indicate a new staking period
   ///      * has started.
   nodeStakeUpdate(85, 'NodeStakeUpdate'),
-    /// *
+
+  /// *
   ///      * Generate and return a pseudorandom number based on network state.
   utilPrng(86, 'UtilPrng'),
-    /// *
+
+  /// *
   ///      * Get a record for a "recent" transaction.
   transactionGetFastRecord(87, 'TransactionGetFastRecord'),
-    /// *
+
+  /// *
   ///      * Update the metadata of one or more NFT's of a specific token type.
   tokenUpdateNfts(88, 'TokenUpdateNfts'),
-    /// *
+
+  /// *
   ///      * Create a node
   nodeCreate(89, 'NodeCreate'),
-    /// *
+
+  /// *
   ///      * Update a node
   nodeUpdate(90, 'NodeUpdate'),
-    /// *
+
+  /// *
   ///      * Delete a node
   nodeDelete(91, 'NodeDelete'),
-    /// *
+
+  /// *
   ///      * Transfer one or more token balances held by the requesting account
   ///      * to the treasury for each token type.
   tokenReject(92, 'TokenReject'),
-    /// *
+
+  /// *
   ///      * Airdrop one or more tokens to one or more accounts.
   tokenAirdrop(93, 'TokenAirdrop'),
-    /// *
+
+  /// *
   ///     * Remove one or more pending airdrops from state on behalf of
   ///     * the sender(s) for each airdrop.
   tokenCancelAirdrop(94, 'TokenCancelAirdrop'),
-    /// *
+
+  /// *
   ///      * Claim one or more pending airdrops
   tokenClaimAirdrop(95, 'TokenClaimAirdrop'),
-    /// *
+
+  /// *
   ///      * Submit a signature of a state root hash gossiped to other nodes
   stateSignatureTransaction(100, 'StateSignatureTransaction'),
-    /// *
+
+  /// *
   ///      * Publish a hinTS key to the network.
   hintsKeyPublication(101, 'HintsKeyPublication'),
-    /// *
+
+  /// *
   ///      * Vote for a particular preprocessing output of a hinTS construction.
   hintsPreprocessingVote(102, 'HintsPreprocessingVote'),
-    /// *
+
+  /// *
   ///      * Sign a partial signature for the active hinTS construction.
   hintsPartialSignature(103, 'HintsPartialSignature'),
-    /// *
+
+  /// *
   ///      * Sign a particular history assembly.
   historyAssemblySignature(104, 'HistoryAssemblySignature'),
-    /// *
+
+  /// *
   ///      * Publish a roster history proof key to the network.
   historyProofKeyPublication(105, 'HistoryProofKeyPublication'),
-    /// *
+
+  /// *
   ///      * Vote for a particular history proof.
   historyProofVote(106, 'HistoryProofVote'),
-    /// *
+
+  /// *
   ///      * Publish a random CRS to the network.
   crsPublication(107, 'CrsPublication'),
-    /// *
+
+  /// *
   ///      * Submit a batch of transactions to run atomically
   atomicBatch(108, 'AtomicBatch'),
-    /// *
+
+  /// *
   ///      * (DEPRECATED) Remove once no production throttle assets reference it.
   lambdaSStore(109, 'LambdaSStore'),
-    /// *
+
+  /// *
   ///      * (Internal-only) Dispatch a hook action.
   hookDispatch(110, 'HookDispatch'),
-    /// *
+
+  /// *
   ///      * Update one or more storage slots in an EVM hook.
   hookStore(111, 'HookStore'),
-    /// *
+
+  /// *
   ///      * (Internal-only) Publish a new ledger id and chain-of-trust key.
   ledgerIdPublication(112, 'LedgerIdPublication'),
-    /// *
+
+  /// *
   ///      * Create a registered node
   registeredNodeCreate(113, 'RegisteredNodeCreate'),
-    /// *
+
+  /// *
   ///      * Update a registered node
   registeredNodeUpdate(114, 'RegisteredNodeUpdate'),
-    /// *
+
+  /// *
   ///      * Delete a registered node
   registeredNodeDelete(115, 'RegisteredNodeDelete'),
-    /// *
+
+  /// *
   ///      * Vote on wrapped record migration hash state.
   migrationRootHashVote(116, 'MigrationRootHashVote');
 
   const HederaHederaFunctionality(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -814,25 +1068,41 @@ enum HederaHederaFunctionality implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaHederaFunctionality fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaHederaFunctionality.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaHederaFunctionality found for the given value. $value", details: {"name": "HederaHederaFunctionality", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaHederaFunctionality found for the given value. $value",
+                details: {
+                  "name": "HederaHederaFunctionality",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaHederaFunctionality from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaHederaFunctionality.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaHederaFunctionality found for the given value. $value", details: {"name": "HederaHederaFunctionality", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaHederaFunctionality found for the given value. $value",
+                details: {
+                  "name": "HederaHederaFunctionality",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * # Basic Types
@@ -878,13 +1148,11 @@ enum HederaHederaFunctionality implements ProtoEnumVariant {
 ///  * distributed ledger, and may gossip cross-shard transactions with other
 ///  * shards to maintain overall correct processing of the ledger.
 class HederaShardID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard identifier.
   final BigInt? shardNum;
 
-  const HederaShardID({
-    this.shardNum,
-  });
+  const HederaShardID({this.shardNum});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -893,73 +1161,63 @@ class HederaShardID extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-      ],
+      fields: [ProtoFieldConfig.int64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        shardNum,
-      ];
+  List<Object?> get protoValues => [shardNum];
 
-
-HederaShardID copyWith(
-{BigInt? shardNum,
-
-}) {
-    return HederaShardID(
-shardNum: shardNum ?? this.shardNum,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'shardNum': config.encodeBigint(shardNum),
-    };
+  HederaShardID copyWith({BigInt? shardNum}) {
+    return HederaShardID(shardNum: shardNum ?? this.shardNum);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaShardID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'shardNum': config.encodeBigint(shardNum)};
+  }
+
+  factory HederaShardID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaShardID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaShardID.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaShardID(
-      shardNum: decode.getBigInt<BigInt?>(1),
-    );
+    return HederaShardID(shardNum: decode.getBigInt<BigInt?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoShardID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoShardID;
 }
-
 
 /// *
 ///  * A realm identifier.&lt;br/&gt;
 ///  * Within a given shard, every realm has a unique numeric identifier.
 ///  * Each account, file, and contract instance belongs to exactly one realm.
 class HederaRealmID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard identifier.
   final BigInt? shardNum;
 
-    /// *
+  /// *
   ///      * A whole number realm identifier.
   final BigInt? realmNum;
 
-  const HederaRealmID({
-    this.shardNum,
-    this.realmNum,
-  });
+  const HederaRealmID({this.shardNum, this.realmNum});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -968,47 +1226,46 @@ class HederaRealmID extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-        ProtoFieldConfig.int64(2),
-      ],
+      fields: [ProtoFieldConfig.int64(1), ProtoFieldConfig.int64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        shardNum,
-        realmNum,
-      ];
+  List<Object?> get protoValues => [shardNum, realmNum];
 
-
-HederaRealmID copyWith(
-{BigInt? shardNum,
-
-BigInt? realmNum,
-
-}) {
+  HederaRealmID copyWith({BigInt? shardNum, BigInt? realmNum}) {
     return HederaRealmID(
-shardNum: shardNum ?? this.shardNum,
-realmNum: realmNum ?? this.realmNum,
+      shardNum: shardNum ?? this.shardNum,
+      realmNum: realmNum ?? this.realmNum,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'shardNum': config.encodeBigint(shardNum),
       'realmNum': config.encodeBigint(realmNum),
     };
   }
 
-
-  factory HederaRealmID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRealmID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRealmID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
-      realmNum: json.valueAsBigInt<BigInt?>('realmNum', normalizeKeyLookup: config.normalizeKeys),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      realmNum: json.valueAsBigInt<BigInt?>(
+        'realmNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1021,10 +1278,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoRealmID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoRealmID;
 }
-
 
 /// *
 ///  * Unique identifier for a token.&lt;br/&gt;
@@ -1032,23 +1288,19 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoRe
 ///  * consists of a combination of shard number, realm number, and entity number.
 ///  * Each of these numbers is unique within its scope (shard &gt; realm &gt; entity).
 class HederaTokenID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard identifier.
   final BigInt? shardNum;
 
-    /// *
+  /// *
   ///      * A whole number realm identifier.
   final BigInt? realmNum;
 
-    /// *
+  /// *
   ///      * A whole number token identifier.
   final BigInt? tokenNum;
 
-  const HederaTokenID({
-    this.shardNum,
-    this.realmNum,
-    this.tokenNum,
-  });
+  const HederaTokenID({this.shardNum, this.realmNum, this.tokenNum});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1066,32 +1318,29 @@ class HederaTokenID extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        shardNum,
-        realmNum,
-        tokenNum,
-      ];
+  List<Object?> get protoValues => [shardNum, realmNum, tokenNum];
 
+  HederaTokenID copyWith({
+    BigInt? shardNum,
 
-HederaTokenID copyWith(
-{BigInt? shardNum,
+    BigInt? realmNum,
 
-BigInt? realmNum,
-
-BigInt? tokenNum,
-
-}) {
+    BigInt? tokenNum,
+  }) {
     return HederaTokenID(
-shardNum: shardNum ?? this.shardNum,
-realmNum: realmNum ?? this.realmNum,
-tokenNum: tokenNum ?? this.tokenNum,
+      shardNum: shardNum ?? this.shardNum,
+      realmNum: realmNum ?? this.realmNum,
+      tokenNum: tokenNum ?? this.tokenNum,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'shardNum': config.encodeBigint(shardNum),
       'realmNum': config.encodeBigint(realmNum),
@@ -1099,12 +1348,23 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
-      realmNum: json.valueAsBigInt<BigInt?>('realmNum', normalizeKeyLookup: config.normalizeKeys),
-      tokenNum: json.valueAsBigInt<BigInt?>('tokenNum', normalizeKeyLookup: config.normalizeKeys),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      realmNum: json.valueAsBigInt<BigInt?>(
+        'realmNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      tokenNum: json.valueAsBigInt<BigInt?>(
+        'tokenNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1118,10 +1378,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenID;
 }
-
 
 /// *
 ///  * A unique identifier for an Hedera account.
@@ -1197,22 +1456,22 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTo
 ///  * If the account `alias` field is not set for an Account, the `long_zero` alias
 ///  * SHALL be the account alias.
 class HederaAccountID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard identifier.
   final BigInt? shardNum;
 
-    /// *
+  /// *
   ///      * A whole number realm identifier.
   final BigInt? realmNum;
 
-    /// *
+  /// *
   ///          * A whole number account number, unique within its realm and shard.
   ///          * &lt;p&gt;
   ///          * For any AccountID fields in the query response, transaction records,
   ///          * transaction receipts, or block stream `accountNum` MUST be used.
   final BigInt? accountNum;
 
-    /// *
+  /// *
   ///          * An alias value.&lt;br/&gt;
   ///          * Alias is a value used in some contexts to refer to an account when
   ///          * account number is not available, and may be an alias public key, or
@@ -1243,36 +1502,32 @@ class HederaAccountID extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        shardNum,
-        realmNum,
-        accountNum,
-        alias,
-      ];
+  List<Object?> get protoValues => [shardNum, realmNum, accountNum, alias];
 
+  HederaAccountID copyWith({
+    BigInt? shardNum,
 
-HederaAccountID copyWith(
-{BigInt? shardNum,
+    BigInt? realmNum,
 
-BigInt? realmNum,
+    BigInt? accountNum,
 
-BigInt? accountNum,
-
-List<int>? alias,
-
-}) {
+    List<int>? alias,
+  }) {
     return HederaAccountID(
-shardNum: shardNum ?? this.shardNum,
-realmNum: realmNum ?? this.realmNum,
-accountNum: accountNum ?? this.accountNum,
-alias: alias ?? this.alias,
+      shardNum: shardNum ?? this.shardNum,
+      realmNum: realmNum ?? this.realmNum,
+      accountNum: accountNum ?? this.accountNum,
+      alias: alias ?? this.alias,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'shardNum': config.encodeBigint(shardNum),
       'realmNum': config.encodeBigint(realmNum),
@@ -1281,13 +1536,26 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaAccountID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccountID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccountID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
-      realmNum: json.valueAsBigInt<BigInt?>('realmNum', normalizeKeyLookup: config.normalizeKeys),
-      accountNum: json.valueAsBigInt<BigInt?>('accountNum', normalizeKeyLookup: config.normalizeKeys),
-      alias: config.decodeBinary<List<int>?>(json.valueAs('alias', normalizeKeyLookup: config.normalizeKeys)),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      realmNum: json.valueAsBigInt<BigInt?>(
+        'realmNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      accountNum: json.valueAsBigInt<BigInt?>(
+        'accountNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      alias: config.decodeBinary<List<int>?>(
+        json.valueAs('alias', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -1302,29 +1570,25 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccountID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccountID;
 }
-
 
 /// *
 ///  * An identifier for a unique token (or "NFT"), used by both contract
 ///  * and token services.
 class HederaNftID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.&lt;br/&gt;
   ///      * This token represents the collection containing this NFT.
   final HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * A unique serial number.&lt;br/&gt;
   ///      * This serial number is unique within its token type.
   final BigInt? serialNumber;
 
-  const HederaNftID({
-    this.tokenId,
-    this.serialNumber,
-  });
+  const HederaNftID({this.tokenId, this.serialNumber});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1333,87 +1597,84 @@ class HederaNftID extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.int64(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.int64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        serialNumber,
-      ];
+  List<Object?> get protoValues => [tokenId, serialNumber];
 
-
-HederaNftID copyWith(
-{HederaTokenID? tokenId,
-
-BigInt? serialNumber,
-
-}) {
+  HederaNftID copyWith({HederaTokenID? tokenId, BigInt? serialNumber}) {
     return HederaNftID(
-tokenId: tokenId ?? this.tokenId,
-serialNumber: serialNumber ?? this.serialNumber,
+      tokenId: tokenId ?? this.tokenId,
+      serialNumber: serialNumber ?? this.serialNumber,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token_ID': config.encodeMessage(tokenId),
       'serial_number': config.encodeBigint(serialNumber),
     };
   }
 
-
-  factory HederaNftID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNftID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNftID(
       tokenId: json.valueTo<HederaTokenID?, Object>(
         key: 'token_ID',
-        parse: (v) => HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      serialNumber: json.valueAsBigInt<BigInt?>('serial_number', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      serialNumber: json.valueAsBigInt<BigInt?>(
+        'serial_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaNftID.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaNftID(
-      tokenId: decode.messageTo<HederaTokenID?>(1, (b) => HederaTokenID.deserialize(b)),
+      tokenId: decode.messageTo<HederaTokenID?>(
+        1,
+        (b) => HederaTokenID.deserialize(b),
+      ),
       serialNumber: decode.getBigInt<BigInt?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNftID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNftID;
 }
-
 
 /// *
 ///  * An identifier for a File within the network.
 class HederaFileID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard identifier.
   final BigInt? shardNum;
 
-    /// *
+  /// *
   ///      * A whole number realm identifier.
   final BigInt? realmNum;
 
-    /// *
+  /// *
   ///      * A whole number file identifier, unique within its realm and shard.
   final BigInt? fileNum;
 
-  const HederaFileID({
-    this.shardNum,
-    this.realmNum,
-    this.fileNum,
-  });
+  const HederaFileID({this.shardNum, this.realmNum, this.fileNum});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1431,32 +1692,23 @@ class HederaFileID extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        shardNum,
-        realmNum,
-        fileNum,
-      ];
+  List<Object?> get protoValues => [shardNum, realmNum, fileNum];
 
-
-HederaFileID copyWith(
-{BigInt? shardNum,
-
-BigInt? realmNum,
-
-BigInt? fileNum,
-
-}) {
+  HederaFileID copyWith({BigInt? shardNum, BigInt? realmNum, BigInt? fileNum}) {
     return HederaFileID(
-shardNum: shardNum ?? this.shardNum,
-realmNum: realmNum ?? this.realmNum,
-fileNum: fileNum ?? this.fileNum,
+      shardNum: shardNum ?? this.shardNum,
+      realmNum: realmNum ?? this.realmNum,
+      fileNum: fileNum ?? this.fileNum,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'shardNum': config.encodeBigint(shardNum),
       'realmNum': config.encodeBigint(realmNum),
@@ -1464,12 +1716,23 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaFileID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFileID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFileID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
-      realmNum: json.valueAsBigInt<BigInt?>('realmNum', normalizeKeyLookup: config.normalizeKeys),
-      fileNum: json.valueAsBigInt<BigInt?>('fileNum', normalizeKeyLookup: config.normalizeKeys),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      realmNum: json.valueAsBigInt<BigInt?>(
+        'realmNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      fileNum: json.valueAsBigInt<BigInt?>(
+        'fileNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1483,27 +1746,26 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFileID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFileID;
 }
-
 
 /// *
 ///  * An identifier for a smart contract within the network.
 class HederaContractID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard identifier.
   final BigInt? shardNum;
 
-    /// *
+  /// *
   ///      * A whole number realm identifier.
   final BigInt? realmNum;
 
-    /// *
+  /// *
   ///         * A whole number contract identifier, unique within its realm and shard.
   final BigInt? contractNum;
 
-    /// *
+  /// *
   ///         * A 20-byte EVM address of the contract to call.
   ///         * &lt;p&gt;
   ///         * A contract created via a HAPI `ContractCreate` call SHALL have
@@ -1547,35 +1809,36 @@ class HederaContractID extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        shardNum,
-        realmNum,
-        contractNum,
-        evmAddress,
-      ];
+    shardNum,
+    realmNum,
+    contractNum,
+    evmAddress,
+  ];
 
+  HederaContractID copyWith({
+    BigInt? shardNum,
 
-HederaContractID copyWith(
-{BigInt? shardNum,
+    BigInt? realmNum,
 
-BigInt? realmNum,
+    BigInt? contractNum,
 
-BigInt? contractNum,
-
-List<int>? evmAddress,
-
-}) {
+    List<int>? evmAddress,
+  }) {
     return HederaContractID(
-shardNum: shardNum ?? this.shardNum,
-realmNum: realmNum ?? this.realmNum,
-contractNum: contractNum ?? this.contractNum,
-evmAddress: evmAddress ?? this.evmAddress,
+      shardNum: shardNum ?? this.shardNum,
+      realmNum: realmNum ?? this.realmNum,
+      contractNum: contractNum ?? this.contractNum,
+      evmAddress: evmAddress ?? this.evmAddress,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'shardNum': config.encodeBigint(shardNum),
       'realmNum': config.encodeBigint(realmNum),
@@ -1584,13 +1847,26 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaContractID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaContractID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaContractID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
-      realmNum: json.valueAsBigInt<BigInt?>('realmNum', normalizeKeyLookup: config.normalizeKeys),
-      contractNum: json.valueAsBigInt<BigInt?>('contractNum', normalizeKeyLookup: config.normalizeKeys),
-      evmAddress: config.decodeBinary<List<int>?>(json.valueAs('evm_address', normalizeKeyLookup: config.normalizeKeys)),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      realmNum: json.valueAsBigInt<BigInt?>(
+        'realmNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      contractNum: json.valueAsBigInt<BigInt?>(
+        'contractNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      evmAddress: config.decodeBinary<List<int>?>(
+        json.valueAs('evm_address', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -1605,32 +1881,27 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoContractID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoContractID;
 }
-
 
 /// *
 ///  * An unique identifier for a topic.&lt;br/&gt;
 ///  * Topics are part of the consensus service, messages are published to a topic.
 class HederaTopicID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard identifier.
   final BigInt? shardNum;
 
-    /// *
+  /// *
   ///      * A whole number realm identifier.
   final BigInt? realmNum;
 
-    /// *
+  /// *
   ///      * A whole number topic identifier, unique within its realm and shard.
   final BigInt? topicNum;
 
-  const HederaTopicID({
-    this.shardNum,
-    this.realmNum,
-    this.topicNum,
-  });
+  const HederaTopicID({this.shardNum, this.realmNum, this.topicNum});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1648,32 +1919,29 @@ class HederaTopicID extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        shardNum,
-        realmNum,
-        topicNum,
-      ];
+  List<Object?> get protoValues => [shardNum, realmNum, topicNum];
 
+  HederaTopicID copyWith({
+    BigInt? shardNum,
 
-HederaTopicID copyWith(
-{BigInt? shardNum,
+    BigInt? realmNum,
 
-BigInt? realmNum,
-
-BigInt? topicNum,
-
-}) {
+    BigInt? topicNum,
+  }) {
     return HederaTopicID(
-shardNum: shardNum ?? this.shardNum,
-realmNum: realmNum ?? this.realmNum,
-topicNum: topicNum ?? this.topicNum,
+      shardNum: shardNum ?? this.shardNum,
+      realmNum: realmNum ?? this.realmNum,
+      topicNum: topicNum ?? this.topicNum,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'shardNum': config.encodeBigint(shardNum),
       'realmNum': config.encodeBigint(realmNum),
@@ -1681,12 +1949,23 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTopicID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTopicID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTopicID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
-      realmNum: json.valueAsBigInt<BigInt?>('realmNum', normalizeKeyLookup: config.normalizeKeys),
-      topicNum: json.valueAsBigInt<BigInt?>('topicNum', normalizeKeyLookup: config.normalizeKeys),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      realmNum: json.valueAsBigInt<BigInt?>(
+        'realmNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      topicNum: json.valueAsBigInt<BigInt?>(
+        'topicNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1700,31 +1979,26 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTopicID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTopicID;
 }
-
 
 /// *
 ///  * An unique identifier for a Schedule
 class HederaScheduleID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A whole number shard
   final BigInt? shardNum;
 
-    /// *
+  /// *
   ///      * A whole number realm
   final BigInt? realmNum;
 
-    /// *
+  /// *
   ///      * A whole number schedule, unique within its realm and shard
   final BigInt? scheduleNum;
 
-  const HederaScheduleID({
-    this.shardNum,
-    this.realmNum,
-    this.scheduleNum,
-  });
+  const HederaScheduleID({this.shardNum, this.realmNum, this.scheduleNum});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1742,32 +2016,29 @@ class HederaScheduleID extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        shardNum,
-        realmNum,
-        scheduleNum,
-      ];
+  List<Object?> get protoValues => [shardNum, realmNum, scheduleNum];
 
+  HederaScheduleID copyWith({
+    BigInt? shardNum,
 
-HederaScheduleID copyWith(
-{BigInt? shardNum,
+    BigInt? realmNum,
 
-BigInt? realmNum,
-
-BigInt? scheduleNum,
-
-}) {
+    BigInt? scheduleNum,
+  }) {
     return HederaScheduleID(
-shardNum: shardNum ?? this.shardNum,
-realmNum: realmNum ?? this.realmNum,
-scheduleNum: scheduleNum ?? this.scheduleNum,
+      shardNum: shardNum ?? this.shardNum,
+      realmNum: realmNum ?? this.realmNum,
+      scheduleNum: scheduleNum ?? this.scheduleNum,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'shardNum': config.encodeBigint(shardNum),
       'realmNum': config.encodeBigint(realmNum),
@@ -1775,12 +2046,23 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaScheduleID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaScheduleID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaScheduleID(
-      shardNum: json.valueAsBigInt<BigInt?>('shardNum', normalizeKeyLookup: config.normalizeKeys),
-      realmNum: json.valueAsBigInt<BigInt?>('realmNum', normalizeKeyLookup: config.normalizeKeys),
-      scheduleNum: json.valueAsBigInt<BigInt?>('scheduleNum', normalizeKeyLookup: config.normalizeKeys),
+      shardNum: json.valueAsBigInt<BigInt?>(
+        'shardNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      realmNum: json.valueAsBigInt<BigInt?>(
+        'realmNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      scheduleNum: json.valueAsBigInt<BigInt?>(
+        'scheduleNum',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1794,10 +2076,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoScheduleID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoScheduleID;
 }
-
 
 /// *
 ///  * A transaction identifier.&lt;br/&gt;
@@ -1843,7 +2124,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSc
 ///  *    transaction that created the schedule.
 ///  *  - The `scheduled` property SHALL be set for Scheduled Transactions.
 class HederaTransactionID extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A timestamp for the transaction start time.&lt;br/&gt;
   ///      * This is the earliest expected start time for this transaction.
   ///      * &lt;p&gt;
@@ -1851,13 +2132,13 @@ class HederaTransactionID extends HederaProtoMessage with Equality {
   ///      * transaction is submitted.
   final proto_timestamp.HederaTimestamp? transactionValidStart;
 
-    /// *
+  /// *
   ///      * An Account identifier.
   ///      * &lt;p&gt;
   ///      * The identified account SHALL pay transaction fees for this transaction.
   final HederaAccountID? accountID;
 
-    /// *
+  /// *
   ///      * A scheduled transaction flag.&lt;br/&gt;
   ///      * If set, this transaction represents the execution of a Schedule after
   ///      * all necessary signatures are gathered.
@@ -1865,7 +2146,7 @@ class HederaTransactionID extends HederaProtoMessage with Equality {
   ///      * This flag MUST NOT be set in a user-submitted transaction.
   final bool? scheduled;
 
-    /// *
+  /// *
   ///      * An identifier for an internal transaction.&lt;br/&gt;
   ///      * An internal transaction is one that was spawned as part of handling a
   ///      * user transaction. These internal transactions share the
@@ -1905,35 +2186,37 @@ class HederaTransactionID extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        transactionValidStart,
-        accountID,
-        scheduled,
-        nonce,
-      ];
+    transactionValidStart,
+    accountID,
+    scheduled,
+    nonce,
+  ];
 
+  HederaTransactionID copyWith({
+    proto_timestamp.HederaTimestamp? transactionValidStart,
 
-HederaTransactionID copyWith(
-{proto_timestamp.HederaTimestamp? transactionValidStart,
+    HederaAccountID? accountID,
 
-HederaAccountID? accountID,
+    bool? scheduled,
 
-bool? scheduled,
-
-int? nonce,
-
-}) {
+    int? nonce,
+  }) {
     return HederaTransactionID(
-transactionValidStart: transactionValidStart ?? this.transactionValidStart,
-accountID: accountID ?? this.accountID,
-scheduled: scheduled ?? this.scheduled,
-nonce: nonce ?? this.nonce,
+      transactionValidStart:
+          transactionValidStart ?? this.transactionValidStart,
+      accountID: accountID ?? this.accountID,
+      scheduled: scheduled ?? this.scheduled,
+      nonce: nonce ?? this.nonce,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'transactionValidStart': config.encodeMessage(transactionValidStart),
       'accountID': config.encodeMessage(accountID),
@@ -1942,37 +2225,59 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTransactionID.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTransactionID.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTransactionID(
-      transactionValidStart: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
-        key: 'transactionValidStart',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      transactionValidStart: json
+          .valueTo<proto_timestamp.HederaTimestamp?, Object>(
+            key: 'transactionValidStart',
+            parse:
+                (v) => proto_timestamp.HederaTimestamp.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       accountID: json.valueTo<HederaAccountID?, Object>(
         key: 'accountID',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      scheduled: json.valueAsBool<bool?>('scheduled', normalizeKeyLookup: config.normalizeKeys),
-      nonce: json.valueAsInt<int?>('nonce', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      scheduled: json.valueAsBool<bool?>(
+        'scheduled',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nonce: json.valueAsInt<int?>(
+        'nonce',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTransactionID.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTransactionID(
-      transactionValidStart: decode.messageTo<proto_timestamp.HederaTimestamp?>(1, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
-      accountID: decode.messageTo<HederaAccountID?>(2, (b) => HederaAccountID.deserialize(b)),
+      transactionValidStart: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        1,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
+      accountID: decode.messageTo<HederaAccountID?>(
+        2,
+        (b) => HederaAccountID.deserialize(b),
+      ),
       scheduled: decode.getBool<bool?>(3),
       nonce: decode.getInt<int?>(4),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTransactionID;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTransactionID;
 }
-
 
 /// *
 ///  * Once a hook is created, its full id.
@@ -1980,18 +2285,15 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTr
 ///  * A composite of its creating entity's id and an arbitrary 64-bit hook id
 ///  * (which need not be sequential).
 class HederaHookId extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The hook's creating entity id.
   final HederaHookEntityId? entityId;
 
-    /// *
+  /// *
   ///      * An arbitrary 64-bit identifier.
   final BigInt? hookId;
 
-  const HederaHookId({
-    this.entityId,
-    this.hookId,
-  });
+  const HederaHookId({this.entityId, this.hookId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -2000,82 +2302,82 @@ class HederaHookId extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.int64(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.int64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        entityId,
-        hookId,
-      ];
+  List<Object?> get protoValues => [entityId, hookId];
 
-
-HederaHookId copyWith(
-{HederaHookEntityId? entityId,
-
-BigInt? hookId,
-
-}) {
+  HederaHookId copyWith({HederaHookEntityId? entityId, BigInt? hookId}) {
     return HederaHookId(
-entityId: entityId ?? this.entityId,
-hookId: hookId ?? this.hookId,
+      entityId: entityId ?? this.entityId,
+      hookId: hookId ?? this.hookId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'entity_id': config.encodeMessage(entityId),
       'hook_id': config.encodeBigint(hookId),
     };
   }
 
-
-  factory HederaHookId.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaHookId.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaHookId(
       entityId: json.valueTo<HederaHookEntityId?, Object>(
         key: 'entity_id',
-        parse: (v) => HederaHookEntityId.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      hookId: json.valueAsBigInt<BigInt?>('hook_id', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => HederaHookEntityId.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      hookId: json.valueAsBigInt<BigInt?>(
+        'hook_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaHookId.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaHookId(
-      entityId: decode.messageTo<HederaHookEntityId?>(1, (b) => HederaHookEntityId.deserialize(b)),
+      entityId: decode.messageTo<HederaHookEntityId?>(
+        1,
+        (b) => HederaHookEntityId.deserialize(b),
+      ),
       hookId: decode.getBigInt<BigInt?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoHookId;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoHookId;
 }
-
 
 /// *
 ///  * The id of an entity using a hook.
 class HederaHookEntityId extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * An account using a hook.
   final HederaAccountID? accountId;
 
-    /// *
+  /// *
   ///          * A contract using a hook.
   final HederaContractID? contractId;
 
-  const HederaHookEntityId({
-    this.accountId,
-    this.contractId,
-  });
+  const HederaHookEntityId({this.accountId, this.contractId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -2084,69 +2386,79 @@ class HederaHookEntityId extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        accountId,
-        contractId,
-      ];
+  List<Object?> get protoValues => [accountId, contractId];
 
+  HederaHookEntityId copyWith({
+    HederaAccountID? accountId,
 
-HederaHookEntityId copyWith(
-{HederaAccountID? accountId,
-
-HederaContractID? contractId,
-
-}) {
+    HederaContractID? contractId,
+  }) {
     return HederaHookEntityId(
-accountId: accountId ?? this.accountId,
-contractId: contractId ?? this.contractId,
+      accountId: accountId ?? this.accountId,
+      contractId: contractId ?? this.contractId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'account_id': config.encodeMessage(accountId),
       'contract_id': config.encodeMessage(contractId),
     };
   }
 
-
-  factory HederaHookEntityId.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaHookEntityId.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaHookEntityId(
       accountId: json.valueTo<HederaAccountID?, Object>(
         key: 'account_id',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       contractId: json.valueTo<HederaContractID?, Object>(
         key: 'contract_id',
-        parse: (v) => HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaHookEntityId.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaHookEntityId(
-      accountId: decode.messageTo<HederaAccountID?>(1, (b) => HederaAccountID.deserialize(b)),
-      contractId: decode.messageTo<HederaContractID?>(2, (b) => HederaContractID.deserialize(b)),
+      accountId: decode.messageTo<HederaAccountID?>(
+        1,
+        (b) => HederaAccountID.deserialize(b),
+      ),
+      contractId: decode.messageTo<HederaContractID?>(
+        2,
+        (b) => HederaContractID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoHookEntityId;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoHookEntityId;
 }
-
 
 /// *
 ///  * Specifies a call to a hook from within a transaction.
@@ -2157,20 +2469,17 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoHo
 ///  * For future extension points where the hook owner is not forced by the context, we include the option to fully
 ///  * specify the hook id for the call.
 class HederaHookCall extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * The numeric id of the hook to call, when the owning entity is forced by the call site.
   final BigInt? hookId;
 
-    /// *
+  /// *
   ///      * Specifies details of the call.
   /// *
   ///          * Specification of how to call an EVM hook.
   final HederaEvmHookCall? evmHookCall;
 
-  const HederaHookCall({
-    this.hookId,
-    this.evmHookCall,
-  });
+  const HederaHookCall({this.hookId, this.evmHookCall});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -2179,50 +2488,51 @@ class HederaHookCall extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-        ProtoFieldConfig.message(3),
-      ],
+      fields: [ProtoFieldConfig.int64(1), ProtoFieldConfig.message(3)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        hookId,
-        evmHookCall,
-      ];
+  List<Object?> get protoValues => [hookId, evmHookCall];
 
-
-HederaHookCall copyWith(
-{BigInt? hookId,
-
-HederaEvmHookCall? evmHookCall,
-
-}) {
+  HederaHookCall copyWith({BigInt? hookId, HederaEvmHookCall? evmHookCall}) {
     return HederaHookCall(
-hookId: hookId ?? this.hookId,
-evmHookCall: evmHookCall ?? this.evmHookCall,
+      hookId: hookId ?? this.hookId,
+      evmHookCall: evmHookCall ?? this.evmHookCall,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'hook_id': config.encodeBigint(hookId),
       'evm_hook_call': config.encodeMessage(evmHookCall),
     };
   }
 
-
-  factory HederaHookCall.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaHookCall.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaHookCall(
-      hookId: json.valueAsBigInt<BigInt?>('hook_id', normalizeKeyLookup: config.normalizeKeys),
+      hookId: json.valueAsBigInt<BigInt?>(
+        'hook_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       evmHookCall: json.valueTo<HederaEvmHookCall?, Object>(
         key: 'evm_hook_call',
-        parse: (v) => HederaEvmHookCall.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaEvmHookCall.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -2230,31 +2540,30 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaHookCall(
       hookId: decode.getBigInt<BigInt?>(1),
-      evmHookCall: decode.messageTo<HederaEvmHookCall?>(3, (b) => HederaEvmHookCall.deserialize(b)),
+      evmHookCall: decode.messageTo<HederaEvmHookCall?>(
+        3,
+        (b) => HederaEvmHookCall.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoHookCall;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoHookCall;
 }
-
 
 /// *
 ///  * Specifies details of a call to an EVM hook.
 class HederaEvmHookCall extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Call data to pass to the hook via the IHieroHook.HookContext#data field.
   final List<int>? data;
 
-    /// *
+  /// *
   ///      * The gas limit to use.
   final BigInt? gasLimit;
 
-  const HederaEvmHookCall({
-    this.data,
-    this.gasLimit,
-  });
+  const HederaEvmHookCall({this.data, this.gasLimit});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -2263,47 +2572,45 @@ class HederaEvmHookCall extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.bytes(1), ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        data,
-        gasLimit,
-      ];
+  List<Object?> get protoValues => [data, gasLimit];
 
-
-HederaEvmHookCall copyWith(
-{List<int>? data,
-
-BigInt? gasLimit,
-
-}) {
+  HederaEvmHookCall copyWith({List<int>? data, BigInt? gasLimit}) {
     return HederaEvmHookCall(
-data: data ?? this.data,
-gasLimit: gasLimit ?? this.gasLimit,
+      data: data ?? this.data,
+      gasLimit: gasLimit ?? this.gasLimit,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'data': config.encodeBinary(data),
       'gas_limit': config.encodeBigint(gasLimit),
     };
   }
 
-
-  factory HederaEvmHookCall.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEvmHookCall.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEvmHookCall(
-      data: config.decodeBinary<List<int>?>(json.valueAs('data', normalizeKeyLookup: config.normalizeKeys)),
-      gasLimit: json.valueAsBigInt<BigInt?>('gas_limit', normalizeKeyLookup: config.normalizeKeys),
+      data: config.decodeBinary<List<int>?>(
+        json.valueAs('data', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      gasLimit: json.valueAsBigInt<BigInt?>(
+        'gas_limit',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -2316,10 +2623,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoEvmHookCall;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoEvmHookCall;
 }
-
 
 /// *
 ///  * An account, and the amount that it sends or receives during a token transfer.
@@ -2327,11 +2633,11 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoEv
 ///  * This message is only relevant to fungible/common token transfers.
 ///  * Non-fungible/unique (NFT) token transfers MUST use the NftTransfer message.
 class HederaAccountAmount extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An account identifier that will send or receive token(s).
   final HederaAccountID? accountID;
 
-    /// *
+  /// *
   ///      * An amount to send (negative) or receive (positive).
   ///      * &lt;p&gt;
   ///      * This amount MUST be denominated in the smallest unit of the relevant
@@ -2341,7 +2647,7 @@ class HederaAccountAmount extends HederaProtoMessage with Equality {
   ///      * `decimals` for that token.
   final BigInt? amount;
 
-    /// *
+  /// *
   ///      * An approved allowance flag.&lt;br/&gt;
   ///      * If true then the transfer is expected to be an approved allowance.
   ///      * &lt;p&gt;
@@ -2350,7 +2656,7 @@ class HederaAccountAmount extends HederaProtoMessage with Equality {
   ///      * The default value SHALL be false (unset).
   final bool? isApproval;
 
-    /// *
+  /// *
   ///      * If set, a call to a hook of type `ACCOUNT_ALLOWANCE_HOOK` on scoped
   ///      * account; the hook's invoked methods must not revert and must return
   ///      * true for the containing CryptoTransfer to succeed.
@@ -2361,7 +2667,7 @@ class HederaAccountAmount extends HederaProtoMessage with Equality {
   ///          * method with logical signature allow(HookContext, ProposedTransfers)
   final HederaHookCall? preTxAllowanceHook;
 
-    /// *
+  /// *
   ///          * Two calls, the first call before attempting the CryptoTransfer, to a
   ///          * method with logical signature allowPre(HookContext, ProposedTransfers);
   ///          * and the second call after attempting the CryptoTransfer, to a method
@@ -2395,84 +2701,113 @@ class HederaAccountAmount extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        accountID,
-        amount,
-        isApproval,
-        preTxAllowanceHook,
-        prePostTxAllowanceHook,
-      ];
+    accountID,
+    amount,
+    isApproval,
+    preTxAllowanceHook,
+    prePostTxAllowanceHook,
+  ];
 
+  HederaAccountAmount copyWith({
+    HederaAccountID? accountID,
 
-HederaAccountAmount copyWith(
-{HederaAccountID? accountID,
+    BigInt? amount,
 
-BigInt? amount,
+    bool? isApproval,
 
-bool? isApproval,
+    HederaHookCall? preTxAllowanceHook,
 
-HederaHookCall? preTxAllowanceHook,
-
-HederaHookCall? prePostTxAllowanceHook,
-
-}) {
+    HederaHookCall? prePostTxAllowanceHook,
+  }) {
     return HederaAccountAmount(
-accountID: accountID ?? this.accountID,
-amount: amount ?? this.amount,
-isApproval: isApproval ?? this.isApproval,
-preTxAllowanceHook: preTxAllowanceHook ?? this.preTxAllowanceHook,
-prePostTxAllowanceHook: prePostTxAllowanceHook ?? this.prePostTxAllowanceHook,
+      accountID: accountID ?? this.accountID,
+      amount: amount ?? this.amount,
+      isApproval: isApproval ?? this.isApproval,
+      preTxAllowanceHook: preTxAllowanceHook ?? this.preTxAllowanceHook,
+      prePostTxAllowanceHook:
+          prePostTxAllowanceHook ?? this.prePostTxAllowanceHook,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'accountID': config.encodeMessage(accountID),
       'amount': config.encodeBigint(amount),
       'is_approval': isApproval,
       'pre_tx_allowance_hook': config.encodeMessage(preTxAllowanceHook),
-      'pre_post_tx_allowance_hook': config.encodeMessage(prePostTxAllowanceHook),
+      'pre_post_tx_allowance_hook': config.encodeMessage(
+        prePostTxAllowanceHook,
+      ),
     };
   }
 
-
-  factory HederaAccountAmount.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccountAmount.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccountAmount(
       accountID: json.valueTo<HederaAccountID?, Object>(
         key: 'accountID',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
-      isApproval: json.valueAsBool<bool?>('is_approval', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      isApproval: json.valueAsBool<bool?>(
+        'is_approval',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       preTxAllowanceHook: json.valueTo<HederaHookCall?, Object>(
         key: 'pre_tx_allowance_hook',
-        parse: (v) => HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       prePostTxAllowanceHook: json.valueTo<HederaHookCall?, Object>(
         key: 'pre_post_tx_allowance_hook',
-        parse: (v) => HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaAccountAmount.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaAccountAmount(
-      accountID: decode.messageTo<HederaAccountID?>(1, (b) => HederaAccountID.deserialize(b)),
+      accountID: decode.messageTo<HederaAccountID?>(
+        1,
+        (b) => HederaAccountID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(2),
       isApproval: decode.getBool<bool?>(3),
-      preTxAllowanceHook: decode.messageTo<HederaHookCall?>(4, (b) => HederaHookCall.deserialize(b)),
-      prePostTxAllowanceHook: decode.messageTo<HederaHookCall?>(5, (b) => HederaHookCall.deserialize(b)),
+      preTxAllowanceHook: decode.messageTo<HederaHookCall?>(
+        4,
+        (b) => HederaHookCall.deserialize(b),
+      ),
+      prePostTxAllowanceHook: decode.messageTo<HederaHookCall?>(
+        5,
+        (b) => HederaHookCall.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccountAmount;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccountAmount;
 }
-
 
 /// *
 ///  * A list of accounts and amounts to transfer.
@@ -2485,15 +2820,13 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAc
 ///  * The `TransferList` SHALL only be used for HBAR transfers. Other token types
 ///  * MUST use the `TokenTransferList` message.
 class HederaTransferList extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A list of AccountAmount pairs.&lt;br/&gt;
   ///      * Each entry in this list is an account and an amount to transfer
   ///      * into it (positive) or out of it (negative)
   final List<HederaAccountAmount> accountAmounts;
 
-  const HederaTransferList({
-    this.accountAmounts = const [],
-  });
+  const HederaTransferList({this.accountAmounts = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -2512,51 +2845,67 @@ class HederaTransferList extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        accountAmounts,
-      ];
+  List<Object?> get protoValues => [accountAmounts];
 
-
-HederaTransferList copyWith(
-{List<HederaAccountAmount>? accountAmounts,
-
-}) {
+  HederaTransferList copyWith({List<HederaAccountAmount>? accountAmounts}) {
     return HederaTransferList(
-accountAmounts: accountAmounts ?? this.accountAmounts,
+      accountAmounts: accountAmounts ?? this.accountAmounts,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'accountAmounts': accountAmounts.map((e) => config.encodeMessage(e)).toList(),
+      'accountAmounts':
+          accountAmounts.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTransferList.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTransferList.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTransferList(
-      accountAmounts: (json.valueEnsureAsList<dynamic>('accountAmounts', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaAccountAmount, Object>(
-          value: e,
-          parse: (v) => HederaAccountAmount.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      accountAmounts:
+          (json.valueEnsureAsList<dynamic>(
+                'accountAmounts',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaAccountAmount, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaAccountAmount.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTransferList.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTransferList(
-      accountAmounts: decode.getListOfBytes(1).map((b) => HederaAccountAmount.deserialize(b)).toList(),
+      accountAmounts:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaAccountAmount.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTransferList;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTransferList;
 }
-
 
 /// *
 ///  * A NFT transfer.&lt;br/&gt;
@@ -2567,19 +2916,19 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTr
 ///  * `TokenTransferList`) that details which `Token` type applies to this NFT
 ///  * transfer.
 class HederaNftTransfer extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An Account identifier for the sender.
   final HederaAccountID? senderAccountID;
 
-    /// *
+  /// *
   ///      * An Account identifier for the receiver.
   final HederaAccountID? receiverAccountID;
 
-    /// *
+  /// *
   ///      * A serial number for the NFT to transfer.
   final BigInt? serialNumber;
 
-    /// *
+  /// *
   ///      * An approved allowance flag.&lt;br/&gt;
   ///      * If true then the transfer is expected to be an approved allowance.
   ///      * &lt;p&gt;
@@ -2590,7 +2939,7 @@ class HederaNftTransfer extends HederaProtoMessage with Equality {
   ///      * The default value SHALL be false (unset).
   final bool? isApproval;
 
-    /// *
+  /// *
   ///      * If set, a call to a hook of type `ACCOUNT_ALLOWANCE_HOOK` installed on
   ///      * senderAccountID that must succeed for the transaction to occur.
   ///      * &lt;p&gt;
@@ -2600,14 +2949,14 @@ class HederaNftTransfer extends HederaProtoMessage with Equality {
   ///          * method with logical signature allow(HookContext, ProposedTransfers)
   final HederaHookCall? preTxSenderAllowanceHook;
 
-    /// *
+  /// *
   ///          * Two calls, the first call before attempting the CryptoTransfer, to a
   ///          * method with logical signature allowPre(HookContext, ProposedTransfers);
   ///          * and the second call after attempting the CryptoTransfer, to a method
   ///          * with logical signature allowPost(HookContext, ProposedTransfers).
   final HederaHookCall? prePostTxSenderAllowanceHook;
 
-    /// *
+  /// *
   ///      * If set, a call to a hook of type `ACCOUNT_ALLOWANCE_HOOK` installed on
   ///      * receiverAccountID that must succeed for the transaction to occur.
   ///      * &lt;p&gt;
@@ -2620,7 +2969,7 @@ class HederaNftTransfer extends HederaProtoMessage with Equality {
   ///          * method with logical signature allow(HookContext, ProposedTransfers)
   final HederaHookCall? preTxReceiverAllowanceHook;
 
-    /// *
+  /// *
   ///          * Two calls, the first call before attempting the CryptoTransfer, to a
   ///          * method with logical signature allowPre(HookContext, ProposedTransfers);
   ///          * and the second call after attempting the CryptoTransfer, to a method
@@ -2660,114 +3009,170 @@ class HederaNftTransfer extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        senderAccountID,
-        receiverAccountID,
-        serialNumber,
-        isApproval,
-        preTxSenderAllowanceHook,
-        prePostTxSenderAllowanceHook,
-        preTxReceiverAllowanceHook,
-        prePostTxReceiverAllowanceHook,
-      ];
+    senderAccountID,
+    receiverAccountID,
+    serialNumber,
+    isApproval,
+    preTxSenderAllowanceHook,
+    prePostTxSenderAllowanceHook,
+    preTxReceiverAllowanceHook,
+    prePostTxReceiverAllowanceHook,
+  ];
 
+  HederaNftTransfer copyWith({
+    HederaAccountID? senderAccountID,
 
-HederaNftTransfer copyWith(
-{HederaAccountID? senderAccountID,
+    HederaAccountID? receiverAccountID,
 
-HederaAccountID? receiverAccountID,
+    BigInt? serialNumber,
 
-BigInt? serialNumber,
+    bool? isApproval,
 
-bool? isApproval,
+    HederaHookCall? preTxSenderAllowanceHook,
 
-HederaHookCall? preTxSenderAllowanceHook,
+    HederaHookCall? prePostTxSenderAllowanceHook,
 
-HederaHookCall? prePostTxSenderAllowanceHook,
+    HederaHookCall? preTxReceiverAllowanceHook,
 
-HederaHookCall? preTxReceiverAllowanceHook,
-
-HederaHookCall? prePostTxReceiverAllowanceHook,
-
-}) {
+    HederaHookCall? prePostTxReceiverAllowanceHook,
+  }) {
     return HederaNftTransfer(
-senderAccountID: senderAccountID ?? this.senderAccountID,
-receiverAccountID: receiverAccountID ?? this.receiverAccountID,
-serialNumber: serialNumber ?? this.serialNumber,
-isApproval: isApproval ?? this.isApproval,
-preTxSenderAllowanceHook: preTxSenderAllowanceHook ?? this.preTxSenderAllowanceHook,
-prePostTxSenderAllowanceHook: prePostTxSenderAllowanceHook ?? this.prePostTxSenderAllowanceHook,
-preTxReceiverAllowanceHook: preTxReceiverAllowanceHook ?? this.preTxReceiverAllowanceHook,
-prePostTxReceiverAllowanceHook: prePostTxReceiverAllowanceHook ?? this.prePostTxReceiverAllowanceHook,
+      senderAccountID: senderAccountID ?? this.senderAccountID,
+      receiverAccountID: receiverAccountID ?? this.receiverAccountID,
+      serialNumber: serialNumber ?? this.serialNumber,
+      isApproval: isApproval ?? this.isApproval,
+      preTxSenderAllowanceHook:
+          preTxSenderAllowanceHook ?? this.preTxSenderAllowanceHook,
+      prePostTxSenderAllowanceHook:
+          prePostTxSenderAllowanceHook ?? this.prePostTxSenderAllowanceHook,
+      preTxReceiverAllowanceHook:
+          preTxReceiverAllowanceHook ?? this.preTxReceiverAllowanceHook,
+      prePostTxReceiverAllowanceHook:
+          prePostTxReceiverAllowanceHook ?? this.prePostTxReceiverAllowanceHook,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'senderAccountID': config.encodeMessage(senderAccountID),
       'receiverAccountID': config.encodeMessage(receiverAccountID),
       'serialNumber': config.encodeBigint(serialNumber),
       'is_approval': isApproval,
-      'pre_tx_sender_allowance_hook': config.encodeMessage(preTxSenderAllowanceHook),
-      'pre_post_tx_sender_allowance_hook': config.encodeMessage(prePostTxSenderAllowanceHook),
-      'pre_tx_receiver_allowance_hook': config.encodeMessage(preTxReceiverAllowanceHook),
-      'pre_post_tx_receiver_allowance_hook': config.encodeMessage(prePostTxReceiverAllowanceHook),
+      'pre_tx_sender_allowance_hook': config.encodeMessage(
+        preTxSenderAllowanceHook,
+      ),
+      'pre_post_tx_sender_allowance_hook': config.encodeMessage(
+        prePostTxSenderAllowanceHook,
+      ),
+      'pre_tx_receiver_allowance_hook': config.encodeMessage(
+        preTxReceiverAllowanceHook,
+      ),
+      'pre_post_tx_receiver_allowance_hook': config.encodeMessage(
+        prePostTxReceiverAllowanceHook,
+      ),
     };
   }
 
-
-  factory HederaNftTransfer.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNftTransfer.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNftTransfer(
       senderAccountID: json.valueTo<HederaAccountID?, Object>(
         key: 'senderAccountID',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       receiverAccountID: json.valueTo<HederaAccountID?, Object>(
         key: 'receiverAccountID',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      serialNumber: json.valueAsBigInt<BigInt?>('serialNumber', normalizeKeyLookup: config.normalizeKeys),
-      isApproval: json.valueAsBool<bool?>('is_approval', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      serialNumber: json.valueAsBigInt<BigInt?>(
+        'serialNumber',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      isApproval: json.valueAsBool<bool?>(
+        'is_approval',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       preTxSenderAllowanceHook: json.valueTo<HederaHookCall?, Object>(
         key: 'pre_tx_sender_allowance_hook',
-        parse: (v) => HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       prePostTxSenderAllowanceHook: json.valueTo<HederaHookCall?, Object>(
         key: 'pre_post_tx_sender_allowance_hook',
-        parse: (v) => HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       preTxReceiverAllowanceHook: json.valueTo<HederaHookCall?, Object>(
         key: 'pre_tx_receiver_allowance_hook',
-        parse: (v) => HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       prePostTxReceiverAllowanceHook: json.valueTo<HederaHookCall?, Object>(
         key: 'pre_post_tx_receiver_allowance_hook',
-        parse: (v) => HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaHookCall.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaNftTransfer.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaNftTransfer(
-      senderAccountID: decode.messageTo<HederaAccountID?>(1, (b) => HederaAccountID.deserialize(b)),
-      receiverAccountID: decode.messageTo<HederaAccountID?>(2, (b) => HederaAccountID.deserialize(b)),
+      senderAccountID: decode.messageTo<HederaAccountID?>(
+        1,
+        (b) => HederaAccountID.deserialize(b),
+      ),
+      receiverAccountID: decode.messageTo<HederaAccountID?>(
+        2,
+        (b) => HederaAccountID.deserialize(b),
+      ),
       serialNumber: decode.getBigInt<BigInt?>(3),
       isApproval: decode.getBool<bool?>(4),
-      preTxSenderAllowanceHook: decode.messageTo<HederaHookCall?>(5, (b) => HederaHookCall.deserialize(b)),
-      prePostTxSenderAllowanceHook: decode.messageTo<HederaHookCall?>(6, (b) => HederaHookCall.deserialize(b)),
-      preTxReceiverAllowanceHook: decode.messageTo<HederaHookCall?>(7, (b) => HederaHookCall.deserialize(b)),
-      prePostTxReceiverAllowanceHook: decode.messageTo<HederaHookCall?>(8, (b) => HederaHookCall.deserialize(b)),
+      preTxSenderAllowanceHook: decode.messageTo<HederaHookCall?>(
+        5,
+        (b) => HederaHookCall.deserialize(b),
+      ),
+      prePostTxSenderAllowanceHook: decode.messageTo<HederaHookCall?>(
+        6,
+        (b) => HederaHookCall.deserialize(b),
+      ),
+      preTxReceiverAllowanceHook: decode.messageTo<HederaHookCall?>(
+        7,
+        (b) => HederaHookCall.deserialize(b),
+      ),
+      prePostTxReceiverAllowanceHook: decode.messageTo<HederaHookCall?>(
+        8,
+        (b) => HederaHookCall.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNftTransfer;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNftTransfer;
 }
-
 
 /// *
 ///  * A list of transfers for a particular (non-HBAR) token type.
@@ -2785,12 +3190,12 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNf
 ///  * A single `TokenTransferList` MUST contain `transfers` or `nftTransfers`,
 ///  * but MUST NOT contain both.
 class HederaTokenTransferList extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.&lt;br/&gt;
   ///      * This is the token to be transferred.
   final HederaTokenID? token;
 
-    /// *
+  /// *
   ///      * A list of account amounts.
   ///      * &lt;p&gt;
   ///      * Each entry SHALL have an account and amount.&lt;br/&gt;
@@ -2801,7 +3206,7 @@ class HederaTokenTransferList extends HederaProtoMessage with Equality {
   ///      * empty otherwise.
   final List<HederaAccountAmount> transfers;
 
-    /// *
+  /// *
   ///      * A list of NftTransfers.
   ///      * &lt;p&gt;
   ///      * Each entry SHALL have a sender and receiver account, and the
@@ -2810,7 +3215,7 @@ class HederaTokenTransferList extends HederaProtoMessage with Equality {
   ///      * empty otherwise.
   final List<HederaNftTransfer> nftTransfers;
 
-    /// *
+  /// *
   ///      * An expected decimal precision.&lt;br/&gt;
   ///      * This is the number of decimals a fungible/common token type is
   ///      * _expected_ to have.
@@ -2852,35 +3257,36 @@ class HederaTokenTransferList extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        token,
-        transfers,
-        nftTransfers,
-        expectedDecimals,
-      ];
+    token,
+    transfers,
+    nftTransfers,
+    expectedDecimals,
+  ];
 
+  HederaTokenTransferList copyWith({
+    HederaTokenID? token,
 
-HederaTokenTransferList copyWith(
-{HederaTokenID? token,
+    List<HederaAccountAmount>? transfers,
 
-List<HederaAccountAmount>? transfers,
+    List<HederaNftTransfer>? nftTransfers,
 
-List<HederaNftTransfer>? nftTransfers,
-
-google_protobuf_wrappers.HederaUInt32Value? expectedDecimals,
-
-}) {
+    google_protobuf_wrappers.HederaUInt32Value? expectedDecimals,
+  }) {
     return HederaTokenTransferList(
-token: token ?? this.token,
-transfers: transfers ?? this.transfers,
-nftTransfers: nftTransfers ?? this.nftTransfers,
-expectedDecimals: expectedDecimals ?? this.expectedDecimals,
+      token: token ?? this.token,
+      transfers: transfers ?? this.transfers,
+      nftTransfers: nftTransfers ?? this.nftTransfers,
+      expectedDecimals: expectedDecimals ?? this.expectedDecimals,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token': config.encodeMessage(token),
       'transfers': transfers.map((e) => config.encodeMessage(e)).toList(),
@@ -2889,43 +3295,94 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenTransferList.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenTransferList.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenTransferList(
       token: json.valueTo<HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      transfers: (json.valueEnsureAsList<dynamic>('transfers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaAccountAmount, Object>(
-          value: e,
-          parse: (v) => HederaAccountAmount.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      nftTransfers: (json.valueEnsureAsList<dynamic>('nftTransfers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaNftTransfer, Object>(
-          value: e,
-          parse: (v) => HederaNftTransfer.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      expectedDecimals: json.valueTo<google_protobuf_wrappers.HederaUInt32Value?, Object>(
-        key: 'expected_decimals',
-        parse: (v) => google_protobuf_wrappers.HederaUInt32Value.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      transfers:
+          (json.valueEnsureAsList<dynamic>(
+                'transfers',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaAccountAmount, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaAccountAmount.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      nftTransfers:
+          (json.valueEnsureAsList<dynamic>(
+                'nftTransfers',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaNftTransfer, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaNftTransfer.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      expectedDecimals: json
+          .valueTo<google_protobuf_wrappers.HederaUInt32Value?, Object>(
+            key: 'expected_decimals',
+            parse:
+                (v) => google_protobuf_wrappers.HederaUInt32Value.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaTokenTransferList.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenTransferList(
-      token: decode.messageTo<HederaTokenID?>(1, (b) => HederaTokenID.deserialize(b)),
-      transfers: decode.getListOfBytes(2).map((b) => HederaAccountAmount.deserialize(b)).toList(),
-      nftTransfers: decode.getListOfBytes(3).map((b) => HederaNftTransfer.deserialize(b)).toList(),
-      expectedDecimals: decode.messageTo<google_protobuf_wrappers.HederaUInt32Value?>(4, (b) => google_protobuf_wrappers.HederaUInt32Value.deserialize(b)),
+      token: decode.messageTo<HederaTokenID?>(
+        1,
+        (b) => HederaTokenID.deserialize(b),
+      ),
+      transfers:
+          decode
+              .getListOfBytes(2)
+              .map((b) => HederaAccountAmount.deserialize(b))
+              .toList(),
+      nftTransfers:
+          decode
+              .getListOfBytes(3)
+              .map((b) => HederaNftTransfer.deserialize(b))
+              .toList(),
+      expectedDecimals: decode
+          .messageTo<google_protobuf_wrappers.HederaUInt32Value?>(
+            4,
+            (b) => google_protobuf_wrappers.HederaUInt32Value.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenTransferList;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenTransferList;
 }
-
 
 /// *
 ///  * A rational number.&lt;br/&gt;
@@ -2937,20 +3394,17 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTo
 ///  * particular, may not be reliable.
 ///  * Both fields are REQUIRED and SHOULD be positive integers.
 class HederaFraction extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A fractional number's numerator.
   final BigInt? numerator;
 
-    /// *
+  /// *
   ///      * A fractional number's denominator.
   ///      * &lt;p&gt;
   ///      * A zero value SHALL fail with response code `FRACTION_DIVIDES_BY_ZERO`.
   final BigInt? denominator;
 
-  const HederaFraction({
-    this.numerator,
-    this.denominator,
-  });
+  const HederaFraction({this.numerator, this.denominator});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -2959,47 +3413,46 @@ class HederaFraction extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-        ProtoFieldConfig.int64(2),
-      ],
+      fields: [ProtoFieldConfig.int64(1), ProtoFieldConfig.int64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        numerator,
-        denominator,
-      ];
+  List<Object?> get protoValues => [numerator, denominator];
 
-
-HederaFraction copyWith(
-{BigInt? numerator,
-
-BigInt? denominator,
-
-}) {
+  HederaFraction copyWith({BigInt? numerator, BigInt? denominator}) {
     return HederaFraction(
-numerator: numerator ?? this.numerator,
-denominator: denominator ?? this.denominator,
+      numerator: numerator ?? this.numerator,
+      denominator: denominator ?? this.denominator,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'numerator': config.encodeBigint(numerator),
       'denominator': config.encodeBigint(denominator),
     };
   }
 
-
-  factory HederaFraction.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFraction.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFraction(
-      numerator: json.valueAsBigInt<BigInt?>('numerator', normalizeKeyLookup: config.normalizeKeys),
-      denominator: json.valueAsBigInt<BigInt?>('denominator', normalizeKeyLookup: config.normalizeKeys),
+      numerator: json.valueAsBigInt<BigInt?>(
+        'numerator',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      denominator: json.valueAsBigInt<BigInt?>(
+        'denominator',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -3012,10 +3465,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFraction;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFraction;
 }
-
 
 /// *
 ///  * A Key is an entity representing one or more cryptographic public/private key
@@ -3070,43 +3522,43 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFr
 ///  * To ensure adequate performance and transaction security, key nesting is
 ///  * limited to at most fifteen(15) levels.
 class HederaKey extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * A smart contract instance that is authorized implicitly.
   ///          * &lt;p&gt;
   ///          * This key type SHALL require that the code in the active message frame
   ///          * belong to the contract with the given id.
   final HederaContractID? contractID;
 
-    /// *
+  /// *
   ///          * An array of Ed25519 public key bytes.
   final List<int>? ed25519;
 
-    /// *
+  /// *
   ///          * This option is not currently supported.&lt;br/&gt;
   ///          * An array of RSA-3072 public key bytes.
   final List<int>? rsa3072;
 
-    /// *
+  /// *
   ///          * This option is not currently supported.&lt;br/&gt;
   ///          * An array of ECDSA, using the p-384 curve, public key bytes.
   final List<int>? ecdsa384;
 
-    /// *
+  /// *
   ///          * A threshold, M, combined with a list of N keys, any M of which are
   ///          * sufficient to form a valid signature.
   final HederaThresholdKey? thresholdKey;
 
-    /// *
+  /// *
   ///          * A list of keys. This may be treated like a "N-of-N" threshold key,
   ///          * as a component of another key, or in some other manner as documented.
   final HederaKeyList? keyList;
 
-    /// *
+  /// *
   ///          * A set of compressed ECDSA(secp256k1) public key bytes.&lt;br/&gt;
   ///          * This is an EVM compatibility format.
   final List<int>? ecdsaSecp256k1;
 
-    /// *
+  /// *
   ///          * A smart contract that, if the recipient of the active message frame,
   ///          * SHALL be imputed authorization.&lt;br/&gt;
   ///          * Setting this key type is a more permissive version of setting a
@@ -3138,8 +3590,14 @@ class HederaKey extends HederaProtoMessage with Equality {
       fields: [
         ProtoFieldConfig.message(1),
         ProtoFieldConfig.bytes(2),
-        ProtoFieldConfig.bytes(3, options: [ProtoOptionBool(name: "deprecated", value: true)]),
-        ProtoFieldConfig.bytes(4, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.bytes(
+          3,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
+        ProtoFieldConfig.bytes(
+          4,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
         ProtoFieldConfig.message(5),
         ProtoFieldConfig.message(6),
         ProtoFieldConfig.bytes(7),
@@ -3150,51 +3608,53 @@ class HederaKey extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        contractID,
-        ed25519,
-        rsa3072,
-        ecdsa384,
-        thresholdKey,
-        keyList,
-        ecdsaSecp256k1,
-        delegatableContractId,
-      ];
+    contractID,
+    ed25519,
+    rsa3072,
+    ecdsa384,
+    thresholdKey,
+    keyList,
+    ecdsaSecp256k1,
+    delegatableContractId,
+  ];
 
+  HederaKey copyWith({
+    HederaContractID? contractID,
 
-HederaKey copyWith(
-{HederaContractID? contractID,
+    List<int>? ed25519,
 
-List<int>? ed25519,
+    List<int>? rsa3072,
 
-List<int>? rsa3072,
+    List<int>? ecdsa384,
 
-List<int>? ecdsa384,
+    HederaThresholdKey? thresholdKey,
 
-HederaThresholdKey? thresholdKey,
+    HederaKeyList? keyList,
 
-HederaKeyList? keyList,
+    List<int>? ecdsaSecp256k1,
 
-List<int>? ecdsaSecp256k1,
-
-HederaContractID? delegatableContractId,
-
-}) {
+    HederaContractID? delegatableContractId,
+  }) {
     return HederaKey(
-contractID: contractID ?? this.contractID,
-ed25519: ed25519 ?? this.ed25519,
-rsa3072: rsa3072 ?? this.rsa3072,
-ecdsa384: ecdsa384 ?? this.ecdsa384,
-thresholdKey: thresholdKey ?? this.thresholdKey,
-keyList: keyList ?? this.keyList,
-ecdsaSecp256k1: ecdsaSecp256k1 ?? this.ecdsaSecp256k1,
-delegatableContractId: delegatableContractId ?? this.delegatableContractId,
+      contractID: contractID ?? this.contractID,
+      ed25519: ed25519 ?? this.ed25519,
+      rsa3072: rsa3072 ?? this.rsa3072,
+      ecdsa384: ecdsa384 ?? this.ecdsa384,
+      thresholdKey: thresholdKey ?? this.thresholdKey,
+      keyList: keyList ?? this.keyList,
+      ecdsaSecp256k1: ecdsaSecp256k1 ?? this.ecdsaSecp256k1,
+      delegatableContractId:
+          delegatableContractId ?? this.delegatableContractId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'contractID': config.encodeMessage(contractID),
       'ed25519': config.encodeBinary(ed25519),
@@ -3207,51 +3667,93 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaKey.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaKey.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaKey(
       contractID: json.valueTo<HederaContractID?, Object>(
         key: 'contractID',
-        parse: (v) => HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      ed25519: config.decodeBinary<List<int>?>(json.valueAs('ed25519', normalizeKeyLookup: config.normalizeKeys)),
-      rsa3072: config.decodeBinary<List<int>?>(json.valueAs('RSA_3072', normalizeKeyLookup: config.normalizeKeys)),
-      ecdsa384: config.decodeBinary<List<int>?>(json.valueAs('ECDSA_384', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      ed25519: config.decodeBinary<List<int>?>(
+        json.valueAs('ed25519', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      rsa3072: config.decodeBinary<List<int>?>(
+        json.valueAs('RSA_3072', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      ecdsa384: config.decodeBinary<List<int>?>(
+        json.valueAs('ECDSA_384', normalizeKeyLookup: config.normalizeKeys),
+      ),
       thresholdKey: json.valueTo<HederaThresholdKey?, Object>(
         key: 'thresholdKey',
-        parse: (v) => HederaThresholdKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaThresholdKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       keyList: json.valueTo<HederaKeyList?, Object>(
         key: 'keyList',
-        parse: (v) => HederaKeyList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      ecdsaSecp256k1: config.decodeBinary<List<int>?>(json.valueAs('ECDSA_secp256k1', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) =>
+                HederaKeyList.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      ecdsaSecp256k1: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'ECDSA_secp256k1',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
       delegatableContractId: json.valueTo<HederaContractID?, Object>(
         key: 'delegatable_contract_id',
-        parse: (v) => HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaKey.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaKey(
-      contractID: decode.messageTo<HederaContractID?>(1, (b) => HederaContractID.deserialize(b)),
+      contractID: decode.messageTo<HederaContractID?>(
+        1,
+        (b) => HederaContractID.deserialize(b),
+      ),
       ed25519: decode.getBytes<List<int>?>(2),
       rsa3072: decode.getBytes<List<int>?>(3),
       ecdsa384: decode.getBytes<List<int>?>(4),
-      thresholdKey: decode.messageTo<HederaThresholdKey?>(5, (b) => HederaThresholdKey.deserialize(b)),
-      keyList: decode.messageTo<HederaKeyList?>(6, (b) => HederaKeyList.deserialize(b)),
+      thresholdKey: decode.messageTo<HederaThresholdKey?>(
+        5,
+        (b) => HederaThresholdKey.deserialize(b),
+      ),
+      keyList: decode.messageTo<HederaKeyList?>(
+        6,
+        (b) => HederaKeyList.deserialize(b),
+      ),
       ecdsaSecp256k1: decode.getBytes<List<int>?>(7),
-      delegatableContractId: decode.messageTo<HederaContractID?>(8, (b) => HederaContractID.deserialize(b)),
+      delegatableContractId: decode.messageTo<HederaContractID?>(
+        8,
+        (b) => HederaContractID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoKey;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoKey;
 }
-
 
 /// *
 ///  * A threshold value and a list of public keys that, together, form a threshold
@@ -3271,19 +3773,16 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoKe
 ///  * &gt; threshold keys SHOULD be carefully audited to ensure no one `primitive`
 ///  * &gt; key, or smart contract, has disproportionate capability.
 class HederaThresholdKey extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A transaction MUST have valid signatures from at least this number of
   ///      * separate keys, from the `keys` list to be authorized by this key.
   final int? threshold;
 
-    /// *
+  /// *
   ///      * A list of the keys that MAY satisfy signature requirements of this key.
   final HederaKeyList? keys;
 
-  const HederaThresholdKey({
-    this.threshold,
-    this.keys,
-  });
+  const HederaThresholdKey({this.threshold, this.keys});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -3292,50 +3791,46 @@ class HederaThresholdKey extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint32(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.uint32(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        threshold,
-        keys,
-      ];
+  List<Object?> get protoValues => [threshold, keys];
 
-
-HederaThresholdKey copyWith(
-{int? threshold,
-
-HederaKeyList? keys,
-
-}) {
+  HederaThresholdKey copyWith({int? threshold, HederaKeyList? keys}) {
     return HederaThresholdKey(
-threshold: threshold ?? this.threshold,
-keys: keys ?? this.keys,
+      threshold: threshold ?? this.threshold,
+      keys: keys ?? this.keys,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'threshold': threshold,
-      'keys': config.encodeMessage(keys),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'threshold': threshold, 'keys': config.encodeMessage(keys)};
   }
 
-
-  factory HederaThresholdKey.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaThresholdKey.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaThresholdKey(
-      threshold: json.valueAsInt<int?>('threshold', normalizeKeyLookup: config.normalizeKeys),
+      threshold: json.valueAsInt<int?>(
+        'threshold',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       keys: json.valueTo<HederaKeyList?, Object>(
         key: 'keys',
-        parse: (v) => HederaKeyList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaKeyList.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -3343,15 +3838,17 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaThresholdKey(
       threshold: decode.getInt<int?>(1),
-      keys: decode.messageTo<HederaKeyList?>(2, (b) => HederaKeyList.deserialize(b)),
+      keys: decode.messageTo<HederaKeyList?>(
+        2,
+        (b) => HederaKeyList.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoThresholdKey;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoThresholdKey;
 }
-
 
 /// *
 ///  * A list of keys.&lt;br/&gt;
@@ -3367,14 +3864,12 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTh
 ///  *    functionality that requires an admin key to sign the
 ///  *    transaction is disabled.
 class HederaKeyList extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A list of keys. All values in this list SHALL be non-null.
   ///      * &lt;p&gt;
   final List<HederaKey> keys;
 
-  const HederaKeyList({
-    this.keys = const [],
-  });
+  const HederaKeyList({this.keys = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -3393,51 +3888,62 @@ class HederaKeyList extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        keys,
-      ];
+  List<Object?> get protoValues => [keys];
 
-
-HederaKeyList copyWith(
-{List<HederaKey>? keys,
-
-}) {
-    return HederaKeyList(
-keys: keys ?? this.keys,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'keys': keys.map((e) => config.encodeMessage(e)).toList(),
-    };
+  HederaKeyList copyWith({List<HederaKey>? keys}) {
+    return HederaKeyList(keys: keys ?? this.keys);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaKeyList.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'keys': keys.map((e) => config.encodeMessage(e)).toList()};
+  }
+
+  factory HederaKeyList.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaKeyList(
-      keys: (json.valueEnsureAsList<dynamic>('keys', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaKey, Object>(
-          value: e,
-          parse: (v) => HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      keys:
+          (json.valueEnsureAsList<dynamic>(
+                'keys',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaKey, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaKey.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaKeyList.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaKeyList(
-      keys: decode.getListOfBytes(1).map((b) => HederaKey.deserialize(b)).toList(),
+      keys:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaKey.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoKeyList;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoKeyList;
 }
-
 
 /// *
 ///  * This message is deprecated and MUST NOT be used to communicate with
@@ -3449,28 +3955,28 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoKe
 ///  * Please use the `SignaturePair` and `SignatureMap` messages instead of
 ///  * this message.
 class HederaSignature extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * Smart contract virtual signature (always length zero).
   final List<int>? contract;
 
-    /// *
+  /// *
   ///          * Ed25519 signature bytes.
   final List<int>? ed25519;
 
-    /// *
+  /// *
   ///          * RSA-3072 signature bytes.
   final List<int>? rsa3072;
 
-    /// *
+  /// *
   ///          * ECDSA p-384 signature bytes.
   final List<int>? ecdsa384;
 
-    /// *
+  /// *
   ///          * A list of signatures for a single N-of-M threshold Key. This must be
   ///          * a list of exactly M signatures, at least N of which are non-null.
   final HederaThresholdSignature? thresholdSignature;
 
-    /// *
+  /// *
   ///          * A list of M signatures, each corresponding to a Key in a KeyList
   ///          * of the same length.
   final HederaSignatureList? signatureList;
@@ -3504,43 +4010,44 @@ class HederaSignature extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        contract,
-        ed25519,
-        rsa3072,
-        ecdsa384,
-        thresholdSignature,
-        signatureList,
-      ];
+    contract,
+    ed25519,
+    rsa3072,
+    ecdsa384,
+    thresholdSignature,
+    signatureList,
+  ];
 
+  HederaSignature copyWith({
+    List<int>? contract,
 
-HederaSignature copyWith(
-{List<int>? contract,
+    List<int>? ed25519,
 
-List<int>? ed25519,
+    List<int>? rsa3072,
 
-List<int>? rsa3072,
+    List<int>? ecdsa384,
 
-List<int>? ecdsa384,
+    HederaThresholdSignature? thresholdSignature,
 
-HederaThresholdSignature? thresholdSignature,
-
-HederaSignatureList? signatureList,
-
-}) {
+    HederaSignatureList? signatureList,
+  }) {
     return HederaSignature(
-contract: contract ?? this.contract,
-ed25519: ed25519 ?? this.ed25519,
-rsa3072: rsa3072 ?? this.rsa3072,
-ecdsa384: ecdsa384 ?? this.ecdsa384,
-thresholdSignature: thresholdSignature ?? this.thresholdSignature,
-signatureList: signatureList ?? this.signatureList,
+      contract: contract ?? this.contract,
+      ed25519: ed25519 ?? this.ed25519,
+      rsa3072: rsa3072 ?? this.rsa3072,
+      ecdsa384: ecdsa384 ?? this.ecdsa384,
+      thresholdSignature: thresholdSignature ?? this.thresholdSignature,
+      signatureList: signatureList ?? this.signatureList,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'contract': config.encodeBinary(contract),
       'ed25519': config.encodeBinary(ed25519),
@@ -3551,21 +4058,41 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaSignature.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSignature.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSignature(
-      contract: config.decodeBinary<List<int>?>(json.valueAs('contract', normalizeKeyLookup: config.normalizeKeys)),
-      ed25519: config.decodeBinary<List<int>?>(json.valueAs('ed25519', normalizeKeyLookup: config.normalizeKeys)),
-      rsa3072: config.decodeBinary<List<int>?>(json.valueAs('RSA_3072', normalizeKeyLookup: config.normalizeKeys)),
-      ecdsa384: config.decodeBinary<List<int>?>(json.valueAs('ECDSA_384', normalizeKeyLookup: config.normalizeKeys)),
+      contract: config.decodeBinary<List<int>?>(
+        json.valueAs('contract', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      ed25519: config.decodeBinary<List<int>?>(
+        json.valueAs('ed25519', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      rsa3072: config.decodeBinary<List<int>?>(
+        json.valueAs('RSA_3072', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      ecdsa384: config.decodeBinary<List<int>?>(
+        json.valueAs('ECDSA_384', normalizeKeyLookup: config.normalizeKeys),
+      ),
       thresholdSignature: json.valueTo<HederaThresholdSignature?, Object>(
         key: 'thresholdSignature',
-        parse: (v) => HederaThresholdSignature.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaThresholdSignature.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       signatureList: json.valueTo<HederaSignatureList?, Object>(
         key: 'signatureList',
-        parse: (v) => HederaSignatureList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaSignatureList.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -3576,16 +4103,21 @@ List<dynamic> get variables => protoValues;
       ed25519: decode.getBytes<List<int>?>(2),
       rsa3072: decode.getBytes<List<int>?>(3),
       ecdsa384: decode.getBytes<List<int>?>(4),
-      thresholdSignature: decode.messageTo<HederaThresholdSignature?>(5, (b) => HederaThresholdSignature.deserialize(b)),
-      signatureList: decode.messageTo<HederaSignatureList?>(6, (b) => HederaSignatureList.deserialize(b)),
+      thresholdSignature: decode.messageTo<HederaThresholdSignature?>(
+        5,
+        (b) => HederaThresholdSignature.deserialize(b),
+      ),
+      signatureList: decode.messageTo<HederaSignatureList?>(
+        6,
+        (b) => HederaSignatureList.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSignature;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSignature;
 }
-
 
 /// *
 ///  * This message is deprecated and MUST NOT be used to communicate with network
@@ -3597,14 +4129,12 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSi
 ///  * Please use the `SignaturePair` and `SignatureMap` messages, in combination
 ///  * with `ThresholdKey` keys, instead of this message.
 class HederaThresholdSignature extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * For an N-of-M threshold key, this is a list of M signatures, at least N
   ///      * of which must be non-null.
   final HederaSignatureList? sigs;
 
-  const HederaThresholdSignature({
-    this.sigs,
-  });
+  const HederaThresholdSignature({this.sigs});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -3613,58 +4143,58 @@ class HederaThresholdSignature extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: [ProtoOptionBool(name: "deprecated", value: true)],
-      fields: [
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        sigs,
-      ];
+  List<Object?> get protoValues => [sigs];
 
-
-HederaThresholdSignature copyWith(
-{HederaSignatureList? sigs,
-
-}) {
-    return HederaThresholdSignature(
-sigs: sigs ?? this.sigs,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'sigs': config.encodeMessage(sigs),
-    };
+  HederaThresholdSignature copyWith({HederaSignatureList? sigs}) {
+    return HederaThresholdSignature(sigs: sigs ?? this.sigs);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaThresholdSignature.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'sigs': config.encodeMessage(sigs)};
+  }
+
+  factory HederaThresholdSignature.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaThresholdSignature(
       sigs: json.valueTo<HederaSignatureList?, Object>(
         key: 'sigs',
-        parse: (v) => HederaSignatureList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaSignatureList.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaThresholdSignature.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaThresholdSignature(
-      sigs: decode.messageTo<HederaSignatureList?>(2, (b) => HederaSignatureList.deserialize(b)),
+      sigs: decode.messageTo<HederaSignatureList?>(
+        2,
+        (b) => HederaSignatureList.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoThresholdSignature;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoThresholdSignature;
 }
-
 
 /// *
 ///  * This message is deprecated and MUST NOT be used to communicate with network
@@ -3676,13 +4206,11 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTh
 ///  * Please use the `SignaturePair` and `SignatureMap` messages instead of
 ///  * this message.
 class HederaSignatureList extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Each signature corresponds to a Key in the KeyList.
   final List<HederaSignature> sigs;
 
-  const HederaSignatureList({
-    this.sigs = const [],
-  });
+  const HederaSignatureList({this.sigs = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -3701,58 +4229,69 @@ class HederaSignatureList extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        sigs,
-      ];
+  List<Object?> get protoValues => [sigs];
 
-
-HederaSignatureList copyWith(
-{List<HederaSignature>? sigs,
-
-}) {
-    return HederaSignatureList(
-sigs: sigs ?? this.sigs,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'sigs': sigs.map((e) => config.encodeMessage(e)).toList(),
-    };
+  HederaSignatureList copyWith({List<HederaSignature>? sigs}) {
+    return HederaSignatureList(sigs: sigs ?? this.sigs);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaSignatureList.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'sigs': sigs.map((e) => config.encodeMessage(e)).toList()};
+  }
+
+  factory HederaSignatureList.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSignatureList(
-      sigs: (json.valueEnsureAsList<dynamic>('sigs', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaSignature, Object>(
-          value: e,
-          parse: (v) => HederaSignature.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      sigs:
+          (json.valueEnsureAsList<dynamic>(
+                'sigs',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaSignature, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaSignature.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaSignatureList.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSignatureList(
-      sigs: decode.getListOfBytes(2).map((b) => HederaSignature.deserialize(b)).toList(),
+      sigs:
+          decode
+              .getListOfBytes(2)
+              .map((b) => HederaSignature.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSignatureList;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSignatureList;
 }
-
 
 /// *
 ///  * A public key and signature pair.&lt;br/&gt;
 ///  * Only Ed25519 and ECDSA(secp256k1) keys and signatures are currently supported
 ///  * as cryptographic (non-implied) signatures.
 class HederaSignaturePair extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Prefix bytes of the public key.
   ///      * &lt;p&gt;
   ///      * The client may use any number of bytes from zero to the whole length of
@@ -3784,27 +4323,27 @@ class HederaSignaturePair extends HederaProtoMessage with Equality {
   ///      * &lt;/dd&gt;&lt;/dl&gt;
   final List<int>? pubKeyPrefix;
 
-    /// *
+  /// *
   ///          * A smart contract virtual signature.
   ///          * &lt;p&gt;
   ///          * This value MUST be length zero, if set.
   final List<int>? contract;
 
-    /// *
+  /// *
   ///          * An Ed25519 signature.
   final List<int>? ed25519;
 
-    /// *
+  /// *
   ///          * This option is not supported.&lt;br/&gt;
   ///          * A RSA-3072 signature.
   final List<int>? rsa3072;
 
-    /// *
+  /// *
   ///          * This option is not supported.&lt;br/&gt;
   ///          * ECDSA p-384 signature.
   final List<int>? ecdsa384;
 
-    /// *
+  /// *
   ///          * An ECDSA(secp256k1) signature.
   final List<int>? ecdsaSecp256k1;
 
@@ -3828,8 +4367,14 @@ class HederaSignaturePair extends HederaProtoMessage with Equality {
         ProtoFieldConfig.bytes(1),
         ProtoFieldConfig.bytes(2),
         ProtoFieldConfig.bytes(3),
-        ProtoFieldConfig.bytes(4, options: [ProtoOptionBool(name: "deprecated", value: true)]),
-        ProtoFieldConfig.bytes(5, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.bytes(
+          4,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
+        ProtoFieldConfig.bytes(
+          5,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
         ProtoFieldConfig.bytes(6),
       ],
     );
@@ -3837,43 +4382,44 @@ class HederaSignaturePair extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        pubKeyPrefix,
-        contract,
-        ed25519,
-        rsa3072,
-        ecdsa384,
-        ecdsaSecp256k1,
-      ];
+    pubKeyPrefix,
+    contract,
+    ed25519,
+    rsa3072,
+    ecdsa384,
+    ecdsaSecp256k1,
+  ];
 
+  HederaSignaturePair copyWith({
+    List<int>? pubKeyPrefix,
 
-HederaSignaturePair copyWith(
-{List<int>? pubKeyPrefix,
+    List<int>? contract,
 
-List<int>? contract,
+    List<int>? ed25519,
 
-List<int>? ed25519,
+    List<int>? rsa3072,
 
-List<int>? rsa3072,
+    List<int>? ecdsa384,
 
-List<int>? ecdsa384,
-
-List<int>? ecdsaSecp256k1,
-
-}) {
+    List<int>? ecdsaSecp256k1,
+  }) {
     return HederaSignaturePair(
-pubKeyPrefix: pubKeyPrefix ?? this.pubKeyPrefix,
-contract: contract ?? this.contract,
-ed25519: ed25519 ?? this.ed25519,
-rsa3072: rsa3072 ?? this.rsa3072,
-ecdsa384: ecdsa384 ?? this.ecdsa384,
-ecdsaSecp256k1: ecdsaSecp256k1 ?? this.ecdsaSecp256k1,
+      pubKeyPrefix: pubKeyPrefix ?? this.pubKeyPrefix,
+      contract: contract ?? this.contract,
+      ed25519: ed25519 ?? this.ed25519,
+      rsa3072: rsa3072 ?? this.rsa3072,
+      ecdsa384: ecdsa384 ?? this.ecdsa384,
+      ecdsaSecp256k1: ecdsaSecp256k1 ?? this.ecdsaSecp256k1,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'pubKeyPrefix': config.encodeBinary(pubKeyPrefix),
       'contract': config.encodeBinary(contract),
@@ -3884,15 +4430,32 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaSignaturePair.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSignaturePair.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSignaturePair(
-      pubKeyPrefix: config.decodeBinary<List<int>?>(json.valueAs('pubKeyPrefix', normalizeKeyLookup: config.normalizeKeys)),
-      contract: config.decodeBinary<List<int>?>(json.valueAs('contract', normalizeKeyLookup: config.normalizeKeys)),
-      ed25519: config.decodeBinary<List<int>?>(json.valueAs('ed25519', normalizeKeyLookup: config.normalizeKeys)),
-      rsa3072: config.decodeBinary<List<int>?>(json.valueAs('RSA_3072', normalizeKeyLookup: config.normalizeKeys)),
-      ecdsa384: config.decodeBinary<List<int>?>(json.valueAs('ECDSA_384', normalizeKeyLookup: config.normalizeKeys)),
-      ecdsaSecp256k1: config.decodeBinary<List<int>?>(json.valueAs('ECDSA_secp256k1', normalizeKeyLookup: config.normalizeKeys)),
+      pubKeyPrefix: config.decodeBinary<List<int>?>(
+        json.valueAs('pubKeyPrefix', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      contract: config.decodeBinary<List<int>?>(
+        json.valueAs('contract', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      ed25519: config.decodeBinary<List<int>?>(
+        json.valueAs('ed25519', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      rsa3072: config.decodeBinary<List<int>?>(
+        json.valueAs('RSA_3072', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      ecdsa384: config.decodeBinary<List<int>?>(
+        json.valueAs('ECDSA_384', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      ecdsaSecp256k1: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'ECDSA_secp256k1',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -3909,10 +4472,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSignaturePair;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSignaturePair;
 }
-
 
 /// *
 ///  * A set of signatures corresponding to every unique public key that
@@ -3922,16 +4484,14 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSi
 ///  * the transaction containing that map SHALL fail immediately with the
 ///  * response code `KEY_PREFIX_MISMATCH`.
 class HederaSignatureMap extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A list of signature pairs for a specific transaction.&lt;br/&gt;
   ///      * Each signature pair represents a single cryptographic (`primitive`)
   ///      * public key identified by a "prefix" value and the cryptographic
   ///      * signature produced for that key.
   final List<HederaSignaturePair> sigPair;
 
-  const HederaSignatureMap({
-    this.sigPair = const [],
-  });
+  const HederaSignatureMap({this.sigPair = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -3950,51 +4510,62 @@ class HederaSignatureMap extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        sigPair,
-      ];
+  List<Object?> get protoValues => [sigPair];
 
-
-HederaSignatureMap copyWith(
-{List<HederaSignaturePair>? sigPair,
-
-}) {
-    return HederaSignatureMap(
-sigPair: sigPair ?? this.sigPair,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'sigPair': sigPair.map((e) => config.encodeMessage(e)).toList(),
-    };
+  HederaSignatureMap copyWith({List<HederaSignaturePair>? sigPair}) {
+    return HederaSignatureMap(sigPair: sigPair ?? this.sigPair);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaSignatureMap.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'sigPair': sigPair.map((e) => config.encodeMessage(e)).toList()};
+  }
+
+  factory HederaSignatureMap.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSignatureMap(
-      sigPair: (json.valueEnsureAsList<dynamic>('sigPair', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaSignaturePair, Object>(
-          value: e,
-          parse: (v) => HederaSignaturePair.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      sigPair:
+          (json.valueEnsureAsList<dynamic>(
+                'sigPair',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaSignaturePair, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaSignaturePair.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaSignatureMap.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSignatureMap(
-      sigPair: decode.getListOfBytes(1).map((b) => HederaSignaturePair.deserialize(b)).toList(),
+      sigPair:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaSignaturePair.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSignatureMap;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSignatureMap;
 }
-
 
 /// *
 ///  * A set of values the nodes use in determining transaction and query fees, and
@@ -4012,63 +4583,63 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSi
 ///  * Amounts recorded here MUST be converted to tinybar according to the
 ///  * current active `ExchangeRate` for the network.
 class HederaFeeComponents extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Base: "minimum total fee".
   ///      * &lt;p&gt;
   ///      * The calculated fee MUST be greater than this value.
   final BigInt? min;
 
-    /// *
+  /// *
   ///      * Base: "maximum total fee".
   ///      * &lt;p&gt;
   ///      * The calculated fee MUST be less than this value.
   final BigInt? max;
 
-    /// *
+  /// *
   ///      * Base: "constant fee".&lt;br/&gt;
   ///      * A baseline constant contribution to total fee.
   final BigInt? constant;
 
-    /// *
+  /// *
   ///      * Bandwidth: "bytes per transaction".&lt;br/&gt;
   ///      * The fee for bandwidth consumed by a transaction, measured in bytes
   final BigInt? bpt;
 
-    /// *
+  /// *
   ///      * Signatures: "validations per transaction".&lt;br/&gt;
   ///      * The fee for signature verifications required by a transaction
   final BigInt? vpt;
 
-    /// *
+  /// *
   ///      * Memory: "RAM byte-hours".&lt;br/&gt;
   ///      * The fee for RAM required to process a transaction,
   ///      * measured in byte-hours
   final BigInt? rbh;
 
-    /// *
+  /// *
   ///      * Disk: "storage byte-hours".&lt;br/&gt;
   ///      * The fee for storage required by a transaction, measured in byte-hours
   final BigInt? sbh;
 
-    /// *
+  /// *
   ///      * Compute: Ethereum term for a derivative EVM compute resource.&lt;br/&gt;
   ///      * The fee of computation for a smart contract transaction. The value of
   ///      * gas is set by a conversion rate, and is regularly updated to reflect
   ///      * reasonable and customary costs.
   final BigInt? gas;
 
-    /// *
+  /// *
   ///      * Ad valorem: "transferred value".&lt;br/&gt;
   ///      * The fee for HBAR transferred by a transaction.
   final BigInt? tv;
 
-    /// *
+  /// *
   ///      * Response memory: "bytes per response".&lt;br/&gt;
   ///      * The fee for data retrieved from memory to deliver a response,
   ///      * measured in bytes
   final BigInt? bpr;
 
-    /// *
+  /// *
   ///      * Response disk: "storage bytes per response".&lt;br/&gt;
   ///      * The fee for data retrieved from disk to deliver a response,
   ///      * measured in bytes
@@ -4113,63 +4684,64 @@ class HederaFeeComponents extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        min,
-        max,
-        constant,
-        bpt,
-        vpt,
-        rbh,
-        sbh,
-        gas,
-        tv,
-        bpr,
-        sbpr,
-      ];
+    min,
+    max,
+    constant,
+    bpt,
+    vpt,
+    rbh,
+    sbh,
+    gas,
+    tv,
+    bpr,
+    sbpr,
+  ];
 
+  HederaFeeComponents copyWith({
+    BigInt? min,
 
-HederaFeeComponents copyWith(
-{BigInt? min,
+    BigInt? max,
 
-BigInt? max,
+    BigInt? constant,
 
-BigInt? constant,
+    BigInt? bpt,
 
-BigInt? bpt,
+    BigInt? vpt,
 
-BigInt? vpt,
+    BigInt? rbh,
 
-BigInt? rbh,
+    BigInt? sbh,
 
-BigInt? sbh,
+    BigInt? gas,
 
-BigInt? gas,
+    BigInt? tv,
 
-BigInt? tv,
+    BigInt? bpr,
 
-BigInt? bpr,
-
-BigInt? sbpr,
-
-}) {
+    BigInt? sbpr,
+  }) {
     return HederaFeeComponents(
-min: min ?? this.min,
-max: max ?? this.max,
-constant: constant ?? this.constant,
-bpt: bpt ?? this.bpt,
-vpt: vpt ?? this.vpt,
-rbh: rbh ?? this.rbh,
-sbh: sbh ?? this.sbh,
-gas: gas ?? this.gas,
-tv: tv ?? this.tv,
-bpr: bpr ?? this.bpr,
-sbpr: sbpr ?? this.sbpr,
+      min: min ?? this.min,
+      max: max ?? this.max,
+      constant: constant ?? this.constant,
+      bpt: bpt ?? this.bpt,
+      vpt: vpt ?? this.vpt,
+      rbh: rbh ?? this.rbh,
+      sbh: sbh ?? this.sbh,
+      gas: gas ?? this.gas,
+      tv: tv ?? this.tv,
+      bpr: bpr ?? this.bpr,
+      sbpr: sbpr ?? this.sbpr,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'min': config.encodeBigint(min),
       'max': config.encodeBigint(max),
@@ -4185,20 +4757,55 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaFeeComponents.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFeeComponents.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFeeComponents(
-      min: json.valueAsBigInt<BigInt?>('min', normalizeKeyLookup: config.normalizeKeys),
-      max: json.valueAsBigInt<BigInt?>('max', normalizeKeyLookup: config.normalizeKeys),
-      constant: json.valueAsBigInt<BigInt?>('constant', normalizeKeyLookup: config.normalizeKeys),
-      bpt: json.valueAsBigInt<BigInt?>('bpt', normalizeKeyLookup: config.normalizeKeys),
-      vpt: json.valueAsBigInt<BigInt?>('vpt', normalizeKeyLookup: config.normalizeKeys),
-      rbh: json.valueAsBigInt<BigInt?>('rbh', normalizeKeyLookup: config.normalizeKeys),
-      sbh: json.valueAsBigInt<BigInt?>('sbh', normalizeKeyLookup: config.normalizeKeys),
-      gas: json.valueAsBigInt<BigInt?>('gas', normalizeKeyLookup: config.normalizeKeys),
-      tv: json.valueAsBigInt<BigInt?>('tv', normalizeKeyLookup: config.normalizeKeys),
-      bpr: json.valueAsBigInt<BigInt?>('bpr', normalizeKeyLookup: config.normalizeKeys),
-      sbpr: json.valueAsBigInt<BigInt?>('sbpr', normalizeKeyLookup: config.normalizeKeys),
+      min: json.valueAsBigInt<BigInt?>(
+        'min',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      max: json.valueAsBigInt<BigInt?>(
+        'max',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      constant: json.valueAsBigInt<BigInt?>(
+        'constant',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      bpt: json.valueAsBigInt<BigInt?>(
+        'bpt',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      vpt: json.valueAsBigInt<BigInt?>(
+        'vpt',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      rbh: json.valueAsBigInt<BigInt?>(
+        'rbh',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      sbh: json.valueAsBigInt<BigInt?>(
+        'sbh',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      gas: json.valueAsBigInt<BigInt?>(
+        'gas',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      tv: json.valueAsBigInt<BigInt?>(
+        'tv',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      bpr: json.valueAsBigInt<BigInt?>(
+        'bpr',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      sbpr: json.valueAsBigInt<BigInt?>(
+        'sbpr',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -4220,25 +4827,24 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFeeComponents;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFeeComponents;
 }
-
 
 /// *
 ///  * The fee schedule for a specific transaction or query based on the fee data.
 class HederaTransactionFeeSchedule extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An enumeration for a particular transaction or query.&lt;br/&gt;
   ///      * The functionality type determines the base cost parameters.
   final HederaHederaFunctionality? hederaFunctionality;
 
-    /// *
+  /// *
   ///      * Use `fees` instead of this field.&lt;br/&gt;
   ///      * Resource price coefficients.
   final HederaFeeData? feeData;
 
-    /// *
+  /// *
   ///      * The resource price coefficients for transaction type and any applicable
   ///      * subtypes.&lt;br/&gt;
   ///      * The multiple entries enable support for subtype price definitions.
@@ -4259,7 +4865,10 @@ class HederaTransactionFeeSchedule extends HederaProtoMessage with Equality {
       options: const [],
       fields: [
         ProtoFieldConfig.enumType(1),
-        ProtoFieldConfig.message(2, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.message(
+          2,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
         ProtoFieldConfig.repeated(
           fieldNumber: 3,
           elementType: ProtoFieldType.message,
@@ -4269,32 +4878,29 @@ class HederaTransactionFeeSchedule extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        hederaFunctionality,
-        feeData,
-        fees,
-      ];
+  List<Object?> get protoValues => [hederaFunctionality, feeData, fees];
 
+  HederaTransactionFeeSchedule copyWith({
+    HederaHederaFunctionality? hederaFunctionality,
 
-HederaTransactionFeeSchedule copyWith(
-{HederaHederaFunctionality? hederaFunctionality,
+    HederaFeeData? feeData,
 
-HederaFeeData? feeData,
-
-List<HederaFeeData>? fees,
-
-}) {
+    List<HederaFeeData>? fees,
+  }) {
     return HederaTransactionFeeSchedule(
-hederaFunctionality: hederaFunctionality ?? this.hederaFunctionality,
-feeData: feeData ?? this.feeData,
-fees: fees ?? this.fees,
+      hederaFunctionality: hederaFunctionality ?? this.hederaFunctionality,
+      feeData: feeData ?? this.feeData,
+      fees: fees ?? this.fees,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'hederaFunctionality': config.encodeEnum(hederaFunctionality),
       'feeData': config.encodeMessage(feeData),
@@ -4302,8 +4908,10 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTransactionFeeSchedule.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTransactionFeeSchedule.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTransactionFeeSchedule(
       hederaFunctionality: json.valueTo<HederaHederaFunctionality?, Object?>(
         key: 'hederaFunctionality',
@@ -4311,29 +4919,54 @@ List<dynamic> get variables => protoValues;
       ),
       feeData: json.valueTo<HederaFeeData?, Object>(
         key: 'feeData',
-        parse: (v) => HederaFeeData.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      fees: (json.valueEnsureAsList<dynamic>('fees', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaFeeData, Object>(
-          value: e,
-          parse: (v) => HederaFeeData.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) =>
+                HederaFeeData.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      fees:
+          (json.valueEnsureAsList<dynamic>(
+                'fees',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaFeeData, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaFeeData.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTransactionFeeSchedule.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTransactionFeeSchedule(
-      hederaFunctionality: decode.getEnum<HederaHederaFunctionality?>(1, HederaHederaFunctionality.values),
-      feeData: decode.messageTo<HederaFeeData?>(2, (b) => HederaFeeData.deserialize(b)),
-      fees: decode.getListOfBytes(3).map((b) => HederaFeeData.deserialize(b)).toList(),
+      hederaFunctionality: decode.getEnum<HederaHederaFunctionality?>(
+        1,
+        HederaHederaFunctionality.values,
+      ),
+      feeData: decode.messageTo<HederaFeeData?>(
+        2,
+        (b) => HederaFeeData.deserialize(b),
+      ),
+      fees:
+          decode
+              .getListOfBytes(3)
+              .map((b) => HederaFeeData.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTransactionFeeSchedule;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTransactionFeeSchedule;
 }
-
 
 /// *
 ///  * A total fee, in component amounts charged for a transaction.
@@ -4351,22 +4984,22 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTr
 ///  * exchange rate converts these to tinybar amounts, which are what the network
 ///  * charges for transactions and what the network reports in the record stream.
 class HederaFeeData extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Fee components to be paid to the submitting node.
   final HederaFeeComponents? nodedata;
 
-    /// *
+  /// *
   ///      * Fee components to be paid to the network for bringing a
   ///      * transaction to consensus.
   final HederaFeeComponents? networkdata;
 
-    /// *
+  /// *
   ///      * Fee components to be paid to the network for providing the immediate and
   ///      * ongoing services associated with executing the transaction, maintaining
   ///      * the network, and developing the network software.
   final HederaFeeComponents? servicedata;
 
-    /// *
+  /// *
   ///      * A sub-type distinguishing between different types of `FeeData` that may
   ///      * apply to the same base transaction type (associated with
   ///      * an `HederaFunctionality`).
@@ -4397,35 +5030,36 @@ class HederaFeeData extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        nodedata,
-        networkdata,
-        servicedata,
-        subType,
-      ];
+    nodedata,
+    networkdata,
+    servicedata,
+    subType,
+  ];
 
+  HederaFeeData copyWith({
+    HederaFeeComponents? nodedata,
 
-HederaFeeData copyWith(
-{HederaFeeComponents? nodedata,
+    HederaFeeComponents? networkdata,
 
-HederaFeeComponents? networkdata,
+    HederaFeeComponents? servicedata,
 
-HederaFeeComponents? servicedata,
-
-HederaSubType? subType,
-
-}) {
+    HederaSubType? subType,
+  }) {
     return HederaFeeData(
-nodedata: nodedata ?? this.nodedata,
-networkdata: networkdata ?? this.networkdata,
-servicedata: servicedata ?? this.servicedata,
-subType: subType ?? this.subType,
+      nodedata: nodedata ?? this.nodedata,
+      networkdata: networkdata ?? this.networkdata,
+      servicedata: servicedata ?? this.servicedata,
+      subType: subType ?? this.subType,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'nodedata': config.encodeMessage(nodedata),
       'networkdata': config.encodeMessage(networkdata),
@@ -4434,21 +5068,38 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaFeeData.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFeeData.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFeeData(
       nodedata: json.valueTo<HederaFeeComponents?, Object>(
         key: 'nodedata',
-        parse: (v) => HederaFeeComponents.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaFeeComponents.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       networkdata: json.valueTo<HederaFeeComponents?, Object>(
         key: 'networkdata',
-        parse: (v) => HederaFeeComponents.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaFeeComponents.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       servicedata: json.valueTo<HederaFeeComponents?, Object>(
         key: 'servicedata',
-        parse: (v) => HederaFeeComponents.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaFeeComponents.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       subType: json.valueTo<HederaSubType?, Object?>(
         key: 'subType',
         parse: (v) => HederaSubType.from(v),
@@ -4459,18 +5110,26 @@ List<dynamic> get variables => protoValues;
   factory HederaFeeData.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaFeeData(
-      nodedata: decode.messageTo<HederaFeeComponents?>(1, (b) => HederaFeeComponents.deserialize(b)),
-      networkdata: decode.messageTo<HederaFeeComponents?>(2, (b) => HederaFeeComponents.deserialize(b)),
-      servicedata: decode.messageTo<HederaFeeComponents?>(3, (b) => HederaFeeComponents.deserialize(b)),
+      nodedata: decode.messageTo<HederaFeeComponents?>(
+        1,
+        (b) => HederaFeeComponents.deserialize(b),
+      ),
+      networkdata: decode.messageTo<HederaFeeComponents?>(
+        2,
+        (b) => HederaFeeComponents.deserialize(b),
+      ),
+      servicedata: decode.messageTo<HederaFeeComponents?>(
+        3,
+        (b) => HederaFeeComponents.deserialize(b),
+      ),
       subType: decode.getEnum<HederaSubType?>(4, HederaSubType.values),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFeeData;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFeeData;
 }
-
 
 /// *
 ///  * A set of fee schedules covering all transaction types and query types, along
@@ -4480,11 +5139,11 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFe
 ///  * for all transactions based on various resource components imputed to each
 ///  * transaction.
 class HederaFeeSchedule extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Sets of fee coefficients for various transaction or query types.
   final List<HederaTransactionFeeSchedule> transactionFeeSchedule;
 
-    /// *
+  /// *
   ///      * A time, in seconds since the `epoch`, when this fee schedule
   ///      * will expire.
   ///      * &lt;p&gt;
@@ -4515,61 +5174,87 @@ class HederaFeeSchedule extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        transactionFeeSchedule,
-        expiryTime,
-      ];
+  List<Object?> get protoValues => [transactionFeeSchedule, expiryTime];
 
+  HederaFeeSchedule copyWith({
+    List<HederaTransactionFeeSchedule>? transactionFeeSchedule,
 
-HederaFeeSchedule copyWith(
-{List<HederaTransactionFeeSchedule>? transactionFeeSchedule,
-
-proto_timestamp.HederaTimestampSeconds? expiryTime,
-
-}) {
+    proto_timestamp.HederaTimestampSeconds? expiryTime,
+  }) {
     return HederaFeeSchedule(
-transactionFeeSchedule: transactionFeeSchedule ?? this.transactionFeeSchedule,
-expiryTime: expiryTime ?? this.expiryTime,
+      transactionFeeSchedule:
+          transactionFeeSchedule ?? this.transactionFeeSchedule,
+      expiryTime: expiryTime ?? this.expiryTime,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'transactionFeeSchedule': transactionFeeSchedule.map((e) => config.encodeMessage(e)).toList(),
+      'transactionFeeSchedule':
+          transactionFeeSchedule.map((e) => config.encodeMessage(e)).toList(),
       'expiryTime': config.encodeMessage(expiryTime),
     };
   }
 
-
-  factory HederaFeeSchedule.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFeeSchedule.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFeeSchedule(
-      transactionFeeSchedule: (json.valueEnsureAsList<dynamic>('transactionFeeSchedule', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaTransactionFeeSchedule, Object>(
-          value: e,
-          parse: (v) => HederaTransactionFeeSchedule.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      transactionFeeSchedule:
+          (json.valueEnsureAsList<dynamic>(
+                'transactionFeeSchedule',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaTransactionFeeSchedule, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaTransactionFeeSchedule.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
       expiryTime: json.valueTo<proto_timestamp.HederaTimestampSeconds?, Object>(
         key: 'expiryTime',
-        parse: (v) => proto_timestamp.HederaTimestampSeconds.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_timestamp.HederaTimestampSeconds.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaFeeSchedule.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaFeeSchedule(
-      transactionFeeSchedule: decode.getListOfBytes(1).map((b) => HederaTransactionFeeSchedule.deserialize(b)).toList(),
-      expiryTime: decode.messageTo<proto_timestamp.HederaTimestampSeconds?>(2, (b) => proto_timestamp.HederaTimestampSeconds.deserialize(b)),
+      transactionFeeSchedule:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaTransactionFeeSchedule.deserialize(b))
+              .toList(),
+      expiryTime: decode.messageTo<proto_timestamp.HederaTimestampSeconds?>(
+        2,
+        (b) => proto_timestamp.HederaTimestampSeconds.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFeeSchedule;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFeeSchedule;
 }
-
 
 /// *
 ///  * The "current" fee schedule and the "next" fee schedule.
@@ -4584,11 +5269,11 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFe
 ///  * can deterministically apply the correct fee schedule based on consensus
 ///  * timestamp for each transaction.
 class HederaCurrentAndNextFeeSchedule extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A current, unexpired, fee schedule.
   final HederaFeeSchedule? currentFeeSchedule;
 
-    /// *
+  /// *
   ///      * A future fee schedule to use when the current schedule expires.
   final HederaFeeSchedule? nextFeeSchedule;
 
@@ -4604,69 +5289,81 @@ class HederaCurrentAndNextFeeSchedule extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        currentFeeSchedule,
-        nextFeeSchedule,
-      ];
+  List<Object?> get protoValues => [currentFeeSchedule, nextFeeSchedule];
 
+  HederaCurrentAndNextFeeSchedule copyWith({
+    HederaFeeSchedule? currentFeeSchedule,
 
-HederaCurrentAndNextFeeSchedule copyWith(
-{HederaFeeSchedule? currentFeeSchedule,
-
-HederaFeeSchedule? nextFeeSchedule,
-
-}) {
+    HederaFeeSchedule? nextFeeSchedule,
+  }) {
     return HederaCurrentAndNextFeeSchedule(
-currentFeeSchedule: currentFeeSchedule ?? this.currentFeeSchedule,
-nextFeeSchedule: nextFeeSchedule ?? this.nextFeeSchedule,
+      currentFeeSchedule: currentFeeSchedule ?? this.currentFeeSchedule,
+      nextFeeSchedule: nextFeeSchedule ?? this.nextFeeSchedule,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'currentFeeSchedule': config.encodeMessage(currentFeeSchedule),
       'nextFeeSchedule': config.encodeMessage(nextFeeSchedule),
     };
   }
 
-
-  factory HederaCurrentAndNextFeeSchedule.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCurrentAndNextFeeSchedule.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCurrentAndNextFeeSchedule(
       currentFeeSchedule: json.valueTo<HederaFeeSchedule?, Object>(
         key: 'currentFeeSchedule',
-        parse: (v) => HederaFeeSchedule.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaFeeSchedule.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       nextFeeSchedule: json.valueTo<HederaFeeSchedule?, Object>(
         key: 'nextFeeSchedule',
-        parse: (v) => HederaFeeSchedule.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaFeeSchedule.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaCurrentAndNextFeeSchedule.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCurrentAndNextFeeSchedule(
-      currentFeeSchedule: decode.messageTo<HederaFeeSchedule?>(1, (b) => HederaFeeSchedule.deserialize(b)),
-      nextFeeSchedule: decode.messageTo<HederaFeeSchedule?>(2, (b) => HederaFeeSchedule.deserialize(b)),
+      currentFeeSchedule: decode.messageTo<HederaFeeSchedule?>(
+        1,
+        (b) => HederaFeeSchedule.deserialize(b),
+      ),
+      nextFeeSchedule: decode.messageTo<HederaFeeSchedule?>(
+        2,
+        (b) => HederaFeeSchedule.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCurrentAndNextFeeSchedule;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCurrentAndNextFeeSchedule;
 }
-
 
 /// *
 ///  * A network node endpoint.&lt;br/&gt;
@@ -4683,20 +5380,20 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCu
 ///  * When the `ipAddressV4` field is set, the `domain_name` field
 ///  * MUST NOT be set.
 class HederaServiceEndpoint extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A 32-bit IPv4 address.&lt;br/&gt;
   ///      * This is the address of the endpoint, encoded in pure "big-endian"
   ///      * (i.e. left to right) order (e.g. `127.0.0.1` has hex bytes in the
   ///      * order `7F`, `00`, `00`, `01`).
   final List<int>? ipAddressV4;
 
-    /// *
+  /// *
   ///      * A TCP port to use.
   ///      * &lt;p&gt;
   ///      * This value MUST be between 0 and 65535, inclusive.
   final int? port;
 
-    /// *
+  /// *
   ///      * A node domain name.
   ///      * &lt;p&gt;
   ///      * This MUST be the fully qualified domain name of the node.&lt;br/&gt;
@@ -4707,11 +5404,7 @@ class HederaServiceEndpoint extends HederaProtoMessage with Equality {
   ///      * field MUST NOT be set.
   final String? domainName;
 
-  const HederaServiceEndpoint({
-    this.ipAddressV4,
-    this.port,
-    this.domainName,
-  });
+  const HederaServiceEndpoint({this.ipAddressV4, this.port, this.domainName});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -4729,32 +5422,29 @@ class HederaServiceEndpoint extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        ipAddressV4,
-        port,
-        domainName,
-      ];
+  List<Object?> get protoValues => [ipAddressV4, port, domainName];
 
+  HederaServiceEndpoint copyWith({
+    List<int>? ipAddressV4,
 
-HederaServiceEndpoint copyWith(
-{List<int>? ipAddressV4,
+    int? port,
 
-int? port,
-
-String? domainName,
-
-}) {
+    String? domainName,
+  }) {
     return HederaServiceEndpoint(
-ipAddressV4: ipAddressV4 ?? this.ipAddressV4,
-port: port ?? this.port,
-domainName: domainName ?? this.domainName,
+      ipAddressV4: ipAddressV4 ?? this.ipAddressV4,
+      port: port ?? this.port,
+      domainName: domainName ?? this.domainName,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'ipAddressV4': config.encodeBinary(ipAddressV4),
       'port': port,
@@ -4762,12 +5452,22 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaServiceEndpoint.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaServiceEndpoint.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaServiceEndpoint(
-      ipAddressV4: config.decodeBinary<List<int>?>(json.valueAs('ipAddressV4', normalizeKeyLookup: config.normalizeKeys)),
-      port: json.valueAsInt<int?>('port', normalizeKeyLookup: config.normalizeKeys),
-      domainName: json.valueAsString<String?>('domain_name', normalizeKeyLookup: config.normalizeKeys),
+      ipAddressV4: config.decodeBinary<List<int>?>(
+        json.valueAs('ipAddressV4', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      port: json.valueAsInt<int?>(
+        'port',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      domainName: json.valueAsString<String?>(
+        'domain_name',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -4781,10 +5481,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoServiceEndpoint;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoServiceEndpoint;
 }
-
 
 /// *
 ///  * The data about a node, including its service endpoints and the Hedera account
@@ -4798,28 +5497,28 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSe
 ///  * This message MAY be superseded by messages in state/addressbook/node.proto
 ///  * and node_get_info.proto.
 class HederaNodeAddress extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * ServiceEndpoint is now used to retrieve a node's list of IP
   ///      * addresses and ports.&lt;br/&gt;
   ///      * The IP address of the Node, as a string, encoded in UTF-8.&lt;br/&gt;
   ///      * This value SHALL NOT be populated.
   final List<int>? ipAddress;
 
-    /// *
+  /// *
   ///      * ServiceEndpoint is now used to retrieve a node's list of IP
   ///      * addresses and ports.&lt;br/&gt;
   ///      * The port number of the grpc server for the node.&lt;br/&gt;
   ///      * This value SHALL NOT be populated.
   final int? portno;
 
-    /// *
+  /// *
   ///      * Description provides short text functionality.&lt;br/&gt;
   ///      * A short description of the node.
   ///      * &lt;p&gt;
   ///      * This field SHALL NOT be populated.
   final List<int>? memo;
 
-    /// *
+  /// *
   ///      * A hexadecimal String encoding of an X509 public key.
   ///      * &lt;p&gt;
   ///      * This X509 RSA _public_ key SHALL be used to verify record stream files
@@ -4828,7 +5527,7 @@ class HederaNodeAddress extends HederaProtoMessage with Equality {
   ///      * which, translated to binary, form the public key DER encoding.
   final String? rsaPubKey;
 
-    /// *
+  /// *
   ///      * A numeric identifier for the node.
   ///      * &lt;p&gt;
   ///      * This value SHALL NOT be sequential.
@@ -4836,14 +5535,14 @@ class HederaNodeAddress extends HederaProtoMessage with Equality {
   ///      * A `0.0.101` field
   final BigInt? nodeId;
 
-    /// *
+  /// *
   ///      * An account to be paid the "node" portion of transaction fees.&lt;br/&gt;
   ///      * The "node" fees are paid to the node that submitted the transaction.
   ///      * &lt;p&gt;
   ///      * A `0.0.101` field
   final HederaAccountID? nodeAccountId;
 
-    /// *
+  /// *
   ///      * A hash of the node's TLS certificate.
   ///      * &lt;p&gt;
   ///      * This field SHALL be a string of hexadecimal characters, encoded UTF-8,
@@ -4857,7 +5556,7 @@ class HederaNodeAddress extends HederaProtoMessage with Equality {
   ///      * A `0.0.101` field
   final List<int>? nodeCertHash;
 
-    /// *
+  /// *
   ///      * A node's service IP addresses and TCP ports.&lt;br/&gt;
   ///      * Nodes require multiple endpoints to ensure that inter-node communication
   ///      * (e.g. gossip) is properly separated from client communication to
@@ -4866,14 +5565,14 @@ class HederaNodeAddress extends HederaProtoMessage with Equality {
   ///      * A `0.0.101` field
   final List<HederaServiceEndpoint> serviceEndpoint;
 
-    /// *
+  /// *
   ///      * A short description of the node.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
   ///      * (default 100) bytes when encoded as UTF-8.
   final String? description;
 
-    /// *
+  /// *
   ///      * This is replaced by per-account stake tracking and dynamic
   ///      * calculation.&lt;br/&gt;
   ///      * The amount of tinybar staked to the node.&lt;br/&gt;
@@ -4901,9 +5600,18 @@ class HederaNodeAddress extends HederaProtoMessage with Equality {
       syntax: ProtoSyntax.v3,
       options: const [],
       fields: [
-        ProtoFieldConfig.bytes(1, options: [ProtoOptionBool(name: "deprecated", value: true)]),
-        ProtoFieldConfig.int32(2, options: [ProtoOptionBool(name: "deprecated", value: true)]),
-        ProtoFieldConfig.bytes(3, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.bytes(
+          1,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
+        ProtoFieldConfig.int32(
+          2,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
+        ProtoFieldConfig.bytes(
+          3,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
         ProtoFieldConfig.string(4),
         ProtoFieldConfig.int64(5),
         ProtoFieldConfig.message(6),
@@ -4913,66 +5621,70 @@ class HederaNodeAddress extends HederaProtoMessage with Equality {
           elementType: ProtoFieldType.message,
         ),
         ProtoFieldConfig.string(9),
-        ProtoFieldConfig.int64(10, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.int64(
+          10,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
       ],
     );
   }
 
   @override
   List<Object?> get protoValues => [
-        ipAddress,
-        portno,
-        memo,
-        rsaPubKey,
-        nodeId,
-        nodeAccountId,
-        nodeCertHash,
-        serviceEndpoint,
-        description,
-        stake,
-      ];
+    ipAddress,
+    portno,
+    memo,
+    rsaPubKey,
+    nodeId,
+    nodeAccountId,
+    nodeCertHash,
+    serviceEndpoint,
+    description,
+    stake,
+  ];
 
+  HederaNodeAddress copyWith({
+    List<int>? ipAddress,
 
-HederaNodeAddress copyWith(
-{List<int>? ipAddress,
+    int? portno,
 
-int? portno,
+    List<int>? memo,
 
-List<int>? memo,
+    String? rsaPubKey,
 
-String? rsaPubKey,
+    BigInt? nodeId,
 
-BigInt? nodeId,
+    HederaAccountID? nodeAccountId,
 
-HederaAccountID? nodeAccountId,
+    List<int>? nodeCertHash,
 
-List<int>? nodeCertHash,
+    List<HederaServiceEndpoint>? serviceEndpoint,
 
-List<HederaServiceEndpoint>? serviceEndpoint,
+    String? description,
 
-String? description,
-
-BigInt? stake,
-
-}) {
+    BigInt? stake,
+  }) {
     return HederaNodeAddress(
-ipAddress: ipAddress ?? this.ipAddress,
-portno: portno ?? this.portno,
-memo: memo ?? this.memo,
-rsaPubKey: rsaPubKey ?? this.rsaPubKey,
-nodeId: nodeId ?? this.nodeId,
-nodeAccountId: nodeAccountId ?? this.nodeAccountId,
-nodeCertHash: nodeCertHash ?? this.nodeCertHash,
-serviceEndpoint: serviceEndpoint ?? this.serviceEndpoint,
-description: description ?? this.description,
-stake: stake ?? this.stake,
+      ipAddress: ipAddress ?? this.ipAddress,
+      portno: portno ?? this.portno,
+      memo: memo ?? this.memo,
+      rsaPubKey: rsaPubKey ?? this.rsaPubKey,
+      nodeId: nodeId ?? this.nodeId,
+      nodeAccountId: nodeAccountId ?? this.nodeAccountId,
+      nodeCertHash: nodeCertHash ?? this.nodeCertHash,
+      serviceEndpoint: serviceEndpoint ?? this.serviceEndpoint,
+      description: description ?? this.description,
+      stake: stake ?? this.stake,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'ipAddress': config.encodeBinary(ipAddress),
       'portno': portno,
@@ -4981,31 +5693,71 @@ List<dynamic> get variables => protoValues;
       'nodeId': config.encodeBigint(nodeId),
       'nodeAccountId': config.encodeMessage(nodeAccountId),
       'nodeCertHash': config.encodeBinary(nodeCertHash),
-      'serviceEndpoint': serviceEndpoint.map((e) => config.encodeMessage(e)).toList(),
+      'serviceEndpoint':
+          serviceEndpoint.map((e) => config.encodeMessage(e)).toList(),
       'description': description,
       'stake': config.encodeBigint(stake),
     };
   }
 
-
-  factory HederaNodeAddress.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNodeAddress.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNodeAddress(
-      ipAddress: config.decodeBinary<List<int>?>(json.valueAs('ipAddress', normalizeKeyLookup: config.normalizeKeys)),
-      portno: json.valueAsInt<int?>('portno', normalizeKeyLookup: config.normalizeKeys),
-      memo: config.decodeBinary<List<int>?>(json.valueAs('memo', normalizeKeyLookup: config.normalizeKeys)),
-      rsaPubKey: json.valueAsString<String?>('RSA_PubKey', normalizeKeyLookup: config.normalizeKeys),
-      nodeId: json.valueAsBigInt<BigInt?>('nodeId', normalizeKeyLookup: config.normalizeKeys),
+      ipAddress: config.decodeBinary<List<int>?>(
+        json.valueAs('ipAddress', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      portno: json.valueAsInt<int?>(
+        'portno',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      memo: config.decodeBinary<List<int>?>(
+        json.valueAs('memo', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      rsaPubKey: json.valueAsString<String?>(
+        'RSA_PubKey',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nodeId: json.valueAsBigInt<BigInt?>(
+        'nodeId',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       nodeAccountId: json.valueTo<HederaAccountID?, Object>(
         key: 'nodeAccountId',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      nodeCertHash: config.decodeBinary<List<int>?>(json.valueAs('nodeCertHash', normalizeKeyLookup: config.normalizeKeys)),
-      serviceEndpoint: (json.valueEnsureAsList<dynamic>('serviceEndpoint', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaServiceEndpoint, Object>(
-          value: e,
-          parse: (v) => HederaServiceEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      description: json.valueAsString<String?>('description', normalizeKeyLookup: config.normalizeKeys),
-      stake: json.valueAsBigInt<BigInt?>('stake', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nodeCertHash: config.decodeBinary<List<int>?>(
+        json.valueAs('nodeCertHash', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      serviceEndpoint:
+          (json.valueEnsureAsList<dynamic>(
+                'serviceEndpoint',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaServiceEndpoint, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaServiceEndpoint.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      description: json.valueAsString<String?>(
+        'description',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stake: json.valueAsBigInt<BigInt?>(
+        'stake',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -5017,19 +5769,25 @@ List<dynamic> get variables => protoValues;
       memo: decode.getBytes<List<int>?>(3),
       rsaPubKey: decode.getString<String?>(4),
       nodeId: decode.getBigInt<BigInt?>(5),
-      nodeAccountId: decode.messageTo<HederaAccountID?>(6, (b) => HederaAccountID.deserialize(b)),
+      nodeAccountId: decode.messageTo<HederaAccountID?>(
+        6,
+        (b) => HederaAccountID.deserialize(b),
+      ),
       nodeCertHash: decode.getBytes<List<int>?>(7),
-      serviceEndpoint: decode.getListOfBytes(8).map((b) => HederaServiceEndpoint.deserialize(b)).toList(),
+      serviceEndpoint:
+          decode
+              .getListOfBytes(8)
+              .map((b) => HederaServiceEndpoint.deserialize(b))
+              .toList(),
       description: decode.getString<String?>(9),
       stake: decode.getBigInt<BigInt?>(10),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNodeAddress;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNodeAddress;
 }
-
 
 /// *
 ///  * A list of nodes and their metadata that contains details of the nodes
@@ -5037,13 +5795,11 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNo
 ///  *
 ///  * Used to parse the contents of system files `0.0.101` and `0.0.102`.
 class HederaNodeAddressBook extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Published data for all nodes in the network
   final List<HederaNodeAddress> nodeAddress;
 
-  const HederaNodeAddressBook({
-    this.nodeAddress = const [],
-  });
+  const HederaNodeAddressBook({this.nodeAddress = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -5062,51 +5818,64 @@ class HederaNodeAddressBook extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        nodeAddress,
-      ];
+  List<Object?> get protoValues => [nodeAddress];
 
-
-HederaNodeAddressBook copyWith(
-{List<HederaNodeAddress>? nodeAddress,
-
-}) {
-    return HederaNodeAddressBook(
-nodeAddress: nodeAddress ?? this.nodeAddress,
-    );
+  HederaNodeAddressBook copyWith({List<HederaNodeAddress>? nodeAddress}) {
+    return HederaNodeAddressBook(nodeAddress: nodeAddress ?? this.nodeAddress);
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'nodeAddress': nodeAddress.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaNodeAddressBook.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNodeAddressBook.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNodeAddressBook(
-      nodeAddress: (json.valueEnsureAsList<dynamic>('nodeAddress', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaNodeAddress, Object>(
-          value: e,
-          parse: (v) => HederaNodeAddress.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      nodeAddress:
+          (json.valueEnsureAsList<dynamic>(
+                'nodeAddress',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaNodeAddress, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaNodeAddress.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaNodeAddressBook.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaNodeAddressBook(
-      nodeAddress: decode.getListOfBytes(1).map((b) => HederaNodeAddress.deserialize(b)).toList(),
+      nodeAddress:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaNodeAddress.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNodeAddressBook;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNodeAddressBook;
 }
-
 
 /// *
 ///  * A software version according to "[semantic versioning](https://semver.org/)"
@@ -5117,7 +5886,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNo
 ///  * version. The `patch` and `pre` components are used in the typical manner.
 ///  * The `build` component is not generally used.
 class HederaSemanticVersion extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A major version.&lt;br/&gt;
   ///      * Hedera does not increment this value and retains a `0` value to
   ///      * indicate that API may change for any release.
@@ -5125,7 +5894,7 @@ class HederaSemanticVersion extends HederaProtoMessage with Equality {
   ///      * This value SHALL increment for an incompatible API change.&lt;br/&gt;
   final int? major;
 
-    /// *
+  /// *
   ///      * A minor version.&lt;br/&gt;
   ///      * Hedera increments this value with each release.&lt;br/&gt;
   ///      * There may be incompatible API changes in any Hedera Services release.
@@ -5134,13 +5903,13 @@ class HederaSemanticVersion extends HederaProtoMessage with Equality {
   ///      * functionality.
   final int? minor;
 
-    /// *
+  /// *
   ///      * A patch version.
   ///      * &lt;p&gt;
   ///      * This value SHALL increment for backwards-compatible bug fixes.
   final int? patch;
 
-    /// *
+  /// *
   ///      * A pre-release version.
   ///      * &lt;p&gt;
   ///      * This MAY be denoted by appending a hyphen and a series of dot separated
@@ -5149,7 +5918,7 @@ class HederaSemanticVersion extends HederaProtoMessage with Equality {
   ///      * 'alpha.1'
   final String? pre;
 
-    /// *
+  /// *
   ///      * A build version.
   ///      * &lt;p&gt;
   ///      * Build version MAY be denoted by appending a plus sign and a series of
@@ -5185,40 +5954,35 @@ class HederaSemanticVersion extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        major,
-        minor,
-        patch,
-        pre,
-        build,
-      ];
+  List<Object?> get protoValues => [major, minor, patch, pre, build];
 
+  HederaSemanticVersion copyWith({
+    int? major,
 
-HederaSemanticVersion copyWith(
-{int? major,
+    int? minor,
 
-int? minor,
+    int? patch,
 
-int? patch,
+    String? pre,
 
-String? pre,
-
-String? build,
-
-}) {
+    String? build,
+  }) {
     return HederaSemanticVersion(
-major: major ?? this.major,
-minor: minor ?? this.minor,
-patch: patch ?? this.patch,
-pre: pre ?? this.pre,
-build: build ?? this.build,
+      major: major ?? this.major,
+      minor: minor ?? this.minor,
+      patch: patch ?? this.patch,
+      pre: pre ?? this.pre,
+      build: build ?? this.build,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'major': major,
       'minor': minor,
@@ -5228,14 +5992,31 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaSemanticVersion.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSemanticVersion.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSemanticVersion(
-      major: json.valueAsInt<int?>('major', normalizeKeyLookup: config.normalizeKeys),
-      minor: json.valueAsInt<int?>('minor', normalizeKeyLookup: config.normalizeKeys),
-      patch: json.valueAsInt<int?>('patch', normalizeKeyLookup: config.normalizeKeys),
-      pre: json.valueAsString<String?>('pre', normalizeKeyLookup: config.normalizeKeys),
-      build: json.valueAsString<String?>('build', normalizeKeyLookup: config.normalizeKeys),
+      major: json.valueAsInt<int?>(
+        'major',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      minor: json.valueAsInt<int?>(
+        'minor',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      patch: json.valueAsInt<int?>(
+        'patch',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      pre: json.valueAsString<String?>(
+        'pre',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      build: json.valueAsString<String?>(
+        'build',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -5251,10 +6032,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSemanticVersion;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSemanticVersion;
 }
-
 
 /// *
 ///  * A single runtime configuration setting.
@@ -5262,26 +6042,22 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSe
 ///  * Typically a name-value pair, this may also contain a small amount of
 ///  * associated data.
 class HederaSetting extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A name for this setting property.
   final String? name;
 
-    /// *
+  /// *
   ///      * A value for this setting property.
   final String? value;
 
-    /// *
+  /// *
   ///      * A small quantity of data associated with this setting.
   ///      * &lt;p&gt;
   ///      * This SHOULD be less than 100 bytes.&lt;br/&gt;
   ///      * If the value is a string, it MUST be encoded UTF-8.
   final List<int>? data;
 
-  const HederaSetting({
-    this.name,
-    this.value,
-    this.data,
-  });
+  const HederaSetting({this.name, this.value, this.data});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -5299,45 +6075,42 @@ class HederaSetting extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        name,
-        value,
-        data,
-      ];
+  List<Object?> get protoValues => [name, value, data];
 
-
-HederaSetting copyWith(
-{String? name,
-
-String? value,
-
-List<int>? data,
-
-}) {
+  HederaSetting copyWith({String? name, String? value, List<int>? data}) {
     return HederaSetting(
-name: name ?? this.name,
-value: value ?? this.value,
-data: data ?? this.data,
+      name: name ?? this.name,
+      value: value ?? this.value,
+      data: data ?? this.data,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'name': name,
-      'value': value,
-      'data': config.encodeBinary(data),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'name': name, 'value': value, 'data': config.encodeBinary(data)};
   }
 
-
-  factory HederaSetting.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSetting.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSetting(
-      name: json.valueAsString<String?>('name', normalizeKeyLookup: config.normalizeKeys),
-      value: json.valueAsString<String?>('value', normalizeKeyLookup: config.normalizeKeys),
-      data: config.decodeBinary<List<int>?>(json.valueAs('data', normalizeKeyLookup: config.normalizeKeys)),
+      name: json.valueAsString<String?>(
+        'name',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      value: json.valueAsString<String?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      data: config.decodeBinary<List<int>?>(
+        json.valueAs('data', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -5351,21 +6124,18 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSetting;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSetting;
 }
-
 
 /// *
 ///  * Setting values representing a source of runtime configuration information.
 class HederaServicesConfigurationList extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A List of `Setting` values, typically read from application properties.
   final List<HederaSetting> nameValue;
 
-  const HederaServicesConfigurationList({
-    this.nameValue = const [],
-  });
+  const HederaServicesConfigurationList({this.nameValue = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -5384,51 +6154,66 @@ class HederaServicesConfigurationList extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        nameValue,
-      ];
+  List<Object?> get protoValues => [nameValue];
 
-
-HederaServicesConfigurationList copyWith(
-{List<HederaSetting>? nameValue,
-
-}) {
+  HederaServicesConfigurationList copyWith({List<HederaSetting>? nameValue}) {
     return HederaServicesConfigurationList(
-nameValue: nameValue ?? this.nameValue,
+      nameValue: nameValue ?? this.nameValue,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'nameValue': nameValue.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaServicesConfigurationList.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaServicesConfigurationList.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaServicesConfigurationList(
-      nameValue: (json.valueEnsureAsList<dynamic>('nameValue', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaSetting, Object>(
-          value: e,
-          parse: (v) => HederaSetting.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      nameValue:
+          (json.valueEnsureAsList<dynamic>(
+                'nameValue',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaSetting, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaSetting.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaServicesConfigurationList.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaServicesConfigurationList(
-      nameValue: decode.getListOfBytes(1).map((b) => HederaSetting.deserialize(b)).toList(),
+      nameValue:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaSetting.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoServicesConfigurationList;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoServicesConfigurationList;
 }
-
 
 /// *
 ///  * An Hedera Token Service token relationship. A token relationship describes
@@ -5444,20 +6229,20 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSe
 ///  * `GetAccountDetails` query response, or other enclosing message, which
 ///  * specifies the account side of the relationship.
 class HederaTokenRelationship extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This MUST match an existing token that is not deleted.
   final HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * A token symbol.
   ///      * &lt;p&gt;
   ///      * This MUST match an existing token that is not deleted.&lt;br/&gt;
   ///      * This MUST match the value for the token identified in `tokenId`.
   final String? symbol;
 
-    /// *
+  /// *
   ///      * An account balance for this token.
   ///      * &lt;p&gt;
   ///      * For fungible/common tokens this SHALL be the balance that the
@@ -5468,7 +6253,7 @@ class HederaTokenRelationship extends HederaProtoMessage with Equality {
   ///      * unique tokens held by the account for this token type.
   final BigInt? balance;
 
-    /// *
+  /// *
   ///      * A KYC status for the account with respect to this token.
   ///      * &lt;p&gt;
   ///      * This may be `KycNotApplicable`, `Granted` or `Revoked` and, if KYC is
@@ -5476,7 +6261,7 @@ class HederaTokenRelationship extends HederaProtoMessage with Equality {
   ///      * set), this SHALL be `KycNotApplicable`.
   final HederaTokenKycStatus? kycStatus;
 
-    /// *
+  /// *
   ///      * A Freeze status for the account with respect to this token.
   ///      * &lt;p&gt;
   ///      * This value SHALL be one of `FreezeNotApplicable`, `Frozen`
@@ -5485,7 +6270,7 @@ class HederaTokenRelationship extends HederaProtoMessage with Equality {
   ///      * token is not set), this SHALL be `FreezeNotApplicable`.
   final HederaTokenFreezeStatus? freezeStatus;
 
-    /// *
+  /// *
   ///      * A maximum "precision" for this token.
   ///      * &lt;p&gt;
   ///      * This value MUST match the `decimals` field of the token identified in
@@ -5494,7 +6279,7 @@ class HederaTokenRelationship extends HederaProtoMessage with Equality {
   ///      * 10&lt;sup&gt;`decimals`&lt;/sup&gt; sub-units.
   final int? decimals;
 
-    /// *
+  /// *
   ///      * An automatic association flag.
   ///      * &lt;p&gt;
   ///      * This SHALL be set if the relationship was created implicitly
@@ -5534,47 +6319,48 @@ class HederaTokenRelationship extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        tokenId,
-        symbol,
-        balance,
-        kycStatus,
-        freezeStatus,
-        decimals,
-        automaticAssociation,
-      ];
+    tokenId,
+    symbol,
+    balance,
+    kycStatus,
+    freezeStatus,
+    decimals,
+    automaticAssociation,
+  ];
 
+  HederaTokenRelationship copyWith({
+    HederaTokenID? tokenId,
 
-HederaTokenRelationship copyWith(
-{HederaTokenID? tokenId,
+    String? symbol,
 
-String? symbol,
+    BigInt? balance,
 
-BigInt? balance,
+    HederaTokenKycStatus? kycStatus,
 
-HederaTokenKycStatus? kycStatus,
+    HederaTokenFreezeStatus? freezeStatus,
 
-HederaTokenFreezeStatus? freezeStatus,
+    int? decimals,
 
-int? decimals,
-
-bool? automaticAssociation,
-
-}) {
+    bool? automaticAssociation,
+  }) {
     return HederaTokenRelationship(
-tokenId: tokenId ?? this.tokenId,
-symbol: symbol ?? this.symbol,
-balance: balance ?? this.balance,
-kycStatus: kycStatus ?? this.kycStatus,
-freezeStatus: freezeStatus ?? this.freezeStatus,
-decimals: decimals ?? this.decimals,
-automaticAssociation: automaticAssociation ?? this.automaticAssociation,
+      tokenId: tokenId ?? this.tokenId,
+      symbol: symbol ?? this.symbol,
+      balance: balance ?? this.balance,
+      kycStatus: kycStatus ?? this.kycStatus,
+      freezeStatus: freezeStatus ?? this.freezeStatus,
+      decimals: decimals ?? this.decimals,
+      automaticAssociation: automaticAssociation ?? this.automaticAssociation,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'tokenId': config.encodeMessage(tokenId),
       'symbol': symbol,
@@ -5586,15 +6372,26 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenRelationship.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenRelationship.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenRelationship(
       tokenId: json.valueTo<HederaTokenID?, Object>(
         key: 'tokenId',
-        parse: (v) => HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      symbol: json.valueAsString<String?>('symbol', normalizeKeyLookup: config.normalizeKeys),
-      balance: json.valueAsBigInt<BigInt?>('balance', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      symbol: json.valueAsString<String?>(
+        'symbol',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      balance: json.valueAsBigInt<BigInt?>(
+        'balance',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       kycStatus: json.valueTo<HederaTokenKycStatus?, Object?>(
         key: 'kycStatus',
         parse: (v) => HederaTokenKycStatus.from(v),
@@ -5603,29 +6400,43 @@ List<dynamic> get variables => protoValues;
         key: 'freezeStatus',
         parse: (v) => HederaTokenFreezeStatus.from(v),
       ),
-      decimals: json.valueAsInt<int?>('decimals', normalizeKeyLookup: config.normalizeKeys),
-      automaticAssociation: json.valueAsBool<bool?>('automatic_association', normalizeKeyLookup: config.normalizeKeys),
+      decimals: json.valueAsInt<int?>(
+        'decimals',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      automaticAssociation: json.valueAsBool<bool?>(
+        'automatic_association',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTokenRelationship.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenRelationship(
-      tokenId: decode.messageTo<HederaTokenID?>(1, (b) => HederaTokenID.deserialize(b)),
+      tokenId: decode.messageTo<HederaTokenID?>(
+        1,
+        (b) => HederaTokenID.deserialize(b),
+      ),
       symbol: decode.getString<String?>(2),
       balance: decode.getBigInt<BigInt?>(3),
-      kycStatus: decode.getEnum<HederaTokenKycStatus?>(4, HederaTokenKycStatus.values),
-      freezeStatus: decode.getEnum<HederaTokenFreezeStatus?>(5, HederaTokenFreezeStatus.values),
+      kycStatus: decode.getEnum<HederaTokenKycStatus?>(
+        4,
+        HederaTokenKycStatus.values,
+      ),
+      freezeStatus: decode.getEnum<HederaTokenFreezeStatus?>(
+        5,
+        HederaTokenFreezeStatus.values,
+      ),
       decimals: decode.getInt<int?>(6),
       automaticAssociation: decode.getBool<bool?>(7),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenRelationship;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenRelationship;
 }
-
 
 /// *
 ///  * A number of _transferable units_ of a specified token.
@@ -5638,11 +6449,11 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTo
 ///  *
 ///  * Transferable units are not directly comparable across different tokens.
 class HederaTokenBalance extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.
   final HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * A number of transferable units of the identified token.
   ///      * &lt;p&gt;
   ///      * For fungible/common tokens this SHALL be the balance, in units of
@@ -5651,18 +6462,14 @@ class HederaTokenBalance extends HederaProtoMessage with Equality {
   ///      * individual unique tokens in this balance.
   final BigInt? balance;
 
-    /// *
+  /// *
   ///      * A number of "decimals" precision.
   ///      * &lt;p&gt;
   ///      * This MUST match the `decimals` value for the token identified by the
   ///      * `tokenId` field.
   final int? decimals;
 
-  const HederaTokenBalance({
-    this.tokenId,
-    this.balance,
-    this.decimals,
-  });
+  const HederaTokenBalance({this.tokenId, this.balance, this.decimals});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -5680,32 +6487,29 @@ class HederaTokenBalance extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        balance,
-        decimals,
-      ];
+  List<Object?> get protoValues => [tokenId, balance, decimals];
 
+  HederaTokenBalance copyWith({
+    HederaTokenID? tokenId,
 
-HederaTokenBalance copyWith(
-{HederaTokenID? tokenId,
+    BigInt? balance,
 
-BigInt? balance,
-
-int? decimals,
-
-}) {
+    int? decimals,
+  }) {
     return HederaTokenBalance(
-tokenId: tokenId ?? this.tokenId,
-balance: balance ?? this.balance,
-decimals: decimals ?? this.decimals,
+      tokenId: tokenId ?? this.tokenId,
+      balance: balance ?? this.balance,
+      decimals: decimals ?? this.decimals,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'tokenId': config.encodeMessage(tokenId),
       'balance': config.encodeBigint(balance),
@@ -5713,32 +6517,45 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenBalance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenBalance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenBalance(
       tokenId: json.valueTo<HederaTokenID?, Object>(
         key: 'tokenId',
-        parse: (v) => HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      balance: json.valueAsBigInt<BigInt?>('balance', normalizeKeyLookup: config.normalizeKeys),
-      decimals: json.valueAsInt<int?>('decimals', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      balance: json.valueAsBigInt<BigInt?>(
+        'balance',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      decimals: json.valueAsInt<int?>(
+        'decimals',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTokenBalance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenBalance(
-      tokenId: decode.messageTo<HederaTokenID?>(1, (b) => HederaTokenID.deserialize(b)),
+      tokenId: decode.messageTo<HederaTokenID?>(
+        1,
+        (b) => HederaTokenID.deserialize(b),
+      ),
       balance: decode.getBigInt<BigInt?>(2),
       decimals: decode.getInt<int?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenBalance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenBalance;
 }
-
 
 /// *
 ///  * A set of token balance values.
@@ -5747,14 +6564,12 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTo
 ///  * token. The balance is an amount for a fungible/common token or a count for
 ///  * a non-fungible/unique token.
 class HederaTokenBalances extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A list of token balance values.&lt;br/&gt;
   ///      * Each entry represents a single account balance for a single token.
   final List<HederaTokenBalance> tokenBalances;
 
-  const HederaTokenBalances({
-    this.tokenBalances = const [],
-  });
+  const HederaTokenBalances({this.tokenBalances = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -5773,51 +6588,67 @@ class HederaTokenBalances extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenBalances,
-      ];
+  List<Object?> get protoValues => [tokenBalances];
 
-
-HederaTokenBalances copyWith(
-{List<HederaTokenBalance>? tokenBalances,
-
-}) {
+  HederaTokenBalances copyWith({List<HederaTokenBalance>? tokenBalances}) {
     return HederaTokenBalances(
-tokenBalances: tokenBalances ?? this.tokenBalances,
+      tokenBalances: tokenBalances ?? this.tokenBalances,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'tokenBalances': tokenBalances.map((e) => config.encodeMessage(e)).toList(),
+      'tokenBalances':
+          tokenBalances.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTokenBalances.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenBalances.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenBalances(
-      tokenBalances: (json.valueEnsureAsList<dynamic>('tokenBalances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaTokenBalance, Object>(
-          value: e,
-          parse: (v) => HederaTokenBalance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      tokenBalances:
+          (json.valueEnsureAsList<dynamic>(
+                'tokenBalances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaTokenBalance, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaTokenBalance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTokenBalances.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenBalances(
-      tokenBalances: decode.getListOfBytes(1).map((b) => HederaTokenBalance.deserialize(b)).toList(),
+      tokenBalances:
+          decode
+              .getListOfBytes(1)
+              .map((b) => HederaTokenBalance.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenBalances;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenBalances;
 }
-
 
 /// *
 ///  * An association between a token and an account.
@@ -5825,18 +6656,15 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTo
 ///  * An account must be associated with a token before that account can transact
 ///  * in (send or receive) that token.
 class HederaTokenAssociation extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier for the associated token.
   final HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * An account identifier for the associated account.
   final HederaAccountID? accountId;
 
-  const HederaTokenAssociation({
-    this.tokenId,
-    this.accountId,
-  });
+  const HederaTokenAssociation({this.tokenId, this.accountId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -5845,69 +6673,77 @@ class HederaTokenAssociation extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        accountId,
-      ];
+  List<Object?> get protoValues => [tokenId, accountId];
 
+  HederaTokenAssociation copyWith({
+    HederaTokenID? tokenId,
 
-HederaTokenAssociation copyWith(
-{HederaTokenID? tokenId,
-
-HederaAccountID? accountId,
-
-}) {
+    HederaAccountID? accountId,
+  }) {
     return HederaTokenAssociation(
-tokenId: tokenId ?? this.tokenId,
-accountId: accountId ?? this.accountId,
+      tokenId: tokenId ?? this.tokenId,
+      accountId: accountId ?? this.accountId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token_id': config.encodeMessage(tokenId),
       'account_id': config.encodeMessage(accountId),
     };
   }
 
-
-  factory HederaTokenAssociation.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenAssociation.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenAssociation(
       tokenId: json.valueTo<HederaTokenID?, Object>(
         key: 'token_id',
-        parse: (v) => HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       accountId: json.valueTo<HederaAccountID?, Object>(
         key: 'account_id',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTokenAssociation.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenAssociation(
-      tokenId: decode.messageTo<HederaTokenID?>(1, (b) => HederaTokenID.deserialize(b)),
-      accountId: decode.messageTo<HederaAccountID?>(2, (b) => HederaAccountID.deserialize(b)),
+      tokenId: decode.messageTo<HederaTokenID?>(
+        1,
+        (b) => HederaTokenID.deserialize(b),
+      ),
+      accountId: decode.messageTo<HederaAccountID?>(
+        2,
+        (b) => HederaAccountID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenAssociation;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenAssociation;
 }
-
 
 /// *
 ///  * An association between an account and a token; this message exists in addition
@@ -5917,18 +6753,15 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTo
 ///  * order of those fields, changing the serialized bytes and breaking binary-only
 ///  * replay of state changes.)
 class HederaAccountTokenAssociation extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An account identifier for the associated account.
   final HederaAccountID? accountId;
 
-    /// *
+  /// *
   ///      * A token identifier for the associated token.
   final HederaTokenID? tokenId;
 
-  const HederaAccountTokenAssociation({
-    this.accountId,
-    this.tokenId,
-  });
+  const HederaAccountTokenAssociation({this.accountId, this.tokenId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -5937,69 +6770,77 @@ class HederaAccountTokenAssociation extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        accountId,
-        tokenId,
-      ];
+  List<Object?> get protoValues => [accountId, tokenId];
 
+  HederaAccountTokenAssociation copyWith({
+    HederaAccountID? accountId,
 
-HederaAccountTokenAssociation copyWith(
-{HederaAccountID? accountId,
-
-HederaTokenID? tokenId,
-
-}) {
+    HederaTokenID? tokenId,
+  }) {
     return HederaAccountTokenAssociation(
-accountId: accountId ?? this.accountId,
-tokenId: tokenId ?? this.tokenId,
+      accountId: accountId ?? this.accountId,
+      tokenId: tokenId ?? this.tokenId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'account_id': config.encodeMessage(accountId),
       'token_id': config.encodeMessage(tokenId),
     };
   }
 
-
-  factory HederaAccountTokenAssociation.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccountTokenAssociation.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccountTokenAssociation(
       accountId: json.valueTo<HederaAccountID?, Object>(
         key: 'account_id',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       tokenId: json.valueTo<HederaTokenID?, Object>(
         key: 'token_id',
-        parse: (v) => HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaAccountTokenAssociation.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaAccountTokenAssociation(
-      accountId: decode.messageTo<HederaAccountID?>(1, (b) => HederaAccountID.deserialize(b)),
-      tokenId: decode.messageTo<HederaTokenID?>(2, (b) => HederaTokenID.deserialize(b)),
+      accountId: decode.messageTo<HederaAccountID?>(
+        1,
+        (b) => HederaAccountID.deserialize(b),
+      ),
+      tokenId: decode.messageTo<HederaTokenID?>(
+        2,
+        (b) => HederaTokenID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccountTokenAssociation;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccountTokenAssociation;
 }
-
 
 /// *
 ///  * Staking information for an account or a contract.
@@ -6007,12 +6848,12 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAc
 ///  * This is used for responses returned from `CryptoGetInfo` or
 ///  * `ContractGetInfo` queries.
 class HederaStakingInfo extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A flag indicating that the holder of this account has chosen to decline
   ///      * staking rewards.
   final bool? declineReward;
 
-    /// *
+  /// *
   ///      * A `Timestamp` of the start time for the latest active staking period.
   ///      * &lt;p&gt;
   ///      * This MUST be a period during which either the staking settings for this
@@ -6023,25 +6864,25 @@ class HederaStakingInfo extends HederaProtoMessage with Equality {
   ///      * field SHALL NOT be set.
   final proto_timestamp.HederaTimestamp? stakePeriodStart;
 
-    /// *
+  /// *
   ///      * An amount, in tinybar, to be received in the next reward payout.&lt;br/&gt;
   ///      * Rewards are not paid out immediately; for efficiency reasons rewards are
   ///      * only paid out as part of another transaction involving that account.
   final BigInt? pendingReward;
 
-    /// *
+  /// *
   ///      * A proxy-staked balance.&lt;br/&gt;
   ///      * The total HBAR balance of all accounts that delegate staking to this
   ///      * account or contract.
   final BigInt? stakedToMe;
 
-    /// *
+  /// *
   ///          * A delegated stake.
   ///          * &lt;p&gt;
   ///          * This account delegates to the indicated account for staking purposes.
   final HederaAccountID? stakedAccountId;
 
-    /// *
+  /// *
   ///          * A direct stake.
   ///          * &lt;p&gt;
   ///          * This accounts stakes its balance to the designated node.
@@ -6076,43 +6917,44 @@ class HederaStakingInfo extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        declineReward,
-        stakePeriodStart,
-        pendingReward,
-        stakedToMe,
-        stakedAccountId,
-        stakedNodeId,
-      ];
+    declineReward,
+    stakePeriodStart,
+    pendingReward,
+    stakedToMe,
+    stakedAccountId,
+    stakedNodeId,
+  ];
 
+  HederaStakingInfo copyWith({
+    bool? declineReward,
 
-HederaStakingInfo copyWith(
-{bool? declineReward,
+    proto_timestamp.HederaTimestamp? stakePeriodStart,
 
-proto_timestamp.HederaTimestamp? stakePeriodStart,
+    BigInt? pendingReward,
 
-BigInt? pendingReward,
+    BigInt? stakedToMe,
 
-BigInt? stakedToMe,
+    HederaAccountID? stakedAccountId,
 
-HederaAccountID? stakedAccountId,
-
-BigInt? stakedNodeId,
-
-}) {
+    BigInt? stakedNodeId,
+  }) {
     return HederaStakingInfo(
-declineReward: declineReward ?? this.declineReward,
-stakePeriodStart: stakePeriodStart ?? this.stakePeriodStart,
-pendingReward: pendingReward ?? this.pendingReward,
-stakedToMe: stakedToMe ?? this.stakedToMe,
-stakedAccountId: stakedAccountId ?? this.stakedAccountId,
-stakedNodeId: stakedNodeId ?? this.stakedNodeId,
+      declineReward: declineReward ?? this.declineReward,
+      stakePeriodStart: stakePeriodStart ?? this.stakePeriodStart,
+      pendingReward: pendingReward ?? this.pendingReward,
+      stakedToMe: stakedToMe ?? this.stakedToMe,
+      stakedAccountId: stakedAccountId ?? this.stakedAccountId,
+      stakedNodeId: stakedNodeId ?? this.stakedNodeId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'decline_reward': declineReward,
       'stake_period_start': config.encodeMessage(stakePeriodStart),
@@ -6123,21 +6965,43 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaStakingInfo.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaStakingInfo.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaStakingInfo(
-      declineReward: json.valueAsBool<bool?>('decline_reward', normalizeKeyLookup: config.normalizeKeys),
+      declineReward: json.valueAsBool<bool?>(
+        'decline_reward',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       stakePeriodStart: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'stake_period_start',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      pendingReward: json.valueAsBigInt<BigInt?>('pending_reward', normalizeKeyLookup: config.normalizeKeys),
-      stakedToMe: json.valueAsBigInt<BigInt?>('staked_to_me', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      pendingReward: json.valueAsBigInt<BigInt?>(
+        'pending_reward',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stakedToMe: json.valueAsBigInt<BigInt?>(
+        'staked_to_me',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       stakedAccountId: json.valueTo<HederaAccountID?, Object>(
         key: 'staked_account_id',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      stakedNodeId: json.valueAsBigInt<BigInt?>('staked_node_id', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stakedNodeId: json.valueAsBigInt<BigInt?>(
+        'staked_node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -6145,19 +7009,24 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaStakingInfo(
       declineReward: decode.getBool<bool?>(1),
-      stakePeriodStart: decode.messageTo<proto_timestamp.HederaTimestamp?>(2, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
+      stakePeriodStart: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        2,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
       pendingReward: decode.getBigInt<BigInt?>(3),
       stakedToMe: decode.getBigInt<BigInt?>(4),
-      stakedAccountId: decode.messageTo<HederaAccountID?>(5, (b) => HederaAccountID.deserialize(b)),
+      stakedAccountId: decode.messageTo<HederaAccountID?>(
+        5,
+        (b) => HederaAccountID.deserialize(b),
+      ),
       stakedNodeId: decode.getBigInt<BigInt?>(6),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoStakingInfo;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoStakingInfo;
 }
-
 
 /// *
 ///  * A unique, composite, identifier for a pending airdrop.
@@ -6168,7 +7037,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSt
 ///  * any transaction that would modify that pending airdrop
 ///  * (such as a `claimAirdrop` or `cancelAirdrop`).
 class HederaPendingAirdropId extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A sending account.
   ///      * &lt;p&gt;
   ///      * This is the account that initiated, and SHALL fund,
@@ -6176,14 +7045,14 @@ class HederaPendingAirdropId extends HederaProtoMessage with Equality {
   ///      * This field is REQUIRED.
   final HederaAccountID? senderId;
 
-    /// *
+  /// *
   ///      * A receiving account.
   ///      * &lt;p&gt;
   ///      * This is the ID of the account that SHALL receive the airdrop.&lt;br/&gt;
   ///      * This field is REQUIRED.
   final HederaAccountID? receiverId;
 
-    /// *
+  /// *
   ///          * A token identifier.&lt;br/&gt;
   ///          * This is the type of token for a fungible/common token airdrop.
   ///          * &lt;p&gt;
@@ -6191,7 +7060,7 @@ class HederaPendingAirdropId extends HederaProtoMessage with Equality {
   ///          * be used for a non-fungible/unique token.
   final HederaTokenID? fungibleTokenType;
 
-    /// *
+  /// *
   ///          * The id of a single NFT&lt;br/&gt;
   ///          * This is the type of token for a non-fungible/unique token airdrop
   ///          * and consists of a Token ID and serial number.
@@ -6225,35 +7094,36 @@ class HederaPendingAirdropId extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        senderId,
-        receiverId,
-        fungibleTokenType,
-        nonFungibleToken,
-      ];
+    senderId,
+    receiverId,
+    fungibleTokenType,
+    nonFungibleToken,
+  ];
 
+  HederaPendingAirdropId copyWith({
+    HederaAccountID? senderId,
 
-HederaPendingAirdropId copyWith(
-{HederaAccountID? senderId,
+    HederaAccountID? receiverId,
 
-HederaAccountID? receiverId,
+    HederaTokenID? fungibleTokenType,
 
-HederaTokenID? fungibleTokenType,
-
-HederaNftID? nonFungibleToken,
-
-}) {
+    HederaNftID? nonFungibleToken,
+  }) {
     return HederaPendingAirdropId(
-senderId: senderId ?? this.senderId,
-receiverId: receiverId ?? this.receiverId,
-fungibleTokenType: fungibleTokenType ?? this.fungibleTokenType,
-nonFungibleToken: nonFungibleToken ?? this.nonFungibleToken,
+      senderId: senderId ?? this.senderId,
+      receiverId: receiverId ?? this.receiverId,
+      fungibleTokenType: fungibleTokenType ?? this.fungibleTokenType,
+      nonFungibleToken: nonFungibleToken ?? this.nonFungibleToken,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'sender_id': config.encodeMessage(senderId),
       'receiver_id': config.encodeMessage(receiverId),
@@ -6262,43 +7132,67 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaPendingAirdropId.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPendingAirdropId.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPendingAirdropId(
       senderId: json.valueTo<HederaAccountID?, Object>(
         key: 'sender_id',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       receiverId: json.valueTo<HederaAccountID?, Object>(
         key: 'receiver_id',
-        parse: (v) => HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       fungibleTokenType: json.valueTo<HederaTokenID?, Object>(
         key: 'fungible_token_type',
-        parse: (v) => HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) =>
+                HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       nonFungibleToken: json.valueTo<HederaNftID?, Object>(
         key: 'non_fungible_token',
-        parse: (v) => HederaNftID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaNftID.fromJson(JsonParser.valueAs(v), config: config),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaPendingAirdropId.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaPendingAirdropId(
-      senderId: decode.messageTo<HederaAccountID?>(1, (b) => HederaAccountID.deserialize(b)),
-      receiverId: decode.messageTo<HederaAccountID?>(2, (b) => HederaAccountID.deserialize(b)),
-      fungibleTokenType: decode.messageTo<HederaTokenID?>(3, (b) => HederaTokenID.deserialize(b)),
-      nonFungibleToken: decode.messageTo<HederaNftID?>(4, (b) => HederaNftID.deserialize(b)),
+      senderId: decode.messageTo<HederaAccountID?>(
+        1,
+        (b) => HederaAccountID.deserialize(b),
+      ),
+      receiverId: decode.messageTo<HederaAccountID?>(
+        2,
+        (b) => HederaAccountID.deserialize(b),
+      ),
+      fungibleTokenType: decode.messageTo<HederaTokenID?>(
+        3,
+        (b) => HederaTokenID.deserialize(b),
+      ),
+      nonFungibleToken: decode.messageTo<HederaNftID?>(
+        4,
+        (b) => HederaNftID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoPendingAirdropId;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoPendingAirdropId;
 }
-
 
 /// *
 ///  * A single pending airdrop value.
@@ -6313,7 +7207,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoPe
 ///  * as a key-value map from `PendingAirdropId` to `PendingAirdropValue`, with
 ///  * a `null` value used for non-fungible pending airdrops.
 class HederaPendingAirdropValue extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An amount to transfer for fungible/common tokens.&lt;br/&gt;
   ///      * This is expressed in the smallest available units for that token
   ///      * (i.e. 10&lt;sup&gt;-`decimals`&lt;/sup&gt; whole tokens).
@@ -6326,9 +7220,7 @@ class HederaPendingAirdropValue extends HederaProtoMessage with Equality {
   ///      * be set, and if set, this field MUST be `0`.
   final BigInt? amount;
 
-  const HederaPendingAirdropValue({
-    this.amount,
-  });
+  const HederaPendingAirdropValue({this.amount});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -6337,53 +7229,45 @@ class HederaPendingAirdropValue extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-      ],
+      fields: [ProtoFieldConfig.uint64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        amount,
-      ];
+  List<Object?> get protoValues => [amount];
 
-
-HederaPendingAirdropValue copyWith(
-{BigInt? amount,
-
-}) {
-    return HederaPendingAirdropValue(
-amount: amount ?? this.amount,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'amount': config.encodeBigint(amount),
-    };
+  HederaPendingAirdropValue copyWith({BigInt? amount}) {
+    return HederaPendingAirdropValue(amount: amount ?? this.amount);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaPendingAirdropValue.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'amount': config.encodeBigint(amount)};
+  }
+
+  factory HederaPendingAirdropValue.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPendingAirdropValue(
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaPendingAirdropValue.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaPendingAirdropValue(
-      amount: decode.getBigInt<BigInt?>(1),
-    );
+    return HederaPendingAirdropValue(amount: decode.getBigInt<BigInt?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoPendingAirdropValue;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoPendingAirdropValue;
 }
-
-

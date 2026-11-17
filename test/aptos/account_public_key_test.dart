@@ -1,8 +1,8 @@
 import 'package:on_chain/on_chain.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void accountPublicKeyTest() {
   group('Aptos/Account Public Key', () {
     _testMultiKey();
@@ -21,7 +21,6 @@ void accountPublicKeyTest() {
 void main() {
   OnChainUtilsTestApi.runTest(accountPublicKeyTest, "Account Public Key");
 }
-
 
 void _testMultiKeyFailed() {
   test("Invalid MultiKey account", () {

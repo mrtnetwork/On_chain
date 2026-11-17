@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # System Undelete
@@ -45,8 +46,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaSystemUndeleteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaSystemUndeleteTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * A file identifier.
   ///          * &lt;p&gt;
   ///          * The identified file MUST exist in the HFS.&lt;br/&gt;
@@ -57,7 +59,7 @@ class HederaSystemUndeleteTransactionBody extends HederaProtoMessage with Equali
   ///          * This field is REQUIRED.
   final proto_basic_types.HederaFileID? fileID;
 
-    /// *
+  /// *
   ///          * A contract identifier.
   ///          * &lt;p&gt;
   ///          * The identified contract MUST exist in network state.&lt;br/&gt;
@@ -68,10 +70,7 @@ class HederaSystemUndeleteTransactionBody extends HederaProtoMessage with Equali
   ///          * This option is _unsupported_.
   final proto_basic_types.HederaContractID? contractID;
 
-  const HederaSystemUndeleteTransactionBody({
-    this.fileID,
-    this.contractID,
-  });
+  const HederaSystemUndeleteTransactionBody({this.fileID, this.contractID});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -80,67 +79,78 @@ class HederaSystemUndeleteTransactionBody extends HederaProtoMessage with Equali
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        fileID,
-        contractID,
-      ];
+  List<Object?> get protoValues => [fileID, contractID];
 
+  HederaSystemUndeleteTransactionBody copyWith({
+    proto_basic_types.HederaFileID? fileID,
 
-HederaSystemUndeleteTransactionBody copyWith(
-{proto_basic_types.HederaFileID? fileID,
-
-proto_basic_types.HederaContractID? contractID,
-
-}) {
+    proto_basic_types.HederaContractID? contractID,
+  }) {
     return HederaSystemUndeleteTransactionBody(
-fileID: fileID ?? this.fileID,
-contractID: contractID ?? this.contractID,
+      fileID: fileID ?? this.fileID,
+      contractID: contractID ?? this.contractID,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'fileID': config.encodeMessage(fileID),
       'contractID': config.encodeMessage(contractID),
     };
   }
 
-
-  factory HederaSystemUndeleteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSystemUndeleteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSystemUndeleteTransactionBody(
       fileID: json.valueTo<proto_basic_types.HederaFileID?, Object>(
         key: 'fileID',
-        parse: (v) => proto_basic_types.HederaFileID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaFileID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       contractID: json.valueTo<proto_basic_types.HederaContractID?, Object>(
         key: 'contractID',
-        parse: (v) => proto_basic_types.HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaSystemUndeleteTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSystemUndeleteTransactionBody(
-      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(1, (b) => proto_basic_types.HederaFileID.deserialize(b)),
-      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(2, (b) => proto_basic_types.HederaContractID.deserialize(b)),
+      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(
+        1,
+        (b) => proto_basic_types.HederaFileID.deserialize(b),
+      ),
+      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(
+        2,
+        (b) => proto_basic_types.HederaContractID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSystemUndeleteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSystemUndeleteTransactionBody;
 }
-
-

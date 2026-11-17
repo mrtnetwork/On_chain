@@ -2,6 +2,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void systemLayoutTest() {
   group('Solana/System Layout', () {
     _create();
@@ -22,7 +23,6 @@ void systemLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(systemLayoutTest, "Layout");
 }
-
 
 void _create() {
   test('create', () {

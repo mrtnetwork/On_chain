@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 
 import '../../utils.dart';
+
 // Adjust this import path to match your project structure:
 // import 'package:your_package/icp_hash_tree.dart';
 
@@ -30,14 +31,14 @@ ICPLookupResult lookup(List<String> path, ICPHashTree tree) =>
 void treeTest() {
   group('ICP/Domain separator', () {
     test('Domain separator leaf good', () {
-    final h = ICPCryptoUtils.hashDomainSeparator(
-      'ic-hashtree-leaf',
-      'good'.codeUnits,
-    );
-    expect(
-      BytesUtils.toHexString(h),
-      '7b32ac0c6ba8ce35ac82c255fc7906f7fc130dab2a090f80fe12f9c2cae83ba6',
-    );
+      final h = ICPCryptoUtils.hashDomainSeparator(
+        'ic-hashtree-leaf',
+        'good'.codeUnits,
+      );
+      expect(
+        BytesUtils.toHexString(h),
+        '7b32ac0c6ba8ce35ac82c255fc7906f7fc130dab2a090f80fe12f9c2cae83ba6',
+      );
     });
   });
 
@@ -526,4 +527,3 @@ void treeTest() {
 void main() {
   OnChainUtilsTestApi.runTest(treeTest, "Tree");
 }
-

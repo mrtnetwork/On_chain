@@ -12,7 +12,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * and a list of pairs of round number and active roster hash.&lt;br/&gt;
 ///  * This data SHALL be used to track round numbers and the rosters used in determining the consensus.&lt;br/&gt;
 class HederaRosterState extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The SHA-384 hash of a candidate roster.
   ///      * &lt;p&gt;
   ///      * This is the hash of the roster that is currently being considered
@@ -21,14 +21,14 @@ class HederaRosterState extends HederaProtoMessage with Equality {
   ///      * at the same time.
   final List<int>? candidateRosterHash;
 
-    /// *
+  /// *
   ///      * A list of round numbers and roster hashes.&lt;br/&gt;
   ///      * The round number indicates the round in which the corresponding roster became active
   ///      * &lt;p&gt;
   ///      * This list SHALL be ordered by round numbers in descending order.
   final List<HederaRoundRosterPair> roundRosterPairs;
 
-    /// *
+  /// *
   ///       * Indicates whether the roster transplant is in progress.&lt;br/&gt;
   ///       * This is needed to determine if all the node creations and deletions are complete.
   ///       * True while a transplant roster is still being processed (nodes are
@@ -65,47 +65,72 @@ class HederaRosterState extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        candidateRosterHash,
-        roundRosterPairs,
-        transplantInProgress,
-      ];
+    candidateRosterHash,
+    roundRosterPairs,
+    transplantInProgress,
+  ];
 
+  HederaRosterState copyWith({
+    List<int>? candidateRosterHash,
 
-HederaRosterState copyWith(
-{List<int>? candidateRosterHash,
+    List<HederaRoundRosterPair>? roundRosterPairs,
 
-List<HederaRoundRosterPair>? roundRosterPairs,
-
-bool? transplantInProgress,
-
-}) {
+    bool? transplantInProgress,
+  }) {
     return HederaRosterState(
-candidateRosterHash: candidateRosterHash ?? this.candidateRosterHash,
-roundRosterPairs: roundRosterPairs ?? this.roundRosterPairs,
-transplantInProgress: transplantInProgress ?? this.transplantInProgress,
+      candidateRosterHash: candidateRosterHash ?? this.candidateRosterHash,
+      roundRosterPairs: roundRosterPairs ?? this.roundRosterPairs,
+      transplantInProgress: transplantInProgress ?? this.transplantInProgress,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'candidate_roster_hash': config.encodeBinary(candidateRosterHash),
-      'round_roster_pairs': roundRosterPairs.map((e) => config.encodeMessage(e)).toList(),
+      'round_roster_pairs':
+          roundRosterPairs.map((e) => config.encodeMessage(e)).toList(),
       'transplant_in_progress': transplantInProgress,
     };
   }
 
-
-  factory HederaRosterState.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRosterState.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRosterState(
-      candidateRosterHash: config.decodeBinary<List<int>?>(json.valueAs('candidate_roster_hash', normalizeKeyLookup: config.normalizeKeys)),
-      roundRosterPairs: (json.valueEnsureAsList<dynamic>('round_roster_pairs', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaRoundRosterPair, Object>(
-          value: e,
-          parse: (v) => HederaRoundRosterPair.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      transplantInProgress: json.valueAsBool<bool?>('transplant_in_progress', normalizeKeyLookup: config.normalizeKeys),
+      candidateRosterHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'candidate_roster_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      roundRosterPairs:
+          (json.valueEnsureAsList<dynamic>(
+                'round_roster_pairs',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaRoundRosterPair, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaRoundRosterPair.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      transplantInProgress: json.valueAsBool<bool?>(
+        'transplant_in_progress',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -113,16 +138,19 @@ List<dynamic> get variables => protoValues;
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaRosterState(
       candidateRosterHash: decode.getBytes<List<int>?>(1),
-      roundRosterPairs: decode.getListOfBytes(2).map((b) => HederaRoundRosterPair.deserialize(b)).toList(),
+      roundRosterPairs:
+          decode
+              .getListOfBytes(2)
+              .map((b) => HederaRoundRosterPair.deserialize(b))
+              .toList(),
       transplantInProgress: decode.getBool<bool?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterRosterState;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterRosterState;
 }
-
 
 /// *
 ///  * A pair of round number and active roster hash.
@@ -130,22 +158,19 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * This message SHALL encapsulate the round number and the hash of the
 ///  * active roster used for that round.
 class HederaRoundRosterPair extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The round number.
   ///      * &lt;p&gt;
   ///      * This value SHALL be the round number of the consensus round in which this roster became active.
   final BigInt? roundNumber;
 
-    /// *
+  /// *
   ///      * The SHA-384 hash of the active roster for the given round number.
   ///      * &lt;p&gt;
   ///      * This value SHALL be the hash of the active roster used for the round.
   final List<int>? activeRosterHash;
 
-  const HederaRoundRosterPair({
-    this.roundNumber,
-    this.activeRosterHash,
-  });
+  const HederaRoundRosterPair({this.roundNumber, this.activeRosterHash});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -154,47 +179,52 @@ class HederaRoundRosterPair extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-        ProtoFieldConfig.bytes(2),
-      ],
+      fields: [ProtoFieldConfig.uint64(1), ProtoFieldConfig.bytes(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        roundNumber,
-        activeRosterHash,
-      ];
+  List<Object?> get protoValues => [roundNumber, activeRosterHash];
 
+  HederaRoundRosterPair copyWith({
+    BigInt? roundNumber,
 
-HederaRoundRosterPair copyWith(
-{BigInt? roundNumber,
-
-List<int>? activeRosterHash,
-
-}) {
+    List<int>? activeRosterHash,
+  }) {
     return HederaRoundRosterPair(
-roundNumber: roundNumber ?? this.roundNumber,
-activeRosterHash: activeRosterHash ?? this.activeRosterHash,
+      roundNumber: roundNumber ?? this.roundNumber,
+      activeRosterHash: activeRosterHash ?? this.activeRosterHash,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'round_number': config.encodeBigint(roundNumber),
       'active_roster_hash': config.encodeBinary(activeRosterHash),
     };
   }
 
-
-  factory HederaRoundRosterPair.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRoundRosterPair.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRoundRosterPair(
-      roundNumber: json.valueAsBigInt<BigInt?>('round_number', normalizeKeyLookup: config.normalizeKeys),
-      activeRosterHash: config.decodeBinary<List<int>?>(json.valueAs('active_roster_hash', normalizeKeyLookup: config.normalizeKeys)),
+      roundNumber: json.valueAsBigInt<BigInt?>(
+        'round_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      activeRosterHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'active_roster_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -207,8 +237,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterRoundRosterPair;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateRosterRoundRosterPair;
 }
-
-

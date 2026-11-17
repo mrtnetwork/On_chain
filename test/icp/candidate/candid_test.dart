@@ -3,6 +3,7 @@ import 'package:on_chain/icp/src/serialization/candid/candid.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 void candidTest() {
   group('ICP/LEB128', () {
     test('unsigned roundtrip', () {
@@ -307,4 +308,3 @@ void candidTest() {
 void main() {
   OnChainUtilsTestApi.runTest(candidTest, "Candid");
 }
-

@@ -18,11 +18,11 @@ final BigInt _oneAda = BigInt.from(1000000);
 
 /// Builds the Blockfrost-backed provider for Preprod.
 BlockFrostProvider preprodProvider() => BlockFrostProvider(
-  BlockFrostHTTPProvider(
-    url: _blockfrostUrl,
-    projectId: _blockfrostProjectId,
-  ),
-);
+      BlockFrostHTTPProvider(
+        url: _blockfrostUrl,
+        projectId: _blockfrostProjectId,
+      ),
+    );
 
 /// The single QuickClient used by every example.
 ///
@@ -128,11 +128,12 @@ List<TransactionUnspentOutput> selectUtxos(
 /// to [exclude] and the call is retried up to [maxAttempts] times.
 Future<String> buildSignSubmit({
   required Future<List<TransactionUnspentOutput>> Function(Set<String> exclude)
-  utxos,
+      utxos,
   required List<TransactionOutput> outputs,
   required ADAAddress changeAddress,
-  required Map<ADAAddress, List<ADABaseTransactionWitness> Function(List<int> digest)>
-  signers,
+  required Map<ADAAddress,
+          List<ADABaseTransactionWitness> Function(List<int> digest)>
+      signers,
   List<ADAMinsBuilder> mints = const [],
   NativeScripts? nativeScripts,
   GeneralTransactionMetadata? metadata,
@@ -180,8 +181,7 @@ Future<String> buildSignSubmit({
       return txId;
     } on RPCError catch (e) {
       final message = e.message.toLowerCase();
-      final spent =
-          message.contains('all inputs are spent') ||
+      final spent = message.contains('all inputs are spent') ||
           message.contains('already been included') ||
           message.contains('badinputnutxo') ||
           message.contains('nonemptyset') ||
@@ -221,17 +221,16 @@ Future<void> exampleSimplePaymentTo(
   BigInt amount,
 ) async {
   await buildSignSubmit(
-    utxos:
-        (exclude) =>
-            faucetUtxosFor(exclude, amount + _oneAda * BigInt.from(2)),
+    utxos: (exclude) =>
+        faucetUtxosFor(exclude, amount + _oneAda * BigInt.from(2)),
     outputs: [
       TransactionOutput(address: receiver, amount: Value(coin: amount)),
     ],
     changeAddress: faucet.address,
     signers: {
       faucet.address: (digest) => [
-        faucet.privateKey.createSignatureWitness(digest),
-      ],
+            faucet.privateKey.createSignatureWitness(digest),
+          ],
     },
   );
 }
@@ -263,15 +262,18 @@ Future<void> exampleQuickClientTour() async {
     '  protocol:                minFeeA=${params.minFeeA} minFeeB=${params.minFeeB}',
   );
 
-  print('  faucet balance:          ${await balanceOf(faucet.address)} lovelace');
-  print('  alice balance:           ${await balanceOf(alice.address)} lovelace');
+  print(
+      '  faucet balance:          ${await balanceOf(faucet.address)} lovelace');
+  print(
+      '  alice balance:           ${await balanceOf(alice.address)} lovelace');
 
   final utxos = await utxosOf(faucet.address);
   print('  faucet utxos:            ${utxos.length}');
 
   if (utxos.isNotEmpty) {
     final first = utxos.first;
-    print('  first utxo:              ${first.input.txIdHex}:${first.input.index}');
+    print(
+        '  first utxo:              ${first.input.txIdHex}:${first.input.index}');
 
     // Resolve a spent output straight from the QuickClient.
     final resolved = await quick.getUtxosOutputs([first.input]);
@@ -288,17 +290,16 @@ Future<void> exampleSimplePayment() async {
   final amount = _oneAda * BigInt.from(2);
 
   final txId = await buildSignSubmit(
-    utxos:
-        (exclude) =>
-            faucetUtxosFor(exclude, amount + _oneAda * BigInt.from(2)),
+    utxos: (exclude) =>
+        faucetUtxosFor(exclude, amount + _oneAda * BigInt.from(2)),
     outputs: [
       TransactionOutput(address: alice.address, amount: Value(coin: amount)),
     ],
     changeAddress: faucet.address,
     signers: {
       faucet.address: (digest) => [
-        faucet.privateKey.createSignatureWitness(digest),
-      ],
+            faucet.privateKey.createSignatureWitness(digest),
+          ],
     },
   );
   await Future<void>.delayed(const Duration(seconds: 6));
@@ -330,8 +331,8 @@ Future<void> exampleMultiOutputPayment() async {
     changeAddress: faucet.address,
     signers: {
       faucet.address: (digest) => [
-        faucet.privateKey.createSignatureWitness(digest),
-      ],
+            faucet.privateKey.createSignatureWitness(digest),
+          ],
     },
   );
 
@@ -385,8 +386,8 @@ Future<void> exampleMintNativeAsset() async {
     nativeScripts: NativeScripts([mintScript]),
     signers: {
       faucet.address: (digest) => [
-        faucet.privateKey.createSignatureWitness(digest),
-      ],
+            faucet.privateKey.createSignatureWitness(digest),
+          ],
     },
   );
 

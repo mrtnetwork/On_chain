@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void compiledMessageV0Test() {
   group('Solana/System Compiled Message V0', () {
     _systemCreateAccount();
@@ -23,7 +24,6 @@ void compiledMessageV0Test() {
 void main() {
   OnChainUtilsTestApi.runTest(compiledMessageV0Test, "Compiled Message V0");
 }
-
 
 void _systemCreateAccount() {
   test('create', () {

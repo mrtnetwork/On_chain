@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" as proto_custom_fees;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart"
+    as proto_custom_fees;
 
 /// *
 ///  * # HCS Topic Information
@@ -30,37 +32,37 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/custom_fees.dart" a
 ///  * available in the network block stream, and may be queried via the
 ///  * Mirror Node system.
 class HederaTopic extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The topic's ID.
   ///      * &lt;p&gt;
   ///      * This value SHALL be unique within the network.
   final proto_basic_types.HederaTopicID? topicId;
 
-    /// *
+  /// *
   ///      * The number of messages sent to the topic.
   final BigInt? sequenceNumber;
 
-    /// *
+  /// *
   ///      * The expiration time for this topic, in seconds since the epoch.
   ///      * &lt;p&gt;
   ///      * For this purpose, `epoch` SHALL be the UNIX epoch with 0 at `1970-01-01T00:00:00.000Z`.
   final BigInt? expirationSecond;
 
-    /// *
+  /// *
   ///      * The number of seconds for which the topic will be automatically renewed
   ///      * upon expiring (if it has a valid auto-renew account).
   final BigInt? autoRenewPeriod;
 
-    /// *
+  /// *
   ///      * The id of the account (if any) that the network will attempt to charge
   ///      * fees to complete auto-renewal of this topic, upon expiration.
   final proto_basic_types.HederaAccountID? autoRenewAccountId;
 
-    /// *
+  /// *
   ///      * A flag indicating that this topic is deleted.
   final bool? deleted;
 
-    /// *
+  /// *
   ///      * The current running hash of this topic.
   ///      * &lt;p&gt;
   ///      * This 48-byte field is the output of a SHA-384 digest with input data
@@ -96,14 +98,14 @@ class HederaTopic extends HederaProtoMessage with Equality {
   ///      * hash calculation for each such historical message.&lt;/blockquote&gt;
   final List<int>? runningHash;
 
-    /// *
+  /// *
   ///      * A short description of this topic.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
   ///      * (default 100) bytes when encoded as UTF-8.
   final String? memo;
 
-    /// *
+  /// *
   ///      * Access control for modification of the topic.
   ///      * &lt;p&gt;
   ///      * If this field is set, that key MUST sign each message to update or delete
@@ -113,14 +115,14 @@ class HederaTopic extends HederaProtoMessage with Equality {
   ///      * If this field is not set, the `auto_renew_account_id` MUST NOT be set.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * Access control for message submission to the topic.
   ///      * &lt;p&gt;
   ///      * If this field is set, that key MUST sign each consensus submit message
   ///      * for this topic.
   final proto_basic_types.HederaKey? submitKey;
 
-    /// *
+  /// *
   ///      * Access control for update/delete of custom fees.
   ///      * &lt;p&gt;
   ///      * If this field is unset, the current custom fees CANNOT be changed.&lt;br/&gt;
@@ -128,7 +130,7 @@ class HederaTopic extends HederaProtoMessage with Equality {
   ///      * the custom fee schedule for this topic.
   final proto_basic_types.HederaKey? feeScheduleKey;
 
-    /// *
+  /// *
   ///      * A set of "privileged payer" keys&lt;br/&gt;
   ///      * Keys in this list are permitted to submit messages to this topic without
   ///      * paying custom fees associated with this topic.
@@ -145,7 +147,7 @@ class HederaTopic extends HederaProtoMessage with Equality {
   ///      * list: `adminKey`, `submitKey`, `fee_schedule_key`.
   final List<proto_basic_types.HederaKey> feeExemptKeyList;
 
-    /// *
+  /// *
   ///      * A set of custom fee definitions.&lt;br/&gt;
   ///      * These are fees to be assessed for each submit to this topic.
   ///      * &lt;p&gt;
@@ -207,71 +209,72 @@ class HederaTopic extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        topicId,
-        sequenceNumber,
-        expirationSecond,
-        autoRenewPeriod,
-        autoRenewAccountId,
-        deleted,
-        runningHash,
-        memo,
-        adminKey,
-        submitKey,
-        feeScheduleKey,
-        feeExemptKeyList,
-        customFees,
-      ];
+    topicId,
+    sequenceNumber,
+    expirationSecond,
+    autoRenewPeriod,
+    autoRenewAccountId,
+    deleted,
+    runningHash,
+    memo,
+    adminKey,
+    submitKey,
+    feeScheduleKey,
+    feeExemptKeyList,
+    customFees,
+  ];
 
+  HederaTopic copyWith({
+    proto_basic_types.HederaTopicID? topicId,
 
-HederaTopic copyWith(
-{proto_basic_types.HederaTopicID? topicId,
+    BigInt? sequenceNumber,
 
-BigInt? sequenceNumber,
+    BigInt? expirationSecond,
 
-BigInt? expirationSecond,
+    BigInt? autoRenewPeriod,
 
-BigInt? autoRenewPeriod,
+    proto_basic_types.HederaAccountID? autoRenewAccountId,
 
-proto_basic_types.HederaAccountID? autoRenewAccountId,
+    bool? deleted,
 
-bool? deleted,
+    List<int>? runningHash,
 
-List<int>? runningHash,
+    String? memo,
 
-String? memo,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    proto_basic_types.HederaKey? submitKey,
 
-proto_basic_types.HederaKey? submitKey,
+    proto_basic_types.HederaKey? feeScheduleKey,
 
-proto_basic_types.HederaKey? feeScheduleKey,
+    List<proto_basic_types.HederaKey>? feeExemptKeyList,
 
-List<proto_basic_types.HederaKey>? feeExemptKeyList,
-
-List<proto_custom_fees.HederaFixedCustomFee>? customFees,
-
-}) {
+    List<proto_custom_fees.HederaFixedCustomFee>? customFees,
+  }) {
     return HederaTopic(
-topicId: topicId ?? this.topicId,
-sequenceNumber: sequenceNumber ?? this.sequenceNumber,
-expirationSecond: expirationSecond ?? this.expirationSecond,
-autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
-autoRenewAccountId: autoRenewAccountId ?? this.autoRenewAccountId,
-deleted: deleted ?? this.deleted,
-runningHash: runningHash ?? this.runningHash,
-memo: memo ?? this.memo,
-adminKey: adminKey ?? this.adminKey,
-submitKey: submitKey ?? this.submitKey,
-feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
-feeExemptKeyList: feeExemptKeyList ?? this.feeExemptKeyList,
-customFees: customFees ?? this.customFees,
+      topicId: topicId ?? this.topicId,
+      sequenceNumber: sequenceNumber ?? this.sequenceNumber,
+      expirationSecond: expirationSecond ?? this.expirationSecond,
+      autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
+      autoRenewAccountId: autoRenewAccountId ?? this.autoRenewAccountId,
+      deleted: deleted ?? this.deleted,
+      runningHash: runningHash ?? this.runningHash,
+      memo: memo ?? this.memo,
+      adminKey: adminKey ?? this.adminKey,
+      submitKey: submitKey ?? this.submitKey,
+      feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
+      feeExemptKeyList: feeExemptKeyList ?? this.feeExemptKeyList,
+      customFees: customFees ?? this.customFees,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'topic_id': config.encodeMessage(topicId),
       'sequence_number': config.encodeBigint(sequenceNumber),
@@ -284,73 +287,169 @@ List<dynamic> get variables => protoValues;
       'admin_key': config.encodeMessage(adminKey),
       'submit_key': config.encodeMessage(submitKey),
       'fee_schedule_key': config.encodeMessage(feeScheduleKey),
-      'fee_exempt_key_list': feeExemptKeyList.map((e) => config.encodeMessage(e)).toList(),
+      'fee_exempt_key_list':
+          feeExemptKeyList.map((e) => config.encodeMessage(e)).toList(),
       'custom_fees': customFees.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTopic.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTopic.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTopic(
       topicId: json.valueTo<proto_basic_types.HederaTopicID?, Object>(
         key: 'topic_id',
-        parse: (v) => proto_basic_types.HederaTopicID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      sequenceNumber: json.valueAsBigInt<BigInt?>('sequence_number', normalizeKeyLookup: config.normalizeKeys),
-      expirationSecond: json.valueAsBigInt<BigInt?>('expiration_second', normalizeKeyLookup: config.normalizeKeys),
-      autoRenewPeriod: json.valueAsBigInt<BigInt?>('auto_renew_period', normalizeKeyLookup: config.normalizeKeys),
-      autoRenewAccountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'auto_renew_account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      deleted: json.valueAsBool<bool?>('deleted', normalizeKeyLookup: config.normalizeKeys),
-      runningHash: config.decodeBinary<List<int>?>(json.valueAs('running_hash', normalizeKeyLookup: config.normalizeKeys)),
-      memo: json.valueAsString<String?>('memo', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaTopicID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      sequenceNumber: json.valueAsBigInt<BigInt?>(
+        'sequence_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      expirationSecond: json.valueAsBigInt<BigInt?>(
+        'expiration_second',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      autoRenewPeriod: json.valueAsBigInt<BigInt?>(
+        'auto_renew_period',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      autoRenewAccountId: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'auto_renew_account_id',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      deleted: json.valueAsBool<bool?>(
+        'deleted',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      runningHash: config.decodeBinary<List<int>?>(
+        json.valueAs('running_hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      memo: json.valueAsString<String?>(
+        'memo',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'admin_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       submitKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'submit_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       feeScheduleKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'fee_schedule_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      feeExemptKeyList: (json.valueEnsureAsList<dynamic>('fee_exempt_key_list', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_basic_types.HederaKey, Object>(
-          value: e,
-          parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      customFees: (json.valueEnsureAsList<dynamic>('custom_fees', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_custom_fees.HederaFixedCustomFee, Object>(
-          value: e,
-          parse: (v) => proto_custom_fees.HederaFixedCustomFee.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      feeExemptKeyList:
+          (json.valueEnsureAsList<dynamic>(
+                'fee_exempt_key_list',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<proto_basic_types.HederaKey, Object>(
+                  value: e,
+                  parse:
+                      (v) => proto_basic_types.HederaKey.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      customFees:
+          (json.valueEnsureAsList<dynamic>(
+                'custom_fees',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_custom_fees.HederaFixedCustomFee,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_custom_fees.HederaFixedCustomFee.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTopic.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTopic(
-      topicId: decode.messageTo<proto_basic_types.HederaTopicID?>(1, (b) => proto_basic_types.HederaTopicID.deserialize(b)),
+      topicId: decode.messageTo<proto_basic_types.HederaTopicID?>(
+        1,
+        (b) => proto_basic_types.HederaTopicID.deserialize(b),
+      ),
       sequenceNumber: decode.getBigInt<BigInt?>(2),
       expirationSecond: decode.getBigInt<BigInt?>(3),
       autoRenewPeriod: decode.getBigInt<BigInt?>(4),
-      autoRenewAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(5, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      autoRenewAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        5,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       deleted: decode.getBool<bool?>(6),
       runningHash: decode.getBytes<List<int>?>(7),
       memo: decode.getString<String?>(8),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(9, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      submitKey: decode.messageTo<proto_basic_types.HederaKey?>(10, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(11, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      feeExemptKeyList: decode.getListOfBytes(12).map((b) => proto_basic_types.HederaKey.deserialize(b)).toList(),
-      customFees: decode.getListOfBytes(13).map((b) => proto_custom_fees.HederaFixedCustomFee.deserialize(b)).toList(),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        9,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      submitKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        10,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        11,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      feeExemptKeyList:
+          decode
+              .getListOfBytes(12)
+              .map((b) => proto_basic_types.HederaKey.deserialize(b))
+              .toList(),
+      customFees:
+          decode
+              .getListOfBytes(13)
+              .map((b) => proto_custom_fees.HederaFixedCustomFee.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTopic;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTopic;
 }
-
-

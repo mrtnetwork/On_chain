@@ -1,9 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart" as proto_duration;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/hooks/src/hook_types.dart" as com_hedera_hapi_node_hooks_hook_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart"
+    as proto_duration;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/hooks/src/hook_types.dart"
+    as com_hedera_hapi_node_hooks_hook_types;
 
 /// *
 ///  * # Smart Contract Create
@@ -63,8 +66,9 @@ import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/hooks/sr
 ///  *
 ///  * ### Block Stream Effects
 ///  * A `CreateContractOutput` message SHALL be emitted for each transaction.
-class HederaContractCreateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaContractCreateTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * The source for the smart contract EVM bytecode.
   ///          * &lt;p&gt;
   ///          * The file containing the smart contract initcode.
@@ -74,7 +78,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///          * network file size limit.
   final proto_basic_types.HederaFileID? fileID;
 
-    /// *
+  /// *
   ///          * The source for the smart contract EVM bytecode.
   ///          * &lt;p&gt;
   ///          * The bytes of the smart contract initcode. A copy of the contents
@@ -84,7 +88,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///          * MUST be less than the network transaction size limit.
   final List<int>? initcode;
 
-    /// *
+  /// *
   ///      * Access control for modification of the smart contract after
   ///      * it is created.
   ///      * &lt;p&gt;
@@ -99,7 +103,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * expiration and renewal.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * A maximum limit to the amount of gas to use for the constructor call.
   ///      * &lt;p&gt;
   ///      * The network SHALL charge the greater of the following, but SHALL NOT
@@ -113,7 +117,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * some overage to ensure successful execution.
   final BigInt? gas;
 
-    /// *
+  /// *
   ///      * The amount of HBAR to use as an initial balance for the account
   ///      * representing the new smart contract.
   ///      * &lt;p&gt;
@@ -123,14 +127,14 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * signed this transaction.
   final BigInt? initialBalance;
 
-    /// *
+  /// *
   ///      * Proxy account staking is handled via `staked_id`.
   ///      * &lt;p&gt;
   ///      * Former field to designate a proxy account for HBAR staking.
   ///      * This field MUST NOT be set.
   final proto_basic_types.HederaAccountID? proxyAccountID;
 
-    /// *
+  /// *
   ///      * The initial lifetime, in seconds, for the smart contract, and the number
   ///      * of seconds for which the smart contract will be automatically renewed
   ///      * upon expiration.
@@ -140,13 +144,13 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * This value MUST be less than the configured MAX_AUTORENEW_PERIOD.&lt;br/&gt;
   final proto_duration.HederaDuration? autoRenewPeriod;
 
-    /// *
+  /// *
   ///      * An array of bytes containing the EVM-encoded parameters to pass to
   ///      * the smart contract constructor defined in the smart contract init
   ///      * code provided.
   final List<int>? constructorParameters;
 
-    /// *
+  /// *
   ///      * &lt;blockquote&gt;Review Question&lt;br/&gt;
   ///      * &lt;blockquote&gt;Should this be deprecated?&lt;br/&gt;
   ///      * It's never been used and probably never should be used...&lt;br/&gt;
@@ -157,7 +161,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * This value is currently ignored.
   final proto_basic_types.HederaShardID? shardID;
 
-    /// *
+  /// *
   ///      * &lt;blockquote&gt;Review Question&lt;br/&gt;
   ///      * &lt;blockquote&gt;Should this be deprecated?&lt;br/&gt;
   ///      * It's never been used and probably never should be used...&lt;br/&gt;
@@ -168,7 +172,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * This value is currently ignored.
   final proto_basic_types.HederaRealmID? realmID;
 
-    /// *
+  /// *
   ///      * &lt;blockquote&gt;Review Question&lt;br/&gt;
   ///      * &lt;blockquote&gt;Should this be deprecated?&lt;br/&gt;
   ///      * It's never been used and probably never should be used...&lt;br/&gt;
@@ -181,14 +185,14 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * regardless of the value of `realmID`.
   final proto_basic_types.HederaKey? newRealmAdminKey;
 
-    /// *
+  /// *
   ///      * A short memo for this smart contract.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
   ///      * (default 100) bytes when encoded as UTF-8.
   final String? memo;
 
-    /// *
+  /// *
   ///      * The maximum number of tokens that can be auto-associated with this
   ///      * smart contract.
   ///      * &lt;p&gt;
@@ -199,7 +203,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * This value MUST NOT be less than `-1`.
   final int? maxAutomaticTokenAssociations;
 
-    /// *
+  /// *
   ///      * The id of an account, in the same shard and realm as this smart
   ///      * contract, that has signed this transaction, allowing the network to use
   ///      * its balance, when needed, to automatically extend this contract's
@@ -215,13 +219,13 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * the HBAR balance held by this contract.
   final proto_basic_types.HederaAccountID? autoRenewAccountId;
 
-    /// *
+  /// *
   ///          * An account ID.
   ///          * &lt;p&gt;
   ///          * This smart contract SHALL stake its HBAR via this account as proxy.
   final proto_basic_types.HederaAccountID? stakedAccountId;
 
-    /// *
+  /// *
   ///          * The ID of a network node.
   ///          * &lt;p&gt;
   ///          * This smart contract SHALL stake its HBAR to this node.
@@ -235,7 +239,7 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///          * account.&lt;/blockquote&gt;
   final BigInt? stakedNodeId;
 
-    /// *
+  /// *
   ///      * A flag indicating that this smart contract declines to receive any
   ///      * reward for staking its HBAR balance to help secure the network.
   ///      * &lt;p&gt;
@@ -245,9 +249,10 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
   ///      * without reward.
   final bool? declineReward;
 
-    /// *
+  /// *
   ///      * Details of hooks to add immediately after creating this contract.
-  final List<com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails> hookCreationDetails;
+  final List<com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails>
+  hookCreationDetails;
 
   const HederaContractCreateTransactionBody({
     this.fileID,
@@ -283,7 +288,10 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
         ProtoFieldConfig.message(3),
         ProtoFieldConfig.int64(4),
         ProtoFieldConfig.int64(5),
-        ProtoFieldConfig.message(6, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.message(
+          6,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
         ProtoFieldConfig.message(8),
         ProtoFieldConfig.bytes(9),
         ProtoFieldConfig.message(10),
@@ -305,91 +313,95 @@ class HederaContractCreateTransactionBody extends HederaProtoMessage with Equali
 
   @override
   List<Object?> get protoValues => [
-        fileID,
-        initcode,
-        adminKey,
-        gas,
-        initialBalance,
-        proxyAccountID,
-        autoRenewPeriod,
-        constructorParameters,
-        shardID,
-        realmID,
-        newRealmAdminKey,
-        memo,
-        maxAutomaticTokenAssociations,
-        autoRenewAccountId,
-        stakedAccountId,
-        stakedNodeId,
-        declineReward,
-        hookCreationDetails,
-      ];
+    fileID,
+    initcode,
+    adminKey,
+    gas,
+    initialBalance,
+    proxyAccountID,
+    autoRenewPeriod,
+    constructorParameters,
+    shardID,
+    realmID,
+    newRealmAdminKey,
+    memo,
+    maxAutomaticTokenAssociations,
+    autoRenewAccountId,
+    stakedAccountId,
+    stakedNodeId,
+    declineReward,
+    hookCreationDetails,
+  ];
 
+  HederaContractCreateTransactionBody copyWith({
+    proto_basic_types.HederaFileID? fileID,
 
-HederaContractCreateTransactionBody copyWith(
-{proto_basic_types.HederaFileID? fileID,
+    List<int>? initcode,
 
-List<int>? initcode,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    BigInt? gas,
 
-BigInt? gas,
+    BigInt? initialBalance,
 
-BigInt? initialBalance,
+    proto_basic_types.HederaAccountID? proxyAccountID,
 
-proto_basic_types.HederaAccountID? proxyAccountID,
+    proto_duration.HederaDuration? autoRenewPeriod,
 
-proto_duration.HederaDuration? autoRenewPeriod,
+    List<int>? constructorParameters,
 
-List<int>? constructorParameters,
+    proto_basic_types.HederaShardID? shardID,
 
-proto_basic_types.HederaShardID? shardID,
+    proto_basic_types.HederaRealmID? realmID,
 
-proto_basic_types.HederaRealmID? realmID,
+    proto_basic_types.HederaKey? newRealmAdminKey,
 
-proto_basic_types.HederaKey? newRealmAdminKey,
+    String? memo,
 
-String? memo,
+    int? maxAutomaticTokenAssociations,
 
-int? maxAutomaticTokenAssociations,
+    proto_basic_types.HederaAccountID? autoRenewAccountId,
 
-proto_basic_types.HederaAccountID? autoRenewAccountId,
+    proto_basic_types.HederaAccountID? stakedAccountId,
 
-proto_basic_types.HederaAccountID? stakedAccountId,
+    BigInt? stakedNodeId,
 
-BigInt? stakedNodeId,
+    bool? declineReward,
 
-bool? declineReward,
-
-List<com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails>? hookCreationDetails,
-
-}) {
+    List<com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails>?
+    hookCreationDetails,
+  }) {
     return HederaContractCreateTransactionBody(
-fileID: fileID ?? this.fileID,
-initcode: initcode ?? this.initcode,
-adminKey: adminKey ?? this.adminKey,
-gas: gas ?? this.gas,
-initialBalance: initialBalance ?? this.initialBalance,
-proxyAccountID: proxyAccountID ?? this.proxyAccountID,
-autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
-constructorParameters: constructorParameters ?? this.constructorParameters,
-shardID: shardID ?? this.shardID,
-realmID: realmID ?? this.realmID,
-newRealmAdminKey: newRealmAdminKey ?? this.newRealmAdminKey,
-memo: memo ?? this.memo,
-maxAutomaticTokenAssociations: maxAutomaticTokenAssociations ?? this.maxAutomaticTokenAssociations,
-autoRenewAccountId: autoRenewAccountId ?? this.autoRenewAccountId,
-stakedAccountId: stakedAccountId ?? this.stakedAccountId,
-stakedNodeId: stakedNodeId ?? this.stakedNodeId,
-declineReward: declineReward ?? this.declineReward,
-hookCreationDetails: hookCreationDetails ?? this.hookCreationDetails,
+      fileID: fileID ?? this.fileID,
+      initcode: initcode ?? this.initcode,
+      adminKey: adminKey ?? this.adminKey,
+      gas: gas ?? this.gas,
+      initialBalance: initialBalance ?? this.initialBalance,
+      proxyAccountID: proxyAccountID ?? this.proxyAccountID,
+      autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
+      constructorParameters:
+          constructorParameters ?? this.constructorParameters,
+      shardID: shardID ?? this.shardID,
+      realmID: realmID ?? this.realmID,
+      newRealmAdminKey: newRealmAdminKey ?? this.newRealmAdminKey,
+      memo: memo ?? this.memo,
+      maxAutomaticTokenAssociations:
+          maxAutomaticTokenAssociations ?? this.maxAutomaticTokenAssociations,
+      autoRenewAccountId: autoRenewAccountId ?? this.autoRenewAccountId,
+      stakedAccountId: stakedAccountId ?? this.stakedAccountId,
+      stakedNodeId: stakedNodeId ?? this.stakedNodeId,
+      declineReward: declineReward ?? this.declineReward,
+      hookCreationDetails: hookCreationDetails ?? this.hookCreationDetails,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'fileID': config.encodeMessage(fileID),
       'initcode': config.encodeBinary(initcode),
@@ -408,91 +420,214 @@ List<dynamic> get variables => protoValues;
       'staked_account_id': config.encodeMessage(stakedAccountId),
       'staked_node_id': config.encodeBigint(stakedNodeId),
       'decline_reward': declineReward,
-      'hook_creation_details': hookCreationDetails.map((e) => config.encodeMessage(e)).toList(),
+      'hook_creation_details':
+          hookCreationDetails.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaContractCreateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaContractCreateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaContractCreateTransactionBody(
       fileID: json.valueTo<proto_basic_types.HederaFileID?, Object>(
         key: 'fileID',
-        parse: (v) => proto_basic_types.HederaFileID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      initcode: config.decodeBinary<List<int>?>(json.valueAs('initcode', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaFileID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      initcode: config.decodeBinary<List<int>?>(
+        json.valueAs('initcode', normalizeKeyLookup: config.normalizeKeys),
+      ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'adminKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      gas: json.valueAsBigInt<BigInt?>('gas', normalizeKeyLookup: config.normalizeKeys),
-      initialBalance: json.valueAsBigInt<BigInt?>('initialBalance', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      gas: json.valueAsBigInt<BigInt?>(
+        'gas',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      initialBalance: json.valueAsBigInt<BigInt?>(
+        'initialBalance',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       proxyAccountID: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'proxyAccountID',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       autoRenewPeriod: json.valueTo<proto_duration.HederaDuration?, Object>(
         key: 'autoRenewPeriod',
-        parse: (v) => proto_duration.HederaDuration.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      constructorParameters: config.decodeBinary<List<int>?>(json.valueAs('constructorParameters', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_duration.HederaDuration.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      constructorParameters: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'constructorParameters',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
       shardID: json.valueTo<proto_basic_types.HederaShardID?, Object>(
         key: 'shardID',
-        parse: (v) => proto_basic_types.HederaShardID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaShardID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       realmID: json.valueTo<proto_basic_types.HederaRealmID?, Object>(
         key: 'realmID',
-        parse: (v) => proto_basic_types.HederaRealmID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaRealmID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       newRealmAdminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'newRealmAdminKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      memo: json.valueAsString<String?>('memo', normalizeKeyLookup: config.normalizeKeys),
-      maxAutomaticTokenAssociations: json.valueAsInt<int?>('max_automatic_token_associations', normalizeKeyLookup: config.normalizeKeys),
-      autoRenewAccountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'auto_renew_account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      memo: json.valueAsString<String?>(
+        'memo',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      maxAutomaticTokenAssociations: json.valueAsInt<int?>(
+        'max_automatic_token_associations',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      autoRenewAccountId: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'auto_renew_account_id',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       stakedAccountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'staked_account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      stakedNodeId: json.valueAsBigInt<BigInt?>('staked_node_id', normalizeKeyLookup: config.normalizeKeys),
-      declineReward: json.valueAsBool<bool?>('decline_reward', normalizeKeyLookup: config.normalizeKeys),
-      hookCreationDetails: (json.valueEnsureAsList<dynamic>('hook_creation_details', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails, Object>(
-          value: e,
-          parse: (v) => com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stakedNodeId: json.valueAsBigInt<BigInt?>(
+        'staked_node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      declineReward: json.valueAsBool<bool?>(
+        'decline_reward',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      hookCreationDetails:
+          (json.valueEnsureAsList<dynamic>(
+                'hook_creation_details',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => com_hedera_hapi_node_hooks_hook_types
+                          .HederaHookCreationDetails.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaContractCreateTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaContractCreateTransactionBody(
-      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(1, (b) => proto_basic_types.HederaFileID.deserialize(b)),
+      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(
+        1,
+        (b) => proto_basic_types.HederaFileID.deserialize(b),
+      ),
       initcode: decode.getBytes<List<int>?>(16),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(3, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        3,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       gas: decode.getBigInt<BigInt?>(4),
       initialBalance: decode.getBigInt<BigInt?>(5),
-      proxyAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(6, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(8, (b) => proto_duration.HederaDuration.deserialize(b)),
+      proxyAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        6,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(
+        8,
+        (b) => proto_duration.HederaDuration.deserialize(b),
+      ),
       constructorParameters: decode.getBytes<List<int>?>(9),
-      shardID: decode.messageTo<proto_basic_types.HederaShardID?>(10, (b) => proto_basic_types.HederaShardID.deserialize(b)),
-      realmID: decode.messageTo<proto_basic_types.HederaRealmID?>(11, (b) => proto_basic_types.HederaRealmID.deserialize(b)),
-      newRealmAdminKey: decode.messageTo<proto_basic_types.HederaKey?>(12, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      shardID: decode.messageTo<proto_basic_types.HederaShardID?>(
+        10,
+        (b) => proto_basic_types.HederaShardID.deserialize(b),
+      ),
+      realmID: decode.messageTo<proto_basic_types.HederaRealmID?>(
+        11,
+        (b) => proto_basic_types.HederaRealmID.deserialize(b),
+      ),
+      newRealmAdminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        12,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       memo: decode.getString<String?>(13),
       maxAutomaticTokenAssociations: decode.getInt<int?>(14),
-      autoRenewAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(15, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      stakedAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(17, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      autoRenewAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        15,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      stakedAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        17,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       stakedNodeId: decode.getBigInt<BigInt?>(18),
       declineReward: decode.getBool<bool?>(19),
-      hookCreationDetails: decode.getListOfBytes(20).map((b) => com_hedera_hapi_node_hooks_hook_types.HederaHookCreationDetails.deserialize(b)).toList(),
+      hookCreationDetails:
+          decode
+              .getListOfBytes(20)
+              .map(
+                (b) => com_hedera_hapi_node_hooks_hook_types
+                    .HederaHookCreationDetails.deserialize(b),
+              )
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoContractCreateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoContractCreateTransactionBody;
 }
-
-

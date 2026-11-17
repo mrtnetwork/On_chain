@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void compileLegacyTest() {
   group('Solana/Stake Program Compile Legacy', () {
     _initialize();
@@ -19,7 +20,6 @@ void compileLegacyTest() {
 void main() {
   OnChainUtilsTestApi.runTest(compileLegacyTest, "Compile Legacy");
 }
-
 
 void _initialize() {
   test('initialize', () {

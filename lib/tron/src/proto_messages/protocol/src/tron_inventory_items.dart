@@ -9,10 +9,7 @@ class TronInventoryItems extends TronProtoMessage {
 
   final List<List<int>> items;
 
-  const TronInventoryItems({
-    this.type,
-    this.items = const [],
-  });
+  const TronInventoryItems({this.type, this.items = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -32,25 +29,33 @@ class TronInventoryItems extends TronProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        type,
-        items,
-      ];
-
+  List<Object?> get protoValues => [type, items];
 
   @override
-  Map<String, dynamic> toJson({TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  Map<String, dynamic> toJson({
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return {
       'type': type,
       'items': items.map((e) => config.encodeBinary(e)).toList(),
     }.notNullValue;
   }
 
-
-  factory TronInventoryItems.fromJson(Map<String, dynamic> json, {TronProtoJsonConfig config = TronProtoJsonConfig.config}) {
+  factory TronInventoryItems.fromJson(
+    Map<String, dynamic> json, {
+    TronProtoJsonConfig config = TronProtoJsonConfig.config,
+  }) {
     return TronInventoryItems(
-      type: json.valueAsInt<int?>('type', normalizeKeyLookup: config.normalizeKeys),
-      items: (json.valueEnsureAsList<dynamic>('items', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => config.decodeBinary<List<int>>(e)).toList(),
+      type: json.valueAsInt<int?>(
+        'type',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      items:
+          (json.valueEnsureAsList<dynamic>(
+            'items',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => config.decodeBinary<List<int>>(e)).toList(),
     );
   }
 
@@ -63,8 +68,6 @@ class TronInventoryItems extends TronProtoMessage {
   }
 
   @override
-DefaultTronProtoTypeUrl get declarationId => DefaultTronProtoTypeUrl.protocolInventoryItems;
-
+  DefaultTronProtoTypeUrl get declarationId =>
+      DefaultTronProtoTypeUrl.protocolInventoryItems;
 }
-
-

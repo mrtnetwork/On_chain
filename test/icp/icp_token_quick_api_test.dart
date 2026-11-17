@@ -88,11 +88,7 @@ void icpTokenQuickClientTest() {
     test('fetchSupportedStandards maps rejections to empty', () async {
       final api = _Fake(
         onQuery:
-            (m) =>
-                throw OnChainErrors.icpClient(
-                  'query',
-                  reason: 'rejected',
-                ),
+            (m) => throw OnChainErrors.icpClient('query', reason: 'rejected'),
       );
       expect(await api.fetchSupportedStandards(canister), isEmpty);
 

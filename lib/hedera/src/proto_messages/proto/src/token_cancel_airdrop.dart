@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Cancel Airdrop
@@ -28,8 +29,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaTokenCancelAirdropTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenCancelAirdropTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A list of one or more pending airdrop identifiers.&lt;br/&gt;
   ///      * This list declares the set of pending airdrop entries that the client
   ///      * wishes to cancel; on success all listed pending airdrop entries
@@ -62,49 +64,71 @@ class HederaTokenCancelAirdropTransactionBody extends HederaProtoMessage with Eq
   }
 
   @override
-  List<Object?> get protoValues => [
-        pendingAirdrops,
-      ];
+  List<Object?> get protoValues => [pendingAirdrops];
 
-
-HederaTokenCancelAirdropTransactionBody copyWith(
-{List<proto_basic_types.HederaPendingAirdropId>? pendingAirdrops,
-
-}) {
+  HederaTokenCancelAirdropTransactionBody copyWith({
+    List<proto_basic_types.HederaPendingAirdropId>? pendingAirdrops,
+  }) {
     return HederaTokenCancelAirdropTransactionBody(
-pendingAirdrops: pendingAirdrops ?? this.pendingAirdrops,
+      pendingAirdrops: pendingAirdrops ?? this.pendingAirdrops,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'pending_airdrops': pendingAirdrops.map((e) => config.encodeMessage(e)).toList(),
+      'pending_airdrops':
+          pendingAirdrops.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTokenCancelAirdropTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenCancelAirdropTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenCancelAirdropTransactionBody(
-      pendingAirdrops: (json.valueEnsureAsList<dynamic>('pending_airdrops', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_basic_types.HederaPendingAirdropId, Object>(
-          value: e,
-          parse: (v) => proto_basic_types.HederaPendingAirdropId.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      pendingAirdrops:
+          (json.valueEnsureAsList<dynamic>(
+                'pending_airdrops',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_basic_types.HederaPendingAirdropId,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_basic_types.HederaPendingAirdropId.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTokenCancelAirdropTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenCancelAirdropTransactionBody(
-      pendingAirdrops: decode.getListOfBytes(1).map((b) => proto_basic_types.HederaPendingAirdropId.deserialize(b)).toList(),
+      pendingAirdrops:
+          decode
+              .getListOfBytes(1)
+              .map(
+                (b) => proto_basic_types.HederaPendingAirdropId.deserialize(b),
+              )
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenCancelAirdropTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenCancelAirdropTransactionBody;
 }
-
-

@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Crypto Transfer
@@ -53,14 +54,15 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * transaction result.&lt;br/&gt;
 ///  * Multiple non-fungible/unique transfers SHALL NOT be consolidated in the
 ///  * transaction result.
-class HederaCryptoTransferTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaCryptoTransferTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A list of HBAR transfers.
   ///      * &lt;p&gt;
   ///      * Each transfer in this list MUST be denominated in tinybar.
   final proto_basic_types.HederaTransferList? transfers;
 
-    /// *
+  /// *
   ///      * One or more lists of token transfers.
   ///      * &lt;p&gt;
   ///      * This list MUST NOT contain more than 10 entries.&lt;br/&gt;
@@ -94,59 +96,88 @@ class HederaCryptoTransferTransactionBody extends HederaProtoMessage with Equali
   }
 
   @override
-  List<Object?> get protoValues => [
-        transfers,
-        tokenTransfers,
-      ];
+  List<Object?> get protoValues => [transfers, tokenTransfers];
 
+  HederaCryptoTransferTransactionBody copyWith({
+    proto_basic_types.HederaTransferList? transfers,
 
-HederaCryptoTransferTransactionBody copyWith(
-{proto_basic_types.HederaTransferList? transfers,
-
-List<proto_basic_types.HederaTokenTransferList>? tokenTransfers,
-
-}) {
+    List<proto_basic_types.HederaTokenTransferList>? tokenTransfers,
+  }) {
     return HederaCryptoTransferTransactionBody(
-transfers: transfers ?? this.transfers,
-tokenTransfers: tokenTransfers ?? this.tokenTransfers,
+      transfers: transfers ?? this.transfers,
+      tokenTransfers: tokenTransfers ?? this.tokenTransfers,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'transfers': config.encodeMessage(transfers),
-      'tokenTransfers': tokenTransfers.map((e) => config.encodeMessage(e)).toList(),
+      'tokenTransfers':
+          tokenTransfers.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaCryptoTransferTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCryptoTransferTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCryptoTransferTransactionBody(
       transfers: json.valueTo<proto_basic_types.HederaTransferList?, Object>(
         key: 'transfers',
-        parse: (v) => proto_basic_types.HederaTransferList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      tokenTransfers: (json.valueEnsureAsList<dynamic>('tokenTransfers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_basic_types.HederaTokenTransferList, Object>(
-          value: e,
-          parse: (v) => proto_basic_types.HederaTokenTransferList.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaTransferList.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      tokenTransfers:
+          (json.valueEnsureAsList<dynamic>(
+                'tokenTransfers',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_basic_types.HederaTokenTransferList,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_basic_types.HederaTokenTransferList.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaCryptoTransferTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCryptoTransferTransactionBody(
-      transfers: decode.messageTo<proto_basic_types.HederaTransferList?>(1, (b) => proto_basic_types.HederaTransferList.deserialize(b)),
-      tokenTransfers: decode.getListOfBytes(2).map((b) => proto_basic_types.HederaTokenTransferList.deserialize(b)).toList(),
+      transfers: decode.messageTo<proto_basic_types.HederaTransferList?>(
+        1,
+        (b) => proto_basic_types.HederaTransferList.deserialize(b),
+      ),
+      tokenTransfers:
+          decode
+              .getListOfBytes(2)
+              .map(
+                (b) => proto_basic_types.HederaTokenTransferList.deserialize(b),
+              )
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCryptoTransferTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCryptoTransferTransactionBody;
 }
-
-

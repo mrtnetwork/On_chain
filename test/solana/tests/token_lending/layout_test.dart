@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../utils.dart';
+
 void tokenLendingLayoutTest() {
   group('Solana/Token Lending Layout', () {
     _obligationLiquidity();
@@ -23,7 +24,6 @@ void tokenLendingLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(tokenLendingLayoutTest, "Layout");
 }
-
 
 void _obligationLiquidity() {
   test('obligationLiquidity', () {

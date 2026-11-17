@@ -16,7 +16,9 @@ class NearNodeRequestBlockEffects
   dynamic params() => args.toJson();
 
   @override
-  NearRpcRpcStateChangesInBlockByTypeResponse onResponse(Map<String, dynamic> result) {
+  NearRpcRpcStateChangesInBlockByTypeResponse onResponse(
+    Map<String, dynamic> result,
+  ) {
     return NearRpcRpcStateChangesInBlockByTypeResponse.fromJson(result);
   }
 }

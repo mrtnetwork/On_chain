@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../../utils.dart';
+
 final List<int> _proof1 = List<int>.filled(32, 10);
 final List<int> _proof2 = List<int>.filled(32, 20);
 final List<int> _proof3 = List<int>.filled(32, 30);
@@ -34,7 +35,6 @@ void gumdropLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(gumdropLayoutTest, "Layout");
 }
-
 
 void _claim() {
   test('claim', () {

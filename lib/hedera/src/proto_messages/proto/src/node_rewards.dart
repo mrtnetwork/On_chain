@@ -32,15 +32,15 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * staking period, greater than the network configuration value for
 ///  * `nodes.activeRoundsPercent`.
 class HederaNodeRewards extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * A number of rounds so far, in this staking period.
   final BigInt? numRoundsInStakingPeriod;
 
-    /// *
+  /// *
   ///    * The fees collected by node accounts in this period.
   final BigInt? nodeFeesCollected;
 
-    /// *
+  /// *
   ///    * A list of node activities.&lt;br/&gt;
   ///    * This records the number of rounds when each node created
   ///    * judges for the consensus algorithm.
@@ -75,47 +75,73 @@ class HederaNodeRewards extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        numRoundsInStakingPeriod,
-        nodeFeesCollected,
-        nodeActivities,
-      ];
+    numRoundsInStakingPeriod,
+    nodeFeesCollected,
+    nodeActivities,
+  ];
 
+  HederaNodeRewards copyWith({
+    BigInt? numRoundsInStakingPeriod,
 
-HederaNodeRewards copyWith(
-{BigInt? numRoundsInStakingPeriod,
+    BigInt? nodeFeesCollected,
 
-BigInt? nodeFeesCollected,
-
-List<HederaNodeActivity>? nodeActivities,
-
-}) {
+    List<HederaNodeActivity>? nodeActivities,
+  }) {
     return HederaNodeRewards(
-numRoundsInStakingPeriod: numRoundsInStakingPeriod ?? this.numRoundsInStakingPeriod,
-nodeFeesCollected: nodeFeesCollected ?? this.nodeFeesCollected,
-nodeActivities: nodeActivities ?? this.nodeActivities,
+      numRoundsInStakingPeriod:
+          numRoundsInStakingPeriod ?? this.numRoundsInStakingPeriod,
+      nodeFeesCollected: nodeFeesCollected ?? this.nodeFeesCollected,
+      nodeActivities: nodeActivities ?? this.nodeActivities,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'num_rounds_in_staking_period': config.encodeBigint(numRoundsInStakingPeriod),
+      'num_rounds_in_staking_period': config.encodeBigint(
+        numRoundsInStakingPeriod,
+      ),
       'node_fees_collected': config.encodeBigint(nodeFeesCollected),
-      'node_activities': nodeActivities.map((e) => config.encodeMessage(e)).toList(),
+      'node_activities':
+          nodeActivities.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaNodeRewards.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNodeRewards.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNodeRewards(
-      numRoundsInStakingPeriod: json.valueAsBigInt<BigInt?>('num_rounds_in_staking_period', normalizeKeyLookup: config.normalizeKeys),
-      nodeFeesCollected: json.valueAsBigInt<BigInt?>('node_fees_collected', normalizeKeyLookup: config.normalizeKeys),
-      nodeActivities: (json.valueEnsureAsList<dynamic>('node_activities', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaNodeActivity, Object>(
-          value: e,
-          parse: (v) => HederaNodeActivity.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      numRoundsInStakingPeriod: json.valueAsBigInt<BigInt?>(
+        'num_rounds_in_staking_period',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nodeFeesCollected: json.valueAsBigInt<BigInt?>(
+        'node_fees_collected',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nodeActivities:
+          (json.valueEnsureAsList<dynamic>(
+                'node_activities',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaNodeActivity, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaNodeActivity.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -124,15 +150,18 @@ List<dynamic> get variables => protoValues;
     return HederaNodeRewards(
       numRoundsInStakingPeriod: decode.getBigInt<BigInt?>(1),
       nodeFeesCollected: decode.getBigInt<BigInt?>(2),
-      nodeActivities: decode.getListOfBytes(3).map((b) => HederaNodeActivity.deserialize(b)).toList(),
+      nodeActivities:
+          decode
+              .getListOfBytes(3)
+              .map((b) => HederaNodeActivity.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNodeRewards;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNodeRewards;
 }
-
 
 /// *
 ///  * A record of judge rounds missed by a single node.&lt;br/&gt;
@@ -144,20 +173,17 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNo
 ///  * period.&lt;br/&gt;
 ///  * This message SHALL record a count of rounds for a single node that missed creating judges.
 class HederaNodeActivity extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * A node identifier.
   final BigInt? nodeId;
 
-    /// *
+  /// *
   ///    * A count of rounds.&lt;br/&gt;
   ///    * This is the count of rounds so far, in this staking period in which the node identified
   ///    * by `node_id` did not create judges.
   final BigInt? numMissedJudgeRounds;
 
-  const HederaNodeActivity({
-    this.nodeId,
-    this.numMissedJudgeRounds,
-  });
+  const HederaNodeActivity({this.nodeId, this.numMissedJudgeRounds});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -166,47 +192,46 @@ class HederaNodeActivity extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.uint64(1), ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        nodeId,
-        numMissedJudgeRounds,
-      ];
+  List<Object?> get protoValues => [nodeId, numMissedJudgeRounds];
 
-
-HederaNodeActivity copyWith(
-{BigInt? nodeId,
-
-BigInt? numMissedJudgeRounds,
-
-}) {
+  HederaNodeActivity copyWith({BigInt? nodeId, BigInt? numMissedJudgeRounds}) {
     return HederaNodeActivity(
-nodeId: nodeId ?? this.nodeId,
-numMissedJudgeRounds: numMissedJudgeRounds ?? this.numMissedJudgeRounds,
+      nodeId: nodeId ?? this.nodeId,
+      numMissedJudgeRounds: numMissedJudgeRounds ?? this.numMissedJudgeRounds,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'node_id': config.encodeBigint(nodeId),
       'num_missed_judge_rounds': config.encodeBigint(numMissedJudgeRounds),
     };
   }
 
-
-  factory HederaNodeActivity.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNodeActivity.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNodeActivity(
-      nodeId: json.valueAsBigInt<BigInt?>('node_id', normalizeKeyLookup: config.normalizeKeys),
-      numMissedJudgeRounds: json.valueAsBigInt<BigInt?>('num_missed_judge_rounds', normalizeKeyLookup: config.normalizeKeys),
+      nodeId: json.valueAsBigInt<BigInt?>(
+        'node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numMissedJudgeRounds: json.valueAsBigInt<BigInt?>(
+        'num_missed_judge_rounds',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -219,8 +244,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNodeActivity;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNodeActivity;
 }
-
-

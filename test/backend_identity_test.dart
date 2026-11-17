@@ -9,20 +9,21 @@ import 'utils.dart';
 /// backend-mislabeled green results.
 void backendIdentityTest() {
   group('Core/Backend Identity', () {
-  test('backend identity matches BU_BACKEND', () {
-    // Same resolution as the harness: explicit entry config first,
-    // then BU_BACKEND, then default (unset/empty/unknown → ffi).
-    final requested = OnChainUtilsTestApi.resolvedBackend;
-    final native = blockchainUtils.hasNativeBackend;
-    expect(
-      native,
-      requested != BuTestBackend.dart,
-      reason: requested == BuTestBackend.dart
-          ? 'BU_BACKEND resolves to pure Dart, but a native backend is active.'
-          : 'BU_BACKEND resolves to $requested, but no native backend is '
-              'active. The suite would silently run on pure Dart.',
-    );
-  });
+    test('backend identity matches BU_BACKEND', () {
+      // Same resolution as the harness: explicit entry config first,
+      // then BU_BACKEND, then default (unset/empty/unknown → ffi).
+      final requested = OnChainUtilsTestApi.resolvedBackend;
+      final native = blockchainUtils.hasNativeBackend;
+      expect(
+        native,
+        requested != BuTestBackend.dart,
+        reason:
+            requested == BuTestBackend.dart
+                ? 'BU_BACKEND resolves to pure Dart, but a native backend is active.'
+                : 'BU_BACKEND resolves to $requested, but no native backend is '
+                    'active. The suite would silently run on pure Dart.',
+      );
+    });
   });
 }
 

@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Schedule Sign
@@ -41,16 +42,15 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * If the scheduled transaction is executed immediately following this
 ///  * `scheduleSign` transaction, the transaction record SHALL include a
 ///  * `scheduleRef` with the schedule identifier `scheduleID`.
-class HederaScheduleSignTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaScheduleSignTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * A schedule identifier.
   ///    * &lt;p&gt;
   ///    * This MUST identify the schedule to which signatures SHALL be added.
   final proto_basic_types.HederaScheduleID? scheduleID;
 
-  const HederaScheduleSignTransactionBody({
-    this.scheduleID,
-  });
+  const HederaScheduleSignTransactionBody({this.scheduleID});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -59,56 +59,59 @@ class HederaScheduleSignTransactionBody extends HederaProtoMessage with Equality
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        scheduleID,
-      ];
+  List<Object?> get protoValues => [scheduleID];
 
-
-HederaScheduleSignTransactionBody copyWith(
-{proto_basic_types.HederaScheduleID? scheduleID,
-
-}) {
+  HederaScheduleSignTransactionBody copyWith({
+    proto_basic_types.HederaScheduleID? scheduleID,
+  }) {
     return HederaScheduleSignTransactionBody(
-scheduleID: scheduleID ?? this.scheduleID,
+      scheduleID: scheduleID ?? this.scheduleID,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'scheduleID': config.encodeMessage(scheduleID),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'scheduleID': config.encodeMessage(scheduleID)};
   }
 
-
-  factory HederaScheduleSignTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaScheduleSignTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaScheduleSignTransactionBody(
       scheduleID: json.valueTo<proto_basic_types.HederaScheduleID?, Object>(
         key: 'scheduleID',
-        parse: (v) => proto_basic_types.HederaScheduleID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaScheduleID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaScheduleSignTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaScheduleSignTransactionBody(
-      scheduleID: decode.messageTo<proto_basic_types.HederaScheduleID?>(1, (b) => proto_basic_types.HederaScheduleID.deserialize(b)),
+      scheduleID: decode.messageTo<proto_basic_types.HederaScheduleID?>(
+        1,
+        (b) => proto_basic_types.HederaScheduleID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoScheduleSignTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoScheduleSignTransactionBody;
 }
-
-

@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Account.
@@ -104,7 +105,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * If the account `alias` field is not set for an Account, the `long_zero`
 ///  * alias SHALL be the account alias.
 class HederaAccount extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The unique ID of this account.
   ///      * &lt;p&gt;
   ///      * An account ID, when assigned to this field, SHALL be of
@@ -115,7 +116,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * receipts, transaction records, and the block stream.
   final proto_basic_types.HederaAccountID? accountId;
 
-    /// *
+  /// *
   ///      * An account EVM alias.
   ///      * &lt;p&gt;
   ///      * This is a value used in some contexts to reference an account when the
@@ -124,7 +125,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * SHALL NOT be changed.
   final List<int>? alias;
 
-    /// *
+  /// *
   ///      * The key to be used to sign transactions from this account, if any.
   ///      * &lt;p&gt;
   ///      * This key SHALL NOT be set for hollow accounts until the account
@@ -134,7 +135,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * and otherwise secured by the governing council.
   final proto_basic_types.HederaKey? key;
 
-    /// *
+  /// *
   ///      * The current expiration time of this account, in seconds since the epoch.
   ///      * &lt;p&gt;
   ///      * For this purpose, `epoch` SHALL be the UNIX epoch
@@ -152,35 +153,35 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * maximum expiration time for the network.
   final BigInt? expirationSecond;
 
-    /// *
+  /// *
   ///      * The HBAR balance of this account, in tinybar (10&lt;sup&gt;-8&lt;/sup&gt; HBAR).
   ///      * &lt;p&gt;
   ///      * This value is a signed integer for efficiency, but MUST always
   ///      * be a whole number.
   final BigInt? tinybarBalance;
 
-    /// *
+  /// *
   ///      * A short description of this account.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
   ///      * (default 100) bytes when encoded as UTF-8.
   final String? memo;
 
-    /// *
+  /// *
   ///      * A boolean indicating that this account is deleted.
   final bool? deleted;
 
-    /// *
+  /// *
   ///      * The amount of HBAR staked to this account by others.
   final BigInt? stakedToMe;
 
-    /// *
+  /// *
   ///      * If this account stakes to another account, this value SHALL be set to
   ///      * the time when the current period for staking and reward
   ///      * calculations began.
   final BigInt? stakePeriodStart;
 
-    /// Below comment is NOT included in generated documentation
+  /// Below comment is NOT included in generated documentation
   /// *
   ///      * ID of the account or node to which this account is staking, if any.
   ///      * &lt;p&gt;
@@ -194,7 +195,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///          * field, if set, SHALL be the sentinel value of `0.0.0`.
   final proto_basic_types.HederaAccountID? stakedAccountId;
 
-    /// *
+  /// *
   ///          * An identifier for the node this account is staked to.
   ///          * &lt;p&gt;
   ///          * If this account is not currently staking its balances, then this
@@ -211,7 +212,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///          * &lt;/blockquote&gt;
   final BigInt? stakedNodeId;
 
-    /// *
+  /// *
   ///      * A boolean indicating that this account has chosen to decline rewards for
   ///      * staking its balances.
   ///      * &lt;p&gt;
@@ -219,7 +220,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * payments for doing so.
   final bool? declineReward;
 
-    /// *
+  /// *
   ///      * A boolean indicating that the account requires a receiver signature for
   ///      * inbound token transfer transactions.
   ///      * &lt;p&gt;
@@ -228,7 +229,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * transaction.
   final bool? receiverSigRequired;
 
-    /// *
+  /// *
   ///      * A token ID at the head of the linked list for this account from the
   ///      * token relations map.&lt;br/&gt;
   ///      * The token relations are connected by including the "next" and "previous"
@@ -238,7 +239,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * similar lookup with both an AccountID and a TokenID.
   final proto_basic_types.HederaTokenID? headTokenId;
 
-    /// *
+  /// *
   ///      * A NftID at the head of the linked list for this account from
   ///      * the unique tokens map.&lt;br/&gt;
   ///      * The unique token relations are connected by including the "next" and
@@ -248,18 +249,18 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * or previous NftID.
   final proto_basic_types.HederaNftID? headNftId;
 
-    /// *
+  /// *
   ///      * A serial number in the NftID at the head of the linked list for this
   ///      * account from unique tokens map.
   ///      * &lt;p&gt;
   ///      * This MUST match the `serial_number` field of `head_nft_id`.
   final BigInt? headNftSerialNumber;
 
-    /// *
+  /// *
   ///      * A number of non-fungible tokens (NTFs) owned by the account.
   final BigInt? numberOwnedNfts;
 
-    /// *
+  /// *
   ///      * A maximum for the number of tokens that can be automatically
   ///      * associated with this account.
   ///      * &lt;p&gt;
@@ -270,7 +271,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * This value MUST NOT be less than `-1`.
   final int? maxAutoAssociations;
 
-    /// *
+  /// *
   ///      * A count of used auto-association slots.
   ///      * &lt;p&gt;
   ///      * If this is greater than, or equal to, the current value of
@@ -278,33 +279,33 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * a new token before transacting in that token.
   final int? usedAutoAssociations;
 
-    /// *
+  /// *
   ///      * A count of tokens associated with this account.
   ///      * &lt;p&gt;
   ///      * This value determines a portion of the renewal fee for this account.
   final int? numberAssociations;
 
-    /// *
+  /// *
   ///      * A boolean indicating that this account is owned by a smart contract.
   final bool? smartContract;
 
-    /// *
+  /// *
   ///      * A count of tokens with a positive balance associated with this account.
   ///      * &lt;p&gt;
   ///      * If the account has a positive balance in any token,
   ///      * it SHALL NOT be deleted.
   final int? numberPositiveBalances;
 
-    /// *
+  /// *
   ///      * A nonce of this account for Ethereum interoperability.
   final BigInt? ethereumNonce;
 
-    /// *
+  /// *
   ///      * An amount of HBAR staked by this account at the start of
   ///      * the last reward period.
   final BigInt? stakeAtStartOfLastRewardedPeriod;
 
-    /// *
+  /// *
   ///      * An account identifier for automatic renewal.&lt;br/&gt;
   ///      * This is the identifier of another account, in the same shard and
   ///      * realm as this account, that has signed a transaction allowing the
@@ -317,7 +318,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * balance.
   final proto_basic_types.HederaAccountID? autoRenewAccountId;
 
-    /// *
+  /// *
   ///      * A count of the number of seconds to extend this account's expiration.
   ///      * &lt;p&gt;
   ///      * The network SHALL extend the account's expiration by this number of
@@ -330,7 +331,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * and 90 days, respectively.
   final BigInt? autoRenewSeconds;
 
-    /// *
+  /// *
   ///      * A count of smart contract key-value pairs.&lt;br/&gt;
   ///      * If this account is a smart-contract, this is the number of key-value
   ///      * pairs stored on the contract.
@@ -341,7 +342,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      *fees for the contract.
   final int? contractKvPairsNumber;
 
-    /// *
+  /// *
   ///      * A list of crypto (HBAR) allowances approved by this account.
   ///      * &lt;p&gt;
   ///      * If this is not empty, each allowance SHALL permit a specified "spender"
@@ -352,7 +353,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * `token_allowances` field or the `approve_for_all_nft_allowances` field.
   final List<HederaAccountCryptoAllowance> cryptoAllowances;
 
-    /// *
+  /// *
   ///      * A list of non-fungible token (NFT) allowances approved by this account.
   ///      * &lt;p&gt;
   ///      * If this is not empty, each allowance permits a specified "spender"
@@ -362,7 +363,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * that specific non-fungible token, rather than the holding account.
   final List<HederaAccountApprovalForAllAllowance> approveForAllNftAllowances;
 
-    /// *
+  /// *
   ///      * A list of fungible token allowances approved by this account.
   ///      * &lt;p&gt;
   ///      * If this is not empty, each allowance permits a specified "spender" to
@@ -370,7 +371,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * designated limit.
   final List<HederaAccountFungibleTokenAllowance> tokenAllowances;
 
-    /// *
+  /// *
   ///      * A count of tokens for which this account is the treasury account.
   ///      * &lt;p&gt;
   ///      * Each native token is initially created with all tokens held by its
@@ -378,7 +379,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * determines how those tokens are distributed.
   final int? numberTreasuryTitles;
 
-    /// *
+  /// *
   ///      * A flag indicating that the account is expired and pending removal.
   ///      * &lt;p&gt;
   ///      * When the network checks for entity expiration, it SHALL set this flag if
@@ -390,7 +391,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * and when the auto-renewal processing renews the account.
   final bool? expiredAndPendingRemoval;
 
-    /// *
+  /// *
   ///      * A contract storage key.&lt;br/&gt;
   ///      * This is the first key in the doubly-linked list of this
   ///      * contract's storage mappings.
@@ -399,7 +400,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * contract has no storage mappings.
   final List<int>? firstContractStorageKey;
 
-    /// *
+  /// *
   ///      * A pending airdrop ID.&lt;br/&gt;
   ///      * This is the head of the linked list for this account from the
   ///      * account airdrops map.&lt;br/&gt;
@@ -410,7 +411,7 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * pending airdrop, and SHALL be empty otherwise.
   final proto_basic_types.HederaPendingAirdropId? headPendingAirdropId;
 
-    /// *
+  /// *
   ///      * A number of pending airdrops.
   ///      * &lt;p&gt;
   ///      * This count SHALL be used to calculate rent _without_ walking the linked
@@ -422,20 +423,20 @@ class HederaAccount extends HederaProtoMessage with Equality {
   ///      * identified by `head_pending_airdrop_id`.
   final BigInt? numberPendingAirdrops;
 
-    /// *
+  /// *
   ///      * The number of hooks currently in use on this account.
   final BigInt? numberHooksInUse;
 
-    /// *
+  /// *
   ///      * If the account has more than zero hooks in use, the id of the first hook in its
   ///      * doubly-linked list of hooks.
   final BigInt? firstHookId;
 
-    /// *
+  /// *
   ///      * The number of storage slots in use by this account's EVM hooks.
   final BigInt? numberEvmHookStorageSlots;
 
-    /// *
+  /// *
   ///      * The delegated contract address set for this account.
   ///      * &lt;p&gt;
   ///      * If this field is set on the account, anytime a call is made to the account's address
@@ -548,175 +549,185 @@ class HederaAccount extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        accountId,
-        alias,
-        key,
-        expirationSecond,
-        tinybarBalance,
-        memo,
-        deleted,
-        stakedToMe,
-        stakePeriodStart,
-        stakedAccountId,
-        stakedNodeId,
-        declineReward,
-        receiverSigRequired,
-        headTokenId,
-        headNftId,
-        headNftSerialNumber,
-        numberOwnedNfts,
-        maxAutoAssociations,
-        usedAutoAssociations,
-        numberAssociations,
-        smartContract,
-        numberPositiveBalances,
-        ethereumNonce,
-        stakeAtStartOfLastRewardedPeriod,
-        autoRenewAccountId,
-        autoRenewSeconds,
-        contractKvPairsNumber,
-        cryptoAllowances,
-        approveForAllNftAllowances,
-        tokenAllowances,
-        numberTreasuryTitles,
-        expiredAndPendingRemoval,
-        firstContractStorageKey,
-        headPendingAirdropId,
-        numberPendingAirdrops,
-        numberHooksInUse,
-        firstHookId,
-        numberEvmHookStorageSlots,
-        delegationAddress,
-      ];
+    accountId,
+    alias,
+    key,
+    expirationSecond,
+    tinybarBalance,
+    memo,
+    deleted,
+    stakedToMe,
+    stakePeriodStart,
+    stakedAccountId,
+    stakedNodeId,
+    declineReward,
+    receiverSigRequired,
+    headTokenId,
+    headNftId,
+    headNftSerialNumber,
+    numberOwnedNfts,
+    maxAutoAssociations,
+    usedAutoAssociations,
+    numberAssociations,
+    smartContract,
+    numberPositiveBalances,
+    ethereumNonce,
+    stakeAtStartOfLastRewardedPeriod,
+    autoRenewAccountId,
+    autoRenewSeconds,
+    contractKvPairsNumber,
+    cryptoAllowances,
+    approveForAllNftAllowances,
+    tokenAllowances,
+    numberTreasuryTitles,
+    expiredAndPendingRemoval,
+    firstContractStorageKey,
+    headPendingAirdropId,
+    numberPendingAirdrops,
+    numberHooksInUse,
+    firstHookId,
+    numberEvmHookStorageSlots,
+    delegationAddress,
+  ];
 
+  HederaAccount copyWith({
+    proto_basic_types.HederaAccountID? accountId,
 
-HederaAccount copyWith(
-{proto_basic_types.HederaAccountID? accountId,
+    List<int>? alias,
 
-List<int>? alias,
+    proto_basic_types.HederaKey? key,
 
-proto_basic_types.HederaKey? key,
+    BigInt? expirationSecond,
 
-BigInt? expirationSecond,
+    BigInt? tinybarBalance,
 
-BigInt? tinybarBalance,
+    String? memo,
 
-String? memo,
+    bool? deleted,
 
-bool? deleted,
+    BigInt? stakedToMe,
 
-BigInt? stakedToMe,
+    BigInt? stakePeriodStart,
 
-BigInt? stakePeriodStart,
+    proto_basic_types.HederaAccountID? stakedAccountId,
 
-proto_basic_types.HederaAccountID? stakedAccountId,
+    BigInt? stakedNodeId,
 
-BigInt? stakedNodeId,
+    bool? declineReward,
 
-bool? declineReward,
+    bool? receiverSigRequired,
 
-bool? receiverSigRequired,
+    proto_basic_types.HederaTokenID? headTokenId,
 
-proto_basic_types.HederaTokenID? headTokenId,
+    proto_basic_types.HederaNftID? headNftId,
 
-proto_basic_types.HederaNftID? headNftId,
+    BigInt? headNftSerialNumber,
 
-BigInt? headNftSerialNumber,
+    BigInt? numberOwnedNfts,
 
-BigInt? numberOwnedNfts,
+    int? maxAutoAssociations,
 
-int? maxAutoAssociations,
+    int? usedAutoAssociations,
 
-int? usedAutoAssociations,
+    int? numberAssociations,
 
-int? numberAssociations,
+    bool? smartContract,
 
-bool? smartContract,
+    int? numberPositiveBalances,
 
-int? numberPositiveBalances,
+    BigInt? ethereumNonce,
 
-BigInt? ethereumNonce,
+    BigInt? stakeAtStartOfLastRewardedPeriod,
 
-BigInt? stakeAtStartOfLastRewardedPeriod,
+    proto_basic_types.HederaAccountID? autoRenewAccountId,
 
-proto_basic_types.HederaAccountID? autoRenewAccountId,
+    BigInt? autoRenewSeconds,
 
-BigInt? autoRenewSeconds,
+    int? contractKvPairsNumber,
 
-int? contractKvPairsNumber,
+    List<HederaAccountCryptoAllowance>? cryptoAllowances,
 
-List<HederaAccountCryptoAllowance>? cryptoAllowances,
+    List<HederaAccountApprovalForAllAllowance>? approveForAllNftAllowances,
 
-List<HederaAccountApprovalForAllAllowance>? approveForAllNftAllowances,
+    List<HederaAccountFungibleTokenAllowance>? tokenAllowances,
 
-List<HederaAccountFungibleTokenAllowance>? tokenAllowances,
+    int? numberTreasuryTitles,
 
-int? numberTreasuryTitles,
+    bool? expiredAndPendingRemoval,
 
-bool? expiredAndPendingRemoval,
+    List<int>? firstContractStorageKey,
 
-List<int>? firstContractStorageKey,
+    proto_basic_types.HederaPendingAirdropId? headPendingAirdropId,
 
-proto_basic_types.HederaPendingAirdropId? headPendingAirdropId,
+    BigInt? numberPendingAirdrops,
 
-BigInt? numberPendingAirdrops,
+    BigInt? numberHooksInUse,
 
-BigInt? numberHooksInUse,
+    BigInt? firstHookId,
 
-BigInt? firstHookId,
+    BigInt? numberEvmHookStorageSlots,
 
-BigInt? numberEvmHookStorageSlots,
-
-List<int>? delegationAddress,
-
-}) {
+    List<int>? delegationAddress,
+  }) {
     return HederaAccount(
-accountId: accountId ?? this.accountId,
-alias: alias ?? this.alias,
-key: key ?? this.key,
-expirationSecond: expirationSecond ?? this.expirationSecond,
-tinybarBalance: tinybarBalance ?? this.tinybarBalance,
-memo: memo ?? this.memo,
-deleted: deleted ?? this.deleted,
-stakedToMe: stakedToMe ?? this.stakedToMe,
-stakePeriodStart: stakePeriodStart ?? this.stakePeriodStart,
-stakedAccountId: stakedAccountId ?? this.stakedAccountId,
-stakedNodeId: stakedNodeId ?? this.stakedNodeId,
-declineReward: declineReward ?? this.declineReward,
-receiverSigRequired: receiverSigRequired ?? this.receiverSigRequired,
-headTokenId: headTokenId ?? this.headTokenId,
-headNftId: headNftId ?? this.headNftId,
-headNftSerialNumber: headNftSerialNumber ?? this.headNftSerialNumber,
-numberOwnedNfts: numberOwnedNfts ?? this.numberOwnedNfts,
-maxAutoAssociations: maxAutoAssociations ?? this.maxAutoAssociations,
-usedAutoAssociations: usedAutoAssociations ?? this.usedAutoAssociations,
-numberAssociations: numberAssociations ?? this.numberAssociations,
-smartContract: smartContract ?? this.smartContract,
-numberPositiveBalances: numberPositiveBalances ?? this.numberPositiveBalances,
-ethereumNonce: ethereumNonce ?? this.ethereumNonce,
-stakeAtStartOfLastRewardedPeriod: stakeAtStartOfLastRewardedPeriod ?? this.stakeAtStartOfLastRewardedPeriod,
-autoRenewAccountId: autoRenewAccountId ?? this.autoRenewAccountId,
-autoRenewSeconds: autoRenewSeconds ?? this.autoRenewSeconds,
-contractKvPairsNumber: contractKvPairsNumber ?? this.contractKvPairsNumber,
-cryptoAllowances: cryptoAllowances ?? this.cryptoAllowances,
-approveForAllNftAllowances: approveForAllNftAllowances ?? this.approveForAllNftAllowances,
-tokenAllowances: tokenAllowances ?? this.tokenAllowances,
-numberTreasuryTitles: numberTreasuryTitles ?? this.numberTreasuryTitles,
-expiredAndPendingRemoval: expiredAndPendingRemoval ?? this.expiredAndPendingRemoval,
-firstContractStorageKey: firstContractStorageKey ?? this.firstContractStorageKey,
-headPendingAirdropId: headPendingAirdropId ?? this.headPendingAirdropId,
-numberPendingAirdrops: numberPendingAirdrops ?? this.numberPendingAirdrops,
-numberHooksInUse: numberHooksInUse ?? this.numberHooksInUse,
-firstHookId: firstHookId ?? this.firstHookId,
-numberEvmHookStorageSlots: numberEvmHookStorageSlots ?? this.numberEvmHookStorageSlots,
-delegationAddress: delegationAddress ?? this.delegationAddress,
+      accountId: accountId ?? this.accountId,
+      alias: alias ?? this.alias,
+      key: key ?? this.key,
+      expirationSecond: expirationSecond ?? this.expirationSecond,
+      tinybarBalance: tinybarBalance ?? this.tinybarBalance,
+      memo: memo ?? this.memo,
+      deleted: deleted ?? this.deleted,
+      stakedToMe: stakedToMe ?? this.stakedToMe,
+      stakePeriodStart: stakePeriodStart ?? this.stakePeriodStart,
+      stakedAccountId: stakedAccountId ?? this.stakedAccountId,
+      stakedNodeId: stakedNodeId ?? this.stakedNodeId,
+      declineReward: declineReward ?? this.declineReward,
+      receiverSigRequired: receiverSigRequired ?? this.receiverSigRequired,
+      headTokenId: headTokenId ?? this.headTokenId,
+      headNftId: headNftId ?? this.headNftId,
+      headNftSerialNumber: headNftSerialNumber ?? this.headNftSerialNumber,
+      numberOwnedNfts: numberOwnedNfts ?? this.numberOwnedNfts,
+      maxAutoAssociations: maxAutoAssociations ?? this.maxAutoAssociations,
+      usedAutoAssociations: usedAutoAssociations ?? this.usedAutoAssociations,
+      numberAssociations: numberAssociations ?? this.numberAssociations,
+      smartContract: smartContract ?? this.smartContract,
+      numberPositiveBalances:
+          numberPositiveBalances ?? this.numberPositiveBalances,
+      ethereumNonce: ethereumNonce ?? this.ethereumNonce,
+      stakeAtStartOfLastRewardedPeriod:
+          stakeAtStartOfLastRewardedPeriod ??
+          this.stakeAtStartOfLastRewardedPeriod,
+      autoRenewAccountId: autoRenewAccountId ?? this.autoRenewAccountId,
+      autoRenewSeconds: autoRenewSeconds ?? this.autoRenewSeconds,
+      contractKvPairsNumber:
+          contractKvPairsNumber ?? this.contractKvPairsNumber,
+      cryptoAllowances: cryptoAllowances ?? this.cryptoAllowances,
+      approveForAllNftAllowances:
+          approveForAllNftAllowances ?? this.approveForAllNftAllowances,
+      tokenAllowances: tokenAllowances ?? this.tokenAllowances,
+      numberTreasuryTitles: numberTreasuryTitles ?? this.numberTreasuryTitles,
+      expiredAndPendingRemoval:
+          expiredAndPendingRemoval ?? this.expiredAndPendingRemoval,
+      firstContractStorageKey:
+          firstContractStorageKey ?? this.firstContractStorageKey,
+      headPendingAirdropId: headPendingAirdropId ?? this.headPendingAirdropId,
+      numberPendingAirdrops:
+          numberPendingAirdrops ?? this.numberPendingAirdrops,
+      numberHooksInUse: numberHooksInUse ?? this.numberHooksInUse,
+      firstHookId: firstHookId ?? this.firstHookId,
+      numberEvmHookStorageSlots:
+          numberEvmHookStorageSlots ?? this.numberEvmHookStorageSlots,
+      delegationAddress: delegationAddress ?? this.delegationAddress,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'account_id': config.encodeMessage(accountId),
       'alias': config.encodeBinary(alias),
@@ -741,118 +752,318 @@ List<dynamic> get variables => protoValues;
       'smart_contract': smartContract,
       'number_positive_balances': numberPositiveBalances,
       'ethereum_nonce': config.encodeBigint(ethereumNonce),
-      'stake_at_start_of_last_rewarded_period': config.encodeBigint(stakeAtStartOfLastRewardedPeriod),
+      'stake_at_start_of_last_rewarded_period': config.encodeBigint(
+        stakeAtStartOfLastRewardedPeriod,
+      ),
       'auto_renew_account_id': config.encodeMessage(autoRenewAccountId),
       'auto_renew_seconds': config.encodeBigint(autoRenewSeconds),
       'contract_kv_pairs_number': contractKvPairsNumber,
-      'crypto_allowances': cryptoAllowances.map((e) => config.encodeMessage(e)).toList(),
-      'approve_for_all_nft_allowances': approveForAllNftAllowances.map((e) => config.encodeMessage(e)).toList(),
-      'token_allowances': tokenAllowances.map((e) => config.encodeMessage(e)).toList(),
+      'crypto_allowances':
+          cryptoAllowances.map((e) => config.encodeMessage(e)).toList(),
+      'approve_for_all_nft_allowances':
+          approveForAllNftAllowances
+              .map((e) => config.encodeMessage(e))
+              .toList(),
+      'token_allowances':
+          tokenAllowances.map((e) => config.encodeMessage(e)).toList(),
       'number_treasury_titles': numberTreasuryTitles,
       'expired_and_pending_removal': expiredAndPendingRemoval,
-      'first_contract_storage_key': config.encodeBinary(firstContractStorageKey),
+      'first_contract_storage_key': config.encodeBinary(
+        firstContractStorageKey,
+      ),
       'head_pending_airdrop_id': config.encodeMessage(headPendingAirdropId),
       'number_pending_airdrops': config.encodeBigint(numberPendingAirdrops),
       'number_hooks_in_use': config.encodeBigint(numberHooksInUse),
       'first_hook_id': config.encodeBigint(firstHookId),
-      'number_evm_hook_storage_slots': config.encodeBigint(numberEvmHookStorageSlots),
+      'number_evm_hook_storage_slots': config.encodeBigint(
+        numberEvmHookStorageSlots,
+      ),
       'delegation_address': config.encodeBinary(delegationAddress),
     };
   }
 
-
-  factory HederaAccount.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccount.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccount(
       accountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      alias: config.decodeBinary<List<int>?>(json.valueAs('alias', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      alias: config.decodeBinary<List<int>?>(
+        json.valueAs('alias', normalizeKeyLookup: config.normalizeKeys),
+      ),
       key: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      expirationSecond: json.valueAsBigInt<BigInt?>('expiration_second', normalizeKeyLookup: config.normalizeKeys),
-      tinybarBalance: json.valueAsBigInt<BigInt?>('tinybar_balance', normalizeKeyLookup: config.normalizeKeys),
-      memo: json.valueAsString<String?>('memo', normalizeKeyLookup: config.normalizeKeys),
-      deleted: json.valueAsBool<bool?>('deleted', normalizeKeyLookup: config.normalizeKeys),
-      stakedToMe: json.valueAsBigInt<BigInt?>('staked_to_me', normalizeKeyLookup: config.normalizeKeys),
-      stakePeriodStart: json.valueAsBigInt<BigInt?>('stake_period_start', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      expirationSecond: json.valueAsBigInt<BigInt?>(
+        'expiration_second',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      tinybarBalance: json.valueAsBigInt<BigInt?>(
+        'tinybar_balance',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      memo: json.valueAsString<String?>(
+        'memo',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      deleted: json.valueAsBool<bool?>(
+        'deleted',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stakedToMe: json.valueAsBigInt<BigInt?>(
+        'staked_to_me',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stakePeriodStart: json.valueAsBigInt<BigInt?>(
+        'stake_period_start',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       stakedAccountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'staked_account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      stakedNodeId: json.valueAsBigInt<BigInt?>('staked_node_id', normalizeKeyLookup: config.normalizeKeys),
-      declineReward: json.valueAsBool<bool?>('decline_reward', normalizeKeyLookup: config.normalizeKeys),
-      receiverSigRequired: json.valueAsBool<bool?>('receiver_sig_required', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stakedNodeId: json.valueAsBigInt<BigInt?>(
+        'staked_node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      declineReward: json.valueAsBool<bool?>(
+        'decline_reward',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      receiverSigRequired: json.valueAsBool<bool?>(
+        'receiver_sig_required',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       headTokenId: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'head_token_id',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       headNftId: json.valueTo<proto_basic_types.HederaNftID?, Object>(
         key: 'head_nft_id',
-        parse: (v) => proto_basic_types.HederaNftID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      headNftSerialNumber: json.valueAsBigInt<BigInt?>('head_nft_serial_number', normalizeKeyLookup: config.normalizeKeys),
-      numberOwnedNfts: json.valueAsBigInt<BigInt?>('number_owned_nfts', normalizeKeyLookup: config.normalizeKeys),
-      maxAutoAssociations: json.valueAsInt<int?>('max_auto_associations', normalizeKeyLookup: config.normalizeKeys),
-      usedAutoAssociations: json.valueAsInt<int?>('used_auto_associations', normalizeKeyLookup: config.normalizeKeys),
-      numberAssociations: json.valueAsInt<int?>('number_associations', normalizeKeyLookup: config.normalizeKeys),
-      smartContract: json.valueAsBool<bool?>('smart_contract', normalizeKeyLookup: config.normalizeKeys),
-      numberPositiveBalances: json.valueAsInt<int?>('number_positive_balances', normalizeKeyLookup: config.normalizeKeys),
-      ethereumNonce: json.valueAsBigInt<BigInt?>('ethereum_nonce', normalizeKeyLookup: config.normalizeKeys),
-      stakeAtStartOfLastRewardedPeriod: json.valueAsBigInt<BigInt?>('stake_at_start_of_last_rewarded_period', normalizeKeyLookup: config.normalizeKeys),
-      autoRenewAccountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'auto_renew_account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      autoRenewSeconds: json.valueAsBigInt<BigInt?>('auto_renew_seconds', normalizeKeyLookup: config.normalizeKeys),
-      contractKvPairsNumber: json.valueAsInt<int?>('contract_kv_pairs_number', normalizeKeyLookup: config.normalizeKeys),
-      cryptoAllowances: (json.valueEnsureAsList<dynamic>('crypto_allowances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaAccountCryptoAllowance, Object>(
-          value: e,
-          parse: (v) => HederaAccountCryptoAllowance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      approveForAllNftAllowances: (json.valueEnsureAsList<dynamic>('approve_for_all_nft_allowances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaAccountApprovalForAllAllowance, Object>(
-          value: e,
-          parse: (v) => HederaAccountApprovalForAllAllowance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      tokenAllowances: (json.valueEnsureAsList<dynamic>('token_allowances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaAccountFungibleTokenAllowance, Object>(
-          value: e,
-          parse: (v) => HederaAccountFungibleTokenAllowance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      numberTreasuryTitles: json.valueAsInt<int?>('number_treasury_titles', normalizeKeyLookup: config.normalizeKeys),
-      expiredAndPendingRemoval: json.valueAsBool<bool?>('expired_and_pending_removal', normalizeKeyLookup: config.normalizeKeys),
-      firstContractStorageKey: config.decodeBinary<List<int>?>(json.valueAs('first_contract_storage_key', normalizeKeyLookup: config.normalizeKeys)),
-      headPendingAirdropId: json.valueTo<proto_basic_types.HederaPendingAirdropId?, Object>(
-        key: 'head_pending_airdrop_id',
-        parse: (v) => proto_basic_types.HederaPendingAirdropId.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      numberPendingAirdrops: json.valueAsBigInt<BigInt?>('number_pending_airdrops', normalizeKeyLookup: config.normalizeKeys),
-      numberHooksInUse: json.valueAsBigInt<BigInt?>('number_hooks_in_use', normalizeKeyLookup: config.normalizeKeys),
-      firstHookId: json.valueAsBigInt<BigInt?>('first_hook_id', normalizeKeyLookup: config.normalizeKeys),
-      numberEvmHookStorageSlots: json.valueAsBigInt<BigInt?>('number_evm_hook_storage_slots', normalizeKeyLookup: config.normalizeKeys),
-      delegationAddress: config.decodeBinary<List<int>?>(json.valueAs('delegation_address', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaNftID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      headNftSerialNumber: json.valueAsBigInt<BigInt?>(
+        'head_nft_serial_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numberOwnedNfts: json.valueAsBigInt<BigInt?>(
+        'number_owned_nfts',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      maxAutoAssociations: json.valueAsInt<int?>(
+        'max_auto_associations',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      usedAutoAssociations: json.valueAsInt<int?>(
+        'used_auto_associations',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numberAssociations: json.valueAsInt<int?>(
+        'number_associations',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      smartContract: json.valueAsBool<bool?>(
+        'smart_contract',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numberPositiveBalances: json.valueAsInt<int?>(
+        'number_positive_balances',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      ethereumNonce: json.valueAsBigInt<BigInt?>(
+        'ethereum_nonce',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      stakeAtStartOfLastRewardedPeriod: json.valueAsBigInt<BigInt?>(
+        'stake_at_start_of_last_rewarded_period',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      autoRenewAccountId: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'auto_renew_account_id',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      autoRenewSeconds: json.valueAsBigInt<BigInt?>(
+        'auto_renew_seconds',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      contractKvPairsNumber: json.valueAsInt<int?>(
+        'contract_kv_pairs_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      cryptoAllowances:
+          (json.valueEnsureAsList<dynamic>(
+                'crypto_allowances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaAccountCryptoAllowance, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaAccountCryptoAllowance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      approveForAllNftAllowances:
+          (json.valueEnsureAsList<dynamic>(
+                'approve_for_all_nft_allowances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  HederaAccountApprovalForAllAllowance,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => HederaAccountApprovalForAllAllowance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      tokenAllowances:
+          (json.valueEnsureAsList<dynamic>(
+                'token_allowances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  HederaAccountFungibleTokenAllowance,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => HederaAccountFungibleTokenAllowance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      numberTreasuryTitles: json.valueAsInt<int?>(
+        'number_treasury_titles',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      expiredAndPendingRemoval: json.valueAsBool<bool?>(
+        'expired_and_pending_removal',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      firstContractStorageKey: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'first_contract_storage_key',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      headPendingAirdropId: json
+          .valueTo<proto_basic_types.HederaPendingAirdropId?, Object>(
+            key: 'head_pending_airdrop_id',
+            parse:
+                (v) => proto_basic_types.HederaPendingAirdropId.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      numberPendingAirdrops: json.valueAsBigInt<BigInt?>(
+        'number_pending_airdrops',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numberHooksInUse: json.valueAsBigInt<BigInt?>(
+        'number_hooks_in_use',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      firstHookId: json.valueAsBigInt<BigInt?>(
+        'first_hook_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      numberEvmHookStorageSlots: json.valueAsBigInt<BigInt?>(
+        'number_evm_hook_storage_slots',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      delegationAddress: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'delegation_address',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
   factory HederaAccount.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaAccount(
-      accountId: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      accountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       alias: decode.getBytes<List<int>?>(2),
-      key: decode.messageTo<proto_basic_types.HederaKey?>(3, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      key: decode.messageTo<proto_basic_types.HederaKey?>(
+        3,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       expirationSecond: decode.getBigInt<BigInt?>(4),
       tinybarBalance: decode.getBigInt<BigInt?>(5),
       memo: decode.getString<String?>(6),
       deleted: decode.getBool<bool?>(7),
       stakedToMe: decode.getBigInt<BigInt?>(8),
       stakePeriodStart: decode.getBigInt<BigInt?>(9),
-      stakedAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(10, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      stakedAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        10,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       stakedNodeId: decode.getBigInt<BigInt?>(11),
       declineReward: decode.getBool<bool?>(12),
       receiverSigRequired: decode.getBool<bool?>(13),
-      headTokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(14, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      headNftId: decode.messageTo<proto_basic_types.HederaNftID?>(15, (b) => proto_basic_types.HederaNftID.deserialize(b)),
+      headTokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        14,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      headNftId: decode.messageTo<proto_basic_types.HederaNftID?>(
+        15,
+        (b) => proto_basic_types.HederaNftID.deserialize(b),
+      ),
       headNftSerialNumber: decode.getBigInt<BigInt?>(16),
       numberOwnedNfts: decode.getBigInt<BigInt?>(17),
       maxAutoAssociations: decode.getInt<int?>(18),
@@ -862,16 +1073,35 @@ List<dynamic> get variables => protoValues;
       numberPositiveBalances: decode.getInt<int?>(22),
       ethereumNonce: decode.getBigInt<BigInt?>(23),
       stakeAtStartOfLastRewardedPeriod: decode.getBigInt<BigInt?>(24),
-      autoRenewAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(25, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      autoRenewAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        25,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       autoRenewSeconds: decode.getBigInt<BigInt?>(26),
       contractKvPairsNumber: decode.getInt<int?>(27),
-      cryptoAllowances: decode.getListOfBytes(28).map((b) => HederaAccountCryptoAllowance.deserialize(b)).toList(),
-      approveForAllNftAllowances: decode.getListOfBytes(29).map((b) => HederaAccountApprovalForAllAllowance.deserialize(b)).toList(),
-      tokenAllowances: decode.getListOfBytes(30).map((b) => HederaAccountFungibleTokenAllowance.deserialize(b)).toList(),
+      cryptoAllowances:
+          decode
+              .getListOfBytes(28)
+              .map((b) => HederaAccountCryptoAllowance.deserialize(b))
+              .toList(),
+      approveForAllNftAllowances:
+          decode
+              .getListOfBytes(29)
+              .map((b) => HederaAccountApprovalForAllAllowance.deserialize(b))
+              .toList(),
+      tokenAllowances:
+          decode
+              .getListOfBytes(30)
+              .map((b) => HederaAccountFungibleTokenAllowance.deserialize(b))
+              .toList(),
       numberTreasuryTitles: decode.getInt<int?>(31),
       expiredAndPendingRemoval: decode.getBool<bool?>(32),
       firstContractStorageKey: decode.getBytes<List<int>?>(33),
-      headPendingAirdropId: decode.messageTo<proto_basic_types.HederaPendingAirdropId?>(34, (b) => proto_basic_types.HederaPendingAirdropId.deserialize(b)),
+      headPendingAirdropId: decode
+          .messageTo<proto_basic_types.HederaPendingAirdropId?>(
+            34,
+            (b) => proto_basic_types.HederaPendingAirdropId.deserialize(b),
+          ),
       numberPendingAirdrops: decode.getBigInt<BigInt?>(35),
       numberHooksInUse: decode.getBigInt<BigInt?>(36),
       firstHookId: decode.getBigInt<BigInt?>(37),
@@ -881,10 +1111,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccount;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccount;
 }
-
 
 /// *
 ///  * Permission granted by one account (the "funding" account) to another account
@@ -902,24 +1131,22 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAc
 ///  * An allowance SHALL NOT transfer any tokens directly, it only permits
 ///  * transactions signed only by the spender account to transfer any non-fungible
 ///  * tokens of the specified type owned by the funding account.
-class HederaAccountApprovalForAllAllowance extends HederaProtoMessage with Equality {
-    /// *
+class HederaAccountApprovalForAllAllowance extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * The identifier for the token associated with this allowance.
   ///      * &lt;p&gt;
   ///      * This token MUST be a non-fungible/unique token.
   final proto_basic_types.HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * The identifier for the spending account associated with this allowance.
   ///      * &lt;p&gt;
   ///      * This account SHALL be permitted to sign transactions to spend tokens of
   ///      * the associated token type from the funding/allowing account.
   final proto_basic_types.HederaAccountID? spenderId;
 
-  const HederaAccountApprovalForAllAllowance({
-    this.tokenId,
-    this.spenderId,
-  });
+  const HederaAccountApprovalForAllAllowance({this.tokenId, this.spenderId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -928,69 +1155,81 @@ class HederaAccountApprovalForAllAllowance extends HederaProtoMessage with Equal
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        spenderId,
-      ];
+  List<Object?> get protoValues => [tokenId, spenderId];
 
+  HederaAccountApprovalForAllAllowance copyWith({
+    proto_basic_types.HederaTokenID? tokenId,
 
-HederaAccountApprovalForAllAllowance copyWith(
-{proto_basic_types.HederaTokenID? tokenId,
-
-proto_basic_types.HederaAccountID? spenderId,
-
-}) {
+    proto_basic_types.HederaAccountID? spenderId,
+  }) {
     return HederaAccountApprovalForAllAllowance(
-tokenId: tokenId ?? this.tokenId,
-spenderId: spenderId ?? this.spenderId,
+      tokenId: tokenId ?? this.tokenId,
+      spenderId: spenderId ?? this.spenderId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token_id': config.encodeMessage(tokenId),
       'spender_id': config.encodeMessage(spenderId),
     };
   }
 
-
-  factory HederaAccountApprovalForAllAllowance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccountApprovalForAllAllowance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccountApprovalForAllAllowance(
       tokenId: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token_id',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       spenderId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'spender_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaAccountApprovalForAllAllowance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaAccountApprovalForAllAllowance(
-      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      spenderId: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      spenderId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccountApprovalForAllAllowance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccountApprovalForAllAllowance;
 }
-
 
 /// *
 ///  * Permission granted by one account (the "funding" account) to another account
@@ -1005,14 +1244,15 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAc
 ///  * Once the specified amount is spent, the allowance SHALL be consumed and a
 ///  * new allowance SHALL be required before that spending account may spend
 ///  * additional tokens from the funding account.
-class HederaAccountFungibleTokenAllowance extends HederaProtoMessage with Equality {
-    /// *
+class HederaAccountFungibleTokenAllowance extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * The identifier for the token associated with this allowance.
   ///      * &lt;p&gt;
   ///      * This token MUST be a fungible/common token.
   final proto_basic_types.HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * The identifier for the spending account associated with this allowance.
   ///      * &lt;p&gt;
   ///      * This account SHALL be permitted to sign transactions to spend tokens of
@@ -1020,7 +1260,7 @@ class HederaAccountFungibleTokenAllowance extends HederaProtoMessage with Equali
   ///      * This permission SHALL be limited to no more than the specified `amount`.
   final proto_basic_types.HederaAccountID? spenderId;
 
-    /// * The maximum amount that the spender account may transfer within the
+  /// * The maximum amount that the spender account may transfer within the
   ///      * scope of this allowance.
   ///      * &lt;p&gt;
   ///      * This allowance SHALL be consumed if any combination of transfers
@@ -1051,32 +1291,29 @@ class HederaAccountFungibleTokenAllowance extends HederaProtoMessage with Equali
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        spenderId,
-        amount,
-      ];
+  List<Object?> get protoValues => [tokenId, spenderId, amount];
 
+  HederaAccountFungibleTokenAllowance copyWith({
+    proto_basic_types.HederaTokenID? tokenId,
 
-HederaAccountFungibleTokenAllowance copyWith(
-{proto_basic_types.HederaTokenID? tokenId,
+    proto_basic_types.HederaAccountID? spenderId,
 
-proto_basic_types.HederaAccountID? spenderId,
-
-BigInt? amount,
-
-}) {
+    BigInt? amount,
+  }) {
     return HederaAccountFungibleTokenAllowance(
-tokenId: tokenId ?? this.tokenId,
-spenderId: spenderId ?? this.spenderId,
-amount: amount ?? this.amount,
+      tokenId: tokenId ?? this.tokenId,
+      spenderId: spenderId ?? this.spenderId,
+      amount: amount ?? this.amount,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token_id': config.encodeMessage(tokenId),
       'spender_id': config.encodeMessage(spenderId),
@@ -1084,35 +1321,55 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaAccountFungibleTokenAllowance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccountFungibleTokenAllowance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccountFungibleTokenAllowance(
       tokenId: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token_id',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       spenderId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'spender_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaAccountFungibleTokenAllowance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaAccountFungibleTokenAllowance(
-      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      spenderId: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      spenderId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccountFungibleTokenAllowance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccountFungibleTokenAllowance;
 }
-
 
 /// *
 ///  * Permission granted by one account (the "funding" account) to another account
@@ -1127,7 +1384,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAc
 ///  * new allowance SHALL be required before that spending account may spend
 ///  * additional HBAR from the funding account.
 class HederaAccountCryptoAllowance extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The identifier for the spending account associated with this allowance.
   ///      * &lt;p&gt;
   ///      * This account SHALL be permitted to sign transactions to spend HBAR from
@@ -1135,7 +1392,7 @@ class HederaAccountCryptoAllowance extends HederaProtoMessage with Equality {
   ///      * This permission SHALL be limited to no more than the specified `amount`.
   final proto_basic_types.HederaAccountID? spenderId;
 
-    /// * The maximum amount that the spender account may transfer within the
+  /// * The maximum amount that the spender account may transfer within the
   ///      * scope of this allowance.
   ///      * &lt;p&gt;
   ///      * This allowance SHALL be consumed if any combination of transfers
@@ -1143,10 +1400,7 @@ class HederaAccountCryptoAllowance extends HederaProtoMessage with Equality {
   ///      * This value MUST be specified in tinybar (i.e. 10&lt;sup&gt;-8&lt;/sup&gt; HBAR).
   final BigInt? amount;
 
-  const HederaAccountCryptoAllowance({
-    this.spenderId,
-    this.amount,
-  });
+  const HederaAccountCryptoAllowance({this.spenderId, this.amount});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1155,64 +1409,70 @@ class HederaAccountCryptoAllowance extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.int64(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.int64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        spenderId,
-        amount,
-      ];
+  List<Object?> get protoValues => [spenderId, amount];
 
+  HederaAccountCryptoAllowance copyWith({
+    proto_basic_types.HederaAccountID? spenderId,
 
-HederaAccountCryptoAllowance copyWith(
-{proto_basic_types.HederaAccountID? spenderId,
-
-BigInt? amount,
-
-}) {
+    BigInt? amount,
+  }) {
     return HederaAccountCryptoAllowance(
-spenderId: spenderId ?? this.spenderId,
-amount: amount ?? this.amount,
+      spenderId: spenderId ?? this.spenderId,
+      amount: amount ?? this.amount,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'spender_id': config.encodeMessage(spenderId),
       'amount': config.encodeBigint(amount),
     };
   }
 
-
-  factory HederaAccountCryptoAllowance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccountCryptoAllowance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccountCryptoAllowance(
       spenderId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'spender_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaAccountCryptoAllowance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaAccountCryptoAllowance(
-      spenderId: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      spenderId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccountCryptoAllowance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccountCryptoAllowance;
 }
-
-

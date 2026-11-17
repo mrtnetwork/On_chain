@@ -41,8 +41,7 @@ Future<void> exampleNewStandards() async {
     amount: BigInt.from(1000),
     decimals: 6,
   );
-  final depositBack =
-      SPLTokenProgramLayout.fromBytes(deposit.toBytes());
+  final depositBack = SPLTokenProgramLayout.fromBytes(deposit.toBytes());
   assert(depositBack is SPLToken2022ConfidentialDepositLayout);
   _show(
     'confidential deposit',
@@ -64,8 +63,7 @@ Future<void> exampleNewStandards() async {
       uri: 'https://example.com/asset.json',
     ),
   );
-  final createBack =
-      MplCoreProgramLayout.fromBytes(createIx.data);
+  final createBack = MplCoreProgramLayout.fromBytes(createIx.data);
   assert(createBack is MplCoreCreateV1Layout);
   _show('mpl-core createV1', createIx);
 

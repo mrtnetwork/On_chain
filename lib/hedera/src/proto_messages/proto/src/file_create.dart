@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # File Create
@@ -57,14 +59,14 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * After the file is created, the FileID for it SHALL be returned in the
 ///  * transaction receipt, and SHALL be recorded in the transaction record.
 class HederaFileCreateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An expiration timestamp.
   ///      * &lt;p&gt;
   ///      * When the network consensus time exceeds this value, the network
   ///      * SHALL expire the file.
   final proto_timestamp.HederaTimestamp? expirationTime;
 
-    /// *
+  /// *
   ///      * A list of keys that represent file "owners".
   ///      * &lt;p&gt;
   ///      * Every `Key` in this list MUST sign this `fileCreate` transaction, as
@@ -77,17 +79,17 @@ class HederaFileCreateTransactionBody extends HederaProtoMessage with Equality {
   ///      * transaction, or by expiration.
   final proto_basic_types.HederaKeyList? keys;
 
-    /// *
+  /// *
   ///      * A byte array of file content.
   ///      * &lt;p&gt;
   ///      * The file SHALL be created with initial content equal to this field.
   final List<int>? contents;
 
-    /// *
+  /// *
   ///      * A shard in which this file is created
   final proto_basic_types.HederaShardID? shardID;
 
-    /// *
+  /// *
   ///      * A realm in which this file is created.
   ///      * &lt;p&gt;
   ///      * The shard number for this realm MUST match the value in `shardID`.&lt;br/&gt;
@@ -95,14 +97,14 @@ class HederaFileCreateTransactionBody extends HederaProtoMessage with Equality {
   ///      * If the desired realm is `0.0`, this SHOULD NOT be set.
   final proto_basic_types.HederaRealmID? realmID;
 
-    /// *
+  /// *
   ///      * The "create realm" was never enabled, and
   ///      * should not be possible on file creation.&lt;br/&gt;
   ///      * An admin key for a new realm, if one is created.
   ///      * Added deprecated tag 2024-05.
   final proto_basic_types.HederaKey? newRealmAdminKey;
 
-    /// *
+  /// *
   ///      * A short description of this file.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
@@ -132,7 +134,10 @@ class HederaFileCreateTransactionBody extends HederaProtoMessage with Equality {
         ProtoFieldConfig.bytes(4),
         ProtoFieldConfig.message(5),
         ProtoFieldConfig.message(6),
-        ProtoFieldConfig.message(7, options: [ProtoOptionBool(name: "deprecated", value: true)]),
+        ProtoFieldConfig.message(
+          7,
+          options: [ProtoOptionBool(name: "deprecated", value: true)],
+        ),
         ProtoFieldConfig.string(8),
       ],
     );
@@ -140,47 +145,48 @@ class HederaFileCreateTransactionBody extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        expirationTime,
-        keys,
-        contents,
-        shardID,
-        realmID,
-        newRealmAdminKey,
-        memo,
-      ];
+    expirationTime,
+    keys,
+    contents,
+    shardID,
+    realmID,
+    newRealmAdminKey,
+    memo,
+  ];
 
+  HederaFileCreateTransactionBody copyWith({
+    proto_timestamp.HederaTimestamp? expirationTime,
 
-HederaFileCreateTransactionBody copyWith(
-{proto_timestamp.HederaTimestamp? expirationTime,
+    proto_basic_types.HederaKeyList? keys,
 
-proto_basic_types.HederaKeyList? keys,
+    List<int>? contents,
 
-List<int>? contents,
+    proto_basic_types.HederaShardID? shardID,
 
-proto_basic_types.HederaShardID? shardID,
+    proto_basic_types.HederaRealmID? realmID,
 
-proto_basic_types.HederaRealmID? realmID,
+    proto_basic_types.HederaKey? newRealmAdminKey,
 
-proto_basic_types.HederaKey? newRealmAdminKey,
-
-String? memo,
-
-}) {
+    String? memo,
+  }) {
     return HederaFileCreateTransactionBody(
-expirationTime: expirationTime ?? this.expirationTime,
-keys: keys ?? this.keys,
-contents: contents ?? this.contents,
-shardID: shardID ?? this.shardID,
-realmID: realmID ?? this.realmID,
-newRealmAdminKey: newRealmAdminKey ?? this.newRealmAdminKey,
-memo: memo ?? this.memo,
+      expirationTime: expirationTime ?? this.expirationTime,
+      keys: keys ?? this.keys,
+      contents: contents ?? this.contents,
+      shardID: shardID ?? this.shardID,
+      realmID: realmID ?? this.realmID,
+      newRealmAdminKey: newRealmAdminKey ?? this.newRealmAdminKey,
+      memo: memo ?? this.memo,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'expirationTime': config.encodeMessage(expirationTime),
       'keys': config.encodeMessage(keys),
@@ -192,50 +198,95 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaFileCreateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFileCreateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFileCreateTransactionBody(
       expirationTime: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'expirationTime',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       keys: json.valueTo<proto_basic_types.HederaKeyList?, Object>(
         key: 'keys',
-        parse: (v) => proto_basic_types.HederaKeyList.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      contents: config.decodeBinary<List<int>?>(json.valueAs('contents', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaKeyList.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      contents: config.decodeBinary<List<int>?>(
+        json.valueAs('contents', normalizeKeyLookup: config.normalizeKeys),
+      ),
       shardID: json.valueTo<proto_basic_types.HederaShardID?, Object>(
         key: 'shardID',
-        parse: (v) => proto_basic_types.HederaShardID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaShardID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       realmID: json.valueTo<proto_basic_types.HederaRealmID?, Object>(
         key: 'realmID',
-        parse: (v) => proto_basic_types.HederaRealmID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaRealmID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       newRealmAdminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'newRealmAdminKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      memo: json.valueAsString<String?>('memo', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      memo: json.valueAsString<String?>(
+        'memo',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaFileCreateTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaFileCreateTransactionBody(
-      expirationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(2, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
-      keys: decode.messageTo<proto_basic_types.HederaKeyList?>(3, (b) => proto_basic_types.HederaKeyList.deserialize(b)),
+      expirationTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        2,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
+      keys: decode.messageTo<proto_basic_types.HederaKeyList?>(
+        3,
+        (b) => proto_basic_types.HederaKeyList.deserialize(b),
+      ),
       contents: decode.getBytes<List<int>?>(4),
-      shardID: decode.messageTo<proto_basic_types.HederaShardID?>(5, (b) => proto_basic_types.HederaShardID.deserialize(b)),
-      realmID: decode.messageTo<proto_basic_types.HederaRealmID?>(6, (b) => proto_basic_types.HederaRealmID.deserialize(b)),
-      newRealmAdminKey: decode.messageTo<proto_basic_types.HederaKey?>(7, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      shardID: decode.messageTo<proto_basic_types.HederaShardID?>(
+        5,
+        (b) => proto_basic_types.HederaShardID.deserialize(b),
+      ),
+      realmID: decode.messageTo<proto_basic_types.HederaRealmID?>(
+        6,
+        (b) => proto_basic_types.HederaRealmID.deserialize(b),
+      ),
+      newRealmAdminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        7,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       memo: decode.getString<String?>(8),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFileCreateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFileCreateTransactionBody;
 }
-
-

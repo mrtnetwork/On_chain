@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/transaction.dart" as proto_transaction;
+import "package:on_chain/hedera/src/proto_messages/proto/src/transaction.dart"
+    as proto_transaction;
 
 /// *
 ///  * # Query Header
@@ -22,20 +23,24 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/transaction.dart" a
 ///  * This value SHALL support an "estimated cost" type.&lt;br/&gt;
 ///  * This value SHOULD support a "state proof" type, when available.
 enum HederaResponseType implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * A response with the query answer.
   answerOnly(0, 'ANSWER_ONLY'),
-    /// *
+
+  /// *
   ///      * A response with both the query answer and a state proof.
   answerStateProof(1, 'ANSWER_STATE_PROOF'),
-    /// *
+
+  /// *
   ///      * A response with the estimated cost to answer the query.
   costAnswer(2, 'COST_ANSWER'),
-    /// *
+
+  /// *
   ///      * A response with the estimated cost to answer and a state proof.
   costAnswerStateProof(3, 'COST_ANSWER_STATE_PROOF');
 
   const HederaResponseType(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -46,25 +51,41 @@ enum HederaResponseType implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaResponseType fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaResponseType.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaResponseType found for the given value. $value", details: {"name": "HederaResponseType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaResponseType found for the given value. $value",
+                details: {
+                  "name": "HederaResponseType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaResponseType from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaResponseType.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaResponseType found for the given value. $value", details: {"name": "HederaResponseType", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaResponseType found for the given value. $value",
+                details: {
+                  "name": "HederaResponseType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * A standard query header.&lt;br/&gt;
@@ -82,21 +103,18 @@ enum HederaResponseType implements ProtoEnumVariant {
 ///  * A state proof SHALL be available for a Record, but not a receipt, and the
 ///  * response entry for each supported "get info" query.
 class HederaQueryHeader extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A signed `CryptoTransferTransaction` to pay query fees.
   ///      * &lt;p&gt;
   ///      * This MUST transfer HBAR from the "payer" to the responding node account
   ///      * sufficient to pay the query fees.
   final proto_transaction.HederaTransaction? payment;
 
-    /// *
+  /// *
   ///      * A type of query response requested.
   final HederaResponseType? responseType;
 
-  const HederaQueryHeader({
-    this.payment,
-    this.responseType,
-  });
+  const HederaQueryHeader({this.payment, this.responseType});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -105,49 +123,51 @@ class HederaQueryHeader extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.enumType(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.enumType(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        payment,
-        responseType,
-      ];
+  List<Object?> get protoValues => [payment, responseType];
 
+  HederaQueryHeader copyWith({
+    proto_transaction.HederaTransaction? payment,
 
-HederaQueryHeader copyWith(
-{proto_transaction.HederaTransaction? payment,
-
-HederaResponseType? responseType,
-
-}) {
+    HederaResponseType? responseType,
+  }) {
     return HederaQueryHeader(
-payment: payment ?? this.payment,
-responseType: responseType ?? this.responseType,
+      payment: payment ?? this.payment,
+      responseType: responseType ?? this.responseType,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'payment': config.encodeMessage(payment),
       'responseType': config.encodeEnum(responseType),
     };
   }
 
-
-  factory HederaQueryHeader.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaQueryHeader.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaQueryHeader(
       payment: json.valueTo<proto_transaction.HederaTransaction?, Object>(
         key: 'payment',
-        parse: (v) => proto_transaction.HederaTransaction.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_transaction.HederaTransaction.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       responseType: json.valueTo<HederaResponseType?, Object?>(
         key: 'responseType',
         parse: (v) => HederaResponseType.from(v),
@@ -158,14 +178,18 @@ List<dynamic> get variables => protoValues;
   factory HederaQueryHeader.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaQueryHeader(
-      payment: decode.messageTo<proto_transaction.HederaTransaction?>(1, (b) => proto_transaction.HederaTransaction.deserialize(b)),
-      responseType: decode.getEnum<HederaResponseType?>(2, HederaResponseType.values),
+      payment: decode.messageTo<proto_transaction.HederaTransaction?>(
+        1,
+        (b) => proto_transaction.HederaTransaction.deserialize(b),
+      ),
+      responseType: decode.getEnum<HederaResponseType?>(
+        2,
+        HederaResponseType.values,
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoQueryHeader;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoQueryHeader;
 }
-
-

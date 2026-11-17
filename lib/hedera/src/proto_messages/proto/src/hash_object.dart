@@ -28,6 +28,7 @@ enum HederaHashAlgorithm implements ProtoEnumVariant {
   sha384(1, 'SHA_384');
 
   const HederaHashAlgorithm(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -38,47 +39,59 @@ enum HederaHashAlgorithm implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaHashAlgorithm fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaHashAlgorithm.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaHashAlgorithm found for the given value. $value", details: {"name": "HederaHashAlgorithm", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaHashAlgorithm found for the given value. $value",
+                details: {
+                  "name": "HederaHashAlgorithm",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaHashAlgorithm from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaHashAlgorithm.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaHashAlgorithm found for the given value. $value", details: {"name": "HederaHashAlgorithm", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaHashAlgorithm found for the given value. $value",
+                details: {
+                  "name": "HederaHashAlgorithm",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * Encapsulates an object hash so that additional hash algorithms
 ///  * can be added in the future without requiring a breaking change.
 class HederaHashObject extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * Specifies the hashing algorithm
   final HederaHashAlgorithm? algorithm;
 
-    /// *
+  /// *
   ///    * Hash length
   final int? length;
 
-    /// *
+  /// *
   ///    * Specifies the result of the hashing operation in bytes
   final List<int>? hash;
 
-  const HederaHashObject({
-    this.algorithm,
-    this.length,
-    this.hash,
-  });
+  const HederaHashObject({this.algorithm, this.length, this.hash});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -96,32 +109,29 @@ class HederaHashObject extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        algorithm,
-        length,
-        hash,
-      ];
+  List<Object?> get protoValues => [algorithm, length, hash];
 
+  HederaHashObject copyWith({
+    HederaHashAlgorithm? algorithm,
 
-HederaHashObject copyWith(
-{HederaHashAlgorithm? algorithm,
+    int? length,
 
-int? length,
-
-List<int>? hash,
-
-}) {
+    List<int>? hash,
+  }) {
     return HederaHashObject(
-algorithm: algorithm ?? this.algorithm,
-length: length ?? this.length,
-hash: hash ?? this.hash,
+      algorithm: algorithm ?? this.algorithm,
+      length: length ?? this.length,
+      hash: hash ?? this.hash,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'algorithm': config.encodeEnum(algorithm),
       'length': length,
@@ -129,30 +139,38 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaHashObject.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaHashObject.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaHashObject(
       algorithm: json.valueTo<HederaHashAlgorithm?, Object?>(
         key: 'algorithm',
         parse: (v) => HederaHashAlgorithm.from(v),
       ),
-      length: json.valueAsInt<int?>('length', normalizeKeyLookup: config.normalizeKeys),
-      hash: config.decodeBinary<List<int>?>(json.valueAs('hash', normalizeKeyLookup: config.normalizeKeys)),
+      length: json.valueAsInt<int?>(
+        'length',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      hash: config.decodeBinary<List<int>?>(
+        json.valueAs('hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
   factory HederaHashObject.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaHashObject(
-      algorithm: decode.getEnum<HederaHashAlgorithm?>(1, HederaHashAlgorithm.values),
+      algorithm: decode.getEnum<HederaHashAlgorithm?>(
+        1,
+        HederaHashAlgorithm.values,
+      ),
       length: decode.getInt<int?>(2),
       hash: decode.getBytes<List<int>?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoHashObject;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoHashObject;
 }
-
-

@@ -2,6 +2,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void layoutTest() {
   group('Solana/Stake Pool Layout', () {
     _updateValidatorListBalance();
@@ -25,7 +26,6 @@ void layoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(layoutTest, "Layout");
 }
-
 
 void _updateValidatorListBalance() {
   test('updateValidatorListBalance', () {

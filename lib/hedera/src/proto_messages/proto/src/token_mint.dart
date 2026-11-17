@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Mint
@@ -39,14 +40,14 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * None
 class HederaTokenMintTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This SHALL identify the token type to "mint".&lt;br/&gt;
   ///      * The identified token MUST exist, and MUST NOT be deleted.
   final proto_basic_types.HederaTokenID? token;
 
-    /// *
+  /// *
   ///      * An amount to mint to the Treasury Account.
   ///      * &lt;p&gt;
   ///      * This is interpreted as an amount in the smallest possible denomination
@@ -58,7 +59,7 @@ class HederaTokenMintTransactionBody extends HederaProtoMessage with Equality {
   ///      * If this value is non-zero, the token MUST be a fungible/common type.
   final BigInt? amount;
 
-    /// *
+  /// *
   ///      * A list of metadata bytes.&lt;br/&gt;
   ///      * &lt;p&gt;
   ///      * One non-fungible/unique token SHALL be minted for each entry
@@ -97,32 +98,29 @@ class HederaTokenMintTransactionBody extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        token,
-        amount,
-        metadata,
-      ];
+  List<Object?> get protoValues => [token, amount, metadata];
 
+  HederaTokenMintTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? token,
 
-HederaTokenMintTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? token,
+    BigInt? amount,
 
-BigInt? amount,
-
-List<List<int>>? metadata,
-
-}) {
+    List<List<int>>? metadata,
+  }) {
     return HederaTokenMintTransactionBody(
-token: token ?? this.token,
-amount: amount ?? this.amount,
-metadata: metadata ?? this.metadata,
+      token: token ?? this.token,
+      amount: amount ?? this.amount,
+      metadata: metadata ?? this.metadata,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token': config.encodeMessage(token),
       'amount': config.encodeBigint(amount),
@@ -130,30 +128,46 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenMintTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenMintTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenMintTransactionBody(
       token: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      amount: json.valueAsBigInt<BigInt?>('amount', normalizeKeyLookup: config.normalizeKeys),
-      metadata: (json.valueEnsureAsList<dynamic>('metadata', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => config.decodeBinary<List<int>>(e)).toList(),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsBigInt<BigInt?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      metadata:
+          (json.valueEnsureAsList<dynamic>(
+            'metadata',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => config.decodeBinary<List<int>>(e)).toList(),
     );
   }
 
   factory HederaTokenMintTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenMintTransactionBody(
-      token: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
+      token: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
       amount: decode.getBigInt<BigInt?>(2),
       metadata: decode.getListOfBytes(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenMintTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenMintTransactionBody;
 }
-
-

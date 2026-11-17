@@ -24,7 +24,14 @@ enum TronResourceCode implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronResourceCode found for the given value. $value", details: {"name": "TronResourceCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronResourceCode found for the given value. $value",
+                details: {
+                  "name": "TronResourceCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -36,7 +43,14 @@ enum TronResourceCode implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronResourceCode found for the given value. $value", details: {"name": "TronResourceCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronResourceCode found for the given value. $value",
+                details: {
+                  "name": "TronResourceCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }

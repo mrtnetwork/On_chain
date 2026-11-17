@@ -5,6 +5,7 @@ import 'package:on_chain/icp/src/serialization/candid/candid.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 /// Helper: hex string -> bytes
 List<int> hex(String s) {
   return BytesUtils.fromHexString(s);
@@ -690,4 +691,3 @@ void candidAdvancedTest() {
 void main() {
   OnChainUtilsTestApi.runTest(candidAdvancedTest, "Candid Advanced");
 }
-

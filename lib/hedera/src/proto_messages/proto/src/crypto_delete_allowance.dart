@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Crypto Delete Allowance
@@ -32,8 +33,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaCryptoDeleteAllowanceTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaCryptoDeleteAllowanceTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * List of non-fungible/unique token allowances to remove.
   ///      * &lt;p&gt;
   ///      * This list MUST NOT be empty.
@@ -60,51 +62,71 @@ class HederaCryptoDeleteAllowanceTransactionBody extends HederaProtoMessage with
   }
 
   @override
-  List<Object?> get protoValues => [
-        nftAllowances,
-      ];
+  List<Object?> get protoValues => [nftAllowances];
 
-
-HederaCryptoDeleteAllowanceTransactionBody copyWith(
-{List<HederaNftRemoveAllowance>? nftAllowances,
-
-}) {
+  HederaCryptoDeleteAllowanceTransactionBody copyWith({
+    List<HederaNftRemoveAllowance>? nftAllowances,
+  }) {
     return HederaCryptoDeleteAllowanceTransactionBody(
-nftAllowances: nftAllowances ?? this.nftAllowances,
+      nftAllowances: nftAllowances ?? this.nftAllowances,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'nftAllowances': nftAllowances.map((e) => config.encodeMessage(e)).toList(),
+      'nftAllowances':
+          nftAllowances.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaCryptoDeleteAllowanceTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCryptoDeleteAllowanceTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCryptoDeleteAllowanceTransactionBody(
-      nftAllowances: (json.valueEnsureAsList<dynamic>('nftAllowances', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaNftRemoveAllowance, Object>(
-          value: e,
-          parse: (v) => HederaNftRemoveAllowance.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      nftAllowances:
+          (json.valueEnsureAsList<dynamic>(
+                'nftAllowances',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaNftRemoveAllowance, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaNftRemoveAllowance.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
-  factory HederaCryptoDeleteAllowanceTransactionBody.deserialize(List<int> bytes) {
+  factory HederaCryptoDeleteAllowanceTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCryptoDeleteAllowanceTransactionBody(
-      nftAllowances: decode.getListOfBytes(2).map((b) => HederaNftRemoveAllowance.deserialize(b)).toList(),
+      nftAllowances:
+          decode
+              .getListOfBytes(2)
+              .map((b) => HederaNftRemoveAllowance.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCryptoDeleteAllowanceTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCryptoDeleteAllowanceTransactionBody;
 }
-
 
 /// Note: Field numbers 1 and 3 were very briefly used in early
 /// versions of this file, but were removed prior to any release
@@ -126,20 +148,20 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCr
 ///  * that newly approved allowance to a specific serial number may be
 ///  * deleted in a separate `cryptoDeleteAllowance` transaction.
 class HederaNftRemoveAllowance extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This MUST be a valid token identifier for a non-fungible/unique
   ///      * token type.
   final proto_basic_types.HederaTokenID? tokenId;
 
-    /// *
+  /// *
   ///      * An `owner` account identifier.
   ///      * &lt;p&gt;
   ///      * This account MUST sign the transaction containing this message.
   final proto_basic_types.HederaAccountID? owner;
 
-    /// *
+  /// *
   ///      * The list of serial numbers to remove allowances from.
   ///      * &lt;p&gt;
   ///      * This list MUST NOT be empty.
@@ -170,66 +192,85 @@ class HederaNftRemoveAllowance extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenId,
-        owner,
-        serialNumbers,
-      ];
+  List<Object?> get protoValues => [tokenId, owner, serialNumbers];
 
+  HederaNftRemoveAllowance copyWith({
+    proto_basic_types.HederaTokenID? tokenId,
 
-HederaNftRemoveAllowance copyWith(
-{proto_basic_types.HederaTokenID? tokenId,
+    proto_basic_types.HederaAccountID? owner,
 
-proto_basic_types.HederaAccountID? owner,
-
-List<BigInt>? serialNumbers,
-
-}) {
+    List<BigInt>? serialNumbers,
+  }) {
     return HederaNftRemoveAllowance(
-tokenId: tokenId ?? this.tokenId,
-owner: owner ?? this.owner,
-serialNumbers: serialNumbers ?? this.serialNumbers,
+      tokenId: tokenId ?? this.tokenId,
+      owner: owner ?? this.owner,
+      serialNumbers: serialNumbers ?? this.serialNumbers,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token_id': config.encodeMessage(tokenId),
       'owner': config.encodeMessage(owner),
-      'serial_numbers': serialNumbers.map((e) => config.encodeBigint(e)).toList(),
+      'serial_numbers':
+          serialNumbers.map((e) => config.encodeBigint(e)).toList(),
     };
   }
 
-
-  factory HederaNftRemoveAllowance.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNftRemoveAllowance.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNftRemoveAllowance(
       tokenId: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token_id',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       owner: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'owner',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      serialNumbers: (json.valueEnsureAsList<dynamic>('serial_numbers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      serialNumbers:
+          (json.valueEnsureAsList<dynamic>(
+            'serial_numbers',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => JsonParser.valueAsBigInt<BigInt>(e)).toList(),
     );
   }
 
   factory HederaNftRemoveAllowance.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaNftRemoveAllowance(
-      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      tokenId: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
       serialNumbers: decode.getListOrEmpty<BigInt>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNftRemoveAllowance;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNftRemoveAllowance;
 }
-
-

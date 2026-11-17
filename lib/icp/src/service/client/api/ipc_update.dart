@@ -37,9 +37,7 @@ mixin ICPUpdateQuickApi {
           memo: memo ?? BigInt.zero,
           amount: LEDGERTokens(e8s: amount),
           fee: LEDGERTokens(
-            e8s: BigInt.from(
-              fee ?? AgentConstants.defaultLedgerTransferFee,
-            ),
+            e8s: BigInt.from(fee ?? AgentConstants.defaultLedgerTransferFee),
           ),
           to: to.toAccountIdentifier().toBytes(),
           fromSubaccount: sender.subaccountId,

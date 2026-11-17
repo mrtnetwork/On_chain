@@ -55,7 +55,8 @@ class _GrpcProvider with SuiServiceProvider {
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    return grpc.doGrpcRequest(params as SuiGrpcRequestDetails, timeout: timeout);
+    return grpc.doGrpcRequest(params as SuiGrpcRequestDetails,
+        timeout: timeout);
   }
 }
 
@@ -203,11 +204,12 @@ Future<void> exampleKeyless() async {
   final ephemeral = SuiEd25519Account(
     SuiED25519PrivateKey.fromBytes(QuickCrypto.generateRandom(length: 32)),
   );
-  final epoch =
-      (await quick.provider.request(
+  final epoch = (await quick.provider.request(
         const SuiGrpcRequestMessage(SuiGetEpochRequest()),
-      )).epoch?.epoch ??
-          BigInt.zero;
+      ))
+          .epoch
+          ?.epoch ??
+      BigInt.zero;
   final maxEpoch = epoch + BigInt.from(10);
   final randomness = BigintUtils.fromBytes(
     QuickCrypto.generateRandom(length: 16),
@@ -272,17 +274,17 @@ Future<void> exampleKeylessGoogle() async {
     print('  skipped: set GOOGLE_CLIENT_ID for the real-Google zkLogin.');
     return;
   }
-  final port =
-      int.tryParse(Platform.environment['KEYLESS_PORT'] ?? '') ?? 8080;
+  final port = int.tryParse(Platform.environment['KEYLESS_PORT'] ?? '') ?? 8080;
 
   final ephemeral = SuiEd25519Account(
     SuiED25519PrivateKey.fromBytes(QuickCrypto.generateRandom(length: 32)),
   );
-  final epoch =
-      (await quick.provider.request(
+  final epoch = (await quick.provider.request(
         const SuiGrpcRequestMessage(SuiGetEpochRequest()),
-      )).epoch?.epoch ??
-          BigInt.zero;
+      ))
+          .epoch
+          ?.epoch ??
+      BigInt.zero;
   final maxEpoch = epoch + BigInt.from(10);
   final randomness = BigintUtils.fromBytes(
     QuickCrypto.generateRandom(length: 16),
@@ -463,7 +465,8 @@ Future<void> exampleTokenTransfer() async {
   final cap = objs.objects.firstWhere(
     (o) => o.objectType?.contains('TreasuryCap') ?? false,
   );
-  final capType = cap.objectType!; // 0x2::coin::TreasuryCap<0x<pkg>::my_coin::MY_COIN>
+  final capType =
+      cap.objectType!; // 0x2::coin::TreasuryCap<0x<pkg>::my_coin::MY_COIN>
   final pkg = _pkgFromType(capType);
   print('  package:      $pkg');
   print('  treasury cap: ${cap.objectId}');
@@ -525,10 +528,10 @@ Future<void> exampleTokenTransfer() async {
 
 /// Builds a `SuiObjectRef` from a gRPC `SuiObject`.
 SuiObjectRef _objRef(SuiObject o) => SuiObjectRef(
-  address: SuiAddress(o.objectId!),
-  version: o.version!,
-  digest: SuiObjectDigest(Base58Decoder.decode(o.digest!).toList()),
-);
+      address: SuiAddress(o.objectId!),
+      version: o.version!,
+      digest: SuiObjectDigest(Base58Decoder.decode(o.digest!).toList()),
+    );
 
 /// Extracts the package id from a `TreasuryCap<0x<pkg>::my_coin::MY_COIN>` type.
 SuiAddress _pkgFromType(String type) {

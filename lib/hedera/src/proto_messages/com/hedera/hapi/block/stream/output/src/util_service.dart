@@ -36,14 +36,14 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * This message SHALL NOT duplicate information already contained in
 ///  * the original transaction.
 class HederaUtilPrngOutput extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A deterministic pseudo-random sequence of 48 bytes.
   ///      * &lt;p&gt;
   ///      * This value SHALL be the result of a corresponding
   ///      * `UtilService` `prng` transaction.
   final List<int>? prngBytes;
 
-    /// *
+  /// *
   ///      * A deterministic pseudo-random number generated within a
   ///      * specified range.
   ///      * &lt;p&gt;
@@ -53,10 +53,7 @@ class HederaUtilPrngOutput extends HederaProtoMessage with Equality {
   ///      * output SHALL always be a whole number.
   final int? prngNumber;
 
-  const HederaUtilPrngOutput({
-    this.prngBytes,
-    this.prngNumber,
-  });
+  const HederaUtilPrngOutput({this.prngBytes, this.prngNumber});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -65,47 +62,45 @@ class HederaUtilPrngOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-        ProtoFieldConfig.uint32(2),
-      ],
+      fields: [ProtoFieldConfig.bytes(1), ProtoFieldConfig.uint32(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        prngBytes,
-        prngNumber,
-      ];
+  List<Object?> get protoValues => [prngBytes, prngNumber];
 
-
-HederaUtilPrngOutput copyWith(
-{List<int>? prngBytes,
-
-int? prngNumber,
-
-}) {
+  HederaUtilPrngOutput copyWith({List<int>? prngBytes, int? prngNumber}) {
     return HederaUtilPrngOutput(
-prngBytes: prngBytes ?? this.prngBytes,
-prngNumber: prngNumber ?? this.prngNumber,
+      prngBytes: prngBytes ?? this.prngBytes,
+      prngNumber: prngNumber ?? this.prngNumber,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'prng_bytes': config.encodeBinary(prngBytes),
       'prng_number': prngNumber,
     };
   }
 
-
-  factory HederaUtilPrngOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaUtilPrngOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaUtilPrngOutput(
-      prngBytes: config.decodeBinary<List<int>?>(json.valueAs('prng_bytes', normalizeKeyLookup: config.normalizeKeys)),
-      prngNumber: json.valueAsInt<int?>('prng_number', normalizeKeyLookup: config.normalizeKeys),
+      prngBytes: config.decodeBinary<List<int>?>(
+        json.valueAs('prng_bytes', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      prngNumber: json.valueAsInt<int?>(
+        'prng_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -118,8 +113,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputUtilPrngOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputUtilPrngOutput;
 }
-
-

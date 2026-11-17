@@ -23,20 +23,22 @@ final BigInt _oneIcp = BigInt.from(100000000);
 /// Local network config: only the ledger is real; the other NNS canisters are
 /// the mainnet defaults (unused by these examples).
 ICPNetworkConfig get localNetwork => const ICPNetworkConfig(
-  ledgerCanisterId: IcpPrincipalAddress.unsafe(localLedgerCanisterId),
-  cyclesLedgerCanisterId: IcpPrincipalAddress.unsafe(
-    'um5iw-rqaaa-aaaaq-qaaba-cai',
-  ),
-  cyclesMintingCanisterId: IcpPrincipalAddress.unsafe(
-    'rkp4c-7iaaa-aaaaa-aaaca-cai',
-  ),
-  internetIdentityCanisterId: IcpPrincipalAddress.unsafe(
-    'rdmx6-jaaaa-aaaaa-aaadq-cai',
-  ),
-  nnsRootCanisterId: IcpPrincipalAddress.unsafe('rrkah-fqaaa-aaaaa-aaaaq-cai'),
-  snsWasmCanisterId: IcpPrincipalAddress.unsafe('qaa6y-5yaaa-aaaaa-aaafa-cai'),
-  managementCanisterId: IcpPrincipalAddress.unsafe('aaaaa-aa'),
-);
+      ledgerCanisterId: IcpPrincipalAddress.unsafe(localLedgerCanisterId),
+      cyclesLedgerCanisterId: IcpPrincipalAddress.unsafe(
+        'um5iw-rqaaa-aaaaq-qaaba-cai',
+      ),
+      cyclesMintingCanisterId: IcpPrincipalAddress.unsafe(
+        'rkp4c-7iaaa-aaaaa-aaaca-cai',
+      ),
+      internetIdentityCanisterId: IcpPrincipalAddress.unsafe(
+        'rdmx6-jaaaa-aaaaa-aaadq-cai',
+      ),
+      nnsRootCanisterId:
+          IcpPrincipalAddress.unsafe('rrkah-fqaaa-aaaaa-aaaaq-cai'),
+      snsWasmCanisterId:
+          IcpPrincipalAddress.unsafe('qaa6y-5yaaa-aaaaa-aaafa-cai'),
+      managementCanisterId: IcpPrincipalAddress.unsafe('aaaaa-aa'),
+    );
 
 /// Deterministic demo key from a 32-byte seed.
 ICPSecp256r1SecretKey demoSecretKey(int seedByte) =>

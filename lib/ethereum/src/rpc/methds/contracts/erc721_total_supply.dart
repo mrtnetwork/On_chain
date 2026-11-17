@@ -5,10 +5,8 @@ import 'package:on_chain/solidity/address/core.dart';
 import 'package:on_chain/solidity/helper/helper.dart';
 
 /// Returns the total supply (ERC-721 Enumerable). Reverts when unsupported.
-class EthereumRequestERC721TotalSupply
-    extends EthereumRequest<BigInt, String> {
-  EthereumRequestERC721TotalSupply(this.contractAddress,
-      {super.blockNumber});
+class EthereumRequestERC721TotalSupply extends EthereumRequest<BigInt, String> {
+  EthereumRequestERC721TotalSupply(this.contractAddress, {super.blockNumber});
 
   @override
   String get method => EthereumMethods.call.value;
@@ -29,7 +27,7 @@ class EthereumRequestERC721TotalSupply
         "to": contractAddress.toSolidityHex(),
         "data": BytesUtils.toHexString(_encoder.encodeCall(), prefix: "0x"),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

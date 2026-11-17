@@ -4,6 +4,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void voteCompileV0Test() {
   group('Solana/Vote Compile V0', () {
     _initializeAccount();
@@ -17,7 +18,6 @@ void voteCompileV0Test() {
 void main() {
   OnChainUtilsTestApi.runTest(voteCompileV0Test, "Compile V0");
 }
-
 
 void _initializeAccount() {
   test('initializeAccount', () {

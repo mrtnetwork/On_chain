@@ -1,9 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block_item.dart" as com_hedera_hapi_block_stream_block_item;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block.dart" as com_hedera_hapi_block_stream_block;
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block_item.dart"
+    as com_hedera_hapi_block_stream_block_item;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/src/block.dart"
+    as com_hedera_hapi_block_stream_block;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * An enumeration indicating why a Publisher ended a stream.
@@ -11,12 +14,13 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * This enumeration describes the reason a block stream
 ///  * (sent via `publishBlockStream`) was ended by the Publisher.
 enum HederaPublishStreamEndCode implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * An "unset value" flag, this value SHALL NOT be used.&lt;br/&gt;
   ///      * This status indicates the server software failed to set a
   ///      * status, and SHALL be considered a software defect.
   streamEndUnknown(0, 'STREAM_END_UNKNOWN'),
-    /// *
+
+  /// *
   ///      * The Publisher reached a reset point.&lt;br/&gt;
   ///      * No errors occurred and the source Block-Node orderly ended the stream.
   ///      *
@@ -24,13 +28,15 @@ enum HederaPublishStreamEndCode implements ProtoEnumVariant {
   ///      * occasionally. Occasionally resetting the stream increases stability and
   ///      * allows for routine network configuration changes.
   streamEndReset(1, 'STREAM_END_RESET'),
-    /// *
+
+  /// *
   ///      * The delay between items was too long.&lt;br/&gt;
   ///      * The destination system did not timely acknowledge a block.
   ///      * &lt;p&gt;
   ///      * The source SHALL start a new stream before the failed block.
   streamEndTimeout(2, 'STREAM_END_TIMEOUT'),
-    /// *
+
+  /// *
   ///      * The Publisher encountered an error.&lt;br/&gt;
   ///      * The Publisher encountered an internal error and must try again later.
   ///      * &lt;p&gt;
@@ -38,7 +44,8 @@ enum HederaPublishStreamEndCode implements ProtoEnumVariant {
   ///      * "behind" the network, or otherwise detect an unexpected situation MUST
   ///      * send this code and restart the stream before the failed block.
   streamEndError(3, 'STREAM_END_ERROR'),
-    /// *
+
+  /// *
   ///      * The Block-Node is too far behind to catch up directly.&lt;br/&gt;
   ///      * The Block-Node responded to a block header with "BEHIND" and is
   ///      * too far behind the Publisher.
@@ -54,6 +61,7 @@ enum HederaPublishStreamEndCode implements ProtoEnumVariant {
   streamEndTooFarBehind(4, 'STREAM_END_TOO_FAR_BEHIND');
 
   const HederaPublishStreamEndCode(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -64,25 +72,41 @@ enum HederaPublishStreamEndCode implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaPublishStreamEndCode fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaPublishStreamEndCode.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaPublishStreamEndCode found for the given value. $value", details: {"name": "HederaPublishStreamEndCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaPublishStreamEndCode found for the given value. $value",
+                details: {
+                  "name": "HederaPublishStreamEndCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaPublishStreamEndCode from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaPublishStreamEndCode.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaPublishStreamEndCode found for the given value. $value", details: {"name": "HederaPublishStreamEndCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaPublishStreamEndCode found for the given value. $value",
+                details: {
+                  "name": "HederaPublishStreamEndCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * An enumeration indicating the status of this request.
@@ -90,33 +114,38 @@ enum HederaPublishStreamEndCode implements ProtoEnumVariant {
 ///  * This enumeration SHALL describe the reason a block stream
 ///  * (sent via `publishBlockStream`) ended.
 enum HederaPublishStreamResponseCode implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * An "unset value" flag, this value SHALL NOT be used.&lt;br/&gt;
   ///      * This status indicates the server software failed to set a
   ///      * status, and SHALL be considered a software defect.
   streamItemsUnknown(0, 'STREAM_ITEMS_UNKNOWN'),
-    /// *
+
+  /// *
   ///      * The request succeeded.&lt;br/&gt;
   ///      * No errors occurred and the receiving Block-Node orderly ended the stream.
   ///      * &lt;p&gt;
   ///      * The Publisher MAY start a new stream beginning with the next block.
   streamItemsSuccess(1, 'STREAM_ITEMS_SUCCESS'),
-    /// *
+
+  /// *
   ///      * The delay between items was too long.
   ///      * &lt;p&gt;
   ///      * The source MUST start a new stream before the failed block.
   streamItemsTimeout(2, 'STREAM_ITEMS_TIMEOUT'),
-    /// *
+
+  /// *
   ///      * An item was received out-of-order.&lt;br/&gt;
   ///      * This might be two headers without a proof between them, or similar.
   ///      * &lt;p&gt;
   ///      * The source MUST start a new stream before the failed block.
   streamItemsOutOfOrder(3, 'STREAM_ITEMS_OUT_OF_ORDER'),
-    /// *
+
+  /// *
   ///      * A block state proof item could not be validated.&lt;br/&gt;
   ///      * The source MUST start a new stream before the failed block.
   streamItemsBadStateProof(4, 'STREAM_ITEMS_BAD_STATE_PROOF'),
-    /// *
+
+  /// *
   ///      * The Block-Node is "behind" the Publisher.&lt;br/&gt;
   ///      * Ths Publisher has sent a block later than this Block-Node
   ///      * can process. The Publisher may retry by sending blocks immediately
@@ -127,11 +156,13 @@ enum HederaPublishStreamResponseCode implements ProtoEnumVariant {
   ///      * blocks from another Block-Node or other source of recent historical
   ///      * block stream data.
   streamItemsBehind(5, 'STREAM_ITEMS_BEHIND'),
-    /// *
+
+  /// *
   ///      * The Block-Node had an internal error and cannot continue processing.&lt;br/&gt;
   ///      * The Publisher may retry again later.
   streamItemsInternalError(6, 'STREAM_ITEMS_INTERNAL_ERROR'),
-    /// *
+
+  /// *
   ///      * The Block-Node failed to store the block persistently.
   ///      * &lt;p&gt;
   ///      * The Publisher SHOULD start a new stream to send the block to
@@ -141,6 +172,7 @@ enum HederaPublishStreamResponseCode implements ProtoEnumVariant {
   streamItemsPersistenceFailed(7, 'STREAM_ITEMS_PERSISTENCE_FAILED');
 
   const HederaPublishStreamResponseCode(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -151,45 +183,64 @@ enum HederaPublishStreamResponseCode implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaPublishStreamResponseCode fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaPublishStreamResponseCode.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaPublishStreamResponseCode found for the given value. $value", details: {"name": "HederaPublishStreamResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaPublishStreamResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaPublishStreamResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaPublishStreamResponseCode from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaPublishStreamResponseCode.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaPublishStreamResponseCode found for the given value. $value", details: {"name": "HederaPublishStreamResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaPublishStreamResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaPublishStreamResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * An enumeration indicating the status of this request.
 enum HederaSingleBlockResponseCode implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * An "unset value" flag, this value SHALL NOT be used.&lt;br/&gt;
   ///      * This status indicates the server software failed to set a status,
   ///      * and SHALL be considered a software defect.
   readBlockUnknown(0, 'READ_BLOCK_UNKNOWN'),
-    /// *
+
+  /// *
   ///      * The requesting client account lacks sufficient HBAR to pay the
   ///      * service fee for this request.&lt;br/&gt;
   ///      * The client MAY retry the request, but MUST increase the client
   ///      * account balance with this Block-Node before doing so.
   readBlockInsufficientBalance(1, 'READ_BLOCK_INSUFFICIENT_BALANCE'),
-    /// *
+
+  /// *
   ///      * The request succeeded.&lt;br/&gt;
   ///      * The requested block SHALL be returned in the `block` field.
   readBlockSuccess(2, 'READ_BLOCK_SUCCESS'),
-    /// *
+
+  /// *
   ///      * The requested block was not found.&lt;br/&gt;
   ///      * Something failed and a block that should be available was
   ///      * not found.
@@ -197,20 +248,23 @@ enum HederaSingleBlockResponseCode implements ProtoEnumVariant {
   ///      * The client MAY retry the request; if this result is repeated the
   ///      * request SHOULD be directed to a different Block-Node.
   readBlockNotFound(3, 'READ_BLOCK_NOT_FOUND'),
-    /// *
+
+  /// *
   ///      * The requested block is not available on this Block-Node.
   ///      * &lt;p&gt;
   ///      * The client SHOULD send a `serverStatus` request to determine the
   ///      * lowest and highest block numbers available at this Block-Node.
   readBlockNotAvailable(4, 'READ_BLOCK_NOT_AVAILABLE'),
-    /// *
+
+  /// *
   ///      * The request for a verified block cannot be fulfilled.&lt;br/&gt;
   ///      * The client requested a verified block from a Block-Node that does not
   ///      * offer verified blocks.
   ///      * &lt;p&gt;
   ///      * The client MAY retry the request with the `allow_unverified` flag set.
   allowUnverifiedRequired(5, 'ALLOW_UNVERIFIED_REQUIRED'),
-    /// *
+
+  /// *
   ///      * The request for a verified block cannot be fulfilled.&lt;br/&gt;
   ///      * The client requested a verified block from a Block-Node but the
   ///      * requested block is not yet verified.
@@ -220,6 +274,7 @@ enum HederaSingleBlockResponseCode implements ProtoEnumVariant {
   verifiedBlockUnavailable(6, 'VERIFIED_BLOCK_UNAVAILABLE');
 
   const HederaSingleBlockResponseCode(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -230,25 +285,41 @@ enum HederaSingleBlockResponseCode implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaSingleBlockResponseCode fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaSingleBlockResponseCode.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaSingleBlockResponseCode found for the given value. $value", details: {"name": "HederaSingleBlockResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaSingleBlockResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaSingleBlockResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaSingleBlockResponseCode from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaSingleBlockResponseCode.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaSingleBlockResponseCode found for the given value. $value", details: {"name": "HederaSingleBlockResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaSingleBlockResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaSingleBlockResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 /// * An enumeration indicating the status of this request.
@@ -256,44 +327,53 @@ enum HederaSingleBlockResponseCode implements ProtoEnumVariant {
 /// * This response code SHALL be the last message in the stream of responses.
 /// * This code SHALL represent the final status of the full request.
 enum HederaSubscribeStreamResponseCode implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * An "unset value" flag, this value SHALL NOT be used.&lt;br/&gt;
   ///      * This status indicates the server software failed to set a status,
   ///      * and SHALL be considered a software defect.
   readStreamUnknown(0, 'READ_STREAM_UNKNOWN'),
-    /// *
+
+  /// *
   ///      * The requesting client account lacks sufficient HBAR to pay the
   ///      * service fee for this request.
   ///      * &lt;p&gt;
   ///      * The client MAY retry the request, but MUST increase the client
   ///      * account balance with this Block-Node before doing so.
   readStreamInsufficientBalance(1, 'READ_STREAM_INSUFFICIENT_BALANCE'),
-    /// *
+
+  /// *
   ///      * The request succeeded.
   ///      * &lt;p&gt;
   ///      * The requested block(s) SHALL precede the status response
   ///      * with this value.
   readStreamSuccess(2, 'READ_STREAM_SUCCESS'),
-    /// *
+
+  /// *
   ///      * The requested start block number is not valid.&lt;br/&gt;
   ///      * The start block number is after the end block number, less
   ///      * than `0`, or otherwise invalid.&lt;br/&gt;
   ///      * The client MAY retry this request, but MUST change the
   ///      * `start_block_number` field to a valid start block.
-  readStreamInvalidStartBlockNumber(3, 'READ_STREAM_INVALID_START_BLOCK_NUMBER'),
-    /// *
+  readStreamInvalidStartBlockNumber(
+    3,
+    'READ_STREAM_INVALID_START_BLOCK_NUMBER',
+  ),
+
+  /// *
   ///      * The requested end block number is not valid.&lt;br/&gt;
   ///      * The end block number is greater than the highest current block
   ///      * number, less than `0`, or otherwise invalid.&lt;br/&gt;
   ///      * The client MAY retry this request, but MUST change the
   ///      * `end_block_number` field to a valid end block.
   readStreamInvalidEndBlockNumber(4, 'READ_STREAM_INVALID_END_BLOCK_NUMBER'),
-    /// *
+
+  /// *
   ///      * The requested stream is not available.&lt;br/&gt;
   ///      * The client MAY retry again later.
   readStreamNotAvailable(5, 'READ_STREAM_NOT_AVAILABLE');
 
   const HederaSubscribeStreamResponseCode(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -304,42 +384,60 @@ enum HederaSubscribeStreamResponseCode implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaSubscribeStreamResponseCode fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaSubscribeStreamResponseCode.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaSubscribeStreamResponseCode found for the given value. $value", details: {"name": "HederaSubscribeStreamResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaSubscribeStreamResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaSubscribeStreamResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaSubscribeStreamResponseCode from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaSubscribeStreamResponseCode.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaSubscribeStreamResponseCode found for the given value. $value", details: {"name": "HederaSubscribeStreamResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaSubscribeStreamResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaSubscribeStreamResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * An enumeration indicating the status of a StateSnapshotResponse request.
 enum HederaStateSnapshotResponseCode implements ProtoEnumVariant {
-    /// *
+  /// *
   ///      * An "unset value" flag, this value SHALL NOT be used.&lt;br/&gt;
   ///      * This status indicates the server software failed to set a status,
   ///      * and SHALL be considered a software defect.
   stateSnapshotUnknown(0, 'STATE_SNAPSHOT_UNKNOWN'),
-    /// *
+
+  /// *
   ///      * The requesting client account lacks sufficient HBAR to pay the
   ///      * service fee for this request.
   ///      * &lt;p&gt;
   ///      * The client MAY retry the request, but MUST increase the client
   ///      * account balance with this Block-Node before doing so.
   stateSnapshotInsufficientBalance(1, 'STATE_SNAPSHOT_INSUFFICIENT_BALANCE'),
-    /// *
+
+  /// *
   ///      * The request succeeded.
   ///      * &lt;p&gt;
   ///      * The full snapshot data MAY be read via the endpoint provided in the
@@ -347,6 +445,7 @@ enum HederaStateSnapshotResponseCode implements ProtoEnumVariant {
   stateSnapshotSuccess(2, 'STATE_SNAPSHOT_SUCCESS');
 
   const HederaStateSnapshotResponseCode(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -357,25 +456,41 @@ enum HederaStateSnapshotResponseCode implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static HederaStateSnapshotResponseCode fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return HederaStateSnapshotResponseCode.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaStateSnapshotResponseCode found for the given value. $value", details: {"name": "HederaStateSnapshotResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaStateSnapshotResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaStateSnapshotResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static HederaStateSnapshotResponseCode from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return HederaStateSnapshotResponseCode.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching HederaStateSnapshotResponseCode found for the given value. $value", details: {"name": "HederaStateSnapshotResponseCode", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching HederaStateSnapshotResponseCode found for the given value. $value",
+                details: {
+                  "name": "HederaStateSnapshotResponseCode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// *
 ///  * # Block Service
@@ -421,16 +536,14 @@ enum HederaStateSnapshotResponseCode implements ProtoEnumVariant {
 ///  * The Block-Node MUST verify each Block using the `BlockProof` to
 ///  * ensure all data was received and processed correctly.
 class HederaPublishStreamRequest extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * A stream item containing one or more `BlockItem`s.
   ///          * &lt;p&gt;
   ///          * The full stream SHALL consist of many `block_items` messages
   ///          * followed by a single `status` message.
   final HederaBlockItemSet? blockItems;
 
-  const HederaPublishStreamRequest({
-    this.blockItems,
-  });
+  const HederaPublishStreamRequest({this.blockItems});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -439,58 +552,60 @@ class HederaPublishStreamRequest extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        blockItems,
-      ];
+  List<Object?> get protoValues => [blockItems];
 
-
-HederaPublishStreamRequest copyWith(
-{HederaBlockItemSet? blockItems,
-
-}) {
+  HederaPublishStreamRequest copyWith({HederaBlockItemSet? blockItems}) {
     return HederaPublishStreamRequest(
-blockItems: blockItems ?? this.blockItems,
+      blockItems: blockItems ?? this.blockItems,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'block_items': config.encodeMessage(blockItems),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'block_items': config.encodeMessage(blockItems)};
   }
 
-
-  factory HederaPublishStreamRequest.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPublishStreamRequest.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPublishStreamRequest(
       blockItems: json.valueTo<HederaBlockItemSet?, Object>(
         key: 'block_items',
-        parse: (v) => HederaBlockItemSet.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaBlockItemSet.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaPublishStreamRequest.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaPublishStreamRequest(
-      blockItems: decode.messageTo<HederaBlockItemSet?>(1, (b) => HederaBlockItemSet.deserialize(b)),
+      blockItems: decode.messageTo<HederaBlockItemSet?>(
+        1,
+        (b) => HederaBlockItemSet.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamRequest;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamRequest;
 }
-
 
 /// *
 ///  * A wrapper around a repeated BlockItem.&lt;br/&gt;
@@ -506,15 +621,14 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * If a `BlockProof` is present in a `BlockItemSet`, that item
 ///  * MUST be the last item in the list.
 class HederaBlockItemSet extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An ordered list of `BlockItem`s.&lt;br/&gt;
   ///      * This list supports sending block items to subscribers in batches
   ///      * for greater channel efficiency.
-  final List<com_hedera_hapi_block_stream_block_item.HederaBlockItem> blockItems;
+  final List<com_hedera_hapi_block_stream_block_item.HederaBlockItem>
+  blockItems;
 
-  const HederaBlockItemSet({
-    this.blockItems = const [],
-  });
+  const HederaBlockItemSet({this.blockItems = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -533,51 +647,73 @@ class HederaBlockItemSet extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        blockItems,
-      ];
+  List<Object?> get protoValues => [blockItems];
 
-
-HederaBlockItemSet copyWith(
-{List<com_hedera_hapi_block_stream_block_item.HederaBlockItem>? blockItems,
-
-}) {
-    return HederaBlockItemSet(
-blockItems: blockItems ?? this.blockItems,
-    );
+  HederaBlockItemSet copyWith({
+    List<com_hedera_hapi_block_stream_block_item.HederaBlockItem>? blockItems,
+  }) {
+    return HederaBlockItemSet(blockItems: blockItems ?? this.blockItems);
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'block_items': blockItems.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaBlockItemSet.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaBlockItemSet.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBlockItemSet(
-      blockItems: (json.valueEnsureAsList<dynamic>('block_items', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<com_hedera_hapi_block_stream_block_item.HederaBlockItem, Object>(
-          value: e,
-          parse: (v) => com_hedera_hapi_block_stream_block_item.HederaBlockItem.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      blockItems:
+          (json.valueEnsureAsList<dynamic>(
+                'block_items',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  com_hedera_hapi_block_stream_block_item.HederaBlockItem,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => com_hedera_hapi_block_stream_block_item
+                          .HederaBlockItem.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaBlockItemSet.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaBlockItemSet(
-      blockItems: decode.getListOfBytes(1).map((b) => com_hedera_hapi_block_stream_block_item.HederaBlockItem.deserialize(b)).toList(),
+      blockItems:
+          decode
+              .getListOfBytes(1)
+              .map(
+                (b) => com_hedera_hapi_block_stream_block_item
+                    .HederaBlockItem.deserialize(b),
+              )
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockBlockItemSet;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockBlockItemSet;
 }
-
 
 /// *
 ///  * A response to writing a block stream.
@@ -601,19 +737,19 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * fails validation) an `EndOfStream` response SHALL be sent with a
 ///  * relevant error status.
 class HederaPublishStreamResponse extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * A response sent to acknowledge successful receipt of a block.
   final HederaPublishStreamResponseAcknowledgement? acknowledgement;
 
-    /// *
+  /// *
   ///          * A response sent to request the Publisher end the current stream.
   final HederaPublishStreamResponseEndOfStream? endStream;
 
-    /// *
+  /// *
   ///          * A response sent to request the Publisher skip the current block.
   final HederaPublishStreamResponseSkipBlock? skipBlock;
 
-    /// *
+  /// *
   ///          * A response sent to request the Publisher resend a skipped block.
   final HederaPublishStreamResponseResendBlock? resendBlock;
 
@@ -642,35 +778,36 @@ class HederaPublishStreamResponse extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        acknowledgement,
-        endStream,
-        skipBlock,
-        resendBlock,
-      ];
+    acknowledgement,
+    endStream,
+    skipBlock,
+    resendBlock,
+  ];
 
+  HederaPublishStreamResponse copyWith({
+    HederaPublishStreamResponseAcknowledgement? acknowledgement,
 
-HederaPublishStreamResponse copyWith(
-{HederaPublishStreamResponseAcknowledgement? acknowledgement,
+    HederaPublishStreamResponseEndOfStream? endStream,
 
-HederaPublishStreamResponseEndOfStream? endStream,
+    HederaPublishStreamResponseSkipBlock? skipBlock,
 
-HederaPublishStreamResponseSkipBlock? skipBlock,
-
-HederaPublishStreamResponseResendBlock? resendBlock,
-
-}) {
+    HederaPublishStreamResponseResendBlock? resendBlock,
+  }) {
     return HederaPublishStreamResponse(
-acknowledgement: acknowledgement ?? this.acknowledgement,
-endStream: endStream ?? this.endStream,
-skipBlock: skipBlock ?? this.skipBlock,
-resendBlock: resendBlock ?? this.resendBlock,
+      acknowledgement: acknowledgement ?? this.acknowledgement,
+      endStream: endStream ?? this.endStream,
+      skipBlock: skipBlock ?? this.skipBlock,
+      resendBlock: resendBlock ?? this.resendBlock,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'acknowledgement': config.encodeMessage(acknowledgement),
       'end_stream': config.encodeMessage(endStream),
@@ -679,57 +816,92 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaPublishStreamResponse.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPublishStreamResponse.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPublishStreamResponse(
-      acknowledgement: json.valueTo<HederaPublishStreamResponseAcknowledgement?, Object>(
-        key: 'acknowledgement',
-        parse: (v) => HederaPublishStreamResponseAcknowledgement.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      acknowledgement: json
+          .valueTo<HederaPublishStreamResponseAcknowledgement?, Object>(
+            key: 'acknowledgement',
+            parse:
+                (v) => HederaPublishStreamResponseAcknowledgement.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       endStream: json.valueTo<HederaPublishStreamResponseEndOfStream?, Object>(
         key: 'end_stream',
-        parse: (v) => HederaPublishStreamResponseEndOfStream.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaPublishStreamResponseEndOfStream.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       skipBlock: json.valueTo<HederaPublishStreamResponseSkipBlock?, Object>(
         key: 'skip_block',
-        parse: (v) => HederaPublishStreamResponseSkipBlock.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      resendBlock: json.valueTo<HederaPublishStreamResponseResendBlock?, Object>(
-        key: 'resend_block',
-        parse: (v) => HederaPublishStreamResponseResendBlock.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaPublishStreamResponseSkipBlock.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      resendBlock: json
+          .valueTo<HederaPublishStreamResponseResendBlock?, Object>(
+            key: 'resend_block',
+            parse:
+                (v) => HederaPublishStreamResponseResendBlock.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaPublishStreamResponse.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaPublishStreamResponse(
-      acknowledgement: decode.messageTo<HederaPublishStreamResponseAcknowledgement?>(1, (b) => HederaPublishStreamResponseAcknowledgement.deserialize(b)),
-      endStream: decode.messageTo<HederaPublishStreamResponseEndOfStream?>(2, (b) => HederaPublishStreamResponseEndOfStream.deserialize(b)),
-      skipBlock: decode.messageTo<HederaPublishStreamResponseSkipBlock?>(3, (b) => HederaPublishStreamResponseSkipBlock.deserialize(b)),
-      resendBlock: decode.messageTo<HederaPublishStreamResponseResendBlock?>(4, (b) => HederaPublishStreamResponseResendBlock.deserialize(b)),
+      acknowledgement: decode
+          .messageTo<HederaPublishStreamResponseAcknowledgement?>(
+            1,
+            (b) => HederaPublishStreamResponseAcknowledgement.deserialize(b),
+          ),
+      endStream: decode.messageTo<HederaPublishStreamResponseEndOfStream?>(
+        2,
+        (b) => HederaPublishStreamResponseEndOfStream.deserialize(b),
+      ),
+      skipBlock: decode.messageTo<HederaPublishStreamResponseSkipBlock?>(
+        3,
+        (b) => HederaPublishStreamResponseSkipBlock.deserialize(b),
+      ),
+      resendBlock: decode.messageTo<HederaPublishStreamResponseResendBlock?>(
+        4,
+        (b) => HederaPublishStreamResponseResendBlock.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamResponse;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamResponse;
 }
-
 
 /// *
 ///      * A response to acknowledge receipt and verification of a single item
 ///      * or full block.
-class HederaPublishStreamResponseAcknowledgement extends HederaProtoMessage with Equality {
-    /// *
+class HederaPublishStreamResponseAcknowledgement extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * A response type to acknowledge a full and complete block.
   ///          * &lt;p&gt;
   ///          * All Block-Nodes SHOULD acknowledge each block.
   final HederaPublishStreamResponseBlockAcknowledgement? blockAck;
 
-  const HederaPublishStreamResponseAcknowledgement({
-    this.blockAck,
-  });
+  const HederaPublishStreamResponseAcknowledgement({this.blockAck});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -738,58 +910,68 @@ class HederaPublishStreamResponseAcknowledgement extends HederaProtoMessage with
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        blockAck,
-      ];
+  List<Object?> get protoValues => [blockAck];
 
-
-HederaPublishStreamResponseAcknowledgement copyWith(
-{HederaPublishStreamResponseBlockAcknowledgement? blockAck,
-
-}) {
+  HederaPublishStreamResponseAcknowledgement copyWith({
+    HederaPublishStreamResponseBlockAcknowledgement? blockAck,
+  }) {
     return HederaPublishStreamResponseAcknowledgement(
-blockAck: blockAck ?? this.blockAck,
+      blockAck: blockAck ?? this.blockAck,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'block_ack': config.encodeMessage(blockAck),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'block_ack': config.encodeMessage(blockAck)};
   }
 
-
-  factory HederaPublishStreamResponseAcknowledgement.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPublishStreamResponseAcknowledgement.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPublishStreamResponseAcknowledgement(
-      blockAck: json.valueTo<HederaPublishStreamResponseBlockAcknowledgement?, Object>(
-        key: 'block_ack',
-        parse: (v) => HederaPublishStreamResponseBlockAcknowledgement.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      blockAck: json
+          .valueTo<HederaPublishStreamResponseBlockAcknowledgement?, Object>(
+            key: 'block_ack',
+            parse:
+                (v) => HederaPublishStreamResponseBlockAcknowledgement.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
-  factory HederaPublishStreamResponseAcknowledgement.deserialize(List<int> bytes) {
+  factory HederaPublishStreamResponseAcknowledgement.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaPublishStreamResponseAcknowledgement(
-      blockAck: decode.messageTo<HederaPublishStreamResponseBlockAcknowledgement?>(1, (b) => HederaPublishStreamResponseBlockAcknowledgement.deserialize(b)),
+      blockAck: decode
+          .messageTo<HederaPublishStreamResponseBlockAcknowledgement?>(
+            1,
+            (b) =>
+                HederaPublishStreamResponseBlockAcknowledgement.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamResponseAcknowledgement;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockPublishStreamResponseAcknowledgement;
 }
-
 
 /// *
 ///      * Acknowledgement of a full block.&lt;br/&gt;
@@ -799,14 +981,15 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///      * received and verified.&lt;br/&gt;
 ///      * The Block-Node SHALL send exactly one `BlockAcknowledgement` for
 ///      * each successful block.
-class HederaPublishStreamResponseBlockAcknowledgement extends HederaProtoMessage with Equality {
-    /// *
+class HederaPublishStreamResponseBlockAcknowledgement extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * A block number number of the acknowledged block.
   ///          * &lt;p&gt;
   ///          * A Publisher SHOULD verify that this value matches the block sent.
   final BigInt? blockNumber;
 
-    /// *
+  /// *
   ///          * A hash of the virtual merkle root for the block.
   ///          * &lt;p&gt;
   ///          * This SHALL be the hash calculated by the Block-Node for the
@@ -814,7 +997,7 @@ class HederaPublishStreamResponseBlockAcknowledgement extends HederaProtoMessage
   ///          * system to validate the block.
   final List<int>? blockRootHash;
 
-    /// *
+  /// *
   ///          * A flag indicating that the received block duplicates an
   ///          * existing block.
   ///          * &lt;p&gt;
@@ -849,31 +1032,32 @@ class HederaPublishStreamResponseBlockAcknowledgement extends HederaProtoMessage
 
   @override
   List<Object?> get protoValues => [
-        blockNumber,
-        blockRootHash,
-        blockAlreadyExists,
-      ];
+    blockNumber,
+    blockRootHash,
+    blockAlreadyExists,
+  ];
 
+  HederaPublishStreamResponseBlockAcknowledgement copyWith({
+    BigInt? blockNumber,
 
-HederaPublishStreamResponseBlockAcknowledgement copyWith(
-{BigInt? blockNumber,
+    List<int>? blockRootHash,
 
-List<int>? blockRootHash,
-
-bool? blockAlreadyExists,
-
-}) {
+    bool? blockAlreadyExists,
+  }) {
     return HederaPublishStreamResponseBlockAcknowledgement(
-blockNumber: blockNumber ?? this.blockNumber,
-blockRootHash: blockRootHash ?? this.blockRootHash,
-blockAlreadyExists: blockAlreadyExists ?? this.blockAlreadyExists,
+      blockNumber: blockNumber ?? this.blockNumber,
+      blockRootHash: blockRootHash ?? this.blockRootHash,
+      blockAlreadyExists: blockAlreadyExists ?? this.blockAlreadyExists,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'block_number': config.encodeBigint(blockNumber),
       'block_root_hash': config.encodeBinary(blockRootHash),
@@ -881,16 +1065,31 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaPublishStreamResponseBlockAcknowledgement.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPublishStreamResponseBlockAcknowledgement.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPublishStreamResponseBlockAcknowledgement(
-      blockNumber: json.valueAsBigInt<BigInt?>('block_number', normalizeKeyLookup: config.normalizeKeys),
-      blockRootHash: config.decodeBinary<List<int>?>(json.valueAs('block_root_hash', normalizeKeyLookup: config.normalizeKeys)),
-      blockAlreadyExists: json.valueAsBool<bool?>('block_already_exists', normalizeKeyLookup: config.normalizeKeys),
+      blockNumber: json.valueAsBigInt<BigInt?>(
+        'block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      blockRootHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'block_root_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      blockAlreadyExists: json.valueAsBool<bool?>(
+        'block_already_exists',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
-  factory HederaPublishStreamResponseBlockAcknowledgement.deserialize(List<int> bytes) {
+  factory HederaPublishStreamResponseBlockAcknowledgement.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaPublishStreamResponseBlockAcknowledgement(
       blockNumber: decode.getBigInt<BigInt?>(1),
@@ -900,10 +1099,10 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamResponseBlockAcknowledgement;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockPublishStreamResponseBlockAcknowledgement;
 }
-
 
 /// *
 ///      * Message indicating the Publisher should skip the current block.
@@ -923,17 +1122,16 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///      * A Publisher MAY choose to end the stream and send the block to a
 ///      * different Block-Node, rather than skip sending the block to the
 ///      * current Block-Node.
-class HederaPublishStreamResponseSkipBlock extends HederaProtoMessage with Equality {
-    /// *
+class HederaPublishStreamResponseSkipBlock extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * The number of the _unverified_ block to skip.
   ///          * &lt;p&gt;
   ///          * This MUST match the block number of the `BlockHeader` most recently
   ///          * sent by the Publisher.
   final BigInt? blockNumber;
 
-  const HederaPublishStreamResponseSkipBlock({
-    this.blockNumber,
-  });
+  const HederaPublishStreamResponseSkipBlock({this.blockNumber});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -942,40 +1140,38 @@ class HederaPublishStreamResponseSkipBlock extends HederaProtoMessage with Equal
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        blockNumber,
-      ];
+  List<Object?> get protoValues => [blockNumber];
 
-
-HederaPublishStreamResponseSkipBlock copyWith(
-{BigInt? blockNumber,
-
-}) {
+  HederaPublishStreamResponseSkipBlock copyWith({BigInt? blockNumber}) {
     return HederaPublishStreamResponseSkipBlock(
-blockNumber: blockNumber ?? this.blockNumber,
+      blockNumber: blockNumber ?? this.blockNumber,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'block_number': config.encodeBigint(blockNumber),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'block_number': config.encodeBigint(blockNumber)};
   }
 
-
-  factory HederaPublishStreamResponseSkipBlock.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPublishStreamResponseSkipBlock.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPublishStreamResponseSkipBlock(
-      blockNumber: json.valueAsBigInt<BigInt?>('block_number', normalizeKeyLookup: config.normalizeKeys),
+      blockNumber: json.valueAsBigInt<BigInt?>(
+        'block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -987,10 +1183,10 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamResponseSkipBlock;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockPublishStreamResponseSkipBlock;
 }
-
 
 /// *
 ///      * Message indicating the Publisher must resend from a specified block.
@@ -1006,17 +1202,16 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///      * is already acknowledged.&lt;br/&gt;
 ///      * A Publisher MAY choose to end the stream rather than resend the
 ///      * the requested block.
-class HederaPublishStreamResponseResendBlock extends HederaProtoMessage with Equality {
-    /// *
+class HederaPublishStreamResponseResendBlock extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * The number of the _unverified_ block to re-send.
   ///          * &lt;p&gt;
   ///          * This SHALL be the block number one greater than the last block
   ///          * this Block-Node has successfully stored and verified.
   final BigInt? blockNumber;
 
-  const HederaPublishStreamResponseResendBlock({
-    this.blockNumber,
-  });
+  const HederaPublishStreamResponseResendBlock({this.blockNumber});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1025,40 +1220,38 @@ class HederaPublishStreamResponseResendBlock extends HederaProtoMessage with Equ
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        blockNumber,
-      ];
+  List<Object?> get protoValues => [blockNumber];
 
-
-HederaPublishStreamResponseResendBlock copyWith(
-{BigInt? blockNumber,
-
-}) {
+  HederaPublishStreamResponseResendBlock copyWith({BigInt? blockNumber}) {
     return HederaPublishStreamResponseResendBlock(
-blockNumber: blockNumber ?? this.blockNumber,
+      blockNumber: blockNumber ?? this.blockNumber,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'block_number': config.encodeBigint(blockNumber),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'block_number': config.encodeBigint(blockNumber)};
   }
 
-
-  factory HederaPublishStreamResponseResendBlock.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPublishStreamResponseResendBlock.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPublishStreamResponseResendBlock(
-      blockNumber: json.valueAsBigInt<BigInt?>('block_number', normalizeKeyLookup: config.normalizeKeys),
+      blockNumber: json.valueAsBigInt<BigInt?>(
+        'block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1070,10 +1263,10 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamResponseResendBlock;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockPublishStreamResponseResendBlock;
 }
-
 
 /// *
 ///      * A message sent to end a stream.
@@ -1088,15 +1281,16 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///      * A Publisher SHOULD verify that the `block_number` value matches the
 ///      * last block sent, and SHOULD resend one or more blocks if the value
 ///      * here does not match the expected value.
-class HederaPublishStreamResponseEndOfStream extends HederaProtoMessage with Equality {
-    /// *
+class HederaPublishStreamResponseEndOfStream extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * A response code.
   ///          * &lt;p&gt;
   ///          * This code indicates the reason the stream ended.&lt;br/&gt;
   ///          * This value MUST be set to a non-default value.
   final HederaPublishStreamResponseCode? status;
 
-    /// *
+  /// *
   ///          * The number of the last completed and _verified_ block.
   ///          * &lt;p&gt;
   ///          * Block-Nodes SHOULD only end a stream after a block state proof to avoid
@@ -1107,10 +1301,7 @@ class HederaPublishStreamResponseEndOfStream extends HederaProtoMessage with Equ
   ///          * the _header_ for block 91827362984).
   final BigInt? blockNumber;
 
-  const HederaPublishStreamResponseEndOfStream({
-    this.status,
-    this.blockNumber,
-  });
+  const HederaPublishStreamResponseEndOfStream({this.status, this.blockNumber});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1119,66 +1310,69 @@ class HederaPublishStreamResponseEndOfStream extends HederaProtoMessage with Equ
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.enumType(1),
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.enumType(1), ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        status,
-        blockNumber,
-      ];
+  List<Object?> get protoValues => [status, blockNumber];
 
+  HederaPublishStreamResponseEndOfStream copyWith({
+    HederaPublishStreamResponseCode? status,
 
-HederaPublishStreamResponseEndOfStream copyWith(
-{HederaPublishStreamResponseCode? status,
-
-BigInt? blockNumber,
-
-}) {
+    BigInt? blockNumber,
+  }) {
     return HederaPublishStreamResponseEndOfStream(
-status: status ?? this.status,
-blockNumber: blockNumber ?? this.blockNumber,
+      status: status ?? this.status,
+      blockNumber: blockNumber ?? this.blockNumber,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'status': config.encodeEnum(status),
       'block_number': config.encodeBigint(blockNumber),
     };
   }
 
-
-  factory HederaPublishStreamResponseEndOfStream.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaPublishStreamResponseEndOfStream.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaPublishStreamResponseEndOfStream(
       status: json.valueTo<HederaPublishStreamResponseCode?, Object?>(
         key: 'status',
         parse: (v) => HederaPublishStreamResponseCode.from(v),
       ),
-      blockNumber: json.valueAsBigInt<BigInt?>('block_number', normalizeKeyLookup: config.normalizeKeys),
+      blockNumber: json.valueAsBigInt<BigInt?>(
+        'block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaPublishStreamResponseEndOfStream.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaPublishStreamResponseEndOfStream(
-      status: decode.getEnum<HederaPublishStreamResponseCode?>(1, HederaPublishStreamResponseCode.values),
+      status: decode.getEnum<HederaPublishStreamResponseCode?>(
+        1,
+        HederaPublishStreamResponseCode.values,
+      ),
       blockNumber: decode.getBigInt<BigInt?>(2),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockPublishStreamResponseEndOfStream;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockPublishStreamResponseEndOfStream;
 }
-
 
 /// *
 ///  * A request to read a single block.
@@ -1194,7 +1388,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * a request that does not allow unverified blocks with the
 ///  * `ALLOW_UNVERIFIED_REQUIRED` response code.
 class HederaSingleBlockRequest extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The block number of a block to retrieve.
   ///      * &lt;p&gt;
   ///      * The requested block MUST exist on the Block-Node.&lt;br/&gt;
@@ -1203,7 +1397,7 @@ class HederaSingleBlockRequest extends HederaProtoMessage with Equality {
   ///      * unset or is set `false`.
   final BigInt? blockNumber;
 
-    /// *
+  /// *
   ///      * A flag to indicate that the requested block may be sent without
   ///      * verifying its `BlockProof`.&lt;br/&gt;
   ///      * This might be set by a client that expects to perform its own
@@ -1217,7 +1411,7 @@ class HederaSingleBlockRequest extends HederaProtoMessage with Equality {
   ///      * The default value is _not set_.
   final bool? allowUnverified;
 
-    /// *
+  /// *
   ///      * A flag to request the latest available block.
   ///      * &lt;p&gt;
   ///      * This value MAY be set `true` to request the last block available.&lt;br/&gt;
@@ -1248,31 +1442,32 @@ class HederaSingleBlockRequest extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        blockNumber,
-        allowUnverified,
-        retrieveLatest,
-      ];
+    blockNumber,
+    allowUnverified,
+    retrieveLatest,
+  ];
 
+  HederaSingleBlockRequest copyWith({
+    BigInt? blockNumber,
 
-HederaSingleBlockRequest copyWith(
-{BigInt? blockNumber,
+    bool? allowUnverified,
 
-bool? allowUnverified,
-
-bool? retrieveLatest,
-
-}) {
+    bool? retrieveLatest,
+  }) {
     return HederaSingleBlockRequest(
-blockNumber: blockNumber ?? this.blockNumber,
-allowUnverified: allowUnverified ?? this.allowUnverified,
-retrieveLatest: retrieveLatest ?? this.retrieveLatest,
+      blockNumber: blockNumber ?? this.blockNumber,
+      allowUnverified: allowUnverified ?? this.allowUnverified,
+      retrieveLatest: retrieveLatest ?? this.retrieveLatest,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'block_number': config.encodeBigint(blockNumber),
       'allow_unverified': allowUnverified,
@@ -1280,12 +1475,23 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaSingleBlockRequest.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSingleBlockRequest.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSingleBlockRequest(
-      blockNumber: json.valueAsBigInt<BigInt?>('block_number', normalizeKeyLookup: config.normalizeKeys),
-      allowUnverified: json.valueAsBool<bool?>('allow_unverified', normalizeKeyLookup: config.normalizeKeys),
-      retrieveLatest: json.valueAsBool<bool?>('retrieve_latest', normalizeKeyLookup: config.normalizeKeys),
+      blockNumber: json.valueAsBigInt<BigInt?>(
+        'block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      allowUnverified: json.valueAsBool<bool?>(
+        'allow_unverified',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      retrieveLatest: json.valueAsBool<bool?>(
+        'retrieve_latest',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1299,10 +1505,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockSingleBlockRequest;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockSingleBlockRequest;
 }
-
 
 /// *
 ///  * A response to a `singleBlock` request.
@@ -1316,14 +1521,14 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * &gt;&gt; A block can become quite large. A client MUST be prepared to receive the
 ///  * &gt;&gt; full content of the block, perhaps many megabytes of data.
 class HederaSingleBlockResponse extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A response status.
   ///      * &lt;p&gt;
   ///      * The reported status SHALL reflect the success of the request, or
   ///      * a detailed reason the request failed.
   final HederaSingleBlockResponseCode? status;
 
-    /// *
+  /// *
   ///      * The requested block.
   ///      * &lt;p&gt;
   ///      * This container object SHALL hold the entire sequence of block items
@@ -1334,10 +1539,7 @@ class HederaSingleBlockResponse extends HederaProtoMessage with Equality {
   ///      * a `BlockStateProof` applicable to this block.
   final com_hedera_hapi_block_stream_block.HederaBlock? block;
 
-  const HederaSingleBlockResponse({
-    this.status,
-    this.block,
-  });
+  const HederaSingleBlockResponse({this.status, this.block});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1346,69 +1548,77 @@ class HederaSingleBlockResponse extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.enumType(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.enumType(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        status,
-        block,
-      ];
+  List<Object?> get protoValues => [status, block];
 
+  HederaSingleBlockResponse copyWith({
+    HederaSingleBlockResponseCode? status,
 
-HederaSingleBlockResponse copyWith(
-{HederaSingleBlockResponseCode? status,
-
-com_hedera_hapi_block_stream_block.HederaBlock? block,
-
-}) {
+    com_hedera_hapi_block_stream_block.HederaBlock? block,
+  }) {
     return HederaSingleBlockResponse(
-status: status ?? this.status,
-block: block ?? this.block,
+      status: status ?? this.status,
+      block: block ?? this.block,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'status': config.encodeEnum(status),
       'block': config.encodeMessage(block),
     };
   }
 
-
-  factory HederaSingleBlockResponse.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSingleBlockResponse.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSingleBlockResponse(
       status: json.valueTo<HederaSingleBlockResponseCode?, Object?>(
         key: 'status',
         parse: (v) => HederaSingleBlockResponseCode.from(v),
       ),
-      block: json.valueTo<com_hedera_hapi_block_stream_block.HederaBlock?, Object>(
-        key: 'block',
-        parse: (v) => com_hedera_hapi_block_stream_block.HederaBlock.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      block: json
+          .valueTo<com_hedera_hapi_block_stream_block.HederaBlock?, Object>(
+            key: 'block',
+            parse:
+                (v) => com_hedera_hapi_block_stream_block.HederaBlock.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaSingleBlockResponse.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSingleBlockResponse(
-      status: decode.getEnum<HederaSingleBlockResponseCode?>(1, HederaSingleBlockResponseCode.values),
-      block: decode.messageTo<com_hedera_hapi_block_stream_block.HederaBlock?>(2, (b) => com_hedera_hapi_block_stream_block.HederaBlock.deserialize(b)),
+      status: decode.getEnum<HederaSingleBlockResponseCode?>(
+        1,
+        HederaSingleBlockResponseCode.values,
+      ),
+      block: decode.messageTo<com_hedera_hapi_block_stream_block.HederaBlock?>(
+        2,
+        (b) => com_hedera_hapi_block_stream_block.HederaBlock.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockSingleBlockResponse;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockSingleBlockResponse;
 }
-
 
 /// *
 ///  * A request to stream block items from Block-Node to a client.
@@ -1426,7 +1636,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * The client SHOULD call the `serverStatus` rpc prior to constructing this
 ///  * request to determine the available start and end blocks.
 class HederaSubscribeStreamRequest extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A block number to start the stream.
   ///      * &lt;p&gt;
   ///      * This SHALL be the block number of the first block returned.&lt;br/&gt;
@@ -1434,7 +1644,7 @@ class HederaSubscribeStreamRequest extends HederaProtoMessage with Equality {
   ///      * block number.
   final BigInt? startBlockNumber;
 
-    /// *
+  /// *
   ///      * A block number to end the stream.&lt;br/&gt;
   ///      * This is optional, and if not set (0), the stream will be "infinite".
   ///      * &lt;p&gt;
@@ -1456,7 +1666,7 @@ class HederaSubscribeStreamRequest extends HederaProtoMessage with Equality {
   ///      * &lt;/ul&gt;
   final BigInt? endBlockNumber;
 
-    /// *
+  /// *
   ///      * A flag to indicate that the requested block(s) may be sent before
   ///      * verifying each block's `BlockProof`.&lt;br/&gt;
   ///      * This might be set by a client that expects to perform its own
@@ -1495,31 +1705,32 @@ class HederaSubscribeStreamRequest extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        startBlockNumber,
-        endBlockNumber,
-        allowUnverified,
-      ];
+    startBlockNumber,
+    endBlockNumber,
+    allowUnverified,
+  ];
 
+  HederaSubscribeStreamRequest copyWith({
+    BigInt? startBlockNumber,
 
-HederaSubscribeStreamRequest copyWith(
-{BigInt? startBlockNumber,
+    BigInt? endBlockNumber,
 
-BigInt? endBlockNumber,
-
-bool? allowUnverified,
-
-}) {
+    bool? allowUnverified,
+  }) {
     return HederaSubscribeStreamRequest(
-startBlockNumber: startBlockNumber ?? this.startBlockNumber,
-endBlockNumber: endBlockNumber ?? this.endBlockNumber,
-allowUnverified: allowUnverified ?? this.allowUnverified,
+      startBlockNumber: startBlockNumber ?? this.startBlockNumber,
+      endBlockNumber: endBlockNumber ?? this.endBlockNumber,
+      allowUnverified: allowUnverified ?? this.allowUnverified,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'start_block_number': config.encodeBigint(startBlockNumber),
       'end_block_number': config.encodeBigint(endBlockNumber),
@@ -1527,12 +1738,23 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaSubscribeStreamRequest.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSubscribeStreamRequest.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSubscribeStreamRequest(
-      startBlockNumber: json.valueAsBigInt<BigInt?>('start_block_number', normalizeKeyLookup: config.normalizeKeys),
-      endBlockNumber: json.valueAsBigInt<BigInt?>('end_block_number', normalizeKeyLookup: config.normalizeKeys),
-      allowUnverified: json.valueAsBool<bool?>('allow_unverified', normalizeKeyLookup: config.normalizeKeys),
+      startBlockNumber: json.valueAsBigInt<BigInt?>(
+        'start_block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      endBlockNumber: json.valueAsBigInt<BigInt?>(
+        'end_block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      allowUnverified: json.valueAsBool<bool?>(
+        'allow_unverified',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1546,10 +1768,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockSubscribeStreamRequest;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockSubscribeStreamRequest;
 }
-
 
 /// *
 ///  * One item in a stream of `subscribeBlockStream` responses.
@@ -1574,23 +1795,20 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * request as available balance supports, in the event balance is not
 ///  * sufficient to complete the request.
 class HederaSubscribeStreamResponse extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * A final response item describing the terminal status of this stream.
   ///          * &lt;p&gt;
   ///          * The Block-Node SHALL end the stream following this message.
   final HederaSubscribeStreamResponseCode? status;
 
-    /// *
+  /// *
   ///          * A stream response item containing one or more `BlockItem`s.
   ///          * &lt;p&gt;
   ///          * The full stream SHALL consist of many `block_items` messages
   ///          * followed by a single `status` message.
   final HederaBlockItemSet? blockItems;
 
-  const HederaSubscribeStreamResponse({
-    this.status,
-    this.blockItems,
-  });
+  const HederaSubscribeStreamResponse({this.status, this.blockItems});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1599,44 +1817,41 @@ class HederaSubscribeStreamResponse extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.enumType(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.enumType(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        status,
-        blockItems,
-      ];
+  List<Object?> get protoValues => [status, blockItems];
 
+  HederaSubscribeStreamResponse copyWith({
+    HederaSubscribeStreamResponseCode? status,
 
-HederaSubscribeStreamResponse copyWith(
-{HederaSubscribeStreamResponseCode? status,
-
-HederaBlockItemSet? blockItems,
-
-}) {
+    HederaBlockItemSet? blockItems,
+  }) {
     return HederaSubscribeStreamResponse(
-status: status ?? this.status,
-blockItems: blockItems ?? this.blockItems,
+      status: status ?? this.status,
+      blockItems: blockItems ?? this.blockItems,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'status': config.encodeEnum(status),
       'block_items': config.encodeMessage(blockItems),
     };
   }
 
-
-  factory HederaSubscribeStreamResponse.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSubscribeStreamResponse.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSubscribeStreamResponse(
       status: json.valueTo<HederaSubscribeStreamResponseCode?, Object?>(
         key: 'status',
@@ -1644,24 +1859,34 @@ List<dynamic> get variables => protoValues;
       ),
       blockItems: json.valueTo<HederaBlockItemSet?, Object>(
         key: 'block_items',
-        parse: (v) => HederaBlockItemSet.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaBlockItemSet.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaSubscribeStreamResponse.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSubscribeStreamResponse(
-      status: decode.getEnum<HederaSubscribeStreamResponseCode?>(1, HederaSubscribeStreamResponseCode.values),
-      blockItems: decode.messageTo<HederaBlockItemSet?>(2, (b) => HederaBlockItemSet.deserialize(b)),
+      status: decode.getEnum<HederaSubscribeStreamResponseCode?>(
+        1,
+        HederaSubscribeStreamResponseCode.values,
+      ),
+      blockItems: decode.messageTo<HederaBlockItemSet?>(
+        2,
+        (b) => HederaBlockItemSet.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockSubscribeStreamResponse;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockSubscribeStreamResponse;
 }
-
 
 /// *
 ///  * A request to read a state snapshot.
@@ -1675,7 +1900,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * respond with a reference to a snapshot containing the most recent contents
 ///  * of the network state known to that Block-Node.
 class HederaStateSnapshotRequest extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A block number.
   ///      * &lt;p&gt;
   ///      * This SHALL be the last block number present in the snapshot
@@ -1686,7 +1911,7 @@ class HederaStateSnapshotRequest extends HederaProtoMessage with Equality {
   ///      * value for this field, but MUST clearly document that behavior.
   final BigInt? lastBlockNumber;
 
-    /// *
+  /// *
   ///      * A boolean to request the latest available snapshot.
   ///      * &lt;p&gt;
   ///      * This value MAY be set `true` to request the most recent state snapshot
@@ -1697,10 +1922,7 @@ class HederaStateSnapshotRequest extends HederaProtoMessage with Equality {
   ///      * set this field `true`, but MUST clearly document that behavior.
   final bool? retrieveLatest;
 
-  const HederaStateSnapshotRequest({
-    this.lastBlockNumber,
-    this.retrieveLatest,
-  });
+  const HederaStateSnapshotRequest({this.lastBlockNumber, this.retrieveLatest});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -1709,47 +1931,50 @@ class HederaStateSnapshotRequest extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(2),
-        ProtoFieldConfig.bool(3),
-      ],
+      fields: [ProtoFieldConfig.uint64(2), ProtoFieldConfig.bool(3)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        lastBlockNumber,
-        retrieveLatest,
-      ];
+  List<Object?> get protoValues => [lastBlockNumber, retrieveLatest];
 
+  HederaStateSnapshotRequest copyWith({
+    BigInt? lastBlockNumber,
 
-HederaStateSnapshotRequest copyWith(
-{BigInt? lastBlockNumber,
-
-bool? retrieveLatest,
-
-}) {
+    bool? retrieveLatest,
+  }) {
     return HederaStateSnapshotRequest(
-lastBlockNumber: lastBlockNumber ?? this.lastBlockNumber,
-retrieveLatest: retrieveLatest ?? this.retrieveLatest,
+      lastBlockNumber: lastBlockNumber ?? this.lastBlockNumber,
+      retrieveLatest: retrieveLatest ?? this.retrieveLatest,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'last_block_number': config.encodeBigint(lastBlockNumber),
       'retrieve_latest': retrieveLatest,
     };
   }
 
-
-  factory HederaStateSnapshotRequest.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaStateSnapshotRequest.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaStateSnapshotRequest(
-      lastBlockNumber: json.valueAsBigInt<BigInt?>('last_block_number', normalizeKeyLookup: config.normalizeKeys),
-      retrieveLatest: json.valueAsBool<bool?>('retrieve_latest', normalizeKeyLookup: config.normalizeKeys),
+      lastBlockNumber: json.valueAsBigInt<BigInt?>(
+        'last_block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      retrieveLatest: json.valueAsBool<bool?>(
+        'retrieve_latest',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -1762,10 +1987,9 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStateSnapshotRequest;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStateSnapshotRequest;
 }
-
 
 /// *
 ///  * A response to a request for a state snapshot.
@@ -1775,21 +1999,21 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * This message SHALL deliver a code indicating the reason for failure
 ///  * if unsuccessful.
 class HederaStateSnapshotResponse extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A status response.
   ///      * &lt;p&gt;
   ///      * This code SHALL indicate a successful call, or the detailed
   ///      * reason for failure.
   final HederaStateSnapshotResponseCode? status;
 
-    /// *
+  /// *
   ///      * A block number.
   ///      * &lt;p&gt;
   ///      * This SHALL be the number of the last block included in this
   ///      * state snapshot.
   final BigInt? lastBlockNumber;
 
-    /// *
+  /// *
   ///      * A reference to where the requested state snapshot may be obtained.
   ///      * &lt;p&gt;
   ///      * &lt;blockquote&gt;REVIEW NOTE&lt;blockquote&gt;
@@ -1823,32 +2047,29 @@ class HederaStateSnapshotResponse extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        status,
-        lastBlockNumber,
-        snapshotReference,
-      ];
+  List<Object?> get protoValues => [status, lastBlockNumber, snapshotReference];
 
+  HederaStateSnapshotResponse copyWith({
+    HederaStateSnapshotResponseCode? status,
 
-HederaStateSnapshotResponse copyWith(
-{HederaStateSnapshotResponseCode? status,
+    BigInt? lastBlockNumber,
 
-BigInt? lastBlockNumber,
-
-String? snapshotReference,
-
-}) {
+    String? snapshotReference,
+  }) {
     return HederaStateSnapshotResponse(
-status: status ?? this.status,
-lastBlockNumber: lastBlockNumber ?? this.lastBlockNumber,
-snapshotReference: snapshotReference ?? this.snapshotReference,
+      status: status ?? this.status,
+      lastBlockNumber: lastBlockNumber ?? this.lastBlockNumber,
+      snapshotReference: snapshotReference ?? this.snapshotReference,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'status': config.encodeEnum(status),
       'last_block_number': config.encodeBigint(lastBlockNumber),
@@ -1856,32 +2077,42 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaStateSnapshotResponse.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaStateSnapshotResponse.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaStateSnapshotResponse(
       status: json.valueTo<HederaStateSnapshotResponseCode?, Object?>(
         key: 'status',
         parse: (v) => HederaStateSnapshotResponseCode.from(v),
       ),
-      lastBlockNumber: json.valueAsBigInt<BigInt?>('last_block_number', normalizeKeyLookup: config.normalizeKeys),
-      snapshotReference: json.valueAsString<String?>('snapshot_reference', normalizeKeyLookup: config.normalizeKeys),
+      lastBlockNumber: json.valueAsBigInt<BigInt?>(
+        'last_block_number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      snapshotReference: json.valueAsString<String?>(
+        'snapshot_reference',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaStateSnapshotResponse.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaStateSnapshotResponse(
-      status: decode.getEnum<HederaStateSnapshotResponseCode?>(1, HederaStateSnapshotResponseCode.values),
+      status: decode.getEnum<HederaStateSnapshotResponseCode?>(
+        1,
+        HederaStateSnapshotResponseCode.values,
+      ),
       lastBlockNumber: decode.getBigInt<BigInt?>(2),
       snapshotReference: decode.getString<String?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStateSnapshotResponse;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStateSnapshotResponse;
 }
-
 
 /// *
 ///  * A request for the status of a Block-Node.
@@ -1895,46 +2126,42 @@ class HederaServerStatusRequest extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaServerStatusRequest copyWith(
-) {
-    return HederaServerStatusRequest(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaServerStatusRequest copyWith() {
+    return HederaServerStatusRequest();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaServerStatusRequest.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaServerStatusRequest(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaServerStatusRequest.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaServerStatusRequest();
   }
 
   factory HederaServerStatusRequest.deserialize(List<int> bytes) {
-    return HederaServerStatusRequest(
-    );
+    return HederaServerStatusRequest();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockServerStatusRequest;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockServerStatusRequest;
 }
-
 
 /// *
 ///  * A response to a server status request.
@@ -1946,28 +2173,28 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * `last_available_block`, inclusive, SHOULD succeed. Any request for blocks
 ///  * outside that range SHOULD fail.
 class HederaServerStatusResponse extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The lowest numbered block available on this Block-Node.
   ///      * &lt;p&gt;
   ///      * Any request for a block with lower number than this value SHALL fail
   ///      * with a status value indicating and invalid start block number.
   final BigInt? firstAvailableBlock;
 
-    /// *
+  /// *
   ///      * The greatest block number available from this Block-Node.
   ///      * &lt;p&gt;
   ///      * Any request for a block with a block number higher than this
   ///      * value MAY fail.
   final BigInt? lastAvailableBlock;
 
-    /// *
+  /// *
   ///      * A flag indicating this Block-Node only offers the latest state snapshot.
   ///      * &lt;p&gt;
   ///      * If this value is `true` the client MUST set `retrieve_latest` `true`
   ///      * in any `StateSnapshotRequest` sent to this Block-Node.
   final bool? onlyLatestState;
 
-    /// *
+  /// *
   ///      * Version information.&lt;br/&gt;
   ///      * Versions for the block network address book, block stream protocol
   ///      * buffer schema, and Block-Node software.
@@ -1998,35 +2225,36 @@ class HederaServerStatusResponse extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        firstAvailableBlock,
-        lastAvailableBlock,
-        onlyLatestState,
-        versionInformation,
-      ];
+    firstAvailableBlock,
+    lastAvailableBlock,
+    onlyLatestState,
+    versionInformation,
+  ];
 
+  HederaServerStatusResponse copyWith({
+    BigInt? firstAvailableBlock,
 
-HederaServerStatusResponse copyWith(
-{BigInt? firstAvailableBlock,
+    BigInt? lastAvailableBlock,
 
-BigInt? lastAvailableBlock,
+    bool? onlyLatestState,
 
-bool? onlyLatestState,
-
-HederaBlockNodeVersions? versionInformation,
-
-}) {
+    HederaBlockNodeVersions? versionInformation,
+  }) {
     return HederaServerStatusResponse(
-firstAvailableBlock: firstAvailableBlock ?? this.firstAvailableBlock,
-lastAvailableBlock: lastAvailableBlock ?? this.lastAvailableBlock,
-onlyLatestState: onlyLatestState ?? this.onlyLatestState,
-versionInformation: versionInformation ?? this.versionInformation,
+      firstAvailableBlock: firstAvailableBlock ?? this.firstAvailableBlock,
+      lastAvailableBlock: lastAvailableBlock ?? this.lastAvailableBlock,
+      onlyLatestState: onlyLatestState ?? this.onlyLatestState,
+      versionInformation: versionInformation ?? this.versionInformation,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'first_available_block': config.encodeBigint(firstAvailableBlock),
       'last_available_block': config.encodeBigint(lastAvailableBlock),
@@ -2035,16 +2263,32 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaServerStatusResponse.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaServerStatusResponse.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaServerStatusResponse(
-      firstAvailableBlock: json.valueAsBigInt<BigInt?>('first_available_block', normalizeKeyLookup: config.normalizeKeys),
-      lastAvailableBlock: json.valueAsBigInt<BigInt?>('last_available_block', normalizeKeyLookup: config.normalizeKeys),
-      onlyLatestState: json.valueAsBool<bool?>('only_latest_state', normalizeKeyLookup: config.normalizeKeys),
+      firstAvailableBlock: json.valueAsBigInt<BigInt?>(
+        'first_available_block',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      lastAvailableBlock: json.valueAsBigInt<BigInt?>(
+        'last_available_block',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      onlyLatestState: json.valueAsBool<bool?>(
+        'only_latest_state',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       versionInformation: json.valueTo<HederaBlockNodeVersions?, Object>(
         key: 'version_information',
-        parse: (v) => HederaBlockNodeVersions.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaBlockNodeVersions.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -2054,15 +2298,17 @@ List<dynamic> get variables => protoValues;
       firstAvailableBlock: decode.getBigInt<BigInt?>(1),
       lastAvailableBlock: decode.getBigInt<BigInt?>(2),
       onlyLatestState: decode.getBool<bool?>(3),
-      versionInformation: decode.messageTo<HederaBlockNodeVersions?>(4, (b) => HederaBlockNodeVersions.deserialize(b)),
+      versionInformation: decode.messageTo<HederaBlockNodeVersions?>(
+        4,
+        (b) => HederaBlockNodeVersions.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockServerStatusResponse;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockServerStatusResponse;
 }
-
 
 /// *
 ///  * Version information for a Block-Node.
@@ -2073,7 +2319,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * The `software_version` SHALL be determined by the implementation of this
 ///  * specification.
 class HederaBlockNodeVersions extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A version of the Block-Node network address book.&lt;br/&gt;
   ///      * The address book version describes what version of address book
   ///      * this Block-Node holds for discovering and identifying other Block-Nodes.
@@ -2082,7 +2328,7 @@ class HederaBlockNodeVersions extends HederaProtoMessage with Equality {
   ///      * Block-Nodes.
   final proto_basic_types.HederaSemanticVersion? addressBookVersion;
 
-    /// *
+  /// *
   ///      * A version of the Block Stream specification.&lt;br/&gt;
   ///      * This is the Stream version currently supported by this Block-Node.
   ///      * &lt;p&gt;
@@ -2092,7 +2338,7 @@ class HederaBlockNodeVersions extends HederaProtoMessage with Equality {
   ///      * the responding Block-Node is not private.
   final proto_basic_types.HederaSemanticVersion? streamProtoVersion;
 
-    /// *
+  /// *
   ///      * A version of the Block-Node software.&lt;br/&gt;
   ///      * This is the software version that this Block-Node is currently
   ///      * running.
@@ -2123,31 +2369,32 @@ class HederaBlockNodeVersions extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        addressBookVersion,
-        streamProtoVersion,
-        softwareVersion,
-      ];
+    addressBookVersion,
+    streamProtoVersion,
+    softwareVersion,
+  ];
 
+  HederaBlockNodeVersions copyWith({
+    proto_basic_types.HederaSemanticVersion? addressBookVersion,
 
-HederaBlockNodeVersions copyWith(
-{proto_basic_types.HederaSemanticVersion? addressBookVersion,
+    proto_basic_types.HederaSemanticVersion? streamProtoVersion,
 
-proto_basic_types.HederaSemanticVersion? streamProtoVersion,
-
-proto_basic_types.HederaSemanticVersion? softwareVersion,
-
-}) {
+    proto_basic_types.HederaSemanticVersion? softwareVersion,
+  }) {
     return HederaBlockNodeVersions(
-addressBookVersion: addressBookVersion ?? this.addressBookVersion,
-streamProtoVersion: streamProtoVersion ?? this.streamProtoVersion,
-softwareVersion: softwareVersion ?? this.softwareVersion,
+      addressBookVersion: addressBookVersion ?? this.addressBookVersion,
+      streamProtoVersion: streamProtoVersion ?? this.streamProtoVersion,
+      softwareVersion: softwareVersion ?? this.softwareVersion,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'address_book_version': config.encodeMessage(addressBookVersion),
       'stream_proto_version': config.encodeMessage(streamProtoVersion),
@@ -2155,36 +2402,66 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaBlockNodeVersions.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaBlockNodeVersions.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBlockNodeVersions(
-      addressBookVersion: json.valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
-        key: 'address_book_version',
-        parse: (v) => proto_basic_types.HederaSemanticVersion.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      streamProtoVersion: json.valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
-        key: 'stream_proto_version',
-        parse: (v) => proto_basic_types.HederaSemanticVersion.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      softwareVersion: json.valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
-        key: 'software_version',
-        parse: (v) => proto_basic_types.HederaSemanticVersion.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      addressBookVersion: json
+          .valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
+            key: 'address_book_version',
+            parse:
+                (v) => proto_basic_types.HederaSemanticVersion.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      streamProtoVersion: json
+          .valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
+            key: 'stream_proto_version',
+            parse:
+                (v) => proto_basic_types.HederaSemanticVersion.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      softwareVersion: json
+          .valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
+            key: 'software_version',
+            parse:
+                (v) => proto_basic_types.HederaSemanticVersion.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaBlockNodeVersions.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaBlockNodeVersions(
-      addressBookVersion: decode.messageTo<proto_basic_types.HederaSemanticVersion?>(1, (b) => proto_basic_types.HederaSemanticVersion.deserialize(b)),
-      streamProtoVersion: decode.messageTo<proto_basic_types.HederaSemanticVersion?>(2, (b) => proto_basic_types.HederaSemanticVersion.deserialize(b)),
-      softwareVersion: decode.messageTo<proto_basic_types.HederaSemanticVersion?>(3, (b) => proto_basic_types.HederaSemanticVersion.deserialize(b)),
+      addressBookVersion: decode
+          .messageTo<proto_basic_types.HederaSemanticVersion?>(
+            1,
+            (b) => proto_basic_types.HederaSemanticVersion.deserialize(b),
+          ),
+      streamProtoVersion: decode
+          .messageTo<proto_basic_types.HederaSemanticVersion?>(
+            2,
+            (b) => proto_basic_types.HederaSemanticVersion.deserialize(b),
+          ),
+      softwareVersion: decode
+          .messageTo<proto_basic_types.HederaSemanticVersion?>(
+            3,
+            (b) => proto_basic_types.HederaSemanticVersion.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockBlockNodeVersions;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockBlockNodeVersions;
 }
-
-

@@ -52,13 +52,11 @@ void _configMask() {
       ).mask,
       0x1F,
     );
-    expect(
-      const TransactionV1Config.empty().encodeValues(),
-      isEmpty,
-    );
-    final feeOnly = TransactionV1Config(
-      priorityFeeLamports: BigInt.from(5000),
-    ).encodeValues();
+    expect(const TransactionV1Config.empty().encodeValues(), isEmpty);
+    final feeOnly =
+        TransactionV1Config(
+          priorityFeeLamports: BigInt.from(5000),
+        ).encodeValues();
     expect(feeOnly.length, 8);
     // 5000 LE u64.
     expect(feeOnly, [0x88, 0x13, 0, 0, 0, 0, 0, 0]);
@@ -191,21 +189,15 @@ void _v1TransferWithConfig() {
     expect(bytes.sublist(4, 8), [0x1F, 0, 0, 0]);
     // Config values sit after 3 addrs: fee(8) + cu(4) + loaded(4) + heap(4).
     final valuesOffset = 1 + 3 + 4 + 32 + 1 + 1 + 3 * 32;
-    expect(
-      bytes.sublist(valuesOffset, valuesOffset + 20),
-      [
-        0x88, 0x13, 0, 0, 0, 0, 0, 0, // 5000
-        0x20, 0x4E, 0, 0, // 20000
-        0, 0, 1, 0, // 65536
-        0, 0, 1, 0, // 65536
-      ],
-    );
+    expect(bytes.sublist(valuesOffset, valuesOffset + 20), [
+      0x88, 0x13, 0, 0, 0, 0, 0, 0, // 5000
+      0x20, 0x4E, 0, 0, // 20000
+      0, 0, 1, 0, // 65536
+      0, 0, 1, 0, // 65536
+    ]);
     // Instruction header: program 2, 2 accounts, 12 data bytes LE.
     final ixHeaderOffset = valuesOffset + 20;
-    expect(
-      bytes.sublist(ixHeaderOffset, ixHeaderOffset + 4),
-      [2, 2, 0x0C, 0],
-    );
+    expect(bytes.sublist(ixHeaderOffset, ixHeaderOffset + 4), [2, 2, 0x0C, 0]);
     final back = SolanaTransaction.deserialize(tx.serialize());
     expect(back.serialize(), tx.serialize());
     final v1 = back.message as MessageV1;
@@ -310,16 +302,20 @@ void _v1FromJson() {
       'header': v1.header.toJson(),
       'accountKeys': v1.accountKeys.map((a) => a.address).toList(),
       'recentBlockhash': v1.recentBlockhash.address,
-      'instructions': v1.compiledInstructions
-          .map(
-            (c) => {
-              'programIdIndex': c.programIdIndex,
-              'accounts': c.accounts,
-              ...enc(c.data),
-            },
-          )
-          .toList(),
-      'transactionConfig': {'computeUnitLimit': 20000, 'loadedAccountsDataSizeLimit': 65536},
+      'instructions':
+          v1.compiledInstructions
+              .map(
+                (c) => {
+                  'programIdIndex': c.programIdIndex,
+                  'accounts': c.accounts,
+                  ...enc(c.data),
+                },
+              )
+              .toList(),
+      'transactionConfig': {
+        'computeUnitLimit': 20000,
+        'loadedAccountsDataSizeLimit': 65536,
+      },
     };
     final msg = VersionedMessage.fromJson(json, type: TransactionType.v1);
     expect(msg, isA<MessageV1>());
@@ -339,15 +335,9 @@ void _rpcMaxVersion() {
       transactionSignature: 'x',
       maxSupportedTransactionVersion: 1,
     );
-    expect(
-      (getTx.toJson()[1] as Map)['maxSupportedTransactionVersion'],
-      1,
-    );
+    expect((getTx.toJson()[1] as Map)['maxSupportedTransactionVersion'], 1);
     const getBlock = SolanaRequestGetBlock(slot: 1);
     expect(getBlock.maxSupportedTransactionVersion, 1);
-    expect(
-      (getBlock.toJson()[1] as Map)['maxSupportedTransactionVersion'],
-      1,
-    );
+    expect((getBlock.toJson()[1] as Map)['maxSupportedTransactionVersion'], 1);
   });
 }

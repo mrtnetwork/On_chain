@@ -83,7 +83,8 @@ class RPCWebSocketService with EthereumServiceProvider {
   }
 
   void _onMessge(String event) {
-    final Map<String, dynamic> decode = StringUtils.toJson<Map<String, dynamic>>(event);
+    final Map<String, dynamic> decode =
+        StringUtils.toJson<Map<String, dynamic>>(event);
     if (decode.containsKey("id")) {
       final int id = int.parse(decode["id"]!.toString());
       final request = requests.remove(id);

@@ -4,7 +4,10 @@ import 'package:on_chain/near/src/rpc/models/types/types.dart';
 
 class NearNodeRequestExperimentalValidatorsOrdered
     extends
-        NearNodeRequest<List<NearRpcValidatorStakeView>, List<Map<String, dynamic>>> {
+        NearNodeRequest<
+          List<NearRpcValidatorStakeView>,
+          List<Map<String, dynamic>>
+        > {
   final NearRpcRpcValidatorsOrderedRequest args;
   const NearNodeRequestExperimentalValidatorsOrdered(this.args);
   @override
@@ -14,7 +17,9 @@ class NearNodeRequestExperimentalValidatorsOrdered
   dynamic params() => args.toJson();
 
   @override
-  List<NearRpcValidatorStakeView> onResponse(List<Map<String, dynamic>> result) {
+  List<NearRpcValidatorStakeView> onResponse(
+    List<Map<String, dynamic>> result,
+  ) {
     return result.map((e) => NearRpcValidatorStakeView.fromJson(e)).toList();
   }
 

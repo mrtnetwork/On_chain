@@ -231,12 +231,10 @@ import 'package:on_chain/sui/src/serialization/protobuf/proto.dart';
 /// request should verify the included field paths, and return an
 /// `INVALID_ARGUMENT` error if any path is unmappable.
 class SuiFieldMask extends SuiProtoMessage {
-    /// The set of field mask paths.
+  /// The set of field mask paths.
   final List<String> paths;
 
-  const SuiFieldMask({
-    this.paths = const [],
-  });
+  const SuiFieldMask({this.paths = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -255,35 +253,35 @@ class SuiFieldMask extends SuiProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        paths,
-      ];
-
+  List<Object?> get protoValues => [paths];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'paths': paths.map((e) => e).toList(),
-    };
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'paths': paths.map((e) => e).toList()};
   }
 
-
-  factory SuiFieldMask.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiFieldMask.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiFieldMask(
-      paths: (json.valueEnsureAsList<dynamic>('paths', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueAsString<String>(e)).toList(),
+      paths:
+          (json.valueEnsureAsList<dynamic>(
+            'paths',
+            normalizeKeyLookup: config.normalizeKeys,
+            onMissing: () => [],
+          )).map((e) => JsonParser.valueAsString<String>(e)).toList(),
     );
   }
 
   factory SuiFieldMask.deserialize(List<int> bytes) {
     final decode = SuiProtoMessage.decode(bytes, protoConfigStatic());
-    return SuiFieldMask(
-      paths: decode.getListOrEmpty<String>(1),
-    );
+    return SuiFieldMask(paths: decode.getListOrEmpty<String>(1));
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobufFieldMask;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.googleProtobufFieldMask;
 }
-
-

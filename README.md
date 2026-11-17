@@ -102,6 +102,7 @@ native concept, not a missing feature.
 
 ## Breaking changes
 
+- **All legacy exception classes removed — every error is `BuError`.** Per-chain `*Exception` types are gone; failures throw `BuError` with an `OnChainErrorType` taxonomy value (one value per legacy class, `domain: 'onchain'`), built via same-signature `OnChainErrors.*` factories. Message text and `details` shapes are preserved — update `catch` clauses and `on` filters to `BuError`.
 - **Many chain RPC request/response types regenerated from OpenAPI / OpenRPC and tested live.** Request and model types across chains were regenerated from their canonical OpenAPI / OpenRPC specs and validated against live nodes (see `test/*/test_vectors/live`). Field names, required/optional markers, enums, and defaults may differ from the previous hand-written models — review call sites when upgrading.
 - **Tron transactions now use pregenerated protobuf models.** Transaction and contract types are generated from the canonical Tron protocol definitions (`lib/tron/src/proto_messages/`, wire-compatible enums and contract descriptors). Hand-written transaction models are gone — constructors, field names, and serialization follow the generated models.
 - **Sui: JSON-RPC removed, gRPC only.** The Sui provider now dispatches

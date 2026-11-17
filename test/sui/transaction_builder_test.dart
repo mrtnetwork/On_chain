@@ -6,11 +6,15 @@ import 'package:on_chain/transaction/transaction.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 class _StubClient with SuiQuickClientApi {
   @override
-  IGrpcProvider<IServiceProvider, BaseSuiServiceRequestParams,
-          BaseGRPCServiceRequestParams>
-      get provider => throw UnimplementedError();
+  IGrpcProvider<
+    IServiceProvider,
+    BaseSuiServiceRequestParams,
+    BaseGRPCServiceRequestParams
+  >
+  get provider => throw UnimplementedError();
 
   SuiObject _coin(String id, BigInt balance) {
     return SuiObject(
@@ -80,7 +84,6 @@ SuiEd25519Account _testAccount() {
 }
 
 void transactionBuilderTest() {
-
   group('Sui/Transaction builder', () {
     test('command helpers index inputs and results', () {
       final b = SuiTransactionBuilder();
@@ -197,10 +200,7 @@ void transactionBuilderTest() {
         function: 'f',
         arguments: [],
       );
-      expect(
-        () => b.getTransaction(),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => b.getTransaction(), throwsA(isA<BuError>()));
       b.setSender(
         SuiAddress(
           '0x0000000000000000000000000000000000000000000000000000000000000001',
@@ -216,8 +216,7 @@ void transactionBuilderTest() {
               '0x1111111111111111111111111111111111111111111111111111111111111111',
           version: BigInt.one,
           digest: '',
-          objectType:
-              '0x2::coin::Coin<${SuiTransactionConst.suiTypeArgs}>',
+          objectType: '0x2::coin::Coin<${SuiTransactionConst.suiTypeArgs}>',
           balance: BigInt.from(10),
           previousTransaction: '',
         ),
@@ -226,8 +225,7 @@ void transactionBuilderTest() {
               '0x2222222222222222222222222222222222222222222222222222222222222222',
           version: BigInt.one,
           digest: '',
-          objectType:
-              '0x2::coin::Coin<${SuiTransactionConst.suiTypeArgs}>',
+          objectType: '0x2::coin::Coin<${SuiTransactionConst.suiTypeArgs}>',
           balance: BigInt.from(100),
           previousTransaction: '',
         ),
@@ -346,4 +344,3 @@ void transactionBuilderTest() {
 void main() {
   OnChainUtilsTestApi.runTest(transactionBuilderTest, "Transaction Builder");
 }
-

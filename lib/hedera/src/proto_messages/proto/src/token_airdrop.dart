@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Airdrop
@@ -78,8 +79,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *   `pending_airdrops` field for the record.
 ///  * - Each pending transfer _updated_ SHALL be added to the
 ///  *   `pending_airdrops` field for the record.
-class HederaTokenAirdropTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenAirdropTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A list of token transfers representing one or more airdrops.
   ///      * &lt;p&gt;
   ///      * The sender for each transfer MUST have sufficient balance to complete
@@ -93,9 +95,7 @@ class HederaTokenAirdropTransactionBody extends HederaProtoMessage with Equality
   ///      * entries in the TokenTransferList for that transfer.
   final List<proto_basic_types.HederaTokenTransferList> tokenTransfers;
 
-  const HederaTokenAirdropTransactionBody({
-    this.tokenTransfers = const [],
-  });
+  const HederaTokenAirdropTransactionBody({this.tokenTransfers = const []});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -114,49 +114,71 @@ class HederaTokenAirdropTransactionBody extends HederaProtoMessage with Equality
   }
 
   @override
-  List<Object?> get protoValues => [
-        tokenTransfers,
-      ];
+  List<Object?> get protoValues => [tokenTransfers];
 
-
-HederaTokenAirdropTransactionBody copyWith(
-{List<proto_basic_types.HederaTokenTransferList>? tokenTransfers,
-
-}) {
+  HederaTokenAirdropTransactionBody copyWith({
+    List<proto_basic_types.HederaTokenTransferList>? tokenTransfers,
+  }) {
     return HederaTokenAirdropTransactionBody(
-tokenTransfers: tokenTransfers ?? this.tokenTransfers,
+      tokenTransfers: tokenTransfers ?? this.tokenTransfers,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'token_transfers': tokenTransfers.map((e) => config.encodeMessage(e)).toList(),
+      'token_transfers':
+          tokenTransfers.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTokenAirdropTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenAirdropTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenAirdropTransactionBody(
-      tokenTransfers: (json.valueEnsureAsList<dynamic>('token_transfers', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_basic_types.HederaTokenTransferList, Object>(
-          value: e,
-          parse: (v) => proto_basic_types.HederaTokenTransferList.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      tokenTransfers:
+          (json.valueEnsureAsList<dynamic>(
+                'token_transfers',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  proto_basic_types.HederaTokenTransferList,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) => proto_basic_types.HederaTokenTransferList.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTokenAirdropTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenAirdropTransactionBody(
-      tokenTransfers: decode.getListOfBytes(1).map((b) => proto_basic_types.HederaTokenTransferList.deserialize(b)).toList(),
+      tokenTransfers:
+          decode
+              .getListOfBytes(1)
+              .map(
+                (b) => proto_basic_types.HederaTokenTransferList.deserialize(b),
+              )
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenAirdropTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenAirdropTransactionBody;
 }
-
-

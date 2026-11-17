@@ -96,9 +96,8 @@ class HederaExampleProvider with HederaServiceProvider {
           statusCode: response.statusCode,
         );
       }
-      final response = await client
-          .get(uri, headers: {...params.headers})
-          .timeout(timeout ?? this.timeout);
+      final response = await client.get(uri,
+          headers: {...params.headers}).timeout(timeout ?? this.timeout);
       return params.toResponse(
         response.bodyBytes,
         statusCode: response.statusCode,

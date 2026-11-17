@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
 
 /// *
 ///  * # Congestion timestamps
@@ -21,7 +22,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as 
 ///  * (increasing, or decreasing, the congestion fee multiplier).
 ///  *
 class HederaCongestionLevelStarts extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * Timestamps for each point where "entity utilization" congestion pricing
   ///      * levels changed.
   ///      * &lt;p&gt;
@@ -29,7 +30,7 @@ class HederaCongestionLevelStarts extends HederaProtoMessage with Equality {
   ///      * timestamp of value 0.
   final List<proto_timestamp.HederaTimestamp> genericLevelStarts;
 
-    /// *
+  /// *
   ///      * Timestamps for each point where "gas utilization" congestion pricing
   ///      * levels changed.
   ///      * &lt;p&gt;
@@ -63,59 +64,95 @@ class HederaCongestionLevelStarts extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        genericLevelStarts,
-        gasLevelStarts,
-      ];
+  List<Object?> get protoValues => [genericLevelStarts, gasLevelStarts];
 
+  HederaCongestionLevelStarts copyWith({
+    List<proto_timestamp.HederaTimestamp>? genericLevelStarts,
 
-HederaCongestionLevelStarts copyWith(
-{List<proto_timestamp.HederaTimestamp>? genericLevelStarts,
-
-List<proto_timestamp.HederaTimestamp>? gasLevelStarts,
-
-}) {
+    List<proto_timestamp.HederaTimestamp>? gasLevelStarts,
+  }) {
     return HederaCongestionLevelStarts(
-genericLevelStarts: genericLevelStarts ?? this.genericLevelStarts,
-gasLevelStarts: gasLevelStarts ?? this.gasLevelStarts,
+      genericLevelStarts: genericLevelStarts ?? this.genericLevelStarts,
+      gasLevelStarts: gasLevelStarts ?? this.gasLevelStarts,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'generic_level_starts': genericLevelStarts.map((e) => config.encodeMessage(e)).toList(),
-      'gas_level_starts': gasLevelStarts.map((e) => config.encodeMessage(e)).toList(),
+      'generic_level_starts':
+          genericLevelStarts.map((e) => config.encodeMessage(e)).toList(),
+      'gas_level_starts':
+          gasLevelStarts.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaCongestionLevelStarts.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCongestionLevelStarts.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCongestionLevelStarts(
-      genericLevelStarts: (json.valueEnsureAsList<dynamic>('generic_level_starts', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_timestamp.HederaTimestamp, Object>(
-          value: e,
-          parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      gasLevelStarts: (json.valueEnsureAsList<dynamic>('gas_level_starts', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_timestamp.HederaTimestamp, Object>(
-          value: e,
-          parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+      genericLevelStarts:
+          (json.valueEnsureAsList<dynamic>(
+                'generic_level_starts',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) =>
+                    JsonParser.valueTo<proto_timestamp.HederaTimestamp, Object>(
+                      value: e,
+                      parse:
+                          (v) => proto_timestamp.HederaTimestamp.fromJson(
+                            JsonParser.valueAs(v),
+                            config: config,
+                          ),
+                    ),
+              )
+              .toList(),
+      gasLevelStarts:
+          (json.valueEnsureAsList<dynamic>(
+                'gas_level_starts',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) =>
+                    JsonParser.valueTo<proto_timestamp.HederaTimestamp, Object>(
+                      value: e,
+                      parse:
+                          (v) => proto_timestamp.HederaTimestamp.fromJson(
+                            JsonParser.valueAs(v),
+                            config: config,
+                          ),
+                    ),
+              )
+              .toList(),
     );
   }
 
   factory HederaCongestionLevelStarts.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCongestionLevelStarts(
-      genericLevelStarts: decode.getListOfBytes(1).map((b) => proto_timestamp.HederaTimestamp.deserialize(b)).toList(),
-      gasLevelStarts: decode.getListOfBytes(2).map((b) => proto_timestamp.HederaTimestamp.deserialize(b)).toList(),
+      genericLevelStarts:
+          decode
+              .getListOfBytes(1)
+              .map((b) => proto_timestamp.HederaTimestamp.deserialize(b))
+              .toList(),
+      gasLevelStarts:
+          decode
+              .getListOfBytes(2)
+              .map((b) => proto_timestamp.HederaTimestamp.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCongestionLevelStarts;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCongestionLevelStarts;
 }
-
-

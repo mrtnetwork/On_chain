@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void nameServiceCompileV0Test() {
   group('Solana/Name Service Compile V0', () {
     _create();
@@ -16,7 +17,6 @@ void nameServiceCompileV0Test() {
 void main() {
   OnChainUtilsTestApi.runTest(nameServiceCompileV0Test, "Compile V0");
 }
-
 
 void _create() {
   test('create', () {

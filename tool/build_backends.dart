@@ -18,9 +18,11 @@ import 'dart:io' show exit, stdout;
 import '../test/test_backend_io.dart' as backend_io;
 
 void _usage() {
-  stdout.writeln('usage: dart tool/build_backends.dart [--ffi] [--wasm] '
-      '[--all] [--profile <debug|release>] [--features <list>] '
-      '[--no-default-features] [--force]');
+  stdout.writeln(
+    'usage: dart tool/build_backends.dart [--ffi] [--wasm] '
+    '[--all] [--profile <debug|release>] [--features <list>] '
+    '[--no-default-features] [--force]',
+  );
 }
 
 Future<void> main(List<String> args) async {

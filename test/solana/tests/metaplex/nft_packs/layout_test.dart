@@ -2,6 +2,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../../utils.dart';
+
 const _owner = SolAddress.unchecked(
   'HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf',
 );
@@ -33,7 +34,6 @@ void nftPacksLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(nftPacksLayoutTest, "Layout");
 }
-
 
 void _activate() {
   test('activate', () {

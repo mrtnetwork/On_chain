@@ -1,10 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart" as proto_duration;
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
-import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart" as google_protobuf_wrappers;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/duration.dart"
+    as proto_duration;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.dart"
+    as google_protobuf_wrappers;
 
 /// *
 ///  * # Token Update
@@ -42,8 +46,9 @@ import "package:on_chain/hedera/src/proto_messages/google/protobuf/src/wrappers.
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenUpdateTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This SHALL identify the token type to delete.&lt;br/&gt;
@@ -52,14 +57,14 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * have a valid `admin_key`.
   final proto_basic_types.HederaTokenID? token;
 
-    /// *
+  /// *
   ///      * A new symbol to use for the token.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed 100 bytes when encoded as UTF-8.&lt;br/&gt;
   ///      * This value, if set, MUST NOT contain the Unicode NUL codepoint.
   final String? symbol;
 
-    /// *
+  /// *
   ///      * A new name for the token.&lt;br/&gt;
   ///      * This is generally the "full name" displayed in wallet software.
   ///      * &lt;p&gt;
@@ -67,7 +72,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * This value, if set, MUST NOT contain the Unicode NUL codepoint.
   final String? name;
 
-    /// *
+  /// *
   ///      * A new treasury account identifier.
   ///      * &lt;p&gt;
   ///      * If set,
@@ -85,7 +90,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * - The new treasury account key MUST sign this transaction.
   final proto_basic_types.HederaAccountID? treasury;
 
-    /// *
+  /// *
   ///      * An Hedera key for token administration.
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have administrative authority for this token and
@@ -97,7 +102,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing account KYC.
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have KYC authority for this token and
@@ -111,7 +116,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? kycKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing asset "freeze".
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have "freeze" authority for this token and
@@ -126,7 +131,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? freezeKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for wiping tokens from accounts.
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have "wipe" authority for this token and
@@ -139,7 +144,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? wipeKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for "minting" and "burning" tokens.
   ///      * &lt;p&gt;
   ///      * This key, if set, MAY authorize transactions to "mint" new tokens to
@@ -153,7 +158,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? supplyKey;
 
-    /// *
+  /// *
   ///      * An identifier for the account to be charged renewal fees at the token's
   ///      * expiry to extend the lifetime of the token.
   ///      * &lt;p&gt;
@@ -177,7 +182,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * &lt;/blockquote&gt;&lt;/blockquote&gt;
   final proto_basic_types.HederaAccountID? autoRenewAccount;
 
-    /// *
+  /// *
   ///      * A duration between token automatic renewals.&lt;br/&gt;
   ///      * All entities in state may be charged "rent" occasionally (typically
   ///      * every 90 days) to prevent unnecessary growth of the ledger. This value
@@ -189,7 +194,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * `MAX_AUTORENEW_PERIOD`.
   final proto_duration.HederaDuration? autoRenewPeriod;
 
-    /// *
+  /// *
   ///      * An expiration timestamp.
   ///      * &lt;p&gt;
   ///      * If this value is set, the automatic renewal account is not set for the
@@ -201,14 +206,14 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * when the consensus time exceeds this value.
   final proto_timestamp.HederaTimestamp? expiry;
 
-    /// *
+  /// *
   ///      * A short description for this token.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
   ///      * (default 100) bytes when encoded as UTF-8.
   final google_protobuf_wrappers.HederaStringValue? memo;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing the token custom fee schedule.
   ///      * &lt;p&gt;
   ///      * This key, if set, MAY authorize transactions to modify the
@@ -220,7 +225,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? feeScheduleKey;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing token "pause".
   ///      * &lt;p&gt;
   ///      * This key, if set, SHALL have "pause" authority for this token and
@@ -234,7 +239,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? pauseKey;
 
-    /// *
+  /// *
   ///      * Token "Metadata".
   ///      * &lt;p&gt;
   ///      * The value, if set, MUST NOT exceed 100 bytes.&lt;br/&gt;
@@ -244,7 +249,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * &lt;/dl&gt;
   final google_protobuf_wrappers.HederaBytesValue? metadata;
 
-    /// *
+  /// *
   ///      * An Hedera key for managing the token `metadata`.
   ///      * &lt;p&gt;
   ///      * This key, if set, MAY authorize transactions to modify the
@@ -256,7 +261,7 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
   ///      * sign this transaction.
   final proto_basic_types.HederaKey? metadataKey;
 
-    /// *
+  /// *
   ///      * Set a key validation mode.&lt;br/&gt;
   ///      * Any key may be updated by a transaction signed by the token `admin_key`.
   ///      * Each role key may _also_ sign a transaction to update that key.
@@ -330,91 +335,92 @@ class HederaTokenUpdateTransactionBody extends HederaProtoMessage with Equality 
 
   @override
   List<Object?> get protoValues => [
-        token,
-        symbol,
-        name,
-        treasury,
-        adminKey,
-        kycKey,
-        freezeKey,
-        wipeKey,
-        supplyKey,
-        autoRenewAccount,
-        autoRenewPeriod,
-        expiry,
-        memo,
-        feeScheduleKey,
-        pauseKey,
-        metadata,
-        metadataKey,
-        keyVerificationMode,
-      ];
+    token,
+    symbol,
+    name,
+    treasury,
+    adminKey,
+    kycKey,
+    freezeKey,
+    wipeKey,
+    supplyKey,
+    autoRenewAccount,
+    autoRenewPeriod,
+    expiry,
+    memo,
+    feeScheduleKey,
+    pauseKey,
+    metadata,
+    metadataKey,
+    keyVerificationMode,
+  ];
 
+  HederaTokenUpdateTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? token,
 
-HederaTokenUpdateTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? token,
+    String? symbol,
 
-String? symbol,
+    String? name,
 
-String? name,
+    proto_basic_types.HederaAccountID? treasury,
 
-proto_basic_types.HederaAccountID? treasury,
+    proto_basic_types.HederaKey? adminKey,
 
-proto_basic_types.HederaKey? adminKey,
+    proto_basic_types.HederaKey? kycKey,
 
-proto_basic_types.HederaKey? kycKey,
+    proto_basic_types.HederaKey? freezeKey,
 
-proto_basic_types.HederaKey? freezeKey,
+    proto_basic_types.HederaKey? wipeKey,
 
-proto_basic_types.HederaKey? wipeKey,
+    proto_basic_types.HederaKey? supplyKey,
 
-proto_basic_types.HederaKey? supplyKey,
+    proto_basic_types.HederaAccountID? autoRenewAccount,
 
-proto_basic_types.HederaAccountID? autoRenewAccount,
+    proto_duration.HederaDuration? autoRenewPeriod,
 
-proto_duration.HederaDuration? autoRenewPeriod,
+    proto_timestamp.HederaTimestamp? expiry,
 
-proto_timestamp.HederaTimestamp? expiry,
+    google_protobuf_wrappers.HederaStringValue? memo,
 
-google_protobuf_wrappers.HederaStringValue? memo,
+    proto_basic_types.HederaKey? feeScheduleKey,
 
-proto_basic_types.HederaKey? feeScheduleKey,
+    proto_basic_types.HederaKey? pauseKey,
 
-proto_basic_types.HederaKey? pauseKey,
+    google_protobuf_wrappers.HederaBytesValue? metadata,
 
-google_protobuf_wrappers.HederaBytesValue? metadata,
+    proto_basic_types.HederaKey? metadataKey,
 
-proto_basic_types.HederaKey? metadataKey,
-
-proto_basic_types.HederaTokenKeyValidation? keyVerificationMode,
-
-}) {
+    proto_basic_types.HederaTokenKeyValidation? keyVerificationMode,
+  }) {
     return HederaTokenUpdateTransactionBody(
-token: token ?? this.token,
-symbol: symbol ?? this.symbol,
-name: name ?? this.name,
-treasury: treasury ?? this.treasury,
-adminKey: adminKey ?? this.adminKey,
-kycKey: kycKey ?? this.kycKey,
-freezeKey: freezeKey ?? this.freezeKey,
-wipeKey: wipeKey ?? this.wipeKey,
-supplyKey: supplyKey ?? this.supplyKey,
-autoRenewAccount: autoRenewAccount ?? this.autoRenewAccount,
-autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
-expiry: expiry ?? this.expiry,
-memo: memo ?? this.memo,
-feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
-pauseKey: pauseKey ?? this.pauseKey,
-metadata: metadata ?? this.metadata,
-metadataKey: metadataKey ?? this.metadataKey,
-keyVerificationMode: keyVerificationMode ?? this.keyVerificationMode,
+      token: token ?? this.token,
+      symbol: symbol ?? this.symbol,
+      name: name ?? this.name,
+      treasury: treasury ?? this.treasury,
+      adminKey: adminKey ?? this.adminKey,
+      kycKey: kycKey ?? this.kycKey,
+      freezeKey: freezeKey ?? this.freezeKey,
+      wipeKey: wipeKey ?? this.wipeKey,
+      supplyKey: supplyKey ?? this.supplyKey,
+      autoRenewAccount: autoRenewAccount ?? this.autoRenewAccount,
+      autoRenewPeriod: autoRenewPeriod ?? this.autoRenewPeriod,
+      expiry: expiry ?? this.expiry,
+      memo: memo ?? this.memo,
+      feeScheduleKey: feeScheduleKey ?? this.feeScheduleKey,
+      pauseKey: pauseKey ?? this.pauseKey,
+      metadata: metadata ?? this.metadata,
+      metadataKey: metadataKey ?? this.metadataKey,
+      keyVerificationMode: keyVerificationMode ?? this.keyVerificationMode,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token': config.encodeMessage(token),
       'symbol': symbol,
@@ -437,105 +443,238 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTokenUpdateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenUpdateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenUpdateTransactionBody(
       token: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      symbol: json.valueAsString<String?>('symbol', normalizeKeyLookup: config.normalizeKeys),
-      name: json.valueAsString<String?>('name', normalizeKeyLookup: config.normalizeKeys),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      symbol: json.valueAsString<String?>(
+        'symbol',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      name: json.valueAsString<String?>(
+        'name',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       treasury: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'treasury',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'adminKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       kycKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'kycKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       freezeKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'freezeKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       wipeKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'wipeKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       supplyKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'supplyKey',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      autoRenewAccount: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'autoRenewAccount',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      autoRenewAccount: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'autoRenewAccount',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       autoRenewPeriod: json.valueTo<proto_duration.HederaDuration?, Object>(
         key: 'autoRenewPeriod',
-        parse: (v) => proto_duration.HederaDuration.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_duration.HederaDuration.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       expiry: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'expiry',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       memo: json.valueTo<google_protobuf_wrappers.HederaStringValue?, Object>(
         key: 'memo',
-        parse: (v) => google_protobuf_wrappers.HederaStringValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => google_protobuf_wrappers.HederaStringValue.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       feeScheduleKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'fee_schedule_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       pauseKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'pause_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      metadata: json.valueTo<google_protobuf_wrappers.HederaBytesValue?, Object>(
-        key: 'metadata',
-        parse: (v) => google_protobuf_wrappers.HederaBytesValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      metadata: json
+          .valueTo<google_protobuf_wrappers.HederaBytesValue?, Object>(
+            key: 'metadata',
+            parse:
+                (v) => google_protobuf_wrappers.HederaBytesValue.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       metadataKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'metadata_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      keyVerificationMode: json.valueTo<proto_basic_types.HederaTokenKeyValidation?, Object?>(
-        key: 'key_verification_mode',
-        parse: (v) => proto_basic_types.HederaTokenKeyValidation.from(v),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
       ),
+      keyVerificationMode: json
+          .valueTo<proto_basic_types.HederaTokenKeyValidation?, Object?>(
+            key: 'key_verification_mode',
+            parse: (v) => proto_basic_types.HederaTokenKeyValidation.from(v),
+          ),
     );
   }
 
   factory HederaTokenUpdateTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenUpdateTransactionBody(
-      token: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
+      token: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
       symbol: decode.getString<String?>(2),
       name: decode.getString<String?>(3),
-      treasury: decode.messageTo<proto_basic_types.HederaAccountID?>(4, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(5, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      kycKey: decode.messageTo<proto_basic_types.HederaKey?>(6, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      freezeKey: decode.messageTo<proto_basic_types.HederaKey?>(7, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      wipeKey: decode.messageTo<proto_basic_types.HederaKey?>(8, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      supplyKey: decode.messageTo<proto_basic_types.HederaKey?>(9, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      autoRenewAccount: decode.messageTo<proto_basic_types.HederaAccountID?>(10, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(11, (b) => proto_duration.HederaDuration.deserialize(b)),
-      expiry: decode.messageTo<proto_timestamp.HederaTimestamp?>(12, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
-      memo: decode.messageTo<google_protobuf_wrappers.HederaStringValue?>(13, (b) => google_protobuf_wrappers.HederaStringValue.deserialize(b)),
-      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(14, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      pauseKey: decode.messageTo<proto_basic_types.HederaKey?>(15, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      metadata: decode.messageTo<google_protobuf_wrappers.HederaBytesValue?>(16, (b) => google_protobuf_wrappers.HederaBytesValue.deserialize(b)),
-      metadataKey: decode.messageTo<proto_basic_types.HederaKey?>(17, (b) => proto_basic_types.HederaKey.deserialize(b)),
-      keyVerificationMode: decode.getEnum<proto_basic_types.HederaTokenKeyValidation?>(18, proto_basic_types.HederaTokenKeyValidation.values),
+      treasury: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        4,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        5,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      kycKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        6,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      freezeKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        7,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      wipeKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        8,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      supplyKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        9,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      autoRenewAccount: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        10,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      autoRenewPeriod: decode.messageTo<proto_duration.HederaDuration?>(
+        11,
+        (b) => proto_duration.HederaDuration.deserialize(b),
+      ),
+      expiry: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        12,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
+      memo: decode.messageTo<google_protobuf_wrappers.HederaStringValue?>(
+        13,
+        (b) => google_protobuf_wrappers.HederaStringValue.deserialize(b),
+      ),
+      feeScheduleKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        14,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      pauseKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        15,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      metadata: decode.messageTo<google_protobuf_wrappers.HederaBytesValue?>(
+        16,
+        (b) => google_protobuf_wrappers.HederaBytesValue.deserialize(b),
+      ),
+      metadataKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        17,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
+      keyVerificationMode: decode
+          .getEnum<proto_basic_types.HederaTokenKeyValidation?>(
+            18,
+            proto_basic_types.HederaTokenKeyValidation.values,
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenUpdateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenUpdateTransactionBody;
 }
-
-

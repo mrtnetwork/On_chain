@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Un-Pause
@@ -31,17 +32,16 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaTokenUnpauseTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenUnpauseTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * A token identifier.
   ///    * &lt;p&gt;
   ///    * The identified token SHALL be "unpaused". Subsequent transactions
   ///    * involving that token MAY succeed.
   final proto_basic_types.HederaTokenID? token;
 
-  const HederaTokenUnpauseTransactionBody({
-    this.token,
-  });
+  const HederaTokenUnpauseTransactionBody({this.token});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -50,56 +50,57 @@ class HederaTokenUnpauseTransactionBody extends HederaProtoMessage with Equality
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        token,
-      ];
+  List<Object?> get protoValues => [token];
 
-
-HederaTokenUnpauseTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? token,
-
-}) {
-    return HederaTokenUnpauseTransactionBody(
-token: token ?? this.token,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'token': config.encodeMessage(token),
-    };
+  HederaTokenUnpauseTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? token,
+  }) {
+    return HederaTokenUnpauseTransactionBody(token: token ?? this.token);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaTokenUnpauseTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'token': config.encodeMessage(token)};
+  }
+
+  factory HederaTokenUnpauseTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenUnpauseTransactionBody(
       token: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTokenUnpauseTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenUnpauseTransactionBody(
-      token: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
+      token: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenUnpauseTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenUnpauseTransactionBody;
 }
-
-

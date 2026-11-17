@@ -16,19 +16,17 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 /// *
 ///  * A transaction body to publish a node's Common Reference String (CRS) to the network. This is used
 ///  * when node wants to update to reach the final CRS for network to use the hinTS protocol
-class HederaCrsPublicationTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaCrsPublicationTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * The party's generated random CRS.
   final List<int>? newCrs;
 
-    /// *
+  /// *
   ///      * The party's proof of the CRS update.
   final List<int>? proof;
 
-  const HederaCrsPublicationTransactionBody({
-    this.newCrs,
-    this.proof,
-  });
+  const HederaCrsPublicationTransactionBody({this.newCrs, this.proof});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -37,47 +35,48 @@ class HederaCrsPublicationTransactionBody extends HederaProtoMessage with Equali
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-        ProtoFieldConfig.bytes(2),
-      ],
+      fields: [ProtoFieldConfig.bytes(1), ProtoFieldConfig.bytes(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        newCrs,
-        proof,
-      ];
+  List<Object?> get protoValues => [newCrs, proof];
 
+  HederaCrsPublicationTransactionBody copyWith({
+    List<int>? newCrs,
 
-HederaCrsPublicationTransactionBody copyWith(
-{List<int>? newCrs,
-
-List<int>? proof,
-
-}) {
+    List<int>? proof,
+  }) {
     return HederaCrsPublicationTransactionBody(
-newCrs: newCrs ?? this.newCrs,
-proof: proof ?? this.proof,
+      newCrs: newCrs ?? this.newCrs,
+      proof: proof ?? this.proof,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'new_crs': config.encodeBinary(newCrs),
       'proof': config.encodeBinary(proof),
     };
   }
 
-
-  factory HederaCrsPublicationTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCrsPublicationTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCrsPublicationTransactionBody(
-      newCrs: config.decodeBinary<List<int>?>(json.valueAs('new_crs', normalizeKeyLookup: config.normalizeKeys)),
-      proof: config.decodeBinary<List<int>?>(json.valueAs('proof', normalizeKeyLookup: config.normalizeKeys)),
+      newCrs: config.decodeBinary<List<int>?>(
+        json.valueAs('new_crs', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      proof: config.decodeBinary<List<int>?>(
+        json.valueAs('proof', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -90,8 +89,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiServicesAuxiliaryHintsCrsPublicationTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiServicesAuxiliaryHintsCrsPublicationTransactionBody;
 }
-
-

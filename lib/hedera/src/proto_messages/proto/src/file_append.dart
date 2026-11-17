@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # File Append
@@ -40,7 +41,7 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * None
 class HederaFileAppendTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A file identifier.&lt;br/&gt;
   ///      * This identifies the file to which the `contents` will be appended.
   ///      * &lt;p&gt;
@@ -52,7 +53,7 @@ class HederaFileAppendTransactionBody extends HederaProtoMessage with Equality {
   ///      * The identified file MUST NOT be immutable.
   final proto_basic_types.HederaFileID? fileID;
 
-    /// *
+  /// *
   ///      * An array of bytes to append.&lt;br/&gt;
   ///      * &lt;p&gt;
   ///      * This content SHALL be appended to the identified file if this
@@ -61,10 +62,7 @@ class HederaFileAppendTransactionBody extends HederaProtoMessage with Equality {
   ///      * This field MUST NOT be empty.
   final List<int>? contents;
 
-  const HederaFileAppendTransactionBody({
-    this.fileID,
-    this.contents,
-  });
+  const HederaFileAppendTransactionBody({this.fileID, this.contents});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -73,64 +71,69 @@ class HederaFileAppendTransactionBody extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(2),
-        ProtoFieldConfig.bytes(4),
-      ],
+      fields: [ProtoFieldConfig.message(2), ProtoFieldConfig.bytes(4)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        fileID,
-        contents,
-      ];
+  List<Object?> get protoValues => [fileID, contents];
 
+  HederaFileAppendTransactionBody copyWith({
+    proto_basic_types.HederaFileID? fileID,
 
-HederaFileAppendTransactionBody copyWith(
-{proto_basic_types.HederaFileID? fileID,
-
-List<int>? contents,
-
-}) {
+    List<int>? contents,
+  }) {
     return HederaFileAppendTransactionBody(
-fileID: fileID ?? this.fileID,
-contents: contents ?? this.contents,
+      fileID: fileID ?? this.fileID,
+      contents: contents ?? this.contents,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'fileID': config.encodeMessage(fileID),
       'contents': config.encodeBinary(contents),
     };
   }
 
-
-  factory HederaFileAppendTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaFileAppendTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFileAppendTransactionBody(
       fileID: json.valueTo<proto_basic_types.HederaFileID?, Object>(
         key: 'fileID',
-        parse: (v) => proto_basic_types.HederaFileID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      contents: config.decodeBinary<List<int>?>(json.valueAs('contents', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaFileID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      contents: config.decodeBinary<List<int>?>(
+        json.valueAs('contents', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
   factory HederaFileAppendTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaFileAppendTransactionBody(
-      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(2, (b) => proto_basic_types.HederaFileID.deserialize(b)),
+      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(
+        2,
+        (b) => proto_basic_types.HederaFileID.deserialize(b),
+      ),
       contents: decode.getBytes<List<int>?>(4),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoFileAppendTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoFileAppendTransactionBody;
 }
-
-

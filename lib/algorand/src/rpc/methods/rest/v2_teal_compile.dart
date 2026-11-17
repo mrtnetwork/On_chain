@@ -11,7 +11,8 @@ class AlgoRestRequestTealCompile
   final bool? sourcemap;
   final BuBytes source;
 
-  AlgoRestRequestTealCompile({this.sourcemap, required List<int> source}) : source = source.asImmutableBytes;
+  AlgoRestRequestTealCompile({this.sourcemap, required List<int> source})
+    : source = source.asImmutableBytes;
 
   @override
   String get path => '/v2/teal/compile';

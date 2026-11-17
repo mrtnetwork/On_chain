@@ -47,7 +47,7 @@ enum OnChainErrorType implements BuErrorType {
   const OnChainErrorType(this.id);
   @override
   bool isValid(int? tag) {
-    return values.any((e) => e.id == tag);
+    return id == tag;
   }
 }
 

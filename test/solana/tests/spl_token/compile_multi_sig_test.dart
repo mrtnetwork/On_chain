@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void compileMultiSigTest() {
   group('Solana/SPL Token Compile Multisig', () {
     _v0();
@@ -13,7 +14,6 @@ void compileMultiSigTest() {
 void main() {
   OnChainUtilsTestApi.runTest(compileMultiSigTest, "Compile Multi Sig");
 }
-
 
 void _v0() {
   test('compileV0', () {

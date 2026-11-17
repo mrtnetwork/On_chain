@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
 
 /// *
 ///  * # Network Staking Rewards
@@ -20,14 +21,14 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as 
 ///  * This stores values related to the aggregate staking rewards for all nodes in
 ///  * the network. It is calculated at the beginning of each staking period.
 class HederaNetworkStakingRewards extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A flag indicating that staking rewards are activated on the network.
   ///      * &lt;p&gt;
   ///      * Among other criteria, this is set to true when the balance of 0.0.800
   ///      * (the account that pays rewards) reaches a minimum required balance.
   final bool? stakingRewardsActivated;
 
-    /// *
+  /// *
   ///      * A global snapshot of the `stake_to_reward` value for all nodes at the
   ///      * beginning of the current staking period.
   ///      * &lt;p&gt;
@@ -38,7 +39,7 @@ class HederaNetworkStakingRewards extends HederaProtoMessage with Equality {
   ///      * This value SHALL be reset at the beginning of every staking period.
   final BigInt? totalStakedRewardStart;
 
-    /// *
+  /// *
   ///      * A global snapshot of the `stake` value for all nodes at the beginning of
   ///      * the current staking period.
   ///      * &lt;p&gt;
@@ -48,7 +49,7 @@ class HederaNetworkStakingRewards extends HederaProtoMessage with Equality {
   ///      * This value SHALL be reset at the beginning of every staking period.
   final BigInt? totalStakedStart;
 
-    /// *
+  /// *
   ///      * The total staking rewards, in tinybars, that may be collected by all
   ///      * accounts staking to all nodes after the end of this staking period.
   ///      * &lt;p&gt;
@@ -59,7 +60,7 @@ class HederaNetworkStakingRewards extends HederaProtoMessage with Equality {
   ///      * subtracted from this value.
   final BigInt? pendingRewards;
 
-    /// *
+  /// *
   ///      * The last time a node reward payment was made. This will be set at the
   ///      * end of a staking period.
   final proto_timestamp.HederaTimestamp? lastNodeRewardPaymentsTime;
@@ -91,59 +92,85 @@ class HederaNetworkStakingRewards extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        stakingRewardsActivated,
-        totalStakedRewardStart,
-        totalStakedStart,
-        pendingRewards,
-        lastNodeRewardPaymentsTime,
-      ];
+    stakingRewardsActivated,
+    totalStakedRewardStart,
+    totalStakedStart,
+    pendingRewards,
+    lastNodeRewardPaymentsTime,
+  ];
 
+  HederaNetworkStakingRewards copyWith({
+    bool? stakingRewardsActivated,
 
-HederaNetworkStakingRewards copyWith(
-{bool? stakingRewardsActivated,
+    BigInt? totalStakedRewardStart,
 
-BigInt? totalStakedRewardStart,
+    BigInt? totalStakedStart,
 
-BigInt? totalStakedStart,
+    BigInt? pendingRewards,
 
-BigInt? pendingRewards,
-
-proto_timestamp.HederaTimestamp? lastNodeRewardPaymentsTime,
-
-}) {
+    proto_timestamp.HederaTimestamp? lastNodeRewardPaymentsTime,
+  }) {
     return HederaNetworkStakingRewards(
-stakingRewardsActivated: stakingRewardsActivated ?? this.stakingRewardsActivated,
-totalStakedRewardStart: totalStakedRewardStart ?? this.totalStakedRewardStart,
-totalStakedStart: totalStakedStart ?? this.totalStakedStart,
-pendingRewards: pendingRewards ?? this.pendingRewards,
-lastNodeRewardPaymentsTime: lastNodeRewardPaymentsTime ?? this.lastNodeRewardPaymentsTime,
+      stakingRewardsActivated:
+          stakingRewardsActivated ?? this.stakingRewardsActivated,
+      totalStakedRewardStart:
+          totalStakedRewardStart ?? this.totalStakedRewardStart,
+      totalStakedStart: totalStakedStart ?? this.totalStakedStart,
+      pendingRewards: pendingRewards ?? this.pendingRewards,
+      lastNodeRewardPaymentsTime:
+          lastNodeRewardPaymentsTime ?? this.lastNodeRewardPaymentsTime,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'staking_rewards_activated': stakingRewardsActivated,
       'total_staked_reward_start': config.encodeBigint(totalStakedRewardStart),
       'total_staked_start': config.encodeBigint(totalStakedStart),
       'pending_rewards': config.encodeBigint(pendingRewards),
-      'last_node_reward_payments_time': config.encodeMessage(lastNodeRewardPaymentsTime),
+      'last_node_reward_payments_time': config.encodeMessage(
+        lastNodeRewardPaymentsTime,
+      ),
     };
   }
 
-
-  factory HederaNetworkStakingRewards.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaNetworkStakingRewards.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaNetworkStakingRewards(
-      stakingRewardsActivated: json.valueAsBool<bool?>('staking_rewards_activated', normalizeKeyLookup: config.normalizeKeys),
-      totalStakedRewardStart: json.valueAsBigInt<BigInt?>('total_staked_reward_start', normalizeKeyLookup: config.normalizeKeys),
-      totalStakedStart: json.valueAsBigInt<BigInt?>('total_staked_start', normalizeKeyLookup: config.normalizeKeys),
-      pendingRewards: json.valueAsBigInt<BigInt?>('pending_rewards', normalizeKeyLookup: config.normalizeKeys),
-      lastNodeRewardPaymentsTime: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
-        key: 'last_node_reward_payments_time',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      stakingRewardsActivated: json.valueAsBool<bool?>(
+        'staking_rewards_activated',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      totalStakedRewardStart: json.valueAsBigInt<BigInt?>(
+        'total_staked_reward_start',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      totalStakedStart: json.valueAsBigInt<BigInt?>(
+        'total_staked_start',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      pendingRewards: json.valueAsBigInt<BigInt?>(
+        'pending_rewards',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      lastNodeRewardPaymentsTime: json
+          .valueTo<proto_timestamp.HederaTimestamp?, Object>(
+            key: 'last_node_reward_payments_time',
+            parse:
+                (v) => proto_timestamp.HederaTimestamp.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
@@ -154,13 +181,15 @@ List<dynamic> get variables => protoValues;
       totalStakedRewardStart: decode.getBigInt<BigInt?>(2),
       totalStakedStart: decode.getBigInt<BigInt?>(3),
       pendingRewards: decode.getBigInt<BigInt?>(4),
-      lastNodeRewardPaymentsTime: decode.messageTo<proto_timestamp.HederaTimestamp?>(5, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
+      lastNodeRewardPaymentsTime: decode
+          .messageTo<proto_timestamp.HederaTimestamp?>(
+            5,
+            (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoNetworkStakingRewards;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoNetworkStakingRewards;
 }
-
-

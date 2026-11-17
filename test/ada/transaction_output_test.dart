@@ -3,6 +3,7 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void transactionOutputTest() {
   group('ADA/Transaction Output', _outputs);
 }
@@ -10,7 +11,6 @@ void transactionOutputTest() {
 void main() {
   OnChainUtilsTestApi.runTest(transactionOutputTest, "Transaction Output");
 }
-
 
 void _outputs() {
   test('legacy with data hash', () {

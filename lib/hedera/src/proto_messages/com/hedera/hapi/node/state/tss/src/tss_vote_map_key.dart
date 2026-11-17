@@ -18,7 +18,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  *
 ///  * This key SHALL be used to uniquely identify entries in the Vote Maps.
 class HederaTssVoteMapKey extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A hash of the target roster for the associated value in the map. &lt;br/&gt;
   ///      * This hash uniquely identifies the target roster.
   ///      * &lt;p&gt;
@@ -26,17 +26,14 @@ class HederaTssVoteMapKey extends HederaProtoMessage with Equality {
   ///      * This value MUST contain a valid hash.
   final List<int>? rosterHash;
 
-    /// * The node id of the node that created the TssVote.&lt;br/&gt;
+  /// * The node id of the node that created the TssVote.&lt;br/&gt;
   ///      * This id uniquely identifies the node.
   ///      * &lt;p&gt;
   ///      * This value MUST be set.&lt;br/&gt;
   ///      * This value MUST be a valid node id.
   final BigInt? nodeId;
 
-  const HederaTssVoteMapKey({
-    this.rosterHash,
-    this.nodeId,
-  });
+  const HederaTssVoteMapKey({this.rosterHash, this.nodeId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -45,47 +42,45 @@ class HederaTssVoteMapKey extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-        ProtoFieldConfig.uint64(2),
-      ],
+      fields: [ProtoFieldConfig.bytes(1), ProtoFieldConfig.uint64(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        rosterHash,
-        nodeId,
-      ];
+  List<Object?> get protoValues => [rosterHash, nodeId];
 
-
-HederaTssVoteMapKey copyWith(
-{List<int>? rosterHash,
-
-BigInt? nodeId,
-
-}) {
+  HederaTssVoteMapKey copyWith({List<int>? rosterHash, BigInt? nodeId}) {
     return HederaTssVoteMapKey(
-rosterHash: rosterHash ?? this.rosterHash,
-nodeId: nodeId ?? this.nodeId,
+      rosterHash: rosterHash ?? this.rosterHash,
+      nodeId: nodeId ?? this.nodeId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'roster_hash': config.encodeBinary(rosterHash),
       'node_id': config.encodeBigint(nodeId),
     };
   }
 
-
-  factory HederaTssVoteMapKey.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTssVoteMapKey.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTssVoteMapKey(
-      rosterHash: config.decodeBinary<List<int>?>(json.valueAs('roster_hash', normalizeKeyLookup: config.normalizeKeys)),
-      nodeId: json.valueAsBigInt<BigInt?>('node_id', normalizeKeyLookup: config.normalizeKeys),
+      rosterHash: config.decodeBinary<List<int>?>(
+        json.valueAs('roster_hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      nodeId: json.valueAsBigInt<BigInt?>(
+        'node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -98,8 +93,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeStateTssTssVoteMapKey;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiNodeStateTssTssVoteMapKey;
 }
-
-

@@ -33,20 +33,20 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  *    of the consensus weight of the active roster to ensure that at least 1
 ///  *    honest node has validated the TSS key material.
 class HederaTssVoteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * A hash of the roster containing the node generating this TssVote.
   final List<int>? sourceRosterHash;
 
-    /// *
+  /// *
   ///    * A hash of the roster that this TssVote is for.
   final List<int>? targetRosterHash;
 
-    /// *
+  /// *
   ///    * An identifier (and public key) computed from the TssMessages for the target
   ///    * roster.
   final List<int>? ledgerId;
 
-    /// *
+  /// *
   ///    * A signature produced by the node.
   ///    * &lt;p&gt;
   ///    * This signature SHALL be produced using the node RSA signing key to sign
@@ -54,7 +54,7 @@ class HederaTssVoteTransactionBody extends HederaProtoMessage with Equality {
   ///    * This signature SHALL be used to establish a chain of trust in the ledger id.
   final List<int>? nodeSignature;
 
-    /// *
+  /// *
   ///    * A bit vector of message statuses.
   ///    * &lt;p&gt;
   ///    * #### Example
@@ -97,39 +97,40 @@ class HederaTssVoteTransactionBody extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        sourceRosterHash,
-        targetRosterHash,
-        ledgerId,
-        nodeSignature,
-        tssVote,
-      ];
+    sourceRosterHash,
+    targetRosterHash,
+    ledgerId,
+    nodeSignature,
+    tssVote,
+  ];
 
+  HederaTssVoteTransactionBody copyWith({
+    List<int>? sourceRosterHash,
 
-HederaTssVoteTransactionBody copyWith(
-{List<int>? sourceRosterHash,
+    List<int>? targetRosterHash,
 
-List<int>? targetRosterHash,
+    List<int>? ledgerId,
 
-List<int>? ledgerId,
+    List<int>? nodeSignature,
 
-List<int>? nodeSignature,
-
-List<int>? tssVote,
-
-}) {
+    List<int>? tssVote,
+  }) {
     return HederaTssVoteTransactionBody(
-sourceRosterHash: sourceRosterHash ?? this.sourceRosterHash,
-targetRosterHash: targetRosterHash ?? this.targetRosterHash,
-ledgerId: ledgerId ?? this.ledgerId,
-nodeSignature: nodeSignature ?? this.nodeSignature,
-tssVote: tssVote ?? this.tssVote,
+      sourceRosterHash: sourceRosterHash ?? this.sourceRosterHash,
+      targetRosterHash: targetRosterHash ?? this.targetRosterHash,
+      ledgerId: ledgerId ?? this.ledgerId,
+      nodeSignature: nodeSignature ?? this.nodeSignature,
+      tssVote: tssVote ?? this.tssVote,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'source_roster_hash': config.encodeBinary(sourceRosterHash),
       'target_roster_hash': config.encodeBinary(targetRosterHash),
@@ -139,14 +140,35 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTssVoteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTssVoteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTssVoteTransactionBody(
-      sourceRosterHash: config.decodeBinary<List<int>?>(json.valueAs('source_roster_hash', normalizeKeyLookup: config.normalizeKeys)),
-      targetRosterHash: config.decodeBinary<List<int>?>(json.valueAs('target_roster_hash', normalizeKeyLookup: config.normalizeKeys)),
-      ledgerId: config.decodeBinary<List<int>?>(json.valueAs('ledger_id', normalizeKeyLookup: config.normalizeKeys)),
-      nodeSignature: config.decodeBinary<List<int>?>(json.valueAs('node_signature', normalizeKeyLookup: config.normalizeKeys)),
-      tssVote: config.decodeBinary<List<int>?>(json.valueAs('tss_vote', normalizeKeyLookup: config.normalizeKeys)),
+      sourceRosterHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'source_roster_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      targetRosterHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'target_roster_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      ledgerId: config.decodeBinary<List<int>?>(
+        json.valueAs('ledger_id', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      nodeSignature: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'node_signature',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      tssVote: config.decodeBinary<List<int>?>(
+        json.valueAs('tss_vote', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -162,8 +184,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiServicesAuxiliaryTssTssVoteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiServicesAuxiliaryTssTssVoteTransactionBody;
 }
-
-

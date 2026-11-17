@@ -4,6 +4,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void sec256k1LayoutTest() {
   group('Solana/Secp256k1 Layout', () {
     _test();
@@ -13,7 +14,6 @@ void sec256k1LayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(sec256k1LayoutTest, "Layout");
 }
-
 
 void _test() {
   test('test1', () {

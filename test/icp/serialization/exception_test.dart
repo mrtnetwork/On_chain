@@ -14,47 +14,45 @@ void _expectRoundTrip(BuError error) {
 void icpSerializationExceptionTest() {
   group('ICP/Exception', () {
     test('ICP plugin exception', () {
-    BuErrorCodec.registerTypes(OnChainErrorType.values);
-    _expectRoundTrip(
-      const BuError(
-        OnChainErrorType.icpPlugin,
-        "error",
-        details: {"code": "1"},
-      ),
-    );
-  });
+      BuErrorCodec.registerTypes(OnChainErrorType.values);
+      _expectRoundTrip(
+        const BuError(
+          OnChainErrorType.icpPlugin,
+          "error",
+          details: {"code": "1"},
+        ),
+      );
+    });
 
-  test('ICP address exception', () {
-    _expectRoundTrip(
-      const BuError(
-        OnChainErrorType.icpAddress,
-        "error",
-        details: {"code": "1"},
-      ),
-    );
-  });
-  test('ICP candid exception', () {
-    _expectRoundTrip(
-      const BuError(
-        OnChainErrorType.icpCandid,
-        "error",
-        details: {"code": "1"},
-      ),
-    );
-    _expectRoundTrip(
-      OnChainErrors.icpCandid("decode", reason: "bad"),
-    );
-  });
+    test('ICP address exception', () {
+      _expectRoundTrip(
+        const BuError(
+          OnChainErrorType.icpAddress,
+          "error",
+          details: {"code": "1"},
+        ),
+      );
+    });
+    test('ICP candid exception', () {
+      _expectRoundTrip(
+        const BuError(
+          OnChainErrorType.icpCandid,
+          "error",
+          details: {"code": "1"},
+        ),
+      );
+      _expectRoundTrip(OnChainErrors.icpCandid("decode", reason: "bad"));
+    });
 
-  test('ICP client exception', () {
-    _expectRoundTrip(
-      const BuError(
-        OnChainErrorType.icpClient,
-        "error",
-        details: {"code": "1"},
-      ),
-    );
-  });
+    test('ICP client exception', () {
+      _expectRoundTrip(
+        const BuError(
+          OnChainErrorType.icpClient,
+          "error",
+          details: {"code": "1"},
+        ),
+      );
+    });
   });
 }
 

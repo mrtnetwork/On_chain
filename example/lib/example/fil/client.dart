@@ -8,7 +8,8 @@ LotusProvider lotusClient({
   String url = "https://api.calibration.node.glif.io/rpc/v1",
   String? token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJyZWFkIiwid3JpdGUiLCJzaWduIiwiYWRtaW4iXX0.WDgX-X_yRzwLGCxCYgUlmyh70MCMtP6cHS7wpQNBqrA",
-}) => LotusProvider(ICPHttpService(url, token: null));
+}) =>
+    LotusProvider(ICPHttpService(url, token: null));
 
 class ICPHttpService with LotusServiceProvider {
   ICPHttpService(

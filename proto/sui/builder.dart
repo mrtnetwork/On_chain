@@ -47,15 +47,15 @@ class SuiPackageRegisteryBuilder {
       ' const DefaultSuiProtoTypeUrl({required this.typeUrl, this.serviceUrl});',
     );
     buf.writeln('  static DefaultSuiProtoTypeUrl? fromUrl(String? value) {');
-    buf.writeln(
-      '    return DefaultSuiProtoTypeUrl.values.firstWhereNullable(',
-    );
+    buf.writeln('    return DefaultSuiProtoTypeUrl.values.firstWhereNullable(');
     buf.writeln('      (e) => e.typeUrl == value || e.serviceUrl == value,');
     buf.writeln('  );');
     buf.writeln('  }');
     buf.writeln(' String getServiceUrl() {');
     buf.writeln('    final serviceUrl = this.serviceUrl;');
-    buf.writeln('    if (serviceUrl == null) {throw ItemNotFoundException(); }');
+    buf.writeln(
+      '    if (serviceUrl == null) {throw ItemNotFoundException(); }',
+    );
     buf.writeln('    return serviceUrl;');
     buf.writeln('  }');
     buf.writeln('}');

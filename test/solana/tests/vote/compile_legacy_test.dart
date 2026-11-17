@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void voteCompileLegacyTest() {
   group('Solana/Vote Compile Legacy', () {
     _initializeAccount();
@@ -15,7 +16,6 @@ void voteCompileLegacyTest() {
 void main() {
   OnChainUtilsTestApi.runTest(voteCompileLegacyTest, "Compile Legacy");
 }
-
 
 void _initializeAccount() {
   test('initializeAccount', () {

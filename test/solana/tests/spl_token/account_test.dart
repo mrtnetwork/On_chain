@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../utils.dart';
+
 void accountTest() {
   _transferConfigAccount();
   group('Solana/SPL Token', () {
@@ -15,7 +16,6 @@ void accountTest() {
 void main() {
   OnChainUtilsTestApi.runTest(accountTest, "Account");
 }
-
 
 void _mintAccount() {
   test('mint', () {

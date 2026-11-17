@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void signingTest() {
   group('Aptos/Signing', _test);
 }
@@ -10,7 +11,6 @@ void signingTest() {
 void main() {
   OnChainUtilsTestApi.runTest(signingTest, "Signing");
 }
-
 
 void _test() {
   test("aptos Ed25519 signing test", () {

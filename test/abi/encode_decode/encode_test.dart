@@ -3,26 +3,29 @@ import 'package:on_chain/solidity/solidity.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 void encodeTest() {
   group('ABI/EncodeDecode/Encode', () {
-  test('ABI encode/encodedPaded', () {
-    for (final i in _testVector) {
-      final abiEncode = ABIUtils.encode(types: i["types"], params: i["values"]);
-      final abiEncodePacked = ABIUtils.encodePacked(
-        types: i["types"],
-        params: i["values"],
-      );
-      expect(abiEncode, BytesUtils.fromHexString(i["abiEncode"]));
-      expect(abiEncodePacked, BytesUtils.fromHexString(i["abiEncodePacked"]));
-    }
-  });
+    test('ABI encode/encodedPaded', () {
+      for (final i in _testVector) {
+        final abiEncode = ABIUtils.encode(
+          types: i["types"],
+          params: i["values"],
+        );
+        final abiEncodePacked = ABIUtils.encodePacked(
+          types: i["types"],
+          params: i["values"],
+        );
+        expect(abiEncode, BytesUtils.fromHexString(i["abiEncode"]));
+        expect(abiEncodePacked, BytesUtils.fromHexString(i["abiEncodePacked"]));
+      }
+    });
   });
 }
 
 void main() {
   OnChainUtilsTestApi.runTest(encodeTest, "Encode");
 }
-
 
 const List<Map<String, dynamic>> _testVector = [
   {

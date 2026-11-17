@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import '../utils.dart';
 
 import '../../../utils.dart';
+
 void nameServiceCompileLegacyTest() {
   group('Solana/Name Service Compile Legacy', () {
     _create();
@@ -16,7 +17,6 @@ void nameServiceCompileLegacyTest() {
 void main() {
   OnChainUtilsTestApi.runTest(nameServiceCompileLegacyTest, "Compile Legacy");
 }
-
 
 void _create() {
   test('create', () {

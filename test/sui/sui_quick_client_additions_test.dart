@@ -5,6 +5,7 @@
 // VM-only: reads fixture files via `dart:io` (same as `sui_fixtures_test`).
 @TestOn('vm')
 library;
+
 import 'dart:async';
 import 'package:on_chain/exception/onchain_error.dart';
 import 'dart:io';
@@ -15,7 +16,8 @@ import 'package:test/test.dart';
 
 import '../utils.dart';
 
-const String _owner = '0x0000000000000000000000000000000000000000000000000000000000000001';
+const String _owner =
+    '0x0000000000000000000000000000000000000000000000000000000000000001';
 
 Map<String, dynamic> _txFixture() {
   final raw = File('test/sui/test_vectors/live/tx.json').readAsStringSync();
@@ -122,14 +124,12 @@ void suiQuickClientAdditionsTest() {
         ).toBuffer().toList();
       });
       final pages =
-          await quick
-              .watchAccountBalances(SuiAddress(_owner))
-              .toList();
+          await quick.watchAccountBalances(SuiAddress(_owner)).toList();
       expect(pages.length, 2);
-      expect(
-        pages.expand((e) => e).map((e) => e.balance),
-        [BigInt.from(100), BigInt.from(50)],
-      );
+      expect(pages.expand((e) => e).map((e) => e.balance), [
+        BigInt.from(100),
+        BigInt.from(50),
+      ]);
     });
 
     test('watchAccountCoins streams filtered pages', () async {
@@ -181,131 +181,142 @@ void suiQuickClientAdditionsTest() {
       );
     });
 
-    test('dryRun applies safe budget, throws on failure',
-        skip: !native ? 'filesystem fixtures unavailable' : null, () async {
-      Map<String, dynamic> dryRun({required bool success}) {
-        final tx = _txFixture();
-        final effects = Map<String, dynamic>.from(tx['effects'] as Map);
-        effects['status'] = {'status': success ? 'success' : 'failure'};
-        return {
-          'effects': effects,
-          'balanceChanges': [],
-          'events': [],
-          'input': {
-            'sender': _owner,
-            'gasData': {
-              'budget': '1',
-              'owner': _owner,
-              'payment': [],
-              'price': '1',
+    test(
+      'dryRun applies safe budget, throws on failure',
+      skip: !native ? 'filesystem fixtures unavailable' : null,
+      () async {
+        Map<String, dynamic> dryRun({required bool success}) {
+          final tx = _txFixture();
+          final effects = Map<String, dynamic>.from(tx['effects'] as Map);
+          effects['status'] = {'status': success ? 'success' : 'failure'};
+          return {
+            'effects': effects,
+            'balanceChanges': [],
+            'events': [],
+            'input': {
+              'sender': _owner,
+              'gasData': {
+                'budget': '1',
+                'owner': _owner,
+                'payment': [],
+                'price': '1',
+              },
+              'transaction': {'kind': 'Genesis', 'objects': []},
             },
-            'transaction': {'kind': 'Genesis', 'objects': []},
-          },
-          'objectChanges': [],
-        };
-      }
+            'objectChanges': [],
+          };
+        }
 
-      final quick = _quick(
-        respondJson: (method) => dryRun(success: true),
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      final budgeted = await quick.dryRun(_tx());
-      // 175000 + 1000*1000 + 23955200 - 23715648 = 1414552.
-      expect(budgeted.gasData.budget, BigInt.from(1414552));
+        final quick = _quick(
+          respondJson: (method) => dryRun(success: true),
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        final budgeted = await quick.dryRun(_tx());
+        // 175000 + 1000*1000 + 23955200 - 23715648 = 1414552.
+        expect(budgeted.gasData.budget, BigInt.from(1414552));
 
-      final failing = _quick(
-        respondJson: (method) => dryRun(success: false),
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      expect(
-        () => failing.dryRun(_tx()),
-        throwsA(isA<BuError>()),
-      );
-    });
+        final failing = _quick(
+          respondJson: (method) => dryRun(success: false),
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        expect(() => failing.dryRun(_tx()), throwsA(isA<BuError>()));
+      },
+    );
 
-    test('sendTransaction returns digest, throws on failure',
-        skip: !native ? 'filesystem fixtures unavailable' : null, () async {
-      final tx = _txFixture();
-      final quick = _quick(
-        respondJson: (method) => tx,
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      expect(
-        await quick.sendTransaction(transaction: _tx(), signatures: ['sig']),
-        tx['digest'],
-      );
+    test(
+      'sendTransaction returns digest, throws on failure',
+      skip: !native ? 'filesystem fixtures unavailable' : null,
+      () async {
+        final tx = _txFixture();
+        final quick = _quick(
+          respondJson: (method) => tx,
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        expect(
+          await quick.sendTransaction(transaction: _tx(), signatures: ['sig']),
+          tx['digest'],
+        );
 
-      Map<String, dynamic> failedTx() {
-        final copy = Map<String, dynamic>.from(tx);
-        final effects = Map<String, dynamic>.from(tx['effects'] as Map);
-        effects['status'] = {'status': 'failure'};
-        copy['effects'] = effects;
-        return copy;
-      }
+        Map<String, dynamic> failedTx() {
+          final copy = Map<String, dynamic>.from(tx);
+          final effects = Map<String, dynamic>.from(tx['effects'] as Map);
+          effects['status'] = {'status': 'failure'};
+          copy['effects'] = effects;
+          return copy;
+        }
 
-      final failing = _quick(
-        respondJson: (method) => failedTx(),
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      expect(
-        () => failing.sendTransaction(transaction: _tx(), signatures: ['sig']),
-        throwsA(isA<BuError>()),
-      );
-    });
+        final failing = _quick(
+          respondJson: (method) => failedTx(),
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        expect(
+          () =>
+              failing.sendTransaction(transaction: _tx(), signatures: ['sig']),
+          throwsA(isA<BuError>()),
+        );
+      },
+    );
 
-    test('trackTransaction completes, times out otherwise',
-        skip: !native ? 'filesystem fixtures unavailable' : null, () async {
-      final tx = _txFixture();
-      final quick = _quick(
-        respondJson: (method) => tx,
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      await quick.trackTransaction(
-        transactionId: 'digest',
-        periodicTimeOut: const Duration(milliseconds: 10),
-      );
-
-      final never = _quick(
-        respondJson:
-            (method) => throw const BuError(OnChainErrorType.suiPlugin, 'node down'),
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      expect(
-        () => never.trackTransaction(
+    test(
+      'trackTransaction completes, times out otherwise',
+      skip: !native ? 'filesystem fixtures unavailable' : null,
+      () async {
+        final tx = _txFixture();
+        final quick = _quick(
+          respondJson: (method) => tx,
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        await quick.trackTransaction(
           transactionId: 'digest',
-          timeout: const Duration(milliseconds: 50),
           periodicTimeOut: const Duration(milliseconds: 10),
-        ),
-        throwsA(isA<BuError>()),
-      );
-    });
+        );
 
-    test('getTransactionStatus maps effects',
-        skip: !native ? 'filesystem fixtures unavailable' : null, () async {
-      final tx = _txFixture();
-      final quick = _quick(
-        respondJson: (method) => tx,
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      expect(await quick.getTransactionStatus('digest'), SuiTxStatus.block);
+        final never = _quick(
+          respondJson:
+              (method) =>
+                  throw const BuError(OnChainErrorType.suiPlugin, 'node down'),
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        expect(
+          () => never.trackTransaction(
+            transactionId: 'digest',
+            timeout: const Duration(milliseconds: 50),
+            periodicTimeOut: const Duration(milliseconds: 10),
+          ),
+          throwsA(isA<BuError>()),
+        );
+      },
+    );
 
-      Map<String, dynamic> failedTx() {
-        final copy = Map<String, dynamic>.from(tx);
-        final effects = Map<String, dynamic>.from(tx['effects'] as Map);
-        effects['status'] = {'status': 'failure'};
-        copy['effects'] = effects;
-        return copy;
-      }
+    test(
+      'getTransactionStatus maps effects',
+      skip: !native ? 'filesystem fixtures unavailable' : null,
+      () async {
+        final tx = _txFixture();
+        final quick = _quick(
+          respondJson: (method) => tx,
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        expect(await quick.getTransactionStatus('digest'), SuiTxStatus.block);
 
-      final failing = _quick(
-        respondJson: (method) => failedTx(),
-        respondGrpc: (method) => throw StateError('grpc unused'),
-      );
-      expect(
-        await failing.getTransactionStatus('digest'),
-        SuiTxStatus.failed,
-      );
-    });
+        Map<String, dynamic> failedTx() {
+          final copy = Map<String, dynamic>.from(tx);
+          final effects = Map<String, dynamic>.from(tx['effects'] as Map);
+          effects['status'] = {'status': 'failure'};
+          copy['effects'] = effects;
+          return copy;
+        }
+
+        final failing = _quick(
+          respondJson: (method) => failedTx(),
+          respondGrpc: (method) => throw StateError('grpc unused'),
+        );
+        expect(
+          await failing.getTransactionStatus('digest'),
+          SuiTxStatus.failed,
+        );
+      },
+    );
 
     test('getBlockHeight parses checkpoint sequence', () async {
       final quick = _quick(
@@ -318,5 +329,8 @@ void suiQuickClientAdditionsTest() {
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(suiQuickClientAdditionsTest, 'Sui Quick Additions');
+  OnChainUtilsTestApi.runTest(
+    suiQuickClientAdditionsTest,
+    'Sui Quick Additions',
+  );
 }

@@ -3,6 +3,7 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void plutusTest() {
   group('ADA/Plutus', () {
     _plutusDataDetailedSerialization();
@@ -22,7 +23,6 @@ void plutusTest() {
 void main() {
   OnChainUtilsTestApi.runTest(plutusTest, "Plutus");
 }
-
 
 void _constrPlutusDataHash() {
   test('ConstrPlutusData hash', () {

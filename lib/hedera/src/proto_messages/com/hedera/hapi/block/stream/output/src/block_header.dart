@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
 
 /// *
 ///  * # Block Header
@@ -46,18 +48,18 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as 
 ///  * `hash_algorithm` MAY be _transmitted_ as a default value to improve
 ///  * data efficiency.
 class HederaBlockHeader extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A version of the HAPI specification.&lt;br/&gt;
   ///      * This is the API version that was used to serialize the block.
   final proto_basic_types.HederaSemanticVersion? hapiProtoVersion;
 
-    /// *
+  /// *
   ///      * A version of the consensus node software.&lt;br/&gt;
   ///      * This is the software version that executed the transactions
   ///      * within this block.
   final proto_basic_types.HederaSemanticVersion? softwareVersion;
 
-    /// *
+  /// *
   ///      * A block number for this block.
   ///      * &lt;p&gt;
   ///      * This value MUST be exactly `1` more than the previous block.&lt;br/&gt;
@@ -66,7 +68,7 @@ class HederaBlockHeader extends HederaProtoMessage with Equality {
   ///      * encountered data loss, data corruption, or unauthorized modification.
   final BigInt? number;
 
-    /// *
+  /// *
   ///      * The timestamp for this block.&lt;br/&gt;
   ///      * The block timestamp is the consensus time stamp of the first round
   ///      * in the block.
@@ -88,7 +90,7 @@ class HederaBlockHeader extends HederaProtoMessage with Equality {
   ///      * &lt;/ul&gt;
   final proto_timestamp.HederaTimestamp? blockTimestamp;
 
-    /// *
+  /// *
   ///      * A hash algorithm used for this block, including the block proof.
   ///      * &lt;p&gt;
   ///      * This SHOULD always be `SHA2_384`, currently.
@@ -121,39 +123,40 @@ class HederaBlockHeader extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        hapiProtoVersion,
-        softwareVersion,
-        number,
-        blockTimestamp,
-        hashAlgorithm,
-      ];
+    hapiProtoVersion,
+    softwareVersion,
+    number,
+    blockTimestamp,
+    hashAlgorithm,
+  ];
 
+  HederaBlockHeader copyWith({
+    proto_basic_types.HederaSemanticVersion? hapiProtoVersion,
 
-HederaBlockHeader copyWith(
-{proto_basic_types.HederaSemanticVersion? hapiProtoVersion,
+    proto_basic_types.HederaSemanticVersion? softwareVersion,
 
-proto_basic_types.HederaSemanticVersion? softwareVersion,
+    BigInt? number,
 
-BigInt? number,
+    proto_timestamp.HederaTimestamp? blockTimestamp,
 
-proto_timestamp.HederaTimestamp? blockTimestamp,
-
-proto_basic_types.HederaBlockHashAlgorithm? hashAlgorithm,
-
-}) {
+    proto_basic_types.HederaBlockHashAlgorithm? hashAlgorithm,
+  }) {
     return HederaBlockHeader(
-hapiProtoVersion: hapiProtoVersion ?? this.hapiProtoVersion,
-softwareVersion: softwareVersion ?? this.softwareVersion,
-number: number ?? this.number,
-blockTimestamp: blockTimestamp ?? this.blockTimestamp,
-hashAlgorithm: hashAlgorithm ?? this.hashAlgorithm,
+      hapiProtoVersion: hapiProtoVersion ?? this.hapiProtoVersion,
+      softwareVersion: softwareVersion ?? this.softwareVersion,
+      number: number ?? this.number,
+      blockTimestamp: blockTimestamp ?? this.blockTimestamp,
+      hashAlgorithm: hashAlgorithm ?? this.hashAlgorithm,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'hapi_proto_version': config.encodeMessage(hapiProtoVersion),
       'software_version': config.encodeMessage(softwareVersion),
@@ -163,43 +166,79 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaBlockHeader.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaBlockHeader.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBlockHeader(
-      hapiProtoVersion: json.valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
-        key: 'hapi_proto_version',
-        parse: (v) => proto_basic_types.HederaSemanticVersion.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      softwareVersion: json.valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
-        key: 'software_version',
-        parse: (v) => proto_basic_types.HederaSemanticVersion.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      number: json.valueAsBigInt<BigInt?>('number', normalizeKeyLookup: config.normalizeKeys),
+      hapiProtoVersion: json
+          .valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
+            key: 'hapi_proto_version',
+            parse:
+                (v) => proto_basic_types.HederaSemanticVersion.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      softwareVersion: json
+          .valueTo<proto_basic_types.HederaSemanticVersion?, Object>(
+            key: 'software_version',
+            parse:
+                (v) => proto_basic_types.HederaSemanticVersion.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      number: json.valueAsBigInt<BigInt?>(
+        'number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       blockTimestamp: json.valueTo<proto_timestamp.HederaTimestamp?, Object>(
         key: 'block_timestamp',
-        parse: (v) => proto_timestamp.HederaTimestamp.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      hashAlgorithm: json.valueTo<proto_basic_types.HederaBlockHashAlgorithm?, Object?>(
-        key: 'hash_algorithm',
-        parse: (v) => proto_basic_types.HederaBlockHashAlgorithm.from(v),
+        parse:
+            (v) => proto_timestamp.HederaTimestamp.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
       ),
+      hashAlgorithm: json
+          .valueTo<proto_basic_types.HederaBlockHashAlgorithm?, Object?>(
+            key: 'hash_algorithm',
+            parse: (v) => proto_basic_types.HederaBlockHashAlgorithm.from(v),
+          ),
     );
   }
 
   factory HederaBlockHeader.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaBlockHeader(
-      hapiProtoVersion: decode.messageTo<proto_basic_types.HederaSemanticVersion?>(1, (b) => proto_basic_types.HederaSemanticVersion.deserialize(b)),
-      softwareVersion: decode.messageTo<proto_basic_types.HederaSemanticVersion?>(2, (b) => proto_basic_types.HederaSemanticVersion.deserialize(b)),
+      hapiProtoVersion: decode
+          .messageTo<proto_basic_types.HederaSemanticVersion?>(
+            1,
+            (b) => proto_basic_types.HederaSemanticVersion.deserialize(b),
+          ),
+      softwareVersion: decode
+          .messageTo<proto_basic_types.HederaSemanticVersion?>(
+            2,
+            (b) => proto_basic_types.HederaSemanticVersion.deserialize(b),
+          ),
       number: decode.getBigInt<BigInt?>(3),
-      blockTimestamp: decode.messageTo<proto_timestamp.HederaTimestamp?>(4, (b) => proto_timestamp.HederaTimestamp.deserialize(b)),
-      hashAlgorithm: decode.getEnum<proto_basic_types.HederaBlockHashAlgorithm?>(5, proto_basic_types.HederaBlockHashAlgorithm.values),
+      blockTimestamp: decode.messageTo<proto_timestamp.HederaTimestamp?>(
+        4,
+        (b) => proto_timestamp.HederaTimestamp.deserialize(b),
+      ),
+      hashAlgorithm: decode
+          .getEnum<proto_basic_types.HederaBlockHashAlgorithm?>(
+            5,
+            proto_basic_types.HederaBlockHashAlgorithm.values,
+          ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputBlockHeader;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputBlockHeader;
 }
-
-

@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as proto_timestamp;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart"
+    as proto_timestamp;
 
 /// *
 ///  * # System Delete
@@ -49,8 +51,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/timestamp.dart" as 
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaSystemDeleteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaSystemDeleteTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///          * A file identifier.
   ///          * &lt;p&gt;
   ///          * The identified file MUST exist in the HFS.&lt;br/&gt;
@@ -59,7 +62,7 @@ class HederaSystemDeleteTransactionBody extends HederaProtoMessage with Equality
   ///          * This field is REQUIRED.
   final proto_basic_types.HederaFileID? fileID;
 
-    /// *
+  /// *
   ///          * A contract identifier.
   ///          * &lt;p&gt;
   ///          * The identified contract MUST exist in network state.&lt;br/&gt;
@@ -68,7 +71,7 @@ class HederaSystemDeleteTransactionBody extends HederaProtoMessage with Equality
   ///          * This option is _unsupported_.
   final proto_basic_types.HederaContractID? contractID;
 
-    /// *
+  /// *
   ///      * A timestamp indicating when the file will be removed from state.
   ///      * &lt;p&gt;
   ///      * This value SHALL be expressed in seconds since the `epoch`. The `epoch`
@@ -98,32 +101,29 @@ class HederaSystemDeleteTransactionBody extends HederaProtoMessage with Equality
   }
 
   @override
-  List<Object?> get protoValues => [
-        fileID,
-        contractID,
-        expirationTime,
-      ];
+  List<Object?> get protoValues => [fileID, contractID, expirationTime];
 
+  HederaSystemDeleteTransactionBody copyWith({
+    proto_basic_types.HederaFileID? fileID,
 
-HederaSystemDeleteTransactionBody copyWith(
-{proto_basic_types.HederaFileID? fileID,
+    proto_basic_types.HederaContractID? contractID,
 
-proto_basic_types.HederaContractID? contractID,
-
-proto_timestamp.HederaTimestampSeconds? expirationTime,
-
-}) {
+    proto_timestamp.HederaTimestampSeconds? expirationTime,
+  }) {
     return HederaSystemDeleteTransactionBody(
-fileID: fileID ?? this.fileID,
-contractID: contractID ?? this.contractID,
-expirationTime: expirationTime ?? this.expirationTime,
+      fileID: fileID ?? this.fileID,
+      contractID: contractID ?? this.contractID,
+      expirationTime: expirationTime ?? this.expirationTime,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'fileID': config.encodeMessage(fileID),
       'contractID': config.encodeMessage(contractID),
@@ -131,36 +131,61 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaSystemDeleteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaSystemDeleteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaSystemDeleteTransactionBody(
       fileID: json.valueTo<proto_basic_types.HederaFileID?, Object>(
         key: 'fileID',
-        parse: (v) => proto_basic_types.HederaFileID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaFileID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       contractID: json.valueTo<proto_basic_types.HederaContractID?, Object>(
         key: 'contractID',
-        parse: (v) => proto_basic_types.HederaContractID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      expirationTime: json.valueTo<proto_timestamp.HederaTimestampSeconds?, Object>(
-        key: 'expirationTime',
-        parse: (v) => proto_timestamp.HederaTimestampSeconds.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaContractID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      expirationTime: json
+          .valueTo<proto_timestamp.HederaTimestampSeconds?, Object>(
+            key: 'expirationTime',
+            parse:
+                (v) => proto_timestamp.HederaTimestampSeconds.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaSystemDeleteTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaSystemDeleteTransactionBody(
-      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(1, (b) => proto_basic_types.HederaFileID.deserialize(b)),
-      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(2, (b) => proto_basic_types.HederaContractID.deserialize(b)),
-      expirationTime: decode.messageTo<proto_timestamp.HederaTimestampSeconds?>(3, (b) => proto_timestamp.HederaTimestampSeconds.deserialize(b)),
+      fileID: decode.messageTo<proto_basic_types.HederaFileID?>(
+        1,
+        (b) => proto_basic_types.HederaFileID.deserialize(b),
+      ),
+      contractID: decode.messageTo<proto_basic_types.HederaContractID?>(
+        2,
+        (b) => proto_basic_types.HederaContractID.deserialize(b),
+      ),
+      expirationTime: decode.messageTo<proto_timestamp.HederaTimestampSeconds?>(
+        3,
+        (b) => proto_timestamp.HederaTimestampSeconds.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoSystemDeleteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoSystemDeleteTransactionBody;
 }
-
-

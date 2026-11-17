@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Reject
@@ -35,8 +36,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * - Each successful transfer from `payer` to `treasury` SHALL be recorded in
 ///  *   the `token_transfer_list` for the transaction record.
-class HederaTokenRejectTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenRejectTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * An account identifier.&lt;br/&gt;
   ///      * This OPTIONAL field identifies the account holding the
   ///      * tokens to be rejected.
@@ -46,7 +48,7 @@ class HederaTokenRejectTransactionBody extends HederaProtoMessage with Equality 
   ///      * `owner` for this transaction.
   final proto_basic_types.HederaAccountID? owner;
 
-    /// *
+  /// *
   ///      * A list of one or more token rejections.
   ///      * &lt;p&gt;
   ///      * On success each rejected token serial number or balance SHALL be
@@ -83,61 +85,85 @@ class HederaTokenRejectTransactionBody extends HederaProtoMessage with Equality 
   }
 
   @override
-  List<Object?> get protoValues => [
-        owner,
-        rejections,
-      ];
+  List<Object?> get protoValues => [owner, rejections];
 
+  HederaTokenRejectTransactionBody copyWith({
+    proto_basic_types.HederaAccountID? owner,
 
-HederaTokenRejectTransactionBody copyWith(
-{proto_basic_types.HederaAccountID? owner,
-
-List<HederaTokenReference>? rejections,
-
-}) {
+    List<HederaTokenReference>? rejections,
+  }) {
     return HederaTokenRejectTransactionBody(
-owner: owner ?? this.owner,
-rejections: rejections ?? this.rejections,
+      owner: owner ?? this.owner,
+      rejections: rejections ?? this.rejections,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'owner': config.encodeMessage(owner),
       'rejections': rejections.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTokenRejectTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenRejectTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenRejectTransactionBody(
       owner: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'owner',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      rejections: (json.valueEnsureAsList<dynamic>('rejections', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaTokenReference, Object>(
-          value: e,
-          parse: (v) => HederaTokenReference.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      rejections:
+          (json.valueEnsureAsList<dynamic>(
+                'rejections',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaTokenReference, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaTokenReference.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTokenRejectTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenRejectTransactionBody(
-      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      rejections: decode.getListOfBytes(2).map((b) => HederaTokenReference.deserialize(b)).toList(),
+      owner: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      rejections:
+          decode
+              .getListOfBytes(2)
+              .map((b) => HederaTokenReference.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenRejectTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenRejectTransactionBody;
 }
-
 
 /// *
 ///  * A union token identifier.
@@ -145,18 +171,15 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTo
 ///  * Identify a fungible/common token type, or a single
 ///  * non-fungible/unique token serial.
 class HederaTokenReference extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * A fungible/common token type.
   final proto_basic_types.HederaTokenID? fungibleToken;
 
-    /// *
+  /// *
   ///          * A single specific serialized non-fungible/unique token.
   final proto_basic_types.HederaNftID? nft;
 
-  const HederaTokenReference({
-    this.fungibleToken,
-    this.nft,
-  });
+  const HederaTokenReference({this.fungibleToken, this.nft});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -165,67 +188,78 @@ class HederaTokenReference extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        fungibleToken,
-        nft,
-      ];
+  List<Object?> get protoValues => [fungibleToken, nft];
 
+  HederaTokenReference copyWith({
+    proto_basic_types.HederaTokenID? fungibleToken,
 
-HederaTokenReference copyWith(
-{proto_basic_types.HederaTokenID? fungibleToken,
-
-proto_basic_types.HederaNftID? nft,
-
-}) {
+    proto_basic_types.HederaNftID? nft,
+  }) {
     return HederaTokenReference(
-fungibleToken: fungibleToken ?? this.fungibleToken,
-nft: nft ?? this.nft,
+      fungibleToken: fungibleToken ?? this.fungibleToken,
+      nft: nft ?? this.nft,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'fungible_token': config.encodeMessage(fungibleToken),
       'nft': config.encodeMessage(nft),
     };
   }
 
-
-  factory HederaTokenReference.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenReference.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenReference(
       fungibleToken: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'fungible_token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       nft: json.valueTo<proto_basic_types.HederaNftID?, Object>(
         key: 'nft',
-        parse: (v) => proto_basic_types.HederaNftID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaNftID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTokenReference.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenReference(
-      fungibleToken: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      nft: decode.messageTo<proto_basic_types.HederaNftID?>(2, (b) => proto_basic_types.HederaNftID.deserialize(b)),
+      fungibleToken: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      nft: decode.messageTo<proto_basic_types.HederaNftID?>(
+        2,
+        (b) => proto_basic_types.HederaNftID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenReference;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenReference;
 }
-
-

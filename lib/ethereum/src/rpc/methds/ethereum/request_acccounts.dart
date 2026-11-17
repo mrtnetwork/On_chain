@@ -1,7 +1,8 @@
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class EthereumRequestReguestAccounts extends EthereumRequest<List<String>, List> {
+class EthereumRequestReguestAccounts
+    extends EthereumRequest<List<String>, List> {
   EthereumRequestReguestAccounts();
 
   /// eth_requestAccounts

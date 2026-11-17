@@ -21,19 +21,19 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * exist yet (for example, at genesis) then each not-yet-available value SHALL
 ///  * be empty (zero-length) bytes.
 class HederaRunningHashes extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A running hash of all record stream items.
   final List<int>? runningHash;
 
-    /// *
+  /// *
   ///      * The previous running hash of all record stream items.
   final List<int>? nMinus1RunningHash;
 
-    /// *
+  /// *
   ///      * The previous, previous running hash of all record stream items.
   final List<int>? nMinus2RunningHash;
 
-    /// *
+  /// *
   ///      * The previous, previous, previous running hash of all record stream items.
   final List<int>? nMinus3RunningHash;
 
@@ -62,35 +62,36 @@ class HederaRunningHashes extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        runningHash,
-        nMinus1RunningHash,
-        nMinus2RunningHash,
-        nMinus3RunningHash,
-      ];
+    runningHash,
+    nMinus1RunningHash,
+    nMinus2RunningHash,
+    nMinus3RunningHash,
+  ];
 
+  HederaRunningHashes copyWith({
+    List<int>? runningHash,
 
-HederaRunningHashes copyWith(
-{List<int>? runningHash,
+    List<int>? nMinus1RunningHash,
 
-List<int>? nMinus1RunningHash,
+    List<int>? nMinus2RunningHash,
 
-List<int>? nMinus2RunningHash,
-
-List<int>? nMinus3RunningHash,
-
-}) {
+    List<int>? nMinus3RunningHash,
+  }) {
     return HederaRunningHashes(
-runningHash: runningHash ?? this.runningHash,
-nMinus1RunningHash: nMinus1RunningHash ?? this.nMinus1RunningHash,
-nMinus2RunningHash: nMinus2RunningHash ?? this.nMinus2RunningHash,
-nMinus3RunningHash: nMinus3RunningHash ?? this.nMinus3RunningHash,
+      runningHash: runningHash ?? this.runningHash,
+      nMinus1RunningHash: nMinus1RunningHash ?? this.nMinus1RunningHash,
+      nMinus2RunningHash: nMinus2RunningHash ?? this.nMinus2RunningHash,
+      nMinus3RunningHash: nMinus3RunningHash ?? this.nMinus3RunningHash,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'running_hash': config.encodeBinary(runningHash),
       'n_minus_1_running_hash': config.encodeBinary(nMinus1RunningHash),
@@ -99,13 +100,32 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaRunningHashes.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRunningHashes.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRunningHashes(
-      runningHash: config.decodeBinary<List<int>?>(json.valueAs('running_hash', normalizeKeyLookup: config.normalizeKeys)),
-      nMinus1RunningHash: config.decodeBinary<List<int>?>(json.valueAs('n_minus_1_running_hash', normalizeKeyLookup: config.normalizeKeys)),
-      nMinus2RunningHash: config.decodeBinary<List<int>?>(json.valueAs('n_minus_2_running_hash', normalizeKeyLookup: config.normalizeKeys)),
-      nMinus3RunningHash: config.decodeBinary<List<int>?>(json.valueAs('n_minus_3_running_hash', normalizeKeyLookup: config.normalizeKeys)),
+      runningHash: config.decodeBinary<List<int>?>(
+        json.valueAs('running_hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      nMinus1RunningHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'n_minus_1_running_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      nMinus2RunningHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'n_minus_2_running_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      nMinus3RunningHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'n_minus_3_running_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -120,8 +140,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoRunningHashes;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoRunningHashes;
 }
-
-

@@ -7,10 +7,12 @@ import 'package:on_chain/solidity/helper/helper.dart';
 
 /// ERC-721 `tokenURI(tokenId)`. Null when the call reverts, returns empty
 /// data, or the result is not a string.
-class EthereumRequestERC721TokenUri
-    extends EthereumRequest<String?, String?> {
-  EthereumRequestERC721TokenUri(this.contractAddress, this.tokenId,
-      {super.blockNumber = BlockTagOrNumber.latest});
+class EthereumRequestERC721TokenUri extends EthereumRequest<String?, String?> {
+  EthereumRequestERC721TokenUri(
+    this.contractAddress,
+    this.tokenId, {
+    super.blockNumber = BlockTagOrNumber.latest,
+  });
 
   @override
   String get method => EthereumMethods.call.value;
@@ -33,10 +35,9 @@ class EthereumRequestERC721TokenUri
     return [
       {
         "to": contractAddress.toSolidityHex(),
-        "data":
-            BytesUtils.toHexString(_encoder.encode(tokenId), prefix: "0x"),
+        "data": BytesUtils.toHexString(_encoder.encode(tokenId), prefix: "0x"),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

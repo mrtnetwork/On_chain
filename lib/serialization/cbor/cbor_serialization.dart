@@ -12,7 +12,12 @@ enum CborMapEncodingType {
   static CborMapEncodingType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching item found for the given value. $name"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching item found for the given value. $name",
+              ),
     );
   }
 }
@@ -36,7 +41,8 @@ abstract mixin class InternalCborSerialization {
   static T desrialize<T extends CborObject>(List<int> cborBytes) {
     final decode = CborObject.fromCbor(cborBytes);
     if (decode is! T) {
-      throw BuError(DefaultErrorType.badCbor,
+      throw BuError(
+        DefaultErrorType.badCbor,
         'Failed to deserialize CBOR bytes into type.',
         details: {'type': '$T', 'expected': decode.runtimeType.toString()},
       );

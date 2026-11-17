@@ -8,6 +8,7 @@
 // Recapture: `python3 /workspaces/cosmos_sdk/work/.tmp/capture_solana_fixtures.py`
 @TestOn('vm')
 library;
+
 import 'dart:io';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
@@ -15,11 +16,10 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 Map<String, dynamic> _fixtureMap(String name) {
   final file = File('test/solana/test_vectors/live/$name.json');
-  return StringUtils.toJson<Map<String, dynamic>>(
-    file.readAsStringSync(),
-  );
+  return StringUtils.toJson<Map<String, dynamic>>(file.readAsStringSync());
 }
 
 List _fixtureList(String name) {
@@ -66,136 +66,129 @@ void _diffKeys(Object? raw, Object? out, String path, List<String> missing) {
 
 void rpcFixturesTest() {
   group('Solana/RPC Fixtures', () {
-  group('Solana/RPC Fixtures (Offline)', () {
-    test('node: version / identity / snapshot slot round-trip', () {
-      void check<T>(
-        String name,
-        T Function(Map<String, dynamic>) parse,
-        Map<String, dynamic> Function(T) serialize,
-      ) {
-        final raw = _fixtureMap(name);
-        final parsed = parse(raw);
-        final out = serialize(parsed);
-        final missing = <String>[];
-        _diffKeys(raw, out, '', missing);
-        expect(missing, isEmpty, reason: '$name: $missing');
-        parse(out);
-      }
+    group('Solana/RPC Fixtures (Offline)', () {
+      test('node: version / identity / snapshot slot round-trip', () {
+        void check<T>(
+          String name,
+          T Function(Map<String, dynamic>) parse,
+          Map<String, dynamic> Function(T) serialize,
+        ) {
+          final raw = _fixtureMap(name);
+          final parsed = parse(raw);
+          final out = serialize(parsed);
+          final missing = <String>[];
+          _diffKeys(raw, out, '', missing);
+          expect(missing, isEmpty, reason: '$name: $missing');
+          parse(out);
+        }
 
-      check(
-        'version',
-        SolanaVersionResponse.fromJson,
-        (e) => e.toJson(),
-      );
-      check(
-        'identity',
-        SolanaIdentityResponse.fromJson,
-        (e) => e.toJson(),
-      );
-      check(
-        'highest_snapshot_slot',
-        HighestSnapshotSlotResponse.fromJson,
-        (e) => e.toJson(),
-      );
-    });
+        check('version', SolanaVersionResponse.fromJson, (e) => e.toJson());
+        check('identity', SolanaIdentityResponse.fromJson, (e) => e.toJson());
+        check(
+          'highest_snapshot_slot',
+          HighestSnapshotSlotResponse.fromJson,
+          (e) => e.toJson(),
+        );
+      });
 
-    test('node: primitives decode', () {
-      expect(_fixtureValue('slot'), isA<int>());
-      expect(_fixtureValue('block_height'), isA<int>());
-      expect(_fixtureValue('transaction_count'), isA<int>());
-      expect(_fixtureValue('genesis_hash'), isA<String>());
-      expect(_fixtureValue('first_available_block'), isA<int>());
-      expect(_fixtureValue('max_retransmit_slot'), isA<int>());
-      expect(_fixtureValue('max_shred_insert_slot'), isA<int>());
-      expect(_fixtureValue('minimum_ledger_slot'), isA<int>());
-      expect(_fixtureValue('slot_leader'), isA<String>());
-      expect(_fixtureValue('health'), 'ok');
-      expect(_fixtureValue('rent_exemption_50'), isA<int>());
-      expect(_fixtureValue('stake_minimum_delegation'), isA<int>());
-      expect(_fixtureValue('balance_system'), isA<int>());
-      expect(_fixtureValue('is_blockhash_valid'), isA<bool>());
-    });
+      test('node: primitives decode', () {
+        expect(_fixtureValue('slot'), isA<int>());
+        expect(_fixtureValue('block_height'), isA<int>());
+        expect(_fixtureValue('transaction_count'), isA<int>());
+        expect(_fixtureValue('genesis_hash'), isA<String>());
+        expect(_fixtureValue('first_available_block'), isA<int>());
+        expect(_fixtureValue('max_retransmit_slot'), isA<int>());
+        expect(_fixtureValue('max_shred_insert_slot'), isA<int>());
+        expect(_fixtureValue('minimum_ledger_slot'), isA<int>());
+        expect(_fixtureValue('slot_leader'), isA<String>());
+        expect(_fixtureValue('health'), 'ok');
+        expect(_fixtureValue('rent_exemption_50'), isA<int>());
+        expect(_fixtureValue('stake_minimum_delegation'), isA<int>());
+        expect(_fixtureValue('balance_system'), isA<int>());
+        expect(_fixtureValue('is_blockhash_valid'), isA<bool>());
+      });
 
-    test('blockhash / supply / inflation / epoch parse', () {
-      BlockhashWithExpiryBlockHeight.fromJson(_fixtureMap('latest_blockhash'));
-      SupplyResponse.fromJson(_fixtureMap('supply'));
-      InflationGovernor.fromJson(_fixtureMap('inflation_governor'));
-      InflationRate.fromJson(_fixtureMap('inflation_rate'));
-      EpochInfo.fromJson(_fixtureMap('epoch_info'));
-      EpochSchedule.fromJson(_fixtureMap('epoch_schedule'));
-    });
+      test('blockhash / supply / inflation / epoch parse', () {
+        BlockhashWithExpiryBlockHeight.fromJson(
+          _fixtureMap('latest_blockhash'),
+        );
+        SupplyResponse.fromJson(_fixtureMap('supply'));
+        InflationGovernor.fromJson(_fixtureMap('inflation_governor'));
+        InflationRate.fromJson(_fixtureMap('inflation_rate'));
+        EpochInfo.fromJson(_fixtureMap('epoch_info'));
+        EpochSchedule.fromJson(_fixtureMap('epoch_schedule'));
+      });
 
-    test('accounts round-trip', () {
-      for (final name in ['account_info_system', 'account_info_usdc_mint']) {
-        final raw = _fixtureMap(name);
-        final parsed = SolanaAccountInfo.fromJson(raw);
-        final out = parsed.toJson();
-        final missing = <String>[];
-        _diffKeys(raw, out, '', missing);
-        expect(missing, isEmpty, reason: '$name: $missing');
-        SolanaAccountInfo.fromJson(out);
-      }
-      final multi = _fixtureList('multiple_accounts');
-      expect(multi.length, 2);
-      for (final e in multi) {
-        SolanaAccountInfo.fromJson((e as Map).cast<String, dynamic>());
-      }
-    });
+      test('accounts round-trip', () {
+        for (final name in ['account_info_system', 'account_info_usdc_mint']) {
+          final raw = _fixtureMap(name);
+          final parsed = SolanaAccountInfo.fromJson(raw);
+          final out = parsed.toJson();
+          final missing = <String>[];
+          _diffKeys(raw, out, '', missing);
+          expect(missing, isEmpty, reason: '$name: $missing');
+          SolanaAccountInfo.fromJson(out);
+        }
+        final multi = _fixtureList('multiple_accounts');
+        expect(multi.length, 2);
+        for (final e in multi) {
+          SolanaAccountInfo.fromJson((e as Map).cast<String, dynamic>());
+        }
+      });
 
-    test('tokens parse', () {
-      TokenAmoutResponse.fromJson(_fixtureMap('token_supply'));
-    });
+      test('tokens parse', () {
+        TokenAmoutResponse.fromJson(_fixtureMap('token_supply'));
+      });
 
-    test('signatures round-trip', () {
-      final sigs = _fixtureList('signatures');
-      expect(sigs, isNotEmpty);
-      for (final e in sigs) {
-        final raw = (e as Map).cast<String, dynamic>();
-        final parsed = ConfirmedSignatureInfo.fromJson(raw);
-        final out = parsed.toJson();
-        final missing = <String>[];
-        _diffKeys(raw, out, '', missing);
-        expect(missing, isEmpty, reason: 'signatures: $missing');
-        ConfirmedSignatureInfo.fromJson(out);
-      }
-      for (final e in _unwrapList('signature_statuses')) {
-        if (e == null) continue;
-        SignatureStatus.fromJson((e as Map).cast<String, dynamic>());
-      }
-    });
+      test('signatures round-trip', () {
+        final sigs = _fixtureList('signatures');
+        expect(sigs, isNotEmpty);
+        for (final e in sigs) {
+          final raw = (e as Map).cast<String, dynamic>();
+          final parsed = ConfirmedSignatureInfo.fromJson(raw);
+          final out = parsed.toJson();
+          final missing = <String>[];
+          _diffKeys(raw, out, '', missing);
+          expect(missing, isEmpty, reason: 'signatures: $missing');
+          ConfirmedSignatureInfo.fromJson(out);
+        }
+        for (final e in _unwrapList('signature_statuses')) {
+          if (e == null) continue;
+          SignatureStatus.fromJson((e as Map).cast<String, dynamic>());
+        }
+      });
 
-    test('transactions parse (jsonParsed + json)', () {
-      for (final name in ['tx_jsonparsed', 'tx_json']) {
-        final raw = _fixtureMap(name);
-        final parsed = VersionedTransactionResponse.fromJson(raw);
-        expect(parsed.transaction, isNotNull);
-        expect(parsed.meta, isNotNull);
-      }
-      // Parsed-shape content must survive, not just not-crash.
-      final parsedTx = VersionedTransactionResponse.fromJson(
-        _fixtureMap('tx_jsonparsed'),
-      );
-      final withParsed =
-          parsedTx.transaction?.message.compiledInstructions
-              .where((e) => e.parsed != null)
-              .toList() ??
-          [];
-      expect(withParsed, isNotEmpty);
-      final innerParsed =
-          parsedTx.meta?.innerInstructions
-              ?.expand((e) => e.parsedInstructions)
-              .toList() ??
-          [];
-      expect(innerParsed, isNotEmpty);
-      for (final p in innerParsed) {
-        expect(p.programId.address, isNotEmpty);
-      }
+      test('transactions parse (jsonParsed + json)', () {
+        for (final name in ['tx_jsonparsed', 'tx_json']) {
+          final raw = _fixtureMap(name);
+          final parsed = VersionedTransactionResponse.fromJson(raw);
+          expect(parsed.transaction, isNotNull);
+          expect(parsed.meta, isNotNull);
+        }
+        // Parsed-shape content must survive, not just not-crash.
+        final parsedTx = VersionedTransactionResponse.fromJson(
+          _fixtureMap('tx_jsonparsed'),
+        );
+        final withParsed =
+            parsedTx.transaction?.message.compiledInstructions
+                .where((e) => e.parsed != null)
+                .toList() ??
+            [];
+        expect(withParsed, isNotEmpty);
+        final innerParsed =
+            parsedTx.meta?.innerInstructions
+                ?.expand((e) => e.parsedInstructions)
+                .toList() ??
+            [];
+        expect(innerParsed, isNotEmpty);
+        for (final p in innerParsed) {
+          expect(p.programId.address, isNotEmpty);
+        }
+      });
     });
-  });
   }, skip: !native ? 'filesystem fixtures unavailable' : null);
 }
 
 void main() {
   OnChainUtilsTestApi.runTest(rpcFixturesTest, "Rpc Fixtures");
 }
-

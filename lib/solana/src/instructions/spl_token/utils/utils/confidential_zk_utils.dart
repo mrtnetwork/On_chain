@@ -144,7 +144,9 @@ class SolanaConfidentialZkUtils {
     if (proofOffset == 0) return transferInstructionIndex;
     final resolved = transferInstructionIndex + proofOffset;
     if (resolved < 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 'proofInstructionOffset resolves before index 0.',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'proofInstructionOffset resolves before index 0.',
       );
     }
     return resolved;

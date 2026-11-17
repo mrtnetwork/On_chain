@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Unfreeze
@@ -35,8 +36,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaTokenUnfreezeAccountTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenUnfreezeAccountTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * A token identifier.
   ///      * &lt;p&gt;
   ///      * This SHALL identify the token type to "unfreeze".&lt;br/&gt;
@@ -44,7 +46,7 @@ class HederaTokenUnfreezeAccountTransactionBody extends HederaProtoMessage with 
   ///      * associated to the identified account.
   final proto_basic_types.HederaTokenID? token;
 
-    /// *
+  /// *
   ///      * An account identifier.
   ///      * &lt;p&gt;
   ///      * This shall identify the account to "unfreeze".&lt;br/&gt;
@@ -54,10 +56,7 @@ class HederaTokenUnfreezeAccountTransactionBody extends HederaProtoMessage with 
   ///      * identified token.
   final proto_basic_types.HederaAccountID? account;
 
-  const HederaTokenUnfreezeAccountTransactionBody({
-    this.token,
-    this.account,
-  });
+  const HederaTokenUnfreezeAccountTransactionBody({this.token, this.account});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -66,67 +65,80 @@ class HederaTokenUnfreezeAccountTransactionBody extends HederaProtoMessage with 
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        token,
-        account,
-      ];
+  List<Object?> get protoValues => [token, account];
 
+  HederaTokenUnfreezeAccountTransactionBody copyWith({
+    proto_basic_types.HederaTokenID? token,
 
-HederaTokenUnfreezeAccountTransactionBody copyWith(
-{proto_basic_types.HederaTokenID? token,
-
-proto_basic_types.HederaAccountID? account,
-
-}) {
+    proto_basic_types.HederaAccountID? account,
+  }) {
     return HederaTokenUnfreezeAccountTransactionBody(
-token: token ?? this.token,
-account: account ?? this.account,
+      token: token ?? this.token,
+      account: account ?? this.account,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'token': config.encodeMessage(token),
       'account': config.encodeMessage(account),
     };
   }
 
-
-  factory HederaTokenUnfreezeAccountTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenUnfreezeAccountTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenUnfreezeAccountTransactionBody(
       token: json.valueTo<proto_basic_types.HederaTokenID?, Object>(
         key: 'token',
-        parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTokenID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
       account: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'account',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
-  factory HederaTokenUnfreezeAccountTransactionBody.deserialize(List<int> bytes) {
+  factory HederaTokenUnfreezeAccountTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenUnfreezeAccountTransactionBody(
-      token: decode.messageTo<proto_basic_types.HederaTokenID?>(1, (b) => proto_basic_types.HederaTokenID.deserialize(b)),
-      account: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      token: decode.messageTo<proto_basic_types.HederaTokenID?>(
+        1,
+        (b) => proto_basic_types.HederaTokenID.deserialize(b),
+      ),
+      account: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenUnfreezeAccountTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenUnfreezeAccountTransactionBody;
 }
-
-

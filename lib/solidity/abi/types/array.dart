@@ -13,7 +13,10 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
         encodedParams.isNotEmpty && encodedParams.first.isDynamic;
     final bool isDynamic = param.$2 == -1;
     if (!isDynamic && input.length != param.$2) {
-      throw const BuError(DefaultErrorType.invalidLength,'Invalid argument length detected.');
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Invalid argument length detected.',
+      );
     }
     if (isDynamic || dynamicItems) {
       final encode = ABIUtils._encodeDynamicParams(encodedParams);

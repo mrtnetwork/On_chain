@@ -3,6 +3,7 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void auxiliaryDataSerializationTest() {
   group('ADA/AuxiliaryData Serialization', () {
     _auxiliaryDataSerialization();
@@ -12,9 +13,11 @@ void auxiliaryDataSerializationTest() {
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(auxiliaryDataSerializationTest, "Auxiliary Data Serialization");
+  OnChainUtilsTestApi.runTest(
+    auxiliaryDataSerializationTest,
+    "Auxiliary Data Serialization",
+  );
 }
-
 
 void _auxiliaryDataSerialization() {
   test('AuxiliaryData_1', () {

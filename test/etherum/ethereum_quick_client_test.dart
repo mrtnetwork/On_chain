@@ -184,10 +184,7 @@ void ethereumQuickClientTest() {
       expect(await quick.isContract(ETHAddress(_contract)), isTrue);
       expect(await quick.getChainId(), BigInt.one);
       expect(await quick.validateChainId(expectedChainId: BigInt.one), isTrue);
-      expect(
-        await quick.validateChainId(expectedChainId: BigInt.two),
-        isFalse,
-      );
+      expect(await quick.validateChainId(expectedChainId: BigInt.two), isFalse);
       expect(await quick.getBalance(ETHAddress(_account)), BigInt.from(1000));
 
       final empty = _quick((p) => _ok(p, null));
@@ -390,14 +387,8 @@ void ethereumQuickClientTest() {
         ),
         isNull,
       );
-      expect(
-        await revert.getERC20Name(ETHAddress(_contract)),
-        isNull,
-      );
-      expect(
-        await revert.getERC20Symbol(ETHAddress(_contract)),
-        isNull,
-      );
+      expect(await revert.getERC20Name(ETHAddress(_contract)), isNull);
+      expect(await revert.getERC20Symbol(ETHAddress(_contract)), isNull);
     });
 
     test('findInboundHoldings classifies 3-topic and 4-topic logs', () async {
@@ -449,9 +440,7 @@ void ethereumQuickClientTest() {
               'topics': [
                 const ERC1155TransferSingleDecoder().signatureHex,
                 encAddr(_account),
-                encAddr(
-                  '0x0000000000000000000000000000000000000003',
-                ),
+                encAddr('0x0000000000000000000000000000000000000003'),
                 encAddr(_account),
               ],
               'data': BytesUtils.toHexString(data),
@@ -460,12 +449,13 @@ void ethereumQuickClientTest() {
         }
         return _ok(p, _uintWord(BigInt.from(2)));
       });
-      final legs = await quick
-          .watchERC1155TokenIds(
-            contract: ETHAddress(_contract),
-            owner: ETHAddress(_account),
-          )
-          .toList();
+      final legs =
+          await quick
+              .watchERC1155TokenIds(
+                contract: ETHAddress(_contract),
+                owner: ETHAddress(_account),
+              )
+              .toList();
       expect(legs.expand((e) => e), contains(BigInt.one));
     });
 
@@ -569,8 +559,8 @@ void ethereumQuickClientTest() {
         operator: to,
         approved: true,
       );
-      final decodedApproval =
-          const ERC1155SetApprovalForAllEncoder().decodeInput(approvalForAll);
+      final decodedApproval = const ERC1155SetApprovalForAllEncoder()
+          .decodeInput(approvalForAll);
       expect(decodedApproval.operator.address, to.address);
       expect(decodedApproval.approved, isTrue);
 

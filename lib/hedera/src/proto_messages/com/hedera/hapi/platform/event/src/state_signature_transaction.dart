@@ -33,19 +33,19 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * private signing key. This signature, together with the hash SHOULD be added
 ///  * to an event as a StateSignatureTransaction.
 class HederaStateSignatureTransaction extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * The round number corresponding to the round number of the state snapshot
   ///    * being signed.&lt;br/&gt;
   ///    * This number MUST be greater than 0.
   final BigInt? round;
 
-    /// *
+  /// *
   ///    * The signature of state snapshot hash.&lt;br/&gt;
   ///    * This signature MUST be a RSA signature with a maximum length of 384 bytes.&lt;br/&gt;
   ///    * The signature algorithm used MUST be RSASSA-PKCS1-v1_5 with SHA-384.
   final List<int>? signature;
 
-    /// *
+  /// *
   ///    * The hash of the state snapshot being signed.&lt;br/&gt;
   ///    * This hash MUST be a SHA-384 hash.
   final List<int>? hash;
@@ -72,32 +72,29 @@ class HederaStateSignatureTransaction extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        round,
-        signature,
-        hash,
-      ];
+  List<Object?> get protoValues => [round, signature, hash];
 
+  HederaStateSignatureTransaction copyWith({
+    BigInt? round,
 
-HederaStateSignatureTransaction copyWith(
-{BigInt? round,
+    List<int>? signature,
 
-List<int>? signature,
-
-List<int>? hash,
-
-}) {
+    List<int>? hash,
+  }) {
     return HederaStateSignatureTransaction(
-round: round ?? this.round,
-signature: signature ?? this.signature,
-hash: hash ?? this.hash,
+      round: round ?? this.round,
+      signature: signature ?? this.signature,
+      hash: hash ?? this.hash,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'round': config.encodeBigint(round),
       'signature': config.encodeBinary(signature),
@@ -105,12 +102,21 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaStateSignatureTransaction.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaStateSignatureTransaction.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaStateSignatureTransaction(
-      round: json.valueAsBigInt<BigInt?>('round', normalizeKeyLookup: config.normalizeKeys),
-      signature: config.decodeBinary<List<int>?>(json.valueAs('signature', normalizeKeyLookup: config.normalizeKeys)),
-      hash: config.decodeBinary<List<int>?>(json.valueAs('hash', normalizeKeyLookup: config.normalizeKeys)),
+      round: json.valueAsBigInt<BigInt?>(
+        'round',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      signature: config.decodeBinary<List<int>?>(
+        json.valueAs('signature', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      hash: config.decodeBinary<List<int>?>(
+        json.valueAs('hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -124,8 +130,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiPlatformEventStateSignatureTransaction;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiPlatformEventStateSignatureTransaction;
 }
-
-

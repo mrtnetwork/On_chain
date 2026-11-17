@@ -11,6 +11,7 @@ enum SuiOwnerOwnerKind implements ProtoEnumVariant {
   consensusAddress(5, 'CONSENSUS_ADDRESS');
 
   const SuiOwnerOwnerKind(this.value, this.protoName);
+
   /// The original proto wire value for this enum constant.
   @override
   final int value;
@@ -21,25 +22,41 @@ enum SuiOwnerOwnerKind implements ProtoEnumVariant {
 
   /// Looks up a value by its proto wire int. Throws if not found.
   static SuiOwnerOwnerKind fromValue(int? value) {
-    value ??=0;
+    value ??= 0;
     return SuiOwnerOwnerKind.values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching SuiOwnerOwnerKind found for the given value. $value", details: {"name": "SuiOwnerOwnerKind", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiOwnerOwnerKind found for the given value. $value",
+                details: {
+                  "name": "SuiOwnerOwnerKind",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
   /// Looks up a value by wire int, Dart enum name, or original proto
   /// name (whichever [value] happens to be). Throws if not found.
   static SuiOwnerOwnerKind from(Object? value) {
-    value ??=0;
+    value ??= 0;
     return SuiOwnerOwnerKind.values.firstWhere(
       (e) => e.value == value || e.name == value || e.protoName == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching SuiOwnerOwnerKind found for the given value. $value", details: {"name": "SuiOwnerOwnerKind", "value": value?.toString()})
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SuiOwnerOwnerKind found for the given value. $value",
+                details: {
+                  "name": "SuiOwnerOwnerKind",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
-
 }
-
 
 /// Copyright (c) Mysten Labs, Inc.
 /// SPDX-License-Identifier: Apache-2.0
@@ -47,17 +64,13 @@ enum SuiOwnerOwnerKind implements ProtoEnumVariant {
 class SuiOwner extends SuiProtoMessage {
   final SuiOwnerOwnerKind? kind;
 
-    /// Address or ObjectId of the owner
+  /// Address or ObjectId of the owner
   final String? address;
 
-    /// The `initial_shared_version` if kind is `SHARED` or `start_version` if kind `CONSENSUS_ADDRESS`.
+  /// The `initial_shared_version` if kind is `SHARED` or `start_version` if kind `CONSENSUS_ADDRESS`.
   final BigInt? version;
 
-  const SuiOwner({
-    this.kind,
-    this.address,
-    this.version,
-  });
+  const SuiOwner({this.kind, this.address, this.version});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -75,15 +88,12 @@ class SuiOwner extends SuiProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        kind,
-        address,
-        version,
-      ];
-
+  List<Object?> get protoValues => [kind, address, version];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'kind': config.encodeEnum(kind),
       'address': address,
@@ -91,15 +101,23 @@ class SuiOwner extends SuiProtoMessage {
     };
   }
 
-
-  factory SuiOwner.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiOwner.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiOwner(
       kind: json.valueTo<SuiOwnerOwnerKind?, Object?>(
         key: 'kind',
         parse: (v) => SuiOwnerOwnerKind.from(v),
       ),
-      address: json.valueAsString<String?>('address', normalizeKeyLookup: config.normalizeKeys),
-      version: json.valueAsBigInt<BigInt?>('version', normalizeKeyLookup: config.normalizeKeys),
+      address: json.valueAsString<String?>(
+        'address',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      version: json.valueAsBigInt<BigInt?>(
+        'version',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -113,8 +131,6 @@ class SuiOwner extends SuiProtoMessage {
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.suiRpcV2Owner;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.suiRpcV2Owner;
 }
-
-

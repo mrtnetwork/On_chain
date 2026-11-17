@@ -6,9 +6,10 @@ import 'package:on_chain/solidity/address/core.dart';
 import 'package:on_chain/solidity/helper/helper.dart';
 
 class EthereumRequestERC20Decimals extends EthereumRequest<int?, String> {
-  EthereumRequestERC20Decimals(this.contractAddress,
-      {BlockTagOrNumber? blockNumber})
-      : super(blockNumber: blockNumber ?? BlockTagOrNumber.latest);
+  EthereumRequestERC20Decimals(
+    this.contractAddress, {
+    BlockTagOrNumber? blockNumber,
+  }) : super(blockNumber: blockNumber ?? BlockTagOrNumber.latest);
 
   @override
   String get method => EthereumMethods.call.value;
@@ -30,7 +31,7 @@ class EthereumRequestERC20Decimals extends EthereumRequest<int?, String> {
         "to": contractAddress.toSolidityHex(),
         "data": BytesUtils.toHexString(_encoder.encodeCall(), prefix: "0x"),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

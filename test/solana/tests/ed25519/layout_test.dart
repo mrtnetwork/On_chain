@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void ed25519LayoutTest() {
   group('Solana/Ed25519 Layout', () {
     _ed25519();
@@ -12,7 +13,6 @@ void ed25519LayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(ed25519LayoutTest, "Layout");
 }
-
 
 void _ed25519() {
   test('test1', () {

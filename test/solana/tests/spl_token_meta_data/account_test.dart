@@ -3,6 +3,7 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
 import '../../../utils.dart';
+
 void splTokenMetaDataAccountTest() {
   group('Solana/SPL Token Metadata', () {
     _accountMetaData();
@@ -12,7 +13,6 @@ void splTokenMetaDataAccountTest() {
 void main() {
   OnChainUtilsTestApi.runTest(splTokenMetaDataAccountTest, "Account");
 }
-
 
 void _accountMetaData() {
   test('SPLTokenMetaDataAccount', () {

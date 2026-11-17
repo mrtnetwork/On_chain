@@ -79,7 +79,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 ///  * with nodes that would otherwise be missing replaced by a "null" hash
 ///  * leaf.
 class HederaBlockProof extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The block this proof secures.&lt;br/&gt;
   ///      * We provide this because a proof for a future block can be used to prove
   ///      * the state of the ledger at that block and the blocks before it.&lt;br/&gt;
@@ -88,7 +88,7 @@ class HederaBlockProof extends HederaProtoMessage with Equality {
   ///      * under normal operation.
   final BigInt? block;
 
-    /// *
+  /// *
   ///      * A merkle root hash of the previous block.
   ///      * &lt;p&gt;
   ///      * This MUST contain a hash of the "block" merkle tree root for the
@@ -97,7 +97,7 @@ class HederaBlockProof extends HederaProtoMessage with Equality {
   ///      * block header _for that block_.
   final List<int>? previousBlockRootHash;
 
-    /// *
+  /// *
   ///      * A merkle root hash of the network state.&lt;br/&gt;
   ///      * This is present to support validation of this block proof by clients
   ///      * that do not maintain a full copy of the network state.
@@ -117,7 +117,7 @@ class HederaBlockProof extends HederaProtoMessage with Equality {
   ///      * construct the block merkle tree.
   final List<int>? startOfBlockStateRootHash;
 
-    /// *
+  /// *
   ///      * A TSS signature for one block.&lt;br/&gt;
   ///      * This is a single signature representing the collection of partial
   ///      * signatures from nodes holding strictly greater than 2/3 of the
@@ -137,7 +137,7 @@ class HederaBlockProof extends HederaProtoMessage with Equality {
   ///      * the network public key (a.k.a `LedgerID`).
   final List<int>? blockSignature;
 
-    /// *
+  /// *
   ///      * A set of hash values along with ordering information.&lt;br/&gt;
   ///      * This list of hash values form the set of sibling hash values needed to
   ///      * correctly reconstruct the parent hash, and all hash values "above" that
@@ -165,11 +165,11 @@ class HederaBlockProof extends HederaProtoMessage with Equality {
   ///      * the value of `block_signature`.
   final List<HederaMerkleSiblingHash> siblingHashes;
 
-    /// *
+  /// *
   ///          * The id of the hinTS scheme this signature verifies under.
   final BigInt? schemeId;
 
-    /// *
+  /// *
   ///          * The explicit hinTS key this signature verifies under; useful when
   ///          * the verifier can easily check whether a chain-of-trust proof
   ///          * exists for a key, but does does not have any context of the
@@ -210,71 +210,118 @@ class HederaBlockProof extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        block,
-        previousBlockRootHash,
-        startOfBlockStateRootHash,
-        blockSignature,
-        siblingHashes,
-        schemeId,
-        verificationKey,
-      ];
+    block,
+    previousBlockRootHash,
+    startOfBlockStateRootHash,
+    blockSignature,
+    siblingHashes,
+    schemeId,
+    verificationKey,
+  ];
 
+  HederaBlockProof copyWith({
+    BigInt? block,
 
-HederaBlockProof copyWith(
-{BigInt? block,
+    List<int>? previousBlockRootHash,
 
-List<int>? previousBlockRootHash,
+    List<int>? startOfBlockStateRootHash,
 
-List<int>? startOfBlockStateRootHash,
+    List<int>? blockSignature,
 
-List<int>? blockSignature,
+    List<HederaMerkleSiblingHash>? siblingHashes,
 
-List<HederaMerkleSiblingHash>? siblingHashes,
+    BigInt? schemeId,
 
-BigInt? schemeId,
-
-List<int>? verificationKey,
-
-}) {
+    List<int>? verificationKey,
+  }) {
     return HederaBlockProof(
-block: block ?? this.block,
-previousBlockRootHash: previousBlockRootHash ?? this.previousBlockRootHash,
-startOfBlockStateRootHash: startOfBlockStateRootHash ?? this.startOfBlockStateRootHash,
-blockSignature: blockSignature ?? this.blockSignature,
-siblingHashes: siblingHashes ?? this.siblingHashes,
-schemeId: schemeId ?? this.schemeId,
-verificationKey: verificationKey ?? this.verificationKey,
+      block: block ?? this.block,
+      previousBlockRootHash:
+          previousBlockRootHash ?? this.previousBlockRootHash,
+      startOfBlockStateRootHash:
+          startOfBlockStateRootHash ?? this.startOfBlockStateRootHash,
+      blockSignature: blockSignature ?? this.blockSignature,
+      siblingHashes: siblingHashes ?? this.siblingHashes,
+      schemeId: schemeId ?? this.schemeId,
+      verificationKey: verificationKey ?? this.verificationKey,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'block': config.encodeBigint(block),
       'previous_block_root_hash': config.encodeBinary(previousBlockRootHash),
-      'start_of_block_state_root_hash': config.encodeBinary(startOfBlockStateRootHash),
+      'start_of_block_state_root_hash': config.encodeBinary(
+        startOfBlockStateRootHash,
+      ),
       'block_signature': config.encodeBinary(blockSignature),
-      'sibling_hashes': siblingHashes.map((e) => config.encodeMessage(e)).toList(),
+      'sibling_hashes':
+          siblingHashes.map((e) => config.encodeMessage(e)).toList(),
       'scheme_id': config.encodeBigint(schemeId),
       'verification_key': config.encodeBinary(verificationKey),
     };
   }
 
-
-  factory HederaBlockProof.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaBlockProof.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBlockProof(
-      block: json.valueAsBigInt<BigInt?>('block', normalizeKeyLookup: config.normalizeKeys),
-      previousBlockRootHash: config.decodeBinary<List<int>?>(json.valueAs('previous_block_root_hash', normalizeKeyLookup: config.normalizeKeys)),
-      startOfBlockStateRootHash: config.decodeBinary<List<int>?>(json.valueAs('start_of_block_state_root_hash', normalizeKeyLookup: config.normalizeKeys)),
-      blockSignature: config.decodeBinary<List<int>?>(json.valueAs('block_signature', normalizeKeyLookup: config.normalizeKeys)),
-      siblingHashes: (json.valueEnsureAsList<dynamic>('sibling_hashes', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<HederaMerkleSiblingHash, Object>(
-          value: e,
-          parse: (v) => HederaMerkleSiblingHash.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
-      schemeId: json.valueAsBigInt<BigInt?>('scheme_id', normalizeKeyLookup: config.normalizeKeys),
-      verificationKey: config.decodeBinary<List<int>?>(json.valueAs('verification_key', normalizeKeyLookup: config.normalizeKeys)),
+      block: json.valueAsBigInt<BigInt?>(
+        'block',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      previousBlockRootHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'previous_block_root_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      startOfBlockStateRootHash: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'start_of_block_state_root_hash',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      blockSignature: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'block_signature',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
+      siblingHashes:
+          (json.valueEnsureAsList<dynamic>(
+                'sibling_hashes',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<HederaMerkleSiblingHash, Object>(
+                  value: e,
+                  parse:
+                      (v) => HederaMerkleSiblingHash.fromJson(
+                        JsonParser.valueAs(v),
+                        config: config,
+                      ),
+                ),
+              )
+              .toList(),
+      schemeId: json.valueAsBigInt<BigInt?>(
+        'scheme_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      verificationKey: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'verification_key',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
@@ -285,17 +332,20 @@ List<dynamic> get variables => protoValues;
       previousBlockRootHash: decode.getBytes<List<int>?>(2),
       startOfBlockStateRootHash: decode.getBytes<List<int>?>(3),
       blockSignature: decode.getBytes<List<int>?>(4),
-      siblingHashes: decode.getListOfBytes(5).map((b) => HederaMerkleSiblingHash.deserialize(b)).toList(),
+      siblingHashes:
+          decode
+              .getListOfBytes(5)
+              .map((b) => HederaMerkleSiblingHash.deserialize(b))
+              .toList(),
       schemeId: decode.getBigInt<BigInt?>(6),
       verificationKey: decode.getBytes<List<int>?>(7),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamBlockProof;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamBlockProof;
 }
-
 
 /// *
 ///  * A hash of a "sibling" to an entry in a Merkle tree.
@@ -307,7 +357,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * This may be used to reconstruct a portion of a merkle tree starting from
 ///  * a node of interest up to the root of the tree.
 class HederaMerkleSiblingHash extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A flag for the position of this sibling.
   ///      * &lt;p&gt;
   ///      * If this is set then this sibling MUST be the first hash in the pair of
@@ -316,7 +366,7 @@ class HederaMerkleSiblingHash extends HederaProtoMessage with Equality {
   ///      * of sibling hashes of a binary merkle tree.
   final bool? isFirst;
 
-    /// *
+  /// *
   ///      * A byte array of a sibling hash.&lt;br/&gt;
   ///      * This is the hash for the sibling at this point in the merkle tree.
   ///      * &lt;p&gt;
@@ -325,10 +375,7 @@ class HederaMerkleSiblingHash extends HederaProtoMessage with Equality {
   ///      * This SHALL contain the raw (e.g.) 384 bits (48 bytes) of the hash value.
   final List<int>? siblingHash;
 
-  const HederaMerkleSiblingHash({
-    this.isFirst,
-    this.siblingHash,
-  });
+  const HederaMerkleSiblingHash({this.isFirst, this.siblingHash});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -337,47 +384,45 @@ class HederaMerkleSiblingHash extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bool(1),
-        ProtoFieldConfig.bytes(2),
-      ],
+      fields: [ProtoFieldConfig.bool(1), ProtoFieldConfig.bytes(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        isFirst,
-        siblingHash,
-      ];
+  List<Object?> get protoValues => [isFirst, siblingHash];
 
-
-HederaMerkleSiblingHash copyWith(
-{bool? isFirst,
-
-List<int>? siblingHash,
-
-}) {
+  HederaMerkleSiblingHash copyWith({bool? isFirst, List<int>? siblingHash}) {
     return HederaMerkleSiblingHash(
-isFirst: isFirst ?? this.isFirst,
-siblingHash: siblingHash ?? this.siblingHash,
+      isFirst: isFirst ?? this.isFirst,
+      siblingHash: siblingHash ?? this.siblingHash,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'is_first': isFirst,
       'sibling_hash': config.encodeBinary(siblingHash),
     };
   }
 
-
-  factory HederaMerkleSiblingHash.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaMerkleSiblingHash.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaMerkleSiblingHash(
-      isFirst: json.valueAsBool<bool?>('is_first', normalizeKeyLookup: config.normalizeKeys),
-      siblingHash: config.decodeBinary<List<int>?>(json.valueAs('sibling_hash', normalizeKeyLookup: config.normalizeKeys)),
+      isFirst: json.valueAsBool<bool?>(
+        'is_first',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      siblingHash: config.decodeBinary<List<int>?>(
+        json.valueAs('sibling_hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
@@ -390,8 +435,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamMerkleSiblingHash;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamMerkleSiblingHash;
 }
-
-

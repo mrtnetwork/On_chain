@@ -5,18 +5,19 @@ import 'function_encoder.dart';
 class SupportsInterfaceEncoder
     extends SolidityFunctionEncoder<List<int>, bool> {
   const SupportsInterfaceEncoder();
-  static final AbiFunctionFragment fragmentDef =
-      AbiFunctionFragment.fromJson(const {
-    "inputs": [
-      {"internalType": "bytes4", "name": "interfaceId", "type": "bytes4"}
-    ],
-    "name": "supportsInterface",
-    "outputs": [
-      {"internalType": "bool", "name": "", "type": "bool"}
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  });
+  static final AbiFunctionFragment fragmentDef = AbiFunctionFragment.fromJson(
+    const {
+      "inputs": [
+        {"internalType": "bytes4", "name": "interfaceId", "type": "bytes4"},
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {"internalType": "bool", "name": "", "type": "bool"},
+      ],
+      "stateMutability": "view",
+      "type": "function",
+    },
+  );
 
   @override
   AbiFunctionFragment get fragment => fragmentDef;

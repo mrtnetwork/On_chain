@@ -17,7 +17,10 @@ class ADATransactionBuilderUtils {
     return BootstrapWitness(
       vkey: Vkey(fakeVk),
       signature: Ed25519Signature(
-        List<int>.filled(AdaTransactionConstant.signatureLength, 0).asImmutableBytes,
+        List<int>.filled(
+          AdaTransactionConstant.signatureLength,
+          0,
+        ).asImmutableBytes,
       ),
       chainCode: fakeVk,
       attributes: byronAddr.attributeSerialize(),
@@ -27,10 +30,16 @@ class ADATransactionBuilderUtils {
   static Vkeywitness fakeVkeyWitnessWitness() {
     return Vkeywitness(
       vKey: Vkey(
-        List<int>.filled(AdaTransactionConstant.blake2b256DigestSize, 0).asImmutableBytes,
+        List<int>.filled(
+          AdaTransactionConstant.blake2b256DigestSize,
+          0,
+        ).asImmutableBytes,
       ),
       signature: Ed25519Signature(
-        List<int>.filled(AdaTransactionConstant.signatureLength, 0).asImmutableBytes,
+        List<int>.filled(
+          AdaTransactionConstant.signatureLength,
+          0,
+        ).asImmutableBytes,
       ),
     );
   }

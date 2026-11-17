@@ -5,11 +5,13 @@ import 'package:on_chain/solidity/address/core.dart';
 import 'package:on_chain/solidity/helper/helper.dart';
 
 /// Returns the ERC-1155 balance of [accountAddress] for [tokenId].
-class EthereumRequestERC1155BalanceOf
-    extends EthereumRequest<BigInt, String> {
+class EthereumRequestERC1155BalanceOf extends EthereumRequest<BigInt, String> {
   EthereumRequestERC1155BalanceOf(
-      this.contractAddress, this.accountAddress, this.tokenId,
-      {super.blockNumber});
+    this.contractAddress,
+    this.accountAddress,
+    this.tokenId, {
+    super.blockNumber,
+  });
 
   @override
   String get method => EthereumMethods.call.value;
@@ -31,10 +33,11 @@ class EthereumRequestERC1155BalanceOf
       {
         "to": contractAddress.toSolidityHex(),
         "data": BytesUtils.toHexString(
-            _encoder.encode((account: accountAddress, id: tokenId)),
-            prefix: "0x"),
+          _encoder.encode((account: accountAddress, id: tokenId)),
+          prefix: "0x",
+        ),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

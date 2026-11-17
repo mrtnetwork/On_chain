@@ -31,7 +31,8 @@ Future<void> main() async {
       ],
     ],
   ]);
-  final originated = await client.originate(source: admin.source, script: script);
+  final originated =
+      await client.originate(source: admin.source, script: script);
   final token = originated.result;
   if (token == null) {
     print('originate failed: ${originated.toJson()}');

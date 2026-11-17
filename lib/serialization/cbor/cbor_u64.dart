@@ -8,14 +8,16 @@ class CborUnsignedValue extends CborNumeric {
 
   factory CborUnsignedValue.u64(dynamic value) {
     if (value is! int && value is! BigInt) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid unsgined int. value must be int or bigint.',
         details: {'value': value?.toString()},
       );
     }
     final BigInt bigintVal = value is int ? BigInt.from(value) : value;
     if (bigintVal.isNegative || bigintVal.bitLength > 64) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid unsigned 64-bit Integer.',
         details: {
           'Value': bigintVal.toString(),
@@ -27,7 +29,8 @@ class CborUnsignedValue extends CborNumeric {
   }
   factory CborUnsignedValue.u32(int value) {
     if (value.isNegative || value.bitLength > 32) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid unsigned 32-bit Integer.',
         details: {
           'Value': value.toString(),

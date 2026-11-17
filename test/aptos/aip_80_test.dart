@@ -3,6 +3,7 @@ import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
 import '../utils.dart';
+
 void aip80Test() {
   group('Aptos/AIP-80', _test);
 }
@@ -10,7 +11,6 @@ void aip80Test() {
 void main() {
   OnChainUtilsTestApi.runTest(aip80Test, "Aip 80");
 }
-
 
 void _test() {
   test("Aptos Ed25519 AIP-80", () {

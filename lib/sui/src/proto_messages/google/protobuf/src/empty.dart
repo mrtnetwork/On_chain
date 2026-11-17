@@ -51,36 +51,32 @@ class SuiEmpty extends SuiProtoMessage {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
-
+  List<Object?> get protoValues => [];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
   }
 
-
-  factory SuiEmpty.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return SuiEmpty(
-    );
+  factory SuiEmpty.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return SuiEmpty();
   }
 
   factory SuiEmpty.deserialize(List<int> bytes) {
-    return SuiEmpty(
-    );
+    return SuiEmpty();
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobufEmpty;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.googleProtobufEmpty;
 }
-
-

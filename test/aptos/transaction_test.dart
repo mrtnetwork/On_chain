@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void transactionTest() {
   group('Aptos/Transaction', () {
     _entryFunction();
@@ -15,7 +16,6 @@ void transactionTest() {
 void main() {
   OnChainUtilsTestApi.runTest(transactionTest, "Transaction");
 }
-
 
 void _entryFunction() {
   test("MultiAgent transaction serialization", () {

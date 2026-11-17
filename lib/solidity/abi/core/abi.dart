@@ -41,7 +41,8 @@ abstract class ABICoder<INPUT extends Object, OUTPUT extends Object> {
     correctType ??= type;
     final t = _types[correctType];
     if (t == null) {
-      throw BuError(DefaultErrorType.notFound,
+      throw BuError(
+        DefaultErrorType.notFound,
         'Unsuported ABI type. codec not found',
         details: {'type': type},
       );

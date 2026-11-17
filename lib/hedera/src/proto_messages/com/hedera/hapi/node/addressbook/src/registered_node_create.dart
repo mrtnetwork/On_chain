@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/addressbook/src/registered_service_endpoint.dart" as com_hedera_hapi_node_addressbook_registered_service_endpoint;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/addressbook/src/registered_service_endpoint.dart"
+    as com_hedera_hapi_node_addressbook_registered_service_endpoint;
 
 /// SPDX-License-Identifier: Apache-2.0
 /// &lt;&lt;&lt;pbj.java_package = "com.hedera.hapi.node.addressbook"&gt;&gt;&gt; This comment is special code for setting PBJ Compiler java package
@@ -17,8 +19,9 @@ import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/node/addressb
 ///  *
 ///  * ### Block Stream Effects
 ///  * None.
-class HederaRegisteredNodeCreateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaRegisteredNodeCreateTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * An administrative key controlled by the node operator.
   ///      * &lt;p&gt;
   ///      * This key MUST sign this transaction.&lt;br/&gt;
@@ -31,14 +34,14 @@ class HederaRegisteredNodeCreateTransactionBody extends HederaProtoMessage with 
   ///      * elements, but SHOULD NOT be a contract ID key.
   final proto_basic_types.HederaKey? adminKey;
 
-    /// *
+  /// *
   ///      * A short description of the node.
   ///      * &lt;p&gt;
   ///      * This value, if set, MUST NOT exceed 100 bytes when encoded as UTF-8.&lt;br/&gt;
   ///      * This field is OPTIONAL.
   final String? description;
 
-    /// *
+  /// *
   ///      * A list of service endpoints for client calls.
   ///      * &lt;p&gt;
   ///      * These endpoints SHALL represent the published endpoints to which
@@ -49,7 +52,10 @@ class HederaRegisteredNodeCreateTransactionBody extends HederaProtoMessage with 
   ///      * One Registered Node MAY expose endpoints for multiple service types.&lt;br/&gt;
   ///      * This list MUST NOT be empty.&lt;br/&gt;
   ///      * This list MUST NOT contain more than `50` entries.
-  final List<com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint> serviceEndpoint;
+  final List<
+    com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint
+  >
+  serviceEndpoint;
 
   const HederaRegisteredNodeCreateTransactionBody({
     this.adminKey,
@@ -76,66 +82,107 @@ class HederaRegisteredNodeCreateTransactionBody extends HederaProtoMessage with 
   }
 
   @override
-  List<Object?> get protoValues => [
-        adminKey,
-        description,
-        serviceEndpoint,
-      ];
+  List<Object?> get protoValues => [adminKey, description, serviceEndpoint];
 
+  HederaRegisteredNodeCreateTransactionBody copyWith({
+    proto_basic_types.HederaKey? adminKey,
 
-HederaRegisteredNodeCreateTransactionBody copyWith(
-{proto_basic_types.HederaKey? adminKey,
+    String? description,
 
-String? description,
-
-List<com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint>? serviceEndpoint,
-
-}) {
+    List<
+      com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint
+    >?
+    serviceEndpoint,
+  }) {
     return HederaRegisteredNodeCreateTransactionBody(
-adminKey: adminKey ?? this.adminKey,
-description: description ?? this.description,
-serviceEndpoint: serviceEndpoint ?? this.serviceEndpoint,
+      adminKey: adminKey ?? this.adminKey,
+      description: description ?? this.description,
+      serviceEndpoint: serviceEndpoint ?? this.serviceEndpoint,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'admin_key': config.encodeMessage(adminKey),
       'description': description,
-      'service_endpoint': serviceEndpoint.map((e) => config.encodeMessage(e)).toList(),
+      'service_endpoint':
+          serviceEndpoint.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaRegisteredNodeCreateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaRegisteredNodeCreateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaRegisteredNodeCreateTransactionBody(
       adminKey: json.valueTo<proto_basic_types.HederaKey?, Object>(
         key: 'admin_key',
-        parse: (v) => proto_basic_types.HederaKey.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      description: json.valueAsString<String?>('description', normalizeKeyLookup: config.normalizeKeys),
-      serviceEndpoint: (json.valueEnsureAsList<dynamic>('service_endpoint', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint, Object>(
-          value: e,
-          parse: (v) => com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaKey.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      description: json.valueAsString<String?>(
+        'description',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      serviceEndpoint:
+          (json.valueEnsureAsList<dynamic>(
+                'service_endpoint',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) => JsonParser.valueTo<
+                  com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint,
+                  Object
+                >(
+                  value: e,
+                  parse:
+                      (v) =>
+                          com_hedera_hapi_node_addressbook_registered_service_endpoint
+                              .HederaRegisteredServiceEndpoint.fromJson(
+                            JsonParser.valueAs(v),
+                            config: config,
+                          ),
+                ),
+              )
+              .toList(),
     );
   }
 
-  factory HederaRegisteredNodeCreateTransactionBody.deserialize(List<int> bytes) {
+  factory HederaRegisteredNodeCreateTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaRegisteredNodeCreateTransactionBody(
-      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(1, (b) => proto_basic_types.HederaKey.deserialize(b)),
+      adminKey: decode.messageTo<proto_basic_types.HederaKey?>(
+        1,
+        (b) => proto_basic_types.HederaKey.deserialize(b),
+      ),
       description: decode.getString<String?>(2),
-      serviceEndpoint: decode.getListOfBytes(3).map((b) => com_hedera_hapi_node_addressbook_registered_service_endpoint.HederaRegisteredServiceEndpoint.deserialize(b)).toList(),
+      serviceEndpoint:
+          decode
+              .getListOfBytes(3)
+              .map(
+                (b) =>
+                    com_hedera_hapi_node_addressbook_registered_service_endpoint
+                        .HederaRegisteredServiceEndpoint.deserialize(b),
+              )
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiNodeAddressbookRegisteredNodeCreateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiNodeAddressbookRegisteredNodeCreateTransactionBody;
 }
-
-

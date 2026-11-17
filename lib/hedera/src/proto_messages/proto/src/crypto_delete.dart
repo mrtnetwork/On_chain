@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Crypto Delete
@@ -31,8 +32,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaCryptoDeleteTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaCryptoDeleteTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * An account identifier.
   ///      * &lt;p&gt;
   ///      * The identified account SHALL receive all tokens, token balances,
@@ -42,7 +44,7 @@ class HederaCryptoDeleteTransactionBody extends HederaProtoMessage with Equality
   ///      * token, a balance in HBAR, or hold any NFT.
   final proto_basic_types.HederaAccountID? transferAccountID;
 
-    /// *
+  /// *
   ///      * An account identifier.
   ///      * &lt;p&gt;
   ///      * This account SHALL be deleted if this transaction succeeds.&lt;br/&gt;
@@ -65,67 +67,79 @@ class HederaCryptoDeleteTransactionBody extends HederaProtoMessage with Equality
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-        ProtoFieldConfig.message(2),
-      ],
+      fields: [ProtoFieldConfig.message(1), ProtoFieldConfig.message(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        transferAccountID,
-        deleteAccountID,
-      ];
+  List<Object?> get protoValues => [transferAccountID, deleteAccountID];
 
+  HederaCryptoDeleteTransactionBody copyWith({
+    proto_basic_types.HederaAccountID? transferAccountID,
 
-HederaCryptoDeleteTransactionBody copyWith(
-{proto_basic_types.HederaAccountID? transferAccountID,
-
-proto_basic_types.HederaAccountID? deleteAccountID,
-
-}) {
+    proto_basic_types.HederaAccountID? deleteAccountID,
+  }) {
     return HederaCryptoDeleteTransactionBody(
-transferAccountID: transferAccountID ?? this.transferAccountID,
-deleteAccountID: deleteAccountID ?? this.deleteAccountID,
+      transferAccountID: transferAccountID ?? this.transferAccountID,
+      deleteAccountID: deleteAccountID ?? this.deleteAccountID,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'transferAccountID': config.encodeMessage(transferAccountID),
       'deleteAccountID': config.encodeMessage(deleteAccountID),
     };
   }
 
-
-  factory HederaCryptoDeleteTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCryptoDeleteTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCryptoDeleteTransactionBody(
-      transferAccountID: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'transferAccountID',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      transferAccountID: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'transferAccountID',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
       deleteAccountID: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'deleteAccountID',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaCryptoDeleteTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCryptoDeleteTransactionBody(
-      transferAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      deleteAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(2, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      transferAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      deleteAccountID: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        2,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCryptoDeleteTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoCryptoDeleteTransactionBody;
 }
-
-

@@ -5,6 +5,7 @@ import 'package:on_chain/algorand/src/crypto/keypair/public_key/ed25519.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 void algoAddressAddressTest() {
   group('Algorand/Address', () {
     test('algorand IAddress', () {
@@ -55,4 +56,3 @@ void algoAddressAddressTest() {
 void main() {
   OnChainUtilsTestApi.runTest(algoAddressAddressTest, "Address");
 }
-

@@ -2,6 +2,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void scriptTest() {
   group('Aptos/Script', _serializationScript);
 }
@@ -9,7 +10,6 @@ void scriptTest() {
 void main() {
   OnChainUtilsTestApi.runTest(scriptTest, "Script");
 }
-
 
 void _serializationScript() {
   test("Serialization script", () {

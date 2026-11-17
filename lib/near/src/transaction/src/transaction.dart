@@ -25,13 +25,14 @@ class NearTransaction with LayoutSerializable {
     required List<NearAction> actions,
     required List<int> blockHash,
   }) : actions = actions.immutable,
-       blockHash = blockHash
-           .exc(
-             length: 32,
-             operation: "NearTransaction",
-             reason: "Invalid block hash bytes length.",
-           )
-           .asImmutableBytes;
+       blockHash =
+           blockHash
+               .exc(
+                 length: 32,
+                 operation: "NearTransaction",
+                 reason: "Invalid block hash bytes length.",
+               )
+               .asImmutableBytes;
   factory NearTransaction.deserializeJson(Map<String, dynamic> json) {
     return NearTransaction(
       signerId: json.valueAsString('signerId'),

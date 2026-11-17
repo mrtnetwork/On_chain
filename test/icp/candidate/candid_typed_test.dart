@@ -4,6 +4,7 @@ import 'package:on_chain/icp/src/serialization/candid/candid.dart';
 import 'package:test/test.dart';
 
 import '../../utils.dart';
+
 void candidTypedTest() {
   group('ICP/Typed encode/decode primitives', () {
     test('nat / text / bool', () {
@@ -240,4 +241,3 @@ void candidTypedTest() {
 void main() {
   OnChainUtilsTestApi.runTest(candidTypedTest, "Candid Typed");
 }
-

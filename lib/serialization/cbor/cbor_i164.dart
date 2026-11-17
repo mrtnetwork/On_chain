@@ -8,14 +8,16 @@ class CborSignedValue extends CborNumeric {
 
   factory CborSignedValue.i64(dynamic value) {
     if (value is! int && value is! BigInt) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid unsgined int. value must be int or bigint.',
         details: {'value': value.runtimeType.toString()},
       );
     }
 
     if (value is BigInt && value.bitLength > 64) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid signed 64-bit Integer.',
         details: {
           'Value': value.toString(),
@@ -27,7 +29,8 @@ class CborSignedValue extends CborNumeric {
   }
   factory CborSignedValue.i32(int value) {
     if (value.bitLength > 32) {
-      throw BuError(DefaultErrorType.invalidArgument,
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid signed 32-bit Integer.',
         details: {
           'Value': value.toString(),

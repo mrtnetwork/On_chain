@@ -85,6 +85,9 @@ class SPLTokenMetaDataProgramSplDiscriminate
   String get programName => 'SPLTokenMetaData';
 
   @override
-  SolAddress get programAddress => throw BuError(DefaultErrorType.unsupported, 'programAddress is not available for this instruction.',
-  );
+  SolAddress get programAddress =>
+      throw BuError(
+        DefaultErrorType.unsupported,
+        'programAddress is not available for this instruction.',
+      );
 }

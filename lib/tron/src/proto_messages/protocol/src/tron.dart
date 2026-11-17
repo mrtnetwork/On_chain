@@ -34,7 +34,14 @@ enum TronAccountType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronAccountType found for the given value. $value", details: {"name": "TronAccountType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronAccountType found for the given value. $value",
+                details: {
+                  "name": "TronAccountType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -46,7 +53,14 @@ enum TronAccountType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronAccountType found for the given value. $value", details: {"name": "TronAccountType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronAccountType found for the given value. $value",
+                details: {
+                  "name": "TronAccountType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -74,7 +88,14 @@ enum TronProposalState implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronProposalState found for the given value. $value", details: {"name": "TronProposalState", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronProposalState found for the given value. $value",
+                details: {
+                  "name": "TronProposalState",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -86,7 +107,14 @@ enum TronProposalState implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronProposalState found for the given value. $value", details: {"name": "TronProposalState", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronProposalState found for the given value. $value",
+                details: {
+                  "name": "TronProposalState",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -113,7 +141,14 @@ enum TronMarketOrderState implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronMarketOrderState found for the given value. $value", details: {"name": "TronMarketOrderState", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronMarketOrderState found for the given value. $value",
+                details: {
+                  "name": "TronMarketOrderState",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -125,7 +160,14 @@ enum TronMarketOrderState implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronMarketOrderState found for the given value. $value", details: {"name": "TronMarketOrderState", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronMarketOrderState found for the given value. $value",
+                details: {
+                  "name": "TronMarketOrderState",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -152,7 +194,14 @@ enum TronPermissionPermissionType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronPermissionPermissionType found for the given value. $value", details: {"name": "TronPermissionPermissionType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronPermissionPermissionType found for the given value. $value",
+                details: {
+                  "name": "TronPermissionPermissionType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -164,7 +213,14 @@ enum TronPermissionPermissionType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronPermissionPermissionType found for the given value. $value", details: {"name": "TronPermissionPermissionType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronPermissionPermissionType found for the given value. $value",
+                details: {
+                  "name": "TronPermissionPermissionType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -229,7 +285,14 @@ enum TronTransactionContractContractType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionContractContractType found for the given value. $value", details: {"name": "TronTransactionContractContractType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionContractContractType found for the given value. $value",
+                details: {
+                  "name": "TronTransactionContractContractType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -241,7 +304,14 @@ enum TronTransactionContractContractType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionContractContractType found for the given value. $value", details: {"name": "TronTransactionContractContractType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionContractContractType found for the given value. $value",
+                details: {
+                  "name": "TronTransactionContractContractType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -267,7 +337,14 @@ enum TronTransactionResultcode implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionResultcode found for the given value. $value", details: {"name": "TronTransactionResultcode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionResultcode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionResultcode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -279,7 +356,14 @@ enum TronTransactionResultcode implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionResultcode found for the given value. $value", details: {"name": "TronTransactionResultcode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionResultcode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionResultcode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -319,7 +403,14 @@ enum TronTransactionResultcontractResult implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionResultcontractResult found for the given value. $value", details: {"name": "TronTransactionResultcontractResult", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionResultcontractResult found for the given value. $value",
+                details: {
+                  "name": "TronTransactionResultcontractResult",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -331,7 +422,14 @@ enum TronTransactionResultcontractResult implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionResultcontractResult found for the given value. $value", details: {"name": "TronTransactionResultcontractResult", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionResultcontractResult found for the given value. $value",
+                details: {
+                  "name": "TronTransactionResultcontractResult",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -357,7 +455,14 @@ enum TronTransactionInfocode implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionInfocode found for the given value. $value", details: {"name": "TronTransactionInfocode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionInfocode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionInfocode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -369,7 +474,14 @@ enum TronTransactionInfocode implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronTransactionInfocode found for the given value. $value", details: {"name": "TronTransactionInfocode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronTransactionInfocode found for the given value. $value",
+                details: {
+                  "name": "TronTransactionInfocode",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -396,7 +508,14 @@ enum TronBlockInventoryType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronBlockInventoryType found for the given value. $value", details: {"name": "TronBlockInventoryType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronBlockInventoryType found for the given value. $value",
+                details: {
+                  "name": "TronBlockInventoryType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -408,7 +527,14 @@ enum TronBlockInventoryType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronBlockInventoryType found for the given value. $value", details: {"name": "TronBlockInventoryType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronBlockInventoryType found for the given value. $value",
+                details: {
+                  "name": "TronBlockInventoryType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -434,7 +560,14 @@ enum TronInventoryInventoryType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronInventoryInventoryType found for the given value. $value", details: {"name": "TronInventoryInventoryType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronInventoryInventoryType found for the given value. $value",
+                details: {
+                  "name": "TronInventoryInventoryType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -446,7 +579,14 @@ enum TronInventoryInventoryType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronInventoryInventoryType found for the given value. $value", details: {"name": "TronInventoryInventoryType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronInventoryInventoryType found for the given value. $value",
+                details: {
+                  "name": "TronInventoryInventoryType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -474,7 +614,14 @@ enum TronItemsItemType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronItemsItemType found for the given value. $value", details: {"name": "TronItemsItemType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronItemsItemType found for the given value. $value",
+                details: {
+                  "name": "TronItemsItemType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -486,7 +633,14 @@ enum TronItemsItemType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronItemsItemType found for the given value. $value", details: {"name": "TronItemsItemType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronItemsItemType found for the given value. $value",
+                details: {
+                  "name": "TronItemsItemType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -538,7 +692,11 @@ enum TronReasonCode implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronReasonCode found for the given value. $value", details: {"name": "TronReasonCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronReasonCode found for the given value. $value",
+                details: {"name": "TronReasonCode", "value": value?.toString()},
+              ),
     );
   }
 
@@ -550,7 +708,11 @@ enum TronReasonCode implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronReasonCode found for the given value. $value", details: {"name": "TronReasonCode", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronReasonCode found for the given value. $value",
+                details: {"name": "TronReasonCode", "value": value?.toString()},
+              ),
     );
   }
 }
@@ -579,7 +741,14 @@ enum TronPBFTMessageMsgType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronPBFTMessageMsgType found for the given value. $value", details: {"name": "TronPBFTMessageMsgType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronPBFTMessageMsgType found for the given value. $value",
+                details: {
+                  "name": "TronPBFTMessageMsgType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -591,7 +760,14 @@ enum TronPBFTMessageMsgType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronPBFTMessageMsgType found for the given value. $value", details: {"name": "TronPBFTMessageMsgType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronPBFTMessageMsgType found for the given value. $value",
+                details: {
+                  "name": "TronPBFTMessageMsgType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }
@@ -617,7 +793,14 @@ enum TronPBFTMessageDataType implements ProtoEnumVariant {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronPBFTMessageDataType found for the given value. $value", details: {"name": "TronPBFTMessageDataType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronPBFTMessageDataType found for the given value. $value",
+                details: {
+                  "name": "TronPBFTMessageDataType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 
@@ -629,7 +812,14 @@ enum TronPBFTMessageDataType implements ProtoEnumVariant {
       (e) => e.value == value || e.name == value || e.protoName == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching TronPBFTMessageDataType found for the given value. $value", details: {"name": "TronPBFTMessageDataType", "value": value?.toString()}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TronPBFTMessageDataType found for the given value. $value",
+                details: {
+                  "name": "TronPBFTMessageDataType",
+                  "value": value?.toString(),
+                },
+              ),
     );
   }
 }

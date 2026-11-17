@@ -1,11 +1,10 @@
 // zkLogin / passkey / multisig-verify tests (offline, synthetic inputs).
 import 'package:on_chain/on_chain.dart';
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
-void authAccountsTest() {
 
+void authAccountsTest() {
   group('Sui/ZkLogin account (offline)', () {
     SuiZkLoginInputs inputs() {
       return SuiZkLoginInputs.fromProverJson({
@@ -17,7 +16,10 @@ void authAccountsTest() {
           ],
           'c': ['8', '9', '10'],
         },
-        'iss_base64_details': {'value': 'KL9yTgtcVWhJJEfTgq0o', 'index_mod_4': 1},
+        'iss_base64_details': {
+          'value': 'KL9yTgtcVWhJJEfTgq0o',
+          'index_mod_4': 1,
+        },
         'header_base64': 'eyJhbGciOiJSUzI1NiJ9',
         'address_seed':
             '13322897930163218532266430409510394316985274769125667290600321564259466511711',
@@ -121,10 +123,7 @@ void authAccountsTest() {
         isFalse,
       );
       // Raw signing is refused with guidance.
-      expect(
-        () => a.signTransaction([1, 2, 3]),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => a.signTransaction([1, 2, 3]), throwsA(isA<BuError>()));
     });
   });
 
@@ -173,4 +172,3 @@ void authAccountsTest() {
 void main() {
   OnChainUtilsTestApi.runTest(authAccountsTest, "Auth Accounts");
 }
-

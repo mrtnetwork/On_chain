@@ -11,7 +11,10 @@ class TupleCoder implements ABICoder<List<dynamic>, List<dynamic>> {
     bool isDynamic = false;
     final List<EncoderResult> encoded = [];
     if (input.length != params.components.length) {
-      throw const BuError(DefaultErrorType.invalidLength,'Invalid argument length detected.');
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Invalid argument length detected.',
+      );
     }
     for (int i = 0; i < params.components.length; i++) {
       final paramComponent = params.components[i];
@@ -85,7 +88,10 @@ class TupleCoder implements ABICoder<List<dynamic>, List<dynamic>> {
   EncoderResult encodePacked(AbiParameter params, List<dynamic> input) {
     final List<EncoderResult> encoded = [];
     if (input.length != params.components.length) {
-      throw const BuError(DefaultErrorType.invalidLength,'Invalid argument length detected.');
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Invalid argument length detected.',
+      );
     }
     for (int i = 0; i < params.components.length; i++) {
       final paramComponent = params.components[i];

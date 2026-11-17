@@ -6,10 +6,7 @@ class ADARootResponse {
   ADARootResponse({required this.url, required this.version});
 
   factory ADARootResponse.fromJson(Map<String, dynamic> json) {
-    return ADARootResponse(
-      url: json['url'],
-      version: json['version'],
-    );
+    return ADARootResponse(url: json['url'], version: json['version']);
   }
 
   Map<String, dynamic> toJson() {

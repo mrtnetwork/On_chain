@@ -83,8 +83,8 @@ class AlgoClient with AlgoQuickClientApi {
 
 /// TestNet Algod client (AlgoNode, no token required).
 AlgoClient testnetClient() => AlgoClient(
-  AlgoProvider(AlgoHttpService('https://testnet-api.algonode.cloud')),
-);
+      AlgoProvider(AlgoHttpService('https://testnet-api.algonode.cloud')),
+    );
 
 /// Deterministic demo key from a 32-byte seed. Replace with a real mnemonic /
 /// private key in real apps.
@@ -213,7 +213,8 @@ Future<void> exampleAtomicGroup(AlgoClient client) async {
 
   final result = await composer.execute(client);
   print('  group txids: ${result.txIds}');
-  print('  Bob:   ${microAlgoToAlgo(await client.getAccountBalance(bob))} ALGO');
+  print(
+      '  Bob:   ${microAlgoToAlgo(await client.getAccountBalance(bob))} ALGO');
   print('  Carol: ${microAlgoToAlgo(await client.getAccountBalance(carol))} '
       'ALGO');
 }
@@ -254,8 +255,8 @@ Future<void> exampleAssetLifecycle(AlgoClient client) async {
     throw StateError('no created asset found for ${alice.address}');
   }
   final assetId = created.map((e) => e.index).reduce(
-    (a, b) => a > b ? a : b,
-  );
+        (a, b) => a > b ? a : b,
+      );
   print('  created asset $assetId (txid $createTxId)');
 
   // ── opt-in (Bob sends himself 0 units of the asset) ─────────────────────

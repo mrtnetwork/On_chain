@@ -1,8 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/response_code.dart" as proto_response_code;
-import "package:on_chain/hedera/src/proto_messages/proto/src/query_header.dart" as proto_query_header;
+import "package:on_chain/hedera/src/proto_messages/proto/src/response_code.dart"
+    as proto_response_code;
+import "package:on_chain/hedera/src/proto_messages/proto/src/query_header.dart"
+    as proto_query_header;
 
 /// *
 ///  * # Response Header
@@ -25,19 +27,19 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/query_header.dart" 
 ///  * The `nodeTransactionPrecheckCode` field SHALL contain the result code
 ///  * for the query.
 class HederaResponseHeader extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The result code for this query.
   ///      * &lt;p&gt;
   ///      * This value SHALL indicate either success or the reason for failure.
   final proto_response_code.HederaResponseCodeEnum? nodeTransactionPrecheckCode;
 
-    /// *
+  /// *
   ///      * The response type requested for this query.
   ///      * &lt;p&gt;
   ///      * This SHALL be the response type requested in the query header.
   final proto_query_header.HederaResponseType? responseType;
 
-    /// *
+  /// *
   ///      * Requested cost estimate.&lt;br/&gt;
   ///      * This is the fee that _would be_ charged if the query was executed.
   ///      * &lt;p&gt;
@@ -47,7 +49,7 @@ class HederaResponseHeader extends HederaProtoMessage with Equality {
   ///      * transfer fee required to execute the fee payment transaction.
   final BigInt? cost;
 
-    /// *
+  /// *
   ///      * A state proof for the information requested.
   ///      *
   ///      * This field SHALL NOT be set if the response type does not require
@@ -83,72 +85,90 @@ class HederaResponseHeader extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        nodeTransactionPrecheckCode,
-        responseType,
-        cost,
-        stateProof,
-      ];
+    nodeTransactionPrecheckCode,
+    responseType,
+    cost,
+    stateProof,
+  ];
 
+  HederaResponseHeader copyWith({
+    proto_response_code.HederaResponseCodeEnum? nodeTransactionPrecheckCode,
 
-HederaResponseHeader copyWith(
-{proto_response_code.HederaResponseCodeEnum? nodeTransactionPrecheckCode,
+    proto_query_header.HederaResponseType? responseType,
 
-proto_query_header.HederaResponseType? responseType,
+    BigInt? cost,
 
-BigInt? cost,
-
-List<int>? stateProof,
-
-}) {
+    List<int>? stateProof,
+  }) {
     return HederaResponseHeader(
-nodeTransactionPrecheckCode: nodeTransactionPrecheckCode ?? this.nodeTransactionPrecheckCode,
-responseType: responseType ?? this.responseType,
-cost: cost ?? this.cost,
-stateProof: stateProof ?? this.stateProof,
+      nodeTransactionPrecheckCode:
+          nodeTransactionPrecheckCode ?? this.nodeTransactionPrecheckCode,
+      responseType: responseType ?? this.responseType,
+      cost: cost ?? this.cost,
+      stateProof: stateProof ?? this.stateProof,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
-      'nodeTransactionPrecheckCode': config.encodeEnum(nodeTransactionPrecheckCode),
+      'nodeTransactionPrecheckCode': config.encodeEnum(
+        nodeTransactionPrecheckCode,
+      ),
       'responseType': config.encodeEnum(responseType),
       'cost': config.encodeBigint(cost),
       'stateProof': config.encodeBinary(stateProof),
     };
   }
 
-
-  factory HederaResponseHeader.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaResponseHeader.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaResponseHeader(
-      nodeTransactionPrecheckCode: json.valueTo<proto_response_code.HederaResponseCodeEnum?, Object?>(
-        key: 'nodeTransactionPrecheckCode',
-        parse: (v) => proto_response_code.HederaResponseCodeEnum.from(v),
+      nodeTransactionPrecheckCode: json
+          .valueTo<proto_response_code.HederaResponseCodeEnum?, Object?>(
+            key: 'nodeTransactionPrecheckCode',
+            parse: (v) => proto_response_code.HederaResponseCodeEnum.from(v),
+          ),
+      responseType: json
+          .valueTo<proto_query_header.HederaResponseType?, Object?>(
+            key: 'responseType',
+            parse: (v) => proto_query_header.HederaResponseType.from(v),
+          ),
+      cost: json.valueAsBigInt<BigInt?>(
+        'cost',
+        normalizeKeyLookup: config.normalizeKeys,
       ),
-      responseType: json.valueTo<proto_query_header.HederaResponseType?, Object?>(
-        key: 'responseType',
-        parse: (v) => proto_query_header.HederaResponseType.from(v),
+      stateProof: config.decodeBinary<List<int>?>(
+        json.valueAs('stateProof', normalizeKeyLookup: config.normalizeKeys),
       ),
-      cost: json.valueAsBigInt<BigInt?>('cost', normalizeKeyLookup: config.normalizeKeys),
-      stateProof: config.decodeBinary<List<int>?>(json.valueAs('stateProof', normalizeKeyLookup: config.normalizeKeys)),
     );
   }
 
   factory HederaResponseHeader.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaResponseHeader(
-      nodeTransactionPrecheckCode: decode.getEnum<proto_response_code.HederaResponseCodeEnum?>(1, proto_response_code.HederaResponseCodeEnum.values),
-      responseType: decode.getEnum<proto_query_header.HederaResponseType?>(2, proto_query_header.HederaResponseType.values),
+      nodeTransactionPrecheckCode: decode
+          .getEnum<proto_response_code.HederaResponseCodeEnum?>(
+            1,
+            proto_response_code.HederaResponseCodeEnum.values,
+          ),
+      responseType: decode.getEnum<proto_query_header.HederaResponseType?>(
+        2,
+        proto_query_header.HederaResponseType.values,
+      ),
       cost: decode.getBigInt<BigInt?>(3),
       stateProof: decode.getBytes<List<int>?>(4),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoResponseHeader;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoResponseHeader;
 }
-
-

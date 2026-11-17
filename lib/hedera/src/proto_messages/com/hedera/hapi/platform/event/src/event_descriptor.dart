@@ -41,7 +41,7 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 /// *
 ///  * Unique identifier for an event.
 class HederaEventDescriptor extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///    * The hash of the event.&lt;br/&gt;
   ///    * The hash SHALL be a SHA-384 hash.&lt;br/&gt;
   ///    * The hash SHALL have the following inputs, in the specified order:&lt;br/&gt;
@@ -49,19 +49,19 @@ class HederaEventDescriptor extends HederaProtoMessage with Equality {
   ///    * 2. The SHA-384 hash of each individual `EventTransaction`, in the order the transactions appear in the `event_transactions` field of the `GossipEvent` protobuf
   final List<int>? hash;
 
-    /// *
+  /// *
   ///    * The creator node identifier.&lt;br/&gt;
   ///    * This SHALL be the unique identifier for the node that created the event.&lt;br/&gt;
   ///    * This SHALL match the ID of the node as it appears in the address book.
   final BigInt? creatorNodeId;
 
-    /// *
+  /// *
   ///    * The birth round of the event.&lt;br/&gt;
   ///    * The birth round SHALL be the pending consensus round at the time the event is created.&lt;br/&gt;
   ///    * The pending consensus round SHALL be **one greater** than the latest round to reach consensus.
   final BigInt? birthRound;
 
-    /// *
+  /// *
   ///   * The generation of the event.&lt;br/&gt;
   ///   * This value SHALL be **one greater** than the _maximum_ generation of all parents.&lt;br/&gt;
   final BigInt? generation;
@@ -91,35 +91,36 @@ class HederaEventDescriptor extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        hash,
-        creatorNodeId,
-        birthRound,
-        generation,
-      ];
+    hash,
+    creatorNodeId,
+    birthRound,
+    generation,
+  ];
 
+  HederaEventDescriptor copyWith({
+    List<int>? hash,
 
-HederaEventDescriptor copyWith(
-{List<int>? hash,
+    BigInt? creatorNodeId,
 
-BigInt? creatorNodeId,
+    BigInt? birthRound,
 
-BigInt? birthRound,
-
-BigInt? generation,
-
-}) {
+    BigInt? generation,
+  }) {
     return HederaEventDescriptor(
-hash: hash ?? this.hash,
-creatorNodeId: creatorNodeId ?? this.creatorNodeId,
-birthRound: birthRound ?? this.birthRound,
-generation: generation ?? this.generation,
+      hash: hash ?? this.hash,
+      creatorNodeId: creatorNodeId ?? this.creatorNodeId,
+      birthRound: birthRound ?? this.birthRound,
+      generation: generation ?? this.generation,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'hash': config.encodeBinary(hash),
       'creator_node_id': config.encodeBigint(creatorNodeId),
@@ -128,13 +129,26 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaEventDescriptor.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaEventDescriptor.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaEventDescriptor(
-      hash: config.decodeBinary<List<int>?>(json.valueAs('hash', normalizeKeyLookup: config.normalizeKeys)),
-      creatorNodeId: json.valueAsBigInt<BigInt?>('creator_node_id', normalizeKeyLookup: config.normalizeKeys),
-      birthRound: json.valueAsBigInt<BigInt?>('birth_round', normalizeKeyLookup: config.normalizeKeys),
-      generation: json.valueAsBigInt<BigInt?>('generation', normalizeKeyLookup: config.normalizeKeys),
+      hash: config.decodeBinary<List<int>?>(
+        json.valueAs('hash', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      creatorNodeId: json.valueAsBigInt<BigInt?>(
+        'creator_node_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      birthRound: json.valueAsBigInt<BigInt?>(
+        'birth_round',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      generation: json.valueAsBigInt<BigInt?>(
+        'generation',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -149,8 +163,6 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiPlatformEventEventDescriptor;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiPlatformEventEventDescriptor;
 }
-
-

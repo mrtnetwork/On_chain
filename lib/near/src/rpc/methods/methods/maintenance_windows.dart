@@ -3,7 +3,11 @@ import 'package:on_chain/near/src/rpc/core/core.dart';
 import 'package:on_chain/near/src/rpc/models/types/types.dart';
 
 class NearNodeRequestMaintenanceWindows
-    extends NearNodeRequest<List<NearRpcRangeOfUint64>, List<Map<String, dynamic>>> {
+    extends
+        NearNodeRequest<
+          List<NearRpcRangeOfUint64>,
+          List<Map<String, dynamic>>
+        > {
   final NearRpcRpcMaintenanceWindowsRequest args;
   const NearNodeRequestMaintenanceWindows(this.args);
   @override

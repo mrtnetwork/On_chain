@@ -16,19 +16,20 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 /// *
 ///  * A transaction body to publish a node's hinTS partial signature on
 ///  * a particular message for a certain construction id.
-class HederaHintsPartialSignatureTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaHintsPartialSignatureTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///    * The id of the hinTS construction this partial signature applies to.
   ///    * (The size of the target roster for this construction implies what
   ///    * hinTS party id the submitting node has in the construction; and
   ///    * hence also what weight the node's signature has.)
   final BigInt? constructionId;
 
-    /// *
+  /// *
   ///    * The message being signed.
   final List<int>? message;
 
-    /// *
+  /// *
   ///    * The node's partial signature on the message.
   final List<int>? partialSignature;
 
@@ -54,32 +55,29 @@ class HederaHintsPartialSignatureTransactionBody extends HederaProtoMessage with
   }
 
   @override
-  List<Object?> get protoValues => [
-        constructionId,
-        message,
-        partialSignature,
-      ];
+  List<Object?> get protoValues => [constructionId, message, partialSignature];
 
+  HederaHintsPartialSignatureTransactionBody copyWith({
+    BigInt? constructionId,
 
-HederaHintsPartialSignatureTransactionBody copyWith(
-{BigInt? constructionId,
+    List<int>? message,
 
-List<int>? message,
-
-List<int>? partialSignature,
-
-}) {
+    List<int>? partialSignature,
+  }) {
     return HederaHintsPartialSignatureTransactionBody(
-constructionId: constructionId ?? this.constructionId,
-message: message ?? this.message,
-partialSignature: partialSignature ?? this.partialSignature,
+      constructionId: constructionId ?? this.constructionId,
+      message: message ?? this.message,
+      partialSignature: partialSignature ?? this.partialSignature,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'construction_id': config.encodeBigint(constructionId),
       'message': config.encodeBinary(message),
@@ -87,16 +85,30 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaHintsPartialSignatureTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaHintsPartialSignatureTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaHintsPartialSignatureTransactionBody(
-      constructionId: json.valueAsBigInt<BigInt?>('construction_id', normalizeKeyLookup: config.normalizeKeys),
-      message: config.decodeBinary<List<int>?>(json.valueAs('message', normalizeKeyLookup: config.normalizeKeys)),
-      partialSignature: config.decodeBinary<List<int>?>(json.valueAs('partial_signature', normalizeKeyLookup: config.normalizeKeys)),
+      constructionId: json.valueAsBigInt<BigInt?>(
+        'construction_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      message: config.decodeBinary<List<int>?>(
+        json.valueAs('message', normalizeKeyLookup: config.normalizeKeys),
+      ),
+      partialSignature: config.decodeBinary<List<int>?>(
+        json.valueAs(
+          'partial_signature',
+          normalizeKeyLookup: config.normalizeKeys,
+        ),
+      ),
     );
   }
 
-  factory HederaHintsPartialSignatureTransactionBody.deserialize(List<int> bytes) {
+  factory HederaHintsPartialSignatureTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaHintsPartialSignatureTransactionBody(
       constructionId: decode.getBigInt<BigInt?>(1),
@@ -106,8 +118,7 @@ List<dynamic> get variables => protoValues;
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiServicesAuxiliaryHintsHintsPartialSignatureTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiServicesAuxiliaryHintsHintsPartialSignatureTransactionBody;
 }
-
-

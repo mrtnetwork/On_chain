@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void suiTransactionTest() {
   group('Sui/Transaction', () {
     _encodeDecodeTx();
@@ -14,7 +15,6 @@ void suiTransactionTest() {
 void main() {
   OnChainUtilsTestApi.runTest(suiTransactionTest, "Transaction");
 }
-
 
 void _encodeDecodeTx() {
   const String txSignedData =

@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void accountAuthenticatorTest() {
   group('Aptos/Account Authenticator', () {
     _accountAuthenticatorMultiKey();
@@ -14,9 +15,11 @@ void accountAuthenticatorTest() {
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(accountAuthenticatorTest, "Account Authenticator");
+  OnChainUtilsTestApi.runTest(
+    accountAuthenticatorTest,
+    "Account Authenticator",
+  );
 }
-
 
 void _accountAuthenticatorMultiKey() {
   test("Account authenticator MultiKey serialization", () {

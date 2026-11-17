@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Account Pending Airdrop.
@@ -27,13 +28,13 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * The pending airdrop `sender` account's `head_pending_airdrop_id` field
 ///  * MUST match the `pending_airdrop_id` field in this message.
 class HederaAccountPendingAirdrop extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * An amount of fungible tokens to be sent for this pending airdrop.
   ///      * &lt;p&gt;
   ///      * This field SHALL NOT be set for non-fungible/unique tokens.
   final proto_basic_types.HederaPendingAirdropValue? pendingAirdropValue;
 
-    /// *
+  /// *
   ///      * A pending airdrop identifier.
   ///      * &lt;p&gt;
   ///      * This field SHALL identify the specific pending airdrop that
@@ -44,7 +45,7 @@ class HederaAccountPendingAirdrop extends HederaProtoMessage with Equality {
   ///      * in the "list".
   final proto_basic_types.HederaPendingAirdropId? previousAirdrop;
 
-    /// *
+  /// *
   ///      * A pending airdrop identifier.&lt;br/&gt;
   ///      * &lt;p&gt;
   ///      * This field SHALL identify the specific pending airdrop that
@@ -78,31 +79,32 @@ class HederaAccountPendingAirdrop extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        pendingAirdropValue,
-        previousAirdrop,
-        nextAirdrop,
-      ];
+    pendingAirdropValue,
+    previousAirdrop,
+    nextAirdrop,
+  ];
 
+  HederaAccountPendingAirdrop copyWith({
+    proto_basic_types.HederaPendingAirdropValue? pendingAirdropValue,
 
-HederaAccountPendingAirdrop copyWith(
-{proto_basic_types.HederaPendingAirdropValue? pendingAirdropValue,
+    proto_basic_types.HederaPendingAirdropId? previousAirdrop,
 
-proto_basic_types.HederaPendingAirdropId? previousAirdrop,
-
-proto_basic_types.HederaPendingAirdropId? nextAirdrop,
-
-}) {
+    proto_basic_types.HederaPendingAirdropId? nextAirdrop,
+  }) {
     return HederaAccountPendingAirdrop(
-pendingAirdropValue: pendingAirdropValue ?? this.pendingAirdropValue,
-previousAirdrop: previousAirdrop ?? this.previousAirdrop,
-nextAirdrop: nextAirdrop ?? this.nextAirdrop,
+      pendingAirdropValue: pendingAirdropValue ?? this.pendingAirdropValue,
+      previousAirdrop: previousAirdrop ?? this.previousAirdrop,
+      nextAirdrop: nextAirdrop ?? this.nextAirdrop,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'pending_airdrop_value': config.encodeMessage(pendingAirdropValue),
       'previous_airdrop': config.encodeMessage(previousAirdrop),
@@ -110,36 +112,65 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaAccountPendingAirdrop.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaAccountPendingAirdrop.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaAccountPendingAirdrop(
-      pendingAirdropValue: json.valueTo<proto_basic_types.HederaPendingAirdropValue?, Object>(
-        key: 'pending_airdrop_value',
-        parse: (v) => proto_basic_types.HederaPendingAirdropValue.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      previousAirdrop: json.valueTo<proto_basic_types.HederaPendingAirdropId?, Object>(
-        key: 'previous_airdrop',
-        parse: (v) => proto_basic_types.HederaPendingAirdropId.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      nextAirdrop: json.valueTo<proto_basic_types.HederaPendingAirdropId?, Object>(
-        key: 'next_airdrop',
-        parse: (v) => proto_basic_types.HederaPendingAirdropId.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      pendingAirdropValue: json
+          .valueTo<proto_basic_types.HederaPendingAirdropValue?, Object>(
+            key: 'pending_airdrop_value',
+            parse:
+                (v) => proto_basic_types.HederaPendingAirdropValue.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      previousAirdrop: json
+          .valueTo<proto_basic_types.HederaPendingAirdropId?, Object>(
+            key: 'previous_airdrop',
+            parse:
+                (v) => proto_basic_types.HederaPendingAirdropId.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      nextAirdrop: json
+          .valueTo<proto_basic_types.HederaPendingAirdropId?, Object>(
+            key: 'next_airdrop',
+            parse:
+                (v) => proto_basic_types.HederaPendingAirdropId.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaAccountPendingAirdrop.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaAccountPendingAirdrop(
-      pendingAirdropValue: decode.messageTo<proto_basic_types.HederaPendingAirdropValue?>(1, (b) => proto_basic_types.HederaPendingAirdropValue.deserialize(b)),
-      previousAirdrop: decode.messageTo<proto_basic_types.HederaPendingAirdropId?>(2, (b) => proto_basic_types.HederaPendingAirdropId.deserialize(b)),
-      nextAirdrop: decode.messageTo<proto_basic_types.HederaPendingAirdropId?>(3, (b) => proto_basic_types.HederaPendingAirdropId.deserialize(b)),
+      pendingAirdropValue: decode
+          .messageTo<proto_basic_types.HederaPendingAirdropValue?>(
+            1,
+            (b) => proto_basic_types.HederaPendingAirdropValue.deserialize(b),
+          ),
+      previousAirdrop: decode
+          .messageTo<proto_basic_types.HederaPendingAirdropId?>(
+            2,
+            (b) => proto_basic_types.HederaPendingAirdropId.deserialize(b),
+          ),
+      nextAirdrop: decode.messageTo<proto_basic_types.HederaPendingAirdropId?>(
+        3,
+        (b) => proto_basic_types.HederaPendingAirdropId.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoAccountPendingAirdrop;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoAccountPendingAirdrop;
 }
-
-

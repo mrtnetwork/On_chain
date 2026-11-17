@@ -8,8 +8,11 @@ import 'package:on_chain/solidity/helper/helper.dart';
 /// ERC-1155 `uri(id)`. Null when the call reverts, returns empty data,
 /// or the result is not a string. May contain the `{id}` placeholder.
 class EthereumRequestERC1155Uri extends EthereumRequest<String?, String?> {
-  EthereumRequestERC1155Uri(this.contractAddress, this.tokenId,
-      {super.blockNumber = BlockTagOrNumber.latest});
+  EthereumRequestERC1155Uri(
+    this.contractAddress,
+    this.tokenId, {
+    super.blockNumber = BlockTagOrNumber.latest,
+  });
 
   @override
   String get method => EthereumMethods.call.value;
@@ -32,10 +35,9 @@ class EthereumRequestERC1155Uri extends EthereumRequest<String?, String?> {
     return [
       {
         "to": contractAddress.toSolidityHex(),
-        "data":
-            BytesUtils.toHexString(_encoder.encode(tokenId), prefix: "0x"),
+        "data": BytesUtils.toHexString(_encoder.encode(tokenId), prefix: "0x"),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }

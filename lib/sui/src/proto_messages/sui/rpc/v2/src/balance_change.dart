@@ -6,20 +6,16 @@ import 'package:on_chain/sui/src/serialization/protobuf/proto.dart';
 /// SPDX-License-Identifier: Apache-2.0
 /// The delta, or change, in balance for an address for a particular `Coin` type.
 class SuiBalanceChange extends SuiProtoMessage {
-    /// The account address that is affected by this balance change event.
+  /// The account address that is affected by this balance change event.
   final String? address;
 
-    /// The `Coin` type of this balance change event.
+  /// The `Coin` type of this balance change event.
   final String? coinType;
 
-    /// The amount or change in balance.
+  /// The amount or change in balance.
   final String? amount;
 
-  const SuiBalanceChange({
-    this.address,
-    this.coinType,
-    this.amount,
-  });
+  const SuiBalanceChange({this.address, this.coinType, this.amount});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -37,28 +33,32 @@ class SuiBalanceChange extends SuiProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        address,
-        coinType,
-        amount,
-      ];
-
+  List<Object?> get protoValues => [address, coinType, amount];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'address': address,
-      'coin_type': coinType,
-      'amount': amount,
-    };
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'address': address, 'coin_type': coinType, 'amount': amount};
   }
 
-
-  factory SuiBalanceChange.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiBalanceChange.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiBalanceChange(
-      address: json.valueAsString<String?>('address', normalizeKeyLookup: config.normalizeKeys),
-      coinType: json.valueAsString<String?>('coin_type', normalizeKeyLookup: config.normalizeKeys),
-      amount: json.valueAsString<String?>('amount', normalizeKeyLookup: config.normalizeKeys),
+      address: json.valueAsString<String?>(
+        'address',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      coinType: json.valueAsString<String?>(
+        'coin_type',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      amount: json.valueAsString<String?>(
+        'amount',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -72,8 +72,6 @@ class SuiBalanceChange extends SuiProtoMessage {
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.suiRpcV2BalanceChange;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.suiRpcV2BalanceChange;
 }
-
-

@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Crypto Service
@@ -47,46 +48,43 @@ class HederaApproveAllowanceOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaApproveAllowanceOutput copyWith(
-) {
-    return HederaApproveAllowanceOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaApproveAllowanceOutput copyWith() {
+    return HederaApproveAllowanceOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaApproveAllowanceOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaApproveAllowanceOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaApproveAllowanceOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaApproveAllowanceOutput();
   }
 
   factory HederaApproveAllowanceOutput.deserialize(List<int> bytes) {
-    return HederaApproveAllowanceOutput(
-    );
+    return HederaApproveAllowanceOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputApproveAllowanceOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputApproveAllowanceOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `deleteAllowances` transaction.
@@ -103,46 +101,43 @@ class HederaDeleteAllowanceOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaDeleteAllowanceOutput copyWith(
-) {
-    return HederaDeleteAllowanceOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaDeleteAllowanceOutput copyWith() {
+    return HederaDeleteAllowanceOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaDeleteAllowanceOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaDeleteAllowanceOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaDeleteAllowanceOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaDeleteAllowanceOutput();
   }
 
   factory HederaDeleteAllowanceOutput.deserialize(List<int> bytes) {
-    return HederaDeleteAllowanceOutput(
-    );
+    return HederaDeleteAllowanceOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputDeleteAllowanceOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputDeleteAllowanceOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `createAccount` transaction.
@@ -150,7 +145,7 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHede
 ///  * This message SHALL NOT duplicate information already contained in
 ///  * the original transaction.
 class HederaCreateAccountOutput extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * A newly created account identifier.&lt;br/&gt;
   ///      * This is the account identifier for the account created as part of
   ///      * any transaction that creates a new account.&lt;br/&gt;
@@ -162,9 +157,7 @@ class HederaCreateAccountOutput extends HederaProtoMessage with Equality {
   ///      * This value SHALL NOT be set if no account is created.
   final proto_basic_types.HederaAccountID? createdAccountId;
 
-  const HederaCreateAccountOutput({
-    this.createdAccountId,
-  });
+  const HederaCreateAccountOutput({this.createdAccountId});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -173,58 +166,64 @@ class HederaCreateAccountOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        createdAccountId,
-      ];
+  List<Object?> get protoValues => [createdAccountId];
 
-
-HederaCreateAccountOutput copyWith(
-{proto_basic_types.HederaAccountID? createdAccountId,
-
-}) {
+  HederaCreateAccountOutput copyWith({
+    proto_basic_types.HederaAccountID? createdAccountId,
+  }) {
     return HederaCreateAccountOutput(
-createdAccountId: createdAccountId ?? this.createdAccountId,
+      createdAccountId: createdAccountId ?? this.createdAccountId,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'created_account_id': config.encodeMessage(createdAccountId),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'created_account_id': config.encodeMessage(createdAccountId)};
   }
 
-
-  factory HederaCreateAccountOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaCreateAccountOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaCreateAccountOutput(
-      createdAccountId: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
-        key: 'created_account_id',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+      createdAccountId: json
+          .valueTo<proto_basic_types.HederaAccountID?, Object>(
+            key: 'created_account_id',
+            parse:
+                (v) => proto_basic_types.HederaAccountID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
     );
   }
 
   factory HederaCreateAccountOutput.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaCreateAccountOutput(
-      createdAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
+      createdAccountId: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputCreateAccountOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputCreateAccountOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `cryptoDelete` transaction.
@@ -241,46 +240,43 @@ class HederaDeleteAccountOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaDeleteAccountOutput copyWith(
-) {
-    return HederaDeleteAccountOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaDeleteAccountOutput copyWith() {
+    return HederaDeleteAccountOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaDeleteAccountOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaDeleteAccountOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaDeleteAccountOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaDeleteAccountOutput();
   }
 
   factory HederaDeleteAccountOutput.deserialize(List<int> bytes) {
-    return HederaDeleteAccountOutput(
-    );
+    return HederaDeleteAccountOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputDeleteAccountOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputDeleteAccountOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `cryptoTransfer` transaction.
@@ -297,46 +293,43 @@ class HederaCryptoTransferOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaCryptoTransferOutput copyWith(
-) {
-    return HederaCryptoTransferOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaCryptoTransferOutput copyWith() {
+    return HederaCryptoTransferOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaCryptoTransferOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaCryptoTransferOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaCryptoTransferOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaCryptoTransferOutput();
   }
 
   factory HederaCryptoTransferOutput.deserialize(List<int> bytes) {
-    return HederaCryptoTransferOutput(
-    );
+    return HederaCryptoTransferOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputCryptoTransferOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputCryptoTransferOutput;
 }
-
 
 /// *
 ///  * Block Stream data for a `updateAccount` transaction.
@@ -353,44 +346,40 @@ class HederaUpdateAccountOutput extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-      ],
+      fields: [],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-      ];
+  List<Object?> get protoValues => [];
 
-
-HederaUpdateAccountOutput copyWith(
-) {
-    return HederaUpdateAccountOutput(
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-    };
+  HederaUpdateAccountOutput copyWith() {
+    return HederaUpdateAccountOutput();
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaUpdateAccountOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
-    return HederaUpdateAccountOutput(
-    );
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {};
+  }
+
+  factory HederaUpdateAccountOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
+    return HederaUpdateAccountOutput();
   }
 
   factory HederaUpdateAccountOutput.deserialize(List<int> bytes) {
-    return HederaUpdateAccountOutput(
-    );
+    return HederaUpdateAccountOutput();
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputUpdateAccountOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl
+          .comHederaHapiBlockStreamOutputUpdateAccountOutput;
 }
-
-

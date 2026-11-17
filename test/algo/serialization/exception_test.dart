@@ -14,53 +14,51 @@ void _expectRoundTrip(BuError error) {
 
 void algoSerializationExceptionTest() {
   group('Algorand/Serialization Exceptions', () {
-  test('algorand plugin exception', () {
-    BuErrorCodec.registerTypes(OnChainErrorType.values);
-    _expectRoundTrip(
-      const BuError(
-        OnChainErrorType.algoPlugin,
-        "error",
-        details: {"code": "1"},
-      ),
-    );
-  });
+    test('algorand plugin exception', () {
+      BuErrorCodec.registerTypes(OnChainErrorType.values);
+      _expectRoundTrip(
+        const BuError(
+          OnChainErrorType.algoPlugin,
+          "error",
+          details: {"code": "1"},
+        ),
+      );
+    });
 
-  test('algorand abi exception', () {
-    _expectRoundTrip(
-      const BuError(
-        OnChainErrorType.algoAbi,
-        "error",
-        details: {"code": "1"},
-      ),
-    );
-  });
-  test('algorand tx builder exception', () {
-    _expectRoundTrip(
-      const BuError(
-        OnChainErrorType.algoTxBuilder,
-        "error",
-        details: {"code": "1"},
-      ),
-    );
-    _expectRoundTrip(OnChainErrors.algoTxEmptyGroup);
-    _expectRoundTrip(OnChainErrors.algoTxAlreadyGrouped);
-    _expectRoundTrip(OnChainErrors.algoTxNotSigned);
-    _expectRoundTrip(
-      OnChainErrors.algoTxNotBuilding(
-        AtomicTransactionComposerStatus.building.name,
-      ),
-    );
-    _expectRoundTrip(
-      OnChainErrors.algoTxGroupSizeExceeded(16),
-    );
-    _expectRoundTrip(
-      OnChainErrors.algoTxArgumentCountMismatch(
-        methodName: 'm',
-        expected: 1,
-        actual: 2,
-      ),
-    );
-  });
+    test('algorand abi exception', () {
+      _expectRoundTrip(
+        const BuError(
+          OnChainErrorType.algoAbi,
+          "error",
+          details: {"code": "1"},
+        ),
+      );
+    });
+    test('algorand tx builder exception', () {
+      _expectRoundTrip(
+        const BuError(
+          OnChainErrorType.algoTxBuilder,
+          "error",
+          details: {"code": "1"},
+        ),
+      );
+      _expectRoundTrip(OnChainErrors.algoTxEmptyGroup);
+      _expectRoundTrip(OnChainErrors.algoTxAlreadyGrouped);
+      _expectRoundTrip(OnChainErrors.algoTxNotSigned);
+      _expectRoundTrip(
+        OnChainErrors.algoTxNotBuilding(
+          AtomicTransactionComposerStatus.building.name,
+        ),
+      );
+      _expectRoundTrip(OnChainErrors.algoTxGroupSizeExceeded(16));
+      _expectRoundTrip(
+        OnChainErrors.algoTxArgumentCountMismatch(
+          methodName: 'm',
+          expected: 1,
+          actual: 2,
+        ),
+      );
+    });
   });
 }
 

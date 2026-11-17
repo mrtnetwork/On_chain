@@ -165,6 +165,49 @@ jobs:
           dart test -p chrome test/one_shot_browser_dart_test.dart
           --timeout=20m
 
+  dart-web-wasm:
+    name: Dart backend (browser, dart2wasm)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout on_chain
+        uses: actions/checkout@v4
+        with:
+          path: On_chain
+
+      - name: Checkout blockchain_utils (path dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: mrtnetwork/blockchain_utils
+          path: blockchain_utils
+
+      - name: Checkout onchain_proto (path dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: mrtnetwork/onchain_proto
+          path: onchain_proto
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        working-directory: On_chain
+        run: dart pub get --no-example
+
+      - name: Chrome wrapper (no-sandbox)
+        run: |
+          printf '#!/bin/sh\nexec /usr/bin/google-chrome --no-sandbox "$@"\n' \
+            > /tmp/chrome-nosandbox.sh
+          chmod +x /tmp/chrome-nosandbox.sh
+
+      - name: Run browser tests (pure Dart, dart2wasm)
+        working-directory: On_chain
+        env:
+          CHROME_EXECUTABLE: /tmp/chrome-nosandbox.sh
+        run: >
+          dart test -p chrome -c dart2wasm test/one_shot_browser_dart_test.dart
+          --timeout=20m
+
   wasm-web:
     name: Rust WASM backend (browser)
     runs-on: ubuntu-latest

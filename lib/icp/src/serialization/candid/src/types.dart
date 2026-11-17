@@ -1,4 +1,5 @@
 import 'package:on_chain/exception/onchain_error.dart';
+
 enum Opcode {
   null_(-1),
   bool_(-2),

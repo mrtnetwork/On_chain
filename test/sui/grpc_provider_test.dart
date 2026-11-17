@@ -6,6 +6,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 class _FakeSuiService with SuiServiceProvider {
   List<int>? lastGrpcBytes;
   String? lastGrpcMethod;
@@ -55,9 +56,7 @@ void grpcProviderTest() {
       expect(info.method, '/sui.rpc.v2.LedgerService/GetServiceInfo');
       expect(info.toBuffer(), isEmpty);
 
-      final obj = SuiGrpcRequestMessage(
-        SuiGetObjectRequest(objectId: '0x5'),
-      );
+      final obj = SuiGrpcRequestMessage(SuiGetObjectRequest(objectId: '0x5'));
       expect(obj.method, '/sui.rpc.v2.LedgerService/GetObject');
       expect(obj.toBuffer(), isNotEmpty);
 
@@ -101,9 +100,7 @@ void grpcProviderTest() {
 
     test('quick client dispatches grpc through a fake service', () async {
       final service = _FakeSuiService();
-      final client = DefaultSuiQuickClient(
-        provider: SuiProvider(service),
-      );
+      final client = DefaultSuiQuickClient(provider: SuiProvider(service));
       final chainId = await client.getChainId();
       expect(chainId, '35834a8a');
       expect(
@@ -118,4 +115,3 @@ void grpcProviderTest() {
 void main() {
   OnChainUtilsTestApi.runTest(grpcProviderTest, "Grpc Provider");
 }
-

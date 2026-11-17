@@ -55,12 +55,10 @@ import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaDoubleValue extends HederaProtoMessage with Equality {
-    /// The double value.
+  /// The double value.
   final double? value;
 
-  const HederaDoubleValue({
-    this.value,
-  });
+  const HederaDoubleValue({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -69,55 +67,48 @@ class HederaDoubleValue extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.double(1),
-      ],
+      fields: [ProtoFieldConfig.double(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaDoubleValue copyWith(
-{double? value,
-
-}) {
-    return HederaDoubleValue(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': value,
-    };
+  HederaDoubleValue copyWith({double? value}) {
+    return HederaDoubleValue(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaDoubleValue.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': value};
+  }
+
+  factory HederaDoubleValue.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaDoubleValue(
-      value: json.valueAsDouble<double?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsDouble<double?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaDoubleValue.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaDoubleValue(
-      value: decode.getDouble<double?>(1),
-    );
+    return HederaDoubleValue(value: decode.getDouble<double?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufDoubleValue;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufDoubleValue;
 }
-
 
 /// Wrapper message for `float`.
 ///
@@ -126,12 +117,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaFloatValue extends HederaProtoMessage with Equality {
-    /// The float value.
+  /// The float value.
   final double? value;
 
-  const HederaFloatValue({
-    this.value,
-  });
+  const HederaFloatValue({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -140,55 +129,48 @@ class HederaFloatValue extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.float(1),
-      ],
+      fields: [ProtoFieldConfig.float(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaFloatValue copyWith(
-{double? value,
-
-}) {
-    return HederaFloatValue(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': value,
-    };
+  HederaFloatValue copyWith({double? value}) {
+    return HederaFloatValue(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaFloatValue.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': value};
+  }
+
+  factory HederaFloatValue.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaFloatValue(
-      value: json.valueAsDouble<double?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsDouble<double?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaFloatValue.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaFloatValue(
-      value: decode.getDouble<double?>(1),
-    );
+    return HederaFloatValue(value: decode.getDouble<double?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufFloatValue;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufFloatValue;
 }
-
 
 /// Wrapper message for `int64`.
 ///
@@ -197,12 +179,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaInt64Value extends HederaProtoMessage with Equality {
-    /// The int64 value.
+  /// The int64 value.
   final BigInt? value;
 
-  const HederaInt64Value({
-    this.value,
-  });
+  const HederaInt64Value({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -211,55 +191,48 @@ class HederaInt64Value extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-      ],
+      fields: [ProtoFieldConfig.int64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaInt64Value copyWith(
-{BigInt? value,
-
-}) {
-    return HederaInt64Value(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': config.encodeBigint(value),
-    };
+  HederaInt64Value copyWith({BigInt? value}) {
+    return HederaInt64Value(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaInt64Value.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': config.encodeBigint(value)};
+  }
+
+  factory HederaInt64Value.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaInt64Value(
-      value: json.valueAsBigInt<BigInt?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsBigInt<BigInt?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaInt64Value.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaInt64Value(
-      value: decode.getBigInt<BigInt?>(1),
-    );
+    return HederaInt64Value(value: decode.getBigInt<BigInt?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufInt64Value;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufInt64Value;
 }
-
 
 /// Wrapper message for `uint64`.
 ///
@@ -268,12 +241,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaUInt64Value extends HederaProtoMessage with Equality {
-    /// The uint64 value.
+  /// The uint64 value.
   final BigInt? value;
 
-  const HederaUInt64Value({
-    this.value,
-  });
+  const HederaUInt64Value({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -282,55 +253,48 @@ class HederaUInt64Value extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint64(1),
-      ],
+      fields: [ProtoFieldConfig.uint64(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaUInt64Value copyWith(
-{BigInt? value,
-
-}) {
-    return HederaUInt64Value(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': config.encodeBigint(value),
-    };
+  HederaUInt64Value copyWith({BigInt? value}) {
+    return HederaUInt64Value(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaUInt64Value.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': config.encodeBigint(value)};
+  }
+
+  factory HederaUInt64Value.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaUInt64Value(
-      value: json.valueAsBigInt<BigInt?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsBigInt<BigInt?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaUInt64Value.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaUInt64Value(
-      value: decode.getBigInt<BigInt?>(1),
-    );
+    return HederaUInt64Value(value: decode.getBigInt<BigInt?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufUInt64Value;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufUInt64Value;
 }
-
 
 /// Wrapper message for `int32`.
 ///
@@ -339,12 +303,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaInt32Value extends HederaProtoMessage with Equality {
-    /// The int32 value.
+  /// The int32 value.
   final int? value;
 
-  const HederaInt32Value({
-    this.value,
-  });
+  const HederaInt32Value({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -353,55 +315,48 @@ class HederaInt32Value extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int32(1),
-      ],
+      fields: [ProtoFieldConfig.int32(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaInt32Value copyWith(
-{int? value,
-
-}) {
-    return HederaInt32Value(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': value,
-    };
+  HederaInt32Value copyWith({int? value}) {
+    return HederaInt32Value(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaInt32Value.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': value};
+  }
+
+  factory HederaInt32Value.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaInt32Value(
-      value: json.valueAsInt<int?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsInt<int?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaInt32Value.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaInt32Value(
-      value: decode.getInt<int?>(1),
-    );
+    return HederaInt32Value(value: decode.getInt<int?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufInt32Value;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufInt32Value;
 }
-
 
 /// Wrapper message for `uint32`.
 ///
@@ -410,12 +365,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaUInt32Value extends HederaProtoMessage with Equality {
-    /// The uint32 value.
+  /// The uint32 value.
   final int? value;
 
-  const HederaUInt32Value({
-    this.value,
-  });
+  const HederaUInt32Value({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -424,55 +377,48 @@ class HederaUInt32Value extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.uint32(1),
-      ],
+      fields: [ProtoFieldConfig.uint32(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaUInt32Value copyWith(
-{int? value,
-
-}) {
-    return HederaUInt32Value(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': value,
-    };
+  HederaUInt32Value copyWith({int? value}) {
+    return HederaUInt32Value(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaUInt32Value.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': value};
+  }
+
+  factory HederaUInt32Value.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaUInt32Value(
-      value: json.valueAsInt<int?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsInt<int?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaUInt32Value.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaUInt32Value(
-      value: decode.getInt<int?>(1),
-    );
+    return HederaUInt32Value(value: decode.getInt<int?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufUInt32Value;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufUInt32Value;
 }
-
 
 /// Wrapper message for `bool`.
 ///
@@ -481,12 +427,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaBoolValue extends HederaProtoMessage with Equality {
-    /// The bool value.
+  /// The bool value.
   final bool? value;
 
-  const HederaBoolValue({
-    this.value,
-  });
+  const HederaBoolValue({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -495,55 +439,48 @@ class HederaBoolValue extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bool(1),
-      ],
+      fields: [ProtoFieldConfig.bool(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaBoolValue copyWith(
-{bool? value,
-
-}) {
-    return HederaBoolValue(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': value,
-    };
+  HederaBoolValue copyWith({bool? value}) {
+    return HederaBoolValue(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaBoolValue.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': value};
+  }
+
+  factory HederaBoolValue.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBoolValue(
-      value: json.valueAsBool<bool?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsBool<bool?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaBoolValue.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaBoolValue(
-      value: decode.getBool<bool?>(1),
-    );
+    return HederaBoolValue(value: decode.getBool<bool?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufBoolValue;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufBoolValue;
 }
-
 
 /// Wrapper message for `string`.
 ///
@@ -552,12 +489,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaStringValue extends HederaProtoMessage with Equality {
-    /// The string value.
+  /// The string value.
   final String? value;
 
-  const HederaStringValue({
-    this.value,
-  });
+  const HederaStringValue({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -566,55 +501,48 @@ class HederaStringValue extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.string(1),
-      ],
+      fields: [ProtoFieldConfig.string(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaStringValue copyWith(
-{String? value,
-
-}) {
-    return HederaStringValue(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': value,
-    };
+  HederaStringValue copyWith({String? value}) {
+    return HederaStringValue(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaStringValue.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': value};
+  }
+
+  factory HederaStringValue.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaStringValue(
-      value: json.valueAsString<String?>('value', normalizeKeyLookup: config.normalizeKeys),
+      value: json.valueAsString<String?>(
+        'value',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaStringValue.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaStringValue(
-      value: decode.getString<String?>(1),
-    );
+    return HederaStringValue(value: decode.getString<String?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufStringValue;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufStringValue;
 }
-
 
 /// Wrapper message for `bytes`.
 ///
@@ -623,12 +551,10 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleP
 /// Not recommended for use in new APIs, but still useful for legacy APIs and
 /// has no plan to be removed.
 class HederaBytesValue extends HederaProtoMessage with Equality {
-    /// The bytes value.
+  /// The bytes value.
   final List<int>? value;
 
-  const HederaBytesValue({
-    this.value,
-  });
+  const HederaBytesValue({this.value});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -637,53 +563,44 @@ class HederaBytesValue extends HederaProtoMessage with Equality {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.bytes(1),
-      ],
+      fields: [ProtoFieldConfig.bytes(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        value,
-      ];
+  List<Object?> get protoValues => [value];
 
-
-HederaBytesValue copyWith(
-{List<int>? value,
-
-}) {
-    return HederaBytesValue(
-value: value ?? this.value,
-    );
-  }
-  @override
-List<dynamic> get variables => protoValues;
-
-  @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'value': config.encodeBinary(value),
-    };
+  HederaBytesValue copyWith({List<int>? value}) {
+    return HederaBytesValue(value: value ?? this.value);
   }
 
+  @override
+  List<dynamic> get variables => protoValues;
 
-  factory HederaBytesValue.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'value': config.encodeBinary(value)};
+  }
+
+  factory HederaBytesValue.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaBytesValue(
-      value: config.decodeBinary<List<int>?>(json.valueAs('value', normalizeKeyLookup: config.normalizeKeys)),
+      value: config.decodeBinary<List<int>?>(
+        json.valueAs('value', normalizeKeyLookup: config.normalizeKeys),
+      ),
     );
   }
 
   factory HederaBytesValue.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
-    return HederaBytesValue(
-      value: decode.getBytes<List<int>?>(1),
-    );
+    return HederaBytesValue(value: decode.getBytes<List<int>?>(1));
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.googleProtobufBytesValue;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.googleProtobufBytesValue;
 }
-
-

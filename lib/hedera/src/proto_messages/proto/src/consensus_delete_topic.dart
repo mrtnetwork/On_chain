@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Delete Topic
@@ -28,14 +29,13 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaConsensusDeleteTopicTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaConsensusDeleteTopicTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * Topic to be deleted.
   final proto_basic_types.HederaTopicID? topicID;
 
-  const HederaConsensusDeleteTopicTransactionBody({
-    this.topicID,
-  });
+  const HederaConsensusDeleteTopicTransactionBody({this.topicID});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -44,56 +44,61 @@ class HederaConsensusDeleteTopicTransactionBody extends HederaProtoMessage with 
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.message(1),
-      ],
+      fields: [ProtoFieldConfig.message(1)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        topicID,
-      ];
+  List<Object?> get protoValues => [topicID];
 
-
-HederaConsensusDeleteTopicTransactionBody copyWith(
-{proto_basic_types.HederaTopicID? topicID,
-
-}) {
+  HederaConsensusDeleteTopicTransactionBody copyWith({
+    proto_basic_types.HederaTopicID? topicID,
+  }) {
     return HederaConsensusDeleteTopicTransactionBody(
-topicID: topicID ?? this.topicID,
+      topicID: topicID ?? this.topicID,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'topicID': config.encodeMessage(topicID),
-    };
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'topicID': config.encodeMessage(topicID)};
   }
 
-
-  factory HederaConsensusDeleteTopicTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaConsensusDeleteTopicTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaConsensusDeleteTopicTransactionBody(
       topicID: json.valueTo<proto_basic_types.HederaTopicID?, Object>(
         key: 'topicID',
-        parse: (v) => proto_basic_types.HederaTopicID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => proto_basic_types.HederaTopicID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
-  factory HederaConsensusDeleteTopicTransactionBody.deserialize(List<int> bytes) {
+  factory HederaConsensusDeleteTopicTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaConsensusDeleteTopicTransactionBody(
-      topicID: decode.messageTo<proto_basic_types.HederaTopicID?>(1, (b) => proto_basic_types.HederaTopicID.deserialize(b)),
+      topicID: decode.messageTo<proto_basic_types.HederaTopicID?>(
+        1,
+        (b) => proto_basic_types.HederaTopicID.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoConsensusDeleteTopicTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoConsensusDeleteTopicTransactionBody;
 }
-
-

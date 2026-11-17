@@ -91,12 +91,12 @@ import 'package:on_chain/sui/src/serialization/protobuf/proto.dart';
 /// microsecond should be expressed in JSON format as "3.000001s".
 ///
 class SuiDuration extends SuiProtoMessage {
-    /// Signed seconds of the span of time. Must be from -315,576,000,000
+  /// Signed seconds of the span of time. Must be from -315,576,000,000
   /// to +315,576,000,000 inclusive. Note: these bounds are computed from:
   /// 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
   final BigInt? seconds;
 
-    /// Signed fractions of a second at nanosecond resolution of the span
+  /// Signed fractions of a second at nanosecond resolution of the span
   /// of time. Durations less than one second are represented with a 0
   /// `seconds` field and a positive or negative `nanos` field. For durations
   /// of one second or more, a non-zero value for the `nanos` field must be
@@ -104,10 +104,7 @@ class SuiDuration extends SuiProtoMessage {
   /// to +999,999,999 inclusive.
   final int? nanos;
 
-  const SuiDuration({
-    this.seconds,
-    this.nanos,
-  });
+  const SuiDuration({this.seconds, this.nanos});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -116,33 +113,33 @@ class SuiDuration extends SuiProtoMessage {
     return ProtoMessageConfig(
       syntax: ProtoSyntax.v3,
       options: const [],
-      fields: [
-        ProtoFieldConfig.int64(1),
-        ProtoFieldConfig.int32(2),
-      ],
+      fields: [ProtoFieldConfig.int64(1), ProtoFieldConfig.int32(2)],
     );
   }
 
   @override
-  List<Object?> get protoValues => [
-        seconds,
-        nanos,
-      ];
-
+  List<Object?> get protoValues => [seconds, nanos];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
-    return {
-      'seconds': config.encodeBigint(seconds),
-      'nanos': nanos,
-    };
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
+    return {'seconds': config.encodeBigint(seconds), 'nanos': nanos};
   }
 
-
-  factory SuiDuration.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiDuration.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiDuration(
-      seconds: json.valueAsBigInt<BigInt?>('seconds', normalizeKeyLookup: config.normalizeKeys),
-      nanos: json.valueAsInt<int?>('nanos', normalizeKeyLookup: config.normalizeKeys),
+      seconds: json.valueAsBigInt<BigInt?>(
+        'seconds',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      nanos: json.valueAsInt<int?>(
+        'nanos',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -155,8 +152,6 @@ class SuiDuration extends SuiProtoMessage {
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.googleProtobufDuration;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.googleProtobufDuration;
 }
-
-

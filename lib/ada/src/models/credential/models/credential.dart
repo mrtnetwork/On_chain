@@ -12,10 +12,11 @@ abstract class Credential with InternalCborSerialization {
 
   /// Constructs a [Credential] instance with the specified [hashBytes].
   Credential(List<int> hashBytes)
-    : data = AdaTransactionUtils.validateFixedLengthBytes(
-        bytes: hashBytes,
-        length: AdaTransactionConstant.blake2b224DigestSize,
-      ).asImmutableBytes;
+    : data =
+          AdaTransactionUtils.validateFixedLengthBytes(
+            bytes: hashBytes,
+            length: AdaTransactionConstant.blake2b224DigestSize,
+          ).asImmutableBytes;
 
   /// Deserializes a [Credential] from a CBOR list value [cbor].
   factory Credential.deserialize(CborListValue cbor) {

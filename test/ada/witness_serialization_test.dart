@@ -3,14 +3,17 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void witnessSerializationTest() {
   group('ADA/Witness Serialization', _witnessSerialization);
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(witnessSerializationTest, "Witness Serialization");
+  OnChainUtilsTestApi.runTest(
+    witnessSerializationTest,
+    "Witness Serialization",
+  );
 }
-
 
 void _witnessSerialization() {
   test('serialization', () {

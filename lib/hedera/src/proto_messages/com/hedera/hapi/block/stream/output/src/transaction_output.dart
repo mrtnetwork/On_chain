@@ -1,10 +1,14 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/util_service.dart" as com_hedera_hapi_block_stream_output_util_service;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/smart_contract_service.dart" as com_hedera_hapi_block_stream_output_smart_contract_service;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/schedule_service.dart" as com_hedera_hapi_block_stream_output_schedule_service;
-import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/crypto_service.dart" as com_hedera_hapi_block_stream_output_crypto_service;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/util_service.dart"
+    as com_hedera_hapi_block_stream_output_util_service;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/smart_contract_service.dart"
+    as com_hedera_hapi_block_stream_output_smart_contract_service;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/schedule_service.dart"
+    as com_hedera_hapi_block_stream_output_schedule_service;
+import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/output/src/crypto_service.dart"
+    as com_hedera_hapi_block_stream_output_crypto_service;
 
 /// *
 ///  * # Transaction Output
@@ -101,37 +105,44 @@ import "package:on_chain/hedera/src/proto_messages/com/hedera/hapi/block/stream/
 ///  *    FreezeOutput freeze_network;
 ///  * --&gt;
 class HederaTransactionOutput extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///          * Output from a utilPrng transaction to request a
   ///          * deterministic pseudo-random number.
-  final com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput? utilPrng;
+  final com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput?
+  utilPrng;
 
-    /// *
+  /// *
   ///          * Output from a contract call transaction.
-  final com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput? contractCall;
+  final com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput?
+  contractCall;
 
-    /// *
+  /// *
   ///          * Output from an ethereum call transaction.
-  final com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput? ethereumCall;
+  final com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput?
+  ethereumCall;
 
-    /// *
+  /// *
   ///          * Output from a contract create transaction.
-  final com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput? contractCreate;
+  final com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput?
+  contractCreate;
 
-    /// *
+  /// *
   ///          * Output from a schedule create transaction that executed
   ///          * immediately on creation.
-  final com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput? createSchedule;
+  final com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput?
+  createSchedule;
 
-    /// *
+  /// *
   ///          * Output from a schedule sign transaction that resulted in
   ///          * executing the scheduled transaction.
-  final com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput? signSchedule;
+  final com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput?
+  signSchedule;
 
-    /// *
+  /// *
   ///          * Output from a transaction that includes the creation of a new
   ///          * CryptoService Account.
-  final com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput? accountCreate;
+  final com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput?
+  accountCreate;
 
   const HederaTransactionOutput({
     this.utilPrng,
@@ -164,47 +175,55 @@ class HederaTransactionOutput extends HederaProtoMessage with Equality {
 
   @override
   List<Object?> get protoValues => [
-        utilPrng,
-        contractCall,
-        ethereumCall,
-        contractCreate,
-        createSchedule,
-        signSchedule,
-        accountCreate,
-      ];
+    utilPrng,
+    contractCall,
+    ethereumCall,
+    contractCreate,
+    createSchedule,
+    signSchedule,
+    accountCreate,
+  ];
 
+  HederaTransactionOutput copyWith({
+    com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput?
+    utilPrng,
 
-HederaTransactionOutput copyWith(
-{com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput? utilPrng,
+    com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput?
+    contractCall,
 
-com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput? contractCall,
+    com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput?
+    ethereumCall,
 
-com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput? ethereumCall,
+    com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput?
+    contractCreate,
 
-com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput? contractCreate,
+    com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput?
+    createSchedule,
 
-com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput? createSchedule,
+    com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput?
+    signSchedule,
 
-com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput? signSchedule,
-
-com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput? accountCreate,
-
-}) {
+    com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput?
+    accountCreate,
+  }) {
     return HederaTransactionOutput(
-utilPrng: utilPrng ?? this.utilPrng,
-contractCall: contractCall ?? this.contractCall,
-ethereumCall: ethereumCall ?? this.ethereumCall,
-contractCreate: contractCreate ?? this.contractCreate,
-createSchedule: createSchedule ?? this.createSchedule,
-signSchedule: signSchedule ?? this.signSchedule,
-accountCreate: accountCreate ?? this.accountCreate,
+      utilPrng: utilPrng ?? this.utilPrng,
+      contractCall: contractCall ?? this.contractCall,
+      ethereumCall: ethereumCall ?? this.ethereumCall,
+      contractCreate: contractCreate ?? this.contractCreate,
+      createSchedule: createSchedule ?? this.createSchedule,
+      signSchedule: signSchedule ?? this.signSchedule,
+      accountCreate: accountCreate ?? this.accountCreate,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'util_prng': config.encodeMessage(utilPrng),
       'contract_call': config.encodeMessage(contractCall),
@@ -216,56 +235,161 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaTransactionOutput.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTransactionOutput.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTransactionOutput(
-      utilPrng: json.valueTo<com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput?, Object>(
+      utilPrng: json.valueTo<
+        com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput?,
+        Object
+      >(
         key: 'util_prng',
-        parse: (v) => com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      contractCall: json.valueTo<com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_util_service
+                .HederaUtilPrngOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      contractCall: json.valueTo<
+        com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput?,
+        Object
+      >(
         key: 'contract_call',
-        parse: (v) => com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      ethereumCall: json.valueTo<com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_smart_contract_service
+                .HederaCallContractOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      ethereumCall: json.valueTo<
+        com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput?,
+        Object
+      >(
         key: 'ethereum_call',
-        parse: (v) => com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      contractCreate: json.valueTo<com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_smart_contract_service
+                .HederaEthereumOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      contractCreate: json.valueTo<
+        com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput?,
+        Object
+      >(
         key: 'contract_create',
-        parse: (v) => com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      createSchedule: json.valueTo<com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_smart_contract_service
+                .HederaCreateContractOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      createSchedule: json.valueTo<
+        com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput?,
+        Object
+      >(
         key: 'create_schedule',
-        parse: (v) => com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      signSchedule: json.valueTo<com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_schedule_service
+                .HederaCreateScheduleOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      signSchedule: json.valueTo<
+        com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput?,
+        Object
+      >(
         key: 'sign_schedule',
-        parse: (v) => com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      accountCreate: json.valueTo<com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput?, Object>(
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_schedule_service
+                .HederaSignScheduleOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      accountCreate: json.valueTo<
+        com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput?,
+        Object
+      >(
         key: 'account_create',
-        parse: (v) => com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => com_hedera_hapi_block_stream_output_crypto_service
+                .HederaCreateAccountOutput.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaTransactionOutput.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTransactionOutput(
-      utilPrng: decode.messageTo<com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput?>(1, (b) => com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput.deserialize(b)),
-      contractCall: decode.messageTo<com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput?>(2, (b) => com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput.deserialize(b)),
-      ethereumCall: decode.messageTo<com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput?>(3, (b) => com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput.deserialize(b)),
-      contractCreate: decode.messageTo<com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput?>(4, (b) => com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput.deserialize(b)),
-      createSchedule: decode.messageTo<com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput?>(5, (b) => com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput.deserialize(b)),
-      signSchedule: decode.messageTo<com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput?>(6, (b) => com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput.deserialize(b)),
-      accountCreate: decode.messageTo<com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput?>(7, (b) => com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput.deserialize(b)),
+      utilPrng: decode.messageTo<
+        com_hedera_hapi_block_stream_output_util_service.HederaUtilPrngOutput?
+      >(
+        1,
+        (b) => com_hedera_hapi_block_stream_output_util_service
+            .HederaUtilPrngOutput.deserialize(b),
+      ),
+      contractCall: decode.messageTo<
+        com_hedera_hapi_block_stream_output_smart_contract_service.HederaCallContractOutput?
+      >(
+        2,
+        (b) => com_hedera_hapi_block_stream_output_smart_contract_service
+            .HederaCallContractOutput.deserialize(b),
+      ),
+      ethereumCall: decode.messageTo<
+        com_hedera_hapi_block_stream_output_smart_contract_service.HederaEthereumOutput?
+      >(
+        3,
+        (b) => com_hedera_hapi_block_stream_output_smart_contract_service
+            .HederaEthereumOutput.deserialize(b),
+      ),
+      contractCreate: decode.messageTo<
+        com_hedera_hapi_block_stream_output_smart_contract_service.HederaCreateContractOutput?
+      >(
+        4,
+        (b) => com_hedera_hapi_block_stream_output_smart_contract_service
+            .HederaCreateContractOutput.deserialize(b),
+      ),
+      createSchedule: decode.messageTo<
+        com_hedera_hapi_block_stream_output_schedule_service.HederaCreateScheduleOutput?
+      >(
+        5,
+        (b) => com_hedera_hapi_block_stream_output_schedule_service
+            .HederaCreateScheduleOutput.deserialize(b),
+      ),
+      signSchedule: decode.messageTo<
+        com_hedera_hapi_block_stream_output_schedule_service.HederaSignScheduleOutput?
+      >(
+        6,
+        (b) => com_hedera_hapi_block_stream_output_schedule_service
+            .HederaSignScheduleOutput.deserialize(b),
+      ),
+      accountCreate: decode.messageTo<
+        com_hedera_hapi_block_stream_output_crypto_service.HederaCreateAccountOutput?
+      >(
+        7,
+        (b) => com_hedera_hapi_block_stream_output_crypto_service
+            .HederaCreateAccountOutput.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputTransactionOutput;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.comHederaHapiBlockStreamOutputTransactionOutput;
 }
-
-

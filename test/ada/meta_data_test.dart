@@ -3,6 +3,7 @@ import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void metaDataTest() {
   group('ADA/Metadata', () {
     _metadataFromJson();
@@ -15,7 +16,6 @@ void metaDataTest() {
 void main() {
   OnChainUtilsTestApi.runTest(metaDataTest, "Meta Data");
 }
-
 
 String _encodeDecodeCheck(
   List<PlutusScript> scripts, {

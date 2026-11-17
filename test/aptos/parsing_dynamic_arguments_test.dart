@@ -3,6 +3,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 /// this test copied from aptos ts sdk
 /// https://github.com/aptos-labs/aptos-ts-sdk/blob/main/tests/e2e/transaction/transactionArguments.test.ts
 
@@ -20,9 +21,11 @@ void parsingDynamicArgumentsTest() {
 }
 
 void main() {
-  OnChainUtilsTestApi.runTest(parsingDynamicArgumentsTest, "Parsing Dynamic Arguments");
+  OnChainUtilsTestApi.runTest(
+    parsingDynamicArgumentsTest,
+    "Parsing Dynamic Arguments",
+  );
 }
-
 
 void _testAbi() {
   test("aptos module abi parsing arguments", () {

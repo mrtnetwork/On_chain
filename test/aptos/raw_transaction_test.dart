@@ -2,6 +2,7 @@ import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
+
 void rawTransactionTest() {
   group('Aptos/Raw Transaction', () {
     _script();
@@ -13,7 +14,6 @@ void rawTransactionTest() {
 void main() {
   OnChainUtilsTestApi.runTest(rawTransactionTest, "Raw Transaction");
 }
-
 
 void _script() {
   test("Raw Transaction Script serialization", () {

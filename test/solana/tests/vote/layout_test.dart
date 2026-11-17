@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void voteLayoutTest() {
   group('Solana/Vote Layout', () {
     _initializeAccount();
@@ -16,7 +17,6 @@ void voteLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(voteLayoutTest, "Layout");
 }
-
 
 void _initializeAccount() {
   test('initializeAccount', () {

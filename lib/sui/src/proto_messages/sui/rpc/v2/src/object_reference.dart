@@ -6,20 +6,16 @@ import 'package:on_chain/sui/src/serialization/protobuf/proto.dart';
 /// SPDX-License-Identifier: Apache-2.0
 /// Reference to an object.
 class SuiObjectReference extends SuiProtoMessage {
-    /// The object id of this object.
+  /// The object id of this object.
   final String? objectId;
 
-    /// The version of this object.
+  /// The version of this object.
   final BigInt? version;
 
-    /// The digest of this object.
+  /// The digest of this object.
   final String? digest;
 
-  const SuiObjectReference({
-    this.objectId,
-    this.version,
-    this.digest,
-  });
+  const SuiObjectReference({this.objectId, this.version, this.digest});
 
   @override
   ProtoMessageConfig protoConfig() => protoConfigStatic();
@@ -37,15 +33,12 @@ class SuiObjectReference extends SuiProtoMessage {
   }
 
   @override
-  List<Object?> get protoValues => [
-        objectId,
-        version,
-        digest,
-      ];
-
+  List<Object?> get protoValues => [objectId, version, digest];
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'object_id': objectId,
       'version': config.encodeBigint(version),
@@ -53,12 +46,23 @@ class SuiObjectReference extends SuiProtoMessage {
     };
   }
 
-
-  factory SuiObjectReference.fromJson(Map<String, dynamic> json, {ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  factory SuiObjectReference.fromJson(
+    Map<String, dynamic> json, {
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return SuiObjectReference(
-      objectId: json.valueAsString<String?>('object_id', normalizeKeyLookup: config.normalizeKeys),
-      version: json.valueAsBigInt<BigInt?>('version', normalizeKeyLookup: config.normalizeKeys),
-      digest: json.valueAsString<String?>('digest', normalizeKeyLookup: config.normalizeKeys),
+      objectId: json.valueAsString<String?>(
+        'object_id',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      version: json.valueAsBigInt<BigInt?>(
+        'version',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      digest: json.valueAsString<String?>(
+        'digest',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
@@ -72,8 +76,6 @@ class SuiObjectReference extends SuiProtoMessage {
   }
 
   @override
-DefaultSuiProtoTypeUrl get declarationId => DefaultSuiProtoTypeUrl.suiRpcV2ObjectReference;
-
+  DefaultSuiProtoTypeUrl get declarationId =>
+      DefaultSuiProtoTypeUrl.suiRpcV2ObjectReference;
 }
-
-

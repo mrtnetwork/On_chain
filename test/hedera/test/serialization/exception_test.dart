@@ -41,9 +41,7 @@ void exceptionTest() {
           details: {"code": "1"},
         ),
       );
-      _expectRoundTrip(
-        OnChainErrors.hederaAddress("parse", reason: "bad"),
-      );
+      _expectRoundTrip(OnChainErrors.hederaAddress("parse", reason: "bad"));
     });
   });
 }

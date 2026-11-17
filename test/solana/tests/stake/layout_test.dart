@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
 import '../../../utils.dart';
+
 void stakeLayoutTest() {
   group('Solana/Stake Program Layout', () {
     _initialize();
@@ -20,7 +21,6 @@ void stakeLayoutTest() {
 void main() {
   OnChainUtilsTestApi.runTest(stakeLayoutTest, "Layout");
 }
-
 
 void _initialize() {
   test('initialize', () {

@@ -380,7 +380,10 @@ enum DefaultSuiProtoTypeUrl implements SuiProtoTypeUrl {
   String getServiceUrl() {
     final serviceUrl = this.serviceUrl;
     if (serviceUrl == null) {
-      throw BuError(DefaultErrorType.notFound, "No matching item found for the given value. null");
+      throw BuError(
+        DefaultErrorType.notFound,
+        "No matching item found for the given value. null",
+      );
     }
     return serviceUrl;
   }

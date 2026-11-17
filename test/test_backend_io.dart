@@ -66,9 +66,7 @@ Future<void> _downloadFile(String url, String outPath) async {
     request.maxRedirects = 5;
     final response = await request.close();
     if (response.statusCode != HttpStatus.ok) {
-      throw StateError(
-        'Download failed: $url (HTTP ${response.statusCode}).',
-      );
+      throw StateError('Download failed: $url (HTTP ${response.statusCode}).');
     }
     final out = File(outPath);
     await out.parent.create(recursive: true);
@@ -119,20 +117,18 @@ Future<String> ensureRustCrate({
     final archive = File('${d.parent.path}/.blockchain-utils.tar.gz');
     final stage = Directory('${d.parent.path}/.blockchain-utils-extract');
     try {
-      await _downloadFile(
-        kOfficialRustTarball,
-        archive.path,
-      ).timeout(const Duration(minutes: 10), onTimeout: () {
-        throw StateError('Download timed out: $kOfficialRustTarball.');
-      });
+      await _downloadFile(kOfficialRustTarball, archive.path).timeout(
+        const Duration(minutes: 10),
+        onTimeout: () {
+          throw StateError('Download timed out: $kOfficialRustTarball.');
+        },
+      );
       if (stage.existsSync()) stage.deleteSync(recursive: true);
       await stage.create(recursive: true);
       await _run('tar', ['-xzf', archive.path, '-C', stage.path]);
       final entries = stage.listSync();
       if (entries.length != 1 || entries.single is! Directory) {
-        throw StateError(
-          'Unexpected tarball layout in $kOfficialRustTarball.',
-        );
+        throw StateError('Unexpected tarball layout in $kOfficialRustTarball.');
       }
       await (entries.single as Directory).rename(target);
     } finally {
@@ -190,10 +186,13 @@ Future<void> _run(
   final out = StringBuffer();
   process.stdout.transform(utf8.decoder).listen(out.write);
   process.stderr.transform(utf8.decoder).listen(out.write);
-  final code = await process.exitCode.timeout(timeout, onTimeout: () {
-    process.kill();
-    throw StateError('`$exe ${args.join(' ')}` timed out after $timeout.');
-  });
+  final code = await process.exitCode.timeout(
+    timeout,
+    onTimeout: () {
+      process.kill();
+      throw StateError('`$exe ${args.join(' ')}` timed out after $timeout.');
+    },
+  );
   if (code != 0) {
     final tail = out.toString().split('\n').reversed.take(25).toList().reversed;
     throw StateError(
@@ -296,17 +295,22 @@ Future<void> ensureWasmAssets({
   final wasm = File('${out.path}/bu_bg.wasm');
   if (!force && js.existsSync() && wasm.existsSync()) return;
   final crate = await ensureRustCrate(cloneIfMissing: cloneIfMissing);
-  await _run('cargo', [
-    'build',
-    '--target',
-    'wasm32-unknown-unknown',
-    if (profile == 'release') '--release',
-    '--no-default-features',
-    '--features',
-    wasmBuildFeatures,
-    '--manifest-path',
-    '$crate/Cargo.toml',
-  ], cwd: crate, timeout: const Duration(minutes: 60));
+  await _run(
+    'cargo',
+    [
+      'build',
+      '--target',
+      'wasm32-unknown-unknown',
+      if (profile == 'release') '--release',
+      '--no-default-features',
+      '--features',
+      wasmBuildFeatures,
+      '--manifest-path',
+      '$crate/Cargo.toml',
+    ],
+    cwd: crate,
+    timeout: const Duration(minutes: 60),
+  );
   final artifact =
       '${_cargoTargetDir(crate)}/wasm32-unknown-unknown/$profile/${_wasmArtifactName(crate)}';
   if (!File(artifact).existsSync()) {
@@ -332,16 +336,21 @@ Future<void> ensureWasmAssets({
 String _wasmArtifactName(String crateDir) {
   try {
     final manifest = File('$crateDir/Cargo.toml').readAsStringSync();
-    final libSection = manifest.split(RegExp(r'^\[', multiLine: true)).firstWhere(
-      (s) => s.startsWith('lib]'),
-      orElse: () => '',
-    );
-    final libName = RegExp(r'^\s*name\s*=\s*"([^"]+)"', multiLine: true)
-        .firstMatch(libSection);
+    final libSection = manifest
+        .split(RegExp(r'^\[', multiLine: true))
+        .firstWhere((s) => s.startsWith('lib]'), orElse: () => '');
+    final libName = RegExp(
+      r'^\s*name\s*=\s*"([^"]+)"',
+      multiLine: true,
+    ).firstMatch(libSection);
     if (libName != null) return '${libName.group(1)}.wasm';
-    final pkgName = RegExp(r'^\s*name\s*=\s*"([^"]+)"', multiLine: true)
-        .firstMatch(manifest);
-    if (pkgName != null) return '${pkgName.group(1)!.replaceAll('-', '_')}.wasm';
+    final pkgName = RegExp(
+      r'^\s*name\s*=\s*"([^"]+)"',
+      multiLine: true,
+    ).firstMatch(manifest);
+    if (pkgName != null) {
+      return '${pkgName.group(1)!.replaceAll('-', '_')}.wasm';
+    }
   } catch (_) {}
   return 'blockchain_utils.wasm';
 }

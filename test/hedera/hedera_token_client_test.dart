@@ -10,8 +10,7 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 class _StubMirrorService with HederaServiceProvider {
-  final BaseServiceResponse Function(HederaMirrorRequestDetails params)
-  respond;
+  final BaseServiceResponse Function(HederaMirrorRequestDetails params) respond;
   _StubMirrorService(this.respond);
 
   @override
@@ -45,10 +44,7 @@ class _StubMirrorService with HederaServiceProvider {
   }
 }
 
-BaseServiceResponse _ok(
-  HederaMirrorRequestDetails params,
-  Object payload,
-) {
+BaseServiceResponse _ok(HederaMirrorRequestDetails params, Object payload) {
   return params.toResponse(StringUtils.encodeJson(payload));
 }
 
@@ -136,9 +132,13 @@ void hederaTokenClientTest() {
   group('Hedera/Client token additions (offline)', () {
     test('getTokenBalance hits and misses', () async {
       final quick = _quick(
-        (p) => _ok(p, _accountStub(balance: 1000, tokens: [
-          _tokenEntry(tokenId: token, balance: 5),
-        ])),
+        (p) => _ok(
+          p,
+          _accountStub(
+            balance: 1000,
+            tokens: [_tokenEntry(tokenId: token, balance: 5)],
+          ),
+        ),
       );
       final addr = HederaAddress(owner);
       final tokenId = HederaAddress(token);
@@ -179,17 +179,11 @@ void hederaTokenClientTest() {
           'type': 'NON_FUNGIBLE_UNIQUE',
         }),
       );
-      expect(
-        await nft.getFungibleTokenMetadata(HederaAddress(token)),
-        isNull,
-      );
+      expect(await nft.getFungibleTokenMetadata(HederaAddress(token)), isNull);
     });
 
     test('getAccountNfts filters deleted and serial-less', () async {
-      Map<String, dynamic> nft({
-        required int serial,
-        bool deleted = false,
-      }) => {
+      Map<String, dynamic> nft({required int serial, bool deleted = false}) => {
         'serial_number': serial,
         'token_id': token,
         'deleted': deleted,
@@ -197,10 +191,7 @@ void hederaTokenClientTest() {
       };
       final quick = _quick(
         (p) => _ok(p, {
-          'nfts': [
-            nft(serial: 1),
-            nft(serial: 2, deleted: true),
-          ],
+          'nfts': [nft(serial: 1), nft(serial: 2, deleted: true)],
         }),
       );
       final nfts = await quick.getAccountNfts(HederaAddress(owner));
@@ -209,9 +200,7 @@ void hederaTokenClientTest() {
     });
 
     test('getAccountInfo null on 404, throws otherwise', () async {
-      final hit = _quick(
-        (p) => _ok(p, _accountStub(balance: 0)),
-      );
+      final hit = _quick((p) => _ok(p, _accountStub(balance: 0)));
       final info = await hit.getAccountInfo(HederaAddress(owner));
       expect(info, isNotNull);
       expect(
@@ -220,14 +209,8 @@ void hederaTokenClientTest() {
       );
 
       final missing = _quick(_notFound);
-      expect(
-        await missing.getAccountInfo(HederaAddress(owner)),
-        isNull,
-      );
-      expect(
-        await missing.resolveAccountId(HederaAddress(owner)),
-        isNull,
-      );
+      expect(await missing.getAccountInfo(HederaAddress(owner)), isNull);
+      expect(await missing.resolveAccountId(HederaAddress(owner)), isNull);
 
       final broken = _quick(_serverError);
       expect(

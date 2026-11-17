@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Submit Message
@@ -27,17 +28,17 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  * ### Block Stream Effects
 ///  * None
 class HederaConsensusMessageChunkInfo extends HederaProtoMessage with Equality {
-    /// *
+  /// *
   ///      * The TransactionID of the first chunk.
   ///      * &lt;p&gt;
   ///      * This MUST be set for every chunk in a fragmented message.
   final proto_basic_types.HederaTransactionID? initialTransactionID;
 
-    /// *
+  /// *
   ///      * The total number of chunks in the message.
   final int? total;
 
-    /// *
+  /// *
   ///      * The sequence number (from 1 to total) of the current chunk
   ///      * in the message.
   final int? number;
@@ -64,32 +65,29 @@ class HederaConsensusMessageChunkInfo extends HederaProtoMessage with Equality {
   }
 
   @override
-  List<Object?> get protoValues => [
-        initialTransactionID,
-        total,
-        number,
-      ];
+  List<Object?> get protoValues => [initialTransactionID, total, number];
 
+  HederaConsensusMessageChunkInfo copyWith({
+    proto_basic_types.HederaTransactionID? initialTransactionID,
 
-HederaConsensusMessageChunkInfo copyWith(
-{proto_basic_types.HederaTransactionID? initialTransactionID,
+    int? total,
 
-int? total,
-
-int? number,
-
-}) {
+    int? number,
+  }) {
     return HederaConsensusMessageChunkInfo(
-initialTransactionID: initialTransactionID ?? this.initialTransactionID,
-total: total ?? this.total,
-number: number ?? this.number,
+      initialTransactionID: initialTransactionID ?? this.initialTransactionID,
+      total: total ?? this.total,
+      number: number ?? this.number,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'initialTransactionID': config.encodeMessage(initialTransactionID),
       'total': total,
@@ -97,32 +95,49 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaConsensusMessageChunkInfo.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaConsensusMessageChunkInfo.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaConsensusMessageChunkInfo(
-      initialTransactionID: json.valueTo<proto_basic_types.HederaTransactionID?, Object>(
-        key: 'initialTransactionID',
-        parse: (v) => proto_basic_types.HederaTransactionID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      total: json.valueAsInt<int?>('total', normalizeKeyLookup: config.normalizeKeys),
-      number: json.valueAsInt<int?>('number', normalizeKeyLookup: config.normalizeKeys),
+      initialTransactionID: json
+          .valueTo<proto_basic_types.HederaTransactionID?, Object>(
+            key: 'initialTransactionID',
+            parse:
+                (v) => proto_basic_types.HederaTransactionID.fromJson(
+                  JsonParser.valueAs(v),
+                  config: config,
+                ),
+            normalizeKeyLookup: config.normalizeKeys,
+          ),
+      total: json.valueAsInt<int?>(
+        'total',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      number: json.valueAsInt<int?>(
+        'number',
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
   factory HederaConsensusMessageChunkInfo.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaConsensusMessageChunkInfo(
-      initialTransactionID: decode.messageTo<proto_basic_types.HederaTransactionID?>(1, (b) => proto_basic_types.HederaTransactionID.deserialize(b)),
+      initialTransactionID: decode
+          .messageTo<proto_basic_types.HederaTransactionID?>(
+            1,
+            (b) => proto_basic_types.HederaTransactionID.deserialize(b),
+          ),
       total: decode.getInt<int?>(2),
       number: decode.getInt<int?>(3),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoConsensusMessageChunkInfo;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoConsensusMessageChunkInfo;
 }
-
 
 /// *
 ///  * Submit a message for consensus.&lt;br/&gt;
@@ -139,12 +154,13 @@ DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoCo
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaConsensusSubmitMessageTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaConsensusSubmitMessageTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * Topic to submit message to.
   final proto_basic_types.HederaTopicID? topicID;
 
-    /// *
+  /// *
   ///      * A message to be submitted.
   ///      * &lt;p&gt;
   ///      * This Transaction (including signatures) MUST be less than 6KiB.&lt;br/&gt;
@@ -152,7 +168,7 @@ class HederaConsensusSubmitMessageTransactionBody extends HederaProtoMessage wit
   ///      * if a message larger than this is required.
   final List<int>? message;
 
-    /// *
+  /// *
   ///      * Information for the current "chunk" in a fragmented message.
   ///      * &lt;p&gt;
   ///      * This value is REQUIRED if the full `message` is submitted in two or
@@ -183,32 +199,29 @@ class HederaConsensusSubmitMessageTransactionBody extends HederaProtoMessage wit
   }
 
   @override
-  List<Object?> get protoValues => [
-        topicID,
-        message,
-        chunkInfo,
-      ];
+  List<Object?> get protoValues => [topicID, message, chunkInfo];
 
+  HederaConsensusSubmitMessageTransactionBody copyWith({
+    proto_basic_types.HederaTopicID? topicID,
 
-HederaConsensusSubmitMessageTransactionBody copyWith(
-{proto_basic_types.HederaTopicID? topicID,
+    List<int>? message,
 
-List<int>? message,
-
-HederaConsensusMessageChunkInfo? chunkInfo,
-
-}) {
+    HederaConsensusMessageChunkInfo? chunkInfo,
+  }) {
     return HederaConsensusSubmitMessageTransactionBody(
-topicID: topicID ?? this.topicID,
-message: message ?? this.message,
-chunkInfo: chunkInfo ?? this.chunkInfo,
+      topicID: topicID ?? this.topicID,
+      message: message ?? this.message,
+      chunkInfo: chunkInfo ?? this.chunkInfo,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'topicID': config.encodeMessage(topicID),
       'message': config.encodeBinary(message),
@@ -216,33 +229,53 @@ List<dynamic> get variables => protoValues;
     };
   }
 
-
-  factory HederaConsensusSubmitMessageTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaConsensusSubmitMessageTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaConsensusSubmitMessageTransactionBody(
       topicID: json.valueTo<proto_basic_types.HederaTopicID?, Object>(
         key: 'topicID',
-        parse: (v) => proto_basic_types.HederaTopicID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      message: config.decodeBinary<List<int>?>(json.valueAs('message', normalizeKeyLookup: config.normalizeKeys)),
+        parse:
+            (v) => proto_basic_types.HederaTopicID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      message: config.decodeBinary<List<int>?>(
+        json.valueAs('message', normalizeKeyLookup: config.normalizeKeys),
+      ),
       chunkInfo: json.valueTo<HederaConsensusMessageChunkInfo?, Object>(
         key: 'chunkInfo',
-        parse: (v) => HederaConsensusMessageChunkInfo.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
+        parse:
+            (v) => HederaConsensusMessageChunkInfo.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
     );
   }
 
-  factory HederaConsensusSubmitMessageTransactionBody.deserialize(List<int> bytes) {
+  factory HederaConsensusSubmitMessageTransactionBody.deserialize(
+    List<int> bytes,
+  ) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaConsensusSubmitMessageTransactionBody(
-      topicID: decode.messageTo<proto_basic_types.HederaTopicID?>(1, (b) => proto_basic_types.HederaTopicID.deserialize(b)),
+      topicID: decode.messageTo<proto_basic_types.HederaTopicID?>(
+        1,
+        (b) => proto_basic_types.HederaTopicID.deserialize(b),
+      ),
       message: decode.getBytes<List<int>?>(2),
-      chunkInfo: decode.messageTo<HederaConsensusMessageChunkInfo?>(3, (b) => HederaConsensusMessageChunkInfo.deserialize(b)),
+      chunkInfo: decode.messageTo<HederaConsensusMessageChunkInfo?>(
+        3,
+        (b) => HederaConsensusMessageChunkInfo.deserialize(b),
+      ),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoConsensusSubmitMessageTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoConsensusSubmitMessageTransactionBody;
 }
-
-

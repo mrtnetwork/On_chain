@@ -1,4 +1,5 @@
 ## 9.0.0
+- BREAKING: all legacy exception classes removed; every error is now `BuError` with an `OnChainErrorType` taxonomy value (message text and `details` preserved via `OnChainErrors.*` factories).
 - BREAKING: many chain RPC request/response types regenerated from OpenAPI / OpenRPC specs and tested against live nodes; field names and defaults may differ.
 - BREAKING: Tron transactions now use pregenerated protobuf models (`lib/tron/src/proto_messages/`); hand-written transaction models removed.
 - BREAKING: Sui JSON-RPC provider removed; Sui now speaks gRPC only (v2 proto API).

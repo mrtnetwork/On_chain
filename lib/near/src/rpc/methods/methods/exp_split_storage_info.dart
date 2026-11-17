@@ -2,7 +2,11 @@ import 'package:on_chain/near/src/rpc/core/core.dart';
 import 'package:on_chain/near/src/rpc/models/types/types.dart';
 
 class NearNodeRequestExperimentalSplitStorageInfo
-    extends NearNodeRequest<NearRpcRpcSplitStorageInfoResponse, Map<String, dynamic>> {
+    extends
+        NearNodeRequest<
+          NearRpcRpcSplitStorageInfoResponse,
+          Map<String, dynamic>
+        > {
   final NearRpcRpcSplitStorageInfoRequest args;
   const NearNodeRequestExperimentalSplitStorageInfo(this.args);
   @override

@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/hedera/src/proto_messages/types.dart';
 import 'package:on_chain/hedera/src/serialization/protobuf/proto.dart';
-import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" as proto_basic_types;
+import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart"
+    as proto_basic_types;
 
 /// *
 ///  * # Token Dissociate
@@ -43,8 +44,9 @@ import "package:on_chain/hedera/src/proto_messages/proto/src/basic_types.dart" a
 ///  *
 ///  * ### Block Stream Effects
 ///  * None
-class HederaTokenDissociateTransactionBody extends HederaProtoMessage with Equality {
-    /// *
+class HederaTokenDissociateTransactionBody extends HederaProtoMessage
+    with Equality {
+  /// *
   ///      * An account identifier.
   ///      * &lt;p&gt;
   ///      * The identified account SHALL be dissociated from each of the
@@ -55,7 +57,7 @@ class HederaTokenDissociateTransactionBody extends HederaProtoMessage with Equal
   ///      * The identified account MUST NOT be expired.
   final proto_basic_types.HederaAccountID? account;
 
-    /// *
+  /// *
   ///      * A list of token identifiers.
   ///      * &lt;p&gt;
   ///      * Each token identified in this list SHALL be dissociated from
@@ -92,59 +94,83 @@ class HederaTokenDissociateTransactionBody extends HederaProtoMessage with Equal
   }
 
   @override
-  List<Object?> get protoValues => [
-        account,
-        tokens,
-      ];
+  List<Object?> get protoValues => [account, tokens];
 
+  HederaTokenDissociateTransactionBody copyWith({
+    proto_basic_types.HederaAccountID? account,
 
-HederaTokenDissociateTransactionBody copyWith(
-{proto_basic_types.HederaAccountID? account,
-
-List<proto_basic_types.HederaTokenID>? tokens,
-
-}) {
+    List<proto_basic_types.HederaTokenID>? tokens,
+  }) {
     return HederaTokenDissociateTransactionBody(
-account: account ?? this.account,
-tokens: tokens ?? this.tokens,
+      account: account ?? this.account,
+      tokens: tokens ?? this.tokens,
     );
   }
-  @override
-List<dynamic> get variables => protoValues;
 
   @override
-  Map<String, dynamic> toJson({ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig}) {
+  List<dynamic> get variables => protoValues;
+
+  @override
+  Map<String, dynamic> toJson({
+    ProtoJsonConfig config = DefaultProtoJsonConfig.defaultConfig,
+  }) {
     return {
       'account': config.encodeMessage(account),
       'tokens': tokens.map((e) => config.encodeMessage(e)).toList(),
     };
   }
 
-
-  factory HederaTokenDissociateTransactionBody.fromJson(Map<String, dynamic> json, {HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig}) {
+  factory HederaTokenDissociateTransactionBody.fromJson(
+    Map<String, dynamic> json, {
+    HederaProtoJsonConfig config = HederaProtoJsonConfig.defaultConfig,
+  }) {
     return HederaTokenDissociateTransactionBody(
       account: json.valueTo<proto_basic_types.HederaAccountID?, Object>(
         key: 'account',
-        parse: (v) => proto_basic_types.HederaAccountID.fromJson(JsonParser.valueAs(v), config: config),
-        normalizeKeyLookup: config.normalizeKeys      ),
-      tokens: (json.valueEnsureAsList<dynamic>('tokens', normalizeKeyLookup: config.normalizeKeys , onMissing: ()=>[])).map((e) => JsonParser.valueTo<proto_basic_types.HederaTokenID, Object>(
-          value: e,
-          parse: (v) => proto_basic_types.HederaTokenID.fromJson(JsonParser.valueAs(v), config: config),
-        )).toList(),
+        parse:
+            (v) => proto_basic_types.HederaAccountID.fromJson(
+              JsonParser.valueAs(v),
+              config: config,
+            ),
+        normalizeKeyLookup: config.normalizeKeys,
+      ),
+      tokens:
+          (json.valueEnsureAsList<dynamic>(
+                'tokens',
+                normalizeKeyLookup: config.normalizeKeys,
+                onMissing: () => [],
+              ))
+              .map(
+                (e) =>
+                    JsonParser.valueTo<proto_basic_types.HederaTokenID, Object>(
+                      value: e,
+                      parse:
+                          (v) => proto_basic_types.HederaTokenID.fromJson(
+                            JsonParser.valueAs(v),
+                            config: config,
+                          ),
+                    ),
+              )
+              .toList(),
     );
   }
 
   factory HederaTokenDissociateTransactionBody.deserialize(List<int> bytes) {
     final decode = HederaProtoMessage.decode(bytes, protoConfigStatic());
     return HederaTokenDissociateTransactionBody(
-      account: decode.messageTo<proto_basic_types.HederaAccountID?>(1, (b) => proto_basic_types.HederaAccountID.deserialize(b)),
-      tokens: decode.getListOfBytes(2).map((b) => proto_basic_types.HederaTokenID.deserialize(b)).toList(),
+      account: decode.messageTo<proto_basic_types.HederaAccountID?>(
+        1,
+        (b) => proto_basic_types.HederaAccountID.deserialize(b),
+      ),
+      tokens:
+          decode
+              .getListOfBytes(2)
+              .map((b) => proto_basic_types.HederaTokenID.deserialize(b))
+              .toList(),
     );
   }
 
   @override
-DefaultHederaProtoTypeUrl get declarationId => DefaultHederaProtoTypeUrl.protoTokenDissociateTransactionBody;
-
+  DefaultHederaProtoTypeUrl get declarationId =>
+      DefaultHederaProtoTypeUrl.protoTokenDissociateTransactionBody;
 }
-
-

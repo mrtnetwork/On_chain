@@ -27,7 +27,7 @@ class EthereumRequestERC20Name extends EthereumRequest<String?, String?> {
         "to": contractAddress.toSolidityHex(),
         "data": BytesUtils.toHexString(_encoder.encodeCall(), prefix: "0x"),
       },
-      blockNumber
+      blockNumber,
     ];
   }
 }
