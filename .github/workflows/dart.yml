@@ -53,7 +53,10 @@ jobs:
 
       - name: Analyze
         working-directory: On_chain
-        run: dart analyze
+        # Scoped to non-example code: example/ is a Flutter app (needs the
+        # Flutter SDK; `dart pub get --no-example` skips it, so analyze it
+        # with `flutter analyze` instead).
+        run: dart analyze lib test tool
 
       - name: Run tests (pure Dart)
         working-directory: On_chain
@@ -106,7 +109,10 @@ jobs:
 
       - name: Analyze
         working-directory: On_chain
-        run: dart analyze
+        # Scoped to non-example code: example/ is a Flutter app (needs the
+        # Flutter SDK; `dart pub get --no-example` skips it, so analyze it
+        # with `flutter analyze` instead).
+        run: dart analyze lib test tool
 
       - name: Build FFI backend
         working-directory: On_chain

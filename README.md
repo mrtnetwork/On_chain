@@ -28,23 +28,63 @@ zero-dependency Rust backend (FFI on native, WASM on web, via
 
 ## Capability matrix
 
-| Network | Build / sign / submit | Addresses | Tokens / NFTs | Staking / governance | Multisig / multi-agent | Contracts / programs | RPC provider | HD wallet |
-|---|---|---|---|---|---|---|---|---|
-| Ethereum / EVM | ✅ (Legacy, EIP-1559, EIP-2930, EIP-4844, EIP-7702) | ✅ | ✅ ERC-20/721/1155-style + 4626 | ✅ | ✅ | ✅ Solidity ABI, EIP-712 (legacy/v3/v4, ZKSync), EIP-4361 | ✅ JSON-RPC | ✅ |
-| Tron | ✅ + visible-JSON mode | ✅ | ✅ TRC-10/20, shielded TRC-20 (mint/transfer/burn, Rust backend only) | ✅ votes, resources, witnesses | ✅ | ✅ native + TVM | ✅ HTTP + gRPC full node | ✅ |
-| Solana | ✅ versioned txs (legacy, v0, v1) | ✅ | ✅ SPL, Token-2022 (incl. confidential transfers — decrypt in Dart, ZK proving in Rust backend only), Metaplex, DAS | ✅ stake / stake-pool, vote | ✅ | ✅ 15+ prebuilt instructions, buffer layouts, MPL Core | ✅ + quick client | ✅ |
-| Cardano (Byron/Shelley/Conway) | ✅ builder + async signing | ✅ base/reward/pointer/enterprise, Byron/legacy | ✅ mint, Plutus, native scripts | ✅ stake/pool/MIR certs | ✅ | ✅ Plutus, metadata, withdrawals | ✅ | ✅ Icarus/Legacy seeds |
-| Aptos | ✅ script / entry / multisig / encrypted | ✅ ed25519, single/multi-key, MultiED25519, **keyless (OIDC zk-proofs)** | ✅ coin mgmt | — | ✅ MultiAgent, FeePayer, keyless authenticators | ✅ Move codecs | ✅ RPC + GraphQL | ✅ |
-| Sui | ✅ programmable txs | ✅ ed25519, secp256k1/r1, multisig, **zkLogin (OIDC)** | ✅ coin mgmt | ✅ staking txs | ✅ multisig + zkLogin authenticators | ✅ Move codecs | ✅ gRPC (v2 proto; JSON-RPC removed) | ✅ |
-| NEAR | ✅ all actions | ✅ implicit + named | ✅ NEP-141/171-style | ✅ | ✅ | ✅ contract calls | ✅ RPC + mixins | ✅ |
-| Tezos | ✅ operations | ✅ tz1/tz2/tz3 | ✅ FA1.2/FA2 transfers | ✅ delegation | ✅ | ✅ Michelson codecs + token helpers | ✅ RPC | ✅ |
-| Algorand | ✅ | ✅ | ✅ ASA | ✅ participation | ✅ multisig | ✅ ABI | ✅ RPC | ✅ |
-| Hedera | ✅ protobuf txs | ✅ | ✅ HTS | ✅ staking | ✅ threshold keys | ✅ smart contracts | ✅ gRPC | ✅ |
-| ICP | ✅ query/update | ✅ principals, accounts, ICRC | ✅ ICRC-1/2/7..., ledger, cycles | ✅ NNS governance | ✅ | ✅ Candid/DID codegen (`did/`) | ✅ | ✅ |
-| Filecoin | ✅ | ✅ secp/BLS/delegated | ✅ | — | ✅ | ✅ | ✅ RPC | ✅ |
+Details live in the per-network sections below; "—" means the chain has no
+native concept, not a missing feature.
 
-Chain-specific notes live in the per-network sections below; anything marked
-"—" means the chain has no native concept, not a missing feature.
+### Transactions & accounts
+
+| Network | Transactions | Addresses | HD wallet |
+|---|---|---|---|
+| Ethereum / EVM | Legacy, EIP-1559, EIP-2930, EIP-4844, EIP-7702 | ✅ | ✅ |
+| Tron | Native + TVM, visible-JSON mode | ✅ | ✅ |
+| Solana | Versioned (legacy, v0, v1) | ✅ | ✅ |
+| Cardano | Byron / Shelley / Conway, async signing | Base, reward, pointer, enterprise, Byron | Icarus / Legacy seeds |
+| Aptos | Script, entry, multisig, encrypted | ed25519, single/multi-key, MultiED25519, keyless | ✅ |
+| Sui | Programmable | ed25519, secp256k1/r1, multisig, zkLogin | ✅ |
+| NEAR | All actions | Implicit + named | ✅ |
+| Tezos | Operations | tz1 / tz2 / tz3 | ✅ |
+| Algorand | ✅ | ✅ | ✅ |
+| Hedera | Protobuf-native | ✅ | ✅ |
+| ICP | Query / update | Principals, accounts, ICRC | ✅ |
+| Filecoin | ✅ | secp / BLS / delegated | ✅ |
+
+### Assets, staking & signing
+
+| Network | Tokens / NFTs | Staking / governance | Multisig |
+|---|---|---|---|
+| Ethereum / EVM | ERC-20 / 721 / 1155, 4626 | ✅ | ✅ + DKLs23 TSS keys |
+| Tron | TRC-10 / 20, shielded TRC-20¹ | Votes, resources, witnesses | ✅ |
+| Solana | SPL, Token-2022², Metaplex, DAS | Stake / stake-pool, vote | ✅ + FROST TSS keys |
+| Cardano | Mint, Plutus, native scripts | Stake / pool / MIR certs | ✅ |
+| Aptos | Coin management | — | MultiAgent, FeePayer, keyless |
+| Sui | Coin management | ✅ staking txs | Multisig, zkLogin |
+| NEAR | NEP-141 / 171 | ✅ | ✅ |
+| Tezos | FA1.2 / FA2 | Delegation | ✅ |
+| Algorand | ASA | Participation | ✅ multisig |
+| Hedera | HTS | ✅ | Threshold keys |
+| ICP | ICRC-1 / 2 / 7…, ledger, cycles | NNS governance | ✅ |
+| Filecoin | ✅ | — | ✅ |
+
+### Programmability & connectivity
+
+| Network | Contracts / programs | Provider |
+|---|---|---|
+| Ethereum / EVM | Solidity ABI, EIP-712 (legacy/v3/v4, ZKSync), EIP-4361 | JSON-RPC |
+| Tron | Native contracts, TVM | HTTP + gRPC full node |
+| Solana | 15+ prebuilt instructions, buffer layouts, MPL Core | RPC + quick client |
+| Cardano | Plutus, metadata, withdrawals | RPC |
+| Aptos | Move codecs | RPC + GraphQL |
+| Sui | Move codecs | gRPC (v2 proto) |
+| NEAR | Contract calls | RPC + mixins |
+| Tezos | Michelson codecs + token helpers | RPC |
+| Algorand | ABI codecs | RPC |
+| Hedera | Smart contracts | gRPC |
+| ICP | Candid / DID codegen (`did/`) | RPC |
+| Filecoin | ✅ | RPC |
+
+> ¹ Shielded TRC-20 proving needs the Rust backend of `blockchain_utils`
+> (`SaplingApi`, Groth16). ² Token-2022 confidential-transfer proving needs the
+> Rust backend (`solana_zk`); balance read/decrypt stays in Dart.
 
 ## What's new vs the old `mrtnetwork/On_chain` release
 
