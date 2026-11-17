@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraSetForTokenMemberStakeLayout
     extends MetaplexHydraProgramLayout {
@@ -13,7 +13,7 @@ class MetaplexHydraSetForTokenMemberStakeLayout
       instruction:
           MetaplexHydraProgramInstruction
               .processSetForTokenMemberStake
-              .insturction,
+              .instruction,
     );
     return MetaplexHydraSetForTokenMemberStakeLayout(shares: decode['shares']);
   }

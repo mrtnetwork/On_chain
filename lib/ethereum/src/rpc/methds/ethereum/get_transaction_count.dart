@@ -23,7 +23,7 @@ class EthereumRequestGetTransactionCount extends EthereumRequest<int, Object> {
   }
 
   @override
-  int onResonse(result) {
+  int onResponse(result) {
     return EthereumRequest.onIntResponse(result);
   }
 

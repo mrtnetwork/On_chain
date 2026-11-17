@@ -1,67 +1,124 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/tron/src/provider/methods/request_methods.dart';
 
-/// An abstract class representing request parameters for TVM (Tron Virtual Machine) API calls.
-abstract class TronRequest<RESULT, RESPONSE>
-    extends BaseServiceRequest<RESULT, RESPONSE, TronRequestDetails> {
+enum TronProviderApi {
+  fullnode(0),
+  grpc(1);
+
+  final int value;
+  const TronProviderApi(this.value);
+
+  static TronProviderApi fromValue(int? value) {
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                "Invalid Tron provider API value.",
+              ),
+    );
+  }
+}
+
+abstract class TronRequest<
+  RESULT,
+  RESPONSE,
+  R extends BaseTronServiceRequestParams
+>
+    extends IServiceRequest<RESULT, RESPONSE, R> {}
+
+abstract class TronFullNodeRequest<RESULT, RESPONSE>
+    extends BaseServiceRequest<RESULT, RESPONSE, TronFullNodeRequestDetails> {
+  const TronFullNodeRequest();
+
   /// Indicates whether the address is visible.
   bool? get visible => null;
 
   /// method for the request.
-  abstract final TronHTTPMethods method;
+  String? get path => null;
+  Map<String, String?> get queryParameters => {};
 
-  /// Converts the request parameters to a JSON format.
-  Map<String, dynamic> toJson();
+  Map<String, dynamic>? body() => null;
 
-  /// Converts the request parameters to [TronRequestDetails] with a unique identifier.
+  /// Converts the request parameters to [TronFullNodeRequestDetails] with a unique identifier.
   @override
-  TronRequestDetails buildRequest(int requestID) {
-    final inJson = toJson();
-    inJson.removeWhere((key, value) => value == null);
-    return TronRequestDetails(
+  TronFullNodeRequestDetails buildRequest(int requestID) {
+    String? path = this.path;
+    if (queryParameters.isNotEmpty) {
+      Map<String, dynamic> parameters = {};
+      for (final i in queryParameters.entries) {
+        final value = i.value;
+        if (value == null) continue;
+        if (value.contains(",")) {
+          parameters[i.key] = value.split(",");
+        } else {
+          parameters[i.key] = value;
+        }
+      }
+      path = Uri(path: path, queryParameters: parameters).toString();
+    }
+    List<int>? encodeBody() {
+      if (requestMethod.isGet) return null;
+      final body = this.body();
+      if (body == null) return null;
+      return StringUtils.encodeJson(
+        body,
+        options: JsonEncodeOptions(bigIntEncoding: BigIntEncoding.intOrString),
+      );
+    }
+
+    final Map<String, String> headers =
+        requestMethod.isPost ? ServiceConst.defaultPostHeaders : {};
+    final body = encodeBody();
+    return TronFullNodeRequestDetails(
       requestID: requestID,
-      path: method.uri,
-      bodyString: _toBody(inJson),
-      headers: ServiceConst.defaultPostHeaders,
+      path: path,
+      bodyBytes: body,
+      headers: headers,
       requestMethod: requestMethod,
       responseEncoding: ServiceReponseEncoding.fromType<RESPONSE>(),
-      method: method.uri.split("/").lastOrNull ?? '',
+      method: this.path ?? '',
     );
-  }
-
-  static String _toBody(
-    Map<String, dynamic> json, {
-    bool bigIntAsString = false,
-  }) {
-    final Map<String, BigInt> replace = {};
-    int id = 0;
-    String bodyString = StringUtils.fromJson(
-      json,
-      toEncodable: (object) {
-        if (object is! BigInt) return object.toString();
-        if (object.isValidInt) {
-          return object.toInt();
-        }
-        if (bigIntAsString) return object.toString();
-        final n = '${id++}#${object.toString()}';
-        replace[n] = object;
-
-        return n;
-      },
-    );
-    for (final i in replace.entries) {
-      bodyString = bodyString.replaceFirst('"${i.key}"', '${i.value}');
-    }
-    return bodyString;
   }
 
   @override
-  RequestMethod get requestMethod => method.requestType;
+  RequestMethod get requestMethod => RequestMethod.post;
 }
 
-class TronRequestDetails extends BaseServiceRequestParams {
+abstract class BaseTronServiceRequestParams implements IServiceRequestParams {
+  final TronProviderApi api;
+  const BaseTronServiceRequestParams(this.api);
+  factory BaseTronServiceRequestParams.deserialize({
+    List<int>? bytes,
+    CborObject? obj,
+  }) {
+    final CborTagValue tag = CborTagSerializable.decode(
+      cborBytes: bytes,
+      cborObject: obj,
+    );
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: BlockchainNetwork.tron.identifier,
+      cborObject: tag,
+    );
+    final type = TronProviderApi.fromValue(values.rawValueAt(0));
+    return switch (type) {
+      TronProviderApi.fullnode => TronFullNodeRequestDetails.deserialize(
+        obj: tag,
+      ),
+      TronProviderApi.grpc => TronGrpcRequestDetails.deserialize(obj: tag),
+    };
+  }
+  @override
+  SerializationIdentifier get serializationIdentifier =>
+      BlockchainNetwork.tron.identifier;
+}
+
+class TronFullNodeRequestDetails extends BaseServiceRequestParams
+    implements BaseTronServiceRequestParams {
+  @override
+  TronProviderApi get api => TronProviderApi.fullnode;
   final String method;
-  const TronRequestDetails({
+  const TronFullNodeRequestDetails({
     required super.requestID,
     super.path,
     required super.responseEncoding,
@@ -73,38 +130,41 @@ class TronRequestDetails extends BaseServiceRequestParams {
     super.bodyBytes,
     super.bodyString,
   }) : super(network: BlockchainNetwork.tron);
-  factory TronRequestDetails.deserialize({List<int>? bytes, CborObject? obj}) {
+  factory TronFullNodeRequestDetails.deserialize({
+    List<int>? bytes,
+    CborObject? obj,
+  }) {
     final values = CborTagSerializable.decodeTaggedValue(
       identifier: BlockchainNetwork.tron.identifier,
       cborBytes: bytes,
       cborObject: obj,
     );
-    return TronRequestDetails(
+    return TronFullNodeRequestDetails(
       headers: values
-          .mapAt<CborStringValue, CborStringValue>(0)
+          .mapAt<CborStringValue, CborStringValue>(1)
           .map((k, v) => MapEntry(k.value, v.value)),
-      requestMethod: RequestMethod.fromValue(values.rawValueAt(1)),
-      responseEncoding: ServiceReponseEncoding.fromValue(values.rawValueAt(2)),
+      requestMethod: RequestMethod.fromValue(values.rawValueAt(2)),
+      responseEncoding: ServiceReponseEncoding.fromValue(values.rawValueAt(3)),
       successStatusCodes:
-          values
-              .listAt<CborIntValue>(3)
-              .map((e) => e.value)
-              .toList()
-              .emptyAsNull,
-      errorStatusCodes:
           values
               .listAt<CborIntValue>(4)
               .map((e) => e.value)
               .toList()
               .emptyAsNull,
-      bodyBytes: values.rawValueAt(5),
-      bodyString: values.rawValueAt(6),
-      path: values.rawValueAt(7),
-      requestID: values.rawValueAt(8),
-      method: values.rawValueAt(9),
+      errorStatusCodes:
+          values
+              .listAt<CborIntValue>(5)
+              .map((e) => e.value)
+              .toList()
+              .emptyAsNull,
+      bodyBytes: values.rawValueAt(6),
+      bodyString: values.rawValueAt(7),
+      path: values.rawValueAt(8),
+      requestID: values.rawValueAt(9),
+      method: values.rawValueAt(10),
     );
   }
-  TronRequestDetails copyWith({
+  TronFullNodeRequestDetails copyWith({
     int? requestID,
     String? path,
     RequestMethod? requestMethod,
@@ -116,7 +176,7 @@ class TronRequestDetails extends BaseServiceRequestParams {
     List<int>? successStatusCodes,
     String? method,
   }) {
-    return TronRequestDetails(
+    return TronFullNodeRequestDetails(
       requestID: requestID ?? this.requestID,
       headers: headers ?? this.headers,
       path: path ?? this.path,
@@ -142,8 +202,7 @@ class TronRequestDetails extends BaseServiceRequestParams {
 
   @override
   Uri encodeUrl(String uri) {
-    if (uri.endsWith('/')) return Uri.parse('$uri${path ?? ''}');
-    return Uri.parse('$uri/${path ?? ''}');
+    return Uri.parse(ServiceProviderUtils.joinPathWithRoot([uri, path ?? '']));
   }
 
   @override
@@ -152,6 +211,7 @@ class TronRequestDetails extends BaseServiceRequestParams {
 
   @override
   List<CborObject?> get serializationItems => [
+    api.value.toCbor(),
     CborMapValue.definite(
       headers.map((k, v) => MapEntry(CborStringValue(k), CborStringValue(v))),
     ),
@@ -169,4 +229,67 @@ class TronRequestDetails extends BaseServiceRequestParams {
     requestID.toCbor(),
     method.toCbor(),
   ];
+}
+
+abstract class TronGrpcRequest<RESULT>
+    extends IGRPCServiceRequest<RESULT, TronGrpcRequestDetails>
+    implements TronRequest<RESULT, List<int>, TronGrpcRequestDetails> {
+  const TronGrpcRequest();
+  String get method;
+
+  List<int> toBuffer();
+
+  @override
+  TronGrpcRequestDetails buildRequest(int _) {
+    return TronGrpcRequestDetails(buffer: toBuffer(), requestMethod: method);
+  }
+}
+
+class TronGrpcRequestDetails extends BaseTronServiceRequestParams
+    with CborTagSerializable
+    implements BaseGRPCServiceRequestParams {
+  final String requestMethod;
+  final BuBytes buffer;
+
+  TronGrpcRequestDetails({
+    required List<int> buffer,
+    required this.requestMethod,
+  }) : buffer = buffer.asImmutableBytes,
+       super(TronProviderApi.grpc);
+  factory TronGrpcRequestDetails.deserialize({
+    List<int>? bytes,
+    CborObject? obj,
+  }) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: BlockchainNetwork.tron.identifier,
+      cborBytes: bytes,
+      cborObject: obj,
+    );
+    return TronGrpcRequestDetails(
+      buffer: values.rawValueAt(1),
+      requestMethod: values.rawValueAt(2),
+    );
+  }
+
+  @override
+  String method() {
+    return requestMethod;
+  }
+
+  @override
+  BuBytes toBuffer() {
+    return buffer;
+  }
+
+  @override
+  List<CborObject?> get serializationItems => [
+    api.value.toCbor(),
+    CborBytesValue(buffer),
+    requestMethod.toCbor(),
+  ];
+
+  @override
+  Uri encodeUrl(String uri) {
+    return Uri.parse(uri);
+  }
 }

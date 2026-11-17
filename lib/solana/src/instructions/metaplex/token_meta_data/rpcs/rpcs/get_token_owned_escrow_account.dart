@@ -29,7 +29,7 @@ class SolanaRPCGetTokenOwnedEscrowAccount
   }
 
   @override
-  TokenOwnedEscrow? onResonse(result) {
+  TokenOwnedEscrow? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return TokenOwnedEscrow.fromBuffer(accountInfo.toBytesData());

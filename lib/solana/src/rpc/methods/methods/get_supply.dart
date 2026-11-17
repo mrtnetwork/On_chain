@@ -33,7 +33,7 @@ class SolanaRequestGetSupply
   }
 
   @override
-  SupplyResponse onResonse(Map<String, dynamic> result) {
+  SupplyResponse onResponse(Map<String, dynamic> result) {
     return SupplyResponse.fromJson(result);
   }
 }

@@ -18,7 +18,7 @@ class SuiRequestGetEvents
   }
 
   @override
-  List<SuiApiEvent> onResonse(List<Map<String, dynamic>> result) {
+  List<SuiApiEvent> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => SuiApiEvent.fromJson(e)).toList();
   }
 }

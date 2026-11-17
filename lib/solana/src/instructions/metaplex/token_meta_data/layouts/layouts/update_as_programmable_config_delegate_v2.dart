@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/payload.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/rule_set_toggle.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout
@@ -23,7 +23,7 @@ class MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout
       instruction:
           MetaplexTokenMetaDataProgramInstruction
               .updateAsProgrammableConfigDelegateV2
-              .insturction,
+              .instruction,
       discriminator: discriminator,
     );
     return MetaplexTokenMetaDataUpdateAsProgrammableConfigDelegateV2Layout(

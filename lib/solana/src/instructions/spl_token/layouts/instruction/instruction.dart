@@ -1,6 +1,7 @@
 export 'instructions.dart';
 export 'program_layout.dart';
 export 'cpi_guard.dart';
+export 'confidential_transfer.dart';
 export 'default_account_state.dart';
 export 'interest_bearing_mint.dart';
 export 'meta_data_pointer.dart';

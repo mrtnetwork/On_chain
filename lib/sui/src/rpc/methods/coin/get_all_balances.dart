@@ -20,7 +20,7 @@ class SuiRequestGetAllBalances
   }
 
   @override
-  List<SuiApiBalanceResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<SuiApiBalanceResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => SuiApiBalanceResponse.fromJson(e)).toList();
   }
 }

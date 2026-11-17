@@ -26,7 +26,9 @@ class SuiRequestResolveNameServiceNames
   }
 
   @override
-  SuiApiResolveNameServiceNamesResponse onResonse(Map<String, dynamic> result) {
+  SuiApiResolveNameServiceNamesResponse onResponse(
+    Map<String, dynamic> result,
+  ) {
     return SuiApiResolveNameServiceNamesResponse.fromJson(result);
   }
 }

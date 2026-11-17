@@ -26,7 +26,7 @@ class BlockfrostRequestListingOfNextEpoches
   List<String> get pathParameters => [epoch.toString()];
 
   @override
-  List<ADAEpochInfoResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAEpochInfoResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAEpochInfoResponse.fromJson(e)).toList();
   }
 }

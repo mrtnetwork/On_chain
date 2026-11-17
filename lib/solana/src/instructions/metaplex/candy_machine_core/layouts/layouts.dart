@@ -20,3 +20,5 @@ export 'layouts/unwrap.dart';
 export 'layouts/update_candy_guard.dart';
 export 'layouts/update_candy_machine.dart';
 export 'layouts/wrap.dart';
+export 'layouts/withdraw_candy_machine.dart';
+export 'layouts/withdraw_candy_guard.dart';

@@ -1,11 +1,17 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('stake pool accounts', () {
+import '../../../utils.dart';
+void accountsTest() {
+  group('Solana/Stake Pool Accounts', () {
     _stakePoolAccount();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(accountsTest, "Accounts");
+}
+
 
 void _stakePoolAccount() {
   test('StakePoolAccount', () {

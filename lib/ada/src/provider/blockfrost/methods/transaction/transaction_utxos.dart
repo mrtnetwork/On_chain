@@ -9,7 +9,7 @@ class BlockfrostRequestTransactionUTXOs
         BlockFrostRequest<ADATransactionUTXOSResponse, Map<String, dynamic>> {
   BlockfrostRequestTransactionUTXOs(this.hash);
 
-  /// Hash of the requested transaction2
+  /// Hash of the requested transaction
   final String hash;
 
   /// Transaction UTXOs
@@ -20,7 +20,7 @@ class BlockfrostRequestTransactionUTXOs
   List<String> get pathParameters => [hash];
 
   @override
-  ADATransactionUTXOSResponse onResonse(Map<String, dynamic> result) {
+  ADATransactionUTXOSResponse onResponse(Map<String, dynamic> result) {
     return ADATransactionUTXOSResponse.fromJson(result);
   }
 }

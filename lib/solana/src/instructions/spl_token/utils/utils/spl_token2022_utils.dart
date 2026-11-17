@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
+
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 
 class SPLToken2022Utils {
@@ -69,7 +69,8 @@ class SPLToken2022Utils {
           SolanaTokenAccountUtils.accountTypeSize;
       final tlvData = accountBytes.sublist(extensionBytesOffset);
       if (tlvData.length < (extensionType.layoutSize ?? 0)) {
-        throw SolanaPluginException(
+        throw BuError(
+          DefaultErrorType.invalidLength,
           'Account extension data length is insufficient.',
           details: {
             'Expected': extensionType.layoutSize.toString(),
@@ -82,7 +83,8 @@ class SPLToken2022Utils {
           accountBytes[SolanaTokenAccountUtils.accountSize],
         );
         if (accountType != type) {
-          throw SolanaPluginException(
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'invalid account type',
             details: {'expected': type.name, 'Type': accountType.name},
           );
@@ -95,7 +97,10 @@ class SPLToken2022Utils {
 
       return extensionBytes!;
     } catch (e) {
-      throw const SolanaPluginException('Invalid extionsion bytes');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid extension bytes.',
+      );
     }
   }
 }

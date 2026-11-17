@@ -19,7 +19,7 @@ class BlockfrostRequestSpecificAsset
   List<String> get pathParameters => [asset];
 
   @override
-  ADAAssetResponse onResonse(Map<String, dynamic> result) {
+  ADAAssetResponse onResponse(Map<String, dynamic> result) {
     return ADAAssetResponse.fromJson(result);
   }
 }

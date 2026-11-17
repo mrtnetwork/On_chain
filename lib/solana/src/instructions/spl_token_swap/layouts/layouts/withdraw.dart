@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Withdraw both types of tokens from the pool layout.
@@ -26,7 +26,7 @@ class SPLTokenSwapWithdrawLayout extends SPLTokenSwapProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenSwapProgramInstruction.withdrawToken.insturction,
+      instruction: SPLTokenSwapProgramInstruction.withdrawToken.instruction,
     );
 
     return SPLTokenSwapWithdrawLayout(

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_guard_types/types/guard_set.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class Group extends BorshLayoutSerializable {

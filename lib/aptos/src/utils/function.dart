@@ -1,7 +1,9 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/serialization/bcs/move/types/types.dart';
 
 /// Utility class for parsing and handling Aptos function entry arguments
@@ -31,7 +33,8 @@ class AptosFunctionEntryArgumentUtils {
             .map((e) => AptosFunctionEntryArgumentUtils.parseTag(e))
             .toList();
     if (tags.length != values.length) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Mismatch between parameters and values: expected ${tags.length} parameters, but got ${values.length} values.",
       );
     }
@@ -45,7 +48,8 @@ class AptosFunctionEntryArgumentUtils {
           genericTypeArgs: genericTypeArgs,
         );
       } catch (e) {
-        throw DartAptosPluginException(
+        throw BuError(
+          OnChainErrorType.aptosPlugin,
           "Parsing argument failed at index $index.",
           details: {
             "message": e.toString(),
@@ -89,12 +93,14 @@ class AptosFunctionEntryArgumentUtils {
           final moduleName = _toIdentifier(data[1]);
           final functionName = _toIdentifier(data[2]);
           if (moduleName == null) {
-            throw DartAptosPluginException(
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               "Unable to parse struct tag: Invalid module name: '${data[1]}'",
             );
           }
           if (functionName == null) {
-            throw DartAptosPluginException(
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               "Unable to parse struct tag: Invalid function name: '${data[2]}'",
             );
           }
@@ -118,7 +124,8 @@ class AptosFunctionEntryArgumentUtils {
               genericParts.add(rawParts.substring(lastSplit).trim());
             }
             if (genericParts.isEmpty) {
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidLength,
                 "Invalid type arguments generic parts.",
                 details: {"parts": name.substring(typeName.length)},
               );
@@ -126,7 +133,8 @@ class AptosFunctionEntryArgumentUtils {
             try {
               typeArgs = genericParts.map((e) => parseTag(e)).toList();
             } catch (e) {
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "Failed to parse type arguments from parts: $genericParts. "
                 "Error: ${e.toString()}",
               );
@@ -142,13 +150,14 @@ class AptosFunctionEntryArgumentUtils {
           );
         }
         if (_isGeneric(name)) {
-          return AptosTypeTagGeneric(int.parse(name.substring(1)));
+          return AptosTypeTagGeneric(IntUtils.parse(name.substring(1)));
         }
         if (_isVector(name)) {
           final c = _extractFirstGeneric(name);
           return AptosTypeTagVector(parseTag(c!));
         }
-        throw DartAptosPluginException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           "Unknown type tag. Failed to parse the provided input: '$name'.",
         );
     }

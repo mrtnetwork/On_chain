@@ -16,7 +16,7 @@ class BlockfrostRequestNetworkInformation
   List<String> get pathParameters => [];
 
   @override
-  ADANetworkInfoResponse onResonse(Map<String, dynamic> result) {
+  ADANetworkInfoResponse onResponse(Map<String, dynamic> result) {
     return ADANetworkInfoResponse.fromJson(result);
   }
 }

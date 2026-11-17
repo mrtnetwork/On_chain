@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/name_service/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 ///  Update the data in a name record.
@@ -20,7 +20,7 @@ class NameServiceUpdateLayout extends NameServiceProgramLayout {
     final Map<String, dynamic> decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: NameServiceProgramInstruction.update.insturction,
+      instruction: NameServiceProgramInstruction.update.instruction,
     );
     return NameServiceUpdateLayout(
       inputData: decode['inputData'],

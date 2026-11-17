@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('layouts', () {
+import '../../../utils.dart';
+void systemLayoutTest() {
+  group('Solana/System Layout', () {
     _create();
     _createWithSeed();
     _transfer();
@@ -17,6 +18,11 @@ void main() {
     _allocateWithSeed();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(systemLayoutTest, "Layout");
+}
+
 
 void _create() {
   test('create', () {

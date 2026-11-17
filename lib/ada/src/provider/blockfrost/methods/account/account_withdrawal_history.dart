@@ -27,7 +27,7 @@ class BlockfrostRequestAccountWithdrawalHistory
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  List<ADAStakeAccountWithdrawalHistoryResponse> onResonse(
+  List<ADAStakeAccountWithdrawalHistoryResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

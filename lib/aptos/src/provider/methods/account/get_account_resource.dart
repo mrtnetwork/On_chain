@@ -7,7 +7,7 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// If theledger version is not specified in the request, the latest ledger version is used.
 /// The Aptos nodes prune account state history, via a configurable time window.
 /// If the requested ledger version has been pruned, the server responds with a 410.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetAccountResource
     extends AptosRequest<AptosApiMoveResource, Map<String, dynamic>> {
   AptosRequestGetAccountResource({
@@ -36,7 +36,7 @@ class AptosRequestGetAccountResource
   };
 
   @override
-  AptosApiMoveResource onResonse(Map<String, dynamic> result) {
+  AptosApiMoveResource onResponse(Map<String, dynamic> result) {
     return AptosApiMoveResource.fromJson(result);
   }
 }

@@ -5,10 +5,10 @@ import 'package:on_chain/solana/src/instructions/address_lockup_table/constant.d
 
 class AddressLookupTableProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const AddressLookupTableProgramInstruction(this.insturction, this.name);
+  const AddressLookupTableProgramInstruction(this.instruction, this.name);
   static const AddressLookupTableProgramInstruction createLookupTable =
       AddressLookupTableProgramInstruction(0, 'CreateLookupTable');
   static const AddressLookupTableProgramInstruction freezeLookupTable =
@@ -27,7 +27,7 @@ class AddressLookupTableProgramInstruction implements ProgramLayoutInstruction {
     closeLookupTable,
   ];
   static AddressLookupTableProgramInstruction? getInstruction(dynamic value) {
-    return values.firstWhereNullable((element) => element.insturction == value);
+    return values.firstWhereNullable((element) => element.instruction == value);
   }
 
   @override

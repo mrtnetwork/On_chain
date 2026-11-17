@@ -18,7 +18,7 @@ class AptosGraphQLRequestGetAccountTransactionsCount
   @override
   Map<String, dynamic> get queryVariables => {"address": address.address};
   @override
-  AptosGraphQLApiAggregate onResonse(Map<String, dynamic> result) {
+  AptosGraphQLApiAggregate onResponse(Map<String, dynamic> result) {
     return AptosGraphQLApiAggregate.fromJson(
       result["account_transactions_aggregate"]["aggregate"],
     );

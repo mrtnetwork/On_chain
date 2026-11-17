@@ -27,7 +27,7 @@ class BlockfrostRequestAccountRewardHistory
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  List<ADARewardHistoryResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADARewardHistoryResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADARewardHistoryResponse.fromJson(e)).toList();
   }
 }

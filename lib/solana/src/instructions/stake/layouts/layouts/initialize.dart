@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/stake/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/stake/types/types.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeInitializeLayout extends StakeProgramLayout {
@@ -30,7 +30,7 @@ class StakeInitializeLayout extends StakeProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: StakeProgramInstruction.initialize.insturction,
+      instruction: StakeProgramInstruction.initialize.instruction,
     );
     return StakeInitializeLayout(
       authorized: StakeAuthorized.fromJson(decode['authorized']),

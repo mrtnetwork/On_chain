@@ -1,8 +1,11 @@
+import 'package:blockchain_utils_connector/blockchain_utils_connector.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('Memo layout', () {
+import '../../../utils.dart';
+void memoLayoutTest() {
+  group('Solana/Memo Layout', () {
     _stringRoundTrip();
     _byteLevel();
     _nonAscii();
@@ -13,6 +16,11 @@ void main() {
     _jsonConsistency();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(memoLayoutTest, "Layout");
+}
+
 
 void _stringRoundTrip() {
   test('string round-trip preserves hex-looking memos', () {
@@ -80,7 +88,12 @@ void _immutable() {
     source[0] = 0x00; // mutating the input must not leak in
     expect(layout.toBytes(), [0x44, 0x45, 0x41, 0x44]);
     // toBytes() must not expose a mutable view of the internal bytes.
-    expect(() => layout.toBytes()[0] = 0x00, throwsUnsupportedError);
+    // Dart backend: fixed-length list throws UnsupportedError; FFI backend:
+    // immutable BuBytes throws BuError. Both prove external mutation fails.
+    expect(
+      () => layout.toBytes()[0] = 0x00,
+      throwsA(anyOf([isUnsupportedError, isA<BuError>()])),
+    );
   });
 }
 

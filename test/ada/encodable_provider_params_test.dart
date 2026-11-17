@@ -2,7 +2,9 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../utils.dart';
+void adaEncodableProviderParamsTest() {
+  group('ADA/Encodable Provider Params', () {
   test('encodable provider params', () {
     final param = BlockfrostRequestLatestBlock();
     final request = param.buildRequest(0);
@@ -33,4 +35,10 @@ void main() {
     expect(deserialize.responseEncoding, request.responseEncoding);
     expect(deserialize.requestMethod, request.requestMethod);
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(adaEncodableProviderParamsTest, "Encodable Provider Params");
+}
+

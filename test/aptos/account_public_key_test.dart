@@ -1,18 +1,27 @@
 import 'package:on_chain/on_chain.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _testMultiKey();
-  _testMultiKey2();
-  _testMultiKeyFailed();
-  _testMultiEdAccount4();
-  _testMultiEdAccount();
-  _testMultiEdAccount2();
-  _testMultiEdAccount3();
-  _testSignleKeyEd25519();
-  _testEd25519LegacyAccount();
-  _testSignleKeySecp256k1();
+import '../utils.dart';
+void accountPublicKeyTest() {
+  group('Aptos/Account Public Key', () {
+    _testMultiKey();
+    _testMultiKey2();
+    _testMultiKeyFailed();
+    _testMultiEdAccount4();
+    _testMultiEdAccount();
+    _testMultiEdAccount2();
+    _testMultiEdAccount3();
+    _testSignleKeyEd25519();
+    _testEd25519LegacyAccount();
+    _testSignleKeySecp256k1();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(accountPublicKeyTest, "Account Public Key");
+}
+
 
 void _testMultiKeyFailed() {
   test("Invalid MultiKey account", () {
@@ -22,21 +31,21 @@ void _testMultiKeyFailed() {
 
     expect(
       () => AptosMultiKeyAccountPublicKey(publicKeys: [], requiredSignature: 3),
-      throwsA(TypeMatcher<DartAptosPluginException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => AptosMultiKeyAccountPublicKey(
         publicKeys: [privateKey1.publicKey],
         requiredSignature: 3,
       ),
-      throwsA(TypeMatcher<DartAptosPluginException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => AptosMultiKeyAccountPublicKey(
         publicKeys: [privateKey1.publicKey],
         requiredSignature: 0,
       ),
-      throwsA(TypeMatcher<DartAptosPluginException>()),
+      throwsA(isA<BuError>()),
     );
   });
 }
@@ -129,7 +138,7 @@ void _testMultiEdAccount4() {
         publicKeys: [privateKey1.publicKey],
         threshold: 2,
       ),
-      throwsA(TypeMatcher<DartAptosPluginException>()),
+      throwsA(isA<BuError>()),
     );
   });
   test("Multi Ed25519 account wrong threshold", () {
@@ -146,7 +155,7 @@ void _testMultiEdAccount4() {
         ],
         threshold: 7,
       ),
-      throwsA(TypeMatcher<DartAptosPluginException>()),
+      throwsA(isA<BuError>()),
     );
   });
 }
@@ -171,7 +180,7 @@ void _testMultiEdAccount3() {
         ],
         threshold: 2,
       ),
-      throwsA(TypeMatcher<DartAptosPluginException>()),
+      throwsA(isA<BuError>()),
     );
   });
 }

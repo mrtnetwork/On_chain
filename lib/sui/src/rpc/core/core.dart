@@ -1,7 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/sui/src/rpc/core/request.dart';
 import 'package:on_chain/sui/src/rpc/models/types/types.dart';
 
-class SuiRequestDetails extends BaseServiceRequestParams {
+class SuiRequestDetails extends BaseServiceRequestParams
+    implements BaseSuiServiceRequestParams {
+  @override
+  SuiProviderApi get api => SuiProviderApi.jsonRpc;
   final String method;
   const SuiRequestDetails({
     required super.requestID,
@@ -23,27 +28,27 @@ class SuiRequestDetails extends BaseServiceRequestParams {
     );
     return SuiRequestDetails(
       headers: values
-          .mapAt<CborStringValue, CborStringValue>(0)
+          .mapAt<CborStringValue, CborStringValue>(1)
           .map((k, v) => MapEntry(k.value, v.value)),
-      requestMethod: RequestMethod.fromValue(values.rawValueAt(1)),
-      responseEncoding: ServiceReponseEncoding.fromValue(values.rawValueAt(2)),
+      requestMethod: RequestMethod.fromValue(values.rawValueAt(2)),
+      responseEncoding: ServiceReponseEncoding.fromValue(values.rawValueAt(3)),
       successStatusCodes:
-          values
-              .listAt<CborIntValue>(3)
-              .map((e) => e.value)
-              .toList()
-              .emptyAsNull,
-      errorStatusCodes:
           values
               .listAt<CborIntValue>(4)
               .map((e) => e.value)
               .toList()
               .emptyAsNull,
-      bodyBytes: values.rawValueAt(5),
-      bodyString: values.rawValueAt(6),
-      path: values.rawValueAt(7),
-      requestID: values.rawValueAt(8),
-      method: values.rawValueAt(9),
+      errorStatusCodes:
+          values
+              .listAt<CborIntValue>(5)
+              .map((e) => e.value)
+              .toList()
+              .emptyAsNull,
+      bodyBytes: values.rawValueAt(6),
+      bodyString: values.rawValueAt(7),
+      path: values.rawValueAt(8),
+      requestID: values.rawValueAt(9),
+      method: values.rawValueAt(10),
     );
   }
   SuiRequestDetails copyWith({
@@ -89,7 +94,12 @@ class SuiRequestDetails extends BaseServiceRequestParams {
 
   @override
   List<int>? encodeBody({ServiceProtocol protocol = ServiceProtocol.http}) {
-    assert(protocol.isHttp, "Unsupported protocol.");
+    if (!protocol.isHttp) {
+      throw const BuError(
+        DefaultErrorType.unsupported,
+        "Unsupported protocol.",
+      );
+    }
     return super.encodeBody(protocol: protocol);
   }
 
@@ -99,6 +109,7 @@ class SuiRequestDetails extends BaseServiceRequestParams {
 
   @override
   List<CborObject?> get serializationItems => [
+    api.value.toCbor(),
     CborMapValue.definite(
       headers.map((k, v) => MapEntry(CborStringValue(k), CborStringValue(v))),
     ),

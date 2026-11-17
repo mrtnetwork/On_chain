@@ -29,7 +29,7 @@ class SolanaRPCGetFreezeEscrowAccount
   }
 
   @override
-  FreezeEscrowAccount? onResonse(result) {
+  FreezeEscrowAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return FreezeEscrowAccount.fromBuffer(accountInfo.toBytesData());

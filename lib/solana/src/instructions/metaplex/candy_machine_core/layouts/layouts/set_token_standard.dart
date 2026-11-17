@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/token_standard.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineSetTokenStandardLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -16,7 +16,7 @@ class MetaplexCandyMachineSetTokenStandardLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexCandyMachineProgramInstruction.setTokenStandard.insturction,
+          MetaplexCandyMachineProgramInstruction.setTokenStandard.instruction,
     );
     return MetaplexCandyMachineSetTokenStandardLayout(
       tokenStandard: MetaDataTokenStandard.fromJson(decode['tokenStandard']),

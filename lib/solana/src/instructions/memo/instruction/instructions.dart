@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/memo/constant.dart';
 
 class MemoProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final dynamic insturction;
+  final dynamic instruction;
   @override
   final String name;
-  const MemoProgramInstruction(this.insturction, this.name);
+  const MemoProgramInstruction(this.instruction, this.name);
   static const MemoProgramInstruction memo = MemoProgramInstruction(
     null,
     'Memo',

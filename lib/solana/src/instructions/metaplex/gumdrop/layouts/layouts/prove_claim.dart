@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
@@ -32,7 +32,7 @@ class MetaplexGumdropProveClaimLayout extends MetaplexGumdropProgramLayout {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexGumdropProgramInstruction.proveClaim.insturction,
+      instruction: MetaplexGumdropProgramInstruction.proveClaim.instruction,
     );
     return MetaplexGumdropProveClaimLayout(
       claimPrefix: (decode['claimPrefix'] as List).cast(),

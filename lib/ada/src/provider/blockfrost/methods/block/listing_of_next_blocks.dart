@@ -23,7 +23,7 @@ class BlockfrostRequestListingOfNextBlocks
   List<String> get pathParameters => [hashOrNumber];
 
   @override
-  List<ADABlockResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADABlockResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADABlockResponse.fromJson(e)).toList();
   }
 }

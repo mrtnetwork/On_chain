@@ -6,18 +6,18 @@ import 'package:on_chain/ada/src/models/transaction/witnesses/models/bootstrap_w
 import 'package:on_chain/ada/src/models/transaction/witnesses/models/vkey_witness.dart';
 
 class ADATransactionBuilderUtils {
-  static List<int> get fakeBodyHash =>
-      List<int>.unmodifiable(List.filled(QuickCrypto.blake2b256DigestSize, 12));
+  static BuBytes get fakeBodyHash =>
+      List<int>.filled(QuickCrypto.blake2b256DigestSize, 12).asImmutableBytes;
   static BootstrapWitness fakeBootStrapWitness(ADAByronAddress byronAddr) {
     final fakeVk =
         List<int>.filled(
           AdaTransactionConstant.blake2b256DigestSize,
           0,
-        ).immutable;
+        ).asImmutableBytes;
     return BootstrapWitness(
       vkey: Vkey(fakeVk),
       signature: Ed25519Signature(
-        List<int>.filled(AdaTransactionConstant.signatureLength, 0),
+        List<int>.filled(AdaTransactionConstant.signatureLength, 0).asImmutableBytes,
       ),
       chainCode: fakeVk,
       attributes: byronAddr.attributeSerialize(),
@@ -27,10 +27,10 @@ class ADATransactionBuilderUtils {
   static Vkeywitness fakeVkeyWitnessWitness() {
     return Vkeywitness(
       vKey: Vkey(
-        List<int>.filled(AdaTransactionConstant.blake2b256DigestSize, 0),
+        List<int>.filled(AdaTransactionConstant.blake2b256DigestSize, 0).asImmutableBytes,
       ),
       signature: Ed25519Signature(
-        List<int>.filled(AdaTransactionConstant.signatureLength, 0),
+        List<int>.filled(AdaTransactionConstant.signatureLength, 0).asImmutableBytes,
       ),
     );
   }

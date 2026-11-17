@@ -1,8 +1,7 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/spl_token.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/types/types/additional_metadata.dart';
-import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -25,7 +24,10 @@ class _Utils {
         layout: layout,
       );
     } catch (e) {
-      throw const SolanaPluginException('Invalid extionsion bytes');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid extension bytes.',
+      );
     }
   }
 
@@ -42,7 +44,10 @@ class _Utils {
         layout: layout,
       );
     } catch (e) {
-      throw const SolanaPluginException('Invalid extionsion bytes');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid extension bytes.',
+      );
     }
   }
 }

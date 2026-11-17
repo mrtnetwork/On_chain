@@ -23,7 +23,7 @@ class SuiRequestGetMoveFunctionArgTypes
   }
 
   @override
-  List<SuiApiMoveFunctionArgType> onResonse(List<dynamic> result) {
+  List<SuiApiMoveFunctionArgType> onResponse(List<dynamic> result) {
     return result.map((e) => SuiApiMoveFunctionArgType.fromJson(e)).toList();
   }
 }

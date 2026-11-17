@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/constant.dar
 
 class MetaplexNFTPacksProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const MetaplexNFTPacksProgramInstruction(this.insturction, this.name);
+  const MetaplexNFTPacksProgramInstruction(this.instruction, this.name);
   static const MetaplexNFTPacksProgramInstruction activate =
       MetaplexNFTPacksProgramInstruction(3, 'Activate');
   static const MetaplexNFTPacksProgramInstruction addCardToPack =
@@ -58,7 +58,7 @@ class MetaplexNFTPacksProgramInstruction implements ProgramLayoutInstruction {
   ];
   static MetaplexNFTPacksProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
+      return values.firstWhere((element) => element.instruction == value);
     } catch (_) {
       return null;
     }

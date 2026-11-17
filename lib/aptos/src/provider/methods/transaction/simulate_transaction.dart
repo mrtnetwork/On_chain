@@ -11,14 +11,15 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// - Submit a SubmitTransactionRequest containing a UserTransactionRequest containing that signature.
 /// To use this endpoint with BCS, you must submit a SignedTransactionencoded as BCS.
 /// See SignedTransaction in types/src/transaction/mod.rs.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestSimulateTransaction
     extends
         AptosPostRequest<
           List<AptosApiUserTransaction>,
           List<Map<String, dynamic>>
         > {
-  final List<int> signedTransactionData;
+  final BuBytes signedTransactionData;
   final bool? estimateMaxGasAmount;
   final bool? estimateGasUnitPrice;
   final bool? estimatePrioritizedGasUnitPrice;
@@ -46,10 +47,10 @@ class AptosRequestSimulateTransaction
   };
 
   @override
-  List<int> get body => signedTransactionData;
+  BuBytes get body => signedTransactionData;
 
   @override
-  List<AptosApiUserTransaction> onResonse(List<Map<String, dynamic>> result) {
+  List<AptosApiUserTransaction> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => AptosApiUserTransaction.fromJson(e)).toList();
   }
 }

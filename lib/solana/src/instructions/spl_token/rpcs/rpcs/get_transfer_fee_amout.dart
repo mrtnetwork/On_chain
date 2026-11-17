@@ -27,7 +27,7 @@ class SolanaRPCGetTransferFeeAmount
   }
 
   @override
-  TransferFeeAmount? onResonse(result) {
+  TransferFeeAmount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return TransferFeeAmount.fromAccountBytes(accountInfo.toBytesData());

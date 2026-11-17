@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Repay borrowed liquidity to a reserve to receive collateral at a
@@ -15,7 +15,7 @@ class TokenLendingLiquidateObligationLayout extends TokenLendingProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          TokenLendingProgramInstruction.liquidateObligation.insturction,
+          TokenLendingProgramInstruction.liquidateObligation.instruction,
     );
     return TokenLendingLiquidateObligationLayout(
       liquidityAmount: decode['liquidityAmount'],

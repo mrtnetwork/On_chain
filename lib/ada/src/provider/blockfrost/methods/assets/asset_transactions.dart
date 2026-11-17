@@ -26,7 +26,7 @@ class BlockfrostRequestAssetTransactions
   List<String> get pathParameters => [asset];
 
   @override
-  List<ADATransactionSummaryInfoResponse> onResonse(
+  List<ADATransactionSummaryInfoResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

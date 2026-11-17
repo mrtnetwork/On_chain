@@ -19,7 +19,7 @@ class BlockfrostRequestSpecificBlock
   List<String> get pathParameters => [hashOrNumber];
 
   @override
-  ADABlockResponse onResonse(Map<String, dynamic> result) {
+  ADABlockResponse onResponse(Map<String, dynamic> result) {
     return ADABlockResponse.fromJson(result);
   }
 }

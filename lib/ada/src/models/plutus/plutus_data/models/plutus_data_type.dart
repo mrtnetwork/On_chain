@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents different types of Plutus data.
@@ -49,7 +49,13 @@ class PlutusDataType with InternalCborSerialization {
   static PlutusDataType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "PlutusDataType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid PlutusDataType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -57,7 +63,13 @@ class PlutusDataType with InternalCborSerialization {
   static PlutusDataType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "PlutusDataType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid PlutusDataType name.',
+                details: {'name': name},
+              ),
     );
   }
 

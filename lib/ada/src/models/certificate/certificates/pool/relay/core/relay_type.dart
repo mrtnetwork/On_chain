@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Enum representing the type of relay.
@@ -34,19 +33,26 @@ class RelayType with InternalCborSerialization {
   factory RelayType.deserialize(CborIntValue cbor, {RelayType? validate}) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid RelayType.',
         details: {'Expected': validate.toString(), 'Type': type.toString()},
       );
     }
-    return fromValue(cbor.value);
+    return type;
   }
 
   /// Get the RelayType instance corresponding to a given value.
   static RelayType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "RelayType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid RelayType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -54,7 +60,13 @@ class RelayType with InternalCborSerialization {
   static RelayType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "RelayType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid RelayType name.',
+                details: {'name': name},
+              ),
     );
   }
 

@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
 /// Represents a Governance Action type.
@@ -60,7 +60,13 @@ class GovernanceActionType with InternalCborSerialization {
   static GovernanceActionType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "GovernanceActionType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid GovernanceActionType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -68,13 +74,19 @@ class GovernanceActionType with InternalCborSerialization {
   static GovernanceActionType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "GovernanceActionType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid GovernanceActionType name.',
+                details: {'name': name},
+              ),
     );
   }
 
   @override
   String toString() {
-    return 'NativeScriptType.$name';
+    return 'GovernanceActionType.$name';
   }
 
   @override

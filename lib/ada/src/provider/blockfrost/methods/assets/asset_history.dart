@@ -26,7 +26,7 @@ class BlockfrostRequestAssetHistory
   List<String> get pathParameters => [asset];
 
   @override
-  List<ADAAssetActionResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAAssetActionResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAAssetActionResponse.fromJson(e)).toList();
   }
 }

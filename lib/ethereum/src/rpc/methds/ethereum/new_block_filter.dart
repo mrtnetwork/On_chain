@@ -16,7 +16,7 @@ class EthereumRequestNewBlockFilter extends EthereumRequest<BigInt, Object> {
   }
 
   @override
-  BigInt onResonse(result) {
+  BigInt onResponse(result) {
     return EthereumRequest.onBigintResponse(result);
   }
 

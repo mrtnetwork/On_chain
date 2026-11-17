@@ -1,8 +1,5 @@
-import 'package:blockchain_utils/cbor/core/cbor.dart';
-import 'package:blockchain_utils/cbor/types/int.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
@@ -37,7 +34,7 @@ class ScriptRefType with InternalCborSerialization {
         return plutusScriptV3;
       default:
     }
-    throw ADAPluginException("Invalid plutus language");
+    throw BuError(DefaultErrorType.invalidArgument, "Invalid Plutus language.");
   }
 
   /// List of all script reference types.
@@ -57,7 +54,10 @@ class ScriptRefType with InternalCborSerialization {
       case plutusScriptV3:
         return Language.plutusV3;
       default:
-        throw ADAPluginException("Invalid plutus script refrence.");
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          "Invalid Plutus script reference.",
+        );
     }
   }
 
@@ -68,12 +68,13 @@ class ScriptRefType with InternalCborSerialization {
   }) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid ScriptRefType.',
         details: {'Expected': validate.toString(), 'Type': type.toString()},
       );
     }
-    return fromValue(cbor.value);
+    return type;
   }
 
   @override
@@ -85,7 +86,13 @@ class ScriptRefType with InternalCborSerialization {
   static ScriptRefType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "ScriptRefType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid ScriptRefType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -93,7 +100,13 @@ class ScriptRefType with InternalCborSerialization {
   static ScriptRefType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "ScriptRefType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid ScriptRefType name.',
+                details: {'name': name},
+              ),
     );
   }
 

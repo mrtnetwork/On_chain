@@ -1,6 +1,4 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/memo/instruction/instructions.dart';
 
@@ -10,7 +8,7 @@ class MemoLayout extends ProgramLayout {
   ///
   /// Use [MemoLayout.fromString] to build one from text and [memo] to read it
   /// back as a best-effort UTF-8 string.
-  final List<int> memoBytes;
+  final BuBytes memoBytes;
 
   /// Constructs a MemoLayout instance from raw bytes.
   MemoLayout({required List<int> memoBytes})
@@ -34,7 +32,8 @@ class MemoLayout extends ProgramLayout {
   );
 
   @override
-  StructLayout get layout => throw UnimplementedError();
+  StructLayout get layout => throw BuError(DefaultErrorType.unsupported, 'layout is not available for this instruction.',
+  );
 
   @override
   MemoProgramInstruction get instruction => MemoProgramInstruction.memo;
@@ -43,7 +42,7 @@ class MemoLayout extends ProgramLayout {
   Map<String, dynamic> serialize() => {};
 
   @override
-  List<int> toBytes() => memoBytes;
+  BuBytes toBytes() => memoBytes;
 
   @override
   Map<String, dynamic> toJson() => {

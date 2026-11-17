@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 
 /// Account state.
 class AccountState extends BorshLayoutSerializable {
@@ -46,7 +45,8 @@ class AccountState extends BorshLayoutSerializable {
       (element) => element.name == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No AccountState found matching the specified value',
                 details: {'value': value?.toString()},
               ),
@@ -58,7 +58,8 @@ class AccountState extends BorshLayoutSerializable {
       (element) => element.value == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No AccountState found matching the specified value',
                 details: {'value': value?.toString()},
               ),

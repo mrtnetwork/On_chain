@@ -21,7 +21,7 @@ class SolanaRequestGetInflationGovernor
   }
 
   @override
-  InflationGovernor onResonse(Map<String, dynamic> result) {
+  InflationGovernor onResponse(Map<String, dynamic> result) {
     return InflationGovernor.fromJson(result);
   }
 }

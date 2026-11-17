@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/vote/constant.dart';
 
 class VoteProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const VoteProgramInstruction(this.insturction, this.name);
+  const VoteProgramInstruction(this.instruction, this.name);
   static const VoteProgramInstruction initializeAccount =
       VoteProgramInstruction(0, 'InitializeAccount');
   static const VoteProgramInstruction authorize = VoteProgramInstruction(
@@ -28,7 +28,7 @@ class VoteProgramInstruction implements ProgramLayoutInstruction {
   ];
   static VoteProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
+      return values.firstWhere((element) => element.instruction == value);
     } catch (_) {
       return null;
     }

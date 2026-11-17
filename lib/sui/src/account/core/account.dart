@@ -2,15 +2,18 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 import 'package:on_chain/sui/src/account/public_key/keys.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
 import 'package:on_chain/sui/src/keypair/core/core.dart';
+import 'package:on_chain/sui/src/keypair/keys/passkey.dart';
+import 'package:on_chain/sui/src/keypair/keys/zklogin.dart';
 import 'package:on_chain/sui/src/keypair/types/types.dart';
 
 /// Abstract class representing a Sui account with signing capabilities.
 abstract class SuiAccount<
   PUBLICKEY extends SuiAccountPublicKey,
   SINATURE extends SuiBaseSignature
-> {
+>
+    with SecretState {
   final SuiSigningScheme scheme;
   const SuiAccount({required this.publicKey, required this.scheme});
   final PUBLICKEY publicKey;
@@ -37,14 +40,29 @@ abstract class SuiAccountPublicKey extends BcsVariantSerialization {
   final SuiSigningScheme scheme;
   const SuiAccountPublicKey({required this.scheme});
 
+  T cast<T extends SuiAccountPublicKey>() {
+    if (this is! T) {
+      throw BuError(DefaultErrorType.badPublicKey, "Invalid public key cast.");
+    }
+    return this as T;
+  }
+
   /// Converts the public key to a Sui address.
   SuiAddress toAddress();
 
-  /// verify personal message. the signature must be a valid sui signature.
-  bool verifyPrsonalMessage({
+  /// Verify a personal message. The signature must be a valid Sui signature.
+  bool verifyPersonalMessage({
     required List<int> message,
     required List<int> signature,
   });
+
+  /// @nodoc Compatibility alias for the misspelled [verifyPersonalMessage].
+  bool verifyPrsonalMessage({
+    required List<int> message,
+    required List<int> signature,
+  }) {
+    return verifyPersonalMessage(message: message, signature: signature);
+  }
 
   /// Verifies the given signature against the provided message.
   ///
@@ -54,8 +72,9 @@ abstract class SuiAccountPublicKey extends BcsVariantSerialization {
   ///
   /// Returns `true` if the signature is valid, otherwise `false`.
   bool verify({required List<int> message, required List<int> signature}) {
-    throw DartSuiPluginException(
-      "Unsuported feature in ${scheme.name} account.",
+    throw BuError(
+      DefaultErrorType.unsupported,
+      "Unsupported feature in ${scheme.name} account.",
     );
   }
 
@@ -83,11 +102,12 @@ abstract class SuiAccountPublicKey extends BcsVariantSerialization {
       SuiSigningScheme.multisig => SuiMultisigAccountPublicKey.fromStruct(
         decode.value,
       ),
-      _ =>
-        throw DartSuiPluginException(
-          "Unsupported account type.",
-          details: {"account": algorithm.name},
-        ),
+      SuiSigningScheme.zklogin => SuiZkLoginAccountPublicKey.fromStruct(
+        decode.value,
+      ),
+      SuiSigningScheme.passkey => SuiPasskeyAccountPublicKey.fromStruct(
+        decode.value,
+      ),
     };
   }
 
@@ -112,6 +132,16 @@ abstract class SuiAccountPublicKey extends BcsVariantSerialization {
         layout: SuiMultisigAccountPublicKey.layout,
         property: SuiSigningScheme.multisig.name,
         index: SuiSigningScheme.multisig.value,
+      ),
+      LazyVariantModel(
+        layout: SuiZkLoginAccountPublicKey.layout,
+        property: SuiSigningScheme.zklogin.name,
+        index: SuiSigningScheme.zklogin.value,
+      ),
+      LazyVariantModel(
+        layout: SuiSecp256r1AccountPublicKey.layout,
+        property: SuiSigningScheme.passkey.name,
+        index: SuiSigningScheme.passkey.value,
       ),
     ], property: property);
   }

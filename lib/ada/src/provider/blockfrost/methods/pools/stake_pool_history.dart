@@ -26,7 +26,7 @@ class BlockfrostRequestStakePoolHistory
   List<String> get pathParameters => [poolId];
 
   @override
-  List<ADAPoolEpochInfoResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAPoolEpochInfoResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAPoolEpochInfoResponse.fromJson(e)).toList();
   }
 }

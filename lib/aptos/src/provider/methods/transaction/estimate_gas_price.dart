@@ -11,14 +11,15 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// Using a more aggressive value increases the likelihood that the transactionwill make it into the next block;
 /// more aggressive values are computed with a larger historyand higher percentile statistics.
 /// More details are in AIP-34.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestEstimateGasPrice
     extends AptosRequest<AptosApiGasEstimation, Map<String, dynamic>> {
   @override
   String get method => AptosApiMethod.estimateGasPrice.url;
 
   @override
-  AptosApiGasEstimation onResonse(Map<String, dynamic> result) {
+  AptosApiGasEstimation onResponse(Map<String, dynamic> result) {
     return AptosApiGasEstimation.fromJson(result);
   }
 }

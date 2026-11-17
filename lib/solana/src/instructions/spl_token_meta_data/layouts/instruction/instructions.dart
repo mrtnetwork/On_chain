@@ -1,14 +1,14 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SPLTokenMetaDataProgramSplDiscriminate
     implements ProgramLayoutInstruction {
   @override
-  final List<int> insturction;
+  final List<int> instruction;
   @override
   final String name;
-  const SPLTokenMetaDataProgramSplDiscriminate(this.insturction, this.name);
+  const SPLTokenMetaDataProgramSplDiscriminate(this.instruction, this.name);
   static const SPLTokenMetaDataProgramSplDiscriminate initialize =
       SPLTokenMetaDataProgramSplDiscriminate([
         210,
@@ -74,7 +74,7 @@ class SPLTokenMetaDataProgramSplDiscriminate
   static SPLTokenMetaDataProgramSplDiscriminate? getInstruction(dynamic value) {
     try {
       return values.firstWhere(
-        (element) => BytesUtils.bytesEqual(value, element.insturction),
+        (element) => BytesUtils.bytesEqual(value, element.instruction),
       );
     } catch (_) {
       return null;
@@ -85,5 +85,6 @@ class SPLTokenMetaDataProgramSplDiscriminate
   String get programName => 'SPLTokenMetaData';
 
   @override
-  SolAddress get programAddress => throw UnimplementedError();
+  SolAddress get programAddress => throw BuError(DefaultErrorType.unsupported, 'programAddress is not available for this instruction.',
+  );
 }

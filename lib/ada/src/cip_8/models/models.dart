@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/cip_8/utils/utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class COSESerializationConfig {
@@ -40,7 +40,13 @@ enum COSELabelType {
   static COSELabelType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw ItemNotFoundException(name: "COSELabelType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid COSELabelType name.',
+                details: {'name': name},
+              ),
     );
   }
 }
@@ -163,7 +169,7 @@ class COSELabels with InternalCborSerialization {
 }
 
 class COSEProtectedHeaderMap with InternalCborSerialization {
-  final List<int> data;
+  final BuBytes data;
   COSEProtectedHeaderMap([List<int> data = const []])
     : data = data.asImmutableBytes;
   factory COSEProtectedHeaderMap.deserialize(CborBytesValue cbor) {
@@ -221,13 +227,13 @@ class COSEHeaders with InternalCborSerialization {
 
 class COSESignature with InternalCborSerialization {
   final COSEHeaders headers;
-  final List<int> signature;
+  final BuBytes signature;
   final COSESerializationConfig serializationConfig;
   COSESignature({
     required this.headers,
     required List<int> signatures,
     this.serializationConfig = const COSESerializationConfig(),
-  }) : signature = signatures.immutable;
+  }) : signature = signatures.asImmutableBytes;
   factory COSESignature.deserialize(CborIterableObject cbor) {
     return COSESignature(
       headers: COSEHeaders(
@@ -378,9 +384,9 @@ class COSEHeaderMap with InternalCborSerialization {
   final COSELabel? algorithmId;
   final COSELabels? criticality;
   final COSELabel? contentType;
-  final List<int>? keyId;
-  final List<int>? initVector;
-  final List<int>? partialInitVector;
+  final BuBytes? keyId;
+  final BuBytes? initVector;
+  final BuBytes? partialInitVector;
   final COSECounterSignature? counterSignature;
   final Map<COSELabel, CborObject>? otherHeaders;
 
@@ -393,9 +399,9 @@ class COSEHeaderMap with InternalCborSerialization {
     List<int>? partialInitVector,
     this.counterSignature,
     Map<COSELabel, CborObject>? otherHeaders,
-  }) : keyId = keyId?.immutable,
-       initVector = initVector?.immutable,
-       partialInitVector = partialInitVector?.immutable,
+  }) : keyId = keyId?.asImmutableBytes,
+       initVector = initVector?.asImmutableBytes,
+       partialInitVector = partialInitVector?.asImmutableBytes,
        otherHeaders = otherHeaders?.immutable;
 
   factory COSEHeaderMap.deserialize(CborMapValue cbor) {
@@ -526,7 +532,13 @@ enum COSESignedMessageType {
   static COSESignedMessageType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw ItemNotFoundException(name: "COSESignedMessageType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid COSESignedMessageType name.',
+                details: {'name': name},
+              ),
     );
   }
 }
@@ -548,7 +560,10 @@ abstract class COSESignedMessage with InternalCborSerialization {
   }
   factory COSESignedMessage.deserialize(CborListValue cbor) {
     if (cbor.value.length < 3) {
-      throw ADAPluginException('Invalid COSESignedMessage CBOR');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid COSESignedMessage CBOR',
+      );
     }
     if (cbor.objectAt<CborObject>(3).hasType<CborListValue>()) {
       return COSESign.deserialize(cbor);
@@ -557,7 +572,8 @@ abstract class COSESignedMessage with InternalCborSerialization {
   }
   factory COSESignedMessage.fromUserFacingEncoding(String signedMessage) {
     if (!signedMessage.startsWith("cms_")) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid signed message prefix.',
         details: {
           "expected": "cms_",
@@ -569,7 +585,10 @@ abstract class COSESignedMessage with InternalCborSerialization {
     }
     String payload = signedMessage.substring(4);
     if (payload.length < 8) {
-      throw ADAPluginException('Invalid signed message.');
+      throw BuError(
+        DefaultErrorType.invalidLength,
+        'Invalid signed message: payload too short.',
+      );
     }
     payload = payload.replaceAll(RegExp(r'=+$'), '');
     final bodyB64 = payload.substring(0, payload.length - 6);
@@ -584,7 +603,10 @@ abstract class COSESignedMessage with InternalCborSerialization {
     );
     final checksumBytes = COSEUtils.fnv32aBytes(body);
     if (!BytesUtils.bytesEqual(checksum, checksumBytes)) {
-      throw ADAPluginException('Invalid signed message checksum');
+      throw BuError(
+        DefaultErrorType.invalidChecksum,
+        'Invalid signed message checksum.',
+      );
     }
     return COSESignedMessage.fromCborBytes(body);
   }
@@ -604,8 +626,8 @@ abstract class COSESignedMessage with InternalCborSerialization {
 
 class COSESign1 extends COSESignedMessage {
   final COSEHeaders headers;
-  final List<int>? payload;
-  final List<int> signature;
+  final BuBytes? payload;
+  final BuBytes signature;
   final COSESerializationConfig serializationConfig;
   COSESign1({
     required this.headers,
@@ -665,7 +687,7 @@ class COSESign1 extends COSESignedMessage {
 
 class COSESign extends COSESignedMessage {
   final COSEHeaders headers;
-  final List<int>? payload;
+  final BuBytes? payload;
   final COSESignatures signatures;
   final COSESerializationConfig serializationConfig;
   COSESign({
@@ -733,7 +755,13 @@ enum COSESigContext {
   static COSESigContext fromValue(String? name) {
     return values.firstWhere(
       (e) => e.value == name,
-      orElse: () => throw ItemNotFoundException(name: "COSESigContext"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid COSESigContext value.',
+                details: {'value': name},
+              ),
     );
   }
 }
@@ -742,17 +770,18 @@ class COSESigStructure with InternalCborSerialization {
   final COSESigContext context;
   final COSEProtectedHeaderMap bodyProtected;
   final COSEProtectedHeaderMap? signProtected;
-  final List<int> externalAAD;
-  final List<int> payload;
+  final BuBytes externalAAD;
+  final BuBytes payload;
   final COSESerializationConfig serializationConfig;
-  const COSESigStructure({
+  COSESigStructure({
     required this.context,
     required this.bodyProtected,
     this.signProtected,
-    required this.externalAAD,
-    required this.payload,
+    required List<int> externalAAD,
+    required List<int> payload,
     this.serializationConfig = const COSESerializationConfig(),
-  });
+  }) : externalAAD = externalAAD.asImmutableBytes,
+       payload = payload.asImmutableBytes;
   factory COSESigStructure.deserialize(CborIterableObject cbor) {
     int index = 0;
     return COSESigStructure(
@@ -813,7 +842,7 @@ class COSESigStructure with InternalCborSerialization {
 
 class COSEEncrypt0 with InternalCborSerialization {
   final COSEHeaders headers;
-  final List<int>? ciphertext;
+  final BuBytes? ciphertext;
   final COSESerializationConfig serializationConfig;
   COSEEncrypt0({
     required this.headers,
@@ -871,7 +900,8 @@ class COSEPasswordEncryption extends COSEEncrypt0 {
   });
   factory COSEPasswordEncryption.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(tags, cbor.tags)) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid COSEPasswordEncryption CBOR tag.",
         details: {"expected": tags.join(","), "tags": cbor.tags.join(",")},
       );
@@ -917,7 +947,7 @@ class COSEPasswordEncryption extends COSEEncrypt0 {
 
 class COSERecipient with InternalCborSerialization {
   final COSEHeaders headers;
-  final List<int>? ciphertext;
+  final BuBytes? ciphertext;
   final COSESerializationConfig serializationConfig;
   COSERecipient({
     required this.headers,
@@ -946,7 +976,6 @@ class COSERecipient with InternalCborSerialization {
     );
   }
 
-  @override
   @override
   CborObject toCbor() {
     return serializationConfig.toCbor([
@@ -1016,7 +1045,7 @@ class COSERecipients with InternalCborSerialization {
 
 class COSEEncrypt with InternalCborSerialization {
   final COSEHeaders headers;
-  final List<int>? ciphertext;
+  final BuBytes? ciphertext;
   final COSERecipients recipients;
   final COSESerializationConfig serializationConfig;
   COSEEncrypt({
@@ -1083,7 +1112,8 @@ class COSEPubKeyEncryption extends COSEEncrypt {
 
   factory COSEPubKeyEncryption.deserialize(CborTagValue cbor) {
     if (!BytesUtils.bytesEqual(tags, cbor.tags)) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid COSEPubKeyEncryption CBOR tag.",
         details: {"expected": tags.join(","), "tags": cbor.tags.join(",")},
       );
@@ -1113,10 +1143,10 @@ class COSEPubKeyEncryption extends COSEEncrypt {
 
 class COSEKey with InternalCborSerialization {
   final COSELabel? keyType;
-  final List<int>? keyId;
+  final BuBytes? keyId;
   final COSELabel? algorithmId;
   final COSELabels? keyOps;
-  final List<int>? baseInitVector;
+  final BuBytes? baseInitVector;
   final Map<COSELabel, CborObject>? otherHeaders;
 
   COSEKey({
@@ -1126,8 +1156,8 @@ class COSEKey with InternalCborSerialization {
     this.algorithmId,
     List<int>? baseInitVector,
     Map<COSELabel, CborObject>? otherHeaders,
-  }) : keyId = keyId?.immutable,
-       baseInitVector = baseInitVector?.immutable,
+  }) : keyId = keyId?.asImmutableBytes,
+       baseInitVector = baseInitVector?.asImmutableBytes,
        otherHeaders = otherHeaders?.immutable;
 
   factory COSEKey.deserialize(CborMapValue cbor) {
@@ -1298,8 +1328,8 @@ enum COSEKeyOperation {
 
 class COSESign1Builder {
   final COSEHeaders headers;
-  final List<int> payload;
-  final List<int>? externalAad;
+  final BuBytes payload;
+  final BuBytes? externalAad;
   COSESign1Builder._({
     required this.headers,
     required List<int> payload,
@@ -1317,7 +1347,7 @@ class COSESign1Builder {
       unprotected: headers.unprotected.copyWith(
         otherHeaders: {
           ...headers.unprotected.otherHeaders ?? {},
-          COSELabelString("hashed"): CborBoleanValue(hashPayload),
+          COSELabelString("hashed"): CborBooleanValue(hashPayload),
         },
       ),
     );
@@ -1366,8 +1396,8 @@ class COSESign1Builder {
 
 class COSESignBuilder {
   final COSEHeaders headers;
-  final List<int> payload;
-  final List<int>? externalAad;
+  final BuBytes payload;
+  final BuBytes? externalAad;
   COSESignBuilder._({
     required this.headers,
     required List<int> payload,

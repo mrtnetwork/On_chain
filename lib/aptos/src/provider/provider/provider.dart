@@ -14,20 +14,36 @@ class AptosProvider<SERVICE extends IServiceProvider>
     required AptosRequestDetails params,
     required bool isDynamicRequest,
   }) {
+    RPCError err(Map<String, dynamic> error) {
+      String? message = error.valueAsString("message");
+      List<String>? messages = [];
+      if (error.containsKey("errors")) {
+        messages =
+            error
+                .valueEnsureAsList<Map<String, dynamic>>("errors")
+                .map((e) => e.valueAsString("message"))
+                .whereType<String>()
+                .toList()
+                .emptyAsNull;
+        message = messages?.join(", ");
+      }
+      return RPCError(
+        message:
+            message ??
+            ServiceProviderUtils.getDefaultError(response.statusCode),
+        relatedNetwork: BlockchainNetwork.aptos,
+        errorCode: error.valueAs("vm_error_code"),
+        statusCode: response.statusCode,
+        jsonRpcErrpr: error,
+      );
+    }
+
     if (response.type == ServiceResponseType.error) {
       final error = response.cast<BaseServiceErrorResponse>();
       if (!error.validate) throw error.defaultError();
       final errorJson = error.tryToJson();
       if (errorJson == null) throw error.defaultError();
-      final message = errorJson["message"];
-      errorJson.removeWhere((k, v) => k == "message");
-      throw RPCError(
-        message: (message is String ? message : ServiceConst.defaultError),
-        relatedNetwork: BlockchainNetwork.aptos,
-        errorCode: errorJson.valueAs("vm_error_code"),
-        statusCode: error.statusCode,
-        jsonRpcErrpr: errorJson,
-      );
+      throw err(errorJson);
     }
     final result = params.toEncodingResponse<SERVICERESPONSE>(response);
     switch (params.api) {
@@ -46,23 +62,7 @@ class AptosProvider<SERVICE extends IServiceProvider>
             params: params,
           );
         }
-        final List<Map<String, dynamic>> errors =
-            (data["errors"] as List?)?.cast() ?? [];
-        if (errors.isEmpty) {
-          throw RPCError(
-            relatedNetwork: BlockchainNetwork.aptos,
-            message: ServiceConst.defaultError,
-            jsonRpcErrpr: data,
-            statusCode: response.statusCode,
-          );
-        }
-        final List<String> messages = data.valueEnsureAsList<String>("message");
-        throw RPCError(
-          relatedNetwork: BlockchainNetwork.aptos,
-          message: messages.join(", "),
-          jsonRpcErrpr: data,
-          statusCode: response.statusCode,
-        );
+        throw err(data);
 
       default:
         return result;
@@ -71,7 +71,7 @@ class AptosProvider<SERVICE extends IServiceProvider>
 
   int _id = 0;
 
-  /// Sends a request to the cardano network (BlockFrost) using the specified [request] parameter.
+  /// Sends a request to the Aptos network using the specified [request] parameter.
   ///
   /// The [timeout] parameter, if provided, sets the maximum duration for the request.
   /// Whatever is received will be returned
@@ -85,10 +85,10 @@ class AptosProvider<SERVICE extends IServiceProvider>
       false,
       timeout: timeout,
     );
-    return request.onResonse(r);
+    return request.onResponse(r);
   }
 
-  /// Sends a request to the cardano network (BlockFrost) using the specified [request] parameter.
+  /// Sends a request to the Aptos network using the specified [request] parameter.
   ///
   /// The [timeout] parameter, if provided, sets the maximum duration for the request.
   /// Whatever is received will be returned
@@ -110,7 +110,7 @@ class AptosProvider<SERVICE extends IServiceProvider>
     Duration? timeout,
   }) async {
     final id = ++_id;
-    final params = request.buildRequest(id);
+    final params = await request.buildRequest(id);
     final response = await service.doRequest(params, timeout: timeout);
     return _findError<SERVICERESPONSE>(
       params: params,

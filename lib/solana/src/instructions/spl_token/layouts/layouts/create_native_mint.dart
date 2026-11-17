@@ -1,6 +1,6 @@
 // Manages the layout structure for creating a native SPL token mint.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Creates the native mint layout.
@@ -17,7 +17,7 @@ class SPLTokenCreateNativeMintLayout extends SPLTokenProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.createNativeMint.insturction,
+      instruction: SPLTokenProgramInstruction.createNativeMint.instruction,
     );
     return SPLTokenCreateNativeMintLayout();
   }

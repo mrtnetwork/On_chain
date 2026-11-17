@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/secp256k1/constant.dart';
 
 class Secp256k1ProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final dynamic insturction;
+  final dynamic instruction;
   @override
   final String name;
-  const Secp256k1ProgramInstruction(this.insturction, this.name);
+  const Secp256k1ProgramInstruction(this.instruction, this.name);
   static const Secp256k1ProgramInstruction secp256k1 =
       Secp256k1ProgramInstruction(null, 'Secp256k1');
 

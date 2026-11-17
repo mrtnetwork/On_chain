@@ -1,5 +1,6 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:on_chain/solana/src/instructions/address_lockup_table/accounts/accounts/account_lookup_table.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/transaction/core/core.dart';
 import 'package:on_chain/solana/src/transaction/utils/utils.dart';
@@ -92,15 +93,17 @@ class MessageV0 implements VersionedMessage {
     if (lookupKeys != null) {
       if (numAccountKeysFromLookups !=
           lookupKeys.writable.length + lookupKeys.readonly.length) {
-        throw const SolanaPluginException(
-          'Failed to get account keys because of a mismatch in the number of account keys from lookups',
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Failed to get account keys: mismatch in the number of account keys from lookups.',
         );
       }
     } else if (addressLookupTableAccounts.isNotEmpty) {
       lookupKeys = _resolveAddressTableLookups(addressLookupTableAccounts);
     } else if (addressTableLookups.isNotEmpty) {
-      throw const SolanaPluginException(
-        'Failed to get account keys because address table lookups were not resolved',
+      throw const BuError(
+        DefaultErrorType.invalidAddress,
+        'Failed to get account keys: address table lookups were not resolved.',
       );
     }
     return MessageAccountKeys(accountKeys, lookupKeys);
@@ -129,7 +132,8 @@ class MessageV0 implements VersionedMessage {
         (account) => account.key == tableLookup.accountKey,
         orElse:
             () =>
-                throw SolanaPluginException(
+                throw BuError(
+                  DefaultErrorType.notFound,
                   'Failed to find address lookup table account for table key ${tableLookup.accountKey}',
                 ),
       );
@@ -137,7 +141,8 @@ class MessageV0 implements VersionedMessage {
         if (index < tableAccount.addresses.length) {
           writable.add(tableAccount.addresses[index]);
         } else {
-          throw SolanaPluginException(
+          throw BuError(
+            DefaultErrorType.notFound,
             'Failed to find address for index $index in address lookup table ${tableLookup.accountKey}',
           );
         }
@@ -146,7 +151,8 @@ class MessageV0 implements VersionedMessage {
         if (index < tableAccount.addresses.length) {
           readonly.add(tableAccount.addresses[index]);
         } else {
-          throw SolanaPluginException(
+          throw BuError(
+            DefaultErrorType.notFound,
             'Failed to find address for index $index in address lookup table ${tableLookup.accountKey}',
           );
         }

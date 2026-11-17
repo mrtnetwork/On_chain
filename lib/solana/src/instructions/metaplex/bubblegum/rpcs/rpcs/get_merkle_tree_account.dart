@@ -29,7 +29,7 @@ class SolanaRPCGetMerkleTreeAccount
   }
 
   @override
-  MerkleTree? onResonse(Map<String, dynamic>? result) {
+  MerkleTree? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MerkleTree.fromBuffer(accountInfo.toBytesData());

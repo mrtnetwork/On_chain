@@ -1,9 +1,10 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('name service compile legacy', () {
+import '../../../utils.dart';
+void nameServiceCompileLegacyTest() {
+  group('Solana/Name Service Compile Legacy', () {
     _create();
     _update();
     _transfer();
@@ -11,6 +12,11 @@ void main() {
     _realloc();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(nameServiceCompileLegacyTest, "Compile Legacy");
+}
+
 
 void _create() {
   test('create', () {

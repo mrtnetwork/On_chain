@@ -20,7 +20,7 @@ class BlockfrostRequestProtocolParameters
   List<String> get pathParameters => [epoch.toString()];
 
   @override
-  ADAEpochParametersResponse onResonse(Map<String, dynamic> result) {
+  ADAEpochParametersResponse onResponse(Map<String, dynamic> result) {
     return ADAEpochParametersResponse.fromJson(result);
   }
 }

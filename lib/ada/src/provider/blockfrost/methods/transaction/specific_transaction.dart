@@ -20,7 +20,7 @@ class BlockfrostRequestSpecificTransaction
   List<String> get pathParameters => [hash];
 
   @override
-  ADATransactionInfoResponse onResonse(Map<String, dynamic> result) {
+  ADATransactionInfoResponse onResponse(Map<String, dynamic> result) {
     return ADATransactionInfoResponse.fromJson(result);
   }
 }

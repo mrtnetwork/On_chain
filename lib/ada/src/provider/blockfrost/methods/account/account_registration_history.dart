@@ -26,7 +26,7 @@ class BlockfrostRequestAccountRegistrationHistory
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  List<ADAStakeAccountRegistrationHistoryResponse> onResonse(
+  List<ADAStakeAccountRegistrationHistoryResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

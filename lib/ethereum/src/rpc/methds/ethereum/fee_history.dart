@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/models/block_tag.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
@@ -18,15 +19,11 @@ class EthereumRequestGetFeeHistory
   final List<double> rewardPercentiles;
   @override
   List<dynamic> toJson() {
-    return [
-      '0x${blockCount.toRadixString(16)}',
-      blockNumber,
-      rewardPercentiles,
-    ];
+    return [blockCount.toHexaDecimal, blockNumber, rewardPercentiles];
   }
 
   @override
-  FeeHistory? onResonse(result) {
+  FeeHistory? onResponse(result) {
     if (result == null || result['gasUsedRatio'] == null) return null;
     return FeeHistory.fromJson(result);
   }

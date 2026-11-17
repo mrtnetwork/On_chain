@@ -32,7 +32,7 @@ class SolanaRequestGetBalance extends SolanaRequest<BigInt, dynamic> {
   }
 
   @override
-  BigInt onResonse(dynamic result) {
+  BigInt onResponse(dynamic result) {
     return BigintUtils.parse(result);
   }
 }

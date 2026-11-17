@@ -27,7 +27,7 @@ class SolanaRPCGetStakeAccount
   }
 
   @override
-  StakeAccount? onResonse(result) {
+  StakeAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return StakeAccount.fromBuffer(accountInfo.toBytesData());

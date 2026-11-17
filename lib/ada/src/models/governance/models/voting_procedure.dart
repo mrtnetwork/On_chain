@@ -1,6 +1,4 @@
-import 'package:blockchain_utils/cbor/core/cbor.dart';
-import 'package:blockchain_utils/cbor/serialization/cbor/cbor.dart';
-import 'package:blockchain_utils/cbor/types/types.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/governance/models/anchor.dart';
 import 'package:on_chain/ada/src/models/governance/models/vote_type.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';

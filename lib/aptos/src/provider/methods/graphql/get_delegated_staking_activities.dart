@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
 
@@ -9,25 +9,20 @@ class AptosGraphQLRequestGetDelegatedStakingActivities
           Map<String, dynamic>
         > {
   AptosGraphQLRequestGetDelegatedStakingActivities({
-    required this.delegatorAddress,
-    this.poolAddress,
+    required this.variables,
     this.headers,
   });
   @override
   final Map<String, String>? headers;
-  final String? delegatorAddress;
-  final String? poolAddress;
+  final AptosGraphQLPaginatedWithOrderVariablesParams variables;
 
   @override
   String get method => AptosGraphqlQueriesConst.getDelegatedStakingActivities;
   @override
-  Map<String, dynamic> get queryVariables => {
-    "delegatorAddress": delegatorAddress,
-    "poolAddress": poolAddress,
-  };
+  Map<String, dynamic> get queryVariables => variables.toJson();
 
   @override
-  List<AptosGraphQLDelegatedStakingActivity> onResonse(
+  List<AptosGraphQLDelegatedStakingActivity> onResponse(
     Map<String, dynamic> result,
   ) {
     return result

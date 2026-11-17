@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/compute_budget/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// StructLayout for the ComputeBudgetRequestUnits instruction.
@@ -21,7 +21,7 @@ class ComputeBudgetRequestUnitsLayout extends ComputeBudgetProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: ComputeBudgetProgramInstruction.requestUnits.insturction,
+      instruction: ComputeBudgetProgramInstruction.requestUnits.instruction,
     );
     return ComputeBudgetRequestUnitsLayout(
       units: decode['units'],

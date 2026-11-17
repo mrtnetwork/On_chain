@@ -18,7 +18,7 @@ class BlockfrostRequestScripts
   List<String> get pathParameters => [];
 
   @override
-  List<String> onResonse(List<Map<String, dynamic>> result) {
+  List<String> onResponse(List<Map<String, dynamic>> result) {
     return result.map<String>((e) => e['script_hash']).toList();
   }
 }

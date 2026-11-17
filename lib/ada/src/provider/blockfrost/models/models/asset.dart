@@ -26,6 +26,12 @@ class ADAAssetResponse {
   /// Off-chain metadata
   final ADAOffchainMetadata? metadata;
 
+  /// CIP metadata standard marker
+  final String? onchainMetadataStandard;
+
+  /// Extra CIP metadata standard marker
+  final String? onchainMetadataExtra;
+
   ADAAssetResponse({
     required this.asset,
     required this.policyId,
@@ -36,6 +42,8 @@ class ADAAssetResponse {
     required this.mintOrBurnCount,
     required this.onchainMetadata,
     required this.metadata,
+    this.onchainMetadataStandard,
+    this.onchainMetadataExtra,
   });
 
   factory ADAAssetResponse.fromJson(Map<String, dynamic> json) {
@@ -55,6 +63,8 @@ class ADAAssetResponse {
           json['metadata'] == null
               ? null
               : ADAOffchainMetadata.fromJson(json['metadata']),
+      onchainMetadataStandard: json['onchain_metadata_standard'],
+      onchainMetadataExtra: json['onchain_metadata_extra'],
     );
   }
 
@@ -68,6 +78,8 @@ class ADAAssetResponse {
     'mint_or_burn_count': mintOrBurnCount,
     'onchain_metadata': onchainMetadata?.toJson(),
     'metadata': metadata?.toJson(),
+    'onchain_metadata_standard': onchainMetadataStandard,
+    'onchain_metadata_extra': onchainMetadataExtra,
   };
   @override
   String toString() {

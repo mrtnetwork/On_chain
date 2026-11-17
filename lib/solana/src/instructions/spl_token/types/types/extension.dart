@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 
 /// Defines the ExtensionType class to represent different types of extensions.
 class ExtensionType {
@@ -141,11 +142,60 @@ class ExtensionType {
     64,
   );
 
-  /// Extension type for token metadata.
-  static const ExtensionType groupMemberPointer = ExtensionType._(
+  static const ExtensionType tokenGroup = ExtensionType._(
     21,
+    'TokenGroup',
+    null,
+  );
+
+  static const ExtensionType groupMemberPointer = ExtensionType._(
+    22,
     'GroupMemberPointer',
     64,
+  );
+
+  static const ExtensionType tokenGroupMember = ExtensionType._(
+    23,
+    'TokenGroupMember',
+    null,
+  );
+
+  static const ExtensionType confidentialTransferFeeConfig = ExtensionType._(
+    16,
+    'ConfidentialTransferFeeConfig',
+    null,
+  );
+
+  static const ExtensionType confidentialTransferFeeAmount = ExtensionType._(
+    17,
+    'ConfidentialTransferFeeAmount',
+    null,
+  );
+
+  static const ExtensionType confidentialMintBurn = ExtensionType._(
+    24,
+    'ConfidentialMintBurn',
+    null,
+  );
+
+  static const ExtensionType scaledUiAmount = ExtensionType._(
+    25,
+    'ScaledUiAmount',
+    null,
+  );
+
+  static const ExtensionType pausable = ExtensionType._(26, 'Pausable', null);
+
+  static const ExtensionType pausableAccount = ExtensionType._(
+    27,
+    'PausableAccount',
+    0,
+  );
+
+  static const ExtensionType permissionedBurn = ExtensionType._(
+    28,
+    'PermissionedBurn',
+    null,
   );
 
   /// List of all ExtensionType values.
@@ -166,18 +216,30 @@ class ExtensionType {
     nonTransferableAccount,
     transferHook,
     transferHookAccount,
+    confidentialTransferFeeConfig,
+    confidentialTransferFeeAmount,
     metadataPointer,
     tokenMetadata,
+    groupPointer,
+    tokenGroup,
+    groupMemberPointer,
+    tokenGroupMember,
+    confidentialMintBurn,
+    scaledUiAmount,
+    pausable,
+    pausableAccount,
+    permissionedBurn,
   ];
 
   /// Creates an ExtensionType instance from the provided value.
   ///
-  /// Throws a [SolanaPluginException] if no ExtensionType is found for the given value.
+  /// Throws a [BuError] if no ExtensionType is found for the given value.
   factory ExtensionType.fromValue(int v) {
     return values.firstWhere(
       (element) => element.value == v,
       orElse: () {
-        throw SolanaPluginException(
+        throw BuError(
+          OnChainErrorType.solanaPlugin,
           'No ExtensionType found for the given value.',
           details: {'value': v.toString()},
         );
@@ -197,6 +259,15 @@ class ExtensionType {
       case ExtensionType.transferHook:
       case ExtensionType.metadataPointer:
       case ExtensionType.tokenMetadata:
+      case ExtensionType.groupPointer:
+      case ExtensionType.tokenGroup:
+      case ExtensionType.groupMemberPointer:
+      case ExtensionType.tokenGroupMember:
+      case ExtensionType.confidentialTransferFeeConfig:
+      case ExtensionType.confidentialMintBurn:
+      case ExtensionType.scaledUiAmount:
+      case ExtensionType.pausable:
+      case ExtensionType.permissionedBurn:
         return true;
       default:
         return false;
@@ -212,6 +283,8 @@ class ExtensionType {
       case ExtensionType.cpiGuard:
       case ExtensionType.nonTransferableAccount:
       case ExtensionType.transferHookAccount:
+      case ExtensionType.confidentialTransferFeeAmount:
+      case ExtensionType.pausableAccount:
         return true;
       default:
         return false;
@@ -228,6 +301,14 @@ class ExtensionType {
         return ExtensionType.nonTransferableAccount;
       case ExtensionType.transferHook:
         return ExtensionType.transferHookAccount;
+      case ExtensionType.confidentialTransferFeeConfig:
+        return ExtensionType.confidentialTransferFeeAmount;
+      case ExtensionType.pausable:
+        return ExtensionType.pausableAccount;
+      case ExtensionType.tokenGroup:
+        return ExtensionType.tokenGroupMember;
+      case ExtensionType.groupPointer:
+        return ExtensionType.groupMemberPointer;
       case ExtensionType.transferFeeAmount:
       case ExtensionType.confidentialTransferAccount:
       case ExtensionType.cpiGuard:
@@ -242,9 +323,17 @@ class ExtensionType {
       case ExtensionType.permanentDelegate:
       case ExtensionType.nonTransferableAccount:
       case ExtensionType.transferHookAccount:
+      case ExtensionType.confidentialTransferFeeAmount:
+      case ExtensionType.tokenGroupMember:
+      case ExtensionType.groupMemberPointer:
+      case ExtensionType.confidentialMintBurn:
+      case ExtensionType.scaledUiAmount:
+      case ExtensionType.pausableAccount:
+      case ExtensionType.permissionedBurn:
         return ExtensionType.uninitialized;
       default:
-        throw SolanaPluginException(
+        throw BuError(
+          OnChainErrorType.solanaPlugin,
           'unsuported type',
           details: {'ExtensionType': name},
         );

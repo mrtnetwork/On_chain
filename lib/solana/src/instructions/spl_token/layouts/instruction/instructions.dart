@@ -1,13 +1,13 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final dynamic insturction;
+  final dynamic instruction;
   @override
   final String name;
-  const SPLTokenProgramInstruction(this.insturction, this.name);
+  const SPLTokenProgramInstruction(this.instruction, this.name);
   static const SPLTokenProgramInstruction initializeMint =
       SPLTokenProgramInstruction(0, 'InitializeMint');
   static const SPLTokenProgramInstruction initializeAccount =
@@ -152,15 +152,21 @@ class SPLTokenProgramInstruction implements ProgramLayoutInstruction {
     initializePermanentDelegate,
     transferHookExtension,
     metadataPointerExtension,
+    groupPointerExtension,
+    groupMemberPointerExtension,
     execute,
   ];
   static SPLTokenProgramInstruction? getInstruction(dynamic value) {
-    return values.firstWhereNullable((element) => element.insturction == value);
+    return values.firstWhereNullable((element) => element.instruction == value);
   }
 
   @override
   String get programName => 'SPLToken';
 
   @override
-  SolAddress get programAddress => throw UnimplementedError();
+  SolAddress get programAddress =>
+      throw BuError(
+        DefaultErrorType.unsupported,
+        'programAddress is not available for this instruction.',
+      );
 }

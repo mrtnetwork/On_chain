@@ -4,7 +4,7 @@ import 'package:on_chain/aptos/src/account/constant/constants.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 
@@ -26,17 +26,22 @@ class AptosMultiEd25519AccountPublicKey extends AptosAccountPublicKey {
   }) {
     final keys = publicKeys.toSet();
     if (keys.length != publicKeys.length) {
-      throw DartAptosPluginException("Duplicate public key detected.");
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Duplicate public key detected.",
+      );
     }
     if (publicKeys.length < AptosAccountConst.multiEd25519MinKeys ||
         publicKeys.length > AptosAccountConst.multiEd25519MaxKeys) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "The number of public keys provided is invalid. It must be between ${AptosAccountConst.multiEd25519MinKeys} and ${AptosAccountConst.multiEd25519MaxKeys}.",
       );
     }
     if (threshold < AptosAccountConst.multiEd25519MinThreshold ||
         threshold > publicKeys.length) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid threshold. The threshold must be between ${AptosAccountConst.multiEd25519MinThreshold} and the number of provided public keys (${publicKeys.length}).",
       );
     }
@@ -48,7 +53,8 @@ class AptosMultiEd25519AccountPublicKey extends AptosAccountPublicKey {
 
   factory AptosMultiEd25519AccountPublicKey.fromBytes(List<int> bytes) {
     if ((bytes.length - 1) % Ed25519KeysConst.pubKeyByteLen != 0) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid MultiEd25519Account bytes length.",
         details: {"length": bytes.length.toString()},
       );
@@ -120,8 +126,9 @@ class AptosMultiEd25519AccountPublicKey extends AptosAccountPublicKey {
     try {
       anySignature = AptosMultiEd25519Signature.deserialize(signature);
     } catch (_) {
-      throw DartAptosPluginException(
-        "Invalid Aptos MultiED25519 Signature. deserialize signature failed.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid Aptos MultiED25519 signature. Failed to deserialize signature.",
       );
     }
     if (anySignature.signatures.isEmpty) return false;

@@ -34,7 +34,7 @@ class SolanaRequestGetBlocks extends SolanaRequest<List<int>, List> {
   }
 
   @override
-  List<int> onResonse(result) {
+  List<int> onResponse(result) {
     return result.cast<int>();
   }
 }

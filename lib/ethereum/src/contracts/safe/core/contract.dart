@@ -1,12 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/events.dart';
-import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/ethereum/src/models/log_entry.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/rpc.dart'
     show EthereumRequestFunctionCall;
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solidity/solidity.dart';
 
 typedef CbParseContractResult<T> = T Function(List<dynamic> result);
@@ -25,14 +26,16 @@ abstract mixin class BaseSafeContract {
       (element) => element.name == functionName.functionName,
     );
     if (function.isEmpty) {
-      throw ETHPluginException(
+      throw BuError(
+        OnChainErrorType.ethereumPlugin,
         "No matching function found in ABI for ${functionName.functionName}",
       );
     } else if (function.length == 1) {
       return function.first;
     }
     if (selector == null) {
-      throw ETHPluginException(
+      throw BuError(
+        OnChainErrorType.ethereumPlugin,
         "Multiple '${functionName.functionName}' functions found in ABI. Provide a selector to disambiguate.",
       );
     }
@@ -41,7 +44,8 @@ abstract mixin class BaseSafeContract {
       (element) => BytesUtils.bytesEqual(selector, element.selector),
       orElse:
           () =>
-              throw ETHPluginException(
+              throw BuError(
+                OnChainErrorType.ethereumPlugin,
                 "No function in the ABI matches '${functionName.functionName}' with selector ${BytesUtils.toHexString(selector!, prefix: "0x")}.",
               ),
     );
@@ -68,7 +72,8 @@ abstract mixin class BaseSafeContract {
     onValidateFunction ??= (f) {
       final stateMutability = f.stateMutability;
       if (stateMutability == null || stateMutability.isExcutable) return f;
-      throw ETHPluginException(
+      throw BuError(
+        OnChainErrorType.ethereumPlugin,
         "this function is not executable due to its state mutability",
       );
     };
@@ -93,7 +98,8 @@ abstract mixin class BaseSafeContract {
       onValidateFunction: (f) {
         final stateMutability = f.stateMutability;
         if (stateMutability == null || !stateMutability.isExcutable) return f;
-        throw ETHPluginException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           "this contract function is executable and cannot be used with queryContract",
         );
       },
@@ -133,8 +139,7 @@ abstract mixin class BaseSafeContract {
       final event = contract.tryEventFromSignature(i.topics.elementAt(0));
       if (event == null) continue;
       final type = SafeContractEventType.fromEventNameOrNull(event.name);
-      assert(type != null && contractEvents.contains(type));
-      if (type == null) continue;
+      if (type == null || !contractEvents.contains(type)) continue;
       events.add(
         SafeContractEvent.deserialize(
           type: type,

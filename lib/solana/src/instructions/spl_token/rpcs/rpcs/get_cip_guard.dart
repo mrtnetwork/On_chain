@@ -27,7 +27,7 @@ class SolanaRPCGetCipGuard
   }
 
   @override
-  CpiGuard? onResonse(result) {
+  CpiGuard? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return CpiGuard.fromAccountBytes(accountInfo.toBytesData());

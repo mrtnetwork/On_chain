@@ -27,7 +27,7 @@ class SolanaRPCGetAccountLookupAddres
   }
 
   @override
-  AddressLookupTableAccount? onResonse(Map<String, dynamic>? result) {
+  AddressLookupTableAccount? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return AddressLookupTableAccount.fromBuffer(

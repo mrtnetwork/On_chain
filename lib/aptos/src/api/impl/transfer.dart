@@ -1,9 +1,11 @@
 import 'package:on_chain/aptos/src/address/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/aptos/src/api/types/types.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/helper/helper.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/serialization/bcs/move/types/types.dart';
 
 import 'provider.dart';
@@ -28,7 +30,8 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
     final isActive = await accountIsActive(transferParams.destination);
 
     if (!transferParams.allowCreate && !isActive) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidState,
         "Account is not active.",
         details: {"address": transferParams.destination.address},
       );
@@ -94,13 +97,17 @@ mixin AptosQuickApiTransactionHelper on AptosQuickApiProviderHelper {
     AptosApiBuildTransactionParams? params,
   }) async {
     if (transfers.isEmpty) {
-      throw DartAptosPluginException("At least one transfer required.");
+      throw BuError(
+        OnChainErrorType.aptosPlugin,
+        "At least one transfer required.",
+      );
     }
 
     for (final transfer in transfers) {
       if (!transfer.allowCreate &&
           !await accountIsActive(transfer.destination)) {
-        throw DartAptosPluginException(
+        throw BuError(
+          DefaultErrorType.invalidState,
           "Account is not active.",
           details: {"address": transfer.destination.address},
         );

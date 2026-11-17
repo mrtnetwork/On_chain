@@ -43,3 +43,5 @@ export 'read/try_multi_get_past_objects.dart';
 export 'write/dev_inspect_transaction_block.dart';
 export 'write/dry_run_transaction_block.dart';
 export 'write/execute_transaction_block.dart';
+
+export 'methods/grpc.dart';

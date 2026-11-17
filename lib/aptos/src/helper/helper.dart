@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 
-import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
 import 'package:on_chain/serialization/bcs/move/types/types.dart';
@@ -16,8 +15,9 @@ class AptosHelper {
     try {
       return AmountConverter.aptos.toUnit(aptos);
     } catch (e) {
-      throw DartAptosPluginException(
-        "Invalid aptos amount provided.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid Aptos amount provided.",
         details: {"amount": aptos},
       );
     }
@@ -29,7 +29,7 @@ class AptosHelper {
     return AmountConverter.aptos.toAmount(apt);
   }
 
-  /// Creates an Aptos transaction entry for transferring coins to another account.
+  /// Creates an Aptos transaction entry for transferring APT coins (coin module) to another account.
   /// It sets up the required module, function, and arguments for the transaction.
   static AptosTransactionEntryFunction createCoinTransferEntry(
     AptosTransferParams transfer,
@@ -42,7 +42,7 @@ class AptosHelper {
     );
   }
 
-  /// Creates an Aptos transaction entry for transferring coins to an account.
+  /// Creates an Aptos transaction entry for transferring APT (account module `0x1::aptos_account`) to an account.
   static AptosTransactionEntryFunction createAccountTransferEntry(
     AptosTransferParams transfer,
   ) {

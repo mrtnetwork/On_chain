@@ -1,13 +1,15 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/aptos/src/account/keyless/public_key.dart';
+import 'package:on_chain/aptos/src/account/keyless/signature.dart';
 import 'package:on_chain/aptos/src/account/public_key/multi_ed25519.dart';
 import 'package:on_chain/aptos/src/account/public_key/multi_key.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/aptos/src/keypair/types/types.dart';
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
 
 /// An `AccountAuthenticator` is an abstraction of a signature scheme. It must know:
 /// (1) How to check its signature against a message and public key
@@ -33,7 +35,8 @@ enum AptosAccountAuthenticators {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "cannot find correct account authenticator from the given name.",
                 details: {"name": name},
               ),
@@ -67,8 +70,9 @@ abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
       AptosAccountAuthenticators.noAccountAuthenticator =>
         AptosAccountAuthenticatorNoAccountAuthenticator(),
       _ =>
-        throw DartAptosPluginException(
-          "Unsuported account athenticator.",
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Unsupported account authenticator.",
           details: {"type": type.name},
         ),
     };
@@ -114,8 +118,9 @@ abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
 
   T cast<T extends AptosAccountAuthenticator>() {
     if (this is! T) {
-      throw DartAptosPluginException(
-        "Invalid account authenticated.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid account authenticator.",
         details: {"expected": "$T", "type": type.name},
       );
     }
@@ -126,7 +131,7 @@ abstract class AptosAccountAuthenticator extends BcsVariantSerialization {
 /// Represents an Ed25519 signature for Aptos account authentication.
 class AptosEd25519Signature extends AptosSignature {
   /// The Ed25519 signature bytes.
-  final List<int> signature;
+  final BuBytes signature;
   AptosEd25519Signature._({required List<int> signature})
     : signature = signature.asImmutableBytes;
   factory AptosEd25519Signature.deserialize(List<int> bytes) {
@@ -135,7 +140,8 @@ class AptosEd25519Signature extends AptosSignature {
   }
   factory AptosEd25519Signature(List<int> signature) {
     if (signature.length != CryptoSignerConst.ed25519SignatureLength) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid signature length.",
         details: {
           "expected": CryptoSignerConst.ed25519SignatureLength.toString(),
@@ -165,12 +171,12 @@ class AptosEd25519Signature extends AptosSignature {
   }
 
   @override
-  List<int> signatureBytes() {
+  BuBytes signatureBytes() {
     return signature;
   }
 
   @override
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return toBcs();
   }
 }
@@ -178,7 +184,7 @@ class AptosEd25519Signature extends AptosSignature {
 /// Represents an Ed25519 Any signature for Aptos account authentication.
 class AptosEd25519AnySignature extends AptosAnySignature {
   /// The Ed25519 signature bytes.
-  final List<int> signature;
+  final BuBytes signature;
   AptosEd25519AnySignature._({required List<int> signature})
     : signature = signature.asImmutableBytes,
       super(type: AptosAnySignatures.ed25519);
@@ -188,7 +194,8 @@ class AptosEd25519AnySignature extends AptosAnySignature {
   }
   factory AptosEd25519AnySignature(List<int> signature) {
     if (signature.length != CryptoSignerConst.ed25519SignatureLength) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid signature length.",
         details: {
           "expected": CryptoSignerConst.ed25519SignatureLength.toString(),
@@ -218,7 +225,7 @@ class AptosEd25519AnySignature extends AptosAnySignature {
   }
 
   @override
-  List<int> signatureBytes() {
+  BuBytes signatureBytes() {
     return signature;
   }
 }
@@ -226,13 +233,14 @@ class AptosEd25519AnySignature extends AptosAnySignature {
 /// Represents a Secp256k1 Any signature for Aptos account authentication.
 class AptosSecp256k1AnySignature extends AptosAnySignature {
   /// The Secp256k1 signature bytes.
-  final List<int> signature;
+  final BuBytes signature;
   AptosSecp256k1AnySignature._({required List<int> signature})
     : signature = signature.asImmutableBytes,
       super(type: AptosAnySignatures.secp256k1);
   factory AptosSecp256k1AnySignature(List<int> signature) {
     if (signature.length != CryptoSignerConst.ed25519SignatureLength) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid signature length.",
         details: {
           "expected": CryptoSignerConst.ecdsaSignatureLength.toString(),
@@ -262,7 +270,7 @@ class AptosSecp256k1AnySignature extends AptosAnySignature {
   }
 
   @override
-  List<int> signatureBytes() {
+  BuBytes signatureBytes() {
     return signature;
   }
 }
@@ -312,9 +320,6 @@ class AptosAccountAuthenticatorEd25519 extends AptosAccountAuthenticator {
   }
 }
 
-/// Vector of the multi-key signatures along with a 32bit [u8; 4] bitmap required to map signatures
-/// with their corresponding public keys.
-///
 /// Note that bits are read from left to right. For instance, in the following bitmap
 /// [0b0001_0000, 0b0000_0000, 0b0000_0000, 0b0000_0001], the 3rd and 31st positions are set.
 /// Represents a Multi-Ed25519 signature for Aptos, supporting multiple signatures.
@@ -323,7 +328,7 @@ class AptosMultiEd25519Signature extends AptosSignature {
   final List<AptosEd25519Signature> signatures;
 
   /// A bitmap indicating which public keys are associated with the signatures.
-  final List<int> bitmap;
+  final BuBytes bitmap;
   AptosMultiEd25519Signature._({
     required List<AptosEd25519Signature> signatures,
     required List<int> bitmap,
@@ -338,12 +343,14 @@ class AptosMultiEd25519Signature extends AptosSignature {
     required List<int> bitmap,
   }) {
     if (signatures.length > AptosConstants.maxSignatureLength) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.",
       );
     }
     if (bitmap.length != AptosConstants.bitmapLength) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
         details: {"length": bitmap.length.toString()},
       );
@@ -356,7 +363,8 @@ class AptosMultiEd25519Signature extends AptosSignature {
     if ((signature.length - AptosConstants.bitmapLength) %
             CryptoSignerConst.ed25519SignatureLength !=
         0) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid MultiEd25519 signature bytes length.",
         details: {"length": signature.length.toString()},
       );
@@ -391,8 +399,11 @@ class AptosMultiEd25519Signature extends AptosSignature {
   }
 
   @override
-  List<int> signatureBytes() {
-    return [...signatures.map((e) => e.signature).expand((e) => e), ...bitmap];
+  BuBytes signatureBytes() {
+    return [
+      ...signatures.map((e) => e.signature).expand((e) => e),
+      ...bitmap,
+    ].asImmutableBytes;
   }
 
   @override
@@ -410,18 +421,26 @@ class AptosMultiEd25519Signature extends AptosSignature {
       }
     }
     if (indexes.length != signatures.length) {
-      throw DartAptosPluginException("Invalid signature bitmap.");
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid signature bitmap.",
+        details: {
+          'expected': '${signatures.length}',
+          'actual': '${indexes.length}',
+        },
+      );
     }
     return indexes;
   }
 
   @override
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return toBcs();
   }
 }
 
-/// Enum representing different types of signatures supported by Aptos.
+/// Enum representing different types of signatures supported by Aptos
+/// (mirrors `@aptos-labs/ts-sdk` `AnySignatureVariant`).
 enum AptosAnySignatures {
   /// Ed25519 signature type.
   ed25519(value: 0),
@@ -429,8 +448,12 @@ enum AptosAnySignatures {
   /// Secp256k1 signature type.
   secp256k1(value: 1),
 
+  /// WebAuthn signature type (not implemented; reserves variant 2 so
+  /// keyless keeps its on-chain index).
+  webAuthn(value: 2),
+
   /// Keyless signature type.
-  keyless(value: 2);
+  keyless(value: 3);
 
   /// Integer value associated with each signature type.
   final int value;
@@ -444,7 +467,8 @@ enum AptosAnySignatures {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 "Cannot find correct Signature from the given name.",
                 details: {"name": name},
               ),
@@ -493,10 +517,13 @@ abstract class AptosAnySignature extends BcsVariantSerialization
       AptosAnySignatures.secp256k1 => AptosSecp256k1AnySignature.fromStruct(
         decode.value,
       ),
-      _ =>
-        throw DartAptosPluginException(
-          "Unsuported signature type.",
-          details: {"type": type.name},
+      AptosAnySignatures.keyless => AptosKeylessAnySignature.fromStruct(
+        decode.value,
+      ),
+      AptosAnySignatures.webAuthn =>
+        throw BuError(
+          DefaultErrorType.unsupported,
+          'WebAuthn signatures are not supported.',
         ),
     };
   }
@@ -512,6 +539,11 @@ abstract class AptosAnySignature extends BcsVariantSerialization
         property: AptosAnySignatures.secp256k1.name,
         index: AptosAnySignatures.secp256k1.value,
       ),
+      LazyVariantModel(
+        layout: AptosKeylessAnySignature.layout,
+        property: AptosAnySignatures.keyless.name,
+        index: AptosAnySignatures.keyless.value,
+      ),
     ], property: property);
   }
 
@@ -524,7 +556,7 @@ abstract class AptosAnySignature extends BcsVariantSerialization
   String get variantName => type.name;
 
   @override
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return toVariantBcs();
   }
 }
@@ -579,7 +611,7 @@ class AptosMultiKeySignature extends AptosSignature {
   /// A list of Aptos signatures (could be Ed25519, Secp256k1).
   final List<AptosAnySignature> signatures;
 
-  final List<int> bitmap;
+  final BuBytes bitmap;
   AptosMultiKeySignature._({
     required List<AptosAnySignature> signatures,
     required List<int> bitmap,
@@ -590,12 +622,14 @@ class AptosMultiKeySignature extends AptosSignature {
     required List<int> bitmap,
   }) {
     if (signatures.length > AptosConstants.maxSignatureLength) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Signature length exceeds the maximum allowed limit of ${AptosConstants.maxSignatureLength}.",
       );
     }
     if (bitmap.length != AptosConstants.bitmapLength) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Bitmap length must be exactly ${AptosConstants.bitmapLength}",
         details: {"length": bitmap.length.toString()},
       );
@@ -647,18 +681,25 @@ class AptosMultiKeySignature extends AptosSignature {
       }
     }
     if (indexes.length != signatures.length) {
-      throw DartAptosPluginException("Invalid signature bitmap.");
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid signature bitmap.",
+        details: {
+          'expected': '${signatures.length}',
+          'actual': '${indexes.length}',
+        },
+      );
     }
     return indexes;
   }
 
   @override
-  List<int> signatureBytes() {
+  BuBytes signatureBytes() {
     return toBcs();
   }
 
   @override
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return toBcs();
   }
 }
@@ -710,8 +751,8 @@ class AptosAccountAuthenticatorMultiKey extends AptosAccountAuthenticator {
 
 /// Class representing a SingleKey account authenticator for Aptos.
 class AptosAccountAuthenticatorSingleKey extends AptosAccountAuthenticator {
-  /// The public key associated with the single-key account.
-  final AptosCryptoPublicKey publicKey;
+  /// The public key: a crypto key or a keyless key (both are BCS variants).
+  final AptosVariantPublicKey publicKey;
 
   /// The signature associated with the public key, can be Ed25519 or Secp256k1.
   @override
@@ -724,10 +765,16 @@ class AptosAccountAuthenticatorSingleKey extends AptosAccountAuthenticator {
   factory AptosAccountAuthenticatorSingleKey.fromStruct(
     Map<String, dynamic> json,
   ) {
+    final publicKeyStruct = json.valueEnsureAsMap<String, dynamic>("publicKey");
+    final decode = BcsVariantSerialization.toVariantDecodeResult(
+      publicKeyStruct,
+    );
     return AptosAccountAuthenticatorSingleKey(
-      publicKey: AptosCryptoPublicKey.fromStruct(
-        json.valueEnsureAsMap<String, dynamic>("publicKey"),
-      ),
+      publicKey:
+          decode.variantName == "keyless"
+              ? AptosKeylessAccountPublicKey.fromStruct(decode.value)
+              : AptosCryptoPublicKey.fromStruct(publicKeyStruct)
+                  as AptosVariantPublicKey,
       signature: AptosAnySignature.fromStruct(
         json.valueEnsureAsMap<String, dynamic>("signature"),
       ),
@@ -777,7 +824,8 @@ class AptosAccountAuthenticatorNoAccountAuthenticator
 
   @override
   AptosSignature get signature =>
-      throw DartAptosPluginException(
+      throw BuError(
+        OnChainErrorType.aptosPlugin,
         "The signature is unavailable in `NoAccountAuthenticator`",
       );
 }

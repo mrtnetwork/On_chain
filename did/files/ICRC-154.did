@@ -1,0 +1,51 @@
+type PauseArgs = record {
+  reason          : opt text;
+  created_at_time : nat64;
+};
+
+type PauseError = variant {
+  Unauthorized       : text;
+  AlreadyPaused      : text;
+  AlreadyDeactivated : text;
+  TooOld;
+  CreatedInFuture    : record { ledger_time : nat64 };
+  Duplicate          : record { duplicate_of : nat };
+  GenericError       : record { error_code : nat; message : text };
+};
+
+type UnpauseArgs = record {
+  reason          : opt text;
+  created_at_time : nat64;
+};
+
+type UnpauseError = variant {
+  Unauthorized       : text;
+  NotPaused          : text;
+  AlreadyDeactivated : text;
+  TooOld;
+  CreatedInFuture    : record { ledger_time : nat64 };
+  Duplicate          : record { duplicate_of : nat };
+  GenericError       : record { error_code : nat; message : text };
+};
+
+type DeactivateArgs = record {
+  reason          : opt text;
+  created_at_time : nat64;
+};
+
+type DeactivateError = variant {
+  Unauthorized       : text;
+  AlreadyDeactivated : text;
+  TooOld;
+  CreatedInFuture    : record { ledger_time : nat64 };
+  Duplicate          : record { duplicate_of : nat };
+  GenericError       : record { error_code : nat; message : text };
+};
+
+service : {
+  icrc154_pause        : (PauseArgs)      -> (variant { Ok : nat; Err : PauseError });
+  icrc154_unpause      : (UnpauseArgs)    -> (variant { Ok : nat; Err : UnpauseError });
+  icrc154_deactivate   : (DeactivateArgs) -> (variant { Ok : nat; Err : DeactivateError });
+  icrc154_is_paused      : () -> (bool) query;
+  icrc154_is_deactivated : () -> (bool) query;
+};

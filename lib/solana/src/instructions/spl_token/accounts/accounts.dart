@@ -1,4 +1,5 @@
 export 'accounts/cip_guard.dart';
+export 'accounts/confidential_transfer_account.dart';
 export 'accounts/default_account_state.dart';
 export 'accounts/extra_meta_account_account_data.dart';
 export 'accounts/interest_bearing_mint.dart';

@@ -19,7 +19,7 @@ class BlockfrostRequestSpecificScript
   List<String> get pathParameters => [script];
 
   @override
-  ADAScriptInfoResponse onResonse(Map<String, dynamic> result) {
+  ADAScriptInfoResponse onResponse(Map<String, dynamic> result) {
     return ADAScriptInfoResponse.fromJson(result);
   }
 }

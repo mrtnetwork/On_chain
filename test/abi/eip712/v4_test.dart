@@ -1,9 +1,11 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solidity/abi/abi.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-void main() {
+import '../../utils.dart';
+void v4Test() {
+  group('ABI/EIP712/V4', () {
   test('v4', () {
     final Eip712TypedData test1 = Eip712TypedData(
       types: {
@@ -207,4 +209,10 @@ void main() {
       "996f01b1bbd731c4d31028fe84622b41a18d68c576fe99de6417cab24975ec6b",
     );
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(v4Test, "V4");
+}
+

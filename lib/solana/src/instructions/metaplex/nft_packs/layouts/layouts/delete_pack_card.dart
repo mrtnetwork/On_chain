@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksDeletePackCardLayout
@@ -11,7 +11,7 @@ class MetaplexNFTPacksDeletePackCardLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexNFTPacksProgramInstruction.deletePackCard.insturction,
+          MetaplexNFTPacksProgramInstruction.deletePackCard.instruction,
     );
     return const MetaplexNFTPacksDeletePackCardLayout();
   }

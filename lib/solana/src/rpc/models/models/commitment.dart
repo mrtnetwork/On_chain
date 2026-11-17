@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// For preflight checks and transaction processing, Solana nodes choose which bank state to query based on a commitment
 /// requirement set by the client. The commitment describes how finalized a block is at that point in time.
@@ -29,7 +29,10 @@ class Commitment {
       (e) => e.value == value,
       orElse: () {
         if (defaultValue == null) {
-          throw const SolanaPluginException('Invalid commitment');
+          throw const BuError(
+            DefaultErrorType.invalidArgument,
+            'Invalid commitment.',
+          );
         }
         return defaultValue;
       },

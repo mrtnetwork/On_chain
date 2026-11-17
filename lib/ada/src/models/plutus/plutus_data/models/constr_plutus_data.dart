@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/plutus/utils/utils.dart';
 import 'config.dart';
@@ -68,7 +68,10 @@ class ConstrPlutusData extends PlutusData {
       cbor.tags.first,
     );
     if (alternative == null) {
-      throw const ADAPluginException('Invalid ConstrPlutusData tag.');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid ConstrPlutusData tag.',
+      );
     }
     final encode = ConstrPlutusData(
       serializationConfig: ConstrPlutusDataSerializationConfig(tags: cbor.tags),

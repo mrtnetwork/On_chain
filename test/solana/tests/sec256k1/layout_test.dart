@@ -3,15 +3,21 @@ import 'package:on_chain/ethereum/ethereum.dart';
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('secp256k1', () {
+import '../../../utils.dart';
+void sec256k1LayoutTest() {
+  group('Solana/Secp256k1 Layout', () {
     _test();
   });
 }
 
+void main() {
+  OnChainUtilsTestApi.runTest(sec256k1LayoutTest, "Layout");
+}
+
+
 void _test() {
   test('test1', () {
-    final privateKey = ETHPrivateKey(
+    final privateKey = ETHPrivateKey.fromHex(
       'cd23c9f2e2c096ee3be3c4e0e58199800c0036ea27b7cd4e838bbde8b21788b3',
     );
 
@@ -31,7 +37,7 @@ void _test() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test('test2', () {
-    final privateKey = ETHPrivateKey(
+    final privateKey = ETHPrivateKey.fromHex(
       'cd23c9f2e2c096ee3be3c4e0e58199800c0036ea27b7cd4e838bbde8b21788b3',
     );
 
@@ -51,7 +57,7 @@ void _test() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test('test3', () {
-    final privateKey = ETHPrivateKey(
+    final privateKey = ETHPrivateKey.fromHex(
       '91e4ad47a567b23aec1157e280c00b3170125c4de7169ae63021aed37924931a',
     );
 
@@ -71,7 +77,7 @@ void _test() {
     expect(decode.toBytes(), layout.toBytes());
   });
   test('test4', () {
-    final privateKey = ETHPrivateKey(
+    final privateKey = ETHPrivateKey.fromHex(
       '91e4ad47a567b23aec1157e280c00b3170125c4de7169ae63021aed37924931a',
     );
 

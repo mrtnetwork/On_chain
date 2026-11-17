@@ -23,7 +23,7 @@ class BlockfrostRequestTransactionMetadataInCBOR
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionMetadataCBORResponse> onResonse(
+  List<ADATransactionMetadataCBORResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

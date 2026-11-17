@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class HeaderLeaderCertType with InternalCborSerialization {
@@ -22,26 +21,38 @@ class HeaderLeaderCertType with InternalCborSerialization {
   }) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid HeaderLeaderCertType.',
         details: {'expected': validate.toString(), 'Type': type.toString()},
       );
     }
-
-    return fromValue(cbor.value);
+    return type;
   }
 
   static HeaderLeaderCertType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "HeaderLeaderCertType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid HeaderLeaderCertType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
   static HeaderLeaderCertType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "HeaderLeaderCertType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid HeaderLeaderCertType name.',
+                details: {'name': name},
+              ),
     );
   }
 

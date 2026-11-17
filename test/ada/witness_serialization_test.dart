@@ -2,9 +2,15 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _witnessSerialization();
+import '../utils.dart';
+void witnessSerializationTest() {
+  group('ADA/Witness Serialization', _witnessSerialization);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(witnessSerializationTest, "Witness Serialization");
+}
+
 
 void _witnessSerialization() {
   test('serialization', () {

@@ -1,14 +1,20 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('tokenEntangler', () {
+import '../../../../utils.dart';
+void tokenEntanglerLayoutTest() {
+  group('Solana/Token Entangler Layout', () {
     _entangledPair();
     _createEntangledPair();
     _swap();
     _updateEntangledPair();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(tokenEntanglerLayoutTest, "Layout");
+}
+
 
 void _createEntangledPair() {
   test('createEntangledPair', () {

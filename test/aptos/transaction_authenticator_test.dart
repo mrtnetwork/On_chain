@@ -2,13 +2,21 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _transactionAuthenticatorFeePayer();
-  _transactionAuthenticatorEd25519();
-  _transactionAuthenticatorMultiEd25519();
-  _transactionAuthenticatorMultiAgent();
-  _transactionAuthenticatorSingleSender();
+import '../utils.dart';
+void transactionAuthenticatorTest() {
+  group('Aptos/Transaction Authenticator', () {
+    _transactionAuthenticatorFeePayer();
+    _transactionAuthenticatorEd25519();
+    _transactionAuthenticatorMultiEd25519();
+    _transactionAuthenticatorMultiAgent();
+    _transactionAuthenticatorSingleSender();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(transactionAuthenticatorTest, "Transaction Authenticator");
+}
+
 
 void _transactionAuthenticatorMultiAgent() {
   test("Trnsaction authenticator MultiAgent serialization", () {

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Deposit liquidity into a reserve in exchange for collateral layout.
@@ -16,7 +16,7 @@ class TokenLendingDepositReserveLiquidityLayout
       layout: _layout,
       bytes: data,
       instruction:
-          TokenLendingProgramInstruction.depositReserveLiquidity.insturction,
+          TokenLendingProgramInstruction.depositReserveLiquidity.instruction,
     );
     return TokenLendingDepositReserveLiquidityLayout(
       liquidityAmount: decode['liquidityAmount'],

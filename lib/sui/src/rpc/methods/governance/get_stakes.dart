@@ -18,7 +18,7 @@ class SuiRequestGetStakes
   }
 
   @override
-  List<SuiApiDelegatedStake> onResonse(List<Map<String, dynamic>> result) {
+  List<SuiApiDelegatedStake> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => SuiApiDelegatedStake.fromJson(e)).toList();
   }
 }

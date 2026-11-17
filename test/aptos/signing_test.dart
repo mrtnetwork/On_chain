@@ -1,10 +1,16 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _test();
+import '../utils.dart';
+void signingTest() {
+  group('Aptos/Signing', _test);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(signingTest, "Signing");
+}
+
 
 void _test() {
   test("aptos Ed25519 signing test", () {

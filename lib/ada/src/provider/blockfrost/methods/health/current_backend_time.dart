@@ -16,7 +16,7 @@ class BlockfrostRequestBackendCurrentBackendTime
   List<String> get pathParameters => [];
 
   @override
-  int onResonse(Map<String, dynamic> result) {
+  int onResponse(Map<String, dynamic> result) {
     return result['server_time'];
   }
 }

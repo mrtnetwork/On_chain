@@ -6,6 +6,11 @@ class PluginBigintUtils {
     return JsonParser.valueAsBigInt(v, allowHex: true);
   }
 
+  static List<int> hexToBytes(Object? v) {
+    if (v == null || v == '0x') return [];
+    return JsonParser.valueAsBytes(v, allowHex: true);
+  }
+
   static BigInt? tryHexToBigint(String? v) {
     if (v == null || v == '0x') return null;
     try {

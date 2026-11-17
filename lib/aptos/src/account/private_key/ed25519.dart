@@ -19,7 +19,7 @@ class AptosEd25519Account
         publicKey: AptosEd25519AccountPublicKey(privateKey.publicKey),
       );
 
-  /// Sign the digest aand create account's authenticator using Ed25519 private key.
+  /// Sign the digest and create account's authenticator using Ed25519 private key.
   @override
   AptosAccountAuthenticatorEd25519 signWithAuth(List<int> digest) {
     final signature = sign(digest);

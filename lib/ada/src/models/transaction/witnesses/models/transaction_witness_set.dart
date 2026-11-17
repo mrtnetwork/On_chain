@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_scripts.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/plutus.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_script/models/plutus_scripts.dart';
@@ -139,7 +139,6 @@ class TransactionWitnessSet with InternalCborSerialization {
       final Map<CborIntValue, CborObject> sort = {};
       for (final i in order) {
         final key = CborIntValue(i);
-        assert(data.containsKey(key), "key does not exists $i");
         if (!data.containsKey(key)) continue;
         sort[key] = data[key]!;
       }

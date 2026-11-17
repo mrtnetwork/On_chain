@@ -45,7 +45,7 @@ class CostModel with InternalCborSerialization {
   }
   factory CostModel.fromJson(Map<String, dynamic> json) {
     return CostModel(
-      (json["models"] as List).map((e) => BigInt.parse(e)).toList(),
+      (json["models"] as List).map((e) => BigintUtils.parse(e)).toList(),
       serializationConfig: CostModelSerializationConfig.fromJson(
         json["serialization_config"] ?? {},
       ),

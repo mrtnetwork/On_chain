@@ -20,7 +20,7 @@ class SuiRequestGetAllCoins
   }
 
   @override
-  SuiApiGetCoinResponse onResonse(Map<String, dynamic> result) {
+  SuiApiGetCoinResponse onResponse(Map<String, dynamic> result) {
     return SuiApiGetCoinResponse.fromJson(result);
   }
 }

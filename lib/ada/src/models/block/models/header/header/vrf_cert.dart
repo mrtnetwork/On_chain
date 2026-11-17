@@ -4,8 +4,8 @@ import 'package:on_chain/ada/src/models/constants/constant.dart';
 import 'package:on_chain/ada/src/models/utils/utils.dart';
 
 class VRFCert with InternalCborSerialization {
-  final List<int> output;
-  final List<int> proof;
+  final BuBytes output;
+  final BuBytes proof;
   VRFCert({required List<int> output, required List<int> proof})
     : output = output.asImmutableBytes,
       proof = AdaTransactionUtils.validateFixedLengthBytes(

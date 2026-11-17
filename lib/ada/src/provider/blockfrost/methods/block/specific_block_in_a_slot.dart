@@ -19,7 +19,7 @@ class BlockfrostRequestSpecificBlockInASlot
   List<String> get pathParameters => [slotNumber.toString()];
 
   @override
-  ADABlockResponse onResonse(Map<String, dynamic> result) {
+  ADABlockResponse onResponse(Map<String, dynamic> result) {
     return ADABlockResponse.fromJson(result);
   }
 }

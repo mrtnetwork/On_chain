@@ -1,3 +1,5 @@
+import 'package:blockchain_utils/helper/helper.dart';
+
 /// Represents block tag used in Ethereum JSON-RPC requests.
 class BlockTag {
   final String value;
@@ -55,7 +57,7 @@ class BlockTagOrNumber {
   );
 
   String? get _toRadix16Number {
-    if (_blockNumber != null) return '0x${_blockNumber.toRadixString(16)}';
+    if (_blockNumber != null) return _blockNumber.toHexaDecimal;
     return null;
   }
 

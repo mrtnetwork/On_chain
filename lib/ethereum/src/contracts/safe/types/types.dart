@@ -1,6 +1,4 @@
-import 'package:blockchain_utils/helper/helper.dart';
-import 'package:blockchain_utils/service/models/params.dart';
-import 'package:blockchain_utils/signer/const/constants.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/controller/controller.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
@@ -78,7 +76,7 @@ class SafeTransactionGasParams {
 class SafeTransaction {
   final ETHAddress to;
   final BigInt value;
-  final List<int> data;
+  final BuBytes data;
   final SafeContractExecutionOpration operation;
   final BigInt nonce;
   final SafeTransactionGasParams gasParams;
@@ -122,7 +120,7 @@ class SafeTransaction {
     );
   }
 
-  List<int> calculateSafeTransactionHash({
+  BuBytes calculateSafeTransactionHash({
     required BigInt chainId,
     required ETHAddress safeAddress,
     required SafeContractVersion version,
@@ -138,7 +136,7 @@ class SafeTransaction {
 
 class SafeSignature {
   final ETHAddress address;
-  final List<int> signature;
+  final BuBytes signature;
   SafeSignature({required this.address, required List<int> signature})
     : signature =
           signature

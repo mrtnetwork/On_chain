@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/vote/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Withdraw from vote account layoyt
@@ -10,7 +10,7 @@ class VoteProgramWithdrawLayout extends VoteProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: VoteProgramInstruction.withdraw.insturction,
+      instruction: VoteProgramInstruction.withdraw.instruction,
     );
     return VoteProgramWithdrawLayout(lamports: decode['lamports']);
   }

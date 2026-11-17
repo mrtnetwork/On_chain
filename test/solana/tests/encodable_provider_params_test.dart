@@ -2,7 +2,9 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../../utils.dart';
+void testsEncodableProviderParamsTest() {
+  group('Solana/Encodable Provider Params', () {
   test('encodable provider params', () {
     final param = SolanaRequestGetAccountInfo(
       account: SolAddress.defaultPubKey,
@@ -21,4 +23,10 @@ void main() {
     expect(deserialize.requestMethod, request.requestMethod);
     expect(deserialize.path, null);
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(testsEncodableProviderParamsTest, "Encodable Provider Params");
+}
+

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHouseSellLayout extends MetaplexAuctionHouseProgramLayout {
   final int tradeStateBump;
@@ -19,7 +19,7 @@ class MetaplexAuctionHouseSellLayout extends MetaplexAuctionHouseProgramLayout {
     final decode = MetaplexAuctionHouseProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexAuctionHouseProgramInstruction.sell.insturction,
+      instruction: MetaplexAuctionHouseProgramInstruction.sell.instruction,
     );
     return MetaplexAuctionHouseSellLayout(
       tradeStateBump: decode['tradeStateBump'],

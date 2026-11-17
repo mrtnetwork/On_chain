@@ -10,7 +10,7 @@ class SolanaRequestGetBlock
   const SolanaRequestGetBlock({
     required this.slot,
     this.transactionDetails = RPCTransactionDetails.full,
-    this.maxSupportedTransactionVersion = 0,
+    this.maxSupportedTransactionVersion = 1,
     this.rewards,
     super.commitment,
     super.encoding,
@@ -27,6 +27,8 @@ class SolanaRequestGetBlock
   final RPCTransactionDetails? transactionDetails;
 
   /// the max transaction version to return in responses.
+  /// Pass 1 to read legacy, v0 and v1 transactions (defaults omit the field,
+  /// which returns legacy only on most nodes).
   final int? maxSupportedTransactionVersion;
 
   /// whether to populate the rewards array. If parameter not provided, the default includes rewards.
@@ -47,7 +49,7 @@ class SolanaRequestGetBlock
   }
 
   @override
-  VersionedBlockResponse onResonse(Map<String, dynamic> result) {
+  VersionedBlockResponse onResponse(Map<String, dynamic> result) {
     return VersionedBlockResponse.fromJson(result);
   }
 }

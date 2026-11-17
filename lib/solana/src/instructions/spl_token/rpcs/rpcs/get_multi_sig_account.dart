@@ -27,7 +27,7 @@ class SolanaRPCGetMultisigAccount
   }
 
   @override
-  SolanaMultiSigAccount? onResonse(result) {
+  SolanaMultiSigAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return SolanaMultiSigAccount.fromBuffer(

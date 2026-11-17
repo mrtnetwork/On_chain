@@ -5,9 +5,9 @@ import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types
 
 class MetaplexBubblegumProgramUtils {
   static List<int> computeDataHash(MetaData metaData) {
-    final metaDataHash = QuickCrypto.keccack256Hash(metaData.toBytes());
+    final metaDataHash = QuickCrypto.keccak256Hash(metaData.toBytes());
     final pointBytes = metaData.sellerFeeBasisPoints.toU16LeBytes();
-    return QuickCrypto.keccack256Hash([...metaDataHash, ...pointBytes]);
+    return QuickCrypto.keccak256Hash([...metaDataHash, ...pointBytes]);
   }
 
   static List<int> computeCreatorHash(List<Creator> creators) {
@@ -16,7 +16,7 @@ class MetaplexBubblegumProgramUtils {
             .map((e) => [...e.address.toBytes(), e.verified ? 1 : 0, e.share])
             .expand((element) => element)
             .toList();
-    return QuickCrypto.keccack256Hash(creatorBytes);
+    return QuickCrypto.keccak256Hash(creatorBytes);
   }
 
   static List<int> computeCompressedNFTHash({
@@ -26,7 +26,7 @@ class MetaplexBubblegumProgramUtils {
     required BigInt treeNonce,
     required MetaData metaData,
   }) {
-    return QuickCrypto.keccack256Hash([
+    return QuickCrypto.keccak256Hash([
       0x1,
       ...assetId.toBytes(),
       ...owner.toBytes(),

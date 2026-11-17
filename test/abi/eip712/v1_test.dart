@@ -2,7 +2,9 @@ import 'package:on_chain/solidity/abi/abi.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-void main() {
+import '../../utils.dart';
+void v1Test() {
+  group('ABI/EIP712/V1', () {
   test('encode v1', () {
     final eip = EIP712Legacy([
       Eip712TypedDataV1(name: 'Message', value: 'Hi, Alice!', type: 'string'),
@@ -274,4 +276,10 @@ void main() {
       '2049bac5b8074309076b343a0fbdb8d021b8312496753e710d970abae91e5d77',
     );
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(v1Test, "V1");
+}
+

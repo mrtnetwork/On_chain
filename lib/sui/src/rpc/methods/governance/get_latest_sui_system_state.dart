@@ -16,7 +16,7 @@ class SuiRequestGetLatestSuiSystemState
   }
 
   @override
-  SuiApiSystemStateSummary onResonse(Map<String, dynamic> result) {
+  SuiApiSystemStateSummary onResponse(Map<String, dynamic> result) {
     return SuiApiSystemStateSummary.fromJson(result);
   }
 }

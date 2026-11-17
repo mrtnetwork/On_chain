@@ -26,10 +26,10 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUT
   List<String> get pathParameters => [];
 
   /// The transaction to submit, serialized in CBOR.
-  List<int> transactionCborBytes;
+  BuBytes transactionCborBytes;
 
   @override
-  List<int> get body {
+  BuBytes get body {
     final toString = StringUtils.fromJson({
       'cbor': StringUtils.decode(
         transactionCborBytes,
@@ -37,6 +37,6 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluationAdditionalUT
       ),
       'additionalUtxoSet': additionalUtxoSet,
     });
-    return StringUtils.encode(toString);
+    return StringUtils.encode(toString).asImmutableBytes;
   }
 }

@@ -1,9 +1,15 @@
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _serializationScript();
+import '../utils.dart';
+void scriptTest() {
+  group('Aptos/Script', _serializationScript);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(scriptTest, "Script");
+}
+
 
 void _serializationScript() {
   test("Serialization script", () {

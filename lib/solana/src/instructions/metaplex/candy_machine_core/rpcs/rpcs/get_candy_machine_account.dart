@@ -29,7 +29,7 @@ class SolanaRPCGetCandyMachineAccount
   }
 
   @override
-  CandyMachineAccount? onResonse(result) {
+  CandyMachineAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return CandyMachineAccount.fromBuffer(accountInfo.toBytesData());

@@ -1,0 +1,6 @@
+type SupportedStandard = record { name : text; url : text; };
+type SupportedStandardsResponse = vec SupportedStandard;
+
+service : {
+  icrc10_supported_standards : () -> (SupportedStandardsResponse) query;
+}

@@ -29,7 +29,7 @@ class SolanaRPCGetVoucherAccount
   }
 
   @override
-  Voucher? onResonse(Map<String, dynamic>? result) {
+  Voucher? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return Voucher.fromBuffer(accountInfo.toBytesData());

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class TokenLendingRefreshReserveLayout extends TokenLendingProgramLayout {
@@ -9,7 +9,7 @@ class TokenLendingRefreshReserveLayout extends TokenLendingProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: TokenLendingProgramInstruction.refreshReserve.insturction,
+      instruction: TokenLendingProgramInstruction.refreshReserve.instruction,
     );
     return const TokenLendingRefreshReserveLayout();
   }

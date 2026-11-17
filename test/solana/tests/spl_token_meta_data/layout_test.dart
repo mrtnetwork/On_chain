@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('SPL TOKEN metadata layout', () {
+import '../../../utils.dart';
+void splTokenMetaDataLayoutTest() {
+  group('Solana/SPL Token Metadata Layout', () {
     _createMetaData();
     _updateMetaData();
     _remove();
@@ -10,6 +11,11 @@ void main() {
     _emit();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(splTokenMetaDataLayoutTest, "Layout");
+}
+
 
 void _createMetaData() {
   test('createMetaData', () {

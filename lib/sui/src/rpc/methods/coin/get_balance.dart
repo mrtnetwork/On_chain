@@ -23,7 +23,7 @@ class SuiRequestGetBalance
   }
 
   @override
-  SuiApiBalanceResponse onResonse(Map<String, dynamic> result) {
+  SuiApiBalanceResponse onResponse(Map<String, dynamic> result) {
     return SuiApiBalanceResponse.fromJson(result);
   }
 }

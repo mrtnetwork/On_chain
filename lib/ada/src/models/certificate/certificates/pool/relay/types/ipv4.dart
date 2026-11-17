@@ -6,7 +6,7 @@ import 'package:on_chain/ada/src/models/utils/utils.dart';
 /// Class representing an IPv4 address.
 class Ipv4 with InternalCborSerialization {
   /// The IPv4 address.
-  final List<int> ipv4;
+  final BuBytes ipv4;
 
   /// Constructs an IPv4 instance.
   Ipv4(List<int> ipv4)
@@ -21,7 +21,7 @@ class Ipv4 with InternalCborSerialization {
     return Ipv4(cbor.value);
   }
   factory Ipv4.fromJson(String value) {
-    return Ipv4(value.split('.').map<int>((e) => int.parse(e)).toList());
+    return Ipv4(value.split('.').map<int>((e) => IntUtils.parse(e)).toList());
   }
   Ipv4 copyWith({List<int>? ipv4}) {
     return Ipv4(ipv4 ?? this.ipv4);

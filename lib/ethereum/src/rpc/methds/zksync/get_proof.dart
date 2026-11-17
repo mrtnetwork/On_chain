@@ -28,7 +28,7 @@ class ZKSRequestGetProof
   }
 
   @override
-  ZkSyncProof onResonse(Map<String, dynamic> result) {
+  ZkSyncProof onResponse(Map<String, dynamic> result) {
     return ZkSyncProof.fromJson(result);
   }
 }

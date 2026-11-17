@@ -17,7 +17,7 @@ class ZKSRequestGetL2ToL1LogProof
   String get method => "zks_getl2tol1logproof";
 
   @override
-  Getl2tol1logproof onResonse(Map<String, dynamic> result) {
+  Getl2tol1logproof onResponse(Map<String, dynamic> result) {
     return Getl2tol1logproof.fromJson(result);
   }
 

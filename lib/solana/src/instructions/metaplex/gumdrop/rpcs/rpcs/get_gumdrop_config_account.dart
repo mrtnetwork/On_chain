@@ -29,7 +29,7 @@ class SolanaRPCGetGumdropConfigAccount
   }
 
   @override
-  GumdropConfig? onResonse(result) {
+  GumdropConfig? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return GumdropConfig.fromBuffer(accountInfo.toBytesData());

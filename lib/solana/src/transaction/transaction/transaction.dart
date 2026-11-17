@@ -1,10 +1,13 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:on_chain/solana/src/instructions/address_lockup_table/accounts/accounts/account_lookup_table.dart';
 import 'package:on_chain/solana/src/keypair/private_key.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
 import 'package:on_chain/solana/src/transaction/core/core.dart';
+import 'package:on_chain/solana/src/transaction/message/transaction_v1_config.dart';
 import 'package:on_chain/solana/src/transaction/utils/utils.dart';
 
 class TransactionSerializeEncoding {
@@ -57,6 +60,7 @@ class SolanaTransaction {
     List<List<int>> signatures = const [],
     TransactionType? type,
     List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
+    TransactionV1Config config = const TransactionV1Config.empty(),
   }) {
     if (type == null) {
       if (addressLookupTableAccounts.isNotEmpty) {
@@ -67,8 +71,15 @@ class SolanaTransaction {
     } else {
       if (type == TransactionType.legacy &&
           addressLookupTableAccounts.isNotEmpty) {
-        throw const SolanaPluginException(
+        throw const BuError(
+          DefaultErrorType.invalidAddress,
           'Do not use addressLookupTableAccounts in legacy transactions.',
+        );
+      }
+      if (type == TransactionType.v1 && addressLookupTableAccounts.isNotEmpty) {
+        throw const BuError(
+          DefaultErrorType.unsupported,
+          'V1 transactions do not support address lookup tables.',
         );
       }
     }
@@ -78,6 +89,13 @@ class SolanaTransaction {
         payerKey: payerKey,
         recentBlockhash: recentBlockhash,
         instructions: instructions,
+      );
+    } else if (type == TransactionType.v1) {
+      message = VersionedMessage.toV1(
+        payerKey: payerKey,
+        recentBlockhash: recentBlockhash,
+        instructions: instructions,
+        config: config,
       );
     } else {
       message = VersionedMessage.toV0(
@@ -89,7 +107,8 @@ class SolanaTransaction {
     }
     if (signatures.isNotEmpty) {
       if (signatures.length != message.header.numRequiredSignatures) {
-        throw const SolanaPluginException(
+        throw const BuError(
+          DefaultErrorType.invalidLength,
           'The expected length of signatures should match the number of required signatures.',
         );
       }
@@ -137,9 +156,6 @@ class SolanaTransaction {
       transaction.addSignature(
         signerPubkeys.elementAt(i),
         message.$2.elementAt(i),
-
-        /// Supports only versioned Transaction legacy or V0.
-        /// Older Transactions may fail.
         verifySignature: verifySignatures,
       );
     }
@@ -149,8 +165,15 @@ class SolanaTransaction {
   factory SolanaTransaction.fromJson(
     Map<String, dynamic> json, {
     TransactionType? version,
+
+    /// Resolved LUT addresses (see `VersionedMessage.fromJson`).
+    AccountLookupKeys? resolvedLookupKeys,
   }) {
-    final message = VersionedMessage.fromJson(json['message'], type: version);
+    final message = VersionedMessage.fromJson(
+      (json['message'] as Map).cast<String, dynamic>(),
+      type: version,
+      resolvedLookupKeys: resolvedLookupKeys,
+    );
 
     final List<List<int>> signatures =
         (json['signatures'] as List)
@@ -174,9 +197,10 @@ class SolanaTransaction {
         signerPubkeys.elementAt(i),
         signatures.elementAt(i),
 
-        /// Supports only versioned Transaction legacy or V0.
-        /// Older Transactions may fail.
-        verifySignature: version != null,
+        // Skips verification for `jsonParsed` messages (no `header`):
+        // rebuilt bytes are display-grade, not the exact signed bytes.
+        verifySignature:
+            version != null && (json['message'] as Map)['header'] != null,
       );
     }
     return transaction;
@@ -210,7 +234,8 @@ class SolanaTransaction {
   List<int> serialize({bool verifySignatures = false}) {
     if (verifySignatures) {
       if (!areSignaturesReady()) {
-        throw const SolanaPluginException(
+        throw const BuError(
+          OnChainErrorType.solanaPlugin,
           'Not all transaction signatures are ready.',
         );
       }
@@ -268,7 +293,10 @@ class SolanaTransaction {
     bool verifySignature = true,
   }) {
     if (signature.length != SolanaTransactionConstant.signatureLengthInBytes) {
-      throw const SolanaPluginException('Signature must be 64 bytes long');
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Signature must be 64 bytes long.',
+      );
     }
     final signerPubkeys = message.accountKeys.sublist(
       0,
@@ -278,7 +306,8 @@ class SolanaTransaction {
       (pubkey) => pubkey.address == address.address,
     );
     if (signerIndex < 0) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Cannot add signature, $address is not required to sign this transaction',
       );
     }
@@ -287,7 +316,10 @@ class SolanaTransaction {
           message: serializeMessage(),
           signature: signature,
         )) {
-      throw const SolanaPluginException('Signature verification failed.');
+      throw const BuError(
+        DefaultErrorType.cryptoVerifyFailed,
+        'Transaction signature verification failed.',
+      );
     }
     final List<List<int>> currentSigs = List.from(_signatures);
     currentSigs[signerIndex] = List<int>.unmodifiable(signature);

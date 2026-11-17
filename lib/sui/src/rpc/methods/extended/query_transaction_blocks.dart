@@ -35,7 +35,7 @@ class SuiRequestQueryTransactionBlocks
   }
 
   @override
-  SuiApiPaginatedTransactionResponse onResonse(Map<String, dynamic> result) {
+  SuiApiPaginatedTransactionResponse onResponse(Map<String, dynamic> result) {
     return SuiApiPaginatedTransactionResponse.fromJson(result);
   }
 }

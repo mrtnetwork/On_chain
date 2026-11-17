@@ -1,13 +1,19 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('associatedToken', () {
+import '../../../utils.dart';
+void associatedTokenAccountLayoutTest() {
+  group('Solana/Associated Token Account Layout', () {
     _associatedToken();
     _associatedTokenAccountIdempotent();
     _recoverNested();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(associatedTokenAccountLayoutTest, "Layout");
+}
+
 
 void _associatedToken() {
   test('associatedTokenAccount', () {

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Deposit both types of tokens into the pool layoyt.
@@ -26,7 +26,7 @@ class SPLTokenSwapDepositLayout extends SPLTokenSwapProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenSwapProgramInstruction.depositToken.insturction,
+      instruction: SPLTokenSwapProgramInstruction.depositToken.instruction,
     );
 
     return SPLTokenSwapDepositLayout(

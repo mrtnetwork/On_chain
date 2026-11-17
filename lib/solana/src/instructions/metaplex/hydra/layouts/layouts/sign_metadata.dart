@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraSignMetadataLayout extends MetaplexHydraProgramLayout {
   const MetaplexHydraSignMetadataLayout();
@@ -9,7 +9,7 @@ class MetaplexHydraSignMetadataLayout extends MetaplexHydraProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexHydraProgramInstruction.processSignMetadata.insturction,
+          MetaplexHydraProgramInstruction.processSignMetadata.instruction,
     );
     return const MetaplexHydraSignMetadataLayout();
   }

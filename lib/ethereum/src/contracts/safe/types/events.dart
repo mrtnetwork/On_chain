@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
+
 import 'package:on_chain/solidity/address/core.dart';
 
 import 'contracts.dart';
@@ -43,7 +44,13 @@ enum SafeContractEventType {
   static SafeContractEventType fromEventName(String? name) {
     return values.firstWhere(
       (e) => e.eventName == name,
-      orElse: () => throw ItemNotFoundException(value: name),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractEventType name.',
+                details: {'name': name},
+              ),
     );
   }
 
@@ -112,7 +119,13 @@ abstract class SafeContractEvent {
   }
 
   T cast<T extends SafeContractEvent>() {
-    if (this is! T) throw CastFailedException<T>(value: this);
+    if (this is! T) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid SafeContractEvent type.',
+        details: {'expected': '$T', 'actual': runtimeType.toString()},
+      );
+    }
     return this as T;
   }
 }
@@ -147,7 +160,7 @@ class SafeContractEventProxyCreation
 }
 
 class SafeContractEventApproveHash extends SafeContractEvent {
-  final List<int> approvedHash;
+  final BuBytes approvedHash;
   final ETHAddress owner;
 
   SafeContractEventApproveHash({
@@ -363,7 +376,7 @@ class SafeContractEventChangedThreshold extends SafeContractEvent {
 }
 
 class SafeContractEventExecutionFailure extends SafeContractEvent {
-  final List<int> txHash;
+  final BuBytes txHash;
   final BigInt payment;
 
   SafeContractEventExecutionFailure({
@@ -381,7 +394,7 @@ class SafeContractEventExecutionFailure extends SafeContractEvent {
 }
 
 class SafeContractEventExecutionSuccess extends SafeContractEvent {
-  final List<int> txHash;
+  final BuBytes txHash;
   final BigInt payment;
 
   SafeContractEventExecutionSuccess({
@@ -399,7 +412,7 @@ class SafeContractEventExecutionSuccess extends SafeContractEvent {
 }
 
 class SafeContractEventSignMsg extends SafeContractEvent {
-  final List<int> msgHash;
+  final BuBytes msgHash;
 
   SafeContractEventSignMsg({required List<int> msgHash})
     : msgHash = msgHash.asImmutableBytes,
@@ -431,7 +444,7 @@ class SafeContractEventSafeReceived extends SafeContractEvent {
 }
 
 class SafeContractEventExecutionFailed extends SafeContractEvent {
-  final List<int> txHash;
+  final BuBytes txHash;
 
   SafeContractEventExecutionFailed({required List<int> txHash})
     : txHash = txHash.asImmutableBytes,
@@ -448,7 +461,7 @@ class SafeContractEventSafeModuleTransaction extends SafeContractEvent {
   final ETHAddress module;
   final ETHAddress to;
   final BigInt value;
-  final List<int> data;
+  final BuBytes data;
   final SafeContractExecutionOpration operation;
 
   SafeContractEventSafeModuleTransaction({
@@ -485,15 +498,15 @@ class SafeContractEventSafeModuleTransaction extends SafeContractEvent {
 class SafeContractEventSafeMultiSigTransaction extends SafeContractEvent {
   final ETHAddress to;
   final BigInt value;
-  final List<int> data;
+  final BuBytes data;
   final SafeContractExecutionOpration operation;
   final BigInt safeTxGas;
   final BigInt baseGas;
   final BigInt gasPrice;
   final ETHAddress gasToken;
   final ETHAddress refundReceiver;
-  final List<int> signatures;
-  final List<int> additionalInfo;
+  final BuBytes signatures;
+  final BuBytes additionalInfo;
 
   SafeContractEventSafeMultiSigTransaction({
     required this.to,
@@ -584,7 +597,7 @@ class SafeContractEventSafeSetup extends SafeContractEvent {
 
 class SafeContractEventChainSpecificProxyCreationL2
     extends BaseSafeContractEventProxyCreation {
-  final List<int> initializer;
+  final BuBytes initializer;
   final BigInt saltNonce;
   final BigInt chainId;
 
@@ -618,7 +631,7 @@ class SafeContractEventChainSpecificProxyCreationL2
 
 class SafeContractEventProxyCreationL2
     extends BaseSafeContractEventProxyCreation {
-  final List<int> initializer;
+  final BuBytes initializer;
   final BigInt saltNonce;
 
   SafeContractEventProxyCreationL2({

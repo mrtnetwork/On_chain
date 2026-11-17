@@ -1,6 +1,6 @@
 // Manages the layout structure for the SPL token approve operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents the layout for the SPL token approve operation.
@@ -22,7 +22,7 @@ class SPLTokenApproveLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.approve.insturction,
+      instruction: SPLTokenProgramInstruction.approve.instruction,
     );
     return SPLTokenApproveLayout(amount: decode['amount']);
   }

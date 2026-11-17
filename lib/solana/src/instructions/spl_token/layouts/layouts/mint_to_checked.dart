@@ -1,6 +1,6 @@
 // Manages the layout structure for checked minting tokens to  account for an SPL token.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Mints new tokens to an account layout.
@@ -26,7 +26,7 @@ class SPLTokenMintToCheckedLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.mintToChecked.insturction,
+      instruction: SPLTokenProgramInstruction.mintToChecked.instruction,
     );
     return SPLTokenMintToCheckedLayout(
       amount: decode['amount'],

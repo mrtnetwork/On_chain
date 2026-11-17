@@ -1,5 +1,8 @@
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
+import 'package:on_chain/aptos/src/account/keyless/account.dart';
+import 'package:on_chain/aptos/src/account/keyless/federated.dart';
+import 'package:on_chain/aptos/src/account/keyless/message.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/transaction/types/types.dart';
 
@@ -19,22 +22,43 @@ mixin AptosQuickApiSigningHelper {
     AptosAccount? feePayerAccount,
     List<AptosAccount>? secondarySignerAccounts,
   }) {
+    final feePayerAddress = feePayerAccount?.toAddress();
+    final secondarySignerAddresses =
+        secondarySignerAccounts?.map((e) => e.toAddress()).toList();
     final digest = transaction.signingSerialize(
-      feePayerAddress: feePayerAccount?.toAddress(),
-      secondarySignerAddresses:
-          secondarySignerAccounts?.map((e) => e.toAddress()).toList(),
+      feePayerAddress: feePayerAddress,
+      secondarySignerAddresses: secondarySignerAddresses,
     );
 
+    // Keyless accounts sign TransactionAndProof (tx bound to the ZK proof),
+    // not the plain digest.
+    List<int> digestFor(AptosAccount a) {
+      final proof = switch (a) {
+        AptosKeylessAccount(:final proof) => proof.proof,
+        AptosFederatedKeylessAccount(:final proof) => proof.proof,
+        _ => null,
+      };
+      if (proof == null) return digest;
+      return AptosKeylessMessageUtils.keylessTransactionSigningMessage(
+        transaction: transaction,
+        proof: proof,
+        feePayerAddress: feePayerAddress,
+        secondarySignerAddresses: secondarySignerAddresses,
+      );
+    }
+
     // Sign the transaction digest with the primary account
-    final sender = account.signWithAuth(digest);
+    final sender = account.signWithAuth(digestFor(account));
 
     // Sign with fee payer account if provided
     AptosAccountAuthenticator? feePayerAuthenticator = feePayerAccount
-        ?.signWithAuth(digest);
+        ?.signWithAuth(digestFor(feePayerAccount));
 
     // Sign with secondary signer accounts if provided
     List<AptosAccountAuthenticator>? secondarySignerAuthenticator =
-        secondarySignerAccounts?.map((e) => e.signWithAuth(digest)).toList();
+        secondarySignerAccounts
+            ?.map((e) => e.signWithAuth(digestFor(e)))
+            .toList();
 
     // Build the transaction authenticator based on the provided signers
     final txAuthenticated = _toTransactionAuthenticated(

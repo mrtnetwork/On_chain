@@ -6,12 +6,12 @@ import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/consta
 class MetaplexTokenMetaDataProgramInstruction
     implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
   final int? discriminator;
   const MetaplexTokenMetaDataProgramInstruction._(
-    this.insturction,
+    this.instruction,
     this.name, {
     this.discriminator,
   });
@@ -330,9 +330,15 @@ class MetaplexTokenMetaDataProgramInstruction
     closeEscrowAccount,
     collect,
     convertMasterEditionV1ToV2,
-    createEscrowAccount,
+
+    /// legacy creates were missing from values so
+    /// getInstruction returned null and fromBytes fell to unknown.
+    createMasterEdition,
     createMasterEditionV3,
+    createMetadataAccount,
+    createMetadataAccountV2,
     createMetadataAccountV3,
+    createEscrowAccount,
     createV1,
     delegateAuthorityItemV1,
     delegateCollectionItemV1,
@@ -359,6 +365,11 @@ class MetaplexTokenMetaDataProgramInstruction
     printV2,
     puffMetadata,
     removeCreatorVerification,
+
+    /// revoke variants were missing from values (factories and
+    /// layouts existed) so they decoded as unknown.
+    revoke,
+    revokeCollectionAuthority,
     revokeUseAuthority,
     setAndVerifyCollection,
     setAndVerifySizedCollectionItem,
@@ -391,7 +402,7 @@ class MetaplexTokenMetaDataProgramInstruction
   ];
 
   bool get hasDiscriminator {
-    return values.where((e) => e.insturction == insturction).length > 1;
+    return values.where((e) => e.instruction == instruction).length > 1;
   }
 
   static MetaplexTokenMetaDataProgramInstruction? getInstruction(
@@ -401,11 +412,11 @@ class MetaplexTokenMetaDataProgramInstruction
     if (discriminator != null) {
       return values.firstWhereNullable(
         (element) =>
-            element.insturction == value &&
+            element.instruction == value &&
             element.discriminator == discriminator,
       );
     }
-    return values.firstWhereNullable((element) => element.insturction == value);
+    return values.firstWhereNullable((element) => element.instruction == value);
   }
 
   @override

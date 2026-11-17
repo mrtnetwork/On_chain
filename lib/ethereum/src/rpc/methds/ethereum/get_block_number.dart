@@ -14,7 +14,7 @@ class EthereumRequestGetBlockNumber extends EthereumRequest<int, Object> {
   }
 
   @override
-  int onResonse(dynamic result) {
+  int onResponse(dynamic result) {
     return EthereumRequest.onIntResponse(result);
   }
 

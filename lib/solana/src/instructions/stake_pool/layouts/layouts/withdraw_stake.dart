@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Withdraw the token from the pool at the current ratio layout.
@@ -12,7 +12,7 @@ class StakePoolWithdrawStakeLayout extends StakePoolProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: StakePoolProgramInstruction.withdrawStake.insturction,
+      instruction: StakePoolProgramInstruction.withdrawStake.instruction,
     );
     return StakePoolWithdrawStakeLayout(poolTokens: decode['poolTokens']);
   }

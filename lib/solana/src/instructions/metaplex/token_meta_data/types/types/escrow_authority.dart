@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
@@ -25,7 +24,10 @@ class EscrowAuthority extends BorshLayoutSerializable {
       case 'Creator':
         return EscrowAuthority.creator(creator: (value as List)[0]);
       default:
-        throw const SolanaPluginException('Invalid escrowAuthority version');
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid escrowAuthority version',
+        );
     }
   }
   static StructLayout staticLayout = LayoutConst.struct([

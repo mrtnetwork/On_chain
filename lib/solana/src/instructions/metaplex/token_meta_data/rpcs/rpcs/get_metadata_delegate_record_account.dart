@@ -29,7 +29,7 @@ class SolanaRPCGetMetadataDelegateRecordAccount
   }
 
   @override
-  MetadataDelegateRecord? onResonse(result) {
+  MetadataDelegateRecord? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MetadataDelegateRecord.fromBuffer(accountInfo.toBytesData());

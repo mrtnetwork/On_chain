@@ -1,9 +1,10 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('system', () {
+import '../../../utils.dart';
+void compiledMessageLegacyTest() {
+  group('Solana/System Compiled Message Legacy', () {
     _systemCreateAccount();
     _systemCreateAccountWithSeed();
     _transfer();
@@ -18,6 +19,11 @@ void main() {
     _allocateWithcSeed();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(compiledMessageLegacyTest, "Compiled Message Legacy");
+}
+
 
 void _systemCreateAccount() {
   test('create', () {

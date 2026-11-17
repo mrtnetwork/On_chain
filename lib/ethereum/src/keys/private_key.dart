@@ -1,86 +1,91 @@
-import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/ethereum/src/keys/public_key.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/keys/signer.dart';
 
-/// Class representing an Ethereum private key, allowing for cryptographic operations and key-related functionality.
-class ETHPrivateKey with Equality implements EthereumSigner {
-  /// Private constructor for creating an instance of [ETHPrivateKey] with a given private key.
-  const ETHPrivateKey._(this._privateKey);
+/// Represents an Ethereum private key for cryptographic operations.
+class ETHPrivateKey with Equality, SecretState implements EthereumSigner {
+  /// Creates an instance with the given [privateKey].
+  const ETHPrivateKey(this.privateKey);
 
   /// The underlying ECDSA private key.
-  final Secp256k1PrivateKey _privateKey;
+  final Secp256k1PrivateKey privateKey;
 
-  /// Creates an [ETHPrivateKey] instance from a hexadecimal private key string.
-  factory ETHPrivateKey(String privateKeyHex) {
-    return ETHPrivateKey.fromBytes(BytesUtils.fromHexString(privateKeyHex));
+  /// Creates an instance from a hex private key string.
+  factory ETHPrivateKey.fromHex(String privateKeyHex) {
+    final bytes = BytesUtils.fromHexString(privateKeyHex);
+    try {
+      return ETHPrivateKey.fromBytes(BytesUtils.fromHexString(privateKeyHex));
+    } finally {
+      bytes.zero();
+    }
   }
 
-  /// Creates an [ETHPrivateKey] instance from a list of bytes representing the private key.
+  /// Creates an instance from private key bytes.
   factory ETHPrivateKey.fromBytes(List<int> keyBytes) {
     try {
       final Secp256k1PrivateKey key = Secp256k1PrivateKey.fromBytes(keyBytes);
-      return ETHPrivateKey._(key);
+      return ETHPrivateKey(key);
     } catch (e) {
-      throw ETHPluginException(
-        'invalid ethereum private key',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid Ethereum private key.',
         details: {'input': BytesUtils.toHexString(keyBytes)},
       );
     }
   }
 
-  /// Retrieves the raw bytes of the private key.
-  List<int> toBytes() {
-    return _privateKey.raw;
+  /// Returns the raw private key bytes.
+  SecretBytes toBytes() {
+    return privateKey.toBytes();
   }
 
-  /// Converts the private key to a hexadecimal string.
+  /// Returns the private key as a hex string.
   String toHex() {
-    return BytesUtils.toHexString(toBytes());
+    return privateKey.takeSecretKey().toHex();
   }
 
-  /// Retrieves the corresponding Ethereum public key.
+  /// Returns the corresponding public key.
   ETHPublicKey publicKey() {
-    return ETHPublicKey.fromBytes(_privateKey.publicKey.compressed);
+    return ETHPublicKey(privateKey.publicKey);
   }
 
-  /// Signs a transaction digest using the private key.
+  /// Signs a message digest.
   ///
-  /// Optionally, [hashMessage] can be set to false to skip hashing the message before signing.
-  ETHSignature sign(List<int> message, {bool hashMessage = true}) {
-    final ethsigner = ETHSigner.fromKeyBytes(toBytes());
-    final sign = ethsigner.signConst(message, hashMessage: hashMessage);
-    return sign;
+  /// If [hashMessage] is true (default), hashes the message before signing.
+  IECDSASignature sign(List<int> message, {bool hashMessage = true}) {
+    final ethsigner = ETHSigner(Secp256k1Signer(privateKey));
+    final sign = ethsigner.sign(message, hashMessage: hashMessage);
+    return sign.signature;
   }
 
-  /// Signs a personal message using the private key and returns the signature as a hexadecimal string.
+  /// Signs a personal message and returns the signature as bytes.
   ///
-  /// Optionally, [payloadLength] can be set to specify the payload length for the message.
-  List<int> signPersonalMessage(List<int> message, {int? payloadLength}) {
-    final ethsigner = ETHSigner.fromKeyBytes(toBytes());
-    final sign = ethsigner.signProsonalMessageConst(
+  /// Optional [payloadLength] specifies the message payload length.
+  BuBytes signPersonalMessage(List<int> message, {int? payloadLength}) {
+    final ethsigner = ETHSigner(Secp256k1Signer(privateKey));
+    final sign = ethsigner.signPersonalMessage(
       message,
       payloadLength: payloadLength,
     );
-    return sign;
+    return sign.encoded;
   }
 
-  /// Signs a transaction digest using the private key.
+  /// Asynchronously signs a message digest.
   ///
-  /// Optionally, [hashMessage] can be set to false to skip hashing the message before signing.
+  /// If [hashMessage] is true (default), hashes the message before signing.
   @override
-  Future<ETHSignature> signAsync(
+  Future<IECDSASignature> signAsync(
     List<int> message, {
     bool hashMessage = true,
   }) async {
     return sign(message, hashMessage: hashMessage);
   }
 
-  /// Signs a personal message using the private key and returns the signature as a hexadecimal string.
+  /// Asynchronously signs a personal message.
   ///
-  /// Optionally, [payloadLength] can be set to specify the payload length for the message.
+  /// Optional [payloadLength] specifies the message payload length.
   @override
-  Future<List<int>> signPersonalMessageAsync(
+  Future<BuBytes> signPersonalMessageAsync(
     List<int> message, {
     int? payloadLength,
   }) async {
@@ -88,5 +93,10 @@ class ETHPrivateKey with Equality implements EthereumSigner {
   }
 
   @override
-  List<dynamic> get variables => [_privateKey];
+  List<dynamic> get variables => [privateKey];
+
+  @override
+  void dispose() {
+    privateKey.dispose();
+  }
 }

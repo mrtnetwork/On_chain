@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 
 /// The message header, identifying signed and read-only account.
@@ -49,8 +49,9 @@ class MessageHeader {
   }) {
     if (index >= numStaticAccountKeys) {
       if (addressTableLookups.isEmpty) {
-        throw const SolanaPluginException(
-          'Invalid index. The index must be lower than numStaticAccountKeys.',
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid index: must be lower than numStaticAccountKeys.',
         );
       }
       final lookupAccountKeysIndex = index - numStaticAccountKeys;

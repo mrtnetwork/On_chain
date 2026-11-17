@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHouseAuctioneerDepositLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -18,7 +18,7 @@ class MetaplexAuctionHouseAuctioneerDepositLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexAuctionHouseProgramInstruction.auctioneerDeposit.insturction,
+          MetaplexAuctionHouseProgramInstruction.auctioneerDeposit.instruction,
     );
     return MetaplexAuctionHouseAuctioneerDepositLayout(
       amount: decode['amount'],

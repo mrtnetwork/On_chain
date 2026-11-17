@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/protocol/models/ex_units.dart';
@@ -71,7 +70,12 @@ enum RedeemersCborContainerType {
     return values.firstWhere(
       (e) => e.name == name,
       orElse:
-          () => throw ItemNotFoundException(name: "RedeemersCborContainerType"),
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid RedeemersCborContainerType name.',
+                details: {'name': name},
+              ),
     );
   }
 }

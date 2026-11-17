@@ -21,7 +21,7 @@ class ZKSRequestUnstableSendRawTransactionWithDetailedOutput
   }
 
   @override
-  ZkSyncSendRawTransactionWithDetailedOutput onResonse(
+  ZkSyncSendRawTransactionWithDetailedOutput onResponse(
     Map<String, dynamic> result,
   ) {
     return ZkSyncSendRawTransactionWithDetailedOutput.fromJson(result);

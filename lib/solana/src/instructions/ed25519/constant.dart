@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/signer/signer.dart';
+import 'package:blockchain_utils/chain/signer/const/constants.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 
 /// Constants for the Ed25519 program.

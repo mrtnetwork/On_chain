@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -787,6 +788,56 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
       layout: layout,
     );
   }
+
+  /// PrintV2 (instruction 55, discriminator 1) prints an edition
+  /// with an explicit edition number. Same accounts as printV1.
+  factory MetaplexTokenMetaDataProgram.printV2({
+    required SolAddress editionMetadata,
+    required SolAddress edition,
+    required SolAddress editionMint,
+    required SolAddress editionTokenAccountOwner,
+    required SolAddress editionTokenAccount,
+    required SolAddress editionMintAuthority,
+    required SolAddress masterEdition,
+    required SolAddress editionMarkerPda,
+    required SolAddress payer,
+    required SolAddress masterTokenAccountOwner,
+    required SolAddress masterTokenAccount,
+    required SolAddress masterMetadata,
+    required SolAddress updateAuthority,
+    required SolAddress splTokenProgram,
+    required SolAddress splAtaProgram,
+    required SolAddress sysvarInstructions,
+    required MetaplexTokenMetaDataPrintV2Layout layout,
+    SolAddress systemProgram = SystemProgramConst.programId,
+    SolAddress? editionTokenRecord,
+  }) {
+    return MetaplexTokenMetaDataProgram(
+      keys: [
+        editionMetadata.toWritable(),
+        edition.toWritable(),
+        editionMint.toWritable(),
+        editionTokenAccountOwner.toReadOnly(),
+        editionTokenAccount.toWritable(),
+        editionMintAuthority.toSigner(),
+        editionTokenRecord?.toWritable() ??
+            MetaplexTokenMetaDataProgramConst.programId.toReadOnly(),
+        masterEdition.toWritable(),
+        editionMarkerPda.toWritable(),
+        payer.toSignerAndWritable(),
+        masterTokenAccountOwner.toSigner(),
+        masterTokenAccount.toReadOnly(),
+        masterMetadata.toReadOnly(),
+        updateAuthority.toReadOnly(),
+        splTokenProgram.toReadOnly(),
+        splAtaProgram.toReadOnly(),
+        sysvarInstructions.toReadOnly(),
+        systemProgram.toReadOnly(),
+      ],
+      programId: MetaplexTokenMetaDataProgramConst.programId,
+      layout: layout,
+    );
+  }
   factory MetaplexTokenMetaDataProgram.puffMetadata({
     required SolAddress metadata,
   }) {
@@ -1333,7 +1384,8 @@ class MetaplexTokenMetaDataProgram extends TransactionInstruction {
   }) {
     if (burner != null) {
       if (useAuthorityRecord == null) {
-        throw const SolanaPluginException(
+        throw const BuError(
+          OnChainErrorType.solanaPlugin,
           "When providing 'burner' then 'accounts.useAuthorityRecord' need(s) to be provided as well.",
         );
       }

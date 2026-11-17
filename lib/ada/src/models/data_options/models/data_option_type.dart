@@ -1,7 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents the type of data included in a transaction option with serialization support.
@@ -47,7 +45,8 @@ class TransactionDataOptionType with InternalCborSerialization {
   }) {
     final type = fromValue(cbor.value);
     if (validate != null && validate != type) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid TransactionDataOptionType.',
         details: {'expected': validate.toString(), 'Type': type.toString()},
       );
@@ -60,15 +59,26 @@ class TransactionDataOptionType with InternalCborSerialization {
     return values.firstWhere(
       (element) => element.value == value,
       orElse:
-          () => throw ItemNotFoundException(name: "TransactionDataOptionType"),
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid TransactionDataOptionType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
   static TransactionDataOptionType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
+
       orElse:
-          () => throw ItemNotFoundException(name: "TransactionDataOptionType"),
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid TransactionDataOptionType name.',
+                details: {'name': name},
+              ),
     );
   }
 

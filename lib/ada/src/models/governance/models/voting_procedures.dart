@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/ada/src/models/governance/models/voter.dart';
 import 'package:on_chain/ada/src/models/governance/models/voting_procedure.dart';

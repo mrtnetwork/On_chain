@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:blockchain_utils/service/models/params.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -84,7 +83,7 @@ class RPCWebSocketService with EthereumServiceProvider {
   }
 
   void _onMessge(String event) {
-    final Map<String, dynamic> decode = json.decode(event);
+    final Map<String, dynamic> decode = StringUtils.toJson<Map<String, dynamic>>(event);
     if (decode.containsKey("id")) {
       final int id = int.parse(decode["id"]!.toString());
       final request = requests.remove(id);

@@ -18,7 +18,7 @@ class ZKSRequestGetBlockDetails
   }
 
   @override
-  ZkSyncBlockDetails onResonse(Map<String, dynamic> result) {
+  ZkSyncBlockDetails onResponse(Map<String, dynamic> result) {
     return ZkSyncBlockDetails.fromJson(result);
   }
 }

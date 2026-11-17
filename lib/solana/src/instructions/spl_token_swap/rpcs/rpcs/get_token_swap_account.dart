@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/accounts/accounts.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
@@ -30,12 +30,13 @@ class SolanaRPCSPLTokenSwapAccount
   }
 
   @override
-  SPLTokenSwapAccount? onResonse(result) {
+  SPLTokenSwapAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     if (ownerProgramAddress != null &&
         accountInfo.owner.address != ownerProgramAddress?.address) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Invalid program address owner.',
         details: {
           'expected': ownerProgramAddress?.address,

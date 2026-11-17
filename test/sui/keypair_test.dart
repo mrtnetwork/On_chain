@@ -1,9 +1,15 @@
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _testEd25519SuiSecretKey();
+import '../utils.dart';
+void keypairTest() {
+  group('Sui/Keypair', _testEd25519SuiSecretKey);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(keypairTest, "Keypair");
+}
+
 
 void _testEd25519SuiSecretKey() {
   test('Ed25519 encode decode sui secret key', () {
@@ -24,7 +30,7 @@ void _testEd25519SuiSecretKey() {
     );
     expect(encode, secretKey);
   });
-  test('Ed25519 encode decode sui secret key', () {
+  test('Ed25519 encode decode sui secret key 2', () {
     const secretKey =
         "suiprivkey1qq8qurswpc8qurswpc8qurswpc8qurswpc8qurswpc8qurswpc8qu203pw9";
     final privateKey = SuiBasePrivateKey.fromSuiSecretKey(secretKey);

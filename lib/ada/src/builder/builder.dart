@@ -3,3 +3,4 @@ export 'builder/transaction_builder.dart';
 export 'builder/mint_builder.dart';
 export 'builder/certificate_builder.dart';
 export 'builder/deposit.dart';
+export 'builder_new/builder.dart';

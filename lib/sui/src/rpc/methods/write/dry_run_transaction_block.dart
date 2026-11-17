@@ -18,7 +18,7 @@ class SuiRequestDryRunTransactionBlock
   }
 
   @override
-  SuiApiDryRunTransactionBlockResponse onResonse(Map<String, dynamic> result) {
+  SuiApiDryRunTransactionBlockResponse onResponse(Map<String, dynamic> result) {
     return SuiApiDryRunTransactionBlockResponse.fromJson(result);
   }
 }

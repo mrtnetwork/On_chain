@@ -22,7 +22,7 @@ class SolanaRequestGetSlotLeader extends SolanaRequest<SolAddress, String> {
   }
 
   @override
-  SolAddress onResonse(String result) {
+  SolAddress onResponse(String result) {
     return SolAddress.uncheckCurve(result);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/sui/src/rpc/core/core.dart';
 
 /// Return the reference gas price for the network.
@@ -15,7 +15,7 @@ class SuiRequestGetReferenceGasPrice extends SuiRequest<BigInt, String> {
   }
 
   @override
-  BigInt onResonse(String result) {
+  BigInt onResponse(String result) {
     return BigintUtils.parse(result);
   }
 }

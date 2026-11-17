@@ -29,7 +29,7 @@ class SolanaRPCGetFanoutMembershipMintVoucherAccount
   }
 
   @override
-  FanoutMembershipMintVoucher? onResonse(result) {
+  FanoutMembershipMintVoucher? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return FanoutMembershipMintVoucher.fromBuffer(accountInfo.toBytesData());

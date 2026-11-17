@@ -30,7 +30,7 @@ class SolanaRequestGetFeeForMessage extends SolanaRequest<BigInt?, dynamic> {
   }
 
   @override
-  BigInt? onResonse(result) {
+  BigInt? onResponse(result) {
     return BigintUtils.tryParse(result);
   }
 }

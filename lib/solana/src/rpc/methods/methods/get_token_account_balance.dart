@@ -29,7 +29,7 @@ class SolanaRequestGetTokenAccountBalance
   }
 
   @override
-  TokenAmoutResponse onResonse(Map<String, dynamic> result) {
+  TokenAmoutResponse onResponse(Map<String, dynamic> result) {
     return TokenAmoutResponse.fromJson(result);
   }
 }

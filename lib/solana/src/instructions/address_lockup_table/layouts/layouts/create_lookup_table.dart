@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/address_lockup_table/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// StructLayout for the AddressLookupCreateLookupTable instruction.
@@ -23,7 +23,7 @@ class AddressLookupCreateLookupTableLayout
       layout: _layout,
       bytes: data,
       instruction:
-          AddressLookupTableProgramInstruction.createLookupTable.insturction,
+          AddressLookupTableProgramInstruction.createLookupTable.instruction,
     );
     return AddressLookupCreateLookupTableLayout(
       recentSlot: decode['recentSlot'],

@@ -8,7 +8,8 @@ import 'package:on_chain/aptos/src/transaction/types/types.dart';
 /// Execute the Move function with the given parameters and return its execution result.
 /// The Aptos nodes prune account state history, via a configurable time window.
 /// If the requested ledger version has been pruned, the server responds with a 410.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestExecuteViewFunctionOfaModule<T>
     extends AptosPostRequest<List<T>, List<dynamic>> {
   /// Ledger version to get state of accountIf not provided, it will be the latest version
@@ -48,7 +49,7 @@ class AptosRequestExecuteViewFunctionOfaModule<T>
   final Object body;
 
   @override
-  List<T> onResonse(List result) {
+  List<T> onResponse(List result) {
     if (BigInt.zero is T) {
       return result.map((e) => BigintUtils.tryParse(e)).toList().cast<T>();
     }

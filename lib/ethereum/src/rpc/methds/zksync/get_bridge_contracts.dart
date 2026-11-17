@@ -14,7 +14,7 @@ class ZKSRequestGetBridgeContracts
   }
 
   @override
-  ZkSyncBridgeContracts onResonse(Map<String, dynamic> result) {
+  ZkSyncBridgeContracts onResponse(Map<String, dynamic> result) {
     return ZkSyncBridgeContracts.fromJson(result);
   }
 }

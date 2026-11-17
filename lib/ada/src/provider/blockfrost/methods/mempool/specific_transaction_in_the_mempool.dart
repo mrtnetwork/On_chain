@@ -20,7 +20,7 @@ class BlockfrostRequestSpecificTransactionInTheMempool
   List<String> get pathParameters => [hash];
 
   @override
-  ADAMempoolTransactionResponse onResonse(Map<String, dynamic> result) {
+  ADAMempoolTransactionResponse onResponse(Map<String, dynamic> result) {
     return ADAMempoolTransactionResponse.fromJson(result);
   }
 }

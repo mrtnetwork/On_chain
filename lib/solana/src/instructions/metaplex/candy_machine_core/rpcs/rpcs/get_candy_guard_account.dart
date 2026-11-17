@@ -29,7 +29,7 @@ class SolanaRPCGetCandyGaurdAccount
   }
 
   @override
-  CandyGaurdAccount? onResonse(Map<String, dynamic>? result) {
+  CandyGaurdAccount? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return CandyGaurdAccount.fromBuffer(accountInfo.toBytesData());

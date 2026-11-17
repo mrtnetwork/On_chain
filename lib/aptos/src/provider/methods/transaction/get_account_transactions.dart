@@ -6,7 +6,8 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// Retrieves on-chain committed transactions from an account.
 /// If the start version is too far in the past, a 410 will be returned.
 /// If no start version is given, it will start at version 0.To retrieve a pending transaction, use /transactions/by_hash.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetAccountTransactions
     extends
         AptosRequest<List<AptosApiTransaction>, List<Map<String, dynamic>>> {
@@ -37,7 +38,7 @@ class AptosRequestGetAccountTransactions
   };
 
   @override
-  List<AptosApiTransaction> onResonse(List<Map<String, dynamic>> result) {
+  List<AptosApiTransaction> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => AptosApiTransaction.fromJson(e)).toList();
   }
 }

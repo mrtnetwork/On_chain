@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/credential/models/key.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/certificate.dart';

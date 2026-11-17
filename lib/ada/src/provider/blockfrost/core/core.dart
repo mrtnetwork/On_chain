@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/ada/src/provider/blockfrost/models/models/filter_params.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/utils/blockforest_provider_utils.dart';
 
@@ -23,7 +23,8 @@ abstract class BlockFrostRequest<RESULT, RESPONSE>
   BlockFrostRequestDetails buildRequest(int v) {
     final pathParams = BlockFrostProviderUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid Path Parameters.',
         details: {
           'pathParams': pathParameters.length.toString(),

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/auxiliary_data/models/auxiliary_data.dart';
 import 'package:on_chain/ada/src/models/transaction/transaction/models/body.dart';
@@ -26,7 +26,7 @@ class ADATransaction with InternalCborSerialization {
       witnessSet: TransactionWitnessSet.deserialize(
         cbor.objectAt<CborMapValue>(1),
       ),
-      isValid: cbor.objectAt<CborBoleanValue>(2).value,
+      isValid: cbor.objectAt<CborBooleanValue>(2).value,
       data: cbor.maybeObjectAt<AuxiliaryData, CborObject>(
         3,
         (e) => AuxiliaryData.deserialize(e),
@@ -64,7 +64,7 @@ class ADATransaction with InternalCborSerialization {
     return CborListValue.definite([
       body.toCbor(),
       witnessSet.toCbor(),
-      CborBoleanValue(isValid),
+      CborBooleanValue(isValid),
       data?.toCbor() ?? const CborNullValue(),
     ]);
   }

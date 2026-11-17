@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class TransactionConfirmationStatus {
   final String name;
@@ -21,8 +21,9 @@ class TransactionConfirmationStatus {
       (element) => element.name.toLowerCase() == value?.toLowerCase(),
       orElse:
           () =>
-              throw SolanaPluginException(
-                'No TransactionConfirmationStatus found matching the specified value',
+              throw BuError(
+                DefaultErrorType.notFound,
+                'No TransactionConfirmationStatus found matching the specified value.',
                 details: {'value': value?.toString()},
               ),
     );
@@ -32,8 +33,9 @@ class TransactionConfirmationStatus {
       (element) => element.value == value,
       orElse:
           () =>
-              throw SolanaPluginException(
-                'No TransactionConfirmationStatus found matching the specified value',
+              throw BuError(
+                DefaultErrorType.notFound,
+                'No TransactionConfirmationStatus found matching the specified value.',
                 details: {'value': value?.toString()},
               ),
     );

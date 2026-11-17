@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraDistributeNftLayout extends MetaplexHydraProgramLayout {
   final bool distributeForMint;
@@ -10,7 +10,7 @@ class MetaplexHydraDistributeNftLayout extends MetaplexHydraProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexHydraProgramInstruction.processDistributeNft.insturction,
+          MetaplexHydraProgramInstruction.processDistributeNft.instruction,
     );
     return MetaplexHydraDistributeNftLayout(
       distributeForMint: decode['distributeForMint'],

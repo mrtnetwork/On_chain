@@ -1,13 +1,21 @@
-import 'package:blockchain_utils/signer/const/constants.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _entryFunction();
-  _simpleTransaction();
-  _signedTx();
-  _challenge();
+import '../utils.dart';
+void transactionTest() {
+  group('Aptos/Transaction', () {
+    _entryFunction();
+    _simpleTransaction();
+    _signedTx();
+    _challenge();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(transactionTest, "Transaction");
+}
+
 
 void _entryFunction() {
   test("MultiAgent transaction serialization", () {

@@ -1,0 +1,33 @@
+import 'package:blockchain_utils/utils/utils.dart';
+import 'package:on_chain/aptos/src/provider/core/core.dart';
+import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
+
+class AptosGraphQLRequestGetAllDelegationPools
+    extends
+        AptosGraphQLRequest<
+          List<AptosGraphQLDelegatedStakingPool>,
+          Map<String, dynamic>
+        > {
+  AptosGraphQLRequestGetAllDelegationPools({
+    required this.variables,
+    this.headers,
+  });
+  @override
+  final Map<String, String>? headers;
+  final AptosGraphQLPaginatedWithOrderVariablesParams variables;
+
+  @override
+  String get method => AptosGraphqlQueriesConst.getAllDelegationPools;
+  @override
+  Map<String, dynamic> get queryVariables => variables.toJson();
+
+  @override
+  List<AptosGraphQLDelegatedStakingPool> onResponse(
+    Map<String, dynamic> result,
+  ) {
+    return result
+        .valueEnsureAsList<Map<String, dynamic>>("delegated_staking_pools")
+        .map((e) => AptosGraphQLDelegatedStakingPool.fromJson(e))
+        .toList();
+  }
+}

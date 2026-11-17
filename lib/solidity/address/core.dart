@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solidity/abi/exception/abi_exception.dart';
 
 /// An abstract class representing a hexadecimal address in solidity smart conteract system.
 /// such as Ethereum and Tron (visible address).
@@ -20,10 +19,15 @@ class SolidityAddress with Equality, CborTagSerializable implements IAddress {
       address = address.substring(2);
     }
     if (address.length != EthAddrConst.addrLen) {
-      throw SolidityAbiException("Invalid address bytes length.");
+      throw BuError(
+        DefaultErrorType.invalidLength,
+        "Invalid address bytes length.",
+      );
     }
 
-    return SolidityAddress.unsafe(EthAddrUtils.toChecksumAddress(address));
+    return SolidityAddress.unsafe(
+      StringUtils.normalizeHex(address, with0x: true),
+    );
   }
   factory SolidityAddress.fromBytes(List<int> bytes) {
     return SolidityAddress(BytesUtils.toHexString(bytes));
@@ -41,22 +45,22 @@ class SolidityAddress with Equality, CborTagSerializable implements IAddress {
   }
 
   // /// Converts the hexadecimal address to a bytes.
-  List<int> toSolidtyBytes() {
+  BuBytes toSolidtyBytes() {
     return BytesUtils.fromHexString(_hexAddress);
   }
 
-  String toSolidityHex() => _hexAddress;
+  String toSolidityHex() => StringUtils.normalizeHex(_hexAddress, with0x: true);
 
   @override
   String toString() {
-    return _hexAddress;
+    return toSolidityHex();
   }
 
   @override
   BlockchainNetwork get blockchainNetwork => BlockchainNetwork.ethereum;
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return toCbor().encode();
   }
 
@@ -70,10 +74,10 @@ class SolidityAddress with Equality, CborTagSerializable implements IAddress {
   ];
 
   @override
-  List<dynamic> get variables => [_hexAddress];
+  List<dynamic> get variables => [toSolidityHex()];
 
   @override
-  String get address => _hexAddress;
+  String get address => toSolidityHex();
 
   @override
   String? get viewType => null;

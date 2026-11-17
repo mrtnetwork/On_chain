@@ -1,14 +1,14 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/constant.dart';
 
 class MetaplexGumdropProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final List<int> insturction;
+  final List<int> instruction;
   @override
   final String name;
-  const MetaplexGumdropProgramInstruction(this.insturction, this.name);
+  const MetaplexGumdropProgramInstruction(this.instruction, this.name);
   static const MetaplexGumdropProgramInstruction claim =
       MetaplexGumdropProgramInstruction([
         62,
@@ -124,7 +124,7 @@ class MetaplexGumdropProgramInstruction implements ProgramLayoutInstruction {
   static MetaplexGumdropProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere(
-        (element) => BytesUtils.bytesEqual(element.insturction, value),
+        (element) => BytesUtils.bytesEqual(element.instruction, value),
       );
     } catch (_) {
       return null;

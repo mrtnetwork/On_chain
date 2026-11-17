@@ -26,7 +26,7 @@ class BlockfrostRequestAddressUTXOs
   List<String> get pathParameters => [address.address];
 
   @override
-  List<ADAAccountUTXOResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAAccountUTXOResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAAccountUTXOResponse.fromJson(e)).toList();
   }
 }

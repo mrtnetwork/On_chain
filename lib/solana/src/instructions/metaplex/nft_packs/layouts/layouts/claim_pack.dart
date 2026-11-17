@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksClaimPackLayout extends MetaplexNFTPacksProgramLayout {
@@ -10,7 +10,7 @@ class MetaplexNFTPacksClaimPackLayout extends MetaplexNFTPacksProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexNFTPacksProgramInstruction.claimPack.insturction,
+      instruction: MetaplexNFTPacksProgramInstruction.claimPack.instruction,
     );
     return MetaplexNFTPacksClaimPackLayout(index: decode['index']);
   }

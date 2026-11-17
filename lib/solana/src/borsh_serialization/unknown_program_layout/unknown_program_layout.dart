@@ -1,13 +1,12 @@
-import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/core/program_layout.dart';
-import 'package:on_chain/solana/src/borsh_serialization/instuction/instuction.dart';
+import 'package:on_chain/solana/src/borsh_serialization/instruction/instruction.dart';
 
 /// Represents an unknown program layout.
 class UnknownProgramLayout extends ProgramLayout {
   /// The data of the unknown program layout.
-  const UnknownProgramLayout(this.data);
-  final List<int> data;
+  UnknownProgramLayout(List<int> data) : data = data.asImmutableBytes;
+  final BuBytes data;
   @override
   UnknownProgramInstruction get instruction =>
       UnknownProgramInstruction.unknown;
@@ -24,7 +23,7 @@ class UnknownProgramLayout extends ProgramLayout {
 
   /// Converts the unknown program layout to bytes.
   @override
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return data;
   }
 

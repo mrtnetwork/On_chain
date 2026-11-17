@@ -280,7 +280,12 @@ class ZkSyncEvent {
       blockHash: json['blockHash'],
       blockNumber:
           json['blockNumber'] != null
-              ? int.parse(json['blockNumber'], radix: 16)
+              ? IntUtils.fromBytes(
+                BytesUtils.fromHexString(
+                  json['blockNumber'],
+                  paddingZero: true,
+                ),
+              )
               : null,
       l1BatchNumber: json['l1BatchNumber'],
       transactionHash: json['transactionHash'],

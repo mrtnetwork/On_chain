@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/serialization/bcs/exeption/exeption.dart';
 
 /// Enum to define the serialization type: either an object or a variant (like an enum in other languages).
 enum BcsSerializableType { object, variant }
@@ -30,7 +29,7 @@ abstract class BcsSerialization {
   Map<String, dynamic> toLayoutStruct();
 
   /// Serializes the object to BCS format (List of bytes).
-  List<int> toBcs({String? property}) {
+  BuBytes toBcs({String? property}) {
     final layout = createLayout(property: property);
     return layout.serialize(toLayoutStruct());
   }
@@ -106,7 +105,8 @@ abstract class BcsVariantSerialization extends BcsSerialization {
     Map<String, dynamic> json,
   ) {
     if (json['key'] is! String || !json.containsKey('value')) {
-      throw const BcsSerializationException(
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid variant layout. only use enum layout to deserialize with `BcsVariantSerialization.deserialize` method.',
       );
     }
@@ -122,7 +122,8 @@ abstract class BcsVariantSerialization extends BcsSerialization {
     final decode = layout.deserialize(bytes);
     final json = decode.value;
     if (json['key'] is! String || !json.containsKey('value')) {
-      throw const BcsSerializationException(
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid variant layout. only use enum layout to deserialize with `BcsVariantSerialization.deserialize` method.',
       );
     }
@@ -141,7 +142,7 @@ abstract class BcsVariantSerialization extends BcsSerialization {
   }
 
   /// Serializes the variant into BCS format (List of bytes).
-  List<int> toVariantBcs({String? property}) {
+  BuBytes toVariantBcs({String? property}) {
     final layout = createVariantLayout(property: property);
     return layout.serialize(toVariantLayoutStruct());
   }

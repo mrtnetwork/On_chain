@@ -8,14 +8,14 @@ import 'package:on_chain/ada/src/models/constants/constant.dart';
 
 /// Represents a stake credential.
 abstract class Credential with InternalCborSerialization {
-  final List<int> data;
+  final BuBytes data;
 
   /// Constructs a [Credential] instance with the specified [hashBytes].
   Credential(List<int> hashBytes)
     : data = AdaTransactionUtils.validateFixedLengthBytes(
         bytes: hashBytes,
         length: AdaTransactionConstant.blake2b224DigestSize,
-      );
+      ).asImmutableBytes;
 
   /// Deserializes a [Credential] from a CBOR list value [cbor].
   factory Credential.deserialize(CborListValue cbor) {

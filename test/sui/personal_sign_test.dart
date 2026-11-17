@@ -1,10 +1,16 @@
-import 'package:blockchain_utils/utils/string/string.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _personalSign();
+import '../utils.dart';
+void personalSignTest() {
+  group('Sui/Personal sign', _personalSign);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(personalSignTest, "Personal Sign");
+}
+
 
 void _personalSign() {
   test("personal sign Secp256r1", () {
@@ -36,7 +42,7 @@ void _personalSign() {
           encoding: StringEncoding.base64,
         ),
       );
-    }, throwsA(TypeMatcher<DartSuiPluginException>()));
+    }, throwsA(isA<BuError>()));
   });
   test("Invalid signature", () {
     final account = SuiSecp256r1Account(
@@ -47,10 +53,10 @@ void _personalSign() {
         message: StringUtils.encode("MRTNETWORK"),
         signature: List<int>.filled(200, 0),
       );
-    }, throwsA(TypeMatcher<DartSuiPluginException>()));
+    }, throwsA(isA<BuError>()));
   });
 
-  test("personal sign Secp256K1", () {
+  test("personal sign Secp256k1", () {
     final account = SuiSecp256k1Account(
       SuiSecp256k1PrivateKey.fromBytes(List<int>.filled(32, 14)),
     );
@@ -67,7 +73,7 @@ void _personalSign() {
     );
     expect(verify, true);
   });
-  test("personal sign Ed22519", () {
+  test("personal sign Ed25519", () {
     final account = SuiEd25519Account(
       SuiED25519PrivateKey.fromBytes(List<int>.filled(32, 14)),
     );

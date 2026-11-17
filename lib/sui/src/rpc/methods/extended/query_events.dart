@@ -33,7 +33,7 @@ class SuiRequestQueryEvents
   }
 
   @override
-  SuiApiQueryEventsRepose onResonse(Map<String, dynamic> result) {
+  SuiApiQueryEventsRepose onResponse(Map<String, dynamic> result) {
     return SuiApiQueryEventsRepose.fromJson(result);
   }
 }

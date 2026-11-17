@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
+
 import 'package:on_chain/ada/src/models/transaction/assets/models/multi_assets.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option.dart';
@@ -16,8 +17,10 @@ enum TransactionOutputCborEncoding {
       (e) => e.name == name,
       orElse:
           () =>
-              throw ItemNotFoundException(
-                name: "TransactionOutputCborEncoding",
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid TransactionOutputCborEncoding name.',
+                details: {'name': name},
               ),
     );
   }
@@ -176,7 +179,7 @@ class TransactionOutput with InternalCborSerialization {
   }
 
   /// In the Babbage era, unspent transaction outputs will be required to contain at least
-  /// [coinsPerUtxoSize] its epoch porotocol parameters variable
+  /// [coinsPerUtxoSize] its epoch protocol parameters variable
   /// in this case this output value should not be lower than result
   BigInt minAda(int coinsPerUtxoSize) {
     return BigInt.from((160 + serialize().length) * coinsPerUtxoSize);

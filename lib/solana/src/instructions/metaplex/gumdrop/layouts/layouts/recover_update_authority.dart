@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexGumdropRecoverUpdateAuthorityLayout
     extends MetaplexGumdropProgramLayout {
@@ -17,7 +17,7 @@ class MetaplexGumdropRecoverUpdateAuthorityLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexGumdropProgramInstruction.recoverUpdateAuthority.insturction,
+          MetaplexGumdropProgramInstruction.recoverUpdateAuthority.instruction,
     );
     return MetaplexGumdropRecoverUpdateAuthorityLayout(
       walletBump: decode['walletBump'],

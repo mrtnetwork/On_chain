@@ -1,7 +1,7 @@
 // Manages the layout structure for the SPL token approve checked operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Update the default state for new Accounts. Only supported for mints that
@@ -27,7 +27,7 @@ class SPLToken2022UpdateDefaultAccountStateLayout
       layout: _layout,
       bytes: bytes,
       instruction:
-          SPLTokenProgramInstruction.defaultAccountStateExtension.insturction,
+          SPLTokenProgramInstruction.defaultAccountStateExtension.instruction,
     );
     return SPLToken2022UpdateDefaultAccountStateLayout(
       accountState: AccountState.fromJson(decode['accountState']),

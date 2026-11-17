@@ -26,7 +26,7 @@ class BlockfrostRequestStakeDistribution
   List<String> get pathParameters => [epoch.toString()];
 
   @override
-  List<ADAStakeDistributionResponse> onResonse(
+  List<ADAStakeDistributionResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result.map((e) => ADAStakeDistributionResponse.fromJson(e)).toList();

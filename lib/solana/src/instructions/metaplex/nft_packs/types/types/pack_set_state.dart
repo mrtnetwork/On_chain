@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 
 class PackSetState {
   final String name;
@@ -21,7 +22,8 @@ class PackSetState {
       (element) => element.value == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                OnChainErrorType.solanaPlugin,
                 'No PackSetState found matching the specified value',
                 details: {'value': value?.toString()},
               ),

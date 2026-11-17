@@ -144,4 +144,14 @@ class AptosApiMethod {
     name: 'Execute view function of a module',
     requestType: RequestMethod.post,
   );
+  static const AptosApiMethod getAccountTransactionSummaries = AptosApiMethod._(
+    url: '/accounts/{address}/transaction_summaries',
+    name: 'Get account transaction summaries',
+    requestType: RequestMethod.get,
+  );
+  static const AptosApiMethod getTransactionsAuxiliaryInfo = AptosApiMethod._(
+    url: '/transactions/auxiliary_info',
+    name: 'Get transactions auxiliary info',
+    requestType: RequestMethod.get,
+  );
 }

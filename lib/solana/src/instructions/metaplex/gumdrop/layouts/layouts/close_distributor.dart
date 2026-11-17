@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexGumdropCloseDistributorLayout
     extends MetaplexGumdropProgramLayout {
@@ -15,7 +15,7 @@ class MetaplexGumdropCloseDistributorLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexGumdropProgramInstruction.closeDistributor.insturction,
+          MetaplexGumdropProgramInstruction.closeDistributor.instruction,
     );
     return MetaplexGumdropCloseDistributorLayout(
       walletBump: decode['walletBump'],

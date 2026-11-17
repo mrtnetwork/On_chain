@@ -43,7 +43,7 @@ class SuiRequestExecuteTransactionBlock
   }
 
   @override
-  SuiApiTransactionBlockResponse onResonse(Map<String, dynamic> result) {
+  SuiApiTransactionBlockResponse onResponse(Map<String, dynamic> result) {
     return SuiApiTransactionBlockResponse.fromJson(result);
   }
 }

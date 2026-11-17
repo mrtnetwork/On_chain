@@ -29,6 +29,7 @@ export 'models/pool_retirement_certificate.dart';
 export 'models/redeemers_of_script.dart';
 export 'models/registration_history.dart';
 export 'models/relay_info.dart';
+export 'models/root_response.dart';
 export 'models/script_info.dart';
 export 'models/stake_account.dart';
 export 'models/stake_account_delegation_history.dart';

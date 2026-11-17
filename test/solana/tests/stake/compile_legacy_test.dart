@@ -1,9 +1,10 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('stake program compile legacy', () {
+import '../../../utils.dart';
+void compileLegacyTest() {
+  group('Solana/Stake Program Compile Legacy', () {
     _initialize();
     _delegate();
     _authorize();
@@ -14,6 +15,11 @@ void main() {
     _deactivate();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(compileLegacyTest, "Compile Legacy");
+}
+
 
 void _initialize() {
   test('initialize', () {

@@ -29,7 +29,7 @@ class SolanaRPCGetAllocationTrackerAccount
   }
 
   @override
-  AllocationTrackerAccount? onResonse(Map<String, dynamic>? result) {
+  AllocationTrackerAccount? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return AllocationTrackerAccount.fromBuffer(accountInfo.toBytesData());

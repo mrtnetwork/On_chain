@@ -2,11 +2,17 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('addresses', () {
+import '../utils.dart';
+
+void adaAddressTest() {
+  group('ADA/Address Encoding', () {
     _byron();
     _shelly();
   });
+}
+
+void main() {
+  OnChainUtilsTestApi.runTest(adaAddressTest, "Address");
 }
 
 void _byron() {
@@ -105,7 +111,7 @@ void _byron() {
     final spend = bip32.derivePath("44'/1815'/0'/0/0");
     final byron = ADAByronAddress.fromPublicKey(
       chaincode: spend.publicKey.chainCode.toBytes(),
-      publicKey: spend.publicKey.compressed,
+      publicKey: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
     );
 
@@ -128,8 +134,8 @@ void _shelly() {
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     final stake = bip32.derivePath("1852'/1815'/0'/2/0");
     ADABaseAddress addr = ADABaseAddress.fromPublicKey(
-      basePubkeyBytes: spend.publicKey.compressed,
-      stakePubkeyBytes: stake.publicKey.compressed,
+      basePubkeyBytes: spend.publicKey.toPublicKeyBytes(),
+      stakePubkeyBytes: stake.publicKey.toPublicKeyBytes(),
       network: ADANetwork.testnet,
     );
     expect(
@@ -137,8 +143,8 @@ void _shelly() {
       'addr_test1qz2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3jcu5d8ps7zex2k2xt3uqxgjqnnj83ws8lhrn648jjxtwq2ytjqp',
     );
     addr = ADABaseAddress.fromPublicKey(
-      basePubkeyBytes: spend.publicKey.compressed,
-      stakePubkeyBytes: stake.publicKey.compressed,
+      basePubkeyBytes: spend.publicKey.toPublicKeyBytes(),
+      stakePubkeyBytes: stake.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
     );
     expect(
@@ -158,8 +164,8 @@ void _shelly() {
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     final stake = bip32.derivePath("1852'/1815'/0'/2/0");
     ADABaseAddress addr = ADABaseAddress.fromPublicKey(
-      basePubkeyBytes: spend.publicKey.compressed,
-      stakePubkeyBytes: stake.publicKey.compressed,
+      basePubkeyBytes: spend.publicKey.toPublicKeyBytes(),
+      stakePubkeyBytes: stake.publicKey.toPublicKeyBytes(),
       network: ADANetwork.testnet,
     );
     expect(
@@ -183,8 +189,8 @@ void _shelly() {
       expect(addr.address, differTestnetNetwork.address);
     }
     addr = ADABaseAddress.fromPublicKey(
-      basePubkeyBytes: spend.publicKey.compressed,
-      stakePubkeyBytes: stake.publicKey.compressed,
+      basePubkeyBytes: spend.publicKey.toPublicKeyBytes(),
+      stakePubkeyBytes: stake.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
     );
     expect(
@@ -203,7 +209,7 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy);
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAEnterpriseAddress addr = ADAEnterpriseAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.testnet,
     );
     expect(
@@ -229,7 +235,7 @@ void _shelly() {
       expect(addr.addressType, ADAAddressType.enterprise);
       expect(
         () => ADAAddress.fromAddress(addr.address, network: ADANetwork.mainnet),
-        throwsA(isA<ADAPluginException>()),
+        throwsA(isA<BuError>()),
       );
     }
     {
@@ -240,7 +246,7 @@ void _shelly() {
       expect(differTestnetNetwork.network, ADANetwork.testnetPreview);
     }
     addr = ADAEnterpriseAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
     );
     expect(
@@ -259,7 +265,7 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy2);
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAEnterpriseAddress addr = ADAEnterpriseAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.testnet,
     );
     expect(
@@ -267,7 +273,7 @@ void _shelly() {
       'addr_test1vpu5vlrf4xkxv2qpwngf6cjhtw542ayty80v8dyr49rf5eg57c2qv',
     );
     addr = ADAEnterpriseAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
     );
     expect(
@@ -286,7 +292,7 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy);
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAPointerAddress addr = ADAPointerAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.testnet,
       pointer: Pointer(
         slot: BigInt.one,
@@ -308,7 +314,7 @@ void _shelly() {
       expect(addr.addressType, ADAAddressType.pointer);
       expect(
         () => ADAAddress.fromAddress(addr.address, network: ADANetwork.mainnet),
-        throwsA(isA<ADAPluginException>()),
+        throwsA(isA<BuError>()),
       );
     }
     {
@@ -319,7 +325,7 @@ void _shelly() {
       expect(differTestnetNetwork.network, ADANetwork.testnetPreview);
     }
     addr = ADAPointerAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
       pointer: Pointer(
         slot: BigInt.from(24157),
@@ -356,7 +362,7 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy2);
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
     ADAPointerAddress addr = ADAPointerAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.testnet,
       pointer: Pointer(
         slot: BigInt.one,
@@ -376,7 +382,7 @@ void _shelly() {
     expect(decode.pointer.slot, BigInt.one);
 
     addr = ADAPointerAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
       pointer: Pointer(
         slot: BigInt.from(24157),
@@ -397,7 +403,7 @@ void _shelly() {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy);
     final spend = bip32.derivePath("1852'/1815'/0'/2/0");
     ADARewardAddress addr = ADARewardAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.testnet,
     );
     expect(
@@ -414,11 +420,11 @@ void _shelly() {
       expect(addr.addressType, ADAAddressType.reward);
       expect(
         () => ADAAddress.fromAddress(addr.address, network: ADANetwork.mainnet),
-        throwsA(isA<ADAPluginException>()),
+        throwsA(isA<BuError>()),
       );
     }
     addr = ADARewardAddress.fromPublicKey(
-      pubkeyBytes: spend.publicKey.compressed,
+      pubkeyBytes: spend.publicKey.toPublicKeyBytes(),
       network: ADANetwork.mainnet,
     );
     expect(
@@ -436,7 +442,9 @@ void _shelly() {
   test('multisig base address', () {
     final bip32 = CardanoIcarusBip32.fromSeed(_entropy3);
     final spend = bip32.derivePath("1852'/1815'/0'/0/0");
-    final keyHash = Ed25519KeyHash.fromPubkey(spend.publicKey.compressed);
+    final keyHash = Ed25519KeyHash.fromPubkey(
+      spend.publicKey.toPublicKeyBytes(),
+    );
 
     final List<NativeScript> scripts = [NativeScriptScriptPubkey(keyHash)];
     final oneOfNativeScript = NativeScriptScriptNOfK(

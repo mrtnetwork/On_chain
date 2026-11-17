@@ -1,11 +1,19 @@
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _ed25519();
-  _secp256k1();
-  _secp256r1();
+import '../../utils.dart';
+void addressTest() {
+  group('Sui/Address', () {
+    _ed25519();
+    _secp256k1();
+    _secp256r1();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(addressTest, "Address");
+}
+
 
 void _ed25519() {
   test("address ed25519", () {

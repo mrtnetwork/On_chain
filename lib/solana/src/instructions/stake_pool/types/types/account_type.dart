@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// Enum representing the account type managed by the program
 class StakePoolAccountType {
@@ -39,7 +39,8 @@ class StakePoolAccountType {
       (element) => element.name == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No StakePoolAccountType found matching the specified value',
                 details: {'value': value?.toString()},
               ),
@@ -50,7 +51,8 @@ class StakePoolAccountType {
       (element) => element.value == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No StakePoolAccountType found matching the specified value',
                 details: {'value': value?.toString()},
               ),

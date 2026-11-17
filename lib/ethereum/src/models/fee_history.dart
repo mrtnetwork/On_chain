@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 /// Represents the fee history in the context of Ethereum, including base fee per gas, gas used ratio, oldest block, and reward details.
 class FeeHistory {

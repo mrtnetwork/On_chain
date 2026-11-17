@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/spl_token_swap/constant.dart';
 
 class SPLTokenSwapProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const SPLTokenSwapProgramInstruction(this.insturction, this.name);
+  const SPLTokenSwapProgramInstruction(this.instruction, this.name);
   static const SPLTokenSwapProgramInstruction initSwap =
       SPLTokenSwapProgramInstruction(0, 'InitSwap');
   static const SPLTokenSwapProgramInstruction swap =
@@ -30,7 +30,7 @@ class SPLTokenSwapProgramInstruction implements ProgramLayoutInstruction {
   ];
   static SPLTokenSwapProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
+      return values.firstWhere((element) => element.instruction == value);
     } catch (_) {
       return null;
     }

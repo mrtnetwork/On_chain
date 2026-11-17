@@ -1,7 +1,7 @@
 // Manages the layout structure for reallocating SPL token extensions.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// use reallocation to increase the data size layout.
@@ -22,7 +22,7 @@ class SPLTokenReallocateLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout(length: length),
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.reallocate.insturction,
+      instruction: SPLTokenProgramInstruction.reallocate.instruction,
     );
 
     return SPLTokenReallocateLayout(

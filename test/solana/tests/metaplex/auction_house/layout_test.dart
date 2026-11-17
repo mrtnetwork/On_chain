@@ -3,8 +3,9 @@ import 'package:on_chain/solana/solana.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-void main() {
-  group('auctionHouse layout', () {
+import '../../../../utils.dart';
+void auctionHouseLayoutTest() {
+  group('Solana/Auction House Layout', () {
     _purchaseReceipt();
     _listeningReceipt();
     _bidReceipt();
@@ -45,6 +46,11 @@ void main() {
     _withdrawFromTreasury();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(auctionHouseLayoutTest, "Layout");
+}
+
 
 void _auctionHouse() {
   test('create', () {

@@ -8,7 +8,8 @@ import 'package:on_chain/aptos/src/provider/core/core.dart';
 /// to the `get_table_item` api, and can only return the query in the bcs format.
 /// The Aptos nodes prune account state history, via a configurable time window.
 /// If the requested ledger version has been pruned, the server responds with a 410.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetRawTableItem extends AptosPostRequest<dynamic, dynamic> {
   /// Table handle hex encoded 32-byte string
   final AptosAddress tableHandle;

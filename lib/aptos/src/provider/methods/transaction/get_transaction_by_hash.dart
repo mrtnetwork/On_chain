@@ -9,7 +9,8 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// (pending, not yet committed).To create a transaction hash by yourself, do the following:
 /// 1. Hash message bytes: \"RawTransaction\" bytes + BCS bytes of [Transaction](https://aptos-labs.github.io/aptos-core/aptos_types/transaction/enum.Transaction.html).
 /// 2. Apply hash algorithm `SHA3-256` to the hash message bytes.3. Hex-encode the hash bytes with `0x` prefix.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetTransactionByHash
     extends AptosRequest<AptosApiTransaction, Map<String, dynamic>> {
   AptosRequestGetTransactionByHash(this.txnHash);
@@ -23,7 +24,7 @@ class AptosRequestGetTransactionByHash
   List<String> get pathParameters => [txnHash];
 
   @override
-  AptosApiTransaction onResonse(Map<String, dynamic> result) {
+  AptosApiTransaction onResponse(Map<String, dynamic> result) {
     return AptosApiTransaction.fromJson(result);
   }
 }

@@ -10,8 +10,8 @@ class BootstrapWitness
     implements ADABaseTransactionWitness {
   final Vkey vkey;
   final Ed25519Signature signature;
-  final List<int> chainCode;
-  final List<int> attributes;
+  final BuBytes chainCode;
+  final BuBytes attributes;
 
   /// Constructor for creating a BootstrapWitness.
   BootstrapWitness({

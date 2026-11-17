@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexBubblegumDecompressV1Layout
     extends MetaplexBubblegumProgramLayout {
@@ -11,7 +11,7 @@ class MetaplexBubblegumDecompressV1Layout
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexBubblegumProgramInstruction.decompressV1.insturction,
+      instruction: MetaplexBubblegumProgramInstruction.decompressV1.instruction,
     );
     return MetaplexBubblegumDecompressV1Layout(
       metaData: MetaData.fromJson(decode['metaData']),

@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/credential/models/key.dart';
 import 'package:on_chain/ada/src/models/credential/models/script.dart';
@@ -20,7 +21,12 @@ abstract class Voter with InternalCborSerialization {
       VoterType.drepKeyHash => VoterDRepKeyHash.fromJson(json),
       VoterType.drepScriptHash => VoterDRepScriptHash.fromJson(json),
       VoterType.stakingPoolKeyHash => VoterStakingPoolKeyHash.fromJson(json),
-      _ => throw UnimplementedError("Invalid voter type."),
+      _ =>
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid voter type.',
+          details: {'type': type.name},
+        ),
     };
   }
   factory Voter.deserialize(CborListValue cbor) {
@@ -33,7 +39,12 @@ abstract class Voter with InternalCborSerialization {
       VoterType.drepKeyHash => VoterDRepKeyHash.deserialize(cbor),
       VoterType.drepScriptHash => VoterDRepScriptHash.deserialize(cbor),
       VoterType.stakingPoolKeyHash => VoterStakingPoolKeyHash.deserialize(cbor),
-      _ => throw UnimplementedError("Invalid voter type."),
+      _ =>
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid voter type.',
+          details: {'type': type.name},
+        ),
     };
   }
 

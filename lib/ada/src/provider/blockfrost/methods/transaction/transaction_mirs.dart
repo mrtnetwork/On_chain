@@ -23,7 +23,9 @@ class BlockfrostRequestTransactionMIRs
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionMIRResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADATransactionMIRResponse> onResponse(
+    List<Map<String, dynamic>> result,
+  ) {
     return result.map((e) => ADATransactionMIRResponse.fromJson(e)).toList();
   }
 }

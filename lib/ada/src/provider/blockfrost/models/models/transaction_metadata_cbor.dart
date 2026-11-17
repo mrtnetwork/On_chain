@@ -3,7 +3,7 @@ class ADATransactionMetadataCBORResponse {
   final String label;
 
   /// Content of the CBOR metadata in hex
-  final String metadata;
+  final String? metadata;
 
   ADATransactionMetadataCBORResponse({
     required this.label,

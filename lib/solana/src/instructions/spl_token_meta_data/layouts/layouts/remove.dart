@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// Removes a key-value pair in a token-metadata account layout.
 class SPLTokenMetaDataRemoveFieldLayout extends SPLTokenMetaDataProgramLayout {
@@ -22,7 +22,7 @@ class SPLTokenMetaDataRemoveFieldLayout extends SPLTokenMetaDataProgramLayout {
       layout: _layout,
       bytes: bytes,
       instructionBytes:
-          SPLTokenMetaDataProgramSplDiscriminate.remove.insturction,
+          SPLTokenMetaDataProgramSplDiscriminate.remove.instruction,
     );
 
     return SPLTokenMetaDataRemoveFieldLayout(

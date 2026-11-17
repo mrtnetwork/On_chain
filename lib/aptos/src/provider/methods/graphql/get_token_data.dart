@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
 
@@ -22,7 +22,7 @@ class AptosGraphQLRequestGetCurrentTokenData
   Map<String, dynamic> get queryVariables => variables.toJson();
 
   @override
-  List<AptosGraphQLTokenCollection> onResonse(Map<String, dynamic> result) {
+  List<AptosGraphQLTokenCollection> onResponse(Map<String, dynamic> result) {
     return result
         .valueEnsureAsList<Map<String, dynamic>>("current_token_datas_v2")
         .map((e) => AptosGraphQLTokenCollection.fromJson(e))

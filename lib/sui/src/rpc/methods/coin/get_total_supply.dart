@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/sui/src/rpc/core/core.dart';
 
 /// Return total supply for a coin.
@@ -19,7 +19,7 @@ class SuiRequestGetTotalSupply
   }
 
   @override
-  BigInt onResonse(Map<String, dynamic> result) {
+  BigInt onResponse(Map<String, dynamic> result) {
     return result.valueAsBigInt("value");
   }
 }

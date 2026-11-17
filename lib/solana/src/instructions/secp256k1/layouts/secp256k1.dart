@@ -1,6 +1,4 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/signer/const/constants.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/keys/private_key.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -96,7 +94,9 @@ class Secp256k1Layout extends ProgramLayout {
   }) {
     final address = privateKey.publicKey().toAddress();
     final signature = privateKey.sign(message, hashMessage: true);
-    final sigBytes = signature.toBytes(false);
+    final sigBytes = signature.toBytes(
+      encoding: ECDSASignatureEncoding.suffixRecoveryId,
+    );
     return Secp256k1Layout.fromEthAddress(
       address: address,
       message: message,
@@ -183,8 +183,8 @@ class Secp256k1Layout extends ProgramLayout {
 
   /// Converts the layout into bytes.
   @override
-  List<int> toBytes() {
-    final data = List<int>.filled(_layout.span + message.length, 0);
+  BuBytes toBytes() {
+    final data = BuBytes.fill(_layout.span + message.length, 0);
     data.setAll(0, layout.serialize(serialize()));
     data.setAll(messageDataOffset, message);
     return data;

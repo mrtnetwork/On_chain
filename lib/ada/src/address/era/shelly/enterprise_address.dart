@@ -64,7 +64,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
     ADANetwork network = ADANetwork.mainnet,
   }) {
     final credential = AdaAddressUtils.publicKeyToCredential(
-      bip32.publicKey.compressed,
+      bip32.publicKey.toPublicKeyBytes(),
     );
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
       AdaAddressUtils.toAdaStakeCredential(credential),
@@ -81,7 +81,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
     ADANetwork network = ADANetwork.mainnet,
   }) {
     final credential = AdaAddressUtils.publicKeyToCredential(
-      bip32.publicKey.compressed,
+      bip32.publicKey.toPublicKeyBytes(),
     );
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
       AdaAddressUtils.toAdaStakeCredential(credential),
@@ -98,7 +98,7 @@ class ADAEnterpriseAddress extends ADAShellyAddress {
     ADANetwork network = ADANetwork.mainnet,
   }) {
     final credential = AdaAddressUtils.publicKeyToCredential(
-      cip1852.publicKey.compressed,
+      cip1852.publicKey.toPublicKeyBytes(),
     );
     final encode = AdaShelleyEnterpriseAddrEncoder().encodeCredential(
       AdaAddressUtils.toAdaStakeCredential(credential),

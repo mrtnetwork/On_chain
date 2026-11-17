@@ -1,0 +1,2006 @@
+type UserNumber = nat64;
+type AccountNumber = nat64;
+type PublicKey = blob;
+type CredentialId = blob;
+type Aaguid = blob;
+type DeviceKey = PublicKey;
+type UserKey = PublicKey;
+type SessionKey = PublicKey;
+type FrontendHostname = text;
+type Timestamp = nat64;
+
+type HeaderField = record {
+    text;
+    text;
+};
+
+type HttpRequest = record {
+    method : text;
+    url : text;
+    headers : vec HeaderField;
+    body : blob;
+    certificate_version : opt nat16;
+};
+
+type HttpResponse = record {
+    status_code : nat16;
+    headers : vec HeaderField;
+    body : blob;
+    upgrade : opt bool;
+};
+
+type StreamingCallbackHttpResponse = record {
+    body : blob;
+    token : opt Token;
+};
+
+type Token = record {};
+
+type StreamingStrategy = variant {
+    Callback : record {
+        callback : func(Token) -> (StreamingCallbackHttpResponse) query;
+        token : Token;
+    };
+};
+
+type Purpose = variant {
+    recovery;
+    authentication;
+};
+
+type KeyType = variant {
+    unknown;
+    platform;
+    cross_platform;
+    seed_phrase;
+    browser_storage_key;
+};
+
+// This describes whether a device is "protected" or not.
+// When protected, a device can only be updated or removed if the
+// user is authenticated with that very device.
+type DeviceProtection = variant {
+    protected;
+    unprotected;
+};
+
+type Challenge = record {
+    png_base64 : text;
+    challenge_key : ChallengeKey;
+};
+
+type DeviceData = record {
+    pubkey : DeviceKey;
+    alias : text;
+    credential_id : opt CredentialId;
+    aaguid : opt Aaguid;
+    purpose : Purpose;
+    key_type : KeyType;
+    protection : DeviceProtection;
+    origin : opt text;
+    // Metadata map for additional device information.
+    //
+    // Note: some fields above will be moved to the metadata map in the future.
+    // All field names of `DeviceData` (such as 'alias', 'origin, etc.) are
+    // reserved and cannot be written.
+    // In addition, the keys "usage" and "authenticator_attachment" are reserved as well.
+    metadata : opt MetadataMap;
+};
+
+// The same as `DeviceData` but with the `last_usage` field.
+// This field cannot be written, hence the separate type.
+type DeviceWithUsage = record {
+    pubkey : DeviceKey;
+    alias : text;
+    credential_id : opt CredentialId;
+    aaguid : opt Aaguid;
+    purpose : Purpose;
+    key_type : KeyType;
+    protection : DeviceProtection;
+    origin : opt text;
+    last_usage : opt Timestamp;
+    metadata : opt MetadataMap;
+};
+
+type DeviceKeyWithAnchor = record {
+    pubkey : DeviceKey;
+    anchor_number : UserNumber;
+};
+
+// Map with some variants for the value type.
+// Note, due to the Candid mapping this must be a tuple type thus we cannot name the fields `key` and `value`.
+type MetadataMap = vec record {
+    text;
+    variant { map : MetadataMap; string : text; bytes : vec nat8 };
+};
+
+type RegisterResponse = variant {
+    // A new user was successfully registered.
+    registered : record {
+        user_number : UserNumber;
+    };
+    // No more registrations are possible in this instance of the II service canister.
+    canister_full;
+    // The challenge was not successful.
+    bad_challenge;
+};
+
+type AddTentativeDeviceResponse = variant {
+    // The device was tentatively added.
+    added_tentatively : record {
+        verification_code : text;
+        // Expiration date, in nanos since the epoch
+        device_registration_timeout : Timestamp;
+    };
+    // Device registration mode is off, either due to timeout or because it was never enabled.
+    device_registration_mode_off;
+    // There is another device already added tentatively
+    another_device_tentatively_added;
+    // Passkey with this public key is already used
+    passkey_with_this_public_key_is_already_used;
+};
+
+type VerifyTentativeDeviceResponse = variant {
+    // The device was successfully verified.
+    verified;
+    // Wrong verification code entered. Retry with correct code.
+    wrong_code : record {
+        retries_left : nat8;
+    };
+    // Device registration mode is off, either due to timeout or because it was never enabled.
+    device_registration_mode_off;
+    // There is no tentative device to be verified.
+    no_device_to_verify;
+};
+
+type Delegation = record {
+    pubkey : PublicKey;
+    expiration : Timestamp;
+    targets : opt vec principal;
+    // Restricts the kinds of calls the delegation permits: `"queries"`
+    // restricts the sender to query calls (the IC rejects update calls
+    // authenticated through such a delegation). Absent means unrestricted.
+    permissions : opt text;
+};
+
+// The delegation permissions a caller requests, mirroring the ICP protocol's
+// request-delegation `permissions` values. `queries` yields a queries-only
+// delegation (the issued `Delegation` carries `permissions = "queries"`);
+// `all` yields an unrestricted, update-capable delegation. Passed as an
+// optional argument; an absent argument means `all`, preserving the
+// pre-feature behavior and matching the interface spec's default for an
+// absent `permissions` field.
+type Permissions = variant { queries; all };
+
+type SignedDelegation = record {
+    delegation : Delegation;
+    signature : blob;
+};
+
+type GetDelegationResponse = variant {
+    // The signed delegation was successfully retrieved.
+    signed_delegation : SignedDelegation;
+
+    // The signature is not ready. Maybe retry by calling `prepare_delegation`
+    no_such_delegation;
+};
+
+type InternetIdentityStats = record {
+    users_registered : nat64;
+    storage_layout_version : nat8;
+    assigned_user_number_range : record {
+        nat64;
+        nat64;
+    };
+    archive_info : ArchiveInfo;
+    canister_creation_cycles_cost : nat64;
+    // Map from event aggregation to a sorted list of top 100 sub-keys to their weights.
+    // Example: {"prepare_delegation_count 24h ic0.app": [{"https://dapp.com", 100}, {"https://dapp2.com", 50}]}
+    event_aggregations : vec record { text; vec record { text; nat64 } };
+};
+
+// Configuration parameters related to the archive.
+type ArchiveConfig = record {
+    // The allowed module hash of the archive canister.
+    // Changing this parameter does _not_ deploy the archive, but enable archive deployments with the
+    // corresponding wasm module.
+    module_hash : blob;
+    // Buffered archive entries limit. If reached, II will stop accepting new anchor operations
+    // until the buffered operations are acknowledged by the archive.
+    entries_buffer_limit : nat64;
+    // The maximum number of entries to be transferred to the archive per call.
+    entries_fetch_limit : nat16;
+    // Polling interval to fetch new entries from II (in nanoseconds).
+    // Changes to this parameter will only take effect after an archive deployment.
+    polling_interval_ns : nat64;
+};
+
+// Information about the archive.
+type ArchiveInfo = record {
+    // Canister id of the archive or empty if no archive has been deployed yet.
+    archive_canister : opt principal;
+    // Configuration parameters related to the II archive.
+    archive_config : opt ArchiveConfig;
+};
+
+// Rate limit configuration.
+// Currently only used for `register`.
+type RateLimitConfig = record {
+    // Time it takes (in ns) for a rate limiting token to be replenished.
+    time_per_token_ns : nat64;
+    // How many tokens are at most generated (to accommodate peaks).
+    max_tokens : nat64;
+};
+
+// Captcha configuration
+// Default:
+// - max_unsolved_captchas: 500
+// - captcha_trigger: Static, CaptchaEnabled
+type CaptchaConfig = record {
+    // Maximum number of unsolved captchas.
+    max_unsolved_captchas : nat64;
+    // Configuration for when captcha protection should kick in.
+    captcha_trigger : variant {
+        // Based on the rate of registrations compared to some reference time frame and allowing some leeway.
+        Dynamic : record {
+            // Percentage of increased registration rate observed in the current rate sampling interval (compared to
+            // reference rate) at which II will enable captcha for new registrations.
+            threshold_pct : nat16;
+            // Length of the interval in seconds used to sample the current rate of registrations.
+            current_rate_sampling_interval_s : nat64;
+            // Length of the interval in seconds used to sample the reference rate of registrations.
+            reference_rate_sampling_interval_s : nat64;
+        };
+        // Statically enable / disable captcha
+        Static : variant {
+            CaptchaEnabled;
+            CaptchaDisabled;
+        };
+    };
+};
+
+// Init arguments of II which can be supplied on install and upgrade.
+//
+// Each field is wrapped is `opt` to indicate whether the field should
+// keep the previous value or update to a new value (e.g. `null` keeps the previous value).
+//
+// Some fields, like `analytics_config`, have an additional nested `opt`, this indicates
+// enable/disable status (e.g. `opt null` disables a feature while `null` leaves it untouched).
+type InternetIdentityInit = record {
+    // Set lowest and highest anchor
+    assigned_user_number_range : opt record {
+        nat64;
+        nat64;
+    };
+    // Configuration parameters related to the II archive.
+    // Note: some parameters changes (like the polling interval) will only take effect after an archive deployment.
+    // See ArchiveConfig for details.
+    archive_config : opt ArchiveConfig;
+    // Set the amounts of cycles sent with the create canister message.
+    // This is configurable because in the staging environment cycles are required.
+    // The canister creation cost on mainnet is currently 100'000'000'000 cycles. If this value is higher thant the
+    // canister creation cost, the newly created canister will keep extra cycles.
+    canister_creation_cycles_cost : opt nat64;
+    // Rate limit for the `register` call.
+    register_rate_limit : opt RateLimitConfig;
+    // Configuration of the captcha in the registration flow.
+    captcha_config : opt CaptchaConfig;
+    // Configuration for Related Origins Requests.
+    // If present, list of origins from where registration is allowed.
+    related_origins : opt vec text;
+    // Configuration for New Origin Flows.
+    // If present, list of origins using the new authentication flow.
+    new_flow_origins : opt vec text;
+    // Configurations for OpenID clients
+    openid_configs : opt vec OpenIdConfig;
+    // Deploy flag relaxing the `https` requirement for SSO discovery outcalls to
+    // loopback hosts (`localhost` / `127.0.0.1`) so e2e tests can point at local
+    // mock IdPs served over plain `http`. Unset / `false` (the default) require
+    // `https` for every discovery host. Never enable in production — non-loopback
+    // hosts always require `https` regardless.
+    sso_allow_insecure_discovery : opt bool;
+    // Configuration for Web Analytics
+    analytics_config : opt opt AnalyticsConfig;
+    // Configuration to show dapps explorer or not
+    enable_dapps_explorer : opt bool;
+    // Configuration to set the canister as production mode.
+    // For now, this is used only to show or hide the banner.
+    is_production : opt bool;
+    // Configuration for dummy authentication used in e2e tests.
+    dummy_auth : opt opt DummyAuthConfig;
+    // Backend canister ID, needed for backward compatibility.
+    backend_canister_id : opt principal;
+    // Backend origin, needed to sync configuration with frontend.
+    backend_origin : opt text;
+    // Deploy flag for the legacy DNSSEC email-recovery path. Defaults to
+    // off (DoH-only); `opt true` re-enables it.
+    enable_dnssec_email_recovery : opt bool;
+    // DNSSEC verification configuration. Trust anchors used by any feature
+    // that verifies DNS records against the IANA-rooted DNSSEC chain
+    // (currently the email-recovery DKIM/DMARC flow). See
+    // `docs/ongoing/email-recovery.md` §7.5.
+    //
+    // Wrapped in `opt opt` to match the same set/clear pattern as
+    // `analytics_config` / `dummy_auth`: outer null keeps the previously
+    // stored value across an upgrade, `opt null` clears it, `opt opt c`
+    // sets it to `c`.
+    dnssec_config : opt opt DnssecConfig;
+    // DoH (DNS-over-HTTPS) fallback configuration. Allowlists the
+    // domains for which the canister may fetch DKIM/DMARC TXT records
+    // via HTTP outcalls when no DNSSEC chain is available — see
+    // `docs/ongoing/email-recovery.md` §7.6. Same set/clear pattern.
+    doh_config : opt opt DohConfig;
+    // URL of the official MCP connector the deployment ships, if any. Same
+    // set/clear pattern as `dnssec_config`: null keeps the previously stored
+    // value, `opt null` clears it, `opt opt "https://..."` sets it.
+    mcp_official_url : opt opt text;
+};
+
+// DNSSEC trust-anchor list. Any feature that needs DNSSEC-verified DNS
+// records consumes the same anchors; not specific to email recovery.
+type DnssecConfig = record {
+    // IANA root KSK trust anchors. Multiple are accepted simultaneously so
+    // KSK rollover is a single config change in the next upgrade arg.
+    root_anchors : vec DnssecRootAnchor;
+};
+
+// One IANA root KSK trust anchor, in the same shape IANA publishes at
+// `data.iana.org/root-anchors/root-anchors.xml`. Only `digest_type = 2`
+// (SHA-256) is accepted; the legacy SHA-1 form is rejected at the
+// verifier boundary.
+type DnssecRootAnchor = record {
+    key_tag : nat16;
+    algorithm : nat8;
+    digest_type : nat8;
+    digest : blob;
+};
+
+// DoH (DNS-over-HTTPS) fallback configuration.
+//
+// The canister will only fetch DKIM/DMARC TXT records via HTTP outcalls
+// for an FQDN whose registered domain is in `allowed_domains`. Cache
+// entries are populated on demand and re-used until `max_cache_age_secs`
+// elapses (default 3600s when null, capped at 24h).
+type DohConfig = record {
+    allowed_domains : vec text;
+    max_cache_age_secs : opt nat64;
+};
+
+type ChallengeKey = text;
+
+type ChallengeResult = record {
+    key : ChallengeKey;
+    chars : text;
+};
+type CaptchaResult = ChallengeResult;
+
+// Extra information about registration status for new devices
+type DeviceRegistrationInfo = record {
+    // If present, the user has registered a new authentication method. This new authentication
+    // method needs to be confirmed before 'expiration' in order to be added to the identity.
+    tentative_device : opt DeviceData;
+    // If present, the user has registered a new session. This new session needs to be confirmed before
+    // 'expiration' in order for it be authorized to register an authentication method to the identity.
+    tentative_session : opt principal;
+    // The timestamp at which the anchor will turn off registration mode
+    // (and the tentative device will be forgotten, if any, and if not verified)
+    expiration : Timestamp;
+};
+
+// Information about the anchor
+type IdentityAnchorInfo = record {
+    // All devices that can authenticate to this anchor
+    devices : vec DeviceWithUsage;
+    // Device registration status used when adding devices, see DeviceRegistrationInfo
+    device_registration : opt DeviceRegistrationInfo;
+    // OpenID accounts linked to this anchor
+    openid_credentials : opt vec OpenIdCredential;
+    // The name of the Internet Identity
+    name : opt text;
+    // The timestamp at which the anchor was created
+    created_at : opt Timestamp;
+};
+
+type AnchorCredentials = record {
+    credentials : vec WebAuthnCredential;
+    recovery_credentials : vec WebAuthnCredential;
+    recovery_phrases : vec PublicKey;
+};
+
+type WebAuthnCredential = record {
+    credential_id : CredentialId;
+    pubkey : PublicKey;
+};
+
+type DeployArchiveResult = variant {
+    // The archive was deployed successfully and the supplied wasm module has been installed. The principal of the archive
+    // canister is returned.
+    success : principal;
+    // Initial archive creation is already in progress.
+    creation_in_progress;
+    // Archive deployment failed. An error description is returned.
+    failed : text;
+};
+
+type BufferedArchiveEntry = record {
+    anchor_number : UserNumber;
+    timestamp : Timestamp;
+    sequence_number : nat64;
+    entry : blob;
+};
+
+// OpenID specific types
+type Iss = text;
+type Sub = text;
+type Aud = text;
+type JWT = text;
+type Salt = blob;
+
+type OpenIdEmailVerification = variant {
+    Unknown;
+    Google;
+    Microsoft;
+};
+
+type OpenIdConfig = record {
+    name : text;
+    logo : text;
+    issuer : text;
+    client_id : text;
+    jwks_uri : text;
+    auth_uri : text;
+    auth_scope : vec text;
+    fedcm_uri : opt text;
+    email_verification : opt OpenIdEmailVerification;
+    // Optional initial set of JWKs used to seed this provider's JWK cache on
+    // install, so JWT verification works before the first jwks_uri fetch and
+    // across upgrades (the cache is persisted in stable memory). The outer vec
+    // is the set of JWKs; each inner vec is one JWK, given as the list of its
+    // JSON (field, value) pairs, e.g. a single RSA key is
+    // vec { vec { record { "kty"; "RSA" }; record { "kid"; "..." };
+    //             record { "n"; "..." }; record { "e"; "AQAB" } } }.
+    seed_jwks : opt vec vec record { text; text };
+};
+
+// Fully resolved SSO discovery result for the sign-in initiation flow,
+// returned by `discover_sso` / `discover_sso_query`. The canister resolves it
+// from the domain's two-hop discovery documents, on demand and cached.
+type SsoDiscovery = record {
+    discovery_domain : text;
+    // The org's primary OIDC client.
+    client_id : text;
+    issuer : text;
+    authorization_endpoint : text;
+    scopes : vec text;
+    name : opt text;
+    // Client the target origin runs its ceremony against; `null` when denied.
+    resolved_client_id : opt text;
+    // How long a sign-in through this domain stays valid, in nanoseconds, from
+    // the domain's optional `session_max_age_seconds` (8 hours when unset).
+    session_max_age_ns : nat64;
+};
+
+// Status of a domain's SSO discovery, read by `get_sso_discovery_status`. A
+// failed fetch isn't a distinct status — it reads as `Pending` and the frontend
+// times out — so the statuses are: resolved, or in flight.
+type SsoDiscoveryStatus = variant {
+    Resolved : SsoDiscovery;
+    Pending;
+};
+
+// Request for `get_sso_discovery_status`.
+type GetSsoDiscoveryStatusRequest = record {
+    org_domain : text;
+    target_app_origin : opt FrontendHostname;
+};
+
+type OpenIdCredentialKey = record { Iss; Sub; Aud };
+
+type AnalyticsConfig = variant {
+    Plausible : record {
+        domain : opt text;
+        hash_mode : opt bool;
+        track_localhost : opt bool;
+        api_host : opt text;
+    };
+};
+
+type OpenIdCredential = record {
+    iss : Iss;
+    sub : Sub;
+    aud : Aud;
+    last_usage_timestamp : opt Timestamp;
+    metadata : MetadataMapV2;
+    // SSO discovery domain this credential was verified through. `None` for
+    // direct-provider credentials (Google / Apple / Microsoft).
+    sso_domain : opt text;
+    // Human-readable SSO name from the domain's
+    // `/.well-known/ii-openid-configuration`. `None` when the domain
+    // doesn't publish one — callers should fall back to `sso_domain`
+    // for the label.
+    sso_name : opt text;
+};
+
+type OpenIdCredentialAddError = variant {
+    Unauthorized : principal;
+    JwtVerificationFailed;
+    OpenIdCredentialAlreadyRegistered;
+    InternalCanisterError : text;
+    JwtExpired;
+};
+
+type OpenIdCredentialRemoveError = variant {
+    Unauthorized : principal;
+    OpenIdCredentialNotFound;
+    InternalCanisterError : text;
+};
+
+type OpenIdDelegationError = variant {
+    NoSuchAnchor;
+    JwtVerificationFailed;
+    NoSuchDelegation;
+    JwtExpired;
+};
+
+type OpenIdPrepareDelegationResponse = record {
+    user_key : UserKey;
+    expiration : Timestamp;
+    anchor_number : UserNumber;
+};
+
+// Request for `sso_prepare_delegation`.
+type SsoPrepareDelegationRequest = record {
+    jwt : JWT;
+    salt : Salt;
+    session_key : SessionKey;
+    org_domain : text;
+    target_app_origin : FrontendHostname;
+};
+
+// Request for `sso_get_delegation`.
+type SsoGetDelegationRequest = record {
+    jwt : JWT;
+    salt : Salt;
+    session_key : SessionKey;
+    expiration : Timestamp;
+    org_domain : text;
+    target_app_origin : FrontendHostname;
+    sso_attr_bundle : blob;
+};
+
+// Response of `sso_prepare_delegation`.
+type SsoPrepareDelegationResponse = record {
+    user_key : UserKey;
+    expiration : Timestamp;
+    anchor_number : UserNumber;
+    sso_attr_bundle : blob;
+};
+
+// Response of `sso_get_delegation`.
+type SsoGetDelegationResponse = record {
+    signed_delegation : SignedDelegation;
+    sso_attr_bundle_signature : blob;
+};
+
+// Email-recovery types
+// ====================
+// See `docs/ongoing/email-recovery.md` for the full design. Covers
+// both halves of the flow: setup (binding a recovery email to an
+// anchor) and recovery (proving control of a previously-bound
+// address to obtain a signed delegation).
+
+type EmailRecoveryCredential = record {
+    address : text;
+    created_at : Timestamp;
+    last_used : opt Timestamp;
+};
+
+// A verified email address bound to an anchor. Parallel to
+// `EmailRecoveryCredential` but used as an attribute source (and
+// surfaced in the smart-routing UI) rather than a recovery
+// credential. The `verified_at` timestamp is when DKIM/DMARC
+// verification completed successfully.
+type VerifiedEmail = record {
+    address : text;
+    verified_at : Timestamp;
+};
+
+type EmailChallenge = record {
+    nonce : text;
+    expires_at : Timestamp;
+};
+
+type EmailChallengeDnsInput = record {
+    address : text;
+    dns_proof : opt DnsProofBundle;
+};
+
+// Used by both the recovery flow and the verified-emails flow. The
+// pending entry's `PendingKind` dispatches to the right anchor sink
+// after the cryptographic check; the argument itself is flow-neutral.
+type EmailChallengeSubmitDkimLeafArg = record {
+    nonce : text;
+    // The DKIM resolution chain in CNAME order, ending in a TXT. At
+    // least one hop required; bounded by `MAX_CNAME_HOPS = 4` at the
+    // canister side. For the Gmail-style direct-TXT case this is a
+    // single-element vec.
+    //
+    // When the FE cannot walk a fully-signed DNSSEC resolution for the
+    // leaf — the DKIM record CNAMEs into an unsigned zone (e.g.
+    // `selector1._domainkey.outlook.com` is a signed CNAME into the
+    // unsigned `outbound.protection.outlook.com`) — it must NOT submit
+    // an empty vec here; it drives `email_challenge_resolve_via_doh`
+    // instead, which resolves the key over the canister's DoH path.
+    hops : vec SignedRRset;
+    // Delegation chains for signed zones touched by `hops` that
+    // weren't already covered by the skeleton chain anchored at
+    // prepare time. Empty for same-zone resolution.
+    extra_chains : vec DelegationChain;
+};
+
+// Argument to email_challenge_resolve_via_doh. Wrapped in a record (like
+// EmailChallengeSubmitDkimLeafArg) so the method can grow fields without a
+// breaking interface change; nonce is the lookup key and is always
+// required.
+type EmailChallengeResolveViaDohArg = record {
+    nonce : text;
+};
+
+// DNSSEC proof bundle and supporting types — see
+// `internet_identity_interface::types::dnssec`.
+type Rrsig = record {
+    type_covered : nat16;
+    algorithm : nat8;
+    labels : nat8;
+    original_ttl : nat32;
+    expiration : nat32;
+    inception : nat32;
+    key_tag : nat16;
+    signer_name : blob;
+    signature : blob;
+};
+
+type SignedRRset = record {
+    name : blob;
+    rtype : nat16;
+    rdata : vec blob;
+    ttl : nat32;
+    rrsig : Rrsig;
+};
+
+type DelegationLink = record {
+    child_ds : SignedRRset;
+    child_dnskey : SignedRRset;
+};
+
+type DelegationChain = record {
+    links : vec DelegationLink;
+};
+
+type DnsProofBundle = record {
+    root_dnskey : SignedRRset;
+    // One delegation chain per signing zone the bundle touches.
+    // Single-zone direct case (Gmail, iCloud, …): one chain.
+    // Cross-zone CNAME case (Proton, Tutanota, M365 custom domains):
+    // one chain per signing zone touched.
+    chains : vec DelegationChain;
+    // The RRsets being authenticated, in CNAME-resolution order.
+    // Single-leaf case: one hop. CNAME case: intermediate CNAMEs,
+    // then the final TXT.
+    hops : vec SignedRRset;
+};
+
+// Why a DoH resolution failed, as a typed discriminant rather than a
+// free-form string. The FE reads this directly to segment the
+// `doh_reason` analytics property — no string parsing.
+type DohFailureReason = variant {
+    AllProvidersFailed;
+    QuorumFailed : record { agreeing : nat32; total : nat32 };
+    ResponseMalformed : text;
+};
+
+// Shared by both flows (recovery + verified emails). The variants
+// describe inbound-DKIM-challenge failure modes; none are
+// recovery-specific.
+type EmailChallengeError = variant {
+    Unauthorized : principal;
+    NonceUnknown;
+    NonceExpired;
+    DomainNotAllowlisted : text;
+    DohFetchFailed : DohFailureReason;
+    DomainNotSupported : text;
+    EmailVerificationFailed : text;
+    DkimLeafMismatch;
+    // email_challenge_submit_dkim_leaf was called with an empty `hops`
+    // vector; an FE that can't walk DNSSEC must drive
+    // email_challenge_resolve_via_doh instead.
+    EmptyDkimLeafHops;
+    NoDkimLeafExpected;
+    AddressMismatch;
+    SubjectNotSigned;
+    AddressAlreadyRegistered;
+    AddressNotRegistered;
+    // The submitted address didn't pass shape validation (missing `@`,
+    // empty local-part or domain, whitespace, oversized parts). Distinct
+    // from DomainNotSupported, which is about a valid address whose
+    // registered domain can't be verified.
+    InvalidEmailAddress : text;
+    // The anchor has reached its per-bucket cap (currently only fires
+    // for the verified-emails bucket). FE shows a "limit reached"
+    // notice; user must remove an existing entry to add another.
+    LimitReached : record { limit : nat8 };
+    InternalCanisterError : text;
+};
+
+// Polling status returned by `email_challenge_status` — shared between
+// the recovery flow and the verified-emails flow. `RegistrationSucceeded`
+// covers both "recovery email bound" and "verified email bound";
+// `RecoveryReady` is recovery-only and only emitted when the pending
+// entry's `PendingKind` is `Recover`.
+type EmailChallengeStatus = variant {
+    Pending;
+    ResolvingDoh;
+    NeedDkimLeaf : record { selector : text };
+    RegistrationSucceeded;
+    RecoveryReady : record {
+        user_key : UserKey;
+        expiration : Timestamp;
+        anchor_number : IdentityNumber;
+    };
+    Failed : EmailChallengeError;
+    Expired;
+};
+
+// Which trust path the canister used (or will use) to verify the
+// challenge email. Public — already chosen by the FE and derivable
+// from the public deploy config.
+type VerificationPath = variant { Doh; Dnssec };
+
+// Strictly-public, user-copyable diagnostics for one pending challenge
+// (see email_challenge_diagnostics). Intended for a support ticket so a
+// case can be lined up across the SMTP gateway logs and the canister's
+// production logs via message_id. NO email address, anchor, principal,
+// delegation/seed, or inner error string — reason_code is the failing
+// variant's name only.
+type EmailChallengeDiagnostics = record {
+    message_id : opt text;
+    reason_code : text;
+    verification_path : VerificationPath;
+    created_at : Timestamp;
+};
+
+type EmailRecoveryGetDelegationArgs = record {
+    nonce       : text;
+    session_key : SessionKey;
+    expiration  : Timestamp;
+};
+
+// SMTP gateway types — see `internet_identity_interface::smtp`. Carried
+// forward from PoC #3760 surface (the existing gateway can target this
+// canister without changes).
+type SmtpHeader = record {
+    name : text;
+    value : text;
+};
+
+type SmtpMessage = record {
+    headers : vec SmtpHeader;
+    body : blob;
+};
+
+type SmtpAddress = record {
+    user : text;
+    domain : text;
+};
+
+type SmtpEnvelope = record {
+    from : SmtpAddress;
+    // SMTP allows multiple `RCPT TO` recipients per envelope, so this
+    // is a vec at the wire level. For the recovery flows this canister
+    // serves, however, we require *exactly one* recipient and it must
+    // be `register@<domain>` or `recover@<domain>` — a legitimate
+    // recovery email never targets a CC/BCC alongside us, so any
+    // additional recipient can only come from a phishy forwarder
+    // trying to exfiltrate the user's canister-signed challenge.
+    // Multi-recipient envelopes (and empty ones) are rejected with
+    // code 551 ("User not local"); single-recipient envelopes whose
+    // recipient isn't one of our reserved mailboxes get 550 ("No
+    // such user here"). The vec is also capped at 100 entries (RFC
+    // 5321 §4.5.3.1.10); envelopes exceeding the cap are rejected
+    // with code 555.
+    to : vec SmtpAddress;
+};
+
+type SmtpRequest = record {
+    message : opt SmtpMessage;
+    envelope : opt SmtpEnvelope;
+    gateway_flags : opt vec text;
+    // Optional gateway-supplied correlation id for one inbound message
+    // (e.g. the RFC 5322 Message-ID or a gateway-assigned tracking id).
+    // The canister does not interpret it; it lets a reported case be
+    // lined up across the SMTP gateway logs and the canister's production
+    // logs during support investigations. Capped at 256 bytes; oversize
+    // values are rejected with code 555.
+    message_id : opt text;
+};
+
+// Error returned by `smtp_request` / `smtp_request_validate`.
+//
+// `code` mirrors the SMTP reply codes the off-chain gateway should
+// emit upstream:
+// - `550` (mailbox unavailable) — "No such user here". Returned when
+//   the envelope carries exactly one recipient but it isn't a mailbox
+//   this canister handles (i.e. neither `register@<domain>` nor
+//   `recover@<domain>` for any `<domain>` in `related_origins`).
+// - `551` (user not local) — envelope-shape rejection. Returned for
+//   empty `to` and for multi-recipient envelopes, even when one of
+//   the recipients is ours. Distinct from 550 so the gateway can tell
+//   "this envelope shape isn't accepted" from "we don't know this
+//   user". Recovery emails never legitimately address a CC/BCC
+//   alongside `register@…` / `recover@…`.
+// - `555` (syntax error) — the request shape itself is malformed
+//   (e.g. missing envelope, oversize address/header/body, recipient
+//   list exceeds the 100-entry cap).
+type SmtpRequestError = record {
+    code : nat64;
+    message : text;
+};
+
+type SmtpResponse = variant {
+    Ok : record {};
+    Err : SmtpRequestError;
+};
+
+// API V2 specific types
+// WARNING: These type are experimental and may change in the future.
+type IdentityNumber = nat64;
+
+// Map with some variants for the value type.
+// Note, due to the Candid mapping this must be a tuple type thus we cannot name the fields `key` and `value`.
+type MetadataMapV2 = vec record {
+    text;
+    variant { Map : MetadataMapV2; String : text; Bytes : vec nat8 };
+};
+
+// Authentication method using WebAuthn signatures
+// See https://www.w3.org/TR/webauthn-2/
+// This is a separate type because WebAuthn requires to also store
+// the credential id (in addition to the public key).
+type WebAuthn = record {
+    credential_id : CredentialId;
+    pubkey : PublicKey;
+
+    // Authenticator Attestation Global Unique Identifier (AAGUID)
+    aaguid : opt Aaguid;
+};
+
+// Authentication method using generic signatures
+// See https://internetcomputer.org/docs/current/references/ic-interface-spec/#signatures for
+// supported signature schemes.
+type PublicKeyAuthn = record {
+    pubkey : PublicKey;
+};
+
+// The authentication methods currently supported by II.
+type AuthnMethod = variant {
+    WebAuthn : WebAuthn;
+    PubKey : PublicKeyAuthn;
+};
+
+// This describes whether an authentication method is "protected" or not.
+// When protected, a authentication method can only be updated or removed if the
+// user is authenticated with that very authentication method.
+type AuthnMethodProtection = variant {
+    Protected;
+    Unprotected;
+};
+
+type AuthnMethodPurpose = variant {
+    Recovery;
+    Authentication;
+};
+
+type AuthnMethodSecuritySettings = record {
+    protection : AuthnMethodProtection;
+    purpose : AuthnMethodPurpose;
+};
+
+type AuthnMethodData = record {
+    authn_method : AuthnMethod;
+    security_settings : AuthnMethodSecuritySettings;
+    // contains the following fields of the DeviceWithUsage type:
+    // - alias
+    // - origin
+    // - authenticator_attachment: data taken from key_type and reduced to "platform", "cross_platform" or absent on migration
+    // - usage: data taken from key_type and reduced to "recovery_phrase", "browser_storage_key" or absent on migration
+    // Note: for compatibility reasons with the v1 API, the entries above (if present)
+    // must be of the `String` variant. This restriction may be lifted in the future.
+    metadata : MetadataMapV2;
+    last_authentication : opt Timestamp;
+};
+
+type OpenIDRegFinishArg = record {
+    jwt : JWT;
+    salt : Salt;
+    name : text;
+    // SSO discovery domain the JWT was obtained through, or null for a direct
+    // provider (Google / Microsoft / Apple). Selects the JWK source.
+    discovery_domain : opt text;
+    // Target dapp origin, set only for a first gated SSO login.
+    origin : opt text;
+};
+
+// Extra information about registration status for new authentication methods
+type AuthnMethodRegistrationInfo = record {
+
+    // If present, the user has registered a new authentication method. This new authentication
+    // method needs to be confirmed before 'expiration' in order to be added to the identity.
+    authn_method : opt AuthnMethodData;
+    // If present, the user has registered a new session. This new session needs to be confirmed before
+    // 'expiration' in order for it be authorized to register an authentication method to the identity.
+    session : opt principal;
+    // The timestamp at which the identity will turn off registration mode
+    // (and the authentication method will be forgotten, if any, and if not verified)
+    expiration : Timestamp;
+};
+
+type AuthnMethodConfirmationCode = record {
+    confirmation_code : text;
+    expiration : Timestamp;
+};
+
+type AuthnMethodSessionInfo = record {
+    name : opt text;
+    created_at : opt Timestamp;
+};
+
+type RegistrationId = text;
+
+type AuthnMethodRegisterError = variant {
+    // Authentication method registration mode is off, either due to timeout or because it was never enabled.
+    RegistrationModeOff;
+    // There is another authentication method already registered that needs to be confirmed first.
+    RegistrationAlreadyInProgress;
+    // The metadata of the provided authentication method contains invalid entries.
+    InvalidMetadata : text;
+    // The caller's principal is not self-authenticating.
+    NotSelfAuthenticating : principal;
+    // Passkey with this public key is already used
+    PasskeyWithThisPublicKeyIsAlreadyUsed;
+};
+
+type AuthnMethodConfirmationError = variant {
+    Unauthorized : principal;
+    InternalCanisterError : text;
+    // Wrong confirmation code entered. Retry with correct code.
+    WrongCode : record {
+        retries_left : nat8;
+    };
+    // Authentication method registration mode is off, either due to timeout or because it was never enabled.
+    RegistrationModeOff;
+    // There is no registered authentication method to be confirmed.
+    NoAuthnMethodToConfirm;
+};
+
+type AuthnMethodRegistrationModeEnterError = variant { 
+    InvalidRegistrationId : text;
+    Unauthorized : principal;
+    AlreadyInProgress;
+    InternalCanisterError : text;
+};
+
+type AuthnMethodRegistrationModeExitError = variant {
+    Unauthorized : principal;
+    InternalCanisterError : text;
+    RegistrationModeOff;
+    InvalidMetadata : text;
+    PasskeyWithThisPublicKeyIsAlreadyUsed;
+};
+
+type LookupByRegistrationIdError = variant {
+    InvalidRegistrationId : text;
+};
+
+type IdentityAuthnInfo = record {
+    authn_methods : vec AuthnMethod;
+    recovery_authn_methods : vec AuthnMethod;
+};
+
+type IdentityInfo = record {
+    authn_methods : vec AuthnMethodData;
+    authn_method_registration : opt AuthnMethodRegistrationInfo;
+    openid_credentials : opt vec OpenIdCredential;
+    // Authentication method independent metadata
+    metadata : MetadataMapV2;
+    name : opt text;
+    // The timestamp at which the anchor was created
+    created_at : opt Timestamp;
+    // Email-recovery credentials bound to this anchor (absent when
+    // none is configured). The canister API currently caps the list
+    // at one entry — the FE renders the recovery-email card from
+    // the first one — but exposing it as a `vec` lets future
+    // multi-credential support land without a candid schema bump.
+    email_recovery : opt vec EmailRecoveryCredential;
+    // Verified emails bound to this anchor (absent when none is
+    // configured). Capped at MAX_VERIFIED_EMAILS_PER_ANCHOR; the FE
+    // shows a "limit reached" notice in the wizard when adding
+    // beyond the cap.
+    verified_emails : opt vec VerifiedEmail;
+};
+
+type IdentityInfoError = variant {
+    // The principal is not authorized to call this method with the given arguments.
+    Unauthorized : principal;
+    // Internal canister error. See the error message for details.
+    InternalCanisterError : text;
+};
+
+type AuthnMethodAddError = variant {
+    InvalidMetadata : text;
+};
+
+type AuthnMethodReplaceError = variant {
+    InvalidMetadata : text;
+    // No authentication method found with the given public key.
+    AuthnMethodNotFound;
+    // Passkey with this public key is already used
+    PasskeyWithThisPublicKeyIsAlreadyUsed;
+};
+
+type AuthnMethodMetadataReplaceError = variant {
+    InvalidMetadata : text;
+    // No authentication method found with the given public key.
+    AuthnMethodNotFound;
+};
+
+type AuthnMethodSecuritySettingsReplaceError = variant {
+    // No authentication method found with the given public key.
+    AuthnMethodNotFound;
+};
+
+type IdentityMetadataReplaceError = variant {
+    // The principal is not authorized to call this method with the given arguments.
+    Unauthorized : principal;
+    // The identity including the new metadata exceeds the maximum allowed size.
+    StorageSpaceExceeded : record {
+        space_available : nat64;
+        space_required : nat64;
+    };
+    // Internal canister error. See the error message for details.
+    InternalCanisterError : text;
+};
+
+type CreateAccountError = variant {
+    InternalCanisterError : text;
+    AccountLimitReached;
+    Unauthorized : principal;
+    NameTooLong;
+};
+
+type UpdateAccountError = variant {
+    InternalCanisterError : text;
+    AccountLimitReached;
+    Unauthorized : principal;
+    NameTooLong;
+};
+
+type AccountDelegationError = variant {
+    InternalCanisterError : text;
+    Unauthorized : principal;
+    NoSuchDelegation;
+};
+
+type GetDefaultAccountError = variant {
+    InternalCanisterError : text;
+    Unauthorized : principal;
+    NoSuchAnchor;
+    NoSuchOrigin : record {
+        anchor_number : UserNumber;
+    };
+};
+
+type SetDefaultAccountError = variant {
+    InternalCanisterError : text;
+    Unauthorized : principal;
+    NoSuchAnchor;
+    NoSuchOrigin : record {
+        anchor_number : UserNumber;
+    };
+    NoSuchAccount : record {
+        anchor_number : UserNumber;
+        origin : FrontendHostname;
+    };
+};
+
+type PrepareAccountDelegation = record {
+    user_key : UserKey;
+    expiration : Timestamp;
+};
+
+// Result of mcp_prepare_delegation. Carries the account_number the canister
+// used (the one named in the request, or the anchor's default account at
+// target_origin when none was named) so the MCP server can thread the same
+// account into mcp_get_delegation — the default is mutable, so re-resolving
+// it in `get` could otherwise diverge and yield NoSuchDelegation.
+type McpPrepareDelegation = record {
+    user_key : UserKey;
+    expiration : Timestamp;
+    account_number : opt AccountNumber;
+};
+
+type SessionDelegationError = variant {
+    InternalCanisterError : text;
+    Unauthorized : principal;
+    NoSuchDelegation;
+};
+
+type PrepareSessionDelegation = record {
+    user_key : UserKey;
+    expiration : Timestamp;
+};
+
+// The identity's synced trusted-MCP-server configuration: a master toggle and
+// the single MCP server URL the user trusts. Persisted on-chain (keyed by
+// anchor), so it follows the identity across all of its devices — unlike the
+// device-local CLI-access toggle. `url` is kept verbatim so the Settings UI can
+// display/re-probe a path-based endpoint; the connect flow matches trust by
+// origin.
+type McpConfig = record {
+    enabled : bool;
+    url : opt text;
+};
+
+// Result of prepare_mcp_registration_delegation: the canister-signature public
+// key the registration delegation is rooted at (P_reg), the (short) expiration
+// of that delegation, and the identity's resolved trusted_url (the anchor's own
+// server if set, else the official connector). trusted_url is certified (this
+// is an update call), so the frontend can gate delivery on it - delivering the
+// chain only when the connect link's origin matches - rather than trusting an
+// uncertified mcp_get_config query. The frontend fetches the signed delegation
+// via get_mcp_registration_delegation and delivers the chain to the trusted MCP
+// server, which redeems it with mcp_register_v2.
+type PrepareMcpRegistrationDelegation = record {
+    user_key : UserKey;
+    expiration : Timestamp;
+    trusted_url : text;
+};
+
+// Result of mcp_register_v2: the expiration (ns since epoch) of the MCP session
+// grant, plus the access level the user chose at connect (queries = read-only,
+// all = full). The server reads permissions to learn the read-only state up
+// front (the v2 flow has no completion POST carrying it).
+type McpRegistrationV2 = record {
+    expiration : Timestamp;
+    permissions : Permissions;
+};
+
+type GetAccountsError = variant {
+    InternalCanisterError : text;
+    Unauthorized : principal;
+};
+
+type PrepareIdAliasRequest = record {
+    // Origin of the issuer in the attribute sharing flow.
+    issuer : FrontendHostname;
+    // Origin of the relying party in the attribute sharing flow.
+    relying_party : FrontendHostname;
+    // Identity for which the IdAlias should be generated.
+    identity_number : IdentityNumber;
+};
+
+type PrepareIdAliasError = variant {
+    // The principal is not authorized to call this method with the given arguments.
+    Unauthorized : principal;
+    // Internal canister error. See the error message for details.
+    InternalCanisterError : text;
+};
+
+// The prepared id alias contains two (still unsigned) credentials in JWT format,
+// certifying the id alias for the issuer resp. the relying party.
+type PreparedIdAlias = record {
+    rp_id_alias_jwt : text;
+    issuer_id_alias_jwt : text;
+    canister_sig_pk_der : PublicKey;
+};
+
+// The request to retrieve the actual signed id alias credentials.
+// The field values should be equal to the values of corresponding
+// fields from the preceding `PrepareIdAliasRequest` and `PrepareIdAliasResponse`.
+type GetIdAliasRequest = record {
+    rp_id_alias_jwt : text;
+    issuer : FrontendHostname;
+    issuer_id_alias_jwt : text;
+    relying_party : FrontendHostname;
+    identity_number : IdentityNumber;
+};
+
+type GetIdAliasError = variant {
+    // The principal is not authorized to call this method with the given arguments.
+    Unauthorized : principal;
+    // The credential(s) are not available: may be expired or not prepared yet (call prepare_id_alias to prepare).
+    NoSuchCredentials : text;
+    // Internal canister error. See the error message for details.
+    InternalCanisterError : text;
+};
+
+// The signed id alias credentials for each involved party.
+type IdAliasCredentials = record {
+    rp_id_alias_credential : SignedIdAlias;
+    issuer_id_alias_credential : SignedIdAlias;
+};
+
+type SignedIdAlias = record {
+    credential_jws : text;
+    id_alias : principal;
+    id_dapp : principal;
+};
+
+type IdRegNextStepResult = record {
+    // The next step in the registration flow
+    next_step : RegistrationFlowNextStep;
+};
+
+type IdRegStartError = variant {
+    // The method was called anonymously, which is not supported.
+    InvalidCaller;
+    // Too many registrations. Please try again later.
+    RateLimitExceeded;
+    // A registration flow is already in progress.
+    AlreadyInProgress;
+};
+
+// The next step in the registration flow:
+// - CheckCaptcha: supply the solution to the captcha using `check_captcha`
+// - Finish: finish the registration using `identity_registration_finish`
+type RegistrationFlowNextStep = variant {
+    // Supply the captcha solution using check_captcha
+    CheckCaptcha : record {
+        captcha_png_base64 : text;
+    };
+    // Finish the registration using identity_registration_finish
+    Finish;
+};
+
+type CheckCaptchaArg = record {
+    solution : text;
+};
+
+type CheckCaptchaError = variant {
+    // The supplied solution was wrong. Try again with the new captcha.
+    WrongSolution : record {
+        new_captcha_png_base64 : text;
+    };
+    // This call is unexpected, see next_step.
+    UnexpectedCall : record {
+        next_step : RegistrationFlowNextStep;
+    };
+    // No registration flow ongoing for the caller.
+    NoRegistrationFlow;
+};
+
+type IdRegFinishArg = record {
+    authn_method : AuthnMethodData;
+    name : opt text;
+};
+
+type IdRegFinishResult = record {
+    identity_number : nat64;
+};
+
+type IdRegFinishError = variant {
+    // This call is unexpected, see next_step.
+    UnexpectedCall : record {
+        next_step : RegistrationFlowNextStep;
+    };
+    // No registration flow ongoing for the caller.
+    NoRegistrationFlow;
+    // The supplied authn_method is not valid.
+    InvalidAuthnMethod : text;
+    // Error while persisting the new identity.
+    StorageError : text;
+    // A gated SSO login for a non-`sub` org: the user must first sign in
+    // through the org's primary client.
+    SsoNormalLoginRequired;
+};
+
+type AccountInfo = record {
+    // Null is unreserved default account
+    account_number : opt AccountNumber;
+    origin : text;
+    last_used : opt Timestamp;
+    // Configurable properties
+    name : opt text;
+};
+
+type AccountUpdate = record {
+    name : opt text;
+};
+
+type DummyAuthConfig = record {
+    // Prompts user for a index value (0 - 255) when set to true,
+    // this is used in e2e to have multiple dummy auth identities.
+    prompt_for_index : bool;
+};
+
+type IdentityPropertiesReplace = record {
+    name : opt text;
+};
+
+type IdentityPropertiesReplaceError = variant {
+    Unauthorized : principal;
+    StorageSpaceExceeded : record {
+        space_available : nat64;
+        space_required : nat64;
+    };
+    NameTooLong : record {
+        limit : nat64;
+    };
+    InternalCanisterError : text;
+};
+
+type PrepareAttributeRequest = record {
+    // Identity for which the attributes should be prepared.
+    identity_number : IdentityNumber;
+
+    // Origin of the relying party in the attribute sharing flow.
+    origin : FrontendHostname;
+
+    // II account for the relying party.
+    account_number : opt AccountNumber;
+
+    // The attributes to be prepared. Each key has the form
+    // `<scope>:<attribute_name>`, where `<scope>` is either
+    // `openid:<issuer>` (e.g. `openid:https://accounts.google.com:email`)
+    // or `sso:<domain>` (e.g. `sso:dfinity.org:email`).
+    //
+    // Each linked credential is addressable via exactly one scope:
+    // credentials obtained through SSO two-hop discovery are reachable only
+    // via `sso:<domain>`; credentials from hardcoded OIDC providers (Google,
+    // Microsoft, …) are reachable only via `openid:<issuer>`. Under `sso:`
+    // only `email` and `name` are supported;
+    // under `openid:` `email`, `name`, and `verified_email` are supported.
+    attribute_keys : vec text;
+};
+
+type GetAccountError = variant {
+    NoSuchOrigin : record {
+        anchor_number : UserNumber;
+    };
+    NoSuchAccount : record {
+        anchor_number : UserNumber;
+        origin : FrontendHostname;
+    };
+};
+
+type PrepareAttributeError = variant {
+    ValidationError : record {
+        problems : vec text;
+    };
+    AuthorizationError : principal;
+    GetAccountError : GetAccountError;
+};
+
+type PrepareAttributeResponse = record {
+    issued_at_timestamp_ns : Timestamp;
+    attributes : vec record { text; blob };
+};
+
+type GetAttributesRequest = record {
+    // Identity for which the attributes should be prepared.
+    identity_number : IdentityNumber;
+
+    // Origin of the relying party in the attribute sharing flow.
+    origin : FrontendHostname;
+
+    // II account for the relying party.
+    account_number : opt AccountNumber;
+
+    // Timestamp received from the prepare_attributes call.
+    issued_at_timestamp_ns : Timestamp;
+
+    // The attribute to be retrieved, must be a subset of certified_attributes from
+    // the prepare_attributes response.
+    attributes : vec record { text; blob };
+};
+
+type CertifiedAttribute = record {
+    key : text;
+    value : blob;
+    signature : blob;
+};
+
+type CertifiedAttributes = record {
+    expires_at_timestamp_ns : Timestamp;
+    certified_attributes : vec CertifiedAttribute;
+};
+
+type GetAttributesError = variant {
+    ValidationError : record {
+        problems : vec text;
+    };
+    AuthorizationError : principal;
+    GetAccountError : GetAccountError;
+};
+
+// ICRC-3 attribute sharing types
+// ==============================
+
+type Icrc3Value = variant {
+    Nat : nat;
+    Int : int;
+    Blob : blob;
+    Text : text;
+    Array : vec Icrc3Value;
+    Map : vec record { text; Icrc3Value };
+};
+
+// A specification of an attribute to be certified.
+type AttributeSpec = record {
+    // `<attribute_scope>:<attribute_name>` where `<attribute_scope>` is
+    // either `openid:<issuer>` or `sso:<domain>`.
+    //
+    // Examples:
+    // - `openid:https://accounts.google.com:email`
+    // - `sso:dfinity.org:email`
+    key : text;
+
+    // If `value` is set, this attribute should be certified only if it matches
+    // the current value. This enables the II frontend to request a certificate
+    // for a set of attributes that is guaranteed to be approved by the user.
+    value : opt blob;
+
+    // Whether the attribute scope should be omitted before certification.
+    // Certifying unscoped attributes is useful, e.g., when the user wants
+    // to share their preferred email without revealing which OpenID
+    // provider they use with II.
+    //
+    // Examples (e.g., `key = "openid:https://accounts.google.com:email"`):
+    // 1. If `omit_scope = true`, then the certified attribute key is `email`.
+    // 2. Otherwise, the certified attribute key is literally the value of `key`.
+    omit_scope : bool;
+};
+
+type PrepareIcrc3AttributeRequest = record {
+    // Identity for which the attributes should be prepared.
+    identity_number : IdentityNumber;
+
+    // Origin of the relying party in the attribute sharing flow. May have
+    // been remapped from `<sub>.icp0.io` to `<sub>.ic0.app` for principal
+    // stability — see `unmapped_origin`.
+    origin : FrontendHostname;
+
+    // The relying party's actual origin, before the legacy `icp0.io →
+    // ic0.app` remap that `origin` may have gone through. When set, this
+    // value is what gets certified as `implicit:origin` instead of `origin`,
+    // so that an RP signed in via the icp0.io domain sees its real origin
+    // in the certified message. The canister verifies that mapping
+    // `unmapped_origin` through the same legacy remap yields `origin`,
+    // so an RP can't certify an arbitrary value here.
+    unmapped_origin : opt FrontendHostname;
+
+    // II account for the relying party.
+    account_number : opt AccountNumber;
+
+    // The attributes to be certified.
+    attributes : vec AttributeSpec;
+
+    // The nonce is a 32-byte value generated by the relying party.
+    // The purpose of the nonce is to prevent replay attacks and
+    // enable the relying party to expire attributes issued for a given flow.
+    // The value of the nonce will be included into the signed ICRC-3
+    // message as a separate attribute with the key `implicit:nonce`.
+    nonce : blob;
+};
+
+type PrepareIcrc3AttributeResponse = record {
+    // Candid-encoded ICRC-3 Value map. Pass this to get_icrc3_attributes.
+    message : blob;
+};
+
+type PrepareIcrc3AttributeError = variant {
+    ValidationError : record {
+        problems : vec text;
+    };
+    AuthorizationError : principal;
+    GetAccountError : GetAccountError;
+    AttributeMismatch : record {
+        problems : vec text;
+    };
+};
+
+type GetIcrc3AttributeRequest = record {
+    // Identity for which the attributes were prepared.
+    identity_number : IdentityNumber;
+
+    // Origin of the relying party in the attribute sharing flow.
+    origin : FrontendHostname;
+
+    // II account for the relying party.
+    account_number : opt AccountNumber;
+
+    // The message blob from PrepareIcrc3AttributeResponse.
+    message : blob;
+};
+
+type GetIcrc3AttributeResponse = record {
+    signature : blob;
+};
+
+type GetIcrc3AttributeError = variant {
+    ValidationError : record {
+        problems : vec text;
+    };
+    AuthorizationError : principal;
+    GetAccountError : GetAccountError;
+    NoSuchSignature;
+};
+
+// List available attributes
+type ListAvailableAttributesRequest = record {
+    // Identity for which available attributes should be listed.
+    identity_number : IdentityNumber;
+
+    // Optional list of attribute keys to filter by.
+    // Each key is either a fully-scoped key (e.g.,
+    // `"openid:https://accounts.google.com:email"` or
+    // `"sso:dfinity.org:email"`) or an unscoped attribute name (e.g.,
+    // `"email"`) which matches all scopes.
+    // If not provided, all available attributes are returned.
+    attributes : opt vec text;
+};
+
+type ListAvailableAttributesResponse = vec record { text; blob };
+
+type ListAvailableAttributesError = variant {
+    ValidationError : record {
+        problems : vec text;
+    };
+    AuthorizationError : principal;
+};
+
+service : (opt InternetIdentityInit) -> {
+    // Legacy identity management API
+    // ==============================
+    create_challenge : () -> (Challenge);
+    register : (DeviceData, ChallengeResult, opt principal) -> (RegisterResponse);
+    add : (UserNumber, DeviceData) -> ();
+    update : (UserNumber, DeviceKey, DeviceData) -> ();
+    // Atomically replace device matching the device key with the new device data
+    replace : (UserNumber, DeviceKey, DeviceData) -> ();
+    remove : (UserNumber, DeviceKey) -> ();
+    // Returns all devices of the user (authentication and recovery) but no information about device registrations.
+    // Note: Clears out the 'alias' fields on the devices. Use 'get_anchor_info' to obtain the full information.
+    // Deprecated: Use 'get_anchor_credentials' instead.
+    lookup : (UserNumber) -> (vec DeviceData) query;
+    get_anchor_credentials : (UserNumber) -> (AnchorCredentials) query;
+    get_anchor_info : (UserNumber) -> (IdentityAnchorInfo);
+    get_principal : (UserNumber, FrontendHostname) -> (principal) query;
+
+    enter_device_registration_mode : (UserNumber) -> (Timestamp);
+    exit_device_registration_mode : (UserNumber) -> ();
+    add_tentative_device : (UserNumber, DeviceData) -> (AddTentativeDeviceResponse);
+    verify_tentative_device : (UserNumber, verification_code : text) -> (VerifyTentativeDeviceResponse);
+
+    // V2 Identity Management API
+    // ==========================
+    // WARNING: The following methods are experimental and may ch 0ange in the future.
+    // Starts the identity registration flow to create a new identity.
+    identity_registration_start : () -> (variant { Ok : IdRegNextStepResult; Err : IdRegStartError });
+
+    // Check the captcha challenge
+    // If successful, the registration can be finished with `identity_registration_finish`.
+    check_captcha : (CheckCaptchaArg) -> (variant { Ok : IdRegNextStepResult; Err : CheckCaptchaError });
+
+    // Starts the identity registration flow to create a new identity.
+    identity_registration_finish : (IdRegFinishArg) -> (variant { Ok : IdRegFinishResult; Err : IdRegFinishError });
+
+    // Returns information about the authentication methods of the identity with the given number.
+    // Only returns the minimal information required for authentication without exposing any metadata such as aliases.
+    identity_authn_info : (IdentityNumber) -> (variant { Ok : IdentityAuthnInfo; Err }) query;
+
+    // Returns information about the identity with the given number.
+    // Requires authentication.
+    identity_info : (IdentityNumber) -> (variant { Ok : IdentityInfo; Err : IdentityInfoError });
+
+    // Replaces the authentication method independent metadata map.
+    // The existing metadata map will be overwritten.
+    // Requires authentication.
+    identity_metadata_replace : (IdentityNumber, MetadataMapV2) -> (variant { Ok; Err : IdentityMetadataReplaceError });
+
+    // Replaces the identity properties.
+    // The existing properties will be overwritten.
+    // Requires authentication.
+    identity_properties_replace : (IdentityNumber, IdentityPropertiesReplace) -> (variant { Ok; Err : IdentityPropertiesReplaceError });
+
+    // Adds a new authentication method to the identity.
+    // Requires authentication.
+    authn_method_add : (IdentityNumber, AuthnMethodData) -> (variant { Ok; Err : AuthnMethodAddError });
+
+    // Atomically replaces the authentication method matching the supplied public key with the new authentication method
+    // provided.
+    // Requires authentication.
+    authn_method_replace : (IdentityNumber, PublicKey, AuthnMethodData) -> (variant { Ok; Err : AuthnMethodReplaceError });
+
+    // Replaces the authentication method metadata map.
+    // The existing metadata map will be overwritten.
+    // Requires authentication.
+    authn_method_metadata_replace : (IdentityNumber, PublicKey, MetadataMapV2) -> (variant { Ok; Err : AuthnMethodMetadataReplaceError });
+
+    // Replaces the authentication method security settings.
+    // The existing security settings will be overwritten.
+    // Requires authentication.
+    authn_method_security_settings_replace : (IdentityNumber, PublicKey, AuthnMethodSecuritySettings) -> (variant { Ok; Err : AuthnMethodSecuritySettingsReplaceError });
+
+    // Removes the authentication method associated with the public key from the identity.
+    // Requires authentication.
+    authn_method_remove : (IdentityNumber, PublicKey) -> (variant { Ok; Err });
+
+    // Enters the authentication method registration mode for the identity.
+    // In this mode, a new authentication method can be registered, which then needs to be
+    // confirmed before it can be used for authentication on this identity.
+    // The registration mode is automatically exited after the returned expiration timestamp.
+    // Requires authentication.
+    authn_method_registration_mode_enter : (IdentityNumber, opt RegistrationId) -> (variant { Ok : record { expiration : Timestamp }; Err : AuthnMethodRegistrationModeEnterError });
+
+    // Exits the authentication method registration mode for the identity.
+    // Requires authentication.
+    authn_method_registration_mode_exit : (IdentityNumber, opt AuthnMethodData) -> (variant { Ok; Err : AuthnMethodRegistrationModeExitError });
+
+    // Registers a new authentication method to the identity.
+    // This authentication method needs to be confirmed before it can be used for authentication on this identity.
+    authn_method_register : (IdentityNumber, AuthnMethodData) -> (variant { Ok : AuthnMethodConfirmationCode; Err : AuthnMethodRegisterError });
+
+    // Registers a new session for the identity.
+    // This session needs to be confirmed before it can be used to register an authentication method on this identity.
+    authn_method_session_register : (IdentityNumber) -> (variant { Ok : AuthnMethodConfirmationCode; Err : AuthnMethodRegisterError });
+
+    // Returns session info when session is confirmed and caller matches session.
+    authn_method_session_info : (IdentityNumber) -> (opt AuthnMethodSessionInfo) query;
+
+    // Confirms a previously registered authentication method.
+    // On successful confirmation, the authentication method is permanently added to the identity and can
+    // subsequently be used for authentication for that identity.
+    // Requires authentication.
+    authn_method_confirm : (IdentityNumber, confirmation_code : text) -> (variant { Ok; Err : AuthnMethodConfirmationError });
+
+    lookup_by_registration_mode_id : (RegistrationId) -> (opt IdentityNumber) query;
+
+    // Authentication protocol
+    // =======================
+    prepare_delegation : (UserNumber, FrontendHostname, SessionKey, maxTimeToLive : opt nat64) -> (UserKey, Timestamp);
+    get_delegation : (UserNumber, FrontendHostname, SessionKey, Timestamp) -> (GetDelegationResponse) query;
+
+    // Attribute sharing protocol
+    // ==========================
+    prepare_attributes : (PrepareAttributeRequest) -> (variant { Ok : PrepareAttributeResponse; Err : PrepareAttributeError });
+    get_attributes : (GetAttributesRequest) -> (variant { Ok : CertifiedAttributes; Err : GetAttributesError }) query;
+
+    // ICRC-3 Attribute sharing protocol
+    // ==================================
+    prepare_icrc3_attributes : (PrepareIcrc3AttributeRequest) -> (variant { Ok : PrepareIcrc3AttributeResponse; Err : PrepareIcrc3AttributeError });
+    get_icrc3_attributes : (GetIcrc3AttributeRequest) -> (variant { Ok : GetIcrc3AttributeResponse; Err : GetIcrc3AttributeError }) query;
+    list_available_attributes : (ListAvailableAttributesRequest) -> (variant { Ok : ListAvailableAttributesResponse; Err : ListAvailableAttributesError }) query;
+
+    // Old Verifiable Credentials API
+    // ==============================
+    // The methods below are used to generate ID-alias credentials during attribute sharing flow.
+    prepare_id_alias : (PrepareIdAliasRequest) -> (variant { Ok : PreparedIdAlias; Err : PrepareIdAliasError });
+    get_id_alias : (GetIdAliasRequest) -> (variant { Ok : IdAliasCredentials; Err : GetIdAliasError }) query;
+
+    // OpenID credentials protocol
+    // ===========================
+    openid_identity_registration_finish : (OpenIDRegFinishArg) -> (variant { Ok : IdRegFinishResult; Pending; Err : IdRegFinishError });
+    // The trailing `opt text` is the SSO discovery domain (null for a direct
+    // provider). For SSO sign-ins a cold discovery/JWKS cache yields the
+    // `Pending` result arm — a retry signal, not an error: the caller re-calls
+    // the method (and for delegations, polls `openid_get_delegation`, re-calling
+    // `openid_prepare_delegation` on a `Pending` poll result).
+    openid_credential_add : (IdentityNumber, JWT, Salt, opt text) -> (variant { Ok; Pending; Err : OpenIdCredentialAddError });
+    openid_credential_remove : (IdentityNumber, OpenIdCredentialKey) -> (variant { Ok; Err : OpenIdCredentialRemoveError });
+    openid_prepare_delegation : (JWT, Salt, SessionKey, opt text) -> (variant { Ok : OpenIdPrepareDelegationResponse; Pending; Err : OpenIdDelegationError });
+    openid_get_delegation : (JWT, Salt, SessionKey, Timestamp, opt text) -> (variant { Ok : SignedDelegation; Pending; Err : OpenIdDelegationError }) query;
+
+    // SSO discovery for the sign-in initiation flow. The frontend polls
+    // `get_sso_discovery_status` (query) and, while it reads `Pending`, drives the
+    // on-demand two-hop discovery fetch with `discover_sso` (update); once the
+    // fetch completes the query returns `Resolved` with the config.
+    //
+    // The optional second argument is the target dapp origin; when supplied,
+    // `resolved_client_id` reports the client that origin must use (`null` = denied).
+    discover_sso : (text) -> ();
+    get_sso_discovery_status : (GetSsoDiscoveryStatusRequest) -> (SsoDiscoveryStatus) query;
+
+    // SSO sign-in path. Mints a delegation only if the JWT's `aud` matches the
+    // client the target origin resolves to. `Pending` means the discovery/JWKS
+    // cache is cold — re-call to drive the fetch.
+    sso_prepare_delegation : (SsoPrepareDelegationRequest) -> (variant { Ok : SsoPrepareDelegationResponse; Pending; Err : OpenIdDelegationError });
+    sso_get_delegation : (SsoGetDelegationRequest) -> (variant { Ok : SsoGetDelegationResponse; Pending; Err : OpenIdDelegationError }) query;
+
+    // ===================================================================
+    // Email-challenge protocol (shared inbound-DKIM primitive)
+    // ===================================================================
+    // The flow-neutral surface — used by both the email-recovery flow
+    // and the verified-emails flow. Methods here are keyed by the
+    // canister-issued nonce; dispatch to the right anchor sink happens
+    // inside the canister via `PendingKind` on the pending entry.
+    //
+    // The off-chain SMTP gateway forwards every inbound message via
+    // `smtp_request`. The canister verifies the email cryptographically
+    // and dispatches by recipient: `register@<domain>` → setup
+    // completion (either flow), `recover@<domain>` → recovery
+    // delegation stamping. Always returns Ok — the gateway shouldn't
+    // get a per-message verification signal back. The FE sees outcomes
+    // via `email_challenge_status`.
+    smtp_request : (SmtpRequest) -> (SmtpResponse);
+
+    // Called by the gateway at RCPT TO time to decide whether to
+    // accept the connection before pulling the message body. Returns
+    // Ok for `register@<domain>` / `recover@<domain>` (case-
+    // insensitive), and 550 (mailbox unavailable) for everything else.
+    smtp_request_validate : (SmtpRequest) -> (SmtpResponse) query;
+
+    // FE-side polling — the wizard / panel calls these repeatedly to
+    // drive the "waiting for your email" UI. Status flips through
+    // `Pending` → `ResolvingDoh` / `NeedDkimLeaf` → terminal.
+    // Diagnostics returns strictly-public, user-copyable failure
+    // detail for support tickets (no PII, no address, no anchor).
+    email_challenge_status : (text) -> (EmailChallengeStatus) query;
+    email_challenge_diagnostics : (text) -> (opt EmailChallengeDiagnostics) query;
+
+    // DNSSEC-path completion (`submit_dkim_leaf`) and DoH-path
+    // completion (`resolve_via_doh`). One or the other runs per
+    // challenge depending on which path the canister picked at
+    // prepare-time. Both are polled by the FE while the status is
+    // `NeedDkimLeaf` / `ResolvingDoh`.
+    email_challenge_submit_dkim_leaf : (EmailChallengeSubmitDkimLeafArg) -> (variant { Ok; Err : EmailChallengeError });
+    email_challenge_resolve_via_doh : (EmailChallengeResolveViaDohArg) -> (variant { Ok; Err : EmailChallengeError });
+
+    // ===================================================================
+    // Email-recovery flow (recovery-as-login)
+    // ===================================================================
+    // Recovery-specific surface built on top of the shared challenge
+    // primitive above. See `docs/ongoing/email-recovery.md` for the
+    // full design.
+    //   - Setup: `credential_prepare_add` (authenticated) →
+    //     `smtp_request` for `register@<domain>` → credential bound to
+    //     the anchor's `email_recovery`. Removed via `credential_remove`.
+    //   - Recovery: `prepare_delegation` (anonymous, bound to a
+    //     `session_key`) → `smtp_request` for `recover@<domain>` →
+    //     canister stamps a signed delegation seed. The FE then calls
+    //     `get_delegation` to retrieve the `SignedDelegation`.
+    email_recovery_credential_prepare_add : (IdentityNumber, EmailChallengeDnsInput) -> (variant { Ok : EmailChallenge; Err : EmailChallengeError });
+    email_recovery_prepare_delegation : (EmailChallengeDnsInput, SessionKey) -> (variant { Ok : EmailChallenge; Err : EmailChallengeError });
+    email_recovery_get_delegation : (EmailRecoveryGetDelegationArgs) -> (variant { Ok : SignedDelegation; Err : EmailChallengeError }) query;
+    email_recovery_credential_remove : (IdentityNumber, text) -> (variant { Ok; Err : EmailChallengeError });
+
+    // ===================================================================
+    // Verified-emails flow (attribute source)
+    // ===================================================================
+    // Parallel to the recovery flow but the verified address is stored
+    // on `Anchor::verified_emails` rather than `Anchor::email_recovery`.
+    // Reuses the same SMTP gateway, DKIM verifier and DMARC alignment,
+    // but issues nonces with the `II-Verify-` prefix so an inbound
+    // challenge can never be cross-applied between the two flows.
+    // Capped at MAX_VERIFIED_EMAILS_PER_ANCHOR (5) addresses per anchor.
+    verified_email_prepare_add : (IdentityNumber, EmailChallengeDnsInput) -> (variant { Ok : EmailChallenge; Err : EmailChallengeError });
+    verified_email_remove : (IdentityNumber, text) -> (variant { Ok; Err : EmailChallengeError });
+
+    // ===================================================================
+    // DEPRECATED — remove in a follow-up PR
+    // ===================================================================
+    // Legacy aliases for the four `email_challenge_*` methods, kept so
+    // a stale FE bundle in a browser cache — or any FE build that
+    // lands before this canister's renamed methods — can still drive
+    // the inbound-DKIM flow without a "method not found" break
+    // mid-verification.
+    //
+    // The wire bytes are identical to the new methods (Candid is
+    // structurally typed; the renamed return types match the old
+    // types' shapes field-for-field), so old clients with bindings
+    // against the old type names deserialize successfully.
+    //
+    // **All methods below must be removed together in a single
+    // follow-up `chore(be): remove deprecated email_recovery_* method
+    // aliases` PR**, once every deployed FE has refreshed to the
+    // `email_challenge_*` names. See `TASKS.md` for the tracked
+    // follow-up.
+    email_recovery_status : (text) -> (EmailChallengeStatus) query;
+    email_recovery_diagnostics : (text) -> (opt EmailChallengeDiagnostics) query;
+    email_recovery_submit_dkim_leaf : (EmailChallengeSubmitDkimLeafArg) -> (variant { Ok; Err : EmailChallengeError });
+    email_recovery_resolve_via_doh : (EmailChallengeResolveViaDohArg) -> (variant { Ok; Err : EmailChallengeError });
+
+    // HTTP Gateway protocol
+    // =====================
+    http_request : (request : HttpRequest) -> (HttpResponse) query;
+
+    // Internal Methods
+    // ================
+    init_salt : () -> ();
+    stats : () -> (InternetIdentityStats) query;
+    config : () -> (InternetIdentityInit) query;
+    whoami : () -> (principal) query;
+
+    deploy_archive : (wasm : blob) -> (DeployArchiveResult);
+    // Returns a batch of entries _sorted by sequence number_ to be archived.
+    // This is an update call because the archive information _must_ be certified.
+    // Only callable by this IIs archive canister.
+    fetch_entries : () -> (vec BufferedArchiveEntry);
+    acknowledge_entries : (sequence_number : nat64) -> ();
+
+    // Discoverable passkeys protocol
+    lookup_device_key : (credential_id : blob) -> (opt DeviceKeyWithAnchor) query;
+
+    // Multiple accounts
+    get_accounts : (
+        anchor_number : UserNumber,
+        origin : FrontendHostname,
+    ) -> (variant { Ok : vec AccountInfo; Err: GetAccountsError }) query;
+
+    create_account : (
+        anchor_number : UserNumber,
+        origin : FrontendHostname,
+        name : text
+    ) -> (variant { Ok : AccountInfo; Err: CreateAccountError });
+
+    update_account : (
+        anchor_number : UserNumber,
+        origin : FrontendHostname,
+        account_number : opt AccountNumber, // Null is unreserved default account
+        update : AccountUpdate
+    ) ->  (variant { Ok : AccountInfo; Err: UpdateAccountError });
+
+    prepare_account_delegation : (
+        anchor_number : UserNumber,
+        origin : FrontendHostname,
+        account_number : opt AccountNumber, // Null is unreserved default account
+        session_key : SessionKey,
+        max_ttl : opt nat64,
+        // `opt (queries)` restricts the prepared delegation to query calls: it
+        // carries `permissions = "queries"`, which makes the IC reject update
+        // calls authenticated through it. Omitted (`null`) or `opt (all)`
+        // yields an unrestricted delegation — the original behavior, preserved
+        // for existing callers and matching the interface spec.
+        permissions : opt Permissions
+    ) -> (variant { Ok : PrepareAccountDelegation; Err : AccountDelegationError });
+
+    get_account_delegation : (
+        anchor_number : UserNumber,
+        origin : FrontendHostname,
+        account_number : opt AccountNumber, // Null is unreserved default account
+        session_key : SessionKey,
+        expiration : Timestamp,
+        // Must match the value passed to `prepare_account_delegation` (including
+        // the omitted/`null` case, which means unrestricted).
+        permissions : opt Permissions
+    ) -> (variant { Ok : SignedDelegation; Err : AccountDelegationError }) query;
+
+    // Read the identity's synced trusted-MCP-server config (master toggle + the
+    // trusted server URL). Persisted on-chain, so it follows the identity across
+    // devices. Read by the Settings UI and the /mcp connect flow (which verifies
+    // the connecting origin against it). Returns the disabled, no-server default
+    // for an unauthorized caller or an anchor that never wrote a config.
+    // `null` means the identity has never written a config — distinct from a
+    // stored one that is switched off. The two behave differently at /mcp: the
+    // first may connect the deployment's official connector (completing the
+    // consent is what enables it), the second is sent back to Settings.
+    mcp_get_config : (anchor_number : UserNumber) -> (opt McpConfig) query;
+
+    // Persist the identity's trusted-MCP-server config so it syncs across the
+    // identity's devices. Authenticated as the identity, so only the user — never
+    // a page that initiates a connect request — can change what it trusts.
+    // Disabling MCP or changing the trusted server URL revokes the identity's
+    // active MCP session in the same message.
+    mcp_set_config : (
+        anchor_number : UserNumber,
+        config : McpConfig
+    ) -> (variant { Ok; Err : text });
+
+    // Called by the MCP server, signed with its registered session key and
+    // authorized by caller()'s unexpired grant; the anchor is recovered from
+    // the caller. Mints a per-app delegation at target_origin. account_number
+    // names one of the anchor's accounts there to act as (discover them with
+    // mcp_get_accounts), and null uses the anchor's default account there; an
+    // account_number that isn't the anchor's at target_origin is rejected as
+    // Unauthorized. max_ttl is the requested lifetime in ns, defaulting to and
+    // capped at 5 minutes, and never outliving the session grant. The cap is
+    // short because it is the residual window revocation cannot reach: once the
+    // session is revoked no further delegation can be minted, but one already
+    // minted stays usable until it expires. Re-minting is unattended (a fresh
+    // prepare/get pair signed by the session key, no user interaction), so
+    // re-mint rather than holding a delegation for the life of the session. The
+    // resolved account_number is returned in McpPrepareDelegation so it can be
+    // threaded into mcp_get_delegation (the default account at an origin is
+    // mutable).
+    mcp_prepare_delegation : (
+        target_origin : FrontendHostname,
+        account_number : opt AccountNumber,
+        session_key : SessionKey,
+        max_ttl : opt nat64
+    ) -> (variant { Ok : McpPrepareDelegation; Err : AccountDelegationError });
+
+    // Fetch the delegation prepared above; the anchor is recovered from
+    // caller()'s grant. account_number and expiration must be the values
+    // returned by the matching mcp_prepare_delegation, else this returns
+    // NoSuchDelegation.
+    mcp_get_delegation : (
+        target_origin : FrontendHostname,
+        account_number : opt AccountNumber,
+        session_key : SessionKey,
+        expiration : Timestamp
+    ) -> (variant { Ok : SignedDelegation; Err : AccountDelegationError }) query;
+
+    // Called by the MCP server (anchor recovered from caller()'s grant): list
+    // the anchor's accounts at target_origin so the agent can pick which
+    // account_number to request a delegation for via mcp_prepare_delegation.
+    mcp_get_accounts : (
+        target_origin : FrontendHostname
+    ) -> (variant { Ok : vec AccountInfo; Err : AccountDelegationError }) query;
+
+    prepare_session_delegation : (
+        anchor_number : UserNumber,
+        session_key : SessionKey,
+        max_ttl : opt nat64
+    ) -> (variant { Ok : PrepareSessionDelegation; Err : SessionDelegationError });
+
+    get_session_delegation : (
+        anchor_number : UserNumber,
+        session_key : SessionKey,
+        expiration : Timestamp
+    ) -> (variant { Ok : SignedDelegation; Err : SessionDelegationError }) query;
+
+    // Mint a short-lived MCP registration delegation (P_reg -> registration_key).
+    // Authenticated as the identity (only the consenting user can create one).
+    // registration_key is an ephemeral key the II frontend generates for this
+    // connect (browser-held — the canister never delegates to a key taken from
+    // the connect link; the frontend extends the chain to the server's key
+    // browser-side). P_reg is derived from a fresh random nonce, and the whole
+    // consent — the anchor, permissions (read-only choice), max_ttl (session-
+    // grant lifetime), and the identity's current trusted-server URL — is
+    // recorded on an index entry keyed by P_reg, so mcp_register_v2 recovers it
+    // server-side and the server cannot alter any of it.
+    prepare_mcp_registration_delegation : (
+        anchor_number : UserNumber,
+        registration_key : SessionKey,
+        permissions : opt Permissions,
+        max_ttl : opt nat64
+    ) -> (variant { Ok : PrepareMcpRegistrationDelegation; Err : text });
+
+    // Fetch the signed registration delegation prepared above, to deliver to the
+    // trusted MCP server. Authenticated as the identity, like the prepare call.
+    // user_key is the value the prepare call returned; the seed is recovered
+    // from it, so no consent parameters need re-passing.
+    get_mcp_registration_delegation : (
+        anchor_number : UserNumber,
+        registration_key : SessionKey,
+        user_key : PublicKey,
+        expiration : Timestamp
+    ) -> (variant { Ok : SignedDelegation; Err : text }) query;
+
+    // Called by the trusted MCP server, authenticated by the registration
+    // delegation chain: bind the server's long-lived session_key to the
+    // consenting anchor. The entire consent — anchor, read-only choice, grant
+    // lifetime — is recovered from the entry keyed by caller() (the registration
+    // principal), so the server passes only session_key: it cannot name a
+    // different anchor, upgrade the access level or stretch the grant, and never
+    // learns the anchor number. A trusted-server switch or disable since consent
+    // invalidates the delegation. Usable until the registration delegation
+    // expires (~5 min); re-registration within that window replaces the anchor's
+    // single MCP session.
+    mcp_register_v2 : (
+        session_key : SessionKey
+    ) -> (variant { Ok : McpRegistrationV2; Err : text });
+
+    get_default_account : (
+        anchor_number : UserNumber,
+        origin : FrontendHostname,
+    ) -> (variant { Ok : AccountInfo; Err: GetDefaultAccountError }) query;
+
+    set_default_account : (
+        anchor_number : UserNumber,
+        origin : FrontendHostname,
+        account_number : opt AccountNumber
+    ) -> (variant { Ok : AccountInfo; Err: SetDefaultAccountError });
+
+    // Looks up identity number when called with a recovery phrase
+    lookup_caller_identity_by_recovery_phrase : () -> (opt IdentityNumber);
+};

@@ -1,11 +1,13 @@
 // Import necessary modules for blockchain utilities, Solana address management, and transaction models.
-import 'package:on_chain/solana/src/exception/exception.dart';
+
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/models/lockup/accout_lookup_key.dart';
+import 'package:on_chain/solana/src/models/lockup/account_lookup_key.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
 
-import 'compiled_instructon.dart';
+import 'compiled_instruction.dart';
 
 /// Class representing the keys associated with a Solana message.
 class MessageAccountKeys {
@@ -48,8 +50,9 @@ class MessageAccountKeys {
     List<TransactionInstruction> instructions,
   ) {
     if (length > SolanaTransactionConstant.maximumAccountKeys) {
-      throw const SolanaPluginException(
-        'Account index overflow encountered during compilation',
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Account index overflow encountered during compilation.',
       );
     }
     final Map<String, int> keyIndexMap = {};
@@ -59,8 +62,9 @@ class MessageAccountKeys {
     int findKeyIndex(String key) {
       final keyIndex = keyIndexMap[key];
       if (keyIndex == null) {
-        throw const SolanaPluginException(
-          'Encountered an unknown instruction account key during compilation',
+        throw const BuError(
+          OnChainErrorType.solanaPlugin,
+          'Encountered an unknown instruction account key during compilation.',
         );
       }
       return keyIndex;
@@ -75,6 +79,7 @@ class MessageAccountKeys {
                   .map((meta) => findKeyIndex(meta.publicKey.address))
                   .toList(),
           data: instruction.data,
+          parsed: instruction.parsed,
         );
       }).toList();
     }

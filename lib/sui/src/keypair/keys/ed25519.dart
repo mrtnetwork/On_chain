@@ -5,55 +5,60 @@ import 'package:on_chain/sui/src/keypair/types/types.dart';
 
 /// Represents a Sui ED25519 private key with signing capabilities.
 class SuiED25519PrivateKey extends SuiBasePrivateKey<SuiED25519PublicKey> {
-  final Ed25519PrivateKey _privateKey;
+  final ED25519PrivateKey privateKey;
 
   /// Private constructor to initialize the ED25519 private key.
-  SuiED25519PrivateKey._(this._privateKey)
+  SuiED25519PrivateKey(this.privateKey)
     : super(algorithm: SuiKeyAlgorithm.ed25519);
 
   /// Creates an instance from raw private key bytes.
   factory SuiED25519PrivateKey.fromBytes(List<int> keyBytes) {
-    return SuiED25519PrivateKey._(Ed25519PrivateKey.fromBytes(keyBytes));
+    return SuiED25519PrivateKey(ED25519PrivateKey.fromBytes(keyBytes));
   }
 
   /// Returns the corresponding public key for the private key.
   @override
   late final SuiED25519PublicKey publicKey = SuiED25519PublicKey._(
-    _privateKey.publicKey,
+    privateKey.publicKey,
   );
 
   /// Signs a digest and returns the signature.
   @override
   SuiGenericSignature sign(List<int> digest) {
-    final signer = Ed25519Signer.fromKeyBytes(toBytes());
+    final signer = ED25519Signer(privateKey);
     return SuiGenericSignature(
-      signature: signer.signConst(digest),
+      signature: signer.sign(digest).encoded,
       algorithm: algorithm,
     );
   }
 
   /// Returns the raw bytes of the private key.
   @override
-  List<int> toBytes() {
-    return _privateKey.raw;
+  SecretBytes toBytes() {
+    return privateKey.toBytes();
   }
 
   /// Returns the hexadecimal representation of the private key.
   @override
   String toHex({bool lowerCase = false}) {
-    return _privateKey.toHex(lowerCase: lowerCase);
+    return privateKey.takeSecretKey().toHex(lowerCase: lowerCase);
+  }
+
+  @override
+  void dispose() {
+    privateKey.dispose();
   }
 }
 
 /// Represents a Sui ED25519 public key with verification capabilities.
-class SuiED25519PublicKey extends SuiCryptoPublicKey<Ed25519PublicKey> {
+class SuiED25519PublicKey extends SuiCryptoPublicKey<ED25519PublicKey> {
   /// Private constructor to initialize the ED25519 public key.
-  const SuiED25519PublicKey._(Ed25519PublicKey publicKey)
+  const SuiED25519PublicKey._(ED25519PublicKey publicKey)
     : super(algorithm: SuiKeyAlgorithm.ed25519, publicKey: publicKey);
 
   /// Creates an instance from raw public key bytes.
   factory SuiED25519PublicKey.fromBytes(List<int> keyBytes) {
-    return SuiED25519PublicKey._(Ed25519PublicKey.fromBytes(keyBytes));
+    return SuiED25519PublicKey._(ED25519PublicKey.fromBytes(keyBytes));
   }
 
   factory SuiED25519PublicKey.fromStruct(Map<String, dynamic> json) {
@@ -79,8 +84,8 @@ class SuiED25519PublicKey extends SuiCryptoPublicKey<Ed25519PublicKey> {
 
   /// Returns the public key bytes in compressed format, omitting the first byte.
   @override
-  List<int> toBytes() {
-    return publicKey.compressed.sublist(1);
+  BuBytes toBytes() {
+    return publicKey.toBytes();
   }
 
   /// Returns the hexadecimal representation of the public key.
@@ -89,28 +94,16 @@ class SuiED25519PublicKey extends SuiCryptoPublicKey<Ed25519PublicKey> {
     return BytesUtils.toHexString(toBytes(), lowerCase: lowerCase);
   }
 
-  /// Checks equality based on the public key.
-  @override
-  operator ==(other) {
-    if (identical(this, other)) return true;
-    if (other is! SuiED25519PublicKey) return false;
-    return publicKey == other.publicKey;
-  }
-
-  /// Returns the hash code for the public key.
-  @override
-  int get hashCode => publicKey.hashCode;
-
   /// Verifies a message and signature pair for authenticity.
   @override
   bool verify({required List<int> message, required List<int> signature}) {
-    final verifier = Ed25519Verifier.fromKeyBytes(toBytes());
-    return verifier.verify(message, signature);
+    final verifier = ED25519Verifier(publicKey);
+    return verifier.verify(message, ED25519Signature.fromBytes(signature));
   }
 
   /// Converts the public key to a corresponding Sui address.
   @override
   SuiAddress toAddress() {
-    return SuiAddress(SuiAddrEncoder().encodeKey(publicKey.compressed));
+    return SuiAddress(SuiAddrEncoder().encodeKey(publicKey.toBytes()));
   }
 }

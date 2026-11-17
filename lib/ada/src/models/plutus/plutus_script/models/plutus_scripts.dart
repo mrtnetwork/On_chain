@@ -24,12 +24,12 @@ class PlutusScriptsSerializationConfig {
 }
 
 class PlutusScripts with InternalCborSerialization {
-  final List<List<int>> scripts;
+  final List<BuBytes> scripts;
   final PlutusScriptsSerializationConfig serializationConfig;
   PlutusScripts(
     List<List<int>> scripts, {
     this.serializationConfig = const PlutusScriptsSerializationConfig(),
-  }) : scripts = scripts.immutable;
+  }) : scripts = scripts.map((e) => e.asImmutableBytes).toImutableList;
   factory PlutusScripts.deserialize(CborObject cbor) {
     if (cbor.hasType<CborTagValue>()) {
       final tag = cbor.as<CborTagValue>(operation: "scripts");

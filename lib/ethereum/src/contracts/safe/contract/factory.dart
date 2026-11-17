@@ -1,12 +1,9 @@
-import 'package:blockchain_utils/crypto/quick_crypto.dart';
-import 'package:blockchain_utils/service/models/params.dart';
-import 'package:blockchain_utils/utils/binary/binary_operation.dart';
-import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/core/factory.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/types.dart';
-import 'package:on_chain/ethereum/src/exception/exception.dart';
+
 import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 
 class SafeFactoryContract extends ISafeFactoryContract {
@@ -181,7 +178,8 @@ class SafeFactoryContract extends ISafeFactoryContract {
     final methods = getMethods();
     SafeContractFunction? method;
     if (version < SafeContractVersion.v1_4_1 && layer == SafeContractLayer.l2) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.unsupported,
         "This Safe contract version (${version.version}) does not support L2 with explicit layer selection.",
         details: {
           "layer": layer.name,
@@ -220,7 +218,8 @@ class SafeFactoryContract extends ISafeFactoryContract {
     }
 
     if (method == null) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Failed to find a valid contract creation method for the provided configuration",
         details: {
           "layer": layer.name,

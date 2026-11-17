@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineUpdateCandyGuardLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -15,7 +15,7 @@ class MetaplexCandyMachineUpdateCandyGuardLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexCandyMachineProgramInstruction.updateCandyGuard.insturction,
+          MetaplexCandyMachineProgramInstruction.updateCandyGuard.instruction,
     );
     return MetaplexCandyMachineUpdateCandyGuardLayout(
       data: (decode['data'] as List).cast(),

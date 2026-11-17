@@ -1,6 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/constant.dart';
@@ -29,7 +27,8 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
     if (nameBytesLength > StakePoolProgramConst.metadataMaxNameLength ||
         uriBytesLength > StakePoolProgramConst.metadataMaxUriLength ||
         symbolBytesLength > StakePoolProgramConst.metadataMaxSymbolLength) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Some fields exceed the maximum data limit.',
         details: {
           'metadataMaxNameLength':
@@ -47,7 +46,7 @@ class StakePoolUpdateTokenMetaDataLayout extends StakePoolProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: StakePoolCreateTokenMetaDataLayout.staticLayout,
       bytes: data,
-      instruction: StakePoolProgramInstruction.updateTokenMetaData.insturction,
+      instruction: StakePoolProgramInstruction.updateTokenMetaData.instruction,
     );
 
     return StakePoolUpdateTokenMetaDataLayout(

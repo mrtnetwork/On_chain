@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHouseExecutePartialSaleLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -28,7 +28,7 @@ class MetaplexAuctionHouseExecutePartialSaleLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexAuctionHouseProgramInstruction.executePartialSale.insturction,
+          MetaplexAuctionHouseProgramInstruction.executePartialSale.instruction,
     );
     return MetaplexAuctionHouseExecutePartialSaleLayout(
       escrowPaymentBump: decode['escrowPaymentBump'],

@@ -11,7 +11,7 @@ class ZKSRequestL1BatchNumber extends EthereumRequest<BigInt, String> {
   }
 
   @override
-  BigInt onResonse(String result) {
+  BigInt onResponse(String result) {
     return EthereumRequest.onBigintResponse(result);
   }
 }

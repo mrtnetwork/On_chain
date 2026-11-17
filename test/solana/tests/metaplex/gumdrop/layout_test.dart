@@ -1,6 +1,7 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
+import '../../../../utils.dart';
 final List<int> _proof1 = List<int>.filled(32, 10);
 final List<int> _proof2 = List<int>.filled(32, 20);
 final List<int> _proof3 = List<int>.filled(32, 30);
@@ -10,8 +11,8 @@ const SolAddress _owner = SolAddress.unchecked(
 const SolAddress _account1 = SolAddress.unchecked(
   '57BYVwU1nZvkDkQZvqnNL71SE4jvegfGoEr6Eo6QgNyJ',
 );
-void main() {
-  group('gumdrop', () {
+void gumdropLayoutTest() {
+  group('Solana/Gumdrop Layout', () {
     _claim();
     _claimCandy();
     _claimCandyProven();
@@ -29,6 +30,11 @@ void main() {
     _claimCount();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(gumdropLayoutTest, "Layout");
+}
+
 
 void _claim() {
   test('claim', () {

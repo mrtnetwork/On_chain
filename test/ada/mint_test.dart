@@ -2,9 +2,15 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _mint();
+import '../utils.dart';
+void mintTest() {
+  group('ADA/Mint', _mint);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(mintTest, "Mint");
+}
+
 
 void _mint() {
   test('transaction body with mint', () {

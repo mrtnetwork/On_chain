@@ -1,11 +1,11 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/accounts/accounts/account_lookup_table.dart';
 import 'package:on_chain/solana/src/models/lockup/extract_table_lookup.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
 import 'package:on_chain/solana/src/models/lockup/table_lookup.dart';
 import 'package:on_chain/solana/src/models/transaction/message_header.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 
 class CompiledKeys {
   final SolAddress payer;
@@ -54,8 +54,9 @@ class CompiledKeys {
   (MessageHeader, List<SolAddress>) getMessageComponents() {
     final mapEntries = _keyMetaMap.entries.toList();
     if (mapEntries.length > SolanaTransactionConstant.maximumAccountKeys) {
-      throw const SolanaPluginException(
-        'Max static account keys length exceeded',
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max static account keys length exceeded.',
       );
     }
     final writableSigners =
@@ -81,14 +82,16 @@ class CompiledKeys {
       numReadonlyUnsignedAccounts: readonlyNonSigners.length,
     );
     if (writableSigners.isEmpty) {
-      throw const SolanaPluginException(
-        'Expected at least one writable signer key',
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Expected at least one writable signer key.',
       );
     }
     final payerAddress = writableSigners[0].key;
     if (payerAddress != payer.address) {
-      throw const SolanaPluginException(
-        'Expected first writable signer key to be the fee payer',
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Expected first writable signer key to be the fee payer.',
       );
     }
     final List<SolAddress> staticAccountKeys = List<SolAddress>.unmodifiable([

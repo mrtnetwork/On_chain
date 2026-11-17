@@ -25,7 +25,8 @@ class SolanaRequestBlockSubscribe extends SolanaRequest<int, int> {
   final SubscribeBlockFilter filter;
 
   /// the max transaction version to return in responses.
-  final bool? maxSupportedTransactionVersion;
+  /// Use the integer 1 to read legacy, v0 and v1 transactions.
+  final int? maxSupportedTransactionVersion;
 
   /// whether to populate the rewards array. If parameter not provided, the default includes rewards.
   final bool? showRewards;

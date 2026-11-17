@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/core/relay_type.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/relays/multi_host_name.dart';
@@ -31,7 +31,7 @@ abstract class Relay with InternalCborSerialization {
     try {
       type = RelayType.fromName(json.keys.first);
     } on StateError {
-      throw ADAPluginException('Invalid Relay json.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid Relay json.');
     }
     switch (type) {
       case RelayType.multiHostName:

@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents a pot for Move instance reward.
@@ -31,7 +31,13 @@ class MIRPot with InternalCborSerialization {
   static MIRPot fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "MIRPot"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid MIRPot value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -39,7 +45,13 @@ class MIRPot with InternalCborSerialization {
   static MIRPot fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "MIRPot"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid MIRPot name.',
+                details: {'name': name},
+              ),
     );
   }
 

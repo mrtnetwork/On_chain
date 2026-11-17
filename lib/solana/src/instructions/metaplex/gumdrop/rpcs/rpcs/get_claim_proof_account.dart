@@ -29,7 +29,7 @@ class SolanaRPCGetClaimProofAccount
   }
 
   @override
-  ClaimProof? onResonse(result) {
+  ClaimProof? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return ClaimProof.fromBuffer(accountInfo.toBytesData());

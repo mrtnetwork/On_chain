@@ -1,12 +1,10 @@
 /// Library for Ethereum-related functionality and utilities.
 library;
 
-/// Export individual components for ease of use.
-///
 /// Ethereum address utilities
 export 'src/address/evm_address.dart';
 
-/// Ethereum private key and public key managment
+/// Ethereum private key and public key management
 export 'src/keys/keys.dart';
 
 /// Ethereum context models
@@ -25,6 +23,5 @@ export 'src/transaction/transaction.dart';
 export 'src/utils/helper.dart';
 
 /// All related ethereum exception
-export 'src/exception/exception.dart';
 export 'src/eip_4361/eip_4361.dart';
 export 'src/contracts/contracts.dart';

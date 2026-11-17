@@ -17,7 +17,7 @@ class BlockfrostRequestBlockchainGenesis
   List<String> get pathParameters => [];
 
   @override
-  ADAGenesisParametersResponse onResonse(Map<String, dynamic> result) {
+  ADAGenesisParametersResponse onResponse(Map<String, dynamic> result) {
     return ADAGenesisParametersResponse.fromJson(result);
   }
 }

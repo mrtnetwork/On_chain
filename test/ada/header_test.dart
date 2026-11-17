@@ -1,13 +1,19 @@
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group("header", () {
+import '../utils.dart';
+void headerTest() {
+  group('ADA/Header', () {
     _moveInstantaneousReward();
     _header();
     _headerBody();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(headerTest, "Header");
+}
+
 
 void _moveInstantaneousReward() {
   test('MoveInstantaneousReward', () {

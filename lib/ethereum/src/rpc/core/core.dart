@@ -1,5 +1,7 @@
 import 'package:on_chain/ethereum/src/models/block_tag.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/utils/utils/number_utils.dart';
 import 'package:on_chain/ethereum/src/rpc/methds/subscribes/methods/logs.dart';
 import 'package:on_chain/ethereum/src/rpc/methds/subscribes/methods/new_heads.dart';
 import 'package:on_chain/ethereum/src/rpc/methds/subscribes/methods/pending_transactions.dart';
@@ -48,7 +50,12 @@ abstract class EthereumSubscribionRequest
         EthereumRequestETHSubscribeLogs.deserialize(object: decode.tag),
       OnChainSerializationIdentifiers.ethereumRpcGenericSubscribtionParams =>
         EthereumRequestETHSubscribeGeneric.deserialize(object: decode.tag),
-      _ => throw CborSerializableException.incorrectTagValue(),
+      _ =>
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Unknown Ethereum RPC subscription params identifier.',
+          details: {'identifier': '${decode.identifier.id}'},
+        ),
     };
   }
   @override
@@ -110,14 +117,12 @@ abstract class EthereumRequest<RESULT, SERVICERESPONSE>
 
   /// Converts a dynamic response to a BigInt, handling hexadecimal conversion.
   static BigInt onBigintResponse(dynamic result) {
-    if (result == '0x') return BigInt.zero;
-    return BigInt.parse(StringUtils.strip0x(result), radix: 16);
+    return PluginBigintUtils.hexToBigint(result);
   }
 
   /// Converts a dynamic response to an integer, handling hexadecimal conversion.
   static int onIntResponse(dynamic result) {
-    if (result == '0x') return 0;
-    return int.parse(StringUtils.strip0x(result), radix: 16);
+    return PluginIntUtils.hexToInt(result);
   }
 
   /// Converts the request parameters to a [EthereumRequestDetails] object.
@@ -245,7 +250,12 @@ class EthereumRequestDetails extends BaseServiceRequestParams {
 
   @override
   List<int>? encodeBody({ServiceProtocol protocol = ServiceProtocol.http}) {
-    assert(!protocol.isGrpc, "Unsupported protocol.");
+    if (protocol.isGrpc) {
+      throw const BuError(
+        DefaultErrorType.unsupported,
+        'Unsupported protocol. gRPC is not supported by this service.',
+      );
+    }
     return super.encodeBody(protocol: protocol);
   }
 

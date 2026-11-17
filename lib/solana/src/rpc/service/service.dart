@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:blockchain_utils/service/service.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/rpc/core/core.dart';
 
 typedef SolanaServiceResponse = BaseServiceResponse;
@@ -26,8 +27,9 @@ mixin SolanaServiceProvider
     request,
     Duration? timeout,
   }) {
-    throw UnsupportedError(
-      "Subscribtion requests are not supported by this service.",
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "Subscription requests are not supported by this service.",
     );
   }
 
@@ -36,7 +38,10 @@ mixin SolanaServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -44,7 +49,10 @@ mixin SolanaServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -52,6 +60,9 @@ mixin SolanaServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 }

@@ -16,7 +16,7 @@ class SuiRequestGetValidatorsApy
   }
 
   @override
-  SuiApiValidatorsApy onResonse(Map<String, dynamic> result) {
+  SuiApiValidatorsApy onResponse(Map<String, dynamic> result) {
     return SuiApiValidatorsApy.fromJson(result);
   }
 }

@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/bip/ecc/curve/elliptic_curve_types.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 enum AptosKeyAlgorithm {
   ed25519(value: 0, aip80: "ed25519-priv-"),
@@ -14,8 +13,9 @@ enum AptosKeyAlgorithm {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartAptosPluginException(
-                "cannot find Key Algorithm from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find key algorithm from the given name.",
                 details: {"name": name},
               ),
     );
@@ -26,29 +26,31 @@ enum AptosKeyAlgorithm {
       (e) => e.aip80 == aip80,
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "Invalid aptos AIP-80 private prefix.",
                 details: {"AIP-80": aip80},
               ),
     );
   }
 
-  static AptosKeyAlgorithm fromEllipticCurveType(EllipticCurveTypes type) {
+  static AptosKeyAlgorithm fromEllipticCurveType(CryptoKeyType type) {
     return switch (type) {
-      EllipticCurveTypes.ed25519 => AptosKeyAlgorithm.ed25519,
-      EllipticCurveTypes.secp256k1 => AptosKeyAlgorithm.secp256k1,
+      CryptoKeyType.ed25519 => AptosKeyAlgorithm.ed25519,
+      CryptoKeyType.secp256k1 => AptosKeyAlgorithm.secp256k1,
       _ =>
-        throw DartAptosPluginException(
-          "Unsuported Elliptic curve type.",
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Unsupported elliptic curve type.",
           details: {"algorithm": type.name},
         ),
     };
   }
 
-  EllipticCurveTypes get curveType {
+  CryptoKeyType get curveType {
     return switch (this) {
-      AptosKeyAlgorithm.ed25519 => EllipticCurveTypes.ed25519,
-      AptosKeyAlgorithm.secp256k1 => EllipticCurveTypes.secp256k1,
+      AptosKeyAlgorithm.ed25519 => CryptoKeyType.ed25519,
+      AptosKeyAlgorithm.secp256k1 => CryptoKeyType.secp256k1,
     };
   }
 }

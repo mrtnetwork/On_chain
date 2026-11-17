@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/ada/src/models/certificate/certs.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
@@ -58,7 +58,11 @@ abstract class Certificate with InternalCborSerialization {
         return DRepUpdate.deserialize(cbor);
 
       default:
-        throw ADAPluginException("Invalid certificate type.");
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          "Invalid certificate type.",
+          details: {'type': type.name},
+        );
     }
   }
 
@@ -108,7 +112,11 @@ abstract class Certificate with InternalCborSerialization {
         return DRepUpdate.fromJson(json);
 
       default:
-        throw ADAPluginException("Invalid certificate type.");
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          "Invalid certificate type.",
+          details: {'type': type.name},
+        );
     }
   }
 

@@ -26,7 +26,7 @@ class BlockfrostRequestRedeemersOfASpecificScript
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADAScriptRedeemerInfoResponse> onResonse(
+  List<ADAScriptRedeemerInfoResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

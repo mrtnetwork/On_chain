@@ -1,0 +1,113 @@
+// Copyright (c) Mysten Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
+syntax = "proto3";
+
+package sui.rpc.v2;
+
+import "sui/rpc/v2/move_package.proto";
+
+service MovePackageService {
+  rpc GetPackage(GetPackageRequest) returns (GetPackageResponse);
+  rpc GetDatatype(GetDatatypeRequest) returns (GetDatatypeResponse);
+  rpc GetFunction(GetFunctionRequest) returns (GetFunctionResponse);
+  rpc ListPackageVersions(ListPackageVersionsRequest) returns (ListPackageVersionsResponse);
+}
+
+message GetPackageRequest {
+  // Required. The `storage_id` of any version of the requested package.
+  //
+  // When no `selector` is set, the package stored at exactly this id is
+  // returned. When a `selector` is set, `package_id` only identifies the
+  // package's upgrade lineage (via its original id), and the selected
+  // version within that lineage is returned.
+  optional string package_id = 1;
+
+  // Optional. Return the package in `package_id`'s upgrade lineage that
+  // matches one of the following:
+  //
+  // - `version`: the package with exactly this version.
+  // - `at_checkpoint`: the latest package that existed at or before this
+  //   checkpoint. The checkpoint must be at or below the highest checkpoint
+  //   the server has indexed; larger values fail with `NOT_FOUND` instead of
+  //   resolving to the latest known version, so a successful response is
+  //   exact as of `at_checkpoint`. Servers that prune history may also fail
+  //   with `NOT_FOUND` for checkpoints below their lowest available one.
+  //
+  // If neither is set, the package stored at `package_id` is returned.
+  oneof selector {
+    uint64 version = 2;
+    uint64 at_checkpoint = 3;
+  }
+}
+
+message GetPackageResponse {
+  // The package.
+  optional Package package = 1;
+}
+
+message GetDatatypeRequest {
+  // Required. The `storage_id` of the requested package.
+  optional string package_id = 1;
+
+  // Required. The name of the requested module.
+  optional string module_name = 2;
+
+  // Required. The name of the requested datatype.
+  optional string name = 3;
+}
+
+message GetDatatypeResponse {
+  // The datatype.
+  optional DatatypeDescriptor datatype = 1;
+}
+
+message GetFunctionRequest {
+  // Required. The `storage_id` of the requested package.
+  optional string package_id = 1;
+
+  // Required. The name of the requested module.
+  optional string module_name = 2;
+
+  // Required. The name of the requested function.
+  optional string name = 3;
+}
+
+message GetFunctionResponse {
+  // The function.
+  optional FunctionDescriptor function = 1;
+}
+
+message ListPackageVersionsRequest {
+  // Required. The `storage_id` of any version of the package.
+  optional string package_id = 1;
+
+  // The maximum number of versions to return. The service may return fewer than this value.
+  // If unspecified, at most `1000` entries will be returned.
+  // The maximum value is `10000`; values above `10000` will be coerced to `10000`.
+  optional uint32 page_size = 2;
+
+  // A page token, received from a previous `ListPackageVersions` call.
+  // Provide this to retrieve the subsequent page.
+  //
+  // When paginating, all other parameters provided to `ListPackageVersions` must
+  // match the call that provided the page token.
+  optional bytes page_token = 3;
+}
+
+message ListPackageVersionsResponse {
+  // List of all package versions, ordered by version.
+  repeated PackageVersion versions = 1;
+
+  // A token, which can be sent as `page_token` to retrieve the next page.
+  // If this field is omitted, there are no subsequent pages.
+  optional bytes next_page_token = 2;
+}
+
+// A simplified representation of a package version
+message PackageVersion {
+  // The storage ID of this package version
+  optional string package_id = 1;
+  // The version number
+  optional uint64 version = 2;
+}

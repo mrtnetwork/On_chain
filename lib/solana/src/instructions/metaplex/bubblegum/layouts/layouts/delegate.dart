@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexBubblegumDelegateLayout extends MetaplexBubblegumProgramLayout {
   final List<int> root;
@@ -21,7 +21,7 @@ class MetaplexBubblegumDelegateLayout extends MetaplexBubblegumProgramLayout {
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexBubblegumProgramInstruction.delegate.insturction,
+      instruction: MetaplexBubblegumProgramInstruction.delegate.instruction,
     );
     return MetaplexBubblegumDelegateLayout(
       root: decode['root'],

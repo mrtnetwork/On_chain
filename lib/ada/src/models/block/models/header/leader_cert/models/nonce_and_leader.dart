@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/block/models/header/leader_cert/models/header_leader_cert.dart';
 import 'package:on_chain/ada/src/models/block/models/header/leader_cert/models/header_leader_cert_type.dart';
 import 'package:on_chain/ada/src/models/block/models/header/header/vrf_cert.dart';

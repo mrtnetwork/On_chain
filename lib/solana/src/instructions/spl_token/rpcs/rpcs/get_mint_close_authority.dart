@@ -27,7 +27,7 @@ class SolanaRPCGetMintCloseAuthority
   }
 
   @override
-  MintCloseAuthority? onResonse(result) {
+  MintCloseAuthority? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MintCloseAuthority.fromAccountBytes(accountInfo.toBytesData());

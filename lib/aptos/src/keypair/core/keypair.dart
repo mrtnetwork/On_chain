@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
+import 'package:on_chain/aptos/src/account/keyless/public_key.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/aptos/src/keypair/keys/secp256k1.dart';
 import 'package:on_chain/aptos/src/keypair/types/types.dart';
@@ -13,7 +14,8 @@ import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 abstract class AptosBasePrivateKey<
   PUBLICKEY extends AptosCryptoPublicKey,
   SIGNATURE extends AptosAnySignature
-> {
+>
+    with SecretState, Equality {
   /// The key algorithm (e.g., Ed25519, Secp256k1)
   final AptosKeyAlgorithm algorithm;
 
@@ -34,8 +36,9 @@ abstract class AptosBasePrivateKey<
       };
       return key as AptosBasePrivateKey<PUBLICKEY, SIGNATURE>;
     } catch (e) {
-      throw DartAptosPluginException(
-        "Invalid aptos AIP-80 private key style.",
+      throw BuError(
+        DefaultErrorType.badPrivateKey,
+        "Invalid Aptos AIP-80 private key style.",
         details: {"error": e.toString()},
       );
     }
@@ -45,7 +48,7 @@ abstract class AptosBasePrivateKey<
   abstract final AptosCryptoPublicKey publicKey;
 
   /// serialize the private key to bytes
-  List<int> toBytes();
+  SecretBytes toBytes();
 
   /// serialize the private key to a hexadecimal string
   String toHex({bool lowerCase = true, String prefix = ''});
@@ -72,28 +75,41 @@ abstract class AptosPublicKey extends BcsSerialization {
   }
 }
 
+/// A public key usable inside the SingleKey authenticator union
+/// (`AnyPublicKey`): exposes its variant serialization shape.
+abstract interface class AptosVariantPublicKey {
+  /// Variant name inside the `AnyPublicKey` lazy enum (`ed25519`,
+  /// `secp256k1`, `keyless`).
+  String get variantName;
+
+  /// `{variantName: inner}` layout struct for the union serializer.
+  Map<String, dynamic> toVariantLayoutStruct();
+}
+
 /// Abstract class for representing a crypto public key in Aptos,
 /// extending from `AptosPublicKey` and adding cryptographic verification capabilities.
 abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
     extends BcsVariantSerialization
-    implements AptosPublicKey {
+    with Equality
+    implements AptosPublicKey, AptosVariantPublicKey {
   final PUBLICKEY publicKey;
 
   factory AptosCryptoPublicKey.fromBytes({
     required List<int> publicKeyBytes,
-    required EllipticCurveTypes algorithm,
+    required CryptoKeyType algorithm,
   }) {
     final AptosCryptoPublicKey publicKey;
     switch (algorithm) {
-      case EllipticCurveTypes.ed25519:
+      case CryptoKeyType.ed25519:
         publicKey = AptosED25519PublicKey.fromBytes(publicKeyBytes);
         break;
-      case EllipticCurveTypes.secp256k1:
+      case CryptoKeyType.secp256k1:
         publicKey = AptosSecp256k1PublicKey.fromBytes(publicKeyBytes);
         break;
       default:
-        throw DartAptosPluginException(
-          "Unsuported public key algorithm.",
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Unsupported public key algorithm.",
           details: {"type": algorithm.name, "expected": "ED25519, Secp256k1"},
         );
     }
@@ -101,11 +117,11 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
   }
 
   /// Raw bytes of the public key
-  List<int> publicKeyBytes();
+  BuBytes publicKeyBytes();
 
   /// Serialize the public key using the variant BCS format
   @override
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return toVariantBcs();
   }
 
@@ -167,6 +183,11 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
         property: AptosKeyAlgorithm.secp256k1.name,
         index: AptosKeyAlgorithm.secp256k1.value,
       ),
+      LazyVariantModel(
+        layout: AptosKeylessAccountPublicKey.layout,
+        property: "keyless",
+        index: AptosKeylessAccountPublicKey.anyPublicKeyVariant,
+      ),
     ], property: property);
   }
 
@@ -180,11 +201,15 @@ abstract class AptosCryptoPublicKey<PUBLICKEY extends IPublicKey>
 
   T cast<T extends AptosCryptoPublicKey>() {
     if (this is! T) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.badPublicKey,
         "Invalid public key type.",
         details: {"expected": "$T", "type": algorithm.name},
       );
     }
     return this as T;
   }
+
+  @override
+  List<dynamic> get variables => [publicKey];
 }

@@ -23,7 +23,7 @@ class BlockfrostRequestTransactionDelegationCertificates
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionDelegationCertificateResponse> onResonse(
+  List<ADATransactionDelegationCertificateResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

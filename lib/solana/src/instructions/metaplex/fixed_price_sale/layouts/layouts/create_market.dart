@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types/gating_config.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexFixedPriceSaleCreateMarketLayout
     extends MetaplexFixedPriceSaleProgramLayout {
@@ -31,7 +31,7 @@ class MetaplexFixedPriceSaleCreateMarketLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexFixedPriceSaleProgramInstruction.createMarket.insturction,
+          MetaplexFixedPriceSaleProgramInstruction.createMarket.instruction,
     );
     return MetaplexFixedPriceSaleCreateMarketLayout(
       treasuryOwnerBump: decode['treasuryOwnerBump'],

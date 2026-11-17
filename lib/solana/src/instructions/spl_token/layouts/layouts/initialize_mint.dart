@@ -1,7 +1,7 @@
 // Manages the layout structure for initializing an SPL token mint.
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -36,7 +36,7 @@ class SPLTokenInitializeMintLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: staticLayout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.initializeMint.insturction,
+      instruction: SPLTokenProgramInstruction.initializeMint.instruction,
     );
     return SPLTokenInitializeMintLayout(
       freezeAuthority: decode['freezeAuthority'],

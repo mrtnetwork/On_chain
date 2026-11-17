@@ -4,7 +4,7 @@ import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_script/models/language.dart';
 
 class PlutusScript with InternalCborSerialization {
-  final List<int> bytes;
+  final BuBytes bytes;
   final Language language;
 
   PlutusScript({required List<int> bytes, required this.language})

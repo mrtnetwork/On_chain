@@ -1,9 +1,10 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('system', () {
+import '../../../utils.dart';
+void compiledMessageV0Test() {
+  group('Solana/System Compiled Message V0', () {
     _systemCreateAccount();
     _systemCreateAccountWithSeed();
     _transfer();
@@ -18,6 +19,11 @@ void main() {
     _allocateWithcSeed();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(compiledMessageV0Test, "Compiled Message V0");
+}
+
 
 void _systemCreateAccount() {
   test('create', () {

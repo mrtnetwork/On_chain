@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class SystemUpgradeNonceAccountLayout extends SystemProgramLayout {
@@ -7,7 +7,7 @@ class SystemUpgradeNonceAccountLayout extends SystemProgramLayout {
   factory SystemUpgradeNonceAccountLayout.fromBuffer(List<int> data) {
     ProgramLayout.decodeAndValidateStruct(
       bytes: data,
-      instruction: SystemProgramInstruction.upgradeNonceAccount.insturction,
+      instruction: SystemProgramInstruction.upgradeNonceAccount.instruction,
       layout: _layout,
     );
     return const SystemUpgradeNonceAccountLayout();

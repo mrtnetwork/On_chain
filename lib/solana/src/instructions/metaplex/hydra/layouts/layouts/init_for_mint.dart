@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
   final int bumpSeed;
@@ -10,7 +10,7 @@ class MetaplexHydraInitForMintLayout extends MetaplexHydraProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexHydraProgramInstruction.processInitForMint.insturction,
+          MetaplexHydraProgramInstruction.processInitForMint.instruction,
     );
     return MetaplexHydraInitForMintLayout(bumpSeed: decode['bumpSeed']);
   }

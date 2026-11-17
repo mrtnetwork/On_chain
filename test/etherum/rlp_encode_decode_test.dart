@@ -3,7 +3,9 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-void main() {
+import '../utils.dart';
+void rlpEncodeDecodeTest() {
+  group('Ethereum/RLP encode decode', () {
   test('test 1', () {
     final obj = [
       <int>[1, 56, 129],
@@ -223,4 +225,10 @@ void main() {
       );
     }
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(rlpEncodeDecodeTest, "Rlp Encode Decode");
+}
+

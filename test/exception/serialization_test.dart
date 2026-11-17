@@ -1,63 +1,53 @@
-import 'package:on_chain/on_chain.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:test/test.dart';
 
-void main() {
-  test('"Exception serialization"', () {
+import '../utils.dart';
+
+void _expectRoundTrip(BuError error) {
+  final decode = BuErrorCodec.decode(bytes: error.toCborBytes());
+  expect(decode.type, error.type);
+  expect(decode.message, error.message);
+  expect(decode.details, error.details);
+}
+
+void exceptionSerializationTest() {
+  group('Core/Exception Serialization', () {
+  test('Exception serialization', () {
+    BuErrorCodec.registerTypes(OnChainErrorType.values);
+    _expectRoundTrip(const BuError(OnChainErrorType.aptosPlugin, "error"));
+    _expectRoundTrip(const BuError(OnChainErrorType.adaPlugin, "error"));
+    _expectRoundTrip(const BuError(OnChainErrorType.ethereumPlugin, "error"));
+    _expectRoundTrip(const BuError(OnChainErrorType.eip4361, "error"));
+    _expectRoundTrip(const BuError(OnChainErrorType.bcsSerialization, "error"));
+    _expectRoundTrip(const BuError(OnChainErrorType.solanaPlugin, "error"));
+    _expectRoundTrip(
+      const BuError(
+        OnChainErrorType.solidityAbi,
+        "error",
+        details: {"name": "1"},
+      ),
+    );
+    _expectRoundTrip(
+      const BuError(
+        OnChainErrorType.suiPlugin,
+        "error",
+        details: {"name": "sui"},
+      ),
+    );
+    _expectRoundTrip(const BuError(OnChainErrorType.tronPlugin, "error"));
+    _expectRoundTrip(const BuError(OnChainErrorType.nearPlugin, "error"));
     {
-      final error = DartAptosPluginException("error");
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
-    }
-    {
-      final error = ADAPluginException("error");
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
-    }
-    {
-      final error = ETHPluginException("error");
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
-    }
-    {
-      final error = EIP4631Exception("error");
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
-    }
-    {
-      final error = BcsSerializationException("error");
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
-    }
-    {
-      final error = SolanaPluginException("error");
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
-    }
-    {
-      final error = SolidityAbiException("error", details: {"name": "1"});
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
-    }
-    {
-      final error = DartSuiPluginException("error", details: {"name": "sui"});
-      final decode = OnChainPluginException.deserialize(
-        cborBytes: error.toCbor().encode(),
-      );
-      expect(decode, error);
+      final ids = OnChainErrorType.values.map((e) => e.id);
+      expect(ids.toSet().length, OnChainErrorType.values.length);
+      for (final id in ids) {
+        expect(id > 258, equals(true));
+      }
     }
   });
+  });
+}
+
+void main() {
+  OnChainUtilsTestApi.runTest(exceptionSerializationTest, "Serialization");
 }

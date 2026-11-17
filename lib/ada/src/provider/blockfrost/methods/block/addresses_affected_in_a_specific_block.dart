@@ -27,7 +27,7 @@ class BlockfrostRequestAddressesAffectedInASpecificBlock
   List<String> get pathParameters => [hashOrBlock.toString()];
 
   @override
-  List<ADABlockAddressTransactionsResponse> onResonse(
+  List<ADABlockAddressTransactionsResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

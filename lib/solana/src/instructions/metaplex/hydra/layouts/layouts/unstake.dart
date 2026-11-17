@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraUnstakeLayout extends MetaplexHydraProgramLayout {
   const MetaplexHydraUnstakeLayout();
@@ -8,7 +8,7 @@ class MetaplexHydraUnstakeLayout extends MetaplexHydraProgramLayout {
     MetaplexHydraProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexHydraProgramInstruction.processUnstake.insturction,
+      instruction: MetaplexHydraProgramInstruction.processUnstake.instruction,
     );
     return const MetaplexHydraUnstakeLayout();
   }

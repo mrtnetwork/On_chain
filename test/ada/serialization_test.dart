@@ -2,11 +2,19 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _input();
-  _output();
-  _transaction();
+import '../utils.dart';
+void serializationTest() {
+  group('ADA/Serialization', () {
+    _input();
+    _output();
+    _transaction();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(serializationTest, "Serialization");
+}
+
 
 void _input() {
   test('transaction inputs', () {

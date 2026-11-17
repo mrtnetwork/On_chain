@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/constant.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/constant.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/models/pda/pda.dart';
 
 class StakePoolProgramUtils {

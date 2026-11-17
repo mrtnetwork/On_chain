@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/instructions/compute_budget/constant.dart';
 /// An enumeration of valid ComputeBudgetInstructionType's
 class ComputeBudgetProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const ComputeBudgetProgramInstruction(this.insturction, this.name);
+  const ComputeBudgetProgramInstruction(this.instruction, this.name);
   static const ComputeBudgetProgramInstruction requestUnits =
       ComputeBudgetProgramInstruction(0, 'RequestUnits');
   static const ComputeBudgetProgramInstruction requestHeapFrame =
@@ -26,7 +26,7 @@ class ComputeBudgetProgramInstruction implements ProgramLayoutInstruction {
     setComputeUnitPrice,
   ];
   static ComputeBudgetProgramInstruction? getInstruction(dynamic value) {
-    return values.firstWhereNullable((element) => element.insturction == value);
+    return values.firstWhereNullable((element) => element.instruction == value);
   }
 
   @override

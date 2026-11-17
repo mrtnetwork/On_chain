@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/layout/layout.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/account_type.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/types/types/clean_up_action.dart';
 
@@ -42,7 +42,8 @@ class PackConfig extends BorshLayoutSerializable {
   }) {
     for (final i in weight) {
       if (i.length != 3) {
-        throw const SolanaPluginException(
+        throw const BuError(
+          DefaultErrorType.invalidLength,
           'Each inner list in the weight parameter must have a length of 3',
         );
       }

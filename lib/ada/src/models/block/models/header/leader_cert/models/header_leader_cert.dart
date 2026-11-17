@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/block/models/header/leader_cert/models/header_leader_cert_type.dart';
 import 'package:on_chain/ada/src/models/block/models/header/leader_cert/models/nonce_and_leader.dart';
@@ -28,7 +28,10 @@ abstract class HeaderLeaderCert with InternalCborSerialization {
       case HeaderLeaderCertType.nonceAndLeader:
         return HeaderLeaderCertNonceAndLeader.fromJson(json[type.name]);
       default:
-        throw ADAPluginException("Invalid HeaderLeaderCertType type.");
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          "Invalid HeaderLeaderCertType type.",
+        );
     }
   }
   @override

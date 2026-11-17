@@ -29,7 +29,7 @@ class BlockfrostRequestDeriveAnAddress
   List<String> get pathParameters => [xpub, role.toString(), index.toString()];
 
   @override
-  ADADeriveAddressResponse onResonse(Map<String, dynamic> result) {
+  ADADeriveAddressResponse onResponse(Map<String, dynamic> result) {
     return ADADeriveAddressResponse.fromJson(result);
   }
 }

@@ -1,27 +1,20 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/keypair/public_key.dart';
 
 /// Class representing a private key for Solana.
-class SolanaPrivateKey {
+class SolanaPrivateKey with SecretState {
   /// Private constructor to prevent direct instantiation.
-  SolanaPrivateKey._(this._privateKey);
+  SolanaPrivateKey(this.privateKey);
 
   /// Private field holding the Ed25519 private key.
-  final Ed25519PrivateKey _privateKey;
-
-  /// Factory method to create a SolanaPrivateKey instance from a seed represented as a list of bytes.
-  factory SolanaPrivateKey.fromSeed(List<int> keyBytes) {
-    final privateKey = Ed25519PrivateKey.fromBytes(keyBytes);
-    return SolanaPrivateKey._(privateKey);
-  }
+  final ED25519PrivateKey privateKey;
 
   /// Factory method to create a SolanaPrivateKey instance from a seed represented as a hexadecimal string.
   factory SolanaPrivateKey.fromSeedHex(String seedHex) {
-    final privateKey = Ed25519PrivateKey.fromBytes(
+    final privateKey = ED25519PrivateKey.fromBytes(
       BytesUtils.fromHexString(seedHex),
     );
-    return SolanaPrivateKey._(privateKey);
+    return SolanaPrivateKey(privateKey);
   }
 
   /// Factory method to create a SolanaPrivateKey instance from a keypair encoded as base58(PrivateKey,PublicKey).
@@ -32,69 +25,54 @@ class SolanaPrivateKey {
 
   /// Factory method to create a SolanaPrivateKey instance from bytes representing a keypair.
   factory SolanaPrivateKey.fromBytes(List<int> keypairBytes) {
-    // Check if the byte length matches the expected length of a Solana keypair.
-    if (keypairBytes.length !=
-        (Ed25519KeysConst.privKeyByteLen + Ed25519KeysConst.pubKeyByteLen)) {
-      throw SolanaPluginException(
-        'Invalid Solana keypair length. A valid keypair must consist of exactly 64 bytes, combining both the seed and public key components.',
-        details: {'length': keypairBytes.length.toString()},
-      );
-    }
-    // Extract seed bytes and public bytes from the keypair bytes.
-    final seedBytes = keypairBytes.sublist(0, Ed25519KeysConst.privKeyByteLen);
-    final publicBytes = keypairBytes.sublist(Ed25519KeysConst.privKeyByteLen);
-    // Create a private key from the seed bytes.
-    final privateKey = Ed25519PrivateKey.fromBytes(seedBytes);
-    // Check if the extracted public bytes match the public key derived from the private key.
-    if (!BytesUtils.bytesEqual(
-      privateKey.publicKey.compressed.sublist(
-        Ed25519KeysConst.pubKeyPrefix.length,
-      ),
-      publicBytes,
-    )) {
-      throw const SolanaPluginException('Invalid keypair');
-    }
-    return SolanaPrivateKey._(privateKey);
+    final privateKey = ED25519PrivateKey.fromBytes(keypairBytes);
+    return SolanaPrivateKey(privateKey);
   }
 
   /// Retrieve the seed bytes of the private key.
-  List<int> seedBytes() {
-    return _privateKey.raw;
+  SecretBytes seedBytes() {
+    return privateKey.toBytes();
   }
 
   /// Convert the seed bytes of the private key to a hexadecimal string.
   String seedHex() {
-    return BytesUtils.toHexString(seedBytes());
+    return privateKey.takeSecretKey().toHex();
   }
 
   /// encode keypair to base58(PrivateKey,PublicKey)
   String toBase58() {
-    return Base58Encoder.encode(keypairBytes());
+    return privateKey.toExpandedBytes().useValue(
+      (k) => Base58Encoder.encode(k),
+      zero: true,
+    );
   }
 
   /// Retrieve the keypair bytes representing both the seed and public key.
-  List<int> keypairBytes() {
-    return [
-      ..._privateKey.raw,
-      ..._privateKey.publicKey.compressed.sublist(
-        Ed25519KeysConst.pubKeyPrefix.length,
-      ),
-    ];
+  SecretBytes keypairBytes() {
+    return privateKey.toExpandedBytes();
   }
 
   /// Convert the keypair bytes to a hexadecimal string.
   String toHex() {
-    return BytesUtils.toHexString(keypairBytes());
+    return keypairBytes().useValue(
+      (k) => BytesUtils.toHexString(k),
+      zero: true,
+    );
   }
 
   /// Derive the public key associated with the private key.
   SolanaPublicKey publicKey() {
-    return SolanaPublicKey.fromBytes(_privateKey.publicKey.compressed);
+    return SolanaPublicKey(privateKey.publicKey);
   }
 
   /// Sign a digest using the private key.
-  List<int> sign(List<int> digest) {
-    final signer = Ed25519Signer.fromKeyBytes(_privateKey.raw);
-    return signer.signConst(digest);
+  BuBytes sign(List<int> digest) {
+    final signer = ED25519Signer(privateKey);
+    return signer.sign(digest).encoded;
+  }
+
+  @override
+  void dispose() {
+    privateKey.dispose();
   }
 }

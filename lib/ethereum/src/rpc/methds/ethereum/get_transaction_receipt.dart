@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/string/string.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 import 'package:on_chain/ethereum/src/models/transaction_receipt.dart';
@@ -23,7 +23,7 @@ class EthereumRequestGetTransactionReceipt
   }
 
   @override
-  TransactionReceipt? onResonse(result) {
+  TransactionReceipt? onResponse(result) {
     if (result == null) return null;
     return TransactionReceipt.fromJson(result);
   }

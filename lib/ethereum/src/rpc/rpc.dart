@@ -9,4 +9,7 @@ export 'methds/methods.dart';
 /// Exports providers for Ethereum-related functionality.
 export 'provider/provider.dart';
 
+/// Quick client: high-level calls with unified result types.
+export 'quick/quick.dart';
+
 export 'types/zks.dart';

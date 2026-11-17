@@ -29,7 +29,7 @@ class SolanaRPCGetSPLTokenMetaDataAccount
   }
 
   @override
-  SPLTokenMetaDataAccount? onResonse(result) {
+  SPLTokenMetaDataAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return SPLTokenMetaDataAccount.fromAccountDataBytes(

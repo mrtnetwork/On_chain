@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/aptos.dart';
 import 'package:on_chain/aptos/src/provider/constant/constants.dart';
 

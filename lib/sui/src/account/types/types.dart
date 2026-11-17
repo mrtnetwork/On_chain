@@ -1,10 +1,6 @@
-import 'package:blockchain_utils/helper/helper.dart';
-import 'package:blockchain_utils/layout/constant/constant.dart';
-import 'package:blockchain_utils/layout/core/core/core.dart';
-import 'package:blockchain_utils/utils/compare/hash_code.dart';
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/sui/src/account/constant/constant.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
 import 'package:on_chain/sui/src/keypair/keypair.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 
@@ -27,7 +23,8 @@ class SuiMultisigPublicKeyInfo extends BcsSerialization {
   }) {
     if (weight < SuiAccountConst.multisigAccountPublicKeyMinWeight ||
         weight > SuiAccountConst.multisigAccountPublicKeyMaxWeight) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid signer weight. Weight must be between ${SuiAccountConst.multisigAccountPublicKeyMinWeight} and ${SuiAccountConst.multisigAccountPublicKeyMaxWeight}.",
       );
     }

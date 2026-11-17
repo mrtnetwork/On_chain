@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
-import 'package:on_chain/ethereum/src/exception/exception.dart';
 
 /// Represents an entry in the access list, specifying addresses and storage keys.
 class AccessEntry {
@@ -29,7 +28,10 @@ class AccessEntry {
         storageKeys: storageKeys,
       );
     } catch (e) {
-      throw const ETHPluginException('invalid AccessEntry serialized');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid AccessEntry serialized.',
+      );
     }
   }
 

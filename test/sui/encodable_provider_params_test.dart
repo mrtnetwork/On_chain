@@ -2,8 +2,10 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  test('encodable provider params', () {
+import '../utils.dart';
+void suiEncodableProviderParamsTest() {
+  group('Sui/Encodable provider params', () {
+    test('encodable provider params', () {
     final param = SuiRequestGetCoins(
       owner: SuiAddress.one,
       coinType: "coin1",
@@ -23,5 +25,11 @@ void main() {
     expect(deserialize.network, BlockchainNetwork.sui);
     expect(deserialize.responseEncoding, request.responseEncoding);
     expect(deserialize.requestMethod, request.requestMethod);
+    });
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(suiEncodableProviderParamsTest, "Encodable Provider Params");
+}
+

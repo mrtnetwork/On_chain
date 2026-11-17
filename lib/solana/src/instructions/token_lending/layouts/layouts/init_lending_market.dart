@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -25,7 +24,8 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
     required List<int> quoteCurrency,
   }) {
     if (quoteCurrency.length != 32) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.invalidLength,
         'quoteCurrency must not exceed 32 bytes.',
       );
     }
@@ -44,7 +44,7 @@ class TokenLendingInitLendingMarketLayout extends TokenLendingProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: TokenLendingProgramInstruction.initLendingMarket.insturction,
+      instruction: TokenLendingProgramInstruction.initLendingMarket.instruction,
     );
     return TokenLendingInitLendingMarketLayout(
       quoteCurrency: decode['quoteCurrency'],

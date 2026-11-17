@@ -6,7 +6,7 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// block information.Transactions are limited by max default transactions size.
 /// If not all transactionsare present, the user will need to query for the rest
 /// of the transactions via theget transactions API.If the block is pruned, it will return a 410
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetBlocksByHeight
     extends AptosRequest<AptosApiBlock, Map<String, dynamic>> {
   AptosRequestGetBlocksByHeight({
@@ -30,7 +30,7 @@ class AptosRequestGetBlocksByHeight
   };
 
   @override
-  AptosApiBlock onResonse(Map<String, dynamic> result) {
+  AptosApiBlock onResponse(Map<String, dynamic> result) {
     return AptosApiBlock.fromJson(result);
   }
 }

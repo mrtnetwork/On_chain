@@ -34,7 +34,7 @@ class ABIUtils {
 
   /// Encodes dynamic parameters by calculating the static and dynamic size,
   /// and arranging them in the appropriate order for ABI encoding.
-  static List<int> _encodeDynamicParams(List<EncoderResult> encodedParams) {
+  static BuBytes _encodeDynamicParams(List<EncoderResult> encodedParams) {
     int staticSize = 0;
     int dynamicSize = 0;
     final List<EncoderResult> staticParams = [];
@@ -61,11 +61,10 @@ class ABIUtils {
         staticParams.add(encodedParam);
       }
     }
-
-    return [
-      ...staticParams.map((p) => p.encoded).expand((element) => element),
-      ...dynamicParams.map((p) => p.encoded).expand((element) => element),
-    ];
+    return BuBytes.concat([
+      ...staticParams.map((p) => p.encoded),
+      ...dynamicParams.map((p) => p.encoded),
+    ]);
   }
 
   /// Extracts the array type and size information from the given ABI parameter.
@@ -79,7 +78,7 @@ class ABIUtils {
         sizeString.substring(1, sizeString.length - 1),
       );
       if (parseSize == null) {
-        throw const SolidityAbiException(
+        throw const BuError(DefaultErrorType.invalidLength,
           'Invalid fixed-size arrays. length is invalid.',
         );
       }
@@ -125,14 +124,14 @@ class ABIUtils {
     required List<String> types,
     required List<dynamic> params,
   }) {
-    return QuickCrypto.keccack256Hash(encode(types: types, params: params));
+    return QuickCrypto.keccak256Hash(encode(types: types, params: params));
   }
 
   static List<int> encodePackedKeccack256({
     required List<String> types,
     required List<dynamic> params,
   }) {
-    return QuickCrypto.keccack256Hash(
+    return QuickCrypto.keccak256Hash(
       encodePacked(types: types, params: params),
     );
   }
@@ -162,8 +161,8 @@ class _ABIValidator {
 
   /// Validates bytes based on type, checking for length constraints.
   ///
-  /// Throws [SolidityAbiException] if the type is not "bytes" and
-  /// [SolidityAbiException] if the length constraints are violated.
+  /// Throws [BuError] if the type is not "bytes" and
+  /// [BuError] if the length constraints are violated.
   static void validateBytes(
     String typeName, {
     List<int>? bytes,
@@ -174,17 +173,17 @@ class _ABIValidator {
       if (bytes != null) {
         if (maxLength != null) {
           if (bytes.length > maxLength) {
-            throw const SolidityAbiException('Invalid bytes length');
+            throw const BuError(DefaultErrorType.invalidLength,'Invalid bytes length');
           }
         }
         if (minLength != null) {
           if (bytes.length < minLength) {
-            throw const SolidityAbiException('Invalid bytes length');
+            throw const BuError(DefaultErrorType.invalidLength,'Invalid bytes length');
           }
         }
       }
     } else {
-      throw const SolidityAbiException(
+      throw const BuError(DefaultErrorType.invalidArgument,
         'Invalid data provided for bytes codec.',
       );
     }
@@ -192,31 +191,31 @@ class _ABIValidator {
 
   /// Determines if a numeric type is signed based on its name.
   ///
-  /// Throws [SolidityAbiException] for an invalid type that is not "int" or "uint".
+  /// Throws [BuError] for an invalid type that is not "int" or "uint".
   static bool isSignNumber(String type) {
     if (type.startsWith('int')) return true;
     if (type.startsWith('uint') || type.startsWith("trcToken")) return false;
-    throw const SolidityAbiException('Invalid integer type name.');
+    throw const BuError(DefaultErrorType.invalidArgument,'Invalid integer type name.');
   }
 
   /// Validates a boolean type.
   ///
-  /// Throws [SolidityAbiException] if the type is "bool" and the value is not BigInt.one or BigInt.zero.
+  /// Throws [BuError] if the type is "bool" and the value is not BigInt.one or BigInt.zero.
   static void validateBoolean(AbiParameter param, BigInt val) {
     if (param.type == 'bool' && (val == BigInt.one || val == BigInt.zero)) {
       return;
     }
-    throw const SolidityAbiException(
+    throw const BuError(DefaultErrorType.invalidArgument,
       'Invalid data provided for boolean codec.',
     );
   }
 
   /// Validates the length of bytes to avoid decoding errors.
   ///
-  /// Throws [SolidityAbiException] if there are not enough bytes left to decode.
+  /// Throws [BuError] if there are not enough bytes left to decode.
   static void validateBytesLength(List<int> bytes, int length) {
     if (bytes.length < length) {
-      throw const SolidityAbiException('Not enough bytes left to decode');
+      throw const BuError(OnChainErrorType.solidityAbi,'Not enough bytes left to decode');
     }
   }
 
@@ -225,7 +224,7 @@ class _ABIValidator {
   /// This method ensures that the bit length and sign of the provided [value]
   /// match the expected characteristics based on the given [type].
   ///
-  /// Throws [SolidityAbiException] if the provided [value] does not match the
+  /// Throws [BuError] if the provided [value] does not match the
   /// expected bit length and sign for the given [type].
   static void isValidNumber(String type, BigInt value) {
     int bitLength;
@@ -244,7 +243,7 @@ class _ABIValidator {
         bitLength = 256;
         sign = false;
       } else {
-        throw SolidityAbiException(
+        throw BuError(DefaultErrorType.invalidArgument,
           'Invalid type name provided for number codec.',
           details: {'type': type, 'value': value.toString()},
         );
@@ -260,9 +259,9 @@ class _ABIValidator {
         }
       }
     } catch (e) {
-      if (e is SolidityAbiException) rethrow;
+      if (e is BuError) rethrow;
     }
-    throw SolidityAbiException(
+    throw BuError(DefaultErrorType.invalidArgument,
       'Invalid data provided for number codec.',
       details: {'type': type, 'value': value.toString()},
     );

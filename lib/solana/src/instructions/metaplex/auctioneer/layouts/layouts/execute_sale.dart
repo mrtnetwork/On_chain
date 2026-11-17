@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// auctioneer execute sale layput.
 class MetaplexAuctioneerExecuteSaleLayout
@@ -24,7 +24,7 @@ class MetaplexAuctioneerExecuteSaleLayout
     final decode = MetaplexAuctioneerProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexAuctioneerProgramInstruction.executeSale.insturction,
+      instruction: MetaplexAuctioneerProgramInstruction.executeSale.instruction,
     );
     return MetaplexAuctioneerExecuteSaleLayout(
       escrowPaymentBump: decode['escrowPaymentBump'],

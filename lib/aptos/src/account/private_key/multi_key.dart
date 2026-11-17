@@ -1,9 +1,9 @@
-import 'package:blockchain_utils/helper/helper.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/public_key/multi_key.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 
 class AptosMultiKeyAccount
@@ -69,7 +69,8 @@ class AptosMultiKeyAccount
       }
     }
     if (signatures.length < publicKey.requiredSignature) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Insufficient signatures. Expected ${publicKey.requiredSignature} but ${signatures.length} generated.",
         details: {
           "expected": publicKey.requiredSignature.toString(),

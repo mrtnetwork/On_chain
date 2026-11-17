@@ -4,7 +4,8 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// Retrieves a transaction by a given version.
 /// If the version has beenpruned, a 410 will be returned.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetTransactionByVersion
     extends AptosRequest<AptosApiTransaction, Map<String, dynamic>> {
   AptosRequestGetTransactionByVersion(this.txnVersion);
@@ -18,7 +19,7 @@ class AptosRequestGetTransactionByVersion
   List<String> get pathParameters => [txnVersion.toString()];
 
   @override
-  AptosApiTransaction onResonse(Map<String, dynamic> result) {
+  AptosApiTransaction onResponse(Map<String, dynamic> result) {
     return AptosApiTransaction.fromJson(result);
   }
 }

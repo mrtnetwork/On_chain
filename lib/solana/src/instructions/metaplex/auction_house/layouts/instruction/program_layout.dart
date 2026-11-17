@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/layouts/auctioneer_buy.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/layouts/auctioneer_cancel.dart';

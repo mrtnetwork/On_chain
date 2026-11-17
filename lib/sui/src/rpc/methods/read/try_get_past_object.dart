@@ -32,7 +32,7 @@ class SuiRequestTryGetPastObject
   }
 
   @override
-  SuiApiObjectRead onResonse(Map<String, dynamic> result) {
+  SuiApiObjectRead onResponse(Map<String, dynamic> result) {
     return SuiApiObjectRead.fromJson(result);
   }
 }

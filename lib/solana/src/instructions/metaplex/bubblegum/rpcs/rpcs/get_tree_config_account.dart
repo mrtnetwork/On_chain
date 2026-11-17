@@ -29,7 +29,7 @@ class SolanaRPCGetTreeConfigAccount
   }
 
   @override
-  TreeConfig? onResonse(Map<String, dynamic>? result) {
+  TreeConfig? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return TreeConfig.fromBuffer(accountInfo.toBytesData());

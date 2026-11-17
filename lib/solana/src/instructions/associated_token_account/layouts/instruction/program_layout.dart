@@ -1,5 +1,5 @@
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/instructions/associated_token_account/layouts/layouts.dart';
-import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class AssociatedTokenAccountProgramLayout extends ProgramLayout {

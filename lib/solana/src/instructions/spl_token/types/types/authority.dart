@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 
 /// Defines the AuthorityType class to represent different types of authorities.
 class AuthorityType {
@@ -93,12 +94,13 @@ class AuthorityType {
 
   /// Creates an AuthorityType instance from the provided value.
   ///
-  /// Throws a [SolanaPluginException] if no AuthorityType is found for the given value.
+  /// Throws a [BuError] if no AuthorityType is found for the given value.
   static AuthorityType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
       orElse: () {
-        throw SolanaPluginException(
+        throw BuError(
+          OnChainErrorType.solanaPlugin,
           'No AuthorityType found for the given value.',
           details: {'value': value?.toString()},
         );

@@ -3,7 +3,7 @@ import 'package:on_chain/ada/src/provider/blockfrost/core/core.dart';
 import 'package:on_chain/ada/src/provider/blockfrost/models/response_model.dart';
 
 /// Obtain the transaction redeemers.
-/// qhttps://blockfrost.dev/api/transaction-redeemers
+/// https://blockfrost.dev/api/transaction-redeemers
 class BlockfrostRequestTransactionRedeemers
     extends
         BlockFrostRequest<
@@ -23,7 +23,7 @@ class BlockfrostRequestTransactionRedeemers
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionRedeemerResponse> onResonse(
+  List<ADATransactionRedeemerResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

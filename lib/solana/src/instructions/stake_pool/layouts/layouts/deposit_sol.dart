@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Deposit SOL directly into the pool's reserve account layout.
@@ -11,7 +11,7 @@ class StakePoolDepositSolLayout extends StakePoolProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: StakePoolProgramInstruction.depositSol.insturction,
+      instruction: StakePoolProgramInstruction.depositSol.instruction,
     );
     return StakePoolDepositSolLayout(lamports: decode['lamports']);
   }

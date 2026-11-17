@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/types/types/member_ship_model.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
   final int bumpSeed;
@@ -20,7 +20,7 @@ class MetaplexHydraInitLayout extends MetaplexHydraProgramLayout {
     final decode = MetaplexHydraProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexHydraProgramInstruction.processInit.insturction,
+      instruction: MetaplexHydraProgramInstruction.processInit.instruction,
     );
     return MetaplexHydraInitLayout(
       bumpSeed: decode['bumpSeed'],

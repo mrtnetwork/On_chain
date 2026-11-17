@@ -10,6 +10,12 @@ class ADAStakeAccountResponse {
   final String withdrawableAmount;
   final String? poolId;
 
+  /// Whether the stake account is registered
+  final bool? registered;
+
+  /// DRep ID this stake account delegated to (null when undelegated)
+  final String? drepId;
+
   ADAStakeAccountResponse({
     required this.stakeAddress,
     required this.active,
@@ -21,6 +27,8 @@ class ADAStakeAccountResponse {
     required this.treasurySum,
     required this.withdrawableAmount,
     this.poolId,
+    this.registered,
+    this.drepId,
   });
 
   factory ADAStakeAccountResponse.fromJson(Map<String, dynamic> json) {
@@ -35,6 +43,8 @@ class ADAStakeAccountResponse {
       treasurySum: json['treasury_sum'],
       withdrawableAmount: json['withdrawable_amount'],
       poolId: json['pool_id'],
+      registered: json['registered'],
+      drepId: json['drep_id'],
     );
   }
 
@@ -50,6 +60,8 @@ class ADAStakeAccountResponse {
     data['treasury_sum'] = treasurySum;
     data['withdrawable_amount'] = withdrawableAmount;
     data['pool_id'] = poolId;
+    data['registered'] = registered;
+    data['drep_id'] = drepId;
     return data;
   }
 

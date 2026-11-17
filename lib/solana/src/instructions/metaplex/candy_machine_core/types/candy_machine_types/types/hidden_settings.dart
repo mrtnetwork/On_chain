@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class CandyMachineHiddenSettings extends BorshLayoutSerializable {
@@ -10,8 +9,13 @@ class CandyMachineHiddenSettings extends BorshLayoutSerializable {
     required this.name,
     required this.uri,
     required List<int> hash,
-  }) : assert(hash.length == 32, 'Hash must be exactly 32 bytes.'),
-       hash = hash.asImmutableBytes;
+  }) : hash =
+           hash.length == 32
+               ? hash.asImmutableBytes
+               : throw const BuError(
+                 DefaultErrorType.invalidArgument,
+                 'Hash must be exactly 32 bytes.',
+               );
   factory CandyMachineHiddenSettings.fromJson(Map<String, dynamic> json) {
     return CandyMachineHiddenSettings(
       name: json['name'],

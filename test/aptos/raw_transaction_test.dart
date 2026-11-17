@@ -1,11 +1,19 @@
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _script();
-  _entryFunction();
-  _multisig();
+import '../utils.dart';
+void rawTransactionTest() {
+  group('Aptos/Raw Transaction', () {
+    _script();
+    _entryFunction();
+    _multisig();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(rawTransactionTest, "Raw Transaction");
+}
+
 
 void _script() {
   test("Raw Transaction Script serialization", () {

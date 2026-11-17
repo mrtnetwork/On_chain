@@ -1,7 +1,7 @@
 // Manages the layout structure for the SPL token approve checked operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Require memos or Stop requiring memos layout.
@@ -23,7 +23,7 @@ class SPLToken2022ToggleMemoTransferLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.memoTransferExtension.insturction,
+      instruction: SPLTokenProgramInstruction.memoTransferExtension.instruction,
     );
     return SPLToken2022ToggleMemoTransferLayout(
       memoTransfer: MemoTransferInstruction.fromJson(decode['memoTransfer']),

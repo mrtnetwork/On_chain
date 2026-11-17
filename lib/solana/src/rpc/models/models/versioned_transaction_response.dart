@@ -9,12 +9,15 @@ class VersionedTransactionResponse {
   final ConfirmedTransactionMeta? meta;
   final BigInt? blockTime;
   final TransactionType? version;
+
+  final int? transactionIndex;
   const VersionedTransactionResponse({
     required this.blockTime,
     required this.meta,
     required this.slot,
     required this.transaction,
     required this.version,
+    this.transactionIndex,
   });
   factory VersionedTransactionResponse.fromJson(Map<String, dynamic> json) {
     final version =
@@ -28,6 +31,7 @@ class VersionedTransactionResponse {
       transaction = SolanaTransaction.fromJson(
         json['transaction'],
         version: version,
+        resolvedLookupKeys: meta?.loadedAddresses,
       );
     } else {
       transaction = SolanaTransaction.deserialize(
@@ -41,6 +45,7 @@ class VersionedTransactionResponse {
       slot: json['slot'],
       transaction: transaction,
       version: version,
+      transactionIndex: json['transactionIndex'],
     );
   }
 }

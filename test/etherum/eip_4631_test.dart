@@ -1,15 +1,20 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ethereum/src/eip_4361/types/eip_4631.dart';
-import 'package:on_chain/ethereum/src/eip_4361/exception/exception.dart';
+import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
+import '../utils.dart';
+
+void eip4361Test() {
+  group("Ethereum/EIP4361", _test);
+}
+
 void main() {
-  _test();
+  OnChainUtilsTestApi.runTest(eip4361Test, "EIP-4361");
 }
 
 void _test() {
-  test('EIP4631', () {
-    final message = EIP4631(
+  test('EIP4361', () {
+    final message = EIP4361(
       address: "5JWeimeDKKudCRRQJjY3nFmytce3aks56skgSmc5fKE2",
       domain: "phishing.com",
       statement: "Sign-in to connect!",
@@ -27,8 +32,8 @@ void _test() {
       ),
     );
   });
-  test('EIP4631', () {
-    final message = EIP4631(
+  test('EIP4361', () {
+    final message = EIP4361(
       address: "5JWeimeDKKudCRRQJjY3nFmytce3aks56skgSmc5fKE2",
       domain: "phishing.com",
       statement: "Sign-in to connect!",
@@ -48,8 +53,8 @@ void _test() {
       ),
     );
   });
-  test('EIP4631-3', () {
-    final message = EIP4631(
+  test('EIP4361-3', () {
+    final message = EIP4361(
       address: "5JWeimeDKKudCRRQJjY3nFmytce3aks56skgSmc5fKE2",
       domain: "phishing.com",
       statement: "Sign-in to connect!",
@@ -69,8 +74,8 @@ void _test() {
     );
   });
 
-  test("EIP4631-4", () {
-    final message = EIP4631(
+  test("EIP4361-4", () {
+    final message = EIP4361(
       address: "5JWeimeDKKudCRRQJjY3nFmytce3aks56skgSmc5fKE2",
       domain: "localhost:3000",
       statement: "Sign-in to connect!",
@@ -80,8 +85,8 @@ void _test() {
       "6c6f63616c686f73743a333030302077616e747320796f7520746f207369676e20696e207769746820796f757220536f6c616e61206163636f756e743a0a354a5765696d65444b4b7564435252514a6a59336e466d7974636533616b733536736b67536d6335664b45320a0a5369676e2d696e20746f20636f6e6e65637421",
     );
   });
-  test("EIP4631-5", () {
-    final message = EIP4631(
+  test("EIP4361-5", () {
+    final message = EIP4361(
       address: "5JWeimeDKKudCRRQJjY3nFmytce3aks56skgSmc5fKE2",
       domain: "localhost:3000",
       statement: "Sign-in to connect!",
@@ -91,16 +96,16 @@ void _test() {
       "6c6f63616c686f73743a333030302077616e747320796f7520746f207369676e20696e207769746820796f757220536f6c616e61206163636f756e743a0a354a5765696d65444b4b7564435252514a6a59336e466d7974636533616b733536736b67536d6335664b45320a0a5369676e2d696e20746f20636f6e6e65637421",
     );
   });
-  test("EIP4631 invalid version", () {
+  test("EIP4361 invalid version", () {
     expect(
-      () => EIP4631(
+      () => EIP4361(
         address: "5JWeimeDKKudCRRQJjY3nFmytce3aks56skgSmc5fKE2",
         domain: "localhost:3000",
         statement: "Sign-in to connect!",
         version: '2',
       ),
       throwsA(
-        isA<EIP4631Exception>().having(
+        isA<BuError>().having(
           (e) => e.message,
           'error message',
           contains('Invalid version.'),

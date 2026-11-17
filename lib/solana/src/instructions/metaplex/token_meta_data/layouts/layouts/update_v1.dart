@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -33,7 +33,7 @@ class MetaplexTokenMetaDataUpdateV1Layout
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexTokenMetaDataProgramInstruction.updateV1.insturction,
+      instruction: MetaplexTokenMetaDataProgramInstruction.updateV1.instruction,
       discriminator: discriminator,
     );
     return MetaplexTokenMetaDataUpdateV1Layout(

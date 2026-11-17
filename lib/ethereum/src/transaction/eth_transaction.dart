@@ -1,11 +1,12 @@
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
-import 'package:on_chain/ethereum/src/exception/exception.dart';
-import 'package:on_chain/ethereum/src/models/autorization.dart';
+
+import 'package:on_chain/ethereum/src/models/authorization.dart';
 import 'package:on_chain/ethereum/src/rlp/decode.dart';
 import 'package:on_chain/ethereum/src/rlp/encode.dart';
 import 'package:on_chain/ethereum/src/models/access_list.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/transaction/zksync.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solidity/abi/abi.dart';
 
 /// Represents the type of an Ethereum transaction.
@@ -40,7 +41,13 @@ enum ETHTransactionType {
   static ETHTransactionType fromPrefix(int prefix) {
     return ETHTransactionType.values.firstWhere(
       (type) => type.prefix == prefix,
-      orElse: () => throw ItemNotFoundException(value: prefix),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid ETHTransactionType prefix.',
+                details: {'prefix': '$prefix'},
+              ),
     );
   }
 
@@ -92,15 +99,62 @@ class ETHTransactionUtils {
     return data;
   }
 
-  /// Returns the parity for a given integer [v].
-  /// Returns 0 if [v] is 27, otherwise returns 1.
-  static int parity(int v) => (v == 27) ? 0 : 1;
+  static int legacyTransactionV(int? recoveryId) {
+    if (recoveryId == null) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Missing signature recovery id.',
+        details: {'method': 'getTransactionV'},
+      );
+    }
+    final y = getSignatureY(recoveryId);
+    return y + 27;
+  }
 
-  static int parityToV(int parity) => parity + 27;
+  static BigInt getTransactionV({
+    required int? recoveryId,
+    required BigInt chainId,
+    required ETHTransactionType type,
+  }) {
+    if (recoveryId == null) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Missing signature recovery id.',
+        details: {'method': 'getTransactionV'},
+      );
+    }
+    final y = getSignatureY(recoveryId);
+    switch (type) {
+      case ETHTransactionType.legacy:
+        if (chainId == BigInt.zero) return BigInt.from(y + 27);
+        return (chainId * BigInt.two) + BigInt.from(35 + y);
+      case ETHTransactionType.eip2930:
+      case ETHTransactionType.eip1559:
+      case ETHTransactionType.eip4844:
+      case ETHTransactionType.eip7702:
+      case ETHTransactionType.eip712:
+        return BigInt.from(y);
+    }
+  }
 
-  /// Gets the legacy chain ID based on the input values [v] and [chainId].
-  static BigInt getLegacyChainId(int v, BigInt chainId) {
-    return (chainId * BigInt.two) + BigInt.from(35 + v - 27);
+  static int getSignatureY(int v) {
+    if (v == 0 || v == 27) {
+      return 0;
+    }
+
+    if (v == 1 || v == 28) {
+      return 1;
+    }
+
+    if (v < 35) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid signature recovery id.',
+        details: {'v': '$v'},
+      );
+    }
+
+    return (v - 35) & 1;
   }
 
   /// Creates an [ETHTransaction] instance from a legacy encoded transaction.
@@ -119,7 +173,7 @@ class ETHTransactionUtils {
           (decode[3] as List).isEmpty ? null : ETHAddress.fromBytes(decode[3]);
       final value = BigintUtils.fromBytes(decode[4]);
       final data = List<int>.from(decode[5]);
-      ETHSignature? sig;
+      IECDSASignature? sig;
       BigInt chainId = BigInt.zero;
       if (decode.length > 6) {
         final List<int> rBytes = ETHTransactionUtils.leadingZero32Bytes(
@@ -134,7 +188,30 @@ class ETHTransactionUtils {
         } else {
           chainId = parseLegacyChainId(v);
           if (chainId.isNegative) chainId = BigInt.zero;
-          sig = ETHSignature.fromBytes([...rBytes, ...sBytes, ...decode[6]]);
+          if (chainId == BigInt.zero) {
+            sig = IECDSASignature.fromBytes([
+              ...rBytes,
+              ...sBytes,
+              ...decode[6],
+            ]);
+          } else {
+            // EIP-155: v = chainId * 2 + 35 + recoveryId; fromBytes only
+            // understands 0/1/27/28, so recover the id explicitly.
+            final recoveryId =
+                v - (chainId * BigInt.two + BigInt.from(35)).toInt();
+            sig =
+                (recoveryId == 0 || recoveryId == 1)
+                    ? IECDSASignature(
+                      r: rBytes,
+                      s: sBytes,
+                      recoveryId: recoveryId,
+                    )
+                    : IECDSASignature.fromBytes([
+                      ...rBytes,
+                      ...sBytes,
+                      ...decode[6],
+                    ]);
+          }
         }
       }
       return ETHTransaction._(
@@ -149,7 +226,8 @@ class ETHTransactionUtils {
         type: ETHTransactionType.legacy,
       );
     } catch (e) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Failed to deserialize transaction as legacy format.",
         details: {"error": e.toString()},
       );
@@ -169,7 +247,7 @@ class ETHTransactionUtils {
       final data = List<int>.from(decode[6]);
       final accessList =
           (decode[7] as List).map((e) => AccessEntry.deserialize(e)).toList();
-      ETHSignature? sig;
+      IECDSASignature? sig;
       if (decode.length > 8) {
         final List<int> rBytes = ETHTransactionUtils.leadingZero32Bytes(
           List<int>.from(decode[9]),
@@ -178,7 +256,7 @@ class ETHTransactionUtils {
           List<int>.from(decode[10]),
         );
         final sigBytes = List<int>.from([...rBytes, ...sBytes, ...decode[8]]);
-        sig = ETHSignature.fromBytes(sigBytes);
+        sig = IECDSASignature.fromBytes(sigBytes);
       }
       return ETHTransaction._(
         nonce: nonce,
@@ -193,7 +271,8 @@ class ETHTransactionUtils {
         data: data,
       );
     } catch (e) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Failed to deserialize transaction as EIP-2930 format.",
         details: {"error": e.toString()},
       );
@@ -214,7 +293,7 @@ class ETHTransactionUtils {
       final data = List<int>.from(decode[7]);
       final accessList =
           (decode[8] as List).map((e) => AccessEntry.deserialize(e)).toList();
-      ETHSignature? sig;
+      IECDSASignature? sig;
       if (decode.length > 9) {
         final List<int> rBytes = ETHTransactionUtils.leadingZero32Bytes(
           List<int>.from(decode[10]),
@@ -223,7 +302,7 @@ class ETHTransactionUtils {
           List<int>.from(decode[11]),
         );
         final sigBytes = List<int>.from([...rBytes, ...sBytes, ...decode[9]]);
-        sig = ETHSignature.fromBytes(sigBytes);
+        sig = IECDSASignature.fromBytes(sigBytes);
       }
       return ETHTransaction._(
         nonce: nonce,
@@ -239,7 +318,8 @@ class ETHTransactionUtils {
         data: data,
       );
     } catch (e) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Failed to deserialize transaction as EIP-1559 format.",
         details: {"error": e.toString()},
       );
@@ -269,7 +349,7 @@ class ETHTransactionUtils {
       final List<List<int>> blobVersionedHashes =
           (decode[10] as List).map((e) => List<int>.from(e)).toList();
 
-      ETHSignature? sig;
+      IECDSASignature? sig;
       if (decode.length > 11) {
         final List<int> yParity = List<int>.from(decode[11]);
         final List<int> rBytes = ETHTransactionUtils.leadingZero32Bytes(
@@ -280,7 +360,7 @@ class ETHTransactionUtils {
         );
 
         final sigBytes = <int>[...rBytes, ...sBytes, ...yParity];
-        sig = ETHSignature.fromBytes(sigBytes);
+        sig = IECDSASignature.fromBytes(sigBytes);
       }
 
       return ETHTransaction._(
@@ -299,7 +379,8 @@ class ETHTransactionUtils {
         data: data,
       );
     } catch (e) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Failed to deserialize transaction as EIP-4844 format.",
         details: {"error": e.toString()},
       );
@@ -330,7 +411,7 @@ class ETHTransactionUtils {
               .map((e) => AuthorizationEntry.deserialize(e))
               .toList();
 
-      ETHSignature? sig;
+      IECDSASignature? sig;
       if (decode.length > 10) {
         final List<int> yParity = List<int>.from(decode[10]);
         final List<int> rBytes = ETHTransactionUtils.leadingZero32Bytes(
@@ -340,7 +421,7 @@ class ETHTransactionUtils {
           List<int>.from(decode[12]),
         );
         final sigBytes = <int>[...rBytes, ...sBytes, ...yParity];
-        sig = ETHSignature.fromBytes(sigBytes);
+        sig = IECDSASignature.fromBytes(sigBytes);
       }
 
       return ETHTransaction._(
@@ -350,7 +431,7 @@ class ETHTransactionUtils {
         maxFeePerGas: maxFeePerGas,
         maxPriorityFeePerGas: maxPriorityFeePerGas,
         authorizationList: authorizationList,
-        type: ETHTransactionType.eip712,
+        type: ETHTransactionType.eip7702,
         to: to,
         value: value,
         chainId: chainId,
@@ -358,14 +439,15 @@ class ETHTransactionUtils {
         data: data,
       );
     } catch (e) {
-      throw ETHPluginException(
-        "Failed to deserialize transaction as EIP-712 format.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Failed to deserialize transaction as EIP-7702 format.",
         details: {"error": e.toString()},
       );
     }
   }
 
-  /// Converts the decoded RLP data to an EIP-7702 (Type 4) Ethereum transaction.
+  /// Converts the decoded RLP data to a ZKsync EIP-712 (Type 0x71) Ethereum transaction.
   static ETHTransaction _fromEIP712(List<dynamic> decode) {
     try {
       final int nonce = IntUtils.fromBytes(decode[0]);
@@ -379,11 +461,11 @@ class ETHTransactionUtils {
       final BigInt value = BigintUtils.fromBytes(decode[5]);
       final List<int> data = List<int>.from(decode[6]);
       final yParityBytes = JsonParser.valueAsBytes<List<int>>(decode[7]);
-      ETHSignature? sig;
+      IECDSASignature? sig;
       final rBytes = JsonParser.valueAsBytes<List<int>>(decode[8]);
       final sBytes = JsonParser.valueAsBytes<List<int>>(decode[9]);
       if (rBytes.isNotEmpty && sBytes.isNotEmpty) {
-        sig = ETHSignature.fromBytes(<int>[
+        sig = IECDSASignature.fromBytes(<int>[
           ...rBytes,
           ...sBytes,
           ...yParityBytes,
@@ -399,7 +481,7 @@ class ETHTransactionUtils {
         decode[14],
       );
       if (customSignatureBytes.isNotEmpty) {
-        sig = ETHSignature.fromBytes(customSignatureBytes);
+        sig = IECDSASignature.fromBytes(customSignatureBytes);
       }
       final zsync = ZKSyncE712Parameters(
         gasPerPubdata: BigintUtils.fromBytes(
@@ -425,7 +507,7 @@ class ETHTransactionUtils {
         gasLimit: gasLimit,
         maxFeePerGas: maxFeePerGas,
         maxPriorityFeePerGas: maxPriorityFeePerGas,
-        type: ETHTransactionType.eip7702,
+        type: ETHTransactionType.eip712,
         zkSyncParameters: zsync,
         from: from,
         to: to,
@@ -435,7 +517,8 @@ class ETHTransactionUtils {
         data: data,
       );
     } catch (e) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Failed to deserialize transaction as EIP-712 format.",
         details: {"error": e.toString()},
       );
@@ -454,7 +537,8 @@ class ETHTransactionUtils {
   }) {
     ETHTransactionType.eip1559;
     if ([maxFeePerGas, maxPriorityFeePerGas].whereType<BigInt>().length == 1) {
-      throw ETHPluginException(
+      throw BuError(
+        OnChainErrorType.ethereumPlugin,
         'both maxFeePerGas and maxPriorityFeePerGas required for ${ETHTransactionType.eip1559.name} transaction.',
         details: {
           'maxFeePerGas': maxFeePerGas?.toString(),
@@ -468,7 +552,8 @@ class ETHTransactionUtils {
     bool isEIP7702 = authorizationList != null;
     bool isEIP712 = zkParams != null;
     if (isEIP1559 && gasPrice != null) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Gas price must be null for Non-legacy transaction.',
         details: {'gasPrice': gasPrice.toString()},
       );
@@ -485,7 +570,8 @@ class ETHTransactionUtils {
       } else {
         current = ETHTransactionType.eip2930.name;
       }
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot create a ${ETHTransactionType.eip712.name} transaction with $current parameters. ',
       );
     }
@@ -495,26 +581,29 @@ class ETHTransactionUtils {
           blobVersionedHashes?.emptyAsNull,
         ].where((e) => e != null).length ==
         1) {
-      throw ETHPluginException(
+      throw BuError(
+        OnChainErrorType.ethereumPlugin,
         'both maxFeePerBlobGas and blobVersionedHashes required for ${ETHTransactionType.eip4844.name} transaction.',
       );
     }
     if (isEIP4844 && isEIP7702) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot create a ${ETHTransactionType.eip7702.name} transaction with EIP-4844 parameters. ',
       );
     }
     if (isLegacy && (isEIP4844 || isEIP7702)) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot create a legacy transaction with ${isEIP4844 ? ETHTransactionType.eip4844.name : ETHTransactionType.eip7702.name} parameters. ',
       );
     }
   }
 }
 
-/// Represents an Ethereum transaction with EIP-1559 support.
+/// Represents an Ethereum transaction (legacy, EIP-2930, EIP-1559, EIP-4844, EIP-7702, EIP-712).
 class ETHTransaction {
-  /// The type of the transaction (legacy, EIP-1559, EIP-2930).
+  /// The type of the transaction (legacy, EIP-2930, EIP-1559, EIP-4844, EIP-7702, EIP-712).
   final ETHTransactionType? type;
 
   /// The recipient's address.
@@ -532,14 +621,14 @@ class ETHTransaction {
   /// The gas price for the transaction (applicable to legacy transactions).
   final BigInt? gasPrice;
 
-  /// The maximum fee per gas unit that the sender is willing to pay.
+  /// The maximum priority fee per gas unit (tip) that the sender is willing to pay.
   final BigInt? maxPriorityFeePerGas;
 
-  /// The maximum fee that the sender is willing to pay for the entire block.
+  /// The maximum fee per gas unit that the sender is willing to pay.
   final BigInt? maxFeePerGas;
 
   /// The input data for the transaction.
-  final List<int> data;
+  final BuBytes data;
 
   /// The amount of Ether to transfer with the transaction.
   final BigInt value;
@@ -551,11 +640,11 @@ class ETHTransaction {
   final List<AccessEntry>? accessList;
 
   /// The transaction signature.
-  final ETHSignature? signature;
+  final IECDSASignature? signature;
 
   final BigInt? maxFeePerBlobGas;
 
-  final List<List<int>>? blobVersionedHashes;
+  final List<BuBytes>? blobVersionedHashes;
 
   final List<AuthorizationEntry>? authorizationList;
 
@@ -600,7 +689,7 @@ class ETHTransaction {
     BigInt? gasPrice,
     BigInt? maxPriorityFeePerGas,
     BigInt? maxFeePerGas,
-    ETHSignature? signature,
+    IECDSASignature? signature,
     BigInt? maxFeePerBlobGas,
     List<AuthorizationEntry>? authorizationList,
     List<List<int>>? blobVersionedHashes,
@@ -628,7 +717,10 @@ class ETHTransaction {
   /// Factory constructor to create an [ETHTransaction] from serialized transaction bytes.
   factory ETHTransaction.fromSerialized(List<int> transactionBytes) {
     if (transactionBytes.isEmpty) {
-      throw const ETHPluginException('invalid transaction bytes');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid transaction bytes.',
+      );
     }
     final int prefix = transactionBytes[0];
     ETHTransactionType type = ETHTransactionType.legacy;
@@ -676,10 +768,20 @@ class ETHTransaction {
       signature:
           json['signature'] == null
               ? null
-              : ETHSignature(
-                BigInt.parse(json['signature']['r']),
-                BigInt.parse(json['signature']['s']),
-                json['signature']['v'],
+              : IECDSASignature(
+                r:
+                    JsonParser.valueAsBigInt<BigInt>(
+                      json['signature']['r'],
+                      allowHex: true,
+                    ).toBeBytes(),
+                s:
+                    JsonParser.valueAsBigInt<BigInt>(
+                      json['signature']['s'],
+                      allowHex: true,
+                    ).toBeBytes(),
+                recoveryId: ETHTransactionUtils.getSignatureY(
+                  json['signature']['v'],
+                ),
               ),
     );
   }
@@ -699,7 +801,7 @@ class ETHTransaction {
     BigInt? chainId,
     List<int>? hash,
     List<AccessEntry>? accessList,
-    ETHSignature? signature,
+    IECDSASignature? signature,
     List<AuthorizationEntry>? authorizationList,
     List<List<int>>? blobVersionedHashes,
     BigInt? maxFeePerBlobGas,
@@ -726,7 +828,7 @@ class ETHTransaction {
 
   /// Converts the [ETHTransaction] to its EIP-1559 serialized form.
   /// If [sig] is provided, includes the signature fields in the serialization.
-  List<int> _toEIP1559([ETHSignature? sig]) {
+  BuBytes _toEIP1559([IECDSASignature? sig]) {
     final List<List<dynamic>> fields = [
       ETHTransactionUtils.bigintToBytes(chainId),
       ETHTransactionUtils.intToBytes(nonce),
@@ -740,18 +842,27 @@ class ETHTransaction {
     ];
     if (sig != null) {
       fields.add(
-        ETHTransactionUtils.intToBytes(ETHTransactionUtils.parity(sig.v)),
+        ETHTransactionUtils.bigintToBytes(
+          ETHTransactionUtils.getTransactionV(
+            chainId: chainId,
+            recoveryId: sig.recoveryId,
+            type: ETHTransactionType.eip1559,
+          ),
+        ),
       );
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.rBytes));
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.sBytes));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.r));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.s));
     }
 
-    return [ETHTransactionType.eip1559.prefix, ...RLPEncoder.encode(fields)];
+    return BuBytes.from([
+      ETHTransactionType.eip1559.prefix,
+      ...RLPEncoder.encode(fields),
+    ]);
   }
 
   /// Converts the [ETHTransaction] to its EIP-712 serialized form.
   /// If [sig] is provided, includes the signature fields in the serialization.
-  List<int> _toEIP712([ETHSignature? sig]) {
+  BuBytes _toEIP712([IECDSASignature? sig]) {
     final List<List<dynamic>> fields = [
       ETHTransactionUtils.intToBytes(nonce),
       ETHTransactionUtils.bigintToBytes(maxPriorityFeePerGas!),
@@ -771,40 +882,52 @@ class ETHTransaction {
       zkSyncParameters!.paymaster?.serialize() ?? [],
     ];
 
-    return [ETHTransactionType.eip712.prefix, ...RLPEncoder.encode(fields)];
+    return BuBytes.from([
+      ETHTransactionType.eip712.prefix,
+      ...RLPEncoder.encode(fields),
+    ]);
   }
 
   /// Converts the [ETHTransaction] to its EIP-2930 serialized form.
   /// If [sig] is provided, includes the signature fields in the serialization.
-  List<int> _toEip2930([ETHSignature? sig]) {
+  BuBytes _toEip2930([IECDSASignature? sig]) {
     final List<List<dynamic>> fields = [
       ETHTransactionUtils.bigintToBytes(chainId),
       ETHTransactionUtils.intToBytes(nonce),
       ETHTransactionUtils.bigintToBytes(gasPrice!),
       ETHTransactionUtils.bigintToBytes(gasLimit),
-      to?.toBytes() ?? List<int>.empty(),
+      to?.toBytes() ?? <int>[],
       ETHTransactionUtils.bigintToBytes(value),
       data,
       accessList?.map((e) => e.serialize()).toList() ?? <dynamic>[],
     ];
     if (sig != null) {
       fields.add(
-        ETHTransactionUtils.intToBytes(ETHTransactionUtils.parity(sig.v)),
+        ETHTransactionUtils.bigintToBytes(
+          ETHTransactionUtils.getTransactionV(
+            chainId: chainId,
+            recoveryId: sig.recoveryId,
+            type: ETHTransactionType.eip2930,
+          ),
+        ),
       );
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.rBytes));
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.sBytes));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.r));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.s));
     }
-    return [ETHTransactionType.eip2930.prefix, ...RLPEncoder.encode(fields)];
+    return BuBytes.from([
+      ETHTransactionType.eip2930.prefix,
+      ...RLPEncoder.encode(fields),
+    ]);
   }
 
   /// Converts the [ETHTransaction] to its legacy (pre-EIP-155) serialized form.
   /// If [sig] is provided, includes the signature fields in the serialization.
-  List<int> _toLegacy([ETHSignature? sig]) {
+  BuBytes _toLegacy([IECDSASignature? sig]) {
     final List<List<int>> fields = [
       ETHTransactionUtils.intToBytes(nonce),
       ETHTransactionUtils.bigintToBytes(gasPrice!),
       ETHTransactionUtils.bigintToBytes(gasLimit),
-      to?.toBytes() ?? List<int>.empty(),
+      to?.toBytes() ?? <int>[],
       ETHTransactionUtils.bigintToBytes(value),
       data,
     ];
@@ -817,23 +940,25 @@ class ETHTransaction {
         fields.add(<int>[]);
         fields.add(<int>[]);
       }
-      return RLPEncoder.encode(fields);
+      return BuBytes.from(RLPEncoder.encode(fields));
     }
-    BigInt v = BigInt.from(27 + ETHTransactionUtils.parity(sig.v));
-    if (chainId != BigInt.zero) {
-      v = ETHTransactionUtils.getLegacyChainId(sig.v, chainId);
-    } else if (BigInt.from(sig.v) != v) {
-      throw const ETHPluginException('Mismatch chainID/Signature.V');
-    }
-    fields.add(v.toBeBytes());
-    fields.add(ETHTransactionUtils.trimLeadingZero(sig.rBytes));
-    fields.add(ETHTransactionUtils.trimLeadingZero(sig.sBytes));
-    return RLPEncoder.encode(fields);
+    fields.add(
+      ETHTransactionUtils.bigintToBytes(
+        ETHTransactionUtils.getTransactionV(
+          chainId: chainId,
+          recoveryId: sig.recoveryId,
+          type: ETHTransactionType.legacy,
+        ),
+      ),
+    );
+    fields.add(ETHTransactionUtils.trimLeadingZero(sig.r));
+    fields.add(ETHTransactionUtils.trimLeadingZero(sig.s));
+    return BuBytes.from(RLPEncoder.encode(fields));
   }
 
   /// Converts the [ETHTransaction] to its EIP-4844 (Type 3) serialized form.
   /// Includes blob-related fields and optionally the signature.
-  List<int> _toEIP4844([ETHSignature? sig]) {
+  BuBytes _toEIP4844([IECDSASignature? sig]) {
     final List<List<dynamic>> fields = [
       ETHTransactionUtils.bigintToBytes(chainId),
       ETHTransactionUtils.intToBytes(nonce),
@@ -850,17 +975,26 @@ class ETHTransaction {
 
     if (sig != null) {
       fields.add(
-        ETHTransactionUtils.intToBytes(ETHTransactionUtils.parity(sig.v)),
+        ETHTransactionUtils.bigintToBytes(
+          ETHTransactionUtils.getTransactionV(
+            chainId: chainId,
+            recoveryId: sig.recoveryId,
+            type: ETHTransactionType.eip4844,
+          ),
+        ),
       );
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.rBytes));
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.sBytes));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.r));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.s));
     }
-    return [ETHTransactionType.eip4844.prefix, ...RLPEncoder.encode(fields)];
+    return BuBytes.from([
+      ETHTransactionType.eip4844.prefix,
+      ...RLPEncoder.encode(fields),
+    ]);
   }
 
   /// Converts the [ETHTransaction] to its EIP-7702 (Type 4) serialized form.
   /// Includes authorization_list and optionally the signature.
-  List<int> _toEIP7702([ETHSignature? sig]) {
+  BuBytes _toEIP7702([IECDSASignature? sig]) {
     final List<List<dynamic>> fields = [
       ETHTransactionUtils.bigintToBytes(chainId),
       ETHTransactionUtils.intToBytes(nonce),
@@ -877,24 +1011,34 @@ class ETHTransaction {
 
     if (sig != null) {
       fields.add(
-        ETHTransactionUtils.intToBytes(ETHTransactionUtils.parity(sig.v)),
+        ETHTransactionUtils.bigintToBytes(
+          ETHTransactionUtils.getTransactionV(
+            chainId: chainId,
+            recoveryId: sig.recoveryId,
+            type: ETHTransactionType.eip7702,
+          ),
+        ),
       );
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.rBytes));
-      fields.add(ETHTransactionUtils.trimLeadingZero(sig.sBytes));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.r));
+      fields.add(ETHTransactionUtils.trimLeadingZero(sig.s));
     }
 
-    return [ETHTransactionType.eip7702.prefix, ...RLPEncoder.encode(fields)];
+    return BuBytes.from([
+      ETHTransactionType.eip7702.prefix,
+      ...RLPEncoder.encode(fields),
+    ]);
   }
 
   ETHTransactionType _detectTxType({bool allowEIP712 = true}) {
     final hasAccessList = accessList?.isNotEmpty ?? false;
-    final hasAutorizationList = authorizationList?.isNotEmpty ?? false;
+
+    final hasAuthorizationList = authorizationList?.isNotEmpty ?? false;
     final hasBlob = blobVersionedHashes?.isNotEmpty ?? false;
     final isEIP712 = zkSyncParameters != null;
     final isEIP1559 = maxFeePerGas != null || maxPriorityFeePerGas != null;
     if (allowEIP712 && isEIP712) {
       return ETHTransactionType.eip712;
-    } else if (hasAutorizationList) {
+    } else if (hasAuthorizationList) {
       return ETHTransactionType.eip7702;
     } else if (hasBlob) {
       return ETHTransactionType.eip4844;
@@ -910,19 +1054,21 @@ class ETHTransaction {
   /// Determines the [ETHTransactionType] based on the transaction's properties.
   ETHTransactionType get transactionType {
     final hasAccessList = accessList?.isNotEmpty ?? false;
-    final hasAutorizationList = authorizationList?.isNotEmpty ?? false;
+    final hasAuthorizationList = authorizationList?.isNotEmpty ?? false;
     final hasBlob = blobVersionedHashes?.isNotEmpty ?? false;
     final isEIP712 = zkSyncParameters != null;
     bool isLegacy = gasPrice != null;
-    if (hasBlob && hasAutorizationList) {
-      throw ETHPluginException(
+    if (hasBlob && hasAuthorizationList) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot create a transaction with both EIP-7702 and EIP-4844 parameters. ',
       );
     }
 
     if (isEIP712 &&
-        (hasBlob || hasAutorizationList || isLegacy || hasAccessList)) {
-      throw ETHPluginException(
+        (hasBlob || hasAuthorizationList || isLegacy || hasAccessList)) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Cannot create a ${ETHTransactionType.eip712.name} transaction with ${_detectTxType(allowEIP712: false).name} parameters. ',
       );
     }
@@ -930,12 +1076,14 @@ class ETHTransaction {
     ETHTransactionType validateTxType(ETHTransactionType transactionType) {
       if (transactionType.isLegacy || transactionType.isEIP2930) {
         if (gasPrice == null) {
-          throw const ETHPluginException(
+          throw const BuError(
+            DefaultErrorType.invalidArgument,
             'Gas price must not be null for legacy transactions.',
           );
         }
         if (maxFeePerGas != null || maxPriorityFeePerGas != null) {
-          throw ETHPluginException(
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'maxFeePerGas and maxPriorityFeePerGas must be null for legacy transactions.',
             details: {
               'maxFeePerGas': maxFeePerGas?.toString(),
@@ -944,59 +1092,68 @@ class ETHTransaction {
           );
         }
         if (transactionType.isLegacy && hasAccessList) {
-          throw ETHPluginException(
-            'accsesslist must be null or empty for legacy transactions',
+          throw BuError(
+            DefaultErrorType.invalidArgument,
+            'accessList must be null or empty for legacy transactions.',
           );
         }
-        if (hasBlob || hasAutorizationList || zkSyncParameters != null) {
-          throw ETHPluginException(
+        if (hasBlob || hasAuthorizationList || zkSyncParameters != null) {
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Cannot create a ${transactionType.name} transaction with ${hasBlob ? 'EIP-4844 ' : 'EIP-7702'} parameters. ',
           );
         }
       } else {
         if (gasPrice != null) {
-          throw ETHPluginException(
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Gas price must be null for ${transactionType.name} transactions.',
             details: {'gasPrice': gasPrice?.toString()},
           );
         }
         if (maxFeePerGas == null || maxPriorityFeePerGas == null) {
-          throw ETHPluginException(
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'maxFeePerGas and maxPriorityFeePerGas must not be null for ${transactionType.name} transactions.',
           );
         }
         if (maxPriorityFeePerGas! > maxFeePerGas!) {
-          throw ETHPluginException(
-            'priorityFee cannot be more than maxFee',
+          throw BuError(
+            DefaultErrorType.invalidArgument,
+            'maxPriorityFeePerGas cannot be more than maxFeePerGas.',
             details: {
-              'priorityFee': maxFeePerGas?.toString(),
-              'maxFee': maxPriorityFeePerGas?.toString(),
+              'maxPriorityFeePerGas': maxPriorityFeePerGas?.toString(),
+              'maxFeePerGas': maxFeePerGas?.toString(),
             },
           );
         }
         switch (transactionType) {
           case ETHTransactionType.eip712:
             if (zkSyncParameters == null) {
-              throw ETHPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 'zkSyncParameters must not be null for EIP-712 transaction.',
               );
             }
             break;
           case ETHTransactionType.eip4844:
             if (maxFeePerBlobGas == null) {
-              throw ETHPluginException(
-                'maxGasPerBlob must not be null for EIP-4844 transaction.',
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'maxFeePerBlobGas must not be null for EIP-4844 transaction.',
               );
             }
-            if (hasAutorizationList) {
-              throw ETHPluginException(
+            if (hasAuthorizationList) {
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 'Cannot create a ${transactionType.name} transaction with EIP-7702 parameters. ',
               );
             }
             break;
           case ETHTransactionType.eip7702:
             if (hasBlob || maxFeePerBlobGas != null) {
-              throw ETHPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 'Cannot create a ${transactionType.name} transaction with EIP-4844 parameters. ',
               );
             }
@@ -1012,7 +1169,7 @@ class ETHTransaction {
   }
 
   /// Serializes the transaction based on its type.
-  List<int> _serialized([ETHSignature? signature]) {
+  BuBytes _serialized([IECDSASignature? signature]) {
     switch (transactionType) {
       case ETHTransactionType.legacy:
         return _toLegacy(signature);
@@ -1026,7 +1183,7 @@ class ETHTransaction {
         return _toEIP1559(signature);
       case ETHTransactionType.eip712:
         if (signature == null) {
-          return getEIP712TypeData().encode(hash: false);
+          return getEIP712TypeData().encode(hash: false).toBytes;
         }
         return _toEIP712(signature);
     }
@@ -1035,13 +1192,15 @@ class ETHTransaction {
   Eip712TypedData getEIP712TypeData() {
     ETHTransactionType transactionType = type ?? _detectTxType();
     if (!transactionType.isEIP712) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidState,
         "cannot create ${ETHTransactionType.eip712.name} typed-data from ${transactionType.name} transaction.",
       );
     }
     transactionType = this.transactionType;
     if (!transactionType.isEIP712) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidState,
         "cannot create ${ETHTransactionType.eip712.name} typed-data from ${transactionType.name} transaction.",
       );
     }
@@ -1061,14 +1220,15 @@ class ETHTransaction {
   }
 
   /// Gets the serialized transaction for signing.
-  List<int> get serialized => _serialized();
+  BuBytes get serialized => _serialized();
 
   /// Gets the serialized transaction.
-  List<int> signedSerialized([ETHSignature? sig]) {
+  BuBytes signedSerialized([IECDSASignature? sig]) {
     sig ??= signature;
     if (sig == null) {
-      throw const ETHPluginException(
-        'The transaction signed serialized cannot be obtained before the signing process.',
+      throw const BuError(
+        DefaultErrorType.invalidState,
+        'The transaction serialized bytes cannot be obtained before the signing process.',
       );
     }
     return _serialized(sig);
@@ -1077,7 +1237,7 @@ class ETHTransaction {
   /// Generates the transaction ID using the Keccak256 hash of the serialized transaction.
   String get transactionID {
     return BytesUtils.toHexString(
-      QuickCrypto.keccack256Hash(signedSerialized()),
+      QuickCrypto.keccak256Hash(signedSerialized()),
       prefix: '0x',
     );
   }
@@ -1087,8 +1247,9 @@ class ETHTransaction {
     return {
       if (from != null) 'from': from?.address,
       if (to != null) 'to': to?.address,
-      if (gasLimit > BigInt.zero) 'gas': '0x${gasLimit.toRadixString(16)}',
-      'value': '0x${value.toRadixString(16)}',
+
+      if (gasLimit > BigInt.zero) 'gas': gasLimit.toHexaDecimal,
+      'value': value.toHexaDecimal,
       if (data.isNotEmpty) 'data': BytesUtils.toHexString(data, prefix: '0x'),
       if (accessList?.isNotEmpty ?? false)
         'accessList': accessList?.map((e) => e.toJson()).toList(),
@@ -1109,35 +1270,29 @@ class ETHTransaction {
       'type': type?.name,
       'to': to?.address,
       'from': from?.address,
-      'nonce': '0x${nonce.toRadixString(16)}',
-      'gasLimit': '0x${gasLimit.toRadixString(16)}',
-      'gasPrice': gasPrice == null ? null : '0x${gasPrice!.toRadixString(16)}',
-      'maxPriorityFeePerGas':
-          maxPriorityFeePerGas == null
-              ? null
-              : '0x${maxPriorityFeePerGas!.toRadixString(16)}',
+
+      'nonce': nonce.toHexaDecimal,
+      'gasLimit': gasLimit.toHexaDecimal,
+      'gasPrice': gasPrice?.toHexaDecimal,
+      'maxPriorityFeePerGas': maxPriorityFeePerGas?.toHexaDecimal,
       "blobVersionedHashes":
           blobVersionedHashes
               ?.map((e) => BytesUtils.toHexString(e, prefix: "0x"))
               .toList(),
-      'maxFeePerGas':
-          maxFeePerGas == null ? null : '0x${maxFeePerGas!.toRadixString(16)}',
-      "maxFeePerBlobGas":
-          maxFeePerBlobGas == null
-              ? null
-              : '0x${maxFeePerBlobGas!.toRadixString(16)}',
+      'maxFeePerGas': maxFeePerGas?.toHexaDecimal,
+      "maxFeePerBlobGas": maxFeePerBlobGas?.toHexaDecimal,
       'data': data.isEmpty ? null : BytesUtils.toHexString(data, prefix: '0x'),
-      'value': '0x${value.toRadixString(16)}',
-      'chainId': '0x${chainId.toRadixString(16)}',
+      'value': value.toHexaDecimal,
+      'chainId': chainId.toHexaDecimal,
       'accessList': accessList?.map((e) => e.toJson()).toList(),
       'authorizationList': authorizationList?.map((e) => e.toJson()).toList(),
       'signature':
           signature == null
               ? null
               : {
-                's': signature!.s.toString(),
-                'r': signature!.r.toString(),
-                'v': signature!.v,
+                's': signature!.s.toBigInt().toString(),
+                'r': signature!.r.toBigInt().toString(),
+                'v': signature!.recoveryId,
               },
     };
   }

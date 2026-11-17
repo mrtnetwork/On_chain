@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
   final List<int> mintArgs;
@@ -14,7 +14,7 @@ class MetaplexCandyMachineMintLayout extends MetaplexCandyMachineProgramLayout {
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexCandyMachineProgramInstruction.mint.insturction,
+      instruction: MetaplexCandyMachineProgramInstruction.mint.instruction,
     );
     return MetaplexCandyMachineMintLayout(
       mintArgs: (decode['mintArgs'] as List).cast(),

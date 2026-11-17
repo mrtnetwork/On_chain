@@ -18,7 +18,7 @@ class AptosGraphQLRequestGetAccountCoinsCount
   @override
   Map<String, dynamic> get queryVariables => {'address': address.address};
   @override
-  AptosGraphQLApiAggregate onResonse(Map<String, dynamic> result) {
+  AptosGraphQLApiAggregate onResponse(Map<String, dynamic> result) {
     return AptosGraphQLApiAggregate.fromJson(
       result["current_fungible_asset_balances_aggregate"]["aggregate"],
     );

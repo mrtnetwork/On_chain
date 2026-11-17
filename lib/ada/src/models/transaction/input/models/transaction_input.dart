@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/utils/compare/hash_code.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 

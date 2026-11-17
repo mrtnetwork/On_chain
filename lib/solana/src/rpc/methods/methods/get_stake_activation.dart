@@ -40,7 +40,7 @@ class SolanaRequestGetStakeActivation
   }
 
   @override
-  StakeActivationData onResonse(Map<String, dynamic> result) {
+  StakeActivationData onResponse(Map<String, dynamic> result) {
     return StakeActivationData.fromJson(result);
   }
 }

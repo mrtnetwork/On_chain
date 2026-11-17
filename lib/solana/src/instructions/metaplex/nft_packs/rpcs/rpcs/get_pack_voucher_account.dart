@@ -29,7 +29,7 @@ class SolanaRPCGetPackVoucherAccount
   }
 
   @override
-  PackVoucher? onResonse(result) {
+  PackVoucher? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return PackVoucher.fromBuffer(accountInfo.toBytesData());

@@ -23,7 +23,7 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
     );
   }
 
-  List<int> _addressToBytes(Object object) {
+  BuBytes _addressToBytes(Object object) {
     try {
       if (object is SolidityAddress) {
         return object.toSolidtyBytes();
@@ -33,7 +33,7 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
         return BytesUtils.fromHexString(object);
       }
     } catch (_) {}
-    throw SolidityAbiException(
+    throw BuError(DefaultErrorType.invalidAddress,
       'Invalid address format: Expected a SolidityAddress, '
       'List<int>, or a hexadecimal String. ',
       details: {"address": object.toString()},
@@ -44,7 +44,7 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
   /// The resulting bytes include Ethereum or Tron address bytes
   @override
   EncoderResult abiEncode(AbiParameter params, Object input) {
-    final bytes = List<int>.filled(ABIConst.uintBytesLength, 0);
+    final bytes = BuBytes.fill(ABIConst.uintBytesLength, 0);
     List<int> addrBytes = _addressToBytes(input);
     if (addrBytes.length == TronAddress.lengthInBytes) {
       addrBytes = addrBytes.sublist(TronAddress.lengthInBytes - addrLength);
@@ -59,7 +59,7 @@ class AddressCoder implements ABICoder<Object, SolidityAddress> {
   EncoderResult encodePacked(AbiParameter params, Object input) {
     // if (keepSize) return abiEncode(params, input);
     final asBytes = _addressToBytes(input);
-    List<int> addrBytes = asBytes;
+    BuBytes addrBytes = asBytes;
     addrBytes = addrBytes.sublist(addrBytes.length - addrLength);
     return EncoderResult(
       isDynamic: false,

@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/add_config_lines.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/create_candy_guard.dart';
@@ -11,6 +10,7 @@ import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/lay
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/mint.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/mint_from_candy_machine.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/mint_from_candy_machine_v2.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/mint_v2.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/route.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/set_candy_guard_authority.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/set_candy_machine_authority.dart';
@@ -21,6 +21,8 @@ import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/lay
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/unwrap.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/update_candy_guard.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/update_candy_machine.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/withdraw_candy_guard.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/withdraw_candy_machine.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/layouts/wrap.dart';
 
 import 'instructions.dart';
@@ -32,6 +34,8 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
   @override
   abstract final MetaplexCandyMachineProgramInstruction instruction;
   static ProgramLayout fromBytes(List<int> data) {
+    final aliased = _decodeAliased(data);
+    if (aliased != null) return aliased;
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
@@ -66,6 +70,8 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
         return MetaplexCandyMachineMintFromCandyMachineV2Layout.fromBuffer(
           data,
         );
+      case MetaplexCandyMachineProgramInstruction.mintV2:
+        return MetaplexCandyMachineMintV2Layout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.route:
         return MetaplexCandyMachineRouteLayout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.setCandyGuardAuthority:
@@ -92,9 +98,68 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
         return MetaplexCandyMachineUpdateCandyMachineLayout.fromBuffer(data);
       case MetaplexCandyMachineProgramInstruction.wrap:
         return MetaplexCandyMachineWrapLayout.fromBuffer(data);
+      case MetaplexCandyMachineProgramInstruction.withdrawCandyMachine:
+        return MetaplexCandyMachineWithdrawCandyMachineLayout.fromBuffer(data);
+      case MetaplexCandyMachineProgramInstruction.withdrawCandyGuard:
+        return MetaplexCandyMachineWithdrawCandyGuardLayout.fromBuffer(data);
       default:
         return UnknownProgramLayout(data);
     }
+  }
+
+  static ProgramLayout? _decodeAliased(List<int> data) {
+    bool matches(List<int> disc) {
+      if (data.length < disc.length) return false;
+      for (var i = 0; i < disc.length; i++) {
+        if (data[i] != disc[i]) return false;
+      }
+      return true;
+    }
+
+    // mint (machine, has args) vs mintFromCandyMachine (guard, empty).
+    if (matches(MetaplexCandyMachineProgramInstruction.mint.instruction)) {
+      if (data.length == 8) {
+        return MetaplexCandyMachineMintFromCandyMachineLayout.fromBuffer(data);
+      }
+      return MetaplexCandyMachineMintLayout.fromBuffer(data);
+    }
+    // mintV2 (machine, has args) vs mintFromCandyMachineV2 (guard, empty).
+    if (matches(MetaplexCandyMachineProgramInstruction.mintV2.instruction)) {
+      if (data.length == 8) {
+        return MetaplexCandyMachineMintFromCandyMachineV2Layout.fromBuffer(
+          data,
+        );
+      }
+      return MetaplexCandyMachineMintV2Layout.fromBuffer(data);
+    }
+    // initializeCandyMachine (strict struct) vs createCandyGuard (vecU8).
+    if (matches(
+      MetaplexCandyMachineProgramInstruction.initializeCandyMachine.instruction,
+    )) {
+      try {
+        return MetaplexCandyMachineInitializeCandyMachineLayout.fromBuffer(
+          data,
+        );
+      } catch (_) {
+        return MetaplexCandyMachineCreateCandyGuardLayout.fromBuffer(data);
+      }
+    }
+    // updateCandyMachine (strict struct) vs updateCandyGuard (vecU8).
+    if (matches(
+      MetaplexCandyMachineProgramInstruction.updateCandyMachine.instruction,
+    )) {
+      try {
+        return MetaplexCandyMachineUpdateCandyMachineLayout.fromBuffer(data);
+      } catch (_) {
+        return MetaplexCandyMachineUpdateCandyGuardLayout.fromBuffer(data);
+      }
+    }
+    if (matches(
+      MetaplexCandyMachineProgramInstruction.withdrawCandyMachine.instruction,
+    )) {
+      return MetaplexCandyMachineWithdrawCandyMachineLayout.fromBuffer(data);
+    }
+    return null;
   }
 
   static Map<String, dynamic> decodeAndValidateStruct({
@@ -105,7 +170,8 @@ abstract class MetaplexCandyMachineProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'invalid instruction bytes',
         details: {
           'expected': BytesUtils.toHexString(instruction),

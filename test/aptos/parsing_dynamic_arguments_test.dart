@@ -2,6 +2,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
+import '../utils.dart';
 /// this test copied from aptos ts sdk
 /// https://github.com/aptos-labs/aptos-ts-sdk/blob/main/tests/e2e/transaction/transactionArguments.test.ts
 
@@ -14,9 +15,14 @@ final BigInt _maxU256 = BigInt.parse(
   "115792089237316195423570985008687907853269984665640564039457584007913129639935",
 );
 
-void main() {
-  _testAbi();
+void parsingDynamicArgumentsTest() {
+  group('Aptos/Parsing dynamic arguments', _testAbi);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(parsingDynamicArgumentsTest, "Parsing Dynamic Arguments");
+}
+
 
 void _testAbi() {
   test("aptos module abi parsing arguments", () {

@@ -1,5 +1,5 @@
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
-import 'package:on_chain/ethereum/src/models/autorization.dart';
+import 'package:on_chain/ethereum/src/models/authorization.dart';
 import 'package:on_chain/ethereum/src/models/models.dart';
 import 'package:on_chain/ethereum/src/transaction/eth_transaction.dart';
 import 'package:on_chain/utils/utils/number_utils.dart';
@@ -54,15 +54,11 @@ class TransactionInfo {
   /// The ECDSA signature component 's'.
   final String? s;
 
-  ETHSignature toSignature() {
-    final v =
-        this.v >= 27
-            ? this.v
-            : ETHTransactionUtils.parityToV(yParity ?? this.v);
-    return ETHSignature(
-      PluginBigintUtils.hexToBigint(r),
-      PluginBigintUtils.hexToBigint(s),
-      ETHSignatureUtils.getSignatureV(yParity ?? v),
+  IECDSASignature toSignature() {
+    return IECDSASignature(
+      r: PluginBigintUtils.hexToBytes(r),
+      s: PluginBigintUtils.hexToBytes(s),
+      recoveryId: yParity ?? ETHTransactionUtils.getSignatureY(v),
     );
   }
 
@@ -200,41 +196,28 @@ class TransactionInfo {
       'accessList': accessList?.map((e) => e.toJson()).toList(),
       'authorizationList': authorizationList?.map((e) => e.toJson()).toList(),
       'blobVersionedHashes': blobVersionedHashes,
-      'maxFeePerBlobGas':
-          maxFeePerBlobGas != null
-              ? '0x${maxFeePerBlobGas!.toRadixString(16)}'
-              : null,
+      'maxFeePerBlobGas': maxFeePerBlobGas?.toHexaDecimal,
       'blockHash': blockHash,
-      'blockNumber': '0x${blockNumber.toRadixString(16)}',
-      'chainId': chainId != null ? '0x${chainId!.toRadixString(16)}' : null,
+      'blockNumber': blockNumber.toHexaDecimal,
+      'chainId': chainId?.toHexaDecimal,
       'from': from,
-      'gas': '0x${gas.toRadixString(16)}',
-      'gasPrice': gasPrice != null ? '0x${gasPrice!.toRadixString(16)}' : null,
+      'gas': gas.toHexaDecimal,
+      'gasPrice': gasPrice?.toHexaDecimal,
       'hash': hash,
       'input': input,
-      'maxFeePerGas':
-          maxFeePerGas != null ? '0x${maxFeePerGas!.toRadixString(16)}' : null,
-      'maxPriorityFeePerGas':
-          maxPriorityFeePerGas != null
-              ? '0x${maxPriorityFeePerGas!.toRadixString(16)}'
-              : null,
-      'nonce': '0x${nonce.toRadixString(16)}',
+      'maxFeePerGas': maxFeePerGas?.toHexaDecimal,
+      'maxPriorityFeePerGas': maxPriorityFeePerGas?.toHexaDecimal,
+      'nonce': nonce.toHexaDecimal,
       'r': r,
-      's': r,
+      's': s,
       'to': to,
-      'transactionIndex': '0x${transactionIndex.toRadixString(16)}',
-      'type': '0x${type.toRadixString(16)}',
-      'v': '0x${v.toRadixString(16)}',
-      'value': '0x${value.toRadixString(16)}',
-      'yParity': yParity != null ? '0x${yParity!.toRadixString(16)}' : null,
-      'l1BatchNumber':
-          l1BatchNumber != null
-              ? '0x${l1BatchNumber!.toRadixString(16)}'
-              : null,
-      'l1BatchTxIndex':
-          l1BatchTxIndex != null
-              ? '0x${l1BatchTxIndex!.toRadixString(16)}'
-              : null,
+      'transactionIndex': transactionIndex.toHexaDecimal,
+      'type': type.toHexaDecimal,
+      'v': v.toHexaDecimal,
+      'value': value.toHexaDecimal,
+      'yParity': yParity?.toHexaDecimal,
+      'l1BatchNumber': l1BatchNumber?.toHexaDecimal,
+      'l1BatchTxIndex': l1BatchTxIndex?.toHexaDecimal,
     }.notNullValue;
   }
 

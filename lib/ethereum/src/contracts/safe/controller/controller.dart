@@ -1,11 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/safe.dart';
-import 'package:on_chain/ethereum/src/exception/exception.dart';
 import 'package:on_chain/ethereum/src/keys/signer.dart';
 import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 
 import 'package:on_chain/ethereum/src/transaction/transaction.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solidity/abi/abi.dart';
 import 'package:on_chain/solidity/address/core.dart';
 
@@ -64,7 +65,8 @@ class SafeContractController {
     switch (manifest.version) {
       case SafeContractVersion.v1_0_0:
         if (handler != null) {
-          throw ETHPluginException(
+          throw BuError(
+            DefaultErrorType.unsupported,
             "Fallback handler is not supported in version ${manifest.version.version}.",
           );
         }
@@ -138,7 +140,8 @@ class SafeContractController {
               ),
               orElse:
                   () =>
-                      throw ETHPluginException(
+                      throw BuError(
+                        OnChainErrorType.ethereumPlugin,
                         'No proxy creation event found in the transaction events.',
                       ),
             )
@@ -197,7 +200,8 @@ class SafeContractController {
       }
       final chainIds = assets.getSupportedChainIds();
       if (!chainIds.contains(chainId)) {
-        throw ETHPluginException(
+        throw BuError(
+          DefaultErrorType.unsupported,
           "The provided chainId is not supported by Safe assets.",
           details: {"chainId": chainId.toString()},
         );
@@ -235,7 +239,8 @@ class SafeContractController {
           );
         }
       } on RPCError catch (_) {}
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         "Unable to locate the ABI for the specified Safe Singleton address.",
         details: {"address": address.address},
       );
@@ -248,7 +253,8 @@ class SafeContractController {
     if (version == controller.contract.version) {
       return controller;
     }
-    throw ETHPluginException(
+    throw BuError(
+      DefaultErrorType.invalidAddress,
       "Failed to verify the singleton contract address.",
     );
   }
@@ -269,16 +275,24 @@ class SafeContractController {
         return SafeSignature(address: address, signature: signature.toBytes());
       case SafeTransactionSigningMode.signMessage:
         final signature = await signer.signPersonalMessageAsync(hash);
-        assert(
-          signature.length ==
-              CryptoSignerConst.ecdsaSignatureLength +
-                  CryptoSignerConst.ecdsaRecoveryIdLength,
-        );
+        if (signature.length !=
+            CryptoSignerConst.ecdsaSignatureLength +
+                CryptoSignerConst.ecdsaRecoveryIdLength) {
+          throw BuError(
+            DefaultErrorType.invalidLength,
+            'Invalid personal message signature length.',
+            details: {
+              'length': '${signature.length}',
+              'expected':
+                  '${CryptoSignerConst.ecdsaSignatureLength + CryptoSignerConst.ecdsaRecoveryIdLength}',
+            },
+          );
+        }
         final signatureBytes = signature.sublist(
           0,
           CryptoSignerConst.ecdsaSignatureLength,
         );
-        int v = ETHSignatureUtils.getSignatureV(signature.last);
+        int v = ETHTransactionUtils.legacyTransactionV(signature.last);
         return SafeSignature(
           address: address,
           signature: [...signatureBytes, v + 4],
@@ -325,10 +339,10 @@ class SafeContractController {
     return typedData.toJson();
   }
 
-  Future<String> excute({
+  Future<String> execute({
     required SafeTransaction safeTx,
-    required ETHAddress excuter,
-    required EthereumSigner excuterSigner,
+    required ETHAddress executer,
+    required EthereumSigner executerSigner,
     required List<SafeSignature> signatures,
     ETHTransactionParams? params,
   }) async {
@@ -340,7 +354,7 @@ class SafeContractController {
           ),
         );
     final transaction = ETHTransactionBuilder(
-      from: excuter,
+      from: executer,
       to: contract.contractAddress,
       value: BigInt.zero,
       data:
@@ -360,14 +374,14 @@ class SafeContractController {
     );
     if (params != null) transaction.updateTxPrams(params);
     await transaction.autoFill(provider);
-    await transaction.signAsync(excuterSigner);
+    await transaction.signAsync(executerSigner);
     return transaction.submitTransaction(provider);
   }
 
   Future<ETHTransactionBuilder> buildSafeTransactionBuilder({
     required SafeTransaction safeTx,
-    required ETHAddress excuter,
-    required EthereumSigner excuterSigner,
+    required ETHAddress executer,
+    required EthereumSigner executerSigner,
     required List<SafeSignature> signatures,
     ETHTransactionParams? params,
   }) async {
@@ -378,7 +392,7 @@ class SafeContractController {
           ),
         );
     return ETHTransactionBuilder(
-      from: excuter,
+      from: executer,
       to: contract.contractAddress,
       value: BigInt.zero,
       data:
@@ -398,19 +412,19 @@ class SafeContractController {
     );
   }
 
-  Future<Stream<SafeContractExecutionResult>> excuteAndWatchStream({
+  Future<Stream<SafeContractExecutionResult>> executeAndWatchStream({
     required SafeTransaction safeTx,
-    required ETHAddress excuter,
-    required EthereumSigner excuterSigner,
+    required ETHAddress executer,
+    required EthereumSigner executerSigner,
     required List<SafeSignature> signatures,
     ETHTransactionParams? params,
     Duration timeout = const Duration(minutes: 5),
-    Duration blockInternal = const Duration(seconds: 10),
+    Duration blockInterval = const Duration(seconds: 10),
   }) async {
-    final txId = await excute(
+    final txId = await execute(
       safeTx: safeTx,
-      excuter: excuter,
-      excuterSigner: excuterSigner,
+      executer: executer,
+      executerSigner: executerSigner,
       signatures: signatures,
       params: params,
     );
@@ -419,7 +433,7 @@ class SafeContractController {
         await ETHTransactionBuilderUtils.watchTransactionReceiptStream(
           rpc: provider,
           txId: txId,
-          blockInternal: blockInternal,
+          blockInterval: blockInterval,
           timeout: timeout,
         );
     return receipt.map(
@@ -430,19 +444,19 @@ class SafeContractController {
     );
   }
 
-  Future<SafeContractExecutionResult> excuteAndWatchAsync({
+  Future<SafeContractExecutionResult> executeAndWatchAsync({
     required SafeTransaction safeTx,
-    required ETHAddress excuter,
-    required EthereumSigner excuterSigner,
+    required ETHAddress executer,
+    required EthereumSigner executerSigner,
     required List<SafeSignature> signatures,
     ETHTransactionParams? params,
     Duration timeout = const Duration(minutes: 5),
-    Duration blockInternal = const Duration(seconds: 10),
+    Duration blockInterval = const Duration(seconds: 10),
   }) async {
-    final txId = await excute(
+    final txId = await execute(
       safeTx: safeTx,
-      excuter: excuter,
-      excuterSigner: excuterSigner,
+      executer: executer,
+      executerSigner: executerSigner,
       signatures: signatures,
       params: params,
     );
@@ -451,7 +465,7 @@ class SafeContractController {
         await ETHTransactionBuilderUtils.watchTransactionReceiptAsync(
           rpc: provider,
           txId: txId,
-          blockInternal: blockInternal,
+          blockInterval: blockInterval,
           timeout: timeout,
         );
     return SafeContractExecutionResult(

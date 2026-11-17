@@ -26,7 +26,7 @@ class SuiRequestMultiGetObjects
   }
 
   @override
-  List<SuiApiGetDynamicFieldObjectResponse> onResonse(
+  List<SuiApiGetDynamicFieldObjectResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// Auctioneer authorize Layout.
 class MetaplexAuctioneerAuthorizeLayout
@@ -11,7 +11,7 @@ class MetaplexAuctioneerAuthorizeLayout
     MetaplexAuctioneerProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexAuctioneerProgramInstruction.authorize.insturction,
+      instruction: MetaplexAuctioneerProgramInstruction.authorize.instruction,
     );
     return const MetaplexAuctioneerAuthorizeLayout();
   }

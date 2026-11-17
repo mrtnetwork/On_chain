@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/types/types.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -73,7 +72,8 @@ class SolanaTokenAccount extends BorshLayoutSerializable {
     required SolAddress address,
   }) {
     if (data.length < SolanaTokenAccountUtils.accountSize) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Account data length is insufficient.',
         details: {
           'Expected': SolanaTokenAccountUtils.accountSize.toString(),
@@ -94,7 +94,8 @@ class SolanaTokenAccount extends BorshLayoutSerializable {
         data[SolanaTokenAccountUtils.accountSize],
       );
       if (accountType != SolanaTokenAccountType.account) {
-        throw SolanaPluginException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid account type.',
           details: {
             'account type': accountType.name,

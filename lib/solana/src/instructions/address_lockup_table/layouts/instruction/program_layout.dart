@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/address_lockup_table/layouts/layouts.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 abstract class AddressLookupTableProgramLayout extends ProgramLayout {

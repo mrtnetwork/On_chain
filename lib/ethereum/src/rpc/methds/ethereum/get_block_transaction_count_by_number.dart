@@ -20,7 +20,7 @@ class EthereumRequestGetBlockTransactionCountByNumber
   }
 
   @override
-  int onResonse(result) {
+  int onResponse(result) {
     return EthereumRequest.onIntResponse(result);
   }
 

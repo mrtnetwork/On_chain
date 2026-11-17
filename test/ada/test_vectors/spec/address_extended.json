@@ -1,0 +1,14 @@
+{
+    "address": "x",
+    "amount": [
+        {
+            "unit": "x",
+            "quantity": "x",
+            "decimals": 1,
+            "has_nft_onchain_metadata": true
+        }
+    ],
+    "stake_address": "x",
+    "type": "x",
+    "script": true
+}

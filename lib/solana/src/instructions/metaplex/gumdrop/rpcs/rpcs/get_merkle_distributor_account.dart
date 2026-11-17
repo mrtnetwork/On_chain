@@ -29,7 +29,7 @@ class SolanaRPCGetMerkleDistributorAccount
   }
 
   @override
-  MerkleDistributor? onResonse(result) {
+  MerkleDistributor? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MerkleDistributor.fromBuffer(accountInfo.toBytesData());

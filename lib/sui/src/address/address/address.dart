@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
 
 /// Represents a Sui blockchain address with utilities for serialization and comparison.
 class SuiAddress extends MoveAddress
@@ -29,8 +28,9 @@ class SuiAddress extends MoveAddress
       paddingZero: address.length == 1,
     );
     if (toBytes == null) {
-      throw DartSuiPluginException(
-        "Invalid sui address.",
+      throw BuError(
+        DefaultErrorType.invalidAddress,
+        "Invalid Sui address.",
         details: {"address": address},
       );
     }
@@ -48,7 +48,7 @@ class SuiAddress extends MoveAddress
 
   /// Creates a Sui address from a byte array.
   factory SuiAddress.fromBytes(List<int> bytes) {
-    bytes = SuiAddressUtils.praseAddressBytes(bytes);
+    bytes = SuiAddressUtils.parseAddressBytes(bytes);
     return SuiAddress._(BytesUtils.toHexString(bytes, prefix: "0x"), bytes);
   }
 
@@ -71,6 +71,28 @@ class SuiAddress extends MoveAddress
   /// Converts the Sui address to a byte array.
   List<int> toBytes() {
     return BytesUtils.fromHexString(address);
+  }
+
+  /// Short form without leading zeros (`0x2`, `0x...abc`). Empty for zero.
+  String toShort() {
+    final hex = address.startsWith('0x') ? address.substring(2) : address;
+    final trimmed = hex.replaceFirst(RegExp('^0+'), '');
+    return '0x${trimmed.isEmpty ? '0' : trimmed}';
+  }
+
+  /// True when [address] parses as a Sui address (any hex length/short form).
+  static bool isValid(String address) {
+    try {
+      SuiAddress(address);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Normalizes any valid form to full-length lowercase `0x`-hex.
+  SuiAddress normalize() {
+    return SuiAddress.fromBytes(toBytes());
   }
 
   static StructLayout layout({String? property}) {
@@ -102,7 +124,7 @@ class SuiAddress extends MoveAddress
   BlockchainNetwork get blockchainNetwork => BlockchainNetwork.sui;
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return toCbor().encode();
   }
 

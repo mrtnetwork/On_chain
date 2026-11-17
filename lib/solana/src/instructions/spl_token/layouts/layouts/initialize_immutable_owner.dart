@@ -1,6 +1,6 @@
 // Manages the layout structure for initializing an SPL token with an immutable owner.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initialize the Immutable Owner layout.
@@ -18,7 +18,7 @@ class SPLTokenInitializeImmutableOwnerLayout extends SPLTokenProgramLayout {
       layout: _layout,
       bytes: bytes,
       instruction:
-          SPLTokenProgramInstruction.initializeImmutableOwner.insturction,
+          SPLTokenProgramInstruction.initializeImmutableOwner.instruction,
     );
     return SPLTokenInitializeImmutableOwnerLayout();
   }

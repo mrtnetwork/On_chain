@@ -20,7 +20,7 @@ class SuiRequestGetCheckpoints
   }
 
   @override
-  SuiApiPaginatedCheckPointResponse onResonse(Map<String, dynamic> result) {
+  SuiApiPaginatedCheckPointResponse onResponse(Map<String, dynamic> result) {
     return SuiApiPaginatedCheckPointResponse.fromJson(result);
   }
 }

@@ -2,7 +2,9 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../utils.dart';
+void encodableProviderParamsTest() {
+  group('Aptos/Encodable provider params', () {
   test('encodable provider params', () {
     final param = AptosRequestGetAccountAssetResources(
       address: AptosAddress.A,
@@ -65,4 +67,10 @@ void main() {
     expect(deserialize.requestMethod, request.requestMethod);
     expect(deserialize.requestMethod, request.requestMethod);
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(encodableProviderParamsTest, "Encodable Provider Params");
+}
+

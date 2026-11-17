@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/stake/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakeWithdrawLayout extends StakeProgramLayout {
@@ -14,7 +14,7 @@ class StakeWithdrawLayout extends StakeProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: StakeProgramInstruction.withdraw.insturction,
+      instruction: StakeProgramInstruction.withdraw.instruction,
     );
     return StakeWithdrawLayout._(decode['lamports']);
   }

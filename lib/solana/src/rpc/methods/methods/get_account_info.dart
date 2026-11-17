@@ -40,7 +40,7 @@ class SolanaRequestGetAccountInfo
   }
 
   @override
-  SolanaAccountInfo? onResonse(Map<String, dynamic>? result) {
+  SolanaAccountInfo? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     return SolanaAccountInfo.fromJson(result);
   }

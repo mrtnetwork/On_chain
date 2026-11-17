@@ -29,7 +29,7 @@ class SolanaRequestGetTokenLargestAccounts
   }
 
   @override
-  List<TokenAccountBalancePair> onResonse(List result) {
+  List<TokenAccountBalancePair> onResponse(List result) {
     return result.map((e) => TokenAccountBalancePair.fromJson(e)).toList();
   }
 }

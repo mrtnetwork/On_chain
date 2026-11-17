@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/types/reserve_fee_config.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// Reserve configuration
 class ReserveConfig {

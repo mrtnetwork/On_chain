@@ -1,5 +1,5 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class CpiGuardInstructionInstruction extends BorshLayoutSerializable {
@@ -40,7 +40,8 @@ class CpiGuardInstructionInstruction extends BorshLayoutSerializable {
       (element) => element.name == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                OnChainErrorType.solanaPlugin,
                 'No CpiGuardInstructionInstruction found matching the specified value',
                 details: {'value': value?.toString()},
               ),

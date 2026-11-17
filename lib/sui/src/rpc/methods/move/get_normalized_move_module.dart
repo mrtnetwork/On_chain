@@ -21,7 +21,7 @@ class SuiRequestGetNormalizedMoveModule
   }
 
   @override
-  SuiApiMoveNormalizedModule onResonse(Map<String, dynamic> result) {
+  SuiApiMoveNormalizedModule onResponse(Map<String, dynamic> result) {
     return SuiApiMoveNormalizedModule.fromJson(result);
   }
 }

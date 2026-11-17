@@ -1,9 +1,15 @@
 import 'package:test/test.dart';
 import 'package:on_chain/on_chain.dart';
 
-void main() {
-  _test();
+import '../utils.dart';
+void mutlisigPayloadTest() {
+  group('Aptos/Multisig payload', _test);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(mutlisigPayloadTest, "Mutlisig Payload");
+}
+
 
 void _test() {
   test("Multisig transaction payload serialization", () {

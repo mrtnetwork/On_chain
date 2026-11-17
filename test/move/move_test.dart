@@ -2,9 +2,15 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _test();
+import '../utils.dart';
+void moveTest() {
+  group('Move/Serialization', _test);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(moveTest, "Move");
+}
+
 
 void _test() {
   test("MoveVector serialization", () {
@@ -52,9 +58,9 @@ void _test() {
     expect(type.toBcs(), LayoutConst.u8().serialize(50));
     expect(
       () => MoveU8(256),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
-    expect(() => MoveU8(-1), throwsA(TypeMatcher<BcsSerializationException>()));
+    expect(() => MoveU8(-1), throwsA(isA<BuError>()));
   });
   test("MoveU16 serialization", () {
     MoveType type = MoveU16(1);
@@ -63,11 +69,11 @@ void _test() {
     expect(type.toBcs(), LayoutConst.u16().serialize(50));
     expect(
       () => MoveU16(1 << 16),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveU16(-1),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
   });
   test("MoveU32 serialization", () {
@@ -77,11 +83,11 @@ void _test() {
     expect(type.toBcs(), LayoutConst.u32().serialize(50));
     expect(
       () => MoveU32((BigInt.one << 32).toInt()),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveU32(-1),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
   });
   test("MoveU64 serialization", () {
@@ -94,11 +100,11 @@ void _test() {
     );
     expect(
       () => MoveU64(BigInt.one << 64),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveU64.parse(-1),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
   });
   test("MoveU128 serialization", () {
@@ -112,11 +118,11 @@ void _test() {
     );
     expect(
       () => MoveU128(BigInt.one << 128),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveU128.parse(-1),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
   });
   test("MoveU256 serialization", () {
@@ -130,11 +136,11 @@ void _test() {
     );
     expect(
       () => MoveU256(BigInt.one << 256),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveU256.parse(-1),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
   });
   test("MoveBool serialization", () {
@@ -152,19 +158,19 @@ void _test() {
     expect(type.toBcs(), LayoutConst.boolean().serialize(false));
     expect(
       () => MoveBool.parse(2),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveBool.parse(-1),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveBool.parse('Fals'),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveBool.parse('TRU'),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
   });
   test("MoveString serialization", () {
@@ -177,19 +183,19 @@ void _test() {
 
     expect(
       () => MoveString.parse(2),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveString.parse(-1),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveString.parse(false),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     expect(
       () => MoveString.parse(true),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
   });
 
@@ -208,7 +214,7 @@ void _test() {
     );
     expect(
       () => MoveOption(MoveU32((BigInt.one << 32).toInt())),
-      throwsA(TypeMatcher<BcsSerializationException>()),
+      throwsA(isA<BuError>()),
     );
     type = MoveOption(MoveString('MRTNETWORK'));
     expect(

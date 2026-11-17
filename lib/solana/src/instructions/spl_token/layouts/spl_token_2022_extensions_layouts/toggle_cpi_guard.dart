@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Allow or lock all token operations to happen via CPI as normal.
@@ -21,7 +21,7 @@ class SPLToken2022ToggleCpiGuardLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.cpiGuardExtension.insturction,
+      instruction: SPLTokenProgramInstruction.cpiGuardExtension.instruction,
     );
     return SPLToken2022ToggleCpiGuardLayout(
       guard: CpiGuardInstructionInstruction.fromJson(decode['guard']),

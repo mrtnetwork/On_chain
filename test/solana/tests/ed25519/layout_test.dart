@@ -1,12 +1,18 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('ed25519', () {
+import '../../../utils.dart';
+void ed25519LayoutTest() {
+  group('Solana/Ed25519 Layout', () {
     _ed25519();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(ed25519LayoutTest, "Layout");
+}
+
 
 void _ed25519() {
   test('test1', () {

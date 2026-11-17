@@ -1,6 +1,7 @@
 class SuiTransactionConst {
   static const int digestLength = 32;
-  static const String suiTypeArgs = "0x2::sui::SUI";
+  static const String suiTypeArgs =
+      "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI";
   static const String transactionDataDomain = "TransactionData::";
   static BigInt get maxGas => BigInt.from(5e10);
   static BigInt get gasSafeOverHead => BigInt.from(1000);

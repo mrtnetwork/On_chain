@@ -1,5 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/models/pda/pda.dart';
 
@@ -14,7 +15,8 @@ class AssociatedTokenAccountProgramUtils {
     bool allowOwnerOffCurve = false,
   }) {
     if (!allowOwnerOffCurve && !owner.isOnCurve) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.invalidAddress,
         'Public key address is not valid on the curve.',
       );
     }

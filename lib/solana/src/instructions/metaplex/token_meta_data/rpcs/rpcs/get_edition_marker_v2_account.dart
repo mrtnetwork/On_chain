@@ -29,7 +29,7 @@ class SolanaRPCGetEditionMarkerV2Account
   }
 
   @override
-  EditionMarkerV2? onResonse(result) {
+  EditionMarkerV2? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return EditionMarkerV2.fromBuffer(accountInfo.toBytesData());

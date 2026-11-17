@@ -1,20 +1,20 @@
-import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 
 import 'account_info.dart';
 import 'compiled_inner_instruction.dart';
 
-class SimulateTranasctionReturnDataResponse {
+class SimulateTransactionReturnDataResponse {
   final SolAddress programId;
   final dynamic data;
-  const SimulateTranasctionReturnDataResponse({
+  const SimulateTransactionReturnDataResponse({
     required this.programId,
     required this.data,
   });
-  factory SimulateTranasctionReturnDataResponse.fromJson(
+  factory SimulateTransactionReturnDataResponse.fromJson(
     Map<String, dynamic> json,
   ) {
-    return SimulateTranasctionReturnDataResponse(
+    return SimulateTransactionReturnDataResponse(
       programId: json['programId'],
       data: json['data'],
     );
@@ -24,12 +24,12 @@ class SimulateTranasctionReturnDataResponse {
   }
 }
 
-class SimulateTranasctionResponse {
+class SimulateTransactionResponse {
   final dynamic err;
   final List<String>? logs;
   final List<SolanaAccountInfo?>? accounts;
   final BigInt? unitsConsumed;
-  final SimulateTranasctionReturnDataResponse? returnData;
+  final SimulateTransactionReturnDataResponse? returnData;
   final CompiledInnerInstruction? innerInstructions;
 
   Map<String, dynamic> toJson() {
@@ -43,7 +43,7 @@ class SimulateTranasctionResponse {
     }..removeWhere((k, v) => v == null);
   }
 
-  const SimulateTranasctionResponse({
+  const SimulateTransactionResponse({
     this.err,
     this.logs,
     this.accounts,
@@ -51,8 +51,8 @@ class SimulateTranasctionResponse {
     this.returnData,
     this.innerInstructions,
   });
-  factory SimulateTranasctionResponse.fromJson(Map<String, dynamic> json) {
-    return SimulateTranasctionResponse(
+  factory SimulateTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return SimulateTransactionResponse(
       err: json['err'],
       logs: (json['logs'] as List?)?.map((e) => e.toString()).toList(),
       accounts:
@@ -64,7 +64,7 @@ class SimulateTranasctionResponse {
       returnData:
           json['returnData'] == null
               ? null
-              : SimulateTranasctionReturnDataResponse.fromJson(
+              : SimulateTransactionReturnDataResponse.fromJson(
                 json['returnData'],
               ),
       innerInstructions:

@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class MetaDataKey {
   final String name;
@@ -69,7 +69,8 @@ class MetaDataKey {
       (element) => element.value == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No MetaDataKey found matching the specified value',
                 details: {'value': value?.toString()},
               ),
@@ -81,7 +82,8 @@ class MetaDataKey {
       (element) => element.name == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No MetaDataKey found matching the specified value',
                 details: {'value': value?.toString()},
               ),

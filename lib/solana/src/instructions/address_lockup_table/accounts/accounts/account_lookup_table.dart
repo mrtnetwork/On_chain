@@ -1,7 +1,7 @@
-import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/utils/binary/binary_operation.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/constant.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
@@ -16,7 +16,7 @@ class _Utils {
     LayoutConst.u64(property: 'deactivationSlot'),
     LayoutConst.u64(property: 'lastExtendedSlot'),
     LayoutConst.u8(property: 'lastExtendedStartIndex'),
-    LayoutConst.padding(LayoutConst.u8(), propery: 'padding'),
+    LayoutConst.padding(LayoutConst.u8(), property: 'padding'),
     LayoutConst.seq(
       SolanaLayoutUtils.publicKey('publicKey'),
       LayoutConst.offset(LayoutConst.padding(LayoutConst.u8()), -1),
@@ -42,7 +42,10 @@ class _Utils {
     if (serializedAddressesLen < 0 ||
         serializedAddressesLen % SolanaTransactionConstant.publicKeyLength !=
             0) {
-      throw const SolanaPluginException('Lookup table is invalid');
+      throw const BuError(
+        OnChainErrorType.solanaPlugin,
+        'Lookup table is invalid',
+      );
     }
     final meta = lookupTableMetaLayout.deserialize(accountData).value;
 

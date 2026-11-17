@@ -27,7 +27,7 @@ class SolanaRPCGetMintAccount
   }
 
   @override
-  SolanaMintAccount? onResonse(result) {
+  SolanaMintAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
 

@@ -27,7 +27,7 @@ class SolanaRPCGetStakePoolValidatorListAccount
   }
 
   @override
-  StakeValidatorListAccount? onResonse(result) {
+  StakeValidatorListAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return StakeValidatorListAccount.fromBuffer(accountInfo.toBytesData());

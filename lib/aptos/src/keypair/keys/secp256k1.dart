@@ -10,43 +10,53 @@ class AptosSecp256k1PrivateKey
           AptosSecp256k1PublicKey,
           AptosSecp256k1AnySignature
         > {
-  final Secp256k1PrivateKey _privateKey;
-  AptosSecp256k1PrivateKey._(this._privateKey)
+  final Secp256k1PrivateKey privateKey;
+  AptosSecp256k1PrivateKey(this.privateKey)
     : super(algorithm: AptosKeyAlgorithm.secp256k1);
   factory AptosSecp256k1PrivateKey.fromBytes(List<int> keyBytes) {
-    return AptosSecp256k1PrivateKey._(Secp256k1PrivateKey.fromBytes(keyBytes));
+    return AptosSecp256k1PrivateKey(Secp256k1PrivateKey.fromBytes(keyBytes));
   }
 
   @override
-  late final AptosSecp256k1PublicKey publicKey = AptosSecp256k1PublicKey._(
-    _privateKey.publicKey,
-  );
+  AptosSecp256k1PublicKey get publicKey =>
+      AptosSecp256k1PublicKey(privateKey.publicKey);
 
   @override
   AptosSecp256k1AnySignature sign(List<int> digest) {
     digest = QuickCrypto.sha3256Hash(digest);
-    final signer = Secp256k1Signer.fromKeyBytes(toBytes());
+    final signer = Secp256k1Signer(privateKey);
     return AptosSecp256k1AnySignature(
-      signer.signConst(digest, hashMessage: false),
+      signer.sign(digest, hashMessage: false).encoded,
     );
   }
 
   @override
-  List<int> toBytes() {
-    return _privateKey.raw;
+  SecretBytes toBytes() {
+    return privateKey.toBytes();
   }
 
   @override
   String toHex({bool lowerCase = true, String prefix = ''}) {
-    return _privateKey.toHex(lowerCase: lowerCase, prefix: prefix);
+    return privateKey.takeSecretKey().toHex(
+      lowerCase: lowerCase,
+      prefix: prefix,
+    );
   }
+
+  @override
+  void dispose() {
+    privateKey.dispose();
+  }
+
+  @override
+  List<dynamic> get variables => [privateKey];
 }
 
 class AptosSecp256k1PublicKey extends AptosCryptoPublicKey<Secp256k1PublicKey> {
-  const AptosSecp256k1PublicKey._(Secp256k1PublicKey publicKey)
+  const AptosSecp256k1PublicKey(Secp256k1PublicKey publicKey)
     : super(algorithm: AptosKeyAlgorithm.secp256k1, publicKey: publicKey);
   factory AptosSecp256k1PublicKey.fromBytes(List<int> keyBytes) {
-    return AptosSecp256k1PublicKey._(Secp256k1PublicKey.fromBytes(keyBytes));
+    return AptosSecp256k1PublicKey(Secp256k1PublicKey.fromBytes(keyBytes));
   }
 
   factory AptosSecp256k1PublicKey.fromStruct(Map<String, dynamic> json) {
@@ -66,20 +76,19 @@ class AptosSecp256k1PublicKey extends AptosCryptoPublicKey<Secp256k1PublicKey> {
 
   @override
   Map<String, dynamic> toLayoutStruct() {
-    return {"key": publicKeyBytes(pubkeyMode: PubKeyModes.uncompressed)};
+    return {"key": publicKeyBytes(pubkeyMode: CryptoKeyEncoding.uncompressed)};
   }
 
   @override
-  List<int> publicKeyBytes({PubKeyModes pubkeyMode = PubKeyModes.compressed}) {
-    if (pubkeyMode == PubKeyModes.compressed) {
-      return publicKey.compressed;
-    }
-    return publicKey.uncompressed;
+  BuBytes publicKeyBytes({
+    CryptoKeyEncoding pubkeyMode = CryptoKeyEncoding.base,
+  }) {
+    return publicKey.toBytes(mode: pubkeyMode);
   }
 
   @override
   String publicKeyHex({
-    PubKeyModes pubkeyMode = PubKeyModes.compressed,
+    CryptoKeyEncoding pubkeyMode = CryptoKeyEncoding.base,
     bool lowerCase = false,
   }) {
     return BytesUtils.toHexString(
@@ -97,19 +106,13 @@ class AptosSecp256k1PublicKey extends AptosCryptoPublicKey<Secp256k1PublicKey> {
     if (hashMessage) {
       message = QuickCrypto.sha3256Hash(message);
     }
-    final verifier = Secp256k1Verifier.fromKeyBytes(publicKeyBytes());
-    return verifier.verify(message, signature, hashMessage: false);
+    final verifier = Secp256k1Verifier(publicKey);
+    return verifier.verify(
+      message,
+      IECDSASignature.fromBytes(signature),
+      hashMessage: false,
+    );
   }
-
-  @override
-  operator ==(other) {
-    if (identical(this, other)) return true;
-    if (other is! AptosSecp256k1PublicKey) return false;
-    return publicKey == other.publicKey;
-  }
-
-  @override
-  int get hashCode => publicKey.hashCode;
 
   @override
   AptosAddress toAddress() {

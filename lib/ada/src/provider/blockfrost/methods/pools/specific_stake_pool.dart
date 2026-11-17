@@ -19,7 +19,7 @@ class BlockfrostRequestSpecificStakePool
   List<String> get pathParameters => [poolId];
 
   @override
-  ADAStakePoolInfoResponse onResonse(Map<String, dynamic> result) {
+  ADAStakePoolInfoResponse onResponse(Map<String, dynamic> result) {
     return ADAStakePoolInfoResponse.fromJson(result);
   }
 }

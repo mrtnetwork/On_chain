@@ -97,10 +97,10 @@ class ADABaseAddress extends ADAShellyAddress {
     ADANetwork network = ADANetwork.mainnet,
   }) {
     final baseCredential = AdaAddressUtils.publicKeyToCredential(
-      shelleyWallet.bip44.publicKey.compressed,
+      shelleyWallet.bip44.publicKey.toPublicKeyBytes(),
     );
     final stakeCredential = AdaAddressUtils.publicKeyToCredential(
-      shelleyWallet.bip44Sk.publicKey.compressed,
+      shelleyWallet.bip44Sk.publicKey.toPublicKeyBytes(),
     );
     final encode = AdaShelleyAddrEncoder().encodeCredential(
       AdaAddressUtils.toAdaStakeCredential(baseCredential),

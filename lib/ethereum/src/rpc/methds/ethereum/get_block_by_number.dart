@@ -25,7 +25,7 @@ class EthereumRequestGetBlockByNumber
   }
 
   @override
-  BlockDetails onResonse(dynamic result) {
+  BlockDetails onResponse(dynamic result) {
     return BlockDetails.fromJson(result, hydrated: hydrated);
   }
 

@@ -22,7 +22,7 @@ class SuiRequestGetDynamicFields
   }
 
   @override
-  SuiApiGetDynamicFieldsResponse onResonse(Map<String, dynamic> result) {
+  SuiApiGetDynamicFieldsResponse onResponse(Map<String, dynamic> result) {
     return SuiApiGetDynamicFieldsResponse.fromJson(result);
   }
 }

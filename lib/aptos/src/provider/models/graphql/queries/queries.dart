@@ -246,10 +246,13 @@ class AptosGraphqlQueriesConst {
     token_standard
   }
 }''';
-  static const String getDelegatedStakingActivities =
-      r'''query getDelegatedStakingActivities($delegatorAddress: String, $poolAddress: String) {
+  static String getDelegatedStakingActivities =
+      r'''query getDelegatedStakingActivities($where_condition: delegated_staking_activities_bool_exp, $offset: Int, $limit: Int, $order_by: [delegated_staking_activities_order_by!]) {
   delegated_staking_activities(
-    where: {delegator_address: {_eq: $delegatorAddress}, pool_address: {_eq: $poolAddress}}
+    where: $where_condition
+    offset: $offset
+    limit: $limit
+    order_by: $order_by
   ) {
     amount
     delegator_address
@@ -360,6 +363,26 @@ class AptosGraphqlQueriesConst {
   num_active_delegator_per_pool(where: $where_condition, order_by: $order_by) {
     num_active_delegator
     pool_address
+  }
+}''';
+  static const String getDelegatorDistinctPools =
+      r'''query getDelegatorDistinctPools($where_condition: delegator_distinct_pool_bool_exp) {
+  delegator_distinct_pool(where: $where_condition) {
+    pool_address
+  }
+}''';
+  static const String getTopDelegationPools =
+      r'''query getTopDelegationPools($where_condition: current_delegated_staking_pool_balances_bool_exp, $order_by: [current_delegated_staking_pool_balances_order_by!], $offset: Int, $limit: Int) {
+  current_delegated_staking_pool_balances(where: $where_condition, order_by: $order_by, offset: $offset, limit: $limit) {
+    staking_pool_address
+    total_coins
+    operator_commission_percentage
+  }
+}''';
+  static const String getAllDelegationPools =
+      r'''query getAllDelegationPools($where_condition: delegated_staking_pools_bool_exp, $order_by: [delegated_staking_pools_order_by!], $offset: Int, $limit: Int) {
+  delegated_staking_pools(where: $where_condition, order_by: $order_by, offset: $offset, limit: $limit) {
+    staking_pool_address
   }
 }''';
   static const String getObjectData =
@@ -1466,6 +1489,72 @@ class AptosGraphQLNumActiveDelegatorPerPool {
       'num_active_delegator': numActiveDelegator,
       'pool_address': poolAddress,
     };
+  }
+}
+
+class AptosGraphQLDelegatorDistinctPool {
+  final String? poolAddress;
+
+  AptosGraphQLDelegatorDistinctPool({this.poolAddress});
+
+  factory AptosGraphQLDelegatorDistinctPool.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return AptosGraphQLDelegatorDistinctPool(
+      poolAddress: json['pool_address'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'pool_address': poolAddress};
+  }
+}
+
+class AptosGraphQLDelegationPoolBalance {
+  final String? poolAddress;
+  final dynamic totalCoins;
+  final dynamic commissionPercentage;
+
+  AptosGraphQLDelegationPoolBalance({
+    this.poolAddress,
+    this.totalCoins,
+    this.commissionPercentage,
+  });
+
+  factory AptosGraphQLDelegationPoolBalance.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return AptosGraphQLDelegationPoolBalance(
+      poolAddress: json['staking_pool_address'],
+      totalCoins: json['total_coins'],
+      commissionPercentage: json['operator_commission_percentage'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'staking_pool_address': poolAddress,
+      'total_coins': totalCoins,
+      'operator_commission_percentage': commissionPercentage,
+    };
+  }
+}
+
+class AptosGraphQLDelegatedStakingPool {
+  final String? poolAddress;
+
+  AptosGraphQLDelegatedStakingPool({this.poolAddress});
+
+  factory AptosGraphQLDelegatedStakingPool.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return AptosGraphQLDelegatedStakingPool(
+      poolAddress: json['staking_pool_address'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'staking_pool_address': poolAddress};
   }
 }
 

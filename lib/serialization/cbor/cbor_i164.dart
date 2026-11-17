@@ -1,7 +1,4 @@
-import 'package:blockchain_utils/cbor/core/cbor.dart';
-import 'package:blockchain_utils/cbor/exception/exception.dart';
-import 'package:blockchain_utils/cbor/types/types.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// A class representing a CBOR (Concise Binary Object Representation) int (64-byte) value.
 class CborSignedValue extends CborNumeric {
@@ -11,14 +8,14 @@ class CborSignedValue extends CborNumeric {
 
   factory CborSignedValue.i64(dynamic value) {
     if (value is! int && value is! BigInt) {
-      throw CborException(
+      throw BuError(DefaultErrorType.invalidArgument,
         'Invalid unsgined int. value must be int or bigint.',
         details: {'value': value.runtimeType.toString()},
       );
     }
 
     if (value is BigInt && value.bitLength > 64) {
-      throw CborException(
+      throw BuError(DefaultErrorType.invalidArgument,
         'Invalid signed 64-bit Integer.',
         details: {
           'Value': value.toString(),
@@ -30,7 +27,7 @@ class CborSignedValue extends CborNumeric {
   }
   factory CborSignedValue.i32(int value) {
     if (value.bitLength > 32) {
-      throw CborException(
+      throw BuError(DefaultErrorType.invalidArgument,
         'Invalid signed 32-bit Integer.',
         details: {
           'Value': value.toString(),
@@ -43,8 +40,8 @@ class CborSignedValue extends CborNumeric {
 
   /// Encode the value into CBOR bytes
   @override
-  List<int> encode() {
-    if (value is int || (value as BigInt).isValidInt) {
+  BuBytes encode() {
+    if (value is int || (value as BigInt).isSafeInt()) {
       return CborIntValue(toInt()).encode();
     }
     return CborSafeIntValue(value).encode();

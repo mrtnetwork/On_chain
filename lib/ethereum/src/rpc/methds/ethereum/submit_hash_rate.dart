@@ -1,7 +1,7 @@
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class EthereumRequestSubmitHashrate extends EthereumRequest<Object?, Object?> {
+class EthereumRequestSubmitHashrate extends EthereumRequest<bool, bool> {
   EthereumRequestSubmitHashrate({required this.id, required this.hashRate});
 
   /// eth_submitHashrate

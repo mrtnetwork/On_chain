@@ -17,7 +17,7 @@ class EthereumRequestNewPendingTransactionFilter
   }
 
   @override
-  BigInt onResonse(result) {
+  BigInt onResponse(result) {
     return EthereumRequest.onBigintResponse(result);
   }
 

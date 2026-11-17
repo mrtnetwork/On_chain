@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Decrease active stake on a validator layout.
@@ -19,7 +19,7 @@ class StakePoolDecreaseValidatorStakeLayout extends StakePoolProgramLayout {
       layout: _layout,
       bytes: bytes,
       instruction:
-          StakePoolProgramInstruction.decreaseValidatorStake.insturction,
+          StakePoolProgramInstruction.decreaseValidatorStake.instruction,
     );
     return StakePoolDecreaseValidatorStakeLayout(
       lamports: decode['lamports'],

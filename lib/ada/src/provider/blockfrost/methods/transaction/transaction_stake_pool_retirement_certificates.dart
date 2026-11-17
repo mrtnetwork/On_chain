@@ -24,7 +24,7 @@ class BlockfrostRequestTransactionStakePoolRetirementCertificates
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionPoolRetirementCertificateResponse> onResonse(
+  List<ADATransactionPoolRetirementCertificateResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexBubblegumMintToCollectionV1Layout
     extends MetaplexBubblegumProgramLayout {
@@ -12,7 +12,7 @@ class MetaplexBubblegumMintToCollectionV1Layout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexBubblegumProgramInstruction.mintToCollectionV1.insturction,
+          MetaplexBubblegumProgramInstruction.mintToCollectionV1.instruction,
     );
     return MetaplexBubblegumMintToCollectionV1Layout(
       metaData: MetaData.fromJson(decode['metaData']),

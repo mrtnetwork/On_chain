@@ -1,8 +1,9 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('auctioneer', () {
+import '../../../../utils.dart';
+void auctioneerLayoutTest() {
+  group('Solana/Auctioneer Layout', () {
     _authorize();
     _buy();
     _cancel();
@@ -15,6 +16,11 @@ void main() {
     _auctioneerAuthority();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(auctioneerLayoutTest, "Layout");
+}
+
 
 void _authorize() {
   test('authorize', () {

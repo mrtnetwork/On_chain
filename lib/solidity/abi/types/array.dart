@@ -13,7 +13,7 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
         encodedParams.isNotEmpty && encodedParams.first.isDynamic;
     final bool isDynamic = param.$2 == -1;
     if (!isDynamic && input.length != param.$2) {
-      throw const SolidityAbiException('Invalid argument length detected.');
+      throw const BuError(DefaultErrorType.invalidLength,'Invalid argument length detected.');
     }
     if (isDynamic || dynamicItems) {
       final encode = ABIUtils._encodeDynamicParams(encodedParams);
@@ -27,7 +27,8 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
                 .encoded;
         return EncoderResult(
           isDynamic: true,
-          encoded: encodedParams.isEmpty ? length : [...length, ...encode],
+          encoded:
+              encodedParams.isEmpty ? length : BuBytes.concat([length, encode]),
           name: params.name,
         );
       }
@@ -36,7 +37,7 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
     final resultBytes = encodedParams.map((e) => e.encoded);
     return EncoderResult(
       isDynamic: false,
-      encoded: [for (final i in resultBytes) ...i],
+      encoded: BuBytes.concat(resultBytes),
       name: params.name,
     );
   }
@@ -96,10 +97,9 @@ class ArrayCoder implements ABICoder<List<dynamic>, List<dynamic>> {
           if (param.$1.isDynamic) return param.$1.encodePacked(e);
           return param.$1.abiEncode(e);
         }).toList();
-    final resultBytes = encodedParams.expand((e) => e.encoded).toList();
     return EncoderResult(
       isDynamic: false,
-      encoded: resultBytes,
+      encoded: BuBytes.concat(encodedParams.map((e) => e.encoded)),
       name: params.name,
     );
   }

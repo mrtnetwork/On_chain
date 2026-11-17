@@ -1,12 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/sui/src/account/public_key/keys.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
 import 'package:on_chain/sui/src/keypair/keypair.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 
 class SuiGenericSignature extends BcsVariantSerialization {
   final SuiKeyAlgorithm algorithm;
-  final List<int> signature;
+  final BuBytes signature;
   SuiGenericSignature({required List<int> signature, required this.algorithm})
     : signature = signature.asImmutableBytes;
   factory SuiGenericSignature.fromStruct(Map<String, dynamic> json) {
@@ -82,11 +82,8 @@ abstract class SuiBaseSignature extends BcsVariantSerialization {
       SuiSigningScheme.multisig => SuiMultisigSignature.fromStruct(
         decode.value,
       ),
-      _ =>
-        throw DartSuiPluginException(
-          "Unsuported signature scheme.",
-          details: {"scheme": type.name},
-        ),
+      SuiSigningScheme.zklogin => SuiZkLoginSignature.fromStruct(decode.value),
+      SuiSigningScheme.passkey => SuiPasskeySignature.fromStruct(decode.value),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -111,6 +108,16 @@ abstract class SuiBaseSignature extends BcsVariantSerialization {
         property: SuiSigningScheme.multisig.name,
         index: SuiSigningScheme.multisig.value,
       ),
+      LazyVariantModel(
+        layout: SuiZkLoginSignature.layout,
+        property: SuiSigningScheme.zklogin.name,
+        index: SuiSigningScheme.zklogin.value,
+      ),
+      LazyVariantModel(
+        layout: SuiPasskeySignature.layout,
+        property: SuiSigningScheme.passkey.name,
+        index: SuiSigningScheme.passkey.value,
+      ),
     ], property: property);
   }
 
@@ -124,7 +131,8 @@ abstract class SuiBaseSignature extends BcsVariantSerialization {
 
   T cast<T extends SuiBaseSignature>({String? error}) {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         error ?? "Invalid signature.",
         details: {"expected": "$T", "scheme": scheme.name},
       );
@@ -133,18 +141,18 @@ abstract class SuiBaseSignature extends BcsVariantSerialization {
   }
 }
 
-abstract class SuiSignleKeySignature<PUBLICKEY extends SuiCryptoPublicKey>
+abstract class SuiSingleKeySignature<PUBLICKEY extends SuiCryptoPublicKey>
     extends SuiBaseSignature {
   final SuiGenericSignature signature;
   final PUBLICKEY publicKey;
-  const SuiSignleKeySignature({
+  const SuiSingleKeySignature({
     required this.signature,
     required this.publicKey,
     required super.scheme,
   });
 }
 
-class SuiEd25519Signature extends SuiSignleKeySignature<SuiED25519PublicKey> {
+class SuiEd25519Signature extends SuiSingleKeySignature<SuiED25519PublicKey> {
   SuiEd25519Signature({required super.signature, required super.publicKey})
     : super(scheme: SuiSigningScheme.ed25519);
   factory SuiEd25519Signature.fromStruct(Map<String, dynamic> json) {
@@ -184,7 +192,7 @@ class SuiEd25519Signature extends SuiSignleKeySignature<SuiED25519PublicKey> {
 }
 
 class SuiSecp256k1Signature
-    extends SuiSignleKeySignature<SuiSecp256k1PublicKey> {
+    extends SuiSingleKeySignature<SuiSecp256k1PublicKey> {
   const SuiSecp256k1Signature({
     required super.signature,
     required super.publicKey,
@@ -226,7 +234,7 @@ class SuiSecp256k1Signature
 }
 
 class SuiSecp256r1Signature
-    extends SuiSignleKeySignature<SuiSecp256r1PublicKey> {
+    extends SuiSingleKeySignature<SuiSecp256r1PublicKey> {
   const SuiSecp256r1Signature({
     required super.signature,
     required super.publicKey,
@@ -309,7 +317,8 @@ class SuiMultisigSignature extends SuiBaseSignature {
     required int bitmap,
   }) {
     if (bitmap.isNegative || bitmap > BinaryOps.mask16) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid multisignature bitmap.",
         details: {"bitmap": bitmap.toString()},
       );

@@ -1,4 +1,5 @@
-import 'package:blockchain_utils/bip/address/ada/ada_addres_type.dart';
+import 'package:blockchain_utils/chain/address/address.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/models/models.dart';
 import 'amount.dart';
@@ -48,7 +49,9 @@ class ADAAccountUTXOResponse {
     BigInt.zero,
     (previousValue, element) =>
         previousValue +
-        (element.islovelace ? BigInt.parse(element.quantity) : BigInt.zero),
+        (element.islovelace
+            ? BigintUtils.parse(element.quantity)
+            : BigInt.zero),
   );
 
   late final MultiAsset multiAsset = _multiAsset;
@@ -59,7 +62,7 @@ class ADAAccountUTXOResponse {
     for (final i in amount) {
       if (i.islovelace) continue;
       final assetInfo = i.policyAndAssetName!;
-      final asset = Assets({assetInfo.$2: BigInt.parse(i.quantity)});
+      final asset = Assets({assetInfo.$2: BigintUtils.parse(i.quantity)});
       if (assets.containsKey(assetInfo.$1)) {
         assets[assetInfo.$1] = assets[assetInfo.$1]! + asset;
       } else {

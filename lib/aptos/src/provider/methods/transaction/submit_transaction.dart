@@ -13,10 +13,11 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// 3. Submit the request. Make sure to use the \"application/json\" Content-Type.To submit a transaction as BCS,
 /// you must submit a SignedTransactionencoded as BCS. See SignedTransaction in types/src/transaction/mod.rs.Make
 /// sure to use the `application/x.aptos.signed_transaction+bcs` Content-Type.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestSubmitTransaction
     extends AptosPostRequest<AptosApiPendingTransaction, Map<String, dynamic>> {
-  final List<int> signedTransactionData;
+  final BuBytes signedTransactionData;
 
   AptosRequestSubmitTransaction({required List<int> signedTransactionData})
     : signedTransactionData = signedTransactionData.asImmutableBytes;
@@ -30,10 +31,10 @@ class AptosRequestSubmitTransaction
   };
 
   @override
-  List<int> get body => signedTransactionData;
+  BuBytes get body => signedTransactionData;
 
   @override
-  AptosApiPendingTransaction onResonse(Map<String, dynamic> result) {
+  AptosApiPendingTransaction onResponse(Map<String, dynamic> result) {
     return AptosApiPendingTransaction.fromJson(result);
   }
 }

@@ -36,7 +36,7 @@ class SolanaRequestGetBlockProduction
   }
 
   @override
-  BlockProduction onResonse(Map<String, dynamic> result) {
+  BlockProduction onResponse(Map<String, dynamic> result) {
     return BlockProduction.fromJson(result);
   }
 }

@@ -8,6 +8,7 @@ class TransactionInstruction {
     required List<AccountMeta> keys,
     required this.programId,
     required this.data,
+    this.parsed,
   }) : keys = List<AccountMeta>.unmodifiable(keys);
 
   /// Public keys to include in this transaction
@@ -19,6 +20,10 @@ class TransactionInstruction {
 
   /// Program input.
   List<int> data;
+
+  /// Decoded instruction info for `jsonParsed` responses
+  /// (`{program, type, info}`); null otherwise.
+  final dynamic parsed;
 
   @override
   String toString() {

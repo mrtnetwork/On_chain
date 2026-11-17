@@ -52,12 +52,12 @@ class EthereumRequestCall extends EthereumRequest<Object?, String?> {
   final AbiFunctionFragment? _function;
 
   @override
-  dynamic onResonse(result) {
+  dynamic onResponse(result) {
     if (_function != null) {
       return _function.decodeOutput(BytesUtils.fromHexString(result ?? ''));
     }
 
-    return super.onResonse(result);
+    return super.onResponse(result);
   }
 
   @override
@@ -90,7 +90,7 @@ class EthereumRequestFunctionCall
   final AbiFunctionFragment function;
 
   @override
-  List<dynamic> onResonse(String? result) {
+  List<dynamic> onResponse(String? result) {
     return function.decodeOutput(BytesUtils.fromHexString(result ?? ''));
   }
 

@@ -7,7 +7,7 @@ abstract class FixedBytes
     with InternalCborSerialization
     implements Comparable<FixedBytes> {
   /// The hash bytes data.
-  final List<int> data;
+  final BuBytes data;
 
   /// Constructs a FixedBytes object with hash bytes data and length for validate.
   FixedBytes(List<int> hashBytes, int length)

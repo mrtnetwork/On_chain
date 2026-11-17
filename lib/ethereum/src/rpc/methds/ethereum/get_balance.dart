@@ -23,7 +23,7 @@ class EthereumRequestGetBalance extends EthereumRequest<BigInt, Object> {
   }
 
   @override
-  BigInt onResonse(dynamic result) {
+  BigInt onResponse(dynamic result) {
     return EthereumRequest.onBigintResponse(result);
   }
 

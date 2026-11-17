@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
@@ -15,7 +16,12 @@ abstract class DRep with InternalCborSerialization {
       DRepType.drepScriptHash => DRepScriptHash.fromJson(json),
       DRepType.alwaysAbstain => AlwaysAbstain.fromJson(json),
       DRepType.alwaysNoConfidence => AlwaysNoConfidence.fromJson(json),
-      _ => throw UnimplementedError("Invalid drep type."),
+      _ =>
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid DRep type.',
+          details: {'type': type.name},
+        ),
     };
   }
   factory DRep.deserialize(CborListValue cbor) {
@@ -25,7 +31,12 @@ abstract class DRep with InternalCborSerialization {
       DRepType.drepScriptHash => DRepScriptHash.deserialize(cbor),
       DRepType.alwaysAbstain => AlwaysAbstain.deserialize(cbor),
       DRepType.alwaysNoConfidence => AlwaysNoConfidence.deserialize(cbor),
-      _ => throw UnimplementedError("Invalid drep type."),
+      _ =>
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid DRep type.',
+          details: {'type': type.name},
+        ),
     };
   }
 }

@@ -37,7 +37,7 @@ class SolanaRequestGetSignatureStatuses
   }
 
   @override
-  List<SignatureStatus?> onResonse(List result) {
+  List<SignatureStatus?> onResponse(List result) {
     return result
         .map((e) => e == null ? null : SignatureStatus.fromJson(e))
         .toList();

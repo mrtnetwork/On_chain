@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexTokenEntanglerSwapLayout
     extends MetaplexTokenEntanglerProgramLayout {
@@ -9,7 +9,7 @@ class MetaplexTokenEntanglerSwapLayout
     MetaplexTokenEntanglerProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexTokenEntanglerProgramInstruction.swap.insturction,
+      instruction: MetaplexTokenEntanglerProgramInstruction.swap.instruction,
     );
     return const MetaplexTokenEntanglerSwapLayout();
   }

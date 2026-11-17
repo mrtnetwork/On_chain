@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class MetadataDelegateRole {
   final String name;
@@ -68,7 +67,8 @@ class MetadataDelegateRole {
       (element) => element.value == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No MetaDataTokenStandard found matching the specified value',
                 details: {'value': value?.toString()},
               ),
@@ -80,7 +80,8 @@ class MetadataDelegateRole {
       (element) => element.name == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No MetaDataTokenStandard found matching the specified value',
                 details: {'value': value?.toString()},
               ),

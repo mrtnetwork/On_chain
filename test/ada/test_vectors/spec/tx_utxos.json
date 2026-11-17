@@ -1,0 +1,46 @@
+{
+ "hash": "x",
+ "inputs": [
+  {
+   "address": "x",
+   "amount": [
+    {
+     "unit": "lovelace",
+     "quantity": "42000000"
+    },
+    {
+     "unit": "b0d07d45fe9514f80213f4020e5a61241458be626841cde717cb38a76e7574636f696e",
+     "quantity": "12"
+    }
+   ],
+   "tx_hash": "x",
+   "output_index": 1,
+   "data_hash": "x",
+   "inline_datum": "x",
+   "reference_script_hash": "x",
+   "collateral": true,
+   "reference": true
+  }
+ ],
+ "outputs": [
+  {
+   "address": "x",
+   "amount": [
+    {
+     "unit": "lovelace",
+     "quantity": "42000000"
+    },
+    {
+     "unit": "b0d07d45fe9514f80213f4020e5a61241458be626841cde717cb38a76e7574636f696e",
+     "quantity": "12"
+    }
+   ],
+   "output_index": 1,
+   "data_hash": "x",
+   "inline_datum": "x",
+   "collateral": true,
+   "reference_script_hash": "x",
+   "consumed_by_tx": "x"
+  }
+ ]
+}

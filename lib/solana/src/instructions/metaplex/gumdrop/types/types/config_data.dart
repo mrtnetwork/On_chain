@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/fixed_price_sale.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class GumdropConfigData extends BorshLayoutSerializable {

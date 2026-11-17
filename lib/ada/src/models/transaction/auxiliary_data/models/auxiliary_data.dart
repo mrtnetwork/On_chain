@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/metadata/models/general_transaction_metadata.dart';
 import 'package:on_chain/ada/src/models/metadata/utils/metadata_utils.dart';
@@ -16,7 +17,12 @@ enum AuxiliaryDataCborEncoding {
     return values.firstWhere(
       (e) => e.name == name,
       orElse:
-          () => throw ItemNotFoundException(name: "AuxiliaryDataCborEncoding"),
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid AuxiliaryDataCborEncoding name.',
+                details: {'name': name},
+              ),
     );
   }
 }

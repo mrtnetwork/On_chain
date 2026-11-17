@@ -1,4 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 import 'package:on_chain/solidity/abi/abi.dart';
 
@@ -99,7 +101,7 @@ class AbiConstructorFragment extends AbiBaseFragment {
               .listAt<CborTagValue>(1)
               .map((e) => AbiParameter.deserialize(cbor: e))
               .toList(),
-      payable: values.objectAt<CborBoleanValue?>(2)?.value,
+      payable: values.objectAt<CborBooleanValue?>(2)?.value,
     );
   }
 
@@ -123,7 +125,7 @@ class AbiConstructorFragment extends AbiBaseFragment {
           CborBytesValue(stateMutability.tags),
           CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
           switch (payable) {
-            final bool payable => CborBoleanValue(payable),
+            final bool payable => CborBooleanValue(payable),
             _ => CborNullValue(),
           },
         ].cast(),
@@ -141,6 +143,37 @@ class AbiConstructorFragment extends AbiBaseFragment {
       "payable": payable,
     }.notNullValue;
   }
+
+  /// Encodes constructor parameters (no function selector).
+  ///
+  /// Used by Hedera ContractCreate: `initcode = bytecode || encode(args)`.
+  BuBytes encode(List<dynamic> params) {
+    if (inputs.isEmpty) {
+      if (params.isNotEmpty) {
+        throw BuError(
+          OnChainErrorType.solidityAbi,
+          'Constructor has no inputs but params were provided.',
+        );
+      }
+      return BuBytes.empty();
+    }
+    if (inputs.length != params.length) {
+      throw BuError(
+        DefaultErrorType.invalidLength,
+        'Constructor expects ${inputs.length} args, got ${params.length}.',
+      );
+    }
+    final encoded = AbiParameter(
+      name: '',
+      type: 'tuple',
+      components: List.from(inputs),
+    ).abiEncode(params);
+    return encoded.encoded;
+  }
+
+  /// Encodes constructor parameters as hex.
+  String encodeHex(List<dynamic> params) =>
+      BytesUtils.toHexString(encode(params));
 }
 
 /// Represents a function fragment in ABI, providing methods for working with function calls.
@@ -186,8 +219,8 @@ class AbiFunctionFragment extends AbiBaseFragment {
               .listAt<CborTagValue>(3)
               .map((e) => AbiParameter.deserialize(cbor: e))
               .toList(),
-      constant: values.objectAt<CborBoleanValue?>(4)?.value,
-      payable: values.objectAt<CborBoleanValue?>(5)?.value,
+      constant: values.objectAt<CborBooleanValue?>(4)?.value,
+      payable: values.objectAt<CborBooleanValue?>(5)?.value,
     );
   }
 
@@ -222,12 +255,12 @@ class AbiFunctionFragment extends AbiBaseFragment {
   }
 
   /// The signature hash of the function.
-  late final List<int> signature = QuickCrypto.keccack256Hash(
+  late final BuBytes signature = QuickCrypto.keccak256Hash(
     StringUtils.encode(functionName),
   );
 
   /// The function selector.
-  List<int> get selector => signature.sublist(0, ABIConst.selectorLength);
+  BuBytes get selector => signature.sublist(0, ABIConst.selectorLength);
 
   @override
   String toString() {
@@ -235,16 +268,16 @@ class AbiFunctionFragment extends AbiBaseFragment {
   }
 
   /// Encodes the function with the provided parameters.
-  List<int> encode(List params, [bool withSelector = true]) {
+  BuBytes encode(List params, [bool withSelector = true]) {
     final abi = AbiParameter(
       name: '',
       type: 'tuple',
       components: List.from(inputs),
     ).abiEncode(params);
     if (!withSelector) {
-      return abi.encoded;
+      return abi.encoded.asImmutableBytes;
     }
-    return [...selector, ...abi.encoded];
+    return [...selector, ...abi.encoded].asImmutableBytes;
   }
 
   /// Encodes the function as a hexadecimal string with the provided parameters.
@@ -299,11 +332,11 @@ class AbiFunctionFragment extends AbiBaseFragment {
           CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
           CborListValue.definite(outputs.map((e) => e.toCbor()).toList()),
           switch (constant) {
-            final bool constant => CborBoleanValue(constant),
+            final bool constant => CborBooleanValue(constant),
             _ => CborNullValue(),
           },
           switch (payable) {
-            final bool payable => CborBoleanValue(payable),
+            final bool payable => CborBooleanValue(payable),
             _ => CborNullValue(),
           },
         ].cast(),
@@ -410,8 +443,8 @@ class AbiFallbackFragment extends AbiBaseFragment {
               .listAt<CborTagValue>(2)
               .map((e) => AbiParameter.deserialize(cbor: e))
               .toList(),
-      constant: values.objectAt<CborBoleanValue?>(3)?.value,
-      payable: values.objectAt<CborBoleanValue?>(4)?.value,
+      constant: values.objectAt<CborBooleanValue?>(3)?.value,
+      payable: values.objectAt<CborBooleanValue?>(4)?.value,
     );
   }
 
@@ -444,11 +477,11 @@ class AbiFallbackFragment extends AbiBaseFragment {
           CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
           CborListValue.definite(outputs.map((e) => e.toCbor()).toList()),
           switch (constant) {
-            final bool constant => CborBoleanValue(constant),
+            final bool constant => CborBooleanValue(constant),
             _ => CborNullValue(),
           },
           switch (payable) {
-            final bool payable => CborBoleanValue(payable),
+            final bool payable => CborBooleanValue(payable),
             _ => CborNullValue(),
           },
         ].cast(),
@@ -499,7 +532,7 @@ class AbiEventFragment extends AbiBaseFragment {
               .listAt<CborTagValue>(1)
               .map((e) => AbiParameter.deserialize(cbor: e))
               .toList(),
-      anonymous: values.objectAt<CborBoleanValue?>(2)?.value,
+      anonymous: values.objectAt<CborBooleanValue?>(2)?.value,
     );
   }
 
@@ -515,7 +548,7 @@ class AbiEventFragment extends AbiBaseFragment {
   }
 
   /// The signature of the event.
-  late final List<int> signature = QuickCrypto.keccack256Hash(
+  late final BuBytes signature = QuickCrypto.keccak256Hash(
     StringUtils.encode(eventName),
   );
 
@@ -576,7 +609,7 @@ class AbiEventFragment extends AbiBaseFragment {
           CborStringValue(name),
           CborListValue.definite(inputs.map((e) => e.toCbor()).toList()),
           switch (anonymous) {
-            final bool anonymous => CborBoleanValue(anonymous),
+            final bool anonymous => CborBooleanValue(anonymous),
             _ => CborNullValue(),
           },
         ].cast(),
@@ -638,12 +671,12 @@ class AbiErrorFragment extends AbiBaseFragment {
   }
 
   /// The signature of the error.
-  late final List<int> signature = QuickCrypto.keccack256Hash(
+  late final BuBytes signature = QuickCrypto.keccak256Hash(
     StringUtils.encode(errorName),
   );
 
   /// Gets the selector of the error.
-  List<int> get selector => signature.sublist(0, ABIConst.selectorLength);
+  BuBytes get selector => signature.sublist(0, ABIConst.selectorLength);
 
   /// Decodes the error parameters from the encoded bytes.
   List<dynamic> decodeError(List<int> encodedParams) {
@@ -707,14 +740,23 @@ enum StateMutability {
       (e) => e.name == name?.toLowerCase(),
       orElse:
           () =>
-              throw ItemNotFoundException(value: name, details: {'type': name}),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching item found for the given value. $name",
+                details: {'type': name},
+              ),
     );
   }
 
   static StateMutability fromValue(List<int>? tags) {
     return values.firstWhere(
       (e) => CompareUtils.iterableIsEqual(tags, e.tags),
-      orElse: () => throw ItemNotFoundException(value: tags),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching item found for the given value. $tags",
+              ),
     );
   }
 }
@@ -750,14 +792,23 @@ enum FragmentTypes {
         (e) => e.name == name?.toLowerCase(),
       );
     } catch (e) {
-      throw ItemNotFoundException(value: name, details: {'type': name});
+      throw BuError(
+        DefaultErrorType.notFound,
+        "No matching item found for the given value. $name",
+        details: {'type': name},
+      );
     }
   }
 
   static FragmentTypes fromValue(List<int>? tags) {
     return values.firstWhere(
       (e) => CompareUtils.iterableIsEqual(tags, e.tags),
-      orElse: () => throw ItemNotFoundException(value: tags),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching item found for the given value. $tags",
+              ),
     );
   }
 }

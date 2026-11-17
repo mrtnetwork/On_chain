@@ -22,7 +22,7 @@ class BlockfrostRequestDetailedInformationAboutAccountAssociatedAddresses
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  ADAAccountSummaryResponse onResonse(Map<String, dynamic> result) {
+  ADAAccountSummaryResponse onResponse(Map<String, dynamic> result) {
     return ADAAccountSummaryResponse.fromJson(result);
   }
 }

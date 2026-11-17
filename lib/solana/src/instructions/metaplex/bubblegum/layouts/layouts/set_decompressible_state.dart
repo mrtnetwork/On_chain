@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/decompressible_state.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexBubblegumSetDecompressibleStateLayout
     extends MetaplexBubblegumProgramLayout {
@@ -18,7 +18,7 @@ class MetaplexBubblegumSetDecompressibleStateLayout
       instruction:
           MetaplexBubblegumProgramInstruction
               .setDecompressibleState
-              .insturction,
+              .instruction,
     );
     return MetaplexBubblegumSetDecompressibleStateLayout(
       decompressibleState: DecompressibleState.fromValue(

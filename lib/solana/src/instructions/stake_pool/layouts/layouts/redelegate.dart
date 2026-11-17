@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Redelegate active stake on a validator layout.
@@ -28,7 +28,7 @@ class StakePoolReDelegateLayout extends StakePoolProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: StakePoolProgramInstruction.redelegate.insturction,
+      instruction: StakePoolProgramInstruction.redelegate.instruction,
     );
     return StakePoolReDelegateLayout(
       lamports: decode['lamports'],

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexBubblegumCompressLayout extends MetaplexBubblegumProgramLayout {
   const MetaplexBubblegumCompressLayout();
@@ -8,7 +8,7 @@ class MetaplexBubblegumCompressLayout extends MetaplexBubblegumProgramLayout {
     MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexBubblegumProgramInstruction.compress.insturction,
+      instruction: MetaplexBubblegumProgramInstruction.compress.instruction,
     );
     return const MetaplexBubblegumCompressLayout();
   }

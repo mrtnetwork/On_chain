@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Make a flash loan layout.
@@ -12,7 +12,7 @@ class TokenLendingFlashLoanLayout extends TokenLendingProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: TokenLendingProgramInstruction.flashLoan.insturction,
+      instruction: TokenLendingProgramInstruction.flashLoan.instruction,
     );
     return TokenLendingFlashLoanLayout(
       liquidityAmount: decode['liquidityAmount'],

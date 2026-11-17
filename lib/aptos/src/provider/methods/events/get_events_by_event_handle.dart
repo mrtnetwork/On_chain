@@ -6,7 +6,7 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// This API uses the given account `address`, `eventHandle`, and `fieldName`to build a key that
 /// can globally identify an event types. It then uses thiskey to return events emitted to
 /// the given account matching that event type.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetEventsByEventHandle
     extends AptosRequest<List<AptosApiEvent>, List<Map<String, dynamic>>> {
   AptosRequestGetEventsByEventHandle({
@@ -46,7 +46,7 @@ class AptosRequestGetEventsByEventHandle
   };
 
   @override
-  List<AptosApiEvent> onResonse(List<Map<String, dynamic>> result) {
+  List<AptosApiEvent> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => AptosApiEvent.fromJson(e)).toList();
   }
 }

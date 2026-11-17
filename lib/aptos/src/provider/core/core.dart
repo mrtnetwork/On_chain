@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/provider/constant/constants.dart';
 import 'package:on_chain/aptos/src/provider/utils/utils.dart';
 
@@ -12,7 +12,13 @@ enum AptosRequestType {
   static AptosRequestType fromValue(int? value) {
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw ItemNotFoundException(name: "AptosRequestType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid AptosRequestType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 }
@@ -32,11 +38,12 @@ abstract class AptosRequest<RESULT, RESPONSE>
   AptosRequestDetails buildRequest(int requestID) {
     final pathParams = AptosProviderUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw DartAptosPluginException(
-        'Invalid Path Parameters.',
+      throw BuError(
+        DefaultErrorType.invalidLength,
+        'Invalid path parameters.',
         details: {
           'pathParams': pathParameters.length.toString(),
-          'ExceptedPathParametersLength': pathParams.length.toString(),
+          'expectedPathParametersLength': pathParams.length.toString(),
         },
       );
     }
@@ -204,7 +211,12 @@ class AptosRequestDetails extends BaseServiceRequestParams {
 
   @override
   List<int>? encodeBody({ServiceProtocol protocol = ServiceProtocol.http}) {
-    assert(protocol.isHttp, "Unsupported porotcol");
+    if (!protocol.isHttp) {
+      throw const BuError(
+        DefaultErrorType.unsupported,
+        'Unsupported protocol. Only HTTP is supported by this service.',
+      );
+    }
     return super.encodeBody(protocol: protocol);
   }
 

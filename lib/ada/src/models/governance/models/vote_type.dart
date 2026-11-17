@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
 /// Represents a vote type.
@@ -34,7 +34,13 @@ class VoteType with InternalCborSerialization {
   static VoteType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "VoteType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid VoteType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -42,13 +48,19 @@ class VoteType with InternalCborSerialization {
   static VoteType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "VoteType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid VoteType name.',
+                details: {'name': name},
+              ),
     );
   }
 
   @override
   String toString() {
-    return 'NativeScriptType.$name';
+    return 'VoteType.$name';
   }
 
   @override

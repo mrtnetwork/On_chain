@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 
 class SolanaRequestEncoding {
   const SolanaRequestEncoding(this.value);
@@ -8,7 +7,7 @@ class SolanaRequestEncoding {
   static const SolanaRequestEncoding base58 = SolanaRequestEncoding('base58');
   static const SolanaRequestEncoding base64 = SolanaRequestEncoding('base64');
   static const SolanaRequestEncoding jsonParsed = SolanaRequestEncoding(
-    'jsonParsed',
+    'JsonParsed.',
   );
   @override
   String toString() {
@@ -31,8 +30,9 @@ class SolanaRequestEncoding {
   static (SolanaRequestEncoding, String) _findTypes(dynamic data) {
     if (data is List) {
       if (data.length != 2) {
-        throw const SolanaPluginException(
-          'Invalid data. Data should be a string, a map, or a list with a length of 2.',
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Invalid data: expected a string, a map, or a length-2 list.',
         );
       }
       switch (data[1]) {
@@ -41,13 +41,15 @@ class SolanaRequestEncoding {
         case 'base64':
           return (SolanaRequestEncoding.base64, data[0]);
         default:
-          throw const SolanaPluginException(
+          throw const BuError(
+            DefaultErrorType.unsupported,
             'Unsupported or invalid data types for decoding.',
           );
       }
     }
     if (data is! String) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.badBase64,
         'Invalid (base58 or Base64) string. To decode data into bytes, please use SolanaRequestEncoding.base58 or SolanaRequestEncoding.base64.',
       );
     }
@@ -57,8 +59,9 @@ class SolanaRequestEncoding {
   static List<int> decode(dynamic data, {SolanaRequestEncoding? type}) {
     final correctType = _findTypes(data);
     if (type != null && correctType.$1 != type) {
-      throw SolanaPluginException(
-        'Incorrect type.',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Incorrect data type.',
         details: {
           'expected': correctType.$1.toString(),
           'type': type.toString(),

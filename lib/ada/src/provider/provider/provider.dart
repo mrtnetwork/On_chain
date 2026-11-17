@@ -77,7 +77,7 @@ class BlockFrostProvider<SERVICE extends IServiceProvider>
       request,
       timeout: timeout,
     );
-    return request.onResonse(r);
+    return request.onResponse(r);
   }
 
   /// Sends a request to the cardano network (BlockFrost) using the specified [request] parameter.
@@ -91,7 +91,7 @@ class BlockFrostProvider<SERVICE extends IServiceProvider>
     Duration? timeout,
   }) async {
     final id = ++_id;
-    final params = request.buildRequest(id);
+    final params = await request.buildRequest(id);
     final response = await service.doRequest(params, timeout: timeout);
     return _findError<SERVICERESPONSE>(params: params, response: response);
   }

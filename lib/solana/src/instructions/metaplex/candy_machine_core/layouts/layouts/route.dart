@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_guard_types/types.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineRouteLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -18,7 +18,7 @@ class MetaplexCandyMachineRouteLayout
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexCandyMachineProgramInstruction.route.insturction,
+      instruction: MetaplexCandyMachineProgramInstruction.route.instruction,
     );
     return MetaplexCandyMachineRouteLayout(
       data: (decode['data'] as List).cast(),

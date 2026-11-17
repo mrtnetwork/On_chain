@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents the type of a credential.
@@ -37,7 +37,13 @@ class CredentialType with InternalCborSerialization {
   static CredentialType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "CredentialType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid CredentialType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -45,7 +51,13 @@ class CredentialType with InternalCborSerialization {
   static CredentialType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "CredentialType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid CredentialType name.',
+                details: {'name': name},
+              ),
     );
   }
 

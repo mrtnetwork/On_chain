@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/name_service/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Realloc the data of a name record.
@@ -17,7 +17,7 @@ class NameServiceReallocLayout extends NameServiceProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: NameServiceProgramInstruction.realloc.insturction,
+      instruction: NameServiceProgramInstruction.realloc.instruction,
     );
     return NameServiceReallocLayout(space: decode['space']);
   }

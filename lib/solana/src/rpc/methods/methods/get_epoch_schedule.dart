@@ -15,7 +15,7 @@ class SolanaRequestGetEpochSchedule
   }
 
   @override
-  EpochSchedule onResonse(Map<String, dynamic> result) {
+  EpochSchedule onResponse(Map<String, dynamic> result) {
     return EpochSchedule.fromJson(result);
   }
 }

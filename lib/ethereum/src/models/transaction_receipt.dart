@@ -101,28 +101,18 @@ class TransactionReceipt {
   Map<String, dynamic> toJson() {
     return {
       'blockHash': blockHash,
-      'blockNumber':
-          blockNumber != null ? '0x${blockNumber!.toRadixString(16)}' : null,
+      'blockNumber': blockNumber?.toHexaDecimal,
       'contractAddress': contractAddress,
-      'cumulativeGasUsed':
-          cumulativeGasUsed != null
-              ? '0x${cumulativeGasUsed!.toRadixString(16)}'
-              : null,
-      'effectiveGasPrice':
-          effectiveGasPrice != null
-              ? '0x${effectiveGasPrice!.toRadixString(16)}'
-              : null,
+      'cumulativeGasUsed': cumulativeGasUsed?.toHexaDecimal,
+      'effectiveGasPrice': effectiveGasPrice?.toHexaDecimal,
       'from': from,
-      'gasUsed': gasUsed != null ? '0x${gasUsed!.toRadixString(16)}' : null,
+      'gasUsed': gasUsed?.toHexaDecimal,
       'logsBloom': logsBloom,
       'status': status != null ? (status! ? '0x1' : '0x0') : null,
       'to': to,
       'transactionHash': transactionHash,
-      'transactionIndex':
-          transactionIndex != null
-              ? '0x${transactionIndex!.toRadixString(16)}'
-              : null,
-      'type': '0x${type.toRadixString(16)}',
+      'transactionIndex': transactionIndex?.toHexaDecimal,
+      'type': type.toHexaDecimal,
       'logs': logs.map((log) => log.toJson()).toList(),
     }.notNullValue;
   }

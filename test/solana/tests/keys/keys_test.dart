@@ -2,15 +2,17 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
+import '../../../utils.dart';
+void keysTest() {
+  group('Solana/Keys', () {
   test('test1', () {
-    final privateKey = SolanaPrivateKey.fromSeed(
+    final privateKey = SolanaPrivateKey.fromBytes(
       BytesUtils.fromHexString(
         '4e27902b3df33d7857dc9d218a3b34a6550e9c7621a6d601d06240a517d22017',
       ),
     );
     final address = privateKey.publicKey().toAddress();
-    final privateKey2 = SolanaPrivateKey.fromSeed(
+    final privateKey2 = SolanaPrivateKey.fromBytes(
       BytesUtils.fromHexString(
         '180924a2160def1027f68a5e5ddf2cde42772491d4b7ac95c91ffe9c0b701368',
       ),
@@ -36,4 +38,10 @@ void main() {
       '9fdade1202d72a1cb002768793a1498f625a1de7a57c3edd8be082eaa1eb0bd0a5d4d143ade851c4d0b429223e7247772b79b0bfc5b51cc572b740b13a82f707',
     );
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(keysTest, "Keys");
+}
+

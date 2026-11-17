@@ -12,7 +12,7 @@ class ZKSRequestGetGenesis
   String get method => "zks_getgenesis";
 
   @override
-  JKSGenesis onResonse(Map<String, dynamic> result) {
+  JKSGenesis onResponse(Map<String, dynamic> result) {
     return JKSGenesis.fromJson(result);
   }
 

@@ -1,7 +1,7 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_machine_types/types/config_line_settings.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_machine_types/types/hidden_settings.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/types/types/creator.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class CandyMachineData extends BorshLayoutSerializable {

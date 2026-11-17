@@ -2,14 +2,20 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../../../utils.dart';
+void accountTest() {
   _transferConfigAccount();
-  group('spl token', () {
+  group('Solana/SPL Token', () {
     _mintAccount();
     _multisigaccount();
     _transferConfigAccount();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(accountTest, "Account");
+}
+
 
 void _mintAccount() {
   test('mint', () {

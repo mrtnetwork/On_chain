@@ -1,7 +1,8 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
+import '../../../../utils.dart';
 final List<int> _root = List<int>.filled(32, 10);
 final List<int> _dataHash = List<int>.filled(32, 20);
 final List<int> _creatorHash = List<int>.filled(32, 30);
@@ -33,8 +34,8 @@ final _metaDataArgs = MetaData(
   ],
 );
 
-void main() {
-  group('bubblegum', () {
+void bubblegumLayoutTest() {
+  group('Solana/Bubblegum Layout', () {
     _voucher();
     _treeConfig();
     _updateMetaData();
@@ -61,6 +62,11 @@ void main() {
     _merkeleTreeAccount();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(bubblegumLayoutTest, "Layout");
+}
+
 
 void _burn() {
   test('burn', () {

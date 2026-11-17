@@ -21,7 +21,7 @@ class SuiRequestGetCoinMetadata
   }
 
   @override
-  SuiApiCoinMetadataResponse? onResonse(Map<String, dynamic>? result) {
+  SuiApiCoinMetadataResponse? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     return SuiApiCoinMetadataResponse.fromJson(result);
   }

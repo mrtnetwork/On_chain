@@ -1,18 +1,20 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
 import 'package:on_chain/sui/src/intent/intent.dart';
 import 'package:on_chain/sui/src/utils/sui_helper.dart';
 
 import 'package:on_chain/sui/src/transaction/const/constant.dart';
+import 'package:on_chain/sui/src/transaction/types/system_kinds.dart';
 
 class SuiObjectDigest extends BcsSerialization {
-  final List<int> digest;
+  final BuBytes digest;
   SuiObjectDigest._(List<int> digest) : digest = digest.asImmutableBytes;
   factory SuiObjectDigest(List<int> digest) {
     if (digest.length != SuiTransactionConst.digestLength) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid digest length.",
         details: {
           "expected": SuiTransactionConst.digestLength.toString(),
@@ -184,8 +186,9 @@ enum SuiTypeInputs {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct typeInputs from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct typeInputs from the given name.",
                 details: {"name": name},
               ),
     );
@@ -285,7 +288,8 @@ class SuiTypeInputPrimitive extends SuiTypeInput {
   const SuiTypeInputPrimitive._(SuiTypeInputs type) : super(type: type);
   factory SuiTypeInputPrimitive(SuiTypeInputs type) {
     if (!type.isPrimitive) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid primitive type.",
         details: {"type": type.name},
       );
@@ -413,7 +417,7 @@ enum SuiArguments {
   /// The result of another command (from `ProgrammableTransaction` commands)
   result(value: 2),
 
-  /// Like a `TronResult` but it accesses a nested result. Currently, the only usage
+  /// Like a nested `Result` but it accesses a nested result. Currently, the only usage
   /// of this is to access a value from a Move call with multiple return values.
   nestedResult(value: 3);
 
@@ -425,8 +429,9 @@ enum SuiArguments {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct Arguments from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct Arguments from the given name.",
                 details: {"name": name},
               ),
     );
@@ -775,8 +780,9 @@ enum SuiCommands {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct Commands from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct Commands from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1009,7 +1015,7 @@ class SuiCommandMergeCoins extends SuiCommand {
 /// Publishes a Move package. It takes the package bytes and a list of the package's transitive
 /// dependencies to link against on-chain.
 class SuiCommandPublish extends SuiCommand {
-  final List<List<int>> modules;
+  final List<BuBytes> modules;
   final List<SuiAddress> dependencies;
 
   SuiCommandPublish({
@@ -1097,7 +1103,7 @@ class SuiCommandMakeMoveVec extends SuiCommand {
 /// Upgrades a Move package
 class SuiCommandUpgrade extends SuiCommand {
   /// A vector of serialized modules for the package.
-  final List<List<int>> modules;
+  final List<BuBytes> modules;
 
   /// A vector of object ids for the transitive dependencies of the new package.
   final List<SuiAddress> dependencies;
@@ -1175,8 +1181,9 @@ enum SuiObjectArgs {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct ObjectArgs from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct ObjectArgs from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1228,7 +1235,8 @@ abstract class SuiObjectArg extends BcsVariantSerialization {
   String get variantName => type.name;
   T cast<T extends SuiObjectArg>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "Object arg casting failed.",
         details: {"expected": "$T", "arg": type.name},
       );
@@ -1268,30 +1276,60 @@ class SuiObjectArgImmOrOwnedObject extends SuiObjectArg {
 }
 
 /// A Move object from consensus (historically consensus objects were always shared).
-/// SharedObject::mutable controls whether caller asks for a mutable reference to shared object.
+/// `SharedObject::mutability` controls write access. Formerly a `bool`
+/// (`false`/`true` = `0x00`/`0x01`, kept wire-compatible); current Sui adds
+/// `NonExclusiveWrite` (`0x02`, used by accumulator settlement system txs).
+enum SuiSharedObjectMutability {
+  immutable(value: 0),
+  mutable(value: 1),
+  nonExclusiveWrite(value: 2);
+
+  const SuiSharedObjectMutability({required this.value});
+  final int value;
+  static SuiSharedObjectMutability fromValue(int? value) {
+    return values.firstWhere(
+      (e) => e.value == value,
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                "Unknown SharedObjectMutability value.",
+                details: {"value": value.toString()},
+              ),
+    );
+  }
+
+  /// True for [mutable] and [nonExclusiveWrite] (both grant write access).
+  bool get isWrite => this != SuiSharedObjectMutability.immutable;
+}
+
+/// A Move object from consensus (historically consensus objects were always shared).
+/// SharedObject::mutability controls whether caller asks for a mutable reference to shared object.
 class SuiObjectArgSharedObject extends SuiObjectArg {
   final SuiAddress id;
   final BigInt initialSharedVersion;
-  final bool mutable;
+  final SuiSharedObjectMutability mutability;
 
   SuiObjectArgSharedObject({
     required this.id,
     required BigInt initialSharedVersion,
-    required this.mutable,
+    required this.mutability,
   }) : initialSharedVersion = initialSharedVersion.asU64,
        super(type: SuiObjectArgs.sharedObject);
   factory SuiObjectArgSharedObject.fromStruct(Map<String, dynamic> json) {
     return SuiObjectArgSharedObject(
       id: SuiAddress.fromStruct(json.valueEnsureAsMap<String, dynamic>("id")),
       initialSharedVersion: json.valueAs("initialSharedVersion"),
-      mutable: json.valueAs("mutable"),
+      mutability: SuiSharedObjectMutability.fromValue(
+        json.valueAs("mutability"),
+      ),
     );
   }
   static StructLayout layout({String? property}) {
     return LayoutConst.struct([
       SuiAddress.layout(property: "id"),
       LayoutConst.u64(property: "initialSharedVersion"),
-      LayoutConst.boolean(property: "mutable"),
+      LayoutConst.u8(property: "mutability"),
     ], property: property);
   }
 
@@ -1305,7 +1343,7 @@ class SuiObjectArgSharedObject extends SuiObjectArg {
     return {
       "id": id.toLayoutStruct(),
       "initialSharedVersion": initialSharedVersion,
-      "mutable": mutable,
+      "mutability": mutability.value,
     };
   }
 }
@@ -1353,8 +1391,9 @@ enum SuiCallArgs {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct CallArgs from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct CallArgs from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1373,9 +1412,10 @@ abstract class SuiCallArg<T> extends BcsVariantSerialization
       SuiCallArgs.object => SuiCallArgObject.fromStruct(decode.value),
     };
     if (arg is! SuiCallArg<T>) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid argument.",
-        details: {"excpected": "$T", "arg": arg.runtimeType.toString()},
+        details: {"expected": "$T", "arg": arg.runtimeType.toString()},
       );
     }
     return arg;
@@ -1404,7 +1444,8 @@ abstract class SuiCallArg<T> extends BcsVariantSerialization
   String get variantName => type.name;
   E cast<E extends SuiCallArg>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "CallArg casting failed.",
         details: {"expected": "$T", "arg": type.name},
       );
@@ -1414,7 +1455,7 @@ abstract class SuiCallArg<T> extends BcsVariantSerialization
 }
 
 class SuiCallArgPure extends SuiCallArg<List<int>> {
-  final List<int> bytes;
+  final BuBytes bytes;
 
   SuiCallArgPure(List<int> bytes)
     : bytes = bytes.asImmutableBytes,
@@ -1469,7 +1510,7 @@ class SuiCallArgPure extends SuiCallArg<List<int>> {
   }
 
   @override
-  List<int> get value => bytes;
+  BuBytes get value => bytes;
 }
 
 class SuiCallArgObject extends SuiCallArg<SuiObjectArg> {
@@ -1572,7 +1613,8 @@ enum SuiTransactionKinds {
   changeEpoch(value: 1),
   genesis(value: 2),
   consensusCommitPrologue(value: 3),
-  euthenticatorStateUpdate(value: 4),
+
+  authenticatorStateUpdate(value: 4),
 
   /// EndOfEpochTransaction replaces ChangeEpoch with a list of transactions that are allowed to
   /// run at the end of the epoch.
@@ -1581,7 +1623,12 @@ enum SuiTransactionKinds {
 
   /// V2 ConsensusCommitPrologue also includes the digest of the current consensus output.
   consensusCommitPrologueV2(value: 7),
-  consensusCommitPrologueV3(value: 8);
+  consensusCommitPrologueV3(value: 8),
+
+  consensusCommitPrologueV4(value: 9),
+
+  /// A system transaction expressed as a PTB.
+  programmableSystemTransaction(value: 10);
 
   const SuiTransactionKinds({required this.value});
   final int value;
@@ -1590,8 +1637,9 @@ enum SuiTransactionKinds {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct TransactionKid from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct TransactionKid from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1607,7 +1655,31 @@ abstract class SuiTransactionKind extends BcsVariantSerialization {
     return switch (type) {
       SuiTransactionKinds.programmableTransaction =>
         SuiTransactionKindProgrammableTransaction.fromStruct(decode.value),
-      _ => throw UnimplementedError(),
+      SuiTransactionKinds.changeEpoch =>
+        SuiTransactionKindChangeEpoch.fromStruct(decode.value),
+      SuiTransactionKinds.consensusCommitPrologue =>
+        SuiTransactionKindConsensusCommitPrologue.fromStruct(decode.value),
+      SuiTransactionKinds.authenticatorStateUpdate =>
+        SuiTransactionKindAuthenticatorStateUpdate.fromStruct(decode.value),
+      SuiTransactionKinds.endOfEpochTransaction =>
+        SuiTransactionKindEndOfEpochTransaction.fromStruct(decode.value),
+      SuiTransactionKinds.randomnessStateUpdate =>
+        SuiTransactionKindRandomnessStateUpdate.fromStruct(decode.value),
+      SuiTransactionKinds.consensusCommitPrologueV2 =>
+        SuiTransactionKindConsensusCommitPrologueV2.fromStruct(decode.value),
+      SuiTransactionKinds.consensusCommitPrologueV3 =>
+        SuiTransactionKindConsensusCommitPrologueV3.fromStruct(decode.value),
+      SuiTransactionKinds.consensusCommitPrologueV4 =>
+        SuiTransactionKindConsensusCommitPrologueV4.fromStruct(decode.value),
+      SuiTransactionKinds.programmableSystemTransaction =>
+        SuiTransactionKindProgrammableSystemTransaction.fromStruct(
+          decode.value,
+        ),
+      _ =>
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Unsupported transaction kind.",
+        ),
     };
   }
   static Layout<Map<String, dynamic>> layout({String? property}) {
@@ -1616,6 +1688,51 @@ abstract class SuiTransactionKind extends BcsVariantSerialization {
         layout: SuiTransactionKindProgrammableTransaction.layout,
         property: SuiTransactionKinds.programmableTransaction.name,
         index: SuiTransactionKinds.programmableTransaction.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindChangeEpoch.layout,
+        property: SuiTransactionKinds.changeEpoch.name,
+        index: SuiTransactionKinds.changeEpoch.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindConsensusCommitPrologue.layout,
+        property: SuiTransactionKinds.consensusCommitPrologue.name,
+        index: SuiTransactionKinds.consensusCommitPrologue.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindAuthenticatorStateUpdate.layout,
+        property: SuiTransactionKinds.authenticatorStateUpdate.name,
+        index: SuiTransactionKinds.authenticatorStateUpdate.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindEndOfEpochTransaction.layout,
+        property: SuiTransactionKinds.endOfEpochTransaction.name,
+        index: SuiTransactionKinds.endOfEpochTransaction.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindRandomnessStateUpdate.layout,
+        property: SuiTransactionKinds.randomnessStateUpdate.name,
+        index: SuiTransactionKinds.randomnessStateUpdate.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindConsensusCommitPrologueV2.layout,
+        property: SuiTransactionKinds.consensusCommitPrologueV2.name,
+        index: SuiTransactionKinds.consensusCommitPrologueV2.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindConsensusCommitPrologueV3.layout,
+        property: SuiTransactionKinds.consensusCommitPrologueV3.name,
+        index: SuiTransactionKinds.consensusCommitPrologueV3.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindConsensusCommitPrologueV4.layout,
+        property: SuiTransactionKinds.consensusCommitPrologueV4.name,
+        index: SuiTransactionKinds.consensusCommitPrologueV4.value,
+      ),
+      LazyVariantModel(
+        layout: SuiTransactionKindProgrammableSystemTransaction.layout,
+        property: SuiTransactionKinds.programmableSystemTransaction.name,
+        index: SuiTransactionKinds.programmableSystemTransaction.value,
       ),
     ], property: property);
   }
@@ -1630,7 +1747,8 @@ abstract class SuiTransactionKind extends BcsVariantSerialization {
 
   T cast<T extends SuiTransactionKind>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "Transaction kind casting failed.",
         details: {"expected": "$T", "kind": type.name},
       );
@@ -1685,8 +1803,9 @@ enum SuiTransactionV2TransactionExpirations {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct TransactionExpiration from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct TransactionExpiration from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1786,8 +1905,9 @@ enum SuiTransactionDataVersion {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct transaction version from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct transaction version from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1829,7 +1949,7 @@ abstract class SuiTransactionData extends BcsVariantSerialization {
     return layout(property: property);
   }
 
-  List<int> serializeSign() {
+  BuBytes serializeSign() {
     return toIntent().toBcs().asImmutableBytes;
   }
 
@@ -1924,7 +2044,7 @@ class SuiTransactionDataV1 extends SuiTransactionData {
 
 class SuiSenderSignedTransaction extends BcsSerialization {
   final SuiIntentMessage intentMessage;
-  final List<List<int>> signatures;
+  final List<BuBytes> signatures;
   SuiSenderSignedTransaction({
     required this.intentMessage,
     required List<List<int>> signatures,

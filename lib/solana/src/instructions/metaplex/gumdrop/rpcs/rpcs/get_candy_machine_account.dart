@@ -29,7 +29,7 @@ class SolanaRPCGetGumdropCandyMachineAccount
   }
 
   @override
-  GumdropCandyMachine? onResonse(result) {
+  GumdropCandyMachine? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return GumdropCandyMachine.fromBuffer(accountInfo.toBytesData());

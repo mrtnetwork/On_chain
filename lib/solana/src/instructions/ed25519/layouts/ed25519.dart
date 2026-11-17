@@ -1,8 +1,5 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/instructions/ed25519/constant.dart';
 import 'package:on_chain/solana/src/instructions/ed25519/instruction/instructions.dart';
 import 'package:on_chain/solana/src/keypair/private_key.dart';
@@ -89,8 +86,9 @@ class Ed25519ProgramLayout extends ProgramLayout {
     int? instructionIndex,
   }) {
     if (signature.length != Ed25519ProgramConst.signatureLen) {
-      throw SolanaPluginException(
-        'invalid signature length.',
+      throw BuError(
+        DefaultErrorType.invalidLength,
+        'Invalid signature length.',
         details: {
           'expected': Ed25519ProgramConst.signatureLen.toString(),
           'length': signature.length.toString(),
@@ -99,7 +97,7 @@ class Ed25519ProgramLayout extends ProgramLayout {
     }
     final int index = instructionIndex ?? BinaryOps.mask16;
     final publicKeyOffset = _layout.span;
-    final signatureOffset = publicKeyOffset + publicKey.toBytes(false).length;
+    final signatureOffset = publicKeyOffset + publicKey.toBytes32().length;
     final messageDataOffset = signatureOffset + signature.length;
 
     return Ed25519ProgramLayout._(
@@ -174,7 +172,7 @@ class Ed25519ProgramLayout extends ProgramLayout {
 
   int get length {
     final publicKeyOffset = _layout.span;
-    final signatureOffset = publicKeyOffset + publicKey.toBytes(false).length;
+    final signatureOffset = publicKeyOffset + publicKey.toBytes32().length;
     final messageDataOffset = signatureOffset + signature.length;
     return messageDataOffset + message.length;
   }
@@ -215,10 +213,10 @@ class Ed25519ProgramLayout extends ProgramLayout {
   }
 
   @override
-  List<int> toBytes() {
-    final data = List<int>.filled(length, 0);
+  BuBytes toBytes() {
+    final data = BuBytes.fill(length, 0);
     data.setAll(0, layout.serialize(serialize()));
-    data.setAll(publicKeyOffset, publicKey.toBytes(false));
+    data.setAll(publicKeyOffset, publicKey.toBytes32());
     data.setAll(signatureOffset, signature);
     data.setAll(messageDataOffset, message);
     return data;

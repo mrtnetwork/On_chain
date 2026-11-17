@@ -2,7 +2,9 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../utils.dart';
+void etherumEncodableProviderParamsTest() {
+  group('Ethereum/Encodable provider params', () {
   test('encodable provider params', () {
     final param = EthereumRequestGetChainId();
     final request = param.buildRequest(0);
@@ -17,4 +19,10 @@ void main() {
     expect(deserialize.requestMethod, request.requestMethod);
     expect(deserialize.path, null);
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(etherumEncodableProviderParamsTest, "Encodable Provider Params");
+}
+

@@ -2,12 +2,20 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _metadataFromJson();
-  _basicConvertion();
-  _detailedSchema();
-  _auxiliaryData();
+import '../utils.dart';
+void metaDataTest() {
+  group('ADA/Metadata', () {
+    _metadataFromJson();
+    _basicConvertion();
+    _detailedSchema();
+    _auxiliaryData();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(metaDataTest, "Meta Data");
+}
+
 
 String _encodeDecodeCheck(
   List<PlutusScript> scripts, {

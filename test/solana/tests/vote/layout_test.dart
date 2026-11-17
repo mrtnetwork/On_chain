@@ -2,8 +2,9 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('vote layout', () {
+import '../../../utils.dart';
+void voteLayoutTest() {
+  group('Solana/Vote Layout', () {
     _initializeAccount();
     _authorize();
     _authorizeWithSeed();
@@ -11,6 +12,11 @@ void main() {
     _voteAccount();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(voteLayoutTest, "Layout");
+}
+
 
 void _initializeAccount() {
   test('initializeAccount', () {

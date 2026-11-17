@@ -1,6 +1,6 @@
 // Manages the layout structure for syncing native tokens in SPL.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// sync Native layout.
@@ -17,7 +17,7 @@ class SPLTokenSyncNativeLayout extends SPLTokenProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.syncNative.insturction,
+      instruction: SPLTokenProgramInstruction.syncNative.instruction,
     );
     return SPLTokenSyncNativeLayout();
   }

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Refresh an obligation's layout.
@@ -10,7 +10,7 @@ class TokenLendingRefreshObligationLayout extends TokenLendingProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: TokenLendingProgramInstruction.refreshObligation.insturction,
+      instruction: TokenLendingProgramInstruction.refreshObligation.instruction,
     );
     return const TokenLendingRefreshObligationLayout();
   }

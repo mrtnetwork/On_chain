@@ -1,4 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/instructions/stake_pool/rpc/rpcs/get_stake_validator_list_account.dart';
@@ -6,7 +8,6 @@ import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/rpc/rpc.dart';
 import 'dart:math' as math;
 import 'utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 
 class StakePoolProgramHelper {
   /// Creates instructions required to deposit stake to stake pool.
@@ -22,7 +23,10 @@ class StakePoolProgramHelper {
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
     final withdrawAuthority =
         StakePoolProgramUtils.findWithdrawAuthorityProgramAddress(
@@ -107,14 +111,20 @@ class StakePoolProgramHelper {
       SolanaRequestGetBalance(account: from),
     );
     if (fromBalance < lamports) {
-      throw const SolanaPluginException('Not enough SOL to deposit into pool.');
+      throw const BuError(
+        OnChainErrorType.solanaPlugin,
+        'Not enough SOL to deposit into pool.',
+      );
     }
 
     final stakePool = await connection.request(
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
 
     final instructions = <TransactionInstruction>[];
@@ -182,7 +192,10 @@ class StakePoolProgramHelper {
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
 
     final poolTokenAccount =
@@ -195,11 +208,16 @@ class StakePoolProgramHelper {
       SolanaRequestGetAccountInfo(account: poolTokenAccount.address),
     );
     if (tokenAccount == null) {
-      throw const SolanaPluginException('Token account not found.');
+      throw BuError(
+        DefaultErrorType.notFound,
+        'Token account not found.',
+        details: {'account': poolTokenAccount.address.address},
+      );
     }
     // Check withdrawFrom balance
     if (tokenAccount.lamports < poolAmountLamports) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        OnChainErrorType.solanaPlugin,
         'Not enough token balance to withdraw.',
       );
     }
@@ -223,13 +241,17 @@ class StakePoolProgramHelper {
 
     if (solWithdrawAuthority != null) {
       if (stakePool.solWithdrawAuthority == null) {
-        throw const SolanaPluginException(
+        throw const BuError(
+          OnChainErrorType.solanaPlugin,
           'SOL withdraw authority specified in arguments but stake pool has none',
         );
       }
       if (solWithdrawAuthority.address !=
           stakePool.solWithdrawAuthority?.address) {
-        throw const SolanaPluginException('Invalid deposit withdraw specified');
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid deposit withdraw specified',
+        );
       }
     }
 
@@ -263,7 +285,10 @@ class StakePoolProgramHelper {
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
     final validatorList = await connection.request(
       SolanaRPCGetStakePoolValidatorListAccount(
@@ -271,8 +296,9 @@ class StakePoolProgramHelper {
       ),
     );
     if (validatorList == null) {
-      throw const SolanaPluginException(
-        'Validator list account does not found.',
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Validator list account was not found.',
       );
     }
 
@@ -280,7 +306,8 @@ class StakePoolProgramHelper {
       (v) => v.voteAccountAddress.address == validatorVote.address,
       orElse:
           () =>
-              throw const SolanaPluginException(
+              throw const BuError(
+                DefaultErrorType.notFound,
                 'Vote account not found in validator list',
               ),
     );
@@ -365,7 +392,10 @@ class StakePoolProgramHelper {
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
     final validatorList = await connection.request(
       SolanaRPCGetStakePoolValidatorListAccount(
@@ -373,8 +403,9 @@ class StakePoolProgramHelper {
       ),
     );
     if (validatorList == null) {
-      throw const SolanaPluginException(
-        'Validator list account does not found.',
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Validator list account was not found.',
       );
     }
 
@@ -382,7 +413,8 @@ class StakePoolProgramHelper {
       (v) => v.voteAccountAddress.address == validatorVote.address,
       orElse:
           () =>
-              throw const SolanaPluginException(
+              throw const BuError(
+                DefaultErrorType.notFound,
                 'Vote account not found in validator list',
               ),
     );
@@ -468,8 +500,9 @@ class StakePoolProgramHelper {
       ),
     );
     if (validatorList == null) {
-      throw const SolanaPluginException(
-        'Validator list account does not found.',
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Validator list account was not found.',
       );
     }
     final withdrawAuthority =
@@ -554,7 +587,10 @@ class StakePoolProgramHelper {
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
 
     final stakePoolWithdrawAuthority =
@@ -632,7 +668,10 @@ class StakePoolProgramHelper {
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
 
     final withdrawAuthority =
@@ -674,7 +713,10 @@ class StakePoolProgramHelper {
       SolanaRPCGetStakePoolAccount(address: stakePoolAddress),
     );
     if (stakePool == null) {
-      throw const SolanaPluginException('Stake pool account does not found.');
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Stake pool account was not found.',
+      );
     }
 
     final withdrawAuthority =
@@ -718,8 +760,9 @@ class StakePoolProgramHelper {
       ),
     );
     if (validatorList == null || validatorList.validators.isEmpty) {
-      throw const SolanaPluginException(
-        'Validator list account does not found.',
+      throw const BuError(
+        DefaultErrorType.notFound,
+        'Validator list account was not found.',
       );
     }
 
@@ -859,7 +902,8 @@ class StakePoolProgramHelper {
 
     // Not enough stake to withdraw the specified amount
     if (remainingAmount > BigInt.zero) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        OnChainErrorType.solanaPlugin,
         'No stake accounts found in this pool with enough balance to withdraw.',
       );
     }

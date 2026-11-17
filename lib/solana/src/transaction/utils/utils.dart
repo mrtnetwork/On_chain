@@ -1,11 +1,16 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'dart:typed_data';
+
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:on_chain/solana/src/instructions/address_lockup_table/accounts/accounts/account_lookup_table.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/transaction/constant/solana_transaction_constant.dart';
 import 'package:on_chain/solana/src/transaction/core/core.dart';
 import 'package:on_chain/solana/src/transaction/message/legacy.dart';
+import 'package:on_chain/solana/src/transaction/message/message_v1.dart';
 import 'package:on_chain/solana/src/transaction/message/message_v0.dart';
+import 'package:on_chain/solana/src/transaction/message/transaction_v1_config.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class SolanaTransactionUtils {
@@ -78,6 +83,396 @@ class SolanaTransactionUtils {
       recentBlockhash: recentBlockhash,
       compiledInstructions: compiledInstructions,
       addressTableLookups: addressTableLookups,
+    );
+  }
+
+  /// compile V1 message (SIMD-0385: no lookup tables, inline unique accounts).
+  static MessageV1 compileV1({
+    required List<TransactionInstruction> transactionInstructions,
+    required SolAddress payer,
+    required SolAddress recentBlockhash,
+    TransactionV1Config config = const TransactionV1Config.empty(),
+  }) {
+    config.validate();
+    if (transactionInstructions.length >
+        SolanaTransactionConstant.maximumInstructions) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max instructions per v1 transaction exceeded.',
+      );
+    }
+    final compiledKeys = CompiledKeys.compile(transactionInstructions, payer);
+    final componets = compiledKeys.getMessageComponents();
+    final header = componets.$1;
+    final staticAccountKeys = componets.$2;
+    if (staticAccountKeys.length >
+        SolanaTransactionConstant.maximumAccountKeys) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max static account keys length exceeded.',
+      );
+    }
+    final seen = <String>{};
+    for (final key in staticAccountKeys) {
+      if (!seen.add(key.address)) {
+        throw const BuError(
+          DefaultErrorType.invalidAddress,
+          'V1 transaction addresses must not contain duplicates.',
+        );
+      }
+    }
+    final accountKeys = MessageAccountKeys(staticAccountKeys, null);
+    final compiledInstructions = accountKeys.compileInstructions(
+      transactionInstructions,
+    );
+    for (final ix in compiledInstructions) {
+      if (ix.programIdIndex >= staticAccountKeys.length) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'V1 program index out of range.',
+        );
+      }
+      if (ix.accounts.length > 255) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Max accounts per v1 instruction exceeded.',
+        );
+      }
+      for (final a in ix.accounts) {
+        if (a >= staticAccountKeys.length) {
+          throw const BuError(
+            DefaultErrorType.invalidLength,
+            'V1 account index out of range.',
+          );
+        }
+      }
+      if (ix.data.length > 0xFFFF) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Max instruction data per v1 instruction exceeded.',
+        );
+      }
+    }
+    if (header.numRequiredSignatures < 1) {
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Expected at least one required signature.',
+      );
+    }
+    return MessageV1(
+      header: header,
+      accountKeys: staticAccountKeys,
+      recentBlockhash: recentBlockhash,
+      compiledInstructions: compiledInstructions,
+      config: config,
+    );
+  }
+
+  static void _writeU16LE(List<int> out, int value) {
+    out.addAll(IntUtils.toBytes(value, length: 2, byteOrder: Endian.little));
+  }
+
+  static void _writeU32LE(List<int> out, int value) {
+    out.addAll(IntUtils.toBytes(value, length: 4, byteOrder: Endian.little));
+  }
+
+  static int _readU16LE(List<int> bytes, int offset) {
+    if (offset + 2 > bytes.length) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Truncated v1 message.',
+      );
+    }
+    return IntUtils.fromBytes16(
+      bytes,
+      offset: offset,
+      byteOrder: Endian.little,
+    );
+  }
+
+  static int _readU32LE(List<int> bytes, int offset) {
+    if (offset + 4 > bytes.length) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Truncated v1 message.',
+      );
+    }
+    return IntUtils.fromBytes32(
+      bytes,
+      offset: offset,
+      byteOrder: Endian.little,
+    );
+  }
+
+  /// serialize message V1 to bytes (SIMD-0385).
+  static List<int> serializeV1(MessageV1 message) {
+    message.config.validate();
+    if (message.accountKeys.length >
+        SolanaTransactionConstant.maximumAccountKeys) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max static account keys length exceeded.',
+      );
+    }
+    if (message.compiledInstructions.length >
+        SolanaTransactionConstant.maximumInstructions) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max instructions per v1 transaction exceeded.',
+      );
+    }
+    final seen = <String>{};
+    for (final key in message.accountKeys) {
+      if (!seen.add(key.address)) {
+        throw const BuError(
+          DefaultErrorType.invalidAddress,
+          'V1 transaction addresses must not contain duplicates.',
+        );
+      }
+    }
+    final out = <int>[];
+    out.add(SolanaTransactionConstant.versionPrefixV1);
+    out.addAll([
+      message.header.numRequiredSignatures,
+      message.header.numReadonlySignedAccounts,
+      message.header.numReadonlyUnsignedAccounts,
+    ]);
+    _writeU32LE(out, message.config.mask);
+    out.addAll(message.recentBlockhash.toBytes());
+    if (message.compiledInstructions.length > 255 ||
+        message.accountKeys.length > 255) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'V1 count exceeds u8 range.',
+      );
+    }
+    out.add(message.compiledInstructions.length);
+    out.add(message.accountKeys.length);
+    for (final key in message.accountKeys) {
+      out.addAll(key.toBytes());
+    }
+    out.addAll(message.config.encodeValues());
+    for (final ix in message.compiledInstructions) {
+      out.add(ix.programIdIndex);
+      out.add(ix.accounts.length);
+      _writeU16LE(out, ix.data.length);
+    }
+    for (final ix in message.compiledInstructions) {
+      out.addAll(ix.accounts);
+      out.addAll(ix.data);
+    }
+    if (out.length > SolanaTransactionConstant.packetDataSizeV1) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max v1 message size exceeded.',
+      );
+    }
+    return out;
+  }
+
+  /// Length of the v1 message prefix up to (excluding) signatures.
+  /// Used to split tail signatures from the wire transaction.
+  static int v1MessageLength(List<int> bytes) {
+    var offset = 0;
+    int need(int n) {
+      if (offset + n > bytes.length) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Truncated v1 transaction.',
+        );
+      }
+      return n;
+    }
+
+    need(1 + 3 + 4 + SolanaTransactionConstant.publicKeyLength + 1 + 1);
+    if (bytes[offset] != SolanaTransactionConstant.versionPrefixV1) {
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Expected v1 version byte 0x81.',
+      );
+    }
+    offset += 1 + 3;
+    final mask = _readU32LE(bytes, offset);
+    offset += 4;
+    if ((mask & ~TransactionV1Config.knownBitsMask) != 0) {
+      throw BuError(
+        DefaultErrorType.unsupported,
+        'Unsupported v1 config bits.',
+        details: {'mask': mask.toString()},
+      );
+    }
+    offset += SolanaTransactionConstant.publicKeyLength;
+    final numInstructions = bytes[offset++];
+    final numAddresses = bytes[offset++];
+    if (numInstructions > SolanaTransactionConstant.maximumInstructions) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max instructions per v1 transaction exceeded.',
+      );
+    }
+    if (numAddresses > SolanaTransactionConstant.maximumAccountKeys) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max static account keys length exceeded.',
+      );
+    }
+    need(numAddresses * SolanaTransactionConstant.publicKeyLength);
+    offset += numAddresses * SolanaTransactionConstant.publicKeyLength;
+    need(TransactionV1Config.wordsForMask(mask) * 4);
+    offset += TransactionV1Config.wordsForMask(mask) * 4;
+    need(numInstructions * 4);
+    var payloadLength = 0;
+    for (var i = 0; i < numInstructions; i++) {
+      final dataLen = _readU16LE(bytes, offset + 2);
+      payloadLength += bytes[offset + 1] + dataLen;
+    }
+    offset += numInstructions * 4;
+    need(payloadLength);
+    offset += payloadLength;
+    return offset;
+  }
+
+  /// convert bytes to Message V1.
+  static MessageV1 deserializeV1(List<int> serializedMessage) {
+    final bytes = List<int>.from(serializedMessage, growable: false);
+    if (bytes.isEmpty ||
+        bytes[0] != SolanaTransactionConstant.versionPrefixV1) {
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Expected v1 version byte 0x81.',
+      );
+    }
+    var offset = 1;
+    int need(int n) {
+      if (offset + n > bytes.length) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Truncated v1 message.',
+        );
+      }
+      return n;
+    }
+
+    need(3);
+    final header = MessageHeader(
+      numRequiredSignatures: bytes[offset++],
+      numReadonlySignedAccounts: bytes[offset++],
+      numReadonlyUnsignedAccounts: bytes[offset++],
+    );
+    if (header.numRequiredSignatures < 1 ||
+        header.numReadonlySignedAccounts >= header.numRequiredSignatures) {
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid v1 message header.',
+      );
+    }
+    need(4);
+    final mask = _readU32LE(bytes, offset);
+    offset += 4;
+    need(SolanaTransactionConstant.publicKeyLength);
+    final lifetime = SolAddress.uncheckBytes(
+      bytes.sublist(offset, offset + SolanaTransactionConstant.publicKeyLength),
+    );
+    offset += SolanaTransactionConstant.publicKeyLength;
+    need(2);
+    final numInstructions = bytes[offset++];
+    final numAddresses = bytes[offset++];
+    if (numInstructions > SolanaTransactionConstant.maximumInstructions) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max instructions per v1 transaction exceeded.',
+      );
+    }
+    if (numAddresses > SolanaTransactionConstant.maximumAccountKeys) {
+      throw const BuError(
+        DefaultErrorType.invalidLength,
+        'Max static account keys length exceeded.',
+      );
+    }
+    if (numAddresses < 1 ||
+        numAddresses <
+            header.numRequiredSignatures + header.numReadonlyUnsignedAccounts) {
+      throw const BuError(
+        DefaultErrorType.invalidAddress,
+        'Invalid v1 address count.',
+      );
+    }
+    need(numAddresses * SolanaTransactionConstant.publicKeyLength);
+    final accountKeys = <SolAddress>[];
+    final seen = <String>{};
+    for (var i = 0; i < numAddresses; i++) {
+      final key = SolAddress.uncheckBytes(
+        bytes.sublist(
+          offset,
+          offset + SolanaTransactionConstant.publicKeyLength,
+        ),
+      );
+      offset += SolanaTransactionConstant.publicKeyLength;
+      if (!seen.add(key.address)) {
+        throw const BuError(
+          DefaultErrorType.invalidAddress,
+          'V1 transaction addresses must not contain duplicates.',
+        );
+      }
+      accountKeys.add(key);
+    }
+    final words = TransactionV1Config.wordsForMask(mask);
+    need(words * 4);
+    final config = TransactionV1Config.fromMaskAndValues(
+      mask,
+      bytes.sublist(offset, offset + words * 4),
+    );
+    offset += words * 4;
+    need(numInstructions * 4);
+    final headers = <(int, int, int)>[];
+    for (var i = 0; i < numInstructions; i++) {
+      final programIndex = bytes[offset++];
+      final numAccounts = bytes[offset++];
+      final dataLen = _readU16LE(bytes, offset);
+      offset += 2;
+      if (programIndex >= numAddresses) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'V1 program index out of range.',
+        );
+      }
+      headers.add((programIndex, numAccounts, dataLen));
+    }
+    final compiled = <CompiledInstruction>[];
+    for (final h in headers) {
+      need(h.$2 + h.$3);
+      final accounts = bytes.sublist(offset, offset + h.$2);
+      offset += h.$2;
+      for (final a in accounts) {
+        if (a >= numAddresses) {
+          throw const BuError(
+            DefaultErrorType.invalidLength,
+            'V1 account index out of range.',
+          );
+        }
+      }
+      final data = bytes.sublist(offset, offset + h.$3);
+      offset += h.$3;
+      compiled.add(
+        CompiledInstruction(
+          programIdIndex: h.$1,
+          accounts: accounts,
+          data: data,
+        ),
+      );
+    }
+    if (offset != bytes.length) {
+      throw const BuError(
+        OnChainErrorType.solanaPlugin,
+        'Trailing bytes after v1 message.',
+      );
+    }
+    return MessageV1(
+      header: header,
+      accountKeys: accountKeys,
+      recentBlockhash: lifetime,
+      compiledInstructions: compiled,
+      config: config,
     );
   }
 
@@ -251,15 +646,19 @@ class SolanaTransactionUtils {
     );
     final prefix = byteArray.removeAt(0);
     final maskedPrefix = prefix & SolanaTransactionConstant.versionPrefixMask;
-    assert(
-      prefix != maskedPrefix,
-      'Expected versioned message but received legacy message',
-    );
+    if (prefix == maskedPrefix) {
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Expected versioned message but received legacy message.',
+      );
+    }
     final version = maskedPrefix;
-    assert(
-      version == 0,
-      'Expected versioned message with version 0 but found version $version',
-    );
+    if (version != 0) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Expected versioned message with version 0 but found version $version.',
+      );
+    }
     final MessageHeader header = MessageHeader(
       numRequiredSignatures: byteArray.removeAt(0),
       numReadonlySignedAccounts: byteArray.removeAt(0),
@@ -342,6 +741,32 @@ class SolanaTransactionUtils {
   static (VersionedMessage, List<List<int>>) deserializeTransaction(
     List<int> serializedTransaction,
   ) {
+    if (serializedTransaction.isNotEmpty &&
+        serializedTransaction[0] == SolanaTransactionConstant.versionPrefixV1) {
+      final messageLength = v1MessageLength(serializedTransaction);
+      final message = MessageV1.fromBuffer(
+        serializedTransaction.sublist(0, messageLength),
+      );
+      final sigBytes = serializedTransaction.sublist(messageLength);
+      if (sigBytes.length !=
+          message.header.numRequiredSignatures *
+              SolanaTransactionConstant.signatureLengthInBytes) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Invalid v1 signatures length.',
+        );
+      }
+      final v1Signatures = <List<int>>[];
+      for (var i = 0; i < message.header.numRequiredSignatures; i++) {
+        v1Signatures.add(
+          sigBytes.sublist(
+            i * SolanaTransactionConstant.signatureLengthInBytes,
+            (i + 1) * SolanaTransactionConstant.signatureLengthInBytes,
+          ),
+        );
+      }
+      return (message, v1Signatures);
+    }
     final List<int> byteArray = [...serializedTransaction];
     final List<List<int>> signatures = [];
     final int signaturesLength = _decodeLength(byteArray);
@@ -462,7 +887,10 @@ class SolanaTransactionUtils {
     final int numRequiredSignatures = byteArray.removeAt(0);
     if (numRequiredSignatures !=
         (numRequiredSignatures & SolanaTransactionConstant.versionPrefixMask)) {
-      throw const SolanaPluginException('invalid versioned Message');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid versioned Message.',
+      );
     }
     final int numReadonlySignedAccounts = byteArray.removeAt(0);
     final int numReadonlyUnsignedAccounts = byteArray.removeAt(0);
@@ -540,11 +968,38 @@ class SolanaTransactionUtils {
     );
   }
 
-  /// serialize transaction to bytes
+  /// serialize transaction to bytes. v1 puts signatures at the tail with no
+  /// length prefix; legacy/v0 put a compact-u16 count + signatures at head.
   static List<int> serializeTransaction(
     VersionedMessage message,
     List<List<int>> signatures,
   ) {
+    if (message is MessageV1) {
+      if (signatures.length != message.header.numRequiredSignatures) {
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Signature count must match v1 required signatures.',
+        );
+      }
+      final serializedMessage = message.serialize();
+      final out = List<int>.from(serializedMessage);
+      for (final sig in signatures) {
+        if (sig.length != SolanaTransactionConstant.signatureLengthInBytes) {
+          throw const BuError(
+            DefaultErrorType.invalidLength,
+            'Signature must be 64 bytes long.',
+          );
+        }
+        out.addAll(sig);
+      }
+      if (out.length > SolanaTransactionConstant.packetDataSizeV1) {
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Max v1 transaction size exceeded.',
+        );
+      }
+      return out;
+    }
     final serializedMessage = message.serialize();
     final encodedSignaturesLength = SolanaTransactionUtils._encodeLength(
       signatures.length,

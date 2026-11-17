@@ -5,7 +5,7 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 
 /// AptosGraphQLEvent types are globally identifiable by an account `address` andmonotonically increasing `creationNumber`,
 /// one per event type emittedto the given account. This API returns events corresponding to thatthat event type.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetEventsByCreationNumber
     extends AptosRequest<List<AptosApiEvent>, List<Map<String, dynamic>>> {
   AptosRequestGetEventsByCreationNumber({
@@ -44,7 +44,7 @@ class AptosRequestGetEventsByCreationNumber
   };
 
   @override
-  List<AptosApiEvent> onResonse(List<Map<String, dynamic>> result) {
+  List<AptosApiEvent> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => AptosApiEvent.fromJson(e)).toList();
   }
 }

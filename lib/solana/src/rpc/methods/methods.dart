@@ -21,6 +21,7 @@ export 'methods/get_inflation_rate.dart';
 export 'methods/get_inflation_reward.dart';
 export 'methods/get_largest_accounts.dart';
 export 'methods/get_lastest_block_hash.dart';
+export 'methods/get_latest_block_hash.dart';
 export 'methods/get_leader_schedule.dart';
 export 'methods/get_max_retransmit_slot.dart';
 export 'methods/get_max_shred_insert_slot.dart';

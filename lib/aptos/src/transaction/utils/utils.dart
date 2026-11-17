@@ -1,14 +1,12 @@
-import 'package:blockchain_utils/crypto/quick_crypto.dart';
-import 'package:blockchain_utils/helper/helper.dart';
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/transaction/constants/const.dart';
 
 class AptosTransactionUtils {
   // Generates a signing digest based on the transaction body and an optional flag to include additional data.
   // If 'withData' is true, the digest is appended with a data salt; otherwise, a standard salt is used.
-  static List<int> generateSigningDigest(
+  static BuBytes generateSigningDigest(
     List<int> txBody, {
     bool withData = false,
   }) {
@@ -37,7 +35,8 @@ class AptosTransactionUtils {
   static String validateIdentifier(String input) {
     RegExp regExp = RegExp(r'^[a-zA-Z_][a-zA-Z0-9_]*$');
     if (regExp.hasMatch(input)) return input;
-    throw DartAptosPluginException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       "Invalid Aptos identifier: An Aptos identifier must start with a letter or underscore and can only contain letters, numbers, and underscores.",
       details: {"identifier": input},
     );
@@ -55,7 +54,8 @@ class AptosTransactionUtils {
         return (moduleAddress, moduleName);
       }
     } catch (_) {}
-    throw DartAptosPluginException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       "Invalid module ID format. The input must be in the format '0x1::module_name'",
     );
   }
@@ -70,7 +70,8 @@ class AptosTransactionUtils {
         return input;
       } catch (_) {}
     }
-    throw DartAptosPluginException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       "Invalid Function string. The input must be in the format '0x1::module_name::function_name'",
     );
   }

@@ -32,7 +32,7 @@ class EthereumRequestCreateAccessList
 
   /// The method eth_createAccessList returns list of addresses and storage keys used by the transaction, plus the gas consumed when the access list is added.
   @override
-  (List<AccessEntry>, BigInt) onResonse(result) {
+  (List<AccessEntry>, BigInt) onResponse(result) {
     return (
       (result['accessList'] as List)
           .map((e) => AccessEntry.fromJson(e))

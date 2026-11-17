@@ -4,35 +4,32 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 /// Class representing a public key in the Solana blockchain.
 class SolanaPublicKey {
   /// Private constructor to prevent direct instantiation.
-  const SolanaPublicKey._(this._ed25519publicKey);
+  const SolanaPublicKey(this.publicKey);
 
   /// Private field holding the Ed25519 public key.
-  final Ed25519PublicKey _ed25519publicKey;
+  final ED25519PublicKey publicKey;
 
   /// Factory method to create a SolanaPublicKey instance from bytes.
   factory SolanaPublicKey.fromBytes(List<int> publicKeyBytes) {
-    final publicKey = Ed25519PublicKey.fromBytes(publicKeyBytes);
-    return SolanaPublicKey._(publicKey);
+    final publicKey = ED25519PublicKey.fromBytes(publicKeyBytes);
+    return SolanaPublicKey(publicKey);
   }
 
   /// Convert the public key to bytes.
-  List<int> toBytes([bool prefix = true]) {
-    // If prefix is false, return compressed key without prefix.
-    if (!prefix) return _ed25519publicKey.compressed.sublist(1);
-    // Otherwise, return compressed key with prefix.
-    return _ed25519publicKey.compressed;
+  List<int> toBytes32() {
+    return publicKey.toBytes();
   }
 
   /// Derive the Solana address associated with the public key.
   SolAddress toAddress() {
-    return SolAddress.fromPublicKey(toBytes());
+    return SolAddress.fromPublicKey(toBytes32());
   }
 
   /// Verify a message using the public key and signature.
   bool verify({required List<int> message, required List<int> signature}) {
     // Create a verifier from the public key bytes.
-    final Ed25519Verifier verifier = Ed25519Verifier.fromKeyBytes(toBytes());
+    final ED25519Verifier verifier = ED25519Verifier(publicKey);
     // Verify the message and signature using the verifier.
-    return verifier.verify(message, signature);
+    return verifier.verify(message, ED25519Signature.fromBytes(signature));
   }
 }

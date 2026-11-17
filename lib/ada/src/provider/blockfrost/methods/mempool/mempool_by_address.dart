@@ -22,7 +22,7 @@ class BlockfrostRequestMempoolByAddress
   List<String> get pathParameters => [addresss.bech32Address];
 
   @override
-  List<String> onResonse(List<Map<String, dynamic>> result) {
+  List<String> onResponse(List<Map<String, dynamic>> result) {
     return result.map<String>((e) => e['tx_hash']).toList();
   }
 }

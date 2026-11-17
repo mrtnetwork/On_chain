@@ -2,9 +2,15 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _transactionSerialization();
+import '../utils.dart';
+void transactionSerializationTest() {
+  group('ADA/Transaction Serialization', _transactionSerialization);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(transactionSerializationTest, "Transaction Serialization");
+}
+
 
 void _transactionSerialization() {
   test('transaction_1', () {
@@ -61,7 +67,7 @@ void _transactionSerialization() {
     final witness = TransactionWitnessSet(
       vKeys: VkeyWitnesses([
         Vkeywitness(
-          vKey: Vkey(edSigner.publicKey().toBytes(false)),
+          vKey: Vkey(edSigner.publicKey().toBytes32()),
           signature: Ed25519Signature(sig),
         ),
       ]),

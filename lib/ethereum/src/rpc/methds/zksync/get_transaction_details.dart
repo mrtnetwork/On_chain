@@ -15,7 +15,7 @@ class ZKSRequestGetTransactionDetails
   }
 
   @override
-  ZkSyncTransactionDetails onResonse(Map<String, dynamic> result) {
+  ZkSyncTransactionDetails onResponse(Map<String, dynamic> result) {
     return ZkSyncTransactionDetails.fromJson(result);
   }
 }

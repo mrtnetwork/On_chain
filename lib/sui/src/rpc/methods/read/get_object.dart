@@ -22,7 +22,7 @@ class SuiRequestGetObject
   }
 
   @override
-  SuiApiObjectResponse onResonse(Map<String, dynamic> result) {
+  SuiApiObjectResponse onResponse(Map<String, dynamic> result) {
     return SuiApiObjectResponse.fromJson(result);
   }
 }

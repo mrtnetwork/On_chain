@@ -1,9 +1,9 @@
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/layouts/burn.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/layouts/cancel_redeem.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/layouts/compress.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/layouts/create_tree.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/layouts/decompress_v1.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/layouts/delegate.dart';
@@ -44,6 +44,8 @@ abstract class MetaplexBubblegumProgramLayout extends ProgramLayout {
         return MetaplexBubblegumBurnLayout.fromBuffer(data);
       case MetaplexBubblegumProgramInstruction.cancelRedeem:
         return MetaplexBubblegumCancelRedeemLayout.fromBuffer(data);
+      case MetaplexBubblegumProgramInstruction.compress:
+        return MetaplexBubblegumCompressLayout.fromBuffer(data);
       case MetaplexBubblegumProgramInstruction.createTreeConfig:
         return MetaplexBubblegumCreateTreeLayout.fromBuffer(data);
       case MetaplexBubblegumProgramInstruction.decompressV1:
@@ -89,7 +91,8 @@ abstract class MetaplexBubblegumProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'invalid instruction bytes',
         details: {
           'expected': BytesUtils.toHexString(instruction),

@@ -9,7 +9,8 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// fields could themselves be composed of other structs. This makes itimpractical to express using query params,
 /// meaning GET isn't an option.The Aptos nodes prune account state history, via a configurable time window.
 /// If the requested ledger version has been pruned, the server responds with a 410.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetTableItem extends AptosPostRequest<dynamic, dynamic> {
   /// Table handle hex encoded 32-byte string
   final AptosAddress tableHandle;

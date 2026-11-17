@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class Language with InternalCborSerialization {
@@ -34,14 +35,27 @@ class Language with InternalCborSerialization {
   static Language fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "Language"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid Language value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
   static Language fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "Language"),
+
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid Language name.',
+                details: {'name': name},
+              ),
     );
   }
 

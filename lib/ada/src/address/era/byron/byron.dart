@@ -2,7 +2,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
 
-/// Represents an ADA Byron address, a subtype of ADAAddres
+/// Represents an ADA Byron address, a subtype of ADAAddress
 class ADAByronAddress extends ADAAddress {
   /// The address string. (base58)
   @override
@@ -68,7 +68,7 @@ class ADAByronAddress extends ADAAddress {
     ADANetwork network = ADANetwork.mainnet,
   }) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
-      bip32.publicKey.compressed,
+      bip32.publicKey.toPublicKeyBytes(),
       network: network,
       chainCode: bip32.chainCode.toBytes(),
     );
@@ -81,7 +81,7 @@ class ADAByronAddress extends ADAAddress {
     ADANetwork network = ADANetwork.mainnet,
   }) {
     final encode = AdaByronIcarusAddrEncoder().encodeKeyWithInfo(
-      bip32.publicKey.compressed,
+      bip32.publicKey.toPublicKeyBytes(),
       network: network,
       chainCode: bip32.chainCode.toBytes(),
     );
@@ -100,7 +100,7 @@ class ADAByronAddress extends ADAAddress {
       secondIndex: secondIndex,
     );
     final encode = AdaByronLegacyAddrEncoder().encodeKeyWithInfo(
-      publicKey.pubKey.compressed,
+      publicKey.pubKey.toBytes(),
       network: network,
       chainCode: publicKey.chainCode.toBytes(),
       hdPathKey: bip32.hdPathKey,
@@ -163,8 +163,8 @@ class ADAByronAddress extends ADAAddress {
   }
 
   /// Serializes the attributes of the extended address.
-  List<int> attributeSerialize() {
-    return extendedAddress.payload.attrs.toJson().encode();
+  BuBytes attributeSerialize() {
+    return extendedAddress.payload.attrs.toJson().encode().asImmutableBytes;
   }
 
   /// Returns the address type, which is ADAAddressType.byron.
@@ -172,7 +172,7 @@ class ADAByronAddress extends ADAAddress {
   ADAAddressType get addressType => ADAAddressType.byron;
 
   @override
-  List<int> toBytes() {
-    return extendedAddress.toCbor().encode();
+  BuBytes toBytes() {
+    return extendedAddress.toCbor().encode().asImmutableBytes;
   }
 }

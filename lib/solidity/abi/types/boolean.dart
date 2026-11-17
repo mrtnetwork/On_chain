@@ -23,7 +23,7 @@ class BooleanCoder implements ABICoder<bool, bool> {
   /// Encodes a boolean value to ABI-encoded bytes.
   @override
   EncoderResult abiEncode(AbiParameter params, bool input) {
-    final bytes = List<int>.filled(ABIConst.uintBytesLength, 0);
+    final bytes = BuBytes.fill(ABIConst.uintBytesLength, 0);
     if (input) {
       bytes[bytes.length - 1] = 1;
     }
@@ -37,7 +37,7 @@ class BooleanCoder implements ABICoder<bool, bool> {
     // if (keepSize) {
     //   return abiEncode(params, input);
     // }
-    final bytes = List<int>.filled(1, 0);
+    final bytes = BuBytes.fill(1, 0);
     bytes[0] = input ? 1 : 0;
     return EncoderResult(isDynamic: false, encoded: bytes, name: params.name);
   }

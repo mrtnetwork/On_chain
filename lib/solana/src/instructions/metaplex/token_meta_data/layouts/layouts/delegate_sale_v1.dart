@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/payload.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexTokenMetaDataDelegateSaleV1Layout
@@ -18,7 +18,7 @@ class MetaplexTokenMetaDataDelegateSaleV1Layout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexTokenMetaDataProgramInstruction.delegateSaleV1.insturction,
+          MetaplexTokenMetaDataProgramInstruction.delegateSaleV1.instruction,
       discriminator: discriminator,
     );
     return MetaplexTokenMetaDataDelegateSaleV1Layout(

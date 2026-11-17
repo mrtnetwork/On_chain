@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/stake_pool/constant.dart';
 
 class StakePoolProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const StakePoolProgramInstruction(this.insturction, this.name);
+  const StakePoolProgramInstruction(this.instruction, this.name);
   static const StakePoolProgramInstruction decreaseValidatorStake =
       StakePoolProgramInstruction(3, 'DecreaseValidatorStake');
 
@@ -59,7 +59,7 @@ class StakePoolProgramInstruction implements ProgramLayoutInstruction {
   ];
   static StakePoolProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
+      return values.firstWhere((element) => element.instruction == value);
     } catch (_) {
       return null;
     }

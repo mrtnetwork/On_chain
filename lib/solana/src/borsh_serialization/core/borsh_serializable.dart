@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 
 /// Abstract class for objects that can be serialized using a specific layout.
 abstract class BorshLayoutSerializable {
@@ -12,13 +11,13 @@ abstract class BorshLayoutSerializable {
   Map<String, dynamic> serialize();
 
   /// Converts the object to bytes using Borsh serialization.
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return layout.serialize(serialize());
   }
 
   /// Converts the object to a hexadecimal string.
   String toHex() {
-    return BytesUtils.toHexString(toBytes());
+    return toBytes().toHex();
   }
 
   /// Decodes Borsh serialized bytes.
@@ -36,17 +35,26 @@ abstract class BorshLayoutSerializable {
       for (final i in validator.entries) {
         if (i.value is List) {
           if (!CompareUtils.iterableIsEqual(i.value, decode.value[i.key])) {
-            throw SolanaPluginException('cannot validate borsh bytes');
+            throw BuError(
+              DefaultErrorType.invalidArgument,
+              'Cannot validate Borsh bytes.',
+            );
           }
         } else {
           if (i.value != decode.value[i.key]) {
-            throw SolanaPluginException('cannot validate borsh bytes');
+            throw BuError(
+              DefaultErrorType.invalidArgument,
+              'Cannot validate Borsh bytes.',
+            );
           }
         }
       }
       return decode.value;
     } catch (e) {
-      throw const SolanaPluginException('cannot validate borsh bytes');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Cannot validate Borsh bytes.',
+      );
     }
   }
 

@@ -1,12 +1,9 @@
-import 'package:blockchain_utils/bip/address/aptos_addr.dart';
-import 'package:blockchain_utils/layout/constant/constant.dart';
-import 'package:blockchain_utils/layout/core/core/core.dart';
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 
@@ -66,8 +63,9 @@ class AptosSingleKeyAccountPublicKey extends AptosAccountPublicKey {
     try {
       anySignature = AptosAnySignature.deserialize(signature);
     } catch (_) {
-      throw DartAptosPluginException(
-        "Invalid Aptos Any Signature. deserialize signature failed.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid Aptos Any signature. Failed to deserialize signature.",
       );
     }
     return publicKey.verify(

@@ -59,7 +59,7 @@ class EthereumProvider<SERVICE extends IServiceProvider>
       request,
       timeout: timeout,
     );
-    return request.onResonse(r);
+    return request.onResponse(r);
   }
 
   /// Sends a request to the ethereum network using the specified [request] parameter.
@@ -71,7 +71,7 @@ class EthereumProvider<SERVICE extends IServiceProvider>
     IServiceRequest<RESULT, SERVICERESPONSE, EthereumRequestDetails> request, {
     Duration? timeout,
   }) async {
-    final params = request.buildRequest(_id++);
+    final params = await request.buildRequest(_id++);
     final response = await service.doRequest(params, timeout: timeout);
     return findError<SERVICERESPONSE>(params: params, response: response);
   }
@@ -92,7 +92,7 @@ class EthereumProvider<SERVICE extends IServiceProvider>
     request, {
     Duration? timeout,
   }) async {
-    final params = request.buildRequest(_id++);
+    final params = await request.buildRequest(_id++);
     final response = await service.doSubscribtionRequest(
       params: params,
       request: request,
@@ -101,7 +101,7 @@ class EthereumProvider<SERVICE extends IServiceProvider>
       params: params,
       response: response.response,
     );
-    final identifier = request.onResonse(serviceResponse);
+    final identifier = request.onResponse(serviceResponse);
     return DefaultSubscribtionRequestResponse(
       identifier: identifier,
       stream:

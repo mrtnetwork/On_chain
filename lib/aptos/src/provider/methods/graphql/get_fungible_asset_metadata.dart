@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
 
@@ -22,7 +22,7 @@ class AptosGraphQLRequestGetFungibleAssetMetadata
   Map<String, dynamic> get queryVariables => variables.toJson();
 
   @override
-  List<AptosGraphQLFungibleAssetMetadata> onResonse(
+  List<AptosGraphQLFungibleAssetMetadata> onResponse(
     Map<String, dynamic> result,
   ) {
     return result

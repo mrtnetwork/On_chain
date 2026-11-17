@@ -2,7 +2,7 @@ import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/payload.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/types/types/token_standard.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -31,7 +31,7 @@ class MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout
       instruction:
           MetaplexTokenMetaDataProgramInstruction
               .updateAsAuthorityItemDelegateV2
-              .insturction,
+              .instruction,
       discriminator: discriminator,
     );
     return MetaplexTokenMetaDataUpdateAsAuthorityItemDelegateV2Layout(

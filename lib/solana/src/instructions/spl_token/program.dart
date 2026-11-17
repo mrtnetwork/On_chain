@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/constant.dart';
@@ -207,7 +207,8 @@ class SPLTokenProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program id does not support extensions',
       );
     }
@@ -380,7 +381,8 @@ class SPLTokenProgram extends TransactionInstruction {
     required SolAddress programId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -425,7 +427,8 @@ class SPLTokenProgram extends TransactionInstruction {
     required SolAddress programId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -443,7 +446,8 @@ class SPLTokenProgram extends TransactionInstruction {
     required SolAddress programId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -533,7 +537,8 @@ class SPLTokenProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -611,6 +616,37 @@ class SPLTokenProgram extends TransactionInstruction {
     return SPLTokenProgram(
       layout: SPLTokenSyncNativeLayout(),
       keys: [account.toWritable()],
+      programId: programId,
+    );
+  }
+
+  factory SPLTokenProgram.initializeMultisig2({
+    required SPLTokenInitializeMultisig2Layout layout,
+
+    /// The multisignature account to initialize.
+    required SolAddress account,
+
+    /// The signer accounts
+    required List<SolAddress> signers,
+    SolAddress programId = SPLTokenProgramConst.tokenProgramId,
+  }) {
+    return SPLTokenProgram(
+      layout: layout,
+      keys: [account.toWritable(), ...signers.map((e) => e.toReadOnly())],
+      programId: programId,
+    );
+  }
+
+  /// GetAccountDataSize (instruction 21, Token-2022 only).
+  /// Queries the required account size for a mint with extensions.
+  factory SPLTokenProgram.getAccountDataSize({
+    /// The mint account to query.
+    required SolAddress mint,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+  }) {
+    return SPLTokenProgram(
+      layout: const SPLTokenGetAccountDataSizeLayout(),
+      keys: [mint.toWritable()],
       programId: programId,
     );
   }

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Allocate account system layout
@@ -12,7 +12,7 @@ class SystemAllocateLayout extends SystemProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: SystemProgramInstruction.allocate.insturction,
+      instruction: SystemProgramInstruction.allocate.instruction,
     );
     return SystemAllocateLayout(space: decode['space']);
   }

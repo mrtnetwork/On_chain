@@ -2,7 +2,7 @@ import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 
 /// Show some basic info of the node.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestShowSomeBasicInfoOfTheNode
     extends AptosRequest<String, Map<String, dynamic>> {
   AptosRequestShowSomeBasicInfoOfTheNode();
@@ -11,7 +11,7 @@ class AptosRequestShowSomeBasicInfoOfTheNode
   String get method => AptosApiMethod.showSomeBasicInfoOfTheNode.url;
 
   @override
-  String onResonse(Map<String, dynamic> result) {
+  String onResponse(Map<String, dynamic> result) {
     return result["message"];
   }
 }

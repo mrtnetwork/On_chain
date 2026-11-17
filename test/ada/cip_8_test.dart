@@ -3,12 +3,18 @@ import 'package:on_chain/ada/src/address/era/shelly/base_address.dart';
 import 'package:on_chain/ada/src/cip_8/models/models.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group("CIP-8", () {
+import '../utils.dart';
+
+void cip8Test() {
+  group('ADA/CIP-8', () {
     _test();
     _testCOSEKey();
     _serialization();
   });
+}
+
+void main() {
+  OnChainUtilsTestApi.runTest(cip8Test, "Cip 8");
 }
 
 void _test() {
@@ -76,7 +82,7 @@ void _testCOSEKey() {
 //   final header = COSEHeaderMap(
 //       algorithmId: COSELabelString(algorithmId),
 //       contentType: COSELabelString(contentType),
-//       otherHeaders: {COSELabelString("hashed"): CborBoleanValue(false)});
+//       otherHeaders: {COSELabelString("hashed"): CborBooleanValue(false)});
 //   return COSEHeaders(protected: COSEProtectedHeaderMap(), unprotected: header);
 // }
 
@@ -94,7 +100,7 @@ COSEHeaders _buildHeaderLargeHeader({
     keyId: List<int>.filled(12, 3),
     partialInitVector: List<int>.filled(12, 3),
     otherHeaders: {
-      COSELabelString("hashed"): CborBoleanValue(false),
+      COSELabelString("hashed"): CborBooleanValue(false),
       COSELabelString("one"): CborStringValue("one"),
       COSELabelString("two"): CborIntValue(2),
       COSELabelString("three"): CborTagValue(

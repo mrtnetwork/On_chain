@@ -29,7 +29,7 @@ class SolanaRPCGetMasterEditionV1Account
   }
 
   @override
-  MasterEditionV1? onResonse(result) {
+  MasterEditionV1? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MasterEditionV1.fromBuffer(accountInfo.toBytesData());

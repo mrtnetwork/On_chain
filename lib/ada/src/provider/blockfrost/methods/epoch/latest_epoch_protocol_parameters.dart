@@ -17,7 +17,7 @@ class BlockfrostRequestLatestEpochProtocolParameters
   List<String> get pathParameters => [];
 
   @override
-  ADAEpochParametersResponse onResonse(Map<String, dynamic> result) {
+  ADAEpochParametersResponse onResponse(Map<String, dynamic> result) {
     return ADAEpochParametersResponse.fromJson(result);
   }
 }

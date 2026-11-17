@@ -10,6 +10,8 @@ class VoteAccountInfo {
     required this.epochCredits,
     required this.commission,
     required this.lastVote,
+    this.rootSlot,
+    this.inflationRewardsCommissionBps,
   });
   factory VoteAccountInfo.fromJson(Map<String, dynamic> json) {
     return VoteAccountInfo(
@@ -23,6 +25,8 @@ class VoteAccountInfo {
               .toList(),
       commission: json['commission'],
       lastVote: json['lastVote'],
+      rootSlot: json['rootSlot'],
+      inflationRewardsCommissionBps: json['inflationRewardsCommissionBps'],
     );
   }
 
@@ -46,4 +50,8 @@ class VoteAccountInfo {
 
   /// Most recent slot voted on by this vote account
   final int lastVote;
+
+  final int? rootSlot;
+
+  final int? inflationRewardsCommissionBps;
 }

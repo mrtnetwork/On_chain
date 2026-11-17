@@ -67,6 +67,9 @@ class ADATransactionInfoResponse {
   /// True if contract script passed validation
   final bool validContract;
 
+  /// Treasury donation within the transaction in Lovelaces
+  final String? treasuryDonation;
+
   ADATransactionInfoResponse({
     required this.hash,
     required this.block,
@@ -90,6 +93,7 @@ class ADATransactionInfoResponse {
     required this.assetMintOrBurnCount,
     required this.redeemerCount,
     required this.validContract,
+    this.treasuryDonation,
   });
 
   factory ADATransactionInfoResponse.fromJson(Map<String, dynamic> json) {
@@ -119,6 +123,7 @@ class ADATransactionInfoResponse {
       assetMintOrBurnCount: json['asset_mint_or_burn_count'],
       redeemerCount: json['redeemer_count'],
       validContract: json['valid_contract'],
+      treasuryDonation: json['treasury_donation'],
     );
   }
 
@@ -130,7 +135,7 @@ class ADATransactionInfoResponse {
       'block_time': blockTime,
       'slot': slot,
       'index': index,
-      'output_amount': outputAmount.map((e) => e.toJson()),
+      'output_amount': outputAmount.map((e) => e.toJson()).toList(),
       'fees': fees,
       'deposit': deposit,
       'size': size,
@@ -146,6 +151,7 @@ class ADATransactionInfoResponse {
       'asset_mint_or_burn_count': assetMintOrBurnCount,
       'redeemer_count': redeemerCount,
       'valid_contract': validContract,
+      'treasury_donation': treasuryDonation,
     };
   }
 

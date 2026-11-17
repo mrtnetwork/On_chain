@@ -1,15 +1,14 @@
-import 'package:blockchain_utils/helper/helper.dart';
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class AdaTransactionUtils {
-  static List<int> validateFixedLengthBytes({
+  static BuBytes validateFixedLengthBytes({
     required List<int> bytes,
     required int length,
     String? objectName,
   }) {
     if (bytes.length != length) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Invalid ${objectName ?? 'hash'} length.",
         details: {
           'expected': length.toString(),
@@ -20,7 +19,7 @@ class AdaTransactionUtils {
     return bytes.asImmutableBytes;
   }
 
-  static List<int> validateFixedHexByteslength({
+  static BuBytes validateFixedHexByteslength({
     required String hexBytes,
     required int length,
   }) {
@@ -29,10 +28,11 @@ class AdaTransactionUtils {
         bytes: BytesUtils.fromHexString(hexBytes),
         length: length,
       );
-    } on ADAPluginException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.badHex,
         'Invalid hex bytes.',
         details: {'value': hexBytes},
       );

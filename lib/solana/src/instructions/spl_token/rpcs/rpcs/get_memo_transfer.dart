@@ -27,7 +27,7 @@ class SolanaRPCGetMemoTransfer
   }
 
   @override
-  MemoTransfer? onResonse(result) {
+  MemoTransfer? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MemoTransfer.fromAccountBytes(accountInfo.toBytesData());

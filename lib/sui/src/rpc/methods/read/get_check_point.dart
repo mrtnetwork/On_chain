@@ -16,7 +16,7 @@ class SuiRequestGetCheckpoint
   }
 
   @override
-  SuiApiCheckPoint onResonse(Map<String, dynamic> result) {
+  SuiApiCheckPoint onResponse(Map<String, dynamic> result) {
     return SuiApiCheckPoint.fromJson(result);
   }
 }

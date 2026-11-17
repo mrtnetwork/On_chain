@@ -17,7 +17,7 @@ class SPLTokenInitializeMint2Layout extends SPLTokenInitializeMintLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: SPLTokenInitializeMintLayout.staticLayout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.initializeMint2.insturction,
+      instruction: SPLTokenProgramInstruction.initializeMint2.instruction,
     );
     return SPLTokenInitializeMint2Layout(
       freezeAuthority: decode['freezeAuthority'],

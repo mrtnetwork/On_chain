@@ -27,7 +27,7 @@ class SolanaRPCGetGroupPointer
   }
 
   @override
-  GroupPointer? onResonse(result) {
+  GroupPointer? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return GroupPointer.fromBuffer(accountInfo.toBytesData());

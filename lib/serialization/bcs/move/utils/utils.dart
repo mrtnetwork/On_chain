@@ -1,6 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/aptos/aptos.dart';
-import 'package:on_chain/serialization/bcs/exeption/exeption.dart';
 
 class MoveUtils {
   /// Parses a value into a boolean, supporting bool, 0/1, and 'true'/'false' strings.
@@ -21,7 +19,8 @@ class MoveUtils {
         return false;
       }
     }
-    throw BcsSerializationException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       "Invalid value for move type 'Bool': Expected a boolean (true/false), a number (0/1), or a string ('true'/'false').",
       details: {"value": "$value"},
     );
@@ -33,7 +32,8 @@ class MoveUtils {
       final toint = IntUtils.parse(value);
       return toint.asU8;
     } catch (e) {
-      throw BcsSerializationException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid value for move type 'U8': Expected an unsigned 8-bit integer (0–255).",
         details: {"value": "$value"},
       );
@@ -46,7 +46,8 @@ class MoveUtils {
       final toint = IntUtils.parse(value);
       return toint.asU16;
     } catch (e) {
-      throw BcsSerializationException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid value for move type 'U16': Expected an unsigned 16-bit integer (0–65,535).",
         details: {"value": "$value"},
       );
@@ -59,7 +60,8 @@ class MoveUtils {
       final toint = IntUtils.parse(value);
       return toint.asU32;
     } catch (e) {
-      throw BcsSerializationException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid value for move type 'U32': Expected an unsigned 32-bit integer (0–4,294,967,295).",
         details: {"value": "$value"},
       );
@@ -72,7 +74,8 @@ class MoveUtils {
       final toint = BigintUtils.parse(value);
       return toint.asU64;
     } catch (e) {
-      throw BcsSerializationException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid value for move type 'U64': Expected an unsigned 64-bit integer (0–2^64−1).",
         details: {"value": "$value"},
       );
@@ -85,7 +88,8 @@ class MoveUtils {
       final toint = BigintUtils.parse(value);
       return toint.asU128;
     } catch (e) {
-      throw BcsSerializationException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid value for move type 'U128': Expected an unsigned 128-bit integer (0–2^128−1).",
         details: {"value": "$value"},
       );
@@ -98,7 +102,8 @@ class MoveUtils {
       final toint = BigintUtils.parse(value);
       return toint.asU256;
     } catch (e) {
-      throw BcsSerializationException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid value for move type 'U256': Expected an unsigned 256-bit integer (0–2^256−1).",
         details: {"value": "$value"},
       );
@@ -110,7 +115,8 @@ class MoveUtils {
     if (value is String) {
       return value;
     }
-    throw BcsSerializationException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       "Invalid value for move type 'String'.",
       details: {"value": "$value"},
     );
@@ -119,14 +125,10 @@ class MoveUtils {
   /// Parses a value into a byte list from a hex string or List<`int`>.
   static List<int> parseBytes({Object? value}) {
     try {
-      if (value is String) {
-        final bytes = BytesUtils.tryFromHexString(value);
-        if (bytes != null) return bytes.asImmutableBytes;
-      } else if (value is List) {
-        return value.cast<int>().asImmutableBytes;
-      }
+      return JsonParser.valueAsBytes(value);
     } catch (_) {}
-    throw BcsSerializationException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       "Invalid value for move type 'Bytes': Expected a List<int> or a hexadecimal string.",
       details: {"value": "$value"},
     );
@@ -138,10 +140,13 @@ class MoveUtils {
       if (value is String) {
         return AptosAddressUtils.addressToBytes(value);
       } else if (value is List) {
-        return AptosAddressUtils.praseAddressBytes(value.cast());
+        return AptosAddressUtils.praseAddressBytes(
+          JsonParser.valueAsBytes(value),
+        );
       }
     } catch (_) {}
-    throw BcsSerializationException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       "Invalid value for move type 'Address': Expected a List<int> or a hexadecimal string.",
       details: {"value": "$value"},
     );

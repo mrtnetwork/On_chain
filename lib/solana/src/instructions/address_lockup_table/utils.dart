@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/models/pda/pda.dart';
 
 import 'constant.dart';

@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 /// Updates the token-metadata authority layout.
@@ -19,7 +19,7 @@ class SPLTokenMetaDataUpdateAuthorityLayout
       layout: _layout,
       bytes: bytes,
       instructionBytes:
-          SPLTokenMetaDataProgramSplDiscriminate.updateAuthority.insturction,
+          SPLTokenMetaDataProgramSplDiscriminate.updateAuthority.instruction,
     );
     // Extract the new authority from the decoded data.
     final SolAddress newAuthority = decode['new_authority'];

@@ -17,7 +17,7 @@ class AptosGraphQLRequestGetAccountTokensCount
   @override
   Map<String, dynamic> get queryVariables => variables.toJson();
   @override
-  AptosGraphQLApiAggregate onResonse(Map<String, dynamic> result) {
+  AptosGraphQLApiAggregate onResponse(Map<String, dynamic> result) {
     return AptosGraphQLApiAggregate.fromJson(
       result["current_token_ownerships_v2_aggregate"]["aggregate"],
     );

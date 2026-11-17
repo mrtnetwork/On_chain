@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
+
 import 'package:on_chain/solana/src/keypair/public_key.dart';
 
 /// Represents a Solana address.
@@ -35,7 +35,8 @@ class SolAddress with CborTagSerializable, Equality implements IAddress {
   /// Constructs a Solana address without checking the curve of the bytes.
   factory SolAddress.uncheckBytes(List<int> keyBytes) {
     if (keyBytes.length != 32) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.invalidLength,
         'The public key must have a length of 32 bytes.',
       );
     }
@@ -44,7 +45,15 @@ class SolAddress with CborTagSerializable, Equality implements IAddress {
 
   /// Constructs a Solana address with checking curve.
   factory SolAddress(String address) {
-    SolAddrDecoder().decodeAddr(address);
+    try {
+      SolAddrDecoder().decodeAddr(address);
+    } catch (e) {
+      throw BuError(
+        DefaultErrorType.invalidAddress,
+        'Invalid Solana address.',
+        details: {'address': address, 'error': '$e'},
+      );
+    }
     return SolAddress._(address);
   }
 
@@ -78,7 +87,7 @@ class SolAddress with CborTagSerializable, Equality implements IAddress {
     return SolanaPublicKey.fromBytes(toBytes());
   }
 
-  bool get isOnCurve => Ed25519PublicKey.isValidBytes(toBytes());
+  bool get isOnCurve => ED25519PublicKey.isValidBytes(toBytes());
 
   @override
   String toString() {
@@ -89,7 +98,7 @@ class SolAddress with CborTagSerializable, Equality implements IAddress {
   BlockchainNetwork get blockchainNetwork => BlockchainNetwork.solana;
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return toCbor().encode();
   }
 

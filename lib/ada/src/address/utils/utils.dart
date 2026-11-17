@@ -1,7 +1,6 @@
-import 'package:blockchain_utils/bip/address/addr_key_validator.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/core/address.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/ada/src/models/credential/models/credential_type.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
 import 'package:on_chain/ada/src/models/credential/models/key.dart';
@@ -26,7 +25,8 @@ class AdaAddressUtils {
 
     if (addrType != null) {
       if (decodeAddr.type.header != addrType.header) {
-        throw ADAPluginException(
+        throw BuError(
+          DefaultErrorType.invalidAddress,
           'Incorrect address type. ',
           details: {
             'expected': addrType.name,
@@ -37,12 +37,13 @@ class AdaAddressUtils {
     }
     if (network != null && decodeAddr.network != network) {
       /// same shelly prefix address.
-      if (decodeAddr.type.isShelly &&
+      if (decodeAddr.type.isShelley &&
           network.isTestnet &&
           decodeAddr.network.isTestnet) {
         return decodeAddr;
       }
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Incorrect address network. ',
         details: {'expected': network.name, 'network': decodeAddr.network.name},
       );
@@ -71,29 +72,33 @@ class AdaAddressUtils {
   /// [network]: The network type.
   /// [keepPrefix]: Whether to keep the address prefix.
   ///
-  /// Returns a byte list representing the decoded address.
-  static List<int> decodeShellyAddress(
+  /// Returns a BuBytes representing the decoded address.
+  static BuBytes decodeShellyAddress(
     String address, {
     ADANetwork? network,
     bool keepPrefix = true,
   }) {
     final decode = AdaGenericAddrDecoder().decode(address);
     if (network != null && decode.network != network) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Incorrect address network. ',
         details: {'expected': network.name, 'network': decode.network.name},
       );
     }
     if (decode.type == ADAAddressType.byron) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Invalid shelly address.',
         details: {'address': address, 'type': decode.type.toString()},
       );
     }
     if (keepPrefix) {
-      return decode.addressBytes;
+      return decode.addressBytes.asImmutableBytes;
     }
-    return decode.addressBytes.sublist(decode.prefixBytes!.length);
+    return decode.addressBytes
+        .sublist(decode.prefixBytes!.length)
+        .asImmutableBytes;
   }
 
   /// Convert an [AdaStakeCredential] to a [Credential].
@@ -141,8 +146,9 @@ class AdaAddressUtils {
   ///
   /// Returns a hash byte list.
   static List<int> publicKeyToHash(List<int> pubKeyBytes) {
-    final pubKeyObj = AddrKeyValidator.validateAndGetEd25519Key(pubKeyBytes);
-    return QuickCrypto.blake2b224Hash(pubKeyObj.compressed.sublist(1));
+    return QuickCrypto.blake2b224Hash(
+      validatePubkeyAndRemovePrefix(pubKeyBytes),
+    );
   }
 
   /// Validate a public key byte list and remove prefix if present.
@@ -150,9 +156,10 @@ class AdaAddressUtils {
   /// [pubKeyBytes]: The public key byte list to validate and remove prefix from.
   ///
   /// Returns the validated public key byte list without the prefix
-  static List<int> validatePubkeyAndRemovePrefix(List<int> pubKeyBytes) {
-    final pubKeyObj = AddrKeyValidator.validateAndGetEd25519Key(pubKeyBytes);
-    return pubKeyObj.compressed.sublist(1);
+  static BuBytes validatePubkeyAndRemovePrefix(List<int> pubKeyBytes) {
+    return AddrKeyValidator.validateAndGetEd25519KeyBytes(
+      pubKeyBytes,
+    ).asImmutableBytes;
   }
 
   /// Find the address type of a given ADA address.
@@ -171,9 +178,9 @@ class AdaAddressUtils {
   ///
   /// [bech32PoolId]: The Bech32-encoded pool ID.
   ///
-  /// Returns a byte list representing the decoded pool ID.
-  static List<int> decodePoolIdBech32(String bech32PoolId) {
+  /// Returns a BuBytes representing the decoded pool ID.
+  static BuBytes decodePoolIdBech32(String bech32PoolId) {
     final poolId = Bech32Decoder.decode(_poolIdHrp, bech32PoolId);
-    return poolId;
+    return poolId.asImmutableBytes;
   }
 }

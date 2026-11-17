@@ -29,7 +29,7 @@ class SolanaRPCGetAuctioneerAuthorityAccount
   }
 
   @override
-  AuctioneerAuthority? onResonse(Map<String, dynamic>? result) {
+  AuctioneerAuthority? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return AuctioneerAuthority.fromBuffer(accountInfo.toBytesData());

@@ -6,7 +6,7 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// Return the authentication key and the sequence number for an account\naddress.
 /// Optionally, a ledger version can be specified. If the ledger\nversion is not
 /// specified in the request, the latest ledger version is used
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetAccount
     extends AptosRequest<AptosApiAccountData, Map<String, dynamic>> {
   /// Address of account with or without a `0x` prefix
@@ -26,7 +26,7 @@ class AptosRequestGetAccount
   };
 
   @override
-  AptosApiAccountData onResonse(Map<String, dynamic> result) {
+  AptosApiAccountData onResponse(Map<String, dynamic> result) {
     return AptosApiAccountData.fromJson(result);
   }
 }

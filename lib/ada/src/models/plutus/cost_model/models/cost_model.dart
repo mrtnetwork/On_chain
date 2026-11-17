@@ -116,7 +116,7 @@ class Costmdls with InternalCborSerialization {
   }
 
   @override
-  List<int> serialize({bool sort = false}) {
+  BuBytes serialize({bool sort = false}) {
     return toCbor(sort: sort).encode();
   }
 

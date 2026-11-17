@@ -28,7 +28,7 @@ class SuiRequestTryMultiGetPastObjects
   }
 
   @override
-  List<SuiApiObjectRead> onResonse(List<Map<String, dynamic>> result) {
+  List<SuiApiObjectRead> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => SuiApiObjectRead.fromJson(e)).toList();
   }
 }

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineUnwrapLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -9,7 +9,7 @@ class MetaplexCandyMachineUnwrapLayout
     MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexCandyMachineProgramInstruction.unwrap.insturction,
+      instruction: MetaplexCandyMachineProgramInstruction.unwrap.instruction,
     );
     return const MetaplexCandyMachineUnwrapLayout();
   }

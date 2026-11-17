@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// auctioneer cancel Layout.
 class MetaplexAuctioneerCancelLayout extends MetaplexAuctioneerProgramLayout {
@@ -17,7 +17,7 @@ class MetaplexAuctioneerCancelLayout extends MetaplexAuctioneerProgramLayout {
     final decode = MetaplexAuctioneerProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexAuctioneerProgramInstruction.cancel.insturction,
+      instruction: MetaplexAuctioneerProgramInstruction.cancel.instruction,
     );
     return MetaplexAuctioneerCancelLayout(
       auctioneerAuthorityBump: decode['auctioneerAuthorityBump'],

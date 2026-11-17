@@ -40,7 +40,7 @@ class BytesCoder implements ABICoder<Object, List<int>> {
     if (params.isDynamic) {
       final parseLength =
           (inputAsBytes.length / ABIConst.uintBytesLength).ceil();
-      final encoded = List<int>.filled(
+      final encoded = BuBytes.fill(
         ABIConst.uintBytesLength + parseLength * ABIConst.uintBytesLength,
         0,
       );
@@ -63,7 +63,7 @@ class BytesCoder implements ABICoder<Object, List<int>> {
       minLength: size!,
       maxLength: size,
     );
-    final bytes = List<int>.filled(ABIConst.uintBytesLength, 0);
+    final bytes = BuBytes.fill(ABIConst.uintBytesLength, 0);
     bytes.setAll(0, inputAsBytes);
     return EncoderResult(isDynamic: false, encoded: bytes, name: params.name);
   }
@@ -78,11 +78,11 @@ class BytesCoder implements ABICoder<Object, List<int>> {
     );
     final size = ABIUtils._bytesSize(params.type);
     if (size != null && inputAsBytes.length != size) {
-      throw const SolidityAbiException('Invalid bytes length');
+      throw const BuError(DefaultErrorType.invalidLength,'Invalid bytes length');
     }
     return EncoderResult(
       isDynamic: false,
-      encoded: inputAsBytes,
+      encoded: inputAsBytes.asBytes,
       name: params.name,
     );
   }

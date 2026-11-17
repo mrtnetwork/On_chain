@@ -1,2 +1,1 @@
-export 'block/block.dart';
-export 'contract/contract.dart';
+export 'contracts/contracts.dart';

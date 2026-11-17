@@ -27,7 +27,7 @@ class SolanaRPCGetExtraMetaAccountData
   }
 
   @override
-  ExtraAccountMetaAccountData? onResonse(result) {
+  ExtraAccountMetaAccountData? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return ExtraAccountMetaAccountData.fromBuffer(accountInfo.toBytesData());

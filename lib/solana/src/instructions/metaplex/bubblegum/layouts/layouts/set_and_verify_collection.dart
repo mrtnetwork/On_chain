@@ -2,7 +2,7 @@ import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/types/types/meta_data.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexBubblegumSetAndVerifyCollectionLayout
@@ -35,7 +35,7 @@ class MetaplexBubblegumSetAndVerifyCollectionLayout
       instruction:
           MetaplexBubblegumProgramInstruction
               .setAndVerifyCollection
-              .insturction,
+              .instruction,
     );
     return MetaplexBubblegumSetAndVerifyCollectionLayout(
       root: decode['root'],

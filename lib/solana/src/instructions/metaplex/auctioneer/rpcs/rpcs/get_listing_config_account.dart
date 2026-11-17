@@ -29,7 +29,7 @@ class SolanaRPCGetListingConfigAccount
   }
 
   @override
-  ListingConfig? onResonse(Map<String, dynamic>? result) {
+  ListingConfig? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return ListingConfig.fromBuffer(accountInfo.toBytesData());

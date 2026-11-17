@@ -16,7 +16,7 @@ class SolanaRequestGetInflationRate
   }
 
   @override
-  InflationRate onResonse(Map<String, dynamic> result) {
+  InflationRate onResponse(Map<String, dynamic> result) {
     return InflationRate.fromJson(result);
   }
 }

@@ -25,7 +25,7 @@ class MetaplexGumdropClaimCandyLayout extends MetaplexGumdropProgramLayout {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexGumdropProgramInstruction.claimCandy.insturction,
+      instruction: MetaplexGumdropProgramInstruction.claimCandy.instruction,
     );
     return MetaplexGumdropClaimCandyLayout(
       walletBump: decode['walletBump'],

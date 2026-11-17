@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/ada/src/models/plutus/cost_model/cost_model.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data.dart';
@@ -11,6 +11,7 @@ import 'package:on_chain/ada/src/models/plutus/plutus_data/models/list.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/map.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_script/models/language.dart';
 import 'package:on_chain/ada/src/models/plutus/redeemer/models/redeemer.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 
 class PlutusDataUtils {
   static ScriptDataHash scriptDatahash({
@@ -81,7 +82,9 @@ class PlutusDataUtils {
   }
 
   static PlutusInteger _encodeNumbers(dynamic value) {
-    if (value is int) return PlutusInteger(BigInt.from(value));
+    if (value is int) {
+      return PlutusInteger(BigintUtils.parse(value));
+    }
     return PlutusInteger(value);
   }
 
@@ -91,8 +94,9 @@ class PlutusDataUtils {
     required bool isKey,
   }) {
     if (value is! String) {
-      throw ADAPluginException(
-        'Invalid string format.',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid Plutus string format.',
         details: {'Value': '$value', 'Type': '${value.runtimeType}'},
       );
     }
@@ -101,7 +105,7 @@ class PlutusDataUtils {
         if (value.startsWith('0x')) {
           return PlutusBytes(value: BytesUtils.fromHexString(value));
         } else if (isKey) {
-          final inBigInt = BigInt.tryParse(value);
+          final inBigInt = BigintUtils.tryParse(value);
           if (inBigInt != null) {
             return PlutusInteger(inBigInt);
           }
@@ -110,7 +114,8 @@ class PlutusDataUtils {
         return PlutusBytes(value: StringUtils.encode(value));
       default:
         if (value.startsWith('0x')) {
-          throw ADAPluginException(
+          throw BuError(
+            OnChainErrorType.adaPlugin,
             'Hex byte strings in detailed schema should NOT start with 0x',
             details: {'Value': value},
           );
@@ -121,8 +126,9 @@ class PlutusDataUtils {
 
   static PlutusData _encodeArray(dynamic value, PlutusJsonSchema jsonSchema) {
     if (value is! List) {
-      throw ADAPluginException(
-        'Invalid list type.',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid Plutus list type.',
         details: {'value': value?.toString()},
       );
     }
@@ -140,12 +146,17 @@ class PlutusDataUtils {
       }
     }
     if (val != null) {
-      throw ADAPluginException(
-        'Invalid plutus format. type not allowed.',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid Plutus format: type not allowed.',
         details: {'Value': val, 'Type': '${val.runtimeType}'},
       );
     }
-    throw const ADAPluginException('null not allowed in plutus data');
+
+    throw const BuError(
+      OnChainErrorType.adaPlugin,
+      'Null value is not allowed in Plutus data.',
+    );
   }
 
   static PlutusData _encodeMap(Map value, PlutusJsonSchema jsonSchema) {
@@ -163,8 +174,9 @@ class PlutusDataUtils {
 
   static PlutusData _parseDetailed(dynamic value, PlutusJsonSchema schame) {
     if (value is! Map<String, dynamic>) {
-      throw const ADAPluginException(
-        'DetailedSchema requires types to be tagged objects',
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'DetailedSchema requires types to be tagged objects.',
       );
     }
     if (value.length == 1) {
@@ -180,19 +192,22 @@ class PlutusDataUtils {
           return _encodeString(schame: schame, value: v, isKey: false);
         case 'map':
           if (v is! List) {
-            throw const ADAPluginException(
+            throw const BuError(
+              OnChainErrorType.adaPlugin,
               r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
             );
           }
           final Map<PlutusData, PlutusData> values = {};
           for (final i in v) {
             if (i is! Map) {
-              throw const ADAPluginException(
+              throw const BuError(
+                OnChainErrorType.adaPlugin,
                 r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
               );
             }
             if (!i.containsKey('k') || !i.containsKey('v')) {
-              throw const ADAPluginException(
+              throw const BuError(
+                OnChainErrorType.adaPlugin,
                 r"entry format in detailed schema map object not correct. Needs to be of form '{'k': 'key', 'v': 'value'}'",
               );
             }
@@ -202,24 +217,31 @@ class PlutusDataUtils {
           }
           return PlutusMap(values);
         default:
-          throw ADAPluginException('key is not valid.', details: {'Key': key});
+          throw BuError(
+            DefaultErrorType.invalidArgument,
+            'Invalid Plutus key.',
+            details: {'Key': key},
+          );
       }
     } else {
       if (value.length != 2) {
-        throw const ADAPluginException(
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           'detailed schemas must either have only one of the following keys: "int", "bytes", "list" or "map", or both of these 2 keys: "constructor" + "fields"',
         );
       }
       final constructor = value['constructor'];
       if (constructor is! int && constructor is! BigInt) {
-        throw const ADAPluginException(
-          'tagged constructors must contain an unsigned integer called "constructor"',
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Tagged constructors must contain an unsigned integer called "constructor".',
         );
       }
       final fileds = value['fields'];
       if (fileds is! List) {
-        throw const ADAPluginException(
-          'tagged constructors must contian a list called "fields"',
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Tagged constructors must contain a list called "fields".',
         );
       }
       final List<PlutusData> plutusList = [];

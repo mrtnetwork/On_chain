@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/ada/src/models/credential/models/credential_type.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/credential/models/credential.dart';
@@ -68,18 +68,15 @@ abstract class PlutusData
     }
 
     if (data == null) {
-      throw ADAPluginException(
-        'Invalid cbor object.',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid CBOR object.',
         details: {
           'Value': cbor.toString(),
           'Type': cbor.runtimeType.toString(),
         },
       );
     }
-    assert(
-      data.serializeHex() == cbor.toCborHex(),
-      "not equal ${data.serializeHex()} ${cbor.toCborHex()} ${cbor.runtimeType}",
-    );
     return data;
   }
 

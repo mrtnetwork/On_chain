@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/stake/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -33,7 +33,7 @@ class StakeAuthorizeWithSeedLayout extends StakeProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: StakeProgramInstruction.authorizeWithSeed.insturction,
+      instruction: StakeProgramInstruction.authorizeWithSeed.instruction,
     );
     return StakeAuthorizeWithSeedLayout(
       newAuthorized: decode['newAuthorized'],

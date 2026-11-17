@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHouseCreateAuctionHouseLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -26,7 +26,7 @@ class MetaplexAuctionHouseCreateAuctionHouseLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexAuctionHouseProgramInstruction.createAuctionHouse.insturction,
+          MetaplexAuctionHouseProgramInstruction.createAuctionHouse.instruction,
     );
     return MetaplexAuctionHouseCreateAuctionHouseLayout(
       feePayerBump: decode['feePayerBump'],

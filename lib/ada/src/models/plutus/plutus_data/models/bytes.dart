@@ -8,7 +8,7 @@ import 'plutus_json_schame.dart';
 /// Represents Plutus bytes data.
 class PlutusBytes extends PlutusData {
   // final PlutusBytesSerializationConfig serializationConfig;
-  final List<int> value;
+  final BuBytes value;
 
   /// Constructs a [PlutusBytes] instance with the given value.
   PlutusBytes({required List<int> value}) : value = value.asImmutableBytes;

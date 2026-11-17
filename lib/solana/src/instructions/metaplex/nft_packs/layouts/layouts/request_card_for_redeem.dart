@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksRequestCardForRedeemLayout
@@ -14,7 +14,7 @@ class MetaplexNFTPacksRequestCardForRedeemLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexNFTPacksProgramInstruction.requestCardForRedeem.insturction,
+          MetaplexNFTPacksProgramInstruction.requestCardForRedeem.instruction,
     );
     return MetaplexNFTPacksRequestCardForRedeemLayout(index: decode['index']);
   }

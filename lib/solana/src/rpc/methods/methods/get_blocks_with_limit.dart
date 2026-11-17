@@ -31,7 +31,7 @@ class SolanaRequestGetBlocksWithLimit extends SolanaRequest<List<int>, List> {
   }
 
   @override
-  List<int> onResonse(List result) {
+  List<int> onResponse(List result) {
     return result.cast<int>();
   }
 }

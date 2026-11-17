@@ -6,7 +6,8 @@ import 'package:on_chain/aptos/src/provider/core/core.dart';
 /// (and optionally secondary signers) encoded as JSON, validates the request format,
 /// and then returns that request encoded in BCS. The client can then use this to create a transaction
 /// signature to be used in a SubmitTransactionRequest, which it then passes to the /transactions POST endpoint.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestEncodeSubmission
     extends AptosPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   /// A hex encoded 32 byte Aptos account address.

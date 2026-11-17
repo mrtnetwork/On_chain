@@ -1,3 +1,19 @@
+## 9.0.0
+- BREAKING: many chain RPC request/response types regenerated from OpenAPI / OpenRPC specs and tested against live nodes; field names and defaults may differ.
+- BREAKING: Tron transactions now use pregenerated protobuf models (`lib/tron/src/proto_messages/`); hand-written transaction models removed.
+- BREAKING: Sui JSON-RPC provider removed; Sui now speaks gRPC only (v2 proto API).
+- Solana Token-2022 confidential-transfer ZK proving is Rust-backend only (`solana_zk` in blockchain_utils); Dart keeps read/decrypt helpers.
+- Added Tron shielded TRC-20 (mint/transfer/burn, verified on Nile); proving requires the Rust backend of blockchain_utils (Sapling/Groth16).
+- TSS-ready signing: Ethereum accepts DKLs23 threshold-ECDSA (secp256k1) signatures and Solana accepts FROST threshold-Ed25519 signatures from blockchain_utils (standard on-chain verification).
+- Aptos encrypted transactions (encrypted payloads, batch-encryption keys).
+- Solana: fixed `getTransaction` double-commitment params (`[signature, config]` per spec).
+- Solana: added correctly-spelled `get_latest_block_hash.dart` alias (old typo file kept).
+- Solana Token-2022: completed `ExtensionType` 16-28 (confidential-fee, TokenGroup/GroupMember, ConfidentialMintBurn, ScaledUiAmount, Pausable, PermissionedBurn); fixed `GroupMemberPointer` 21 -> 22.
+- Solana: promoted quick client to `lib/solana/src/rpc/quick/` (both-program balances, `prepareTransaction`, `signAndSubmit`, `pollSignature`, prioritization-fee/history passthroughs, DAS asset helpers).
+- Solana: added `SolanaTokenTransferHelpers` (fee-aware `transferCheckedWithFee` builder, transfer-hook extra-accounts resolution, harvest-to-mint).
+- Solana: added DAS API requests (`getAsset`, `getAssetProof`, `getAssetsByOwner/ByGroup`, `searchAssets`) for compressed/Core asset indexing.
+- Solana: added minimal MPL Core program (CreateV1/CreateCollectionV1/TransferV1/UpdateV1/BurnV1 + best-effort account decoder).
+
 ## 8.1.0
 - Updated dependencies.
 - Updated all blockchain address implementations (ADA, Ethereum, Solana, and others) to inherit from IAddress provided by blockchain_utils.

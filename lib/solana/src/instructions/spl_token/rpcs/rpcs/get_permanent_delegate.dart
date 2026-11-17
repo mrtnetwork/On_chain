@@ -27,7 +27,7 @@ class SolanaRPCGetPermanentDelegate
   }
 
   @override
-  PermanentDelegate? onResonse(result) {
+  PermanentDelegate? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return PermanentDelegate.fromAccountBytes(accountInfo.toBytesData());

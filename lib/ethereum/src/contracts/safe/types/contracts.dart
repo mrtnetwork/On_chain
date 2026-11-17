@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
-import 'package:on_chain/ethereum/src/exception/exception.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/solidity/solidity.dart';
 
@@ -15,7 +16,13 @@ enum SafeContractExecutionOpration {
   static SafeContractExecutionOpration fromValue(int? value) {
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw ItemNotFoundException(value: value),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractExecutionOpration value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 }
@@ -23,7 +30,7 @@ enum SafeContractExecutionOpration {
 class SafeContractEncodedCall {
   final AbiFunctionFragment func;
   final List<Object> params;
-  final List<int> encode;
+  final BuBytes encode;
   SafeContractEncodedCall({
     required this.func,
     List<Object> params = const [],
@@ -91,7 +98,13 @@ enum SafeContractFunction {
   static SafeContractFunction fromFunctionName(String? name) {
     return values.firstWhere(
       (e) => e.functionName == name,
-      orElse: () => throw ItemNotFoundException(value: name),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractFunction name.',
+                details: {'name': name},
+              ),
     );
   }
 
@@ -110,14 +123,26 @@ enum SafeContractFlavor {
   static SafeContractFlavor fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw ItemNotFoundException(value: name),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractFlavor name.',
+                details: {'name': name},
+              ),
     );
   }
 
   static SafeContractFlavor fromValue(int? value) {
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw ItemNotFoundException(value: value),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractFlavor value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 }
@@ -151,14 +176,26 @@ enum SafeContractName {
   static SafeContractName fromContractName(String? contractName) {
     return values.firstWhere(
       (e) => e.contractName == contractName,
-      orElse: () => throw ItemNotFoundException(value: contractName),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractName.',
+                details: {'contractName': contractName},
+              ),
     );
   }
 
   static SafeContractName fromValue(int? value) {
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw ItemNotFoundException(value: value),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractName value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 }
@@ -179,14 +216,26 @@ enum SafeContractVersion implements Comparable<SafeContractVersion> {
   static SafeContractVersion fromVersion(String? version) {
     return values.firstWhere(
       (e) => e.version == version,
-      orElse: () => throw ItemNotFoundException(value: version),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractVersion.',
+                details: {'version': version},
+              ),
     );
   }
 
   static SafeContractVersion fromValue(int? value) {
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw ItemNotFoundException(value: value),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid SafeContractVersion value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -215,7 +264,7 @@ enum SafeContractVersion implements Comparable<SafeContractVersion> {
 
 class SafeContractDeployment with InternalCborSerialization {
   final ETHAddress address;
-  final List<int> codeHash;
+  final BuBytes codeHash;
   SafeContractDeployment({required this.address, required List<int> codeHash})
     : codeHash = codeHash.asImmutableBytes;
   factory SafeContractDeployment.fromJson(Map<String, dynamic> json) {
@@ -336,7 +385,7 @@ class SafeContractManifest with InternalCborSerialization {
       tagIds: InternalCborSerializationConst.defaultTag,
     );
     return SafeContractManifest(
-      released: values.objectAt<CborBoleanValue>(0).value,
+      released: values.objectAt<CborBooleanValue>(0).value,
       contractName: SafeContractName.fromValue(
         values.objectAt<CborIntValue>(1).value,
       ),
@@ -373,7 +422,7 @@ class SafeContractManifest with InternalCborSerialization {
     return CborTagValue(
       CborListValue.definite(
         [
-          CborBoleanValue(released),
+          CborBooleanValue(released),
           CborIntValue(contractName.value),
           CborIntValue(version.value),
           CborMapValue.definite(
@@ -479,7 +528,8 @@ class SafeContractAssets with InternalCborSerialization {
 
   SafeContractVersionedManifest getLatestDeployment({BigInt? chainId}) {
     if (this.manifests.isEmpty) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.notFound,
         'No deployment found.',
         details: {"chainId": chainId.toString()},
       );
@@ -492,7 +542,8 @@ class SafeContractAssets with InternalCborSerialization {
       (e) => e.proxy.networkAddresses.containsKey(chainId),
       orElse:
           () =>
-              throw ETHPluginException(
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No deployment found for the specified chain ID.',
                 details: {"chainId": chainId.toString()},
               ),
@@ -502,7 +553,11 @@ class SafeContractAssets with InternalCborSerialization {
   SafeContractVersionedManifest atVersion(SafeContractVersion version) {
     final manifest = manifests[version];
     if (manifest == null) {
-      throw ETHPluginException('No deployment found.');
+      throw BuError(
+        DefaultErrorType.notFound,
+        'No deployment found for version.',
+        details: {'version': version.version},
+      );
     }
     return manifest;
   }
@@ -512,10 +567,11 @@ class SafeContractAssets with InternalCborSerialization {
       try {
         i.getSafeSingletonManifestFromAddress(address);
         return i;
-      } on ETHPluginException catch (_) {}
+      } on BuError catch (_) {}
     }
     // If none matched, throw meaningful exception
-    throw ETHPluginException(
+    throw BuError(
+      DefaultErrorType.invalidAddress,
       "No versioned manifest found from address $address.",
       details: {"address": address.address},
     );
@@ -558,12 +614,14 @@ class SafeContractVersionedManifest with InternalCborSerialization {
     // v1.0.0 logic
     if (singleton.version == SafeContractVersion.v1_0_0) {
       if (proxy.version != SafeContractVersion.v1_0_0) {
-        throw const ETHPluginException(
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
           'ProxyFactory version must match singleton version v1.0.0.',
         );
       }
       if (fallBackHandler != null || singltonL2 != null) {
-        throw const ETHPluginException(
+        throw const BuError(
+          DefaultErrorType.unsupported,
           'Fallback handler and Singleton L2 are not supported for v1.0.0 contracts.',
         );
       }
@@ -578,18 +636,21 @@ class SafeContractVersionedManifest with InternalCborSerialization {
       case SafeContractVersion.v1_1_1:
       case SafeContractVersion.v1_2_0:
         if (singltonL2 != null) {
-          throw ETHPluginException(
+          throw BuError(
+            DefaultErrorType.unsupported,
             'Singleton L2 is not supported for version ${singleton.version}.',
           );
         }
         if (proxy.version != SafeContractVersion.v1_1_1) {
-          throw ETHPluginException(
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'ProxyFactory must have version v1.1.1 for this singleton version ${singleton.version.version}.',
           );
         }
         if (fallBackHandler == null ||
             fallBackHandler.version != SafeContractVersion.v1_1_1) {
-          throw const ETHPluginException(
+          throw const BuError(
+            DefaultErrorType.invalidArgument,
             'Fallback handler is required and must have version v1.1.1 for this singleton version.',
           );
         }
@@ -610,7 +671,8 @@ class SafeContractVersionedManifest with InternalCborSerialization {
                   singltonL2.version,
                 }.length !=
                 1) {
-          throw const ETHPluginException(
+          throw const BuError(
+            DefaultErrorType.invalidArgument,
             'All contracts must have the same version and fallback/L2 proxies must be provided.',
           );
         }
@@ -679,7 +741,8 @@ class SafeContractVersionedManifest with InternalCborSerialization {
       SafeContractLayer.l2 => singltonL2,
     };
     if (singleton == null) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.notFound,
         'L2 proxy is not configured for this Safe version.',
         details: {'version': version.version},
       );
@@ -688,13 +751,15 @@ class SafeContractVersionedManifest with InternalCborSerialization {
     final networkAddress = singleton.networkAddresses[chainId];
 
     if (networkAddress == null) {
-      throw const ETHPluginException(
+      throw const BuError(
+        DefaultErrorType.notFound,
         'No deployment found for the specified chain ID.',
       );
     }
 
     if (!networkAddress.contains(flavor)) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.notFound,
         'The specified flavor is not available for the current chain ID.',
         details: {'flavor': flavor.name, 'chainId': chainId.toString()},
       );
@@ -702,7 +767,8 @@ class SafeContractVersionedManifest with InternalCborSerialization {
 
     final deployment = singleton.deployments[flavor];
     if (deployment == null) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.notFound,
         'Factory deployment not found for the specified flavor and chain ID.',
         details: {'flavor': flavor.name, 'chainId': chainId.toString()},
       );
@@ -719,7 +785,8 @@ class SafeContractVersionedManifest with InternalCborSerialization {
         false) {
       return singltonL2!;
     }
-    throw ETHPluginException(
+    throw BuError(
+      DefaultErrorType.cryptoVerifyFailed,
       "The provided address $address does not match any known Safe singleton deployment.",
       details: {"address": address.address},
     );
@@ -732,13 +799,15 @@ class SafeContractVersionedManifest with InternalCborSerialization {
     final networkAddress = proxy.networkAddresses[chainId];
 
     if (networkAddress == null) {
-      throw const ETHPluginException(
+      throw const BuError(
+        DefaultErrorType.notFound,
         'No deployment found for the specified chain ID.',
       );
     }
 
     if (!networkAddress.contains(flavor)) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.notFound,
         'The specified flavor is not available for the current chain ID.',
         details: {'flavor': flavor.name, 'chainId': chainId.toString()},
       );
@@ -746,7 +815,8 @@ class SafeContractVersionedManifest with InternalCborSerialization {
 
     final deployment = proxy.deployments[flavor];
     if (deployment == null) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.notFound,
         'Factory deployment not found for the specified flavor and chain ID.',
         details: {'flavor': flavor.name, 'chainId': chainId.toString()},
       );
@@ -769,20 +839,23 @@ class SafeContractVersionedManifest with InternalCborSerialization {
   }) {
     final fallBackHandler = fallbackHandler;
     if (fallBackHandler == null) {
-      throw const ETHPluginException(
+      throw const BuError(
+        DefaultErrorType.notFound,
         'Fallback handler is not configured for this Safe version.',
       );
     }
 
     final networkAddress = fallBackHandler.networkAddresses[chainId];
     if (networkAddress == null) {
-      throw const ETHPluginException(
+      throw const BuError(
+        OnChainErrorType.ethereumPlugin,
         'No fallback handler deployment found for the specified chain ID.',
       );
     }
 
     if (!networkAddress.contains(flavor)) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.unsupported,
         'The specified flavor is not available for the current fallback handler deployment.',
         details: {'flavor': flavor.name, 'chainId': chainId.toString()},
       );
@@ -790,7 +863,8 @@ class SafeContractVersionedManifest with InternalCborSerialization {
 
     final deployment = fallBackHandler.deployments[flavor];
     if (deployment == null) {
-      throw ETHPluginException(
+      throw BuError(
+        DefaultErrorType.notFound,
         'Deployment not found for the specified fallback handler flavor and chain ID.',
         details: {'flavor': flavor.name, 'chainId': chainId.toString()},
       );
@@ -807,7 +881,8 @@ class SafeContractVersionedManifest with InternalCborSerialization {
         return singleton.abi;
       case SafeContractLayer.l2:
         if (singltonL2 == null) {
-          throw const ETHPluginException(
+          throw const BuError(
+            DefaultErrorType.notFound,
             'L2 proxy is not configured for this Safe version.',
           );
         }

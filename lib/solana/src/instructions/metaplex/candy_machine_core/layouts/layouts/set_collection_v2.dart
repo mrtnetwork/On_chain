@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineSetCollectionV2Layout
     extends MetaplexCandyMachineProgramLayout {
@@ -10,7 +10,7 @@ class MetaplexCandyMachineSetCollectionV2Layout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexCandyMachineProgramInstruction.setCollectionV2.insturction,
+          MetaplexCandyMachineProgramInstruction.setCollectionV2.instruction,
     );
     return const MetaplexCandyMachineSetCollectionV2Layout();
   }

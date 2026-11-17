@@ -29,7 +29,7 @@ class SolanaRPCGetEntangledPairAccount
   }
 
   @override
-  EntangledPair? onResonse(result) {
+  EntangledPair? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return EntangledPair.fromBuffer(accountInfo.toBytesData());

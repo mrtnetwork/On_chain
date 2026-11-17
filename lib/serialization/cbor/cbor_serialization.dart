@@ -12,7 +12,7 @@ enum CborMapEncodingType {
   static CborMapEncodingType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw ItemNotFoundException(value: name),
+      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching item found for the given value. $name"),
     );
   }
 }
@@ -26,7 +26,7 @@ abstract mixin class InternalCborSerialization {
   dynamic toJson();
 
   /// Serializes the object to CBOR bytes.
-  List<int> serialize() => toCbor().encode();
+  BuBytes serialize() => toCbor().encode();
 
   /// Serializes the object to hexadecimal string.
   String serializeHex() => BytesUtils.toHexString(serialize());
@@ -36,7 +36,7 @@ abstract mixin class InternalCborSerialization {
   static T desrialize<T extends CborObject>(List<int> cborBytes) {
     final decode = CborObject.fromCbor(cborBytes);
     if (decode is! T) {
-      throw CborSerializableException(
+      throw BuError(DefaultErrorType.badCbor,
         'Failed to deserialize CBOR bytes into type.',
         details: {'type': '$T', 'expected': decode.runtimeType.toString()},
       );

@@ -25,7 +25,7 @@ class BlockfrostRequestBlockTransactionWithCborData
   List<String> get pathParameters => [hashOrNumber];
 
   @override
-  List<LatestBlockTransactionWithCborDataResponse> onResonse(
+  List<LatestBlockTransactionWithCborDataResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

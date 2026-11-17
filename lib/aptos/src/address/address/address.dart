@@ -98,7 +98,7 @@ class AptosAddress extends MoveAddress
   List<dynamic> get variables => [address];
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return toCbor().encode();
   }
 

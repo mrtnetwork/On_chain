@@ -1,9 +1,9 @@
-import 'package:blockchain_utils/helper/helper.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/public_key/multi_ed25519.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 
 /// Aptos account implementation for multi-signature Ed25519 accounts.
@@ -74,7 +74,8 @@ class AptosMultiEd25519Account
       }
     }
     if (signatures.length < publicKey.threshold) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Insufficient signatures. Expected ${publicKey.threshold} but ${signatures.length} generated.",
         details: {
           "expected": publicKey.threshold.toString(),

@@ -21,7 +21,7 @@ class EthereumRequestGetTransactionByHash
   }
 
   @override
-  TransactionInfo? onResonse(result) {
+  TransactionInfo? onResponse(result) {
     if (result == null) return null;
     return TransactionInfo.fromJson(result);
   }

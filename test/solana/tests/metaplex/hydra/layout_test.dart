@@ -1,11 +1,12 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
+import '../../../../utils.dart';
 const _owner = SolAddress.unchecked(
   'HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf',
 );
-void main() {
-  group('hydra', () {
+void hydraLayoutTest() {
+  group('Solana/Hydra Layout', () {
     _addMemberNft();
     _addMemberWallet();
     _distributeNft();
@@ -25,6 +26,11 @@ void main() {
     _fanoutMint();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(hydraLayoutTest, "Layout");
+}
+
 
 void _addMemberNft() {
   test('addMemberNft', () {

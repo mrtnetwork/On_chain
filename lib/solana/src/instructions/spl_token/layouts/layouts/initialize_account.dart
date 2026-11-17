@@ -1,6 +1,6 @@
 // Manages the layout structure for initializing an SPL token account.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initializes a new account to hold tokens layout.
@@ -17,7 +17,7 @@ class SPLTokenInitializeAccountLayout extends SPLTokenProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.initializeAccount.insturction,
+      instruction: SPLTokenProgramInstruction.initializeAccount.instruction,
     );
     return SPLTokenInitializeAccountLayout();
   }

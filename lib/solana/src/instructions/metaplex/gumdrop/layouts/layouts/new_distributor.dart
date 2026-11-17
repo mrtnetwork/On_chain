@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexGumdropNewDistributorLayout extends MetaplexGumdropProgramLayout {
@@ -17,7 +17,7 @@ class MetaplexGumdropNewDistributorLayout extends MetaplexGumdropProgramLayout {
     final decode = MetaplexGumdropProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexGumdropProgramInstruction.newDistributor.insturction,
+      instruction: MetaplexGumdropProgramInstruction.newDistributor.instruction,
     );
     return MetaplexGumdropNewDistributorLayout(
       bump: decode['bump'],

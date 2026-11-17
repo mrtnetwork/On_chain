@@ -29,7 +29,7 @@ class SolanaRPCGetPrimaryMetadataCreatorsAccount
   }
 
   @override
-  PrimaryMetadataCreators? onResonse(result) {
+  PrimaryMetadataCreators? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return PrimaryMetadataCreators.fromBuffer(accountInfo.toBytesData());

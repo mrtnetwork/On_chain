@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_swap/types/types.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initializes a new swap layout
@@ -25,7 +25,7 @@ class SPLTokenSwapInitSwapLayout extends SPLTokenSwapProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenSwapProgramInstruction.initSwap.insturction,
+      instruction: SPLTokenSwapProgramInstruction.initSwap.instruction,
     );
 
     return SPLTokenSwapInitSwapLayout(

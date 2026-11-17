@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents a field in SPL token metadata.
@@ -53,7 +52,10 @@ class SPLTokenMetaDataField extends BorshLayoutSerializable {
           value: value['value'],
         );
       default:
-        throw SolanaPluginException('invalid SPLTokenMetaDataField');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid SPLTokenMetaDataField.',
+        );
     }
   }
 

@@ -7,7 +7,7 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Returns the account information for a list of Pubkeys.
 /// https://solana.com/docs/rpc/http/getmultipleaccounts
 class SolanaRequestGetMultipleAccounts
-    extends SolanaRequest<Map<String, dynamic>, Map<String, dynamic>> {
+    extends SolanaRequest<List<SolanaAccountInfo?>, List> {
   const SolanaRequestGetMultipleAccounts({
     required this.pubkeys,
     this.dataSlice,
@@ -37,5 +37,12 @@ class SolanaRequestGetMultipleAccounts
         encoding?.toJson(),
       ]),
     ];
+  }
+
+  @override
+  List<SolanaAccountInfo?> onResponse(List result) {
+    return result
+        .map((e) => e == null ? null : SolanaAccountInfo.fromJson(e))
+        .toList();
   }
 }

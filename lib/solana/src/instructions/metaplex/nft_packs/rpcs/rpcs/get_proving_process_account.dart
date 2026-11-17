@@ -29,7 +29,7 @@ class SolanaRPCGetProvingProcessAccount
   }
 
   @override
-  ProvingProcess? onResonse(result) {
+  ProvingProcess? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return ProvingProcess.fromBuffer(accountInfo.toBytesData());

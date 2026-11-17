@@ -1,8 +1,9 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('fixedPriceSale', () {
+import '../../../../utils.dart';
+void fixedPriceSaleTest() {
+  group('Solana/Fixed Price Sale', () {
     _withdraw();
     _suspendMarket();
     _buy();
@@ -22,6 +23,11 @@ void main() {
     _tradeHistory();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(fixedPriceSaleTest, "Fixed Price Sale");
+}
+
 
 void _buy() {
   test('buy', () {

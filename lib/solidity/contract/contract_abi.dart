@@ -28,7 +28,7 @@ class ContractABI with InternalCborSerialization {
           }).toList();
       return ContractABI._(fragments);
     } catch (e) {
-      throw SolidityAbiException(
+      throw BuError(DefaultErrorType.invalidArgument,
         'invalid contract abi',
         details: {'error': e.toString()},
       );

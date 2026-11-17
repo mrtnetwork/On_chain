@@ -1,4 +1,5 @@
 export 'provider/provider.dart';
+export 'api/api.dart';
 export 'service/service.dart';
 export 'models/types.dart';
 export 'methods/methods.dart';

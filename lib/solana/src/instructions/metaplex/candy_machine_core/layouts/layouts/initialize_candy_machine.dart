@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_machine_types/types/candy_machine_data.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineInitializeCandyMachineLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -16,7 +16,7 @@ class MetaplexCandyMachineInitializeCandyMachineLayout
       instruction:
           MetaplexCandyMachineProgramInstruction
               .initializeCandyMachine
-              .insturction,
+              .instruction,
     );
     return MetaplexCandyMachineInitializeCandyMachineLayout(
       data: CandyMachineData.fromJson(decode['candyMachineData']),

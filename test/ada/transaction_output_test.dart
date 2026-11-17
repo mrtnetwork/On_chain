@@ -2,9 +2,15 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _outputs();
+import '../utils.dart';
+void transactionOutputTest() {
+  group('ADA/Transaction Output', _outputs);
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(transactionOutputTest, "Transaction Output");
+}
+
 
 void _outputs() {
   test('legacy with data hash', () {

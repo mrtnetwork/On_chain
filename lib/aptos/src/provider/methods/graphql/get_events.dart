@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
 
@@ -15,7 +15,7 @@ class AptosGraphQLRequestGetEvents
   Map<String, dynamic> get queryVariables => variables.toJson();
 
   @override
-  List<AptosGraphQLEvent> onResonse(Map<String, dynamic> result) {
+  List<AptosGraphQLEvent> onResponse(Map<String, dynamic> result) {
     return result
         .valueEnsureAsList<Map<String, dynamic>>("events")
         .map((e) => AptosGraphQLEvent.fromJson(e))

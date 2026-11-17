@@ -13,7 +13,7 @@ class AptosGraphQLRequestGetChainTopUserTransactions
   @override
   Map<String, dynamic> get queryVariables => {"limit": limit};
   @override
-  List onResonse(Map<String, dynamic> result) {
+  List onResponse(Map<String, dynamic> result) {
     return result["user_transactions"];
   }
 }

@@ -1,4 +1,5 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 
 class FreezeInstruction {
   final String name;
@@ -23,7 +24,8 @@ class FreezeInstruction {
       (element) => element.value == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                OnChainErrorType.solanaPlugin,
                 'No FreezeInstruction found matching the specified value',
                 details: {'value': value.toString()},
               ),

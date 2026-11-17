@@ -28,7 +28,7 @@ class SolanaRequestGetLatestBlockhash
   }
 
   @override
-  BlockhashWithExpiryBlockHeight onResonse(Map<String, dynamic> result) {
+  BlockhashWithExpiryBlockHeight onResponse(Map<String, dynamic> result) {
     return BlockhashWithExpiryBlockHeight.fromJson(result);
   }
 }

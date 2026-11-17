@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class StakePoolUpdateValidatorListBalanceLayout extends StakePoolProgramLayout {
@@ -23,7 +23,7 @@ class StakePoolUpdateValidatorListBalanceLayout extends StakePoolProgramLayout {
       layout: _layout,
       bytes: bytes,
       instruction:
-          StakePoolProgramInstruction.updateValidatorListBalance.insturction,
+          StakePoolProgramInstruction.updateValidatorListBalance.instruction,
     );
     return StakePoolUpdateValidatorListBalanceLayout(
       noMerge: decode['noMerge'],

@@ -32,3 +32,8 @@ export 'models/subscribe_transaction_details.dart';
 export 'models/subscribe_block_filter.dart';
 export 'models/transaction_logging_filter.dart';
 export 'models/context.dart';
+export 'models/version_response.dart';
+export 'models/identity_response.dart';
+export 'models/block_commitment_response.dart';
+export 'models/highest_snapshot_slot_response.dart';
+export 'models/confirmed_signature_info.dart';

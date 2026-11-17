@@ -9,6 +9,16 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  errors:
+    # The connector comes from git until it is published to pub.dev (see
+    # pubspec.yaml); onchain_proto stays a path dependency while its
+    # blockchain_utils dep pins the same source. Downgrade that
+    # publish-time warning so it never fails `dart analyze` in CI.
+    invalid_dependency: ignore
+# analyzer:
+#   exclude:
+#     - example/**
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`

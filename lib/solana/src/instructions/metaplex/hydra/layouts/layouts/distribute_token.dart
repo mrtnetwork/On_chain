@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraDistributeTokenLayout extends MetaplexHydraProgramLayout {
   final bool distributeForMint;
@@ -10,7 +10,7 @@ class MetaplexHydraDistributeTokenLayout extends MetaplexHydraProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexHydraProgramInstruction.processDistributeToken.insturction,
+          MetaplexHydraProgramInstruction.processDistributeToken.instruction,
     );
     return MetaplexHydraDistributeTokenLayout(
       distributeForMint: decode['distributeForMint'],

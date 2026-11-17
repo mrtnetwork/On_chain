@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/utils/numbers/numbers.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/address/address.dart';
 import 'package:on_chain/ada/src/models/governance/models/anchor.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/action.dart';

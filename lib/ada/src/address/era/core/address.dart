@@ -2,7 +2,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/src/address/era/byron/byron.dart';
 import 'package:on_chain/ada/src/address/era/shelly/shelly.dart';
 import 'package:on_chain/ada/src/address/utils/utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents an abstract class for ADA addresses with serialization capabilities.
@@ -40,8 +40,6 @@ abstract class ADAAddress
     return deserialize(decode.objectAt(0));
   }
 
-  /// deserializeIAddress
-
   /// Factory method to create an ADAAddress instance from a given address string.
   static T fromAddress<T extends ADAAddress>(
     String address, {
@@ -67,7 +65,8 @@ abstract class ADAAddress
         break;
     }
     if (addr is! T) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Invalid address type.',
         details: {
           'expected': '$T',
@@ -121,7 +120,8 @@ abstract class ADAAddress
       );
     }
     if (address is! T) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Invalid ADA address type.',
         details: {
           'expected': '$T',
@@ -131,7 +131,8 @@ abstract class ADAAddress
       );
     }
     if (network != null && address.network != network) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         'Invalid network.',
         details: {'expected': network.name, 'network': address.network.name},
       );
@@ -145,7 +146,7 @@ abstract class ADAAddress
     return address;
   }
 
-  List<int> toBytes();
+  BuBytes toBytes();
 
   /// Converts the ADAAddress instance to JSON.
   @override
@@ -155,7 +156,15 @@ abstract class ADAAddress
 
   T cast<T extends ADAAddress>() {
     if (this is! T) {
-      throw CastFailedException<T>(value: this);
+      throw BuError(
+        DefaultErrorType.invalidAddress,
+        'Invalid ADA address type.',
+        details: {
+          'expected': '$T',
+          'actual': runtimeType.toString(),
+          'address': address,
+        },
+      );
     }
     return this as T;
   }
@@ -164,10 +173,10 @@ abstract class ADAAddress
   List<dynamic> get variables => [address];
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return CborTagValue(CborListValue.definite([toCbor()]), [
       BlockchainNetwork.cardano.identifier.id,
-    ]).encode();
+    ]).encode().asImmutableBytes;
   }
 
   @override

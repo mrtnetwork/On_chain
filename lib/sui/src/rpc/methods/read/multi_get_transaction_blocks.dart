@@ -30,7 +30,7 @@ class SuiRequestMultiGetTransactionBlocks
   }
 
   @override
-  List<SuiApiTransactionBlockResponse> onResonse(
+  List<SuiApiTransactionBlockResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

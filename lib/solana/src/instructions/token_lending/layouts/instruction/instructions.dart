@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/token_lending/constant.dart';
 
 class TokenLendingProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const TokenLendingProgramInstruction(this.insturction, this.name);
+  const TokenLendingProgramInstruction(this.instruction, this.name);
   static const TokenLendingProgramInstruction initLendingMarket =
       TokenLendingProgramInstruction(0, 'InitLendingMarket');
 
@@ -56,7 +56,7 @@ class TokenLendingProgramInstruction implements ProgramLayoutInstruction {
   ];
   static TokenLendingProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
+      return values.firstWhere((element) => element.instruction == value);
     } catch (_) {
       return null;
     }

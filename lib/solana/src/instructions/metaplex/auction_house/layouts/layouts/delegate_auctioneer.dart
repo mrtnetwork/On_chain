@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/types/types/authority_scope.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHouseDelegateAuctioneerLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -15,7 +15,7 @@ class MetaplexAuctionHouseDelegateAuctioneerLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexAuctionHouseProgramInstruction.delegateAuctioneer.insturction,
+          MetaplexAuctionHouseProgramInstruction.delegateAuctioneer.instruction,
     );
     return MetaplexAuctionHouseDelegateAuctioneerLayout(
       scopes:

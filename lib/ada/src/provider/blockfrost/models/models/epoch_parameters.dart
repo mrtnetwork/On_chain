@@ -66,6 +66,68 @@ class ADAEpochParametersResponse {
 
   final int coinsPerUtxoSize;
 
+  /// Raw cost models (list form)
+  final Map<String, dynamic>? costModelsRaw;
+
+  /// Plutus script price per memory unit
+  final double? priceMem;
+
+  /// Plutus script price per step
+  final double? priceStep;
+
+  /// Max execution memory per transaction
+  final BigInt? maxTxExMem;
+
+  /// Max execution steps per transaction
+  final BigInt? maxTxExSteps;
+
+  /// Max execution memory per block
+  final BigInt? maxBlockExMem;
+
+  /// Max execution steps per block
+  final BigInt? maxBlockExSteps;
+
+  /// Maximum value size
+  final BigInt? maxValSize;
+
+  /// Collateral percentage
+  final int? collateralPercent;
+
+  /// Maximum collateral inputs
+  final int? maxCollateralInputs;
+
+  /// Coins per UTXO word (sibling of coins_per_utxo_size)
+  final BigInt? coinsPerUtxoWord;
+
+  /// Governance thresholds (Conway); null when not set
+  final double? pvtMotionNoConfidence;
+  final double? pvtCommitteeNormal;
+  final double? pvtCommitteeNoConfidence;
+  final double? pvtHardForkInitiation;
+  final double? dvtMotionNoConfidence;
+  final double? dvtCommitteeNormal;
+  final double? dvtCommitteeNoConfidence;
+  final double? dvtUpdateToConstitution;
+  final double? dvtHardForkInitiation;
+  final double? dvtPPNetworkGroup;
+  final double? dvtPPEconomicGroup;
+  final double? dvtPPTechnicalGroup;
+  final double? dvtPPGovGroup;
+  final double? dvtTreasuryWithdrawal;
+  final double? pvtppSecurityGroup;
+  final double? pvtPPSecurityGroup;
+
+  /// Committee / governance parameters (Conway); u64 as strings
+  final BigInt? committeeMinSize;
+  final BigInt? committeeMaxTermLength;
+  final BigInt? govActionLifetime;
+  final BigInt? govActionDeposit;
+  final BigInt? drepDeposit;
+  final BigInt? drepActivity;
+
+  /// Minimum fee per byte for reference scripts
+  final double? minFeeRefScriptCostPerByte;
+
   ADAEpochParametersResponse({
     required this.epoch,
     required this.minFeeA,
@@ -89,7 +151,46 @@ class ADAEpochParametersResponse {
     required this.coinsPerUtxoSize,
     this.extraEntropy,
     required this.costModels,
+    this.costModelsRaw,
+    this.priceMem,
+    this.priceStep,
+    this.maxTxExMem,
+    this.maxTxExSteps,
+    this.maxBlockExMem,
+    this.maxBlockExSteps,
+    this.maxValSize,
+    this.collateralPercent,
+    this.maxCollateralInputs,
+    this.coinsPerUtxoWord,
+    this.pvtMotionNoConfidence,
+    this.pvtCommitteeNormal,
+    this.pvtCommitteeNoConfidence,
+    this.pvtHardForkInitiation,
+    this.dvtMotionNoConfidence,
+    this.dvtCommitteeNormal,
+    this.dvtCommitteeNoConfidence,
+    this.dvtUpdateToConstitution,
+    this.dvtHardForkInitiation,
+    this.dvtPPNetworkGroup,
+    this.dvtPPEconomicGroup,
+    this.dvtPPTechnicalGroup,
+    this.dvtPPGovGroup,
+    this.dvtTreasuryWithdrawal,
+    this.pvtppSecurityGroup,
+    this.pvtPPSecurityGroup,
+    this.committeeMinSize,
+    this.committeeMaxTermLength,
+    this.govActionLifetime,
+    this.govActionDeposit,
+    this.drepDeposit,
+    this.drepActivity,
+    this.minFeeRefScriptCostPerByte,
   });
+
+  static double? _asDouble(dynamic v) =>
+      v == null ? null : (v as num).toDouble();
+  static BigInt? _asBigInt(dynamic v) =>
+      v == null ? null : BigintUtils.parse(v);
 
   factory ADAEpochParametersResponse.fromJson(Map<String, dynamic> json) {
     return ADAEpochParametersResponse(
@@ -114,7 +215,46 @@ class ADAEpochParametersResponse {
       minPoolCost: json['min_pool_cost'],
       nonce: json['nonce'],
       costModels: Map<String, dynamic>.from(json['cost_models'] ?? {}),
-      coinsPerUtxoSize: int.parse(json['coins_per_utxo_size'].toString()),
+      coinsPerUtxoSize: IntUtils.parse(json['coins_per_utxo_size']),
+      costModelsRaw:
+          json['cost_models_raw'] == null
+              ? null
+              : Map<String, dynamic>.from(json['cost_models_raw']),
+      priceMem: _asDouble(json['price_mem']),
+      priceStep: _asDouble(json['price_step']),
+      maxTxExMem: _asBigInt(json['max_tx_ex_mem']),
+      maxTxExSteps: _asBigInt(json['max_tx_ex_steps']),
+      maxBlockExMem: _asBigInt(json['max_block_ex_mem']),
+      maxBlockExSteps: _asBigInt(json['max_block_ex_steps']),
+      maxValSize: _asBigInt(json['max_val_size']),
+      collateralPercent: json['collateral_percent'],
+      maxCollateralInputs: json['max_collateral_inputs'],
+      coinsPerUtxoWord: _asBigInt(json['coins_per_utxo_word']),
+      pvtMotionNoConfidence: _asDouble(json['pvt_motion_no_confidence']),
+      pvtCommitteeNormal: _asDouble(json['pvt_committee_normal']),
+      pvtCommitteeNoConfidence: _asDouble(json['pvt_committee_no_confidence']),
+      pvtHardForkInitiation: _asDouble(json['pvt_hard_fork_initiation']),
+      dvtMotionNoConfidence: _asDouble(json['dvt_motion_no_confidence']),
+      dvtCommitteeNormal: _asDouble(json['dvt_committee_normal']),
+      dvtCommitteeNoConfidence: _asDouble(json['dvt_committee_no_confidence']),
+      dvtUpdateToConstitution: _asDouble(json['dvt_update_to_constitution']),
+      dvtHardForkInitiation: _asDouble(json['dvt_hard_fork_initiation']),
+      dvtPPNetworkGroup: _asDouble(json['dvt_p_p_network_group']),
+      dvtPPEconomicGroup: _asDouble(json['dvt_p_p_economic_group']),
+      dvtPPTechnicalGroup: _asDouble(json['dvt_p_p_technical_group']),
+      dvtPPGovGroup: _asDouble(json['dvt_p_p_gov_group']),
+      dvtTreasuryWithdrawal: _asDouble(json['dvt_treasury_withdrawal']),
+      pvtppSecurityGroup: _asDouble(json['pvtpp_security_group']),
+      pvtPPSecurityGroup: _asDouble(json['pvt_p_p_security_group']),
+      committeeMinSize: _asBigInt(json['committee_min_size']),
+      committeeMaxTermLength: _asBigInt(json['committee_max_term_length']),
+      govActionLifetime: _asBigInt(json['gov_action_lifetime']),
+      govActionDeposit: _asBigInt(json['gov_action_deposit']),
+      drepDeposit: _asBigInt(json['drep_deposit']),
+      drepActivity: _asBigInt(json['drep_activity']),
+      minFeeRefScriptCostPerByte: _asDouble(
+        json['min_fee_ref_script_cost_per_byte'],
+      ),
     );
   }
 
@@ -141,6 +281,40 @@ class ADAEpochParametersResponse {
     'nonce': nonce,
     'cost_models': costModels,
     'coins_per_utxo_size': coinsPerUtxoSize,
+    'cost_models_raw': costModelsRaw,
+    'price_mem': priceMem,
+    'price_step': priceStep,
+    'max_tx_ex_mem': maxTxExMem?.toString(),
+    'max_tx_ex_steps': maxTxExSteps?.toString(),
+    'max_block_ex_mem': maxBlockExMem?.toString(),
+    'max_block_ex_steps': maxBlockExSteps?.toString(),
+    'max_val_size': maxValSize?.toString(),
+    'collateral_percent': collateralPercent,
+    'max_collateral_inputs': maxCollateralInputs,
+    'coins_per_utxo_word': coinsPerUtxoWord?.toString(),
+    'pvt_motion_no_confidence': pvtMotionNoConfidence,
+    'pvt_committee_normal': pvtCommitteeNormal,
+    'pvt_committee_no_confidence': pvtCommitteeNoConfidence,
+    'pvt_hard_fork_initiation': pvtHardForkInitiation,
+    'dvt_motion_no_confidence': dvtMotionNoConfidence,
+    'dvt_committee_normal': dvtCommitteeNormal,
+    'dvt_committee_no_confidence': dvtCommitteeNoConfidence,
+    'dvt_update_to_constitution': dvtUpdateToConstitution,
+    'dvt_hard_fork_initiation': dvtHardForkInitiation,
+    'dvt_p_p_network_group': dvtPPNetworkGroup,
+    'dvt_p_p_economic_group': dvtPPEconomicGroup,
+    'dvt_p_p_technical_group': dvtPPTechnicalGroup,
+    'dvt_p_p_gov_group': dvtPPGovGroup,
+    'dvt_treasury_withdrawal': dvtTreasuryWithdrawal,
+    'pvtpp_security_group': pvtppSecurityGroup,
+    'pvt_p_p_security_group': pvtPPSecurityGroup,
+    'committee_min_size': committeeMinSize?.toString(),
+    'committee_max_term_length': committeeMaxTermLength?.toString(),
+    'gov_action_lifetime': govActionLifetime?.toString(),
+    'gov_action_deposit': govActionDeposit?.toString(),
+    'drep_deposit': drepDeposit?.toString(),
+    'drep_activity': drepActivity?.toString(),
+    'min_fee_ref_script_cost_per_byte': minFeeRefScriptCostPerByte,
   };
 
   @override

@@ -30,7 +30,7 @@ class BlockfrostRequestStakeDistributionByPool
   List<String> get pathParameters => [epoch.toString(), poolId];
 
   @override
-  List<ADAStakeDistributionResponse> onResonse(
+  List<ADAStakeDistributionResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

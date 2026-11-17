@@ -27,7 +27,7 @@ class SolanaRequestGetRecentPrioritizationFees
   }
 
   @override
-  List<RecentPrioritizationFees> onResonse(List result) {
+  List<RecentPrioritizationFees> onResponse(List result) {
     return result.map((e) => RecentPrioritizationFees.fromJson(e)).toList();
   }
 }

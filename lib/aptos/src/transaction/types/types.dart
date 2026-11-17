@@ -1,11 +1,12 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/account.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/helper/helper.dart';
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/aptos/src/transaction/utils/utils.dart';
+import 'package:on_chain/aptos/src/transaction/encrypted/encrypted.dart';
 import 'package:on_chain/serialization/bcs/move/types/types.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 
@@ -112,7 +113,8 @@ enum AptosTypeTags {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "cannot find correct TypeTag from the given name.",
                 details: {"name": name},
               ),
@@ -218,8 +220,9 @@ abstract class AptosTypeTag extends BcsVariantSerialization {
       AptosTypeTags.generic => AptosTypeTagGeneric.fromStruct(decode.value),
       AptosTypeTags.boolean => AptosTypeTagBoolean(),
       _ =>
-        throw DartAptosPluginException(
-          "Invalid type tag.",
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          "Invalid Aptos type tag.",
           details: {"type": type.name},
         ),
     };
@@ -308,8 +311,9 @@ class AptosTypeTagNumeric extends AptosTypeTag {
       case AptosTypeTags.u256:
         return MoveU256.parse(value);
       default:
-        throw DartAptosPluginException(
-          "Invalid numeric type tag.",
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          "Invalid Aptos numeric type tag.",
           details: {"type": type.name},
         );
     }
@@ -439,7 +443,8 @@ class AptosTypeTagReference extends AptosTypeTag {
     List<AptosTypeTag> genericTypeArgs = const [],
   }) {
     if (value is AptosEntryFunctionArguments) return value;
-    throw DartAptosPluginException(
+    throw BuError(
+      DefaultErrorType.unsupported,
       "Unsupported conversion: Cannot convert the provided value to an EntryFunctionArgument for reference type.",
     );
   }
@@ -492,7 +497,8 @@ class AptosTypeTagGeneric extends AptosTypeTag {
   }) {
     final typeArg = genericTypeArgs.elementAtOrNull(index);
     if (typeArg == null) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Missing generic type argument reference at index '$index'. ",
       );
     }
@@ -691,7 +697,8 @@ class AptosStructTag extends BcsSerialization {
         ),
       );
     }
-    throw DartAptosPluginException("Unsuported Struct tag.");
+
+    throw BuError(DefaultErrorType.unsupported, "Unsupported Struct tag.");
   }
 
   @override
@@ -767,7 +774,13 @@ enum AptosTransactionPayloads {
 
   /// A multisig transaction that allows an owner of a multisig account to execute a pre-approved
   /// transaction as the multisig account.
-  multisig(value: 3);
+  multisig(value: 3),
+
+  /// Versioned inner payload (e.g. orderless transactions, AIP-144 extra config).
+  payload(value: 4),
+
+  /// Encrypted payload (AIP-144 encrypted mempool).
+  encryptedPayload(value: 5);
 
   final int value;
   const AptosTransactionPayloads({required this.value});
@@ -776,7 +789,8 @@ enum AptosTransactionPayloads {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "cannot find correct transaction payload from the given name.",
                 details: {"name": name},
               ),
@@ -797,9 +811,14 @@ abstract class AptosTransactionPayload extends BcsVariantSerialization {
         AptosTransactionPayloadEntryFunction.fromStruct(decode.value),
       AptosTransactionPayloads.multisig =>
         AptosTransactionPayloadMultisig.fromStruct(decode.value),
+      AptosTransactionPayloads.payload =>
+        AptosTransactionPayloadInnerV1.fromStruct(decode.value),
+      AptosTransactionPayloads.encryptedPayload =>
+        AptosTransactionPayloadEncrypted.fromStruct(decode.value),
       _ =>
-        throw DartAptosPluginException(
-          "unsuported transaction payload.",
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Unsupported transaction payload.",
           details: {"type": type.name},
         ),
     };
@@ -821,6 +840,16 @@ abstract class AptosTransactionPayload extends BcsVariantSerialization {
         property: AptosTransactionPayloads.multisig.name,
         index: AptosTransactionPayloads.multisig.value,
       ),
+      LazyVariantModel(
+        layout: AptosTransactionPayloadInnerV1.layout,
+        property: AptosTransactionPayloads.payload.name,
+        index: AptosTransactionPayloads.payload.value,
+      ),
+      LazyVariantModel(
+        layout: AptosTransactionPayloadEncrypted.layout,
+        property: AptosTransactionPayloads.encryptedPayload.name,
+        index: AptosTransactionPayloads.encryptedPayload.value,
+      ),
     ], property: property);
   }
 
@@ -834,7 +863,7 @@ abstract class AptosTransactionPayload extends BcsVariantSerialization {
 }
 
 class AptosScript extends BcsSerialization {
-  final List<int> byteCode;
+  final BuBytes byteCode;
   final List<AptosTypeTag> typeArgs;
   final List<MoveArgument> arguments;
   AptosScript({
@@ -1091,7 +1120,8 @@ enum AptosMultisigTransactionPayloads {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "cannot find correct multisig transaction payload from the given name.",
                 details: {"name": name},
               ),
@@ -1346,7 +1376,7 @@ class AptosRawTransaction extends BcsSerialization {
     ], property: property);
   }
 
-  List<int> signingSerialize({
+  BuBytes signingSerialize({
     AptosAddress? feePayerAddress,
     List<AptosAddress>? secondarySignerAddresses,
   }) {
@@ -1542,7 +1572,8 @@ enum AptosTransactionAuthenticators {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "cannot find correct transaction authenticator from the given name.",
                 details: {"name": name},
               ),
@@ -1986,7 +2017,8 @@ enum AptosRawTransactionType {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartAptosPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "cannot find correct raw transaction from the given name.",
                 details: {"name": name},
               ),

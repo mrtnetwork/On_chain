@@ -1,9 +1,4 @@
-import 'package:blockchain_utils/bip/address/aptos_addr.dart';
-import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
-import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/signer/signer.dart';
-import 'package:blockchain_utils/utils/binary/utils.dart';
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/account/account.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
@@ -12,40 +7,50 @@ import 'package:on_chain/aptos/src/keypair/types/types.dart';
 class AptosED25519PrivateKey
     extends
         AptosBasePrivateKey<AptosED25519PublicKey, AptosEd25519AnySignature> {
-  final Ed25519PrivateKey _privateKey;
-  AptosED25519PrivateKey._(this._privateKey)
+  final ED25519PrivateKey privateKey;
+  AptosED25519PrivateKey(this.privateKey)
     : super(algorithm: AptosKeyAlgorithm.ed25519);
   factory AptosED25519PrivateKey.fromBytes(List<int> keyBytes) {
-    return AptosED25519PrivateKey._(Ed25519PrivateKey.fromBytes(keyBytes));
+    return AptosED25519PrivateKey(ED25519PrivateKey.fromBytes(keyBytes));
   }
-
-  @override
-  late final AptosED25519PublicKey publicKey = AptosED25519PublicKey._(
-    _privateKey.publicKey,
-  );
 
   @override
   AptosEd25519AnySignature sign(List<int> digest) {
-    final signer = Ed25519Signer.fromKeyBytes(toBytes());
-    return AptosEd25519AnySignature(signer.signConst(digest));
+    final signer = ED25519Signer(privateKey);
+    return AptosEd25519AnySignature(signer.sign(digest).encoded);
   }
 
   @override
-  List<int> toBytes() {
-    return _privateKey.raw;
+  SecretBytes toBytes() {
+    return privateKey.toBytes();
   }
 
   @override
   String toHex({bool lowerCase = true, String prefix = ''}) {
-    return _privateKey.toHex(lowerCase: lowerCase, prefix: prefix);
+    return privateKey.takeSecretKey().toHex(
+      lowerCase: lowerCase,
+      prefix: prefix,
+    );
   }
+
+  @override
+  void dispose() {
+    privateKey.dispose();
+  }
+
+  @override
+  AptosED25519PublicKey get publicKey =>
+      AptosED25519PublicKey(privateKey.publicKey);
+
+  @override
+  List<dynamic> get variables => [privateKey];
 }
 
-class AptosED25519PublicKey extends AptosCryptoPublicKey<Ed25519PublicKey> {
-  const AptosED25519PublicKey._(Ed25519PublicKey publicKey)
+class AptosED25519PublicKey extends AptosCryptoPublicKey<ED25519PublicKey> {
+  const AptosED25519PublicKey(ED25519PublicKey publicKey)
     : super(algorithm: AptosKeyAlgorithm.ed25519, publicKey: publicKey);
   factory AptosED25519PublicKey.fromBytes(List<int> keyBytes) {
-    return AptosED25519PublicKey._(Ed25519PublicKey.fromBytes(keyBytes));
+    return AptosED25519PublicKey(ED25519PublicKey.fromBytes(keyBytes));
   }
   factory AptosED25519PublicKey.fromStruct(Map<String, dynamic> json) {
     return AptosED25519PublicKey.fromBytes(json.valueAsBytes("key"));
@@ -68,30 +73,19 @@ class AptosED25519PublicKey extends AptosCryptoPublicKey<Ed25519PublicKey> {
   }
 
   @override
-  @override
-  List<int> publicKeyBytes() {
-    return publicKey.compressed.sublist(1);
+  BuBytes publicKeyBytes() {
+    return publicKey.toBytes();
   }
 
   @override
   String publicKeyHex({bool lowerCase = false}) {
-    return BytesUtils.toHexString(publicKeyBytes(), lowerCase: lowerCase);
+    return publicKeyBytes().toHex(lowerCase: lowerCase);
   }
-
-  @override
-  operator ==(other) {
-    if (identical(this, other)) return true;
-    if (other is! AptosED25519PublicKey) return false;
-    return publicKey == other.publicKey;
-  }
-
-  @override
-  int get hashCode => publicKey.hashCode;
 
   @override
   bool verify({required List<int> message, required List<int> signature}) {
-    final verifier = Ed25519Verifier.fromKeyBytes(publicKeyBytes());
-    return verifier.verify(message, signature);
+    final verifier = ED25519Verifier(publicKey);
+    return verifier.verify(message, ED25519Signature.fromBytes(signature));
   }
 
   @override
@@ -100,7 +94,7 @@ class AptosED25519PublicKey extends AptosCryptoPublicKey<Ed25519PublicKey> {
   }) {
     return switch (scheme) {
       AptosEd25519AddressScheme.ed25519 => AptosAddress(
-        AptosAddrEncoder().encodeKey(publicKey.compressed),
+        AptosAddrEncoder().encodeKey(publicKey.toBytes()),
       ),
       AptosEd25519AddressScheme.signleKey => AptosAddress(
         AptosAddrEncoder().encodeSingleKey(publicKey),

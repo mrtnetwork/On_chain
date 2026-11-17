@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/utils/json/json.dart';
-import 'package:blockchain_utils/utils/numbers/utils/int_utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
 
@@ -14,7 +13,7 @@ class AptosGraphQLRequestChainId
   @override
   Map<String, dynamic> get queryVariables => {};
   @override
-  int? onResonse(Map<String, dynamic> result) {
+  int? onResponse(Map<String, dynamic> result) {
     final ledgerInfo = result.valueAsList<List<Map<String, dynamic>>?>(
       "ledger_infos",
     );

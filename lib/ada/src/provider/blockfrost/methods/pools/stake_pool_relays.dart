@@ -23,7 +23,7 @@ class BlockfrostRequestStakePoolRelays
   List<String> get pathParameters => [poolId];
 
   @override
-  List<ADAStakePoolRelayInfoResponse> onResonse(
+  List<ADAStakePoolRelayInfoResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

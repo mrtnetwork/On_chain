@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/constant.dart';
@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/consta
 class MetaplexTokenEntanglerProgramInstruction
     implements ProgramLayoutInstruction {
   @override
-  final List<int> insturction;
+  final List<int> instruction;
   @override
   final String name;
-  const MetaplexTokenEntanglerProgramInstruction(this.insturction, this.name);
+  const MetaplexTokenEntanglerProgramInstruction(this.instruction, this.name);
   static const MetaplexTokenEntanglerProgramInstruction createEntangledPair =
       MetaplexTokenEntanglerProgramInstruction([
         166,
@@ -54,7 +54,7 @@ class MetaplexTokenEntanglerProgramInstruction
   ) {
     try {
       return values.firstWhere(
-        (element) => BytesUtils.bytesEqual(element.insturction, value),
+        (element) => BytesUtils.bytesEqual(element.instruction, value),
       );
     } catch (_) {
       return null;

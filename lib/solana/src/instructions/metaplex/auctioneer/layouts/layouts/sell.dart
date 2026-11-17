@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// auctioneer sell layout.
 class MetaplexAuctioneerSellLayout extends MetaplexAuctioneerProgramLayout {
@@ -35,7 +35,7 @@ class MetaplexAuctioneerSellLayout extends MetaplexAuctioneerProgramLayout {
     final decode = MetaplexAuctioneerProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexAuctioneerProgramInstruction.sell.insturction,
+      instruction: MetaplexAuctioneerProgramInstruction.sell.instruction,
     );
     return MetaplexAuctioneerSellLayout(
       tradeStateBump: decode['tradeStateBump'],

@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/ada/src/models/data_options/models/data_option_type.dart';
 import 'package:on_chain/ada/src/models/plutus/plutus_data/models/plutus_data.dart';
 import 'data_option.dart';
@@ -22,8 +22,9 @@ class DataOptionData extends DataOption {
     );
     final CborTagValue cborTag = cbor.objectAt<CborTagValue>(1);
     if (!BytesUtils.bytesEqual(cborTag.tags, _plutusDataOptionTag)) {
-      throw ADAPluginException(
-        'Invalid date option tag.',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid data option tag.',
         details: {
           'Tag': cborTag.tags.join(","),
           'expected': _plutusDataOptionTag.join(","),

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/associated_token_account/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Idempotent layout
@@ -14,7 +14,7 @@ class AssociatedTokenAccountProgramIdempotentLayout
       layout: _layout,
       bytes: data,
       instruction:
-          AssociatedTokenAccountProgramInstruction.idempotent.insturction,
+          AssociatedTokenAccountProgramInstruction.idempotent.instruction,
     );
     return const AssociatedTokenAccountProgramIdempotentLayout();
   }

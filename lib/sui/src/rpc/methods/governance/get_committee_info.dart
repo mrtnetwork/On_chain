@@ -18,7 +18,7 @@ class SuiRequestGetCommitteeInfo
   }
 
   @override
-  SuiApiCommitteeInfo onResonse(Map<String, dynamic> result) {
+  SuiApiCommitteeInfo onResponse(Map<String, dynamic> result) {
     return SuiApiCommitteeInfo.fromJson(result);
   }
 }

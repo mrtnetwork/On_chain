@@ -16,7 +16,7 @@ class SolanaRequestGetClusterNodes
   }
 
   @override
-  List<ContactInfo> onResonse(List result) {
+  List<ContactInfo> onResponse(List result) {
     return result.map((e) => ContactInfo.fromJson(e)).toList();
   }
 }

@@ -1,8 +1,9 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('TokenLendingProgram layout', () {
+import '../../../utils.dart';
+void tokenLendingLayoutTest() {
+  group('Solana/Token Lending Layout', () {
     _obligationLiquidity();
     _depositObligationCollateral();
     _depositReserveLiquidity();
@@ -18,6 +19,11 @@ void main() {
     _withdrawObligationCollateral();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(tokenLendingLayoutTest, "Layout");
+}
+
 
 void _obligationLiquidity() {
   test('obligationLiquidity', () {

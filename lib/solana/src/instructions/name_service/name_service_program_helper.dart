@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/name_service/name_service.dart';
 import 'package:on_chain/solana/src/models/transaction/instruction.dart';
@@ -51,7 +52,7 @@ class NameServiceProgramHelper {
         SolanaRPCNameRegistryAccount(account: parentName),
       );
       if (account == null) {
-        throw const SolanaPluginException('Account not found.');
+        throw const BuError(DefaultErrorType.notFound, 'Account not found.');
       }
       nameParentOwner = account.owner;
     }
@@ -106,7 +107,7 @@ class NameServiceProgramHelper {
         SolanaRPCNameRegistryAccount(account: nameAccountKey),
       );
       if (account == null) {
-        throw const SolanaPluginException('Account not found.');
+        throw const BuError(DefaultErrorType.notFound, 'Account not found.');
       }
       signer = account.owner;
     }
@@ -149,7 +150,7 @@ class NameServiceProgramHelper {
         SolanaRPCNameRegistryAccount(account: nameAccountKey),
       );
       if (account == null) {
-        throw const SolanaPluginException('Account not found.');
+        throw const BuError(DefaultErrorType.notFound, 'Account not found.');
       }
       currentNameOwner = account.owner;
     }
@@ -193,7 +194,7 @@ class NameServiceProgramHelper {
         SolanaRPCNameRegistryAccount(account: nameAccountKey),
       );
       if (account == null) {
-        throw const SolanaPluginException('Account not found.');
+        throw const BuError(DefaultErrorType.notFound, 'Account not found.');
       }
       nameOwner = account.owner;
     }
@@ -238,7 +239,7 @@ class NameServiceProgramHelper {
         SolanaRPCNameRegistryAccount(account: nameAccountKey),
       );
       if (account == null) {
-        throw const SolanaPluginException('Account not found.');
+        throw const BuError(DefaultErrorType.notFound, 'Account not found.');
       }
       nameOwner = account.owner;
     }

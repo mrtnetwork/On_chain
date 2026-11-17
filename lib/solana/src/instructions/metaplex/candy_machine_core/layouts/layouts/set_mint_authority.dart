@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineSetMintAuthorityLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -12,7 +12,7 @@ class MetaplexCandyMachineSetMintAuthorityLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexCandyMachineProgramInstruction.setMintAuthority.insturction,
+          MetaplexCandyMachineProgramInstruction.setMintAuthority.instruction,
     );
     return const MetaplexCandyMachineSetMintAuthorityLayout();
   }

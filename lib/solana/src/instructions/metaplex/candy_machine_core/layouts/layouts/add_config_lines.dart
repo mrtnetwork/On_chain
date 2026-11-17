@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/types/candy_machine_types/types/config_line.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexCandyMachineAddConfigLinesLayout
     extends MetaplexCandyMachineProgramLayout {
@@ -15,7 +15,7 @@ class MetaplexCandyMachineAddConfigLinesLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexCandyMachineProgramInstruction.addConfigLines.insturction,
+          MetaplexCandyMachineProgramInstruction.addConfigLines.instruction,
     );
     return MetaplexCandyMachineAddConfigLinesLayout(
       configLines:

@@ -1,13 +1,10 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 /// Class for encoding data using the Recursive Length Prefix (RLP) encoding scheme.
 class RLPEncoder {
   /// Encodes an integer value into its RLP representation.
   static List<int> _encodeArray(int value) {
-    final result = <int>[];
-    while (value != 0) {
-      result.insert(0, value & 0xff);
-      value >>= 8;
-    }
-    return result;
+    return IntUtils.toBytes(value).toList();
   }
 
   /// Recursive encoding of the given object using RLP.

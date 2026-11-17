@@ -1,6 +1,6 @@
 // Manages the layout structure for revoking SPL tokens.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Revokes the delegate's authority layout.
@@ -17,7 +17,7 @@ class SPLTokenRevokeLayout extends SPLTokenProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.revoke.insturction,
+      instruction: SPLTokenProgramInstruction.revoke.instruction,
     );
     return SPLTokenRevokeLayout();
   }

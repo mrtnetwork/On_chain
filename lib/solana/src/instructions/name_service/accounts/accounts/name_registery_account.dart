@@ -49,8 +49,8 @@ class NameRegistryAccount extends BorshLayoutSerializable {
   }
 
   @override
-  List<int> toBytes() {
-    return [...super.toBytes(), ...data];
+  BuBytes toBytes() {
+    return BuBytes.concat([super.toBytes(), data]);
   }
 
   @override

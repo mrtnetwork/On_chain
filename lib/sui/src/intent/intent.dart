@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
 import 'package:on_chain/sui/src/transaction/types/types.dart';
 
 class SuiIntentMessage extends BcsSerialization {
@@ -21,8 +21,9 @@ class SuiIntentMessage extends BcsSerialization {
         final decode = layout.deserialize(bytes);
         return (SuiIntentMessage.fromStruct(decode.value), decode.consumed);
       default:
-        throw DartSuiPluginException(
-          "Intent message does not supported.",
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Intent message is not supported.",
           details: {
             "scope": intent.scope.name,
             "version": intent.version.name,
@@ -47,8 +48,9 @@ class SuiIntentMessage extends BcsSerialization {
         ),
       ),
       _ =>
-        throw DartSuiPluginException(
-          "Intent message does not supported.",
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Intent message is not supported.",
           details: {
             "scope": intent.scope.name,
             "version": intent.version.name,
@@ -111,7 +113,7 @@ class SuiIntentMessage extends BcsSerialization {
 }
 
 class SuiPersonalMessage extends BcsSerialization {
-  final List<int> message;
+  final BuBytes message;
   SuiPersonalMessage({required List<int> message})
     : message = message.asImmutableBytes;
   factory SuiPersonalMessage.deserialize(List<int> bytes) {
@@ -257,8 +259,9 @@ class SuiIntentScope extends BcsVariantSerialization {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct scope from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct scope from the given name.",
                 details: {"name": name},
               ),
     );
@@ -312,8 +315,9 @@ class SuiIntentVersion extends BcsVariantSerialization {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct intent version from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct intent version from the given name.",
                 details: {"name": name},
               ),
     );
@@ -370,8 +374,9 @@ class SuiIntentApplicationId extends BcsVariantSerialization {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct application ID from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct application ID from the given name.",
                 details: {"name": name},
               ),
     );

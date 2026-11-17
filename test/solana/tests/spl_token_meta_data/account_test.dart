@@ -1,12 +1,18 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('spl token meta data', () {
+import '../../../utils.dart';
+void splTokenMetaDataAccountTest() {
+  group('Solana/SPL Token Metadata', () {
     _accountMetaData();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(splTokenMetaDataAccountTest, "Account");
+}
+
 
 void _accountMetaData() {
   test('SPLTokenMetaDataAccount', () {

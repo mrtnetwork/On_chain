@@ -1,7 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/bcs/move/move.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
 import 'package:on_chain/sui/src/transaction/types/types.dart';
 
 class SuiApiRequestPagination {
@@ -15,11 +15,12 @@ class SuiApiRequestPagination {
 
 abstract class SuiApiResponsePagination {
   final bool hasNextPage;
-  final String? nextCursor;
+
+  final dynamic nextCursor;
   const SuiApiResponsePagination({this.hasNextPage = false, this.nextCursor});
   SuiApiResponsePagination.fromJson(Map<String, dynamic> json)
     : hasNextPage = json.valueAs("hasNextPage"),
-      nextCursor = json.valueAs("nextCursor");
+      nextCursor = json["nextCursor"];
   Map<String, dynamic> toJson() {
     return {"hasNextPage": hasNextPage, "nextCursor": nextCursor};
   }
@@ -61,7 +62,7 @@ class SuiApiCoinResponse {
   Map<String, dynamic> toJson() {
     return {
       "balance": balance.toString(),
-      "coinObjectId": coinObjectId,
+      "coinObjectId": coinObjectId.address,
       "coinType": coinType,
       "digest": digest,
       "previousTransaction": previousTransaction,
@@ -75,11 +76,14 @@ class SuiApiBalanceResponse {
   final String coinType;
   final BigInt totalBalance;
   final Map<String, dynamic> lockedBalance;
+
+  final BigInt? fundsInAddressBalance;
   const SuiApiBalanceResponse({
     required this.coinObjectCount,
     required this.coinType,
     required this.totalBalance,
     required this.lockedBalance,
+    this.fundsInAddressBalance,
   });
   factory SuiApiBalanceResponse.fromJson(Map<String, dynamic> json) {
     return SuiApiBalanceResponse(
@@ -87,6 +91,7 @@ class SuiApiBalanceResponse {
       coinType: json["coinType"],
       totalBalance: json.valueAsBigInt('totalBalance'),
       lockedBalance: json.valueEnsureAsMap<String, dynamic>("lockedBalance"),
+      fundsInAddressBalance: json.valueAsBigInt("fundsInAddressBalance"),
     );
   }
   Map<String, dynamic> toJson() {
@@ -95,6 +100,7 @@ class SuiApiBalanceResponse {
       "coinType": coinType,
       "totalBalance": totalBalance.toString(),
       "lockedBalance": lockedBalance,
+      "fundsInAddressBalance": fundsInAddressBalance?.toString(),
     };
   }
 }
@@ -187,8 +193,9 @@ enum SuiApiDataType {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct DataType from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct DataType from the given name.",
                 details: {"name": name},
               ),
     );
@@ -208,7 +215,8 @@ abstract class SuiApiRawDataResponse {
   }
   T cast<T extends SuiApiRawDataResponse>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiRawDataResponse casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -233,7 +241,8 @@ class SuiApiMoveObject extends SuiApiRawDataResponse {
       bcsBytes: json.valueAs("bcsBytes"),
       hasPublicTransfer: json.valueAs("hasPublicTransfer"),
       type: json.valueAs("type"),
-      version: json.valueAs("version"),
+      // Nodes may return small numbers as JSON numbers, not strings.
+      version: json["version"].toString(),
     );
   }
 
@@ -350,7 +359,8 @@ abstract class SuiApiParsedData {
   }
   T cast<T extends SuiApiParsedData>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiParsedData casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -413,8 +423,9 @@ enum SuiApiObjectErrors {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct Error type from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct Error type from the given name.",
                 details: {"name": name},
               ),
     );
@@ -440,7 +451,8 @@ abstract class SuiApiObjectError {
   }
   T cast<T extends SuiApiObjectError>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiObjectError casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -570,15 +582,18 @@ enum SuiApiObjectOwnerType {
   objectOwner,
   shared,
   immutable,
-  consensusV2;
+  consensusV2,
+
+  consensusAddressOwner;
 
   static SuiApiObjectOwnerType fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct Object owner from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct Object owner from the given name.",
                 details: {"name": name},
               ),
     );
@@ -594,7 +609,10 @@ abstract class SuiApiObjectOwner {
     if (json is String) {
       type = SuiApiObjectOwnerType.fromName(json);
       if (type != SuiApiObjectOwnerType.immutable) {
-        throw DartSuiPluginException("Unsuported object owner types.");
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Unsupported object owner types.",
+        );
       }
       return SuiApiObjectOwnerImmutable();
     } else {
@@ -607,17 +625,24 @@ abstract class SuiApiObjectOwner {
           SuiApiObjectOwnerObjectOwner.fromJson(jsonMap),
         SuiApiObjectOwnerType.consensusV2 =>
           SuiApiObjectOwnerConsensusV2.fromJson(jsonMap),
+        SuiApiObjectOwnerType.consensusAddressOwner =>
+          SuiApiObjectOwnerConsensusAddressOwner.fromJson(jsonMap),
         SuiApiObjectOwnerType.shared => SuiApiObjectOwnerShared.fromJson(
           jsonMap,
         ),
-        _ => throw DartSuiPluginException("Invalid object owner type."),
+        _ =>
+          throw BuError(
+            DefaultErrorType.invalidArgument,
+            "Invalid object owner type.",
+          ),
       };
     }
   }
 
   T cast<T extends SuiApiObjectOwner>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiObjectOwner casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -738,6 +763,36 @@ class SuiApiObjectOwnerShared extends SuiApiObjectOwner {
   @override
   Map<String, dynamic> toJson() {
     return {"Shared": shared.toJson(), "type": type.name};
+  }
+}
+
+class SuiApiObjectOwnerConsensusAddressOwner extends SuiApiObjectOwner {
+  final String startVersion;
+  final SuiAddress owner;
+  const SuiApiObjectOwnerConsensusAddressOwner({
+    required this.startVersion,
+    required this.owner,
+  }) : super(type: SuiApiObjectOwnerType.consensusAddressOwner);
+  factory SuiApiObjectOwnerConsensusAddressOwner.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    final inner = json.valueEnsureAsMap<String, dynamic>(
+      "ConsensusAddressOwner",
+    );
+    return SuiApiObjectOwnerConsensusAddressOwner(
+      startVersion: inner["start_version"].toString(),
+      owner: SuiAddress(inner.valueAs("owner")),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "ConsensusAddressOwner": {
+        "start_version": startVersion,
+        "owner": owner.address,
+      },
+      "type": type.name,
+    };
   }
 }
 
@@ -881,6 +936,19 @@ class SuiApiDynamicFieldInfo {
       bcsName: json.valueAs("bcsName"),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "digest": digest,
+      "name": name.toJson(),
+      "objectId": objectId,
+      "objectType": objectType,
+      "type": type,
+      "version": version,
+      "bcsEncoding": bcsEncoding,
+      "bcsName": bcsName,
+    };
+  }
 }
 
 class SuiApiGetDynamicFieldsResponse extends SuiApiResponsePagination {
@@ -892,6 +960,11 @@ class SuiApiGetDynamicFieldsResponse extends SuiApiResponsePagination {
               .map((e) => SuiApiDynamicFieldInfo.fromJson(e))
               .toImutableList,
       super.fromJson();
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"data": data.map((e) => e.toJson()).toList(), ...super.toJson()};
+  }
 }
 
 abstract class SuiApiObjectDataFilter {
@@ -899,7 +972,8 @@ abstract class SuiApiObjectDataFilter {
   const SuiApiObjectDataFilter();
   T cast<T extends SuiApiObjectDataFilter>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiObjectDataFilter casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -1122,7 +1196,8 @@ abstract class SuiApiEventFilter {
   const SuiApiEventFilter();
   T cast<T extends SuiApiEventFilter>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiEventFilter casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -1288,6 +1363,11 @@ class SuiApiQueryEventsRepose extends SuiApiResponsePagination {
               .map((e) => SuiApiEvent.fromJson(e))
               .toImutableList,
       super.fromJson();
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"data": data.map((e) => e.toJson()).toList(), ...super.toJson()};
+  }
 }
 
 abstract class SuiApiTransactionFilter {
@@ -1295,7 +1375,8 @@ abstract class SuiApiTransactionFilter {
   const SuiApiTransactionFilter();
   T cast<T extends SuiApiTransactionFilter>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiTransactionFilter casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -1615,8 +1696,9 @@ enum SuiApiExecutionStatusType {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct SuiApiExecutionStatusType from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct SuiApiExecutionStatusType from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1767,8 +1849,9 @@ enum SuiApiObjectChanges {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct ObjectChange from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct ObjectChange from the given name.",
                 details: {"name": name},
               ),
     );
@@ -1796,7 +1879,8 @@ abstract class SuiApiObjectChange {
   }
   T cast<T extends SuiApiObjectChange>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiObjectChange casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -2063,8 +2147,9 @@ enum SuiApiCallArgs {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct CallArg from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct CallArg from the given name.",
                 details: {"name": name},
               ),
     );
@@ -2091,7 +2176,8 @@ abstract class SuiApiCallArg {
   }
   T cast<T extends SuiApiCallArg>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiCallArg casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -2207,11 +2293,14 @@ class SuiApiArgument {
   factory SuiApiArgument.fromJson(Object json) {
     if (json == "GasCoin") return SuiApiArgument();
     if (json is! Map<String, dynamic>) {
-      throw DartSuiPluginException("Invalid SuiApiArgument json data.");
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid SuiApiArgument json data.",
+      );
     }
     return SuiApiArgument(
       input: json.valueAs("Input"),
-      result: json.valueAs("TronResult"),
+      result: json.valueAs("Result"),
       nestedResult:
           json["NestedResult"] == null
               ? null
@@ -2219,7 +2308,7 @@ class SuiApiArgument {
     );
   }
   Map<String, dynamic> toJson() {
-    return {"Input": input, "TronResult": result, "NestedResult": nestedResult};
+    return {"Input": input, "Result": result, "NestedResult": nestedResult};
   }
 }
 
@@ -2299,8 +2388,9 @@ enum SuiApiTransactionCommands {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct Commands from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct Commands from the given name.",
                 details: {"name": name},
               ),
     );
@@ -2337,7 +2427,8 @@ abstract class SuiApiTransaction {
 
   T cast<T extends SuiApiTransaction>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiTransaction casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -2618,8 +2709,9 @@ enum SuiApiEndOfEpochTransactionKinds {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct EndOfEpochTransactionKind from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct EndOfEpochTransactionKind from the given name.",
                 details: {"name": name},
               ),
     );
@@ -2652,7 +2744,8 @@ abstract class SuiApiEndOfEpochTransactionKind {
   }
   T cast<T extends SuiApiEndOfEpochTransactionKind>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiEndOfEpochTransactionKind casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -2788,15 +2881,17 @@ enum SuiApiTransactionBlockKinds {
   randomNessStateUpdate,
   endOfEpochTransaction,
   consensusCommitPrologueV2,
-  consensusCommitPrologueV3;
+  consensusCommitPrologueV3,
+  consensusCommitPrologueV4;
 
   static SuiApiTransactionBlockKinds fromName(String? name) {
     return values.firstWhere(
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct TransactionBlockKind from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct TransactionBlockKind from the given name.",
                 details: {"name": name},
               ),
     );
@@ -2820,6 +2915,8 @@ abstract class SuiApiTransactionBlockKind {
         SuiApiTransactionBlockKindConsensusCommitPrologueV2.fromJson(json),
       SuiApiTransactionBlockKinds.consensusCommitPrologueV3 =>
         SuiApiTransactionBlockKindConsensusCommitPrologueV3.fromJson(json),
+      SuiApiTransactionBlockKinds.consensusCommitPrologueV4 =>
+        SuiApiTransactionBlockKindConsensusCommitPrologueV4.fromJson(json),
       SuiApiTransactionBlockKinds.programmableTransaction =>
         SuiApiTransactionBlockKindProgrammableTransaction.fromJson(json),
       SuiApiTransactionBlockKinds.authenticatorStateUpdate =>
@@ -2832,7 +2929,8 @@ abstract class SuiApiTransactionBlockKind {
   }
   T cast<T extends SuiApiTransactionBlockKind>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiTransactionBlockKind casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -2995,14 +3093,15 @@ class SuiApiTransactionBlockKindAuthenticatorStateUpdate
 
 class SuiApiTransactionBlockKindRandomNessStateUpdate
     extends SuiApiTransactionBlockKind {
-  final List<int> randomBytes;
+  final BuBytes randomBytes;
   final String epoch;
   final String randomNessRound;
-  const SuiApiTransactionBlockKindRandomNessStateUpdate({
-    required this.randomBytes,
+  SuiApiTransactionBlockKindRandomNessStateUpdate({
+    required List<int> randomBytes,
     required this.epoch,
     required this.randomNessRound,
-  }) : super(kind: SuiApiTransactionBlockKinds.randomNessStateUpdate);
+  }) : randomBytes = randomBytes.asImmutableBytes,
+       super(kind: SuiApiTransactionBlockKinds.randomNessStateUpdate);
   factory SuiApiTransactionBlockKindRandomNessStateUpdate.fromJson(
     Map<String, dynamic> json,
   ) {
@@ -3089,10 +3188,14 @@ class ConsensusDeterminedVersionAssignments {
   factory ConsensusDeterminedVersionAssignments.fromJson(
     Map<String, dynamic> json,
   ) {
-    return ConsensusDeterminedVersionAssignments(json["CancelledTransactions"]);
+    final value =
+        json['CancelledTransactionsV2'] ?? json['CancelledTransactions'];
+    return ConsensusDeterminedVersionAssignments(
+      value is List ? value : const [],
+    );
   }
   Map<String, dynamic> toJson() {
-    return {"CancelledTransactions": canceledTransactions};
+    return {'CancelledTransactionsV2': canceledTransactions};
   }
 }
 
@@ -3173,6 +3276,60 @@ class SuiApiTransactionBlockData {
   }
 }
 
+class SuiApiTransactionBlockKindConsensusCommitPrologueV4
+    extends SuiApiTransactionBlockKind {
+  final String commitTimestampMs;
+  final String consensusCommitDigest;
+  final ConsensusDeterminedVersionAssignments?
+  consensusDeterminedVersionAssignments;
+  final String epoch;
+  final String round;
+  final String? subDagIndex;
+  final String? additionalStateDigest;
+
+  const SuiApiTransactionBlockKindConsensusCommitPrologueV4({
+    required this.commitTimestampMs,
+    required this.consensusCommitDigest,
+    required this.consensusDeterminedVersionAssignments,
+    required this.subDagIndex,
+    required this.epoch,
+    required this.round,
+    required this.additionalStateDigest,
+  }) : super(kind: SuiApiTransactionBlockKinds.consensusCommitPrologueV4);
+  factory SuiApiTransactionBlockKindConsensusCommitPrologueV4.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return SuiApiTransactionBlockKindConsensusCommitPrologueV4(
+      commitTimestampMs: json.valueAs("commit_timestamp_ms"),
+      consensusCommitDigest: json.valueAs("consensus_commit_digest"),
+      epoch: json.valueAs("epoch"),
+      round: json.valueAs("round"),
+      consensusDeterminedVersionAssignments:
+          json["consensus_determined_version_assignments"] == null
+              ? null
+              : ConsensusDeterminedVersionAssignments.fromJson(
+                json.valueAs("consensus_determined_version_assignments"),
+              ),
+      subDagIndex: json["sub_dag_index"]?.toString(),
+      additionalStateDigest: json["additional_state_digest"]?.toString(),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "kind": kind.name,
+      "epoch": epoch,
+      "round": round,
+      "consensus_commit_digest": consensusCommitDigest,
+      "commit_timestamp_ms": commitTimestampMs,
+      "consensus_determined_version_assignments":
+          consensusDeterminedVersionAssignments?.toJson(),
+      "sub_dag_index": subDagIndex,
+      "additional_state_digest": additionalStateDigest,
+    };
+  }
+}
+
 class SuiApiTransactionBlock {
   final SuiApiTransactionBlockData data;
   final List<String> txSignatures;
@@ -3202,11 +3359,11 @@ class SuiApiTransactionBlockResponse {
   final List<String>? errors;
   final List<SuiApiEvent>? events;
   final List<SuiApiObjectChange>? objectChanges;
-  final List<int>? rawEffects;
+  final BuBytes? rawEffects;
   final String? rawTransaction;
   final String? timestampMs;
   final SuiApiTransactionBlock? transaction;
-  const SuiApiTransactionBlockResponse({
+  SuiApiTransactionBlockResponse({
     required this.balanceChanges,
     required this.checkpoint,
     required this.confirmedLocalExecution,
@@ -3215,11 +3372,11 @@ class SuiApiTransactionBlockResponse {
     required this.errors,
     required this.events,
     required this.objectChanges,
-    required this.rawEffects,
+    required List<int>? rawEffects,
     required this.rawTransaction,
     required this.timestampMs,
     required this.transaction,
-  });
+  }) : rawEffects = rawEffects?.asImmutableBytes;
   factory SuiApiTransactionBlockResponse.fromJson(Map<String, dynamic> json) {
     return SuiApiTransactionBlockResponse(
       balanceChanges:
@@ -3286,6 +3443,11 @@ class SuiApiPaginatedTransactionResponse extends SuiApiResponsePagination {
               .map((e) => SuiApiTransactionBlockResponse.fromJson(e))
               .toImutableList,
       super.fromJson();
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"data": data.map((e) => e.toJson()).toList(), ...super.toJson()};
+  }
 }
 
 class SuiApiResolveNameServiceNamesResponse extends SuiApiResponsePagination {
@@ -3294,6 +3456,11 @@ class SuiApiResolveNameServiceNamesResponse extends SuiApiResponsePagination {
   SuiApiResolveNameServiceNamesResponse.fromJson(super.json)
     : data = json.valueEnsureAsList<String>("data"),
       super.fromJson();
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"data": data, ...super.toJson()};
+  }
 }
 
 class SuiApiCommitteeInfo {
@@ -3419,8 +3586,9 @@ class SuiApiValidatorsApy {
 }
 
 class SuiApiECMHLiveObjectSetDigest {
-  final List<int> digest;
-  const SuiApiECMHLiveObjectSetDigest(this.digest);
+  final BuBytes digest;
+  SuiApiECMHLiveObjectSetDigest(List<int> digest)
+    : digest = digest.asImmutableBytes;
   factory SuiApiECMHLiveObjectSetDigest.fromJson(Map<String, dynamic> json) {
     return SuiApiECMHLiveObjectSetDigest((json["digest"] as List).cast());
   }
@@ -3568,12 +3736,15 @@ class SuiApiProtocolConfig {
   final String maxSupportedProtocolVersion;
   final String minSupportedProtocolVersion;
   final String protocolVersion;
+
+  final Map<String, dynamic> configs;
   const SuiApiProtocolConfig({
     required this.attributes,
     required this.featureFlags,
     required this.maxSupportedProtocolVersion,
     required this.minSupportedProtocolVersion,
     required this.protocolVersion,
+    this.configs = const {},
   });
 
   Map<String, dynamic> toJson() {
@@ -3583,6 +3754,7 @@ class SuiApiProtocolConfig {
       "maxSupportedProtocolVersion": maxSupportedProtocolVersion,
       "minSupportedProtocolVersion": minSupportedProtocolVersion,
       "protocolVersion": protocolVersion,
+      "configs": configs,
     };
   }
 
@@ -3593,6 +3765,7 @@ class SuiApiProtocolConfig {
       maxSupportedProtocolVersion: json.valueAs("maxSupportedProtocolVersion"),
       minSupportedProtocolVersion: json.valueAs("minSupportedProtocolVersion"),
       protocolVersion: json.valueAs("protocolVersion"),
+      configs: (json['configs'] as Map?)?.cast<String, dynamic>() ?? const {},
     );
   }
 }
@@ -3609,8 +3782,9 @@ enum SuiApiObjectReadStatus {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct ObjectReadStatus from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct ObjectReadStatus from the given name.",
                 details: {"name": name},
               ),
     );
@@ -3638,7 +3812,8 @@ abstract class SuiApiObjectRead {
   }
   T cast<T extends SuiApiObjectRead>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiObjectRead casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -3779,7 +3954,8 @@ abstract class SuiApiMoveFunctionArgType {
   Map<String, dynamic> toJson();
   T cast<T extends SuiApiMoveFunctionArgType>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiMoveFunctionArgType casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -3829,8 +4005,9 @@ enum SuiApiMoveNormalizedTypes {
       (e) => e.name.toLowerCase() == name?.toLowerCase(),
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find correct SuiApiMoveNormalizedType from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find correct SuiApiMoveNormalizedType from the given name.",
                 details: {"name": name},
               ),
     );
@@ -3859,7 +4036,8 @@ abstract class SuiApiMoveNormalizedType {
       SuiApiMoveNormalizedTypes.mutableReference =>
         SuiApiMoveNormalizedTypeMutableReference.fromJson(json),
       _ =>
-        throw DartSuiPluginException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           "Invalid SuiApiMoveNormalizedTypes.",
           details: {"type": type.name},
         ),
@@ -3868,7 +4046,8 @@ abstract class SuiApiMoveNormalizedType {
   Map<String, dynamic> toJson();
   T cast<T extends SuiApiMoveNormalizedType>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.castFailed,
         "SuiApiMoveNormalizedType casting failed.",
         details: {"expected": "$T", "type": "$runtimeType"},
       );
@@ -4424,18 +4603,19 @@ class SuiApiDevInspectResult {
   final SuiApiTransactionEffects effects;
   final String? error;
   final List<SuiApiEvent> events;
-  final List<int>? rawEffects;
-  final List<int>? rawTxnData;
+  final BuBytes? rawEffects;
+  final BuBytes? rawTxnData;
   final List<SuiApiExecutionResult>? results;
 
-  const SuiApiDevInspectResult({
+  SuiApiDevInspectResult({
     required this.effects,
     required this.error,
     required this.events,
-    required this.rawEffects,
-    required this.rawTxnData,
+    required List<int>? rawEffects,
+    required List<int>? rawTxnData,
     required this.results,
-  });
+  }) : rawEffects = rawEffects?.asImmutableBytes,
+       rawTxnData = rawTxnData?.asImmutableBytes;
   factory SuiApiDevInspectResult.fromJson(Map<String, dynamic> json) {
     return SuiApiDevInspectResult(
       effects: SuiApiTransactionEffects.fromJson(

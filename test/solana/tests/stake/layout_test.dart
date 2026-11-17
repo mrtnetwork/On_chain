@@ -2,8 +2,9 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('stake program layout', () {
+import '../../../utils.dart';
+void stakeLayoutTest() {
+  group('Solana/Stake Program Layout', () {
     _initialize();
     _delegate();
     _authorize();
@@ -15,6 +16,11 @@ void main() {
     _stakeAccount();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(stakeLayoutTest, "Layout");
+}
+
 
 void _initialize() {
   test('initialize', () {

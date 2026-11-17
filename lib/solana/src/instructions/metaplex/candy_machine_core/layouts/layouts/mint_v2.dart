@@ -14,7 +14,7 @@ class MetaplexCandyMachineMintV2Layout
     final decode = MetaplexCandyMachineProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexCandyMachineProgramInstruction.mintV2.insturction,
+      instruction: MetaplexCandyMachineProgramInstruction.mintV2.instruction,
     );
     return MetaplexCandyMachineMintV2Layout(
       mintArgs: (decode['mintArgs'] as List).cast(),

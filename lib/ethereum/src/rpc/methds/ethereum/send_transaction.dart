@@ -3,7 +3,7 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Creates new message call transaction or a contract creation, if the data field contains code, and signs it using the account specified in from.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sendTransaction)
-class EthereumRequestSendTransaction extends EthereumRequest<Object?, Object?> {
+class EthereumRequestSendTransaction extends EthereumRequest<String, String> {
   EthereumRequestSendTransaction({required this.transaction});
 
   /// eth_sendTransaction

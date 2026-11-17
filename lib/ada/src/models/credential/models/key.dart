@@ -15,7 +15,7 @@ class CredentialKey extends Credential {
 
   /// Deserializes a [CredentialKey] from CBOR bytes [cbor].
   factory CredentialKey.deserialize(CborBytesValue cbor) {
-    return CredentialKey(cbor.value);
+    return CredentialKey(cbor.value.asImmutableBytes);
   }
 
   /// Returns the type of this stake credential, which is [CredentialType.key].

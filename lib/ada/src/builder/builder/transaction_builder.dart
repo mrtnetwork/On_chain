@@ -1,25 +1,31 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ada/src/address/address.dart';
 import 'package:on_chain/ada/src/builder/builder/tranasction_builder_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/ada/src/models/models.dart';
 import 'package:on_chain/ada/src/provider/provider.dart';
+import 'package:on_chain/exception/onchain_error.dart';
 import 'certificate_builder.dart';
 import 'deposit.dart';
 import 'mint_builder.dart';
 
 typedef CbSignAda =
     List<ADABaseTransactionWitness> Function({
-      required List<int> digest,
+      required BuBytes digest,
       required ADAAddress address,
     });
 
 typedef CbSignAdaAsync =
     Future<List<ADABaseTransactionWitness>> Function({
-      required List<int> digest,
+      required BuBytes digest,
       required ADAAddress address,
     });
 
+@Deprecated(
+  'The transaction builder has been replaced by ADATransactionBuilderV2, '
+  'that calculates a consistent fee and change and that validates the '
+  'witnesses of the transaction.',
+)
 class ADATransactionBuilder {
   BigInt? _fee;
   BigInt? get fee => _fee;
@@ -88,7 +94,8 @@ class ADATransactionBuilder {
         (totalLovelace - (_outputs.sumOflovelace + (fee ?? BigInt.zero)));
     final asset = totalAssets - _outputs.multiAsset;
     if (lovelace.isNegative) {
-      throw ADAPluginException(
+      throw BuError(
+        OnChainErrorType.adaPlugin,
         'Insufficient input in transaction.',
         details: {
           'utxo lovelace': totalLovelace.toString(),
@@ -111,8 +118,9 @@ class ADATransactionBuilder {
 
   ADATransaction buildEstimateTx(CbSignAda onSignADA) {
     if (utxos.isEmpty || _outputs.isEmpty) {
-      throw const ADAPluginException(
-        'Utxos and outputs must not be not empty.',
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'UTxOs and outputs must not be empty.',
       );
     }
     final outs =
@@ -159,8 +167,9 @@ class ADATransactionBuilder {
 
   int estimateSize() {
     if (utxos.isEmpty || _outputs.isEmpty) {
-      throw const ADAPluginException(
-        'Utxos and outputs must not be not empty.',
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'UTxOs and outputs must not be empty.',
       );
     }
     final outs =
@@ -219,8 +228,9 @@ class ADATransactionBuilder {
 
   TransactionOutput? onChangeAddress(ADAAddress onChangeAddress) {
     if (_fee == null) {
-      throw const ADAPluginException(
-        'Please calculation the transaction fees befor using change address.',
+      throw const BuError(
+        DefaultErrorType.invalidAddress,
+        'Please calculate the transaction fees before using the change address.',
       );
     }
     final change = _changeOutput(onChangeAddress);
@@ -240,8 +250,9 @@ class ADATransactionBuilder {
 
   TransactionBody buildTxBody({AuxiliaryDataHash? auxHash}) {
     if (fee == null) {
-      throw const ADAPluginException(
-        'Cannot build transaction body before calculation fee.',
+      throw const BuError(
+        DefaultErrorType.invalidState,
+        'Cannot build transaction body before calculating the fee.',
       );
     }
     final mint = getMint();
@@ -263,7 +274,7 @@ class ADATransactionBuilder {
     _validateAmounts();
     final aux = auxiliaryData;
     final trBody = buildTxBody(auxHash: aux?.toHash());
-    final bodyHash = List<int>.unmodifiable(trBody.toHash().data);
+    final bodyHash = trBody.toHash().data.asImmutableBytes;
     final witnesses = <ADABaseTransactionWitness>[];
     final transactionSigners = signers;
 
@@ -290,7 +301,7 @@ class ADATransactionBuilder {
     _validateAmounts();
     final aux = auxiliaryData;
     final trBody = buildTxBody(auxHash: aux?.toHash());
-    final bodyHash = List<int>.unmodifiable(trBody.toHash().data);
+    final bodyHash = trBody.toHash().data.asImmutableBytes;
     final witnesses = <ADABaseTransactionWitness>[];
     final transactionSigners = signers;
 
@@ -327,7 +338,8 @@ class ADATransactionBuilder {
         depositAmouts;
     final asset = totalAssets - outputs.multiAsset;
     if (lovelace != BigInt.zero || asset != MultiAsset.empty) {
-      throw ADAPluginException(
+      throw BuError(
+        OnChainErrorType.adaPlugin,
         'The amount of inputs and outputs is not calculated correctly',
       );
     }

@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/instructions/name_service/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
@@ -28,12 +28,12 @@ class NameServiceCreateLayout extends NameServiceProgramLayout {
     Map<String, dynamic> decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: NameServiceProgramInstruction.create.insturction,
+      instruction: NameServiceProgramInstruction.create.instruction,
     );
     decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: NameServiceProgramInstruction.create.insturction,
+      instruction: NameServiceProgramInstruction.create.instruction,
     );
     return NameServiceCreateLayout(
       lamports: decode['lamports'],

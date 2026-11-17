@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/stake_pool/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Decrease active stake again from a validator layout.
@@ -28,7 +28,7 @@ class StakePoolDecreaseAdditionalValidatorStakeLayout
       instruction:
           StakePoolProgramInstruction
               .decreaseAdditionalValidatorStake
-              .insturction,
+              .instruction,
     );
     return StakePoolDecreaseAdditionalValidatorStakeLayout(
       ephemeralStakeSeed: decode['ephemeralStakeSeed'],

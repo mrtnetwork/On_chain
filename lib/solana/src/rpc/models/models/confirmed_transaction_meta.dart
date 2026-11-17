@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/utils/utils.dart';
-import 'package:on_chain/solana/src/models/lockup/accout_lookup_key.dart';
+import 'package:on_chain/solana/src/models/lockup/account_lookup_key.dart';
 
 import 'compiled_inner_instruction.dart';
 import 'token_balance.dart';

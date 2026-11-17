@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class CollectionDetailsV1 extends BorshLayoutSerializable {
@@ -7,7 +6,8 @@ class CollectionDetailsV1 extends BorshLayoutSerializable {
   const CollectionDetailsV1({required this.size});
   factory CollectionDetailsV1.fromJson(Map<String, dynamic> json) {
     if (json['kind'] != 0) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'invalid or unknown CollectionDetailsV1',
       );
     }

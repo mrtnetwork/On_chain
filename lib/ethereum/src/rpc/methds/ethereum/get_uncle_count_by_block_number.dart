@@ -20,7 +20,7 @@ class EthereumRequestGetUncleCountByBlockNumber
   }
 
   @override
-  int onResonse(result) {
+  int onResponse(result) {
     return EthereumRequest.onIntResponse(result);
   }
 

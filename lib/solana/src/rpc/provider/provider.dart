@@ -78,11 +78,11 @@ class SolanaProvider<SERVICE extends IServiceProvider>
     Duration? timeout,
   ]) async {
     final id = ++_id;
-    final params = request.buildRequest(id);
+    final params = await request.buildRequest(id);
     final response = await service.doRequest(params, timeout: timeout);
     final result = _findError(response: response, params: params);
     return ResultWithContext(
-      result: request.onResonse(
+      result: request.onResponse(
         _fetchRequest<RESULT, SERVICERESPONSE>(
           request: request,
           params: params,
@@ -105,7 +105,7 @@ class SolanaProvider<SERVICE extends IServiceProvider>
     Duration? timeout,
   ]) async {
     final id = ++_id;
-    final params = request.buildRequest(id);
+    final params = await request.buildRequest(id);
     final response = await service.doRequest(params, timeout: timeout);
     final result = _findError(response: response, params: params);
     return ResultWithContext(
@@ -132,7 +132,7 @@ class SolanaProvider<SERVICE extends IServiceProvider>
     IServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request, {
     Duration? timeout,
   }) async {
-    final params = request.buildRequest(_id++);
+    final params = await request.buildRequest(_id++);
     final response = await _requestDynamic<RESULT, SERVICERESPONSE>(
       request,
       params,
@@ -143,7 +143,7 @@ class SolanaProvider<SERVICE extends IServiceProvider>
       params: params,
       response: response,
     );
-    return request.onResonse(r);
+    return request.onResponse(r);
   }
 
   /// Sends a JSON-RPC request to the solana node and returns the result after
@@ -166,7 +166,7 @@ class SolanaProvider<SERVICE extends IServiceProvider>
     IServiceRequest<RESULT, SERVICERESPONSE, SolanaRequestDetails> request, {
     Duration? timeout,
   }) async {
-    final params = request.buildRequest(_id++);
+    final params = await request.buildRequest(_id++);
     final response = await _requestDynamic<RESULT, SERVICERESPONSE>(
       request,
       params,

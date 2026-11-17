@@ -1,20 +1,23 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
+import 'package:on_chain/sui/src/account/public_key/keys.dart';
 import 'package:on_chain/sui/src/intent/intent.dart';
 import 'package:on_chain/sui/src/keypair/constant/constant.dart';
 import 'package:on_chain/sui/src/keypair/core/core.dart';
+import 'package:on_chain/sui/src/keypair/types/types.dart';
 
 class SuiCryptoUtils {
-  /// generate sui personal message
-  static List<int> generatePersonalMessageDigest(List<int> message) {
+  /// Generate Sui personal message digest.
+  static BuBytes generatePersonalMessageDigest(List<int> message) {
     final intent = SuiIntentMessage.personalMessage(
       SuiPersonalMessage(message: message),
     );
     return QuickCrypto.blake2b256Hash(intent.toBcs());
   }
 
-  /// generate sui transaction digest for signing.
-  static List<int> generateTransactionDigest({
+  /// Generate Sui transaction digest for signing.
+  static BuBytes generateTransactionDigest({
     required List<int> txBytes,
     required bool hashDigest,
   }) {
@@ -39,6 +42,41 @@ class SuiCryptoUtils {
     return indexes;
   }
 
+  /// Verifies a transaction/personal-message intent digest against a
+  /// serialized envelope signature, dispatching on its scheme.
+  ///
+  /// Single-key and multisig envelopes verify fully locally. zkLogin and
+  /// passkey envelopes need their session keys — use
+  /// [SuiZkLoginSignature.verifyEphemeralSignature] / [SuiPasskeySignature.verify] with the
+  /// session public key instead.
+  static bool verifyTransactionSignature({
+    required List<int> digest,
+    required List<int> signature,
+  }) {
+    final envelope = SuiBaseSignature.deserialize(signature);
+    return switch (envelope) {
+      SuiEd25519Signature sig => SuiEd25519AccountPublicKey(
+        sig.publicKey,
+      ).verify(message: digest, signature: sig.signature.signature),
+      SuiSecp256k1Signature sig => SuiSecp256k1AccountPublicKey(
+        sig.publicKey,
+      ).verify(message: digest, signature: sig.signature.signature),
+      SuiSecp256r1Signature sig => SuiSecp256r1AccountPublicKey(
+        sig.publicKey,
+      ).verify(message: digest, signature: sig.signature.signature),
+      SuiMultisigSignature sig => sig.publicKey.verify(
+        message: digest,
+        signature: signature,
+      ),
+      _ =>
+        throw BuError(
+          OnChainErrorType.suiPlugin,
+          'Local verification needs the session key for this scheme.',
+          details: {'scheme': envelope.scheme.name},
+        ),
+    };
+  }
+
   /// Decodes a Sui Bech32 secret key into its corresponding private key.
   static (SuiKeyAlgorithm, List<int>) decodeSuiSecretKey(String secretKey) {
     try {
@@ -48,11 +86,12 @@ class SuiCryptoUtils {
       );
       final algorithm = SuiKeyAlgorithm.fromFlag(decode[0]);
       return (algorithm, decode.sublist(1).asImmutableBytes);
-    } on DartSuiPluginException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw DartSuiPluginException(
-        "Invalid sui bech32 secret key.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid Sui Bech32 secret key.",
         details: {"error": e.toString()},
       );
     }
@@ -64,19 +103,23 @@ class SuiCryptoUtils {
   /// the key scheme flag, and the secret key bytes.
   static String encodeSuiSecretKey(
     List<int> secretKey, {
-    EllipticCurveTypes? type,
+    CryptoKeyType? type,
     SuiKeyAlgorithm? keyScheme,
   }) {
     if (keyScheme == null && type == null) {
-      throw DartSuiPluginException(
-        "Key scheme or Elliptic curve type required for generate sui Bech32 secret key.",
+      throw BuError(
+        OnChainErrorType.suiPlugin,
+        "Key scheme or elliptic curve type required to generate Sui Bech32 secret key.",
       );
     }
-    keyScheme ??= SuiKeyAlgorithm.fromEllipticCurveType(type!);
+    final flag =
+        (keyScheme ??= SuiKeyAlgorithm.fromEllipticCurveType(type!)).flag;
     final key = IPrivateKey.fromBytes(secretKey, keyScheme.curveType);
-    return Bech32Encoder.encode(SuiKeypairConst.suiPrivateKeyPrefix, [
-      keyScheme.flag,
-      ...key.raw,
-    ]);
+    return key.takeSecretKey().useValue((k) {
+      return Bech32Encoder.encode(SuiKeypairConst.suiPrivateKeyPrefix, [
+        flag,
+        ...k,
+      ]);
+    }, zero: true);
   }
 }

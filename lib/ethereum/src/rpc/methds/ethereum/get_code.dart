@@ -23,9 +23,9 @@ class EthereumRequestGetCode extends EthereumRequest<String?, String?> {
   }
 
   @override
-  String? onResonse(result) {
+  String? onResponse(result) {
     if (result == '0x') return null;
-    return super.onResonse(result);
+    return super.onResponse(result);
   }
 
   @override

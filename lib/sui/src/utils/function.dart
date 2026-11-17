@@ -1,5 +1,6 @@
 import 'package:on_chain/sui/src/address/address/address.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/sui/src/transaction/types/types.dart';
 
 /// Utility class for parsing and handling sui type tag arguments
@@ -27,12 +28,14 @@ class SuiTypeTagUtils {
           final moduleName = _toIdentifier(data[1]);
           final functionName = _toIdentifier(data[2]);
           if (moduleName == null) {
-            throw DartSuiPluginException(
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               "Unable to parse struct tag: Invalid module name: '${data[1]}'",
             );
           }
           if (functionName == null) {
-            throw DartSuiPluginException(
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               "Unable to parse struct tag: Invalid function name: '${data[2]}'",
             );
           }
@@ -56,7 +59,8 @@ class SuiTypeTagUtils {
               genericParts.add(rawParts.substring(lastSplit).trim());
             }
             if (genericParts.isEmpty) {
-              throw DartSuiPluginException(
+              throw BuError(
+                DefaultErrorType.invalidLength,
                 "Invalid type arguments generic parts.",
                 details: {"parts": name.substring(typeName.length)},
               );
@@ -64,7 +68,8 @@ class SuiTypeTagUtils {
             try {
               typeArgs = genericParts.map((e) => parseTag(e)).toList();
             } catch (e) {
-              throw DartSuiPluginException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "Failed to parse type arguments from parts: $genericParts. "
                 "Error: ${e.toString()}",
               );
@@ -84,7 +89,8 @@ class SuiTypeTagUtils {
           final c = _extractFirstGeneric(name);
           return SuiTypeInputVector(parseTag(c!));
         }
-        throw DartSuiPluginException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           "Unknown type tag. Failed to parse the provided input: '$name'.",
         );
     }

@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/constant.dart';
@@ -28,7 +28,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -51,7 +52,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -77,7 +79,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -100,7 +103,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -126,7 +130,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -161,7 +166,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -184,7 +190,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -210,7 +217,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -233,7 +241,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -265,7 +274,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -301,7 +311,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -334,7 +345,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -364,7 +376,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -383,7 +396,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -409,7 +423,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -433,7 +448,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -456,7 +472,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -475,7 +492,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -498,7 +516,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -523,7 +542,8 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
     List<SolAddress> multiSigners = const [],
   }) {
     if (programId == SPLTokenProgramConst.tokenProgramId) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.unsupported,
         'Token program does not support extensions',
       );
     }
@@ -533,6 +553,293 @@ class SPLToken2022ExtensionsProgram extends TransactionInstruction {
         owner: authority,
         multiSigners: multiSigners,
       ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  static void _requireToken2022(SolAddress programId) {
+    if (programId == SPLTokenProgramConst.tokenProgramId) {
+      throw const BuError(
+        DefaultErrorType.unsupported,
+        'Token program does not support extensions',
+      );
+    }
+  }
+
+  /// Initialize confidential-transfer config on a mint (27, 0).
+  factory SPLToken2022ExtensionsProgram.confidentialInitializeMint({
+    required SolAddress mint,
+    required SPLToken2022ConfidentialInitializeMintLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: [mint.toWritable()],
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Update confidential-transfer mint config (27, 1).
+  factory SPLToken2022ExtensionsProgram.confidentialUpdateMint({
+    required SolAddress mint,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialUpdateMintLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [mint.toWritable()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Configure a token account for confidential transfers
+  /// (27, 2). Pass zero-knowledge proof / context-state accounts via
+  /// [proofAccounts] (proof ix offset 0 = context-state account).
+  /// Single-owner account order: token, mint, sysvar/context, authority.
+  factory SPLToken2022ExtensionsProgram.confidentialConfigureAccount({
+    required SolAddress token,
+    required SolAddress mint,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialConfigureAccountLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+    List<SolAddress> proofAccounts = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [
+          token.toWritable(),
+          mint.toReadOnly(),
+          ...proofAccounts.map((e) => e.toReadOnly()),
+        ],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Approve a configured account (27, 3).
+  /// Accounts: token, mint, authority.
+  factory SPLToken2022ExtensionsProgram.confidentialApproveAccount({
+    required SolAddress token,
+    required SolAddress mint,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialApproveAccountLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [token.toWritable(), mint.toReadOnly()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Empty a confidential balance for close (27, 4).
+  /// Single-owner account order: token, sysvar/context, authority.
+  factory SPLToken2022ExtensionsProgram.confidentialEmptyAccount({
+    required SolAddress token,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialEmptyAccountLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+    List<SolAddress> proofAccounts = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [token.toWritable(), ...proofAccounts.map((e) => e.toReadOnly())],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Deposit public balance into pending (27, 5).
+  /// Accounts: token, mint, authority.
+  factory SPLToken2022ExtensionsProgram.confidentialDeposit({
+    required SolAddress token,
+    required SolAddress mint,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialDepositLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [token.toWritable(), mint.toReadOnly()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Withdraw to public balance (27, 6).
+  /// Single-owner account order: token, mint, sysvar/context..., authority.
+  factory SPLToken2022ExtensionsProgram.confidentialWithdraw({
+    required SolAddress token,
+    required SolAddress mint,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialWithdrawLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+    List<SolAddress> proofAccounts = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [
+          token.toWritable(),
+          mint.toReadOnly(),
+          ...proofAccounts.map((e) => e.toReadOnly()),
+        ],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Confidential transfer (27, 7). Zero-knowledge proof /
+  /// context-state accounts go in [proofAccounts].
+  /// Single-owner account order: source, mint, dest, sysvar/context...,
+  /// authority.
+  factory SPLToken2022ExtensionsProgram.confidentialTransfer({
+    required SolAddress source,
+    required SolAddress mint,
+    required SolAddress destination,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialTransferLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+    List<SolAddress> proofAccounts = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [
+          source.toWritable(),
+          mint.toReadOnly(),
+          destination.toWritable(),
+          ...proofAccounts.map((e) => e.toReadOnly()),
+        ],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Apply pending balance (27, 8).
+  /// Accounts: token, authority.
+  factory SPLToken2022ExtensionsProgram.confidentialApplyPendingBalance({
+    required SolAddress token,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialApplyPendingBalanceLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [token.toWritable()],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Toggle confidential/non-confidential credits (27, 9-12).
+  factory SPLToken2022ExtensionsProgram.confidentialToggleCredits({
+    required SolAddress token,
+    required SolAddress owner,
+    required SPLToken2022ConfidentialToggleCreditsLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [token.toWritable()],
+        owner: owner,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Confidential transfer with fee withheld (27, 13).
+  /// Single-owner account order: source, mint, dest, sysvar/context...,
+  /// authority.
+  factory SPLToken2022ExtensionsProgram.confidentialTransferWithFee({
+    required SolAddress source,
+    required SolAddress mint,
+    required SolAddress destination,
+    required SolAddress authority,
+    required SPLToken2022ConfidentialTransferWithFeeLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> multiSigners = const [],
+    List<SolAddress> proofAccounts = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: SPLTokenUtils.buildKeys(
+        keys: [
+          source.toWritable(),
+          mint.toReadOnly(),
+          destination.toWritable(),
+          ...proofAccounts.map((e) => e.toReadOnly()),
+        ],
+        owner: authority,
+        multiSigners: multiSigners,
+      ),
+      programId: programId,
+      layout: layout,
+    );
+  }
+
+  /// Configure via ElGamal registry (27, 14).
+  factory SPLToken2022ExtensionsProgram.confidentialConfigureAccountWithRegistry({
+    required SolAddress token,
+    required SolAddress mint,
+    required SPLToken2022ConfidentialConfigureAccountWithRegistryLayout layout,
+    SolAddress programId = SPLTokenProgramConst.token2022ProgramId,
+    List<SolAddress> registryAccounts = const [],
+  }) {
+    _requireToken2022(programId);
+    return SPLToken2022ExtensionsProgram(
+      keys: [
+        token.toWritable(),
+        mint.toReadOnly(),
+        ...registryAccounts.map((e) => e.toReadOnly()),
+      ],
       programId: programId,
       layout: layout,
     );

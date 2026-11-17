@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// Emits the token-metadata as return data layout.
 class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
@@ -17,7 +17,7 @@ class SPLTokenMetaDataEmitLayout extends SPLTokenMetaDataProgramLayout {
     final decode = SPLTokenMetaDataProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instructionBytes: SPLTokenMetaDataProgramSplDiscriminate.emit.insturction,
+      instructionBytes: SPLTokenMetaDataProgramSplDiscriminate.emit.instruction,
     );
 
     return SPLTokenMetaDataEmitLayout(

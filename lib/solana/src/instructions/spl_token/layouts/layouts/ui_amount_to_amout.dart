@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -24,7 +24,7 @@ class SPLTokenUiAmountToAmountLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout(length),
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.uiAmountToAmount.insturction,
+      instruction: SPLTokenProgramInstruction.uiAmountToAmount.instruction,
     );
     return SPLTokenUiAmountToAmountLayout(
       amount: StringUtils.decode(decode['amount']),

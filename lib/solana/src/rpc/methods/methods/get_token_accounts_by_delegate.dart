@@ -52,7 +52,7 @@ class SolanaRequestGetTokenAccountsByDelegate
   }
 
   @override
-  List<TokenAccountResponse> onResonse(List result) {
+  List<TokenAccountResponse> onResponse(List result) {
     return result.map((e) => TokenAccountResponse.fromJson(e)).toList();
   }
 }

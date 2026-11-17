@@ -19,7 +19,7 @@ class BlockfrostRequestSpecificAddress
   List<String> get pathParameters => [address.bech32Address];
 
   @override
-  ADAAddressSummaryResponse onResonse(Map<String, dynamic> result) {
+  ADAAddressSummaryResponse onResponse(Map<String, dynamic> result) {
     return ADAAddressSummaryResponse.fromJson(result);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexNFTPacksActivateLayout extends MetaplexNFTPacksProgramLayout {
@@ -9,7 +9,7 @@ class MetaplexNFTPacksActivateLayout extends MetaplexNFTPacksProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexNFTPacksProgramInstruction.activate.insturction,
+      instruction: MetaplexNFTPacksProgramInstruction.activate.instruction,
     );
     return const MetaplexNFTPacksActivateLayout();
   }

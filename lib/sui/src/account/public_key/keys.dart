@@ -1,10 +1,11 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 import 'package:on_chain/sui/src/account/constant/constant.dart';
 import 'package:on_chain/sui/src/account/core/account.dart';
 import 'package:on_chain/sui/src/account/types/types.dart';
 import 'package:on_chain/sui/src/address/address.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/keypair/keypair.dart';
 
 /// Represents a Sui account public key using the Ed25519 signing scheme.
@@ -47,7 +48,7 @@ class SuiEd25519AccountPublicKey extends SuiAccountPublicKey {
   }
 
   @override
-  bool verifyPrsonalMessage({
+  bool verifyPersonalMessage({
     required List<int> message,
     required List<int> signature,
   }) {
@@ -60,10 +61,11 @@ class SuiEd25519AccountPublicKey extends SuiAccountPublicKey {
         message: digest,
         signature: ed25519Signature.signature.signature,
       );
-    } on DartSuiPluginException {
+    } on BuError {
       rethrow;
     } catch (_) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid signature. Deserialize signature failed.",
       );
     }
@@ -122,7 +124,7 @@ class SuiSecp256k1AccountPublicKey extends SuiAccountPublicKey {
   }
 
   @override
-  bool verifyPrsonalMessage({
+  bool verifyPersonalMessage({
     required List<int> message,
     required List<int> signature,
   }) {
@@ -135,10 +137,11 @@ class SuiSecp256k1AccountPublicKey extends SuiAccountPublicKey {
         message: digest,
         signature: ed25519Signature.signature.signature,
       );
-    } on DartSuiPluginException {
+    } on BuError {
       rethrow;
     } catch (_) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid signature. Deserialize signature failed.",
       );
     }
@@ -195,7 +198,7 @@ class SuiSecp256r1AccountPublicKey extends SuiAccountPublicKey {
   }
 
   @override
-  bool verifyPrsonalMessage({
+  bool verifyPersonalMessage({
     required List<int> message,
     required List<int> signature,
   }) {
@@ -208,10 +211,11 @@ class SuiSecp256r1AccountPublicKey extends SuiAccountPublicKey {
         message: digest,
         signature: ed25519Signature.signature.signature,
       );
-    } on DartSuiPluginException {
+    } on BuError {
       rethrow;
     } catch (_) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid signature. Deserialize signature failed.",
       );
     }
@@ -247,28 +251,35 @@ class SuiMultisigAccountPublicKey extends SuiAccountPublicKey {
     required int threshold,
   }) {
     if (publicKeys.isEmpty) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidAddress,
         "At least one public key is required for a multisig address.",
       );
     }
     final keys = publicKeys.map((e) => e.publicKey).toSet();
     if (keys.length != publicKeys.length) {
-      throw DartSuiPluginException("Duplicate public key detected.");
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Duplicate public key detected.",
+      );
     }
     if (keys.length > SuiAccountConst.multisigAccountMaxPublicKey) {
-      throw DartSuiPluginException(
+      throw BuError(
+        OnChainErrorType.suiPlugin,
         "Exceeded the maximum allowed public keys for a multisig account.",
       );
     }
     if (threshold < SuiAccountConst.multisigAccountMinThreshold ||
         threshold > SuiAccountConst.multisigAccountMaxThreshold) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid threshold. Must be between ${SuiAccountConst.multisigAccountMinThreshold} and ${SuiAccountConst.multisigAccountMaxThreshold}.",
       );
     }
     final sumWeight = publicKeys.fold<int>(0, (p, c) => p + c.weight);
     if (sumWeight < threshold) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidLength,
         "Sum of public key weights must meet or exceed the threshold.",
       );
     }
@@ -338,7 +349,7 @@ class SuiMultisigAccountPublicKey extends SuiAccountPublicKey {
   }
 
   @override
-  bool verifyPrsonalMessage({
+  bool verifyPersonalMessage({
     required List<int> message,
     required List<int> signature,
   }) {
@@ -367,10 +378,50 @@ class SuiMultisigAccountPublicKey extends SuiAccountPublicKey {
         }
       }
       return weight >= threshold;
-    } on DartSuiPluginException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid multisig signature: deserialize signature failed.",
+      );
+    }
+  }
+
+  /// Verifies a multisig envelope over an intent digest (transaction or
+  /// personal-message digest): same weight/threshold walk as
+  /// [verifyPersonalMessage] without re-hashing. Mirrors the single-key
+  /// [verify] contract (message is used as-is).
+  @override
+  bool verify({required List<int> message, required List<int> signature}) {
+    try {
+      final multisigSignature = SuiBaseSignature.deserialize(
+        signature,
+      ).cast<SuiMultisigSignature>(error: "Invalid signature scheme.");
+
+      // Check public key match
+      if (multisigSignature.publicKey != this) {
+        return false;
+      }
+      int weight = 0;
+      for (final i in multisigSignature.signatures) {
+        for (final publicKey in publicKeys) {
+          if (i.algorithm != publicKey.publicKey.algorithm) continue;
+          if (publicKey.publicKey.verify(
+            message: message,
+            signature: i.signature,
+          )) {
+            weight += publicKey.weight;
+            break;
+          }
+        }
+      }
+      return weight >= threshold;
+    } on BuError {
+      rethrow;
+    } catch (e) {
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid multisig signature: deserialize signature failed.",
       );
     }

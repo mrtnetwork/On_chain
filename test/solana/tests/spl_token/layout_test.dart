@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('spl token layout', () {
+import '../../../utils.dart';
+void splTokenLayoutTest() {
+  group('Solana/SPL Token Layout', () {
     _amountToUiAmount();
     _approve();
     _approveChecked();
@@ -31,6 +32,11 @@ void main() {
     _uiAmountToAmount();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(splTokenLayoutTest, "Layout");
+}
+
 
 void _amountToUiAmount() {
   test('amountToUiAmount', () {

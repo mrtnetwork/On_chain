@@ -1,0 +1,18 @@
+# On_chain test configuration.
+#
+# Backends (see test/test_backend.dart):
+#   BU_BACKEND=dart                                  # pure Dart, no build
+#   BU_BACKEND=ffi [BU_LIB_PATH=...] [BU_FFI_PROFILE=debug]
+#   BU_BACKEND=ffi BU_BUILD=ffi                      # cargo-build the .so if missing
+#   dart tool/build_backends.dart --ffi [--profile release]   # prebuild FFI
+#   dart tool/build_backends.dart --wasm [--force]            # rebuild test/wasm_assets
+#
+# Runners:
+#   dart test test/one_shot_test.dart                              # VM, FFI (default)
+#   BU_BACKEND=dart dart test test/one_shot_test.dart              # VM, pure Dart
+#   CHROME_EXECUTABLE=<wrapper with --no-sandbox> dart test -p chrome test/browser_wasm_test.dart
+
+# Browser suites get extra headroom (wasm init + slower execution).
+tags:
+  wasm:
+    timeout: 5x

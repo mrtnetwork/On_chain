@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 
 class ResultWithContext<T> {
@@ -81,7 +82,7 @@ class SolanaRequestDetails extends BaseServiceRequestParams {
     );
   }
 
-  /// The Ethereum method name for the request.
+  /// The Solana method name for the request.
   final String method;
 
   @override
@@ -101,7 +102,12 @@ class SolanaRequestDetails extends BaseServiceRequestParams {
 
   @override
   List<int>? encodeBody({ServiceProtocol protocol = ServiceProtocol.http}) {
-    assert(protocol.isHttp, "Unsupported protocol.");
+    if (!protocol.isHttp) {
+      throw const BuError(
+        DefaultErrorType.unsupported,
+        "Unsupported protocol.",
+      );
+    }
     return super.encodeBody(protocol: protocol);
   }
 

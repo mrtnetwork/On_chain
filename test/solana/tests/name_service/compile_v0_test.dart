@@ -1,9 +1,10 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('name service compile v0', () {
+import '../../../utils.dart';
+void nameServiceCompileV0Test() {
+  group('Solana/Name Service Compile V0', () {
     _create();
     _update();
     _transfer();
@@ -11,6 +12,11 @@ void main() {
     _realloc();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(nameServiceCompileV0Test, "Compile V0");
+}
+
 
 void _create() {
   test('create', () {

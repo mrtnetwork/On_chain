@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 class RedeemerTag with InternalCborSerialization {
@@ -26,14 +27,26 @@ class RedeemerTag with InternalCborSerialization {
   static RedeemerTag fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "RedeemerTag"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid RedeemerTag value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
   static RedeemerTag fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "RedeemerTag"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid RedeemerTag name.',
+                details: {'name': name},
+              ),
     );
   }
 

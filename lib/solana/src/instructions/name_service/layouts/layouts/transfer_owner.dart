@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/name_service/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -17,7 +17,7 @@ class NameServiceTransferLayout extends NameServiceProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: NameServiceProgramInstruction.transfer.insturction,
+      instruction: NameServiceProgramInstruction.transfer.instruction,
     );
     return NameServiceTransferLayout(newOwnerKey: decode['newOwnerKey']);
   }

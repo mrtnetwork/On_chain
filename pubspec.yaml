@@ -17,14 +17,27 @@ environment:
 
 
 dependencies:
-  blockchain_utils: ^7.1.0
-  # blockchain_utils:
-  #   path: ../blockchain_utils
-
+  # blockchain_utils: ^7.1.0
+  # NOTE: kept as a path dependency (not git) because the sibling
+  # onchain_proto package also depends on it via path; mixing git and
+  # path sources for the same package fails version solving. The Dart-only
+  # connector has no such constraint, so it comes from GitHub below.
+  blockchain_utils:
+    git:
+      url: https://github.com/mrtnetwork/blockchain_utils
 dev_dependencies:
   lints: ^6.0.0
   test: ^1.26.3
   flutter_lints: ^6.0.0
+  # grpc: ^5.1.0
+  # http: ^1.6.0
+  # protobuf: ^6.0.0
+  onchain_proto:
+    git:
+      url: https://github.com/mrtnetwork/onchain_proto
+  blockchain_utils_connector:
+    git:
+      url: https://github.com/mrtnetwork/blockchain_utils_connector
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/stake/constant.dart';
 
 class StakeProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const StakeProgramInstruction(this.insturction, this.name);
+  const StakeProgramInstruction(this.instruction, this.name);
   static const StakeProgramInstruction initialize = StakeProgramInstruction(
     0,
     'Initialize',
@@ -50,7 +50,7 @@ class StakeProgramInstruction implements ProgramLayoutInstruction {
   ];
   static StakeProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
+      return values.firstWhere((element) => element.instruction == value);
     } catch (_) {
       return null;
     }

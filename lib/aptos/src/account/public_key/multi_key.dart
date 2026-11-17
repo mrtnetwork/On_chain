@@ -4,7 +4,7 @@ import 'package:on_chain/aptos/src/account/constant/constants.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/keypair/core/keypair.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 
@@ -26,22 +26,28 @@ class AptosMultiKeyAccountPublicKey extends AptosAccountPublicKey {
   }) {
     final keys = publicKeys.toSet();
     if (keys.length != publicKeys.length) {
-      throw DartAptosPluginException("Duplicate public key detected.");
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Duplicate public key detected.",
+      );
     }
     if (requiredSignature < AptosAccountConst.mulitKeyMinRequiredSignature ||
         requiredSignature > AptosAccountConst.multiKeyMaxRequiredSignature) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid required signature. The required signature must be between ${AptosAccountConst.mulitKeyMinRequiredSignature} and ${AptosAccountConst.multiKeyMaxRequiredSignature}.",
       );
     }
     if (publicKeys.length < AptosAccountConst.mulitKeyMinRequiredSignature ||
         publicKeys.length > AptosAccountConst.multiKeyMaxKeys) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "The number of public keys provided is invalid. It must be between ${AptosAccountConst.mulitKeyMinRequiredSignature} and ${AptosAccountConst.multiKeyMaxKeys}.",
       );
     }
     if (publicKeys.length < requiredSignature) {
-      throw DartAptosPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "The number of public keys must be at least equal to the required signatures.",
       );
     }
@@ -114,8 +120,9 @@ class AptosMultiKeyAccountPublicKey extends AptosAccountPublicKey {
     try {
       anySignature = AptosMultiKeySignature.deserialize(signature);
     } catch (_) {
-      throw DartAptosPluginException(
-        "Invalid Aptos Multikey Signature. deserialize signature failed.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid Aptos Multikey signature. Failed to deserialize signature.",
       );
     }
     if (anySignature.signatures.isEmpty) return false;

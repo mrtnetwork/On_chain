@@ -1,0 +1,44 @@
+type Account = record {
+  owner      : principal;
+  subaccount : opt blob;
+};
+
+type MintArgs = record {
+  to              : Account;
+  amount          : nat;
+  created_at_time : nat64;
+  reason          : opt text;
+};
+
+type MintError = variant {
+  Unauthorized        : text;
+  InvalidAccount      : text;
+  InvalidAmount       : text;
+  TooOld;
+  CreatedInFuture     : record { ledger_time : nat64 };
+  Duplicate           : record { duplicate_of : nat };
+  GenericError        : record { error_code : nat; message : text };
+};
+
+type BurnArgs = record {
+  from            : Account;
+  amount          : nat;
+  created_at_time : nat64;
+  reason          : opt text;
+};
+
+type BurnError = variant {
+  Unauthorized        : text;
+  InvalidAccount      : text;
+  InvalidAmount       : text;
+  InsufficientBalance : record { balance : nat };
+  TooOld;
+  CreatedInFuture     : record { ledger_time : nat64 };
+  Duplicate           : record { duplicate_of : nat };
+  GenericError        : record { error_code : nat; message : text };
+};
+
+service : {
+  icrc152_mint : (MintArgs) -> (variant { Ok : nat; Err : MintError });
+  icrc152_burn : (BurnArgs) -> (variant { Ok : nat; Err : BurnError });
+};

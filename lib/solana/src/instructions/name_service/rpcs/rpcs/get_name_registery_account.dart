@@ -29,7 +29,7 @@ class SolanaRPCNameRegistryAccount
   }
 
   @override
-  NameRegistryAccount? onResonse(result) {
+  NameRegistryAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return NameRegistryAccount.fromBuffer(accountInfo.toBytesData());

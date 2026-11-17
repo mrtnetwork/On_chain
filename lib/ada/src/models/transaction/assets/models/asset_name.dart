@@ -1,6 +1,4 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents an asset name.
@@ -8,7 +6,7 @@ class AssetName
     with InternalCborSerialization
     implements Comparable<AssetName> {
   /// The byte data of the asset name.
-  final List<int> data;
+  final BuBytes data;
 
   /// Constructs an [AssetName] instance.
   AssetName(List<int> data) : data = data.asImmutableBytes;

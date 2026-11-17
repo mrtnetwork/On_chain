@@ -1,7 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
-import 'package:on_chain/ada/src/exception/exception.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents the type of a certificate.
@@ -150,7 +148,8 @@ class CertificateType with InternalCborSerialization {
   }) {
     final type = fromValue(cbor.value);
     if (validate != null && type != validate) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Certificate type.',
         details: {'expected': validate.toString(), 'Type': type.toString()},
       );
@@ -162,7 +161,13 @@ class CertificateType with InternalCborSerialization {
   static CertificateType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "CertificateType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid CertificateType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -170,7 +175,13 @@ class CertificateType with InternalCborSerialization {
   static CertificateType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "CertificateType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid CertificateType name.',
+                details: {'name': name},
+              ),
     );
   }
 

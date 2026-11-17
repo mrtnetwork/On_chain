@@ -23,7 +23,7 @@ class BlockfrostRequestAssetsOfaSpecificPolicy
   List<String> get pathParameters => [policyId];
 
   @override
-  List<ADAAssetsResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAAssetsResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAAssetsResponse.fromJson(e)).toList();
   }
 }

@@ -2,19 +2,27 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _plutusDataDetailedSerialization();
-  _constrPlutusDataHash();
-  _plutusData();
-  _witnessSetWithPlutus();
-  _plutusDataBasicJson();
-  _plutusDataDetailedSerialization();
-  _costModelViewEncoding();
-  _scriptHash();
-  _redeemer();
-  _plutusDataHash();
-  _plutusDataFromAddress();
+import '../utils.dart';
+void plutusTest() {
+  group('ADA/Plutus', () {
+    _plutusDataDetailedSerialization();
+    _constrPlutusDataHash();
+    _plutusData();
+    _witnessSetWithPlutus();
+    _plutusDataBasicJson();
+    _plutusDataDetailedSerialization();
+    _costModelViewEncoding();
+    _scriptHash();
+    _redeemer();
+    _plutusDataHash();
+    _plutusDataFromAddress();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(plutusTest, "Plutus");
+}
+
 
 void _constrPlutusDataHash() {
   test('ConstrPlutusData hash', () {

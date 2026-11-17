@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/core/relay.dart';
 import 'package:on_chain/ada/src/models/certificate/certificates/pool/relay/core/relay_type.dart';
 

@@ -29,7 +29,7 @@ class SolanaRPCGetReservationListV2Account
   }
 
   @override
-  ReservationListV2? onResonse(result) {
+  ReservationListV2? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return ReservationListV2.fromBuffer(accountInfo.toBytesData());

@@ -25,13 +25,13 @@ class SolanaRequestGetTransaction
   /// If the requested transaction is a higher version, an error will be returned.
   /// If this parameter is omitted, only legacy transactions will be returned,
   /// and any versioned transaction will prompt the error.
+  /// Pass 1 to read legacy, v0 and v1 transactions.
   final int? maxSupportedTransactionVersion;
 
   @override
   List<dynamic> toJson() {
     return [
       transactionSignature,
-      commitment?.toJson(),
       SolanaRequestUtils.createConfig([
         commitment?.toJson(),
         {'maxSupportedTransactionVersion': maxSupportedTransactionVersion},
@@ -41,7 +41,7 @@ class SolanaRequestGetTransaction
   }
 
   @override
-  VersionedTransactionResponse onResonse(Map<String, dynamic> result) {
+  VersionedTransactionResponse onResponse(Map<String, dynamic> result) {
     return VersionedTransactionResponse.fromJson(result);
   }
 }

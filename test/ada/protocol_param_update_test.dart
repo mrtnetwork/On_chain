@@ -1,7 +1,9 @@
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../utils.dart';
+void protocolParamUpdateTest() {
+  group('ADA/Protocol Parameter Update', () {
   test('protocol param update', () {
     final protocol = ProtocolParamUpdate(
       minfeeA: BigInt.from(1),
@@ -67,7 +69,13 @@ void main() {
     final decodeUpdate = Update.fromCborBytes(update.serialize());
     expect(update.serialize(), decodeUpdate.serialize());
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(protocolParamUpdateTest, "Protocol Param Update");
+}
+
 
 final costModel = CostModel(
   [

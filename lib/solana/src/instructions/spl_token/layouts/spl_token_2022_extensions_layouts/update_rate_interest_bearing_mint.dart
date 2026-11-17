@@ -1,6 +1,6 @@
 // Manages the layout structure for the SPL token approve checked operation.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Update the interest rate layout.
@@ -26,7 +26,7 @@ class SPLToken2022InterestBearingMintUpdateRateLayout
       layout: _layout,
       bytes: bytes,
       instruction:
-          SPLTokenProgramInstruction.interestBearingMintExtension.insturction,
+          SPLTokenProgramInstruction.interestBearingMintExtension.instruction,
     );
     return SPLToken2022InterestBearingMintUpdateRateLayout(
       rate: decode['rate'],

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/system/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Transfer system layout
@@ -11,7 +11,7 @@ class SystemTransferLayout extends SystemProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: SystemProgramInstruction.transfer.insturction,
+      instruction: SystemProgramInstruction.transfer.instruction,
     );
     return SystemTransferLayout(lamports: decode['lamports']);
   }

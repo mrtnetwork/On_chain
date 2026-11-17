@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/helper/helper.dart';
-import 'package:blockchain_utils/utils/binary/binary_operation.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 class COSEUtils {
   static List<int> fnv32aBytes(List<int> data) {
@@ -11,6 +10,6 @@ class COSEUtils {
       hash ^= byte;
       hash = (hash * fnvPrime) & BinaryOps.mask32;
     }
-    return hash.toU32BeBytes();
+    return IntUtils.toBytes(hash, length: 4);
   }
 }

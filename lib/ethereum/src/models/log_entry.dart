@@ -62,13 +62,13 @@ class LogEntry {
     return {
       "address": address,
       "blockHash": blockHash,
-      "blockNumber": "0x${blockNumber.toRadixString(16)}",
+      "blockNumber": blockNumber.toHexaDecimal,
       "data": data,
-      "logIndex": "0x${logIndex.toRadixString(16)}",
+      "logIndex": logIndex.toHexaDecimal,
       "removed": removed,
       "topics": topics,
       "transactionHash": transactionHash,
-      "transactionIndex": "0x${transactionIndex.toRadixString(16)}",
+      "transactionIndex": transactionIndex.toHexaDecimal,
     };
   }
 }

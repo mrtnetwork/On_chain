@@ -1,11 +1,12 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
+import '../../../../utils.dart';
 const _owner = SolAddress.unchecked(
   'HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf',
 );
-void main() {
-  group('metaData', () {
+void metaDataLayoutTest() {
+  group('Solana/Metadata Layout', () {
     _createMetadataAccountV3();
     _createV1();
     _approve();
@@ -17,6 +18,11 @@ void main() {
     _updateV2();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(metaDataLayoutTest, "Layout");
+}
+
 
 void _createMetadataAccountV3() {
   test('createMetadataAccountV3', () {

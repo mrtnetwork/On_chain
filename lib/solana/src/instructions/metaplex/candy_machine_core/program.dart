@@ -628,4 +628,30 @@ class MetaplexCandyMachineCoreProgram extends TransactionInstruction {
       layout: const MetaplexCandyMachineWrapLayout(),
     );
   }
+
+  factory MetaplexCandyMachineCoreProgram.withdrawCandyMachine({
+    required SolAddress candyMachine,
+    required SolAddress authority,
+    SolAddress programId =
+        MetaplexCandyMachineCoreProgramConst.candyMachineV3programId,
+  }) {
+    return MetaplexCandyMachineCoreProgram(
+      keys: [candyMachine.toWritable(), authority.toSigner()],
+      programId: programId,
+      layout: const MetaplexCandyMachineWithdrawCandyMachineLayout(),
+    );
+  }
+
+  factory MetaplexCandyMachineCoreProgram.withdrawCandyGuard({
+    required SolAddress candyGuard,
+    required SolAddress authority,
+    SolAddress programId =
+        MetaplexCandyMachineCoreProgramConst.candyGuardProgramId,
+  }) {
+    return MetaplexCandyMachineCoreProgram(
+      keys: [candyGuard.toWritable(), authority.toSignerAndWritable()],
+      programId: programId,
+      layout: const MetaplexCandyMachineWithdrawCandyGuardLayout(),
+    );
+  }
 }

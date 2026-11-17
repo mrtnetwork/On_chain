@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 
 typedef EthereumServiceResponse = BaseServiceResponse;
@@ -9,15 +10,6 @@ typedef EthereumServiceResponse = BaseServiceResponse;
 mixin EthereumServiceProvider
     implements
         IServiceProvider<EthereumRequestDetails, BaseGRPCServiceRequestParams> {
-  /// Example:
-  /// @override
-  /// Future<`EthereumServiceResponse> doRequest(EthereumRequestDetails params,
-  ///     {Duration? timeout}) async {
-  ///   final response = await client
-  ///      .post(params.toUri(url), headers: params.headers, body: params.body())
-  ///      .timeout(timeout ?? defaultTimeOut);
-  ///   return params.toResponse(response.bodyBytes, response.statusCode);
-  /// }
   @override
   Future<EthereumServiceResponse> doRequest(
     EthereumRequestDetails params, {
@@ -42,7 +34,10 @@ mixin EthereumServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -50,7 +45,10 @@ mixin EthereumServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -58,6 +56,9 @@ mixin EthereumServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 }

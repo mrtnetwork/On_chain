@@ -6,10 +6,10 @@ import 'package:on_chain/solana/src/instructions/associated_token_account/consta
 class AssociatedTokenAccountProgramInstruction
     implements ProgramLayoutInstruction {
   @override
-  final int? insturction;
+  final int? instruction;
   @override
   final String name;
-  const AssociatedTokenAccountProgramInstruction(this.insturction, this.name);
+  const AssociatedTokenAccountProgramInstruction(this.instruction, this.name);
   static const AssociatedTokenAccountProgramInstruction initialize =
       AssociatedTokenAccountProgramInstruction(null, 'Initialize');
   static const AssociatedTokenAccountProgramInstruction idempotent =
@@ -24,7 +24,7 @@ class AssociatedTokenAccountProgramInstruction
   static AssociatedTokenAccountProgramInstruction? getInstruction(
     dynamic value,
   ) {
-    return values.firstWhereNullable((element) => element.insturction == value);
+    return values.firstWhereNullable((element) => element.instruction == value);
   }
 
   @override

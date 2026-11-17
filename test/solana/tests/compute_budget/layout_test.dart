@@ -1,14 +1,20 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('ComputeBudget layout', () {
+import '../../../utils.dart';
+void computeBudgetLayoutTest() {
+  group('Solana/Compute Budget Layout', () {
     _requestHeap();
     _requestUnits();
     _unitLimit();
     _unitPrice();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(computeBudgetLayoutTest, "Layout");
+}
+
 
 void _requestHeap() {
   test('request heap frame', () {

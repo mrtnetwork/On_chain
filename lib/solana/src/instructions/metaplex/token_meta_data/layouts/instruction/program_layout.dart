@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/approve_collection_authority.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/approve_use_authority.dart';
@@ -42,6 +42,9 @@ import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layout
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/puff_metadata.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/remove_creator_verification.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/revoke_use_authority.dart';
+
+import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/revoke.dart';
+import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/revoke_collection_authority.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/set_and_verify_collection.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/set_and_verify_sized_collection_item.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/layouts/set_collection_size.dart';
@@ -233,6 +236,16 @@ abstract class MetaplexTokenMetaDataProgramLayout extends ProgramLayout {
         );
       case MetaplexTokenMetaDataProgramInstruction.revokeUseAuthority:
         return MetaplexTokenMetaDataRevokeUseAuthorityLayout.fromBuffer(data);
+
+      /// revoke decode was missing (layout + factory existed).
+      case MetaplexTokenMetaDataProgramInstruction.revoke:
+        return MetaplexTokenMetaDataRevokeLayout.fromBuffer(data);
+
+      /// revokeCollectionAuthority decode was missing.
+      case MetaplexTokenMetaDataProgramInstruction.revokeCollectionAuthority:
+        return MetaplexTokenMetaDataRevokeCollectionAuthorityLayout.fromBuffer(
+          data,
+        );
       case MetaplexTokenMetaDataProgramInstruction.setAndVerifyCollection:
         return MetaplexTokenMetaDataSetAndVerifyCollectionLayout.fromBuffer(
           data,

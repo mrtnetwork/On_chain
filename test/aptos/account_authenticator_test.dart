@@ -2,13 +2,21 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
-  _accountAuthenticatorMultiKey();
-  _accountAuthenticatorSingleKey();
-  _accountAuthenticatorMultiEd25519();
-  _noneAuthenticator();
-  _accountAuthenticatorEd25519();
+import '../utils.dart';
+void accountAuthenticatorTest() {
+  group('Aptos/Account Authenticator', () {
+    _accountAuthenticatorMultiKey();
+    _accountAuthenticatorSingleKey();
+    _accountAuthenticatorMultiEd25519();
+    _noneAuthenticator();
+    _accountAuthenticatorEd25519();
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(accountAuthenticatorTest, "Account Authenticator");
+}
+
 
 void _accountAuthenticatorMultiKey() {
   test("Account authenticator MultiKey serialization", () {

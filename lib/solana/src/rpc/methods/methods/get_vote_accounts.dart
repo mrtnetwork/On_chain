@@ -42,7 +42,7 @@ class SolanaRequestGetVoteAccounts
   }
 
   @override
-  VoteAccountStatus onResonse(Map<String, dynamic> result) {
+  VoteAccountStatus onResponse(Map<String, dynamic> result) {
     return VoteAccountStatus.fromJson(result);
   }
 }

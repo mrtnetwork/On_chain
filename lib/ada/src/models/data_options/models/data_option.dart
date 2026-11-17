@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_hash.dart';
 import 'package:on_chain/ada/src/models/data_options/models/data_option_type.dart';
@@ -34,7 +34,8 @@ abstract class DataOption with InternalCborSerialization {
       case TransactionDataOptionType.data:
         return DataOptionData.fromJson(json);
       default:
-        throw throw ADAPluginException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid TransactionDataOptionType.',
           details: {'name': type.name},
         );

@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/address_lockup_table/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -18,7 +18,7 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          AddressLookupTableProgramInstruction.extendLookupTable.insturction,
+          AddressLookupTableProgramInstruction.extendLookupTable.instruction,
     );
     return AddressExtendLookupTableLayout(
       addresses: (decode['addresses'] as List).cast<SolAddress>(),
@@ -28,7 +28,7 @@ class AddressExtendLookupTableLayout extends AddressLookupTableProgramLayout {
   // StructLayout layout definition.
   static StructLayout get _layout => LayoutConst.struct([
     LayoutConst.u32(property: 'instruction'),
-    LayoutConst.padding(LayoutConst.u64(), propery: 'paddingLength'),
+    LayoutConst.padding(LayoutConst.u64(), property: 'paddingLength'),
     LayoutConst.seq(
       SolanaLayoutUtils.publicKey('publicKey'),
       LayoutConst.rustVecOffset(),

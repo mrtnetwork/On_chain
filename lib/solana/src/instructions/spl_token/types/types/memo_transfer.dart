@@ -1,6 +1,7 @@
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
 
 class MemoTransferInstruction extends BorshLayoutSerializable {
   const MemoTransferInstruction._(this.name);
@@ -42,7 +43,8 @@ class MemoTransferInstruction extends BorshLayoutSerializable {
       (element) => element.name == value,
       orElse:
           () =>
-              throw SolanaPluginException(
+              throw BuError(
+                OnChainErrorType.solanaPlugin,
                 'No MemoTransferInstruction found matching the specified value',
                 details: {'value': value?.toString()},
               ),

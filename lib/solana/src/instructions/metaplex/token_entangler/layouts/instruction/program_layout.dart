@@ -1,7 +1,5 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/layouts/layouts/create_entangled_pair.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/layouts/layouts/swap.dart';
@@ -44,7 +42,8 @@ abstract class MetaplexTokenEntanglerProgramLayout extends ProgramLayout {
     final decode = layout.deserialize(bytes).value;
     final instcutionData = decode['instruction'];
     if (!BytesUtils.bytesEqual(instcutionData, instruction)) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'invalid instruction bytes',
         details: {
           'expected': BytesUtils.toHexString(instruction),

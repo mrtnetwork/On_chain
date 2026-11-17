@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/name_service/name_service.dart';
 import 'package:on_chain/solana/src/models/models.dart';
@@ -171,7 +172,7 @@ class NameServiceProgramTwitterHelper {
       SolanaRPCNameRegistryAccount(account: twitterHandleRegistryKey),
     );
     if (registry == null) {
-      throw const SolanaPluginException('Account not found.');
+      throw const BuError(DefaultErrorType.notFound, 'Account not found.');
     }
 
     return registry;
@@ -194,7 +195,7 @@ class NameServiceProgramTwitterHelper {
       SolanaRPCReverseTwitterRegistryAccount(account: reverseRegistryKey),
     );
     if (reverseRegistryState == null) {
-      throw const SolanaPluginException('Account not found.');
+      throw const BuError(DefaultErrorType.notFound, 'Account not found.');
     }
     return reverseRegistryState;
   }
@@ -229,7 +230,7 @@ class NameServiceProgramTwitterHelper {
         return ReverseTwitterRegistryAccount.fromAccountBytes(accountBytes);
       }
     }
-    throw const SolanaPluginException('Registry not found.');
+    throw const BuError(DefaultErrorType.notFound, 'Registry not found.');
   }
 
   /// Uses the RPC node filtering feature, execution speed may vary
@@ -255,7 +256,8 @@ class NameServiceProgramTwitterHelper {
       ),
     );
     if (filteredAccounts.length != 1) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.notFound,
         'Account not found or more than one registry found.',
       );
     }

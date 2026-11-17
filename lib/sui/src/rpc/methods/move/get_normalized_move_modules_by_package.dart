@@ -21,7 +21,7 @@ class SuiRequestGetNormalizedMoveModulesByPackage
   }
 
   @override
-  Map<String, SuiApiMoveNormalizedModule> onResonse(
+  Map<String, SuiApiMoveNormalizedModule> onResponse(
     Map<String, dynamic> result,
   ) {
     return result.map(

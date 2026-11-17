@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Any additional metadata about the token as key-value pairs. The program
@@ -11,7 +10,8 @@ class AdditionalMetadata extends BorshLayoutSerializable {
   factory AdditionalMetadata.fromJson(Map<String, dynamic> json) {
     final List<String> values = (json['values'] as List).cast();
     if (values.length != 2) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.invalidLength,
         'invalid AdditionalMetadata data length',
       );
     }

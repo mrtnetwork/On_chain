@@ -1,9 +1,7 @@
-import 'package:blockchain_utils/layout/layout.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
-import 'package:on_chain/solana/src/exception/exception.dart';
-// import 'package:on_chain/solana/src/instructions/associated_token_account/constant.dart';
+
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 
 /// Abstract class for Borsh serializable programs.
@@ -23,17 +21,11 @@ abstract class ProgramLayout extends BorshLayoutSerializable {
 
   /// Converts the program to bytes using Borsh serialization.
   @override
-  List<int> toBytes() {
+  BuBytes toBytes() {
     return layout.serialize({
-      'instruction': instruction.insturction,
+      'instruction': instruction.instruction,
       ...serialize(),
     });
-  }
-
-  /// Converts the program to a hexadecimal string.
-  @override
-  String toHex() {
-    return BytesUtils.toHexString(toBytes());
   }
 
   /// Decodes and validates Borsh serialized bytes.
@@ -51,8 +43,9 @@ abstract class ProgramLayout extends BorshLayoutSerializable {
     final decode = layout.deserialize(bytes).value;
     if (instruction != null) {
       if (decode['instruction'] != instruction) {
-        throw SolanaPluginException(
-          'invalid instruction index',
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid instruction index.',
           details: {
             'expected': instruction.toString(),
             'instruction': decode['instruction'],
@@ -62,8 +55,9 @@ abstract class ProgramLayout extends BorshLayoutSerializable {
     }
     if (discriminator != null) {
       if (decode['discriminator'] != discriminator) {
-        throw SolanaPluginException(
-          'invalid discriminator',
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid discriminator.',
           details: {
             'expected': discriminator.toString(),
             'instruction': decode['discriminator'],

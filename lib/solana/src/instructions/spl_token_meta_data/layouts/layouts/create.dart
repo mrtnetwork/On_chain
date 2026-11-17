@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 /// Initializes a TLV layout.
 class SPLTokenMetaDataInitializeLayout extends SPLTokenMetaDataProgramLayout {
@@ -31,7 +31,7 @@ class SPLTokenMetaDataInitializeLayout extends SPLTokenMetaDataProgramLayout {
           layout: staticLayout,
           bytes: data,
           instructionBytes:
-              SPLTokenMetaDataProgramSplDiscriminate.initialize.insturction,
+              SPLTokenMetaDataProgramSplDiscriminate.initialize.instruction,
         );
     return SPLTokenMetaDataInitializeLayout(
       name: decode['name'],

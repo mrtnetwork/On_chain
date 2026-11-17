@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHouseCancelRemainingAccountsLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -15,7 +15,7 @@ class MetaplexAuctionHouseCancelRemainingAccountsLayout
       instruction:
           MetaplexAuctionHouseProgramInstruction
               .cancelRemainingAccounts
-              .insturction,
+              .instruction,
     );
     return const MetaplexAuctionHouseCancelRemainingAccountsLayout();
   }

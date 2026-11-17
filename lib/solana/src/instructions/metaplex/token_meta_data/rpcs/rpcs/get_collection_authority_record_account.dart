@@ -29,7 +29,7 @@ class SolanaRPCGetCollectionAuthorityRecordAccount
   }
 
   @override
-  CollectionAuthorityRecord? onResonse(result) {
+  CollectionAuthorityRecord? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return CollectionAuthorityRecord.fromBuffer(accountInfo.toBytesData());

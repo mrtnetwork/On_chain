@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/compute_budget/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// StructLayout for the ComputeBudgetSetComputeUnitLimit instruction.
@@ -17,7 +17,7 @@ class ComputeBudgetSetComputeUnitLimitLayout
       layout: _layout,
       bytes: data,
       instruction:
-          ComputeBudgetProgramInstruction.setComputeUnitLimit.insturction,
+          ComputeBudgetProgramInstruction.setComputeUnitLimit.instruction,
     );
     return ComputeBudgetSetComputeUnitLimitLayout(units: decode['units']);
   }

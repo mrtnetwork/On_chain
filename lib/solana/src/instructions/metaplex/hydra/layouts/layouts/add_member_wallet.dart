@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/hydra/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexHydraAddMemberWalletLayout extends MetaplexHydraProgramLayout {
   final BigInt shares;
@@ -10,7 +10,7 @@ class MetaplexHydraAddMemberWalletLayout extends MetaplexHydraProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexHydraProgramInstruction.processAddMemberWallet.insturction,
+          MetaplexHydraProgramInstruction.processAddMemberWallet.instruction,
     );
     return MetaplexHydraAddMemberWalletLayout(shares: decode['shares']);
   }

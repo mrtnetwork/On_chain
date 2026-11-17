@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/sui/src/address/address/address.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
+
 import 'package:on_chain/sui/src/keypair/constant/constant.dart';
 import 'package:on_chain/sui/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/sui/src/keypair/keys/secp256k1.dart';
@@ -31,8 +31,9 @@ enum SuiKeyAlgorithm implements SuiAuthenticationKeyScheme {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find Key Algorithm from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find Key Algorithm from the given name.",
                 details: {"name": name},
               ),
     );
@@ -43,32 +44,34 @@ enum SuiKeyAlgorithm implements SuiAuthenticationKeyScheme {
       (e) => e.flag == flag,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find Key Algorithm from the given flag.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find Key Algorithm from the given flag.",
                 details: {"flag": flag.toString()},
               ),
     );
   }
 
-  static SuiKeyAlgorithm fromEllipticCurveType(EllipticCurveTypes type) {
+  static SuiKeyAlgorithm fromEllipticCurveType(CryptoKeyType type) {
     return switch (type) {
-      EllipticCurveTypes.ed25519 => SuiKeyAlgorithm.ed25519,
-      EllipticCurveTypes.secp256k1 => SuiKeyAlgorithm.secp256k1,
-      EllipticCurveTypes.nist256p1 ||
-      EllipticCurveTypes.nist256p1Hybrid => SuiKeyAlgorithm.secp256r1,
+      CryptoKeyType.ed25519 => SuiKeyAlgorithm.ed25519,
+      CryptoKeyType.secp256k1 => SuiKeyAlgorithm.secp256k1,
+      CryptoKeyType.nist256p1 ||
+      CryptoKeyType.nist256p1Hybrid => SuiKeyAlgorithm.secp256r1,
       _ =>
-        throw DartSuiPluginException(
-          "Unsuported Elliptic curve type.",
+        throw BuError(
+          DefaultErrorType.unsupported,
+          "Unsupported Elliptic curve type.",
           details: {"algorithm": type.name},
         ),
     };
   }
 
-  EllipticCurveTypes get curveType {
+  CryptoKeyType get curveType {
     return switch (this) {
-      SuiKeyAlgorithm.ed25519 => EllipticCurveTypes.ed25519,
-      SuiKeyAlgorithm.secp256k1 => EllipticCurveTypes.secp256k1,
-      SuiKeyAlgorithm.secp256r1 => EllipticCurveTypes.nist256p1,
+      SuiKeyAlgorithm.ed25519 => CryptoKeyType.ed25519,
+      SuiKeyAlgorithm.secp256k1 => CryptoKeyType.secp256k1,
+      SuiKeyAlgorithm.secp256r1 => CryptoKeyType.nist256p1,
     };
   }
 }
@@ -90,15 +93,17 @@ enum SuiSigningScheme implements SuiAuthenticationKeyScheme {
       (e) => e.name == name,
       orElse:
           () =>
-              throw DartSuiPluginException(
-                "cannot find Signature scheme from the given name.",
+              throw BuError(
+                DefaultErrorType.notFound,
+                "Cannot find Signature scheme from the given name.",
                 details: {"name": name},
               ),
     );
   }
 }
 
-abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey> {
+abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey>
+    with Equality, SecretState {
   final SuiKeyAlgorithm algorithm;
   const SuiBasePrivateKey({required this.algorithm});
 
@@ -120,18 +125,19 @@ abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey> {
             ),
           }
           as SuiBasePrivateKey<PUBLICKEY>;
-    } on DartSuiPluginException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw DartSuiPluginException(
-        "Invalid sui secret key.",
+      throw BuError(
+        DefaultErrorType.badPrivateKey,
+        "Invalid Sui secret key.",
         details: {"error": e.toString()},
       );
     }
   }
 
   /// private key bytes
-  List<int> toBytes();
+  SecretBytes toBytes();
 
   /// private key hex bytes.
   String toHex({bool lowerCase = true});
@@ -147,21 +153,29 @@ abstract class SuiBasePrivateKey<PUBLICKEY extends SuiCryptoPublicKey> {
   /// The encoded format includes the `suiprivkey` HRP,
   /// the key scheme flag, and the secret key bytes.
   String toSuiPrivateKey() {
-    return Bech32Encoder.encode(SuiKeypairConst.suiPrivateKeyPrefix, [
-      algorithm.flag,
-      ...toBytes(),
-    ]);
+    return toBytes().useValue(
+      (k) => Bech32Encoder.encode(SuiKeypairConst.suiPrivateKeyPrefix, [
+        algorithm.flag,
+        ...k,
+      ]),
+      zero: true,
+    );
   }
+
+  @override
+  List<dynamic> get variables => [publicKey];
 }
 
 abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
-    extends BcsVariantSerialization {
+    extends BcsVariantSerialization
+    with Equality {
   final SuiKeyAlgorithm algorithm;
   final PUBLICKEY publicKey;
 
   T cast<T extends SuiCryptoPublicKey>() {
     if (this is! T) {
-      throw DartSuiPluginException(
+      throw BuError(
+        DefaultErrorType.badPublicKey,
         "Invalid public key.",
         details: {"expected": "$T", "type": algorithm.name},
       );
@@ -196,7 +210,7 @@ abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
   SuiAddress toAddress();
 
   /// public key bytes
-  List<int> toBytes();
+  BuBytes toBytes();
 
   /// public key as hex
   String toHex();
@@ -245,4 +259,7 @@ abstract class SuiCryptoPublicKey<PUBLICKEY extends IPublicKey>
 
   @override
   String get variantName => algorithm.name;
+
+  @override
+  List<dynamic> get variables => [publicKey];
 }

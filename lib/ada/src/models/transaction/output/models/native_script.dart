@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/native_script/models/native_script.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/script_ref.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/script_ref_type.dart';

@@ -1,47 +1,44 @@
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ethereum/src/exception/exception.dart';
 
-/// Class representing an Ethereum public key, providing methods for conversion, verification, and address generation.
+/// Represents an Ethereum public key for verification and address generation.
 class ETHPublicKey {
-  /// Private constructor for creating an instance of [ETHPublicKey] with a given public key.
-  ETHPublicKey._(this._publicKey);
+  /// Creates an instance with the given [publicKey].
+  ETHPublicKey(this.publicKey);
 
   /// The underlying ECDSA public key.
-  final Secp256k1PublicKey _publicKey;
+  final Secp256k1PublicKey publicKey;
 
-  /// Creates an [ETHPublicKey] instance from a list of bytes representing the public key.
+  /// Creates an instance from public key bytes.
   factory ETHPublicKey.fromBytes(List<int> keyBytes) {
     try {
       final pubKey = Secp256k1PublicKey.fromBytes(keyBytes);
-      return ETHPublicKey._(pubKey);
+      return ETHPublicKey(pubKey);
     } catch (e) {
-      throw ETHPluginException(
-        'invalid public key',
+      throw BuError(
+        DefaultErrorType.badPublicKey,
+        'Invalid public key.',
         details: {'input': BytesUtils.toHexString(keyBytes)},
       );
     }
   }
 
-  /// Creates an [ETHPublicKey] instance from a hexadecimal public key string.
-  factory ETHPublicKey(String pubHex) {
+  /// Creates an instance from a hex public key string.
+  factory ETHPublicKey.fromHex(String pubHex) {
     return ETHPublicKey.fromBytes(BytesUtils.fromHexString(pubHex));
   }
 
-  /// Retrieves the raw bytes of the public key.
-  List<int> toBytes([PubKeyModes mode = PubKeyModes.compressed]) {
-    if (mode == PubKeyModes.uncompressed) {
-      return _publicKey.uncompressed;
-    }
-    return _publicKey.compressed;
+  /// Returns the public key bytes in the given [mode].
+  BuBytes toBytes([CryptoKeyEncoding mode = CryptoKeyEncoding.base]) {
+    return publicKey.toBytes(mode: mode);
   }
 
-  /// Converts the public key to a hexadecimal string.
-  String toHex([PubKeyModes mode = PubKeyModes.compressed]) {
-    return BytesUtils.toHexString(toBytes(mode));
+  /// Returns the public key as a hex string.
+  String toHex([CryptoKeyEncoding mode = CryptoKeyEncoding.base]) {
+    return toBytes(mode).toHex();
   }
 
-  /// Converts the public key to an Ethereum address.
+  /// Derives the Ethereum address from this public key.
   ETHAddress toAddress() {
     return ETHAddress.fromPublicKey(toBytes());
   }
@@ -51,17 +48,17 @@ class ETHPublicKey {
     return toHex();
   }
 
-  /// Verifies the signature of a personal message using the public key.
+  /// Verifies a personal message signature.
   ///
-  /// Optionally, [hashMessage] can be set to false to skip hashing the message before verification.
-  /// Optionally, [payloadLength] can be set to specify the payload length for the message.
+  /// If [hashMessage] is true (default), hashes the message before verification.
+  /// Optional [payloadLength] specifies the message payload length.
   bool verifyPersonalMessage(
     List<int> messageDigest,
     List<int> signature, {
     bool hashMessage = true,
     int? payloadLength,
   }) {
-    final verifier = ETHVerifier.fromKeyBytes(toBytes());
+    final verifier = ETHVerifier(Secp256k1Verifier(publicKey));
     return verifier.verifyPersonalMessage(
       messageDigest,
       signature,
@@ -70,6 +67,11 @@ class ETHPublicKey {
     );
   }
 
+  /// Recovers the public key from a personal message signature.
+  ///
+  /// If [hashMessage] is true (default), hashes the message before recovery.
+  /// Optional [payloadLength] specifies the message payload length.
+  /// Returns null if recovery fails.
   static ETHPublicKey? getPublicKey(
     List<int> messageDigest,
     List<int> signature, {
@@ -82,8 +84,6 @@ class ETHPublicKey {
       hashMessage: hashMessage,
       payloadLength: payloadLength,
     );
-    if (verifier == null) return null;
-    final pubKey = Secp256k1PublicKey.fromBytes(verifier.point.toBytes());
-    return ETHPublicKey._(pubKey);
+    return ETHPublicKey(verifier);
   }
 }

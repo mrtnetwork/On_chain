@@ -26,7 +26,7 @@ class BlockfrostRequestTransactionMetadataContentInCbor
   List<String> get pathParameters => [label.toString()];
 
   @override
-  List<ADAMetadataCBORResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAMetadataCBORResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAMetadataCBORResponse.fromJson(e)).toList();
   }
 }

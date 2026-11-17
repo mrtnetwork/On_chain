@@ -1,15 +1,21 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('vote compile legacy', () {
+import '../../../utils.dart';
+void voteCompileLegacyTest() {
+  group('Solana/Vote Compile Legacy', () {
     _initializeAccount();
     _authorize();
     _authorizeWithSeed();
     _withdraw();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(voteCompileLegacyTest, "Compile Legacy");
+}
+
 
 void _initializeAccount() {
   test('initializeAccount', () {

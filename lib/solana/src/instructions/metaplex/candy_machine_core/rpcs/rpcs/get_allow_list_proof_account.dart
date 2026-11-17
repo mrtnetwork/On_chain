@@ -29,7 +29,7 @@ class SolanaRPCGetAllowListProofAccount
   }
 
   @override
-  AllowListProofAccount? onResonse(Map<String, dynamic>? result) {
+  AllowListProofAccount? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return AllowListProofAccount.fromBuffer(accountInfo.toBytesData());

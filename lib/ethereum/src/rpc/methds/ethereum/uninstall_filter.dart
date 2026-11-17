@@ -1,10 +1,11 @@
+import 'package:blockchain_utils/helper/helper.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// Uninstalls a filter with given id. Should always be called when watch is no longer needed.
 /// Additionally Filters timeout when they aren't requested with eth_getFilterChanges for a period of time.
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_uninstallFilter)
-class EthereumRequestUninstallFilter extends EthereumRequest<Object?, Object?> {
+class EthereumRequestUninstallFilter extends EthereumRequest<bool, bool> {
   EthereumRequestUninstallFilter({required this.filterIdentifier});
 
   /// eth_uninstallFilter
@@ -15,7 +16,7 @@ class EthereumRequestUninstallFilter extends EthereumRequest<Object?, Object?> {
   final BigInt filterIdentifier;
   @override
   List<dynamic> toJson() {
-    return ['0x${filterIdentifier.toRadixString(16)}'];
+    return [filterIdentifier.toHexaDecimal];
   }
 
   @override

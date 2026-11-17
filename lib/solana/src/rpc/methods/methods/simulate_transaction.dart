@@ -6,7 +6,7 @@ import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 /// Simulate sending a transaction
 /// https://solana.com/docs/rpc/http/simulatetransaction
 class SolanaRequestSimulateTransaction
-    extends SolanaRequest<SimulateTranasctionResponse, Map<String, dynamic>> {
+    extends SolanaRequest<SimulateTransactionResponse, Map<String, dynamic>> {
   const SolanaRequestSimulateTransaction({
     required this.encodedTransaction,
     this.replaceRecentBlockhash,
@@ -56,7 +56,7 @@ class SolanaRequestSimulateTransaction
   }
 
   @override
-  SimulateTranasctionResponse onResonse(Map<String, dynamic> result) {
-    return SimulateTranasctionResponse.fromJson(result);
+  SimulateTransactionResponse onResponse(Map<String, dynamic> result) {
+    return SimulateTransactionResponse.fromJson(result);
   }
 }

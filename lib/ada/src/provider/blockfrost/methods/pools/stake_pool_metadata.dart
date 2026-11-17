@@ -18,7 +18,7 @@ class BlockfrostRequestStakePoolMetadata
   List<String> get pathParameters => [poolId];
 
   @override
-  ADAPoolMetadataResponse onResonse(Map<String, dynamic> result) {
+  ADAPoolMetadataResponse onResponse(Map<String, dynamic> result) {
     return ADAPoolMetadataResponse.fromJson(result);
   }
 }

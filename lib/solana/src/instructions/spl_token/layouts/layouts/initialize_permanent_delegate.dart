@@ -1,7 +1,7 @@
 // Manages the layout structure for initializing a permanent delegate for an SPL token.
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -27,7 +27,7 @@ class SPLTokenInitializePermanentDelegateLayout extends SPLTokenProgramLayout {
       layout: _layout,
       bytes: bytes,
       instruction:
-          SPLTokenProgramInstruction.initializePermanentDelegate.insturction,
+          SPLTokenProgramInstruction.initializePermanentDelegate.instruction,
     );
     final SolAddress delegate = decode['delegate'];
     return SPLTokenInitializePermanentDelegateLayout(

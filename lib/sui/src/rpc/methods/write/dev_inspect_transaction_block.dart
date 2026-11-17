@@ -39,7 +39,7 @@ class SuiRequestDevInspectTransactionBlock
   }
 
   @override
-  SuiApiDevInspectResult onResonse(Map<String, dynamic> result) {
+  SuiApiDevInspectResult onResponse(Map<String, dynamic> result) {
     return SuiApiDevInspectResult.fromJson(result);
   }
 }

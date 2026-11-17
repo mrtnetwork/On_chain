@@ -2,11 +2,13 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/ethereum.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../utils.dart';
+void etherumTransactionTest() {
+  group('Ethereum/Transaction', () {
   /// transaction with leading zero s bytes.
   test('transaction leading zero s', () {
     final addr = ETHAddress('0x084937B3f86ea7BbCA86F2809809A65ED8A7ADa9');
-    final signer = ETHSigner.fromKeyBytes(
+    final signer = ETHSigner.fromBytes(
       BytesUtils.fromHexString(
         'e9f4fe38ffc54abd156dd4b8a39611fce696af62841ee6422ee36ba7b26c53f5',
       ),
@@ -25,7 +27,7 @@ void main() {
       gasPrice: BigInt.from(5000000000),
     );
     final serialize = transaction.serialized;
-    final sign = signer.signConst(serialize);
+    final sign = signer.sign(serialize).signature;
     final signedSerialize = transaction.signedSerialized(sign);
 
     final decode = ETHTransaction.fromSerialized(signedSerialize);
@@ -133,4 +135,10 @@ void main() {
     final estimate = transaction.toEstimate();
     expect(estimate.containsKey('gas'), isFalse);
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(etherumTransactionTest, "Transaction");
+}
+

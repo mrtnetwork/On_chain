@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_meta_data/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class MetaplexTokenMetaDataPrintV1Layout
@@ -12,7 +12,7 @@ class MetaplexTokenMetaDataPrintV1Layout
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexTokenMetaDataProgramInstruction.printV1.insturction,
+      instruction: MetaplexTokenMetaDataProgramInstruction.printV1.instruction,
       discriminator: discriminator,
     );
     return MetaplexTokenMetaDataPrintV1Layout(

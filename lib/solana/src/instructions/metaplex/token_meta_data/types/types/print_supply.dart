@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 class PrintSupply extends BorshLayoutSerializable {
@@ -12,7 +11,8 @@ class PrintSupply extends BorshLayoutSerializable {
   static const PrintSupply unlimited = PrintSupply._(null, 'Unlimited', 2);
   factory PrintSupply.limited({required List<BigInt> fields}) {
     if (fields.length != 1) {
-      throw const SolanaPluginException(
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
         'The fields list must contain exactly one element for a limited print supply.',
       );
     }

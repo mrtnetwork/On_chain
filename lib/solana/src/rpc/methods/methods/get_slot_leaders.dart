@@ -26,7 +26,7 @@ class SolanaRequestGetSlotLeaders
   }
 
   @override
-  List<SolAddress> onResonse(result) {
+  List<SolAddress> onResponse(result) {
     return result.map((e) => SolAddress.uncheckCurve(e)).toList();
   }
 }

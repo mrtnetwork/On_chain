@@ -1,4 +1,5 @@
-import 'package:blockchain_utils/service/models/params.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 
 typedef AptosServiceResponse = BaseServiceResponse;
@@ -17,7 +18,10 @@ mixin AptosServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -25,7 +29,10 @@ mixin AptosServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -33,7 +40,10 @@ mixin AptosServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -48,8 +58,9 @@ mixin AptosServiceProvider
     request,
     Duration? timeout,
   }) {
-    throw UnsupportedError(
-      "Subscribtion requests are not supported by this service.",
+    throw const BuError(
+      DefaultErrorType.unsupported,
+      "Subscription requests are not supported by this service.",
     );
   }
 }

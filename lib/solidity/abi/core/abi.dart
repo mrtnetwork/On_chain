@@ -41,7 +41,7 @@ abstract class ABICoder<INPUT extends Object, OUTPUT extends Object> {
     correctType ??= type;
     final t = _types[correctType];
     if (t == null) {
-      throw SolidityAbiException(
+      throw BuError(DefaultErrorType.notFound,
         'Unsuported ABI type. codec not found',
         details: {'type': type},
       );
@@ -205,7 +205,7 @@ class AbiParameter with InternalCborSerialization {
             _ => CborNullValue(),
           },
           CborStringValue(type),
-          CborBoleanValue(indexed),
+          CborBooleanValue(indexed),
           switch (internalType) {
             final String internalType => CborStringValue(internalType),
             _ => CborNullValue(),
@@ -235,7 +235,7 @@ class EncoderResult {
   final bool isDynamic;
 
   /// The encoded data as a bytes.
-  final List<int> encoded;
+  final BuBytes encoded;
 
   final String? name;
 

@@ -1,6 +1,6 @@
 // Manages the layout structure for converting SPL token amount to UI amount.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Convert an Amount of tokens to a UiAmount layout.
@@ -22,7 +22,7 @@ class SPLTokenAmountToUiAmountLayout extends SPLTokenProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.amountToUiAmount.insturction,
+      instruction: SPLTokenProgramInstruction.amountToUiAmount.instruction,
     );
     return SPLTokenAmountToUiAmountLayout(amount: decode['amount']);
   }

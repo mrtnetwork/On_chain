@@ -20,7 +20,7 @@ class BlockfrostRequestSpecificAccountAddress
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  ADAStakeAccountResponse onResonse(Map<String, dynamic> result) {
+  ADAStakeAccountResponse onResponse(Map<String, dynamic> result) {
     return ADAStakeAccountResponse.fromJson(result);
   }
 }

@@ -26,7 +26,7 @@ class BlockfrostRequestAddressTransactions
   List<String> get pathParameters => [address.bech32Address];
 
   @override
-  List<ADATransactionSummaryInfoResponse> onResonse(
+  List<ADATransactionSummaryInfoResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

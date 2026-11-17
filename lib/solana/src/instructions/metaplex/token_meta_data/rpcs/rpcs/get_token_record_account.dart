@@ -29,7 +29,7 @@ class SolanaRPCGetTokenRecordAccount
   }
 
   @override
-  TokenRecord? onResonse(result) {
+  TokenRecord? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return TokenRecord.fromBuffer(accountInfo.toBytesData());

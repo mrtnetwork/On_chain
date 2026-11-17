@@ -23,7 +23,7 @@ class BlockfrostRequestListOfStakePoolsWithAdditionalInformation
   List<String> get pathParameters => [];
 
   @override
-  List<ADAPoolInfoResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAPoolInfoResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAPoolInfoResponse.fromJson(e)).toList();
   }
 }

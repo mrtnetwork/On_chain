@@ -1,7 +1,4 @@
-import 'package:blockchain_utils/bip/bip.dart';
-import 'package:blockchain_utils/cbor/core/cbor.dart';
-import 'package:blockchain_utils/cbor/serialization/cbor/cbor.dart';
-import 'package:blockchain_utils/cbor/types/types.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
@@ -33,7 +30,6 @@ class GovernanceActionId with InternalCborSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    AdaStakeCredential;
     return {"transaction_id": transactionId.toHex(), "index": index};
   }
 }

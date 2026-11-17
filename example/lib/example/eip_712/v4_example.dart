@@ -44,9 +44,9 @@ void main() {
   final encodeTypes = eip712.encode();
 
   /// Define a private key for signing the EIP-712 message
-  final privateKey = ETHPrivateKey(
+  final privateKey = ETHPrivateKey.fromHex(
       "db8cf18222bb47698309de20e0befa9a55ef1f0af001dcefa79d31446484dc65");
 
   /// Sign the encoded types with the private key, setting hashMessage to false
-  final _ = privateKey.sign(encodeTypes, hashMessage: false).toHex();
+  final _ = privateKey.sign(encodeTypes, hashMessage: false);
 }

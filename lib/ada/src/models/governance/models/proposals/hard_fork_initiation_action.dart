@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/ada/src/models/governance/models/governance_action_id.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/action.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/governance_action_type.dart';

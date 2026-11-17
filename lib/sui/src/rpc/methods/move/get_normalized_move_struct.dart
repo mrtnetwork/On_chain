@@ -23,7 +23,7 @@ class SuiRequestGetNormalizedMoveStruct
   }
 
   @override
-  SuiApiMoveNormalizedStruct onResonse(Map<String, dynamic> result) {
+  SuiApiMoveNormalizedStruct onResponse(Map<String, dynamic> result) {
     return SuiApiMoveNormalizedStruct.fromJson(result);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexBubblegumCancelRedeemLayout
     extends MetaplexBubblegumProgramLayout {
@@ -12,7 +12,7 @@ class MetaplexBubblegumCancelRedeemLayout
     final decode = MetaplexBubblegumProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: MetaplexBubblegumProgramInstruction.cancelRedeem.insturction,
+      instruction: MetaplexBubblegumProgramInstruction.cancelRedeem.instruction,
     );
     return MetaplexBubblegumCancelRedeemLayout(root: decode['root']);
   }

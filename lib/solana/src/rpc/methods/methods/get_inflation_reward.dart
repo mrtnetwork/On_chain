@@ -37,7 +37,7 @@ class SolanaRequestGetInflationReward
   }
 
   @override
-  List<InflationReward?> onResonse(List result) {
+  List<InflationReward?> onResponse(List result) {
     return result
         .map((e) => e == null ? null : InflationReward.fromJson(e))
         .toList();

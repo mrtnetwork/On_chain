@@ -27,7 +27,7 @@ class SolanaRPCGetTransferHookAccount
   }
 
   @override
-  TransferHookAccount? onResonse(result) {
+  TransferHookAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return TransferHookAccount.fromAccountBytes(accountInfo.toBytesData());

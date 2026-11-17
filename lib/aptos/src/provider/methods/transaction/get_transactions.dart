@@ -6,7 +6,8 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// to get a specific sequence of transactions.
 /// If the version has been pruned, then a 410 will be returned.
 /// To retrieve a pending transaction, use /transactions/by_hash.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetTransactions
     extends
         AptosRequest<List<AptosApiTransaction>, List<Map<String, dynamic>>> {
@@ -28,7 +29,7 @@ class AptosRequestGetTransactions
   };
 
   @override
-  List<AptosApiTransaction> onResonse(List<Map<String, dynamic>> result) {
+  List<AptosApiTransaction> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => AptosApiTransaction.fromJson(e)).toList();
   }
 }

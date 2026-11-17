@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/models/protocol/models/ex_units.dart';
 import 'package:on_chain/ada/src/models/protocol/models/unit_interval.dart';

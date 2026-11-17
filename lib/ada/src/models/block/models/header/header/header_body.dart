@@ -1,4 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ada/src/keypair/keypair/public_key.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/fixed_bytes/models/models.dart';
@@ -35,7 +36,7 @@ class HeaderBody with InternalCborSerialization {
   factory HeaderBody.fromJson(Map<String, dynamic> json) {
     return HeaderBody(
       blockNumber: json['block_number'],
-      slot: BigInt.parse(json['slot']),
+      slot: BigintUtils.parse(json['slot']),
       prevHash:
           json['prev_hash'] != null
               ? BlockHash.fromHex(json['prev_hash'])
@@ -91,7 +92,7 @@ class HeaderBody with InternalCborSerialization {
       CborSignedValue.i32(blockNumber),
       CborUnsignedValue.u64(slot),
       prevHash?.toCbor() ?? const CborNullValue(),
-      CborBytesValue(issuerKey.toBytes(false)),
+      CborBytesValue(issuerKey.toBytes32()),
       vrfvKey.toCbor(),
       ...leaderCert.toCborObjects(),
       CborUnsignedValue.u32(blockBodySize),

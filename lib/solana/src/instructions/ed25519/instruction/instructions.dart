@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/ed25519/constant.dart';
 
 class Ed25519ProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final dynamic insturction;
+  final dynamic instruction;
   @override
   final String name;
-  const Ed25519ProgramInstruction(this.insturction, this.name);
+  const Ed25519ProgramInstruction(this.instruction, this.name);
   static const Ed25519ProgramInstruction ed25519 = Ed25519ProgramInstruction(
     null,
     'Ed25519',

@@ -271,7 +271,6 @@ class TransactionBody with InternalCborSerialization {
     } else {
       for (final i in order) {
         final key = CborIntValue(i);
-        assert(data.containsKey(key), "key does not exists $i");
         if (!data.containsKey(key)) continue;
         sort[key] = data[key]!;
       }

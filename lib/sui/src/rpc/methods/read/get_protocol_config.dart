@@ -22,7 +22,7 @@ class SuiRequestProtocolConfig
   }
 
   @override
-  SuiApiProtocolConfig onResonse(Map<String, dynamic> result) {
+  SuiApiProtocolConfig onResponse(Map<String, dynamic> result) {
     return SuiApiProtocolConfig.fromJson(result);
   }
 }

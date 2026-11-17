@@ -29,7 +29,7 @@ class SolanaRPCGetListingReceiptAccount
   }
 
   @override
-  ListingReceipt? onResonse(Map<String, dynamic>? result) {
+  ListingReceipt? onResponse(Map<String, dynamic>? result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return ListingReceipt.fromBuffer(accountInfo.toBytesData());

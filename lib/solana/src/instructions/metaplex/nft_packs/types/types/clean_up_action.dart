@@ -1,4 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class CleanUpAction {
   final int kind;
@@ -14,7 +14,8 @@ class CleanUpAction {
     } else if (kind == 2) {
       return CleanUpAction.none();
     }
-    throw SolanaPluginException(
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       'Invalid or unknown cleanUpAction',
       details: {'kind': kind.toString()},
     );
@@ -23,7 +24,8 @@ class CleanUpAction {
   factory CleanUpAction.none() => const CleanUpAction._(2, 'NoneLayout', null);
   factory CleanUpAction.change(List<int> fields) {
     if (fields.length != 2) {
-      throw SolanaPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Expected exactly 2 fields',
         details: {'fields': fields.join(",")},
       );

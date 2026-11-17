@@ -23,7 +23,7 @@ class BlockfrostRequestAccountAssociatedAddresses
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  List<String> onResonse(List<Map<String, dynamic>> result) {
+  List<String> onResponse(List<Map<String, dynamic>> result) {
     return result.map<String>((e) => e['address']).toList();
   }
 }

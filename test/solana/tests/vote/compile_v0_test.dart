@@ -1,10 +1,11 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('vote compile v0', () {
+import '../../../utils.dart';
+void voteCompileV0Test() {
+  group('Solana/Vote Compile V0', () {
     _initializeAccount();
     _authorize();
     _authorizeWithSeed();
@@ -12,6 +13,11 @@ void main() {
     _transferWithLookup();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(voteCompileV0Test, "Compile V0");
+}
+
 
 void _initializeAccount() {
   test('initializeAccount', () {

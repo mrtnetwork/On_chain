@@ -1,6 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/aptos/src/helper/helper.dart';
-import 'package:on_chain/serialization/bcs/exeption/exeption.dart';
+
 import 'package:on_chain/serialization/bcs/move/utils/utils.dart';
 import 'package:on_chain/serialization/bcs/serialization/serialization.dart';
 
@@ -46,7 +46,8 @@ enum MoveArgumentType {
       (e) => e.name == name,
       orElse:
           () =>
-              throw BcsSerializationException(
+              throw BuError(
+                DefaultErrorType.invalidArgument,
                 "cannot find correct transaction argument from the given name.",
                 details: {"name": name},
               ),
@@ -167,7 +168,8 @@ abstract class MoveArgument<T> extends BcsVariantSerialization
       MoveArgumentType.serialized => MoveSerialized.fromStruct(decode.value),
     };
     if (arg is! MoveArgument<T>) {
-      throw BcsSerializationException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Invalid argument. expected: $T, got: ${arg.runtimeType}",
       );
     }
@@ -502,7 +504,7 @@ class MoveBool extends MoveArgument {
 /// The bytes should be 32 bytes, and data is encoded without length.
 class MoveAddress extends MoveArgument<List<int>> {
   @override
-  final List<int> value;
+  final BuBytes value;
   MoveAddress(List<int> value)
     : value = MoveUtils.parseAddressBytes(value: value).asImmutableBytes,
       super(argumentType: MoveArgumentType.address);
@@ -544,7 +546,7 @@ class MoveAddress extends MoveArgument<List<int>> {
 /// The data is encoded in BCS format, with the length encoded as LEB128.
 class MoveU8Vector extends MoveArgument<List<int>> {
   @override
-  final List<int> value;
+  final BuBytes value;
   MoveU8Vector(List<int> value)
     : value = value.asImmutableBytes,
       super(argumentType: MoveArgumentType.u8Vector);
@@ -588,7 +590,7 @@ class MoveU8Vector extends MoveArgument<List<int>> {
 /// This is used for Move transaction script arguments, similar to `MoveU8Vector`,
 class MoveSerialized extends MoveArgument<List<int>> {
   @override
-  final List<int> value;
+  final BuBytes value;
   MoveSerialized(List<int> value)
     : value = value.asImmutableBytes,
       super(argumentType: MoveArgumentType.serialized);
@@ -724,7 +726,8 @@ class MoveVector<MOVE extends MoveType>
         (item) => item.runtimeType != firstType,
       );
       if (hasDifferentType) {
-        throw BcsSerializationException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           "Type mismatch: All elements must be of the same type. Found both $firstType and other differing types.",
         );
       }

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
 import 'package:on_chain/aptos/src/provider/methods/methods/methods.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
@@ -7,7 +7,7 @@ import 'package:on_chain/aptos/src/provider/core/core.dart';
 /// If the ledger version is not specified in the request, the latest ledger version is used
 /// The Aptos nodes prune account state history, via a configurable time window.
 /// If the requested ledger version has been pruned, the server responds with a 410.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestGetAccountAssetResources
     extends AptosRequest<BigInt, dynamic> {
   AptosRequestGetAccountAssetResources({
@@ -34,7 +34,7 @@ class AptosRequestGetAccountAssetResources
   };
 
   @override
-  BigInt onResonse(result) {
+  BigInt onResponse(result) {
     return BigintUtils.parse(result);
   }
 }

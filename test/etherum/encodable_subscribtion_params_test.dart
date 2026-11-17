@@ -1,7 +1,9 @@
 import 'package:on_chain/on_chain.dart';
 import 'package:test/test.dart';
 
-void main() {
+import '../utils.dart';
+void encodableSubscribtionParamsTest() {
+  group('Ethereum/Encodable subscription params', () {
   test('encodable subscribtion params', () {
     {
       final param = EthereumRequestETHSubscribeLogs(
@@ -41,4 +43,10 @@ void main() {
       expect(param.method, deserialize.method);
     }
   });
+  });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(encodableSubscribtionParamsTest, "Encodable Subscribtion Params");
+}
+

@@ -2,11 +2,17 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ada/ada.dart';
 import 'package:test/test.dart';
 
-void main() {
-  group('delegated transaction body', () {
+import '../utils.dart';
+void delegationTest() {
+  group('ADA/Delegation', () {
     _delegationTransactionTest();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(delegationTest, "Delegation");
+}
+
 
 void _delegationTransactionTest() {
   test('transaction_1', () {

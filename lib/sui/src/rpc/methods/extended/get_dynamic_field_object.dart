@@ -27,7 +27,7 @@ class SuiRequestGetDynamicFieldObject
   }
 
   @override
-  SuiApiGetDynamicFieldObjectResponse onResonse(Map<String, dynamic> result) {
+  SuiApiGetDynamicFieldObjectResponse onResponse(Map<String, dynamic> result) {
     return SuiApiGetDynamicFieldObjectResponse.fromJson(result);
   }
 }

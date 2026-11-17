@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/fixed_price_sale/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexFixedPriceSaleChangeMarketLayout
     extends MetaplexFixedPriceSaleProgramLayout {
@@ -17,7 +17,7 @@ class MetaplexFixedPriceSaleChangeMarketLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexFixedPriceSaleProgramInstruction.changeMarket.insturction,
+          MetaplexFixedPriceSaleProgramInstruction.changeMarket.instruction,
     );
     return MetaplexFixedPriceSaleChangeMarketLayout(
       newName: decode['newName'],

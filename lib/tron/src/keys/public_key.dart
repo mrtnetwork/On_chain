@@ -1,47 +1,44 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/tron/src/address/tron_address.dart';
-import 'package:on_chain/tron/src/exception/exception.dart';
 
-/// Class representing a Tron public key
+/// Represents a Tron public key.
 class TronPublicKey {
-  /// Private constructor for internal use, initializing with a Secp256k1 public key
-  const TronPublicKey._(this._publicKey);
+  /// Creates a [TronPublicKey] from a Secp256k1 public key.
+  const TronPublicKey(this.publicKey);
 
-  /// Private field to store the Secp256k1 public key
-  final Secp256k1PublicKey _publicKey;
+  /// The underlying Secp256k1 public key.
+  final Secp256k1PublicKey publicKey;
 
-  /// Factory method to create a TronPublicKey from a list of key bytes
+  /// Creates a [TronPublicKey] from raw key bytes.
   factory TronPublicKey.fromBytes(List<int> keyBytes) {
     try {
       final pubKey = Secp256k1PublicKey.fromBytes(keyBytes);
-      return TronPublicKey._(pubKey);
+      return TronPublicKey(pubKey);
     } catch (e) {
-      throw TronPluginException(
-        'invalid tron public key',
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid Tron public key.',
         details: {'input': BytesUtils.toHexString(keyBytes)},
       );
     }
   }
 
-  /// Factory method to create a TronPublicKey from a hexadecimal public key string
-  factory TronPublicKey(String pubHex) {
+  /// Creates a [TronPublicKey] from a hex string.
+  factory TronPublicKey.fromHex(String pubHex) {
     return TronPublicKey.fromBytes(BytesUtils.fromHexString(pubHex));
   }
 
-  /// Method to convert the public key to a list of bytes
-  List<int> toBytes([PubKeyModes mode = PubKeyModes.compressed]) {
-    if (mode == PubKeyModes.uncompressed) {
-      return _publicKey.uncompressed;
-    }
-    return _publicKey.compressed;
+  /// Converts the public key to raw bytes.
+  BuBytes toBytes([CryptoKeyEncoding mode = CryptoKeyEncoding.base]) {
+    return publicKey.toBytes(mode: mode);
   }
 
-  /// Method to convert the public key to a hexadecimal string
-  String toHex({PubKeyModes mode = PubKeyModes.compressed}) {
-    return BytesUtils.toHexString(toBytes(mode));
+  /// Converts the public key to a hex string.
+  String toHex({CryptoKeyEncoding mode = CryptoKeyEncoding.base}) {
+    return toBytes(mode).toHex();
   }
 
-  /// Method to obtain the corresponding Tron address from the public key
+  /// Returns the corresponding Tron address.
   TronAddress toAddress() {
     return TronAddress.fromPublicKey(toBytes());
   }
@@ -57,7 +54,7 @@ class TronPublicKey {
     int? payloadLength,
     bool useEthereumPrefix = false,
   }) {
-    final verifier = TronVerifier.fromKeyBytes(toBytes());
+    final verifier = TronVerifier(Secp256k1Verifier(publicKey));
     return verifier.verifyPersonalMessage(
       messageDigest,
       BytesUtils.fromHexString(signature),
@@ -67,6 +64,7 @@ class TronPublicKey {
     );
   }
 
+  /// Recovers the public key from a personal-message signature.
   static TronPublicKey fromPersonalSignature(
     List<int> messageDigest,
     String signature, {
@@ -81,11 +79,10 @@ class TronPublicKey {
       payloadLength: payloadLength,
       useEthPrefix: useEthereumPrefix,
     );
-    final pubKey = Secp256k1PublicKey.fromBytes(publicKey.point.toBytes());
-    return TronPublicKey._(pubKey);
+    return TronPublicKey(publicKey);
   }
 
-  /// Override of the toString method to return the hexadecimal representation of the public key
+  /// Returns the hex representation of the public key.
   @override
   String toString() {
     return toHex();

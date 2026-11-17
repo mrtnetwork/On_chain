@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/cbor/core/cbor.dart';
-import 'package:blockchain_utils/cbor/types/types.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'config.dart';
 import 'metadata_json_schame.dart';
 import 'tranasction_metadata.dart';

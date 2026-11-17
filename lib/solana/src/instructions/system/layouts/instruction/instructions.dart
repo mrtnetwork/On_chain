@@ -4,10 +4,10 @@ import 'package:on_chain/solana/src/instructions/system/constant.dart';
 
 class SystemProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const SystemProgramInstruction(this.insturction, this.name);
+  const SystemProgramInstruction(this.instruction, this.name);
   static const SystemProgramInstruction create = SystemProgramInstruction(
     0,
     'Create',
@@ -62,7 +62,7 @@ class SystemProgramInstruction implements ProgramLayoutInstruction {
   ];
   static SystemProgramInstruction? getInstruction(dynamic value) {
     try {
-      return values.firstWhere((element) => element.insturction == value);
+      return values.firstWhere((element) => element.instruction == value);
     } catch (e) {
       return null;
     }

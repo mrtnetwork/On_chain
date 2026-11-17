@@ -1,16 +1,22 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
-import '../../examples/wallet.dart';
+import '../utils.dart';
 
-void main() {
-  group('compile multisig', () {
+import '../../../utils.dart';
+void compileMultiSigTest() {
+  group('Solana/SPL Token Compile Multisig', () {
     _v0();
     _legacy();
   });
 }
 
+void main() {
+  OnChainUtilsTestApi.runTest(compileMultiSigTest, "Compile Multi Sig");
+}
+
+
 void _v0() {
-  test('compuleV0', () {
+  test('compileV0', () {
     final owner = QuickWalletForTest(index: 406);
     final account1 = QuickWalletForTest(index: 405);
     final account3 = QuickWalletForTest(index: 407);

@@ -1,8 +1,10 @@
 import 'package:on_chain/ethereum/src/models/block_tag.dart';
+import 'package:on_chain/ethereum/src/models/proof.dart';
 import 'package:on_chain/ethereum/src/rpc/core/core.dart';
 import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
-class EthereumRequestGetProof extends EthereumRequest<Object?, Object?> {
+class EthereumRequestGetProof
+    extends EthereumRequest<EthereumProof, Map<String, dynamic>> {
   EthereumRequestGetProof({
     required this.address,
     required this.storageKeys,
@@ -16,5 +18,10 @@ class EthereumRequestGetProof extends EthereumRequest<Object?, Object?> {
   @override
   List<dynamic> toJson() {
     return [address, storageKeys, blockNumber];
+  }
+
+  @override
+  EthereumProof onResponse(result) {
+    return EthereumProof.fromJson(result);
   }
 }

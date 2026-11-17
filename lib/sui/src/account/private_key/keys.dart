@@ -1,7 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/sui/src/account/core/account.dart';
 import 'package:on_chain/sui/src/account/public_key/keys.dart';
-import 'package:on_chain/sui/src/exception/exception.dart';
 import 'package:on_chain/sui/src/keypair/keypair.dart';
 
 class SuiEd25519Account
@@ -37,6 +38,11 @@ class SuiEd25519Account
       publicKey: publicKey.publicKey,
       signature: signature,
     );
+  }
+
+  @override
+  void dispose() {
+    privateKey.dispose();
   }
 }
 
@@ -74,6 +80,11 @@ class SuiSecp256k1Account
       signature: signature,
     );
   }
+
+  @override
+  void dispose() {
+    privateKey.dispose();
+  }
 }
 
 class SuiSecp256r1Account
@@ -109,6 +120,11 @@ class SuiSecp256r1Account
       publicKey: publicKey.publicKey,
       signature: signature,
     );
+  }
+
+  @override
+  void dispose() {
+    privateKey.dispose();
   }
 }
 
@@ -168,7 +184,8 @@ class SuiMultisigAccount
       }
     }
     if (weight < publicKey.threshold) {
-      throw DartSuiPluginException(
+      throw BuError(
+        OnChainErrorType.suiPlugin,
         "Insufficient signatures.",
         details: {
           "threshold": publicKey.threshold.toString(),
@@ -187,5 +204,12 @@ class SuiMultisigAccount
   SuiMultisigSignature signPersonalMessage(List<int> message) {
     final digest = SuiCryptoUtils.generatePersonalMessageDigest(message);
     return signTransaction(digest, hashDigest: false);
+  }
+
+  @override
+  void dispose() {
+    for (final i in privateKeys) {
+      i.dispose();
+    }
   }
 }

@@ -29,7 +29,7 @@ class SolanaRPCGetFanoutMintAccount
   }
 
   @override
-  FanoutMint? onResonse(result) {
+  FanoutMint? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return FanoutMint.fromBuffer(accountInfo.toBytesData());

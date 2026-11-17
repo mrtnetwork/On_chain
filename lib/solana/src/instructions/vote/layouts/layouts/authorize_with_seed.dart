@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/vote/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
@@ -20,7 +20,7 @@ class VoteProgramAuthorizeWithSeedLayout extends VoteProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: VoteProgramInstruction.authorizeWithSeed.insturction,
+      instruction: VoteProgramInstruction.authorizeWithSeed.instruction,
     );
     final voteData = Map<String, dynamic>.from(
       decode['voteAuthorizeWithSeedArgs'],

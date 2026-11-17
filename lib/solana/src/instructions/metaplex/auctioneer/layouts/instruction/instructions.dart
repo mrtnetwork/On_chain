@@ -1,14 +1,14 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/auctioneer/constant.dart';
 
 class MetaplexAuctioneerProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final List<int> insturction;
+  final List<int> instruction;
   @override
   final String name;
-  const MetaplexAuctioneerProgramInstruction(this.insturction, this.name);
+  const MetaplexAuctioneerProgramInstruction(this.instruction, this.name);
   static const MetaplexAuctioneerProgramInstruction authorize =
       MetaplexAuctioneerProgramInstruction([
         173,
@@ -99,7 +99,7 @@ class MetaplexAuctioneerProgramInstruction implements ProgramLayoutInstruction {
   static MetaplexAuctioneerProgramInstruction? getInstruction(dynamic value) {
     try {
       return values.firstWhere(
-        (element) => BytesUtils.bytesEqual(element.insturction, value),
+        (element) => BytesUtils.bytesEqual(element.instruction, value),
       );
     } catch (_) {
       return null;

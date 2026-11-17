@@ -24,7 +24,7 @@ class SolanaRequestGetEpochInfo
   }
 
   @override
-  EpochInfo onResonse(Map<String, dynamic> result) {
+  EpochInfo onResponse(Map<String, dynamic> result) {
     return EpochInfo.fromJson(result);
   }
 }

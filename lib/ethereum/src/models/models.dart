@@ -19,3 +19,9 @@ export 'transaction.dart';
 export 'transaction_receipt.dart';
 
 export 'access_list.dart';
+
+/// Exports the EIP-1186 proof and sign-transaction response models.
+export 'proof.dart';
+
+/// Exports the eth_syncing status model.
+export 'sync_status.dart';

@@ -60,7 +60,7 @@ class ZksyncUtils {
 
 class ZKSyncPaymaster {
   final ETHAddress address;
-  final List<int> input;
+  final BuBytes input;
   ZKSyncPaymaster({required this.address, required List<int> input})
     : input = input.asImmutableBytes;
   List<List<dynamic>> serialize() {
@@ -77,7 +77,7 @@ class ZKSyncPaymaster {
 
 class ZKSyncE712Parameters {
   final BigInt gasPerPubdata;
-  final List<List<int>> factoryDeps;
+  final List<BuBytes> factoryDeps;
   final ZKSyncPaymaster? paymaster;
   ZKSyncE712Parameters({
     required this.gasPerPubdata,

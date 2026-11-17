@@ -3,7 +3,7 @@ import 'package:on_chain/ethereum/src/rpc/core/methods.dart';
 
 /// The sign method calculates an Ethereum specific signature with: sign(keccak256("\x19Ethereum Signed Message:\n" + len(message) + message))).
 /// [ethereum.org](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_sign)
-class EthereumRequestSign extends EthereumRequest<Object?, Object?> {
+class EthereumRequestSign extends EthereumRequest<String, String> {
   EthereumRequestSign({required this.address, required this.message});
 
   /// eth_sign

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:on_chain/ada/src/models/transaction/witnesses/models/transaction_witness_set.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';

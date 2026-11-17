@@ -5,10 +5,10 @@ import 'package:on_chain/solana/src/instructions/name_service/constant.dart';
 
 class NameServiceProgramInstruction implements ProgramLayoutInstruction {
   @override
-  final int insturction;
+  final int instruction;
   @override
   final String name;
-  const NameServiceProgramInstruction(this.insturction, this.name);
+  const NameServiceProgramInstruction(this.instruction, this.name);
   static const NameServiceProgramInstruction create =
       NameServiceProgramInstruction(0, 'Create');
   static const NameServiceProgramInstruction update =
@@ -28,7 +28,7 @@ class NameServiceProgramInstruction implements ProgramLayoutInstruction {
     realloc,
   ];
   static NameServiceProgramInstruction? getInstruction(dynamic value) {
-    return values.firstWhereNullable((element) => element.insturction == value);
+    return values.firstWhereNullable((element) => element.instruction == value);
   }
 
   @override

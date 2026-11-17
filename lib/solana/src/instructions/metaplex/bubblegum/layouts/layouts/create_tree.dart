@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/bubblegum/layouts/instructions/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexBubblegumCreateTreeLayout extends MetaplexBubblegumProgramLayout {
   final int maxDepth;
@@ -16,7 +16,7 @@ class MetaplexBubblegumCreateTreeLayout extends MetaplexBubblegumProgramLayout {
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexBubblegumProgramInstruction.createTreeConfig.insturction,
+          MetaplexBubblegumProgramInstruction.createTreeConfig.instruction,
     );
     return MetaplexBubblegumCreateTreeLayout(
       maxBufferSize: decode['maxBufferSize'],

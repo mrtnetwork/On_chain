@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'config.dart';
 import 'plutus_data.dart';
 import 'plutus_data_type.dart';
@@ -36,7 +37,12 @@ enum CborPlutusIntegerEncoding {
     return values.firstWhere(
       (e) => e.name == name,
       orElse:
-          () => throw ItemNotFoundException(name: "CborPlutusIntegerEncoding"),
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid CborPlutusIntegerEncoding name.',
+                details: {'name': name},
+              ),
     );
   }
 }

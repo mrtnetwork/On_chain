@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
+import 'package:on_chain/exception/onchain_error.dart';
 import 'package:on_chain/serialization/cbor_serialization.dart';
 
 /// Represents a native script type.
@@ -69,7 +70,8 @@ class NativeScriptType with InternalCborSerialization {
       (element) => element.value == value,
       orElse:
           () =>
-              throw ADAPluginException(
+              throw BuError(
+                OnChainErrorType.adaPlugin,
                 'No NativeScriptType found matching the specified value',
                 details: {'value': value?.toString()},
               ),
@@ -82,7 +84,8 @@ class NativeScriptType with InternalCborSerialization {
       (element) => element.name == name,
       orElse:
           () =>
-              throw ADAPluginException(
+              throw BuError(
+                OnChainErrorType.adaPlugin,
                 'No NativeScriptType found matching the specified name',
                 details: {'name': name},
               ),

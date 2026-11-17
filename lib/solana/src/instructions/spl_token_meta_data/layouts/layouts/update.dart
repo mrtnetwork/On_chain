@@ -1,6 +1,6 @@
 // Imports the necessary packages for interacting with blockchain utilities and Solana's layout structure.
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/instructions/spl_token_meta_data/types/types/field.dart';
 
 /// Updates a field in a token-metadata account layout.
@@ -18,7 +18,7 @@ class SPLTokenMetaDataUpdateLayout extends SPLTokenMetaDataProgramLayout {
           layout: _layout,
           bytes: bytes,
           instructionBytes:
-              SPLTokenMetaDataProgramSplDiscriminate.update.insturction,
+              SPLTokenMetaDataProgramSplDiscriminate.update.instruction,
         );
 
     return SPLTokenMetaDataUpdateLayout(

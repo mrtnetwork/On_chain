@@ -1,6 +1,6 @@
 // Manages the layout structure for closing an SPL token account.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Represents the layout for closing an SPL token account.
@@ -17,7 +17,7 @@ class SPLTokenCloseAccountLayout extends SPLTokenProgramLayout {
     ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: bytes,
-      instruction: SPLTokenProgramInstruction.closeAccount.insturction,
+      instruction: SPLTokenProgramInstruction.closeAccount.instruction,
     );
     return SPLTokenCloseAccountLayout();
   }

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHouseWithdrawFromTreasuryLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -16,7 +16,7 @@ class MetaplexAuctionHouseWithdrawFromTreasuryLayout
       instruction:
           MetaplexAuctionHouseProgramInstruction
               .withdrawFromTreasury
-              .insturction,
+              .instruction,
     );
     return MetaplexAuctionHouseWithdrawFromTreasuryLayout(
       amount: decode['amount'],

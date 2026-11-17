@@ -26,7 +26,7 @@ class BlockfrostRequestStakePoolUpdates
   List<String> get pathParameters => [poolId];
 
   @override
-  List<ADAStakePoolUpdateResponse> onResonse(
+  List<ADAStakePoolUpdateResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result.map((e) => ADAStakePoolUpdateResponse.fromJson(e)).toList();

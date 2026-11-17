@@ -1,6 +1,5 @@
 export 'account/account.dart';
 export 'address/address.dart';
-export 'exception/exception.dart';
 export 'keypair/keypair.dart';
 export 'provider/provider.dart';
 export 'transaction/transaction.dart';

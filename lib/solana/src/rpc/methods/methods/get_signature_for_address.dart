@@ -1,13 +1,14 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/rpc/core/core.dart';
 import 'package:on_chain/solana/src/rpc/core/methods.dart';
+import 'package:on_chain/solana/src/rpc/models/rpc_models.dart';
 import 'package:on_chain/solana/src/rpc/utils/solana_rpc_utils.dart';
 
 /// Returns signatures for confirmed transactions that include the given address in their accountKeys list.
 /// Returns signatures backwards in time from the provided signature or most recent confirmed block
 /// https://solana.com/docs/rpc/http/getsignaturesforaddress
 class SolanaRequestGetSignaturesForAddress
-    extends SolanaRequest<List<Map<String, dynamic>>, List> {
+    extends SolanaRequest<List<ConfirmedSignatureInfo>, List> {
   const SolanaRequestGetSignaturesForAddress({
     required this.account,
     this.limit = 1000,
@@ -49,7 +50,7 @@ class SolanaRequestGetSignaturesForAddress
   }
 
   @override
-  List<Map<String, dynamic>> onResonse(List result) {
-    return result.map((e) => Map<String, dynamic>.from(e)).toList();
+  List<ConfirmedSignatureInfo> onResponse(List result) {
+    return result.map((e) => ConfirmedSignatureInfo.fromJson(e)).toList();
   }
 }

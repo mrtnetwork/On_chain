@@ -19,13 +19,13 @@ class BlockfrostRequestSubmitTransaction
   @override
   Map<String, String> get headers => {'Content-Type': 'application/cbor'};
 
-  final List<int> transactionCborBytes;
+  final BuBytes transactionCborBytes;
 
   /// The transaction to submit, serialized in CBOR.
   @override
-  List<int> get body => transactionCborBytes;
+  BuBytes get body => transactionCborBytes;
   @override
-  String onResonse(String result) {
+  String onResponse(String result) {
     if (result.startsWith('"')) {
       return StringUtils.toJson(result);
     }

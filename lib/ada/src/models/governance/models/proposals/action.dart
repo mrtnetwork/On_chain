@@ -1,4 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/ada/src/models/governance/models/proposals/governance_action_type.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/hard_fork_initiation_action.dart';
 import 'package:on_chain/ada/src/models/governance/models/proposals/info_action.dart';
@@ -31,7 +32,12 @@ abstract class GovernanceAction with InternalCborSerialization {
         TreasuryWithdrawalsAction.deserialize(cbor),
       GovernanceActionType.updateCommitteeAction =>
         UpdateCommitteeAction.deserialize(cbor),
-      _ => throw UnimplementedError("Unknown Governance Action Type."),
+      _ =>
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Unknown governance action type.',
+          details: {'type': type.name},
+        ),
     };
   }
 
@@ -52,7 +58,12 @@ abstract class GovernanceAction with InternalCborSerialization {
         TreasuryWithdrawalsAction.fromJson(json),
       GovernanceActionType.updateCommitteeAction =>
         UpdateCommitteeAction.fromJson(json),
-      _ => throw UnimplementedError("Unknown Governance Action Type."),
+      _ =>
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Unknown governance action type.',
+          details: {'type': type.name},
+        ),
     };
   }
 }

@@ -1,6 +1,6 @@
 // Manages the layout structure for initializing a non-transferable mint for an SPL token.
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Initialize the non transferable extension for the given mint account layout.
@@ -21,7 +21,7 @@ class SPLTokenInitializeNonTransferableMintLayout
       layout: _layout,
       bytes: bytes,
       instruction:
-          SPLTokenProgramInstruction.initializeNonTransferableMint.insturction,
+          SPLTokenProgramInstruction.initializeNonTransferableMint.instruction,
     );
     return SPLTokenInitializeNonTransferableMintLayout();
   }

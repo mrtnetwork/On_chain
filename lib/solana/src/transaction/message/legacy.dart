@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
+import 'package:on_chain/solana/src/instructions/address_lockup_table/accounts/accounts/account_lookup_table.dart';
 import 'package:on_chain/solana/src/models/models.dart';
 import 'package:on_chain/solana/src/transaction/core/core.dart';
 import 'package:on_chain/solana/src/transaction/utils/utils.dart';

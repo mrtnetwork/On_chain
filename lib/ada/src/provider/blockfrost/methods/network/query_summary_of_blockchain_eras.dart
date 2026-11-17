@@ -20,7 +20,7 @@ class BlockfrostRequestQuerySummaryOfBlockchainEras
   List<String> get pathParameters => [];
 
   @override
-  List<ADABlockchainEraResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADABlockchainEraResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADABlockchainEraResponse.fromJson(e)).toList();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/aptos/src/provider/core/core.dart';
 import 'package:on_chain/aptos/src/provider/models/graphql/queries/queries.dart';
 
@@ -16,7 +16,7 @@ class AptosGraphQLRequestGetObjectData
   Map<String, dynamic> get queryVariables => variables.toJson();
 
   @override
-  List<AptosGraphQLObject> onResonse(Map<String, dynamic> result) {
+  List<AptosGraphQLObject> onResponse(Map<String, dynamic> result) {
     return result
         .valueEnsureAsList<Map<String, dynamic>>("current_objects")
         .map((e) => AptosGraphQLObject.fromJson(e))

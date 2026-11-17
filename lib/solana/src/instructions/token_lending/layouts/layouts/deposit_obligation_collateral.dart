@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/token_lending/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Deposit collateral to an obligation layout.
@@ -20,7 +20,7 @@ class TokenLendingDepositObligationCollateralLayout
       instruction:
           TokenLendingProgramInstruction
               .depositObligationCollateral
-              .insturction,
+              .instruction,
     );
     return TokenLendingDepositObligationCollateralLayout(
       collateralAmount: decode['collateralAmount'],

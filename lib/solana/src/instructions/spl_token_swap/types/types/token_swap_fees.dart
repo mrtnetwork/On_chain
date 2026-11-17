@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/instructions.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// Encapsulates all fee information and calculations for swap operations

@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/token_entangler/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexTokenEntanglerCreateEntangledPairLayout
     extends MetaplexTokenEntanglerProgramLayout {
@@ -27,7 +27,7 @@ class MetaplexTokenEntanglerCreateEntangledPairLayout
       instruction:
           MetaplexTokenEntanglerProgramInstruction
               .createEntangledPair
-              .insturction,
+              .instruction,
     );
     return MetaplexTokenEntanglerCreateEntangledPairLayout(
       bump: decode['bump'],

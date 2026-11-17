@@ -29,7 +29,7 @@ class SolanaRPCGetMintCounterAccount
   }
 
   @override
-  MintCounterAccount? onResonse(result) {
+  MintCounterAccount? onResponse(result) {
     if (result == null) return null;
     final accountInfo = SolanaAccountInfo.fromJson(result);
     return MintCounterAccount.fromBuffer(accountInfo.toBytesData());

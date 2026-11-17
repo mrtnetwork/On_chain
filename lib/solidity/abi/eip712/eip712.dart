@@ -27,7 +27,7 @@ class EIP712Version {
       (e) => e.version == version,
       orElse:
           () =>
-              throw SolidityAbiException(
+              throw BuError(DefaultErrorType.invalidArgument,
                 'Invalid EIP712Version version.',
                 details: {
                   'version': version?.toString(),
@@ -41,11 +41,11 @@ class EIP712Version {
 /// Abstract base class for encoding data according to the Ethereum Improvement Proposal (EIP) 712 specification.
 abstract class EIP712Base {
   /// Encodes the data into a list of integers according to EIP-712.
-  /// hashing encoded type bytes using [QuickCrypto.keccack256Hash]
+  /// hashing encoded type bytes using [QuickCrypto.keccak256Hash]
   List<int> encode({bool hash = true});
 
   /// Encodes the data into a hex according to EIP-712.
-  /// hashing encoded type bytes using [QuickCrypto.keccack256Hash]
+  /// hashing encoded type bytes using [QuickCrypto.keccak256Hash]
   String encodeHex({bool hash = true});
 
   /// Represents the version of the EIP-712 specification used by the concrete implementation.
@@ -128,16 +128,16 @@ class Eip712TypedData implements EIP712Base {
         types[i.key] = eip712Types;
       }
       if (!json.hasValue("primaryType")) {
-        throw const SolidityAbiException("missing or invalid primaryType.");
+        throw const BuError(DefaultErrorType.invalidArgument,"missing or invalid primaryType.");
       }
       final String primaryType = json.valueAs("primaryType");
       if (!json.hasValue("domain")) {
-        throw const SolidityAbiException("missing or invalid domain data.");
+        throw const BuError(DefaultErrorType.invalidArgument,"missing or invalid domain data.");
       }
       final Map<String, dynamic> domain = json
           .valueEnsureAsMap<String, dynamic>("domain");
       if (!json.hasValue("message")) {
-        throw const SolidityAbiException("missing or invalid message data.");
+        throw const BuError(DefaultErrorType.invalidArgument,"missing or invalid message data.");
       }
       final Map<String, dynamic> message = json
           .valueEnsureAsMap<String, dynamic>("message");
@@ -158,10 +158,10 @@ class Eip712TypedData implements EIP712Base {
         message: message,
         version: version,
       );
-    } on SolidityAbiException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw const SolidityAbiException('invalid EIP712 json struct.');
+      throw const BuError(DefaultErrorType.invalidArgument,'invalid EIP712 json struct.');
     }
   }
 
@@ -180,7 +180,7 @@ class Eip712TypedData implements EIP712Base {
       (e) => e.type == type,
     );
     if (eipType == null) {
-      throw SolidityAbiException(
+      throw BuError(DefaultErrorType.notFound,
         'EIP-712 type definition not found for "$type".',
       );
     }
@@ -197,7 +197,7 @@ class Eip712TypedData implements EIP712Base {
       ...EIP712Utils.structHash(types, primaryType, message, version),
     ];
     if (hash) {
-      return QuickCrypto.keccack256Hash(encode);
+      return QuickCrypto.keccak256Hash(encode);
     }
 
     return encode;
@@ -298,10 +298,10 @@ class EIP712Legacy implements EIP712Base {
     final types = typesData.map((e) => e.type).toList();
     final names = typesData.map((e) => '${e.type} ${e.name}').toList();
     // Calculate hashes for types and names
-    final typesHash = QuickCrypto.keccack256Hash(
+    final typesHash = QuickCrypto.keccak256Hash(
       EIP712Utils.legacyV1Encode(types, values),
     );
-    final namesHash = QuickCrypto.keccack256Hash(
+    final namesHash = QuickCrypto.keccak256Hash(
       EIP712Utils.legacyV1Encode(
         List.generate(names.length, (index) => 'string'),
         names,
@@ -314,7 +314,7 @@ class EIP712Legacy implements EIP712Base {
     if (!hash) {
       return toBytes;
     }
-    return QuickCrypto.keccack256Hash(toBytes);
+    return QuickCrypto.keccak256Hash(toBytes);
   }
 
   @override

@@ -1,5 +1,4 @@
-import 'package:on_chain/solana/src/exception/exception.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/instructions.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
@@ -16,7 +15,8 @@ class _Utils {
   static Map<String, dynamic> decode(List<int> extensionData) {
     try {
       if (extensionData.length < accountSize) {
-        throw SolanaPluginException(
+        throw BuError(
+          DefaultErrorType.invalidLength,
           'Account data length is insufficient.',
           details: {
             'Expected': accountSize.toString(),
@@ -29,7 +29,10 @@ class _Utils {
         layout: layout,
       );
     } catch (e) {
-      throw const SolanaPluginException('Invalid extionsion bytes');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid extension bytes.',
+      );
     }
   }
 
@@ -45,7 +48,10 @@ class _Utils {
         layout: layout,
       );
     } catch (e) {
-      throw const SolanaPluginException('Invalid extionsion bytes');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid extension bytes.',
+      );
     }
   }
 }

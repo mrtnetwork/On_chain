@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/auction_house/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexAuctionHousePrintListingReceiptLayout
     extends MetaplexAuctionHouseProgramLayout {
@@ -19,7 +19,7 @@ class MetaplexAuctionHousePrintListingReceiptLayout
       instruction:
           MetaplexAuctionHouseProgramInstruction
               .printListingReceipt
-              .insturction,
+              .instruction,
     );
     return MetaplexAuctionHousePrintListingReceiptLayout(
       receiptBump: decode['receiptBump'],

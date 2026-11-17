@@ -3,7 +3,7 @@ import 'package:on_chain/aptos/src/account/authenticator/authenticator.dart';
 import 'package:on_chain/aptos/src/account/core/account.dart';
 import 'package:on_chain/aptos/src/account/types/types.dart';
 import 'package:on_chain/aptos/src/address/address/address.dart';
-import 'package:on_chain/aptos/src/exception/exception.dart';
+
 import 'package:on_chain/aptos/src/keypair/keys/ed25519.dart';
 import 'package:on_chain/serialization/bcs/serialization.dart';
 
@@ -62,8 +62,9 @@ class AptosEd25519AccountPublicKey extends AptosAccountPublicKey {
     try {
       anySignature = AptosEd25519AnySignature.deserialize(signature);
     } catch (_) {
-      throw DartAptosPluginException(
-        "Invalid Aptos ED25519 Signature. deserialize signature failed.",
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        "Invalid Aptos ED25519 signature. Failed to deserialize signature.",
       );
     }
     return publicKey.verify(

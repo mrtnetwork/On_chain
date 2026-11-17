@@ -1,6 +1,6 @@
 import 'package:on_chain/solana/src/address/sol_address.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/candy_machine_core/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/utils/layouts.dart';
 
 class MetaplexCandyMachineSetCandyMachineAuthorityLayout
@@ -20,7 +20,7 @@ class MetaplexCandyMachineSetCandyMachineAuthorityLayout
       instruction:
           MetaplexCandyMachineProgramInstruction
               .setCandyMachineAuthority
-              .insturction,
+              .instruction,
     );
     return MetaplexCandyMachineSetCandyMachineAuthorityLayout(
       newAuthority: decode['newAuthority'],

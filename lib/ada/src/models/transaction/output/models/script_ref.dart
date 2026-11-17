@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+
 import 'package:on_chain/serialization/cbor_serialization.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/script_ref_type.dart';
 import 'package:on_chain/ada/src/models/transaction/output/models/native_script.dart';
@@ -19,7 +19,8 @@ abstract class ScriptRef with InternalCborSerialization {
     if (cbor.hasType<CborTagValue>()) {
       final cborTag = cbor.as<CborTagValue>();
       if (!BytesUtils.bytesEqual(cborTag.tags, _tag)) {
-        throw ADAPluginException(
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid ScriptRef cbor tag.',
           details: {'expected': _tag.join(","), 'Tag': cborTag.tags.join(",")},
         );
@@ -38,7 +39,10 @@ abstract class ScriptRef with InternalCborSerialization {
       case ScriptRefType.plutusScriptV3:
         return ScriptRefPlutusScript.deserialize(cborList);
       default:
-        throw ADAPluginException('Invalid ScriptRef type.');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid ScriptRef type.',
+        );
     }
   }
   factory ScriptRef.fromJson(Map<String, dynamic> json) {
@@ -51,7 +55,10 @@ abstract class ScriptRef with InternalCborSerialization {
       case ScriptRefType.plutusScriptV3:
         return ScriptRefPlutusScript.fromJson(json[type.name]);
       default:
-        throw ADAPluginException('Invalid ScriptRef type.');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid ScriptRef type.',
+        );
     }
   }
 

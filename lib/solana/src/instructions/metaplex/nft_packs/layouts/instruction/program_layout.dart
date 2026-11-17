@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/layout/constant/constant.dart';
-import 'package:blockchain_utils/layout/core/types/struct.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/layouts/activate.dart';
 import 'package:on_chain/solana/src/instructions/metaplex/nft_packs/layouts/layouts/add_card_to_pack.dart';

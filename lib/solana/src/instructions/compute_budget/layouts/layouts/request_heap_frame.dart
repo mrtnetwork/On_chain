@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/compute_budget/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
 
 /// StructLayout for the ComputeBudgetRequestHeapFrame instruction.
@@ -15,7 +15,7 @@ class ComputeBudgetRequestHeapFrameLayout extends ComputeBudgetProgramLayout {
     final decode = ProgramLayout.decodeAndValidateStruct(
       layout: _layout,
       bytes: data,
-      instruction: ComputeBudgetProgramInstruction.requestHeapFrame.insturction,
+      instruction: ComputeBudgetProgramInstruction.requestHeapFrame.instruction,
     );
     return ComputeBudgetRequestHeapFrameLayout(bytes: decode['bytes']);
   }

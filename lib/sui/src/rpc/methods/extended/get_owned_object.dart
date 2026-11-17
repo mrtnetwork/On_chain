@@ -30,7 +30,7 @@ class SuiRequestGetOwnedObjects
   }
 
   @override
-  SuiApiPaginatedObjectResponse onResonse(Map<String, dynamic> result) {
+  SuiApiPaginatedObjectResponse onResponse(Map<String, dynamic> result) {
     return SuiApiPaginatedObjectResponse.fromJson(result);
   }
 }

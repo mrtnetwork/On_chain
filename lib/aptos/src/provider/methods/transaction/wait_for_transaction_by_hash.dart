@@ -7,7 +7,8 @@ import 'package:on_chain/aptos/src/provider/models/fullnode/types.dart';
 /// The \"long\" poll is generally a second orless but dictated by the server;
 /// the client must deal with the result as if the request was a normal/transactions/by_hash request, e.g.,
 /// by retrying if the transaction is pending.
-/// [aptos documation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
+
+/// [aptos documentation](https://aptos.dev/en/build/apis/fullnode-rest-api-reference)
 class AptosRequestWaitForTransactionByHash
     extends AptosRequest<AptosApiTransaction, Map<String, dynamic>> {
   AptosRequestWaitForTransactionByHash(this.txnHash);
@@ -21,7 +22,7 @@ class AptosRequestWaitForTransactionByHash
   List<String> get pathParameters => [txnHash];
 
   @override
-  AptosApiTransaction onResonse(Map<String, dynamic> result) {
+  AptosApiTransaction onResponse(Map<String, dynamic> result) {
     return AptosApiTransaction.fromJson(result);
   }
 }

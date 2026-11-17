@@ -1,14 +1,10 @@
-import 'package:on_chain/ethereum/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// Class for decoding data encoded using the Recursive Length Prefix (RLP) encoding scheme.
 class RLPDecoder {
   /// Decode the length of the RLP-encoded data.
   static int _decodeLength(List<int> data, int offset, int length) {
-    var result = 0;
-    for (var i = 0; i < length; i++) {
-      result = (result * 256) + data[offset + i];
-    }
-    return result;
+    return IntUtils.fromBytes(data, offset: offset, length: length);
   }
 
   /// Decode an RLP-encoded array.
@@ -27,7 +23,10 @@ class RLPDecoder {
 
       childOffset += decoded.consumed;
       if (childOffset > offset + 1 + length) {
-        throw const ETHPluginException('child data too short');
+        throw const BuError(
+          DefaultErrorType.invalidLength,
+          'Child data too short.',
+        );
       }
     }
 
@@ -37,7 +36,7 @@ class RLPDecoder {
   /// Decode a single RLP-encoded item.
   static _Decoded _decode(List<int> data, int offset) {
     if (data.isEmpty) {
-      throw const ETHPluginException('data too short');
+      throw const BuError(DefaultErrorType.invalidLength, 'Data too short.');
     }
 
     if (data[offset] >= 0xf8) {
@@ -74,13 +73,19 @@ class RLPDecoder {
     try {
       final decoded = _decode(data, 0);
       if (decoded.consumed != data.length) {
-        throw const ETHPluginException('invalid RLP payload bytes');
+        throw const BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid RLP payload bytes.',
+        );
       }
       return decoded.result;
-    } on ETHPluginException {
+    } on BuError {
       rethrow;
     } catch (e) {
-      throw const ETHPluginException('cannot decode RLP payload');
+      throw const BuError(
+        DefaultErrorType.invalidArgument,
+        'Cannot decode RLP payload.',
+      );
     }
   }
 }

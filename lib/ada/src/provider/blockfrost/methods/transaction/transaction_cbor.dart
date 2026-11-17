@@ -18,7 +18,7 @@ class BlockfrostRequestTransactionCbor
   List<String> get pathParameters => [hash];
 
   @override
-  String onResonse(Map<String, dynamic> result) {
+  String onResponse(Map<String, dynamic> result) {
     return result["cbor"];
   }
 }

@@ -1,6 +1,5 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:on_chain/ada/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
+
 import 'package:on_chain/serialization/cbor/cbor_serialization.dart';
 
 /// Represents a voter type.
@@ -49,7 +48,8 @@ class VoterType with InternalCborSerialization {
   static VoterType fromJson(String? value, {VoterType? validate}) {
     final type = fromName(value);
     if (validate != null && type != validate) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid VoterType.',
         details: {'expected': validate.toString(), 'Type': type.toString()},
       );
@@ -60,7 +60,8 @@ class VoterType with InternalCborSerialization {
   static VoterType deserialize(int? value, {VoterType? validate}) {
     final type = fromValue(value);
     if (validate != null && type != validate) {
-      throw ADAPluginException(
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid VoterType.',
         details: {'expected': validate.toString(), 'Type': type.toString()},
       );
@@ -72,7 +73,13 @@ class VoterType with InternalCborSerialization {
   static VoterType fromValue(int? value) {
     return values.firstWhere(
       (element) => element.value == value,
-      orElse: () => throw ItemNotFoundException(name: "VoterType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid VoterType value.',
+                details: {'value': '$value'},
+              ),
     );
   }
 
@@ -80,13 +87,19 @@ class VoterType with InternalCborSerialization {
   static VoterType fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "VoterType"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.invalidArgument,
+                'Invalid VoterType name.',
+                details: {'name': name},
+              ),
     );
   }
 
   @override
   String toString() {
-    return 'NativeScriptType.$name';
+    return 'VoterType.$name';
   }
 
   @override

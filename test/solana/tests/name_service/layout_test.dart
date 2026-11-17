@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:on_chain/solana/solana.dart';
 
-void main() {
-  group('name service layout', () {
+import '../../../utils.dart';
+void nameServiceLayoutTest() {
+  group('Solana/Name Service Layout', () {
     _create();
     _update();
     _transfer();
@@ -10,6 +11,11 @@ void main() {
     _realloc();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(nameServiceLayoutTest, "Layout");
+}
+
 
 void _create() {
   test('create', () {

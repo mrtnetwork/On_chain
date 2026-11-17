@@ -1,5 +1,7 @@
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/solana/src/borsh_serialization/program_layout.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/default_account_state.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/confidential_transfer.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/group_member_pointer.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/group_pointer.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/instruction/instructions.dart';
@@ -23,6 +25,8 @@ import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initi
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initialize_mint2.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initialize_mint_close_authority.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initialize_multisig.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initialize_multisig2.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/get_account_data_size.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initialize_non_transferable_mint.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/initialize_permanent_delegate.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/layouts/mint_to.dart';
@@ -44,6 +48,10 @@ import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_202
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/initialize_transfer_fee_config.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/initialize_transfer_hook.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/toggle_cpi_guard.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/confidential_transfer_layouts.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/initialize_default_account_state.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/update_default_account_state.dart';
+import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/toggle_memo_transfer.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/transfer_checked_with_fee.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/update_group_member_pointer.dart';
 import 'package:on_chain/solana/src/instructions/spl_token/layouts/spl_token_2022_extensions_layouts/update_group_pointer.dart';
@@ -101,6 +109,12 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
           return SPLTokenInitializeMint2Layout.fromBuffer(data);
         case SPLTokenProgramInstruction.initializeMultisig:
           return SPLTokenInitializeMultisigLayout.fromBuffer(data);
+
+        /// multisig v2 + account-size decode (were missing).
+        case SPLTokenProgramInstruction.initializeMultisig2:
+          return SPLTokenInitializeMultisig2Layout.fromBuffer(data);
+        case SPLTokenProgramInstruction.getAccountDataSize:
+          return SPLTokenGetAccountDataSizeLayout.fromBuffer(data);
         case SPLTokenProgramInstruction.initializeNonTransferableMint:
           return SPLTokenInitializeNonTransferableMintLayout.fromBuffer(data);
         case SPLTokenProgramInstruction.initializePermanentDelegate:
@@ -213,6 +227,41 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
             default:
               return SPLToken2022UpdateTransferHookLayout.fromBuffer(data);
           }
+
+        /// default-account-state decode (factories + layouts
+        /// existed, fromBytes threw UnimplementedError).
+        case SPLTokenProgramInstruction.defaultAccountStateExtension:
+          final StructLayout defaultAccountStateLayout = LayoutConst.struct([
+            LayoutConst.u8(property: 'instruction'),
+            LayoutConst.wrap(
+              DefaultAccountStateInstruction.staticLayout,
+              property: 'defaultAccountState',
+            ),
+          ]);
+          final defaultAccountStateDecode =
+              ProgramLayout.decodeAndValidateStruct(
+                layout: defaultAccountStateLayout,
+                bytes: data,
+              );
+          final defaultAccountStateType =
+              DefaultAccountStateInstruction.fromJson(
+                defaultAccountStateDecode['defaultAccountState'],
+              );
+          switch (defaultAccountStateType) {
+            case DefaultAccountStateInstruction.initialize:
+              return SPLToken2022InitializeDefaultAccountStateLayout.fromBuffer(
+                data,
+              );
+            default:
+              return SPLToken2022UpdateDefaultAccountStateLayout.fromBuffer(
+                data,
+              );
+          }
+
+        /// memo-transfer decode (factory + layout existed,
+        /// fromBytes threw UnimplementedError).
+        case SPLTokenProgramInstruction.memoTransferExtension:
+          return SPLToken2022ToggleMemoTransferLayout.fromBuffer(data);
         case SPLTokenProgramInstruction.cpiGuardExtension:
           return SPLToken2022ToggleCpiGuardLayout.fromBuffer(data);
         case SPLTokenProgramInstruction.interestBearingMintExtension:
@@ -276,10 +325,77 @@ abstract class SPLTokenProgramLayout extends ProgramLayout {
             default:
               return UnknownProgramLayout(data);
           }
+
+        /// confidential-transfer decode (no layouts existed;
+        /// previously threw UnimplementedError).
+        case SPLTokenProgramInstruction.confidentialTransferExtension:
+          final StructLayout confidentialTransferLayout = LayoutConst.struct([
+            LayoutConst.u8(property: 'instruction'),
+            LayoutConst.u8(property: 'confidentialTransfer'),
+          ]);
+          final confidentialTransferDecode =
+              ProgramLayout.decodeAndValidateStruct(
+                layout: confidentialTransferLayout,
+                bytes: data,
+              );
+          final confidentialTransferType =
+              ConfidentialTransferInstruction.fromValue(
+                confidentialTransferDecode['confidentialTransfer'],
+              );
+          switch (confidentialTransferType) {
+            case ConfidentialTransferInstruction.initializeMint:
+              return SPLToken2022ConfidentialInitializeMintLayout.fromBuffer(
+                data,
+              );
+            case ConfidentialTransferInstruction.updateMint:
+              return SPLToken2022ConfidentialUpdateMintLayout.fromBuffer(data);
+            case ConfidentialTransferInstruction.configureAccount:
+              return SPLToken2022ConfidentialConfigureAccountLayout.fromBuffer(
+                data,
+              );
+            case ConfidentialTransferInstruction.approveAccount:
+              return SPLToken2022ConfidentialApproveAccountLayout.fromBuffer(
+                data,
+              );
+            case ConfidentialTransferInstruction.emptyAccount:
+              return SPLToken2022ConfidentialEmptyAccountLayout.fromBuffer(
+                data,
+              );
+            case ConfidentialTransferInstruction.deposit:
+              return SPLToken2022ConfidentialDepositLayout.fromBuffer(data);
+            case ConfidentialTransferInstruction.withdraw:
+              return SPLToken2022ConfidentialWithdrawLayout.fromBuffer(data);
+            case ConfidentialTransferInstruction.transfer:
+              return SPLToken2022ConfidentialTransferLayout.fromBuffer(data);
+            case ConfidentialTransferInstruction.applyPendingBalance:
+              return SPLToken2022ConfidentialApplyPendingBalanceLayout.fromBuffer(
+                data,
+              );
+            case ConfidentialTransferInstruction.enableConfidentialCredits:
+            case ConfidentialTransferInstruction.disableConfidentialCredits:
+            case ConfidentialTransferInstruction.enableNonConfidentialCredits:
+            case ConfidentialTransferInstruction.disableNonConfidentialCredits:
+              return SPLToken2022ConfidentialToggleCreditsLayout.fromBuffer(
+                data,
+              );
+            case ConfidentialTransferInstruction.transferWithFee:
+              return SPLToken2022ConfidentialTransferWithFeeLayout.fromBuffer(
+                data,
+              );
+            case ConfidentialTransferInstruction.configureAccountWithRegistry:
+              return SPLToken2022ConfidentialConfigureAccountWithRegistryLayout.fromBuffer(
+                data,
+              );
+            default:
+              return UnknownProgramLayout(data);
+          }
         default:
-          throw UnimplementedError();
+          throw BuError(
+            DefaultErrorType.unsupported,
+            'Unsupported SPL-Token program layout.',
+          );
       }
-    } on UnimplementedError {
+    } on BuError {
       rethrow;
     } catch (_) {
       return UnknownProgramLayout(data);

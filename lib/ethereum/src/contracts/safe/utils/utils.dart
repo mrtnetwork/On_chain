@@ -1,11 +1,11 @@
-import 'package:blockchain_utils/crypto/quick_crypto.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/contracts.dart';
 import 'package:on_chain/ethereum/src/contracts/safe/types/types.dart';
 import 'package:on_chain/solidity/solidity.dart';
 
 class SafeContractUtils {
-  static List<int> calculateSafeTransactionHash({
+  static BuBytes calculateSafeTransactionHash({
     required BigInt chainId,
     required ETHAddress safeAddress,
     required SafeTransaction safeTransaction,
@@ -25,10 +25,10 @@ class SafeContractUtils {
         safeTransaction: safeTransaction,
       ),
     };
-    return QuickCrypto.keccack256Hash(encode);
+    return QuickCrypto.keccak256Hash(encode);
   }
 
-  static List<int> encodeTransactionData({
+  static BuBytes encodeTransactionData({
     required BigInt chainId,
     required ETHAddress safeAddress,
     required SafeTransaction safeTransaction,
@@ -51,7 +51,7 @@ class SafeContractUtils {
         "0xbb8310d486368db6bd6f849402fdd73ad53d316b5a4b2644ad6efe0f941286d8",
         safeTransaction.to,
         safeTransaction.value,
-        QuickCrypto.keccack256Hash(safeTransaction.data),
+        QuickCrypto.keccak256Hash(safeTransaction.data),
         safeTransaction.operation.value,
         safeTransaction.gasParams.safeTxGas,
         safeTransaction.gasParams.baseGas,
@@ -75,12 +75,12 @@ class SafeContractUtils {
         ),
         encode,
       ],
-    );
+    ).asImmutableBytes;
   }
 
   /// 190174c815f23df60424711688befc29af78eaac7d00e1eead469deab26214c634085b20455a2747d3e0b265987c5de49e1a391edd11d0cd43b4c1fbce50b0af3a25
   /// 1901e7389e76c4d884774faff34a0fbe58802f4315e7f7c980c8fd5cc8ff3d9b3e77ef1d6c74dc97b92e5e2f29c56d34f9369951c8f459a20eeeb32e37f6b84720ef
-  static List<int> calculateSafeDomainSeparator({
+  static BuBytes calculateSafeDomainSeparator({
     required BigInt chainId,
     required ETHAddress safeAddress,
     required SafeTransaction safeTransaction,
@@ -100,10 +100,10 @@ class SafeContractUtils {
       message: {},
     );
 
-    return typeData.hashDomain();
+    return typeData.hashDomain().asImmutableBytes;
   }
 
-  static List<int> preimageSafeTransactionHash({
+  static BuBytes preimageSafeTransactionHash({
     required BigInt chainId,
     required ETHAddress safeAddress,
     required SafeTransaction safeTransaction,
@@ -114,7 +114,7 @@ class SafeContractUtils {
       safeTransaction: safeTransaction,
     );
 
-    return typeData.encode(hash: false);
+    return typeData.encode(hash: false).asImmutableBytes;
   }
 
   static Eip712TypedData safeTransactionTypedData({
@@ -150,7 +150,7 @@ class SafeContractUtils {
     );
   }
 
-  static List<int> preimageSafeMessageHash({
+  static BuBytes preimageSafeMessageHash({
     required BigInt chainId,
     required ETHAddress safeAddress,
     required String message,
@@ -171,15 +171,15 @@ class SafeContractUtils {
       message: {"message": message},
     );
 
-    return typeData.encode(hash: false);
+    return typeData.encode(hash: false).asImmutableBytes;
   }
 
-  static List<int> calculateSafeMessageHash({
+  static BuBytes calculateSafeMessageHash({
     required BigInt chainId,
     required ETHAddress safeAddress,
     required String message,
   }) {
-    return QuickCrypto.keccack256Hash(
+    return QuickCrypto.keccak256Hash(
       preimageSafeMessageHash(
         chainId: chainId,
         safeAddress: safeAddress,

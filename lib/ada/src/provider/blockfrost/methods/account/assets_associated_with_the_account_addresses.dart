@@ -25,7 +25,7 @@ class BlockfrostRequestAssetsAssociatedWithTheAccountAddresses
   List<String> get pathParameters => [stakeAddress.address];
 
   @override
-  List<ADAAmountResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAAmountResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAAmountResponse.fromJson(e)).toList();
   }
 }

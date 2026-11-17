@@ -22,7 +22,7 @@ class BlockfrostRequestTransactionMetadataLabels
   List<String> get pathParameters => [];
 
   @override
-  List<ADAMetadataLabelResponse> onResonse(List<Map<String, dynamic>> result) {
+  List<ADAMetadataLabelResponse> onResponse(List<Map<String, dynamic>> result) {
     return result.map((e) => ADAMetadataLabelResponse.fromJson(e)).toList();
   }
 }

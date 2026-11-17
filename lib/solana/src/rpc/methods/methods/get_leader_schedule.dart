@@ -36,7 +36,7 @@ class SolanaRequestGetLeaderSchedule
   }
 
   @override
-  LeaderSchedule onResonse(Map<String, dynamic> result) {
+  LeaderSchedule onResponse(Map<String, dynamic> result) {
     return LeaderSchedule.fromJson(result);
   }
 }

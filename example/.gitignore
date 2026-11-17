@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local dfx project state for the ICP examples (see lib/example/icp/setup_local.sh).
+.dfx-local/

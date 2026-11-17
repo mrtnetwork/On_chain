@@ -1,5 +1,5 @@
 import 'package:on_chain/solana/src/instructions/metaplex/gumdrop/layouts/instruction/instruction.dart';
-import 'package:blockchain_utils/layout/layout.dart';
+import 'package:blockchain_utils/encoding/encoding.dart';
 
 class MetaplexGumdropClaimCandyProvenLayout
     extends MetaplexGumdropProgramLayout {
@@ -17,7 +17,7 @@ class MetaplexGumdropClaimCandyProvenLayout
       layout: _layout,
       bytes: data,
       instruction:
-          MetaplexGumdropProgramInstruction.claimCandyProven.insturction,
+          MetaplexGumdropProgramInstruction.claimCandyProven.instruction,
     );
     return MetaplexGumdropClaimCandyProvenLayout(
       walletBump: decode['walletBump'],

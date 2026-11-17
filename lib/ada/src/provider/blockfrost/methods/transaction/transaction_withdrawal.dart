@@ -23,7 +23,7 @@ class BlockfrostRequestTransactionWithdrawal
   List<String> get pathParameters => [hash];
 
   @override
-  List<ADATransactionWithdrawalResponse> onResonse(
+  List<ADATransactionWithdrawalResponse> onResponse(
     List<Map<String, dynamic>> result,
   ) {
     return result

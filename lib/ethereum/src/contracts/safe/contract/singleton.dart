@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/service/models/params.dart';
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:on_chain/ethereum/src/address/evm_address.dart';
 import 'package:on_chain/ethereum/src/rpc/rpc.dart';
 import 'package:on_chain/solidity/address/core.dart';

@@ -1,11 +1,12 @@
 import 'package:on_chain/solana/solana.dart';
 import 'package:test/test.dart';
 
+import '../../../../utils.dart';
 const _owner = SolAddress.unchecked(
   'HcEjuQ7Eate3eyNBaZV2cwATcdAH8F7VGygVqkkoqUjf',
 );
-void main() {
-  group('nftPacks', () {
+void nftPacksLayoutTest() {
+  group('Solana/NFT Packs Layout', () {
     _requestCardForRedeem();
     _activate();
     _addCardToPack();
@@ -28,6 +29,11 @@ void main() {
     _packcard();
   });
 }
+
+void main() {
+  OnChainUtilsTestApi.runTest(nftPacksLayoutTest, "Layout");
+}
+
 
 void _activate() {
   test('activate', () {

@@ -22,11 +22,11 @@ class BlockfrostRequestSubmitATransactionForExecutionUnitsEvaluation
   @override
   Map<String, String> get headers => {'Content-Type': 'application/cbor'};
 
-  final List<int> transactionCborBytes;
+  final BuBytes transactionCborBytes;
 
   @override
   List<String> get pathParameters => [];
 
   @override
-  List<int> get body => transactionCborBytes;
+  BuBytes get body => transactionCborBytes;
 }
