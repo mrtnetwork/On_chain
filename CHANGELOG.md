@@ -1,3 +1,6 @@
+## 9.0.2
+- Split multi-hundred-KB single-line hex fixtures in tests into adjacent string chunks (byte-identical). Single huge literals forced multi-MB contiguous analyzer allocations that exhausted the heap in memory-constrained environments (pub.dev analysis timed out).
+
 ## 9.0.1
 - Excluded machine-generated models/clients (NEAR, Tezos, Tron, Hedera, Algorand, ICP) and the Flutter example app from analyzer scope so `dart analyze` stays fast in constrained environments (pub.dev analysis timed out on 9.0.0). No API changes.
 

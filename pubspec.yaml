@@ -1,6 +1,6 @@
 name: on_chain
 description: "Multi-chain Dart SDK for Ethereum, Tron, Solana, Sui, Aptos, Cardano, NEAR, Tezos, Algorand, Hedera, ICP and Filecoin: wallets, transactions and contracts."
-version: 9.0.1
+version: 9.0.2
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
 Author: mrhaydari.t@gmail.com
