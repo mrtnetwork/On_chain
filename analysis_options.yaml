@@ -10,12 +10,20 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  errors:
-    # The connector comes from git until it is published to pub.dev (see
-    # pubspec.yaml); onchain_proto stays a path dependency while its
-    # blockchain_utils dep pins the same source. Downgrade that
-    # publish-time warning so it never fails `dart analyze` in CI.
-    invalid_dependency: ignore
+  exclude:
+    # Flutter demo app (has its own analysis_options.yaml).
+    - example/**
+    # Machine-generated models/clients (OpenAPI / Candid / protobuf):
+    # multi-KLOC files that balloon analyzer time in CI/pub.dev sandboxes.
+    - lib/near/src/rpc/models/**
+    - lib/tezos/src/rpc/types/**
+    - lib/tron/src/proto_messages/**
+    - lib/tron/src/provider/models/**
+    - lib/hedera/src/proto_messages/**
+    - lib/hedera/src/rpc/models/**
+    - lib/algorand/src/types/**
+    - lib/algorand/src/rpc/models/**
+    - lib/icp/src/did/**
 # analyzer:
 #   exclude:
 #     - example/**

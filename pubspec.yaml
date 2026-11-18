@@ -1,16 +1,22 @@
 name: on_chain
-description: Streamline Ethereum, Tron, Solana, sui, aptos and Cardano operations. Effortlessly create transactions, interact with smart contracts, sign, and send transactions.
-version: 9.0.0
+description: "Multi-chain Dart SDK for Ethereum, Tron, Solana, Sui, Aptos, Cardano, NEAR, Tezos, Algorand, Hedera, ICP and Filecoin: wallets, transactions and contracts."
+version: 9.0.1
 homepage: "https://github.com/mrtnetwork/on_chain"
 repository: "https://github.com/mrtnetwork/on_chain"
 Author: mrhaydari.t@gmail.com
 
+# Test fixture, not a real credential: Aptos keyless tests use a public
+# Google OAuth client ID as the ZK `aud` field (client IDs are public
+# identifiers; see test/aptos/keyless_test.dart).
+false_secrets:
+  - test/aptos/keyless_test.dart
+
 topics:
-  - tron
   - ethereum
-  - cardano
+  - tron
   - solana
   - sui
+  - aptos
   
 environment:
   sdk: '>=3.7.0 <4.0.0'

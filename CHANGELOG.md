@@ -1,3 +1,6 @@
+## 9.0.1
+- Excluded machine-generated models/clients (NEAR, Tezos, Tron, Hedera, Algorand, ICP) and the Flutter example app from analyzer scope so `dart analyze` stays fast in constrained environments (pub.dev analysis timed out on 9.0.0). No API changes.
+
 ## 9.0.0
 - BREAKING: all legacy exception classes removed; every error is now `BuError` with an `OnChainErrorType` taxonomy value (message text and `details` preserved via `OnChainErrors.*` factories).
 - BREAKING: many chain RPC request/response types regenerated from OpenAPI / OpenRPC specs and tested against live nodes; field names and defaults may differ.
